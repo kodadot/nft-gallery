@@ -1,0 +1,36 @@
+<!-- sandbox.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sandbox</title>
+</head>
+
+<body>
+    <script>
+        window.addEventListener('message', (event) => {
+            if (event.origin !== window.location.origin) {
+                return;
+            }
+            try {
+                // Parse the received message
+                const { code } = JSON.parse(event.data);
+
+                const scriptp5 = document.createElement('script');
+                scriptp5.src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"
+
+                // Execute the received code
+                const script = document.createElement('script');
+                script.text = code;
+
+                document.body.appendChild(scriptp5);
+                document.body.appendChild(script);
+            } catch (error) {
+                console.error('Error executing sandbox script:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

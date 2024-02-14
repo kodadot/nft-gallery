@@ -103,6 +103,7 @@
   "success": "Success",
   "advancedFilters": "Advanced Filters",
   "viewtx": "View Tx",
+  "error": "Error",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -1726,5 +1727,27 @@
     "buyingNft": "Buying NFT | Buying NFTs",
     "purchaseSuccessful": "Purchase successful",
     "amountPurchaseSuccessfully": "{0} NFTs purchased successfully"
+  },
+  "codeChecker": {
+    "title": "Code Checker",
+    "description": "Effortlessly validate your generative art code. Drop your file, check for essentials, and optimize. Preview, iterate, and finalize with confidence. Start now.",
+    "resources": "Resources",
+    "kodahashTemplate": "Kodahash Template",
+    "learnAboutGenArt": "Learn about generative art on Kodadot",
+    "upload": "Upload Your Code",
+    "uploadInstructions": "Drop your code file here or click to select, and initiate the automated review.",
+    "codeValidation": "Code Validation",
+    "uploadPrompt": "upload code to continue",
+    "canvasSize": "Canvas Size",
+    "webglSupported": "WebGL Supported",
+    "local": "Local",
+    "automaticResize": "Automatic Sizing - Responsivness",
+    "usingKodaHash": "Using Kodahash Render",
+    "usingParamHash": "param hash from url for rendering",
+    "newHash": "New Hash",
+    "currentHash": "Current Hash",
+    "replayAnimation": "Replay Animation",
+    "exportVariations": "Export Variations"
+
   }
 }
