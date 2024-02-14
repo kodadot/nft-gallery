@@ -33,7 +33,6 @@ import { addHours, format } from 'date-fns'
 
 type CalendarProvider = 'google'
 
-defineEmits(['tryAgain'])
 const props = defineProps<{
   modelValue: boolean
 }>()
