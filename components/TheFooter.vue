@@ -94,7 +94,6 @@
             class="footer-container-socials-list-item flex items-center justify-center">
             <a
               v-safe-href="item.url"
-              class="flex w-4 h-4"
               rel="nofollow noopener noreferrer"
               target="_blank"
               role="link"

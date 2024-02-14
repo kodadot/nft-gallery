@@ -44,6 +44,7 @@ module.exports = {
         'k-primary': 'var(--k-primary)',
         'k-primary-light': 'var(--k-primary-light)',
         'k-shade': 'rgb(var(--k-shade) / <alpha-value>)',
+        'k-shade2': 'var(--k-shade2)',
         'placeholder-color': 'var(--placeholder-color)',
         disabled: 'var(--disabled)',
         'card-border-color': 'var(--card-border-color)',

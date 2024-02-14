@@ -1748,6 +1748,8 @@
     "currentHash": "Current Hash",
     "replayAnimation": "Replay Animation",
     "exportVariations": "Export Variations"
-
+},
+  "collectionCreatedModal": {
+    "title": "Collection Created Successfully"
   }
 }
