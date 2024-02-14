@@ -11,7 +11,6 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
-import { isProduction } from '@/utils/chain'
 import orderBy from 'lodash/orderBy'
 
 export interface Drop {
@@ -47,8 +46,6 @@ const DROP_LIST_ORDER = [
 ]
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
-const futureDate = new Date()
-futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
 export function useDrops(query?: GetDropsQuery) {
   const drops = ref<Drop[]>([])
@@ -59,14 +56,12 @@ export function useDrops(query?: GetDropsQuery) {
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    dropsList.value
-      .filter((drop) => !isProduction || drop.chain !== 'ahk')
-      .map(async (drop) => {
-        const newDrop = await getFormattedDropItem(drop, drop)
+    dropsList.value.map(async (drop) => {
+      const newDrop = await getFormattedDropItem(drop, drop)
 
-        drops.value.push(newDrop)
-        loaded.value = true
-      })
+      drops.value.push(newDrop)
+      loaded.value = true
+    })
   })
 
   const sortDrops = computed(() =>
