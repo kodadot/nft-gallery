@@ -41,10 +41,21 @@ const breakpoints: CarouseBreakpointsConfig = {
   },
 }
 
-const { drops, loaded: isReady } = useDrops({
+let queries = {
   limit: 6,
-  active: [true, false],
-})
+  active: [true],
+  chain: ['ahp'],
+}
+
+if (!isProduction) {
+  queries = {
+    limit: 12,
+    active: [true, false],
+    chain: ['ahp', 'ahk'],
+  }
+}
+
+const { drops, loaded: isReady } = useDrops(queries)
 const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
 const { width } = useWindowSize()
 
