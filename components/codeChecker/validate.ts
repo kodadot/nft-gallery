@@ -10,7 +10,7 @@ export type Validity = {
 export const validate = (jsContent: string): [boolean, Validity?, string?] => {
   const canvasRegex = /createCanvas\((\d+),\s*(\d+)(,\s*WEBGL)?\)/
   const localP5JsRegex = /<script.*p5\.js"><\/script>/
-  const paramsRegex = /.*getURLParams\(\)/
+  const paramsRegex = /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/
   const kodaRendererRegex = /kodahash\/render\/completed/
   const resizerRegex = /onresize/
 
@@ -20,9 +20,7 @@ export const validate = (jsContent: string): [boolean, Validity?, string?] => {
     return [false, undefined, 'createCanvas function not found.']
   }
 
-  // Check for getURLParams() usage
-  const paramsMatch = RegExp(paramsRegex).exec(jsContent)
-
+  const paramsMatch = paramsRegex.exec(jsContent)
   if (!paramsMatch) {
     return [
       false,
@@ -31,18 +29,7 @@ export const validate = (jsContent: string): [boolean, Validity?, string?] => {
     ]
   }
 
-  const [mayConst, mayName] = paramsMatch[0]?.trim().split(' ') || []
-
-  const variable = ['let', 'const', 'var'].includes(mayConst)
-    ? mayName
-    : mayConst
-  if (!variable) {
-    return [
-      false,
-      undefined,
-      'Variable for params must be defined like const params = getURLParams();',
-    ]
-  }
+  const variableName = paramsMatch[2]
 
   const validity: Validity = {
     canvasSize: `${canvasMatch[1]}x${canvasMatch[2]}`,
@@ -50,7 +37,7 @@ export const validate = (jsContent: string): [boolean, Validity?, string?] => {
     localP5jsUsed: localP5JsRegex.test(jsContent),
     kodaRendererUsed: kodaRendererRegex.test(jsContent),
     resizerUsed: resizerRegex.test(jsContent),
-    usesHashParam: new RegExp(`${variable}\\.hash`).test(jsContent),
+    usesHashParam: new RegExp(`${variableName}\\.hash`).test(jsContent),
   }
 
   return [true, validity]
