@@ -49,7 +49,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import { asBalanceTransferAlive } from '@kodadot1/sub-api'
+
 import {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -94,6 +94,7 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
+const { chainSymbol, withoutDecimals } = useChain()
 
 const { client } = usePrefix()
 const isLoading = ref(false)
@@ -118,14 +119,6 @@ const {
   initTransactionLoader,
   status,
 } = useMetaTransaction()
-
-const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
-  computed(() => props.drop.chain),
-)
-
-const depositAmount = computed(() =>
-  (Number(totalItemDeposit.value) - 0.1).toFixed(4),
-)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -215,7 +208,7 @@ const mintButtonLabel = computed(() => {
         hasMinimumFunds.value &&
         hasAvailableNfts.value
         ? $i18n.t('drops.mintForPaid', [
-            `${depositAmount.value} ${depositChainSymbol.value}`,
+            `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
       : $i18n.t('mint.unlockable.checkEligibility')
@@ -253,8 +246,9 @@ const mintNft = async () => {
     }
 
     initTransactionLoader()
-    const cb = api.tx.utility.batchAll
-    const mint = api.tx.nfts.mint(
+    const cb = api.tx.nfts.mint
+
+    const args = [
       collectionId.value,
       collectionRes.items,
       accountId.value,
@@ -262,18 +256,12 @@ const mintNft = async () => {
         ownedItem: holderOfCollectionData.value?.nftEntities?.at(
           mintedAmountForCurrentUser.value,
         ).sn,
-        mintPrice: null,
+        mintPrice: props.drop.price,
       },
-    )
-
-    const transfer = asBalanceTransferAlive(
-      api,
-      '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
-      2e9,
-    )
+    ]
 
     mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, [[mint, transfer]])
+    howAboutToExecute(accountId.value, cb, args)
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
