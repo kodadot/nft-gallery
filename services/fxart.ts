@@ -17,7 +17,11 @@ export type DoResult = {
   name: string
 }
 
-export type GetDropsQuery = { limit?: number; active?: boolean[] }
+export type GetDropsQuery = {
+  limit?: number
+  active?: boolean[]
+  chain?: string[]
+}
 
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
