@@ -28,7 +28,7 @@
     </div>
 
     <div class="container is-fluid mt-6 md:mt-8 mb-16">
-      <LazyCarouselTypeDrops />
+      <CarouselTypeDrops />
     </div>
   </section>
 </template>

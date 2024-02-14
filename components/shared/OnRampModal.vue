@@ -2,6 +2,7 @@
   <NeoModalExtend
     v-model:active="isModalActive"
     class="neo-modal"
+    data-testid="on-ramp-modal"
     scroll="clip"
     @close="onClose">
     <div class="w-[unset] lg:w-[25rem]">

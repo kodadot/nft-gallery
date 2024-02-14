@@ -93,6 +93,7 @@ module.exports = {
       animation: {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1s)',
+        ping: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       // TODO: remove it after removing bulma
       padding: {
