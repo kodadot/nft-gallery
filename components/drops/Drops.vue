@@ -31,11 +31,14 @@
     </div>
 
     <div class="grid-container">
-      <DropsDropCardSkeleton
-        v-for="x in currentDrops.skeletonCount"
-        :key="`current-drops-skeleton-${x}`" />
+      <template v-if="!loaded">
+        <DropsDropCardSkeleton
+          v-for="x in DEFAULT_SKELETON_COUNT"
+          :key="`current-drops-skeleton-${x}`" />
+      </template>
       <div
-        v-for="(drop, index) in currentDrops.items"
+        v-for="(drop, index) in currentDrops"
+        v-else
         :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-testid="index">
@@ -50,12 +53,15 @@
     </h2>
 
     <div class="grid-container">
-      <DropsDropCardSkeleton
-        v-for="x in pastDrops.skeletonCount"
-        :key="`skeleton-${x}`" />
+      <template v-if="!loaded">
+        <DropsDropCardSkeleton
+          v-for="x in DEFAULT_SKELETON_COUNT"
+          :key="`skeleton-${x}`" />
+      </template>
       <div
-        v-for="(drop, index) in pastDrops.items"
+        v-for="(drop, index) in pastDrops"
         :key="`${drop.collection?.id}=${index}`"
+        v-lese
         class="w-full h-full"
         :data-testid="index">
         <DropCard :drop="drop" />
@@ -79,38 +85,18 @@ const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
 )
 
 const { $i18n } = useNuxtApp()
-const { drops } = useDrops({ active: [true, false] })
+const { drops, loaded } = useDrops({ active: [true, false] })
 const { urlPrefix } = usePrefix()
 
 const isCreateEventModalActive = ref(false)
 
-const currentDrops = reactive({
-  items: computed(() =>
-    filter(drops.value, (drop) => CURRENT_DROP_STATUS.includes(drop.status)),
-  ),
-  skeletonCount: computed(() =>
-    getSkeletonCount(
-      currentDrops.items.length,
-      filter(drops.value, (drop) => CURRENT_DROP_STATUS.includes(drop.status))
-        .length,
-    ),
-  ),
-})
+const currentDrops = computed(() =>
+  filter(drops.value, (drop) => CURRENT_DROP_STATUS.includes(drop.status)),
+)
 
-const pastDrops = reactive({
-  items: computed(() =>
-    filter(drops.value, { status: DropStatus.MINTING_ENDED }),
-  ),
-  skeletonCount: computed(() =>
-    getSkeletonCount(
-      pastDrops.items.length,
-      filter(drops.value, { status: DropStatus.MINTING_ENDED }).length,
-    ),
-  ),
-})
-
-const getSkeletonCount = (currentCount: number, totalCount: number) =>
-  (totalCount || DEFAULT_SKELETON_COUNT) - currentCount
+const pastDrops = computed(() =>
+  filter(drops.value, { status: DropStatus.MINTING_ENDED }),
+)
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
