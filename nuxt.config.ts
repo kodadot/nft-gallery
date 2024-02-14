@@ -173,20 +173,6 @@ export default defineNuxtConfig({
           crossorigin: 'anonymous',
           async: true,
         },
-        // {
-        //   src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
-        //   async: true,
-        // },
-        // {
-        //   innerHTML: `
-        // window.dataLayer = window.dataLayer || [];
-        // function gtag(){dataLayer.push(arguments);}
-        // gtag('js', new Date());
-
-        // gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
-        // `,
-        //   type: 'text/javascript',
-        // },
         {
           // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
           innerHTML: `(function(c,l,a,r,i,t,y){
@@ -353,7 +339,6 @@ export default defineNuxtConfig({
           description:
             'Analytics cookies help us understand how visitors interact with websites by collecting and reporting information anonymously.',
           src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
-          async: true,
           targetCookieIds: ['_ga', '_gat', '_gid', 'ga-cookie-consent'],
         },
       ],
