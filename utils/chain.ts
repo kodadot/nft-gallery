@@ -22,8 +22,8 @@ export const getChainName = (prefix: Prefix) => {
 export const isProduction = window.location.hostname === 'kodadot.xyz'
 export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
 
-export const disableChains = ['dot', 'ksm', 'rmrk']
-export const disableChainListOnBetaEnv = ['dot', 'ksm', 'rmrk'] // 'ahr'
+export const disableChains = ['dot']
+export const disableChainListOnBetaEnv = ['dot'] // 'ahr'
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
@@ -61,4 +61,4 @@ export const availablePrefixWithIcon = () => {
   })
 }
 
-export const popularChains = ['ahk', 'ahp'] //'ksm',
+export const popularChains = ['ksm', 'ahk', 'ahp']

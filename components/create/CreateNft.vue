@@ -334,17 +334,26 @@ const imagePreview = computed(() => {
   }
 })
 
-// select available blockchain
+// Select available blockchain excluding "ksm" and "rmrk"
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
-const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value),
-)
-const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
+
+const defaultPrefix = menus.length > 0 ? menus[0].value : ''
+
+const selectedPrefix =
+  urlPrefix.value === 'ksm' || urlPrefix.value === 'rmrk'
+    ? defaultPrefix
+    : urlPrefix.value
+
+const selectChain = ref(selectedPrefix)
 
 watch(urlPrefix, (value) => {
-  selectChain.value = value
+  if (value === 'ksm' || value === 'rmrk') {
+    selectChain.value = defaultPrefix
+  } else {
+    selectChain.value = value
+  }
 })
 
 // get/set current chain/prefix
