@@ -5,14 +5,15 @@
     :status="status"
     @try-again="mintNft" />
 
-  <NeoModalExtend v-model:active="isSuccessModalActive">
-    <ModalBody :title="$i18n.t('success')" :scrollable="false">
+  <NeoModal :value="isSuccessModalActive" teleport>
+    <ModalBody :title="$i18n.t('success')">
       <CollectionDropModalSharedSuccessfulDrop
         v-if="mintedNft"
         :minted-nft="mintedNft"
-        :can-list-nft="false" />
+        :can-list-nft="canListMintedNft"
+        @list="handleList" />
     </ModalBody>
-  </NeoModalExtend>
+  </NeoModal>
 
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
@@ -43,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoModalExtend } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
 import {
@@ -167,6 +168,8 @@ const {
   collectionName,
   tryCapture,
   subscribeToMintedNft,
+  canListMintedNft,
+  listMintedNft,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -416,6 +419,11 @@ const checkAvailableNfts = async () => {
 const handleDropAddModalConfirm = () => {
   closeAddFundModal()
   fetchMultipleBalance([urlPrefix.value])
+}
+
+const handleList = () => {
+  isSuccessModalActive.value = false
+  listMintedNft()
 }
 
 watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
