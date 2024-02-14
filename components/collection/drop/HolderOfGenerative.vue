@@ -5,7 +5,10 @@
     :status="status"
     @try-again="mintNft" />
 
-  <NeoModal :value="isSuccessModalActive" teleport>
+  <NeoModal
+    v-if="status === TransactionStatus.Finalized"
+    :value="isSuccessModalActive"
+    teleport>
     <ModalBody :title="$i18n.t('success')">
       <CollectionDropModalSharedSuccessfulDrop
         v-if="mintedNft"
