@@ -2,13 +2,13 @@
   <transition name="slide">
     <CookieControl class="cookie-banner">
       <template #bar>
-        <h2>
+        <p>
           {{ $t('cookies.notice') }}, see
           <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
             >Cookie Policy</nuxt-link
           >
-          for details. <span class="hidden md:visible mx-2">|</span>
-        </h2>
+          for details. <span class="invisible md:visible mx-2">|</span>
+        </p>
       </template>
     </CookieControl>
   </transition>
@@ -44,7 +44,7 @@ onMounted(() => {
 .cookieControl__BarContainer {
   @apply fixed p-4 mx-auto max-w-3xl self-start left-6 bottom-5 text-text-color bg-background-color border border-border-color shadow-primary;
 }
-.cookieControl__BarContainer h2 {
+.cookieControl__BarContainer p {
   @apply text-text-color text-base;
 }
 .cookieControl__BarButtons button {
@@ -89,5 +89,16 @@ button.cookieControl__ModalClose:after {
   input:disabled
   + button {
   @apply bg-gray-300;
+}
+@media screen and (max-width: 768px) {
+  .cookieControl__BarButtons button + button {
+    margin: 0;
+  }
+  .cookieControl__BarButtons {
+    flex-direction: row-reverse;
+  }
+  .cookieControl__BarContainer {
+    right: 1.5rem;
+  }
 }
 </style>
