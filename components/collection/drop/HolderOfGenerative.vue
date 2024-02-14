@@ -100,7 +100,15 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
-const availableNfts = reactive({ isLoading: true, amount: 0 })
+const availableNfts = reactive<{
+  isLoading: boolean
+  amount: number
+  snList: string[]
+}>({
+  isLoading: true,
+  amount: 0,
+  snList: [],
+})
 
 const {
   defaultName,
@@ -253,9 +261,7 @@ const mintNft = async () => {
       collectionRes.items,
       accountId.value,
       {
-        ownedItem: holderOfCollectionData.value?.nftEntities?.at(
-          mintedAmountForCurrentUser.value,
-        ).sn,
+        ownedItem: availableNfts.snList[0],
         mintPrice: props.drop.price,
       },
     ]
@@ -361,8 +367,12 @@ const checkAvailableNfts = async () => {
   availableNfts.isLoading = true
   const nftEntities = holderOfCollectionData.value?.nftEntities || []
   const nftIds = nftEntities.map((nft) => nft.sn)
+  availableNfts.snList = []
   const claimed = await Promise.all(
-    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
+    nftIds.map((sn) => {
+      availableNfts.snList.push(sn)
+      return isNftClaimed(sn, holderOfCollectionId.value as string)
+    }),
   )
   availableNfts.amount = claimed.filter((x) => !x).length
   availableNfts.isLoading = false
