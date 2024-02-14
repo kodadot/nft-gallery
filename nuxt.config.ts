@@ -273,6 +273,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
     '@dargmuesli/nuxt-cookie-control',
+    'nuxt-gtag',
   ],
 
   image: {
@@ -335,35 +336,6 @@ export default defineNuxtConfig({
       },
     },
 
-    colors: {
-      // barTextColor: '#1D1E1C',
-      // modalOverlay: '#000',
-      // barBackground: '#fff',
-      // barButtonColor: '#fff',
-      // modalTextColor: '#1D1E1C',
-      // modalBackground: '#fff',
-      // modalOverlayOpacity: 0.8,
-      // modalButtonColor: '#fff',
-      // modalUnsavedColor: '#fff',
-      // barButtonHoverColor: '#000000',
-      // barButtonBackground: '#1D1E1C',
-      // modalButtonHoverColor: '#000000',
-      // modalButtonBackground: '#1D1E1C',
-      // controlButtonIconColor: '#000',
-      // controlButtonBackground: '#fff',
-      // barButtonHoverBackground: '#C5DFAB',
-      // checkboxActiveBackground: '#C5DFAB',
-      // checkboxInactiveBackground: '#1D1E1C',
-      // modalButtonHoverBackground: '#C5DFAB',
-      // checkboxDisabledBackground: '#F3F3F3',
-      checkboxActiveBackground: '#04af00',
-      // controlButtonIconHoverColor: '#fff',
-      // controlButtonHoverBackground: '#000',
-      // checkboxActiveCircleBackground: '#000',
-      // checkboxInactiveCircleBackground: '#fff',
-      // checkboxDisabledCircleBackground: '#fff',
-    },
-
     cookies: {
       necessary: [
         {
@@ -377,31 +349,20 @@ export default defineNuxtConfig({
       optional: [
         {
           id: 'ga',
-          identifier: 'ga',
           name: 'Google Analytics',
           description:
             'Analytics cookies help us understand how visitors interact with websites by collecting and reporting information anonymously.',
-          initialState: true,
           src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
           async: true,
           targetCookieIds: ['_ga', '_gat', '_gid', 'ga-cookie-consent'],
-          accepted: () => {
-            // window.dataLayer = window.dataLayer || [];
-            // function gtag(){dataLayer.push(arguments);}
-            // gtag('js', new Date());
-            // gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
-
-            window.dataLayer = window.dataLayer || []
-            window.dataLayer.push({
-              'gtm.start': new Date().getTime(),
-              event: 'gtm.js',
-              config: process.env.GOOGLE_ANALYTICS_ID,
-            })
-          },
-          declined: () => {},
         },
       ],
     },
+  },
+
+  gtag: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
+    initialConsent: false,
   },
 
   site: {
