@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
-import { claimDropItem } from '@/services/waifu'
 import {
   useDropMinimumFunds,
   useDropStatus,
@@ -49,6 +48,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import { allocateClaim, allocateCollection } from '@/services/fxart'
 
 import {
   HolderOfCollectionProp,
@@ -101,6 +101,9 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const availableNfts = reactive({ isLoading: true, amount: 0 })
+const raffleEmail = ref('')
+const raffleId = ref()
+const imageHash = ref('')
 
 const {
   defaultName,
@@ -239,18 +242,13 @@ const mintNft = async () => {
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
-    const collectionRes = (
-      await api.query.nfts.collection(collectionId.value)
-    ).toJSON() as {
-      items: string
-    }
 
     initTransactionLoader()
     const cb = api.tx.nfts.mint
 
     const args = [
       collectionId.value,
-      collectionRes.items,
+      raffleId.value,
       accountId.value,
       {
         ownedItem: holderOfCollectionData.value?.nftEntities?.at(
@@ -260,7 +258,7 @@ const mintNft = async () => {
       },
     ]
 
-    mintNftSN.value = collectionRes.items
+    mintNftSN.value = raffleId.value
     howAboutToExecute(accountId.value, cb, args)
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
@@ -280,6 +278,45 @@ const clearWalletConnecting = () => {
   isWalletConnecting.value = false
 }
 
+const allocateRaffle = async () => {
+  isLoading.value = true
+
+  const imageUrl = new URL(selectedImage.value)
+  imageHash.value = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value || '',
+    collectionName.value || defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  const body = {
+    email: raffleEmail.value,
+    hash: imageHash.value,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+
+  // claim previous ID first. else, allocate new raffle
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
+    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
+  } else {
+    const response = await allocateCollection(body, props.drop.id)
+    raffleId.value = response.result.id
+  }
+
+  isLoading.value = false
+}
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     isWalletConnecting.value = true
@@ -295,7 +332,14 @@ const handleSubmitMint = async () => {
   }
 
   if (hasMinimumFunds.value) {
-    mintNft()
+    // skip raffle modal at the moment. generate random email instead
+    // isRaffleModalActive.value = true
+    const crypto = window.crypto
+    const array = new Uint32Array(1)
+    raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+
+    await allocateRaffle()
+    await mintNft()
   } else {
     openAddFundModal()
   }
@@ -311,25 +355,11 @@ const closeAddFundModal = () => {
 
 const submitMint = async (sn: string) => {
   try {
-    isImageFetching.value = true
-
-    const imageHash = await tryCapture()
-
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
-
-    isImageFetching.value = false
-
-    const { result } = await claimDropItem(
+    const { result } = await allocateClaim(
       {
-        account: accountId.value,
-        metadata: hash,
-        sn,
+        sn: parseInt(sn),
+        txHash: imageHash.value,
+        address: accountId.value,
       },
       props.drop.id,
     )
@@ -353,6 +383,7 @@ const submitMint = async (sn: string) => {
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
+    $consola.error(error)
     throw error
   }
 }
