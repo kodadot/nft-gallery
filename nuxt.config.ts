@@ -173,20 +173,20 @@ export default defineNuxtConfig({
           crossorigin: 'anonymous',
           async: true,
         },
-        {
-          src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
-          async: true,
-        },
-        {
-          innerHTML: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        // {
+        //   src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+        //   async: true,
+        // },
+        // {
+        //   innerHTML: `
+        // window.dataLayer = window.dataLayer || [];
+        // function gtag(){dataLayer.push(arguments);}
+        // gtag('js', new Date());
 
-        gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
-        `,
-          type: 'text/javascript',
-        },
+        // gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
+        // `,
+        //   type: 'text/javascript',
+        // },
         {
           // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
           innerHTML: `(function(c,l,a,r,i,t,y){
@@ -272,6 +272,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
+    '@dargmuesli/nuxt-cookie-control',
   ],
 
   image: {
@@ -321,6 +322,86 @@ export default defineNuxtConfig({
     clients: apolloClientConfig,
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
+  },
+
+  cookieControl: {
+    isAcceptNecessaryButtonEnabled: false,
+
+    barPosition: 'bottom-full',
+
+    localeTexts: {
+      en: {
+        manageCookies: 'Customize',
+      },
+    },
+
+    colors: {
+      // barTextColor: '#1D1E1C',
+      // modalOverlay: '#000',
+      // barBackground: '#fff',
+      // barButtonColor: '#fff',
+      // modalTextColor: '#1D1E1C',
+      // modalBackground: '#fff',
+      // modalOverlayOpacity: 0.8,
+      // modalButtonColor: '#fff',
+      // modalUnsavedColor: '#fff',
+      // barButtonHoverColor: '#000000',
+      // barButtonBackground: '#1D1E1C',
+      // modalButtonHoverColor: '#000000',
+      // modalButtonBackground: '#1D1E1C',
+      // controlButtonIconColor: '#000',
+      // controlButtonBackground: '#fff',
+      // barButtonHoverBackground: '#C5DFAB',
+      // checkboxActiveBackground: '#C5DFAB',
+      // checkboxInactiveBackground: '#1D1E1C',
+      // modalButtonHoverBackground: '#C5DFAB',
+      // checkboxDisabledBackground: '#F3F3F3',
+      checkboxActiveBackground: '#04af00',
+      // controlButtonIconHoverColor: '#fff',
+      // controlButtonHoverBackground: '#000',
+      // checkboxActiveCircleBackground: '#000',
+      // checkboxInactiveCircleBackground: '#fff',
+      // checkboxDisabledCircleBackground: '#fff',
+    },
+
+    cookies: {
+      necessary: [
+        {
+          name: 'Cookie Control',
+          description:
+            'We use our own cookies and third-party cookies so that we can show you this website and better understand how you use it, with a view to improving the services we offer. If you continue browsing, we consider that you have accepted the cookies.',
+          targetCookieIds: ['ncc_c', 'ncc_e'],
+        },
+      ],
+
+      optional: [
+        {
+          id: 'ga',
+          identifier: 'ga',
+          name: 'Google Analytics',
+          description:
+            'Analytics cookies help us understand how visitors interact with websites by collecting and reporting information anonymously.',
+          initialState: true,
+          src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+          async: true,
+          targetCookieIds: ['_ga', '_gat', '_gid', 'ga-cookie-consent'],
+          accepted: () => {
+            // window.dataLayer = window.dataLayer || [];
+            // function gtag(){dataLayer.push(arguments);}
+            // gtag('js', new Date());
+            // gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
+
+            window.dataLayer = window.dataLayer || []
+            window.dataLayer.push({
+              'gtm.start': new Date().getTime(),
+              event: 'gtm.js',
+              config: process.env.GOOGLE_ANALYTICS_ID,
+            })
+          },
+          declined: () => {},
+        },
+      ],
+    },
   },
 
   site: {
