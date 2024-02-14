@@ -37,14 +37,14 @@ export enum DropStatus {
   UNSCHEDULED = 'unscheduled',
 }
 
-// const DROP_LIST_ORDER = [
-//   DropStatus.MINTING_LIVE,
-//   DropStatus.SCHEDULED_SOON,
-//   DropStatus.SCHEDULED,
-//   DropStatus.COMING_SOON,
-//   DropStatus.MINTING_ENDED,
-//   DropStatus.UNSCHEDULED,
-// ]
+const DROP_LIST_ORDER = [
+  DropStatus.MINTING_LIVE,
+  DropStatus.SCHEDULED_SOON,
+  DropStatus.SCHEDULED,
+  DropStatus.COMING_SOON,
+  DropStatus.MINTING_ENDED,
+  DropStatus.UNSCHEDULED,
+]
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 const futureDate = new Date()
@@ -70,7 +70,11 @@ export function useDrops(query?: GetDropsQuery) {
   })
 
   const sortDrops = computed(() =>
-    orderBy(drops.value, ['disabled', 'alias'], ['asc', 'asc']),
+    orderBy(
+      drops.value,
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
+      ['asc', 'asc'],
+    ),
   )
 
   return { drops: sortDrops, count, loaded }
