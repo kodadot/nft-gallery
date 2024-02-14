@@ -359,12 +359,13 @@ const submitMint = async (sn: string) => {
 
 const checkAvailableNfts = async () => {
   availableNfts.isLoading = true
-  const nftEntities = holderOfCollectionData.value?.nftEntities || []
-  const nftIds = nftEntities.map((nft) => nft.sn)
+  const nftIds =
+    collectionData.value?.collectionEntity.nfts.map((nft) => nft.sn) || []
   const claimed = await Promise.all(
     nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
   )
-  availableNfts.amount = claimed.filter((x) => !x).length
+  availableNfts.amount =
+    maxMintLimitForCurrentUser.value - claimed.filter((x) => !x).length
   availableNfts.isLoading = false
 }
 
