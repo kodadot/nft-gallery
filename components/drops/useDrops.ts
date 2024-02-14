@@ -12,7 +12,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import { isProduction } from '@/utils/chain'
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -25,6 +25,7 @@ export interface Drop {
   alias: string
   isMintedOut: boolean
   status: DropStatus
+  image?: string
 }
 
 export enum DropStatus {
@@ -36,14 +37,14 @@ export enum DropStatus {
   UNSCHEDULED = 'unscheduled',
 }
 
-const DROP_LIST_ORDER = [
-  DropStatus.MINTING_LIVE,
-  DropStatus.SCHEDULED_SOON,
-  DropStatus.SCHEDULED,
-  DropStatus.COMING_SOON,
-  DropStatus.MINTING_ENDED,
-  DropStatus.UNSCHEDULED,
-]
+// const DROP_LIST_ORDER = [
+//   DropStatus.MINTING_LIVE,
+//   DropStatus.SCHEDULED_SOON,
+//   DropStatus.SCHEDULED,
+//   DropStatus.COMING_SOON,
+//   DropStatus.MINTING_ENDED,
+//   DropStatus.UNSCHEDULED,
+// ]
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 const futureDate = new Date()
@@ -55,41 +56,24 @@ export function useDrops(query?: GetDropsQuery) {
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    Promise.all(
-      dropsList.value
-        .filter((drop) => !isProduction || drop.chain !== 'ahk')
-        .map((drop) => {
-          return new Promise((resolve) => {
-            const { result: collectionData } = useQuery(
-              unlockableCollectionById,
-              { id: drop.collection },
-              { clientId: drop.chain },
-            )
+    dropsList.value
+      .filter((drop) => !isProduction || drop.chain !== 'ahk')
+      .map(async (drop) => {
+        const newDrop = await getFormattedDropItem(drop, drop)
 
-            watchEffect(async () => {
-              if (collectionData.value?.collectionEntity) {
-                const { collectionEntity } = collectionData.value
-                const newDrop = await getFormattedDropItem(
-                  collectionEntity,
-                  drop,
-                )
-                resolve(newDrop)
-              }
-            })
-          })
-        }),
-    ).then((dropsDataList) => {
-      drops.value = sortBy(dropsDataList as Drop[], (drop) =>
-        DROP_LIST_ORDER.indexOf(drop.status),
-      )
-      loaded.value = true
-    })
+        drops.value.push(newDrop)
+        loaded.value = true
+      })
   })
 
-  return { drops, count, loaded }
+  const sortDrops = computed(() =>
+    orderBy(drops.value, ['disabled', 'alias'], ['asc', 'asc']),
+  )
+
+  return { drops: sortDrops, count, loaded }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {

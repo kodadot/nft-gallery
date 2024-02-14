@@ -2,6 +2,7 @@
   <div>
     <CarouselModuleCarouselAgnostic
       v-if="isReady"
+      :key="dropsAlias.join('-')"
       v-slot="{ item }"
       :items="drops"
       :step="steps"
@@ -44,6 +45,7 @@ const { drops, loaded: isReady } = useDrops({
   limit: 6,
   active: [true, false],
 })
+const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
 const { width } = useWindowSize()
 
 const steps = computed(() => {

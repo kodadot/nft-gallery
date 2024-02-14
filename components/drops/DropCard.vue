@@ -74,6 +74,11 @@ onMounted(async () => {
     return
   }
 
+  if (props.drop.image) {
+    image.value = sanitizeIpfsUrl(props.drop.image)
+    return
+  }
+
   isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
     props.drop.collection.metadata,
