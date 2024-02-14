@@ -1436,6 +1436,7 @@
   },
   "drops": {
     "title": "Generative Drops",
+    "drops": "Drops",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
     "everyThursday": "Every Thursday",
