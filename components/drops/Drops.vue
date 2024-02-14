@@ -68,35 +68,43 @@
 
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
-import { useDrops } from './useDrops'
+import { DropStatus, useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import filter from 'lodash/filter'
 
 const DEFAULT_SKELETON_COUNT = 3
+const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
+  (status) => status !== DropStatus.MINTING_ENDED,
+)
 
 const { $i18n } = useNuxtApp()
-const { drops, dropsList } = useDrops({ active: [true, false] })
+const { drops } = useDrops({ active: [true, false] })
 const { urlPrefix } = usePrefix()
 
 const isCreateEventModalActive = ref(false)
 
 const currentDrops = reactive({
-  items: computed(() => filter(drops.value, { active: 1 })),
+  items: computed(() =>
+    filter(drops.value, (drop) => CURRENT_DROP_STATUS.includes(drop.status)),
+  ),
   skeletonCount: computed(() =>
     getSkeletonCount(
       currentDrops.items.length,
-      filter(dropsList.value, { active: 1 }).length,
+      filter(drops.value, (drop) => CURRENT_DROP_STATUS.includes(drop.status))
+        .length,
     ),
   ),
 })
 
 const pastDrops = reactive({
-  items: computed(() => filter(drops.value, { active: 0 })),
+  items: computed(() =>
+    filter(drops.value, { status: DropStatus.MINTING_ENDED }),
+  ),
   skeletonCount: computed(() =>
     getSkeletonCount(
       pastDrops.items.length,
-      filter(dropsList.value, { active: 0 }).length,
+      filter(drops.value, { status: DropStatus.MINTING_ENDED }).length,
     ),
   ),
 })
