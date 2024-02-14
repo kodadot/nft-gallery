@@ -3,7 +3,9 @@
     <div
       class="flex max-md:flex-col md:items-center justify-between mb-7 md:gap-8">
       <h1 class="text-4xl font-semibold text-balance">
-        <p class="lg:inline">{{ $i18n.t('drops.title') }},</p>
+        <span class="block lg:inline mb-0 md:mr-3"
+          >{{ $i18n.t('drops.title') }},</span
+        >
         <span class="inverse-text">{{ $i18n.t('drops.everyThursday') }}</span>
       </h1>
 
