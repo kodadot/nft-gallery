@@ -14,7 +14,7 @@
           class="group-hover:opacity-[0.85] h-[174px] object-cover w-full" />
 
         <div
-          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color group-hover:border-border-color">
+          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
           <span class="font-bold is-ellipsis text-xl">{{
             drop.collection.name
           }}</span>
