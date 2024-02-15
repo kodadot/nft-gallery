@@ -16,7 +16,7 @@
         :class="cursorConnections.get(connection.id)?.color" />
 
       <div
-        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-background-color rounded-full w-fit">
+        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit">
         {{ cursorConnections.get(connection.id)?.label }}
       </div>
     </div>
