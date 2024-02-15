@@ -73,8 +73,9 @@
           min="0.01"
           step="0.00001"
           type="number"
+          icon-right-class="!hidden"
           placeholder="Enter Amount" />
-        <div class="is-absolute-right">
+        <div class="absolute right-2 top-3">
           <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
@@ -519,12 +520,6 @@ $xs-breakpoint: 400px;
   @include until($xs-breakpoint) {
     justify-content: flex-end;
   }
-}
-
-.is-absolute-right {
-  position: absolute;
-  right: 2rem;
-  top: 0.75rem;
 }
 
 .networks {
