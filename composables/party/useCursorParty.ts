@@ -4,6 +4,8 @@ import { RemoveMessage, SyncMessage, UpdateMessage, UserDetails } from './types'
 type CursorPartyEvents = UpdateMessage | RemoveMessage | SyncMessage
 
 export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
+  const THROTTLE_AMOUNT_MESSAGE = 100
+
   const { x, y, sourceType } = useMouse()
   const { width } = useWindowSize()
   const connections = ref<UserDetails[]>([])
@@ -39,7 +41,7 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
   }
 
   const { sendMessage: send } = useParty<CursorPartyEvents>({ room, onMessage })
-  const sendMessage = useThrottleFn(send, 100)
+  const sendMessage = useThrottleFn(send, THROTTLE_AMOUNT_MESSAGE)
 
   watchEffect(() => {
     sendMessage({
