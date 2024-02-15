@@ -34,7 +34,7 @@ const hasAvailable = computed(() => {
 })
 
 const checkIfAlreadyClaimed = async () =>
-  isNftClaimed(props.nft.sn, props.nft.collection.id)
+  isNftClaimed(props.nft.sn, props.nft.collection.id, exclusiveCollectionId)
 
 const isActiveDrop = computed(
   () => Boolean(exclusiveDrop) && !exclusiveDrop.disabled && hasAvailable.value,
