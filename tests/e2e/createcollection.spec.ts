@@ -76,10 +76,10 @@ test('Check if chain change works using the dropdown', async ({
     })
   })
 
-  //Dropdown change to RMRK2
+  //Dropdown change to PolkadotHub
   await test.step('Changes to RMRK2 and verifies if chain changed', async () => {
-    await page.getByTestId('collection-chain').selectOption('RMRK2')
-    await expect(page.getByTestId('chain')).toContainText('rmrk2')
+    await page.getByTestId('collection-chain').selectOption('PolkadotHub')
+    await expect(page.getByTestId('chain')).toContainText('ahp')
   })
 })
 
