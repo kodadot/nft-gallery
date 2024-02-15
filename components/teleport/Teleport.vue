@@ -522,12 +522,6 @@ $xs-breakpoint: 400px;
   }
 }
 
-.is-absolute-right {
-  position: absolute;
-  right: 2rem;
-  top: 0.75rem;
-}
-
 .networks {
   @include tablet {
     margin-top: 52px;
