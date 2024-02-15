@@ -21,7 +21,6 @@ export type UnlockableCollectionById = {
 }
 
 type GenerativeDropMintParams = {
-  mintedDropCount: Ref<number>
   collectionId: Ref<string>
   defaultImage: Ref<string>
   currentAccountMintedToken: Ref<DropMintedStatus | null>
@@ -34,7 +33,6 @@ export default ({
   defaultMax,
   currentAccountMintedToken,
   collectionId,
-  mintedDropCount,
   defaultImage,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
@@ -71,7 +69,7 @@ export default ({
   )
 
   const mintedCount = computed(() =>
-    Math.min(mintedDropCount.value, maxCount.value),
+    Math.min(collectionData.value.collectionEntity?.nftCount, maxCount.value),
   )
 
   const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)

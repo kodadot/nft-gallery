@@ -122,8 +122,9 @@ const minimumFundsProps = computed(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { currentAccountMintedToken, fetchDropStatus } = useDropStatus(
+  props.drop.alias,
+)
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -213,7 +214,6 @@ const {
   defaultMax,
   currentAccountMintedToken,
   collectionId,
-  mintedDropCount,
   defaultImage,
 })
 
