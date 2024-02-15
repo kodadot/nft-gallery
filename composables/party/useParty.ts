@@ -9,7 +9,7 @@ const PARTY_SOCKET_HOST = 'https://my-party.hassnian.partykit.dev/'
 
 export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
-  const ws = ref()
+  const ws = ref<PartySocket>()
   const connected = ref(false)
 
   const connect = (room: string) => {
@@ -45,6 +45,8 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     },
     { immediate: true },
   )
+
+  onBeforeUnmount(() => ws.value?.close())
 
   return { sendMessage, open: connected }
 }
