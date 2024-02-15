@@ -5,7 +5,7 @@ type UsePartyParams<T> = {
   onMessage?: (value: T) => void
 }
 
-const PARTY_SOCKET_HOST = 'https://my-party.hassnian.partykit.dev/'
+const PARTY_SOCKET_HOST = 'https://partykit.kodadot.workers.dev/'
 
 export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
