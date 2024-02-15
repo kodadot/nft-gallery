@@ -32,7 +32,7 @@ const colors = [
   'text-blue-400',
   'text-yellow-400',
   'text-pink-400',
-  'text-k-accent-400',
+  'text-k-accent',
 ]
 
 const props = defineProps<{
@@ -52,7 +52,7 @@ const cursorConnections = ref(
   >(),
 )
 
-const getColor = () => colors[Math.floor(Math.random() * colors.length)]
+const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
 
 const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
   return !(
@@ -94,12 +94,12 @@ watch(
     connections.forEach((connection) => {
       if (!cursorConnections.value.has(connection.id)) {
         cursorConnections.value.set(connection.id, {
-          color: getColor(),
+          color: getRandomColor(),
           label: props.labelFormatter(connection),
         })
       }
     })
   },
-  { immediate: true },
+  { immediate: true, deep: true },
 )
 </script>
