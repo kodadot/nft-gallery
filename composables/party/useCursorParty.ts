@@ -15,7 +15,7 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
       case 'sync':
         connections.value = data.connections
         break
-      case 'update':
+      case 'update': {
         const has = connections.value.find(
           (connection) => connection.id === data.details.id,
         )
@@ -32,6 +32,7 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
           })
         }
         break
+      }
       case 'remove':
         connections.value = connections.value.filter(
           (connection) => connection.id !== data.id,
