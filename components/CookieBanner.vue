@@ -3,11 +3,11 @@
     <CookieControl class="cookie-banner">
       <template #bar>
         <p>
-          {{ $t('cookies.notice') }}, see
+          {{ $t('cookies.notice') }}
           <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
             >Cookie Policy</nuxt-link
           >
-          for details. <span class="invisible md:visible mx-2">|</span>
+          <span class="invisible md:visible mx-2">|</span>
         </p>
       </template>
     </CookieControl>
@@ -25,13 +25,15 @@ const cookieConsentGiven = computed(() =>
 watch(
   () => cookieControl.cookiesEnabledIds.value,
   () => {
-    window.location.reload()
+    if (!cookieConsentGiven.value) {
+      window.location.reload()
+    }
   },
   { deep: true },
 )
 
 onMounted(() => {
-  if (cookieConsentGiven.value) {
+  if (cookieConsentGiven.value || cookieConsentGiven.value === undefined) {
     grantConsent()
   } else {
     revokeConsent()
