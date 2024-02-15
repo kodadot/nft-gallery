@@ -229,13 +229,25 @@ const royalty = ref({
   address: accountId.value,
 })
 
-const menus = availablePrefixes()
+const menus = availablePrefixes().filter(
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
+)
 
-const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
-const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
+const defaultPrefix = menus.length > 0 ? menus[0].value : ''
+
+const selectedPrefix =
+  urlPrefix.value === 'ksm' || urlPrefix.value === 'rmrk'
+    ? defaultPrefix
+    : urlPrefix.value
+
+const selectBlockchain = ref(selectedPrefix)
 
 watch(urlPrefix, (value) => {
-  selectBlockchain.value = value
+  if (value === 'ksm' || value === 'rmrk') {
+    selectBlockchain.value = defaultPrefix
+  } else {
+    selectBlockchain.value = value
+  }
 })
 
 const submitButtonLabel = computed(() => {
