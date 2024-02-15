@@ -1,6 +1,6 @@
 <template>
   <a
-    href="https://form.kodadot.xyz/drop-page-interest"
+    href="https://form.kodadot.xyz/drop-interest"
     target="_blank"
     rel="noopener noreferrer"
     class="drop-card border border-border-color">
@@ -9,7 +9,7 @@
       <p>Create Your Own</p>
       <NeoButton
         tag="a"
-        href="https://form.kodadot.xyz/drop-page-interest"
+        href="https://form.kodadot.xyz/drop-interest"
         target="_blank"
         variant="secondary"
         class="mt-2 neo-button">

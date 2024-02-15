@@ -2,7 +2,7 @@ import { expect, test } from './fixtures'
 
 const TRANSFER_PATH = '/dot/transfer'
 
-test('Transfer Page Functionality', async ({ page, Commands }) => {
+test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
   await Commands.e2elogin()
   await page.goto(TRANSFER_PATH)
 
@@ -66,7 +66,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-recurring').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=5&target1=${UserAddress}&usdamount1=10`,
+      `${baseURL}/dot/transfer?target=${UserAddress}&usdamount=5&target1=${UserAddress}&usdamount1=10`,
     )
   })
 
@@ -79,7 +79,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-pay-me').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`,
+      `${baseURL}/dot/transfer?target=${UserAddress}&usdamount=4`,
     )
   })
 
