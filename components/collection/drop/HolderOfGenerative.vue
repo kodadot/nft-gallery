@@ -3,6 +3,7 @@
     :title="$t('mint.nft.minting')"
     :is-loading="isLoading"
     :status="status"
+    :is-error="isTransactionError"
     @try-again="mintNft" />
 
   <NeoModal
@@ -144,6 +145,7 @@ const {
   isLoading: isTransactionLoading,
   initTransactionLoader,
   status,
+  isError: isTransactionError,
 } = useMetaTransaction()
 
 const handleSelectImage = (image: string) => {
@@ -264,7 +266,7 @@ const mintButtonProps = computed<MintButtonProp>(() => ({
 const mintNft = async () => {
   try {
     isLoading.value = true
-
+    isTransactionError.value = false
     const { apiInstance } = useApi()
     const api = await apiInstance.value
 
@@ -293,6 +295,11 @@ const mintNft = async () => {
 
 watch(status, (curStatus) => {
   if (curStatus === TransactionStatus.Block) {
+    if (isTransactionError.value) {
+      isLoading.value = false
+      isTransactionLoading.value = false
+      return
+    }
     submitMint(mintNftSN.value)
   }
 })
