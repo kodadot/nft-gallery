@@ -9,3 +9,9 @@ export const extractTwitterIdFromDescription = (desc: string = '') => {
 
   return ''
 }
+
+export const removeSuffixFromString = (content: string = '') => {
+  const words = content.split(' ')
+  words.pop()
+  return words.join(' ')
+}

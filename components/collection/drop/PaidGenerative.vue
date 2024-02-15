@@ -44,6 +44,7 @@
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
+    :is-allocating-raffle="isAllocatingRaffle"
     :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
@@ -132,6 +133,7 @@ const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
 const isLoading = ref(false)
+const isAllocatingRaffle = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
@@ -288,6 +290,7 @@ const clearWalletConnecting = () => {
 
 const allocateRaffle = async () => {
   isLoading.value = true
+  isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
   imageHash.value = imageUrl.searchParams.get('hash') || ''
@@ -322,6 +325,7 @@ const allocateRaffle = async () => {
     raffleId.value = response.result.id
   }
 
+  isAllocatingRaffle.value = false
   isLoading.value = false
 }
 
@@ -344,8 +348,8 @@ const handleSubmitMint = async () => {
   const crypto = window.crypto
   const array = new Uint32Array(1)
   raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
-  await allocateRaffle()
   openMintModal()
+  await allocateRaffle()
 }
 
 const submitRaffle = async () => {

@@ -17,7 +17,11 @@ export type DoResult = {
   name: string
 }
 
-export type GetDropsQuery = { limit?: number; active?: boolean[] }
+export type GetDropsQuery = {
+  limit?: number
+  active?: boolean[]
+  chain?: string[]
+}
 
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
@@ -62,7 +66,7 @@ export const allocateCollection = async (body, id) => {
 
     return response
   } catch (error) {
-    throw new Error(`[WAIFU::ALLOCATE] ERROR: ${(error as FetchError).data}`)
+    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
   }
 }
 
@@ -76,7 +80,7 @@ export const allocateClaim = async (body, id) => {
     return response
   } catch (error) {
     throw new Error(
-      `[WAIFU::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
+      `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
     )
   }
 }
