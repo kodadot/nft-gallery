@@ -126,17 +126,6 @@
             </a>
           </li>
         </ul>
-
-        <a
-          href="https://stellate.co/?ref=powered-by"
-          target="_blank"
-          rel="nofollow noopener noreferrer">
-          <img
-            :src="`https://stellate.co/${
-              isDarkMode ? 'badge-light' : 'badge'
-            }.svg`"
-            alt="Powered by Stellate, the GraphQL API Management platform" />
-        </a>
       </section>
     </div>
     <img
@@ -150,8 +139,6 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-
-const { isDarkMode } = useTheme()
 
 interface Menu {
   name: string
