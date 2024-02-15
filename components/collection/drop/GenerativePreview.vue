@@ -1,5 +1,6 @@
 <template>
   <div
+    id="generative-preview-card"
     class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px]">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
