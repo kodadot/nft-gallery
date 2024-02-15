@@ -15,12 +15,13 @@
 
         <div
           class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
-          <span class="font-bold is-ellipsis text-xl">{{
-            drop.collection.name
-          }}</span>
+          <span
+            class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
+            >{{ drop.collection.name }}</span
+          >
 
           <div
-            class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0">
+            class="flex item-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2">
             <div class="flex justify-between items-center min-h-[34px]">
               <TimeTag
                 v-if="drop.dropStartTime || ended"
@@ -71,6 +72,11 @@ const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 
 onMounted(async () => {
   if (!props.drop?.collection) {
+    return
+  }
+
+  if (props.drop.image) {
+    image.value = sanitizeIpfsUrl(props.drop.image)
     return
   }
 

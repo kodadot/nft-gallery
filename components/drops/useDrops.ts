@@ -11,8 +11,7 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
-import { isProduction } from '@/utils/chain'
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -25,6 +24,7 @@ export interface Drop {
   alias: string
   isMintedOut: boolean
   status: DropStatus
+  image?: string
 }
 
 export enum DropStatus {
@@ -46,8 +46,6 @@ const DROP_LIST_ORDER = [
 ]
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
-const futureDate = new Date()
-futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
 export function useDrops(query?: GetDropsQuery) {
   const drops = ref<Drop[]>([])
@@ -55,41 +53,26 @@ export function useDrops(query?: GetDropsQuery) {
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    Promise.all(
-      dropsList.value
-        .filter((drop) => !isProduction || drop.chain !== 'ahk')
-        .map((drop) => {
-          return new Promise((resolve) => {
-            const { result: collectionData } = useQuery(
-              unlockableCollectionById,
-              { id: drop.collection },
-              { clientId: drop.chain },
-            )
+    dropsList.value.map(async (drop) => {
+      const newDrop = await getFormattedDropItem(drop, drop)
 
-            watchEffect(async () => {
-              if (collectionData.value?.collectionEntity) {
-                const { collectionEntity } = collectionData.value
-                const newDrop = await getFormattedDropItem(
-                  collectionEntity,
-                  drop,
-                )
-                resolve(newDrop)
-              }
-            })
-          })
-        }),
-    ).then((dropsDataList) => {
-      drops.value = sortBy(dropsDataList as Drop[], (drop) =>
-        DROP_LIST_ORDER.indexOf(drop.status),
-      )
+      drops.value.push(newDrop)
       loaded.value = true
     })
   })
 
-  return { drops, count, loaded }
+  const sortDrops = computed(() =>
+    orderBy(
+      drops.value,
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
+      ['asc', 'asc'],
+    ),
+  )
+
+  return { drops: sortDrops, count, loaded }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
