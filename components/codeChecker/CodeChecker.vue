@@ -90,73 +90,94 @@
           :passed="fileValidity.resizerUsed"
           :description="$t('codeChecker.automaticResize')" />
         <CodeCheckerTestItem
+          :passed="fileValidity.validTitle"
+          :description="'Correct HTML name'" />
+        <CodeCheckerTestItem
           :passed="fileValidity.kodaRendererUsed"
           :description="$t('codeChecker.usingKodaHash')" />
         <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
           :description="$t('codeChecker.usingParamHash')" />
+        <CodeCheckerTestItem
+          :passed="fileValidity.renderDurationValid"
+          :description="'Rendering duration less than 3 seconds'" />
       </div>
     </div>
 
     <div class="w-1/2 flex flex-col items-end">
       <!-- Content of the second column -->
       <CodeCheckerPreviewCard
+        v-model:hash="hash"
         :selected-file="selectedFile"
         :file-name="fileName"
-        :file-content="fileContent"
-        :render="Boolean(fileContent) && errorMessage == ''" />
+        :assets="assets"
+        :render="Boolean(selectedFile) && errorMessage == ''" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { unzip } from 'unzipit'
 import { Validity, validate } from './validate'
-import { postCodeToIframe } from './utils'
+import {
+  AssetMessage,
+  createSandboxAssets,
+  extractAssetsFromZip,
+} from './utils'
+import config from './codechecker.config'
 
-const validtyDefault = {
+useEventListener(window, 'message', (res) => {
+  if (res.data?.type === 'kodahash/render/completed') {
+    renderEndTime.value = performance.now()
+    const duration = renderEndTime.value - renderStartTime.value
+    fileValidity.renderDurationValid = duration < config.maxAllowedLoadTime
+  }
+})
+
+const validtyDefault: Validity = {
   canvasSize: '',
   webGLSupported: false,
   localP5jsUsed: false,
   kodaRendererUsed: false,
   resizerUsed: false,
   usesHashParam: false,
+  validTitle: false,
+  renderDurationValid: false,
 }
 
 const selectedFile = ref<File | null>(null)
-const fileContent = ref<string>()
-const fileName = ref('')
+const assets = ref<AssetMessage[]>([])
+const fileName = computed(() => selectedFile.value?.name)
 const fileValidity = reactive<Validity>(validtyDefault)
 const errorMessage = ref('')
+const renderStartTime = ref(0)
+const renderEndTime = ref(0)
 
 const onFileSelected = async (file: File) => {
-  // clear previous state
   clear()
-
-  const { entries } = await unzip(file)
-  const name = Object.keys(entries).find((name) => name.endsWith('.js'))
-  if (!name) {
-    errorMessage.value = 'No .js file found in the zip'
+  renderStartTime.value = performance.now()
+  selectedFile.value = file
+  const { indexFile, jsFiles, cssFiles } = await extractAssetsFromZip(file)
+  const sketchFile = jsFiles.find((file) =>
+    file.path.includes(config.sketchFile),
+  )
+  if (!sketchFile) {
+    errorMessage.value = `Sketch file not found: ${config.sketchFile}`
     return
   }
-  fileName.value = name
-
-  fileContent.value = await entries[name].text()
-  const [success, validity, error] = validate(fileContent.value)
-  if (!success || !validity) {
-    errorMessage.value = error ?? 'Failed to parse the .js file'
+  const valid = validate(indexFile.content, sketchFile.content)
+  if (!valid[0]) {
+    errorMessage.value = valid[2] ?? 'Unknown error'
     return
   }
-  Object.assign(fileValidity, validity)
+  Object.assign(fileValidity, valid[1])
 
-  postCodeToIframe(fileContent.value)
+  assets.value = createSandboxAssets(indexFile, jsFiles, cssFiles)
 }
 
 const clear = () => {
   selectedFile.value = null
-  fileContent.value = undefined
-  fileName.value = ''
+  assets.value = []
   errorMessage.value = ''
   Object.assign(fileValidity, validtyDefault)
 }

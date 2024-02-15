@@ -1,6 +1,6 @@
 <template>
   <iframe
-    id="sketch-iframe"
+    :id="config.iframeId"
     title="render-preview"
     class="sandbox-iframe w-full h-[440px] border"
     sandbox="allow-scripts allow-same-origin"
@@ -10,20 +10,32 @@
 </template>
 
 <script setup lang="ts">
-import { postCodeToIframe } from './utils'
+import { AssetMessage, postAssetsToSandbox } from './utils'
+import config from './codechecker.config'
 
 const props = defineProps<{
   hash: string
-  code: string
+  assets: Array<AssetMessage>
+  count: number
 }>()
 
-const iframeSrc = computed(() => `/sandbox.html?hash=${props.hash}`)
+const emit = defineEmits(['update:count'])
 
-watch([() => props.hash, () => props.code], () => {
-  postCodeToIframe(props.code)
-})
+const vCount = useVModel(props, 'count', emit)
+
+const iframeSrc = computed(
+  () => `/sandbox.html?hash=${props.hash}&count=${vCount.value}`,
+)
+watch(
+  () => props.assets,
+  () => {
+    // force update iframe
+    vCount.value++
+  },
+  { deep: true },
+)
 
 function onIframeLoad() {
-  postCodeToIframe(props.code)
+  postAssetsToSandbox(props.assets)
 }
 </script>

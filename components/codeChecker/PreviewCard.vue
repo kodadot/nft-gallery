@@ -4,8 +4,9 @@
     <div>
       <CodeCheckerSandboxIFrame
         v-if="render"
+        v-model:count="count"
         :hash="hash"
-        :code="fileContent as string" />
+        :assets="assets" />
 
       <BaseMediaItem v-else preview is-detail class="border" />
     </div>
@@ -22,7 +23,7 @@
         variant="pill"
         class="w-full px-5"
         :disabled="!selectedFile"
-        @click="() => {}"
+        @click="count++"
         >{{ $t('codeChecker.replayAnimation') }}</NeoButton
       >
     </div>
@@ -67,25 +68,27 @@ import {
   NeoDropdownItem,
   NeoInput,
 } from '@kodadot1/brick'
-import { generateRandomHash } from './utils'
+import { AssetMessage, generateRandomHash } from './utils'
+import config from './codechecker.config'
 
 defineProps<{
   selectedFile: File | null
-  fileContent?: string
+  assets: Array<AssetMessage>
   fileName?: string
   render: boolean
 }>()
 
-const selectedVariation = ref(1)
-const variationOptions = [1, 3, 5, 10, 15, 20]
-
 const hash = ref('')
+const count = ref(0)
 
 const newHash = async () => {
   hash.value = await generateRandomHash()
 }
 
 onMounted(newHash)
+
+const variationOptions = config.varaitionsOptions
+const selectedVariation = ref(variationOptions[0])
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
