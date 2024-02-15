@@ -8,7 +8,7 @@
       <SigningModalBody
         :title="title"
         :subtitle="subtitle"
-        :failed="isCancelled"
+        :failed="isCancelled || isError"
         :show-subtitle-dots="isLoading"
         @try-again="() => $emit('tryAgain')">
         <template v-if="isTransactionInProgress" #footer>
@@ -31,6 +31,7 @@ const props = defineProps<{
   isLoading: boolean
   status: TransactionStatus
   title: string
+  isError: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
