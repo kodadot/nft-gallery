@@ -206,17 +206,41 @@ export const useDropMinimumFunds = (drop) => {
   }
 }
 
+// Convert the collection to hex
+// Construct the number - if is length 2 - pad it right with two zeros
+// If the length is 3 - pad it right with one zero and put the first digit in the end
+// If the lenght is 4 - swap the pair - aka first two letters go last
+// When you have number from step two construct the full format - 0x00${theMagic}0000
+const convertCollectionIdToMagicId = (id: string) => {
+  const hexId = Number(id).toString(16)
+  let constructedNumber
+  if (hexId.length === 2) {
+    constructedNumber = hexId.padEnd(4, '00')
+  } else if (hexId.length === 3) {
+    const firstDigit = hexId.substring(0, 1)
+    constructedNumber =
+      hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
+  } else if (hexId.length === 4) {
+    constructedNumber = hexId.substring(2) + hexId.substring(0, 2)
+  }
+  return `0x00${constructedNumber}0000`
+}
+
 export const useHolderOfCollectionDrop = () => {
   const { apiInstance } = useApi()
 
-  const isNftClaimed = async (sn: string, collectionId: string) => {
+  const isNftClaimed = async (
+    sn: string,
+    holderOfCollectionId: string,
+    collectionId: string,
+  ) => {
     const api = await apiInstance.value
 
     const claimed = await api.query.nfts.attribute(
-      collectionId,
+      holderOfCollectionId,
       sn,
       { Pallet: null },
-      '0x0033000000',
+      convertCollectionIdToMagicId(collectionId),
     )
 
     const wasUsed = claimed.toHuman()

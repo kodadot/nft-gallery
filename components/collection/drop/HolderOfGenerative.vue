@@ -370,10 +370,20 @@ const checkAvailableNfts = async () => {
   availableNfts.snList = []
   const claimed = await Promise.all(
     nftIds.map((sn) => {
-      availableNfts.snList.push(sn)
-      return isNftClaimed(sn, holderOfCollectionId.value as string)
+      return isNftClaimed(
+        sn,
+        holderOfCollectionId.value as string,
+        collectionId.value,
+      )
     }),
   )
+
+  claimed.forEach((isClaimed, index) => {
+    if (!isClaimed) {
+      availableNfts.snList.push(nftIds[index])
+    }
+  })
+
   availableNfts.amount = claimed.filter((x) => !x).length
   availableNfts.isLoading = false
 }
