@@ -115,10 +115,18 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const isSuccessModalActive = ref(false)
-const availableNfts = reactive({ isLoading: true, amount: 0 })
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
+const availableNfts = reactive<{
+  isLoading: boolean
+  amount: number
+  snList: string[]
+}>({
+  isLoading: true,
+  amount: 0,
+  snList: [],
+})
 
 const {
   defaultName,
@@ -268,9 +276,7 @@ const mintNft = async () => {
       raffleId.value,
       accountId.value,
       {
-        ownedItem: holderOfCollectionData.value?.nftEntities?.at(
-          mintedAmountForCurrentUser.value,
-        ).sn,
+        ownedItem: availableNfts.snList[0],
         mintPrice: props.drop.price,
       },
     ]
@@ -409,13 +415,26 @@ const submitMint = async (sn: string) => {
 
 const checkAvailableNfts = async () => {
   availableNfts.isLoading = true
-  const nftIds =
-    collectionData.value?.collectionEntity.nfts.map((nft) => nft.sn) || []
+  const nftEntities = holderOfCollectionData.value?.nftEntities || []
+  const nftIds = nftEntities.map((nft) => nft.sn)
+  availableNfts.snList = []
   const claimed = await Promise.all(
-    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
+    nftIds.map((sn) => {
+      return isNftClaimed(
+        sn,
+        holderOfCollectionId.value as string,
+        collectionId.value,
+      )
+    }),
   )
-  availableNfts.amount =
-    maxMintLimitForCurrentUser.value - claimed.filter((x) => !x).length
+
+  claimed.forEach((isClaimed, index) => {
+    if (!isClaimed) {
+      availableNfts.snList.push(nftIds[index])
+    }
+  })
+
+  availableNfts.amount = claimed.filter((x) => !x).length
   availableNfts.isLoading = false
 }
 

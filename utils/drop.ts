@@ -6,10 +6,12 @@ export const DEFAULT_DROP = {
 
 export const HOLDER_OF_DROP_MAP = {
   '50': '51',
+  '352': '377',
 }
 
 export const DROP_COLLECTION_TO_ALIAS_MAP = {
   '51': 'chroma',
+  '377': 'complexity',
 }
 
 export const AHK_GENERATIVE_DROPS = [
