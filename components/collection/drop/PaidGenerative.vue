@@ -55,6 +55,11 @@
     @close="closeMintModal"
     @list="handleList" />
   <ListingCartModal />
+
+  <CursorParty
+    :connections="connections"
+    :ghost-on-elements="['#generative-preview-card']"
+    :label-formatter="labelFormatter" />
 </template>
 
 <script setup lang="ts">
@@ -72,6 +77,8 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import useCursorParty from '@/composables/party/useCursorParty'
+import { UserDetails } from '@/composables/party/types'
 
 export type ToMintNft = {
   name: string
@@ -249,6 +256,17 @@ const mintButtonProps = computed(() => ({
   disabled: mintButtonDisabled.value,
   label: mintButtonLabel.value,
 }))
+
+const currentUserSpent = computed(
+  () => mintedAmountForCurrentUser.value * (Number(props.drop?.price) || 0),
+)
+const { connections } = useCursorParty({
+  room: computed(() => props.drop.alias),
+  spent: currentUserSpent,
+})
+
+const labelFormatter = (connection: UserDetails) =>
+  `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value)} ${chainSymbol.value}`
 
 const mintNft = async () => {
   try {
