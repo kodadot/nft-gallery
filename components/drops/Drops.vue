@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="grid-container">
+    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
       <template v-if="!loaded">
         <DropsDropCardSkeleton
           v-for="x in DEFAULT_SKELETON_COUNT"
@@ -52,7 +52,7 @@
       {{ $i18n.t('drops.pastArtDrops') }}
     </h2>
 
-    <div class="grid-container">
+    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
       <template v-if="!loaded">
         <DropsDropCardSkeleton
           v-for="x in DEFAULT_SKELETON_COUNT"
@@ -79,7 +79,7 @@ import { dropsVisible } from '@/utils/config/permission.config'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import filter from 'lodash/filter'
 
-const DEFAULT_SKELETON_COUNT = 3
+const DEFAULT_SKELETON_COUNT = 4
 const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
   (status) => status !== DropStatus.MINTING_ENDED,
 )
@@ -110,20 +110,3 @@ onBeforeMount(() => {
   checkRouteAvailability()
 })
 </script>
-
-<style lang="scss" scoped>
-$gap: 1rem;
-.grid-container {
-  display: grid;
-  gap: $gap;
-  grid-template-columns: repeat(1, 1fr);
-}
-
-@media (min-width: 1000px) {
-  $max-card-width: calc(910px + 0.5 * #{$gap});
-  .grid-container {
-    grid-template-columns: repeat(3, minmax(0, $max-card-width));
-    max-width: calc(3 * $max-card-width);
-  }
-}
-</style>
