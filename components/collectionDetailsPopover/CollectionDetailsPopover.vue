@@ -2,7 +2,7 @@
   <tippy
     :append-to="body"
     placement="bottom"
-    :class="['hidden md:block', className]"
+    :class="['hidden md:inline-block', className]"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
     @show="triggered = true">
@@ -17,7 +17,7 @@
 
   <nuxt-link
     :to="`/${urlPrefix}/collection/${collection?.id}`"
-    class="has-text-link block md:hidden">
+    class="has-text-link inline-block md:hidden">
     {{ collection?.name || collection?.id }}
   </nuxt-link>
 </template>
@@ -31,10 +31,10 @@ const body = ref(document.body)
 const triggered = ref(false)
 const { urlPrefix } = usePrefix()
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     collection: Collection
-    nft: CarouselNFT
+    nft?: CarouselNFT
     showDelay?: number
     hideDelay?: number
     className?: string
@@ -43,7 +43,15 @@ withDefaults(
     showDelay: 0,
     hideDelay: 0,
     className: '',
+    nft: undefined,
   },
+)
+
+const nft = computed(
+  () =>
+    props.nft || {
+      collection: props.collection,
+    },
 )
 </script>
 
