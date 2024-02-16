@@ -28,11 +28,12 @@ import { NeoIcon } from '@kodadot1/brick'
 import { UserDetails } from '@/composables/party/types'
 
 const colors = [
-  'text-red-400',
-  'text-blue-400',
-  'text-yellow-400',
-  'text-pink-400',
-  'text-k-accent',
+  'text-k-pink',
+  'text-k-blue',
+  'text-k-orange',
+  'text-k-aqua-blue',
+  'text-k-red',
+  'text-k-green',
 ]
 
 const props = defineProps<{
