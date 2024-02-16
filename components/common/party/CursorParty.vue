@@ -3,7 +3,7 @@
     <div
       v-for="connection in connections"
       :key="connection.id"
-      class="absolute z-[998]"
+      class="absolute z-[998] pointer-events-none"
       :class="[{ 'opacity-20': cursorConnections.get(connection.id)?.ghost }]"
       :style="{
         top: `${connection.y}px`,
