@@ -14,7 +14,7 @@
           class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="ml-5 font-bold is-clipped">
-            {{ event.Item.name }}
+            {{ addSnSuffixName(event.Item.name, event.Item.sn) }}
           </span>
         </nuxt-link>
       </div>
@@ -146,7 +146,7 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { parseNftAvatar } from '@/utils/nft'
+import { addSnSuffixName, parseNftAvatar } from '@/utils/nft'
 
 const props = defineProps<{
   event: Event
