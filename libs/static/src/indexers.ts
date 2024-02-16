@@ -3,13 +3,13 @@ import { ApolloEndpoint, Config, Prefix, Squid } from './types'
 type SquidEndpoint =
   | `https://squid.subsquid.io/${Squid}/graphql`
   | `https://squid.subsquid.io/${Squid}/v/${string}/graphql`
-  | `https://gql-${Prefix}.kodadot.xyz/`
+  | `https://${Prefix}.gql.api.kodadot.xyz/`
 
 export const INDEXERS: Config<SquidEndpoint> = {
   rmrk: 'https://squid.subsquid.io/rubick/graphql',
   ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
-  ahk: 'https://gql-ahk.kodadot.xyz/',
-  ahp: 'https://gql-ahp.kodadot.xyz/',
+  ahk: 'https://ahk.gql.api.kodadot.xyz/',
+  ahp: 'https://ahk.gql.api.kodadot.xyz/',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
