@@ -10,7 +10,9 @@
     v-if="status === TransactionStatus.Finalized"
     :value="isSuccessModalActive"
     teleport>
-    <ModalBody :title="$i18n.t('success')">
+    <ModalBody
+      :title="$i18n.t('success')"
+      @close="isSuccessModalActive = false">
       <CollectionDropModalSharedSuccessfulDrop
         v-if="mintedNft"
         :minted-nft="mintedNft"
