@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+    <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
       <template v-if="!loaded">
         <DropsDropCardSkeleton
           v-for="x in DEFAULT_SKELETON_COUNT"
@@ -44,7 +44,7 @@
         :data-testid="index">
         <DropCard :drop="drop" />
       </div>
-    </div>
+    </DynamicGrid>
 
     <hr class="my-14" />
 
@@ -52,7 +52,7 @@
       {{ $i18n.t('drops.pastArtDrops') }}
     </h2>
 
-    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+    <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
       <template v-if="!loaded">
         <DropsDropCardSkeleton
           v-for="x in DEFAULT_SKELETON_COUNT"
@@ -66,7 +66,7 @@
         :data-testid="index">
         <DropCard :drop="drop" />
       </div>
-    </div>
+    </DynamicGrid>
 
     <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
   </div>
@@ -78,6 +78,12 @@ import { DropStatus, useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import filter from 'lodash/filter'
+
+const GRID_DEFAULT_WIDTH = {
+  small: 0,
+  medium: 334,
+  large: 0,
+}
 
 const DEFAULT_SKELETON_COUNT = 4
 const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
