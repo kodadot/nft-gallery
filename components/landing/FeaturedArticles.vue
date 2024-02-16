@@ -2,11 +2,11 @@
   <div>
     <div class="title is-2">{{ $t('general.featuredArticlesHeading') }}</div>
 
-    <div class="columns">
+    <div class="flex flex-col md:flex-row gap-3 mb-5">
       <div
         v-for="article in articles.slice(0, 4)"
         :key="article.id"
-        class="column">
+        class="flex-1 last:hidden 2xl:last:visible">
         <CardArticle
           :link="article.web_url"
           :image="article.thumbnail_url"
@@ -38,11 +38,3 @@ interface Articles {
 
 const articles: Articles[] = posts
 </script>
-
-<style scoped>
-@media screen and (max-width: 1540px) {
-  .columns .column:last-child {
-    display: none;
-  }
-}
-</style>

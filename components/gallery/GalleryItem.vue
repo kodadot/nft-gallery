@@ -4,8 +4,8 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <div class="columns is-variable is-6">
-      <div class="column is-two-fifths">
+    <div class="flex flex-col md:block gap-6 lg:flex lg:flex-row">
+      <div class="w-2/5 md:w-full lg:w-2/5">
         <div
           id="nft-img-container"
           ref="imgref"
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <div class="py-8 column">
+      <div class="py-8 flex-1">
         <div class="flex flex-col justify-between h-full">
           <!-- title section -->
           <div class="pb-2">
@@ -153,14 +153,14 @@
       </div>
     </div>
 
-    <div class="columns is-variable is-6 mt-5">
-      <div class="column is-two-fifths">
+    <div class="flex flex-col md:block lg:flex-row gap-6 mt-5">
+      <div class="w-2/5 md:w-full lg:w-2/5">
         <GalleryItemDescription
           ref="galleryDescriptionRef"
           :gallery-item="galleryItem" />
       </div>
 
-      <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
+      <div class="w-3/5 md:w-full lg:w-3/5 gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel
           :active-tab="activeTab"
           :gallery-item="galleryItem" />
@@ -400,14 +400,6 @@ $break-point-width: 930px;
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: $break-point-width) {
-  .columns {
-    display: inherit;
-    & > .column {
-      width: 100%;
-    }
-  }
-}
 .back-button {
   @apply fixed z-[1] left-3 top-8;
   @include desktop {

@@ -1,5 +1,6 @@
 <template>
-  <div class="is-centered columns">
+  <div
+    class="flex flex-col md:flex-row justify-center gap-3 lg:py-20 lg:bg-k-primary-light">
     <SigningModal
       v-if="!autoTeleport"
       :is-loading="isLoading"
@@ -13,7 +14,9 @@
       :nft-information="nftInformation"
       @confirm="confirm" />
 
-    <form class="is-half column" @submit.prevent="submitHandler">
+    <form
+      class="px-8 sm:px-16 py-16 w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
+      @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"

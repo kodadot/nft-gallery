@@ -6,22 +6,22 @@
     :show-no-results="events.length > 0 && !displayedEvents.length"
     data-testid="nfts-event-table">
     <template #columns>
-      <div class="column">
+      <div class="flex-1">
         <span>{{ $t('activity.event.item') }}</span>
       </div>
-      <div class="column is-1">
+      <div class="w-1/12">
         <span>{{ $t('activity.event.event') }}</span>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <span>{{ $t('activity.event.amount') }}</span>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <span>{{ $t('activity.event.from') }}</span>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <span>{{ $t('activity.event.to') }}</span>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <span>{{ $t('activity.event.time') }}</span>
       </div>
     </template>

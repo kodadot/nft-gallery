@@ -2,8 +2,8 @@
   <div class="border-t">
     <div
       class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] pt-6">
-      <div class="columns is-variable is-4-tablet">
-        <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
+      <div class="flex flex-col md:flex-row gap-3 md:gap-4">
+        <div class="flex-1 lg:flex-0 lg:w-1/2 mobile-padding lg:max-w-[600px]">
           <div class="font-bold is-size-5 mb-4">
             {{ $t('tooltip.created') }}
           </div>
@@ -44,7 +44,7 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div class="column hidden md:flex justify-end mt-[-245px]">
+        <div class="flex-1 hidden md:flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"

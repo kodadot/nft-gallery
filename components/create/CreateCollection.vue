@@ -1,5 +1,10 @@
 <template>
-  <div class="is-centered" :class="{ columns: classColumn }">
+  <div
+    class="justify-center"
+    :class="{
+      'flex flex-col md:flex-row gap-3 lg:py-20 lg:bg-k-primary-light':
+        classColumn,
+    }">
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('mint.collection.minting')"
@@ -14,7 +19,10 @@
       @confirm="handleCreateCollectionConfirmation" />
     <form
       class="is-half"
-      :class="{ column: classColumn }"
+      :class="{
+        'px-8 sm:px-16 py-16 flex-1 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
+          classColumn,
+      }"
       @submit.prevent="showConfirm">
       <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}

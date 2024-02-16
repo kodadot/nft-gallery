@@ -8,8 +8,8 @@
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid pb-4">
-      <div class="columns is-desktop">
-        <div class="column is-half-desktop mobile-padding">
+      <div class="flex flex-col lg:flex-row gap-3">
+        <div class="flex-1 lg:flex-0 lg:w-1/2 mobile-padding">
           <UnlockableCollectionInfo
             :collection-id="collectionId"
             :description="VOTE_DROP_DESCRIPTION" />
@@ -75,7 +75,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="column pt-5 flex justify-center">
+        <div class="flex-1 pt-5 flex justify-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"

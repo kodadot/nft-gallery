@@ -6,30 +6,29 @@
       </div>
       <template #content>
         <div class="max-h-[30rem] overflow-y-auto">
-          <div
-            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey">
-            <div class="column text-k-grey is-1">#</div>
-            <div class="column text-k-grey">{{ $t('massmint.image') }}</div>
-            <div class="column text-k-grey">{{ $t('massmint.name') }}</div>
-            <div class="column is-3 text-k-grey">
+          <div class="flex gap-1 m-0 px-4 py-1 border-b border-k-grey">
+            <div class="w-1/12 text-k-grey">#</div>
+            <div class="flex-1 text-k-grey">{{ $t('massmint.image') }}</div>
+            <div class="flex-1 text-k-grey">{{ $t('massmint.name') }}</div>
+            <div class="w-1/4 text-k-grey">
               {{ $t('massmint.description') }}
             </div>
-            <div class="column text-k-grey">{{ $t('massmint.price') }}</div>
-            <div class="column text-k-grey flex justify-center">
+            <div class="flex-1 text-k-grey">{{ $t('massmint.price') }}</div>
+            <div class="flex-1 text-k-grey flex justify-center">
               <span class="pl-2">{{ $t('massmint.status') }}</span>
             </div>
-            <div class="column text-k-grey flex justify-center">
+            <div class="flex-1 text-k-grey flex justify-center">
               {{ $t('massmint.operation') }}
             </div>
           </div>
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns is-variable is-1 is-mobile border-b border-k-shade m-0 py-1 px-4">
-            <div class="column flex items-center is-1">
+            class="flex gap-1 border-b border-k-shade m-0 py-1 px-4">
+            <div class="w-1/12 flex items-center">
               {{ nft.id }}
             </div>
-            <div class="column flex items-center">
+            <div class="flex-1 flex items-center">
               <NeoAvatar
                 :image-component="NuxtImg"
                 :avatar="nft.imageUrl"
@@ -37,7 +36,7 @@
                 :size="48"
                 :placeholder="placeholder" />
             </div>
-            <div class="column flex items-center">
+            <div class="flex-1 flex items-center">
               <div
                 class="cursor-pointer"
                 :class="{
@@ -47,7 +46,7 @@
                 {{ nft.name || '*' + $t('massmint.nameRequired') }}
               </div>
             </div>
-            <div class="column is-3 flex items-center">
+            <div class="w-1/4 flex items-center">
               <div
                 class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
                 :class="{
@@ -57,7 +56,7 @@
                 {{ nft.description || $t('massmint.descriptionMissing') }}
               </div>
             </div>
-            <div class="column flex items-center">
+            <div class="flex-1 flex items-center">
               <div class="cursor-pointer" @click="openSideBarWith(nft)">
                 <CommonTokenMoney
                   v-if="nft.price"
@@ -67,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div class="column flex items-center">
+            <div class="flex-1 flex items-center">
               <div class="flex items-center pl-2">
                 <div
                   class="border text-xs justify-center py-2 flex items-center w-[100px]"
@@ -76,7 +75,7 @@
                 </div>
               </div>
             </div>
-            <div class="column flex items-center justify-center">
+            <div class="flex-1 flex items-center justify-center">
               <NeoButton
                 icon="edit"
                 size="large"

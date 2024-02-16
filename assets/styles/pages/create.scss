@@ -8,34 +8,6 @@
   margin-bottom: 2rem;
 }
 
-.column {
-  max-width: 40rem;
-  padding: 4rem;
-
-  @include desktop() {
-    @include ktheme() {
-      background-color: theme('background-color');
-      border: 1px solid theme('border-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  @include touch() {
-    padding: 4rem 2rem;
-    box-shadow: none !important;
-  }
-}
-
-@include desktop() {
-  .columns {
-    padding: 5.25rem 0;
-
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
-  }
-}
-
 .form-addons {
   @apply text-center leading-[3rem] h-12 w-16 border-l-[none];
   @include ktheme() {

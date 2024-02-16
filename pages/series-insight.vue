@@ -1,13 +1,13 @@
 <template>
   <section>
-    <div class="columns">
-      <div class="column is-four-fifths">
+    <div class="flex flex-col md:flex-row gap-3">
+      <div class="w-4/5">
         <h1 class="title is-2">{{ $t('series.title') }}</h1>
         <p class="subtitle text-xl">
           {{ $t('series.subtitle', { chain: urlPrefix }) }}
         </p>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <img
           v-if="isRemark"
           src="/rmrk-logo-pink-faded.png"

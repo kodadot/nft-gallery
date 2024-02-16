@@ -11,8 +11,8 @@
       </section>
       <section class="px-6 py-12">
         <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-half">
+          <div class="flex flex-col md:flex-row justify-center gap-3">
+            <div class="w-1/2">
               <Error
                 v-if="$nuxt.isOffline"
                 :has-img="false"

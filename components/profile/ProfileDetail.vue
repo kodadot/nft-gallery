@@ -11,8 +11,8 @@
       </div>
     </NeoModal>
     <div class="container is-fluid py-7 border-b">
-      <div class="columns is-centered">
-        <div class="column is-half text-center">
+      <div class="flex flex-col md:flex-row justify-center gap-3">
+        <div class="w-1/2 text-center">
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
@@ -94,9 +94,8 @@
           </div>
         </div>
       </div>
-      <div class="columns is-centered items-center">
-        <div
-          class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
+      <div class="flex flex-col md:flex-row gap-3 justify-center items-center">
+        <div class="w-12/12 md:w-1/2 lg:w-7/12 2xl:w-8/12">
           <ProfileActivity :id="id" />
         </div>
       </div>

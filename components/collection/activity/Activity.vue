@@ -3,11 +3,11 @@
     <SidebarFilter />
     <div ref="wrapper" class="w-full mt-4">
       <div v-if="tablet">
-        <div class="columns">
-          <div class="column is-two-thirds">
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="w-2/3">
             <ActivityChart :events="events" class="mt-2" />
           </div>
-          <div class="column">
+          <div class="flex-1">
             <OwnerInsights :owners="owners" :flippers="flippers" />
           </div>
         </div>

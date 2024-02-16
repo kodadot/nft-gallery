@@ -1,9 +1,6 @@
 <template>
-  <div class="columns is-multiline is-mobile">
-    <div
-      v-for="(src, index) in props.images"
-      :key="index"
-      class="column is-half">
+  <div class="flex flex-wrap gap-3">
+    <div v-for="(src, index) in props.images" :key="index" class="w-1/2">
       <SelectableImage
         :disabled="disabled"
         :index="index"

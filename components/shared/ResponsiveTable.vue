@@ -7,7 +7,9 @@
       <span class="text-k-grey">{{ noResultsSub }}</span>
     </div>
     <div v-else-if="items.length > 0">
-      <div v-if="desktop" class="columns text-xs text-k-grey">
+      <div
+        v-if="desktop"
+        class="flex flex-col md:flex-row gap-3 text-xs text-k-grey">
         <slot name="columns" />
       </div>
       <slot name="rows" :variant="variant" />

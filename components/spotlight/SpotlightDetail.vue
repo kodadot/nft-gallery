@@ -1,6 +1,6 @@
 <template>
-  <div class="columns">
-    <div v-for="nft in nfts.nftEntities" :key="nft.id" class="column">
+  <div class="flex flex-col md:flex-row gap-3">
+    <div v-for="nft in nfts.nftEntities" :key="nft.id" class="flex-1">
       <GalleryCard :id="nft.id" :name="nft.name" :metadata="nft.metadata" />
     </div>
   </div>

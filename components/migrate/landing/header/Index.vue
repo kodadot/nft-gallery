@@ -1,6 +1,6 @@
 <template>
-  <div class="columns mb-6">
-    <div class="column is-5">
+  <div class="flex flex-col md:flex-row gap-3 mb-6">
+    <div class="w-5/12">
       <div class="flex flex-col justify-between h-full">
         <div>
           <div class="migrate-title">
@@ -111,9 +111,9 @@
     </div>
 
     <!-- spacing -->
-    <div class="column"></div>
+    <div class="flex-1"></div>
 
-    <div class="column is-5"><MigrateLandingHeaderFaq /></div>
+    <div class="w-5/12"><MigrateLandingHeaderFaq /></div>
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <NeoField class="columns mb-0">
+    <NeoField class="flex flex-col md:flex-row gap-3 mb-0">
       <NeoInput
         v-model="vrange[0]"
         type="number"
         min="0"
         step="any"
-        class="column is-2"
+        class="w-1/6"
         :placeholder="$t('query.priceRange.minPrice')"
         data-testid="input-min" />
       <NeoInput
@@ -14,10 +14,10 @@
         min="0"
         step="any"
         type="number"
-        class="column is-2"
+        class="w-1/6"
         :placeholder="$t('query.priceRange.maxPrice')"
         data-testid="input-max" />
-      <div class="column is-1">
+      <div class="w-1/12">
         <NeoButton
           variant="primary"
           :disabled="applyDisabled"

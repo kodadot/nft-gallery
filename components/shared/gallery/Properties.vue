@@ -1,10 +1,10 @@
 <template>
   <CollapseCardWrapper :label="$t('nft.properties.label')">
-    <div class="columns is-mobile is-multiline">
+    <div class="flex flex-wrap gap-3">
       <div
         v-for="attribute in attributes"
         :key="attribute[fieldKey]"
-        class="column is-half-mobile is-half-tablet is-one-third-desktop is-one-quarter-fullhd">
+        class="w-1/2 lg:w-1/3 xl:w-1/4">
         <div class="notification is-primary is-light">
           <div
             class="text-xs text-k-grey-lighter uppercase properties-attribute-key">
