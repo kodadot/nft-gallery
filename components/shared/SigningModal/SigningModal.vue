@@ -8,10 +8,10 @@
       <SigningModalBody
         :title="title"
         :subtitle="subtitle"
-        :failed="isCancelled"
+        :failed="isFailed"
         :show-subtitle-dots="isLoading"
         @try-again="() => $emit('tryAgain')">
-        <template v-if="isTransactionInProgress" #footer>
+        <template v-if="isTransactionInProgress && !isFailed" #footer>
           <div
             class="absolute z-[4] left-2/4 top-[90%] -translate-x-2/4 -translate-y-[90%] min-w-[80px] px-3 text-center rounded-full py-1 text-k-grey bg-background-color text-xs">
             {{ formattedState }}
@@ -31,6 +31,7 @@ const props = defineProps<{
   isLoading: boolean
   status: TransactionStatus
   title: string
+  isError: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -40,6 +41,7 @@ const { formattedState, isTransactionInProgress } = useTransactionEstimatedTime(
 
 const isModalActive = ref(false)
 const isCancelled = ref(false)
+const isFailed = computed(() => isCancelled.value || props.isError)
 
 const statusTransalationsKeys: Partial<Record<TransactionStatus, string>> = {
   [TransactionStatus.Finalized]: 'transactionSteps.completed',

@@ -11,8 +11,7 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
-import { isProduction } from '@/utils/chain'
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -25,6 +24,7 @@ export interface Drop {
   alias: string
   isMintedOut: boolean
   status: DropStatus
+  image?: string
 }
 
 export enum DropStatus {
@@ -46,8 +46,6 @@ const DROP_LIST_ORDER = [
 ]
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
-const futureDate = new Date()
-futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
 export function useDrops(query?: GetDropsQuery) {
   const drops = ref<Drop[]>([])
@@ -55,41 +53,26 @@ export function useDrops(query?: GetDropsQuery) {
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    Promise.all(
-      dropsList.value
-        .filter((drop) => !isProduction || drop.chain !== 'ahk')
-        .map((drop) => {
-          return new Promise((resolve) => {
-            const { result: collectionData } = useQuery(
-              unlockableCollectionById,
-              { id: drop.collection },
-              { clientId: drop.chain },
-            )
+    dropsList.value.map(async (drop) => {
+      const newDrop = await getFormattedDropItem(drop, drop)
 
-            watchEffect(async () => {
-              if (collectionData.value?.collectionEntity) {
-                const { collectionEntity } = collectionData.value
-                const newDrop = await getFormattedDropItem(
-                  collectionEntity,
-                  drop,
-                )
-                resolve(newDrop)
-              }
-            })
-          })
-        }),
-    ).then((dropsDataList) => {
-      drops.value = sortBy(dropsDataList as Drop[], (drop) =>
-        DROP_LIST_ORDER.indexOf(drop.status),
-      )
+      drops.value.push(newDrop)
       loaded.value = true
     })
   })
 
-  return { drops, count, loaded }
+  const sortDrops = computed(() =>
+    orderBy(
+      drops.value,
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
+      ['asc', 'asc'],
+    ),
+  )
+
+  return { drops: sortDrops, count, loaded }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
@@ -223,17 +206,41 @@ export const useDropMinimumFunds = (drop) => {
   }
 }
 
+// Convert the collection to hex
+// Construct the number - if is length 2 - pad it right with two zeros
+// If the length is 3 - pad it right with one zero and put the first digit in the end
+// If the lenght is 4 - swap the pair - aka first two letters go last
+// When you have number from step two construct the full format - 0x00${theMagic}0000
+const convertCollectionIdToMagicId = (id: string) => {
+  const hexId = Number(id).toString(16)
+  let constructedNumber
+  if (hexId.length === 2) {
+    constructedNumber = hexId.padEnd(4, '00')
+  } else if (hexId.length === 3) {
+    const firstDigit = hexId.substring(0, 1)
+    constructedNumber =
+      hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
+  } else if (hexId.length === 4) {
+    constructedNumber = hexId.substring(2) + hexId.substring(0, 2)
+  }
+  return `0x00${constructedNumber}0000`
+}
+
 export const useHolderOfCollectionDrop = () => {
   const { apiInstance } = useApi()
 
-  const isNftClaimed = async (sn: string, collectionId: string) => {
+  const isNftClaimed = async (
+    sn: string,
+    holderOfCollectionId: string,
+    collectionId: string,
+  ) => {
     const api = await apiInstance.value
 
     const claimed = await api.query.nfts.attribute(
-      collectionId,
+      holderOfCollectionId,
       sn,
       { Pallet: null },
-      '0x0033000000',
+      convertCollectionIdToMagicId(collectionId),
     )
 
     const wasUsed = claimed.toHuman()

@@ -16,6 +16,7 @@ export type UnlockableCollectionById = {
     name: string
     max: number
     nftCount: number
+    nfts: { sn: string }[]
   }
   nftEntitiesConnection: { totalCount: number }
 }
