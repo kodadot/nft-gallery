@@ -13,7 +13,8 @@
       <transition name="fade">
         <div
           v-if="!loading"
-          class="modal-card-title text-base font-bold line-height">
+          :class="`leading-[2.1875rem]`"
+          class="modal-card-title text-base font-bold">
           {{ title }}
         </div>
       </transition>
@@ -29,11 +30,9 @@
     <div
       class="relative"
       :class="[
-        {
-          'limit-height__scrollabe': scrollable,
-          'limit-height__loading': loading,
-        },
         contentClass,
+        scrollable ? `max-h-[${modalMaxWidth}] overflow-y-auto` : '',
+        loading ? `max-h-[${modalMaxWidth}] overflow-hidden` : '',
       ]">
       <div v-if="loading">
         <SkeletonLoader :title="skeletonTitle" class="modal-skeleton" />
@@ -43,7 +42,7 @@
         ref="slot"
         class="slot"
         :class="{
-          slot__loading: loading,
+          'opacity-0 z-[1] pointer-events-none': loading,
         }">
         <slot />
       </div>
@@ -123,18 +122,6 @@ $x-padding: 2rem;
 $t-padding: 1.5rem;
 $b-padding: 1.25rem;
 
-.limit-height {
-  &__scrollabe {
-    max-height: v-bind(modalMaxHeight);
-    overflow-y: auto;
-  }
-
-  &__loading {
-    max-height: v-bind(modalMaxHeight);
-    overflow: hidden;
-  }
-}
-
 .modal-skeleton {
   position: unset !important;
   #skeleton-backdrop {
@@ -144,15 +131,5 @@ $b-padding: 1.25rem;
     height: calc(100% - ($t-padding + $b-padding));
     max-height: v-bind(modalMaxHeight) !important;
   }
-}
-
-.slot {
-  &__loading {
-    @apply opacity-0 z-[1] pointer-events-none;
-  }
-}
-
-.line-height {
-  line-height: 2.1875rem;
 }
 </style>
