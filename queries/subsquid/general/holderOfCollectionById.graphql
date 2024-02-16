@@ -6,7 +6,7 @@ query holderOfCollectionById($id: String!, $account: String!) {
       collection: { id_eq: $id }
     }
     orderBy: blockNumber_DESC
-    limit: 10
+    limit: 30
     offset: 0
   ) {
     id

@@ -66,6 +66,7 @@ const props = withDefaults(
     modalMaxHeight?: string
     contentClass?: string
     scrollable?: boolean
+    customSkeletonTitle?: string
   }>(),
   {
     modalWidth: '25rem',
@@ -95,15 +96,18 @@ const titleRange = computed(() =>
   Math.floor(seconds.value / TITLE_DURATION_SECONDS),
 )
 const skeletonTitle = computed(
-  () => titles[titleRange.value] || titles[titles.length - 1],
+  () =>
+    props.customSkeletonTitle ||
+    titles[titleRange.value] ||
+    titles[titles.length - 1],
 )
 
 const onClose = () => emits('close')
 
 watch(
-  () => props.loading,
-  (loading) => {
-    if (loading) {
+  [() => props.loading, () => props.customSkeletonTitle],
+  ([loading, customTitle]) => {
+    if (loading && !customTitle) {
       seconds.value = 0
       start()
     } else {

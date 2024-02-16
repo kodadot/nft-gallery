@@ -3,6 +3,11 @@
     <div class="flex justify-between">
       <div class="flex gap-4 flex-col w-full">
         <CollectionDropRequirementItem
+          :fulfilled="fulfillsMinimumFunds"
+          :loading="minimumFunds.isLoading">
+          <p v-dompurify-html="minimumFunds.description" />
+        </CollectionDropRequirementItem>
+        <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading">
@@ -15,11 +20,6 @@
               </nuxt-link>
             </template>
           </i18n-t>
-        </CollectionDropRequirementItem>
-        <CollectionDropRequirementItem
-          :fulfilled="fulfillsMinimumFunds"
-          :loading="minimumFunds.isLoading">
-          <p v-dompurify-html="minimumFunds.description" />
         </CollectionDropRequirementItem>
       </div>
     </div>

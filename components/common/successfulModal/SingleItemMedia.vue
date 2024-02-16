@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <BaseMediaItem class="border border-k-shade" :src="src" preview is-detail />
+  <div class="flex flex-col items-center">
+    <BaseMediaItem
+      class="border border-k-shade w-[200px] h-[200px]"
+      :src="src"
+      :animation-src="src"
+      preview
+      is-detail />
 
     <div class="mt-5 border-b-k-shade">
       <p class="text-base capitalize font-bold text-center">

@@ -9,6 +9,7 @@
       :title="title"
       :scrollable="false"
       :loading="loading"
+      :custom-skeleton-title="preStepTitle"
       @close="onClose">
       <MintOverview
         v-if="isMintOverviewStep"
@@ -53,12 +54,11 @@ const props = defineProps<{
   modelValue: boolean
   toMintNft: ToMintNft
   action: AutoTeleportAction
-
+  isAllocatingRaffle: boolean
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
-
   mintedNft?: DropMintedNft
   canListNft: boolean
 }>()
@@ -78,7 +78,12 @@ const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 
-const loading = computed(() => mintOverview.value?.loading || false)
+const loading = computed(
+  () => props.isAllocatingRaffle || mintOverview.value?.loading || false,
+)
+const preStepTitle = computed<string | undefined>(() =>
+  props.isAllocatingRaffle ? $i18n.t('loader.ipfs') : undefined,
+)
 const isMintOverviewStep = computed(
   () => modalStep.value === ModalStep.OVERVIEW,
 )

@@ -72,6 +72,11 @@
       </div>
     </div>
   </div>
+
+  <CursorParty
+    :connections="connections"
+    :ghost-on-elements="['#generative-preview-card']"
+    :label-formatter="labelFormatter" />
 </template>
 
 <script setup lang="ts">
@@ -82,6 +87,9 @@ import type {
   MintButtonProp,
 } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import useCursorParty from '@/composables/party/useCursorParty'
+import { UserDetails } from '@/composables/party/types'
+import { formatAmountWithRound } from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{
@@ -108,8 +116,21 @@ const props = withDefaults(
   },
 )
 
+const { chainSymbol, decimals } = useChain()
+
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
+
+const currentUserSpent = computed(
+  () => props.userMintedCount * (Number(props.drop?.price) || 0),
+)
+const { connections } = useCursorParty({
+  room: computed(() => props.drop.alias),
+  spent: currentUserSpent,
+})
+
+const labelFormatter = (connection: UserDetails) =>
+  `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value)} ${chainSymbol.value}`
 </script>
