@@ -84,9 +84,8 @@ const addGoogleEvent = () => {
 }
 
 const addEvent = (provider: CalendarProvider) => {
-  switch (provider) {
-    case 'google':
-      return addGoogleEvent()
+  if (provider === 'google') {
+    addGoogleEvent()
   }
 }
 
