@@ -100,7 +100,7 @@
           :description="$t('codeChecker.usingParamHash')" />
         <CodeCheckerTestItem
           :passed="fileValidity.renderDurationValid"
-          :description="'Rendering duration less than 3 seconds'" />
+          :description="`Rendering duration less than ${(config.maxAllowedLoadTime / 1000).toFixed(0)} seconds`" />
       </div>
     </div>
 
@@ -110,7 +110,8 @@
         :selected-file="selectedFile"
         :file-name="fileName"
         :assets="assets"
-        :render="Boolean(selectedFile)" />
+        :render="Boolean(selectedFile)"
+        :koda-renderer-used="fileValidity.kodaRendererUsed" />
     </div>
   </div>
 </template>
@@ -137,17 +138,17 @@ const validtyDefault: Validity = {
   canvasSize: '',
   webGLSupported: false,
   localP5jsUsed: false,
-  kodaRendererUsed: false,
+  kodaRendererUsed: 'unknown',
   resizerUsed: false,
   usesHashParam: false,
   validTitle: false,
-  renderDurationValid: false,
+  renderDurationValid: 'loading',
 }
 
 const selectedFile = ref<File | null>(null)
 const assets = ref<AssetMessage[]>([])
 const fileName = computed(() => selectedFile.value?.name)
-const fileValidity = reactive<Validity>(validtyDefault)
+const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
 const renderStartTime = ref(0)
 const renderEndTime = ref(0)
@@ -167,6 +168,10 @@ const onFileSelected = async (file: File) => {
     errorMessage.value = valid[2] ?? 'Unknown error'
   } else {
     Object.assign(fileValidity, valid[1])
+  }
+
+  if (!fileValidity.kodaRendererUsed) {
+    fileValidity.renderDurationValid = 'unknown'
   }
 
   assets.value = await createSandboxAssets(indexFile, entries)

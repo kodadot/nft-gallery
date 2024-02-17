@@ -3,4 +3,5 @@ export default {
   sketchFile: 'sketch.js',
   maxAllowedLoadTime: 3000, // in ms
   varaitionsOptions: [1, 3, 5, 10, 15, 20],
+  renderTimeout: 3000, // in ms
 }

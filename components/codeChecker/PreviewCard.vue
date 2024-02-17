@@ -40,7 +40,7 @@
         <NeoButton
           no-shadow
           class="flex-grow text-ellipsis overflow-hidden"
-          @click="() => {}">
+          @click="exportAsPNG">
           {{ `Export ${fileName} as PNG` }}
         </NeoButton>
         <NeoDropdown v-model="selectedVariation">
@@ -72,16 +72,21 @@ import {
 } from '@kodadot1/brick'
 import { AssetMessage, generateRandomHash } from './utils'
 import config from './codechecker.config'
+import { Passed } from './validate'
 
-defineProps<{
+const props = defineProps<{
   selectedFile: File | null
   assets: Array<AssetMessage>
   fileName?: string
   render: boolean
+  kodaRendererUsed: Passed
 }>()
+const variationOptions = config.varaitionsOptions
 
 const hash = ref('')
 const count = ref(0)
+const variationCounter = ref(0)
+const selectedVariation = ref(variationOptions[0])
 
 const newHash = async () => {
   hash.value = await generateRandomHash()
@@ -89,8 +94,52 @@ const newHash = async () => {
 
 onMounted(newHash)
 
-const variationOptions = config.varaitionsOptions
-const selectedVariation = ref(variationOptions[0])
+// Screenshot function placeholder
+const screenshot = async () => {
+  // Implementation of screenshot logic
+  console.log('Taking screenshot...')
+}
+
+const handleRenderComplete = async () => {
+  if (variationCounter.value < selectedVariation.value) {
+    await screenshot()
+    variationCounter.value++
+    hash.value = await generateRandomHash()
+  } else {
+    // Clean up and terminate listening once all variations are done
+    window.removeEventListener('message', handler)
+    variationCounter.value = 0 // Reset for next use
+  }
+}
+
+const handler = (ev) => {
+  if (
+    ev.origin === window.location.origin &&
+    ev.data?.type === 'kodahash/render/completed'
+  ) {
+    handleRenderComplete()
+  }
+}
+
+const exportAsPNG = async () => {
+  if (props.kodaRendererUsed) {
+    window.addEventListener('message', handler)
+    await screenshot()
+    variationCounter.value++
+    hash.value = await generateRandomHash()
+  } else {
+    const variations = Array.from(
+      { length: selectedVariation.value },
+      (_, i) => i,
+    )
+
+    for (const _ of variations) {
+      await screenshot()
+      hash.value = await generateRandomHash()
+      await new Promise((resolve) => setTimeout(resolve, config.renderTimeout))
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {

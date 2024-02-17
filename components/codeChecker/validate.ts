@@ -1,12 +1,14 @@
+export type Passed = boolean | 'loading' | 'unknown'
+
 export type Validity = {
   canvasSize: string
   webGLSupported: boolean
   localP5jsUsed: boolean
-  kodaRendererUsed: boolean
+  kodaRendererUsed: Passed
   resizerUsed: boolean
   usesHashParam: boolean
   validTitle: boolean
-  renderDurationValid: boolean
+  renderDurationValid: Passed
 }
 
 export const validate = (
