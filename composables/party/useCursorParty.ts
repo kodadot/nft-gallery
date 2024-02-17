@@ -20,13 +20,14 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
 
   const onMessage = (data: CursorPartyEvents) => {
     switch (data.type) {
-      case 'sync':
+      case 'sync': {
         const map = new Map()
         for (const [key, value] of Object.entries(data.connections)) {
           map.set(key, value ? getPositionAdujestToWindowSize(value) : null)
         }
         connections.value = map
         break
+      }
       case 'update': {
         connections.value.set(
           data.details.id,
