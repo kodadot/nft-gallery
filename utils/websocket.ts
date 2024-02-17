@@ -12,5 +12,9 @@ export const getWSUrlByClient = (client: string): string | null => {
     return 'wss://squid.subsquid.io/stick/graphql'
   }
 
+  if (httpEndpoint === INDEXERS.ahp) {
+    return 'wss://squid.subsquid.io/speck/graphql'
+  }
+
   return httpEndpoint.replace('https://', 'wss://').replace('http://', 'wss://')
 }
