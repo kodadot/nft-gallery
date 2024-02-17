@@ -70,22 +70,27 @@ const checkGhostCursors = () => {
       const elements = document.querySelectorAll(
         `[data-partykit="${selector}"]`,
       )
-      elements.forEach((element) => {
-        const cursor = document.getElementById(`cursor-${connection.id}`)
+      let ghost = false
 
+      elements.forEach((element) => {
+        if (ghost) {
+          return
+        }
+
+        const cursor = document.getElementById(`cursor-${connection.id}`)
         if (!element || !cursor) {
           return
         }
 
-        const ghost = areRectanglesIntersecting(
+        ghost = areRectanglesIntersecting(
           cursor.getBoundingClientRect(),
           element.getBoundingClientRect(),
         )
+      })
 
-        cursorConnections.value.set(connection.id, {
-          ...(cursorConnections.value.get(connection.id) as any),
-          ghost: ghost,
-        })
+      cursorConnections.value.set(connection.id, {
+        ...(cursorConnections.value.get(connection.id) as any),
+        ghost: ghost,
       })
     })
   })
