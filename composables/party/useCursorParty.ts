@@ -21,13 +21,17 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
   const onMessage = (data: CursorPartyEvents) => {
     switch (data.type) {
       case 'sync':
-        connections.value = new Map(Object.entries(data.connections))
+        const map = new Map()
+        for (const [key, value] of Object.entries(data.connections)) {
+          map.set(key, value ? getPositionAdujestToWindowSize(value) : null)
+        }
+        connections.value = map
         break
       case 'update': {
-        connections.value.set(data.details.id, {
-          ...data.details,
-          x: data.details.x * width.value,
-        })
+        connections.value.set(
+          data.details.id,
+          getPositionAdujestToWindowSize(data.details),
+        )
         break
       }
       case 'remove':
@@ -44,6 +48,13 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
         Boolean,
       ) as UserDetails[],
   )
+
+  const getPositionAdujestToWindowSize = (
+    details: UserDetails,
+  ): UserDetails => ({
+    ...details,
+    x: details.x * width.value,
+  })
 
   const isZeroDot = (connection: UserDetails) => !Number(connection.spent)
 
