@@ -130,7 +130,7 @@ const { connections } = useCursorParty({
 })
 
 const labelFormatter = (connection: UserDetails) =>
-  `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value)} ${chainSymbol.value}`
+  `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value, chainSymbol.value === 'DOT' ? 0 : undefined)} ${chainSymbol.value}`
 
 watch(() => props.userMintedCount, getUserStats)
 </script>
