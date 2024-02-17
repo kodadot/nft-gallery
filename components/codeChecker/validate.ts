@@ -47,8 +47,16 @@ export const validate = (
 
   const variableName = paramsMatch[2]
 
+  const width = canvasMatch[1].trim()
+  const height = canvasMatch[2].trim()
+  const isNumericWidth = /^\d+$/.test(width)
+  const isNumericHeight = /^\d+$/.test(height)
+
+  const canvasSize =
+    isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
+
   const validity: Omit<Validity, 'renderDurationValid'> = {
-    canvasSize: `${canvasMatch[1]} X ${canvasMatch[2]}`,
+    canvasSize,
     webGLSupported: !!canvasMatch[3],
     localP5jsUsed,
     validTitle: titlePresent && titleIsKodaHash,

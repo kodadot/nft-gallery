@@ -40,6 +40,7 @@
         <NeoButton
           no-shadow
           class="flex-grow text-ellipsis overflow-hidden"
+          :disabled="!kodaRendererUsed"
           @click="exportAsPNG">
           {{ `Export ${fileName} as PNG` }}
         </NeoButton>
@@ -48,6 +49,7 @@
             <NeoButton
               :label="`${selectedVariation}X`"
               class="w-[4rem]"
+              :disabled="!kodaRendererUsed"
               no-shadow
               :active="active" />
           </template>
@@ -94,51 +96,31 @@ const newHash = async () => {
 
 onMounted(newHash)
 
-// Screenshot function placeholder
-const screenshot = async () => {
-  // Implementation of screenshot logic
-  console.log('Taking screenshot...')
-}
-
-const handleRenderComplete = async () => {
-  if (variationCounter.value < selectedVariation.value) {
-    await screenshot()
-    variationCounter.value++
-    hash.value = await generateRandomHash()
-  } else {
-    // Clean up and terminate listening once all variations are done
-    window.removeEventListener('message', handler)
-    variationCounter.value = 0 // Reset for next use
-  }
-}
-
-const handler = (ev) => {
+const handleRenderComplete = (
+  ev: MessageEvent<{ type: string; payload: { image?: string } }>,
+) => {
   if (
     ev.origin === window.location.origin &&
-    ev.data?.type === 'kodahash/render/completed'
+    ev.data?.type === 'kodahash/render/completed' &&
+    ev.data.payload?.image
   ) {
-    handleRenderComplete()
+    const imageName = `${props.fileName}-variation_${variationCounter.value + 1}-hash_${hash.value}.png`
+
+    downloadBase64Image(ev.data.payload.image, imageName)
+
+    variationCounter.value++
+    if (variationCounter.value < selectedVariation.value) {
+      newHash()
+    } else {
+      variationCounter.value = 0
+      window.removeEventListener('message', handleRenderComplete)
+    }
   }
 }
 
 const exportAsPNG = async () => {
-  if (props.kodaRendererUsed) {
-    window.addEventListener('message', handler)
-    await screenshot()
-    variationCounter.value++
-    hash.value = await generateRandomHash()
-  } else {
-    const variations = Array.from(
-      { length: selectedVariation.value },
-      (_, i) => i,
-    )
-
-    for (const _ of variations) {
-      await screenshot()
-      hash.value = await generateRandomHash()
-      await new Promise((resolve) => setTimeout(resolve, config.renderTimeout))
-    }
-  }
+  window.addEventListener('message', handleRenderComplete)
+  count.value++
 }
 </script>
 <style scoped lang="scss">
