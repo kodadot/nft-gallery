@@ -93,13 +93,21 @@ const checkGhostCursors = () => {
 
 watch(
   () => props.connections,
-  (connections: UserDetails[]) => {
+  (connections, prevConnections) => {
     checkGhostCursors()
 
     connections.forEach((connection) => {
-      if (!cursorConnections.value.has(connection.id)) {
+      const isNew = !cursorConnections.value.has(connection.id)
+      const newSpent =
+        prevConnections &&
+        prevConnections.find(
+          (prevConnection) => connection.id === prevConnection.id,
+        )?.spent !== connection.spent
+
+      if (isNew || newSpent) {
+        const color = cursorConnections.value.get(connection.id)?.color
         cursorConnections.value.set(connection.id, {
-          color: getRandomColor(),
+          color: color || getRandomColor(),
           label: props.labelFormatter(connection),
         })
       }
