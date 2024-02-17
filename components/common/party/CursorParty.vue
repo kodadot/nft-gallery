@@ -67,21 +67,25 @@ const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
 const checkGhostCursors = () => {
   props.connections.forEach((connection) => {
     props.ghostOnElements?.forEach((selector) => {
-      const element = document.querySelector(selector)
-      const cursor = document.getElementById(`cursor-${connection.id}`)
-
-      if (!element || !cursor) {
-        return
-      }
-
-      const ghost = areRectanglesIntersecting(
-        cursor.getBoundingClientRect(),
-        element.getBoundingClientRect(),
+      const elements = document.querySelectorAll(
+        `[data-partykit="${selector}"]`,
       )
+      elements.forEach((element) => {
+        const cursor = document.getElementById(`cursor-${connection.id}`)
 
-      cursorConnections.value.set(connection.id, {
-        ...(cursorConnections.value.get(connection.id) as any),
-        ghost: ghost,
+        if (!element || !cursor) {
+          return
+        }
+
+        const ghost = areRectanglesIntersecting(
+          cursor.getBoundingClientRect(),
+          element.getBoundingClientRect(),
+        )
+
+        cursorConnections.value.set(connection.id, {
+          ...(cursorConnections.value.get(connection.id) as any),
+          ghost: ghost,
+        })
       })
     })
   })

@@ -75,7 +75,7 @@
 
   <CursorParty
     :connections="connections"
-    :ghost-on-elements="['#generative-preview-card']"
+    :ghost-on-elements="['generative-preview-card']"
     :label-formatter="labelFormatter" />
 </template>
 
