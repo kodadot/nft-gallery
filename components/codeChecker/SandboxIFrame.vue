@@ -1,6 +1,7 @@
 <template>
   <iframe
     :id="config.iframeId"
+    :key="count"
     title="render-preview"
     class="sandbox-iframe w-full h-[440px] border"
     sandbox="allow-scripts allow-same-origin"
@@ -23,9 +24,7 @@ const emit = defineEmits(['update:count'])
 
 const vCount = useVModel(props, 'count', emit)
 
-const iframeSrc = computed(
-  () => `/sandbox.html?hash=${props.hash}&count=${vCount.value}`,
-)
+const iframeSrc = computed(() => `/sandbox.html?hash=${props.hash}`)
 watch(
   () => props.assets,
   () => {

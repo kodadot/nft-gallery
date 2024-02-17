@@ -1,11 +1,11 @@
-import { unzip } from 'unzipit'
+import { ZipEntry, unzip } from 'unzipit'
 import config from './codechecker.config'
 
 export const postAssetsToSandbox = (message: Array<AssetMessage>) => {
   const iframe = document.getElementById(config.iframeId) as HTMLIFrameElement
   if (iframe?.contentWindow) {
     iframe.contentWindow.postMessage(
-      JSON.stringify(message),
+      { type: 'assets', assets: JSON.parse(JSON.stringify(message)) },
       window.location.origin,
     )
   }
@@ -15,6 +15,7 @@ export type AssetMessage = {
   type: 'script' | 'style'
   location: 'head' | 'body'
   src: string
+  originalSrc: string
 }
 
 type FileEntry = { path: string; content: string }
@@ -41,14 +42,13 @@ export const extractAssetsFromZip = async (
   zip: File,
 ): Promise<{
   indexFile: FileEntry
-  jsFiles: FileEntry[]
-  cssFiles: FileEntry[]
+  sketchFile: FileEntry
+  entries: { [key: string]: ZipEntry }
 }> => {
   const { entries } = await unzip(zip)
   const filePaths = Object.keys(entries)
   const htmlFiles: Array<FileEntry> = [],
-    jsFiles: Array<FileEntry> = [],
-    cssFiles: Array<FileEntry> = []
+    jsFiles: Array<FileEntry> = []
 
   let commonPrefix = ''
 
@@ -70,62 +70,81 @@ export const extractAssetsFromZip = async (
     // Categorize files based on extension
     if (path.endsWith('index.html')) {
       htmlFiles.push({ path: adjustedPath, content })
-    } else if (path.endsWith('.js')) {
+    } else if (path.endsWith(config.sketchFile)) {
       jsFiles.push({ path: adjustedPath, content })
-    } else if (path.endsWith('.css')) {
-      cssFiles.push({ path: adjustedPath, content })
     }
   }
 
   return {
     indexFile: htmlFiles[0],
-    jsFiles,
-    cssFiles,
+    sketchFile: jsFiles[0],
+    entries,
   }
 }
 
-export const createSandboxAssets = (
+const cleanFileName = (path) => {
+  const parts = path.split('/')
+  return parts[parts.length - 1] // Returns only the file name
+}
+
+const createBlobUrlForEntry = async (entry, mimeType) => {
+  const blob = await entry.blob()
+  const typedBlob = new Blob([blob], { type: mimeType })
+  return URL.createObjectURL(typedBlob)
+}
+
+// process and add a single asset to the assets array
+const processAsset = async (element, entries, assets) => {
+  const srcOrHref = element.getAttribute('src') ?? element.getAttribute('href')
+  const isExternal = srcOrHref.startsWith('http')
+  const mimeType =
+    element.tagName.toLowerCase() === 'script' ? 'text/javascript' : 'text/css'
+  const location =
+    element.parentNode.tagName.toLowerCase() === 'head' ? 'head' : 'body'
+
+  const asset: AssetMessage = {
+    type: element.tagName.toLowerCase() === 'script' ? 'script' : 'style',
+    location: location,
+    src: srcOrHref,
+    originalSrc: srcOrHref,
+  }
+
+  if (isExternal) {
+    assets.push(asset)
+
+    return
+  }
+
+  const cleanName = cleanFileName(srcOrHref)
+  const matchingEntryKey = Object.keys(entries).find((key) =>
+    key.endsWith(cleanName),
+  )
+  if (matchingEntryKey) {
+    const blobUrl = await createBlobUrlForEntry(
+      entries[matchingEntryKey],
+      mimeType,
+    )
+    asset.src = blobUrl
+
+    assets.push(asset)
+  }
+}
+
+export const createSandboxAssets = async (
   indexFile: FileEntry,
-  jsFiles: FileEntry[],
-  cssFiles: FileEntry[],
+  entries: { [key: string]: ZipEntry },
 ) => {
   const assets: Array<AssetMessage> = []
   const htmlContent = indexFile.content
   const parser = new DOMParser()
   const doc = parser.parseFromString(htmlContent, 'text/html')
 
-  // External JS and CSS already in HTML
-  doc
-    .querySelectorAll(
-      'script[src^="http"], link[rel="stylesheet"][href^="http"]',
-    )
-    .forEach((element) => {
-      if (element.tagName.toLowerCase() === 'script') {
-        const scriptElement = element as HTMLScriptElement
-        assets.push({
-          type: 'script',
-          location: 'head',
-          src: scriptElement.src,
-        })
-      } else if (element.tagName.toLowerCase() === 'link') {
-        const linkElement = element as HTMLLinkElement
-        assets.push({ type: 'style', location: 'head', src: linkElement.href })
-      }
-    })
+  const assetElements = Array.from(
+    doc.querySelectorAll('script[src], link[rel="stylesheet"][href]'),
+  )
 
-  // Local JS files
-  jsFiles.forEach(({ content }) => {
-    const blob = new Blob([content], { type: 'text/javascript' })
-    const url = URL.createObjectURL(blob)
-    assets.push({ type: 'script', location: 'body', src: url })
-  })
-
-  // Local CSS files
-  cssFiles.forEach(({ content }) => {
-    const blob = new Blob([content], { type: 'text/css' })
-    const url = URL.createObjectURL(blob)
-    assets.push({ type: 'style', location: 'head', src: url })
-  })
-
+  for (const element of assetElements) {
+    await processAsset(element, entries, assets)
+  }
   return assets
 }

@@ -37,21 +37,23 @@
     <div v-if="selectedFile">
       <p>{{ $t('codeChecker.exportVariations') }}</p>
       <div class="mt-4 flex gap-4">
-        <NeoButton no-shadow class="flex-grow" @click="() => {}">{{
-          `Export ${fileName} as PNG`
-        }}</NeoButton>
-        <NeoDropdown v-model="selectedVariation" class="w-[3.5rem]">
+        <NeoButton
+          no-shadow
+          class="flex-grow text-ellipsis overflow-hidden"
+          @click="() => {}">
+          {{ `Export ${fileName} as PNG` }}
+        </NeoButton>
+        <NeoDropdown v-model="selectedVariation">
           <template #trigger="{ active }">
             <NeoButton
               :label="`${selectedVariation}X`"
-              class="w-full"
+              class="w-[4rem]"
               no-shadow
               :active="active" />
           </template>
           <NeoDropdownItem
             v-for="option in variationOptions"
             :key="option"
-            class="w-[3.5rem]"
             :value="option">
             {{ `${option}X` }}
           </NeoDropdownItem>
@@ -93,5 +95,9 @@ const selectedVariation = ref(variationOptions[0])
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
   min-width: fit-content !important;
+}
+:deep(.o-btn__label) {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

@@ -19,11 +19,13 @@
       </template>
       <template v-else>
         <div class="flex justify-between items-center">
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-4 overflow-hidden">
             <NeoIcon
               icon="code"
               class="border py-3 px-[10px] rounded-full text-k-grey" />
-            <span>{{ fileName ?? selectedFile.name }}</span>
+            <span class="text-ellipsis overflow-hidden">{{
+              fileName ?? selectedFile.name
+            }}</span>
           </div>
           <NeoButton
             class="text-neutral-7"

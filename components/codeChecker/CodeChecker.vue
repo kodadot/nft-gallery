@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap h-lvh">
+  <div class="flex flex-wrap pb-44">
     <div class="w-1/2 flex flex-col gap-10">
       <!-- Content of the first column -->
       <div class="">
@@ -107,11 +107,10 @@
     <div class="w-1/2 flex flex-col items-end">
       <!-- Content of the second column -->
       <CodeCheckerPreviewCard
-        v-model:hash="hash"
         :selected-file="selectedFile"
         :file-name="fileName"
         :assets="assets"
-        :render="Boolean(selectedFile) && errorMessage == ''" />
+        :render="Boolean(selectedFile)" />
     </div>
   </div>
 </template>
@@ -157,10 +156,8 @@ const onFileSelected = async (file: File) => {
   clear()
   renderStartTime.value = performance.now()
   selectedFile.value = file
-  const { indexFile, jsFiles, cssFiles } = await extractAssetsFromZip(file)
-  const sketchFile = jsFiles.find((file) =>
-    file.path.includes(config.sketchFile),
-  )
+  const { indexFile, sketchFile, entries } = await extractAssetsFromZip(file)
+
   if (!sketchFile) {
     errorMessage.value = `Sketch file not found: ${config.sketchFile}`
     return
@@ -168,11 +165,11 @@ const onFileSelected = async (file: File) => {
   const valid = validate(indexFile.content, sketchFile.content)
   if (!valid[0]) {
     errorMessage.value = valid[2] ?? 'Unknown error'
-    return
+  } else {
+    Object.assign(fileValidity, valid[1])
   }
-  Object.assign(fileValidity, valid[1])
 
-  assets.value = createSandboxAssets(indexFile, jsFiles, cssFiles)
+  assets.value = await createSandboxAssets(indexFile, entries)
 }
 
 const clear = () => {

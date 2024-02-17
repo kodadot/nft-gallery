@@ -13,7 +13,7 @@ export const validate = (
   htmlFileContent: string,
   sketchFileContent: string,
 ): [boolean, Omit<Validity, 'renderDurationValid'>?, string?] => {
-  const canvasRegex = /createCanvas\(([^,]+),\s*([^)]+)\)(,\s*WEBGL)?\)/
+  const canvasRegex = /createCanvas\(([^,]+),\s*([^)]+)(,\s*WEBGL)?\)/
   const localP5JsRegex = /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/
   const paramsRegex = /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/
   const kodaRendererRegex = /kodahash\/render\/completed/
