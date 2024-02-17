@@ -27,6 +27,12 @@ export default () => {
 
   onBeforeMount(getUserStats)
 
+  watch(accountId, (value) => {
+    if (!value) {
+      totalSpent.value = 0
+    }
+  })
+
   return {
     totalSpent,
     getUserStats,
