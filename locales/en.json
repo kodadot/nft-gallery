@@ -1748,7 +1748,7 @@
     "canvasSize": "Canvas Size",
     "webglSupported": "WebGL Supported",
     "local": "Local",
-    "automaticResize": "Automatic Sizing - Responsivness",
+    "automaticResize": "Automatic Sizing - Responsiveness",
     "usingKodaHash": "Using Kodahash Render",
     "usingParamHash": "param hash from url for rendering",
     "newHash": "New Hash",
