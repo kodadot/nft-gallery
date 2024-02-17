@@ -75,7 +75,7 @@
 
   <CursorParty
     :connections="connections"
-    :ghost-on-elements="['#generative-preview-card']"
+    :ghost-on-elements="['generative-preview-card']"
     :label-formatter="labelFormatter" />
 </template>
 
@@ -117,20 +117,20 @@ const props = withDefaults(
 )
 
 const { chainSymbol, decimals } = useChain()
+const { totalSpent, getUserStats } = useUserStats()
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const currentUserSpent = computed(
-  () => props.userMintedCount * (Number(props.drop?.price) || 0),
-)
 const { connections } = useCursorParty({
   room: computed(() => props.drop.alias),
-  spent: currentUserSpent,
+  spent: totalSpent,
 })
 
 const labelFormatter = (connection: UserDetails) =>
   `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value)} ${chainSymbol.value}`
+
+watch(() => props.userMintedCount, getUserStats)
 </script>
