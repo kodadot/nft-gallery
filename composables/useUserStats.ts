@@ -1,4 +1,5 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
+import { Event } from '@/components/rmrk/service/types'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()
