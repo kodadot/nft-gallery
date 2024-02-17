@@ -42,6 +42,28 @@
           </div>
         </div>
 
+        <!-- related active drop -->
+        <div v-else-if="relatedDrop">
+          <div
+            class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
+            <div class="flex items-center">
+              <span class="relative flex h-3 w-3 mr-2">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-k-primary opacity-75"></span>
+                <span
+                  class="relative inline-flex rounded-full h-3 w-3 bg-k-primary"></span>
+              </span>
+              <span> {{ $t('drops.mintingLive') }} </span>
+            </div>
+            <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
+            <nuxt-link
+              class="flex items-center font-bold my-2"
+              :to="`/${relatedDrop.chain}/drops/${relatedDrop.alias}`">
+              {{ $t('drops.viewDrop') }}
+            </nuxt-link>
+          </div>
+        </div>
+
         <HeroButtons class="is-hidden-mobile self-end lg:flex-1" />
       </div>
     </section>
@@ -56,12 +78,15 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { useReadyItems } from '@/composables/useMigrate'
+import { useRelatedActiveDrop } from '@/components/drops/useDrops'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const collectionId = computed(() => route.params.id)
+const collectionId = computed(() => route.params.id as string)
 const route = useRoute()
+const { urlPrefix } = usePrefix()
 const { entities } = useReadyItems()
+const relatedDrop = useRelatedActiveDrop(collectionId.value, urlPrefix.value)
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
