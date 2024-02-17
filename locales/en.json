@@ -1435,7 +1435,14 @@
     "claimPhysicalDrop": "Claim Physical Drop"
   },
   "drops": {
-    "title": "Drops",
+    "title": "Generative Drops",
+    "drops": "Drops",
+    "pastArtDrops": "Past Art Drops",
+    "createYourOwn": "Create your own",
+    "everyThursday": "Every Thursday",
+    "addToCal": "Add To Cal",
+    "createACalendarEvent": "Create A Calendar Event",
+    "kodadotWeeklyGenerativeDrop": "Kodadot weekly generative drop",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
@@ -1629,7 +1636,8 @@
     "waiting": "Awaiting Your Signature",
     "noSignatureRequired": "Signature not needed",
     "uploading": "Uploading data to IPFS",
-    "finishAbove": "Finish steps above first"
+    "finishAbove": "Finish steps above first",
+    "broadcastingTx": "Broadcasting tx"
   },
   "autoTeleport": {
     "bridging": "Bridging",
@@ -1726,5 +1734,8 @@
     "buyingNft": "Buying NFT | Buying NFTs",
     "purchaseSuccessful": "Purchase successful",
     "amountPurchaseSuccessfully": "{0} NFTs purchased successfully"
+  },
+  "collectionCreatedModal": {
+    "title": "Collection Created Successfully"
   }
 }

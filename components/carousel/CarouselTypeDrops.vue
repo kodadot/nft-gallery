@@ -2,6 +2,7 @@
   <div>
     <CarouselModuleCarouselAgnostic
       v-if="isReady"
+      :key="dropsAlias.join('-')"
       v-slot="{ item }"
       :items="drops"
       :step="steps"
@@ -27,10 +28,10 @@ const DROP_SKELETON_COUNT = 3
 const breakpoints: CarouseBreakpointsConfig = {
   '640px': { slides: { perView: 1.2, spacing: 16 } },
   '768px': {
-    slides: { perView: 2.2, spacing: 16 },
+    slides: { perView: 1.2, spacing: 16 },
   },
   '1024px': {
-    slides: { perView: 3, spacing: 32 },
+    slides: { perView: 2.2, spacing: 16 },
   },
   '1280px': {
     slides: { perView: 3, spacing: 32 },
@@ -40,10 +41,22 @@ const breakpoints: CarouseBreakpointsConfig = {
   },
 }
 
-const { drops, loaded: isReady } = useDrops({
+let queries = {
   limit: 6,
-  active: [true, false],
-})
+  active: [true],
+  chain: ['ahp'],
+}
+
+if (!isProduction) {
+  queries = {
+    limit: 12,
+    active: [true, false],
+    chain: ['ahp', 'ahk'],
+  }
+}
+
+const { drops, loaded: isReady } = useDrops(queries)
+const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
 const { width } = useWindowSize()
 
 const steps = computed(() => {

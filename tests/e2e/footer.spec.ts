@@ -104,7 +104,7 @@ test('Check blog link', async ({ page }) => {
   await page.goto(pageWithFooter)
   const footer = page.getByTestId('footer-container')
   await footer.getByRole('link', { name: 'Blog' }).click()
-  await expect(page).toHaveURL('http://localhost:9090/blog')
+  await expect(page).toHaveURL('/blog')
 })
 
 test('Check Social Media Links', async ({ page }) => {

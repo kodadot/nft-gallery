@@ -1,11 +1,11 @@
 <template>
   <section class="pt-6 md:!pt-[3.5rem]">
-    <img
-      src="/landing-blur.svg"
-      alt="Hero banner background blur"
-      class="absolute -translate-x-2/4 left-2/4 top-0 scale-150 md:scale-125 md:top-[-6rem] pointer-events-none" />
-
     <div class="relative">
+      <img
+        src="/landing-blur.svg"
+        alt="Hero banner background blur"
+        class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none" />
+
       <h1
         class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
         <div>
@@ -28,31 +28,13 @@
     </div>
 
     <div class="container is-fluid mt-6 md:mt-8 mb-16">
-      <LazyCarouselTypeDrops />
+      <CarouselTypeDrops />
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.inverse-text {
-  letter-spacing: -0.02em;
-  @include ktheme() {
-    color: theme('text-color-inverse');
-    text-shadow:
-      1px 1px 0 theme('text-color'),
-      1px -1px 0 theme('text-color'),
-      -1px 1px 0 theme('text-color'),
-      -1px -1px 0 theme('text-color'),
-      1px 0px 0 theme('text-color'),
-      0px 1px 0 theme('text-color'),
-      -1px 0px 0 theme('text-color'),
-      0px -1px 0 theme('text-color'),
-      4px 4px theme('text-color');
-  }
-}
-
 .with-divider {
   display: flex;
   align-items: center;
