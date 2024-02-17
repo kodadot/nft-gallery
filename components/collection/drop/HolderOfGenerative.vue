@@ -112,7 +112,7 @@ const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals } = useChain()
-
+const runtimeMintedCount = ref(0)
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
@@ -206,7 +206,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       },
     }).then((res) => res.data.value),
   {
-    watch: [accountId],
+    watch: [accountId, runtimeMintedCount],
   },
 )
 
@@ -331,7 +331,9 @@ const allocateRaffle = async () => {
     metadata: metadata,
   }
 
-  // claim previous ID first. else, allocate new raffle
+  const response = await allocateCollection(body, props.drop.id)
+  raffleId.value = response.result.id
+
   if (
     currentAccountMintedToken.value?.id &&
     !currentAccountMintedToken.value?.claimed
@@ -340,10 +342,6 @@ const allocateRaffle = async () => {
     body.hash = currentAccountMintedToken.value?.hash || body.hash
     body.image = currentAccountMintedToken.value?.image || body.image
     body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
-    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
-  } else {
-    const response = await allocateCollection(body, props.drop.id)
-    raffleId.value = response.result.id
   }
 
   isLoading.value = false
@@ -414,6 +412,7 @@ const submitMint = async (sn: string) => {
     }
 
     isSuccessModalActive.value = true
+    runtimeMintedCount.value += 1
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -457,7 +456,12 @@ const handleList = () => {
   listMintedNft()
 }
 
-watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
+watch([holderOfCollectionData, runtimeMintedCount], checkAvailableNfts, {
+  immediate: true,
+})
+watch(runtimeMintedCount, fetchDropStatus, {
+  immediate: true,
+})
 </script>
 
 <style scoped lang="scss">
