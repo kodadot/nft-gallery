@@ -27,20 +27,18 @@
         </button>
         <nuxt-link
           v-if="urlPrefix === 'ahk'"
-          :class="{ 'pack-box-waifu p-0 relative': !isMobile }"
-          class="pack-box flex items-center justify-center"
+          class="pack-box flex items-center justify-center md:pack-box-waifu p-0 relative"
           :to="`/${urlPrefix}/waifu`">
           <div
-            :class="{
-              'flex h-full pack-content-waifu text-center flex-col': !isMobile,
-              'pack-content': isMobile,
-            }">
+            class="sm:max-md:md:pack-content md:flex md:h-full md:pack-content-waifu md:text-center md:flex-col">
             <img
-              v-if="!isMobile"
               :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
-              class="svg-one"
+              class="svg-one invisible md:visible"
               alt="Create Waifu NFT" />
-            <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
+            <NeoIcon
+              class="visible md:invisible"
+              icon="wand-magic-sparkles"
+              custom-size="fa-3x" />
 
             <div class="px-3 flex h-full flex-col justify-center">
               <p class="text-2xl font-bold">
@@ -51,8 +49,7 @@
           </div>
 
           <div
-            v-if="!isMobile"
-            class="time-limit absolute rounded-[6rem] top-4 px-2 py-1gi">
+            class="time-limit absolute rounded-[6rem] top-4 px-2 py-1gi invisible md:visible">
             <span class="text-xs">{{ $t('navbar.create.timeLimit') }}</span>
           </div>
         </nuxt-link>
