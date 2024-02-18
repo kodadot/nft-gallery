@@ -43,12 +43,11 @@ const validateGetURLParamsUsage = (
 const validateURLSearchParamsUsage = (
   sketchFileContent: string,
 ): Result<RegExpExecArray> => {
-  debugger
   const match = constants.urlSearchParamsRegex.exec(sketchFileContent)
   if (match) {
     // Check if the 'hash' parameter is accessed using the captured variable name.
     const hashAccessMatch = new RegExp(
-      `${match[2]}\.get\\(['"\`]hash['"\`]\\)`,
+      `${match[2]}.get\\(['"\`]hash['"\`]\\)`,
     ).test(sketchFileContent)
 
     return hashAccessMatch

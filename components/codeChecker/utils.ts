@@ -30,7 +30,6 @@ const extractAssetAttributes = (
     element.tagName.toLowerCase() === 'script' ? 'text/javascript' : 'text/css'
   const parent =
     element.parentNode?.nodeName.toLowerCase() === 'head' ? 'head' : 'body'
-  console.log('element.parentNode?.nodeName', element.parentNode?.nodeName)
 
   return { srcOrHref, isExternal, mimeType, parent: parent }
 }
