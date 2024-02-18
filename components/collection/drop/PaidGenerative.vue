@@ -270,7 +270,11 @@ const mintNft = async () => {
     ]
 
     mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args)
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
@@ -395,7 +399,6 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
-      txHash: result.txHash.versionstamp,
       collectionName: collectionName.value as string,
     }
   } catch (error) {
