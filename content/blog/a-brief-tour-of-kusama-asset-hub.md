@@ -8,7 +8,7 @@ subtitle: 'The chain that puts the community first.'
 
 ## What is the Polkadot Asset Hub?
 
- Polkadot Asset Hub (formerly Statemint) is a parachain on Polkadot for creating and sending fungible and non-fungible tokens, with the native token being DOT. Its Kusama equivalent is the similarly named Kusama Asset Hub (formerly Statemine). It connects directly to the Relay Chain, enabling easy exchange of information and assets between parachains. This sounds nice and all, but how is it any different from other chains on the Polkadot network?
+Polkadot Asset Hub (formerly Statemint) is a parachain on Polkadot for creating and sending fungible and non-fungible tokens, with the native token being DOT. Its Kusama equivalent is the similarly named Kusama Asset Hub (formerly Statemine). It connects directly to the Relay Chain, enabling easy exchange of information and assets between parachains. This sounds nice and all, but how is it any different from other chains on the Polkadot network?
 
 ## Why Asset Hub?
 
