@@ -2,7 +2,7 @@
   <NeoDropdown position="bottom-left" :mobile-modal="mobileModal">
     <template #trigger="{ active }">
       <NeoButton
-        :class="isMobile ? 'icon-action' : ''"
+        class="sm:max-md:icon-action"
         :label="label"
         :icon="icon"
         :no-shadow="noShadow"
