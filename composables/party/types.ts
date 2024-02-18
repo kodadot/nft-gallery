@@ -10,6 +10,8 @@ export type UserDetails = {
   spent?: number
 } & Cursor
 
+export type MaybeUserDetails = UserDetails | null
+
 export type UpdateMessage = {
   type: 'update'
   details: UserDetails
@@ -22,5 +24,5 @@ export type RemoveMessage = {
 
 export type SyncMessage = {
   type: 'sync'
-  connections: UserDetails[]
+  connections: Record<string, MaybeUserDetails>
 }
