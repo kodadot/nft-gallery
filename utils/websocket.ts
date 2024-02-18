@@ -16,5 +16,9 @@ export const getWSUrlByClient = (client: string): string | null => {
     return 'wss://squid.subsquid.io/speck/graphql'
   }
 
+  if (httpEndpoint === INDEXERS.ksm) {
+    return 'wss://squid.subsquid.io/marck/v/v2/graphql'
+  }
+
   return httpEndpoint.replace('https://', 'wss://').replace('http://', 'wss://')
 }
