@@ -9,8 +9,11 @@ type HtmlContentValidationResult = {
 type InnerValidity = Omit<Validity, 'renderDurationValid'>
 
 const constants = {
-  canvasRegex: /createCanvas\(([^,]+),\s*([^)]+)(,\s*WEBGL)?\)/,
-  paramsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
+  canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
+  getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
+  urlSearchParamsRegex:
+    /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
+  hashAccessRegex: /(\w+)\.get\(['"`]hash['"`]\)/,
   localP5JsRegex: /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/,
   titleTagRegex: /<title>(.*?)<\/title>/,
   kodaRendererRegex: /kodahash\/render\/completed/,
@@ -28,17 +31,43 @@ const validateCanvasCreation = (
   return { isSuccess: true, value: canvasMatch }
 }
 
+const validateGetURLParamsUsage = (
+  sketchFileContent: string,
+): Result<RegExpExecArray> => {
+  const match = constants.getUrlParamsRegex.exec(sketchFileContent)
+  return match
+    ? { isSuccess: true, value: match }
+    : { isSuccess: false, error: 'getURLParams() usage not found.' }
+}
+
+const validateURLSearchParamsUsage = (
+  sketchFileContent: string,
+): Result<RegExpExecArray> => {
+  debugger
+  const match = constants.urlSearchParamsRegex.exec(sketchFileContent)
+  if (match) {
+    // Check if the 'hash' parameter is accessed using the captured variable name.
+    const hashAccessMatch = new RegExp(
+      `${match[2]}\.get\\(['"\`]hash['"\`]\\)`,
+    ).test(sketchFileContent)
+
+    return hashAccessMatch
+      ? { isSuccess: true, value: match }
+      : {
+          isSuccess: false,
+          error: "URLSearchParams used but 'hash' parameter not accessed.",
+        }
+  }
+  return { isSuccess: false, error: 'URLSearchParams usage not found.' }
+}
+
 const validateURLParamsUsage = (
   sketchFileContent: string,
 ): Result<RegExpExecArray> => {
-  const paramsMatch = constants.paramsRegex.exec(sketchFileContent)
-  if (!paramsMatch) {
-    return {
-      isSuccess: false,
-      error: 'Not using params. Please use getURLParams() in p5.js.',
-    }
-  }
-  return { isSuccess: true, value: paramsMatch }
+  const result = validateGetURLParamsUsage(sketchFileContent)
+  return result.isSuccess
+    ? result
+    : validateURLSearchParamsUsage(sketchFileContent)
 }
 
 const validateHtmlContent = (
@@ -56,8 +85,7 @@ const validateHtmlContent = (
 const validateSketchContent = (
   sketchFileContent: string,
   canvasMatch: RegExpExecArray,
-  variableName: string,
-): InnerValidity => {
+): Omit<Validity, 'renderDurationValid' | 'usesHashParam'> => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
   const isNumericWidth = /^\d+$/.test(width)
@@ -65,16 +93,14 @@ const validateSketchContent = (
   const canvasSize =
     isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
 
-  const validity = {
+  return {
     canvasSize,
     webGLSupported: !!canvasMatch[3],
     localP5jsUsed: false, // This will be set based on HTML content checks
     validTitle: false, // This will be updated after HTML content checks
     kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
     resizerUsed: constants.resizerRegex.test(sketchFileContent),
-    usesHashParam: new RegExp(`${variableName}\\.hash`).test(sketchFileContent),
   }
-  return validity
 }
 
 export const validate = (
@@ -91,16 +117,18 @@ export const validate = (
     return paramsResult
   }
   const htmlValidationResult = validateHtmlContent(htmlFileContent)
-  const validity = validateSketchContent(
+  const partialValidity = validateSketchContent(
     sketchFileContent,
-    paramsResult.value,
-    paramsResult.value[2],
+    canvasResult.value,
   )
 
-  // Update validity based on HTML content checks
-  validity.localP5jsUsed = htmlValidationResult.localP5jsUsed
-  validity.validTitle =
-    htmlValidationResult.titlePresent && htmlValidationResult.titleIsKodaHash
+  const validity: InnerValidity = {
+    ...partialValidity,
+    usesHashParam: paramsResult.isSuccess,
+    localP5jsUsed: htmlValidationResult.localP5jsUsed,
+    validTitle:
+      htmlValidationResult.titlePresent && htmlValidationResult.titleIsKodaHash,
+  }
 
   return { isSuccess: true, value: validity }
 }
