@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { Passed } from './validate'
+import { Passed } from './types'
 
 const props = defineProps<{
   passed: Passed

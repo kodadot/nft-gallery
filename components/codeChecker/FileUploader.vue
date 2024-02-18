@@ -14,7 +14,9 @@
             >Drag Your <b class="mr-1">.Zip File</b> Here Or Click To
             Select</span
           >
-          <span class="text-k-grey">Supported formats: .js, .frag, .vert</span>
+          <span class="text-k-grey">{{
+            $t('codeChecker.supportedFormats')
+          }}</span>
         </div>
       </template>
       <template v-else>

@@ -1,69 +1,106 @@
-export type Passed = boolean | 'loading' | 'unknown'
+import { Result, Validity } from './types'
 
-export type Validity = {
-  canvasSize: string
-  webGLSupported: boolean
+type HtmlContentValidationResult = {
   localP5jsUsed: boolean
-  kodaRendererUsed: Passed
-  resizerUsed: boolean
-  usesHashParam: boolean
-  validTitle: boolean
-  renderDurationValid: Passed
+  titlePresent: boolean
+  titleIsKodaHash: boolean
+}
+
+type InnerValidity = Omit<Validity, 'renderDurationValid'>
+
+const constants = {
+  canvasRegex: /createCanvas\(([^,]+),\s*([^)]+)(,\s*WEBGL)?\)/,
+  paramsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
+  localP5JsRegex: /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/,
+  titleTagRegex: /<title>(.*?)<\/title>/,
+  kodaRendererRegex: /kodahash\/render\/completed/,
+  resizerRegex: /resizeCanvas\(/,
+  titleExpected: 'KodaHash',
+}
+
+const validateCanvasCreation = (
+  sketchFileContent: string,
+): Result<RegExpExecArray> => {
+  const canvasMatch = constants.canvasRegex.exec(sketchFileContent)
+  if (!canvasMatch) {
+    return { isSuccess: false, error: 'createCanvas function not found.' }
+  }
+  return { isSuccess: true, value: canvasMatch }
+}
+
+const validateURLParamsUsage = (
+  sketchFileContent: string,
+): Result<RegExpExecArray> => {
+  const paramsMatch = constants.paramsRegex.exec(sketchFileContent)
+  if (!paramsMatch) {
+    return {
+      isSuccess: false,
+      error: 'Not using params. Please use getURLParams() in p5.js.',
+    }
+  }
+  return { isSuccess: true, value: paramsMatch }
+}
+
+const validateHtmlContent = (
+  htmlFileContent: string,
+): HtmlContentValidationResult => {
+  const localP5jsUsed = constants.localP5JsRegex.test(htmlFileContent)
+  const titleTagMatch = constants.titleTagRegex.exec(htmlFileContent)
+  const titlePresent = Boolean(titleTagMatch)
+  const titleIsKodaHash = titleTagMatch
+    ? titleTagMatch[1].trim() === constants.titleExpected
+    : false
+  return { localP5jsUsed, titlePresent, titleIsKodaHash }
+}
+
+const validateSketchContent = (
+  sketchFileContent: string,
+  canvasMatch: RegExpExecArray,
+  variableName: string,
+): InnerValidity => {
+  const width = canvasMatch[1].trim()
+  const height = canvasMatch[2].trim()
+  const isNumericWidth = /^\d+$/.test(width)
+  const isNumericHeight = /^\d+$/.test(height)
+  const canvasSize =
+    isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
+
+  const validity = {
+    canvasSize,
+    webGLSupported: !!canvasMatch[3],
+    localP5jsUsed: false, // This will be set based on HTML content checks
+    validTitle: false, // This will be updated after HTML content checks
+    kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
+    resizerUsed: constants.resizerRegex.test(sketchFileContent),
+    usesHashParam: new RegExp(`${variableName}\\.hash`).test(sketchFileContent),
+  }
+  return validity
 }
 
 export const validate = (
   htmlFileContent: string,
   sketchFileContent: string,
-): [boolean, Omit<Validity, 'renderDurationValid'>?, string?] => {
-  const canvasRegex = /createCanvas\(([^,]+),\s*([^)]+)(,\s*WEBGL)?\)/
-  const localP5JsRegex = /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/
-  const paramsRegex = /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/
-  const kodaRendererRegex = /kodahash\/render\/completed/
-  const resizerRegex = /resizeCanvas\(/
-  const titleTagRegex = /<title>(.*?)<\/title>/
-
-  // Check for canvas creation
-  const canvasMatch = RegExp(canvasRegex).exec(sketchFileContent)
-  if (!canvasMatch) {
-    return [false, undefined, 'createCanvas function not found.']
+): Result<Omit<Validity, 'renderDurationValid'>> => {
+  const canvasResult = validateCanvasCreation(sketchFileContent)
+  if (!canvasResult.isSuccess) {
+    return canvasResult
   }
 
-  const paramsMatch = paramsRegex.exec(sketchFileContent)
-  if (!paramsMatch) {
-    return [
-      false,
-      undefined,
-      'Not using params please use getURLParams() in p5.js',
-    ]
+  const paramsResult = validateURLParamsUsage(sketchFileContent)
+  if (!paramsResult.isSuccess) {
+    return paramsResult
   }
+  const htmlValidationResult = validateHtmlContent(htmlFileContent)
+  const validity = validateSketchContent(
+    sketchFileContent,
+    paramsResult.value,
+    paramsResult.value[2],
+  )
 
-  // HTML content checks
-  const titleTagMatch = titleTagRegex.exec(htmlFileContent)
-  const localP5jsUsed = localP5JsRegex.test(htmlFileContent)
-  const titlePresent = Boolean(titleTagMatch)
-  const titleIsKodaHash = titleTagMatch
-    ? titleTagMatch[1].trim() === 'KodaHash'
-    : false
+  // Update validity based on HTML content checks
+  validity.localP5jsUsed = htmlValidationResult.localP5jsUsed
+  validity.validTitle =
+    htmlValidationResult.titlePresent && htmlValidationResult.titleIsKodaHash
 
-  const variableName = paramsMatch[2]
-
-  const width = canvasMatch[1].trim()
-  const height = canvasMatch[2].trim()
-  const isNumericWidth = /^\d+$/.test(width)
-  const isNumericHeight = /^\d+$/.test(height)
-
-  const canvasSize =
-    isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
-
-  const validity: Omit<Validity, 'renderDurationValid'> = {
-    canvasSize,
-    webGLSupported: !!canvasMatch[3],
-    localP5jsUsed,
-    validTitle: titlePresent && titleIsKodaHash,
-    kodaRendererUsed: kodaRendererRegex.test(sketchFileContent),
-    resizerUsed: resizerRegex.test(sketchFileContent),
-    usesHashParam: new RegExp(`${variableName}\\.hash`).test(sketchFileContent),
-  }
-
-  return [true, validity]
+  return { isSuccess: true, value: validity }
 }

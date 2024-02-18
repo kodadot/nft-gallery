@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="w-2/3">
+      <div class="">
         <h2 class="mb-3 title is-4">{{ $t('codeChecker.upload') }}</h2>
         <p class="mb-4">
           {{ $t('codeChecker.uploadInstructions') }}
@@ -91,7 +91,7 @@
           :description="$t('codeChecker.automaticResize')" />
         <CodeCheckerTestItem
           :passed="fileValidity.validTitle"
-          :description="'Correct HTML name'" />
+          :description="$t('codeChecker.correctHTMLName')" />
         <CodeCheckerTestItem
           :passed="fileValidity.kodaRendererUsed"
           :description="$t('codeChecker.usingKodaHash')" />
@@ -100,7 +100,11 @@
           :description="$t('codeChecker.usingParamHash')" />
         <CodeCheckerTestItem
           :passed="fileValidity.renderDurationValid"
-          :description="`Rendering duration less than ${(config.maxAllowedLoadTime / 1000).toFixed(0)} seconds`" />
+          :description="
+            $t('codeChecker.variationLoadingTime', [
+              (config.maxAllowedLoadTime / 1000).toFixed(0),
+            ])
+          " />
       </div>
     </div>
 
@@ -118,13 +122,10 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { Validity, validate } from './validate'
-import {
-  AssetMessage,
-  createSandboxAssets,
-  extractAssetsFromZip,
-} from './utils'
+import { validate } from './validate'
+import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
+import { AssetMessage, Validity } from './types'
 
 useEventListener(window, 'message', (res) => {
   if (res.data?.type === 'kodahash/render/completed') {
@@ -164,10 +165,10 @@ const onFileSelected = async (file: File) => {
     return
   }
   const valid = validate(indexFile.content, sketchFile.content)
-  if (!valid[0]) {
-    errorMessage.value = valid[2] ?? 'Unknown error'
+  if (!valid.isSuccess) {
+    errorMessage.value = valid.error ?? 'Unknown error'
   } else {
-    Object.assign(fileValidity, valid[1])
+    Object.assign(fileValidity, valid.value)
   }
 
   if (!fileValidity.kodaRendererUsed) {

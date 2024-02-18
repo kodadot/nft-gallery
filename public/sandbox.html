@@ -10,7 +10,7 @@
     <script>
         const loadAsset = (asset) => new Promise((resolve, reject) => {
             const element = document.createElement(asset.type === 'style' ? 'link' : 'script');
-            const parent = asset.location === 'head' ? document.head : document.body;
+            const parent = asset.parent === 'head' ? document.head : document.body;
             if (asset.type === 'style') {
                 element.rel = 'stylesheet';
                 element.href = asset.src;
