@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col md:flex-row justify-center gap-3 lg:py-20 lg:bg-k-primary-light">
+    class="lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light">
     <SigningModal
       v-if="!autoTeleport"
       :is-loading="isLoading"
@@ -15,7 +15,7 @@
       @confirm="confirm" />
 
     <form
-      class="px-8 sm:px-16 py-16 w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
+      class="px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
       @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"

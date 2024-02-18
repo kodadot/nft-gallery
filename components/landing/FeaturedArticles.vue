@@ -2,7 +2,7 @@
   <div>
     <div class="title is-2">{{ $t('general.featuredArticlesHeading') }}</div>
 
-    <div class="flex flex-col md:flex-row gap-3 mb-5">
+    <div class="flex flex-col md:flex-row gap-6 mb-5">
       <div
         v-for="article in articles.slice(0, 4)"
         :key="article.id"

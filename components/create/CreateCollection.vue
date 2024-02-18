@@ -1,8 +1,7 @@
 <template>
   <div
-    class="justify-center"
     :class="{
-      'flex flex-col md:flex-row gap-3 lg:py-20 lg:bg-k-primary-light':
+      'lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light':
         classColumn,
     }">
     <SigningModal
@@ -18,9 +17,8 @@
       :nft-information="collectionInformation"
       @confirm="handleCreateCollectionConfirmation" />
     <form
-      class="is-half"
       :class="{
-        'px-8 sm:px-16 py-16 flex-1 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
+        'px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
           classColumn,
       }"
       @submit.prevent="showConfirm">

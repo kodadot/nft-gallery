@@ -6,7 +6,7 @@
     :show-no-results="events.length > 0 && !displayedEvents.length"
     data-testid="nfts-event-table">
     <template #columns>
-      <div class="flex-1">
+      <div class="flex-1 mb-4">
         <span>{{ $t('activity.event.item') }}</span>
       </div>
       <div class="w-1/12">

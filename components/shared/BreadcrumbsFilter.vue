@@ -1,6 +1,6 @@
 <template>
   <NeoField grouped group-multiline>
-    <div class="flex flex-wrap gap-3">
+    <div class="flex flex-wrap gap-3 lg:mt-6">
       <template v-for="(value, key) in breads" :key="key">
         <NeoTag
           v-if="key === 'search'"
@@ -86,12 +86,10 @@ const collectionIdList = computed(
   () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(
-  () =>
-    collectionArray.value?.filter(
-      (collection) =>
-        collectionIdList.value?.find((id) => collection.id === id),
-    ),
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id),
+  ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()

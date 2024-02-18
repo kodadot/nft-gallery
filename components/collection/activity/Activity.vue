@@ -3,8 +3,8 @@
     <SidebarFilter />
     <div ref="wrapper" class="w-full mt-4">
       <div v-if="tablet">
-        <div class="flex flex-col md:flex-row gap-3">
-          <div class="w-2/3">
+        <div class="flex gap-4">
+          <div class="w-2/3 pr-2">
             <ActivityChart :events="events" class="mt-2" />
           </div>
           <div class="flex-1">

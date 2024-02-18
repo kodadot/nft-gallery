@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row gap-3 mb-2">
+  <div class="flex gap-2 py-[.65rem]">
     <div class="flex-1 overflow-clip">
       <div class="flex items-center">
         <nuxt-link
