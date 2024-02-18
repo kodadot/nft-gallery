@@ -13,7 +13,6 @@ const constants = {
   getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
   urlSearchParamsRegex:
     /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
-  hashAccessRegex: /(\w+)\.get\(['"`]hash['"`]\)/,
   localP5JsRegex: /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/,
   titleTagRegex: /<title>(.*?)<\/title>/,
   kodaRendererRegex: /kodahash\/render\/completed/,
