@@ -1,7 +1,6 @@
 <template>
   <div
-    class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col"
-    :class="{ 'carousel-info__mobile': $device.isMobile }">
+    class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col">
     <div
       :title="item.name"
       :class="[
@@ -12,7 +11,7 @@
       <span v-if="isCollection" class="text-text-color">----></span>
     </div>
 
-    <div v-if="item?.collectionId && !$device.isMobile" class="min-h-[1.5rem]">
+    <div v-if="item?.collectionId" class="min-h-[1.5rem] invisible md:visible">
       <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
@@ -45,7 +44,7 @@
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p v-if="!$device.isMobile" class="text-xs text-k-grey capitalize">
+      <p class="text-xs text-k-grey capitalize invisible md:visible">
         {{ chainName }}
       </p>
     </div>
