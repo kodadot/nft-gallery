@@ -104,9 +104,7 @@
                 :gallery-item="galleryItem" />
             </div>
 
-            <div
-              class="text-neutral-7 flex items-center"
-              :class="isMobile ? 'my-4' : 'my-6'">
+            <div class="text-neutral-7 flex items-center my-4 md:my-6">
               <NeoIcon pack="fasl" icon="eye" class="mr-1" />
               <span v-if="pageViewCount === null">--</span>
               <span v-else>{{ formatNumber(pageViewCount) }}</span>
@@ -115,8 +113,7 @@
             <div class="flex flex-row flex-wrap">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar"
-                :class="isMobile ? 'mr-4' : 'mr-8'"
+                class="gallery-avatar mr-4 md:mr-8"
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
@@ -135,19 +132,19 @@
           <hr />
           <template v-if="!nft?.burned">
             <UnlockableTag
-              v-if="isUnlockable && isMobile"
+              v-if="isUnlockable"
               :nft="nft"
               :link="unlockLink"
-              class="mt-4" />
+              class="mt-4 visible md:invisible" />
 
             <!-- price section -->
             <GalleryItemHolderOf v-if="nft && isAssetHub" :nft="nft" />
             <GalleryItemAction :nft="nft" />
             <UnlockableTag
-              v-if="isUnlockable && !isMobile"
+              v-if="isUnlockable"
               :link="unlockLink"
               :nft="nft"
-              class="mt-7" />
+              class="mt-7 invisible md:visible" />
           </template>
         </div>
       </div>
@@ -184,7 +181,7 @@ import {
   NeoCarouselItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { useFullscreen, useWindowSize } from '@vueuse/core'
+import { useFullscreen } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -231,9 +228,6 @@ const {
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
-
-const breakPointWidth = 930
-const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
 
 const tabs = {
   activity: '1',
