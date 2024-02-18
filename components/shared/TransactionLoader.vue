@@ -3,10 +3,10 @@
     :value="modelValue"
     :can-cancel="canCancel"
     :no-shadow="isMobile"
-    :content-class="[isMobile ? 'mobile-modal' : '']"
+    content-class="sm:max-md:mobile-modal"
     @close="emit('close')"
     @update:active="updateActive">
-    <div :class="{ 'desktop-width': !isMobile }">
+    <div class="md:desktop-width">
       <div v-if="isFinalStep" class="flex py-5 px-6 items-center">
         <div class="flex-grow text-center">{{ $t('success') }}</div>
         <NeoButton
