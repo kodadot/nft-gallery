@@ -1,13 +1,7 @@
 <template>
   <section class="flex justify-center">
     <div
-      :class="[
-        'transfer-card',
-        'w-full',
-        {
-          'bg-background-color k-shadow border py-8 px-7': !isMobile,
-        },
-      ]">
+      class="transfer-card w-full md:bg-background-color md:k-shadow md:border md:py-8 md:px-7">
       <TransactionLoader
         v-model="isLoaderModalVisible"
         :status="status"
@@ -109,7 +103,7 @@
 
       <hr />
 
-      <div v-if="!isMobile" class="flex">
+      <div class="flex invisible md:visible">
         <div class="font-bold text-base mb-3 flex-1 mr-2 flex-grow-[2]">
           {{ $t('transfers.recipient') }}
         </div>
@@ -123,35 +117,22 @@
           :key="index"
           class="mb-3">
           <div
-            v-if="isMobile"
-            class="font-bold text-base mb-3 flex items-center justify-between">
+            class="font-bold text-base mb-3 flex items-center justify-between visible md:invisible">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
               <NeoIcon class="p-3" icon="trash" />
             </a>
           </div>
-          <div
-            :class="[
-              'flex',
-              {
-                'flex-col': isMobile,
-              },
-            ]">
+          <div class="flex sm:max-md:flex-col">
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              class="flex-1 flex-grow-[2]"
-              :class="[
-                {
-                  'mr-2': !isMobile,
-                  'mb-2': isMobile,
-                },
-              ]"
+              class="flex-1 flex-grow-[2] sm:max-md:mb-2 md:mr-2"
               :strict="false"
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
-            <div class="flex-1" :class="{ 'flex flex-grow': !isMobile }">
+            <div class="flex-1 md:flex md:flex-grow">
               <div v-if="displayUnit === 'token'" class="relative">
                 <NeoInput
                   v-model="destinationAddress.token"
@@ -184,8 +165,8 @@
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
                 @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
-                v-if="!isMobile && targetAddresses.length > 1"
-                class="flex"
+                v-if="targetAddresses.length > 1"
+                class="flex invisible md:visible"
                 data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)">
                 <NeoIcon class="p-3" icon="trash" />
