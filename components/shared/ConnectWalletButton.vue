@@ -23,12 +23,12 @@ defineProps<{
 const { neoModal } = useProgrammatic()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+
+const { isMobile, isMobileOrTablet } = useDevice()
 const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
 
 const toggleWalletConnectModal = () => {
-  if (isMobile) {
+  if (isMobileOrTablet) {
     emit('closeBurgerMenu')
   } else {
     emit('toggleConnectModal')
@@ -43,9 +43,9 @@ const toggleWalletConnectModal = () => {
 
   let modalInstance = neoModal.open({
     ...ConnectWalletModalConfig,
-    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    ...(isMobile ? { animation: 'none' } : {}),
     onClose: (type: ModalCloseType) => {
-      if (isMobile && type === ModalCloseType.BACK) {
+      if (isMobileOrTablet && type === ModalCloseType.BACK) {
         emit('closeBurgerMenu')
       }
     },
