@@ -2,7 +2,7 @@
 date: 2024-02-15
 tags: Polkadot Asset Hub Statemint
 image: '/blog/a-brief-tour-of-kusama-asset-hub.webp'
-title: 'A brief tour of Asset Hub'
+title: 'A brief tour of Polkadot Asset Hub'
 subtitle: 'The chain that puts the community first.'
 ---
 
