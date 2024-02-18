@@ -17,13 +17,12 @@ const props = defineProps<{
 
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['closeBurgerMenu'])
-const isMobileOrTablet = ref(window.innerWidth < 1024)
-const isMobile = ref(window.innerWidth < 768)
+const { isMobile, isMobileOrTablet } = useDevice()
 
 const { neoModal } = useProgrammatic()
 
 function toggleNotificationModal() {
-  if (isMobileOrTablet.value) {
+  if (isMobileOrTablet) {
     emit('closeBurgerMenu')
   }
 
@@ -37,12 +36,12 @@ function toggleNotificationModal() {
         preferencesStore.setNotificationBoxCollapse(false)
       },
       onClose: (type: ModalCloseType) => {
-        if (isMobileOrTablet.value && type === ModalCloseType.BACK) {
+        if (isMobileOrTablet && type === ModalCloseType.BACK) {
           emit('closeBurgerMenu')
         }
       },
       ...NotificationBoxModalConfig,
-      ...(isMobile.value ? { animation: 'none' } : {}),
+      ...(isMobile ? { animation: 'none' } : {}),
     })
   }
 }
