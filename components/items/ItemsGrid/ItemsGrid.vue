@@ -97,6 +97,7 @@ const route = useRoute()
 const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
+  resetSearchDebounceTime?: number
   gridSection?: GridSection
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
@@ -151,7 +152,10 @@ const resetPage = () => {
   gotoPage(1)
 }
 
-const debouncedResetPage = useDebounceFn(resetPage, 500)
+const debouncedResetPage = useDebounceFn(
+  resetPage,
+  props.resetSearchDebounceTime || 0,
+)
 
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
@@ -210,6 +214,7 @@ onBeforeMount(() => {
     listingCartStore.clear()
   }
 
+  console.log('from here fetching')
   fetchSearch({
     page: startPage.value,
     search: parseSearch(props.search),
