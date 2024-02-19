@@ -31,7 +31,7 @@
       <span>{{ $t('codeChecker.currentHash') }}</span>
       <NeoInput
         v-model="hash"
-        class="w-full mt-4 border-k-shade"
+        class="w-full mt-4 border-k-shade text-ellipsis"
         placeholder="hash value" />
     </div>
     <div v-if="selectedFile">
@@ -72,9 +72,9 @@ import {
   NeoDropdownItem,
   NeoInput,
 } from '@kodadot1/brick'
-import { AssetMessage, generateRandomHash } from './utils'
+import { generateRandomHash } from './utils'
 import config from './codechecker.config'
-import { Passed } from './validate'
+import { AssetMessage, Passed } from './types'
 
 const props = defineProps<{
   selectedFile: File | null
@@ -90,8 +90,8 @@ const count = ref(0)
 const variationCounter = ref(0)
 const selectedVariation = ref(variationOptions[0])
 
-const newHash = async () => {
-  hash.value = await generateRandomHash()
+const newHash = () => {
+  hash.value = generateRandomHash()
 }
 
 onMounted(newHash)

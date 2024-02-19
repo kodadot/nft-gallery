@@ -1,6 +1,7 @@
 import { ZipEntry, unzip } from 'unzipit'
 import config from './codechecker.config'
 import { AssetMessage } from './types'
+import { blake2AsHex } from '@polkadot/util-crypto'
 
 type FileEntry = { path: string; content: string }
 
@@ -112,23 +113,11 @@ export const postAssetsToSandbox = (message: Array<AssetMessage>) => {
   }
 }
 
-export const generateRandomHash = async (
-  algorithm: AlgorithmIdentifier = 'SHA-1',
-) => {
+export const generateRandomHash = () => {
   const randomValue = window.crypto
     .getRandomValues(new Uint8Array(20))
     .toString()
-
-  const encoder = new TextEncoder()
-  const data = encoder.encode(randomValue)
-
-  const hashBuffer = await window.crypto.subtle.digest(algorithm, data)
-
-  // Convert the buffer to a hex string
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
-
-  return hashHex
+  return blake2AsHex(randomValue, 256, null, true)
 }
 
 export const extractAssetsFromZip = async (

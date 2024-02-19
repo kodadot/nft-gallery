@@ -3,7 +3,7 @@ import { Result, Validity } from './types'
 type HtmlContentValidationResult = {
   localP5jsUsed: boolean
   titlePresent: boolean
-  titleIsKodaHash: boolean
+  correctTitle: boolean
 }
 
 type InnerValidity = Omit<Validity, 'renderDurationValid'>
@@ -17,7 +17,7 @@ const constants = {
   titleTagRegex: /<title>(.*?)<\/title>/,
   kodaRendererRegex: /kodahash\/render\/completed/,
   resizerRegex: /resizeCanvas\(/,
-  titleExpected: 'KodaHash',
+  disallowedTitle: 'KodaHash',
 }
 
 const validateCanvasCreation = (
@@ -74,10 +74,10 @@ const validateHtmlContent = (
   const localP5jsUsed = constants.localP5JsRegex.test(htmlFileContent)
   const titleTagMatch = constants.titleTagRegex.exec(htmlFileContent)
   const titlePresent = Boolean(titleTagMatch)
-  const titleIsKodaHash = titleTagMatch
-    ? titleTagMatch[1].trim() === constants.titleExpected
+  const correctTitle = titleTagMatch
+    ? titleTagMatch[1].trim() !== constants.disallowedTitle
     : false
-  return { localP5jsUsed, titlePresent, titleIsKodaHash }
+  return { localP5jsUsed, titlePresent, correctTitle }
 }
 
 const validateSketchContent = (
@@ -125,7 +125,7 @@ export const validate = (
     usesHashParam: paramsResult.isSuccess,
     localP5jsUsed: htmlValidationResult.localP5jsUsed,
     validTitle:
-      htmlValidationResult.titlePresent && htmlValidationResult.titleIsKodaHash,
+      htmlValidationResult.titlePresent && htmlValidationResult.correctTitle,
   }
 
   return { isSuccess: true, value: validity }

@@ -11,8 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { AssetMessage, postAssetsToSandbox } from './utils'
+import { postAssetsToSandbox } from './utils'
 import config from './codechecker.config'
+import { AssetMessage } from './types'
 
 const props = defineProps<{
   hash: string
