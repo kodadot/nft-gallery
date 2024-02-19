@@ -214,7 +214,6 @@ onBeforeMount(() => {
     listingCartStore.clear()
   }
 
-  console.log('from here fetching')
   fetchSearch({
     page: startPage.value,
     search: parseSearch(props.search),
