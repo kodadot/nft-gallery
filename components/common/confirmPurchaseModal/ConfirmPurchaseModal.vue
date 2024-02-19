@@ -104,7 +104,14 @@ const isDisabledPurchasePrefix = isRemark
 const autoteleport = ref()
 const actions = computed(() => [props.action])
 
-const loading = computed(() => !autoteleport.value?.isReady || props.loading)
+const loading = ref(props.loading)
+
+watch(
+  () => autoteleport.value?.isReady,
+  (val) => {
+    loading.value = !val
+  },
+)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
