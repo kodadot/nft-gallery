@@ -1,14 +1,30 @@
 type Cursor = {
   x: number
   y: number
-  cursor?: 'touch' | 'mouse'
+  type?: 'touch' | 'mouse'
   lastUpdate?: number
+}
+
+export enum DropEventType {
+  DROP_GENERATING = 'drop_generating',
+  DROP_MINTING = 'drop_minting',
+  DROP_MINTED = 'drop_minted',
+}
+
+export type DropEvent = {
+  id: string
+  type: DropEventType
+  image?: string
+  timestamp: number
+  completed?: boolean
 }
 
 export type UserDetails = {
   id: string
   spent?: number
-} & Cursor
+  lastEvent?: DropEvent
+  cursor?: Cursor
+}
 
 export type MaybeUserDetails = UserDetails | null
 

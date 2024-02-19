@@ -192,6 +192,7 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
+  dropAlias: props.drop.alias,
 })
 
 const { data: holderOfCollectionData } = await useAsyncData(

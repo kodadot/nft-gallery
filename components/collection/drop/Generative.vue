@@ -159,6 +159,7 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
+  dropAlias: props.drop.alias,
 })
 
 const mintButtonDisabled = computed<boolean>(

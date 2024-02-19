@@ -6,8 +6,8 @@
       class="absolute z-[998] pointer-events-none transition-all"
       :class="[{ 'opacity-20': cursorConnections.get(connection.id)?.ghost }]"
       :style="{
-        top: `${connection.y}px`,
-        left: `${connection.x}px`,
+        top: `${connection.cursor?.y}px`,
+        left: `${connection.cursor?.x}px`,
       }">
       <NeoIcon
         :id="`cursor-${connection.id}`"
@@ -16,8 +16,22 @@
         :class="cursorConnections.get(connection.id)?.color" />
 
       <div
-        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit">
-        {{ cursorConnections.get(connection.id)?.label }}
+        v-if="getLabel(connection).label"
+        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit flex gap-1">
+        <span>{{ getLabel(connection).label }}</span>
+        <NeoIcon
+          v-if="getLabel(connection).loading"
+          icon="spinner-third"
+          spin />
+      </div>
+      <div v-else class="ml-2">
+        <BaseMediaItem
+          class="border border-k-shade w-16 h-16"
+          alt="cursor minted nft"
+          :src="sanitizeIpfsUrl(getLabel(connection).image)"
+          :animation-src="sanitizeIpfsUrl(getLabel(connection).image)"
+          preview
+          is-detail />
       </div>
     </div>
   </div>
@@ -26,6 +40,9 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { UserDetails } from '@/composables/party/types'
+import isEqual from 'lodash/isEqual'
+
+export type CursorLabel = { loading?: boolean; label?: string; image?: string }
 
 const colors = [
   'text-k-pink',
@@ -39,7 +56,7 @@ const colors = [
 const props = defineProps<{
   connections: UserDetails[]
   ghostOnElements?: string[]
-  labelFormatter: (connection: UserDetails) => string
+  labelFormatter: (connection: UserDetails) => CursorLabel
 }>()
 
 const cursorConnections = ref(
@@ -47,11 +64,14 @@ const cursorConnections = ref(
     string,
     {
       color: string
-      label: string
+      label: CursorLabel
       ghost?: boolean
     }
   >(),
 )
+
+const getLabel = (connection: UserDetails) =>
+  cursorConnections.value.get(connection.id)?.label as CursorLabel
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
 
@@ -103,16 +123,21 @@ watch(
 
     connections.forEach((connection) => {
       const isNew = !cursorConnections.value.has(connection.id)
-      const newSpent =
-        prevConnections &&
-        prevConnections.find(
-          (prevConnection) => connection.id === prevConnection.id,
-        )?.spent !== connection.spent
+      const prevConnection = prevConnections?.find(
+        (prevConnection) => connection.id === prevConnection.id,
+      )
 
-      if (isNew || newSpent) {
-        const color = cursorConnections.value.get(connection.id)?.color
+      const newSpent = prevConnection?.spent !== connection.spent
+      const updateLabel =
+        !isEqual(prevConnection?.lastEvent, connection.lastEvent) ||
+        (prevConnection?.lastEvent &&
+          Date.now() - prevConnection.lastEvent.timestamp > 1000)
+
+      if (isNew || newSpent || updateLabel) {
+        const cursorConnection = cursorConnections.value.get(connection.id)
         cursorConnections.value.set(connection.id, {
-          color: color || getRandomColor(),
+          ghost: Boolean(cursorConnection?.ghost),
+          color: cursorConnection?.color || getRandomColor(),
           label: props.labelFormatter(connection),
         })
       }

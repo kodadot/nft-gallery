@@ -72,6 +72,8 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import { DropEventType } from '@/composables/party/types'
 
 export type ToMintNft = {
   name: string
@@ -93,6 +95,8 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 const { hasCurrentChainBalance } = useMultipleBalance()
+const { emitEvent } = useCursorDropEvents(props.drop.alias)
+
 const {
   hasMinimumFunds,
   formattedMinimumFunds,
@@ -215,6 +219,7 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
+  dropAlias: props.drop.alias,
 })
 
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
@@ -275,6 +280,7 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    isLoading.value = false
   }
 }
 
@@ -424,6 +430,12 @@ watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
   if (wasLoading && !loading && status === TransactionStatus.Unknown) {
     stopMint()
   }
+})
+
+watch([isTransactionLoading, isLoading], ([transactionLoading, loading]) => {
+  emitEvent(DropEventType.DROP_MINTING, {
+    completed: !Boolean(transactionLoading && loading),
+  })
 })
 </script>
 
