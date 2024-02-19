@@ -5,6 +5,7 @@
     scroll="clip"
     class="z-[1000]"
     content-class="modal-width"
+    data-testid="confirm-modal"
     @close="onClose">
     <ModalBody
       :title="$t('confirmPurchase.action')"
