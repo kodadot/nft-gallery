@@ -1,6 +1,6 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
-import { addSnSuffixName } from '@/utils/nft'
+import { nameWithIndex } from '@/utils/nft'
 
 export const useCollectionActivity = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
@@ -33,7 +33,7 @@ export const useCollectionActivity = ({ collectionId }) => {
             timestamp: new Date(e.timestamp).getTime(),
             nft: {
               ...nft,
-              name: addSnSuffixName(nft?.name, nft?.sn),
+              name: nameWithIndex(nft?.name, nft?.sn),
               events: undefined,
             },
           })),

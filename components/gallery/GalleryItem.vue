@@ -293,7 +293,7 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
-  addSnSuffixName(
+  nameWithIndex(
     nft.value?.name || nftMetadata.value?.name || '',
     nft.value?.sn,
   ),
