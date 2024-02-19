@@ -92,7 +92,7 @@
           class="is-ellipsis inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="font-bold">
-            {{ event.Item.name }}
+            {{ addSnSuffixName(event.Item.name, event.Item.sn) }}
           </span>
         </nuxt-link>
 
