@@ -73,7 +73,6 @@ import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { DropEventType } from '@/composables/party/types'
 
 export type ToMintNft = {
   name: string
@@ -95,7 +94,6 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 const { hasCurrentChainBalance } = useMultipleBalance()
-const { emitEvent } = useCursorDropEvents(props.drop.alias)
 
 const {
   hasMinimumFunds,
@@ -165,6 +163,8 @@ const {
   isError,
   status,
 } = useMetaTransaction()
+
+useCursorDropEvents(props.drop.alias, [isTransactionLoading, isLoading])
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -430,12 +430,6 @@ watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
   if (wasLoading && !loading && status === TransactionStatus.Unknown) {
     stopMint()
   }
-})
-
-watch([isTransactionLoading, isLoading], ([transactionLoading, loading]) => {
-  emitEvent(DropEventType.DROP_MINTING, {
-    completed: !Boolean(transactionLoading && loading),
-  })
 })
 </script>
 

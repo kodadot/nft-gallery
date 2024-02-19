@@ -3,7 +3,7 @@ import { DropEventType } from './types'
 
 type EventParams = { image?: string; completed?: boolean }
 
-export default (drop: string) => {
+export default (drop: string, mintingWatch: Ref<boolean>[]) => {
   const { sendMessage } = useParty({ room: computed(() => drop) })
 
   const broadastEvent = ({
@@ -37,6 +37,12 @@ export default (drop: string) => {
       completed: true,
     })
   }
+
+  watch(mintingWatch, (values) => {
+    emitEvent(DropEventType.DROP_MINTING, {
+      completed: !values.every(Boolean),
+    })
+  })
 
   return { emitEvent, completeLastEvent }
 }

@@ -60,6 +60,7 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const MINTING_SECOND = 120
 
@@ -129,6 +130,8 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
+
+useCursorDropEvents(props.drop.alias, [isLoading])
 
 const { data: collectionData } = useGraphql<UnlockableCollectionById>({
   queryName: 'unlockableCollectionById',

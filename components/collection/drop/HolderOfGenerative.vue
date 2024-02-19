@@ -67,7 +67,6 @@ import useGenerativeDropMint, {
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { DropEventType } from '@/composables/party/types'
 
 import {
   HolderOfCollectionProp,
@@ -114,7 +113,6 @@ const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals } = useChain()
-const { emitEvent } = useCursorDropEvents(props.drop.alias)
 
 const { client } = usePrefix()
 const isLoading = ref(false)
@@ -197,6 +195,8 @@ const {
   defaultImage,
   dropAlias: props.drop.alias,
 })
+
+useCursorDropEvents(props.drop.alias, [isTransactionLoading, isLoading])
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
@@ -462,12 +462,6 @@ const handleList = () => {
 }
 
 watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
-
-watch([isTransactionLoading, isLoading], ([transactionLoading, loading]) => {
-  emitEvent(DropEventType.DROP_MINTING, {
-    completed: !Boolean(transactionLoading && loading),
-  })
-})
 </script>
 
 <style scoped lang="scss">
