@@ -69,6 +69,12 @@
               <span>{{ fileValidity.canvasSize }}</span>
             </div>
             <div class="flex justify-between items-center">
+              <span class="text-neutral-7">
+                {{ $t('codeChecker.artName') }}
+              </span>
+              <span>{{ fileValidity.title }}</span>
+            </div>
+            <div class="flex justify-between items-center">
               <span class="text-neutral-7">{{
                 $t('codeChecker.webglSupported')
               }}</span>
@@ -144,6 +150,7 @@ const validtyDefault: Validity = {
   usesHashParam: false,
   validTitle: false,
   renderDurationValid: 'loading',
+  title: '-',
 }
 
 const selectedFile = ref<File | null>(null)

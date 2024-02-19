@@ -4,6 +4,7 @@ type HtmlContentValidationResult = {
   localP5jsUsed: boolean
   titlePresent: boolean
   correctTitle: boolean
+  title: string
 }
 
 type InnerValidity = Omit<Validity, 'renderDurationValid'>
@@ -73,17 +74,18 @@ const validateHtmlContent = (
 ): HtmlContentValidationResult => {
   const localP5jsUsed = constants.localP5JsRegex.test(htmlFileContent)
   const titleTagMatch = constants.titleTagRegex.exec(htmlFileContent)
+
   const titlePresent = Boolean(titleTagMatch)
-  const correctTitle = titleTagMatch
-    ? titleTagMatch[1].trim() !== constants.disallowedTitle
-    : false
-  return { localP5jsUsed, titlePresent, correctTitle }
+  const title = titleTagMatch ? titleTagMatch[1].trim() : '-'
+  const correctTitle = title !== '-' && title !== constants.disallowedTitle
+
+  return { localP5jsUsed, titlePresent, correctTitle, title }
 }
 
 const validateSketchContent = (
   sketchFileContent: string,
   canvasMatch: RegExpExecArray,
-): Omit<Validity, 'renderDurationValid' | 'usesHashParam'> => {
+): Omit<Validity, 'renderDurationValid' | 'usesHashParam' | 'title'> => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
   const isNumericWidth = /^\d+$/.test(width)
@@ -126,6 +128,7 @@ export const validate = (
     localP5jsUsed: htmlValidationResult.localP5jsUsed,
     validTitle:
       htmlValidationResult.titlePresent && htmlValidationResult.correctTitle,
+    title: htmlValidationResult.title,
   }
 
   return { isSuccess: true, value: validity }
