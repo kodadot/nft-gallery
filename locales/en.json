@@ -1747,6 +1747,7 @@
     "uploadPrompt": "Upload Code To Continue",
     "supportedFormats": "Supported Formats: .js",
     "canvasSize": "Canvas Size",
+    "artName": "Art Name",
     "webglSupported": "WebGL Supported",
     "local": "Local",
     "automaticResize": "Automatic Sizing - Responsiveness",
