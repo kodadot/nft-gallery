@@ -8,7 +8,7 @@ const route = useRoute()
 useSeoMeta({
   title: 'Code Checker',
   description:
-    'Checl your generative art code. Drop your file, check for essentials, and optimize. Preview, iterate, and finalize with confidence. Start now.',
+    'Check your generative art code. Drop your file, check for essentials, and optimize. Preview, iterate, and finalize with confidence. Start now.',
   ogUrl: route.path,
 })
 
