@@ -112,7 +112,6 @@ const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals } = useChain()
-
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
@@ -286,7 +285,11 @@ const mintNft = async () => {
     ]
 
     mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args)
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
