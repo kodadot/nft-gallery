@@ -1,9 +1,14 @@
 import useParty from '@/composables/party/useParty'
 import { DropEventType } from './types'
+import { DropMintedNft } from '../drop/useGenerativeDropMint'
 
 type EventParams = { image?: string; completed?: boolean }
 
-export default (drop: string, mintingWatch?: Ref<boolean>[]) => {
+export default (
+  drop: string,
+  mintingWatch: Ref<boolean>[],
+  mintedNft: Ref<DropMintedNft | undefined>,
+) => {
   const { sendMessage } = useParty({ room: computed(() => drop) })
 
   const broadastEvent = ({
@@ -40,8 +45,17 @@ export default (drop: string, mintingWatch?: Ref<boolean>[]) => {
 
   if (mintingWatch) {
     watch(mintingWatch, (values) => {
+      const completed = !values.every(Boolean)
+      const image = mintedNft.value?.image
+
+      if (completed && image) {
+        return preloadImage(image).finally(() =>
+          emitEvent(DropEventType.DROP_MINTED, { image }),
+        )
+      }
+
       emitEvent(DropEventType.DROP_MINTING, {
-        completed: !values.every(Boolean),
+        completed,
       })
     })
   }

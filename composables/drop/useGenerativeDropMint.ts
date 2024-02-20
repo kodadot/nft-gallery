@@ -3,8 +3,6 @@ import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useEventListener } from '@vueuse/core'
-import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { DropEventType } from '@/composables/party/types'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -30,7 +28,6 @@ type GenerativeDropMintParams = {
   currentAccountMintedToken: Ref<DropMintedStatus | null>
   defaultMax: Ref<number>
   collectionData: Ref<UnlockableCollectionById | undefined | null>
-  dropAlias: string
 }
 
 export default ({
@@ -40,13 +37,11 @@ export default ({
   collectionId,
   mintedDropCount,
   defaultImage,
-  dropAlias,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
-  const { emitEvent } = useCursorDropEvents(dropAlias)
 
   const imageDataPayload = ref<{ hash: string; image: string }>()
 
@@ -148,15 +143,6 @@ export default ({
 
     preferencesStore.listingCartModalOpen = true
   }
-
-  watch(mintedNft, (minted) => {
-    const image = minted?.image
-    if (image) {
-      preloadImage(image).finally(() =>
-        emitEvent(DropEventType.DROP_MINTED, { image }),
-      )
-    }
-  })
 
   onBeforeUnmount(() => {
     preferencesStore.listingCartModalOpen = false

@@ -193,10 +193,13 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
-  dropAlias: props.drop.alias,
 })
 
-useCursorDropEvents(props.drop.alias, [isTransactionLoading, isLoading])
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',

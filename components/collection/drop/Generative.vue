@@ -131,8 +131,6 @@ const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
 
-useCursorDropEvents(props.drop.alias, [isLoading])
-
 const { data: collectionData } = useGraphql<UnlockableCollectionById>({
   queryName: 'unlockableCollectionById',
   variables: {
@@ -162,8 +160,9 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
-  dropAlias: props.drop.alias,
 })
+
+useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
 
 const mintButtonDisabled = computed<boolean>(
   () =>

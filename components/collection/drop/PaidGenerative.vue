@@ -164,8 +164,6 @@ const {
   status,
 } = useMetaTransaction()
 
-useCursorDropEvents(props.drop.alias, [isTransactionLoading, isLoading])
-
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
   handler: () => mintNft(),
@@ -219,8 +217,13 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
-  dropAlias: props.drop.alias,
 })
+
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
 
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
