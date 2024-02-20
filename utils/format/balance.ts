@@ -110,7 +110,7 @@ export const formatAmountWithRound = (
 ) =>
   roundAmount(
     format(checkInvalidBalanceFilter(value), tokenDecimals, ''),
-    round || 4,
+    round === 0 ? round : round || 4,
     round === undefined,
   )
 

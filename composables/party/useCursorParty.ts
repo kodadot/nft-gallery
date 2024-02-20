@@ -54,14 +54,18 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
     details: UserDetails,
   ): UserDetails => ({
     ...details,
-    x: details.x * width.value,
+    cursor: {
+      y: details.cursor?.y as number,
+      x: (details.cursor?.x || 0) * width.value,
+      type: details.cursor?.type,
+    },
   })
 
   const isZeroDot = (connection: UserDetails) => !Number(connection.spent)
 
   const visibleConnections = computed(() => {
     const withPositionFirst = cursorConnections.value.sort(
-      (a, b) => Number(b?.x) - Number(a?.x),
+      (a, b) => Number(b?.cursor?.x) - Number(a?.cursor?.x),
     )
     const someZeroDotCursors = filter(withPositionFirst, (connection) =>
       isZeroDot(connection),
@@ -77,9 +81,11 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
 
   watchEffect(() => {
     sendMessage({
-      x: x.value / width.value,
-      y: y.value,
-      cursor: sourceType.value,
+      cursor: {
+        x: x.value / width.value,
+        y: y.value,
+        type: sourceType.value,
+      },
       spent: spent.value,
     })
   })

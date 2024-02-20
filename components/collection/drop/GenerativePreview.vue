@@ -99,7 +99,7 @@ const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
-const emit = defineEmits(['select', 'mint'])
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -146,10 +146,11 @@ const generateNft = (isDefault: boolean = false) => {
   isLoading.value = true
   const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
   generativeImageUrl.value = metadata
-  emit('select', generativeImageUrl.value)
+  emit('generation:start', { image: generativeImageUrl.value, isDefault })
 
   setTimeout(() => {
     isLoading.value = false
+    emit('generation:end', isDefault)
   }, 3000)
 }
 

@@ -66,6 +66,7 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 import {
   HolderOfCollectionProp,
@@ -192,6 +193,12 @@ const {
   mintedDropCount,
   defaultImage,
 })
+
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
