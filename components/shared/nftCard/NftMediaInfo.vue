@@ -31,9 +31,16 @@
         v-if="showPrice"
         :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
-      <span v-if="!isMinimal" class="text-k-grey capitalize text-xs">{{
-        getChainNameByPrefix(prefix)
-      }}</span>
+      <span
+        v-if="!isMinimal && !isGenerative"
+        class="text-k-grey capitalize text-xs"
+        >{{ getChainNameByPrefix(prefix) }}</span
+      >
+      <span
+        v-else-if="isGenerative"
+        class="text-k-grey capitalize text-xs tag-container rounded-[2rem] flex py-1 px-2 justify-between items-center"
+        >{{ formatTimestamp(timestamp) }}</span
+      >
     </div>
   </div>
 </template>
@@ -54,10 +61,12 @@ const props = withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     displayNameWithSn?: boolean
+    timestamp?: number
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
+    timestamp: +new Date(),
   },
 )
 
@@ -75,4 +84,20 @@ const name = computed(() => {
 const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
 )
+const isGenerative = computed(() => props.variant === 'generative')
+
+const formatTimestamp = (timestamp) => {
+  const lastIndex = timestamp.lastIndexOf(' ')
+  return timestamp.substring(0, lastIndex)
+}
 </script>
+
+<style lang="scss">
+@import '@/assets/styles/abstracts/variables.scss';
+.tag-container {
+  @include ktheme() {
+    background-color: theme('k-grey-light');
+    color: theme('text-color');
+  }
+}
+</style>
