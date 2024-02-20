@@ -21,3 +21,4 @@ export type NftCardVariant =
   | 'minimal'
   | 'stacked-primary'
   | 'stacked-minimal'
+  | 'generative'
