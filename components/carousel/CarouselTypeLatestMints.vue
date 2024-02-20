@@ -11,50 +11,28 @@
       </div>
     </div>
 
-    <CarouselList v-if="showCarousel" :nfts="nfts" :step="3">
-      <template #card-info="{ item }">
-        <div
-          class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col">
-          <nuxt-link
-            :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
-            :title="item.name"
-            class="font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full">
-            <span class="is-ellipsis">{{ item.name || '--' }}</span>
-          </nuxt-link>
-
-          <div class="flex flex-col items-start">
-            <div class="justify-between items-center hidden md:flex">
-              <p class="text-xs text-k-grey">
-                {{ $t('drops.mintedBy') }}
-              </p>
-              <nuxt-link
-                :to="`/${urlPrefix}/u/${item.currentOwner}`"
-                class="text-k-blue hover:text-k-blue-hover ml-2">
-                <IdentityIndex
-                  ref="identity"
-                  :address="item.currentOwner"
-                  show-clipboard />
-              </nuxt-link>
-            </div>
-            <p class="text-xs text-k-grey">{{ item.timestamp }}</p>
-          </div>
-        </div>
-      </template>
-    </CarouselList>
+    <DynamicGrid :id="scrollContainerId">
+      <div
+        v-for="(nft, index) in nfts"
+        :key="nft.id"
+        :data-testid="index"
+        :class="scrollItemClassName">
+        <NftCard
+          :nft="nft"
+          :prefix="urlPrefix"
+          show-price
+          variant="generative" />
+      </div>
+    </DynamicGrid>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { flattenNFT } from './utils/useCarouselEvents'
-import { useCarouselUrl } from './utils/useCarousel'
 import OrderByDropdown from '../profile/OrderByDropdown.vue'
 import FilterButton from '../profile/FilterButton.vue'
+import NftCard from '../shared/nftCard/NftCard.vue'
 
-const CarouselList = defineAsyncComponent(
-  () => import('./module/NftCarousel.vue'),
-)
-
-const { urlOf } = useCarouselUrl()
 const { urlPrefix } = usePrefix()
 
 const props = withDefaults(
@@ -68,25 +46,82 @@ const props = withDefaults(
   },
 )
 
-const { data: latestEvents } = useGraphql({
-  queryName: 'latestEvents',
-  variables: {
-    limit: props.limit,
-    orderBy: 'timestamp_DESC',
-    where: {
-      interaction_eq: props.interaction,
-      nft: {
-        collection: {
-          id_eq: props.collectionId,
+const route = useRoute()
+const sortBy = computed(() => {
+  if (!route.query?.sort) {
+    return 'timestamp_DESC'
+  }
+  return typeof route.query?.sort === 'string'
+    ? [route.query?.sort]
+    : route.query?.sort
+})
+const buyNow = computed(() => route.query.buy_now?.toString() === 'true')
+
+const nfts = ref([])
+
+const fetchPageData = async (_page?: number, _loadDirection = 'down') => {
+  const { data } = useGraphql({
+    queryName: 'latestEvents',
+    variables: {
+      limit: props.limit,
+      orderBy: sortBy.value,
+      where: {
+        interaction_eq: props.interaction,
+        nft: {
+          collection: {
+            id_eq: props.collectionId,
+          },
         },
       },
     },
-  },
+  })
+
+  watch(data, (result) => {
+    console.log(result)
+    nfts.value = flattenNFT(result?.events || [], urlPrefix.value)
+  })
+  return true
+}
+
+const resetPage = useDebounceFn(() => {
+  gotoPage(1)
+}, 500)
+
+const isLoading = ref(false)
+
+const gotoPage = async (page: number) => {
+  currentPage.value = page
+  startPage.value = page
+  endPage.value = page
+  isFetchingData.value = false
+  isLoading.value = true
+  nfts.value = []
+  await fetchPageData()
+}
+
+onMounted(async () => {
+  await fetchPageData()
 })
 
-const nfts = computed(() =>
-  flattenNFT(latestEvents.value?.events || [], urlPrefix.value),
-)
+const {
+  startPage,
+  endPage,
+  currentPage,
+  scrollItemClassName,
+  isFetchingData,
+  scrollContainerId,
+} = useListInfiniteScroll({
+  gotoPage,
+  fetchPageData,
+})
 
-const showCarousel = computed(() => nfts.value.length)
+watch(
+  [sortBy, buyNow],
+  () => {
+    resetPage()
+  },
+  {
+    deep: true,
+  },
+)
 </script>
