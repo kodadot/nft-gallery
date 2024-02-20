@@ -42,6 +42,7 @@
       <NftMediaInfo
         v-else-if="!hideMediaInfo"
         :nft="nft"
+        :timestamp="nft.timestamp"
         :variant="variant"
         :display-name-with-sn="displayNameWithSn"
         :prefix="prefix"
