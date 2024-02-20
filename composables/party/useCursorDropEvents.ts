@@ -6,8 +6,8 @@ type EventParams = { image?: string; completed?: boolean }
 
 export default (
   drop: string,
-  mintingWatch: Ref<boolean>[],
-  mintedNft: Ref<DropMintedNft | undefined>,
+  mintingWatch?: Ref<boolean>[],
+  mintedNft?: Ref<DropMintedNft | undefined>,
 ) => {
   const { sendMessage } = useParty({ room: computed(() => drop) })
 
@@ -43,7 +43,7 @@ export default (
     })
   }
 
-  if (mintingWatch) {
+  if (mintingWatch && mintedNft) {
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
       const image = mintedNft.value?.image
