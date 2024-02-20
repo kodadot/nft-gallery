@@ -97,7 +97,6 @@ const route = useRoute()
 const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
-  resetSearchDebounceTime?: number
   gridSection?: GridSection
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
@@ -152,17 +151,12 @@ const resetPage = () => {
   gotoPage(1)
 }
 
-const debouncedResetPage = useDebounceFn(
-  resetPage,
-  props.resetSearchDebounceTime || 0,
-)
-
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
   isLoading,
-  resetSearch: debouncedResetPage,
+  resetSearch: resetPage,
   resetSearchQueryParams: props.resetSearchQueryParams,
 })
 

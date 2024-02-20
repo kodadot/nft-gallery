@@ -168,8 +168,7 @@
           :grid-section="gridSection"
           display-name-with-sn
           :loading-other-network="loadingOtherNetwork"
-          :reset-search-query-params="['sort']"
-          :reset-search-debounce-time="500">
+          :reset-search-query-params="['sort']">
           <template
             v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
             #empty-result>
