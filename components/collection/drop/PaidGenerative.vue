@@ -73,14 +73,6 @@ import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
-
 const props = withDefaults(
   defineProps<{
     drop: DropItem
