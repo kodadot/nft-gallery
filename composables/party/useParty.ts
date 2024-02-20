@@ -13,9 +13,11 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const connected = ref(false)
 
   const connect = (room: string) => {
+    console.log(`[PARTY::CONNECTION] Establishing connection with room ${room}`)
+
     if (wss.value.has(room)) {
       console.log(
-        `[PARTY:CONNECTION] Connection with room ${room} already established ✅`,
+        `[PARTY::CONNECTION] Connection with room ${room} already established ✅`,
       )
       attachMessageListener(wss.value.get(room) as PartySocket)
       return
@@ -28,7 +30,7 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     })
 
     ws.addEventListener('open', () => {
-      console.log('[PARTY:CONNECTION] Connection established 🎉')
+      console.log('[PARTY::CONNECTION] Connection established 🎉')
       connected.value = true
     })
 
@@ -61,8 +63,10 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   )
 
   onBeforeUnmount(() => {
-    for (const [, ws] of wss.value) {
+    for (const [room, ws] of wss.value) {
+      console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
       ws.close()
+      wss.value.delete(room)
     }
   })
 
