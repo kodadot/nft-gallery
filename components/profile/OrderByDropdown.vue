@@ -13,13 +13,17 @@
         <NeoButton
           :active="active"
           type="button"
+          :no-shadow="noShadow"
+          :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
           data-testid="explore-sort">
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
 
-        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
+        <ActiveCount
+          v-if="selectedSort.length && !noCount"
+          :count="selectedSort.length" />
       </template>
 
       <NeoDropdownItem
@@ -59,6 +63,19 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
 import ActiveCount from '@/components/explore/ActiveCount.vue'
+
+withDefaults(
+  defineProps<{
+    rounded: boolean
+    noShadow: boolean
+    noCount: boolean
+  }>(),
+  {
+    rounded: false,
+    noShadow: false,
+    noCount: false,
+  },
+)
 
 const route = useRoute()
 const router = useRouter()
