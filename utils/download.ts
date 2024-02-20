@@ -18,3 +18,12 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
   document.body.removeChild(link)
   return link
 }
+
+export const downloadBase64Image = (base64: string, name = 'unnamed') => {
+  const a = document.createElement('a')
+  a.href = base64
+  a.download = name
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
