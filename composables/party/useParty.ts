@@ -10,7 +10,6 @@ const wss = ref(new Map<string, PartySocket>())
 
 export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
-  const connected = ref(false)
 
   const connect = (room: string) => {
     console.log(`[PARTY::CONNECTION] Establishing connection with room ${room}`)
@@ -31,7 +30,6 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
 
     ws.addEventListener('open', () => {
       console.log('[PARTY::CONNECTION] Connection established 🎉')
-      connected.value = true
     })
 
     attachMessageListener(ws)
@@ -70,5 +68,5 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     }
   })
 
-  return { sendMessage, open: connected }
+  return { sendMessage }
 }
