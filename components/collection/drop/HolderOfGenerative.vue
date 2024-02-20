@@ -275,7 +275,6 @@ const mintButtonProps = computed<MintButtonProp>(() => ({
 
 const mintNft = async () => {
   try {
-    isLoading.value = true
     isTransactionError.value = false
     const { apiInstance } = useApi()
     const api = await apiInstance.value
@@ -303,7 +302,6 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
-    isLoading.value = false
   }
 }
 
@@ -369,7 +367,8 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+
+  if (isLoading.value || isTransactionLoading.value || isImageFetching.value) {
     return false
   }
 
