@@ -30,7 +30,7 @@
       no-shadow
       @click="generateNft()">
       <div class="inline-flex items-center">
-        <span>{{ $t('drops.createNewVariation') }}</span>
+        <span>{{ $t('drops.generateNewVariation') }}</span>
         <NeoIcon icon="arrow-rotate-left" class="ml-2" />
       </div>
     </NeoButton>
