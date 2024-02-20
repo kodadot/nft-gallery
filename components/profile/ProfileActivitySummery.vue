@@ -166,8 +166,8 @@ const getSellerEvents = (data: any) => {
     }
   })
 
-  totalSoldItems.value = data.sold.totalCount
   const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
+  totalSoldItems.value = allValuesList.length
   const maxPriceSold = Math.max(...allValuesList, 0)
   // Highest Buy and Total amount sell
   maxSoldPrice.value = maxPriceSold
