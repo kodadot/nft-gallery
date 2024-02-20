@@ -60,6 +60,7 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const MINTING_SECOND = 120
 
@@ -160,6 +161,8 @@ const {
   mintedDropCount,
   defaultImage,
 })
+
+useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
 
 const mintButtonDisabled = computed<boolean>(
   () =>
