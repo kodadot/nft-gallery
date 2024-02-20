@@ -1,48 +1,28 @@
 <template>
   <div>
-    <div
-      v-for="connection in connections"
-      :key="connection.id"
-      class="absolute z-[998] pointer-events-none transition-all"
-      :class="[{ 'opacity-20': cursorConnections.get(connection.id)?.ghost }]"
-      :style="{
-        top: `${connection.cursor?.y}px`,
-        left: `${connection.cursor?.x}px`,
-      }">
-      <NeoIcon
-        :id="`cursor-${connection.id}`"
-        icon="arrow-pointer"
-        pack="fas"
-        :class="cursorConnections.get(connection.id)?.color" />
-
-      <div
-        v-if="getLabel(connection).label"
-        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit flex gap-1">
-        <span>{{ getLabel(connection).label }}</span>
-        <NeoIcon
-          v-if="getLabel(connection).loading"
-          icon="spinner-third"
-          spin />
-      </div>
-      <div v-else class="ml-2">
-        <BaseMediaItem
-          class="border border-k-shade w-16 h-16"
-          alt="cursor minted nft"
-          :src="sanitizeIpfsUrl(getLabel(connection).image)"
-          :animation-src="sanitizeIpfsUrl(getLabel(connection).image)"
-          preview
-          is-detail />
-      </div>
-    </div>
+    <template v-for="connection in connections" :key="connection.id">
+      <Cursor
+        v-if="cursorConnections.get(connection.id)"
+        :connection="connection"
+        :cursor-details="
+          cursorConnections.get(connection.id) as CursorDetails
+        " />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { UserDetails } from '@/composables/party/types'
 import isEqual from 'lodash/isEqual'
+import Cursor from './Cusor.vue'
 
 export type CursorLabel = { loading?: boolean; label?: string; image?: string }
+
+export type CursorDetails = {
+  color: string
+  label: CursorLabel
+  ghost?: boolean
+}
 
 const colors = [
   'text-k-pink',
@@ -59,19 +39,7 @@ const props = defineProps<{
   labelFormatter: (connection: UserDetails) => CursorLabel
 }>()
 
-const cursorConnections = ref(
-  new Map<
-    string,
-    {
-      color: string
-      label: CursorLabel
-      ghost?: boolean
-    }
-  >(),
-)
-
-const getLabel = (connection: UserDetails) =>
-  cursorConnections.value.get(connection.id)?.label as CursorLabel
+const cursorConnections = ref(new Map<string, CursorDetails>())
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
 
