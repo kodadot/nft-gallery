@@ -1,6 +1,15 @@
 <template>
   <div>
-    <h3 class="title is-3">{{ $t('drops.recentMints') }}</h3>
+    <div class="flex justify-between">
+      <h3 class="title is-3">{{ $t('drops.latestMints') }}</h3>
+      <div class="flex gap-4">
+        <OrderByDropdown class="ml-6" no-shadow no-count rounded />
+        <FilterButton
+          :label="$t('sort.listed')"
+          url-param="buy_now"
+          data-testid="profile-filter-button-buynow" />
+      </div>
+    </div>
 
     <CarouselList v-if="showCarousel" :nfts="nfts" :step="3">
       <template #card-info="{ item }">
@@ -38,6 +47,9 @@
 <script lang="ts" setup>
 import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
+import OrderByDropdown from '../profile/OrderByDropdown.vue'
+import FilterButton from '../profile/FilterButton.vue'
+
 const CarouselList = defineAsyncComponent(
   () => import('./module/NftCarousel.vue'),
 )
