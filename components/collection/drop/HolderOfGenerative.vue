@@ -66,6 +66,7 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 import {
   HolderOfCollectionProp,
@@ -113,6 +114,7 @@ const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals } = useChain()
 const runtimeMintedCount = ref(0)
+
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
@@ -193,6 +195,12 @@ const {
   mintedDropCount,
   defaultImage,
 })
+
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
@@ -286,7 +294,11 @@ const mintNft = async () => {
     ]
 
     mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args)
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)

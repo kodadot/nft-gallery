@@ -12,6 +12,7 @@ query collectionActivityEvents($id: String!) {
       }
       currentOwner
       name
+      sn
       price
       metadata
       meta {
