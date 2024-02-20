@@ -13,11 +13,12 @@ export type SearchQuery = {
   search?: string
   type?: string
   sortBy?: string | string[]
-  listed: boolean
+  listed?: boolean
   owned?: boolean | null
   priceMin?: number
   priceMax?: number
   sortByMultiple?: string[]
+  buyNow?: boolean
 }
 
 export type SearchSuggestion = Record<
