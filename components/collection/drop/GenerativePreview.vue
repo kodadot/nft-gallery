@@ -82,6 +82,7 @@ import type {
   MintButtonProp,
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
+import { isValidSs58Format } from '@/utils/ss58Format'
 
 const props = defineProps<{
   drop: DropItem
@@ -122,9 +123,11 @@ const entropyRange = computed<[number, number]>(() => [
 ])
 
 const getHash = (isDefault?: boolean) => {
-  const ss58Format = isDefault
+  const randomSs58Format = isDefault
     ? entropyRange.value[0]
     : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+
+  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
   const initialValue = accountId.value
