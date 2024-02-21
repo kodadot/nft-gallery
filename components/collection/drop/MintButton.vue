@@ -6,7 +6,7 @@
     no-shadow
     size="large"
     :loading="loading"
-    :disabled="buttonMint.disabled"
+    :disabled="buttonMint.disabled && !isWalletConnecting"
     :loading-with-label="buttonMint.withLabel || isWalletConnecting"
     :label="buttonMint.label"
     @click="handleMint" />
