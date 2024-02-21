@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="modelValue"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="isSigningStep ? false : ['outside', 'escape']"
     scroll="clip"
     @close="onClose">
     <ModalBody
