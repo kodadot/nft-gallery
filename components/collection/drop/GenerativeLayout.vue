@@ -31,7 +31,8 @@
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint"
-            @select="handleSelectImage" />
+            @generation:start="handleNftGeneration"
+            @generation:end="handleNftGenerationEnd" />
 
           <CollectionDropPhase
             class="mt-7"
@@ -60,7 +61,8 @@
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint"
-            @select="handleSelectImage" />
+            @generation:start="handleNftGeneration"
+            @generation:end="handleNftGenerationEnd" />
         </div>
       </div>
 
@@ -73,10 +75,9 @@
     </div>
   </div>
 
-  <CursorParty
-    :connections="connections"
-    :ghost-on-elements="['generative-preview-card']"
-    :label-formatter="labelFormatter" />
+  <CollectionDropCursorParty
+    :drop-alias="drop.alias"
+    :user-minted-count="userMintedCount" />
 </template>
 
 <script setup lang="ts">
@@ -87,9 +88,8 @@ import type {
   MintButtonProp,
 } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import useCursorParty from '@/composables/party/useCursorParty'
-import { UserDetails } from '@/composables/party/types'
-import { formatAmountWithRound } from '@/utils/format/balance'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import { DropEventType } from '@/composables/party/types'
 
 const props = withDefaults(
   defineProps<{
@@ -116,21 +116,29 @@ const props = withDefaults(
   },
 )
 
-const { chainSymbol, decimals } = useChain()
-const { totalSpent, getUserStats } = useUserStats()
-
+const { emitEvent, completeLastEvent } = useCursorDropEvents(props.drop.alias)
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const { connections } = useCursorParty({
-  room: computed(() => props.drop.alias),
-  spent: totalSpent,
-})
+const handleNftGeneration = ({
+  image,
+  isDefault,
+}: {
+  image: string
+  isDefault: boolean
+}) => {
+  if (!isDefault) {
+    emitEvent(DropEventType.DROP_GENERATING)
+  }
 
-const labelFormatter = (connection: UserDetails) =>
-  `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value)} ${chainSymbol.value}`
+  props.handleSelectImage(image)
+}
 
-watch(() => props.userMintedCount, getUserStats)
+const handleNftGenerationEnd = (isDefault: boolean) => {
+  if (!isDefault) {
+    completeLastEvent(DropEventType.DROP_GENERATING)
+  }
+}
 </script>

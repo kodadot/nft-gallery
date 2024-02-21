@@ -20,8 +20,7 @@
             >{{ drop.collection.name }}</span
           >
 
-          <div
-            class="flex item-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2">
+          <div class="flex flex-col justify-start gap-y-4 gap-x-2">
             <div class="flex justify-between items-center min-h-[34px]">
               <TimeTag
                 v-if="drop.dropStartTime || ended"

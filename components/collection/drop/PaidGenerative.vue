@@ -72,6 +72,7 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const props = withDefaults(
   defineProps<{
@@ -85,6 +86,7 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 const { hasCurrentChainBalance } = useMultipleBalance()
+
 const {
   hasMinimumFunds,
   formattedMinimumFunds,
@@ -209,6 +211,12 @@ const {
   defaultImage,
 })
 
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
+
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
@@ -262,11 +270,16 @@ const mintNft = async () => {
     ]
 
     mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args)
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    isLoading.value = false
   }
 }
 
@@ -387,7 +400,6 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
-      txHash: result.txHash.versionstamp,
       collectionName: collectionName.value as string,
     }
   } catch (error) {

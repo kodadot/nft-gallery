@@ -42,6 +42,7 @@ export default ({
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
+
   const imageDataPayload = ref<{ hash: string; image: string }>()
 
   const mintedNft = ref<DropMintedNft>()

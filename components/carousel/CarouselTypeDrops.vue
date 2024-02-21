@@ -23,21 +23,19 @@
 import { type CarouseBreakpointsConfig } from '@/components/carousel/module/CarouselAgnostic.vue'
 import { useDrops } from '@/components/drops/useDrops'
 
-const DROP_SKELETON_COUNT = 3
-
 const breakpoints: CarouseBreakpointsConfig = {
   '640px': { slides: { perView: 1.2, spacing: 16 } },
   '768px': {
-    slides: { perView: 1.2, spacing: 16 },
+    slides: { perView: 2, spacing: 16 },
   },
   '1024px': {
-    slides: { perView: 2.2, spacing: 16 },
+    slides: { perView: 3, spacing: 16 },
   },
   '1280px': {
-    slides: { perView: 3, spacing: 32 },
+    slides: { perView: 4, spacing: 16 },
   },
   '1540px': {
-    slides: { perView: 3, spacing: 32 },
+    slides: { perView: 6, spacing: 16 },
   },
 }
 
@@ -60,6 +58,12 @@ const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
 const { width } = useWindowSize()
 
 const steps = computed(() => {
+  if (width.value > 1540) {
+    return 6
+  }
+  if (width.value > 1280) {
+    return 4
+  }
   if (width.value > 1024) {
     return 3
   }
@@ -68,4 +72,6 @@ const steps = computed(() => {
   }
   return 1
 })
+
+const DROP_SKELETON_COUNT = steps
 </script>
