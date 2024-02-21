@@ -1639,7 +1639,8 @@
     "waiting": "Awaiting Your Signature",
     "noSignatureRequired": "Signature not needed",
     "uploading": "Uploading data to IPFS",
-    "finishAbove": "Finish steps above first"
+    "finishAbove": "Finish steps above first",
+    "broadcastingTx": "Broadcasting tx"
   },
   "autoTeleport": {
     "bridging": "Bridging",
