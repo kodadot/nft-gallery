@@ -1498,6 +1498,7 @@
     "holderOfCollection": "Holder of NFT from {name} collection",
     "mintForFree": "Mint For Free Now",
     "mintForPaid": "Mint For {0}",
+    "exploreDrop": "Explore {0}",
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
