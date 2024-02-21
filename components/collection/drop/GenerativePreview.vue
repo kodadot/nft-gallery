@@ -1,7 +1,7 @@
 <template>
   <div
     data-partykit="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px]">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
@@ -68,6 +68,16 @@
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
       @mint="emit('mint')" />
+
+    <div
+      class="flex justify-center w-full absolute -bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
+        <NeoIcon
+          icon="fa-sharp fa-solid fa-hourglass-half"
+          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+        Generate
+      </p>
+    </div>
   </div>
 </template>
 
