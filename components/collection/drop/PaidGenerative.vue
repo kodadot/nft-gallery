@@ -232,6 +232,10 @@ const mintButtonLabel = computed(() => {
     return $i18n.t('loader.ipfs')
   }
 
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
+
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('drops.mintForPaid', [
