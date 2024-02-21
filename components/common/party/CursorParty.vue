@@ -3,7 +3,7 @@
     <div
       v-for="connection in connections"
       :key="connection.id"
-      class="absolute z-[998]"
+      class="absolute z-[998] pointer-events-none transition-all"
       :class="[{ 'opacity-20': cursorConnections.get(connection.id)?.ghost }]"
       :style="{
         top: `${connection.y}px`,
@@ -28,11 +28,12 @@ import { NeoIcon } from '@kodadot1/brick'
 import { UserDetails } from '@/composables/party/types'
 
 const colors = [
-  'text-red-400',
-  'text-blue-400',
-  'text-yellow-400',
-  'text-pink-400',
-  'text-k-accent',
+  'text-k-pink',
+  'text-k-blue',
+  'text-k-orange',
+  'text-k-aqua-blue',
+  'text-k-red',
+  'text-k-green',
 ]
 
 const props = defineProps<{
@@ -66,17 +67,26 @@ const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
 const checkGhostCursors = () => {
   props.connections.forEach((connection) => {
     props.ghostOnElements?.forEach((selector) => {
-      const element = document.querySelector(selector)
-      const cursor = document.getElementById(`cursor-${connection.id}`)
-
-      if (!element || !cursor) {
-        return
-      }
-
-      const ghost = areRectanglesIntersecting(
-        cursor.getBoundingClientRect(),
-        element.getBoundingClientRect(),
+      const elements = document.querySelectorAll(
+        `[data-partykit="${selector}"]`,
       )
+      let ghost = false
+
+      elements.forEach((element) => {
+        if (ghost) {
+          return
+        }
+
+        const cursor = document.getElementById(`cursor-${connection.id}`)
+        if (!element || !cursor) {
+          return
+        }
+
+        ghost = areRectanglesIntersecting(
+          cursor.getBoundingClientRect(),
+          element.getBoundingClientRect(),
+        )
+      })
 
       cursorConnections.value.set(connection.id, {
         ...(cursorConnections.value.get(connection.id) as any),
@@ -88,13 +98,21 @@ const checkGhostCursors = () => {
 
 watch(
   () => props.connections,
-  (connections: UserDetails[]) => {
+  (connections, prevConnections) => {
     checkGhostCursors()
 
     connections.forEach((connection) => {
-      if (!cursorConnections.value.has(connection.id)) {
+      const isNew = !cursorConnections.value.has(connection.id)
+      const newSpent =
+        prevConnections &&
+        prevConnections.find(
+          (prevConnection) => connection.id === prevConnection.id,
+        )?.spent !== connection.spent
+
+      if (isNew || newSpent) {
+        const color = cursorConnections.value.get(connection.id)?.color
         cursorConnections.value.set(connection.id, {
-          color: getRandomColor(),
+          color: color || getRandomColor(),
           label: props.labelFormatter(connection),
         })
       }
