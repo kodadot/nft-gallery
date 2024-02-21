@@ -12,7 +12,7 @@
     </NeoModal>
     <div class="container is-fluid py-7 border-b">
       <div class="flex flex-col md:flex-row justify-center gap-3">
-        <div class="w-1/2 text-center">
+        <div class="w-full md:w-1/2 text-center">
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
@@ -94,8 +94,9 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col md:flex-row gap-3 justify-center items-center">
-        <div class="w-12/12 md:w-1/2 lg:w-7/12 2xl:w-8/12">
+      <div
+        class="flex-1 flex flex-col md:flex-row justify-center items-center py-4 my-2">
+        <div class="w-12/12 md:w-1/2 lg:w-8/12 2xl:w-8/12">
           <ProfileActivity :id="id" />
         </div>
       </div>

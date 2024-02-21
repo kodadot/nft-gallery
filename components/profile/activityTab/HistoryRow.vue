@@ -1,6 +1,6 @@
 <template>
   <div v-if="isDesktop" class="flex flex-col md:flex-row gap-3 mb-2">
-    <div class="flex-1 overflow-clip">
+    <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
           <NeoAvatar
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="flex-1 text-ellipsis">
+    <div class="flex-1 is-ellipsis">
       <div class="h-50 flex items-center">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />

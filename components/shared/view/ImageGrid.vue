@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-wrap gap-3">
-    <div v-for="(src, index) in props.images" :key="index" class="w-1/2">
+  <div class="flex flex-wrap">
+    <div v-for="(src, index) in props.images" :key="index" class="w-1/2 p-2">
       <SelectableImage
         :disabled="disabled"
         :index="index"

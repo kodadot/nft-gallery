@@ -4,8 +4,8 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <div class="flex flex-col gap-6 lg:flex-row">
-      <div class="w-full lg:w-2/5">
+    <div class="flex flex-col lg:flex-row">
+      <div class="w-full lg:w-2/5 lg:pr-7">
         <div
           id="nft-img-container"
           ref="imgref"
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <div class="py-8 w-full lg:w-3/5">
+      <div class="w-full lg:w-3/5 lg:pl-5 py-7">
         <div class="flex flex-col justify-between h-full">
           <!-- title section -->
           <div class="pb-2">
@@ -153,8 +153,8 @@
       </div>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-6 mt-5">
-      <div class="w-full lg:w-2/5">
+    <div class="flex flex-col lg:flex-row gap-8 mt-8 lg:pb-2">
+      <div class="w-full lg:w-2/5 lg:pr-4">
         <GalleryItemDescription
           ref="galleryDescriptionRef"
           :gallery-item="galleryItem" />

@@ -2,7 +2,7 @@
   <component
     :is="separated || multiline ? 'div' : 'NeoField'"
     v-if="options"
-    :class="{ 'flex flex-wrap gap-3': separated || multiline }">
+    :class="{ 'flex flex-wrap mb-3': separated || multiline }">
     <NeoRadioButton
       v-if="showEmpty"
       v-model="vValue"
@@ -39,7 +39,7 @@ const emit = defineEmits(['update:modelValue'])
 const vValue = useVModel(props, 'modelValue', emit)
 
 const cssClass = {
-  'w-1/2': props.separated,
-  'flex-1': props.multiline,
+  'w-1/2 p-3': props.separated,
+  'flex-1 p-3': props.multiline,
 }
 </script>
