@@ -137,7 +137,6 @@ const imageHash = ref('')
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -208,7 +207,6 @@ const {
   currentAccountMintedToken,
   collectionId,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(

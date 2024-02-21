@@ -1,5 +1,4 @@
 import { DoResult, DropMintedStatus } from '@/services/fxart'
-import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useEventListener } from '@vueuse/core'
@@ -24,7 +23,6 @@ export type UnlockableCollectionById = {
 type GenerativeDropMintParams = {
   mintedDropCount: Ref<number>
   collectionId: Ref<string>
-  defaultImage: Ref<string>
   currentAccountMintedToken: Ref<DropMintedStatus | null>
   defaultMax: Ref<number>
   collectionData: Ref<UnlockableCollectionById | undefined | null>
@@ -36,7 +34,6 @@ export default ({
   currentAccountMintedToken,
   collectionId,
   mintedDropCount,
-  defaultImage,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
@@ -98,24 +95,18 @@ export default ({
       return imageHash
     } catch (error) {
       toast($i18n.t('drops.capture'))
-      return defaultImage.value
+      throw error
     }
   }
 
   const getCaptureImageFile = async () => {
-    try {
-      const selectedImageHash = selectedImage.value.split('?hash=')[1]
-      const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
-      if (!imageDataPayload.value?.image || !isTheSameImage) {
-        throw new Error('Not loaded, try screenshot service')
-      }
-      const res = (await fetch(imageDataPayload.value.image)) as any
-      return new File([res], 'image.png', { type: 'image/png' })
-    } catch (error) {
-      return await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
-        webgl: false,
-      })
+    const selectedImageHash = selectedImage.value.split('?hash=')[1]
+    const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
+    if (!imageDataPayload.value?.image || !isTheSameImage) {
+      throw new Error('Failed to load image, please try again later')
     }
+    const res = (await fetch(imageDataPayload.value.image)) as any
+    return new File([res], 'image.png', { type: 'image/png' })
   }
 
   const subscribeToMintedNft = (id: string, onReady: (data) => void) => {

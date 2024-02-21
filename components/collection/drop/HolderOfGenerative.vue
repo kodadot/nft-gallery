@@ -164,7 +164,6 @@ const availableNfts = reactive<{
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -249,7 +248,6 @@ const {
   currentAccountMintedToken,
   collectionId,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(

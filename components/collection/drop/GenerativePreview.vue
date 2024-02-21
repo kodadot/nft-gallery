@@ -122,10 +122,11 @@ const entropyRange = computed<[number, number]>(() => [
   STEP * (props.minted + 1),
 ])
 
-const getHash = (isDefault?: boolean) => {
-  const randomSs58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+const getHash = () => {
+  const randomSs58Format = getRandomIntFromRange(
+    entropyRange.value[0],
+    entropyRange.value[1],
+  )
 
   const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
@@ -136,31 +137,29 @@ const getHash = (isDefault?: boolean) => {
   return blake2AsHex(initialValue, 256, null, true)
 }
 
-const generativeImageUrl = ref(
-  accountId.value ? `${props.drop.content}/?hash=${getHash(true)}` : '',
-)
+const generativeImageUrl = ref('')
 
 const isLoading = ref(false)
 
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.drop.image
 })
-const generateNft = (isDefault: boolean = false) => {
+const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
+  const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value, isDefault })
+  emit('generation:start', { image: generativeImageUrl.value })
 
   setTimeout(() => {
     isLoading.value = false
-    emit('generation:end', isDefault)
+    emit('generation:end')
   }, 3000)
 }
 
 watch(
   accountId,
   () => {
-    generateNft(true)
+    generateNft()
   },
   {
     immediate: true,
