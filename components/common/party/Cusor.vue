@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute z-[998] pointer-events-none transition-all"
+    class="absolute z-10 pointer-events-none transition-all"
     :class="[{ 'opacity-20': cursorDetails.ghost }]"
     :style="{
       top: `${connection.cursor?.y}px`,
