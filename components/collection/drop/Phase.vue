@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mt-20 md:mt-0 mb-5">
+    <div class="flex justify-between items-center mt-24 md:mt-0 mb-5">
       <div class="font-bold is-size-5">
         {{ currentPhaseTitle }}
       </div>

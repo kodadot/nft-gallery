@@ -70,7 +70,7 @@
       @mint="emit('mint')" />
 
     <div
-      class="flex justify-center w-full absolute -bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
       <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
         <NeoIcon
           icon="fa-sharp fa-solid fa-hourglass-half"
