@@ -74,14 +74,6 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
-
 const props = withDefaults(
   defineProps<{
     drop: DropItem
