@@ -6,10 +6,10 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="w-full flex items-center px-5 lg:px-10">
+    <div class="w-full md:flex px-[1.25rem] md:px-[2.5rem] items-center">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+        <nuxt-link to="/" class="navbar-item logo nuxt-link-active px-0">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot" />
@@ -38,7 +38,7 @@
         <!-- BURGER MENU -->
         <a
           role="button"
-          class="navbar-burger"
+          class="navbar-burger px-0"
           :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
