@@ -4,7 +4,7 @@
 
     <section class="h-[368px] lg:h-full">
       <div
-        class="relative w-full mx-auto px-5 md:px-10 min-[1440px]:max-w-[1440px] h-full flex justify-end items-start flex-col md:justify-between md:items-end md:flex-row">
+        class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] h-full flex justify-end items-start flex-col md:justify-between md:items-end md:flex-row">
         <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
           <div class="collection-banner-avatar">
             <NuxtImg
