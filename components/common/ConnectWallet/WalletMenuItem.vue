@@ -10,7 +10,7 @@
               :src="wallet.img"
               :alt="wallet.extensionName"
               width="32"
-              style="vertical-align: middle" />
+              class="align-middle" />
             <span class="text-base ml-2 capitalize">{{ wallet.name }}</span>
 
             <NeoTag
