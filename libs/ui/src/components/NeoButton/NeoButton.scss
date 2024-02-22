@@ -184,6 +184,20 @@
       //   @apply flex justify-between items-center;
       // }
     }
+
+
+    &--secondary-rounded {
+      @apply rounded-[2rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-text-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      &__active,
+      &.active {
+        @apply border-2;
+      }
+    }
   }
 
   &.is-text {
