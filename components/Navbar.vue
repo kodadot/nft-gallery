@@ -142,12 +142,10 @@
           <NotificationBoxButton
             v-if="account"
             data-testid="navbar-button-notification"
-            :show-label="isTouch"
             @closeBurgerMenu="showMobileNavbar" />
 
           <ShoppingCartButton
             data-testid="navbar-button-cart"
-            :show-label="isTouch"
             @closeBurgerMenu="showMobileNavbar" />
 
           <div class="lg:!hidden">
