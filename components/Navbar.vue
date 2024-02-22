@@ -204,7 +204,6 @@
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
@@ -219,6 +218,11 @@ import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
+import {
+  isConnectWalletModalOpen,
+  openConnectWalletModal,
+} from './common/ConnectWallet/useConnectWallet'
+import { ModalCloseType } from './navbar/types'
 
 const { neoModal } = useProgrammatic()
 const openMobileSearchBar = ref(false)
@@ -251,12 +255,18 @@ const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
+  neoModal.closeAll()
 
-  closeAllModals()
-  neoModal.open({
-    ...ConnectWalletModalConfig,
-    ...(isMobile ? { animation: 'none' } : {}),
-  })
+  if (!isConnectWalletModalOpen()) {
+    openConnectWalletModal({
+      onClose: (type: ModalCloseType) => {
+        if (isTouch && type === ModalCloseType.BACK) {
+          showMobileNavbar()
+        }
+      },
+      ...(isMobile ? { animation: 'none' } : {}),
+    })
+  }
 }
 
 const showMobileNavbar = () => {
