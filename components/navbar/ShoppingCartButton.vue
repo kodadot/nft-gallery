@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-item flex items-center" @click="toggleShoppingCartModal">
-    <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-    <div class="relative w-4 h-4" :class="{ 'ml-2': showLabel }">
+    <span class="lg:hidden">{{ $t('shoppingCart.label') }}</span>
+    <div class="relative w-4 h-4 ml-2 lg:!ml-0">
       <NeoIcon
         class="w-4 h-4"
         icon="fa-shopping-cart-outline-sharp"
@@ -32,10 +32,6 @@ const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
   () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length,
 )
-
-const props = defineProps<{
-  showLabel: boolean
-}>()
 
 const emit = defineEmits(['closeBurgerMenu'])
 const { isMobile, isMobileOrTablet } = useDevice()
