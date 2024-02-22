@@ -151,14 +151,12 @@ const resetPage = () => {
   gotoPage(1)
 }
 
-const debouncedResetPage = useDebounceFn(resetPage, 500)
-
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
   isLoading,
-  resetSearch: debouncedResetPage,
+  resetSearch: resetPage,
   resetSearchQueryParams: props.resetSearchQueryParams,
 })
 
