@@ -21,46 +21,46 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const { chainSymbol, decimals } = useChain()
 const { totalSpent, getUserStats } = useUserStats()
+const { accountId } = useAuth()
 
 const { connections } = useCursorParty({
   room: computed(() => props.dropAlias),
-  spent: totalSpent,
+  spent: computed(() => (accountId.value ? totalSpent.value : undefined)),
 })
 
 const labelFormatter = (connection: UserDetails): CursorLabel => {
   const lastEvent = connection.lastEvent
+  const hasSpent = connection.spent !== undefined
 
-  const spentLabel = {
-    label: `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value, chainSymbol.value === 'DOT' ? 0 : undefined)} ${chainSymbol.value}`,
-  } as CursorLabel
+  if (lastEvent) {
+    if (
+      lastEvent.type === DropEventType.DROP_MINTED &&
+      Date.now() - lastEvent.timestamp < DROP_MITED_EVENT_DURATION
+    ) {
+      return { image: lastEvent.image }
+    }
 
-  if (!lastEvent) {
-    return spentLabel
-  }
-
-  if (
-    lastEvent.type === DropEventType.DROP_MINTED &&
-    Date.now() - lastEvent.timestamp < DROP_MITED_EVENT_DURATION
-  ) {
-    return { image: lastEvent.image }
-  }
-
-  if (
-    [DropEventType.DROP_GENERATING, DropEventType.DROP_MINTING].includes(
-      lastEvent.type,
-    ) &&
-    !lastEvent.completed
-  ) {
-    return {
-      label:
-        lastEvent.type === DropEventType.DROP_GENERATING
-          ? $i18n.t('mint.unlockable.generating')
-          : $i18n.t('mint.unlockable.minting'),
-      loading: lastEvent.type === DropEventType.DROP_MINTING,
+    if (
+      [DropEventType.DROP_GENERATING, DropEventType.DROP_MINTING].includes(
+        lastEvent.type,
+      ) &&
+      !lastEvent.completed
+    ) {
+      return {
+        label:
+          lastEvent.type === DropEventType.DROP_GENERATING
+            ? $i18n.t('mint.unlockable.generating')
+            : $i18n.t('mint.unlockable.minting'),
+        loading: lastEvent.type === DropEventType.DROP_MINTING,
+      }
     }
   }
 
-  return spentLabel
+  if (hasSpent) {
+    return {
+      label: `${formatAmountWithRound(Number(connection.spent) || 0, decimals.value, chainSymbol.value === 'DOT' ? 0 : undefined)} ${chainSymbol.value}`,
+    } as CursorLabel
+  }
 }
 
 watch(() => props.userMintedCount, getUserStats)

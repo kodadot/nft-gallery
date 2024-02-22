@@ -16,7 +16,9 @@ import { UserDetails } from '@/composables/party/types'
 import isEqual from 'lodash/isEqual'
 import Cursor from './Cusor.vue'
 
-export type CursorLabel = { loading?: boolean; label?: string; image?: string }
+export type CursorLabel =
+  | { loading?: boolean; label?: string; image?: string }
+  | undefined
 
 export type CursorDetails = {
   color: string
@@ -98,8 +100,6 @@ const checkGhostCursors = () => {
 watch(
   () => props.connections,
   (connections, prevConnections) => {
-    checkGhostCursors()
-
     connections.forEach((connection) => {
       const isNew = !cursorConnections.value.has(connection.id)
       const prevConnection = prevConnections?.find(
@@ -121,6 +121,8 @@ watch(
         })
       }
     })
+
+    checkGhostCursors()
   },
   { immediate: true, deep: true },
 )

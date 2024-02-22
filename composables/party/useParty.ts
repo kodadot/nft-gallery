@@ -32,6 +32,13 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
       console.log('[PARTY::CONNECTION] Connection established 🎉')
     })
 
+    ws.addEventListener('error', (error) => {
+      console.log(
+        `[PARTY::CONNECTION] Connection with room ${room} failed ❗️`,
+        error,
+      )
+    })
+
     attachMessageListener(ws)
 
     wss.value.set(room, ws)

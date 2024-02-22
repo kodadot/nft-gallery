@@ -1,5 +1,6 @@
 <template>
   <SigningModal
+    v-if="isOnlyHolderOfMint"
     :title="$t('mint.nft.minting')"
     :is-loading="isLoading"
     :status="status"
@@ -7,7 +8,7 @@
     @try-again="mintNft" />
 
   <NeoModal
-    v-if="status === TransactionStatus.Finalized"
+    v-if="isOnlyHolderOfMint && status === TransactionStatus.Finalized"
     :value="isSuccessModalActive"
     teleport>
     <ModalBody
@@ -39,7 +40,27 @@
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
+  <CollectionDropModalPaidMint
+    v-if="isHolderOfWithPaidMint"
+    v-model="isMintModalActive"
+    :action="action"
+    :to-mint-nft="toMintNft"
+    :minted-nft="mintedNft"
+    :minimum-funds="minimumFunds"
+    :is-allocating-raffle="isAllocatingRaffle"
+    :has-minimum-funds="hasMinimumFunds"
+    :can-list-nft="canListMintedNft"
+    :formatted-minimum-funds="formattedMinimumFunds"
+    :formatted-existential-deposit="formattedExistentialDeposit"
+    :token="token"
+    :chain="chainName"
+    hide-minimum-funds-warning
+    @confirm="mintNft"
+    @close="closeMintModal"
+    @list="handleList" />
+
   <CollectionDropAddFundsModal
+    v-if="isOnlyHolderOfMint"
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
     :formatted-minimum-funds="formattedMinimumFunds"
@@ -68,11 +89,14 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
-import {
+import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
   MintButtonProp,
+  ToMintNft,
 } from './types'
+import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 const props = withDefaults(
   defineProps<{
@@ -85,8 +109,12 @@ const props = withDefaults(
 
 const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
   $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
@@ -112,12 +140,15 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-const { chainSymbol, withoutDecimals } = useChain()
+const { chainSymbol, withoutDecimals, decimals } = useChain()
+
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const isSuccessModalActive = ref(false)
+const isAllocatingRaffle = ref(false)
+const isMintModalActive = ref(false)
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
@@ -140,7 +171,13 @@ const {
   disabledByBackend,
   token,
   holderOfCollectionId,
+  price,
 } = useGenerativeDropDetails(props.drop)
+
+const { usd: priceUSD } = useAmount(price, decimals, chainSymbol)
+
+const isHolderOfWithPaidMint = computed(() => Boolean(price.value))
+const isOnlyHolderOfMint = computed(() => !isHolderOfWithPaidMint.value)
 
 const {
   howAboutToExecute,
@@ -149,6 +186,27 @@ const {
   status,
   isError: isTransactionError,
 } = useMetaTransaction()
+
+const action = computed<AutoTeleportAction>(() => ({
+  interaction: ActionlessInteraction.PAID_DROP,
+  handler: () => mint(),
+  details: {
+    isLoading: isTransactionLoading.value,
+    status: status.value,
+    isError: isTransactionError.value,
+  },
+}))
+
+const toMintNft = computed<ToMintNft>(() => ({
+  image: sanitizeIpfsUrl(selectedImage.value),
+  name:
+    collectionName.value && raffleId.value
+      ? `${collectionName.value} #${raffleId.value}`
+      : '',
+  collectionName: collectionName.value || '',
+  price: price.value as string,
+  priceUSD: priceUSD.value,
+}))
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -322,6 +380,7 @@ const clearWalletConnecting = () => {
 
 const allocateRaffle = async () => {
   isLoading.value = true
+  isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
   imageHash.value = imageUrl.searchParams.get('hash') || ''
@@ -356,6 +415,7 @@ const allocateRaffle = async () => {
     raffleId.value = response.result.id
   }
 
+  isAllocatingRaffle.value = false
   isLoading.value = false
 }
 
@@ -373,18 +433,33 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  if (hasMinimumFunds.value) {
-    // skip raffle modal at the moment. generate random email instead
-    // isRaffleModalActive.value = true
-    const crypto = window.crypto
-    const array = new Uint32Array(1)
-    raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  // use paid modal if it's holder of + price
+  if (isHolderOfWithPaidMint.value) {
+    isMintModalActive.value = true
+    await prepareRaffle()
+    return
+  }
 
-    await allocateRaffle()
-    await mintNft()
+  if (hasMinimumFunds.value) {
+    mint()
   } else {
     openAddFundModal()
   }
+}
+
+const prepareRaffle = async () => {
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  const crypto = window.crypto
+  const array = new Uint32Array(1)
+  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+
+  await allocateRaffle()
+}
+
+const mint = async () => {
+  await prepareRaffle()
+  await mintNft()
 }
 
 const openAddFundModal = () => {
@@ -455,6 +530,10 @@ const checkAvailableNfts = async () => {
 
   availableNfts.amount = claimed.filter((x) => !x).length
   availableNfts.isLoading = false
+}
+
+const closeMintModal = () => {
+  isMintModalActive.value = false
 }
 
 const handleDropAddModalConfirm = () => {
