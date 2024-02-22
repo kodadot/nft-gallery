@@ -9,8 +9,12 @@ $modal-overlay-background-color: rgb(0 0 0 / 0.17);
 @import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
 .neo-modal {
+  .o-modal__overlay {
+    background-color: transparent;
+  }
+
   .o-modal__content {
-    @apply w-auto max-h-[var(--max-height)] shadow-primary border-default border-border-color text-text-color bg-background-color;
+    @apply w-full max-h-[var(--max-height)] shadow-primary border-default border-border-color text-text-color bg-background-color;
 
     hr {
       @apply bg-k-shade2 #{!important}; 
