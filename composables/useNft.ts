@@ -85,7 +85,7 @@ function getAttributes(nft, metadata) {
 function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
   return {
     ...nft,
-    name: addSnSuffixName(nft.name || nft.meta.name, nft.sn) || nft.id,
+    name: nameWithIndex(nft.name || nft.meta.name, nft.sn) || nft.id,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animationUrl: sanitizeIpfsUrl(
@@ -166,8 +166,7 @@ async function getProcessMetadata<T extends NFTWithMetadata>(nft: T) {
   return {
     ...nft,
     name:
-      addSnSuffixName(nft.name || metadata.name, nft.sn || metadata.sn) ||
-      nft.id,
+      nameWithIndex(nft.name || metadata.name, nft.sn || metadata.sn) || nft.id,
     description: nft.description || metadata.description || '',
     image,
     animationUrl,
