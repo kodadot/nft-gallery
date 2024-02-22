@@ -3,12 +3,13 @@
     <div class="column is-clipped">
       <div class="flex items-center">
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
-          <NeoAvatar
-            :image-component="NuxtImg"
-            :avatar="avatar"
-            :placeholder="placeholder"
-            :name="event.Item.name"
-            :size="50" />
+          <BaseMediaItem
+            class="border border-k-shade w-12 h-12"
+            :alt="event.Item.name"
+            :src="image"
+            :animation-src="animationUrl"
+            preview
+            is-detail />
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis inline-block"
@@ -79,12 +80,13 @@
     <div class="flex h-70 line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
-          <NeoAvatar
-            :image-component="NuxtImg"
-            :avatar="avatar"
-            :placeholder="placeholder"
-            :name="event.Item.name"
-            :size="70" />
+          <BaseMediaItem
+            class="border border-k-shade w-12 h-12"
+            :alt="event.Item.name"
+            :src="image"
+            :animation-src="animationUrl"
+            preview
+            is-detail />
         </div>
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
@@ -137,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoAvatar, NeoTooltip } from '@kodadot1/brick'
+import { NeoTooltip } from '@kodadot1/brick'
 import { Event } from './History.vue'
 import {
   blank,
@@ -146,7 +148,7 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { nameWithIndex, parseNftAvatar } from '@/utils/nft'
+import { nameWithIndex } from '@/utils/nft'
 
 const props = defineProps<{
   event: Event
@@ -154,11 +156,9 @@ const props = defineProps<{
   variant: 'Desktop' | 'Touch'
 }>()
 
-const NuxtImg = resolveComponent('NuxtImg')
-
 const { urlPrefix } = usePrefix()
-const avatar = ref()
-const { placeholder } = useTheme()
+const image = ref()
+const animationUrl = ref()
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
 const isDesktop = computed(() => props.variant === 'Desktop')
@@ -171,7 +171,9 @@ const interactionName = computed(
 
 const getAvatar = async () => {
   if (props.event.Item) {
-    avatar.value = await parseNftAvatar(props.event.Item)
+    const meta = await getNftMetadata(props.event.Item, urlPrefix.value)
+    image.value = meta.image
+    animationUrl.value = meta.animationUrl
   }
 }
 
