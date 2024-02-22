@@ -3,7 +3,11 @@
     <o-modal
       v-model:active="isModalActive"
       class="neo-modal"
-      :class="[`max-h-[${maxHeight}]`, { 'append-to-body': appendToBody }]"
+      :class="[
+        `max-h-[${maxHeight}]`,
+        'w-[380px] mx-auto',
+        { 'append-to-body': appendToBody },
+      ]"
       scroll="clip"
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
@@ -62,7 +66,6 @@ const maxHeight = computed(() => {
   }
   return props.maxHeight
 })
-console.log(maxHeight.value)
 
 const isModalActive = useVModel(props, 'value')
 
