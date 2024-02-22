@@ -46,6 +46,7 @@ interface State {
   mobileFilterCollapseOpen: boolean
   notificationBoxCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
+  connectWalletModalOpen: boolean
   listingCartModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
@@ -83,6 +84,7 @@ export const usePreferencesStore = defineStore('preferences', {
     notificationBoxCollapseOpen: false,
     listingCartModalOpen: false,
     shoppingCartCollapseOpen: false,
+    connectWalletModalOpen: false,
     completePurchaseModal: {
       isOpen: false,
       mode: 'shopping-cart',
@@ -117,6 +119,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getNotificationBoxCollapse: (state) => state.notificationBoxCollapseOpen,
     getShoppingCartCollapse: (state) => state.shoppingCartCollapseOpen,
     getCompletePurchaseModal: (state) => state.completePurchaseModal,
+    getConnectWalletModalCollapse: (state) => state.connectWalletModalOpen,
     getTriggerBuySuccess: (state) => state.triggerBuySuccess,
     getLayoutClass: (state) => state.layoutClass,
     getGridConfigBySection: (state) => (section: GridSection) =>
@@ -151,6 +154,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setShoppingCartCollapse(payload) {
       this.shoppingCartCollapseOpen = payload
+    },
+    setConnectWalletModalCollapse(payload) {
+      this.connectWalletModalOpen = payload
     },
     setCompletePurchaseModal(payload: CompletePurchaseModalState) {
       this.completePurchaseModal = payload
