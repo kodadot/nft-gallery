@@ -75,7 +75,7 @@ export type DropItem = {
   max?: number
   price?: string
   holder_of?: string
-  campaignLocation?: string[]
+  location?: string
   userLocation?: string
   userAccess?: boolean
 }

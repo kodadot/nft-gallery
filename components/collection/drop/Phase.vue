@@ -36,12 +36,12 @@
 
     <!-- if there is location on the campaign -->
     <CollectionDropRequirementItem
-      v-if="drop.campaignLocation?.length"
+      v-if="drop.location"
       :fulfilled="Boolean(drop.userAccess)">
       <p class="capitalize">
         Location Verification: You are
         <span v-if="!Boolean(drop.userAccess)" class="font-bold">not</span> in
-        <span class="font-bold">{{ drop.campaignLocation.join(', ') }}</span>
+        <span class="font-bold">{{ drop.location }}</span>
       </p>
     </CollectionDropRequirementItem>
   </div>
