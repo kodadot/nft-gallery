@@ -1,7 +1,7 @@
 <template>
   <div
-    id="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px]">
+    data-partykit="generative-preview-card"
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
@@ -68,6 +68,16 @@
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
       @mint="emit('mint')" />
+
+    <div
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
+        <NeoIcon
+          icon="fa-sharp fa-solid fa-hourglass-half"
+          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+        Generate
+      </p>
+    </div>
   </div>
 </template>
 
@@ -82,6 +92,7 @@ import type {
   MintButtonProp,
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
+import { isValidSs58Format } from '@/utils/ss58Format'
 
 const props = defineProps<{
   drop: DropItem
@@ -99,7 +110,7 @@ const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
-const emit = defineEmits(['select', 'mint'])
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -122,9 +133,11 @@ const entropyRange = computed<[number, number]>(() => [
 ])
 
 const getHash = (isDefault?: boolean) => {
-  const ss58Format = isDefault
+  const randomSs58Format = isDefault
     ? entropyRange.value[0]
     : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+
+  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
   const initialValue = accountId.value
@@ -146,10 +159,11 @@ const generateNft = (isDefault: boolean = false) => {
   isLoading.value = true
   const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
   generativeImageUrl.value = metadata
-  emit('select', generativeImageUrl.value)
+  emit('generation:start', { image: generativeImageUrl.value, isDefault })
 
   setTimeout(() => {
     isLoading.value = false
+    emit('generation:end', isDefault)
   }, 3000)
 }
 
