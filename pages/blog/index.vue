@@ -15,9 +15,7 @@
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
       class="relative z-[1] mb-20 content-list">
-      <div
-        class="content-list-cover"
-        :style="{ backgroundImage: `url(${post.image})` }"></div>
+      <div class="content-list-cover" :class="`bg-[${posts.image}]`"></div>
 
       <div class="content-list-card">
         <div>
@@ -51,9 +49,7 @@
         :key="post.title"
         class="content-board block"
         :to="post._path">
-        <div
-          class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"></div>
+        <div class="content-board-cover" :class="`bg-[${post.image}]`"></div>
         <div class="content-board-text">
           <p class="font-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">
@@ -71,9 +67,7 @@
         :key="post.title"
         class="content-board block"
         :to="post._path">
-        <div
-          class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"></div>
+        <div class="content-board-cover" :class="`bg-[${post.image}]`"></div>
         <div class="content-board-text">
           <p class="font-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">

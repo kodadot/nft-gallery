@@ -7,8 +7,10 @@
       :to="`${collection?.id && `/${urlPrefix}/collection/${collection.id}`}`">
       <div
         class="h-[112px] md:h-[142px] flex items-center justify-center group-hover:opacity-[0.85] bg-center bg-cover"
-        :style="{ backgroundImage: `url(${collection?.image})` }"
-        :class="`${!collection && 'bg-k-shade animate-pulse'}`">
+        :class="[
+          `${!collection && 'bg-k-shade animate-pulse'}`,
+          `bg-[${collection?.image}]`,
+        ]">
         <div class="border border-card-border-color w-[4.375rem] h-[4.375rem]">
           <BasicImage
             v-if="collection"

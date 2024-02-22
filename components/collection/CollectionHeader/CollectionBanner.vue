@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="collection-banner"
-    :style="{ backgroundImage: `url(${bannerImageUrl})` }">
+  <div :class="['collection-banner', `bg-[${bannerImageUrl}]`]">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
