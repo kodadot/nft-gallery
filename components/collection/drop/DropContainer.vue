@@ -18,9 +18,14 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="font-bold is-size-5">Mint Phase</div>
+              <div class="font-bold text-xl">Mint Phase</div>
               <div v-if="mintCountAvailable" class="flex items-center">
-                <img src="/unlockable-pulse.svg" alt="open" />
+                <span class="relative flex h-3 w-3 mr-2">
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-k-primary opacity-75"></span>
+                  <span
+                    class="relative inline-flex rounded-full h-3 w-3 bg-k-primary"></span>
+                </span>
                 {{ $t('mint.unlockable.open') }}
               </div>
             </div>
@@ -36,7 +41,7 @@
           </div>
           <div class="my-5">
             <div class="flex justify-between items-center">
-              <div class="title is-size-4">
+              <div class="title text-2xl">
                 <Money :value="pricePerMint" inline />
               </div>
               <div>

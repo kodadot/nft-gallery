@@ -11,7 +11,7 @@
   }
 
   :root,
-  :root .light-mode {
+  :root .light {
     --text-color: 0 0 0;
     --text-color-inverse: var(--white);
     --border-color: var(--black);
@@ -50,6 +50,7 @@
     --k-primary: #ff7ac3;
     --k-primary-light: #fff0f8;
     --k-shade: 204 204 204;
+    --k-shade2: #cccccc;
     --placeholder-color: #cccccc;
     --primary-shadow: 4px 4px #000;
     --disabled: #f3f3f3;
@@ -64,7 +65,7 @@
     --toggle-active-switch: #d9d9d9;
   }
 
-  .dark-mode {
+  .dark {
     --black: #191718;
     --text-color: 255 255 255;
     --text-color-inverse: var(--black);
@@ -96,6 +97,7 @@
     --k-blue-light: #363234;
     --k-primary-light: #363234;
     --k-shade: 153 153 153;
+    --k-shade2: #454545;
     --primary-shadow: 4px 4px #fff;
     --disabled: var(--black);
     --card-border-color: #6b6b6b;

@@ -1,11 +1,11 @@
 @import "../scss/theme";
 
 
-.dark-mode {
+.dark {
   --card-box-shadow: 4px 4px white;
 }
 
-.light-mode {
+.light {
   --card-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
 }
 

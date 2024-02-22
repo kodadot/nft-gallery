@@ -2,7 +2,7 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="border-b border-k-shade">
-        <p class="font-bold pb-4 is-size-5 flex justify-center px-0">
+        <p class="font-bold pb-4 text-xl flex justify-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
       </div>

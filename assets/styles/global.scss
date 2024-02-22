@@ -5,7 +5,7 @@ html {
   background-color: $white;
   // code mardkown style
   @include meta.load-css('prism-themes/themes/prism-one-light.css');
-  &.dark-mode {
+  &.dark {
     background-color: $scheme-main;
     // code mardkown style
     @include meta.load-css('prism-themes/themes/prism-one-dark.css');
@@ -43,8 +43,7 @@ body {
   }
 
   .input,
-  select,
-  .taginput-container {
+  select {
     @include ktheme() {
       background-color: theme('background-color') !important;
       color: theme('text-color') !important;
@@ -69,10 +68,6 @@ body {
     }
   }
 
-  .taginput-container.is-focusable {
-    height: auto !important;
-  }
-
   .select {
     &:not(.is-multiple):not(.is-loading)::after {
       @include ktheme() {
@@ -91,7 +86,6 @@ body {
   .label {
     color: $primary;
     text-transform: uppercase;
-    font-size: calc(1rem * 0.75);
   }
 
   .orientation {
@@ -100,7 +94,7 @@ body {
 
   .money-cursor,
   .money-cursor .button {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💸</text></svg>"),
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' class='text-2xl' style='fill:black;'><text y='50%'>💸</text></svg>"),
       auto;
   }
 
@@ -150,12 +144,6 @@ body {
       flex-direction: column-reverse;
     }
   }
-
-  @include tablet {
-    .short-name-column {
-      width: 20%;
-    }
-  }
 }
 
 .chain-logo {
@@ -184,11 +172,6 @@ hr {
   .button {
     @apply bg-k-accent-light-2 text-text-color;
   }
-}
-
-.icon svg {
-  width: 1rem;
-  height: 1rem;
 }
 
 // global table css
@@ -240,14 +223,6 @@ hr {
   height: 100% !important;
 }
 
-.no-border-left {
-  border-left: none !important;
-}
-
-.w-half {
-  width: 50%;
-}
-
 .has-accent-blur {
   position: relative;
   .blur {
@@ -257,22 +232,19 @@ hr {
   }
 }
 
-.is-size-3-5 {
-  font-size: 1.6rem;
-}
-
-.is-size-8 {
-  font-size: 0.5rem;
-}
-
-.is-max-width-fit-content {
-  max-width: fit-content;
-}
-
-.is-overflow-y-auto {
-  overflow-y: auto;
-}
-
-.min-width-0 {
-  min-width: 0;
+.inverse-text {
+  letter-spacing: -0.02em;
+  @include ktheme() {
+    color: theme('text-color-inverse');
+    text-shadow:
+      1px 1px 0 theme('text-color'),
+      1px -1px 0 theme('text-color'),
+      -1px 1px 0 theme('text-color'),
+      -1px -1px 0 theme('text-color'),
+      1px 0px 0 theme('text-color'),
+      0px 1px 0 theme('text-color'),
+      -1px 0px 0 theme('text-color'),
+      0px -1px 0 theme('text-color'),
+      4px 4px theme('text-color');
+  }
 }

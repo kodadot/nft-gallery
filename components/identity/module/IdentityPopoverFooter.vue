@@ -2,23 +2,23 @@
   <div class="popover-stats-container flex flex-col pt-2">
     <div class="pb-2">
       <div class="flex items-center justify-between">
-        <span class="is-size-6">{{ $t('profile.collected') }}</span>
+        <span class="text-base">{{ $t('profile.collected') }}</span>
 
-        <p class="is-size-6" data-testid="identity-collected">
+        <p class="text-base" data-testid="identity-collected">
           {{ totalCollected }}
         </p>
       </div>
       <div class="flex items-center justify-between">
-        <span class="is-size-6">{{ $t('profile.created') }}</span>
+        <span class="text-base">{{ $t('profile.created') }}</span>
 
-        <p class="is-size-6" data-testid="identity-created">
+        <p class="text-base" data-testid="identity-created">
           {{ totalCreated }}
         </p>
       </div>
       <div class="flex items-center justify-between">
-        <span class="is-size-6">{{ $t('profile.sold') }}</span>
+        <span class="text-base">{{ $t('profile.sold') }}</span>
 
-        <p class="is-size-6" data-testid="identity-sold">
+        <p class="text-base" data-testid="identity-sold">
           {{ totalSold }}
         </p>
       </div>

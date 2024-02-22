@@ -2,7 +2,7 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="border-b border-k-shade">
-        <p class="flex justify-center pb-4 is-size-5">
+        <p class="flex justify-center pb-4 text-xl">
           {{ $t('massmint.reviewTtile') }}
         </p>
       </div>

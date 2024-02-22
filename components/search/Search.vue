@@ -59,6 +59,7 @@ const emit = defineEmits<{
   (e: 'update:priceMax', value?: number): void
 }>()
 
+const { neoModal } = useProgrammatic()
 const { $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { decimals } = useChain()
@@ -177,6 +178,10 @@ const updateSearch = (value: string): string => {
   return value
 }
 
+const focusInput = () => {
+  searchRef.value?.focusInput()
+}
+
 function bindFilterEvents(event: KeyboardEvent) {
   switch (event.key) {
     case 'b':
@@ -214,6 +219,10 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
 }
 
 function nativeSearch() {
+  if (name.value) {
+    neoModal.closeAll()
+  }
+
   redirectToGalleryPageIfNeed({ search: name.value })
   searchQuery.value = name.value
 }
@@ -267,4 +276,6 @@ onMounted(() => {
   existArray(route.query.sort as string[], updateSortBy)
   exist(route.query.listed, updateListed)
 })
+
+defineExpose({ focusInput })
 </script>

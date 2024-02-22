@@ -23,7 +23,7 @@
         :image="imagePreview"
         data-testid="create-nft-preview-box" />
 
-      <h1 class="title is-size-3 mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
@@ -64,25 +64,24 @@
           :placeholder="$t('mint.nft.description.placeholder')" />
       </NeoField>
 
-      <!-- select collections -->
-      <NeoField
-        :key="`collection-${currentChain}`"
-        ref="chooseCollectionRef"
-        :label="`${$t('mint.nft.collection.label')} *`"
-        @click="startSelectedCollection = true">
+      <!-- select blockchain -->
+      <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div class="w-full">
-          <p
-            :class="{
-              'text-k-red': startSelectedCollection && !selectedCollection,
-            }">
-            {{ $t('mint.nft.collection.message') }}
-          </p>
-          <ChooseCollectionDropdown
-            full-width
-            no-shadow
+          <p>{{ $t('mint.blockchain.message') }}</p>
+          <NeoSelect
+            v-model="selectChain"
             class="mt-3"
-            :preselected="preselectedCollectionId"
-            @selected-collection="onCollectionSelected" />
+            data-testid="create-nft-dropdown-select"
+            expanded
+            required>
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
         </div>
       </NeoField>
 
@@ -129,24 +128,25 @@
         </div>
       </NeoField>
 
-      <!-- select blockchain -->
-      <NeoField :label="`${$t('mint.blockchain.label')} *`">
+      <!-- select collections -->
+      <NeoField
+        :key="`collection-${currentChain}`"
+        ref="chooseCollectionRef"
+        :label="`${$t('mint.nft.collection.label')} *`"
+        @click="startSelectedCollection = true">
         <div class="w-full">
-          <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect
-            v-model="selectChain"
+          <p
+            :class="{
+              'text-k-red': startSelectedCollection && !selectedCollection,
+            }">
+            {{ $t('mint.nft.collection.message') }}
+          </p>
+          <ChooseCollectionDropdown
+            full-width
+            no-shadow
             class="mt-3"
-            data-testid="create-nft-dropdown-select"
-            expanded
-            required>
-            <option
-              v-for="menu in menus"
-              :key="menu.value"
-              :value="menu.value"
-              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
-              {{ menu.text }}
-            </option>
-          </NeoSelect>
+            :preselected="preselectedCollectionId"
+            @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
 
@@ -228,7 +228,7 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
-        class="is-size-6"
+        class="text-base"
         native-type="submit"
         size="medium"
         :loading="isLoading" />

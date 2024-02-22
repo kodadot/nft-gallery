@@ -12,6 +12,10 @@ $modal-overlay-background-color: rgb(0 0 0 / 0.17);
   .o-modal__content {
     @apply w-auto max-h-[var(--max-height)] shadow-primary border-default border-border-color text-text-color bg-background-color;
 
+    hr {
+      @apply bg-k-shade2 #{!important}; 
+    }
+
     &.no-shadow {
       @apply shadow-none;
     }

@@ -1,4 +1,4 @@
-import { DoResult, DropMintedStatus } from '@/services/waifu'
+import { DoResult, DropMintedStatus } from '@/services/fxart'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
@@ -16,6 +16,7 @@ export type UnlockableCollectionById = {
     name: string
     max: number
     nftCount: number
+    nfts: { sn: string }[]
   }
   nftEntitiesConnection: { totalCount: number }
 }
@@ -41,6 +42,7 @@ export default ({
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
+
   const imageDataPayload = ref<{ hash: string; image: string }>()
 
   const mintedNft = ref<DropMintedNft>()

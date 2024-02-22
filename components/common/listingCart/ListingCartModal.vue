@@ -150,7 +150,7 @@ const priceUSD = computed(() =>
 const totalNFTsPrice = computed(() =>
   Number(
     sum(
-      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice)),
+      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice || 0)),
     ).toFixed(4),
   ),
 )
