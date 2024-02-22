@@ -106,6 +106,7 @@
             class="navbar-item"
             data-testid="learn">
             {{ $t('learn') }}
+            <NeoIcon class="icon--right lg:ml-2" icon="up-right-from-square" />
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
