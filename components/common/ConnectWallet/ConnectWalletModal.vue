@@ -8,7 +8,7 @@
           ? $i18n.t('profile.page')
           : $i18n.t('walletConnect.walletHeading')
       "
-      @close="emit('close', ModalCloseType.BACK)" />
+      @close="closeWalletModal(ModalCloseType.BACK)" />
     <section v-if="showAccount">
       <WalletAsset />
     </section>
@@ -74,12 +74,32 @@ import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
+import { usePreferencesStore } from '@/stores/preferences'
+
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
+const prefrencesStore = usePreferencesStore()
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
 const emit = defineEmits(['close', 'connect'])
+
+const isOpen = computed({
+  get: () => prefrencesStore.getShoppingCartCollapse,
+  set: (value) => prefrencesStore.setShoppingCartCollapse(value),
+})
+
+watch(isOpen, (newValue, oldValue) => {
+  if (newValue === false && oldValue === true) {
+    emit('close')
+  }
+})
+
+const closeWalletModal = (type: ModalCloseType = ModalCloseType.NAVIGATION) => {
+  emit('close', type)
+  isOpen.value = false
+  document.body.classList.remove('is-clipped')
+}
 
 const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value)
