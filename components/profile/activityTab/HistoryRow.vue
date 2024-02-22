@@ -2,9 +2,11 @@
   <div v-if="isDesktop" class="columns mb-2">
     <div class="column is-clipped">
       <div class="flex items-center">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
+        <nuxt-link
+          :to="`/${urlPrefix}/gallery/${event.Item.id}`"
+          class="h-[50px]">
           <BaseMediaItem
-            class="border border-k-shade w-12 h-12"
+            class="border border-k-shade w-[3.125rem] h-[3.125rem]"
             :alt="event.Item.name"
             :src="image"
             :animation-src="animationUrl"
@@ -22,7 +24,7 @@
     </div>
 
     <div class="column is-1">
-      <div class="h-50 flex items-center">
+      <div class="h-[50px] flex items-center">
         <EventTag
           :interaction="event.Type"
           :interaction-name="interactionName"
@@ -31,7 +33,7 @@
     </div>
 
     <div class="column is-ellipsis">
-      <div class="h-50 flex items-center">
+      <div class="h-[50px] flex items-center">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
         </div>
@@ -40,7 +42,7 @@
     </div>
 
     <div class="column">
-      <div class="h-50 flex items-center">
+      <div class="h-[50px] flex items-center">
         <nuxt-link
           v-if="!!fromAddress"
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -54,7 +56,7 @@
     </div>
 
     <div v-if="withToColumn" class="column">
-      <div class="h-50 flex items-center">
+      <div class="h-[50px] flex items-center">
         <nuxt-link
           v-if="!!toAddress"
           :to="`/${urlPrefix}/u/${toAddress}`"
@@ -68,7 +70,7 @@
     </div>
 
     <div class="column">
-      <div class="h-50 flex items-center">
+      <div class="h-[50px] flex items-center">
         <NeoTooltip :label="event.Date" position="left">
           <BlockExplorerLink :block-id="event.Block" :text="event.Time" />
         </NeoTooltip>
@@ -76,12 +78,12 @@
     </div>
   </div>
   <!-- Mobile -->
-  <div v-else class="mb-6 flex flex-col gap-10px">
-    <div class="flex h-70 line-height-1">
+  <div v-else class="mb-6 flex flex-col gap-[10px]">
+    <div class="flex h-[70px] leading-[1]">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <BaseMediaItem
-            class="border border-k-shade w-12 h-12"
+            class="border border-k-shade w-[4.375rem] h-[4.375rem]"
             :alt="event.Item.name"
             :src="image"
             :animation-src="animationUrl"
@@ -89,9 +91,9 @@
             is-detail />
         </div>
       </nuxt-link>
-      <div class="flex flex-col justify-center gap-10px flex-grow">
+      <div class="flex flex-col justify-center gap-[10px] flex-grow">
         <nuxt-link
-          class="is-ellipsis inline-block mobile-fixed-width"
+          class="is-ellipsis inline-block w-60"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="font-bold">
             {{ nameWithIndex(event.Item.name, event.Item.sn) }}
@@ -116,7 +118,7 @@
       </div>
     </div>
 
-    <div class="flex gap">
+    <div class="flex gap-4">
       <div v-if="!!fromAddress" class="flex items-center">
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
@@ -177,44 +179,5 @@ const getAvatar = async () => {
   }
 }
 
-onMounted(() => {
-  getAvatar()
-})
+onBeforeMount(getAvatar)
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.fixed-width {
-  width: 66px;
-}
-
-.fixed-height {
-  height: 22px;
-}
-.h-50 {
-  height: 50px;
-}
-
-.h-70 {
-  height: 70px;
-}
-
-.mobile-fixed-width {
-  @include mobile {
-    width: 240px;
-  }
-}
-
-.line-height-1 {
-  line-height: 1;
-}
-
-.gap-10px {
-  gap: 10px;
-}
-
-.gap {
-  gap: 1rem;
-}
-</style>
