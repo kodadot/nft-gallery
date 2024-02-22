@@ -2,6 +2,7 @@
   <a class="navbar-item" @click="toggleNotificationModal">
     <span class="lg:hidden">{{ $t('notification.notifications') }}</span>
     <NeoIcon icon="bell" class="w-4 h-4 ml-2 lg:!ml-0" size="medium" />
+    <NeoIcon class="icon--right lg:!hidden" icon="chevron-right" />
   </a>
 </template>
 

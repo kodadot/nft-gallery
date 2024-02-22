@@ -13,6 +13,7 @@
         rounded
         class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs" />
     </div>
+    <NeoIcon class="icon--right lg:!hidden" icon="chevron-right" />
   </div>
 </template>
 
