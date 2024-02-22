@@ -18,7 +18,7 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            class="square-40 mr-2"
+            class="size-[40px] mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
@@ -322,11 +322,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-.square-40 {
-  width: 40px;
-  height: 40px;
-}
-
 :deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;

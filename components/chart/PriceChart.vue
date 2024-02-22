@@ -57,7 +57,7 @@
       </NeoDropdownItem>
     </NeoDropdown>
 
-    <div :class="{ content: !chartHeight }" :style="heightStyle">
+    <div :class="[{ content: !chartHeight }, `h-[${chartHeight}]`]">
       <Line
         ref="chart"
         :data="chartData"
@@ -146,10 +146,6 @@ const setTimeRange = (value: { value: number; label: string }) => {
 
 const vHideOutliers = useVModel(props, 'hideOutliers', emit)
 const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
-
-const heightStyle = computed(() =>
-  props.chartHeight ? `height: ${props.chartHeight}` : '',
-)
 
 const chart = ref<{ chart: InstanceType<typeof ChartJS> } | null>(null)
 

@@ -13,7 +13,7 @@
     class="border-default border-border-color max-w-none object-cover"
     :width="size"
     :height="size"
-    :style="customStyle"
+    :class="`size-[${size}px]`"
     :original="true" />
   <img
     v-else
@@ -21,25 +21,18 @@
     :alt="name"
     :width="size"
     :height="size"
-    :style="customStyle"
-    :class="className" />
+    :class="`size-[${size}px]`" />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { ImageComponent } from '../TheImage/TheImage.vue'
 import ImageMedia from '../MediaItem/type/ImageMedia.vue'
 
-const props = defineProps<{
+defineProps<{
   imageComponent?: ImageComponent
   avatar?: string
   placeholder: string
   name: string
   size: number
 }>()
-
-const customStyle = computed(() => ({
-  width: `${props.size}px`,
-  height: `${props.size}px`,
-}))
 </script>

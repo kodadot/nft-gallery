@@ -4,7 +4,7 @@
     <div
       v-if="value > 0"
       class="absolute left-[-1px] top-[-1px] h-full bg-current box-content border border-border-color rounded-[2.5rem]"
-      :style="widthStyle"></div>
+      :class="`w-[${width}%]`"></div>
   </div>
 </template>
 
@@ -18,5 +18,5 @@ const props = withDefaults(
   },
 )
 
-const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
+const width = computed(() => `${props.value * 100}%`)
 </script>

@@ -1,6 +1,6 @@
 <template>
   <NeoButton
-    style="width: 40px"
+    class="w-[40px]"
     no-shadow
     icon-left="gift"
     :tag="NuxtLink"

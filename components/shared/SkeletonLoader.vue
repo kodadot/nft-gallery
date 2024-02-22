@@ -23,7 +23,7 @@
           size="large"
           spin />
 
-        <div :style="{ width: textContainerWidth }">
+        <div :class="`w-[${textContainerWidth}]`">
           <p ref="titleRef" class="capitalize font-bold text-base">
             {{ title || $t('general.doingSomeMagic') }}
           </p>
