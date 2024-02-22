@@ -40,7 +40,8 @@
             :mint-count-available="mintCountAvailable"
             :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
-            :holder-of-collection="holderOfCollection" />
+            :holder-of-collection="holderOfCollection"
+            :drop="drop" />
 
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>

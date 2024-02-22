@@ -19,6 +19,7 @@ import type {
   MinimumFundsProp,
   MintButtonProp,
 } from '@/components/collection/drop/types'
+import { DropItem } from '@/params/types'
 
 const props = defineProps<{
   mintCountAvailable: boolean
@@ -31,6 +32,7 @@ const props = defineProps<{
   userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
   collectionId: string
+  drop: DropItem
 }>()
 
 const emit = defineEmits(['mint'])
@@ -67,6 +69,13 @@ const buttonMint = computed<{
       label: $i18n.t('checking'),
       disabled: true,
       withLabel: true,
+    }
+  }
+
+  if (!props.drop.userAccess) {
+    return {
+      label: props.mintButton.label,
+      disabled: true,
     }
   }
 
