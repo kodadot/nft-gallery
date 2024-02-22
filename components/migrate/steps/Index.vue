@@ -7,7 +7,7 @@
 
     <div class="mt-8 is-centered columns">
       <div class="is-5-widescreen column">
-        <h1 class="is-size-4">
+        <h1 class="text-2xl">
           <span
             :class="{
               'font-bold': section === 'review',

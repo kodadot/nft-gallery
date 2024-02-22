@@ -44,6 +44,7 @@
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
+    :is-allocating-raffle="isAllocatingRaffle"
     :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
@@ -53,7 +54,6 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-
   <ListingCartModal />
 </template>
 
@@ -72,14 +72,7 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
-
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const props = withDefaults(
   defineProps<{
@@ -93,6 +86,7 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 const { hasCurrentChainBalance } = useMultipleBalance()
+
 const {
   hasMinimumFunds,
   formattedMinimumFunds,
@@ -133,11 +127,12 @@ const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
 const isLoading = ref(false)
+const isAllocatingRaffle = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
 const raffleEmail = ref('')
-const raffleId = ref('')
+const raffleId = ref()
 const imageHash = ref('')
 
 const {
@@ -216,9 +211,19 @@ const {
   defaultImage,
 })
 
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
+
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (isLoading.value) {
+    return $i18n.t('loader.ipfs')
+  }
+
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('drops.mintForPaid', [
@@ -229,6 +234,7 @@ const mintButtonLabel = computed(() => {
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
+    isLoading.value ||
     !mintCountAvailable.value ||
     Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
@@ -264,11 +270,16 @@ const mintNft = async () => {
     ]
 
     mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args)
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    isLoading.value = false
   }
 }
 
@@ -284,6 +295,7 @@ const clearWalletConnecting = () => {
 
 const allocateRaffle = async () => {
   isLoading.value = true
+  isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
   imageHash.value = imageUrl.searchParams.get('hash') || ''
@@ -302,8 +314,23 @@ const allocateRaffle = async () => {
     image: selectedImage.value,
     metadata: metadata,
   }
-  const response = await allocateCollection(body, props.drop.id)
-  raffleId.value = response.result.id
+
+  // claim previous ID first. else, allocate new raffle
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
+    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
+  } else {
+    const response = await allocateCollection(body, props.drop.id)
+    raffleId.value = response.result.id
+  }
+
+  isAllocatingRaffle.value = false
   isLoading.value = false
 }
 
@@ -321,7 +348,13 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  isRaffleModalActive.value = true
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  const crypto = window.crypto
+  const array = new Uint32Array(1)
+  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  openMintModal()
+  await allocateRaffle()
 }
 
 const submitRaffle = async () => {
@@ -367,7 +400,6 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
-      txHash: result.txHash.versionstamp,
       collectionName: collectionName.value as string,
     }
   } catch (error) {

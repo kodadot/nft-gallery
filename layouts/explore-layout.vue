@@ -16,7 +16,7 @@
             <section class="pt-5">
               <div class="w-full px-5 md:px-10 mobile-padding">
                 <CollectionInfo />
-                <hr class="mb-0" />
+                <hr class="!bg-k-grey mb-0" />
               </div>
             </section>
           </div>
@@ -26,7 +26,7 @@
               <ExploreTabsFilterSort />
             </div>
           </section>
-          <hr class="text-color my-0" />
+          <hr class="!bg-text-color my-0" />
           <NuxtPage />
         </div>
       </main>
@@ -91,23 +91,3 @@ const getExploreTitle = computed(() => {
   return $i18n.t('explore')
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-hr {
-  @include ktheme() {
-    background: theme('k-grey');
-  }
-}
-.text-color {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-@include touch {
-  .mobile-padding {
-    padding: 0 1rem;
-  }
-}
-</style>

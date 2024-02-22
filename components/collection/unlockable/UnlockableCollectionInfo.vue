@@ -2,7 +2,7 @@
   <div class="flex justify-between mobile-flex-direction-column">
     <div class="flex flex-col flex-grow max-width">
       <div class="flex justify-between mb-2">
-        <div class="mr-2 font-bold is-size-5 mb-1">About Collection</div>
+        <div class="mr-2 font-bold text-xl mb-1">About Collection</div>
       </div>
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
@@ -29,15 +29,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
+import {
+  DESCRIPTION_MAX_LENGTH,
+  generatePreviewDescription,
+} from '@/components/collection/utils/description'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{ collectionId: string; description?: string }>()
 
 const seeAllDescription = ref(false)
-const DESCRIPTION_MAX_LENGTH = 210
 const { urlPrefix } = usePrefix()
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -53,8 +55,7 @@ const visibleDescription = computed(() => {
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
       ? source.value
-      : source.value?.slice(0, DESCRIPTION_MAX_LENGTH)
-    )?.replaceAll('\n', '  \n') || ''
+      : generatePreviewDescription(source.value)) || ''
   )
 })
 </script>

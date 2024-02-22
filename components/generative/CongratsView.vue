@@ -1,9 +1,9 @@
 <template>
   <section>
-    <p class="title is-size-3">Waii you made it! ✨</p>
-    <p class="title is-size-4">Your NFT should be ready in 1 minute</p>
+    <p class="title text-3xl">Waii you made it! ✨</p>
+    <p class="title text-2xl">Your NFT should be ready in 1 minute</p>
     <nuxt-link
-      class="is-size-4 link"
+      class="text-2xl link"
       :to="`/${urlPrefix}/collection/${collectionId}`">
       In the meanwhile, click here to check the collection ♥️🍷
     </nuxt-link>

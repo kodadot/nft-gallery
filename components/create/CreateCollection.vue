@@ -16,7 +16,7 @@
       class="is-half"
       :class="{ column: classColumn }"
       @submit.prevent="showConfirm">
-      <h1 class="title is-size-3 mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -141,7 +141,7 @@
 
       <!-- create collection button -->
       <NeoButton
-        class="is-size-6"
+        class="text-base"
         expanded
         :label="submitButtonLabel"
         native-type="submit"
@@ -168,6 +168,10 @@
         </p>
       </div>
     </form>
+    <CreateModalsCollectionSuccessModal
+      v-model="displaySuccessModal"
+      :tx-hash="txHash"
+      :collection="mintedCollectionInfo" />
   </div>
 </template>
 
@@ -198,6 +202,15 @@ import {
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@kodadot1/minimark/v1'
 
+export type MintedCollectionInfo = {
+  id: string
+  name: string
+  meta: {
+    image: string
+    description: string
+  }
+}
+
 // props
 withDefaults(
   defineProps<{
@@ -208,8 +221,14 @@ withDefaults(
   },
 )
 
+//refs
+
+const mintedCollectionInfo = ref<MintedCollectionInfo>()
+const collectionSubscription = ref(() => {})
+const displaySuccessModal = ref(false)
+
 // composables
-const { transaction, status, isLoading, isError, blockNumber } =
+const { transaction, status, isLoading, isError, blockNumber, txHash } =
   useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
@@ -330,13 +349,62 @@ const handleCreateCollectionConfirmation = async ({
 const createCollection = async () => {
   try {
     isLoading.value = true
-
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     $consola.error(error)
   }
 }
+
+const isTransactionCompleted = computed(
+  () => Boolean(txHash.value) && !isLoading.value,
+)
+
+watch(isTransactionCompleted, () => {
+  if (isTransactionCompleted.value) {
+    subscribeToCollectionInfo()
+  }
+})
+
+const subscribeToCollectionInfo = () => {
+  const query = `  collectionEntities(
+    orderBy: blockNumber_DESC,
+    limit: 1,
+    where: {
+        issuer_eq: "${accountId.value}",
+        burned_eq: false
+        }
+    ) {
+    id
+    name
+    meta {
+      image
+      description
+    }
+    }`
+
+  collectionSubscription.value = useSubscriptionGraphql({
+    query,
+    onChange: ({ data }) => {
+      if (data.collectionEntities) {
+        // wait for collection info to match
+        if (
+          data.collectionEntities[0].name == name.value &&
+          data.collectionEntities[0].meta.description == description.value
+        ) {
+          mintedCollectionInfo.value = data.collectionEntities[0]
+          // show success modal
+          displaySuccessModal.value = true
+
+          //unsubscribe
+          collectionSubscription.value()
+        }
+      }
+    },
+  })
+}
+
+onBeforeUnmount(collectionSubscription.value)
 
 // autoteleport
 const actions = computed<AutoTeleportAction[]>(() => [

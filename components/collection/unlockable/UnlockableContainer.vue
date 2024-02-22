@@ -19,9 +19,14 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <span class="font-bold is-size-5">First Phase</span
+              <span class="font-bold text-xl">First Phase</span
               ><span v-if="mintCountAvailable" class="flex items-center">
-                <img src="/unlockable-pulse.svg" alt="open" />
+                <span class="relative flex h-3 w-3 mr-2">
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-k-primary opacity-75"></span>
+                  <span
+                    class="relative inline-flex rounded-full h-3 w-3 bg-k-primary"></span>
+                </span>
                 Open</span
               >
             </div>
@@ -60,7 +65,7 @@
               </div>
             </template>
             <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
-              <p class="title is-size-4">
+              <p class="title text-2xl">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>
             </nuxt-link>

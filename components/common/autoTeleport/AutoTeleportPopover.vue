@@ -4,7 +4,7 @@
 
     <template #content>
       <div class="w-[16rem] bg-background-color text-xs border p-4">
-        <div class="flex is-size-6 mb-3">
+        <div class="flex text-base mb-3">
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
 
           <span class="font-bold">{{ $t('autoTeleport.autoTeleport') }}</span>

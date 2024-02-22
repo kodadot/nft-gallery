@@ -3,23 +3,27 @@
     <div class="flex justify-between">
       <div class="flex gap-4 flex-col w-full">
         <CollectionDropRequirementItem
+          :fulfilled="fulfillsMinimumFunds"
+          :loading="minimumFunds.isLoading">
+          <p v-dompurify-html="minimumFunds.description" />
+        </CollectionDropRequirementItem>
+        <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading">
           <i18n-t keypath="drops.holderOfCollection" class="capitalize" tag="p">
             <template #name>
-              <nuxt-link
-                class="has-text-link"
-                :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
-                {{ collection?.name }}
-              </nuxt-link>
+              <CollectionDetailsPopover :collection="collection">
+                <template #content>
+                  <nuxt-link
+                    :to="`/${urlPrefix}/collection/${holderOfCollection.id}`"
+                    class="text-k-blue hover:text-k-blue-hover">
+                    {{ collection?.name }}
+                  </nuxt-link>
+                </template>
+              </CollectionDetailsPopover>
             </template>
           </i18n-t>
-        </CollectionDropRequirementItem>
-        <CollectionDropRequirementItem
-          :fulfilled="fulfillsMinimumFunds"
-          :loading="minimumFunds.isLoading">
-          <p v-dompurify-html="minimumFunds.description" />
         </CollectionDropRequirementItem>
       </div>
     </div>
