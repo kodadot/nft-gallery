@@ -13,41 +13,21 @@ export interface OpenWalletModalConfig {
   onCancel?: () => void
 }
 
-export const openConnectWalletModal = (
-  instance,
-  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {},
-) => {
+export const isConnectWalletModalOpen = () =>
+  Boolean(document.querySelector('.connect-wallet-modal'))
+
+export const openConnectWalletModal = (config = {}) => {
+  const preferencesStore = usePreferencesStore()
   const { neoModal } = useProgrammatic()
 
-  const modal = ref()
+  preferencesStore.setConnectWalletModalCollapse(true)
 
-  const closeModal = () => {
-    modal.value?.close()
-  }
-
-  modal.value = neoModal.open({
+  return neoModal.open({
     onCancel: () => {
-      if (onCancel) {
-        onCancel()
-      }
-
-      modal.value = null
-    },
-    events: {
-      close: () => {
-        if (onCancel) {
-          onCancel()
-        }
-      },
-      connect: (account: string) => {
-        if (onConnect) {
-          onConnect(account)
-        }
-        if (closeAfterConnect) {
-          closeModal()
-        }
-      },
+      preferencesStore.setConnectWalletModalCollapse(false)
     },
     ...ConnectWalletModalConfig,
+    // ...(isMobileDevice ? { animation: 'none' } : {}),
+    ...config,
   })
 }
