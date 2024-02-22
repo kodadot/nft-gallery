@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="false"
     scroll="clip"
     @close="onClose">
     <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
