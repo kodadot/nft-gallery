@@ -404,6 +404,9 @@ const allocateRaffle = async () => {
     !currentAccountMintedToken.value?.claimed
   ) {
     body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
     raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
   } else {
     const response = await allocateCollection(body, props.drop.id)
