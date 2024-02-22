@@ -1,5 +1,11 @@
 <template>
-  <div ref="container" :style="gridCols">
+  <div
+    ref="container"
+    :class="[
+      'grid',
+      `gap-[${props.gapSize}px]`,
+      `grid-cols-[repeat(${cols},_minmax(0,_1fr))]`,
+    ]">
     <slot :is-mobile-variant="isMobileVariant" :grid="grid" />
   </div>
 </template>
@@ -96,10 +102,4 @@ useResizeObserver(container, (entries) => {
 watch(grid, () => {
   updateColumns()
 })
-
-const gridCols = computed(() => ({
-  display: 'grid',
-  gap: `${props.gapSize}px`,
-  gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
-}))
 </script>

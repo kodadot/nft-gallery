@@ -1,11 +1,11 @@
 <template>
   <div
     class="absolute z-10 pointer-events-none transition-all"
-    :class="[{ 'opacity-20': cursorDetails.ghost }]"
-    :style="{
-      top: `${connection.cursor?.y}px`,
-      left: `${connection.cursor?.x}px`,
-    }">
+    :class="[
+      { 'opacity-20': cursorDetails.ghost },
+      `top-[${connection.cursor?.y}px]`,
+      `left-[${connection.cursor?.x}px]`,
+    ]">
     <NeoIcon
       :id="`cursor-${connection.id}`"
       icon="arrow-pointer"
