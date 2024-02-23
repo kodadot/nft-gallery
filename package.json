@@ -50,7 +50,7 @@
   "engines": {
     "npm": "please-use-pnpm",
     "pnpm": "8",
-    "node": "^20"
+    "node": ">= 20"
   },
   "prettier": {
     "semi": false,
