@@ -83,6 +83,7 @@ import type {
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 const props = defineProps<{
   drop: DropItem
@@ -101,7 +102,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 
@@ -149,12 +150,15 @@ const generateNft = () => {
   const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
   emit('generation:start', { image: generativeImageUrl.value })
+  imageDataPayload.value = undefined
+}
 
-  setTimeout(() => {
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
     isLoading.value = false
     emit('generation:end')
-  }, 3000)
-}
+  }
+})
 
 watch(
   accountId,

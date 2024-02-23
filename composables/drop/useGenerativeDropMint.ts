@@ -1,7 +1,7 @@
 import { DoResult, DropMintedStatus } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-import { useEventListener } from '@vueuse/core'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -39,21 +39,11 @@ export default ({
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
-
-  const imageDataPayload = ref<{ hash: string; image: string }>()
+  const { imageDataPayload } = useGenerativeIframeData()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
   const selectedImage = ref<string>('')
-
-  useEventListener(window, 'message', (res) => {
-    if (
-      res?.data?.type === 'kodahash/render/completed' &&
-      res?.data?.payload.image
-    ) {
-      imageDataPayload.value = res?.data?.payload
-    }
-  })
 
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
