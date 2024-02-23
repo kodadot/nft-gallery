@@ -38,12 +38,13 @@ export function useFetchSearch({
 }) {
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
-  const notCollectionPage = computed(
-    () => route.name !== 'prefix-collection-id',
-  )
-  const useTokens = computed(() => isAssetHub.value && notCollectionPage.value)
-
   const route = useRoute()
+
+  const useTokens = computed(
+    () =>
+      isAssetHub.value &&
+      !EXCLUDED_TOKEN_USE_PAGES.includes(route.name as string),
+  )
 
   const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
