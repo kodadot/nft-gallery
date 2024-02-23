@@ -105,6 +105,9 @@ module.exports = {
       fontSize: {
         '3xl': '2rem',
       },
+      container: {
+        center: true,
+      },
     },
   },
   plugins: [],
