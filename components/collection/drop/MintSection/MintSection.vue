@@ -91,11 +91,9 @@ const props = withDefaults(
     mintButton: MintButtonProp
     holderOfCollection?: HolderOfCollectionProp
     collectionId: string
-    availableToMint?: number
   }>(),
   {
     holderOfCollection: undefined,
-    availableToMint: 0,
   },
 )
 
