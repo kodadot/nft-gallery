@@ -136,7 +136,10 @@ export default ({
 
   onBeforeUnmount(() => {
     preferencesStore.listingCartModalOpen = false
-    listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+
+    if (mintedNftWithMetadata.value?.id) {
+      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+    }
   })
 
   return {
