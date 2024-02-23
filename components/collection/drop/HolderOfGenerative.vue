@@ -129,8 +129,7 @@ const minimumFundsProps = computed<MinimumFundsProp>(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
@@ -244,8 +243,6 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
   defaultImage,
 })

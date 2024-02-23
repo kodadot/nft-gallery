@@ -81,8 +81,7 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
@@ -154,8 +153,6 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
   defaultImage,
 })
