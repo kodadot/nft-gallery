@@ -10,7 +10,7 @@
         </div>
       </div>
     </NeoModal>
-    <div class="container is-fluid py-7 border-b">
+    <div class="w-full px-5 md:px-10 py-7 border-b">
       <div class="columns is-centered">
         <div class="column is-half text-center">
           <div class="container image is-64x64 mb-2">
@@ -133,7 +133,7 @@
       </div>
     </div>
 
-    <div class="container is-fluid pb-6">
+    <div class="w-full px-5 md:px-10 pb-6">
       <div
         v-if="[ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab)"
         class="flex-grow">

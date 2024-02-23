@@ -14,14 +14,14 @@
           <div v-if="isCollection">
             <CollectionBanner />
             <section class="pt-5">
-              <div class="container is-fluid">
+              <div class="w-full px-5 md:px-10">
                 <CollectionInfo />
                 <hr class="!bg-k-grey mb-0" />
               </div>
             </section>
           </div>
           <section class="py-7 px-0">
-            <div class="container is-fluid">
+            <div class="w-full px-5 md:px-10">
               <h1 v-if="isExplore" class="title">{{ getExploreTitle }}</h1>
               <ExploreTabsFilterSort />
             </div>

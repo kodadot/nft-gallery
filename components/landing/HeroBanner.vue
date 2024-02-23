@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="container is-fluid mt-6 md:mt-8 mb-16">
+    <div class="w-full px-[1.25rem] md:px-[2.5rem] mt-6 md:mt-8 mb-16">
       <CarouselTypeDrops />
     </div>
   </section>

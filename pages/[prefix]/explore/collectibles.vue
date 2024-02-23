@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-fluid">
+  <div class="w-full px-[1.25rem] md:px-[2.5rem]">
     <CollectionGridWithBreadcrumbs />
   </div>
 </template>
