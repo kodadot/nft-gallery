@@ -19,10 +19,14 @@
         }">
         <div
           class="collection-card-banner"
-          :class="`bg-[${entities[collection.id]?.image}]`"></div>
+          :style="{
+            backgroundImage: `url(${entities[collection.id]?.image})`,
+          }"></div>
         <div
           class="collection-card-avatar"
-          :class="`bg-[${entities[collection.id]?.image}]`"></div>
+          :style="{
+            backgroundImage: `url(${entities[collection.id]?.image})`,
+          }"></div>
 
         <div class="collection-card-info">
           <div class="flex justify-between items-center">

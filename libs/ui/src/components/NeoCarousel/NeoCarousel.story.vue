@@ -3,7 +3,7 @@
     <Variant title="NeoCarousel">
       <NeoCarousel>
         <NeoCarouselItem v-for="(carousel, i) in carousels" :key="i">
-          <section :class="`bg-[${carousel.color}]`">
+          <section :style="{ 'background-color': carousel.color }">
             <h1>{{ carousel.text }}</h1>
           </section>
         </NeoCarouselItem>

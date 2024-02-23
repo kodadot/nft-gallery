@@ -8,7 +8,9 @@
       <div>
         <div
           class="relative bg-cover bg-center w-full h-28 border border-k-grey-fix"
-          :class="`bg-[${avatar}]`">
+          :style="{
+            backgroundImage: `url(${avatar})`,
+          }">
           <div class="flex justify-center items-center h-full">
             <div class="bg-background-color p-2 border border-k-grey-fix">
               <BaseMediaItem

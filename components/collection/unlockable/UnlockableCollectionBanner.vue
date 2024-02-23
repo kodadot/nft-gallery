@@ -1,5 +1,5 @@
 <template>
-  <div :class="['collection-banner', `bg-[${banner}]`]">
+  <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-[368px] lg:h-full">

@@ -17,10 +17,14 @@
         :class="{ hidden: !entities[collection.id]?.migrated[0]?.issuer }">
         <div
           class="collection-card-banner"
-          :class="`bg-[${entities[collection.id]?.image}]`"></div>
+          :style="{
+            backgroundImage: `url(${entities[collection.id]?.image})`,
+          }"></div>
         <div
           class="collection-card-avatar"
-          :class="`bg-[${entities[collection.id]?.image}]`"></div>
+          :style="{
+            backgroundImage: `url(${entities[collection.id]?.image})`,
+          }"></div>
 
         <div class="collection-card-info">
           <p class="text-xl font-bold">{{ collection.name }}</p>

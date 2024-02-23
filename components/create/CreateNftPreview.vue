@@ -3,7 +3,9 @@
     <p class="font-bold">{{ $t('mint.nft.preview.title') }}</p>
 
     <div class="preview-card border bg-background-color">
-      <div class="preview-image flex items-center" :class="`bg-[${image}]`">
+      <div
+        class="preview-image flex items-center"
+        :style="{ backgroundImage: `url(${image})` }">
         <p v-if="!image" class="p-4 text-xs text-center">
           {{ $t('mint.nft.preview.uploadArt') }}
         </p>
