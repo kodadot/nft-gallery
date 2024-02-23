@@ -31,20 +31,8 @@
     </div>
 
     <div>
-      <div v-if="userMintedNftId" class="flex justify-end items-center">
-        <div class="mr-2">
-          {{ $t('mint.unlockable.nftAlreadyMinted') }}
-        </div>
-        <NeoIcon icon="circle-check text-k-green" pack="fass" class="mr-4" />
-        <NeoButton
-          class="my-2 mint-button"
-          :tag="NuxtLink"
-          :label="$t('mint.unlockable.seeYourNft')"
-          :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
-      </div>
-
       <CollectionDropMintSectionHolderOfCollectionMintRequirements
-        v-else-if="showHolderOfCollection && holderOfCollection"
+        v-if="showHolderOfCollection && holderOfCollection"
         class="my-5"
         :holder-of-collection="holderOfCollection"
         :minimum-funds="minimumFunds"
@@ -90,8 +78,6 @@ import type {
   MintButtonProp,
 } from '../types'
 
-const NuxtLink = resolveComponent('NuxtLink')
-
 const props = withDefaults(
   defineProps<{
     mintedCount: number
@@ -103,13 +89,13 @@ const props = withDefaults(
     isWalletConnecting: boolean
     isLoading: boolean
     mintButton: MintButtonProp
-    userMintedNftId?: string
     holderOfCollection?: HolderOfCollectionProp
     collectionId: string
     availableToMint?: number
   }>(),
   {
-    userMintedNftId: undefined,
+    holderOfCollection: undefined,
+    availableToMint: 0,
   },
 )
 
