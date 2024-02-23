@@ -70,7 +70,7 @@
 
       <hr class="my-14" />
 
-      <CollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
+      <LazyCollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
     </div>
   </div>
 
