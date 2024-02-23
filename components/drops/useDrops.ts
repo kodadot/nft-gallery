@@ -22,6 +22,7 @@ export interface Drop {
   dropStartTime: Date
   price: string
   alias: string
+  name: string
   isMintedOut: boolean
   status: DropStatus
   image?: string
@@ -253,15 +254,28 @@ export const useHolderOfCollectionDrop = () => {
 
 export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
   const { drops } = useDrops({
-    active: [true],
     chain: [chain],
   })
 
-  const relatedDrop = computed(() =>
+  const relatedActiveDrop = computed(() =>
     drops.value.find(
-      (drop) => drop?.collection.collection === collectionId && !drop.disabled,
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        !drop.disabled &&
+        drop.status === DropStatus.MINTING_LIVE,
     ),
   )
 
-  return relatedDrop
+  const relatedEndedDrop = computed(() =>
+    drops.value.find(
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        drop.status === DropStatus.MINTING_ENDED,
+    ),
+  )
+
+  return {
+    relatedActiveDrop,
+    relatedEndedDrop,
+  }
 }

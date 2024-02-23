@@ -13,7 +13,13 @@ type CursorPartyEvents = UpdateMessage | RemoveMessage | SyncMessage
 const ZERO_DOT_VISIBLE_CURSOR_AMOUNT = 10
 const THROTTLE_AMOUNT_MESSAGE_UPDATE = 100 // ms
 
-export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
+export default ({
+  room,
+  spent,
+}: {
+  room: Ref<string>
+  spent: Ref<number | undefined>
+}) => {
   const { x, y, sourceType } = useMouse()
   const { width } = useWindowSize()
   const connections = ref(new Map<string, MaybeUserDetails>())
@@ -61,7 +67,8 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
     },
   })
 
-  const isZeroDot = (connection: UserDetails) => !Number(connection.spent)
+  const isZeroDot = (connection: UserDetails) =>
+    !Number(connection.spent) && connection.spent !== undefined
 
   const visibleConnections = computed(() => {
     const withPositionFirst = cursorConnections.value.sort(

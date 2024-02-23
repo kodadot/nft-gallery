@@ -1,5 +1,5 @@
 <template>
-  <div v-if="relatedDrop" class="flex w-full justify-center mt-4">
+  <div v-if="relatedActiveDrop" class="flex w-full justify-center mt-4">
     <div
       class="rounded-full border justify-between items-center px-4 bg-background-color flex">
       <div class="flex items-center">
@@ -14,15 +14,27 @@
       <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
       <nuxt-link
         class="flex items-center font-bold my-2"
-        :to="`/${relatedDrop.chain}/drops/${relatedDrop.alias}`">
+        :to="`/${relatedActiveDrop.chain}/drops/${relatedActiveDrop.alias}`">
         {{ $t('drops.viewDrop') }}
       </nuxt-link>
     </div>
+  </div>
+  <div v-else-if="relatedEndedDrop" class="flex w-full justify-center mt-4">
+    <NeoButton
+      :tag="NuxtLink"
+      :to="`/${relatedEndedDrop.chain}/drops/${relatedEndedDrop.alias}`"
+      variant="secondary-rounded"
+      icon-left="puzzle-piece"
+      icon-pack="fal">
+      {{ $t('drops.exploreDrop', [relatedEndedDrop.name]) }}
+    </NeoButton>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useRelatedActiveDrop } from '@/components/drops/useDrops'
+import { NeoButton } from '@kodadot1/brick'
+const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
   collectionId: string
@@ -30,5 +42,8 @@ const props = defineProps<{
 
 const collectionId = computed(() => props.collectionId)
 const { urlPrefix } = usePrefix()
-const relatedDrop = useRelatedActiveDrop(collectionId.value, urlPrefix.value)
+const { relatedActiveDrop, relatedEndedDrop } = useRelatedActiveDrop(
+  collectionId.value,
+  urlPrefix.value,
+)
 </script>
