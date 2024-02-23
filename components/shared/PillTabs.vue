@@ -6,7 +6,7 @@
       :active="tab.active"
       variant="pill"
       @click="() => handleTabClick(tab.value)">
-      <div class="flex">
+      <div class="flex justify-center items-center">
         <img
           v-if="tab.image"
           class="mr-2 image square-20"
