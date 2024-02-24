@@ -166,11 +166,4 @@ const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
     font-weight: unset !important;
   }
 }
-
-.scroll-down {
-  position: fixed;
-  bottom: 6rem;
-  right: calc(100vw - 960px + 4rem);
-  z-index: 5;
-}
 </style>
