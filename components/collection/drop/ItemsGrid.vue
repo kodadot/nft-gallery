@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex items-center justify-between mb-14 max-md:flex-col max-md:items-start max-md:gap-8">
+      class="flex max-md:flex-col items-start max-md:gap-8 md:items-center md:justify-between mb-14">
       <h3 class="text-[2rem] font-bold leading-[1.125]">
         {{ $t('drops.latestMints') }}
       </h3>
