@@ -23,6 +23,8 @@
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
           :display-name-with-sn="displayNameWithSn"
+          :show-timestamp="showTimestamp"
+          :collection-popover-hide="collectionPopoverHide"
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -65,7 +67,8 @@
       <NftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
-        :hide-media-info="hideMediaInfo" />
+        :hide-media-info="hideMediaInfo"
+        :slim-media-info="collectionPopoverHide" />
     </DynamicGrid>
 
     <template v-if="total === 0 && (!isLoading || !isFetchingData)">
@@ -103,6 +106,8 @@ const props = defineProps<{
   gridSize?: GridSize
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
+  showTimestamp?: boolean
+  collectionPopoverHide?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])

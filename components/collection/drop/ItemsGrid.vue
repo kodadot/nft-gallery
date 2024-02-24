@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="flex items-center justify-between">
-      <h3 class="title is-3">{{ $t('drops.latestMints') }}</h3>
+    <div class="flex items-center justify-between mb-14">
+      <h3 class="text-[2rem] font-bold leading-[1.125]">
+        {{ $t('drops.latestMints') }}
+      </h3>
 
-      <div class="flex gap-4">
+      <div class="flex gap-4 items-center">
         <ProfileOrderByDropdown no-shadow rounded :preselect="defaultSort" />
         <ProfileFilterButton
           :label="$t('sort.listed')"
@@ -16,6 +18,8 @@
       :search="itemsGridSearch"
       :grid-size="'medium'"
       display-name-with-sn
+      collection-popover-hide
+      show-timestamp
       :reset-search-query-params="['sort']" />
   </div>
 </template>
