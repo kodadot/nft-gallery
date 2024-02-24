@@ -52,7 +52,7 @@ const floor = computed(() =>
 )
 
 const listingCartItem = computed({
-  get: () => listingCartStore.getItem(props.nft.id).listPrice,
+  get: () => listingCartStore.getItem(props.nft.id)?.listPrice,
   set: (price) => listingCartStore.setItemPrice({ id: props.nft.id, price }),
 })
 </script>

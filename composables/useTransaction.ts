@@ -40,6 +40,10 @@ import {
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
 
+export type TransactionOptions = {
+  disableSuccessNotification?: boolean
+}
+
 const resolveLargeSuccessNotification = (
   block: string,
   objectMessage: ObjectMessage,
@@ -70,7 +74,7 @@ export const resolveSuccessMessage = (
   return successMessage || 'Success!'
 }
 
-const useExecuteTransaction = () => {
+const useExecuteTransaction = (options: TransactionOptions) => {
   const { accountId } = useAuth()
   const error = ref(false)
   const {
@@ -81,6 +85,7 @@ const useExecuteTransaction = () => {
     isError,
   } = useMetaTransaction()
   const blockNumber = ref<string>()
+  const txHash = ref<string>()
 
   const executeTransaction = ({
     cb,
@@ -90,8 +95,15 @@ const useExecuteTransaction = () => {
   }: ExecuteTransactionParams) => {
     initTransactionLoader()
 
-    const successCb = (block: string) => {
+    const successCb = ({
+      blockNumber: block,
+      txHash: hash,
+    }: HowAboutToExecuteOnSuccessParam) => {
       blockNumber.value = block
+      txHash.value = hash
+      if (options.disableSuccessNotification) {
+        return
+      }
 
       const isObject = typeof successMessage === 'object'
       if (isObject && successMessage.large) {
@@ -119,6 +131,7 @@ const useExecuteTransaction = () => {
     error,
     executeTransaction,
     blockNumber,
+    txHash,
     isError,
   }
 }
@@ -193,10 +206,18 @@ export const executeAction = ({
   return map[item.interaction]?.() ?? 'UNKNOWN'
 }
 
-export const useTransaction = () => {
+export const useTransaction = (
+  options: TransactionOptions = { disableSuccessNotification: false },
+) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
-  const { isLoading, status, executeTransaction, blockNumber, isError } =
-    useExecuteTransaction()
+  const {
+    isLoading,
+    status,
+    executeTransaction,
+    blockNumber,
+    txHash,
+    isError,
+  } = useExecuteTransaction(options)
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
@@ -213,6 +234,7 @@ export const useTransaction = () => {
     status,
     transaction,
     blockNumber,
+    txHash,
     isError,
   }
 }

@@ -8,7 +8,7 @@
       :status="status"
       @try-again="teleport" />
 
-    <h1 class="is-size-3 font-bold">
+    <h1 class="text-3xl font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
@@ -30,7 +30,9 @@
           @select="onChainChange" />
       </div>
 
-      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
+      <div
+        class="network-arrow text-text-color hover:text-link-hover flex cursor-pointer py-2"
+        @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -71,8 +73,9 @@
           min="0.01"
           step="0.00001"
           type="number"
+          icon-right-class="!hidden"
           placeholder="Enter Amount" />
-        <div class="is-absolute-right">
+        <div class="absolute right-8 top-3">
           <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
@@ -113,7 +116,7 @@
     <NeoButton
       :label="teleportLabel"
       size="large"
-      class="is-size-6 my-5 capitalize"
+      class="text-base my-5 capitalize"
       expanded
       :loading="isLoading"
       :disabled="isDisabledButton"
@@ -138,7 +141,7 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
-  <TeleportEdWarningModal
+  <TeleportEDWarningModal
     v-model="insufficientEDModalOpen"
     :target-existential-deposit="targetExistentialDeposit.displayValue"
     :source-existential-deposit="sourceExistentialDeposit.displayValue"
@@ -162,7 +165,6 @@ import {
   chainToPrefixMap,
   getChainCurrency,
   getTransactionFee,
-  prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
 import shortAddress from '@/utils/shortAddress'
@@ -188,7 +190,6 @@ const {
 } = useTeleport(true)
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
@@ -325,6 +326,7 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
+  // also uncomment setRelatedChain()
   // {
   //   label: getChainName('rmrk'),
   //   value: Chain.KUSAMA,
@@ -405,20 +407,20 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
-const setRelatedChain = () => {
-  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
-  onChainChange(relatedFromChain, true)
-}
-
-watch(
-  urlPrefix,
-  () => {
-    setRelatedChain()
-  },
-  {
-    immediate: true,
-  },
-)
+// const setRelatedChain = () => {
+//   const relatedFromChain =  prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+//   onChainChange(relatedFromChain, true)
+// }
+//
+// watch(
+//   urlPrefix,
+//   () => {
+//     setRelatedChain()
+//   },
+//   {
+//     immediate: true,
+//   },
+// )
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
@@ -490,8 +492,10 @@ $xs-breakpoint: 400px;
     gap: 0.25rem;
   }
 }
+
 .align-items {
   align-items: center;
+
   @include until($xs-breakpoint) {
     align-items: flex-start;
   }
@@ -512,15 +516,10 @@ $xs-breakpoint: 400px;
 
 .justify-content {
   justify-content: space-between;
+
   @include until($xs-breakpoint) {
     justify-content: flex-end;
   }
-}
-
-.is-absolute-right {
-  position: absolute;
-  right: 2rem;
-  top: 0.75rem;
 }
 
 .networks {
@@ -546,13 +545,6 @@ $xs-breakpoint: 400px;
   min-width: 32px;
   line-height: 1;
 
-  @include ktheme() {
-    color: theme('text-color');
-    &:hover {
-      color: theme('link-hover');
-    }
-  }
-
   @include tablet {
     margin: 0 1rem;
   }
@@ -576,7 +568,7 @@ $xs-breakpoint: 400px;
   }
 }
 
-.dark-mode {
+.dark {
   .network-arrow:before {
     background: $background-dark;
   }

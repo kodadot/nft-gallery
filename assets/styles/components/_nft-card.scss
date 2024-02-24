@@ -3,13 +3,9 @@
 }
 
 .nft-card {
-  position: relative;
-  height: 100%;
+  @apply relative h-full bg-background-color border border-card-border-color;
 
   @include ktheme() {
-    background: theme('background-color');
-    border: 1px solid theme('k-grey');
-
     .border-stacked {
       border-color: theme('card-border-color-light') !important;
     }
@@ -86,14 +82,5 @@
   &-footer {
     overflow: visible;
     line-height: 1.5rem;
-  }
-}
-
-.nft-info-collection-name {
-  @include ktheme() {
-    color: theme('k-grey');
-    &:hover {
-      color: theme('text-color');
-    }
   }
 }

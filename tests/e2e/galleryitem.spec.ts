@@ -1,9 +1,13 @@
 import { expect, test } from './fixtures'
 
-const COLLECTION_ADDRESS_PATH = '/ahk/gallery/6-10'
+const ITEM_ADDRESS_PATH = '/ahp/gallery/52-1'
+const COLLECTION_ADDRESS_PATH = '/ahp/collection/52'
+const ITEM_CHAIN = 'ahp'
+const ITEM_ROYALTY_PERCENT = '7%'
+const ITEM_ROYALTY_RECIPIENT = '1L2xst...ucgnNZ'
 
 test('Gallery item Interactions', async ({ page }) => {
-  await page.goto(COLLECTION_ADDRESS_PATH)
+  await page.goto(ITEM_ADDRESS_PATH)
 
   //Activity tab
   await test.step('Verifies if activity tab has content', async () => {
@@ -26,6 +30,15 @@ test('Gallery item Interactions', async ({ page }) => {
     await expect(
       page.getByTestId('gallery-item-details-tab-content'),
     ).toBeVisible()
+    await expect(page.getByTestId('item-details-chain')).toContainText(
+      ITEM_CHAIN,
+    )
+    await expect(page.getByTestId('item-details-royalty')).toContainText(
+      ITEM_ROYALTY_PERCENT,
+    )
+    await expect(
+      page.getByTestId('item-details-royalty-recipient'),
+    ).toContainText(ITEM_ROYALTY_RECIPIENT)
   })
 
   //Chart tab
@@ -56,12 +69,12 @@ test('Gallery item Interactions', async ({ page }) => {
     ).toBeVisible()
     await expect(
       page.getByTestId('gallery-item-description-tab-content'),
-    ).toContainText('This anime waifu loves')
+    ).toContainText('Whirls is a art piece built as a risk-taking')
   })
 
   //Redirection
   await test.step('Clicks on collection link on gallery item and checks redirection', async () => {
     await page.getByTestId('gallery-item-collection-link').click()
-    await expect(page).toHaveURL('/ahk/collection/6')
+    await expect(page).toHaveURL(COLLECTION_ADDRESS_PATH)
   })
 })

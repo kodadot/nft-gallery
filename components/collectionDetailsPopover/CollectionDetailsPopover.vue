@@ -2,6 +2,7 @@
   <tippy
     :append-to="body"
     placement="bottom"
+    :class="['hidden md:inline-block', className]"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
     @show="triggered = true">
@@ -13,25 +14,44 @@
       </div>
     </template>
   </tippy>
+
+  <nuxt-link
+    :to="`/${urlPrefix}/collection/${collection?.id}`"
+    class="has-text-link inline-block md:hidden">
+    {{ collection?.name || collection?.id }}
+  </nuxt-link>
 </template>
 
 <script lang="ts" setup>
 import type { CarouselNFT } from '../base/types'
+import { Collection } from '../unique/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
 const body = ref(document.body)
 const triggered = ref(false)
+const { urlPrefix } = usePrefix()
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    nft: CarouselNFT
+    collection: Collection
+    nft?: CarouselNFT
     showDelay?: number
     hideDelay?: number
+    className?: string
   }>(),
   {
     showDelay: 0,
     hideDelay: 0,
+    className: '',
+    nft: undefined,
   },
+)
+
+const nft = computed(
+  () =>
+    props.nft || {
+      collection: props.collection,
+    },
 )
 </script>
 

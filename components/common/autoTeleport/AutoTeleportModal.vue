@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
-        <span class="modal-card-title is-size-6 font-bold">
+        <span class="modal-card-title text-base font-bold">
           {{ $t('autoTeleport.signTransactions') }}
         </span>
 
@@ -46,7 +46,7 @@
             class="text-xs capitalize" />
         </div>
 
-        <p class="capitalize is-size-6 mt-4 mb-5">
+        <p class="capitalize text-base mt-4 mb-5">
           {{ $t('autoTeleport.followSteps') }}:
         </p>
 

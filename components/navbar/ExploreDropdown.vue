@@ -22,8 +22,8 @@
         </nuxt-link>
       </div>
     </template>
-    <NeoDropdownItem aria-role="menuitem" class="is-size-6" custom>
-      <NavbarExploreOptions />
+    <NeoDropdownItem aria-role="menuitem" class="text-base" custom>
+      <NavbarExploreOptions @select="onSelect" />
     </NeoDropdownItem>
   </NeoDropdown>
 </template>
@@ -34,4 +34,7 @@ import { isMobileDevice } from '@/utils/extension'
 import NavbarExploreOptions from './NavbarExploreOptions.vue'
 
 const { urlPrefix } = usePrefix()
+const { neoModal } = useProgrammatic()
+
+const onSelect = () => neoModal.closeAll()
 </script>

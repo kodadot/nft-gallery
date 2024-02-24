@@ -17,3 +17,4 @@ export type NeoButtonVariant =
   | 'border-icon'
   | 'outlined-rounded'
   | 'primary-rounded'
+  | 'secondary-rounded'

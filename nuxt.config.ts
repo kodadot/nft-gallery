@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       'tailwindcss/nesting': {},
-      tailwindcss: { config: './libs/ui/tailwind.config.js' },
+      tailwindcss: {},
       autoprefixer: {},
     },
   },
@@ -204,6 +204,10 @@ export default defineNuxtConfig({
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
+
+  colorMode: {
+    classSuffix: '',
+  },
 
   // Auto import components: https://nuxt.com/docs/api/nuxt-config#components
   components: {

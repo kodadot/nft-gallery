@@ -12,7 +12,7 @@ type ListCartItemInternal = {
   name: string
   urlPrefix: string
   price: string
-  listPrice: number
+  listPrice?: number
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
@@ -65,7 +65,7 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
-    setItemPrice({ id, price }: { id: ID; price: number }) {
+    setItemPrice({ id, price }: { id: ID; price?: number }) {
       const itemIndex = existInItemIndex(id, this.items)
       if (itemIndex !== -1) {
         this.items[itemIndex].listPrice = price

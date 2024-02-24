@@ -12,12 +12,12 @@
       <CollectionDetailsPopover
         v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
         :show-delay="collectionPopoverShowDelay"
-        class="text-xs nft-info-collection-name is-ellipsis"
+        class="text-xs text-k-grey hover:text-text-color is-ellipsis"
         :nft="nft">
         <template #content>
           <a
             :v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
-            class="nft-info-collection-name">
+            class="text-k-grey hover:text-text-color">
             {{ nft.collection.name || '--' }}
           </a>
         </template>
@@ -44,7 +44,7 @@ import { computed } from 'vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
 import type { NeoNFT, NftCardVariant } from './types'
-import { addSnSuffixName } from '@/utils/nft'
+import { nameWithIndex } from '@/utils/nft'
 
 const props = withDefaults(
   defineProps<{
@@ -70,7 +70,7 @@ const name = computed(() => {
     ? props.nft?.cheapest?.id?.split('-')[1]
     : props.nft?.sn
 
-  return sn ? addSnSuffixName(props.nft.name, sn) : originalName
+  return sn ? nameWithIndex(props.nft.name, sn) : originalName
 })
 const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,

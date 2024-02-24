@@ -79,7 +79,7 @@
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between" data-testid="item-details-chain">
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
@@ -91,12 +91,18 @@
         <p>Token Standard</p>
         <p>--</p>
       </div> -->
-      <div v-if="nft?.royalty" class="flex justify-between">
+      <div
+        v-if="nft?.royalty"
+        class="flex justify-between"
+        data-testid="item-details-royalty">
         <p>{{ $t('tabs.tabDetails.royalties') }}</p>
         <p>{{ nft?.royalty }}%</p>
       </div>
 
-      <div v-if="recipient" class="recipient flex justify-between capitalize">
+      <div
+        v-if="recipient"
+        class="recipient flex justify-between capitalize"
+        data-testid="item-details-royalty-recipient">
         <p>{{ $t('transfers.recipients') }}</p>
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
           <ol>
@@ -268,10 +274,14 @@ const parentNftUrl = computed(() => {
 const properties = computed(() => {
   const attributes = (nftMetadata.value?.attributes ||
     nftMetadata.value?.meta?.attributes ||
-    []) as Array<{ trait_type: string; value: string; key?: string }>
-
-  return attributes.map(({ trait_type, key, value }) => ({
-    trait_type: trait_type || key,
+    []) as Array<{
+    trait?: string
+    trait_type: string
+    value: string
+    key?: string
+  }>
+  return attributes.map(({ trait, trait_type, key, value }) => ({
+    trait_type: trait || trait_type || key,
     value,
   }))
 })

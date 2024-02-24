@@ -15,21 +15,17 @@
       <div>
         <ModalIdentityItem />
       </div>
-      <div class="py-2">
-        <!-- <NeoIcon
-          icon="fa-circle-down"
-          pack="fa-regular"
-          size="large"
-          variant="primary"
-          class="text-k-grey scroll-down" /> -->
+
+      <div class="mt-4 flex flex-col gap-4">
         <ConfirmNftPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
-          :nft="nft"
-          class="py-2" />
+          :nft="nft" />
       </div>
 
-      <div class="py-4 border-t border-b border-border-color">
+      <hr class="my-4" />
+
+      <div>
         <div class="flex justify-between items-center mb-2">
           <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
@@ -54,7 +50,10 @@
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
-      <div class="flex justify-between py-4">
+
+      <hr class="my-4" />
+
+      <div class="flex justify-between pb-4">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="flex">
           <CommonTokenMoney :value="total" class="text-k-grey" />
@@ -69,6 +68,8 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
+          auto-close-modal
+          :auto-close-modal-delay-modal="0"
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
@@ -154,7 +155,7 @@ const onClose = () => {
 }
 
 const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
-  emit('confirm', params)
+  emit('confirm', { ...params, items: items.value })
   prefrencesStore.setCompletePurchaseModalOpen(false)
 }
 </script>

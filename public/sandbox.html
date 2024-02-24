@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sandbox</title>
+</head>
+
+<body>
+    <script>
+        const loadAsset = (asset) => new Promise((resolve, reject) => {
+            const element = document.createElement(asset.type === 'style' ? 'link' : 'script');
+            const parent = asset.parent === 'head' ? document.head : document.body;
+            if (asset.type === 'style') {
+                element.rel = 'stylesheet';
+                element.href = asset.src;
+            } else { // 'script'
+                element.src = asset.src;
+                element.async = false;
+            }
+            parent.appendChild(element);
+
+            element.onload = resolve;
+            element.onerror = () => reject(new Error(`Failed to load ${asset.src}`));
+        });
+
+        const loadResourcesSequentially = async (assets) => {
+            for (const asset of assets) {
+                try {
+                    await loadAsset(asset);
+                    console.log(`Loaded: ${asset.originalSrc}  => ${asset.src}`);
+                } catch (error) {
+                    console.error(`Error loading ${asset.originalSrc}:`, error);
+                }
+            }
+        };
+
+
+        /// HACKY
+        /// some gen arts render when the p5.js is loaded first
+        /// and some gen arts render when the p5.js is loaded last
+        /// we ensure that the p5.js is loaded first and last
+
+        const dupliacteP5 = (assets) => {
+            const p5Assets = assets.filter(asset => asset.originalSrc.includes('p5'));
+            const otherAssets = assets.filter(asset => !asset.originalSrc.includes('p5'));
+            if (p5Assets.length > 0) {
+                return [p5Assets[0], ...otherAssets, p5Assets[0]];
+            }
+            return assets;
+        };
+
+
+        window.addEventListener('message', async (event) => {
+            if (event.origin !== window.location.origin || event.data.type !== 'assets') {
+                return;
+            }
+
+            try {
+                const assets = event.data.assets;
+                await loadResourcesSequentially(dupliacteP5(assets));
+            } catch (error) {
+                console.error('Error handling message:', error);
+            }
+        });
+
+    </script>
+</html>

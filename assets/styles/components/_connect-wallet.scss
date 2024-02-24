@@ -39,24 +39,16 @@
       border-left: 1px solid theme('border-color');
     }
 
-    .more-option-button {
-      &:hover {
-        @include ktheme() {
-          color: theme('k-hovergrey') !important;
-        }
-      }
-      @include ktheme() {
-        border-top: 1px solid theme('k-shade');
-      }
-    }
-
-
     .modal-card-body {
       padding: 0;
       display: block;
       @include ktheme() {
         background-color: theme('background-color');
       }
+
+      hr {
+        @apply bg-k-shade2 #{!important};
+      }  
     }
 
     footer {

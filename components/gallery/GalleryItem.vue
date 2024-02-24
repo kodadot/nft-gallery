@@ -86,6 +86,7 @@
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
+                    :collection="collection"
                     :nft="nft">
                     <template #content>
                       <nuxt-link
@@ -292,7 +293,7 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
-  addSnSuffixName(
+  nameWithIndex(
     nft.value?.name || nftMetadata.value?.name || '',
     nft.value?.sn,
   ),

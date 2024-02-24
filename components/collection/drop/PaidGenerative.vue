@@ -16,12 +16,35 @@
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
+  <NeoModalExtend v-model:active="isRaffleModalActive">
+    <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
+      <form @submit.prevent="submitRaffle()">
+        <NeoInput
+          v-model="raffleEmail"
+          placeholder="Email"
+          class="mb-4"
+          type="email"
+          :disabled="isLoading"
+          required />
+        <NeoButton
+          expanded
+          variant="k-accent"
+          native-type="submit"
+          :loading="isLoading"
+          :disabled="isLoading">
+          Allocate
+        </NeoButton>
+      </form>
+    </ModalBody>
+  </NeoModalExtend>
+
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
+    :is-allocating-raffle="isAllocatingRaffle"
     :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
@@ -31,14 +54,14 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-
   <ListingCartModal />
 </template>
 
 <script setup lang="ts">
+import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
-import { claimDropItem } from '@/services/waifu'
+import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -49,14 +72,7 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
-
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const props = withDefaults(
   defineProps<{
@@ -69,6 +85,7 @@ const props = withDefaults(
 
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
+const { hasCurrentChainBalance } = useMultipleBalance()
 
 const {
   hasMinimumFunds,
@@ -77,7 +94,7 @@ const {
   formattedExistentialDeposit,
 } = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.minimumFundsDescription', [
+  $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
     chainName.value,
   ]),
@@ -95,6 +112,7 @@ const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
   hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
 }))
 
 const isWalletConnecting = ref(false)
@@ -109,8 +127,13 @@ const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
 const isLoading = ref(false)
+const isAllocatingRaffle = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
+const isRaffleModalActive = ref(false)
+const raffleEmail = ref('')
+const raffleId = ref()
+const imageHash = ref('')
 
 const {
   defaultName,
@@ -188,12 +211,22 @@ const {
   defaultImage,
 })
 
+useCursorDropEvents(
+  props.drop.alias,
+  [isTransactionLoading, isLoading],
+  mintedNft,
+)
+
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (isLoading.value) {
+    return $i18n.t('loader.ipfs')
+  }
+
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
-    : $i18n.t('mint.unlockable.claimPaidNft', [
+    : $i18n.t('drops.mintForPaid', [
         `${formatAmountWithRound(price.value || '', decimals.value)} ${
           chainSymbol.value
         }`,
@@ -201,6 +234,7 @@ const mintButtonLabel = computed(() => {
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
+    isLoading.value ||
     !mintCountAvailable.value ||
     Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
@@ -222,17 +256,12 @@ const mintNft = async () => {
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
-    const collectionRes = (
-      await api.query.nfts.collection(collectionId.value)
-    ).toJSON() as {
-      items: string
-    }
 
     initTransactionLoader()
     const cb = api.tx.nfts.mint
     const args = [
       collectionId.value,
-      collectionRes.items,
+      raffleId.value,
       accountId.value,
       {
         ownedItem: null,
@@ -240,12 +269,17 @@ const mintNft = async () => {
       },
     ]
 
-    mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, args)
+    mintNftSN.value = raffleId.value
+    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
+      if (mintedNft.value) {
+        mintedNft.value.txHash = txHash
+      }
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    isLoading.value = false
   }
 }
 
@@ -257,6 +291,47 @@ watch(status, (curStatus) => {
 
 const clearWalletConnecting = () => {
   isWalletConnecting.value = false
+}
+
+const allocateRaffle = async () => {
+  isLoading.value = true
+  isAllocatingRaffle.value = true
+
+  const imageUrl = new URL(selectedImage.value)
+  imageHash.value = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value || '',
+    collectionName.value || defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  const body = {
+    email: raffleEmail.value,
+    hash: imageHash.value,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+
+  // claim previous ID first. else, allocate new raffle
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
+    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
+  } else {
+    const response = await allocateCollection(body, props.drop.id)
+    raffleId.value = response.result.id
+  }
+
+  isAllocatingRaffle.value = false
+  isLoading.value = false
 }
 
 const handleSubmitMint = async () => {
@@ -273,6 +348,19 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  const crypto = window.crypto
+  const array = new Uint32Array(1)
+  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  openMintModal()
+  await allocateRaffle()
+}
+
+const submitRaffle = async () => {
+  await allocateRaffle()
+
+  isRaffleModalActive.value = false
   openMintModal()
 }
 
@@ -286,26 +374,11 @@ const closeMintModal = () => {
 
 const submitMint = async (sn: string) => {
   try {
-    isImageFetching.value = true
-
-    const imageHash = await tryCapture()
-
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
-
-    isImageFetching.value = false
-
-    const { result } = await claimDropItem(
+    const { result } = await allocateClaim(
       {
-        account: accountId.value,
-        metadata: hash,
-        sn,
-        image: imageHash,
+        sn: parseInt(sn),
+        txHash: imageHash.value,
+        address: accountId.value,
       },
       props.drop.id,
     )
@@ -327,7 +400,6 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
-      txHash: result.txHash.versionstamp,
       collectionName: collectionName.value as string,
     }
   } catch (error) {

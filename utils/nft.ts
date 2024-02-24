@@ -19,7 +19,7 @@ const trimLeadingZeros = (of: number | string) => {
 }
 
 const suffixRegex = /#\d+$/
-export const addSnSuffixName = (name: string = '', sn?: string) => {
+export const nameWithIndex = (name: string = '', sn?: string) => {
   if (!name || !sn) {
     return name
   }

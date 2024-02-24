@@ -12,11 +12,12 @@ export default function () {
   const shareOnX = (
     text: string,
     url: string = realworldFullPathShare.value,
+    via: string = 'KodaDot',
   ) => {
     open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         text,
-      )}&via=KodaDot&url=${url}`,
+      )}&via=${via}&url=${url}`,
     )
   }
 
