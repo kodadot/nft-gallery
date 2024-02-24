@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex items-center justify-between">
-      <h3 class="title is-3">{{ $t('drops.lastestMints') }}</h3>
+      <h3 class="title is-3">{{ $t('drops.latestMints') }}</h3>
 
       <div class="flex gap-2">
         <ProfileOrderByDropdown no-shadow rounded :preselect="defaultSort" />
