@@ -113,7 +113,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
     return DropStatus.MINTING_LIVE
   }
 
-  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
     return DropStatus.SCHEDULED_SOON
   }
 
