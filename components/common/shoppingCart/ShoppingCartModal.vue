@@ -1,26 +1,29 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container bg-background-color border-l flex flex-col max-h-full"
+      class="shopping-cart-modal-container bg-background-color border-l flex flex-col max-h-full h-full"
       data-testid="shopping-cart-modal-container">
-      <NeoModalHead
-        :title="$t('shoppingCart.title')"
-        @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
-        v-if="numberOfItems"
-        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
-        <span> {{ numberOfItems }} {{ $t('items') }}</span>
+        class="flex flex-col flex-nowrap justify-between max-h-[calc(100vh-80px)] h-[calc(100vh-80px)] mt-0 pb-4">
+        <NeoModalHead
+          :title="$t('shoppingCart.title')"
+          @close="closeShoppingCart(ModalCloseType.BACK)" />
 
-        <NeoButton
-          v-safe-href="`/${urlPrefix}/explore/items`"
-          :label="$t('shoppingCart.clearAll')"
-          no-shadow
-          variant="text"
-          @click="clearAllItems" />
-      </div>
-      <div v-if="numberOfItems" class="relative max-h-[65%]">
         <div
-          class="bg-background-color flex flex-grow flex-col py-2 overflow-y-scroll max-h-full">
+          v-if="numberOfItems"
+          class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
+          <span> {{ numberOfItems }} {{ $t('items') }}</span>
+
+          <NeoButton
+            v-safe-href="`/${urlPrefix}/explore/items`"
+            :label="$t('shoppingCart.clearAll')"
+            no-shadow
+            variant="text"
+            @click="clearAllItems" />
+        </div>
+        <div
+          v-if="numberOfItems"
+          class="bg-background-color flex grow flex-col py-2 overflow-y-scroll">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -32,14 +35,38 @@
             @delete="shoppingCartStore.removeItem"
             @click-item="closeShoppingCart" />
         </div>
-        <div class="flex justify-between mx-6 py-4 border-t border-k-shade">
+        <div v-else class="flex grow justify-between px-6 py-4 flex-col h-full">
+          <div class="flex items-center flex-col pt-8">
+            <img
+              :src="emptyCartPlaceholder"
+              alt="empty cart"
+              width="140"
+              class="mb-5" />
+            <span class="font-bold mb-2">{{
+              $t('shoppingCart.emptyCart.line1')
+            }}</span>
+            <span class="text-center mb-5">{{
+              $t('shoppingCart.emptyCart.line2')
+            }}</span>
+            <NeoButton
+              v-safe-href="`/${urlPrefix}/explore/items`"
+              :label="$t('shoppingCart.exploreNfts')"
+              rounded
+              no-shadow
+              tag="a"
+              icon="magnifying-glass" />
+          </div>
+        </div>
+        <div
+          v-if="numberOfItems"
+          class="flex justify-between mx-6 py-4 border-t border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
             <CommonTokenMoney :value="totalPrice" class="text-k-grey" />
             <span class="font-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
-        <div class="flex justify-center mx-6 pt-4 pb-5">
+        <div class="flex justify-center mx-6">
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             :disabled="!numberOfItems"
@@ -48,37 +75,6 @@
             size="large"
             variant="k-accent"
             @click="onCompletePurchase" />
-        </div>
-      </div>
-      <div v-else class="flex justify-between px-6 py-4 flex-col h-full">
-        <div class="flex items-center flex-col pt-8">
-          <img
-            :src="emptyCartPlaceholder"
-            alt="empty cart"
-            width="140"
-            class="mb-5" />
-          <span class="font-bold mb-2">{{
-            $t('shoppingCart.emptyCart.line1')
-          }}</span>
-          <span class="text-center mb-5">{{
-            $t('shoppingCart.emptyCart.line2')
-          }}</span>
-          <NeoButton
-            v-safe-href="`/${urlPrefix}/explore/items`"
-            :label="$t('shoppingCart.exploreNfts')"
-            rounded
-            no-shadow
-            tag="a"
-            icon="magnifying-glass" />
-        </div>
-        <div class="pt-4">
-          <NeoButton
-            :label="$t('shoppingCart.completePurchase')"
-            disabled
-            class="w-full"
-            size="large"
-            no-shadow
-            variant="k-accent" />
         </div>
       </div>
     </div>
