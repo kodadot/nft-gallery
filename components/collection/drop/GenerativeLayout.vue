@@ -68,7 +68,7 @@
 
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
 
-      <hr class="my-14" />
+      <hr class="my-20" />
 
       <LazyCollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
     </div>
