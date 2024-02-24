@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-full min-w-[236px] md:w-auto border border-k-shade inline-flex justify-start px-2.5 py-2">
+    class="rounded-full min-w-[236px] h-[62px] md:w-auto border border-k-shade inline-flex justify-start px-2.5">
     <div class="flex items-center">
       <Avatar :size="48" :value="address" />
       <div class="ml-3.5">

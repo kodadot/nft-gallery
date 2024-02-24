@@ -76,7 +76,7 @@ export function useDrops(query?: GetDropsQuery) {
   return { drops: sortDrops, count, loaded }
 }
 
-const getFormattedDropItem = async (collection, drop: DropItem) => {
+export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0

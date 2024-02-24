@@ -4,10 +4,21 @@
       class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] pt-6">
       <div class="columns is-variable is-4-tablet">
         <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
-          <div class="font-bold is-size-5 mb-4">
-            {{ $t('tooltip.created') }}
+          <div class="lg:flex lg:items-center">
+            <div>
+              <div class="font-bold is-size-5 mb-4 capitalize">
+                {{ $t('tooltip.created') }}
+              </div>
+              <CollectionDropCreatedBy v-if="address" :address="address" />
+            </div>
+            <div class="lg:ml-[40px] max-lg:mt-7">
+              <div class="font-bold is-size-5 mb-4 capitalize">
+                {{ $t('tooltip.collectedBy') }}
+              </div>
+              <CollectionDropCollectedBy :addresses="ownerAddresses" />
+            </div>
           </div>
-          <CollectionDropCreatedBy v-if="address" :address="address" />
+
           <CollectionUnlockableCollectionInfo
             class="mt-7"
             :collection-id="collectionId"
@@ -38,9 +49,10 @@
             class="mt-7"
             :minimum-funds="minimumFunds"
             :mint-count-available="mintCountAvailable"
-            :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
-            :holder-of-collection="holderOfCollection" />
+            :holder-of-collection="holderOfCollection"
+            :drop-status="formattedDropItem?.status"
+            :drop-start-time="formattedDropItem?.dropStartTime" />
 
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
@@ -82,6 +94,8 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import { Drop, getFormattedDropItem } from '@/components/drops/useDrops'
+import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -121,6 +135,17 @@ const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
+
+const { owners } = useCollectionActivity({ collectionId: props.collectionId })
+const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+
+const formattedDropItem = ref<Drop>()
+watchEffect(async () => {
+  formattedDropItem.value = await getFormattedDropItem(
+    collectionInfo,
+    props.drop,
+  )
+})
 
 const handleNftGeneration = ({
   image,
