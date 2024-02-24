@@ -9,6 +9,7 @@
       :id="scrollContainerId"
       v-slot="slotProps"
       :grid-section="gridSection"
+      :grid-size="gridSize"
       :mobile-cols="2"
       class="my-5">
       <div
@@ -58,6 +59,7 @@
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData || loadingOtherNetwork)"
       :grid-section="gridSection"
+      :grid-size="gridSize"
       class="my-5"
       :mobile-cols="2">
       <NftCardSkeleton
@@ -98,6 +100,7 @@ const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
   gridSection?: GridSection
+  gridSize?: GridSize
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
 }>()
