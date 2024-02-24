@@ -140,12 +140,18 @@ const { owners } = useCollectionActivity({ collectionId: props.collectionId })
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
 
 const formattedDropItem = ref<Drop>()
-watchEffect(async () => {
-  formattedDropItem.value = await getFormattedDropItem(
-    collectionInfo,
-    props.drop,
-  )
-})
+watch(
+  [collectionInfo],
+  async () => {
+    if (collectionInfo.value) {
+      formattedDropItem.value = await getFormattedDropItem(
+        collectionInfo.value,
+        props.drop,
+      )
+    }
+  },
+  { immediate: true },
+)
 
 const handleNftGeneration = ({
   image,
