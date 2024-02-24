@@ -178,11 +178,9 @@
         @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
       }
 
-      // commented out in https://github.com/kodadot/nft-gallery/pull/9394
-
-      // .o-btn__wrapper .o-btn__label {
-      //   @apply flex justify-between items-center;
-      // }
+      .o-btn__wrapper .o-btn__label {
+        @apply flex justify-between items-center;
+      }
     }
 
 

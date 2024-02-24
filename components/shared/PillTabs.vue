@@ -6,27 +6,25 @@
       :active="tab.active"
       variant="pill"
       @click="() => handleTabClick(tab.value)">
-      <div class="flex justify-center items-center">
-        <img
-          v-if="tab.image"
-          class="mr-2 image square-20"
-          :src="tab.image"
-          alt="tab" />
+      <img
+        v-if="tab.image"
+        class="mr-2 image square-20"
+        :src="tab.image"
+        alt="tab" />
 
-        <NeoIcon
-          v-else-if="tab.icon"
-          class="mr-2"
-          :icon="tab.icon.name"
-          :pack="tab.icon.pack" />
+      <NeoIcon
+        v-else-if="tab.icon"
+        class="mr-2"
+        :icon="tab.icon.name"
+        :pack="tab.icon.pack" />
 
-        <span>{{ tab.label }}</span>
+      <span>{{ tab.label }}</span>
 
-        <NeoIcon
-          v-if="tab.ticked"
-          class="ml-2 text-k-green"
-          icon="fa-check"
-          pack="fa-solid" />
-      </div>
+      <NeoIcon
+        v-if="tab.ticked"
+        class="ml-2 text-k-green"
+        icon="fa-check"
+        pack="fa-solid" />
     </NeoButton>
   </div>
 </template>
