@@ -67,7 +67,7 @@
         v-else-if="
           dropStatus === DropStatus.MINTING_ENDED && showHolderOfCollection
         "
-        class="flex justify-between items-center cursor-pointer text-k-grey hover:text-text-color"
+        class="w-[28px] -mr-0.5 flex justify-center items-center cursor-pointer text-k-grey hover:text-text-color"
         @click="showRequirements = !showRequirements">
         <NeoIcon
           custom-size="text-lg"
