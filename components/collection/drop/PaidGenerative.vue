@@ -136,7 +136,6 @@ const imageHash = ref('')
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -204,7 +203,6 @@ const {
   collectionData,
   defaultMax,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(
@@ -372,7 +370,10 @@ const submitMint = async (sn: string) => {
     const id = `${collectionId.value}-${result.sn}`
 
     subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
     })
 
     isLoading.value = false

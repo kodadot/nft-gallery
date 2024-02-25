@@ -65,11 +65,10 @@
       </div>
 
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
-      <div class="mb-4 mt-10">
-        <CarouselTypeLatestMints
-          :collection-id="collectionId"
-          interaction="MINT" />
-      </div>
+
+      <hr class="my-20" />
+
+      <LazyCollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
     </div>
   </div>
 
@@ -119,23 +118,12 @@ const { collection: collectionInfo } = useCollectionMinimal({
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const handleNftGeneration = ({
-  image,
-  isDefault,
-}: {
-  image: string
-  isDefault: boolean
-}) => {
-  if (!isDefault) {
-    emitEvent(DropEventType.DROP_GENERATING)
-  }
-
+const handleNftGeneration = ({ image }: { image: string }) => {
+  emitEvent(DropEventType.DROP_GENERATING)
   props.handleSelectImage(image)
 }
 
-const handleNftGenerationEnd = (isDefault: boolean) => {
-  if (!isDefault) {
-    completeLastEvent(DropEventType.DROP_GENERATING)
-  }
+const handleNftGenerationEnd = () => {
+  completeLastEvent(DropEventType.DROP_GENERATING)
 }
 </script>

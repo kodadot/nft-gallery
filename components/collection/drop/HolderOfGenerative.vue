@@ -139,6 +139,7 @@ const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals, decimals } = useChain()
+const runtimeMintedCount = ref(0)
 
 const { client } = usePrefix()
 const isLoading = ref(false)
@@ -162,7 +163,6 @@ const availableNfts = reactive<{
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -244,7 +244,6 @@ const {
   collectionData,
   defaultMax,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(
@@ -265,7 +264,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       },
     }).then((res) => res.data.value),
   {
-    watch: [accountId],
+    watch: [accountId, runtimeMintedCount],
   },
 )
 
@@ -326,7 +325,6 @@ const mintButtonProps = computed<MintButtonProp>(() => ({
 
 const mintNft = async () => {
   try {
-    isLoading.value = true
     isTransactionError.value = false
     const { apiInstance } = useApi()
     const api = await apiInstance.value
@@ -354,7 +352,6 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
-    isLoading.value = false
   }
 }
 
@@ -412,7 +409,8 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+
+  if (isLoading.value || isTransactionLoading.value || isImageFetching.value) {
     return false
   }
 
@@ -482,6 +480,7 @@ const submitMint = async (sn: string) => {
     }
 
     isSuccessModalActive.value = true
+    runtimeMintedCount.value += 1
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -529,7 +528,12 @@ const handleList = () => {
   listMintedNft()
 }
 
-watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
+watch([holderOfCollectionData, runtimeMintedCount], checkAvailableNfts, {
+  immediate: true,
+})
+watch(runtimeMintedCount, fetchDropStatus, {
+  immediate: true,
+})
 </script>
 
 <style scoped lang="scss">

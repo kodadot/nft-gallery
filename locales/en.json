@@ -1454,6 +1454,7 @@
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
+    "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",
     "finalizeClaimNow": "Finalize Your Claim Now",
     "subscribe": "Subscribe for priority access to new drops and key NFT market updates.",
@@ -1498,7 +1499,7 @@
     "holderOfCollection": "Holder of NFT from {name} collection",
     "mintForFree": "Mint For Free Now",
     "mintForPaid": "Mint For {0}",
-    "exploreDrop": "Explore {0}",
+    "exploreDrop": "Explore Algorithm",
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
