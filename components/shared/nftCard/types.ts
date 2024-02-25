@@ -5,6 +5,7 @@ export type NeoNFT = {
   animationUrl?: string
   mimeType?: string
   supply?: number
+  createdAt?: string
   price?: string
   sn?: string
   cheapest?: {

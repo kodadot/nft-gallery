@@ -1454,6 +1454,7 @@
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
+    "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",
     "finalizeClaimNow": "Finalize Your Claim Now",
     "subscribe": "Subscribe for priority access to new drops and key NFT market updates.",
