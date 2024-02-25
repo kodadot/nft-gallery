@@ -46,7 +46,7 @@
             @generation:end="handleNftGenerationEnd" />
 
           <CollectionDropPhase
-            class="mt-7"
+            class="mt-28 md:mt-7"
             :minimum-funds="minimumFunds"
             :mint-count-available="mintCountAvailable"
             :mint-button="mintButton"

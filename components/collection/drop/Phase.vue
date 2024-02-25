@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mt-24 md:mt-0 mb-6">
+    <div class="flex justify-between items-center mb-6">
       <div class="flex items-center">
         <div
           v-if="isFetchingDropStatus"
