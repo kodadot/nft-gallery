@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-full min-w-[226px] h-[62px] md:w-auto border border-k-shade inline-flex items-center justify-between px-3">
+    class="rounded-full h-[62px] md:w-auto border border-k-shade inline-flex items-center justify-between px-3">
     <div class="flex items-center">
       <CollectionDropCollectedByAvatar
         v-for="(address, index) in addresses.slice(0, maxAddressCount)"
@@ -9,7 +9,7 @@
         :address="address" />
     </div>
 
-    <div v-if="remainingCount">+{{ remainingCount }}</div>
+    <div v-if="remainingCount" class="ml-2.5">+{{ remainingCount }}</div>
   </div>
 </template>
 
