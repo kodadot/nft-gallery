@@ -51,12 +51,7 @@
         </span>
         {{ $t('mint.unlockable.open') }}
       </div>
-      <div
-        v-else-if="
-          dropStatus === DropStatus.SCHEDULED ||
-          dropStatus === DropStatus.SCHEDULED_SOON ||
-          dropStatus === DropStatus.COMING_SOON
-        ">
+      <div v-else-if="scheduledStatuses.includes(dropStatus!)">
         <span
           class="w-[52px] h-[40px] inline-flex justify-center items-center rounded-3xl cursor-pointer border-neutral-5 dark:border-neutral-9 border hover:border-border-color text-k-grey hover:text-text-color"
           @click="isCreateEventModalActive = true">
@@ -109,6 +104,12 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
+
+const scheduledStatuses: DropStatus[] = [
+  DropStatus.SCHEDULED,
+  DropStatus.SCHEDULED_SOON,
+  DropStatus.COMING_SOON,
+]
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
