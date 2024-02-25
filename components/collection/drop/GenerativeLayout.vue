@@ -121,23 +121,12 @@ const { collection: collectionInfo } = useCollectionMinimal({
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const handleNftGeneration = ({
-  image,
-  isDefault,
-}: {
-  image: string
-  isDefault: boolean
-}) => {
-  if (!isDefault) {
-    emitEvent(DropEventType.DROP_GENERATING)
-  }
-
+const handleNftGeneration = ({ image }: { image: string }) => {
+  emitEvent(DropEventType.DROP_GENERATING)
   props.handleSelectImage(image)
 }
 
-const handleNftGenerationEnd = (isDefault: boolean) => {
-  if (!isDefault) {
-    completeLastEvent(DropEventType.DROP_GENERATING)
-  }
+const handleNftGenerationEnd = () => {
+  completeLastEvent(DropEventType.DROP_GENERATING)
 }
 </script>
