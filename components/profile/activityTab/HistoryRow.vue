@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isDesktop" class="flex flex-col md:flex-row gap-3 mb-2">
+  <div v-if="isDesktop" class="flex gap-3 py-[.6rem]">
     <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
