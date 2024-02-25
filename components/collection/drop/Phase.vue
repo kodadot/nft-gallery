@@ -64,7 +64,9 @@
         </span>
       </div>
       <div
-        v-else-if="dropStatus === DropStatus.MINTING_ENDED"
+        v-else-if="
+          dropStatus === DropStatus.MINTING_ENDED && showHolderOfCollection
+        "
         class="flex justify-between items-center cursor-pointer text-k-grey hover:text-text-color"
         @click="showRequirements = !showRequirements">
         <NeoIcon
@@ -73,19 +75,15 @@
       </div>
     </div>
 
-    <div :class="{ hidden: !showRequirements || isFetchingDropStatus }">
+    <div
+      :class="{
+        hidden:
+          !showRequirements || isFetchingDropStatus || !showHolderOfCollection,
+      }">
       <CollectionDropRequirementPrivateMintRequirements
-        v-if="showHolderOfCollection && holderOfCollection"
         :holder-of-collection="holderOfCollection"
         :minimum-funds="minimumFunds"
         :is-minted-out="isMintedOut" />
-
-      <CollectionDropRequirementItem
-        v-else
-        :fulfilled="fulfillsMinimumFunds"
-        :loading="minimumFunds.isLoading">
-        <p v-dompurify-html="minimumFunds.description" />
-      </CollectionDropRequirementItem>
     </div>
 
     <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
@@ -119,9 +117,6 @@ const { $i18n } = useNuxtApp()
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
 const showRequirements = ref(true)
-const fulfillsMinimumFunds = computed(
-  () => Boolean(props.minimumFunds.amount) && props.minimumFunds.hasAmount,
-)
 
 const isCreateEventModalActive = ref(false)
 const isFetchingDropStatus = computed(() => !props.dropStatus)
