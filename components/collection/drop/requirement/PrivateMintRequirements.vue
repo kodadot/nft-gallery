@@ -13,11 +13,15 @@
           :loading="holderOfCollection.isLoading">
           <i18n-t keypath="drops.holderOfCollection" class="capitalize" tag="p">
             <template #name>
-              <nuxt-link
-                class="has-text-link"
-                :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
-                {{ collection?.name }}
-              </nuxt-link>
+              <CollectionDetailsPopover :collection="collection">
+                <template #content>
+                  <nuxt-link
+                    :to="`/${urlPrefix}/collection/${holderOfCollection.id}`"
+                    class="text-k-blue hover:text-k-blue-hover">
+                    {{ collection?.name }}
+                  </nuxt-link>
+                </template>
+              </CollectionDetailsPopover>
             </template>
           </i18n-t>
         </CollectionDropRequirementItem>

@@ -6,25 +6,46 @@ type UsePartyParams<T> = {
 }
 
 const PARTY_SOCKET_HOST = 'https://partykit.kodadot.workers.dev/'
+const wss = ref(new Map<string, PartySocket>())
 
 export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
-  const ws = ref<PartySocket>()
-  const connected = ref(false)
 
   const connect = (room: string) => {
-    ws.value = new PartySocket({
+    console.log(`[PARTY::CONNECTION] Establishing connection with room ${room}`)
+
+    if (wss.value.has(room)) {
+      console.log(
+        `[PARTY::CONNECTION] Connection with room ${room} already established ✅`,
+      )
+      attachMessageListener(wss.value.get(room) as PartySocket)
+      return
+    }
+
+    const ws = new PartySocket({
       host: PARTY_SOCKET_HOST,
       room: room,
       id: accountId.value,
     })
 
-    ws.value.addEventListener('open', () => {
-      console.log('[PARTY:OPEN] Connection established 🎉')
-      connected.value = true
+    ws.addEventListener('open', () => {
+      console.log('[PARTY::CONNECTION] Connection established 🎉')
     })
 
-    ws.value.addEventListener('message', (event) => {
+    ws.addEventListener('error', (error) => {
+      console.log(
+        `[PARTY::CONNECTION] Connection with room ${room} failed ❗️`,
+        error,
+      )
+    })
+
+    attachMessageListener(ws)
+
+    wss.value.set(room, ws)
+  }
+
+  const attachMessageListener = (ws: PartySocket) => {
+    ws.addEventListener('message', (event) => {
       const data = JSON.parse(event.data)
       if (onMessage) {
         onMessage(data)
@@ -33,7 +54,7 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   }
 
   const sendMessage = (value: any) => {
-    ws.value?.send(JSON.stringify(value))
+    wss.value.get(room.value)?.send(JSON.stringify(value))
   }
 
   watch(
@@ -46,7 +67,13 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     { immediate: true },
   )
 
-  onBeforeUnmount(() => ws.value?.close())
+  onBeforeUnmount(() => {
+    for (const [room, ws] of wss.value) {
+      console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
+      ws.close()
+      wss.value.delete(room)
+    }
+  })
 
-  return { sendMessage, open: connected }
+  return { sendMessage }
 }

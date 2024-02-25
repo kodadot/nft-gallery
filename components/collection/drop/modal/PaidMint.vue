@@ -1,9 +1,8 @@
 <template>
   <NeoModal
     :value="modelValue"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="isSigningStep ? false : ['outside', 'escape']"
     scroll="clip"
-    content-class="add-funds-modal"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -17,6 +16,7 @@
         :to-mint-nft="toMintNft"
         :minimum-funds="minimumFunds"
         :has-minimum-funds="hasMinimumFunds"
+        :hide-minimum-funds-warning="hideMinimumFundsWarning"
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
@@ -30,7 +30,7 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft"
+        :minted-nft="sanitizedMintedNft as DropMintedNft"
         :can-list-nft="canListNft"
         @list="$emit('list')" />
     </ModalBody>
@@ -41,7 +41,7 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import type { ToMintNft } from '../PaidGenerative.vue'
+import type { ToMintNft } from '../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
@@ -50,18 +50,24 @@ import { usePreloadMintedNftCover } from './utils'
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 
-const props = defineProps<{
-  modelValue: boolean
-  toMintNft: ToMintNft
-  action: AutoTeleportAction
-  isAllocatingRaffle: boolean
-  minimumFunds: number
-  hasMinimumFunds: boolean
-  formattedMinimumFunds: string
-  formattedExistentialDeposit: string
-  mintedNft?: DropMintedNft
-  canListNft: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean
+    toMintNft: ToMintNft
+    action: AutoTeleportAction
+    isAllocatingRaffle: boolean
+    minimumFunds: number
+    hasMinimumFunds: boolean
+    hideMinimumFundsWarning: boolean
+    formattedMinimumFunds: string
+    formattedExistentialDeposit: string
+    mintedNft?: DropMintedNft
+    canListNft: boolean
+  }>(),
+  {
+    hideMinimumFundsWarning: false,
+  },
+)
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -128,6 +134,10 @@ const title = computed(() => {
 
 const onClose = () => {
   emit('update:modelValue', false)
+
+  if (isSuccessfulDropStep.value) {
+    window.location.reload()
+  }
 }
 
 const handleModalClose = (completed: boolean) => {
@@ -151,7 +161,3 @@ watchEffect(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-</style>

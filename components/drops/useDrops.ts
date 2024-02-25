@@ -1,4 +1,3 @@
-import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
   type DropMintedStatus,
   GetDropsQuery,
@@ -12,9 +11,10 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
+import type { Prefix } from '@kodadot1/static'
 
 export interface Drop {
-  collection: CollectionWithMeta
+  collection: DropItem
   chain: string
   minted: number
   max: number
@@ -22,6 +22,7 @@ export interface Drop {
   dropStartTime: Date
   price: string
   alias: string
+  name: string
   isMintedOut: boolean
   status: DropStatus
   image?: string
@@ -249,4 +250,32 @@ export const useHolderOfCollectionDrop = () => {
   }
 
   return { isNftClaimed }
+}
+
+export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
+  const { drops } = useDrops({
+    chain: [chain],
+  })
+
+  const relatedActiveDrop = computed(() =>
+    drops.value.find(
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        !drop.disabled &&
+        drop.status === DropStatus.MINTING_LIVE,
+    ),
+  )
+
+  const relatedEndedDrop = computed(() =>
+    drops.value.find(
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        drop.status === DropStatus.MINTING_ENDED,
+    ),
+  )
+
+  return {
+    relatedActiveDrop,
+    relatedEndedDrop,
+  }
 }

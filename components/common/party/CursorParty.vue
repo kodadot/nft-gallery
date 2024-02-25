@@ -1,57 +1,58 @@
 <template>
   <div>
-    <div
-      v-for="connection in connections"
-      :key="connection.id"
-      class="absolute z-[998] pointer-events-none transition-all"
-      :class="[{ 'opacity-20': cursorConnections.get(connection.id)?.ghost }]"
-      :style="{
-        top: `${connection.y}px`,
-        left: `${connection.x}px`,
-      }">
-      <NeoIcon
-        :id="`cursor-${connection.id}`"
-        icon="arrow-pointer"
-        pack="fas"
-        :class="cursorConnections.get(connection.id)?.color" />
-
-      <div
-        class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit">
-        {{ cursorConnections.get(connection.id)?.label }}
-      </div>
-    </div>
+    <template v-for="connection in connections" :key="connection.id">
+      <Cursor
+        v-if="cursorConnections.get(connection.id)"
+        :connection="connection"
+        :cursor-details="
+          cursorConnections.get(connection.id) as CursorDetails
+        " />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { UserDetails } from '@/composables/party/types'
+import isEqual from 'lodash/isEqual'
+import Cursor from './Cusor.vue'
+
+export type CursorLabel =
+  | { loading?: boolean; label?: string; image?: string }
+  | undefined
+
+export type CursorDetails = {
+  color: string
+  label: CursorLabel
+  ghost?: boolean
+}
 
 const colors = [
-  'text-k-pink',
-  'text-k-blue',
-  'text-k-orange',
-  'text-k-aqua-blue',
-  'text-k-red',
-  'text-k-green',
+  'text-red-500 dark:text-red-600',
+  'text-orange-500 dark:text-orange-600',
+  'text-amber-500 dark:text-amber-600',
+  'text-yellow-500 dark:text-yellow-600',
+  'text-lime-500 dark:text-lime-600',
+  'text-green-500 dark:text-green-600',
+  'text-emerald-500 dark:text-emerald-600',
+  'text-teal-500 dark:text-teal-600',
+  'text-cyan-500 dark:text-cyan-600',
+  'text-sky-500 dark:text-sky-600',
+  'text-blue-500 dark:text-blue-600',
+  'text-indigo-500 dark:text-indigo-600',
+  'text-violet-500 dark:text-violet-600',
+  'text-purple-500 dark:text-purple-600',
+  'text-fuchsia-500 dark:text-fuchsia-600',
+  'text-pink-500 dark:text-pink-600',
+  'text-rose-500 dark:text-rose-600',
 ]
 
 const props = defineProps<{
   connections: UserDetails[]
   ghostOnElements?: string[]
-  labelFormatter: (connection: UserDetails) => string
+  labelFormatter: (connection: UserDetails) => CursorLabel
 }>()
 
-const cursorConnections = ref(
-  new Map<
-    string,
-    {
-      color: string
-      label: string
-      ghost?: boolean
-    }
-  >(),
-)
+const cursorConnections = ref(new Map<string, CursorDetails>())
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
 
@@ -99,24 +100,29 @@ const checkGhostCursors = () => {
 watch(
   () => props.connections,
   (connections, prevConnections) => {
-    checkGhostCursors()
-
     connections.forEach((connection) => {
       const isNew = !cursorConnections.value.has(connection.id)
-      const newSpent =
-        prevConnections &&
-        prevConnections.find(
-          (prevConnection) => connection.id === prevConnection.id,
-        )?.spent !== connection.spent
+      const prevConnection = prevConnections?.find(
+        (prevConnection) => connection.id === prevConnection.id,
+      )
 
-      if (isNew || newSpent) {
-        const color = cursorConnections.value.get(connection.id)?.color
+      const newSpent = prevConnection?.spent !== connection.spent
+      const updateLabel =
+        !isEqual(prevConnection?.lastEvent, connection.lastEvent) ||
+        (prevConnection?.lastEvent &&
+          Date.now() - prevConnection.lastEvent.timestamp > 1000)
+
+      if (isNew || newSpent || updateLabel) {
+        const cursorConnection = cursorConnections.value.get(connection.id)
         cursorConnections.value.set(connection.id, {
-          color: color || getRandomColor(),
+          ghost: Boolean(cursorConnection?.ghost),
+          color: cursorConnection?.color || getRandomColor(),
           label: props.labelFormatter(connection),
         })
       }
     })
+
+    checkGhostCursors()
   },
   { immediate: true, deep: true },
 )

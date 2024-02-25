@@ -38,7 +38,7 @@
   </div>
 
   <div
-    v-if="!hasMinimumFunds"
+    v-if="!hasMinimumFunds && !hideMinimumFundsWarning"
     class="border border-k-orange2 bg-k-orange-light">
     <div class="p-4 flex gap-3">
       <NeoIcon
@@ -111,20 +111,26 @@
 import { NeoIcon } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { ToMintNft } from '../../PaidGenerative.vue'
+import type { ToMintNft } from '../../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 defineEmits(['confirm', 'close'])
 
-defineProps<{
-  toMintNft: ToMintNft
-  action: AutoTeleportAction
+withDefaults(
+  defineProps<{
+    toMintNft: ToMintNft
+    action: AutoTeleportAction
 
-  minimumFunds: number
-  hasMinimumFunds: boolean
-  formattedMinimumFunds: string
-  formattedExistentialDeposit: string
-}>()
+    minimumFunds: number
+    hasMinimumFunds: boolean
+    hideMinimumFundsWarning: boolean
+    formattedMinimumFunds: string
+    formattedExistentialDeposit: string
+  }>(),
+  {
+    hideMinimumFundsWarning: false,
+  },
+)
 
 const body = ref(document.body)
 const autoteleport = ref()
@@ -134,5 +140,3 @@ const loading = computed(() => !autoteleport.value?.isReady)
 
 defineExpose({ loading })
 </script>
-
-<style scoped></style>

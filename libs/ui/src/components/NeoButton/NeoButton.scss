@@ -30,8 +30,8 @@
     }
 
     &--k-accent {
-      @apply bg-k-primary ;
-    
+      @apply bg-k-primary;
+
       &:not(:hover):not(:disabled) {
         @apply text-black #{!important};
       }
@@ -178,8 +178,24 @@
         @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
       }
 
-      .o-btn__wrapper .o-btn__label {
-        @apply flex justify-between items-center;
+      // commented out in https://github.com/kodadot/nft-gallery/pull/9394
+
+      // .o-btn__wrapper .o-btn__label {
+      //   @apply flex justify-between items-center;
+      // }
+    }
+
+
+    &--secondary-rounded {
+      @apply rounded-[2rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-text-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      &__active,
+      &.active {
+        @apply border-2;
       }
     }
   }

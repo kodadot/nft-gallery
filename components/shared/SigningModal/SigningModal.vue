@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="false"
     scroll="clip"
     @close="onClose">
     <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
@@ -67,6 +67,7 @@ const subtitle = computed(() =>
 
 const onClose = () => {
   isModalActive.value = false
+  isCancelled.value = false
 }
 
 watch(
