@@ -75,16 +75,12 @@
       </div>
     </div>
 
-    <div
-      :class="{
-        hidden:
-          !showRequirements || isFetchingDropStatus || !showHolderOfCollection,
-      }">
-      <CollectionDropRequirementPrivateMintRequirements
-        :holder-of-collection="holderOfCollection"
-        :minimum-funds="minimumFunds"
-        :is-minted-out="isMintedOut" />
-    </div>
+    <CollectionDropRequirementPrivateMintRequirements
+      v-if="showHolderOfCollection"
+      :class="{ hidden: !showRequirements || isFetchingDropStatus }"
+      :holder-of-collection="holderOfCollection"
+      :minimum-funds="minimumFunds"
+      :is-minted-out="isMintedOut" />
 
     <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
   </div>
