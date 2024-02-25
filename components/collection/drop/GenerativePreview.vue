@@ -94,6 +94,7 @@ import type {
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 const props = defineProps<{
   drop: DropItem
@@ -112,7 +113,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 
@@ -133,10 +134,11 @@ const entropyRange = computed<[number, number]>(() => [
   STEP * (props.minted + 1),
 ])
 
-const getHash = (isDefault?: boolean) => {
-  const randomSs58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+const getHash = () => {
+  const randomSs58Format = getRandomIntFromRange(
+    entropyRange.value[0],
+    entropyRange.value[1],
+  )
 
   const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
@@ -147,31 +149,32 @@ const getHash = (isDefault?: boolean) => {
   return blake2AsHex(initialValue, 256, null, true)
 }
 
-const generativeImageUrl = ref(
-  accountId.value ? `${props.drop.content}/?hash=${getHash(true)}` : '',
-)
+const generativeImageUrl = ref('')
 
 const isLoading = ref(false)
 
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.drop.image
 })
-const generateNft = (isDefault: boolean = false) => {
+const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
+  const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value, isDefault })
-
-  setTimeout(() => {
-    isLoading.value = false
-    emit('generation:end', isDefault)
-  }, 3000)
+  emit('generation:start', { image: generativeImageUrl.value })
+  imageDataPayload.value = undefined
 }
+
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+})
 
 watch(
   accountId,
   () => {
-    generateNft(true)
+    generateNft()
   },
   {
     immediate: true,

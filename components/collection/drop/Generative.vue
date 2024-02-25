@@ -91,7 +91,6 @@ const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -159,7 +158,6 @@ const {
   currentAccountMintedToken,
   collectionId,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
