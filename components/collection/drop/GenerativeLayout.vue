@@ -1,17 +1,17 @@
 <template>
   <div class="border-t">
     <div
-      class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] pt-6">
+      class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px]">
       <div class="columns is-variable is-4-tablet">
         <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
-          <div class="lg:flex lg:items-center">
-            <div>
+          <div class="flex justify-between flex-wrap max-w-[504px]">
+            <div class="mt-7 mr-2">
               <div class="font-bold is-size-5 mb-4 capitalize">
                 {{ $t('tooltip.created') }}
               </div>
               <CollectionDropCreatedBy v-if="address" :address="address" />
             </div>
-            <div class="lg:ml-[40px] max-lg:mt-7">
+            <div class="mt-7">
               <div class="font-bold is-size-5 mb-4 capitalize">
                 {{ $t('tooltip.collectedBy') }}
               </div>
@@ -57,7 +57,7 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div class="column hidden md:flex justify-end mt-[-245px]">
+        <div class="column hidden md:flex justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
