@@ -5,8 +5,8 @@
       {{ $t('migrate.homeButton') }}
     </NeoButton>
 
-    <div class="mt-8 flex flex-col md:flex-row gap-3 justify-center">
-      <div class="flex-1 2xl:flex-0 2xl:w-5/12">
+    <div class="mt-8 is-centered columns">
+      <div class="is-5-widescreen column">
         <h1 class="text-2xl">
           <span
             :class="{
