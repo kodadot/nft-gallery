@@ -1,8 +1,6 @@
 import {
-  type DropMintedStatus,
   GetDropsQuery,
   getDropById,
-  getDropMintedStatus,
   getDropStatus,
   getDrops,
 } from '@/services/fxart'
@@ -143,23 +141,18 @@ export async function useDrop(id: string) {
 }
 
 export const useDropStatus = (id: string) => {
-  const currentAccountMintedToken = ref<DropMintedStatus | null>(null)
   const mintedDropCount = ref(0)
   const { accountId } = useAuth()
 
   const fetchDropStatus = async () => {
     const { count } = await getDropStatus(id)
     mintedDropCount.value = count
-    currentAccountMintedToken.value = accountId.value
-      ? await getDropMintedStatus(id, accountId.value)
-      : null
   }
   onBeforeMount(fetchDropStatus)
 
   watch(accountId, fetchDropStatus)
 
   return {
-    currentAccountMintedToken,
     mintedDropCount,
     fetchDropStatus,
   }

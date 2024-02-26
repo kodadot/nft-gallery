@@ -30,7 +30,6 @@
             class="md:hidden mt-7"
             :minted="userMintedCount"
             :drop="drop"
-            :user-minted-nft-id="userMintedNftId"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
@@ -61,7 +60,6 @@
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
-            :user-minted-nft-id="userMintedNftId"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
@@ -79,11 +77,10 @@
       </div>
 
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
-      <div class="mb-4 mt-10">
-        <CarouselTypeLatestMints
-          :collection-id="collectionId"
-          interaction="MINT" />
-      </div>
+
+      <hr class="my-20" />
+
+      <LazyCollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
     </div>
   </div>
 
@@ -119,14 +116,13 @@ const props = withDefaults(
     isWalletConnecting: boolean
     isLoading: boolean
     holderOfCollection?: HolderOfCollectionProp
-    userMintedNftId?: string
     userMintedCount: number
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),
   {
     description: '',
-    userMintedNftId: undefined,
+    holderOfCollection: undefined,
   },
 )
 

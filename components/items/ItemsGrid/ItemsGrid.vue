@@ -9,6 +9,7 @@
       :id="scrollContainerId"
       v-slot="slotProps"
       :grid-section="gridSection"
+      :grid-size="gridSize"
       :mobile-cols="2"
       class="my-5">
       <div
@@ -22,6 +23,8 @@
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
           :display-name-with-sn="displayNameWithSn"
+          :show-timestamp="showTimestamp"
+          :collection-popover-hide="collectionPopoverHide"
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -58,12 +61,14 @@
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData || loadingOtherNetwork)"
       :grid-section="gridSection"
+      :grid-size="gridSize"
       class="my-5"
       :mobile-cols="2">
       <NftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
-        :hide-media-info="hideMediaInfo" />
+        :hide-media-info="hideMediaInfo"
+        :slim-media-info="collectionPopoverHide" />
     </DynamicGrid>
 
     <template v-if="total === 0 && (!isLoading || !isFetchingData)">
@@ -98,8 +103,11 @@ const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
   gridSection?: GridSection
+  gridSize?: GridSize
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
+  showTimestamp?: boolean
+  collectionPopoverHide?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])
