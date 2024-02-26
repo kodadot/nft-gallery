@@ -2,36 +2,51 @@
   <ModalIdentityItem class="mb-5" />
 
   <div class="pt-2 pb-5">
-    <ConfirmPurchaseItemRow
-      :name="toMintNft.name"
-      :collection-name="toMintNft.collectionName"
-      :price="toMintNft.price">
-      <template #image>
-        <BaseMediaItem
-          :src="toMintNft.image"
-          :alt="toMintNft.name"
-          mime-type="text/html"
-          preview
-          is-detail
-          class="border image is-48x48" />
-      </template>
-    </ConfirmPurchaseItemRow>
+    <div class="flex gap-4 flex-col">
+      <ConfirmPurchaseItemRow
+        v-for="toMintNft in toMintNfts"
+        :key="toMintNft.image"
+        :name="toMintNft.name"
+        :collection-name="toMintNft.collectionName"
+        :price="toMintNft.price">
+        <template #image>
+          <div class="relative">
+            <NeoSkeleton
+              v-if="!toMintNft.metadata"
+              class="absolute"
+              :width="48"
+              :height="48"
+              :rounded="false"
+              no-margin />
+
+            <BaseMediaItem
+              :src="sanitizeIpfsUrl(toMintNft.image)"
+              :alt="toMintNft.name"
+              mime-type="text/html"
+              preview
+              is-detail
+              :class="{ 'opacity-0': !toMintNft.metadata }"
+              class="border image is-48x48" />
+          </div>
+        </template>
+      </ConfirmPurchaseItemRow>
+    </div>
 
     <hr class="my-4" />
 
     <div class="flex justify-between items-center">
       <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
-      <CommonTokenMoney :value="toMintNft.price" />
+      <CommonTokenMoney :value="totalPrice" />
     </div>
 
     <hr class="my-4" />
 
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
-      <div class="flex">
-        <CommonTokenMoney :value="toMintNft.price" class="text-k-grey" />
+      <div class="flex items-center">
+        <CommonTokenMoney :value="totalPrice" class="text-k-grey text-xs" />
         <span class="font-bold ml-2">
-          {{ toMintNft.priceUSD }}
+          {{ priceUSD }}
         </span>
       </div>
     </div>
@@ -108,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { ToMintNft } from '../../types'
@@ -116,11 +131,11 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 defineEmits(['confirm', 'close'])
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    toMintNft: ToMintNft
+    toMintNfts: ToMintNft[]
     action: AutoTeleportAction
-
+    mintButton: { label: string; disabled: boolean }
     minimumFunds: number
     hasMinimumFunds: boolean
     hideMinimumFundsWarning: boolean
@@ -132,11 +147,19 @@ withDefaults(
   },
 )
 
+const { chainSymbol, decimals } = useChain()
+
 const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
+
+const totalPrice = computed(
+  () => getSumOfObjectField(props.toMintNfts, 'price') as number,
+)
+
+const { usd: priceUSD } = useAmount(totalPrice, decimals, chainSymbol)
 
 defineExpose({ loading })
 </script>
