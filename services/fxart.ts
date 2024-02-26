@@ -23,6 +23,28 @@ export type GetDropsQuery = {
   chain?: string[]
 }
 
+export type MintItem = {
+  hash: string
+  image: string
+  metadata: string
+}
+
+export type BatchMintBody = {
+  email: string
+  address: string
+  items: MintItem[]
+}
+
+export type BatchAllocateResponseNft = {
+  id: string
+  name: string
+  image: string
+}
+
+type BatchAllocateResponse = {
+  result: BatchAllocateResponseNft[]
+}
+
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
@@ -67,6 +89,24 @@ export const allocateCollection = async (body, id) => {
     return response
   } catch (error) {
     throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
+  }
+}
+
+export const batchAllocate = async (body: BatchMintBody, id: string) => {
+  try {
+    const response = await api<BatchAllocateResponse>(
+      `/drops/allocate/${id}/batch`,
+      {
+        method: 'post',
+        body,
+      },
+    )
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[FXART::BATCH_ALLOCATE] ERROR: ${(error as FetchError).data}`,
+    )
   }
 }
 

@@ -55,19 +55,22 @@
       class="text-neutral-5 dark:text-neutral-9"
       :value="mintedCount / maxCount" />
 
-    <CollectionDropMintButton
-      class="mt-6"
-      :collection-id="collectionId"
-      :user-minted-nft-id="userMintedNftId"
-      :is-wallet-connecting="isWalletConnecting"
-      :is-image-fetching="isImageFetching"
-      :is-loading="isLoading"
-      :minimum-funds="minimumFunds"
-      :max-count="maxCount"
-      :mint-count-available="mintCountAvailable"
-      :mint-button="mintButton"
-      :holder-of-collection="holderOfCollection"
-      @mint="emit('mint')" />
+    <div class="flex mt-6 gap-4">
+      <NeoStepper v-model="amount" />
+
+      <CollectionDropMintButton
+        :collection-id="collectionId"
+        :user-minted-nft-id="userMintedNftId"
+        :is-wallet-connecting="isWalletConnecting"
+        :is-image-fetching="isImageFetching"
+        :is-loading="isLoading"
+        :minimum-funds="minimumFunds"
+        :max-count="maxCount"
+        :mint-count-available="mintCountAvailable"
+        :mint-button="mintButton"
+        :holder-of-collection="holderOfCollection"
+        @mint="emit('mint')" />
+    </div>
 
     <div
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
@@ -83,7 +86,7 @@
 
 <script setup lang="ts">
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoStepper } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { DropItem } from '@/params/types'
 import type {
@@ -95,7 +98,9 @@ import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const props = defineProps<{
+  amountToMint: number
   drop: DropItem
   minted: number
   collectionId: string
@@ -111,7 +116,8 @@ const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
-const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+const amount = useVModel(props, 'amountToMint')
+
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()

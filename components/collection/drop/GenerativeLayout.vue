@@ -47,6 +47,7 @@
 
         <div class="column hidden md:flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
+            v-model:amount-to-mint="amount"
             :minted="userMintedCount"
             :drop="drop"
             :user-minted-nft-id="userMintedNftId"
@@ -94,6 +95,7 @@ import { DropEventType } from '@/composables/party/types'
 const props = withDefaults(
   defineProps<{
     collectionId: string
+    amountToMint: number
     description?: string
     drop: DropItem
     mintButton: MintButtonProp
@@ -115,6 +117,8 @@ const props = withDefaults(
     userMintedNftId: undefined,
   },
 )
+
+const amount = useVModel(props, 'amountToMint')
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents(props.drop.alias)
 const { collection: collectionInfo } = useCollectionMinimal({

@@ -1,5 +1,6 @@
 <template>
   <CollectionDropGenerativeLayout
+    v-model:amount-to-mint="amountToMint"
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
@@ -41,7 +42,7 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
-    :to-mint-nft="toMintNft"
+    :to-mint-nfts="toMintNfts"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
     :is-allocating-raffle="isAllocatingRaffle"
@@ -73,6 +74,8 @@ import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import useDropMassMint from '@/composables/drop/useDropMassMint'
+import { ToMintNft } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -107,6 +110,10 @@ const toMintNft = computed<ToMintNft>(() => ({
   price: price.value as string,
   priceUSD: priceUSD.value,
 }))
+
+const toMintNfts = computed(() =>
+  amountToMint.value > 1 ? massmintToMintNfts.value : [toMintNft.value],
+)
 
 const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
@@ -144,8 +151,6 @@ const {
   token,
   price,
 } = useGenerativeDropDetails(props.drop)
-
-const { usd: priceUSD } = useAmount(price, decimals, chainSymbol)
 
 const {
   howAboutToExecute,
@@ -209,6 +214,25 @@ const {
   mintedDropCount,
 })
 
+const totalPrice = computed(() => Number(price.value) * amountToMint.value)
+
+const { usd: priceUSD } = useAmount(totalPrice, decimals, chainSymbol)
+
+const {
+  massGenerate,
+  toMintNfts: massmintToMintNfts,
+  amountToMint,
+} = useDropMassMint({
+  drop: props.drop,
+  collectionName,
+  defaultName,
+  description,
+  price,
+  priceUSD,
+  isLoading,
+  isAllocatingRaffle,
+})
+
 useCursorDropEvents(
   props.drop.alias,
   [isTransactionLoading, isLoading],
@@ -225,7 +249,7 @@ const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('drops.mintForPaid', [
-        `${formatAmountWithRound(price.value || '', decimals.value)} ${
+        `${formatAmountWithRound(totalPrice.value || '', decimals.value)} ${
           chainSymbol.value
         }`,
       ])
@@ -344,6 +368,12 @@ const handleSubmitMint = async () => {
   }
   if (isLoading.value || isImageFetching.value) {
     return false
+  }
+
+  if (amountToMint.value > 1) {
+    massGenerate(amountToMint.value, mintedAmountForCurrentUser.value)
+    openMintModal()
+    return
   }
 
   // skip raffle modal at the moment. generate random email instead

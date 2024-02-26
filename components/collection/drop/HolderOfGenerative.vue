@@ -446,9 +446,7 @@ const handleSubmitMint = async () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = generateRandomEmail()
 
   await allocateRaffle()
 }

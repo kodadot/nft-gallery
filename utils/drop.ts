@@ -41,3 +41,9 @@ export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
 
 export const FALLBACK_DROP_COLLECTION_MAX = 300
 export const FUTURE_DROP_DATE = new Date(Date.UTC(2024, 0, 25, 14, 0, 0))
+
+export const generateRandomEmail = () => {
+  const crypto = window.crypto
+  const array = new Uint32Array(1)
+  return `${crypto.getRandomValues(array).toString()}@example.com`
+}

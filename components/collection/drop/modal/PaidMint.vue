@@ -13,7 +13,7 @@
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
-        :to-mint-nft="toMintNft"
+        :to-mint-nfts="toMintNfts"
         :minimum-funds="minimumFunds"
         :has-minimum-funds="hasMinimumFunds"
         :hide-minimum-funds-warning="hideMinimumFundsWarning"
@@ -53,7 +53,7 @@ const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 const props = withDefaults(
   defineProps<{
     modelValue: boolean
-    toMintNft: ToMintNft
+    toMintNfts: ToMintNft[]
     action: AutoTeleportAction
     isAllocatingRaffle: boolean
     minimumFunds: number
