@@ -3,18 +3,10 @@
     <div class="relative">
       <div ref="wrapper" class="keen-slider">
         <div
-          v-for="(item, index) in nfts"
+          v-for="(item, index) in items"
           :key="`${item.id}-${index}`"
-          class="keen-slider__slide carousel-item">
-          <NuxtLink
-            class="h-full flex flex-col"
-            :to="urlOf({ id: item.id, url, chain: item.chain })"
-            rel="nofollow">
-            <CarouselMedia :item="item" :index="index" :length="nfts.length" />
-            <slot name="card-info" :item="item">
-              <CarouselInfo :item="item" />
-            </slot>
-          </NuxtLink>
+          class="keen-slider__slide">
+          <slot :item="item" :index="index" />
         </div>
       </div>
       <Transition name="fade">
@@ -34,23 +26,22 @@
 </template>
 
 <script lang="ts" setup>
-import CarouselMedia from './CarouselMedia.vue'
-import CarouselInfo from './CarouselInfo.vue'
-import type { CarouselNFT } from '@/components/base/types'
-
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
-import { CarouselWheelsPlugin, useCarouselUrl } from '../utils/useCarousel'
+import { CarouselWheelsPlugin } from '../utils/useCarousel'
+
+type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
+
+export type CarouseBreakpointsConfig = Record<
+  CarouseBreakpoints,
+  { slides: { perView: number; spacing: number } }
+>
 
 const props = defineProps<{
-  nfts: CarouselNFT[]
+  items: any[]
   step: number
+  breakpoints: CarouseBreakpointsConfig
 }>()
-const { urlOf } = useCarouselUrl()
-
-const url = inject('itemUrl', 'gallery') as string
-const isCollection = computed(() => url.includes('collection'))
-provide('isCollection', isCollection.value)
 
 const current = ref(0)
 const leftArrowValid = ref(false)
@@ -61,6 +52,11 @@ const rightCarouselIndex = ref(0)
 const sliderSettings = (slider) => {
   if (slider) {
     const { track, options, slides } = slider
+
+    if (!track.details) {
+      return console.warn('[SLIDER] Slider is disabled or not ready')
+    }
+
     const abs = Number(track.details.abs)
     const perView = Number(options.slides.perView)
 
@@ -95,23 +91,13 @@ const [wrapper, slider] = useKeenSlider(
       })
     },
     breakpoints: {
-      '(min-width: 640px)': {
-        slides: { perView: 2.2, spacing: 16 },
-      },
-      '(min-width: 768px)': {
-        slides: { perView: 2.5, spacing: 32 },
-      },
-      '(min-width: 1024px)': {
-        slides: { perView: 4, spacing: 32 },
-      },
-      '(min-width: 1280px)': {
-        slides: { perView: 5, spacing: 32 },
-      },
-      '(min-width: 1540px)': {
-        slides: { perView: 6, spacing: 32 },
-      },
+      '(min-width: 640px)': props.breakpoints['640px'],
+      '(min-width: 768px)': props.breakpoints['768px'],
+      '(min-width: 1024px)': props.breakpoints['1024px'],
+      '(min-width: 1280px)': props.breakpoints['1280px'],
+      '(min-width: 1540px)': props.breakpoints['1540px'],
     },
-    slides: { perView: 2.2, spacing: 16 },
+    slides: props.breakpoints['640px'].slides,
   },
   [CarouselWheelsPlugin],
 )

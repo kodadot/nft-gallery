@@ -205,6 +205,10 @@ export default defineNuxtConfig({
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
 
+  colorMode: {
+    classSuffix: '',
+  },
+
   // Auto import components: https://nuxt.com/docs/api/nuxt-config#components
   components: {
     dirs: [

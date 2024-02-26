@@ -31,8 +31,15 @@ const props = defineProps<{
   check?: boolean
   fullWidth?: boolean
 }>()
-const emit = defineEmits(['confirm'])
-const model = useVModel(props, 'modelValue')
+const emit = defineEmits(['confirm', 'update:modelValue'])
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value === '' ? undefined : value)
+  },
+})
+
 const { chainSymbol } = useChain()
 </script>
 

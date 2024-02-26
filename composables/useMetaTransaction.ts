@@ -1,6 +1,7 @@
 import exec, {
   ExecResult,
   Extrinsic,
+  TxCbOnSuccessParams,
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
@@ -8,6 +9,11 @@ import useTransactionStatus from './useTransactionStatus'
 import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
+
+export type HowAboutToExecuteOnSuccessParam = {
+  txHash: string
+  blockNumber: string
+}
 
 function useMetaTransaction() {
   const { $i18n } = useNuxtApp()
@@ -26,7 +32,7 @@ function useMetaTransaction() {
     account: string,
     cb: (...params: any[]) => Extrinsic,
     args: any[],
-    onSuccess?: (blockNumber: string) => void,
+    onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void,
     onError?: () => void,
   ): Promise<void> => {
     try {
@@ -42,20 +48,22 @@ function useMetaTransaction() {
     }
   }
 
-  const successCb = (onSuccess) => async (blockHash) => {
-    const api = await apiInstance.value
+  const successCb =
+    (onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void) =>
+    async ({ blockHash, txHash }: TxCbOnSuccessParams) => {
+      const api = await apiInstance.value
 
-    tx.value && execResultValue(tx.value)
-    const header = await api.rpc.chain.getHeader(blockHash)
-    const blockNumber = header.number.toString()
+      tx.value && execResultValue(tx.value)
+      const header = await api.rpc.chain.getHeader(blockHash)
+      const blockNumber = header.number.toString()
 
-    if (onSuccess) {
-      onSuccess(blockNumber)
+      if (onSuccess) {
+        onSuccess({ txHash: txHash.toString(), blockNumber })
+      }
+
+      isLoading.value = false
+      tx.value = undefined
     }
-
-    isLoading.value = false
-    tx.value = undefined
-  }
 
   const errorCb = (onError) => (dispatchError) => {
     tx.value && execResultValue(tx.value)

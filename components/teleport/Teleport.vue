@@ -30,7 +30,9 @@
           @select="onChainChange" />
       </div>
 
-      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
+      <div
+        class="network-arrow text-text-color hover:text-link-hover flex cursor-pointer py-2"
+        @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -71,8 +73,9 @@
           min="0.01"
           step="0.00001"
           type="number"
+          icon-right-class="!hidden"
           placeholder="Enter Amount" />
-        <div class="is-absolute-right">
+        <div class="absolute right-8 top-3">
           <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
@@ -519,12 +522,6 @@ $xs-breakpoint: 400px;
   }
 }
 
-.is-absolute-right {
-  position: absolute;
-  right: 2rem;
-  top: 0.75rem;
-}
-
 .networks {
   @include tablet {
     margin-top: 52px;
@@ -547,14 +544,6 @@ $xs-breakpoint: 400px;
 .network-arrow {
   min-width: 32px;
   line-height: 1;
-
-  @include ktheme() {
-    color: theme('text-color');
-
-    &:hover {
-      color: theme('link-hover');
-    }
-  }
 
   @include tablet {
     margin: 0 1rem;
@@ -579,7 +568,7 @@ $xs-breakpoint: 400px;
   }
 }
 
-.dark-mode {
+.dark {
   .network-arrow:before {
     background: $background-dark;
   }

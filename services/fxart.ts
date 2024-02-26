@@ -1,7 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 
-const BASE_URL = 'https://fxart.kodadot.workers.dev/'
+const BASE_URL =
+  window.location.host === 'kodadot.xyz'
+    ? 'https://fxart.kodadot.workers.dev/'
+    : 'https://fxart-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -17,9 +20,16 @@ export type DoResult = {
   name: string
 }
 
-export const getDrops = async () => {
+export type GetDropsQuery = {
+  limit?: number
+  active?: boolean[]
+  chain?: string[]
+}
+
+export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
+    query,
   })
 }
 
@@ -59,7 +69,7 @@ export const allocateCollection = async (body, id) => {
 
     return response
   } catch (error) {
-    throw new Error(`[WAIFU::ALLOCATE] ERROR: ${(error as FetchError).data}`)
+    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
   }
 }
 
@@ -73,7 +83,7 @@ export const allocateClaim = async (body, id) => {
     return response
   } catch (error) {
     throw new Error(
-      `[WAIFU::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
+      `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
     )
   }
 }

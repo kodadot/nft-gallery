@@ -178,6 +178,10 @@ const updateSearch = (value: string): string => {
   return value
 }
 
+const focusInput = () => {
+  searchRef.value?.focusInput()
+}
+
 function bindFilterEvents(event: KeyboardEvent) {
   switch (event.key) {
     case 'b':
@@ -272,4 +276,6 @@ onMounted(() => {
   existArray(route.query.sort as string[], updateSortBy)
   exist(route.query.listed, updateListed)
 })
+
+defineExpose({ focusInput })
 </script>

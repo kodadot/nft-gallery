@@ -1,6 +1,5 @@
 <template>
   <CollectionDropGenerativeLayout
-    :user-minted-nft-id="userMintedNftId"
     :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -60,6 +59,7 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const MINTING_SECOND = 120
 
@@ -81,8 +81,7 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
@@ -90,7 +89,6 @@ const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -141,7 +139,6 @@ const {
   maxCount,
   mintedNft,
   mintedNftWithMetadata,
-  userMintedNftId,
   canListMintedNft,
   mintedCount,
   mintCountAvailable,
@@ -155,11 +152,10 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
-  defaultImage,
 })
+
+useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
 
 const mintButtonDisabled = computed<boolean>(
   () =>

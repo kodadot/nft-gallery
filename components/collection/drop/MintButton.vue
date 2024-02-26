@@ -28,7 +28,6 @@ const props = defineProps<{
   isWalletConnecting: boolean
   isLoading: boolean
   mintButton: MintButtonProp
-  userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
   collectionId: string
 }>()
@@ -72,7 +71,7 @@ const buttonMint = computed<{
 
   return {
     label: props.mintButton.label,
-    disabled: props.mintButton.disabled,
+    disabled: props.mintButton.disabled || loading.value,
   }
 })
 

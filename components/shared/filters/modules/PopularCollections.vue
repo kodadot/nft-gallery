@@ -25,12 +25,12 @@
           label-class="flex-grow"
           @update:modelValue="toggleCollection(collection)">
           <div
-            class="flex items-center filter-container pl-2 flex-grow min-width-0">
+            class="flex items-center filter-container pl-2 flex-grow min-w-0">
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
               class="image is-32x32 flex-shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id" />
-            <div class="flex flex-col flex-grow min-width-0">
+            <div class="flex flex-col flex-grow min-w-0">
               <NeoTooltip
                 :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
@@ -170,9 +170,6 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-.min-width-0 {
-  min-width: 0;
-}
 :deep(.neo-checkbox > span) {
   max-width: calc(100% - 1rem);
   .o-tip__trigger {

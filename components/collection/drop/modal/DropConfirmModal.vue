@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     scroll="clip"
     class="top"
     content-class="modal-width"

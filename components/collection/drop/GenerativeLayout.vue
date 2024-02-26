@@ -19,7 +19,6 @@
             class="md:hidden mt-7"
             :minted="userMintedCount"
             :drop="drop"
-            :user-minted-nft-id="userMintedNftId"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
@@ -31,7 +30,8 @@
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint"
-            @select="handleSelectImage" />
+            @generation:start="handleNftGeneration"
+            @generation:end="handleNftGenerationEnd" />
 
           <CollectionDropPhase
             class="mt-7"
@@ -48,7 +48,6 @@
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
-            :user-minted-nft-id="userMintedNftId"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
@@ -60,18 +59,22 @@
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint"
-            @select="handleSelectImage" />
+            @generation:start="handleNftGeneration"
+            @generation:end="handleNftGenerationEnd" />
         </div>
       </div>
 
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
-      <div class="mb-4 mt-10">
-        <CarouselTypeLatestMints
-          :collection-id="collectionId"
-          interaction="MINT" />
-      </div>
+
+      <hr class="my-20" />
+
+      <LazyCollectionDropItemsGrid class="mb-4" :collection-id="collectionId" />
     </div>
   </div>
+
+  <CollectionDropCursorParty
+    :drop-alias="drop.alias"
+    :user-minted-count="userMintedCount" />
 </template>
 
 <script setup lang="ts">
@@ -82,6 +85,8 @@ import type {
   MintButtonProp,
 } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import { DropEventType } from '@/composables/party/types'
 
 const props = withDefaults(
   defineProps<{
@@ -97,19 +102,28 @@ const props = withDefaults(
     isWalletConnecting: boolean
     isLoading: boolean
     holderOfCollection?: HolderOfCollectionProp
-    userMintedNftId?: string
     userMintedCount: number
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),
   {
     description: '',
-    userMintedNftId: undefined,
+    holderOfCollection: undefined,
   },
 )
 
+const { emitEvent, completeLastEvent } = useCursorDropEvents(props.drop.alias)
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
+
+const handleNftGeneration = ({ image }: { image: string }) => {
+  emitEvent(DropEventType.DROP_GENERATING)
+  props.handleSelectImage(image)
+}
+
+const handleNftGenerationEnd = () => {
+  completeLastEvent(DropEventType.DROP_GENERATING)
+}
 </script>

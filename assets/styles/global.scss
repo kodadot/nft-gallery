@@ -5,7 +5,7 @@ html {
   background-color: $white;
   // code mardkown style
   @include meta.load-css('prism-themes/themes/prism-one-light.css');
-  &.dark-mode {
+  &.dark {
     background-color: $scheme-main;
     // code mardkown style
     @include meta.load-css('prism-themes/themes/prism-one-dark.css');
@@ -43,8 +43,7 @@ body {
   }
 
   .input,
-  select,
-  .taginput-container {
+  select {
     @include ktheme() {
       background-color: theme('background-color') !important;
       color: theme('text-color') !important;
@@ -67,10 +66,6 @@ body {
         }
       }
     }
-  }
-
-  .taginput-container.is-focusable {
-    height: auto !important;
   }
 
   .select {
@@ -228,10 +223,6 @@ hr {
   height: 100% !important;
 }
 
-.no-border-left {
-  border-left: none !important;
-}
-
 .has-accent-blur {
   position: relative;
   .blur {
@@ -241,14 +232,19 @@ hr {
   }
 }
 
-.is-max-width-fit-content {
-  max-width: fit-content;
-}
-
-.is-overflow-y-auto {
-  overflow-y: auto;
-}
-
-.min-width-0 {
-  min-width: 0;
+.inverse-text {
+  letter-spacing: -0.02em;
+  @include ktheme() {
+    color: theme('text-color-inverse');
+    text-shadow:
+      1px 1px 0 theme('text-color'),
+      1px -1px 0 theme('text-color'),
+      -1px 1px 0 theme('text-color'),
+      -1px -1px 0 theme('text-color'),
+      1px 0px 0 theme('text-color'),
+      0px 1px 0 theme('text-color'),
+      -1px 0px 0 theme('text-color'),
+      0px -1px 0 theme('text-color'),
+      4px 4px theme('text-color');
+  }
 }

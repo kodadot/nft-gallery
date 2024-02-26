@@ -42,6 +42,9 @@
           </div>
         </div>
 
+        <!-- related active drop -->
+        <CollectionRelatedDropNotification :collection-id="collectionId" />
+
         <HeroButtons class="is-hidden-mobile self-end lg:flex-1" />
       </div>
     </section>
@@ -59,7 +62,7 @@ import { useReadyItems } from '@/composables/useMigrate'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const collectionId = computed(() => route.params.id)
+const collectionId = computed(() => route.params.id as string)
 const route = useRoute()
 const { entities } = useReadyItems()
 const { urlPrefix } = usePrefix()
