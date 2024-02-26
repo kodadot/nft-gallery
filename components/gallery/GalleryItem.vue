@@ -241,10 +241,12 @@ const tabs = {
 }
 const activeTab = ref(tabs.activity)
 
-const canPreview = computed(() =>
-  [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-    resolveMedia(nftMimeType.value),
-  ),
+const canPreview = computed(
+  () =>
+    !nftMimeType.value ||
+    [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
+      resolveMedia(nftMimeType.value),
+    ),
 )
 
 const activeCarousel = ref(0)
