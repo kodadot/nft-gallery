@@ -60,7 +60,6 @@
 
       <CollectionDropMintButton
         :collection-id="collectionId"
-        :user-minted-nft-id="userMintedNftId"
         :is-wallet-connecting="isWalletConnecting"
         :is-image-fetching="isImageFetching"
         :is-loading="isLoading"
@@ -112,7 +111,6 @@ const props = defineProps<{
   isWalletConnecting: boolean
   isLoading: boolean
   mintButton: MintButtonProp
-  userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
 }>()
 

@@ -21,7 +21,11 @@ const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'collections',
 ]
 
-const EXCLUDED_TOKEN_USE_PAGES = ['prefix-collection-id', 'prefix-u-id']
+const EXCLUDED_TOKEN_USE_PAGES = [
+  'prefix-collection-id',
+  'prefix-drops-id',
+  'prefix-u-id',
+]
 
 export function useFetchSearch({
   first,

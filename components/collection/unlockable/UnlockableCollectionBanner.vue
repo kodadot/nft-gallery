@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import { unlockableDesc } from '../unlockable/utils'
-import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
 import { DropItem } from '@/params/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -50,8 +49,6 @@ const image = computed(() => sanitizeIpfsUrl(props.drop?.image))
 
 const description = computed(() => {
   switch (props.drop?.type) {
-    case 'vote':
-      return VOTE_DROP_DESCRIPTION
     case 'paid':
       return unlockableDesc(50)
     case 'drop':

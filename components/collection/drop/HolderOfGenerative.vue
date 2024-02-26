@@ -27,7 +27,6 @@
     :description="description"
     :drop="drop"
     :holder-of-collection="holderOfCollection"
-    :user-minted-nft-id="userMintedNftId"
     :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -130,8 +129,7 @@ const minimumFundsProps = computed<MinimumFundsProp>(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
@@ -232,7 +230,6 @@ const {
   maxCount,
   mintedNft,
   mintedNftWithMetadata,
-  userMintedNftId,
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
@@ -246,8 +243,6 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
 })
 
@@ -399,16 +394,6 @@ const allocateRaffle = async () => {
 
   const response = await allocateCollection(body, props.drop.id)
   raffleId.value = response.result.id
-
-  if (
-    currentAccountMintedToken.value?.id &&
-    !currentAccountMintedToken.value?.claimed
-  ) {
-    body.email = currentAccountMintedToken.value?.email || body.email
-    body.hash = currentAccountMintedToken.value?.hash || body.hash
-    body.image = currentAccountMintedToken.value?.image || body.image
-    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
-  }
 
   isAllocatingRaffle.value = false
   isLoading.value = false

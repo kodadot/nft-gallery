@@ -4,7 +4,6 @@
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
-    :user-minted-nft-id="userMintedNftId"
     :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -105,7 +104,7 @@ const minimumFundsDescription = computed(() =>
 
 const toMintNft = computed<ToMintNft>(() => ({
   image: sanitizeIpfsUrl(selectedImage.value),
-  name: `${collectionName.value || ''} #${nftCount.value || ''}`,
+  name: `${collectionName.value || ''} #${raffleId.value || nftCount.value || ''}`,
   collectionName: collectionName.value || '',
   price: price.value as string,
   priceUSD: priceUSD.value,
@@ -123,8 +122,7 @@ const minimumFundsProps = computed(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -194,7 +192,6 @@ const {
   maxCount,
   mintedNft,
   mintedNftWithMetadata,
-  userMintedNftId,
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
@@ -209,8 +206,6 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
 })
 
@@ -337,20 +332,8 @@ const allocateRaffle = async () => {
     metadata: metadata,
   }
 
-  // claim previous ID first. else, allocate new raffle
-  if (
-    currentAccountMintedToken.value?.id &&
-    !currentAccountMintedToken.value?.claimed
-  ) {
-    body.email = currentAccountMintedToken.value?.email || body.email
-    body.hash = currentAccountMintedToken.value?.hash || body.hash
-    body.image = currentAccountMintedToken.value?.image || body.image
-    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
-    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
-  } else {
-    const response = await allocateCollection(body, props.drop.id)
-    raffleId.value = response.result.id
-  }
+  const response = await allocateCollection(body, props.drop.id)
+  raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
   isLoading.value = false
