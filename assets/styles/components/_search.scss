@@ -27,6 +27,8 @@
 
   .o-acp__menu {
     max-height: 610px;
+    min-width: 400px;
+
     .o-acp__item {
       padding: 0;
       background: unset !important;

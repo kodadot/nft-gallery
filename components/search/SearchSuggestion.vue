@@ -7,7 +7,7 @@
       v-show="name"
       v-model="activeSearchTab"
       expanded
-      class="touch-mt-20"
+      class="touch-mt-20 min-w-[300px]"
       nav-tabs-class="pt-6 pl-6 pr-6"
       @input="resetSelectedIndex">
       <NeoTabItem

@@ -18,12 +18,14 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
+            v-show="!openMobileSearchBar"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
-            <div class="fixed-stack flex items-center justify-between p-2">
+            <div
+              class="is-fixed-top z-10 flex items-center justify-between p-2">
               <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
