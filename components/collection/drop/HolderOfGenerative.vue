@@ -96,6 +96,7 @@ import type {
 } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { getFakeEmail } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -431,9 +432,7 @@ const handleSubmitMint = async () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
 
   await allocateRaffle()
 }
@@ -467,7 +466,10 @@ const submitMint = async (sn: string) => {
     const id = `${collectionId.value}-${result.sn}`
 
     subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
     })
 
     isLoading.value = false
