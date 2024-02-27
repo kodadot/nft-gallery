@@ -18,6 +18,7 @@ export type MassMintNFT = ToMintNft & {
   metadata?: string
   hash: string
   sn?: number
+  entropyRange: [number, number]
 }
 
 type MassMintParams = {
@@ -42,7 +43,7 @@ export default ({
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
   const { accountId } = useAuth()
-  const { generateHash } = useGenerativePreview()
+  const { generateHash, getEntropyRange } = useGenerativePreview()
 
   const amountToMint = ref(1)
 
@@ -54,6 +55,10 @@ export default ({
   const pinning = ref(new Map<string, boolean>())
 
   const onMessage = (payload: ImageDataPayload) => {
+    if (payload.image === 'data:,') {
+      return regenerateNfTWithHash(payload.hash)
+    }
+
     handleNewImageDataPayload(payload)
     pinNFTWithHash(payload.hash)
   }
@@ -98,10 +103,15 @@ export default ({
     return Array(amount)
       .fill(null)
       .map((_, index) => {
-        const hash = generateHash(minted + index)
-        const image = `${drop.content}/?hash=${hash}`
-        return { hash, image }
+        const entropyRange = getEntropyRange(minted + index)
+        return getPreviewItem(entropyRange)
       })
+  }
+
+  const getPreviewItem = (entropyRange: [number, number]) => {
+    const hash = generateHash(entropyRange)
+    const image = `${drop.content}/?hash=${hash}`
+    return { hash, image, entropyRange }
   }
 
   const pinMetadata = (item: MassMintNFT): Promise<string> => {
@@ -149,6 +159,7 @@ export default ({
           price: price.value as string,
           priceUSD: priceUSD.value as string,
           hash: item.hash,
+          entropyRange: item.entropyRange,
         }
       })
     } catch (error) {
@@ -172,6 +183,15 @@ export default ({
     toMintNfts.value = toMintNfts.value.map((item) =>
       item.hash === hash ? { ...item, metadata } : item,
     )
+  }
+
+  const regenerateNfTWithHash = (hash: string) => {
+    toMintNfts.value = toMintNfts.value.map((item) => {
+      if (item.hash === hash) {
+        return { ...item, ...getPreviewItem(item.entropyRange) }
+      }
+      return item
+    })
   }
 
   const allocate = async (mintNfts: MassMintNFT[]) => {

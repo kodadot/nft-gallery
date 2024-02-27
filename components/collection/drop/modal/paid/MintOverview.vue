@@ -5,7 +5,7 @@
     <div class="flex gap-4 flex-col">
       <ConfirmPurchaseItemRow
         v-for="toMintNft in toMintNfts"
-        :key="toMintNft.image"
+        :key="toMintNft.hash"
         :name="toMintNft.name"
         :collection-name="toMintNft.collectionName"
         :price="toMintNft.price">
