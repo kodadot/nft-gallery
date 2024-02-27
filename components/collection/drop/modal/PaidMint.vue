@@ -16,6 +16,7 @@
         :to-mint-nfts="toMintNfts"
         :minimum-funds="minimumFunds"
         :has-minimum-funds="hasMinimumFunds"
+        :mint-button="mintButton"
         :hide-minimum-funds-warning="hideMinimumFundsWarning"
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
@@ -58,6 +59,8 @@ const props = withDefaults(
     isAllocatingRaffle: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
+    amountToMint: number
+    readyToMint: boolean
     hideMinimumFundsWarning: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
@@ -130,6 +133,22 @@ const title = computed(() => {
   }
 
   return $i18n.t('success')
+})
+
+const mintButton = computed(() => {
+  if (props.amountToMint !== props.toMintNfts.length) {
+    return {
+      label: `${$i18n.t('drops.generatingVariations')} ~ 5s `,
+      disabled: true,
+      loading: true,
+    }
+  }
+
+  if (!props.readyToMint) {
+    return { label: $i18n.t('loader.ipfs'), disabled: true }
+  }
+
+  return { label: $i18n.t('drops.proceedToSigning'), disabled: false }
 })
 
 const onClose = () => {

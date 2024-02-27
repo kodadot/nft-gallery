@@ -49,6 +49,8 @@
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
     :formatted-existential-deposit="formattedExistentialDeposit"
+    :amount-to-mint="amountToMint"
+    :ready-to-mint="canMint"
     :token="token"
     :chain="chainName"
     @confirm="handleConfirmPaidMint"
@@ -217,6 +219,7 @@ const {
   massGenerate,
   toMintNfts: massmintToMintNfts,
   amountToMint,
+  canMint,
 } = useDropMassMint({
   drop: props.drop,
   collectionName,

@@ -13,7 +13,7 @@
           <div class="relative">
             <NeoSkeleton
               v-if="!toMintNft.metadata"
-              class="absolute"
+              class="absolute border border-border-color overflow-hidden"
               :width="48"
               :height="48"
               :rounded="false"
@@ -109,7 +109,8 @@
   <div class="flex pt-5">
     <AutoTeleportActionButton
       ref="autoteleport"
-      :label="$t('drops.proceedToSigning')"
+      :label="mintButton.label"
+      :disabled="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
       :fees="{
@@ -135,7 +136,7 @@ const props = withDefaults(
   defineProps<{
     toMintNfts: ToMintNft[]
     action: AutoTeleportAction
-    mintButton: { label: string; disabled: boolean }
+    mintButton: { label: string; disabled: boolean; loading?: boolean }
     minimumFunds: number
     hasMinimumFunds: boolean
     hideMinimumFundsWarning: boolean
