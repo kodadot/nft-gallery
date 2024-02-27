@@ -90,10 +90,12 @@
       <CollectionInfoLine :title="$t('activity.listedAndMinted')">
         <span class="text-xs text-neutral-7 leading-6 font-normal mr-2"
           >{{
-            Math.floor(
-              (Number(stats.listedCount) / Number(stats.collectionLength)) *
-                100,
-            )
+            Boolean(stats.collectionLength)
+              ? Math.floor(
+                  (Number(stats.listedCount) / Number(stats.collectionLength)) *
+                    100,
+                ) + '%'
+              : '-'
           }}%</span
         >
         {{ stats.listedCount }} /
