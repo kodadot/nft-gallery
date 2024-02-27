@@ -477,6 +477,7 @@
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "disabledRmrk": "Minting on Kusama is no longer supported, please select another chain",
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
