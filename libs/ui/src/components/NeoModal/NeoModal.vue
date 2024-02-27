@@ -4,10 +4,10 @@
       v-model:active="isModalActive"
       class="neo-modal"
       :class="[
-        `max-h-[${maxHeight}]`,
-        'w-[380px] mx-auto',
+        `max-h-[${maxHeight}] mx-auto`,
         { 'append-to-body': appendToBody },
       ]"
+      :style="{ 'max-width': !isMobile ? width : '100%' }"
       scroll="clip"
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
@@ -30,6 +30,8 @@ import { computed } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { OModal } from '@oruga-ui/oruga-next'
 
+const { isMobile } = useViewport()
+
 const props = withDefaults(
   defineProps<{
     value: boolean
@@ -41,6 +43,7 @@ const props = withDefaults(
     noShadow?: boolean
     enableMobile?: boolean
     maxHeight?: string | number
+    width?: string | number
     mobileBreakpoint?: string
     appendToBody?: boolean
   }>(),
@@ -53,6 +56,7 @@ const props = withDefaults(
     noShadow: false,
     enableMobile: true,
     maxHeight: '80vh',
+    width: '380px',
     mobileBreakpoint: '768px',
     appendToBody: true,
   },
