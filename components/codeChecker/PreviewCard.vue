@@ -130,5 +130,6 @@ const exportAsPNG = async () => {
 :deep(.o-btn__label) {
   overflow: hidden;
   text-overflow: ellipsis;
+  justify-content: center !important;
 }
 </style>
