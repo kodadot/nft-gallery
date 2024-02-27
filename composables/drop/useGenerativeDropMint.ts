@@ -1,4 +1,4 @@
-import { DoResult, DropMintedStatus } from '@/services/fxart'
+import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
@@ -22,8 +22,6 @@ export type UnlockableCollectionById = {
 
 type GenerativeDropMintParams = {
   mintedDropCount: Ref<number>
-  collectionId: Ref<string>
-  currentAccountMintedToken: Ref<DropMintedStatus | null>
   defaultMax: Ref<number>
   collectionData: Ref<UnlockableCollectionById | undefined | null>
 }
@@ -31,8 +29,6 @@ type GenerativeDropMintParams = {
 export default ({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
@@ -47,12 +43,6 @@ export default ({
 
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
-  )
-
-  const userMintedNftId = computed(() =>
-    currentAccountMintedToken.value
-      ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
-      : mintedNft.value?.id,
   )
 
   const mintedAmountForCurrentUser = computed(
@@ -127,7 +117,10 @@ export default ({
 
   onBeforeUnmount(() => {
     preferencesStore.listingCartModalOpen = false
-    listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+
+    if (mintedNftWithMetadata.value?.id) {
+      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+    }
   })
 
   return {
@@ -135,7 +128,6 @@ export default ({
     mintedNft,
     mintedNftWithMetadata,
     mintedAmountForCurrentUser,
-    userMintedNftId,
     mintedCount,
     mintCountAvailable,
     selectedImage,
