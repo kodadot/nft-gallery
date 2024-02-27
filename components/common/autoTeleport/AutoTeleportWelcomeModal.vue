@@ -4,8 +4,9 @@
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="z-[1000]"
+    width="40rem"
     @close="onClose">
-    <div class="w-[unset] lg:w-[40rem]">
+    <div class="w-full">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
         <span class="capitalize text-[1.6rem] font-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
