@@ -129,7 +129,7 @@ export default ({
   const clear = () => {
     toMintNfts.value = []
     pinning.value = new Map()
-    allocatedNfts.value
+    allocatedNfts.value = []
   }
 
   const massGenerate = (amount: number, minted: number) => {
