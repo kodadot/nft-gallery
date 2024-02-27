@@ -85,8 +85,13 @@
         </div>
       </NeoField>
 
+      <InfoBox v-if="isRemark" variant="warning">
+        <div>{{ $t('mint.disabledRmrk') }}</div>
+      </InfoBox>
+
       <!-- list for sale -->
       <NeoField
+        v-if="!isRemark"
         :key="currentChain"
         :label="$t('mint.nft.sale.label')"
         required
@@ -130,6 +135,7 @@
 
       <!-- select collections -->
       <NeoField
+        v-if="!isRemark"
         :key="`collection-${currentChain}`"
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
@@ -151,7 +157,9 @@
       </NeoField>
 
       <!-- no of copies -->
-      <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
+      <NeoField
+        v-if="!isRemark"
+        :label="`${$t('mint.nft.copies.label')} (optional)`">
         <div class="w-full">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
@@ -172,7 +180,7 @@
       </NeoField>
 
       <!-- nft properties -->
-      <NeoField :label="`${$t('tabs.properties')} (optional)`">
+      <NeoField v-if="!isRemark" :label="`${$t('tabs.properties')} (optional)`">
         <CustomAttributeInput
           v-model="form.tags"
           :max="10"
@@ -180,7 +188,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="!isRmrk">
+      <NeoField v-if="!isRemark">
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
           v-model:address="form.royalty.address"
@@ -188,7 +196,7 @@
       </NeoField>
 
       <!-- explicit content -->
-      <NeoField :label="`${$t('mint.nfsw')}`">
+      <NeoField v-if="!isRemark" :label="`${$t('mint.nfsw')}`">
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
@@ -228,6 +236,7 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
+        :disabled="isRemark"
         class="text-base"
         native-type="submit"
         size="medium"
@@ -281,6 +290,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import InfoBox from '@/components/shared/view/InfoBox.vue'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -336,7 +346,7 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
@@ -349,7 +359,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isRemark, isRmrk } = useIsChain(currentChain)
+const { isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
