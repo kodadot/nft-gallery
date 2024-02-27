@@ -23,8 +23,8 @@ export default () => {
     return blake2AsHex(initialValue, 256, null, true)
   }
 
-  const generateHash = (minted: number) =>
-    getHash(getRandomIntFromRange(...getEntropyRange(minted)))
+  const generateHash = (range: [number, number]) =>
+    getHash(getRandomIntFromRange(...range))
 
-  return { generateHash }
+  return { generateHash, getEntropyRange }
 }
