@@ -75,6 +75,11 @@
   }
   padding: 13px;
   min-height: 102px;
+
+  &__slim {
+    min-height: 83px;
+  }
+
   &__minimal {
     padding: 9px;
     min-height: 76px;

@@ -8,6 +8,8 @@
     :variant="variant"
     :hide-media-info="hideMediaInfo"
     :display-name-with-sn="displayNameWithSn"
+    :show-timestamp="showTimestamp"
+    :collection-popover-hide="collectionPopoverHide"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -92,6 +94,8 @@ const props = defineProps<{
   hideAction?: boolean
   hideVideoControls?: boolean
   displayNameWithSn?: boolean
+  showTimestamp?: boolean
+  collectionPopoverHide?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

@@ -134,6 +134,10 @@ const title = computed(() => {
 
 const onClose = () => {
   emit('update:modelValue', false)
+
+  if (isSuccessfulDropStep.value) {
+    window.location.reload()
+  }
 }
 
 const handleModalClose = (completed: boolean) => {
