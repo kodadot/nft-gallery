@@ -5,7 +5,10 @@
         <NeoSkeleton :rounded="false" full-size no-margin />
       </div>
     </div>
-    <div v-if="!hideMediaInfo" class="nft-media-info">
+    <div
+      v-if="!hideMediaInfo"
+      class="nft-media-info"
+      :class="{ 'nft-media-info__slim': slimMediaInfo }">
       <NeoSkeleton size="medium" no-margin />
       <div class="flex mt-4">
         <NeoSkeleton size="small" no-margin width="100px" />
@@ -20,6 +23,7 @@ import { NeoSkeleton } from '@kodadot1/brick'
 withDefaults(
   defineProps<{
     hideMediaInfo?: boolean
+    slimMediaInfo?: boolean
   }>(),
   { hideMediaInfo: false },
 )
