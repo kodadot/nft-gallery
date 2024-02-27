@@ -20,6 +20,7 @@
       :grid-size="'medium'"
       display-name-with-sn
       collection-popover-hide
+      hide-hover-action
       show-timestamp
       :reset-search-query-params="['sort']" />
   </div>
