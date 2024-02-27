@@ -4,30 +4,41 @@
     :share="share"
     :action-buttons="actionButtons">
     <SingleItemMedia
+      v-if="props.mintingSession.items.length === 1"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
       :src="sanitizeIpfsUrl(mintedNft.image)"
       :nft-name="mintedNft.name"
       :collection-id="mintedNft.collection"
       :collection-name="mintedNft.collectionName" />
+    <MultiItemMedia v-else :items="items" />
   </SuccessfulModalBody>
 </template>
 
 <script setup lang="ts">
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import { MintingSession } from '../../types'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
-  mintedNft: DropMintedNft
+  mintingSession: MintingSession
   canListNft: boolean
 }>()
+
+const mintedNft = computed(() => props.mintingSession.items[0])
 
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
 const sharingTxt = $i18n.t('sharing.nft')
 
-const txHash = computed(() => props.mintedNft.txHash || '')
+const txHash = computed(() => props.mintingSession.txHash || '')
 const share = computed(() => ({ text: sharingTxt, url: nftFullUrl.value }))
+const items = computed(() =>
+  props.mintingSession.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    image: sanitizeIpfsUrl(item.image),
+  })),
+)
 
 const actionButtons = computed(() => ({
   secondary: {

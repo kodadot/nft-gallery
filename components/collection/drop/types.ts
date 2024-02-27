@@ -28,3 +28,17 @@ export type ToMintNft = {
   price: string
   priceUSD: string
 }
+
+export type MintedNFT = {
+  id: string
+  chain: string
+  name: string
+  image: string
+  collection: string
+  collectionName: string
+}
+
+export type MintingSession = {
+  txHash?: string
+  items: MintedNFT[]
+}

@@ -11,9 +11,9 @@ import { DropItem } from '@/params/types'
 import useGenerativeIframeData, {
   ImageDataPayload,
 } from './useGenerativeIframeData'
-import { ToMintNft } from '@/components/collection/drop/types'
+import { MintingSession, ToMintNft } from '@/components/collection/drop/types'
 
-type MassMintNFToMint = ToMintNft & {
+export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
   metadata?: string
   hash: string
@@ -48,8 +48,9 @@ export default ({
 
   const isLoading = ref(false)
   const isAllocating = ref(false)
-  const toMintNfts = ref<MassMintNFToMint[]>([])
+  const toMintNfts = ref<MassMintNFT[]>([])
   const allocatedNfts = ref<BatchAllocateResponseNft[]>([])
+  const mintingSession = ref<MintingSession>({ txHash: '', items: [] })
   const pinning = ref(new Map<string, boolean>())
 
   const onMessage = (payload: ImageDataPayload) => {
@@ -103,7 +104,7 @@ export default ({
       })
   }
 
-  const pinMetadata = (item: MassMintNFToMint): Promise<string> => {
+  const pinMetadata = (item: MassMintNFT): Promise<string> => {
     return new Promise(async (resolve, reject) => {
       try {
         const image = item.image
@@ -173,7 +174,7 @@ export default ({
     )
   }
 
-  const allocate = async (mintNfts: MassMintNFToMint[]) => {
+  const allocate = async (mintNfts: MassMintNFT[]) => {
     try {
       isAllocating.value = true
 
@@ -190,9 +191,16 @@ export default ({
 
       const response = await batchAllocate(body, drop.id)
 
-      const result = response.result
+      const result = response.result // take this as source
 
       allocatedNfts.value = result
+
+      toMintNfts.value = toMintNfts.value.map((toMint, index) => {
+        const allocated = allocatedNfts.value[index]
+        return allocated
+          ? { ...toMint, name: allocated.name, sn: allocated.id }
+          : toMint
+      })
     } catch (error) {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
@@ -206,5 +214,12 @@ export default ({
     }
   })
 
-  return { amountToMint, massGenerate, toMintNfts, canMint, allocatedNfts }
+  return {
+    amountToMint,
+    massGenerate,
+    toMintNfts,
+    canMint,
+    allocatedNfts,
+    mintingSession,
+  }
 }

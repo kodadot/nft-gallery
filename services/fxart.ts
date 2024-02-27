@@ -14,7 +14,10 @@ export type DoResult = {
   sn: string
   collection: string
   chain: string
-  txHash?: string
+  txHash?: {
+    ok: string
+    timestamp: string
+  }
   timestamp?: string
   image?: string
   name: string
@@ -24,28 +27,6 @@ export type GetDropsQuery = {
   limit?: number
   active?: boolean[]
   chain?: string[]
-}
-
-export type MintItem = {
-  hash: string
-  image: string
-  metadata: string
-}
-
-export type BatchMintBody = {
-  email: string
-  address: string
-  items: MintItem[]
-}
-
-export type BatchAllocateResponseNft = {
-  id: string
-  name: string
-  image: string
-}
-
-type BatchAllocateResponse = {
-  result: BatchAllocateResponseNft[]
 }
 
 export const getDrops = async (query?: GetDropsQuery) => {
@@ -95,6 +76,28 @@ export const allocateCollection = async (body, id) => {
   }
 }
 
+export type MintItem = {
+  hash: string
+  image: string
+  metadata: string
+}
+
+export type BatchMintBody = {
+  email: string
+  address: string
+  items: MintItem[]
+}
+
+export type BatchAllocateResponseNft = {
+  id: number
+  name: string
+  image: string
+}
+
+type BatchAllocateResponse = {
+  result: BatchAllocateResponseNft[]
+}
+
 export const batchAllocate = async (body: BatchMintBody, id: string) => {
   try {
     const response = await api<BatchAllocateResponse>(
@@ -115,7 +118,7 @@ export const batchAllocate = async (body: BatchMintBody, id: string) => {
 
 export const allocateClaim = async (body, id) => {
   try {
-    const response = await api(`/drops/do/${id}`, {
+    const response = await api<{ result: DoResult }>(`/drops/do/${id}`, {
       method: 'post',
       body,
     })

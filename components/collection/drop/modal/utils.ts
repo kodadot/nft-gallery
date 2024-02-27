@@ -1,4 +1,5 @@
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import { MintedNFT } from '../types'
 
 export const usePreloadMintedNftCover = (
   mintedNft: ComputedRef<DropMintedNft | undefined>,
@@ -29,4 +30,51 @@ export const usePreloadMintedNftCover = (
     nftCoverLoaded,
     retry,
   }
+}
+
+export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
+  const states = ref(new Map<string, { tries: number; loaded: boolean }>())
+
+  const stateValues = computed(() =>
+    Object.values(Object.fromEntries(states.value.entries())),
+  )
+  const triedAll = computed(
+    () => Number(getSumOfObjectField(stateValues.value, 'tries')) === 0,
+  )
+  const loadedAll = computed(() => {
+    const loaded = stateValues.value.map((item) => item.loaded)
+    return loaded.length && loaded.every(Boolean)
+  })
+
+  const tryPreload = async (mintedNFT: MintedNFT) => {
+    const id = mintedNFT.id
+    const currentState = states.value.get(id) || { tries: 3, loaded: false }
+
+    if (currentState.tries === 0) {
+      return
+    }
+
+    try {
+      const loaded = await preloadImage(sanitizeIpfsUrl(mintedNFT.image))
+
+      if (loaded) {
+        states.value.set(id, {
+          tries: currentState.tries,
+          loaded: true,
+        })
+      }
+    } catch (error) {
+      states.value.set(id, { tries: currentState.tries - 1, loaded: false })
+      tryPreload(mintedNFT)
+    }
+  }
+
+  watch(mintedNFTs, (items) => {
+    if (items && items.length) {
+      states.value = new Map()
+      items.forEach(tryPreload)
+    }
+  })
+
+  return { triedAll, loadedAll }
 }

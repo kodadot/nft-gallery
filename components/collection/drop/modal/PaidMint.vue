@@ -31,7 +31,7 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft as DropMintedNft"
+        :minting-session="mintingSession"
         :can-list-nft="canListNft"
         @list="$emit('list')" />
     </ModalBody>
@@ -42,19 +42,19 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import type { ToMintNft } from '../types'
+import type { MintingSession } from '../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
-import { usePreloadMintedNftCover } from './utils'
+import { usePreloadMintedNftCovers } from './utils'
+import { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 
 const props = withDefaults(
   defineProps<{
     modelValue: boolean
-    toMintNfts: ToMintNft[]
+    toMintNfts: MassMintNFT[]
     action: AutoTeleportAction
     isAllocatingRaffle: boolean
     minimumFunds: number
@@ -64,7 +64,7 @@ const props = withDefaults(
     hideMinimumFundsWarning: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
-    mintedNft?: DropMintedNft
+    mintingSession: MintingSession
     canListNft: boolean
   }>(),
   {
@@ -80,8 +80,8 @@ enum ModalStep {
 
 const { $i18n } = useNuxtApp()
 
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
+const { loadedAll, triedAll } = usePreloadMintedNftCovers(
+  computed(() => props.mintingSession.items),
 )
 
 const mintOverview = ref()
@@ -102,13 +102,13 @@ const isSuccessfulDropStep = computed(
 )
 
 const moveSuccessfulDrop = computed(() => {
-  if (nftCoverLoaded.value) {
+  if (loadedAll.value) {
     return true
   }
 
   return (
-    sanitizedMintedNft.value &&
-    retry.value === 0 &&
+    props.mintingSession.items.length &&
+    triedAll.value &&
     props.action.details.status === TransactionStatus.Finalized
   )
 })

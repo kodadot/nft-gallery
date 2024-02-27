@@ -127,14 +127,14 @@
 import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { ToMintNft } from '../../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import type { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 defineEmits(['confirm', 'close'])
 
 const props = withDefaults(
   defineProps<{
-    toMintNfts: ToMintNft[]
+    toMintNfts: MassMintNFT[]
     action: AutoTeleportAction
     mintButton: { label: string; disabled: boolean; loading?: boolean }
     minimumFunds: number
