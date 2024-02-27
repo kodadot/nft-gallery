@@ -11,6 +11,7 @@
             <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
             <ChooseCollectionDropdown
               :preselected="preselectedCollectionId"
+              :disabled="isRemark"
               @selectedCollection="onCollectionSelected" />
           </div>
         </div>
@@ -127,6 +128,8 @@ const smallerThenDesktop = computed(() => width.value < 1024)
 
 const isMinting = ref(false)
 const mintStatus = ref('')
+
+const { isRemark } = useIsChain(urlPrefix)
 
 const numberOfMissingNames = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.name).length,
