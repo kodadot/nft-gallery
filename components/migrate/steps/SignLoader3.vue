@@ -46,7 +46,9 @@
         <div :class="whichIcon().textColor">
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
         </div>
-        <div v-if="isError" class="flex-1 text-right">
+        <div
+          v-if="isError || status === TransactionStatus.Cancelled"
+          class="flex-1 text-right">
           <NeoButton variant="pill" size="small" @click="burnItems()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
@@ -95,16 +97,16 @@ const { steps, updateSteps } = inject('steps') as {
 }
 
 const whichIcon = () => {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
+    return iconError
+  }
+
   if (steps.value === 'step4') {
     return iconSuccess
   }
 
   if (steps.value === 'step3-burn' || steps.value === 'step3-burn-collection') {
     return iconLoading
-  }
-
-  if (isError.value) {
-    return iconError
   }
 
   return iconIdle
