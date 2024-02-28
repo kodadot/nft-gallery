@@ -73,6 +73,7 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ToMintNft } from './types'
+import { getFakeEmail } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -332,9 +333,7 @@ const handleSubmitMint = async () => {
 
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
   openMintModal()
   await allocateRaffle()
 }
