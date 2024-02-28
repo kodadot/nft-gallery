@@ -83,12 +83,11 @@ export default ({
   const canMint = computed(() => Boolean(allocatedNfts.value.length))
 
   const handleNewImageDataPayload = (payload: ImageDataPayload) => {
-    toMintNfts.value = toMintNfts.value.map((toMintNft) => {
-      if (toMintNft.hash === payload.hash) {
-        return { ...toMintNft, imageDataPayload: payload }
-      }
-      return toMintNft
-    })
+    toMintNfts.value = toMintNfts.value.map((toMintNft) =>
+      toMintNft.hash === payload.hash
+        ? { ...toMintNft, imageDataPayload: payload }
+        : toMintNft,
+    )
   }
 
   const tryCapture = async ({
@@ -176,9 +175,9 @@ export default ({
 
       isLoading.value = true
 
-      const multiple = amount > 1
+      const single = amount === 1
 
-      const previewItems = multiple
+      const previewItems = single
         ? [...withPreviewItems].flat()
         : generateMassPreview(amount, minted)
 
@@ -209,6 +208,10 @@ export default ({
   const regenerateNfTWithHash = (hash: string) => {
     toMintNfts.value = toMintNfts.value.map((item) => {
       if (item.hash === hash) {
+        console.log(
+          '[MASSMINT::PREVIEW] Regenerating nft with range ',
+          item.entropyRange,
+        )
         return { ...item, ...generatePreviewItem(item.entropyRange) }
       }
       return item
