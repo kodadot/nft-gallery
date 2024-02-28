@@ -124,11 +124,6 @@ const scheduledStatuses: DropStatus[] = [
   DropStatus.COMING_SOON,
 ]
 
-const showHolderOfRequirements = computed(
-  () =>
-    (showHolderOfCollection.value && props.holderOfCollection) ||
-    props.drop.location,
-)
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
 const showRequirements = ref(true)
