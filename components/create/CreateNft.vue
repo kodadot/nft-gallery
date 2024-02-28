@@ -85,13 +85,12 @@
         </div>
       </NeoField>
 
-      <InfoBox v-if="isRemark" variant="warning">
+      <InfoBox v-if="isRemark" variant="warning" class="mb-5">
         <div>{{ $t('mint.disabledRmrk') }}</div>
       </InfoBox>
 
       <!-- list for sale -->
       <NeoField
-        v-if="!isRemark"
         :key="currentChain"
         :label="$t('mint.nft.sale.label')"
         required
@@ -196,7 +195,7 @@
       </NeoField>
 
       <!-- explicit content -->
-      <NeoField v-if="!isRemark" :label="`${$t('mint.nfsw')}`">
+      <NeoField :label="`${$t('mint.nfsw')}`">
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
