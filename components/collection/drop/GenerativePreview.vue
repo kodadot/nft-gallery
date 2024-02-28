@@ -56,7 +56,9 @@
       :value="mintedCount / maxCount" />
 
     <div class="flex mt-6 gap-4">
-      <NeoStepper v-model="amount" />
+      <NeoStepper
+        v-model="amount"
+        class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />
 
       <CollectionDropMintButton
         :collection-id="collectionId"
