@@ -26,10 +26,22 @@
       :holder-of-collection="holderOfCollection"
       :minimum-funds="minimumFunds"
       :is-minted-out="isMintedOut" />
+
+    <!-- if there is location on the campaign -->
+    <CollectionDropRequirementItem
+      v-if="drop.location"
+      :fulfilled="Boolean(drop.userAccess)">
+      <p class="capitalize">
+        Location Verification: You are
+        <span v-if="!Boolean(drop.userAccess)" class="font-bold">not</span> in
+        <span class="font-bold">{{ drop.location }}</span>
+      </p>
+    </CollectionDropRequirementItem>
   </div>
 </template>
 
 <script setup lang="ts">
+import { DropItem } from '@/params/types'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -42,11 +54,14 @@ const props = defineProps<{
   minimumFunds: MinimumFundsProp
   mintButton: MintButtonProp
   holderOfCollection?: HolderOfCollectionProp
+  drop: DropItem
 }>()
 
 const { $i18n } = useNuxtApp()
 const showHolderOfRequirements = computed(
-  () => showHolderOfCollection.value && props.holderOfCollection,
+  () =>
+    (showHolderOfCollection.value && props.holderOfCollection) ||
+    props.drop.location,
 )
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
