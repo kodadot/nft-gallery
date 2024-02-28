@@ -33,6 +33,7 @@ type MassMintParams = {
   priceUSD: Ref<string | undefined>
   isLoading: Ref<boolean>
   isAllocatingRaffle: Ref<boolean>
+  mintedCount: Ref<number>
 }
 
 export default ({
@@ -42,6 +43,7 @@ export default ({
   description,
   price,
   priceUSD,
+  mintedCount,
 }: MassMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
@@ -148,9 +150,9 @@ export default ({
   const mapPreviewItemsToMintedNfts = (
     previewItems: GenerativePreviewItem[],
   ) => {
-    toMintNfts.value = previewItems.map((item) => {
+    toMintNfts.value = previewItems.map((item, index) => {
       return {
-        name: defaultName.value as string,
+        name: `${defaultName.value as string} #${mintedCount.value + (index + 1)}`,
         collectionName: collectionName.value as string,
         image: item.image,
         price: price.value as string,
@@ -233,13 +235,17 @@ export default ({
 
       const body: BatchMintBody = { email, address, items }
 
-      const response = await batchAllocate(body, drop.id)
-
-      const result = response.result // take this as source
+      const { result } = await batchAllocate(body, drop.id)
 
       allocatedNfts.value = result
 
-      toMintNfts.value = toMintNfts.value.map((toMint, index) => {
+      // even thought user might want x amount of items the worker can return a different amount
+      const allocatedNftsToMint = toMintNfts.value.slice(
+        0,
+        allocatedNfts.value.length,
+      )
+
+      toMintNfts.value = allocatedNftsToMint.map((toMint, index) => {
         const allocated = allocatedNfts.value[index]
         return allocated
           ? { ...toMint, name: allocated.name, sn: allocated.id }

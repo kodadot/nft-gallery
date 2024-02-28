@@ -219,6 +219,7 @@ const {
   priceUSD,
   isLoading,
   isAllocatingRaffle,
+  mintedCount,
 })
 
 useCursorDropEvents(
