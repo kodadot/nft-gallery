@@ -16,6 +16,7 @@
           <hr class="hidden md:block mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
+            v-model:amount-to-mint="amount"
             class="md:hidden mt-7"
             :minted="userMintedCount"
             :drop="drop"
