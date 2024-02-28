@@ -157,7 +157,6 @@
 
       <!-- no of copies -->
       <NeoField
-        v-if="!isRemark"
         :label="`${$t('mint.nft.copies.label')} (optional)`">
         <div class="w-full">
           <p>{{ $t('mint.nft.copies.message') }}</p>
@@ -179,7 +178,7 @@
       </NeoField>
 
       <!-- nft properties -->
-      <NeoField v-if="!isRemark" :label="`${$t('tabs.properties')} (optional)`">
+      <NeoField :label="`${$t('tabs.properties')} (optional)`">
         <CustomAttributeInput
           v-model="form.tags"
           :max="10"
@@ -187,7 +186,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="!isRemark">
+      <NeoField v-if="!isRmrk">
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
           v-model:address="form.royalty.address"
