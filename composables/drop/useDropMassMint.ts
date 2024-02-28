@@ -5,7 +5,9 @@ import {
   batchAllocate,
 } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
-import useGenerativePreview from './useGenerativePreview'
+import useGenerativePreview, {
+  GenerativePreviewItem,
+} from './useGenerativePreview'
 import { DropItem } from '@/params/types'
 import useGenerativeIframeData, {
   ImageDataPayload,
@@ -44,7 +46,7 @@ export default ({
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
   const { accountId } = useAuth()
-  const { generateHash, getEntropyRange } = useGenerativePreview()
+  const { generatePreviewItem, getEntropyRange } = useGenerativePreview(drop)
   const { client } = usePrefix()
   const { listNftByNftWithMetadata, openListingCartModal } =
     useListingCartModal()
@@ -57,6 +59,7 @@ export default ({
   const allocatedNfts = ref<BatchAllocateResponseNft[]>([])
   const mintingSession = ref<MintingSession>({ txHash: '', items: [] })
   const mintedNFTsWithMetadata = ref<NFTWithMetadata[]>([])
+  const previewItem = ref<GenerativePreviewItem>()
 
   const pinning = ref(new Map<string, boolean>())
 
@@ -110,14 +113,8 @@ export default ({
       .fill(null)
       .map((_, index) => {
         const entropyRange = getEntropyRange(minted + index)
-        return getPreviewItem(entropyRange)
+        return generatePreviewItem(entropyRange)
       })
-  }
-
-  const getPreviewItem = (entropyRange: [number, number]) => {
-    const hash = generateHash(entropyRange)
-    const image = `${drop.content}/?hash=${hash}`
-    return { hash, image, entropyRange }
   }
 
   const pinMetadata = (item: MassMintNFT): Promise<string> => {
@@ -149,25 +146,43 @@ export default ({
     allocatedNfts.value = []
   }
 
-  const massGenerate = (amount: number, minted: number) => {
+  const mapPreviewItemsToMintedNfts = (
+    previewItems: GenerativePreviewItem[],
+  ) => {
+    toMintNfts.value = previewItems.map((item) => {
+      return {
+        name: defaultName.value as string,
+        collectionName: collectionName.value as string,
+        image: item.image,
+        price: price.value as string,
+        priceUSD: priceUSD.value as string,
+        hash: item.hash,
+        entropyRange: item.entropyRange,
+      }
+    })
+  }
+
+  const massGenerate = ({
+    amount,
+    minted,
+    withPreviewItems = [],
+  }: {
+    withPreviewItems?: GenerativePreviewItem[]
+    amount: number
+    minted: number
+  }) => {
     try {
       clear()
 
       isLoading.value = true
 
-      const previewItems = generateMassPreview(amount, minted)
+      const multiple = amount > 1
 
-      toMintNfts.value = previewItems.map((item) => {
-        return {
-          name: defaultName.value as string,
-          collectionName: collectionName.value as string,
-          image: item.image,
-          price: price.value as string,
-          priceUSD: priceUSD.value as string,
-          hash: item.hash,
-          entropyRange: item.entropyRange,
-        }
-      })
+      const previewItems = multiple
+        ? [...withPreviewItems].flat()
+        : generateMassPreview(amount, minted)
+
+      mapPreviewItemsToMintedNfts(previewItems)
     } catch (error) {
       console.log(error)
     } finally {
@@ -194,7 +209,7 @@ export default ({
   const regenerateNfTWithHash = (hash: string) => {
     toMintNfts.value = toMintNfts.value.map((item) => {
       if (item.hash === hash) {
-        return { ...item, ...getPreviewItem(item.entropyRange) }
+        return { ...item, ...generatePreviewItem(item.entropyRange) }
       }
       return item
     })
@@ -277,6 +292,7 @@ export default ({
     canListMintedNfts,
     allocatedNfts,
     mintingSession,
+    previewItem,
     subscribeForNftsWithMetadata,
     massGenerate,
     listMintedNFts,

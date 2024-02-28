@@ -78,6 +78,7 @@ import useDropMassMint, {
   MassMintNFT,
 } from '@/composables/drop/useDropMassMint'
 import { DoResult } from '@/services/fxart'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 const props = withDefaults(
   defineProps<{
@@ -160,8 +161,8 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
+const handleSelectImage = (item: GenerativePreviewItem) => {
+  previewItem.value = item
 }
 
 const { data: collectionData } = await useAsyncData(
@@ -186,7 +187,6 @@ const {
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
-  selectedImage,
   description,
   collectionName,
   tryCapture,
@@ -201,14 +201,15 @@ const totalPrice = computed(() => Number(price.value) * amountToMint.value)
 const { usd: priceUSD } = useAmount(totalPrice, decimals, chainSymbol)
 
 const {
-  massGenerate,
   toMintNfts: massmintToMintNfts,
   amountToMint,
   canMint,
   allocatedNfts,
   mintingSession,
-  subscribeForNftsWithMetadata,
   canListMintedNfts,
+  previewItem,
+  subscribeForNftsWithMetadata,
+  massGenerate,
   listMintedNFts,
 } = useDropMassMint({
   drop: props.drop,
@@ -249,7 +250,7 @@ const mintButtonDisabled = computed<boolean>(
     Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
       Boolean(
-        !selectedImage.value ||
+        !previewItem.value?.image ||
           disabledByBackend.value ||
           maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
       )),
@@ -307,7 +308,8 @@ const allocateRaffle = async () => {
   isLoading.value = true
   isAllocatingRaffle.value = true
 
-  const imageUrl = new URL(selectedImage.value)
+  const selectedImage = previewItem.value?.image as string
+  const imageUrl = new URL(selectedImage)
   imageHash.value = imageUrl.searchParams.get('hash') || ''
   const imageCid = await tryCapture()
   const metadata = await createUnlockableMetadata(
@@ -315,13 +317,13 @@ const allocateRaffle = async () => {
     description.value || '',
     collectionName.value || defaultName.value,
     'text/html',
-    selectedImage.value,
+    selectedImage,
   )
   const body = {
     email: raffleEmail.value,
     hash: imageHash.value,
     address: accountId.value,
-    image: selectedImage.value,
+    image: selectedImage,
     metadata: metadata,
   }
 
@@ -347,7 +349,14 @@ const handleSubmitMint = async () => {
   }
 
   openMintModal()
-  massGenerate(amountToMint.value, mintedAmountForCurrentUser.value)
+
+  massGenerate({
+    amount: amountToMint.value,
+    minted: mintedAmountForCurrentUser.value,
+    withPreviewItems: [previewItem.value].filter(
+      Boolean,
+    ) as GenerativePreviewItem[],
+  })
 }
 
 const submitRaffle = async () => {

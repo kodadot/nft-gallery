@@ -84,7 +84,6 @@
 </template>
 
 <script setup lang="ts">
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon, NeoStepper } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { DropItem } from '@/params/types'
@@ -93,9 +92,8 @@ import type {
   MinimumFundsProp,
   MintButtonProp,
 } from '@/components/collection/drop/types'
-import { getRandomIntFromRange } from '../unlockable/utils'
-import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import useGenerativePreview from '@/composables/drop/useGenerativePreview'
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const props = defineProps<{
@@ -131,26 +129,9 @@ const { formatted: formattedPrice } = useAmount(
   chainSymbol,
 )
 
-const STEP = 64
-const entropyRange = computed<[number, number]>(() => [
-  STEP * props.minted,
-  STEP * (props.minted + 1),
-])
-
-const getHash = () => {
-  const randomSs58Format = getRandomIntFromRange(
-    entropyRange.value[0],
-    entropyRange.value[1],
-  )
-
-  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
-
-  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  const initialValue = accountId.value
-    ? encodeAddress(accountId.value, ss58Format)
-    : String(Date.now() << ss58Format)
-  return blake2AsHex(initialValue, 256, null, true)
-}
+const { generatePreviewItem, getEntropyRange } = useGenerativePreview(
+  props.drop,
+)
 
 const generativeImageUrl = ref('')
 
@@ -159,11 +140,12 @@ const isLoading = ref(false)
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.drop.image
 })
+
 const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash()}`
-  generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value })
+  const previewItem = generatePreviewItem(getEntropyRange(props.minted))
+  generativeImageUrl.value = previewItem.image
+  emit('generation:start', previewItem)
   imageDataPayload.value = undefined
 }
 

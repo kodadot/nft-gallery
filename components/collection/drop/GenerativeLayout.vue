@@ -88,6 +88,7 @@ import type {
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 const props = withDefaults(
   defineProps<{
@@ -105,7 +106,7 @@ const props = withDefaults(
     isLoading: boolean
     holderOfCollection?: HolderOfCollectionProp
     userMintedCount: number
-    handleSelectImage: (image: string) => void
+    handleSelectImage: (preview: GenerativePreviewItem) => void
     handleSubmitMint: () => void
   }>(),
   {
@@ -122,9 +123,9 @@ const { collection: collectionInfo } = useCollectionMinimal({
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const handleNftGeneration = ({ image }: { image: string }) => {
+const handleNftGeneration = (preview: GenerativePreviewItem) => {
   emitEvent(DropEventType.DROP_GENERATING)
-  props.handleSelectImage(image)
+  props.handleSelectImage(preview)
 }
 
 const handleNftGenerationEnd = () => {

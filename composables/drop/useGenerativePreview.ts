@@ -1,12 +1,21 @@
 import { getRandomIntFromRange } from '@/components/collection/unlockable/utils'
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
+import { DropItem } from '@/params/types'
 
 const ENTROPY_RANGE_STEP = 64
 
-export default () => {
+type EntopyRange = [number, number]
+
+export type GenerativePreviewItem = {
+  hash: string
+  image: string
+  entropyRange: EntopyRange
+}
+
+export default (drop: DropItem) => {
   const { accountId } = useAuth()
 
-  const getEntropyRange = (minted: number): [number, number] => [
+  const getEntropyRange = (minted: number): EntopyRange => [
     ENTROPY_RANGE_STEP * minted,
     ENTROPY_RANGE_STEP * (minted + 1),
   ]
@@ -23,8 +32,16 @@ export default () => {
     return blake2AsHex(initialValue, 256, null, true)
   }
 
-  const generateHash = (range: [number, number]) =>
+  const generateHash = (range: EntopyRange) =>
     getHash(getRandomIntFromRange(...range))
 
-  return { generateHash, getEntropyRange }
+  const generatePreviewItem = (
+    entropyRange: [number, number],
+  ): GenerativePreviewItem => {
+    const hash = generateHash(entropyRange)
+    const image = `${drop.content}/?hash=${hash}`
+    return { hash, image, entropyRange }
+  }
+
+  return { generateHash, getEntropyRange, generatePreviewItem }
 }
