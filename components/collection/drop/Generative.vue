@@ -17,20 +17,13 @@
 
   <DropConfirmModal
     v-model="isConfirmModalActive"
-    :claiming="isLoading"
-    :email-confirmed="emailConfirmed"
-    :subscription-email="preferencesStore.getNewsletterSubscription.email"
-    :checking-subscription="checkingSubscription"
-    :subscribing-to-newsletter="subscribingToNewsletter"
-    :resending-confirmation-email="resendingConfirmationEmail"
-    :minting-seconds="MINTING_SECOND"
+    :loading="isLoading"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
-    :send-confirmation-email-on-modal-open="sendConfirmationEmailOnModalOpen"
     @subscribe="handleEmailSubscription"
     @check-subscription="handleCheckSubscription"
     @resend-confirmation-email="handleResendConfirmationEmail"
-    @close="closeConfirmModal"
+    @close="isConfirmModalActive = false"
     @list="handleList" />
 
   <CollectionDropAddFundsModal
@@ -40,7 +33,7 @@
     :token="token"
     :chain="chainName"
     free
-    @close="closeAddFundModal"
+    @close="isAddFundModalActive = false"
     @confirm="handleDropAddModalConfirm" />
 
   <ListingCartModal />
@@ -60,8 +53,6 @@ import useGenerativeDropMint, {
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-
-const MINTING_SECOND = 120
 
 const props = withDefaults(
   defineProps<{
@@ -100,10 +91,7 @@ const {
   checkSubscription,
   subscribe,
   resendConfirmationEmail,
-  checkingSubscription,
-  subscribingToNewsletter,
-  resendingConfirmationEmail,
-  sendConfirmationEmailOnModalOpen,
+
   subscriptionId,
   emailConfirmed,
 } = useGenerativeDropNewsletter()
@@ -200,26 +188,10 @@ const handleSubmitMint = async () => {
   }
 
   if (hasMinimumFunds.value) {
-    openConfirmModal()
+    isConfirmModalActive.value = true
   } else {
-    openAddFundModal()
+    isAddFundModalActive.value = true
   }
-}
-
-const closeConfirmModal = () => {
-  isConfirmModalActive.value = false
-}
-
-const openConfirmModal = () => {
-  isConfirmModalActive.value = true
-}
-
-const openAddFundModal = () => {
-  isAddFundModalActive.value = true
-}
-
-const closeAddFundModal = () => {
-  isAddFundModalActive.value = false
 }
 
 const submitMint = async () => {
@@ -305,8 +277,9 @@ const clear = () => {
 }
 
 const handleDropAddModalConfirm = () => {
-  closeAddFundModal()
-  openConfirmModal()
+  isAddFundModalActive.value = false
+
+  isConfirmModalActive.value = true
   fetchMultipleBalance([urlPrefix.value])
 }
 

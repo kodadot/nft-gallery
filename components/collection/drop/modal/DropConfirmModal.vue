@@ -45,12 +45,14 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import EmailSignup from './newsletter/EmailSignup.vue'
 import ConfirmEmail from './newsletter/ConfirmEmail.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
+import { MINTING_SECONDS } from '../const'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
 import { usePreloadMintedNftCover } from './utils'
+import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -69,29 +71,31 @@ const emit = defineEmits([
 ])
 const props = defineProps<{
   modelValue: boolean
-  claiming: boolean
-  subscriptionEmail?: string
-  mintingSeconds: number
+  loading: boolean
   mintedNft?: DropMintedNft
   canListNft: boolean
-  checkingSubscription: boolean
-  resendingConfirmationEmail: boolean
-  emailConfirmed: boolean
-  subscribingToNewsletter: boolean
-  sendConfirmationEmailOnModalOpen: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
   immediate: false,
 })
 
+const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
-
 const isModalActive = useVModel(props, 'modelValue')
-
 const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
   computed(() => props.mintedNft),
 )
+
+const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
+
+const {
+  checkingSubscription,
+  subscribingToNewsletter,
+  resendingConfirmationEmail,
+  sendConfirmationEmailOnModalOpen,
+  emailConfirmed,
+} = useGenerativeDropNewsletter()
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
@@ -159,31 +163,30 @@ const handleEmailSubscriptionCheck = () => {
 }
 
 watch(
-  () => props.claiming,
+  () => props.loading,
   (claiming) => {
     if (claiming) {
-      startCountDown(getCountDownTime(props.mintingSeconds))
+      startCountDown(getCountDownTime(MINTING_SECONDS))
     }
   },
 )
 
 watchEffect(() => {
-  const claiming = props.claiming
-  const subcriptionEmail = props.subscriptionEmail
-  const alreadyConfirmed = props.emailConfirmed && !email.value
+  const claiming = props.loading
+  const alreadyConfirmed = emailConfirmed && !email.value
   const alreadySubscribed =
-    props.subscriptionEmail && !email.value && !changeEmail.value
+    subscriptionEmail && !email.value && !changeEmail.value
 
   if (alreadyConfirmed && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (alreadySubscribed && isEmailSignupStep.value) {
-    email.value = props.subscriptionEmail
+    email.value = subscriptionEmail
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (
     email.value &&
     isEmailSignupStep.value &&
-    subcriptionEmail &&
-    !props.subscribingToNewsletter
+    subscriptionEmail &&
+    !subscribingToNewsletter
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
@@ -202,7 +205,7 @@ watch(
       isModalOpen &&
       emailConfirmStep &&
       !resentInitialConfirmationEmail.value &&
-      props.sendConfirmationEmailOnModalOpen
+      sendConfirmationEmailOnModalOpen
     ) {
       handleConfirmationEmailResend()
       resentInitialConfirmationEmail.value = true
