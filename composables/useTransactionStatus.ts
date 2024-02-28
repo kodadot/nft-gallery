@@ -8,6 +8,7 @@ export enum TransactionStatus {
   Finalized = 'loader.finalized',
   Unknown = '',
   IPFS = 'loader.ipfs',
+  Cancelled = 'loader.cancelled',
 }
 
 function useTransactionStatus() {

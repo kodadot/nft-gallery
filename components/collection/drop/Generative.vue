@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
-import { doWaifu } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
@@ -60,6 +59,8 @@ import useGenerativeDropMint, {
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import { allocateClaim, allocateCollection } from '@/services/fxart'
+import { getFakeEmail } from './utils'
 
 const MINTING_SECOND = 120
 
@@ -107,6 +108,9 @@ const {
   subscriptionId,
   emailConfirmed,
 } = useGenerativeDropNewsletter()
+
+const imageMetadata = ref('')
+const imageHash = ref('')
 
 const minimumFundsDescription = computed(() =>
   $i18n.t('drops.requirements.minimumFunds', [
@@ -222,42 +226,54 @@ const closeAddFundModal = () => {
   isAddFundModalActive.value = false
 }
 
+const getImageInfo = async (
+  image: string,
+): Promise<{ metadata: string; hash: string }> => {
+  isImageFetching.value = true
+  const imageUrl = new URL(image)
+  const hash = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value ?? '',
+    collectionName.value ?? defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  imageMetadata.value = metadata
+  imageHash.value = hash
+  isImageFetching.value = false
+  return { metadata, hash }
+}
+
+const allocateRaffle = async (): Promise<{ raffleId: number }> => {
+  const { metadata, hash } = await getImageInfo(selectedImage.value)
+  const body = {
+    email: getFakeEmail(),
+    hash,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+
+  const response = await allocateCollection(body, props.drop.id)
+  return { raffleId: parseInt(response.result.id) }
+}
+
 const submitMint = async () => {
   try {
-    isImageFetching.value = true
-    isLoading.value = true
-
-    const imageHash = await tryCapture()
-
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value as string,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
-
-    isImageFetching.value = false
-
-    const { result } = await doWaifu(
+    const { raffleId } = await allocateRaffle()
+    const { result } = await allocateClaim(
       {
+        sn: raffleId,
+        txHash: imageHash.value,
         address: accountId.value,
-        metadata: hash,
-        image: imageHash,
-        email: preferencesStore.getNewsletterSubscription.email,
       },
       props.drop.id,
     )
-
     await fetchDropStatus()
 
     const id = `${collectionId.value}-${result.sn}`
-
-    subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
-    })
-
-    isLoading.value = false
 
     mintedNft.value = {
       ...result,
@@ -265,8 +281,17 @@ const submitMint = async () => {
       name: result.name,
       collectionName: collectionName.value,
     }
+
+    isLoading.value = false
+
+    subscribeToMintedNft(id, async (): Promise<void> => {
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
+    })
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast((error as Error).message)
     isImageFetching.value = false
     throw error
   }

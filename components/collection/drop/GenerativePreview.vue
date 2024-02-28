@@ -66,6 +66,7 @@
       :mint-count-available="mintCountAvailable"
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
+      :drop="drop"
       @mint="emit('mint')" />
 
     <div

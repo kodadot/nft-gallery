@@ -51,7 +51,8 @@
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             :drop-status="formattedDropItem?.status"
-            :drop-start-time="formattedDropItem?.dropStartTime" />
+            :drop-start-time="formattedDropItem?.dropStartTime"
+            :drop="drop" />
 
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>

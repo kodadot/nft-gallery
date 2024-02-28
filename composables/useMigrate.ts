@@ -24,7 +24,7 @@ export const iconIdle = {
 }
 export const iconLoading = {
   icon: 'spinner-third',
-  class: 'fa-spin',
+  class: 'fa-spin text-k-grey animate-spin',
   textColor: '',
 }
 export const iconSuccess = {

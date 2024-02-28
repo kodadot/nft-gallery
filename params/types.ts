@@ -75,4 +75,7 @@ export type DropItem = {
   max?: number
   price?: string
   holder_of?: string
+  location?: string
+  userLocation?: string
+  userAccess?: boolean
 }

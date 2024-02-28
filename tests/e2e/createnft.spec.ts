@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures'
 
-const CREATE_NFT_PATH = '/ksm/create'
+const CREATE_NFT_PATH = '/ahk/create'
 
 test('Create NFT', async ({ page, Commands }) => {
   const numOfCopies = 5

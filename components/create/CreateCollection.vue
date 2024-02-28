@@ -95,21 +95,9 @@
         </div>
       </NeoField>
 
-      <!-- collection symbol -->
-      <NeoField
-        v-if="isRemark"
-        :label="`${$t('mint.collection.symbol.label')} *`">
-        <div>
-          <p>{{ $t('mint.collection.symbol.message') }}</p>
-          <NeoInput
-            ref="symbolInput"
-            v-model="symbol"
-            :placeholder="$t('mint.collection.symbol.placeholder')"
-            minlength="3"
-            required
-            expanded />
-        </div>
-      </NeoField>
+      <InfoBox v-if="isRemark" variant="warning">
+        <div>{{ $t('mint.disabledRmrk') }}</div>
+      </InfoBox>
 
       <!-- royalty -->
       <NeoField v-if="isAssetHub">
@@ -143,6 +131,7 @@
       <NeoButton
         class="text-base"
         expanded
+        :disabled="isRemark"
         :label="submitButtonLabel"
         native-type="submit"
         size="medium"
@@ -248,7 +237,9 @@ const royalty = ref({
   address: accountId.value,
 })
 
-const menus = availablePrefixes()
+const menus = availablePrefixes().filter(
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
+)
 
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)

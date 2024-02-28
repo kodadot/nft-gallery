@@ -195,6 +195,7 @@ const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref(0) //Required amount to be transfered is stored here
+const { urlPrefix } = usePrefix()
 
 const displayAmount = computed({
   get: () =>
@@ -326,17 +327,16 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
-  // also uncomment setRelatedChain()
-  // {
-  //   label: getChainName('rmrk'),
-  //   value: Chain.KUSAMA,
-  //   icon: chainIcons.rmrk,
-  // },
-  // {
-  //   label: getChainName('ahk'),
-  //   value: Chain.ASSETHUBKUSAMA,
-  //   icon: chainIcons.ahk,
-  // },
+  {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    icon: chainIcons.rmrk,
+  },
+  {
+    label: getChainName('ahk'),
+    value: Chain.ASSETHUBKUSAMA,
+    icon: chainIcons.ahk,
+  },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -349,18 +349,18 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
-  // {
-  //   label: getChainName('rmrk'),
-  //   value: Chain.KUSAMA,
-  //   disabled: computed(() => isDisabled(Chain.KUSAMA)),
-  //   icon: chainIcons.rmrk,
-  // },
-  // {
-  //   label: getChainName('ahk'),
-  //   value: Chain.ASSETHUBKUSAMA,
-  //   disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
-  //   icon: chainIcons.ahk,
-  // },
+  {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    disabled: computed(() => isDisabled(Chain.KUSAMA)),
+    icon: chainIcons.rmrk,
+  },
+  {
+    label: getChainName('ahk'),
+    value: Chain.ASSETHUBKUSAMA,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
+    icon: chainIcons.ahk,
+  },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -407,20 +407,20 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
-// const setRelatedChain = () => {
-//   const relatedFromChain =  prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
-//   onChainChange(relatedFromChain, true)
-// }
-//
-// watch(
-//   urlPrefix,
-//   () => {
-//     setRelatedChain()
-//   },
-//   {
-//     immediate: true,
-//   },
-// )
+const setRelatedChain = () => {
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  onChainChange(relatedFromChain, true)
+}
+
+watch(
+  urlPrefix,
+  () => {
+    setRelatedChain()
+  },
+  {
+    immediate: true,
+  },
+)
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))

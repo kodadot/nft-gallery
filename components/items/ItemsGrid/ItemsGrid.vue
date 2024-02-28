@@ -107,6 +107,7 @@ const props = defineProps<{
   loadingOtherNetwork?: boolean
   displayNameWithSn?: boolean
   showTimestamp?: boolean
+  hideHoverAction?: boolean
   collectionPopoverHide?: boolean
 }>()
 
@@ -116,7 +117,9 @@ const isLoading = ref(true)
 
 const hideMediaInfo = computed(() => route.query?.art_view === 'true')
 const isTouchDevice = useMediaQuery('(hover: none)')
-const hideNFTHoverAction = computed(() => isTouchDevice.value)
+const hideNFTHoverAction = computed(
+  () => isTouchDevice.value || props.hideHoverAction,
+)
 
 const gotoPage = (page: number) => {
   currentPage.value = page
