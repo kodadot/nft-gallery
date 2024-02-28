@@ -57,6 +57,7 @@
 
     <div class="flex mt-6 gap-4">
       <NeoStepper
+        v-if="!mintButton.disabled"
         v-model="amount"
         :max="availableAmountToMint"
         class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />

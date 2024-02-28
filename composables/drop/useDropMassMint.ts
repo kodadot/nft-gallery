@@ -2,6 +2,8 @@ import { createUnlockableMetadata } from '@/components/collection/unlockable/uti
 import {
   BatchAllocateResponseNft,
   BatchMintBody,
+  DoResult,
+  allocateClaim,
   batchAllocate,
 } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
@@ -239,7 +241,7 @@ export default ({
 
       allocatedNfts.value = result
 
-      // even thought user might want x amount of items the worker can return a different amount
+      // even thought the user might want x amount of items the worker can return a different amount
       const allocatedNftsToMint = toMintNfts.value.slice(
         0,
         allocatedNfts.value.length,
@@ -288,6 +290,23 @@ export default ({
     openListingCartModal()
   }
 
+  const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
+    return new Promise((resolve, reject) => {
+      try {
+        allocateClaim(
+          {
+            sn: nft.sn,
+            txHash: mintingSession.value.txHash,
+            address: accountId.value,
+          },
+          drop.id,
+        ).then(({ result }) => resolve(result))
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
   watch(allPinned, async (value) => {
     if (value) {
       await allocate(toMintNfts.value)
@@ -305,5 +324,6 @@ export default ({
     subscribeForNftsWithMetadata,
     massGenerate,
     listMintedNFts,
+    submitMint,
   }
 }

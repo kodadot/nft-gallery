@@ -9,6 +9,7 @@
       type="number"
       :min="min"
       :max="max"
+      :disabled="disabled"
       steps="1"
       readonly
       @icon-click="handleLeftClick"
@@ -24,17 +25,19 @@ const props = withDefaults(
     modelValue: number
     min?: number
     max?: number
+    disabled?: boolean
   }>(),
   {
     min: 1,
     max: undefined,
+    disabled: false,
   },
 )
 
 const input = useVModel(props, 'modelValue')
 
 const handleLeftClick = () => {
-  if (input.value === props.min) {
+  if (input.value === props.min || props.disabled) {
     return
   }
 
@@ -42,7 +45,7 @@ const handleLeftClick = () => {
 }
 
 const handleRightClick = () => {
-  if (input.value === props.max) {
+  if (input.value === props.max || props.disabled) {
     return
   }
 
