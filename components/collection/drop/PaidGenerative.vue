@@ -63,7 +63,7 @@
 import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
-import { allocateClaim, allocateCollection } from '@/services/fxart'
+import { DoResult, allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import useGenerativeDropMint, {
@@ -77,7 +77,6 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint, {
   MassMintNFT,
 } from '@/composables/drop/useDropMassMint'
-import { DoResult } from '@/services/fxart'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 const props = withDefaults(
@@ -403,17 +402,16 @@ const submitMints = async () => {
 }
 
 const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
-      const { result } = await allocateClaim(
+      allocateClaim(
         {
           sn: nft.sn,
           txHash: mintingSession.value.txHash,
           address: accountId.value,
         },
         props.drop.id,
-      )
-      resolve(result)
+      ).then(({ result }) => resolve(result))
     } catch (e) {
       reject(e)
     }
