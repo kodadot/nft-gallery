@@ -7,7 +7,8 @@
       icon-clickable
       icon-right-clickable
       type="number"
-      :min="1"
+      :min="min"
+      :max="max"
       steps="1"
       readonly
       @icon-click="handleLeftClick"
@@ -21,17 +22,19 @@ import NeoInput from '../NeoInput/NeoInput.vue'
 const props = withDefaults(
   defineProps<{
     modelValue: number
-    min: number
+    min?: number
+    max?: number
   }>(),
   {
     min: 1,
+    max: undefined,
   },
 )
 
 const input = useVModel(props, 'modelValue')
 
 const handleLeftClick = () => {
-  if (input.value - 1 < props.min) {
+  if (input.value === props.min) {
     return
   }
 
@@ -39,6 +42,10 @@ const handleLeftClick = () => {
 }
 
 const handleRightClick = () => {
+  if (input.value === props.max) {
+    return
+  }
+
   input.value++
 }
 </script>

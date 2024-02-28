@@ -17,6 +17,7 @@
 
           <CollectionDropGenerativePreview
             v-model:amount-to-mint="amount"
+            :available-amount-to-mint="availableAmountToMint"
             class="md:hidden mt-7"
             :minted="userMintedCount"
             :drop="drop"
@@ -48,6 +49,7 @@
         <div class="column hidden md:flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
             v-model:amount-to-mint="amount"
+            :available-amount-to-mint="availableAmountToMint"
             :minted="userMintedCount"
             :drop="drop"
             :collection-id="collectionId"
@@ -95,6 +97,7 @@ const props = withDefaults(
   defineProps<{
     collectionId: string
     amountToMint: number
+    availableAmountToMint: number
     description?: string
     drop: DropItem
     mintButton: MintButtonProp
