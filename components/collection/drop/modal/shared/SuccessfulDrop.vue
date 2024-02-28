@@ -4,13 +4,16 @@
     :share="share"
     :action-buttons="actionButtons">
     <SingleItemMedia
-      v-if="props.mintingSession.items.length === 1"
+      v-if="singleMint"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
       :src="sanitizeIpfsUrl(mintedNft.image)"
       :nft-name="mintedNft.name"
       :collection-id="mintedNft.collection"
       :collection-name="mintedNft.collectionName" />
-    <MultiItemMedia v-else :items="items" />
+    <MultiItemMedia
+      v-else
+      :header="$t('drops.amountMintedSuccessfully', [items.length])"
+      :items="items" />
   </SuccessfulModalBody>
 </template>
 
@@ -27,6 +30,8 @@ const mintedNft = computed(() => props.mintingSession.items[0])
 
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
 
 const sharingTxt = $i18n.t('sharing.nft')
 
@@ -42,26 +47,31 @@ const items = computed(() =>
 
 const actionButtons = computed(() => ({
   secondary: {
-    label: $i18n.t('viewNft'),
-    onClick: viewNft,
+    label: $i18n.t('viewNft', props.mintingSession.items.length),
+    onClick: handleViewNft,
   },
   primary: {
-    label: $i18n.t('listNft'),
+    label: $i18n.t('listNft', props.mintingSession.items.length),
     onClick: listNft,
     disabled: cantList.value,
   },
 }))
 
 const nftPath = computed(
-  () => `/${props.mintedNft.chain}/gallery/${props.mintedNft.id}`,
+  () => `/${mintedNft.value.chain}/gallery/${mintedNft.value.id}`,
 )
-
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
-
+const userProfilePath = computed(
+  () => `/${urlPrefix.value}/u/${accountId.value}`,
+)
+const singleMint = computed(() => props.mintingSession.items.length === 1)
 const cantList = computed(() => !props.canListNft)
 
-const viewNft = () => {
-  window.open(nftFullUrl.value, '_blank')
+const handleViewNft = () => {
+  window.open(
+    singleMint.value ? nftPath.value : userProfilePath.value,
+    '_blank',
+  )
 }
 
 const listNft = () => {

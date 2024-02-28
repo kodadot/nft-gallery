@@ -46,7 +46,7 @@
     :minimum-funds="minimumFunds"
     :is-allocating-raffle="isAllocatingRaffle"
     :has-minimum-funds="hasMinimumFunds"
-    :can-list-nft="canListMintedNft"
+    :can-list-nft="canListMintedNfts"
     :formatted-minimum-funds="formattedMinimumFunds"
     :formatted-existential-deposit="formattedExistentialDeposit"
     :amount-to-mint="amountToMint"
@@ -146,7 +146,7 @@ const {
   howAboutToExecute,
   isLoading: isTransactionLoading,
   initTransactionLoader,
-  isError,
+  isError: isTransactionError,
   status,
 } = useMetaTransaction()
 
@@ -156,7 +156,7 @@ const action = computed<AutoTeleportAction>(() => ({
   details: {
     isLoading: isTransactionLoading.value,
     status: status.value,
-    isError: isError.value,
+    isError: isTransactionError.value,
   },
 }))
 
@@ -186,12 +186,10 @@ const {
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
-  canListMintedNft,
   selectedImage,
   description,
   collectionName,
   tryCapture,
-  listMintedNft,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -209,6 +207,9 @@ const {
   canMint,
   allocatedNfts,
   mintingSession,
+  subscribeForNftsWithMetadata,
+  canListMintedNfts,
+  listMintedNFts,
 } = useDropMassMint({
   drop: props.drop,
   collectionName,
@@ -269,7 +270,6 @@ const mintNft = async () => {
     initTransactionLoader()
 
     const cb = api.tx.utility.batchAll
-
     const args = allocatedNfts.value.map((allocatedNft) =>
       api.tx.nfts.mint(collectionId.value, allocatedNft.id, accountId.value, {
         ownedItem: null,
@@ -278,9 +278,7 @@ const mintNft = async () => {
     )
 
     howAboutToExecute(accountId.value, cb, [args], ({ txHash }) => {
-      if (mintedNft.value) {
-        mintingSession.value.txHash = txHash
-      }
+      mintingSession.value.txHash = txHash
     })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
@@ -290,8 +288,13 @@ const mintNft = async () => {
   }
 }
 
-watch(status, (curStatus) => {
-  if (curStatus === TransactionStatus.Block) {
+watch([status, () => mintingSession.value.txHash], ([curStatus, txHash]) => {
+  if (curStatus === TransactionStatus.Finalized && txHash) {
+    if (isTransactionError.value) {
+      isLoading.value = false
+      isTransactionLoading.value = false
+      return
+    }
     submitMints()
   }
 })
@@ -377,11 +380,9 @@ const submitMints = async () => {
 
     mintingSession.value.items = mintedNfts
 
-    await fetchDropStatus()
+    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
 
-    // subscribeToNfts(mintedNfts.map(item => item.id), (data) => {
-    //       // update nfts with metadata
-    // })
+    await fetchDropStatus()
 
     isLoading.value = false
   } catch (error) {
@@ -398,7 +399,7 @@ const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
       const { result } = await allocateClaim(
         {
           sn: nft.sn,
-          txHash: nft.hash, // todo this is real txhash
+          txHash: mintingSession.value.txHash,
           address: accountId.value,
         },
         props.drop.id,
@@ -412,7 +413,7 @@ const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
 
 const handleList = () => {
   closeMintModal()
-  listMintedNft()
+  listMintedNFts()
 }
 
 const handleConfirmPaidMint = () => {

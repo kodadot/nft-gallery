@@ -1,11 +1,15 @@
-import { shoppingCartItemToListingCartItem } from '@/components/common/shoppingCart/utils'
+import {
+  nftToListingCartItem,
+  shoppingCartItemToListingCartItem,
+} from '@/components/common/shoppingCart/utils'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import { NFTWithMetadata } from './useNft'
 
 export default () => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
 
-  const getFloorPrice = (cartItem: ShoppingCartItem) =>
+  const getFloorPrice = (cartItem: ShoppingCartItem | NFTWithMetadata) =>
     cartItem.collection.floorPrice[0]?.price || '0'
 
   const isItemInCart = (id: string) => listingCartStore.isItemInCart(id)
@@ -16,6 +20,16 @@ export default () => {
 
       listingCartStore.setItem(
         shoppingCartItemToListingCartItem(cartItem, floorPrice),
+      )
+    }
+  }
+
+  const listNftByNftWithMetadata = async (nftWithMetadata: NFTWithMetadata) => {
+    if (!isItemInCart(nftWithMetadata.id)) {
+      const floorPrice = getFloorPrice(nftWithMetadata)
+
+      listingCartStore.setItem(
+        nftToListingCartItem(nftWithMetadata, floorPrice),
       )
     }
   }
@@ -32,6 +46,7 @@ export default () => {
 
   return {
     listNftByShoppingCartItem,
+    listNftByNftWithMetadata,
     openListingCartModal,
   }
 }

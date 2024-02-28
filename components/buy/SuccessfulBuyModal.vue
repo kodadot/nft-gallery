@@ -13,7 +13,10 @@
           :collection-id="firsItem.collection.id"
           :collection-name="firsItem.collection.name" />
       </template>
-      <MultiItemMedia v-else :items="processedItems" />
+      <MultiItemMedia
+        v-else
+        :header="$t('buyModal.amountPurchaseSuccessfully', [items.length])"
+        :items="processedItems" />
     </SuccessfulModal>
 
     <ListingCartModal />

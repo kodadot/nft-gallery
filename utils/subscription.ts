@@ -3,7 +3,7 @@ export const subscribeToNfts = (ids: string[], onChange: (data) => void) => {
     query: `nftEntities(where: {
             id_in: ${JSON.stringify(ids)}
         }) {
-          currentOwner
+          id
         }`,
     onChange: ({ data: { nftEntities } }) => {
       onChange(nftEntities)

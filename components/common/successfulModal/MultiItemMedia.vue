@@ -38,7 +38,7 @@
 
   <div class="mt-5 border-b-k-shade">
     <p class="is-size-6 capitalize font-bold text-center">
-      {{ $t('buyModal.amountPurchaseSuccessfully', [items.length]) }}
+      {{ header }}
     </p>
   </div>
 </template>
@@ -48,6 +48,7 @@ const COLLAPSED_ITEMS_COUNT = 5
 
 const props = defineProps<{
   items: { image: string; name: string; id: string }[]
+  header: string
 }>()
 
 const expanded = ref(false)

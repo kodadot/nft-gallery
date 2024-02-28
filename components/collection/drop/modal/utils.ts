@@ -1,11 +1,13 @@
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { MintedNFT } from '../types'
 
+const RETRY_COUNT = 3
+
 export const usePreloadMintedNftCover = (
   mintedNft: ComputedRef<DropMintedNft | undefined>,
 ) => {
   const nftCoverLoaded = ref(false)
-  const retry = ref(3)
+  const retry = ref(RETRY_COUNT)
 
   const sanitizedMintedNft = computed<DropMintedNft | undefined>(
     () =>
@@ -39,7 +41,9 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
     Object.values(Object.fromEntries(states.value.entries())),
   )
   const triedAll = computed(
-    () => Number(getSumOfObjectField(stateValues.value, 'tries')) === 0,
+    () =>
+      stateValues.value.length &&
+      Number(getSumOfObjectField(stateValues.value, 'tries')) === 0,
   )
   const loadedAll = computed(() => {
     const loaded = stateValues.value.map((item) => item.loaded)
@@ -48,9 +52,12 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
 
   const tryPreload = async (mintedNFT: MintedNFT) => {
     const id = mintedNFT.id
-    const currentState = states.value.get(id) || { tries: 3, loaded: false }
+    const currentState = states.value.get(id) || {
+      tries: RETRY_COUNT,
+      loaded: false,
+    }
 
-    if (currentState.tries === 0) {
+    if (currentState.tries === 0 || currentState.loaded) {
       return
     }
 

@@ -2,7 +2,6 @@ import { createUnlockableMetadata } from '@/components/collection/unlockable/uti
 import {
   BatchAllocateResponseNft,
   BatchMintBody,
-  MintItem,
   batchAllocate,
 } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
@@ -12,6 +11,8 @@ import useGenerativeIframeData, {
   ImageDataPayload,
 } from './useGenerativeIframeData'
 import { MintingSession, ToMintNft } from '@/components/collection/drop/types'
+import isEqual from 'lodash/isEqual'
+import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
 
 export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
@@ -44,6 +45,9 @@ export default ({
   const { $i18n } = useNuxtApp()
   const { accountId } = useAuth()
   const { generateHash, getEntropyRange } = useGenerativePreview()
+  const { client } = usePrefix()
+  const { listNftByNftWithMetadata, openListingCartModal } =
+    useListingCartModal()
 
   const amountToMint = ref(1)
 
@@ -52,6 +56,8 @@ export default ({
   const toMintNfts = ref<MassMintNFT[]>([])
   const allocatedNfts = ref<BatchAllocateResponseNft[]>([])
   const mintingSession = ref<MintingSession>({ txHash: '', items: [] })
+  const mintedNFTsWithMetadata = ref<NFTWithMetadata[]>([])
+
   const pinning = ref(new Map<string, boolean>())
 
   const onMessage = (payload: ImageDataPayload) => {
@@ -201,7 +207,7 @@ export default ({
       const email = generateRandomEmail()
       const address = accountId.value
 
-      const items: MintItem[] = mintNfts.map(({ image, hash, metadata }) => ({
+      const items = mintNfts.map(({ image, hash, metadata }) => ({
         image,
         hash,
         metadata,
@@ -228,6 +234,36 @@ export default ({
     }
   }
 
+  const subscribeForNftsWithMetadata = (nftIds: string[]) => {
+    subscribeToNfts(nftIds, async (data) => {
+      const ids = data.map((item) => item.id)
+      const readyToFetch = isEqual(ids.sort(), nftIds.sort())
+
+      if (readyToFetch) {
+        const { data } = await useAsyncQuery<{
+          nftEntities: NFTWithMetadata[]
+        }>({
+          query: nftEntitiesByIDs,
+          variables: {
+            ids: nftIds,
+          },
+          clientId: client.value,
+        })
+
+        mintedNFTsWithMetadata.value = data.value.nftEntities
+      }
+    })
+  }
+
+  const canListMintedNfts = computed(() =>
+    Boolean(mintedNFTsWithMetadata.value.length),
+  )
+
+  const listMintedNFts = () => {
+    mintedNFTsWithMetadata.value.forEach(listNftByNftWithMetadata)
+    openListingCartModal()
+  }
+
   watch(allPinned, async (value) => {
     if (value) {
       await allocate(toMintNfts.value)
@@ -236,10 +272,13 @@ export default ({
 
   return {
     amountToMint,
-    massGenerate,
     toMintNfts,
     canMint,
+    canListMintedNfts,
     allocatedNfts,
     mintingSession,
+    subscribeForNftsWithMetadata,
+    massGenerate,
+    listMintedNFts,
   }
 }

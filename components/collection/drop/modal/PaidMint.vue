@@ -108,6 +108,7 @@ const moveSuccessfulDrop = computed(() => {
 
   return (
     props.mintingSession.items.length &&
+    props.mintingSession.txHash &&
     triedAll.value &&
     props.action.details.status === TransactionStatus.Finalized
   )
