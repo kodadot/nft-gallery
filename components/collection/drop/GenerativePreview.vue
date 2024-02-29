@@ -115,12 +115,13 @@ const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
-  // only applicable if drop is ended (mintCountAvailable is false)
+ // only applicable if the drop is old one that missing`kodahash/render/completed` event
+ 
   if (!props.mintCountAvailable && !imageDataLoaded.value) {
     isLoading.value = false
     emit('generation:end')
   }
-}, 3000)
+}, 5000)
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
