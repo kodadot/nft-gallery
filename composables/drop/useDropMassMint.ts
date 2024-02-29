@@ -17,6 +17,7 @@ import useGenerativeIframeData, {
 import { MintingSession, ToMintNft } from '@/components/collection/drop/types'
 import isEqual from 'lodash/isEqual'
 import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
+import { getFakeEmail } from '@/components/collection/drop/utils'
 
 export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
@@ -226,7 +227,7 @@ export default ({
     try {
       isAllocating.value = true
 
-      const email = generateRandomEmail()
+      const email = getFakeEmail()
       const address = accountId.value
 
       const items = mintNfts.map(({ image, hash, metadata }) => ({
