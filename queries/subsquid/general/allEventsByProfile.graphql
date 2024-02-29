@@ -21,6 +21,7 @@ query allEventsByProfile($id: String) {
       meta {
         id
         image
+        animationUrl
         __typename
       }
       __typename

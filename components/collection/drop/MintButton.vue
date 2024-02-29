@@ -19,6 +19,7 @@ import type {
   MinimumFundsProp,
   MintButtonProp,
 } from '@/components/collection/drop/types'
+import { DropItem } from '@/params/types'
 
 const props = defineProps<{
   mintCountAvailable: boolean
@@ -28,15 +29,16 @@ const props = defineProps<{
   isWalletConnecting: boolean
   isLoading: boolean
   mintButton: MintButtonProp
-  userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
   collectionId: string
+  drop: DropItem
 }>()
 
 const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
+const { isLogIn } = useAuth()
 
 const loading = computed(
   () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
@@ -44,9 +46,11 @@ const loading = computed(
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
+    isLogIn.value &&
     (props.holderOfCollection?.isLoading || props.minimumFunds.isLoading),
 )
 
@@ -67,6 +71,13 @@ const buttonMint = computed<{
       label: $i18n.t('checking'),
       disabled: true,
       withLabel: true,
+    }
+  }
+
+  if (isLogIn.value && props.drop.userAccess === false) {
+    return {
+      label: props.mintButton.label,
+      disabled: true,
     }
   }
 

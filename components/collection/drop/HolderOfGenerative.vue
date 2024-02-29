@@ -27,7 +27,6 @@
     :description="description"
     :drop="drop"
     :holder-of-collection="holderOfCollection"
-    :user-minted-nft-id="userMintedNftId"
     :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -97,6 +96,7 @@ import type {
 } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { getFakeEmail } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -130,8 +130,7 @@ const minimumFundsProps = computed<MinimumFundsProp>(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
@@ -141,6 +140,7 @@ const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol, withoutDecimals, decimals } = useChain()
+const runtimeMintedCount = ref(0)
 
 const { client } = usePrefix()
 const isLoading = ref(false)
@@ -164,7 +164,6 @@ const availableNfts = reactive<{
 
 const {
   defaultName,
-  defaultImage,
   defaultMax,
   collectionId,
   chainName,
@@ -232,7 +231,6 @@ const {
   maxCount,
   mintedNft,
   mintedNftWithMetadata,
-  userMintedNftId,
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
@@ -246,10 +244,7 @@ const {
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
-  currentAccountMintedToken,
-  collectionId,
   mintedDropCount,
-  defaultImage,
 })
 
 useCursorDropEvents(
@@ -270,7 +265,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       },
     }).then((res) => res.data.value),
   {
-    watch: [accountId],
+    watch: [accountId, runtimeMintedCount],
   },
 )
 
@@ -307,7 +302,7 @@ const mintButtonLabel = computed(() => {
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
+      : $i18n.t('general.connect_wallet')
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
@@ -331,7 +326,6 @@ const mintButtonProps = computed<MintButtonProp>(() => ({
 
 const mintNft = async () => {
   try {
-    isLoading.value = true
     isTransactionError.value = false
     const { apiInstance } = useApi()
     const api = await apiInstance.value
@@ -359,7 +353,6 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
-    isLoading.value = false
   }
 }
 
@@ -400,20 +393,8 @@ const allocateRaffle = async () => {
     metadata: metadata,
   }
 
-  // claim previous ID first. else, allocate new raffle
-  if (
-    currentAccountMintedToken.value?.id &&
-    !currentAccountMintedToken.value?.claimed
-  ) {
-    body.email = currentAccountMintedToken.value?.email || body.email
-    body.hash = currentAccountMintedToken.value?.hash || body.hash
-    body.image = currentAccountMintedToken.value?.image || body.image
-    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
-    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
-  } else {
-    const response = await allocateCollection(body, props.drop.id)
-    raffleId.value = response.result.id
-  }
+  const response = await allocateCollection(body, props.drop.id)
+  raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
   isLoading.value = false
@@ -429,7 +410,8 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+
+  if (isLoading.value || isTransactionLoading.value || isImageFetching.value) {
     return false
   }
 
@@ -450,9 +432,7 @@ const handleSubmitMint = async () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
 
   await allocateRaffle()
 }
@@ -486,7 +466,10 @@ const submitMint = async (sn: string) => {
     const id = `${collectionId.value}-${result.sn}`
 
     subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
     })
 
     isLoading.value = false
@@ -499,6 +482,7 @@ const submitMint = async (sn: string) => {
     }
 
     isSuccessModalActive.value = true
+    runtimeMintedCount.value += 1
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -546,7 +530,12 @@ const handleList = () => {
   listMintedNft()
 }
 
-watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
+watch([holderOfCollectionData, runtimeMintedCount], checkAvailableNfts, {
+  immediate: true,
+})
+watch(runtimeMintedCount, fetchDropStatus, {
+  immediate: true,
+})
 </script>
 
 <style scoped lang="scss">
