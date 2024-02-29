@@ -1,10 +1,10 @@
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import {
   BatchAllocateResponseNft,
-  BatchMintBody,
   DoResult,
-  allocateClaim,
+  allocateCollection,
   batchAllocate,
+  allocateClaim as claimAllocation,
 } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import useGenerativePreview, {
@@ -237,11 +237,7 @@ export default ({
         metadata,
       }))
 
-      const body: BatchMintBody = { email, address, items }
-
-      const { result } = await batchAllocate(body, drop.id)
-
-      allocatedNfts.value = result
+      allocatedNfts.value = await allocateItems({ items, email, address })
 
       // even thought the user might want x amount of items the worker can return a different amount
       const allocatedNftsToMint = toMintNfts.value.slice(
@@ -260,6 +256,31 @@ export default ({
     } finally {
       isAllocating.value = false
     }
+  }
+
+  const allocateItems = async ({
+    items,
+    email,
+    address,
+  }): Promise<{ id: number; image: string; name: string }[]> => {
+    if (items.length === 1) {
+      const item = items[0]
+      const { result } = await allocateCollection(
+        {
+          email,
+          address,
+          image: item.image,
+          hash: item.hash,
+          metadata: item.metadata,
+        },
+        drop.id,
+      )
+
+      return [result]
+    }
+
+    const { result } = await batchAllocate({ email, address, items }, drop.id)
+    return result
   }
 
   const subscribeForNftsWithMetadata = (nftIds: string[]) => {
@@ -295,7 +316,7 @@ export default ({
   const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
     return new Promise((resolve, reject) => {
       try {
-        allocateClaim(
+        claimAllocation(
           {
             sn: nft.sn,
             txHash: mintingSession.value.txHash,
