@@ -14,24 +14,22 @@ export default () => {
 
   const isItemInCart = (id: string) => listingCartStore.isItemInCart(id)
 
-  const listNftByShoppingCartItem = async (cartItem: ShoppingCartItem) => {
-    if (!isItemInCart(cartItem.id)) {
-      const floorPrice = getFloorPrice(cartItem)
-
-      listingCartStore.setItem(
-        shoppingCartItemToListingCartItem(cartItem, floorPrice),
-      )
+  const tryAddingItemToListingCart = (item: ListCartItem) => {
+    if (!isItemInCart(item.id)) {
+      listingCartStore.setItem(item)
     }
   }
 
-  const listNftByNftWithMetadata = async (nftWithMetadata: NFTWithMetadata) => {
-    if (!isItemInCart(nftWithMetadata.id)) {
-      const floorPrice = getFloorPrice(nftWithMetadata)
+  const listNftByShoppingCartItem = async (cartItem: ShoppingCartItem) => {
+    tryAddingItemToListingCart(
+      shoppingCartItemToListingCartItem(cartItem, getFloorPrice(cartItem)),
+    )
+  }
 
-      listingCartStore.setItem(
-        nftToListingCartItem(nftWithMetadata, floorPrice),
-      )
-    }
+  const listNftByNftWithMetadata = async (nftWithMetadata: NFTWithMetadata) => {
+    tryAddingItemToListingCart(
+      nftToListingCartItem(nftWithMetadata, getFloorPrice(nftWithMetadata)),
+    )
   }
 
   const openListingCartModal = () =>
