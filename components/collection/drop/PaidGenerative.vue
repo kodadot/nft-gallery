@@ -215,6 +215,9 @@ useCursorDropEvents(
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
   if (isLoading.value) {
     return $i18n.t('loader.ipfs')
   }
