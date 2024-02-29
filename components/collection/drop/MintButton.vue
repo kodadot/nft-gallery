@@ -74,7 +74,7 @@ const buttonMint = computed<{
     }
   }
 
-  if (props.drop.userAccess === false) {
+  if (isLogIn.value && props.drop.userAccess === false) {
     return {
       label: props.mintButton.label,
       disabled: true,
