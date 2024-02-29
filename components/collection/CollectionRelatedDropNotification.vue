@@ -26,7 +26,7 @@
       variant="secondary-rounded"
       icon-left="puzzle-piece"
       icon-pack="fal">
-      {{ $t('drops.exploreDrop', [relatedEndedDrop.name]) }}
+      {{ $t('drops.exploreDrop') }}
     </NeoButton>
   </div>
 </template>

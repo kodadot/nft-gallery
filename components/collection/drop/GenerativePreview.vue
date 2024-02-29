@@ -58,7 +58,6 @@
     <CollectionDropMintButton
       class="mt-6"
       :collection-id="collectionId"
-      :user-minted-nft-id="userMintedNftId"
       :is-wallet-connecting="isWalletConnecting"
       :is-image-fetching="isImageFetching"
       :is-loading="isLoading"
@@ -67,6 +66,7 @@
       :mint-count-available="mintCountAvailable"
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
+      :drop="drop"
       @mint="emit('mint')" />
 
     <div
@@ -93,6 +93,7 @@ import type {
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 const props = defineProps<{
   drop: DropItem
@@ -106,11 +107,21 @@ const props = defineProps<{
   isWalletConnecting: boolean
   isLoading: boolean
   mintButton: MintButtonProp
-  userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+ // only applicable if the drop is old one that missing`kodahash/render/completed` event
+ 
+  if (!props.mintCountAvailable && !imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+}, 5000)
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -132,10 +143,11 @@ const entropyRange = computed<[number, number]>(() => [
   STEP * (props.minted + 1),
 ])
 
-const getHash = (isDefault?: boolean) => {
-  const randomSs58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+const getHash = () => {
+  const randomSs58Format = getRandomIntFromRange(
+    entropyRange.value[0],
+    entropyRange.value[1],
+  )
 
   const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
@@ -146,34 +158,46 @@ const getHash = (isDefault?: boolean) => {
   return blake2AsHex(initialValue, 256, null, true)
 }
 
-const generativeImageUrl = ref(
-  accountId.value ? `${props.drop.content}/?hash=${getHash(true)}` : '',
-)
+const generativeImageUrl = ref('')
 
 const isLoading = ref(false)
 
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.drop.image
 })
-const generateNft = (isDefault: boolean = false) => {
+const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
+  startTimer()
+  const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value, isDefault })
-
-  setTimeout(() => {
-    isLoading.value = false
-    emit('generation:end', isDefault)
-  }, 3000)
+  emit('generation:start', { image: generativeImageUrl.value })
+  imageDataPayload.value = undefined
 }
+
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+})
 
 watch(
   accountId,
   () => {
-    generateNft(true)
+    generateNft()
   },
   {
     immediate: true,
   },
+)
+
+watchDebounced(
+  [imageDataPayload],
+  () => {
+    if (imageDataPayload.value?.image === 'data:,') {
+      generateNft()
+    }
+  },
+  { debounce: 1000 },
 )
 </script>

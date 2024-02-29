@@ -1,17 +1,19 @@
 import { NAMES } from './names'
-import type { ChainProperties, Config, Option, Prefix } from './types'
+import type { ChainProperties, ChainVM, Config, Option, Prefix } from './types'
 
 export const toChainProperty = (
   ss58Format: number,
   tokenDecimals: number,
   tokenSymbol: string,
-  blockExplorer?: string
+  blockExplorer?: string,
+  vm: ChainVM = 'SUB'
 ): ChainProperties => {
   return {
     ss58Format,
     tokenDecimals,
     tokenSymbol,
     blockExplorer,
+    vm,
   }
 }
 
@@ -28,6 +30,7 @@ export const CHAINS: Config<ChainProperties> = {
   ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
+  imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/'), // ss58Format is not available
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
@@ -41,6 +44,7 @@ export const chainPrefixes: Prefix[] = [
   'rmrk',
   'ksm',
   'dot',
+  'imx',
   // 'ahr',
   // 'movr',
   // 'glmr',
@@ -59,6 +63,7 @@ export const chainInfo: Record<Prefix, string> = {
   ahk: 'statemine',
   dot: 'polkadot',
   ahp: 'statemint',
+  imx: 'immutable',
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
@@ -70,6 +75,7 @@ export const chainNames: Record<Prefix, string> = {
   ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
   ahp: 'Polkadot AssetHub',
+  imx: 'Immutable zkEVM',
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
@@ -89,4 +95,5 @@ export const existentialDeposit: Record<Prefix, number> = {
   ahk: 33333333,
   dot: 10000000000,
   ahp: 1000000000,
+  imx: 0, // nothing like ED in EVM :)
 }

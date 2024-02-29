@@ -67,6 +67,7 @@ const subtitle = computed(() =>
 
 const onClose = () => {
   isModalActive.value = false
+  isCancelled.value = false
 }
 
 watch(

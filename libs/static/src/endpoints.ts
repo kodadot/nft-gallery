@@ -1,6 +1,9 @@
 import { Config } from './types'
 
 type WS_URL = `wss://${string}` | `ws://${string}`
+type HTTP_URL = `https://${string}` | `http://${string}`
+
+type ENDPOINT_URL = WS_URL | HTTP_URL
 
 const KUSAMA_ENDPOINTS: WS_URL[] = [
   'wss://rpc.ibp.network/kusama',
@@ -18,7 +21,7 @@ const POLKADOT_ENDPOINTS: WS_URL[] = [
 ]
 
 // Someone from HydraDX team told me that Polkadot API takes Array of endpoints
-export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
+export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
   rmrk: KUSAMA_ENDPOINTS,
   ksm: KUSAMA_ENDPOINTS,
   ahk: [
@@ -35,17 +38,19 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://statemint-rpc-tn.dwellir.com',
     'wss://sys.dotters.network/statemint',
   ],
+  imx: ['https://rpc.immutable.com'],
   // ahr: ['wss://rococo-asset-hub-rpc.polkadot.io'],
   // glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
   // movr: ['wss://wss.api.moonriver.moonbeam.network'],
 }
 
-export const ENDPOINT_MAP: Config<WS_URL> = {
+export const ENDPOINT_MAP: Config<ENDPOINT_URL> = {
   rmrk: KUSAMA_ENDPOINTS[0],
   ksm: KUSAMA_ENDPOINTS[0],
   ahk: 'wss://sys.ibp.network/statemine',
   dot: POLKADOT_ENDPOINTS[0],
   ahp: 'wss://sys.ibp.network/statemint',
+  imx: 'https://rpc.immutable.com',
   // ahr: 'wss://rococo-asset-hub-rpc.polkadot.io',
   // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
   // movr: 'wss://wss.api.moonriver.moonbeam.network',
