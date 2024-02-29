@@ -11,7 +11,7 @@
               </div>
               <CollectionDropCreatedBy v-if="address" :address="address" />
             </div>
-            <div class="mt-7">
+            <div v-if="ownerAddresses.length" class="mt-7">
               <div class="font-bold is-size-5 mb-4 capitalize">
                 {{ $t('tooltip.collectedBy') }}
               </div>
