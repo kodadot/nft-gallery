@@ -100,6 +100,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { GenerativePreviewItem } from '~/composables/drop/useGenerativePreview'
 import useDropMassMint from '@/composables/drop/useDropMassMint'
+import { getFakeEmail } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -313,7 +314,7 @@ const mintButtonLabel = computed(() => {
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
+      : $i18n.t('general.connect_wallet')
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
@@ -449,7 +450,7 @@ const prepareMinting = () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  raffleEmail.value = generateRandomEmail()
+  raffleEmail.value = getFakeEmail()
 
   await allocateRaffle()
 }

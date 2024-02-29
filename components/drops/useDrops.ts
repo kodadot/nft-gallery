@@ -24,6 +24,7 @@ export interface Drop {
   isMintedOut: boolean
   status: DropStatus
   image?: string
+  banner?: string
 }
 
 export enum DropStatus {

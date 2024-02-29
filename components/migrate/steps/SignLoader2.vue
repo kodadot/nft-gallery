@@ -29,8 +29,10 @@
         <div :class="itemLeftIcons(index).textColor">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
-        <div v-if="isError" class="flex-1 text-right">
-          <NeoButton variant="pill" size="small" @click="startStep2()">
+        <div
+          v-if="isError || status === TransactionStatus.Cancelled"
+          class="flex-1 text-right">
+          <NeoButton variant="pill" size="small" @click="tryAgain()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>
@@ -90,7 +92,7 @@ const itemLeft = (index) => {
 }
 
 const itemLeftIcons = (index) => {
-  if (isError.value) {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
     return iconError
   }
 
@@ -107,6 +109,11 @@ const itemLeftIcons = (index) => {
   }
 
   return iconIdle
+}
+
+const tryAgain = () => {
+  iterations.value += 1
+  startStep2()
 }
 
 const startStep2 = async () => {
@@ -166,11 +173,11 @@ const startStep2 = async () => {
 const executeStep2 = async () => {
   updateSteps('step2-migrate')
 
-  if (iterations.value && status.value === TransactionStatus.Finalized) {
-    iterations.value -= 1
-  }
-
-  if (status.value && status.value !== TransactionStatus.Finalized) {
+  if (
+    status.value &&
+    status.value !== TransactionStatus.Finalized &&
+    status.value !== TransactionStatus.Cancelled
+  ) {
     await delay(DETAIL_TIMEOUT)
     executeStep2()
     return
@@ -179,10 +186,14 @@ const executeStep2 = async () => {
   if (iterations.value) {
     const cb = api.tx.utility.batch
     const args = [toRaw(batchPresigned[maxIterations - iterations.value])]
+    iterations.value -= 1
 
     await howAboutToExecute(accountId.value, cb, args)
     await delay(DETAIL_TIMEOUT)
-    executeStep2()
+
+    if (iterations.value) {
+      executeStep2()
+    }
   }
 }
 
@@ -204,16 +215,16 @@ watchEffect(() => {
 })
 
 const whichIcon = () => {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
+    return iconError
+  }
+
   if (iterations.value === 0) {
     return iconSuccess
   }
 
   if (steps.value.includes('step2')) {
     return iconLoading
-  }
-
-  if (isError.value) {
-    return iconError
   }
 
   return iconIdle

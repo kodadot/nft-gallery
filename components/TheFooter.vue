@@ -119,6 +119,11 @@
                   </clipPath>
                 </defs>
               </svg>
+              <!-- farcaster doesnt have a font awesome icon -->
+              <img
+                v-else-if="item.icon === 'farcaster'"
+                src="/icons/farcaster.svg"
+                alt="farcaster" />
               <NeoIcon
                 v-else
                 :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
@@ -261,6 +266,11 @@ const socials = [
     name: 'Reddit',
     url: 'https://www.reddit.com/r/KodaDot',
     icon: 'reddit-alien',
+  },
+  {
+    name: 'Farcaster',
+    url: 'https://warpcast.com/~/channel/koda',
+    icon: 'farcaster',
   },
 ]
 </script>

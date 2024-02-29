@@ -23,6 +23,14 @@ export type DoResult = {
   name: string
 }
 
+export type AllocateCollectionRequest = {
+  address: string
+  email: string
+  metadata?: string
+  hash: string
+  image?: string
+}
+
 export type GetDropsQuery = {
   limit?: number
   active?: boolean[]
@@ -63,7 +71,10 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const allocateCollection = async (body, id) => {
+export const allocateCollection = async (
+  body: AllocateCollectionRequest,
+  id: string,
+) => {
   try {
     const response = await api(`/drops/allocate/${id}`, {
       method: 'POST',
