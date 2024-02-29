@@ -4,18 +4,18 @@ import { DropItem } from '@/params/types'
 
 const ENTROPY_RANGE_STEP = 64
 
-type EntopyRange = [number, number]
+export type EntropyRange = [number, number]
 
 export type GenerativePreviewItem = {
   hash: string
   image: string
-  entropyRange: EntopyRange
+  entropyRange: EntropyRange
 }
 
 export default (drop: DropItem) => {
   const { accountId } = useAuth()
 
-  const getEntropyRange = (minted: number): EntopyRange => [
+  const getEntropyRange = (minted: number): EntropyRange => [
     ENTROPY_RANGE_STEP * minted,
     ENTROPY_RANGE_STEP * (minted + 1),
   ]
@@ -32,7 +32,7 @@ export default (drop: DropItem) => {
     return blake2AsHex(initialValue, 256, null, true)
   }
 
-  const generateHash = (range: EntopyRange) =>
+  const generateHash = (range: EntropyRange) =>
     getHash(getRandomIntFromRange(...range))
 
   const generatePreviewItem = (

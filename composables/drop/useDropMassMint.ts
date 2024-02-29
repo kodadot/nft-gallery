@@ -8,6 +8,7 @@ import {
 } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import useGenerativePreview, {
+  EntropyRange,
   GenerativePreviewItem,
 } from './useGenerativePreview'
 import { DropItem } from '@/params/types'
@@ -24,7 +25,7 @@ export type MassMintNFT = ToMintNft & {
   metadata?: string
   hash: string
   sn?: number
-  entropyRange: [number, number]
+  entropyRange: EntropyRange
 }
 
 type MassMintParams = {
