@@ -249,6 +249,11 @@ const socials = [
     icon: 'x-twitter',
   },
   {
+    name: 'Farcaster',
+    url: 'https://warpcast.com/~/channel/koda',
+    icon: 'farcaster',
+  },
+  {
     name: 'Beehiiv',
     url: 'https://kodadotweeklyroundup.beehiiv.com',
     icon: 'newspaper',
@@ -279,11 +284,6 @@ const socials = [
     name: 'Reddit',
     url: 'https://www.reddit.com/r/KodaDot',
     icon: 'reddit-alien',
-  },
-  {
-    name: 'Farcaster',
-    url: 'https://warpcast.com/~/channel/koda',
-    icon: 'farcaster',
   },
 ]
 </script>
