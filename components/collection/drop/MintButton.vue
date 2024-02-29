@@ -38,6 +38,7 @@ const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
+const { isLogIn } = useAuth()
 
 const loading = computed(
   () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
@@ -45,9 +46,11 @@ const loading = computed(
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
+    isLogIn.value &&
     (props.holderOfCollection?.isLoading || props.minimumFunds.isLoading),
 )
 

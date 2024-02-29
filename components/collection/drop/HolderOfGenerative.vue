@@ -302,7 +302,7 @@ const mintButtonLabel = computed(() => {
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
+      : $i18n.t('general.connect_wallet')
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
