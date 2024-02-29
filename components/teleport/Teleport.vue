@@ -337,16 +337,16 @@ const fromNetworks = [
     value: Chain.ASSETHUBKUSAMA,
     icon: chainIcons.ahk,
   },
-  {
-    label: getChainName('dot'),
-    value: Chain.POLKADOT,
-    icon: chainIcons.dot,
-  },
-  {
-    label: getChainName('ahp'),
-    value: Chain.ASSETHUBPOLKADOT,
-    icon: chainIcons.ahp,
-  },
+  // {
+  //   label: getChainName('dot'),
+  //   value: Chain.POLKADOT,
+  //   icon: chainIcons.dot,
+  // },
+  // {
+  //   label: getChainName('ahp'),
+  //   value: Chain.ASSETHUBPOLKADOT,
+  //   icon: chainIcons.ahp,
+  // },
 ]
 const toNetworks = [
   {
@@ -361,18 +361,18 @@ const toNetworks = [
     disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
     icon: chainIcons.ahk,
   },
-  {
-    label: getChainName('dot'),
-    value: Chain.POLKADOT,
-    disabled: computed(() => isDisabled(Chain.POLKADOT)),
-    icon: chainIcons.dot,
-  },
-  {
-    label: getChainName('ahp'),
-    value: Chain.ASSETHUBPOLKADOT,
-    disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
-    icon: chainIcons.ahp,
-  },
+  // {
+  //   label: getChainName('dot'),
+  //   value: Chain.POLKADOT,
+  //   disabled: computed(() => isDisabled(Chain.POLKADOT)),
+  //   icon: chainIcons.dot,
+  // },
+  // {
+  //   label: getChainName('ahp'),
+  //   value: Chain.ASSETHUBPOLKADOT,
+  //   disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
+  //   icon: chainIcons.ahp,
+  // },
 ]
 
 const currentTokenDecimals = computed(() =>
@@ -408,7 +408,9 @@ const onChainChange = (selectedChain, setFrom = true) => {
 }
 
 const setRelatedChain = () => {
-  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  const relatedFromChain =
+    (urlPrefix.value !== 'ahp' && prefixToChainMap[urlPrefix.value]) ||
+    Chain.KUSAMA
   onChainChange(relatedFromChain, true)
 }
 
