@@ -41,7 +41,6 @@ Click on the button below:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kodadot/nft-gallery)
 
-
 Copy and paste these commands to your terminal: (It will install all dependencies and start the server.)
 
 ```
@@ -200,13 +199,10 @@ Then we can use it like this:
 
     const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
       initTransactionLoader()
-      howAboutToExecute(
-        accountId.value,
-        cb,
-        arg,
-        () => infoMessage(successMessage || 'Success!'),
-        () => warningMessage(errorMessage || 'Failed!')
-      )
+      howAboutToExecute(accountId.value, cb, arg, {
+        onSuccess: () => infoMessage(successMessage || 'Success!'),
+        onError: () => warningMessage(errorMessage || 'Failed!'),
+      })
     }
 
     executeTransaction({
