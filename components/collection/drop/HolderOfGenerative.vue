@@ -339,6 +339,8 @@ const mintButtonProps = computed<MintButtonProp>(() => ({
 const mintNft = async () => {
   try {
     isTransactionError.value = false
+    mintingSession.value.txHash = undefined
+
     const { apiInstance } = useApi()
     const api = await apiInstance.value
 
@@ -352,8 +354,10 @@ const mintNft = async () => {
       }),
     )
 
-    howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
-      mintingSession.value.txHash = txHash
+    howAboutToExecute(accountId.value, cb, [args], {
+      onResult: ({ txHash }) => {
+        mintingSession.value.txHash = txHash
+      },
     })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
@@ -362,8 +366,8 @@ const mintNft = async () => {
   }
 }
 
-watch(status, (curStatus) => {
-  if (curStatus === TransactionStatus.Block) {
+watch([status, () => mintingSession.value.txHash], ([curStatus, txHash]) => {
+  if (curStatus === TransactionStatus.Block && txHash) {
     if (isTransactionError.value) {
       isLoading.value = false
       isTransactionLoading.value = false
