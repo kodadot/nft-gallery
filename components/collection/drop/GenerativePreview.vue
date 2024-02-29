@@ -178,4 +178,14 @@ watch(
     immediate: true,
   },
 )
+
+watchDebounced(
+  [imageDataPayload],
+  () => {
+    if (imageDataPayload.value?.image === 'data:,') {
+      generateNft()
+    }
+  },
+  { debounce: 1000 },
+)
 </script>
