@@ -8,7 +8,7 @@
       </div>
 
       <div
-        class="flex item-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2">
+        class="flex items-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2 w-full">
         <div class="w-32">
           <NeoSkeleton
             height="34"
