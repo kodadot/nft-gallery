@@ -71,7 +71,11 @@ export default function (
   )
 
   const currentChainExistentialDeposit = computed(() =>
-    getChainExistentialDeposit(currentChain.value),
+    //Double ED on polkadot
+    currentChain.value === 'AssetHubPolkadot' ||
+    currentChain.value === 'Polkadot'
+      ? 2 * getChainExistentialDeposit(currentChain.value)
+      : getChainExistentialDeposit(currentChain.value),
   )
 
   const transferableCurrentChainBalance = computed(
