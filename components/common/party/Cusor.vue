@@ -10,7 +10,7 @@
       :id="`cursor-${connection.id}`"
       icon="arrow-pointer"
       pack="fas"
-      :class="cursorDetails.color" />
+      :class="color" />
 
     <div
       v-if="cursorLabel?.label"
@@ -38,6 +38,33 @@ const props = defineProps<{
   connection: UserDetails
   cursorDetails: CursorDetails
 }>()
+
+const colors = [
+  'text-red-500',
+  'text-orange-500',
+  'text-amber-500',
+  'text-yellow-500',
+  'text-lime-500',
+  'text-green-500',
+  'text-emerald-500',
+  'text-teal-500',
+  'text-cyan-500',
+  'text-sky-500',
+  'text-blue-500',
+  'text-indigo-500',
+  'text-violet-500',
+  'text-purple-500',
+  'text-fuchsia-500',
+  'text-pink-500',
+  'text-rose-500',
+  'text-stone-500',
+  'text-neutral-500',
+  'text-zinc-500',
+  'text-gray-500',
+  'text-slate-500',
+]
+const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+const color = getRandomColor()
 
 const cursorLabel = computed<CursorLabel>(() => props.cursorDetails.label)
 </script>
