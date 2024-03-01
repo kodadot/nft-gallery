@@ -40,5 +40,4 @@ const props = defineProps<{
 }>()
 
 const cursorLabel = computed<CursorLabel>(() => props.cursorDetails.label)
-console.log('color-', props.cursorDetails.color)
 </script>
