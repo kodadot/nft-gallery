@@ -27,23 +27,28 @@ export type CursorDetails = {
 }
 
 const colors = [
-  'text-red-500 dark:text-red-600',
-  'text-orange-500 dark:text-orange-600',
-  'text-amber-500 dark:text-amber-600',
-  'text-yellow-500 dark:text-yellow-600',
-  'text-lime-500 dark:text-lime-600',
-  'text-green-500 dark:text-green-600',
-  'text-emerald-500 dark:text-emerald-600',
-  'text-teal-500 dark:text-teal-600',
-  'text-cyan-500 dark:text-cyan-600',
-  'text-sky-500 dark:text-sky-600',
-  'text-blue-500 dark:text-blue-600',
-  'text-indigo-500 dark:text-indigo-600',
-  'text-violet-500 dark:text-violet-600',
-  'text-purple-500 dark:text-purple-600',
-  'text-fuchsia-500 dark:text-fuchsia-600',
-  'text-pink-500 dark:text-pink-600',
-  'text-rose-500 dark:text-rose-600',
+  'text-red-500',
+  'text-orange-500',
+  'text-amber-500',
+  'text-yellow-500',
+  'text-lime-500',
+  'text-green-500',
+  'text-emerald-500',
+  'text-teal-500',
+  'text-cyan-500',
+  'text-sky-500',
+  'text-blue-500',
+  'text-indigo-500',
+  'text-violet-500',
+  'text-purple-500',
+  'text-fuchsia-500',
+  'text-pink-500',
+  'text-rose-500',
+  'text-stone-500',
+  'text-neutral-500',
+  'text-zinc-500',
+  'text-gray-500',
+  'text-slate-500',
 ]
 
 const props = defineProps<{
@@ -55,6 +60,7 @@ const props = defineProps<{
 const cursorConnections = ref(new Map<string, CursorDetails>())
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+const color = getRandomColor()
 
 const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
   return !(
@@ -116,7 +122,7 @@ watch(
         const cursorConnection = cursorConnections.value.get(connection.id)
         cursorConnections.value.set(connection.id, {
           ghost: Boolean(cursorConnection?.ghost),
-          color: cursorConnection?.color || getRandomColor(),
+          color,
           label: props.labelFormatter(connection),
         })
       }
