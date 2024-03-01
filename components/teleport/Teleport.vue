@@ -414,7 +414,7 @@ const onChainChange = (selectedChain, setFrom = true) => {
 }
 
 const setRelatedChain = () => {
-  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.KUSAMA
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
   onChainChange(relatedFromChain, true)
 }
 
