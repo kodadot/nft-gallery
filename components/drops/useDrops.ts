@@ -76,7 +76,7 @@ export function useDrops(query?: GetDropsQuery) {
   return { drops: sortDrops, count, loaded }
 }
 
-const getFormattedDropItem = async (collection, drop: DropItem) => {
+export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
@@ -113,7 +113,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
     return DropStatus.MINTING_LIVE
   }
 
-  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
     return DropStatus.SCHEDULED_SOON
   }
 
