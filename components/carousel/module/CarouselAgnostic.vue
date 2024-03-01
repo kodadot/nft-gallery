@@ -32,15 +32,22 @@ import { CarouselWheelsPlugin } from '../utils/useCarousel'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
 
+export type CarouselConfig = { slides: { perView: number; spacing: number } }
+
 export type CarouseBreakpointsConfig = Record<
   CarouseBreakpoints,
-  { slides: { perView: number; spacing: number } }
+  CarouselConfig
 >
+
+const SYNC_SLIDER_ON_EVENTS = ['slideChanged', 'optionsChanged']
+const SYNC_CONFIG_DEBOUNCE_AMOUNT = 100
+const DEFAULT_SLIDES_CONFIG = { perView: 3, spacing: 16 }
 
 const props = defineProps<{
   items: any[]
-  step: number
-  breakpoints: CarouseBreakpointsConfig
+  step?: number
+  breakpoints?: CarouseBreakpointsConfig
+  config?: CarouselConfig
 }>()
 
 const current = ref(0)
@@ -49,7 +56,7 @@ const rightArrowValid = ref(false)
 const leftCarouselIndex = ref(0)
 const rightCarouselIndex = ref(0)
 
-const sliderSettings = (slider) => {
+const updateSliderArrows = (slider) => {
   if (slider) {
     const { track, options, slides } = slider
 
@@ -62,9 +69,12 @@ const sliderSettings = (slider) => {
 
     leftArrowValid.value = abs !== 0
     rightArrowValid.value = abs + perView < slides.length
-    leftCarouselIndex.value = Math.max(abs - props.step, 0)
+    leftCarouselIndex.value = Math.max(
+      props.step ? abs - props.step : abs - perView,
+      0,
+    )
     rightCarouselIndex.value = Math.min(
-      abs + props.step,
+      props.step ? abs + props.step : abs + perView,
       slides.length - perView,
     )
   }
@@ -75,32 +85,68 @@ const [wrapper, slider] = useKeenSlider(
     initial: current.value,
     rubberband: false,
     created: (s) => {
-      sliderSettings(s)
+      updateSliderArrows(s)
     },
     slideChanged: (s) => {
       current.value = s.track.details.rel
-      sliderSettings(s)
+      updateSliderArrows(s)
     },
-    detailsChanged: (s) => {
-      s.slides.forEach((slide, index) => {
-        if (s.track.details.slides[index].portion > 0) {
-          slide.style.opacity = '1'
-        } else {
-          slide.style.opacity = '.5'
+    detailsChanged: (s) => updateSlidesOpacity(s),
+    breakpoints: props.breakpoints
+      ? {
+          '(min-width: 640px)': props.breakpoints['640px'],
+          '(min-width: 768px)': props.breakpoints['768px'],
+          '(min-width: 1024px)': props.breakpoints['1024px'],
+          '(min-width: 1280px)': props.breakpoints['1280px'],
+          '(min-width: 1540px)': props.breakpoints['1540px'],
         }
-      })
+      : undefined,
+    slides: props.breakpoints?.['640px'].slides || {
+      perView: props.config?.slides.perView || DEFAULT_SLIDES_CONFIG.perView,
+      spacing: DEFAULT_SLIDES_CONFIG.spacing,
     },
-    breakpoints: {
-      '(min-width: 640px)': props.breakpoints['640px'],
-      '(min-width: 768px)': props.breakpoints['768px'],
-      '(min-width: 1024px)': props.breakpoints['1024px'],
-      '(min-width: 1280px)': props.breakpoints['1280px'],
-      '(min-width: 1540px)': props.breakpoints['1540px'],
-    },
-    slides: props.breakpoints['640px'].slides,
   },
   [CarouselWheelsPlugin],
 )
+
+const updateSlidesOpacity = (s) => {
+  s.slides.forEach((slide, index) => {
+    if (s.track.details.slides[index].portion > 0) {
+      slide.style.opacity = '1'
+    } else {
+      slide.style.opacity = '.5'
+    }
+  })
+}
+
+const syncSlider = (s) => {
+  updateSlidesOpacity(s)
+  updateSliderArrows(s)
+}
+
+if (props.config) {
+  watch(
+    slider,
+    (s) => {
+      if (s) {
+        SYNC_SLIDER_ON_EVENTS.forEach((event) => {
+          s.on(event, () => syncSlider(s))
+        })
+      }
+    },
+    { immediate: true },
+  )
+
+  watchDebounced(
+    [() => props.config, () => props.items.length],
+    () => {
+      if (slider.value) {
+        slider.value.update(props.config)
+      }
+    },
+    { debounce: SYNC_CONFIG_DEBOUNCE_AMOUNT, immediate: true },
+  )
+}
 </script>
 
 <style scoped lang="scss">
