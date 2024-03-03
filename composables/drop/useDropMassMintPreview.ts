@@ -4,8 +4,8 @@ import useGenerativeIframeData, {
   ImageDataPayload,
 } from './useGenerativeIframeData'
 import useGenerativePreview from './useGenerativePreview'
-import { pinFileToIPFS } from '@/services/nftStorage'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
+import useDropGenerativePreview from './useDropGenerativePreview'
 
 export default ({
   toMintNfts,
@@ -20,10 +20,8 @@ export default ({
   collectionName: Ref<string | undefined>
   defaultName: Ref<string>
 }) => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
-
   const { generatePreviewItem, getEntropyRange } = useGenerativePreview(drop)
+  const { tryCapture } = useDropGenerativePreview()
 
   const pinning = ref(new Map<string, boolean>())
   const payloads = ref(new Map<string, ImageDataPayload>())
@@ -45,33 +43,16 @@ export default ({
     pinNFTWithHash(payload.hash)
   }
 
+  useGenerativeIframeData({
+    onMessage,
+  })
+
   const handleNewImageDataPayload = (payload: ImageDataPayload) => {
     toMintNfts.value = toMintNfts.value.map((toMintNft) =>
       toMintNft.hash === payload.hash
         ? { ...toMintNft, imageDataPayload: payload }
         : toMintNft,
     )
-  }
-
-  const { getCaptureImageFile, imageDataPayload } = useGenerativeIframeData({
-    onMessage,
-  })
-
-  const tryCapture = async ({
-    image,
-    data,
-  }: {
-    image: string
-    data: ImageDataPayload
-  }) => {
-    try {
-      const imgFile = await getCaptureImageFile({ image, data })
-      const imageHash = await pinFileToIPFS(imgFile)
-      return imageHash
-    } catch (error) {
-      toast($i18n.t('drops.capture'))
-      throw error
-    }
   }
 
   const pinNFTWithHash = async (hash: string) => {
@@ -131,7 +112,6 @@ export default ({
     pinning,
     allPinned,
     generatePreviewItem,
-    imageDataPayload,
     payloads,
     pinMetadata,
   }

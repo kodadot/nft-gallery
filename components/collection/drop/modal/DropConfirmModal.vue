@@ -33,7 +33,7 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft"
+        :minting-session="mintingSession"
         :can-list-nft="canListNft"
         @list="$emit('list')" />
     </ModalBody>
@@ -51,6 +51,7 @@ import {
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
 import { usePreloadMintedNftCover } from './utils'
+import { MintedNFT, MintingSession } from '../types'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -98,6 +99,10 @@ const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
 
+const mintingSession = computed<MintingSession>(() => ({
+  items: [sanitizedMintedNft.value as MintedNFT].filter(Boolean),
+  txHash: '', // free mint does not have a txHash
+}))
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
   () => modalStep.value === ModalStep.CONFIRM_EMAIL,

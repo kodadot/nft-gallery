@@ -73,7 +73,6 @@ export default ({
     allPinned,
     generatePreviewItem,
     pinning,
-    imageDataPayload,
     payloads,
     pinMetadata,
   } = useDropMassMintPreview({
@@ -311,7 +310,6 @@ export default ({
     amountToMint,
     toMintNfts,
     raffleEmail,
-    imageDataPayload,
     canMint,
     canListMintedNfts,
     allocatedNfts,

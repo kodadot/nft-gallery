@@ -1,8 +1,10 @@
 <template>
   <div>
-    <TransactionSection :tx-hash="txHash" class="mb-5" />
+    <TransactionSection v-if="txHash" :tx-hash="txHash" />
 
-    <slot />
+    <div class="mt-5">
+      <slot />
+    </div>
 
     <hr class="!my-5" />
 

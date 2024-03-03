@@ -62,6 +62,8 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
+import useDropGenerativePreview from '@/composables/drop/useDropGenerativePreview'
+import { ImageDataPayload } from '@/composables/drop/useGenerativeIframeData'
 
 const MINTING_SECOND = 120
 
@@ -75,7 +77,6 @@ const props = withDefaults(
 )
 
 const instance = getCurrentInstance()
-const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 
 const { $i18n } = useNuxtApp()
@@ -140,6 +141,8 @@ const { data: collectionData } = useGraphql<UnlockableCollectionById>({
   },
 })
 
+const { tryCapture } = useDropGenerativePreview()
+
 const {
   maxCount,
   mintedNft,
@@ -151,9 +154,9 @@ const {
   selectedImage,
   description,
   collectionName,
-  tryCapture,
   subscribeToMintedNft,
   listMintedNft,
+  imageDataPayload,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -233,7 +236,10 @@ const getImageInfo = async (
   isImageFetching.value = true
   const imageUrl = new URL(image)
   const hash = imageUrl.searchParams.get('hash') || ''
-  const imageCid = await tryCapture()
+  const imageCid = await tryCapture({
+    data: imageDataPayload.value as ImageDataPayload,
+    image: selectedImage.value,
+  })
   const metadata = await createUnlockableMetadata(
     imageCid,
     description.value ?? '',
@@ -326,8 +332,6 @@ const handleList = async () => {
 
 const clear = () => {
   isConfirmModalActive.value = false
-  preferencesStore.listingCartModalOpen = false
-  listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
 }
 
 const handleDropAddModalConfirm = () => {

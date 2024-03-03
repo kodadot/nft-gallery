@@ -19,25 +19,8 @@ export default ({
     }
   })
 
-  const getCaptureImageFile = async ({
-    image,
-    data: imageDataPayload,
-  }: {
-    image: string
-    data: ImageDataPayload
-  }) => {
-    const selectedImageHash = image.split('?hash=')[1]
-    const isTheSameImage = selectedImageHash === imageDataPayload?.hash
-    if (!imageDataPayload?.image || !isTheSameImage) {
-      throw new Error('Failed to load image, please try again later')
-    }
-    const res = (await fetch(imageDataPayload.image)) as any
-    return new File([res], 'image.png', { type: 'image/png' })
-  }
-
   return {
     imageDataPayload,
     imageDataLoaded,
-    getCaptureImageFile,
   }
 }
