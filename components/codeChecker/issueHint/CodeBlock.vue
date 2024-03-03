@@ -36,7 +36,7 @@ onMounted(() => {
 
     // prevent Bulma's global styles from overriding styling of elements with `.tag` class
     if (props.lang === 'markup') {
-      Array.from(codeBlock.querySelectorAll('.tag')).map((t) => {
+      Array.from(codeBlock.querySelectorAll('.tag')).forEach((t) => {
         t.classList.remove('tag')
         t.classList.add('text-red-800', 'dark:text-rose-400')
       })
