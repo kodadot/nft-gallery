@@ -1,8 +1,8 @@
 <template>
   <UnlockableCollectionBanner :drop="drop" />
-  <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" :drop="drop" />
-  <CollectionDropPaidGenerative v-else-if="dropType === 'paid'" :drop="drop" />
-  <CollectionDropGenerative v-else-if="dropType === 'free'" :drop="drop" />
+  <!-- <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" :drop="drop" />
+  <CollectionDropPaidGenerative v-else-if="dropType === 'paid'" :drop="drop" /> -->
+  <CollectionDropGenerative />
 </template>
 
 <script lang="ts" setup>
@@ -13,21 +13,25 @@ import { isProduction } from '@/utils/chain'
 definePageMeta({
   layout: 'unlockable-mint-layout',
 })
-const { params } = useRoute()
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 
-const drop = await useDrop(params.id.toString())
-const dropType = computed(() => drop?.type)
+const drop = useDrop()
+const dropType = computed(() => {
+  console.log(drop.value?.type)
+  return 'free'
+})
 
-onMounted(() => {
-  if (drop?.chain === 'ahk' && isProduction) {
+watch(dropType, console.log)
+
+watchEffect(() => {
+  if (drop.value?.chain === 'ahk' && isProduction) {
     useRouter().push('/')
     return
   }
-  if (drop?.chain && urlPrefix.value !== drop?.chain) {
-    setUrlPrefix(drop?.chain)
-    redirectAfterChainChange(drop?.chain)
+  if (drop.value?.chain && urlPrefix.value !== drop.value?.chain) {
+    setUrlPrefix(drop.value?.chain)
+    redirectAfterChainChange(drop.value?.chain)
   }
 })
 </script>

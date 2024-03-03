@@ -119,7 +119,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
 }
 
 export const getDropDetails = async (alias: string) => {
-  const drop = await useDrop(alias)
+  const drop = await getDropById(alias)
 
   const { data: collectionData } = await useAsyncQuery({
     clientId: drop.chain,
@@ -134,22 +134,40 @@ export const getDropDetails = async (alias: string) => {
   return getFormattedDropItem(collectionEntity, drop)
 }
 
-export async function useDrop(id: string) {
-  const drop = await getDropById(id)
+export function useDrop() {
+  const { params } = useRoute()
+  const dropItem = ref<DropItem>()
 
-  return drop
+  watch(
+    () => params.id,
+    async () => {
+      if (params.id) {
+        dropItem.value = await getDropById(params.id.toString())
+      }
+    },
+    { immediate: true },
+  )
+
+  return dropItem
 }
 
-export const useDropStatus = (id: string) => {
+export const useDropStatus = () => {
   const mintedDropCount = ref(0)
   const { accountId } = useAuth()
+  const dropItem = useDrop()
 
   const fetchDropStatus = async () => {
-    const { count } = await getDropStatus(id)
-    mintedDropCount.value = count
+    if (dropItem.value?.id) {
+      const { count } = await getDropStatus(dropItem.value.id)
+      mintedDropCount.value = count
+    }
   }
-  onBeforeMount(fetchDropStatus)
 
+  // Fetch drop status on before mount and when dropItem changes
+  onBeforeMount(fetchDropStatus)
+  watch(dropItem, fetchDropStatus, { deep: true })
+
+  // Re-fetch drop status when accountId changes
   watch(accountId, fetchDropStatus)
 
   return {
@@ -158,25 +176,28 @@ export const useDropStatus = (id: string) => {
   }
 }
 
-export const useDropMinimumFunds = (drop) => {
-  const chainProperties = chainPropListOf(drop.chain)
+export const useDropMinimumFunds = () => {
+  const dropItem = useDrop()
 
+  const chainProperties = computed(() =>
+    chainPropListOf(dropItem.value?.chain ?? 'ahp'),
+  )
   const { existentialDeposit } = useChain()
   const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
 
   const transferableDropChainBalance = computed(
     () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
   )
-  const meta = computed<number>(() => Number(drop.meta) || 0)
-  const price = computed<number>(() => Number(drop.price) || 0)
+  const meta = computed<number>(() => Number(dropItem.value?.meta) || 0)
+  const price = computed<number>(() => Number(dropItem.value?.price) || 0)
   const minimumFunds = computed<number>(() => price.value || meta.value)
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
       transferableDropChainBalance.value >= minimumFunds.value,
   )
-  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
-  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
+  const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     minimumFunds,
@@ -199,6 +220,48 @@ export const useDropMinimumFunds = (drop) => {
     formattedExistentialDeposit,
   }
 }
+
+// export const useDropMinimumFunds = (drop) => {
+//   const chainProperties = chainPropListOf(drop.chain)
+
+//   const { existentialDeposit } = useChain()
+//   const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
+
+//   const transferableDropChainBalance = computed(
+//     () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
+//   )
+//   const meta = computed<number>(() => Number(drop.meta) || 0)
+//   const price = computed<number>(() => Number(drop.price) || 0)
+//   const minimumFunds = computed<number>(() => price.value || meta.value)
+//   const hasMinimumFunds = computed(
+//     () =>
+//       !minimumFunds.value ||
+//       transferableDropChainBalance.value >= minimumFunds.value,
+//   )
+//   const tokenDecimals = computed(() => chainProperties.tokenDecimals)
+//   const tokenSymbol = computed(() => chainProperties.tokenSymbol)
+
+//   const { formatted: formattedMinimumFunds } = useAmount(
+//     minimumFunds,
+//     tokenDecimals,
+//     tokenSymbol,
+//   )
+
+//   const { formatted: formattedExistentialDeposit } = useAmount(
+//     existentialDeposit,
+//     tokenDecimals,
+//     tokenSymbol,
+//   )
+
+//   onBeforeMount(fetchMultipleBalance)
+
+//   return {
+//     minimumFunds,
+//     hasMinimumFunds,
+//     formattedMinimumFunds,
+//     formattedExistentialDeposit,
+//   }
+// }
 
 // Convert the collection to hex
 // Construct the number - if is length 2 - pad it right with two zeros

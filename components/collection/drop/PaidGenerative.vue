@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
     :description="description"
@@ -420,4 +420,4 @@ watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
 .order-1 {
   order: 1;
 }
-</style>
+</style> -->

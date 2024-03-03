@@ -2,6 +2,8 @@ import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import useGenerativeDropDetails from './useGenerativeDropDetails'
+import { useDropStatus } from '~/components/drops/useDrops'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -20,33 +22,32 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-type GenerativeDropMintParams = {
-  mintedDropCount: Ref<number>
-  defaultMax: Ref<number>
-  collectionData: Ref<UnlockableCollectionById | undefined | null>
-}
-
-export default ({
-  collectionData,
-  defaultMax,
-  mintedDropCount,
-}: GenerativeDropMintParams) => {
+export default () => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
   const { imageDataPayload } = useGenerativeIframeData()
+  const { defaultMax, collectionId } = useGenerativeDropDetails()
+  const { mintedDropCount } = useDropStatus()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
   const selectedImage = ref<string>('')
 
+  const { data: collectionData } = useGraphql<UnlockableCollectionById>({
+    queryName: 'unlockableCollectionById',
+    variables: {
+      id: collectionId.value,
+    },
+  })
+
   const maxCount = computed(
-    () => collectionData.value?.collectionEntity?.max || defaultMax.value,
+    () => collectionData.value?.collectionEntity?.max ?? defaultMax.value,
   )
 
   const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
+    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0, // todo: fetch from backend
   )
 
   const mintedCount = computed(() =>
@@ -56,14 +57,14 @@ export default ({
   const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
   const description = computed(
-    () => collectionData.value?.collectionEntity?.meta?.description,
+    () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
   const collectionName = computed(
-    () => collectionData.value?.collectionEntity?.name,
+    () => collectionData.value?.collectionEntity?.name ?? '',
   )
 
   const nftCount = computed(
-    () => collectionData.value?.collectionEntity?.nftCount,
+    () => collectionData.value?.collectionEntity?.nftCount ?? 0,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))

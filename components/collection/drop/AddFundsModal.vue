@@ -16,7 +16,7 @@
         v-dompurify-html="
           $t('mint.unlockable.addFundsModal.textP1', [
             formattedMinimumFunds,
-            chain,
+            chainName,
           ])
         "
         class="mb-4" />
@@ -75,21 +75,22 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import { useDropMinimumFunds } from '~/components/drops/useDrops'
+import useGenerativeDropDetails from '~/composables/drop/useGenerativeDropDetails'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 const props = withDefaults(
   defineProps<{
     modelValue: boolean
-    minimumFunds: number
-    formattedMinimumFunds: string
-    token: string
-    chain: string
     free?: boolean
   }>(),
   {
     free: false,
   },
 )
+
+const { formattedMinimumFunds, minimumFunds } = useDropMinimumFunds()
+const { token, chainName } = useGenerativeDropDetails()
 
 const autoteleport = ref()
 const interaction = computed(() => {

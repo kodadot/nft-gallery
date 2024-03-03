@@ -34,7 +34,7 @@
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
         :minted-nft="sanitizedMintedNft"
-        :can-list-nft="canListNft"
+        :can-list-nft="canListMintedNft"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -46,13 +46,13 @@ import EmailSignup from './newsletter/EmailSignup.vue'
 import ConfirmEmail from './newsletter/ConfirmEmail.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { MINTING_SECONDS } from '../const'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
 import { usePreloadMintedNftCover } from './utils'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -72,8 +72,6 @@ const emit = defineEmits([
 const props = defineProps<{
   modelValue: boolean
   loading: boolean
-  mintedNft?: DropMintedNft
-  canListNft: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
@@ -83,9 +81,7 @@ const { displayDuration, distance, startCountDown } = useCountDown({
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
-)
+const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover()
 
 const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
 
@@ -96,6 +92,8 @@ const {
   sendConfirmationEmailOnModalOpen,
   emailConfirmed,
 } = useGenerativeDropNewsletter()
+
+const { canListMintedNft } = useGenerativeDropMint()
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()

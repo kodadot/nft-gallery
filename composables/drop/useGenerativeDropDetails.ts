@@ -1,16 +1,17 @@
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { DropItem } from '@/params/types'
+import { useDrop } from '@/components/drops/useDrops'
 
-export default (drop: DropItem) => {
-  const defaultImage = computed(() => drop?.image)
-  const defaultName = computed(() => drop?.name)
-  const defaultMax = computed(() => drop?.max || 255)
-  const collectionId = computed(() => drop?.collection)
-  const disabledByBackend = computed(() => drop?.disabled)
-  const chainName = computed(() => getChainName(drop.chain))
-  const token = computed(() => prefixToToken[drop.chain])
-  const price = computed(() => drop?.price)
-  const holderOfCollectionId = computed(() => drop.holder_of)
+export default () => {
+  const drop = useDrop()
+  const defaultImage = computed(() => drop.value?.image)
+  const defaultName = computed(() => drop.value?.name ?? '')
+  const defaultMax = computed(() => drop.value?.max || 255)
+  const collectionId = computed(() => drop.value?.collection ?? '')
+  const disabledByBackend = computed(() => drop.value?.disabled)
+  const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
+  const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
+  const price = computed(() => drop.value?.price)
+  const holderOfCollectionId = computed(() => drop.value?.holder_of)
 
   return {
     defaultMax,

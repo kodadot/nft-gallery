@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <SigningModal
     v-if="isOnlyHolderOfMint"
     :title="$t('mint.nft.minting')"
@@ -540,4 +540,4 @@ watch(runtimeMintedCount, fetchDropStatus, {
 .order-1 {
   order: 1;
 }
-</style>
+</style> -->

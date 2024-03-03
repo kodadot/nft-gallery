@@ -4,8 +4,9 @@
     :share="share"
     :action-buttons="actionButtons">
     <SingleItemMedia
+      v-if="props.mintedNft"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
-      :src="sanitizeIpfsUrl(mintedNft.image)"
+      :src="sanitizeIpfsUrl(mintedNft?.image)"
       :nft-name="mintedNft.name"
       :collection-id="mintedNft.collection"
       :collection-name="mintedNft.collectionName" />
@@ -17,7 +18,7 @@ import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
-  mintedNft: DropMintedNft
+  mintedNft?: DropMintedNft
   canListNft: boolean
 }>()
 
@@ -26,7 +27,7 @@ const { toast } = useToast()
 
 const sharingTxt = $i18n.t('sharing.nft')
 
-const txHash = computed(() => props.mintedNft.txHash || '')
+const txHash = computed(() => props.mintedNft?.txHash ?? '')
 const share = computed(() => ({ text: sharingTxt, url: nftFullUrl.value }))
 
 const actionButtons = computed(() => ({
@@ -42,7 +43,7 @@ const actionButtons = computed(() => ({
 }))
 
 const nftPath = computed(
-  () => `/${props.mintedNft.chain}/gallery/${props.mintedNft.id}`,
+  () => `/${props.mintedNft?.chain}/gallery/${props.mintedNft?.id}`,
 )
 
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)

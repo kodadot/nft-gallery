@@ -1,5 +1,6 @@
 <template>
   <CollectionDropGenerativeLayout
+    v-if="drop"
     :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -18,8 +19,6 @@
   <DropConfirmModal
     v-model="isConfirmModalActive"
     :loading="isLoading"
-    :minted-nft="mintedNft"
-    :can-list-nft="canListMintedNft"
     @subscribe="handleEmailSubscription"
     @check-subscription="handleCheckSubscription"
     @resend-confirmation-email="handleResendConfirmationEmail"
@@ -28,10 +27,6 @@
 
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
-    :minimum-funds="minimumFunds"
-    :formatted-minimum-funds="formattedMinimumFunds"
-    :token="token"
-    :chain="chainName"
     free
     @close="isAddFundModalActive = false"
     @confirm="handleDropAddModalConfirm" />
@@ -40,28 +35,17 @@
 </template>
 
 <script setup lang="ts">
-import { createUnlockableMetadata } from '../unlockable/utils'
-import { DropItem } from '@/params/types'
-import { doWaifu } from '@/services/waifu'
-import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
+import {
+  useDrop,
+  useDropMinimumFunds,
+  // useDropStatus,
+} from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
-import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import useGenerativeDropMint, {
-  type UnlockableCollectionById,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-
-const props = withDefaults(
-  defineProps<{
-    drop: DropItem
-  }>(),
-  {
-    drop: () => ({}) as DropItem,
-  },
-)
+// import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
@@ -69,23 +53,16 @@ const preferencesStore = usePreferencesStore()
 
 const { $i18n } = useNuxtApp()
 
-const { toast } = useToast()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
+const drop = useDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+  useDropMinimumFunds()
 
-const {
-  defaultName,
-  defaultMax,
-  collectionId,
-  chainName,
-  disabledByBackend,
-  token,
-} = useGenerativeDropDetails(props.drop)
+const { collectionId, chainName, disabledByBackend } =
+  useGenerativeDropDetails()
 
 const {
   checkSubscription,
@@ -116,34 +93,20 @@ const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
 
-const { data: collectionData } = useGraphql<UnlockableCollectionById>({
-  queryName: 'unlockableCollectionById',
-  variables: {
-    id: collectionId.value,
-  },
-})
-
 const {
   maxCount,
-  mintedNft,
   mintedNftWithMetadata,
-  canListMintedNft,
+
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
   selectedImage,
   description,
-  collectionName,
-  tryCapture,
-  subscribeToMintedNft,
-  listMintedNft,
-} = useGenerativeDropMint({
-  collectionData,
-  defaultMax,
-  mintedDropCount,
-})
 
-useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
+  listMintedNft,
+} = useGenerativeDropMint()
+
+// useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
 
 const mintButtonDisabled = computed<boolean>(
   () =>
@@ -195,53 +158,44 @@ const handleSubmitMint = async () => {
 }
 
 const submitMint = async () => {
-  try {
-    isImageFetching.value = true
-    isLoading.value = true
-
-    const imageHash = await tryCapture()
-
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value as string,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
-
-    isImageFetching.value = false
-
-    const { result } = await doWaifu(
-      {
-        address: accountId.value,
-        metadata: hash,
-        image: imageHash,
-        email: preferencesStore.getNewsletterSubscription.email,
-      },
-      props.drop.id,
-    )
-
-    await fetchDropStatus()
-
-    const id = `${collectionId.value}-${result.sn}`
-
-    subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
-    })
-
-    isLoading.value = false
-
-    mintedNft.value = {
-      ...result,
-      id,
-      name: result.name,
-      collectionName: collectionName.value,
-    }
-  } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
-    isImageFetching.value = false
-    throw error
-  }
+  // try {
+  //   isImageFetching.value = true
+  //   isLoading.value = true
+  //   const imageHash = await tryCapture()
+  //   const hash = await createUnlockableMetadata(
+  //     imageHash,
+  //     description.value as string,
+  //     collectionName.value || defaultName.value,
+  //     'text/html',
+  //     selectedImage.value,
+  //   )
+  //   isImageFetching.value = false
+  //   const { result } = await doWaifu(
+  //     {
+  //       address: accountId.value,
+  //       metadata: hash,
+  //       image: imageHash,
+  //       email: preferencesStore.getNewsletterSubscription.email,
+  //     },
+  //     props.drop.id,
+  //   )
+  //   await fetchDropStatus()
+  //   const id = `${collectionId.value}-${result.sn}`
+  //   subscribeToMintedNft(id, async () => {
+  //     mintedNftWithMetadata.value = await fetchNft(id)
+  //   })
+  //   isLoading.value = false
+  //   mintedNft.value = {
+  //     ...result,
+  //     id,
+  //     name: result.name,
+  //     collectionName: collectionName.value,
+  //   }
+  // } catch (error) {
+  //   toast($i18n.t('drops.mintPerAddress'))
+  //   isImageFetching.value = false
+  //   throw error
+  // }
 }
 
 const handleEmailSubscription = async (email: string) => {
@@ -273,7 +227,9 @@ const handleList = async () => {
 const clear = () => {
   isConfirmModalActive.value = false
   preferencesStore.listingCartModalOpen = false
-  listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+  if (mintedNftWithMetadata.value?.id) {
+    listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
+  }
 }
 
 const handleDropAddModalConfirm = () => {
