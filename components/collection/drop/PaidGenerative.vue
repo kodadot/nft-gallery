@@ -172,7 +172,6 @@ const { data: collectionData } = await useAsyncData(
 
 const {
   maxCount,
-  mintedNft,
   mintedCount,
   mintCountAvailable,
   mintedAmountForCurrentUser,
@@ -191,7 +190,7 @@ const { usd: priceUSD } = useAmount(totalPrice, decimals, chainSymbol)
 useCursorDropEvents(
   props.drop.alias,
   [isTransactionLoading, isLoading],
-  mintedNft,
+  computed(() => mintingSession.value.items?.[0]),
 )
 
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)

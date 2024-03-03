@@ -231,7 +231,7 @@ const {
 useCursorDropEvents(
   props.drop.alias,
   [isTransactionLoading, isLoading],
-  mintedNft,
+  computed(() => mintingSession.value.items?.[0]),
 )
 
 const { data: holderOfCollectionData } = await useAsyncData(

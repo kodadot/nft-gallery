@@ -1,13 +1,14 @@
 import useParty from '@/composables/party/useParty'
 import { DropEventType } from './types'
 import { DropMintedNft } from '../drop/useGenerativeDropMint'
+import { MintedNFT } from '@/components/collection/drop/types'
 
 type EventParams = { image?: string; completed?: boolean }
 
 export default (
   drop: string,
   mintingWatch?: Ref<boolean>[],
-  mintedNft?: Ref<DropMintedNft | undefined>,
+  mintedNft?: Ref<DropMintedNft | MintedNFT | undefined>,
 ) => {
   const { sendMessage } = useParty({ room: computed(() => drop) })
 
