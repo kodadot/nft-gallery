@@ -56,7 +56,6 @@ const props = withDefaults(
     modelValue: boolean
     toMintNfts: MassMintNFT[]
     action: AutoTeleportAction
-    isAllocatingRaffle: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
     amountToMint: number
@@ -87,11 +86,15 @@ const { loadedAll, triedAll } = usePreloadMintedNftCovers(
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 
+const isSingleMintNotReady = computed(
+  () => props.amountToMint === 1 && !props.toMintNfts[0]?.metadata,
+)
+
 const loading = computed(
-  () => props.isAllocatingRaffle || mintOverview.value?.loading || false,
+  () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
 )
 const preStepTitle = computed<string | undefined>(() =>
-  props.isAllocatingRaffle ? $i18n.t('loader.ipfs') : undefined,
+  isSingleMintNotReady.value ? $i18n.t('loader.ipfs') : undefined,
 )
 const isMintOverviewStep = computed(
   () => modalStep.value === ModalStep.OVERVIEW,

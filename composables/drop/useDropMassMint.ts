@@ -1,4 +1,3 @@
-import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import {
   BatchAllocateResponseNft,
   DoResult,
@@ -6,19 +5,15 @@ import {
   batchAllocate,
   allocateClaim as claimAllocation,
 } from '@/services/fxart'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import useGenerativePreview, {
-  EntropyRange,
-  GenerativePreviewItem,
-} from './useGenerativePreview'
+import { EntropyRange, GenerativePreviewItem } from './useGenerativePreview'
 import { DropItem } from '@/params/types'
-import useGenerativeIframeData, {
-  ImageDataPayload,
-} from './useGenerativeIframeData'
+import { ImageDataPayload } from './useGenerativeIframeData'
 import { MintingSession, ToMintNft } from '@/components/collection/drop/types'
 import isEqual from 'lodash/isEqual'
 import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
 import { getFakeEmail } from '@/components/collection/drop/utils'
+import { TransactionStatus } from '../useTransactionStatus'
+import useDropMassMintPreview from './useDropMassMintPreview'
 
 export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
@@ -36,8 +31,12 @@ type MassMintParams = {
   price: Ref<string | undefined>
   priceUSD: Ref<string | undefined>
   isLoading: Ref<boolean>
-  isAllocatingRaffle: Ref<boolean>
   mintedCount: Ref<number>
+  status: Ref<TransactionStatus>
+  isError: Ref<boolean>
+  isTransactionLoading: Ref<boolean>
+  submitMints: (session: Ref<MintingSession>) => Promise<void>
+  mintSubmit: (session: Ref<MintingSession>) => Promise<void>
 }
 
 export default ({
@@ -48,68 +47,64 @@ export default ({
   price,
   priceUSD,
   mintedCount,
+  isLoading,
+  isTransactionLoading,
+  isError,
+  status,
+  submitMints,
+  mintSubmit,
 }: MassMintParams) => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
   const { accountId } = useAuth()
-  const { generatePreviewItem, getEntropyRange } = useGenerativePreview(drop)
   const { client } = usePrefix()
   const { listNftByNftWithMetadata, openListingCartModal } =
     useListingCartModal()
 
   const amountToMint = ref(1)
-
-  const isLoading = ref(false)
   const isAllocating = ref(false)
   const toMintNfts = ref<MassMintNFT[]>([])
   const allocatedNfts = ref<BatchAllocateResponseNft[]>([])
   const mintingSession = ref<MintingSession>({ txHash: '', items: [] })
   const mintedNFTsWithMetadata = ref<NFTWithMetadata[]>([])
   const previewItem = ref<GenerativePreviewItem>()
+  const raffleEmail = ref()
 
-  const pinning = ref(new Map<string, boolean>())
-
-  const onMessage = (payload: ImageDataPayload) => {
-    if (payload.image === 'data:,') {
-      return regenerateNfTWithHash(payload.hash)
-    }
-
-    handleNewImageDataPayload(payload)
-    pinNFTWithHash(payload.hash)
-  }
-
-  const { getCaptureImageFile } = useGenerativeIframeData({ onMessage })
-
-  const allPinned = computed(
-    () =>
-      toMintNfts.value.length !== 0 &&
-      toMintNfts.value.map((item) => item.metadata).every(Boolean),
-  )
+  const {
+    getEntropyRange,
+    allPinned,
+    generatePreviewItem,
+    pinning,
+    imageDataPayload,
+    payloads,
+    pinMetadata,
+  } = useDropMassMintPreview({
+    toMintNfts,
+    drop,
+    description,
+    collectionName,
+    defaultName,
+  })
 
   const canMint = computed(() => Boolean(allocatedNfts.value.length))
 
-  const handleNewImageDataPayload = (payload: ImageDataPayload) => {
-    toMintNfts.value = toMintNfts.value.map((toMintNft) =>
-      toMintNft.hash === payload.hash
-        ? { ...toMintNft, imageDataPayload: payload }
-        : toMintNft,
-    )
+  const clear = () => {
+    toMintNfts.value = []
+    pinning.value = new Map()
+    allocatedNfts.value = []
+    raffleEmail.value = undefined
   }
 
-  const tryCapture = async ({
-    image,
-    data,
-  }: {
-    image: string
-    data: ImageDataPayload
-  }) => {
+  const allocateRaffleMode = async (
+    email: string,
+    previewItem: GenerativePreviewItem,
+  ) => {
     try {
-      const imgFile = await getCaptureImageFile({ image, data })
-      const imageHash = await pinFileToIPFS(imgFile)
-      return imageHash
+      clear()
+      isLoading.value = true
+      raffleEmail.value = email
+      toMintNfts.value = getPreviewItemsToMintedNfts([previewItem])
     } catch (error) {
-      toast($i18n.t('drops.capture'))
-      throw error
+      console.log('[MASSMINT::RAFFLE] Failed', error)
+      isLoading.value = false
     }
   }
 
@@ -122,39 +117,12 @@ export default ({
       })
   }
 
-  const pinMetadata = (item: MassMintNFT): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const image = item.image
-        const imageCid = await tryCapture({
-          image,
-          data: item.imageDataPayload as ImageDataPayload,
-        })
-        const metadata = await createUnlockableMetadata(
-          imageCid,
-          description.value || '',
-          collectionName.value || defaultName.value,
-          'text/html',
-          image,
-        )
+  const mint = () => mintSubmit(mintingSession)
 
-        resolve(metadata)
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  const clear = () => {
-    toMintNfts.value = []
-    pinning.value = new Map()
-    allocatedNfts.value = []
-  }
-
-  const mapPreviewItemsToMintedNfts = (
+  const getPreviewItemsToMintedNfts = (
     previewItems: GenerativePreviewItem[],
   ) => {
-    toMintNfts.value = previewItems.map((item, index) => {
+    return previewItems.map((item, index) => {
       return {
         name: `${defaultName.value as string} #${mintedCount.value + (index + 1)}`,
         collectionName: collectionName.value as string,
@@ -165,6 +133,27 @@ export default ({
         entropyRange: item.entropyRange,
       }
     })
+  }
+
+  const mintGenerated = async (previewItem: GenerativePreviewItem) => {
+    try {
+      isLoading.value = true
+
+      const [item] = getPreviewItemsToMintedNfts([previewItem])
+
+      const imageDataPayload = payloads.value.get(item.hash)
+
+      const metadata = await pinMetadata({ ...item, imageDataPayload })
+
+      await allocate([
+        {
+          ...item,
+          metadata,
+        },
+      ])
+    } catch (error) {
+      isLoading.value = false
+    }
   }
 
   const massGenerate = ({
@@ -178,57 +167,25 @@ export default ({
   }) => {
     try {
       clear()
-
       isLoading.value = true
 
       const single = amount === 1
-
       const previewItems = single
         ? [...withPreviewItems].flat()
         : generateMassPreview(amount, minted)
 
-      mapPreviewItemsToMintedNfts(previewItems)
+      toMintNfts.value = getPreviewItemsToMintedNfts(previewItems)
     } catch (error) {
-      console.log(error)
-    } finally {
+      console.log('[MASSMINT::GENERATE] Failed', error)
       isLoading.value = false
     }
-  }
-
-  const pinNFTWithHash = async (hash: string) => {
-    const toMintNft = toMintNfts.value.find((item) => item.hash === hash)
-
-    if (!toMintNft || toMintNft.metadata || pinning.value.has(toMintNft.hash)) {
-      return
-    }
-
-    pinning.value.set(toMintNft.hash, true)
-
-    const metadata = await pinMetadata(toMintNft)
-
-    toMintNfts.value = toMintNfts.value.map((item) =>
-      item.hash === hash ? { ...item, metadata } : item,
-    )
-  }
-
-  const regenerateNfTWithHash = (hash: string) => {
-    toMintNfts.value = toMintNfts.value.map((item) => {
-      if (item.hash === hash) {
-        console.log(
-          '[MASSMINT::PREVIEW] Regenerating nft with range ',
-          item.entropyRange,
-        )
-        return { ...item, ...generatePreviewItem(item.entropyRange) }
-      }
-      return item
-    })
   }
 
   const allocate = async (mintNfts: MassMintNFT[]) => {
     try {
       isAllocating.value = true
 
-      const email = getFakeEmail()
+      const email = raffleEmail.value || getFakeEmail()
       const address = accountId.value
 
       const items = mintNfts.map(({ image, hash, metadata }) => ({
@@ -330,15 +287,29 @@ export default ({
     })
   }
 
-  watch(allPinned, async (value) => {
-    if (value) {
+  watch(allPinned, async (pinned) => {
+    if (pinned) {
       await allocate(toMintNfts.value)
+    }
+  })
+
+  watch([status, () => mintingSession.value.txHash], ([curStatus, txHash]) => {
+    // ensure txHash is set, it's needed when calling /do/:id
+    if (curStatus === TransactionStatus.Block && txHash) {
+      if (isError.value) {
+        isLoading.value = false
+        isTransactionLoading.value = false
+        return
+      }
+      submitMints(mintingSession)
     }
   })
 
   return {
     amountToMint,
     toMintNfts,
+    raffleEmail,
+    imageDataPayload,
     canMint,
     canListMintedNfts,
     allocatedNfts,
@@ -348,5 +319,9 @@ export default ({
     massGenerate,
     listMintedNFts,
     submitMint,
+    allocateRaffleMode,
+    mint,
+    payloads,
+    mintGenerated,
   }
 }

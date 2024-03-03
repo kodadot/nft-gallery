@@ -12,7 +12,7 @@
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
-    :handle-select-image="handleSelectImage"
+    :handle-select-image="handleSelectPreviewItem"
     :handle-submit-mint="handleSubmitMint" />
 
   <DropConfirmModal
@@ -61,6 +61,7 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 const MINTING_SECOND = 120
 
@@ -180,8 +181,8 @@ const mintButtonProps = computed(() => ({
   label: mintButtonLabel.value,
 }))
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
+const handleSelectPreviewItem = (item: GenerativePreviewItem) => {
+  selectedImage.value = item.image
 }
 
 const clearWalletConnecting = () => {

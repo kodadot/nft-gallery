@@ -111,8 +111,8 @@ import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 const props = withDefaults(
   defineProps<{
     collectionId: string
-    amountToMint: number
-    availableAmountToMint: number
+    amountToMint?: number
+    availableAmountToMint?: number
     description?: string
     drop: DropItem
     mintButton: MintButtonProp

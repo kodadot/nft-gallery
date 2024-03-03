@@ -57,7 +57,7 @@
 
     <div class="flex mt-6 gap-4">
       <NeoStepper
-        v-if="!mintButton.disabled"
+        v-if="!mintButton.disabled && amount"
         v-model="amount"
         :max="availableAmountToMint"
         class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />
@@ -102,8 +102,8 @@ import useGenerativePreview from '@/composables/drop/useGenerativePreview'
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const props = defineProps<{
-  amountToMint: number
-  availableAmountToMint: number
+  amountToMint?: number
+  availableAmountToMint?: number
   drop: DropItem
   minted: number
   collectionId: string
