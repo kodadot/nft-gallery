@@ -206,7 +206,7 @@ export default ({
       toMintNfts.value = allocatedNftsToMint.map((toMint, index) => {
         const allocated = allocatedNfts.value[index]
         return allocated
-          ? { ...toMint, name: allocated.name, sn: allocated.id }
+          ? { ...toMint, name: allocated.name, sn: Number(allocated.id) }
           : toMint
       })
     } catch (error) {
