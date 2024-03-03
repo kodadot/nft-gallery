@@ -142,7 +142,7 @@ const {
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
-  handler: () => mintNft(),
+  handler: () => mint(),
   details: {
     isLoading: isTransactionLoading.value,
     status: status.value,
@@ -236,10 +236,10 @@ const mintButtonProps = computed(() => ({
   label: mintButtonLabel.value,
 }))
 
-const mintNft = async () => {
+const mintSubmit = async (session: Ref<MintingSession>) => {
   try {
     isLoading.value = true
-    mintingSession.value.txHash = undefined
+    session.value.txHash = undefined
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
@@ -256,7 +256,7 @@ const mintNft = async () => {
 
     howAboutToExecute(accountId.value, cb, [args], {
       onResult: ({ txHash }) => {
-        mintingSession.value.txHash = txHash
+        session.value.txHash = txHash
       },
     })
   } catch (e) {
@@ -350,7 +350,7 @@ const handleList = () => {
 }
 
 const handleConfirmPaidMint = () => {
-  mintNft()
+  mint()
 }
 
 const stopMint = () => {
@@ -372,6 +372,7 @@ const {
   submitMint,
   allocateRaffleMode,
   raffleEmail,
+  mint,
 } = useDropMassMint({
   drop: props.drop,
   collectionName,
@@ -385,6 +386,7 @@ const {
   submitMints,
   isError: isTransactionError,
   isTransactionLoading: isTransactionLoading,
+  mintSubmit,
 })
 
 watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
