@@ -62,14 +62,12 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
     }
 
     try {
-      const loaded = await preloadImage(sanitizeIpfsUrl(mintedNFT.image))
+      await preloadImage(sanitizeIpfsUrl(mintedNFT.image))
 
-      if (loaded) {
-        states.value.set(id, {
-          tries: currentState.tries,
-          loaded: true,
-        })
-      }
+      states.value.set(id, {
+        tries: currentState.tries,
+        loaded: true,
+      })
     } catch (error) {
       states.value.set(id, { tries: currentState.tries - 1, loaded: false })
       tryPreload(mintedNFT)
