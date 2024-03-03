@@ -1,6 +1,5 @@
 import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 export type DropMintedNft = DoResult & {
@@ -33,9 +32,9 @@ export default ({
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
   const { imageDataPayload } = useGenerativeIframeData()
+  const { listNftByNftWithMetadata, openListingCartModal } =
+    useListingCartModal()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -99,29 +98,11 @@ export default ({
   }
 
   const listMintedNft = async () => {
-    if (!mintedNftWithMetadata.value) {
-      return
+    if (mintedNftWithMetadata.value) {
+      listNftByNftWithMetadata(mintedNftWithMetadata.value)
+      openListingCartModal()
     }
-
-    if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-      const floorPrice =
-        mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-      listingCartStore.setItem(
-        nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-      )
-    }
-
-    preferencesStore.listingCartModalOpen = true
   }
-
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-
-    if (mintedNftWithMetadata.value?.id) {
-      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-    }
-  })
 
   return {
     maxCount,
