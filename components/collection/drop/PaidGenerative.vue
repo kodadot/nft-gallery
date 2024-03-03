@@ -274,7 +274,9 @@ const clearWalletConnecting = () => {
 }
 
 const allocateRaffle = async () => {
-  await allocateRaffleMode(raffleEmail.value, previewItem.value)
+  if (previewItem.value) {
+    await allocateRaffleMode(raffleEmail.value, previewItem.value)
+  }
 }
 
 const handleSubmitMint = async () => {
