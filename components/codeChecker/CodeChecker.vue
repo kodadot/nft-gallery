@@ -166,9 +166,9 @@ const validtyDefault: Validity = {
   webGLSupported: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
-  resizerUsed: false,
-  usesHashParam: false,
-  validTitle: false,
+  resizerUsed: 'unknown',
+  usesHashParam: 'unknown',
+  validTitle: 'unknown',
   renderDurationValid: 'loading',
   title: '-',
 }
