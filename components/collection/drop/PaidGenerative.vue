@@ -201,7 +201,7 @@ const mintButtonLabel = computed(() => {
     return $i18n.t('general.connect_wallet')
   }
   if (isLoading.value) {
-    return $i18n.t('loader.ipfs')
+    return `${$i18n.t('mint.minting')}...`
   }
 
   return isWalletConnecting.value

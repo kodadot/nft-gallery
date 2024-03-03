@@ -455,6 +455,7 @@
     }
   },
   "mint": {
+    "minting": "Minting",
     "creatingCollection": "Creating collection {name}",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",

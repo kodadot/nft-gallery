@@ -183,6 +183,7 @@ export default ({
 
   const allocate = async (mintNfts: MassMintNFT[]) => {
     try {
+      isLoading.value = true
       isAllocating.value = true
 
       const email = raffleEmail.value || getFakeEmail()
@@ -212,6 +213,7 @@ export default ({
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
       isAllocating.value = false
+      isLoading.value = false
     }
   }
 
