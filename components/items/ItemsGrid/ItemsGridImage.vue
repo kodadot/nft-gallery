@@ -24,7 +24,7 @@
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && Number(nft?.price)" class="flex">
+      <div v-if="!isOwner && Number(nft?.price) && !isRemark" class="flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -86,6 +86,7 @@ const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
+const { isRemark } = useIsChain(urlPrefix)
 
 const props = defineProps<{
   nft: NFTWithMetadata
