@@ -47,6 +47,7 @@ export default function (refetchPeriodically: boolean = false) {
   const { isTestnet, urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
   const fiatStore = useFiatStore()
+  const { existentialDeposit } = useChain()
 
   const {
     multiBalances,
@@ -72,6 +73,13 @@ export default function (refetchPeriodically: boolean = false) {
   const currentChainBalance = computed<string | undefined>(
     () => currentChain.value && chainBalances.value[currentChain.value],
   )
+
+  const transferableCurrentChainBalance = computed<number | undefined>(() =>
+    currentChainBalance.value
+      ? Number(currentChainBalance.value) - existentialDeposit.value
+      : undefined,
+  )
+
   const hasCurrentChainBalance = computed(
     () => currentChainBalance.value !== undefined,
   )
@@ -183,6 +191,7 @@ export default function (refetchPeriodically: boolean = false) {
     chainBalances,
     currentNetwork,
     currentChainBalance,
+    transferableCurrentChainBalance,
     hasCurrentChainBalance,
     fetchMultipleBalance,
   }

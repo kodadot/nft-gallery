@@ -163,18 +163,16 @@ export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
   const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
+  const { fetchMultipleBalance, transferableCurrentChainBalance } =
+    useMultipleBalance()
 
-  const transferableDropChainBalance = computed(
-    () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
-  )
   const meta = computed<number>(() => Number(drop.meta) || 0)
   const price = computed<number>(() => Number(drop.price) || 0)
   const minimumFunds = computed<number>(() => price.value || meta.value)
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
-      transferableDropChainBalance.value >= minimumFunds.value,
+      (transferableCurrentChainBalance.value || 0) >= minimumFunds.value,
   )
   const tokenDecimals = computed(() => chainProperties.tokenDecimals)
   const tokenSymbol = computed(() => chainProperties.tokenSymbol)

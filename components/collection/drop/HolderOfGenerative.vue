@@ -24,7 +24,7 @@
 
   <CollectionDropGenerativeLayout
     v-model:amount-to-mint="amountToMint"
-    :available-amount-to-mint="availableNfts.amount"
+    :available-amount-to-mint="availableAmountToMint"
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
@@ -108,7 +108,11 @@ const props = withDefaults(
   },
 )
 
-const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
+const {
+  fetchMultipleBalance,
+  hasCurrentChainBalance,
+  transferableCurrentChainBalance,
+} = useMultipleBalance()
 
 const {
   hasMinimumFunds,
@@ -250,6 +254,23 @@ const { data: holderOfCollectionData } = await useAsyncData(
   },
 )
 
+const availableAmountToMint = computed(() => {
+  if (!transferableCurrentChainBalance.value) {
+    return 1
+  }
+
+  if (isHolderOfWithPaidMint.value) {
+    return Math.min(
+      availableNfts.amount,
+      Math.floor(
+        Number(transferableCurrentChainBalance.value) / Number(price.value),
+      ),
+    )
+  }
+
+  return availableNfts.amount
+})
+
 const maxMintLimitForCurrentUser = computed(
   () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
 )
@@ -296,7 +317,8 @@ const mintButtonDisabled = computed<boolean>(
           maxMintLimitForCurrentUser.value <=
             mintedAmountForCurrentUser.value ||
           !hasMinimumFunds.value ||
-          !hasAvailableNfts.value,
+          !hasAvailableNfts.value ||
+          availableAmountToMint.value === 0,
       )),
 )
 

@@ -86,7 +86,8 @@ const props = withDefaults(
 )
 
 const { chainSymbol, decimals } = useChain()
-const { hasCurrentChainBalance, currentChainBalance } = useMultipleBalance()
+const { hasCurrentChainBalance, transferableCurrentChainBalance } =
+  useMultipleBalance()
 
 const {
   hasMinimumFunds,
@@ -228,8 +229,10 @@ const mintButtonDisabled = computed<boolean>(
 )
 
 const availableAmountToMint = computed(() =>
-  currentChainBalance.value
-    ? Math.floor(Number(currentChainBalance.value) / Number(price.value))
+  transferableCurrentChainBalance.value
+    ? Math.floor(
+        (transferableCurrentChainBalance.value || 0) / Number(price.value),
+      )
     : 1,
 )
 
