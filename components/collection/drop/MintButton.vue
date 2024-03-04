@@ -7,46 +7,132 @@
     size="large"
     :loading="loading"
     :disabled="buttonMint.disabled"
-    :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+    :loading-with-label="buttonMint.withLabel || dropStore.walletConnecting"
     :label="buttonMint.label"
     @click="handleMint" />
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import type {
-  HolderOfCollectionProp,
-  MinimumFundsProp,
-  MintButtonProp,
-} from '@/components/collection/drop/types'
+import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import { useDropStore } from '@/stores/drop'
+import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
+import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
+import { tr } from 'date-fns/locale'
 
 const props = defineProps<{
-  mintCountAvailable: boolean
-  maxCount: number
-  minimumFunds: MinimumFundsProp
-  isImageFetching: boolean
-  isWalletConnecting: boolean
-  isLoading: boolean
-  mintButton: MintButtonProp
   holderOfCollection?: HolderOfCollectionProp
-  collectionId: string
 }>()
 
 const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
-
-const loading = computed(
-  () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
+const { urlPrefix, client } = usePrefix()
+const { isLogIn, accountId } = useAuth()
+const dropStore = useDropStore()
+const { hasCurrentChainBalance } = useMultipleBalance()
+const { drop } = useDrop()
+const { mintCountAvailable, selectedImage, mintedAmountForCurrentUser } =
+  useGenerativeDropMint()
+const { hasMinimumFunds } = useDropMinimumFunds()
+const { data: holderOfCollectionData } = await useAsyncData(
+  'holderOfCollectionData',
+  async () =>
+    await useAsyncQuery({
+      clientId: client.value,
+      query: holderOfCollectionById,
+      variables: {
+        id: drop.value?.holder_of,
+        account: accountId.value,
+      },
+    }).then((res) => res.data.value),
+  {
+    watch: [accountId, () => dropStore.runtimeMintCount],
+  },
 )
 
-const isMintedOut = computed(() => !props.mintCountAvailable)
+const isHolderAndEligible = computed(() => {
+  // Determine the max mint limit for the current user based on the holderOfCollectionData
+  const maxMintLimit =
+    holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0
+
+  // Check if the user is considered a holder of the target collection
+  const isHolder = maxMintLimit > 0
+
+  // Determine if there are available NFTs for minting
+  const hasNFTsAvailable = availableNfts.amount !== 0
+
+  // Combine the conditions to evaluate if the user is eligible for minting
+  return (
+    isHolder &&
+    maxMintLimit > mintedAmountForCurrentUser.value &&
+    hasMinimumFunds.value &&
+    hasNFTsAvailable
+  )
+})
+
+const mintButtonLabel = computed(() => {
+  if (dropStore.walletConnecting) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
+
+  // Adjust logic based on drop type and conditions
+  switch (drop.value?.type) {
+    case 'free':
+      return $i18n.t('drops.mintForFree')
+    case 'holder':
+      // Assuming you have a method to determine if the user is a holder and eligible
+      return isHolderAndEligible.value
+        ? $i18n.t('drops.mintForHolder')
+        : $i18n.t('mint.unlockable.notEligibility')
+    case 'paid':
+      // Assuming you have a method or logic to determine paid condition
+      return $i18n.t('drops.mintForPaid')
+    default:
+      return $i18n.t('general.connect_wallet')
+  }
+})
+
+const isButtonEnabled = computed(() => {
+  if (
+    !mintCountAvailable.value ||
+    drop.value?.disabled ||
+    !isLogIn.value ||
+    !selectedImage.value
+  ) {
+    return false
+  }
+
+  switch (drop.value?.type) {
+    case 'free':
+      return tr
+    case 'holder':
+      return isHolderAndEligible.value
+    case 'paid':
+      return true
+    default:
+      return false
+  }
+})
+
+const loading = computed(
+  () =>
+    dropStore.isCaptutingImage ||
+    dropStore.walletConnecting ||
+    dropStore.loading,
+)
+
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
-    (props.holderOfCollection?.isLoading || props.minimumFunds.isLoading),
+    isLogIn.value &&
+    (props.holderOfCollection?.isLoading || !hasCurrentChainBalance.value),
 )
 
 const buttonMint = computed<{
@@ -54,7 +140,7 @@ const buttonMint = computed<{
   disabled: boolean
   withLabel?: boolean
 }>(() => {
-  if (isMintedOut.value) {
+  if (!mintCountAvailable.value) {
     return {
       label: $i18n.t('mint.unlockable.seeListings'),
       disabled: false,
@@ -69,16 +155,23 @@ const buttonMint = computed<{
     }
   }
 
+  if (isLogIn.value && !drop.value?.userAccess) {
+    return {
+      label: mintButtonLabel.value,
+      disabled: true,
+    }
+  }
+
   return {
-    label: props.mintButton.label,
-    disabled: props.mintButton.disabled || loading.value,
+    label: mintButtonLabel.value,
+    disabled: !isButtonEnabled.value || loading.value,
   }
 })
 
 const handleMint = () => {
-  if (isMintedOut.value) {
+  if (!mintCountAvailable.value) {
     return navigateTo(
-      `/${urlPrefix.value}/collection/${props.collectionId}?listed=true`,
+      `/${urlPrefix.value}/collection/${drop.value?.collection}?listed=true`,
     )
   }
 

@@ -31,7 +31,7 @@ import { generateDropImage } from '@/utils/seoImageGenerator'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useDrop } from '~/components/drops/useDrops'
 
-const drop = useDrop()
+const { drop } = useDrop()
 
 const route = useRoute()
 const img = useImage()

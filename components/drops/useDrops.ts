@@ -10,6 +10,7 @@ import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 export interface Drop {
   collection: DropItem
@@ -24,6 +25,7 @@ export interface Drop {
   isMintedOut: boolean
   status: DropStatus
   image?: string
+  banner?: string
 }
 
 export enum DropStatus {
@@ -74,7 +76,7 @@ export function useDrops(query?: GetDropsQuery) {
   return { drops: sortDrops, count, loaded }
 }
 
-const getFormattedDropItem = async (collection, drop: DropItem) => {
+export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
@@ -111,7 +113,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
     return DropStatus.MINTING_LIVE
   }
 
-  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
     return DropStatus.SCHEDULED_SOON
   }
 
@@ -136,39 +138,50 @@ export const getDropDetails = async (alias: string) => {
 
 export function useDrop() {
   const { params } = useRoute()
-  const dropItem = ref<DropItem>()
+  const defaults: Partial<DropItem> = {
+    name: '',
+    max: 255,
+    collection: '',
+  }
+
+  const drop = ref<DropItem>()
+
+  const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
+  const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   watch(
     () => params.id,
     async () => {
       if (params.id) {
-        dropItem.value = await getDropById(params.id.toString())
+        const fetchedDropItem = await getDropById(params.id.toString())
+        drop.value = { ...defaults, ...fetchedDropItem }
       }
     },
     { immediate: true },
   )
 
-  return dropItem
+  return {
+    drop,
+    chainName,
+    token,
+  }
 }
 
 export const useDropStatus = () => {
   const mintedDropCount = ref(0)
   const { accountId } = useAuth()
-  const dropItem = useDrop()
+  const { drop } = useDrop()
 
   const fetchDropStatus = async () => {
-    if (dropItem.value?.id) {
-      const { count } = await getDropStatus(dropItem.value.id)
+    if (drop.value?.id) {
+      const { count } = await getDropStatus(drop.value.id)
       mintedDropCount.value = count
     }
   }
 
-  // Fetch drop status on before mount and when dropItem changes
-  onBeforeMount(fetchDropStatus)
-  watch(dropItem, fetchDropStatus, { deep: true })
-
-  // Re-fetch drop status when accountId changes
-  watch(accountId, fetchDropStatus)
+  watch([() => drop.value?.id, accountId], fetchDropStatus, {
+    immediate: true,
+  })
 
   return {
     mintedDropCount,
@@ -177,10 +190,10 @@ export const useDropStatus = () => {
 }
 
 export const useDropMinimumFunds = () => {
-  const dropItem = useDrop()
+  const { drop } = useDrop()
 
   const chainProperties = computed(() =>
-    chainPropListOf(dropItem.value?.chain ?? 'ahp'),
+    chainPropListOf(drop.value?.chain ?? 'ahp'),
   )
   const { existentialDeposit } = useChain()
   const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
@@ -188,8 +201,8 @@ export const useDropMinimumFunds = () => {
   const transferableDropChainBalance = computed(
     () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
   )
-  const meta = computed<number>(() => Number(dropItem.value?.meta) || 0)
-  const price = computed<number>(() => Number(dropItem.value?.price) || 0)
+  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
+  const price = computed<number>(() => Number(drop.value?.price) || 0)
   const minimumFunds = computed<number>(() => price.value || meta.value)
   const hasMinimumFunds = computed(
     () =>
@@ -221,7 +234,6 @@ export const useDropMinimumFunds = () => {
   }
 }
 
-// export const useDropMinimumFunds = (drop) => {
 //   const chainProperties = chainPropListOf(drop.chain)
 
 //   const { existentialDeposit } = useChain()

@@ -39,7 +39,7 @@
 
     <div class="flex justify-between items-center mb-4">
       <div class="font-bold">
-        <span v-if="!!Number(drop.price)">{{ formattedPrice }}</span>
+        <span v-if="!!Number(drop?.price)">{{ formattedPrice }}</span>
         <span v-else>{{ $t('free') }}</span>
       </div>
       <div class="flex justify-end items-center">
@@ -57,14 +57,6 @@
 
     <CollectionDropMintButton
       class="mt-6"
-      :collection-id="collectionId"
-      :is-wallet-connecting="isWalletConnecting"
-      :is-image-fetching="isImageFetching"
-      :is-loading="isLoading"
-      :minimum-funds="minimumFunds"
-      :max-count="maxCount"
-      :mint-count-available="mintCountAvailable"
-      :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
       @mint="emit('mint')" />
 
@@ -84,51 +76,57 @@
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { DropItem } from '@/params/types'
-import type {
-  HolderOfCollectionProp,
-  MinimumFundsProp,
-  MintButtonProp,
-} from '@/components/collection/drop/types'
+import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import { useDrop } from '@/components/drops/useDrops'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
-const props = defineProps<{
-  drop: DropItem
-  minted: number
-  collectionId: string
-  mintedCount: number
-  mintCountAvailable: boolean
-  maxCount: number
-  minimumFunds: MinimumFundsProp
-  isImageFetching: boolean
-  isWalletConnecting: boolean
-  isLoading: boolean
-  mintButton: MintButtonProp
+defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
+const { drop } = useDrop()
+
+const {
+  maxCount,
+  mintedCount,
+  mintCountAvailable,
+  mintedAmountForCurrentUser,
+} = useGenerativeDropMint()
+
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+  // only applicable if the drop is old one that missing`kodahash/render/completed` event
+
+  if (!mintCountAvailable.value && !imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+}, 5000)
+
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 
 const mintedPercent = computed(() => {
-  const percent = (props.mintedCount / props.maxCount) * 100
+  const percent = (mintedCount.value / maxCount.value) * 100
   return Math.round(percent)
 })
 
 const { formatted: formattedPrice } = useAmount(
-  computed(() => props.drop.price),
+  computed(() => drop.value?.price),
   decimals,
   chainSymbol,
 )
 
 const STEP = 64
 const entropyRange = computed<[number, number]>(() => [
-  STEP * props.minted,
-  STEP * (props.minted + 1),
+  STEP * mintedAmountForCurrentUser.value,
+  STEP * (mintedAmountForCurrentUser.value + 1),
 ])
 
 const getHash = () => {
@@ -150,12 +148,12 @@ const generativeImageUrl = ref('')
 
 const isLoading = ref(false)
 
-const displayUrl = computed(() => {
-  return generativeImageUrl.value || props.drop.image
-})
+const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash()}`
+  startTimer()
+  const metadata = `${drop.value?.content}/?hash=${getHash()}`
+  console.log('metadata', metadata)
   generativeImageUrl.value = metadata
   emit('generation:start', { image: generativeImageUrl.value })
   imageDataPayload.value = undefined
@@ -168,13 +166,19 @@ watch(imageDataLoaded, () => {
   }
 })
 
-watch(
-  accountId,
-  () => {
+watch([accountId, () => drop.value?.content], () => {
+  if (drop.value?.content) {
     generateNft()
+  }
+})
+
+watchDebounced(
+  [imageDataPayload],
+  () => {
+    if (imageDataPayload.value?.image === 'data:,') {
+      generateNft()
+    }
   },
-  {
-    immediate: true,
-  },
+  { debounce: 1000 },
 )
 </script>

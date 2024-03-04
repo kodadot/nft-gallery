@@ -477,6 +477,7 @@
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "disabledRmrk": "Minting on Kusama is no longer supported, please select another chain",
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
@@ -667,7 +668,6 @@
           "note": "Transactions may require a network confirmation"
         }
       },
-      "requirements": "Requirements",
       "connectWallet": "Connect wallet to proceed",
       "availableForMint": "Available for mint",
       "readyToMint": "Ready to Mint: {0} NFTs Remaining",
@@ -685,6 +685,7 @@
     "name": "NFT will be visible under this name in gallery",
     "edition": "Number of copies",
     "created": "Created by",
+    "collectedBy": "Collected by",
     "collections": "Collections created by",
     "sold": "Nfts sold by",
     "collected": "Nfts collected by",
@@ -1437,7 +1438,7 @@
     "claimPhysicalDrop": "Claim Physical Drop"
   },
   "drops": {
-    "title": "Generative Drops",
+    "title": "Generative Art Drops",
     "drops": "Drops",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
@@ -1450,6 +1451,7 @@
     "mintingLive": "Minting Live",
     "viewDrop": "View Drop",
     "mintingEnded": "Ended",
+    "mintingNow": "Minting Now",
     "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
@@ -1504,8 +1506,8 @@
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
     "phases": {
-      "private": "Private Mint",
-      "public": "Public Sale"
+      "private": "Allowlist",
+      "public": "Public Mint"
     }
   },
   "confirmPurchase": {

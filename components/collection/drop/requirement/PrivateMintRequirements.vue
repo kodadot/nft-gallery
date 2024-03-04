@@ -4,8 +4,8 @@
       <div class="flex gap-4 flex-col w-full">
         <CollectionDropRequirementItem
           :fulfilled="fulfillsMinimumFunds"
-          :loading="minimumFunds.isLoading">
-          <p v-dompurify-html="minimumFunds.description" />
+          :loading="minimumFundsAttrs.isLoading">
+          <p v-dompurify-html="minimumFundsAttrs.description" />
         </CollectionDropRequirementItem>
         <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
@@ -79,17 +79,18 @@
 <script setup lang="ts">
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import type { HolderOfCollectionProp, MinimumFundsProp } from '../types'
+import type { HolderOfCollectionProp } from '../types'
+import { useDrop, useDropMinimumFunds } from '~/components/drops/useDrops'
 
 const props = defineProps<{
   holderOfCollection: HolderOfCollectionProp
-  minimumFunds: MinimumFundsProp
   isMintedOut: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { chainName } = useDrop()
 
 const { collection } = useCollectionMinimal({
   collectionId: computed(() => props.holderOfCollection.id || ''),
@@ -97,14 +98,30 @@ const { collection } = useCollectionMinimal({
 
 const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 
+const { hasCurrentChainBalance } = useMultipleBalance()
+const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
+  useDropMinimumFunds()
+
 const fulfillsHolderOfCollection = computed(
   () =>
     Boolean(props.holderOfCollection.isHolder) &&
     props.holderOfCollection.hasAvailable,
 )
 
+const minimumFundsAttrs = computed(() => ({
+  amount: minimumFunds.value,
+  description: $i18n.t('drops.requirements.minimumFunds', [
+    formattedMinimumFunds.value,
+    chainName.value,
+  ]),
+  hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
+}))
+
 const fulfillsMinimumFunds = computed(
-  () => Boolean(props.minimumFunds.amount) && props.minimumFunds.hasAmount,
+  () =>
+    Boolean(minimumFundsAttrs.value.amount) &&
+    minimumFundsAttrs.value.hasAmount,
 )
 
 const readyToMint = computed(

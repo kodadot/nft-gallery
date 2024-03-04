@@ -1,8 +1,8 @@
 <template>
-  <UnlockableCollectionBanner :drop="drop" />
-  <!-- <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" :drop="drop" />
-  <CollectionDropPaidGenerative v-else-if="dropType === 'paid'" :drop="drop" /> -->
-  <CollectionDropGenerative />
+  <UnlockableCollectionBanner />
+  <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" />
+  <!-- <CollectionDropPaidGenerative v-else-if="dropType === 'paid'" :drop="drop" /> -->
+  <CollectionDropGenerative v-else-if="dropType === 'free'" />
 </template>
 
 <script lang="ts" setup>
@@ -16,13 +16,8 @@ definePageMeta({
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 
-const drop = useDrop()
-const dropType = computed(() => {
-  console.log(drop.value?.type)
-  return 'free'
-})
-
-watch(dropType, console.log)
+const { drop } = useDrop()
+const dropType = computed(() => drop.value?.type)
 
 watchEffect(() => {
   if (drop.value?.chain === 'ahk' && isProduction) {

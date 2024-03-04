@@ -53,6 +53,7 @@ import {
 import { usePreloadMintedNftCover } from './utils'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import { useDropStore } from '~/stores/drop'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -71,12 +72,13 @@ const emit = defineEmits([
 ])
 const props = defineProps<{
   modelValue: boolean
-  loading: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
   immediate: false,
 })
+
+const dropStore = useDropStore()
 
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
@@ -161,7 +163,7 @@ const handleEmailSubscriptionCheck = () => {
 }
 
 watch(
-  () => props.loading,
+  () => dropStore.loading,
   (claiming) => {
     if (claiming) {
       startCountDown(getCountDownTime(MINTING_SECONDS))
@@ -170,7 +172,7 @@ watch(
 )
 
 watchEffect(() => {
-  const claiming = props.loading
+  const claiming = dropStore.loading
   const alreadyConfirmed = emailConfirmed && !email.value
   const alreadySubscribed =
     subscriptionEmail && !email.value && !changeEmail.value

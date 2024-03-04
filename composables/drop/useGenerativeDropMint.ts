@@ -2,8 +2,7 @@ import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
-import useGenerativeDropDetails from './useGenerativeDropDetails'
-import { useDropStatus } from '~/components/drops/useDrops'
+import { useDrop, useDropStatus } from '~/components/drops/useDrops'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -27,23 +26,27 @@ export default () => {
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
+  const dropStore = useDropStore()
   const { imageDataPayload } = useGenerativeIframeData()
-  const { defaultMax, collectionId } = useGenerativeDropDetails()
+  const { drop } = useDrop()
   const { mintedDropCount } = useDropStatus()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
-  const selectedImage = ref<string>('')
+  const selectedImage = computed({
+    get: () => dropStore.selectedImage,
+    set: (value) => dropStore.setSelectedImage(value),
+  })
 
   const { data: collectionData } = useGraphql<UnlockableCollectionById>({
     queryName: 'unlockableCollectionById',
     variables: {
-      id: collectionId.value,
+      id: drop.value?.collection,
     },
   })
 
   const maxCount = computed(
-    () => collectionData.value?.collectionEntity?.max ?? defaultMax.value,
+    () => collectionData.value?.collectionEntity?.max ?? drop.value?.max ?? 0,
   )
 
   const mintedAmountForCurrentUser = computed(
@@ -54,7 +57,9 @@ export default () => {
     Math.min(mintedDropCount.value, maxCount.value),
   )
 
-  const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
+  const mintCountAvailable = computed(
+    () => mintedCount.value < maxCount.value && !drop.value?.disabled,
+  )
 
   const description = computed(
     () => collectionData.value?.collectionEntity?.meta?.description ?? '',

@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <SigningModal
     v-if="isOnlyHolderOfMint"
     :title="$t('mint.nft.minting')"
@@ -22,37 +22,14 @@
     </ModalBody>
   </NeoModal>
 
-  <CollectionDropGenerativeLayout
-    :collection-id="collectionId"
-    :description="description"
-    :drop="drop"
-    :holder-of-collection="holderOfCollection"
-    :user-minted-count="mintedAmountForCurrentUser"
-    :is-wallet-connecting="isWalletConnecting"
-    :is-image-fetching="isImageFetching"
-    :is-loading="isLoading"
-    :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable"
-    :mint-button="mintButtonProps"
-    :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+  <CollectionDropGenerativeLayout @mint="handleSubmitMint" />
 
   <CollectionDropModalPaidMint
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
-    :minted-nft="mintedNft"
-    :minimum-funds="minimumFunds"
     :is-allocating-raffle="isAllocatingRaffle"
-    :has-minimum-funds="hasMinimumFunds"
-    :can-list-nft="canListMintedNft"
-    :formatted-minimum-funds="formattedMinimumFunds"
-    :formatted-existential-deposit="formattedExistentialDeposit"
-    :token="token"
-    :chain="chainName"
     hide-minimum-funds-warning
     @confirm="mintNft"
     @close="closeMintModal"
@@ -61,10 +38,6 @@
   <CollectionDropAddFundsModal
     v-if="isOnlyHolderOfMint"
     v-model="isAddFundModalActive"
-    :minimum-funds="minimumFunds"
-    :formatted-minimum-funds="formattedMinimumFunds"
-    :token="token"
-    :chain="chainName"
     @close="closeAddFundModal"
     @confirm="handleDropAddModalConfirm" />
 </template>
@@ -72,76 +45,82 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
-import { DropItem } from '@/params/types'
 import {
+  useDrop,
   useDropMinimumFunds,
   useDropStatus,
   useHolderOfCollectionDrop,
 } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import useGenerativeDropMint, {
-  type UnlockableCollectionById,
-} from '@/composables/drop/useGenerativeDropMint'
-import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
-import type {
-  HolderOfCollectionProp,
-  MinimumFundsProp,
-  MintButtonProp,
-  ToMintNft,
-} from './types'
+import type { ToMintNft } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { getFakeEmail } from './utils'
 
-const props = withDefaults(
-  defineProps<{
-    drop: DropItem
-  }>(),
+const { $i18n, $consola } = useNuxtApp()
+const { urlPrefix, client } = usePrefix()
+const { toast } = useToast()
+const { accountId, isLogIn } = useAuth()
+const { chainSymbol, decimals } = useChain()
+const dropStore = useDropStore()
+
+const { fetchMultipleBalance } = useMultipleBalance()
+const {
+  howAboutToExecute,
+  isLoading: isTransactionLoading,
+  initTransactionLoader,
+  status,
+  isError: isTransactionError,
+} = useMetaTransaction()
+
+const { hasMinimumFunds } = useDropMinimumFunds()
+
+const instance = getCurrentInstance()
+const { drop } = useDrop()
+const { fetchDropStatus } = useDropStatus()
+const { isNftClaimed } = useHolderOfCollectionDrop()
+const { doAfterLogin } = useDoAfterlogin(instance)
+const {
+  mintedNft,
+  mintedNftWithMetadata,
+  selectedImage,
+  description,
+  collectionName,
+  tryCapture,
+  subscribeToMintedNft,
+  canListMintedNft,
+  listMintedNft,
+} = useGenerativeDropMint()
+const { usd: priceUSD } = useAmount(
+  computed(() => drop.value?.price),
+  decimals,
+  chainSymbol,
+)
+
+const { data: holderOfCollectionData } = await useAsyncData(
+  'holderOfCollectionData',
+  async () =>
+    await useAsyncQuery({
+      clientId: client.value,
+      query: holderOfCollectionById,
+      variables: {
+        id: drop.value?.holder_of,
+        account: accountId.value,
+      },
+    }).then((res) => res.data.value),
   {
-    drop: () => ({}) as DropItem,
+    watch: [accountId, () => dropStore.runtimeMintCount],
   },
 )
 
-const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
-
-const {
-  hasMinimumFunds,
-  formattedMinimumFunds,
-  minimumFunds,
-  formattedExistentialDeposit,
-} = useDropMinimumFunds(props.drop)
-const minimumFundsDescription = computed(() =>
-  $i18n.t('drops.requirements.minimumFunds', [
-    formattedMinimumFunds.value,
-    chainName.value,
-  ]),
-)
-
-const minimumFundsProps = computed<MinimumFundsProp>(() => ({
-  amount: minimumFunds.value,
-  description: minimumFundsDescription.value,
-  hasAmount: hasMinimumFunds.value,
-  isLoading: !hasCurrentChainBalance.value,
-}))
-
 const isWalletConnecting = ref(false)
-const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
-const { isNftClaimed } = useHolderOfCollectionDrop()
-const instance = getCurrentInstance()
 const mintNftSN = ref('0')
-const { doAfterLogin } = useDoAfterlogin(instance)
-const { $i18n, $consola } = useNuxtApp()
-const { urlPrefix } = usePrefix()
-const { toast } = useToast()
-const { accountId, isLogIn } = useAuth()
-const { chainSymbol, withoutDecimals, decimals } = useChain()
 const runtimeMintedCount = ref(0)
-
-const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
@@ -161,29 +140,10 @@ const availableNfts = reactive<{
   snList: [],
 })
 
-const {
-  defaultName,
-  defaultMax,
-  collectionId,
-  chainName,
-  disabledByBackend,
-  token,
-  holderOfCollectionId,
-  price,
-} = useGenerativeDropDetails(props.drop)
+useCursorDropEvents([isTransactionLoading, isLoading])
 
-const { usd: priceUSD } = useAmount(price, decimals, chainSymbol)
-
-const isHolderOfWithPaidMint = computed(() => Boolean(price.value))
+const isHolderOfWithPaidMint = computed(() => Boolean(drop.value?.price))
 const isOnlyHolderOfMint = computed(() => !isHolderOfWithPaidMint.value)
-
-const {
-  howAboutToExecute,
-  isLoading: isTransactionLoading,
-  initTransactionLoader,
-  status,
-  isError: isTransactionError,
-} = useMetaTransaction()
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -202,125 +162,8 @@ const toMintNft = computed<ToMintNft>(() => ({
       ? `${collectionName.value} #${raffleId.value}`
       : '',
   collectionName: collectionName.value || '',
-  price: price.value as string,
+  price: drop.value?.price as string,
   priceUSD: priceUSD.value,
-}))
-
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
-
-const { data: collectionData } = await useAsyncData(
-  'unlockableCollectionData',
-  async () =>
-    await useAsyncQuery<UnlockableCollectionById>({
-      clientId: client.value,
-      query: unlockableCollectionById,
-      variables: {
-        id: collectionId.value,
-        search: { currentOwner_eq: accountId.value },
-      },
-    }).then((res) => res.data.value),
-  {
-    watch: [accountId],
-  },
-)
-
-const {
-  maxCount,
-  mintedNft,
-  mintedNftWithMetadata,
-  mintedCount,
-  mintCountAvailable,
-  mintedAmountForCurrentUser,
-  selectedImage,
-  description,
-  collectionName,
-  tryCapture,
-  subscribeToMintedNft,
-  canListMintedNft,
-  listMintedNft,
-} = useGenerativeDropMint({
-  collectionData,
-  defaultMax,
-  mintedDropCount,
-})
-
-useCursorDropEvents(
-  props.drop.alias,
-  [isTransactionLoading, isLoading],
-  mintedNft,
-)
-
-const { data: holderOfCollectionData } = await useAsyncData(
-  'holderOfCollectionData',
-  async () =>
-    await useAsyncQuery({
-      clientId: client.value,
-      query: holderOfCollectionById,
-      variables: {
-        id: holderOfCollectionId.value,
-        account: accountId.value,
-      },
-    }).then((res) => res.data.value),
-  {
-    watch: [accountId, runtimeMintedCount],
-  },
-)
-
-const maxMintLimitForCurrentUser = computed(
-  () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
-)
-
-const isHolderOfTargetCollection = computed(
-  () => maxMintLimitForCurrentUser.value > 0,
-)
-
-const hasAvailableNfts = computed(() => availableNfts.amount !== 0)
-
-const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
-  id: holderOfCollectionId.value as string,
-  isHolder: isHolderOfTargetCollection.value,
-  hasAvailable: hasAvailableNfts.value,
-  isLoading: availableNfts.isLoading,
-  amount: {
-    total: maxMintLimitForCurrentUser.value,
-    available: availableNfts.amount,
-  },
-}))
-
-const mintButtonLabel = computed(() => {
-  return isWalletConnecting.value
-    ? $i18n.t('shoppingCart.wallet')
-    : isLogIn.value
-      ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value &&
-        hasAvailableNfts.value
-        ? $i18n.t('drops.mintForPaid', [
-            `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
-          ])
-        : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
-})
-const mintButtonDisabled = computed<boolean>(
-  () =>
-    !mintCountAvailable.value ||
-    Boolean(disabledByBackend.value) ||
-    (isLogIn.value &&
-      Boolean(
-        !selectedImage.value ||
-          !isHolderOfTargetCollection.value ||
-          maxMintLimitForCurrentUser.value <=
-            mintedAmountForCurrentUser.value ||
-          !hasMinimumFunds.value ||
-          !hasAvailableNfts.value,
-      )),
-)
-
-const mintButtonProps = computed<MintButtonProp>(() => ({
-  disabled: mintButtonDisabled.value,
-  label: mintButtonLabel.value,
 }))
 
 const mintNft = async () => {
@@ -333,12 +176,12 @@ const mintNft = async () => {
     const cb = api.tx.nfts.mint
 
     const args = [
-      collectionId.value,
+      drop.value?.collection,
       raffleId.value,
       accountId.value,
       {
         ownedItem: availableNfts.snList[0],
-        mintPrice: props.drop.price,
+        mintPrice: drop.value?.price,
       },
     ]
 
@@ -380,7 +223,7 @@ const allocateRaffle = async () => {
   const metadata = await createUnlockableMetadata(
     imageCid,
     description.value || '',
-    collectionName.value || defaultName.value,
+    collectionName.value || drop.value?.name || '',
     'text/html',
     selectedImage.value,
   )
@@ -392,7 +235,7 @@ const allocateRaffle = async () => {
     metadata: metadata,
   }
 
-  const response = await allocateCollection(body, props.drop.id)
+  const response = await allocateCollection(body, drop.value?.id as string)
   raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
@@ -431,9 +274,7 @@ const handleSubmitMint = async () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
 
   await allocateRaffle()
 }
@@ -459,15 +300,18 @@ const submitMint = async (sn: string) => {
         txHash: imageHash.value,
         address: accountId.value,
       },
-      props.drop.id,
+      drop.value?.id,
     )
 
     await fetchDropStatus()
 
-    const id = `${collectionId.value}-${result.sn}`
+    const id = `${drop.value?.collection}-${result.sn}`
 
     subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
     })
 
     isLoading.value = false
@@ -498,8 +342,8 @@ const checkAvailableNfts = async () => {
     nftIds.map((sn) => {
       return isNftClaimed(
         sn,
-        holderOfCollectionId.value as string,
-        collectionId.value,
+        drop.value?.holder_of as string,
+        drop.value?.collection as string,
       )
     }),
   )
@@ -540,4 +384,4 @@ watch(runtimeMintedCount, fetchDropStatus, {
 .order-1 {
   order: 1;
 }
-</style> -->
+</style>

@@ -1,25 +1,9 @@
 <template>
-  <CollectionDropGenerativeLayout
-    v-if="drop"
-    :user-minted-count="mintedAmountForCurrentUser"
-    :is-wallet-connecting="isWalletConnecting"
-    :is-image-fetching="isImageFetching"
-    :is-loading="isLoading"
-    :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable || !disabledByBackend"
-    :mint-button="mintButtonProps"
-    :collection-id="collectionId"
-    :description="description"
-    :drop="drop"
-    :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+  <CollectionDropGenerativeLayout v-if="drop" @mint="handleSubmitMint" />
 
   <DropConfirmModal
     v-model="isConfirmModalActive"
-    :loading="isLoading"
-    @subscribe="handleEmailSubscription"
+    @subscribe="subscribe"
     @check-subscription="handleCheckSubscription"
     @resend-confirmation-email="handleResendConfirmationEmail"
     @close="isConfirmModalActive = false"
@@ -38,106 +22,68 @@
 import {
   useDrop,
   useDropMinimumFunds,
-  // useDropStatus,
+  useDropStatus,
 } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
-import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-// import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import { allocateClaim, allocateCollection } from '@/services/fxart'
+import { getFakeEmail } from './utils'
+import { createUnlockableMetadata } from '../unlockable/utils'
+import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { useDropStore } from '@/stores/drop'
 
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const dropStore = useDropStore()
 
-const { $i18n } = useNuxtApp()
+const { toast } = useToast()
 
-const { isLogIn } = useAuth()
+const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const drop = useDrop()
+const { drop } = useDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
-const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds()
-
-const { collectionId, chainName, disabledByBackend } =
-  useGenerativeDropDetails()
+const { fetchMultipleBalance } = useMultipleBalance()
+const { hasMinimumFunds } = useDropMinimumFunds()
+const { fetchDropStatus } = useDropStatus()
 
 const {
   checkSubscription,
   subscribe,
   resendConfirmationEmail,
-
   subscriptionId,
   emailConfirmed,
 } = useGenerativeDropNewsletter()
 
-const minimumFundsDescription = computed(() =>
-  $i18n.t('drops.requirements.minimumFunds', [
-    formattedMinimumFunds.value,
-    chainName.value,
-  ]),
-)
-
-const minimumFundsProps = computed(() => ({
-  amount: minimumFunds.value,
-  description: minimumFundsDescription.value,
-  hasAmount: hasMinimumFunds.value,
-  isLoading: !hasCurrentChainBalance.value,
-}))
-
-const isWalletConnecting = ref(false)
-const isLoading = ref(false)
-const isImageFetching = ref(false)
-const isConfirmModalActive = ref(false)
-const isAddFundModalActive = ref(false)
-
 const {
-  maxCount,
   mintedNftWithMetadata,
-
-  mintedCount,
-  mintCountAvailable,
-  mintedAmountForCurrentUser,
+  tryCapture,
+  collectionName,
+  mintedNft,
+  subscribeToMintedNft,
   selectedImage,
   description,
-
   listMintedNft,
 } = useGenerativeDropMint()
 
-// useCursorDropEvents(props.drop.alias, [isLoading], mintedNft)
+const imageMetadata = ref('')
+const imageHash = ref('')
 
-const mintButtonDisabled = computed<boolean>(
-  () =>
-    !mintCountAvailable.value ||
-    Boolean(disabledByBackend.value) ||
-    (isLogIn.value && Boolean(!selectedImage.value)),
-)
+const isConfirmModalActive = ref(false)
+const isAddFundModalActive = ref(false)
 
-const mintButtonLabel = computed(() => {
-  if (isWalletConnecting.value) {
-    return $i18n.t('shoppingCart.wallet')
-  }
-  return $i18n.t('drops.mintForFree')
-})
-
-const mintButtonProps = computed(() => ({
-  disabled: mintButtonDisabled.value,
-  label: mintButtonLabel.value,
-}))
-
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
+useCursorDropEvents([computed(() => dropStore.loading)])
 
 const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
+  dropStore.setWalletConnecting(false)
 }
 
-const handleSubmitMint = async () => {
+const handleSubmitMint = () => {
   if (!isLogIn.value) {
-    isWalletConnecting.value = true
+    dropStore.setWalletConnecting(true)
     doAfterLogin({
       onLoginSuccess: clearWalletConnecting,
       onCancel: clearWalletConnecting,
@@ -146,7 +92,7 @@ const handleSubmitMint = async () => {
     return
   }
 
-  if (isLoading.value || isImageFetching.value) {
+  if (dropStore.loading || dropStore.isCaptutingImage) {
     return false
   }
 
@@ -157,64 +103,89 @@ const handleSubmitMint = async () => {
   }
 }
 
+const getImageInfo = async (
+  image: string,
+): Promise<{ metadata: string; hash: string }> => {
+  dropStore.setIsCaptutingImage(true)
+  const imageUrl = new URL(image)
+  const hash = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value ?? '',
+    collectionName.value ?? defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  imageMetadata.value = metadata
+  imageHash.value = hash
+  dropStore.setIsCaptutingImage(false)
+  return { metadata, hash }
+}
+
+const allocateRaffle = async (): Promise<{ raffleId: number }> => {
+  const { metadata, hash } = await getImageInfo(selectedImage.value)
+  const body = {
+    email: getFakeEmail(),
+    hash,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+
+  const response = await allocateCollection(body, drop.value.id)
+  return { raffleId: parseInt(response.result.id) }
+}
+
 const submitMint = async () => {
-  // try {
-  //   isImageFetching.value = true
-  //   isLoading.value = true
-  //   const imageHash = await tryCapture()
-  //   const hash = await createUnlockableMetadata(
-  //     imageHash,
-  //     description.value as string,
-  //     collectionName.value || defaultName.value,
-  //     'text/html',
-  //     selectedImage.value,
-  //   )
-  //   isImageFetching.value = false
-  //   const { result } = await doWaifu(
-  //     {
-  //       address: accountId.value,
-  //       metadata: hash,
-  //       image: imageHash,
-  //       email: preferencesStore.getNewsletterSubscription.email,
-  //     },
-  //     props.drop.id,
-  //   )
-  //   await fetchDropStatus()
-  //   const id = `${collectionId.value}-${result.sn}`
-  //   subscribeToMintedNft(id, async () => {
-  //     mintedNftWithMetadata.value = await fetchNft(id)
-  //   })
-  //   isLoading.value = false
-  //   mintedNft.value = {
-  //     ...result,
-  //     id,
-  //     name: result.name,
-  //     collectionName: collectionName.value,
-  //   }
-  // } catch (error) {
-  //   toast($i18n.t('drops.mintPerAddress'))
-  //   isImageFetching.value = false
-  //   throw error
-  // }
+  try {
+    const { raffleId } = await allocateRaffle()
+    const { result } = await allocateClaim(
+      {
+        sn: raffleId,
+        txHash: imageHash.value,
+        address: accountId.value,
+      },
+      drop.value?.id,
+    )
+    await fetchDropStatus()
+
+    const id = `${drop.value?.collection}-${result.sn}`
+
+    mintedNft.value = {
+      ...result,
+      id,
+      name: result.name,
+      collectionName: collectionName.value,
+    }
+
+    dropStore.setLoading(false)
+
+    subscribeToMintedNft(id, async (): Promise<void> => {
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
+    })
+  } catch (error) {
+    toast((error as Error).message)
+    dropStore.setIsCaptutingImage(false)
+    throw error
+  }
 }
 
-const handleEmailSubscription = async (email: string) => {
-  await subscribe(email)
-}
-
-const handleCheckSubscription = async () => {
-  await checkSubscription(subscriptionId.value as string)
-}
+const handleCheckSubscription = () =>
+  checkSubscription(subscriptionId.value as string)
 
 const handleResendConfirmationEmail = () =>
   resendConfirmationEmail(subscriptionId.value as string)
 
 const startMinting = async () => {
   try {
-    isLoading.value = true
+    dropStore.setLoading(true)
     await submitMint()
   } catch (error) {
-    isLoading.value = false
+    dropStore.setLoading(false)
     isConfirmModalActive.value = false
   }
 }
