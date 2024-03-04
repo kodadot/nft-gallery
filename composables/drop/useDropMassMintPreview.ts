@@ -85,25 +85,23 @@ export default ({
   }
 
   const pinMetadata = (item: MassMintNFT): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const image = item.image
-        const imageCid = await tryCapture({
-          image,
-          data: item.imageDataPayload as ImageDataPayload,
-        })
-        const metadata = await createUnlockableMetadata(
-          imageCid,
-          description.value || '',
-          collectionName.value || defaultName.value,
-          'text/html',
-          image,
+    return new Promise((resolve, reject) => {
+      const image = item.image
+      tryCapture({
+        image,
+        data: item.imageDataPayload as ImageDataPayload,
+      })
+        .then((imageCid) =>
+          createUnlockableMetadata(
+            imageCid,
+            description.value || '',
+            collectionName.value || defaultName.value,
+            'text/html',
+            image,
+          ),
         )
-
-        resolve(metadata)
-      } catch (error) {
-        reject(error)
-      }
+        .then(resolve)
+        .catch(reject)
     })
   }
 
