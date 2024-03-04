@@ -9,7 +9,10 @@
     <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+        <nuxt-link
+          v-if="!isMobile"
+          to="/"
+          class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot" />
@@ -18,18 +21,18 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-show="!openMobileSearchBar"
+            v-show="isMobile && !openMobileSearchBar"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
-          <div v-show="openMobileSearchBar">
+          <div v-show="!isMobile || openMobileSearchBar" class="w-full">
             <div
               class="is-fixed-top z-10 flex items-center justify-between p-2">
               <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless border-0 capitalize"
+                class="p-3 is-shadowless border-0 capitalize sm:hidden"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
@@ -40,7 +43,7 @@
         <!-- BURGER MENU -->
         <a
           role="button"
-          class="navbar-burger"
+          class="navbar-burger sm:hidden"
           :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
