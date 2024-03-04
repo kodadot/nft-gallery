@@ -53,7 +53,7 @@ import {
 import { usePreloadMintedNftCover } from './utils'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
-import { useDropStore } from '~/stores/drop'
+import { useDropStore } from '@/stores/drop'
 
 enum ModalStep {
   EMAIL = 'email',

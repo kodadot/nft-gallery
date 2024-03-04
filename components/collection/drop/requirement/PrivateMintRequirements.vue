@@ -80,7 +80,7 @@
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { HolderOfCollectionProp } from '../types'
-import { useDrop, useDropMinimumFunds } from '~/components/drops/useDrops'
+import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 
 const props = defineProps<{
   holderOfCollection: HolderOfCollectionProp

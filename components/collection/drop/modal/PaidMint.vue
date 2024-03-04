@@ -47,7 +47,7 @@ import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { usePreloadMintedNftCover } from './utils'
-import { useDropMinimumFunds } from '~/components/drops/useDrops'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 const {

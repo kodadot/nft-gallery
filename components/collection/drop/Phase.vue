@@ -99,7 +99,7 @@ import {
   toDropScheduledDurationString,
 } from '@/components/drops/utils'
 import type { HolderOfCollectionProp } from './types'
-import useGenerativeDropMint from '~/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp

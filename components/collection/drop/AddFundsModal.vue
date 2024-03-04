@@ -75,7 +75,7 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
-import { useDrop, useDropMinimumFunds } from '~/components/drops/useDrops'
+import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 const props = withDefaults(
