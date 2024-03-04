@@ -19,7 +19,7 @@ import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
-import { tr } from 'date-fns/locale'
+import { formatAmountWithRound } from '@/utils/format/balance'
 
 const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp
@@ -30,11 +30,16 @@ const emit = defineEmits(['mint'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const { isLogIn, accountId } = useAuth()
+const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, selectedImage, mintedAmountForCurrentUser } =
-  useGenerativeDropMint()
+const {
+  mintCountAvailable,
+  selectedImage,
+  mintedAmountForCurrentUser,
+  maxCount,
+} = useGenerativeDropMint()
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
@@ -80,18 +85,19 @@ const mintButtonLabel = computed(() => {
     return $i18n.t('general.connect_wallet')
   }
 
-  // Adjust logic based on drop type and conditions
   switch (drop.value?.type) {
     case 'free':
       return $i18n.t('drops.mintForFree')
     case 'holder':
-      // Assuming you have a method to determine if the user is a holder and eligible
       return isHolderAndEligible.value
         ? $i18n.t('drops.mintForHolder')
         : $i18n.t('mint.unlockable.notEligibility')
     case 'paid':
-      // Assuming you have a method or logic to determine paid condition
-      return $i18n.t('drops.mintForPaid')
+      return $i18n.t('drops.mintForPaid', [
+        `${formatAmountWithRound(drop.value?.price || '', decimals.value)} ${
+          chainSymbol.value
+        }`,
+      ])
     default:
       return $i18n.t('general.connect_wallet')
   }
@@ -109,11 +115,11 @@ const isButtonEnabled = computed(() => {
 
   switch (drop.value?.type) {
     case 'free':
-      return tr
+      return true
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return true
+      return maxCount.value > mintedAmountForCurrentUser.value
     default:
       return false
   }
