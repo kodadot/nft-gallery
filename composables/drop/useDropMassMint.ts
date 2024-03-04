@@ -1,8 +1,8 @@
 import {
+  AllocateCollectionResult,
   BatchAllocateResponseNft,
   DoResult,
   allocateCollection,
-  batchAllocate,
   allocateClaim as claimAllocation,
 } from '@/services/fxart'
 import { EntropyRange, GenerativePreviewItem } from './useGenerativePreview'
@@ -220,9 +220,11 @@ export default ({
     items,
     email,
     address,
-  }): Promise<{ id: number; image: string; name: string }[]> => {
-    if (items.length === 1) {
-      const item = items[0]
+  }): Promise<AllocateCollectionResult[]> => {
+    const results = [] as Array<AllocateCollectionResult>
+
+    // @see https://github.com/kodadot/private-workers/pull/86#issuecomment-1975842570 for context
+    for (const item of items) {
       const { result } = await allocateCollection(
         {
           email,
@@ -233,12 +235,10 @@ export default ({
         },
         drop.id,
       )
-
-      return [result]
+      results.push(result)
     }
 
-    const { result } = await batchAllocate({ email, address, items }, drop.id)
-    return result
+    return results
   }
 
   const subscribeForNftsWithMetadata = (nftIds: string[]) => {
