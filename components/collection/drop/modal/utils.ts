@@ -1,40 +1,11 @@
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
-import { MintedNFT } from '../types'
-
 const RETRY_COUNT = 3
 
-export const usePreloadMintedNftCover = (
-  mintedNft: ComputedRef<DropMintedNft | undefined>,
-) => {
-  const nftCoverLoaded = ref(false)
-  const retry = ref(RETRY_COUNT)
-
-  const sanitizedMintedNft = computed<DropMintedNft | undefined>(
-    () =>
-      mintedNft?.value && {
-        ...mintedNft.value,
-        image: sanitizeIpfsUrl(mintedNft.value.image),
-      },
-  )
-
-  watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
-    if (mintedNft?.image && retry.value) {
-      try {
-        nftCoverLoaded.value = await preloadImage(mintedNft.image)
-      } catch (error) {
-        retry.value -= 1
-      }
-    }
-  })
-
-  return {
-    sanitizedMintedNft,
-    nftCoverLoaded,
-    retry,
-  }
+type PreloadableImage = {
+  id: string
+  image: string
 }
 
-export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
+export const usePreloadImages = (mintedNFTs: Ref<PreloadableImage[]>) => {
   const states = ref(new Map<string, { tries: number; loaded: boolean }>())
 
   const stateValues = computed(() =>
@@ -50,8 +21,8 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
     return loaded.length && loaded.every(Boolean)
   })
 
-  const tryPreload = async (mintedNFT: MintedNFT) => {
-    const id = mintedNFT.id
+  const tryPreload = async (preloadableImage: PreloadableImage) => {
+    const id = preloadableImage.id
     const currentState = states.value.get(id) || {
       tries: RETRY_COUNT,
       loaded: false,
@@ -62,7 +33,7 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
     }
 
     try {
-      await preloadImage(sanitizeIpfsUrl(mintedNFT.image))
+      await preloadImage(sanitizeIpfsUrl(preloadableImage.image))
 
       states.value.set(id, {
         tries: currentState.tries,
@@ -70,7 +41,7 @@ export const usePreloadMintedNftCovers = (mintedNFTs: Ref<MintedNFT[]>) => {
       })
     } catch (error) {
       states.value.set(id, { tries: currentState.tries - 1, loaded: false })
-      tryPreload(mintedNFT)
+      tryPreload(preloadableImage)
     }
   }
 

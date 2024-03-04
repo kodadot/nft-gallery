@@ -50,7 +50,7 @@ import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
-import { usePreloadMintedNftCover } from './utils'
+import { usePreloadImages } from './utils'
 import { MintedNFT, MintingSession } from '../types'
 
 enum ModalStep {
@@ -82,23 +82,26 @@ const props = defineProps<{
   sendConfirmationEmailOnModalOpen: boolean
 }>()
 
+const isModalActive = useVModel(props, 'modelValue')
+const { $i18n } = useNuxtApp()
+
 const { displayDuration, distance, startCountDown } = useCountDown({
   immediate: false,
 })
-
-const { $i18n } = useNuxtApp()
-
-const isModalActive = useVModel(props, 'modelValue')
-
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
-)
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
 
+const sanitizedMintedNft = computed(() =>
+  props.mintedNft
+    ? { ...props.mintedNft, image: sanitizeIpfsUrl(props.mintedNft.image) }
+    : undefined,
+)
+const { loadedAll, triedAll } = usePreloadImages(
+  computed(() => (sanitizedMintedNft.value ? [sanitizedMintedNft.value] : [])),
+)
 const mintingSession = computed<MintingSession>(() => ({
   items: [sanitizedMintedNft.value as MintedNFT].filter(Boolean),
   txHash: '', // free mint does not have a txHash
@@ -115,11 +118,11 @@ const isSuccessfulDropStep = computed(
 )
 
 const moveSuccessfulDrop = computed(() => {
-  if (nftCoverLoaded.value) {
+  if (loadedAll.value) {
     return true
   }
 
-  return distance.value <= 0 && sanitizedMintedNft.value && retry.value === 0
+  return distance.value <= 0 && sanitizedMintedNft.value && triedAll.value
 })
 
 const est = computed(() => `Est ~ ${displayDuration.value}`)

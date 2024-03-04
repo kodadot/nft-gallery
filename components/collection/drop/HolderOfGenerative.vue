@@ -96,7 +96,7 @@ import type {
 } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { GenerativePreviewItem } from '~/composables/drop/useGenerativePreview'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 import useDropMassMint from '@/composables/drop/useDropMassMint'
 
 const props = withDefaults(

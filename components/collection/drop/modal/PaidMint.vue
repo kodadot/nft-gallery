@@ -46,7 +46,7 @@ import type { MintingSession } from '../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
-import { usePreloadMintedNftCovers } from './utils'
+import { usePreloadImages } from './utils'
 import { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
@@ -79,7 +79,7 @@ enum ModalStep {
 
 const { $i18n } = useNuxtApp()
 
-const { loadedAll, triedAll } = usePreloadMintedNftCovers(
+const { loadedAll, triedAll } = usePreloadImages(
   computed(() => props.mintingSession.items),
 )
 
