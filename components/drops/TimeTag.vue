@@ -23,11 +23,10 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { formatDuration, intervalToDuration } from 'date-fns'
 import { DropStatus } from './useDrops'
+import { formatDropStartTime, toDropScheduledDurationString } from './utils'
 
 const { $i18n } = useNuxtApp()
-const now = useNow()
 const props = defineProps<{
   dropStartTime?: Date
   dropStatus: DropStatus
@@ -53,25 +52,10 @@ const displayText = computed(() => {
       return $i18n.t('drops.comingSoon')
     case DropStatus.MINTING_LIVE:
       return $i18n.t('drops.mintingLive')
-    case DropStatus.SCHEDULED_SOON: {
-      const duration = intervalToDuration({
-        start: props.dropStartTime as Date,
-        end: now.value,
-      })
-      return formatDuration(duration, {
-        format: ['hours', 'minutes'],
-      })
-    }
-    case DropStatus.SCHEDULED: {
-      const options = {
-        day: '2-digit',
-        month: '2-digit',
-        hour: false,
-        minute: false,
-        hour12: false,
-      } as any
-      return (props.dropStartTime as Date).toLocaleString($i18n.locale, options)
-    }
+    case DropStatus.SCHEDULED_SOON:
+      return toDropScheduledDurationString(props.dropStartTime as Date)
+    case DropStatus.SCHEDULED:
+      return formatDropStartTime(props.dropStartTime as Date, $i18n.locale)
     case DropStatus.UNSCHEDULED:
       return
     default:

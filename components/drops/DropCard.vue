@@ -74,8 +74,10 @@ onMounted(async () => {
     return
   }
 
-  if (props.drop.image) {
-    image.value = sanitizeIpfsUrl(props.drop.image)
+  const dropCardImage = props.drop.banner || props.drop.image
+
+  if (dropCardImage) {
+    image.value = sanitizeIpfsUrl(dropCardImage)
     return
   }
 
