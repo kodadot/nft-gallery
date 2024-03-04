@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { DropItem } from '~/params/types'
 
 interface State {
   loading: boolean
@@ -6,6 +7,7 @@ interface State {
   isCaptutingImage: boolean
   selectedImage: string
   runtimeMintCount: number
+  drop: DropItem | null
 }
 
 export const useDropStore = defineStore('drop', {
@@ -15,6 +17,7 @@ export const useDropStore = defineStore('drop', {
     isCaptutingImage: false,
     selectedImage: '',
     runtimeMintCount: 0,
+    drop: null,
   }),
   getters: {
     // loading: (state) => state.loading,
@@ -39,6 +42,9 @@ export const useDropStore = defineStore('drop', {
     },
     incrementRuntimeMintCount() {
       this.runtimeMintCount++
+    },
+    setDrop(payload: DropItem | null) {
+      this.drop = payload
     },
   },
 })

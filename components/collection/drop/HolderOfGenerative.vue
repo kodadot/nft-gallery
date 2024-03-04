@@ -61,6 +61,7 @@ import type { ToMintNft } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { getFakeEmail } from './utils'
+import { useDropStore } from '@/stores/drop'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
@@ -120,7 +121,6 @@ const { data: holderOfCollectionData } = await useAsyncData(
 
 const isWalletConnecting = ref(false)
 const mintNftSN = ref('0')
-const runtimeMintedCount = ref(0)
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
@@ -324,7 +324,7 @@ const submitMint = async (sn: string) => {
     }
 
     isSuccessModalActive.value = true
-    runtimeMintedCount.value += 1
+    dropStore.incrementRuntimeMintCount()
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -372,10 +372,14 @@ const handleList = () => {
   listMintedNft()
 }
 
-watch([holderOfCollectionData, runtimeMintedCount], checkAvailableNfts, {
-  immediate: true,
-})
-watch(runtimeMintedCount, fetchDropStatus, {
+watch(
+  [holderOfCollectionData, () => dropStore.runtimeMintCount],
+  checkAvailableNfts,
+  {
+    immediate: true,
+  },
+)
+watch(() => dropStore.runtimeMintCount, fetchDropStatus, {
   immediate: true,
 })
 </script>

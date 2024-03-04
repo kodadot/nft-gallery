@@ -11,6 +11,7 @@ import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useDropStore } from '@/stores/drop'
 
 export interface Drop {
   collection: DropItem
@@ -138,27 +139,42 @@ export const getDropDetails = async (alias: string) => {
 
 export function useDrop() {
   const { params } = useRoute()
+  const dropStore = useDropStore()
   const defaults: Partial<DropItem> = {
     name: '',
     max: 255,
     collection: '',
   }
 
-  const drop = ref<DropItem>()
+  const drop = computed({
+    get: () => dropStore.drop,
+    set: (value) => dropStore.setDrop(value),
+  })
 
   const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
+  const fetchDrop = async (id: string) => {
+    if (drop.value?.alias !== id) {
+      const fetchedDropItem = await getDropById(id)
+      drop.value = { ...defaults, ...fetchedDropItem }
+    }
+  }
+
   watch(
     () => params.id,
-    async () => {
-      if (params.id) {
-        const fetchedDropItem = await getDropById(params.id.toString())
-        drop.value = { ...defaults, ...fetchedDropItem }
+    async (newId) => {
+      if (newId) {
+        await fetchDrop(newId.toString())
       }
     },
-    { immediate: true },
   )
+
+  onMounted(async () => {
+    if (params.id && drop.value?.alias !== params.id) {
+      await fetchDrop(params.id.toString())
+    }
+  })
 
   return {
     drop,
@@ -173,15 +189,13 @@ export const useDropStatus = () => {
   const { drop } = useDrop()
 
   const fetchDropStatus = async () => {
-    if (drop.value?.id) {
-      const { count } = await getDropStatus(drop.value.id)
+    if (drop.value?.alias) {
+      const { count } = await getDropStatus(drop.value.alias)
       mintedDropCount.value = count
     }
   }
 
-  watch([() => drop.value?.id, accountId], fetchDropStatus, {
-    immediate: true,
-  })
+  watch([() => drop.value?.alias, accountId], fetchDropStatus)
 
   return {
     mintedDropCount,
