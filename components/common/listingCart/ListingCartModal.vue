@@ -17,7 +17,7 @@
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
-        :loading="loadingAutoTeleport"
+        :loading="!autoTeleportLoaded"
         @close="onClose">
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
@@ -104,8 +104,7 @@ const autoTeleport = ref(false)
 const autoteleportButton = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
-
-const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
+const autoTeleportLoaded = ref(false)
 
 const teleportTransitionTxFees = computed(() =>
   format(
@@ -255,6 +254,15 @@ watch(
   (listingCartModalOpen) => {
     if (!listingCartModalOpen) {
       listingCartStore.clearDiscardedItems()
+    }
+  },
+)
+
+watch(
+  () => autoteleportButton.value?.isReady,
+  () => {
+    if (autoteleportButton.value?.isReady && !autoTeleportLoaded.value) {
+      autoTeleportLoaded.value = true
     }
   },
 )
