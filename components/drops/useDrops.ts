@@ -56,12 +56,13 @@ export function useDrops(query?: GetDropsQuery) {
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    dropsList.value.map(async (drop) => {
-      const newDrop = await getFormattedDropItem(drop, drop)
+    const formattedDrops = await Promise.all(
+      dropsList.value.map(async (drop) => getFormattedDropItem(drop, drop)),
+    )
 
-      drops.value.push(newDrop)
-      loaded.value = true
-    })
+    drops.value = formattedDrops
+
+    loaded.value = true
   })
 
   const sortDrops = computed(() =>
