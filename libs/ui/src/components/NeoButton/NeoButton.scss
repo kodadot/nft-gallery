@@ -100,7 +100,7 @@
     }
 
     &--outlined-rounded {
-      @apply w-min rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
+      @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
 
       &:hover {
         @apply bg-background-color border border-text-color text-text-color;
