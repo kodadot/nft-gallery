@@ -1,43 +1,25 @@
 <template>
-  <div>
+  <div ref="container">
     <CarouselModuleCarouselAgnostic
       v-if="isReady"
       :key="dropsAlias.join('-')"
       v-slot="{ item }"
       :items="drops"
-      :step="steps"
-      :breakpoints="breakpoints">
+      :config="config">
       <DropsDropCard :drop="item" />
     </CarouselModuleCarouselAgnostic>
     <CarouselModuleCarouselAgnostic
       v-else
-      :items="Array(DROP_SKELETON_COUNT).fill({ id: 'drop-skeleton' })"
-      :step="steps"
-      :breakpoints="breakpoints">
+      :items="Array(skeletonCount).fill({ id: 'drop-skeleton' })"
+      :config="config">
       <DropsDropCardSkeleton />
     </CarouselModuleCarouselAgnostic>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { type CarouseBreakpointsConfig } from '@/components/carousel/module/CarouselAgnostic.vue'
 import { useDrops } from '@/components/drops/useDrops'
-
-const breakpoints: CarouseBreakpointsConfig = {
-  '640px': { slides: { perView: 1.2, spacing: 16 } },
-  '768px': {
-    slides: { perView: 2, spacing: 16 },
-  },
-  '1024px': {
-    slides: { perView: 3, spacing: 16 },
-  },
-  '1280px': {
-    slides: { perView: 4, spacing: 16 },
-  },
-  '1540px': {
-    slides: { perView: 6, spacing: 16 },
-  },
-}
+import { CarouselConfig } from './module/CarouselAgnostic.vue'
 
 let queries = {
   limit: 6,
@@ -53,25 +35,21 @@ if (!isProduction) {
   }
 }
 
-const { drops, loaded: isReady } = useDrops(queries)
-const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
-const { width } = useWindowSize()
+const container = ref()
 
-const steps = computed(() => {
-  if (width.value > 1540) {
-    return 6
-  }
-  if (width.value > 1280) {
-    return 4
-  }
-  if (width.value > 1024) {
-    return 3
-  }
-  if (width.value > 768) {
-    return 2
-  }
-  return 1
+const { cols } = useDynamicGrid({
+  container,
+  itemMintWidth: computed(() => DROP_CARD_MIN_WIDTH),
 })
 
-const DROP_SKELETON_COUNT = steps
+const perView = computed(() => (cols.value === 1 ? 1.2 : cols.value))
+const config = computed<CarouselConfig>(() => ({
+  slides: { perView: perView.value, spacing: 16 },
+}))
+const skeletonCount = computed(() =>
+  Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
+)
+
+const { drops, loaded: isReady } = useDrops(queries)
+const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
 </script>
