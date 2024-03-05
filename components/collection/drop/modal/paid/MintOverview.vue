@@ -46,7 +46,7 @@
       <div class="flex items-center">
         <CommonTokenMoney :value="minimumFunds" class="text-k-grey text-xs" />
         <span class="font-bold ml-2">
-          {{ formattedMinimumFunds }}
+          {{ priceUSD }}
         </span>
       </div>
     </div>
@@ -132,7 +132,7 @@ import type { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 defineEmits(['confirm', 'close'])
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     toMintNfts: MassMintNFT[]
     action: AutoTeleportAction
@@ -148,11 +148,19 @@ withDefaults(
   },
 )
 
+const { chainSymbol, decimals } = useChain()
+
 const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
+
+const { usd: priceUSD } = useAmount(
+  computed(() => props.minimumFunds),
+  decimals,
+  chainSymbol,
+)
 
 defineExpose({ loading })
 </script>
