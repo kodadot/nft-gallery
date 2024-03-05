@@ -36,7 +36,7 @@
 
     <div class="flex justify-between items-center">
       <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
-      <CommonTokenMoney :value="totalPrice" />
+      <CommonTokenMoney :value="minimumFunds" />
     </div>
 
     <hr class="my-4" />
@@ -44,9 +44,9 @@
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex items-center">
-        <CommonTokenMoney :value="totalPrice" class="text-k-grey text-xs" />
+        <CommonTokenMoney :value="minimumFunds" class="text-k-grey text-xs" />
         <span class="font-bold ml-2">
-          {{ priceUSD }}
+          {{ formattedMinimumFunds }}
         </span>
       </div>
     </div>
@@ -132,7 +132,7 @@ import type { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 defineEmits(['confirm', 'close'])
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     toMintNfts: MassMintNFT[]
     action: AutoTeleportAction
@@ -148,19 +148,11 @@ const props = withDefaults(
   },
 )
 
-const { chainSymbol, decimals } = useChain()
-
 const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
-
-const totalPrice = computed(
-  () => getSumOfObjectField(props.toMintNfts, 'price') as number,
-)
-
-const { usd: priceUSD } = useAmount(totalPrice, decimals, chainSymbol)
 
 defineExpose({ loading })
 </script>

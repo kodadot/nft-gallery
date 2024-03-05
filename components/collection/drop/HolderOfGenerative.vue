@@ -111,12 +111,6 @@ const props = withDefaults(
 
 const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 
-const {
-  hasMinimumFunds,
-  formattedMinimumFunds,
-  minimumFunds,
-  formattedExistentialDeposit,
-} = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
   $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
@@ -453,6 +447,13 @@ const {
   isError: isTransactionError,
   mintSubmit,
 })
+
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop, amountToMint)
 
 const checkAvailableNfts = async () => {
   availableNfts.isLoading = true

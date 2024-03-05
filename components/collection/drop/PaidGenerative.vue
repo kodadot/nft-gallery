@@ -88,12 +88,6 @@ const props = withDefaults(
 const { chainSymbol, decimals } = useChain()
 const { hasCurrentChainBalance } = useMultipleBalance()
 
-const {
-  hasMinimumFunds,
-  formattedMinimumFunds,
-  minimumFunds,
-  formattedExistentialDeposit,
-} = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
   $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
@@ -386,6 +380,13 @@ const {
   isTransactionLoading: isTransactionLoading,
   mintSubmit,
 })
+
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop, amountToMint)
 
 watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
   if (wasLoading && !loading && status === TransactionStatus.Unknown) {
