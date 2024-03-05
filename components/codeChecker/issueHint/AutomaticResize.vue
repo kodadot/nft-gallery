@@ -8,7 +8,8 @@
 
 <script setup lang="ts">
 const code = `
-function windowResized() {  canvasSize = min(windowWidth, windowHeight)
+function windowResized() {
+  canvasSize = min(windowWidth, windowHeight)
   resizeCanvas(canvasSize, canvasSize)
 }`
 </script>

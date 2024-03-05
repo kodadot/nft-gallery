@@ -2,9 +2,9 @@
   <div class="rounded-xl border relative">
     <pre
       class="resolve-issue-code-example !pb-[30px] !my-0 !rounded-xl"
-      :class="`language-${lang}`">
-    <code>{{ normalizedCode }}</code>
-  </pre>
+      :class="`language-${lang}`"
+      v-html="highlightedCode" />
+
     <div
       v-clipboard:copy="normalizedCode"
       class="absolute border-t bottom-0 w-full text-right rounded-b-xl py-1.5 px-3.5 text-xs cursor-pointer hover:bg-neutral-4 hover:bg-natural-4 dark:hover:bg-neutral-7 dark:hover:bg-natural-10"
@@ -25,22 +25,24 @@ const nw = new Normalizer({
 
 const props = defineProps<{ code: string; lang: string }>()
 const normalizedCode = computed(() => nw.normalize(props.code))
+const highlightedCode = computed(() =>
+  Prism.highlight(
+    normalizedCode.value,
+    Prism.languages[props.lang],
+    props.lang,
+  ),
+)
 
 const { toast } = useToast()
 
 onMounted(() => {
   const codeBlock = document.querySelector('.resolve-issue-code-example')
-
-  if (codeBlock) {
-    Prism.highlightElement(codeBlock)
-
+  if (codeBlock && props.lang === 'markup') {
     // prevent Bulma's global styles from overriding styling of elements with `.tag` class
-    if (props.lang === 'markup') {
-      Array.from(codeBlock.querySelectorAll('.tag')).forEach((t) => {
-        t.classList.remove('tag')
-        t.classList.add('text-red-800', 'dark:text-rose-400')
-      })
-    }
+    Array.from(codeBlock.querySelectorAll('.tag')).forEach((t) => {
+      t.classList.remove('tag')
+      t.classList.add('text-red-800', 'dark:text-rose-400')
+    })
   }
 })
 </script>
