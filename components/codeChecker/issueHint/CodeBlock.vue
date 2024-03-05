@@ -1,13 +1,13 @@
 <template>
-  <div class="rounded-xl border relative">
+  <div>
     <pre
-      class="resolve-issue-code-example !pb-[30px] !my-0 !rounded-xl"
+      class="resolve-issue-code-example border border-border-color !pb-[30px] !my-0 !rounded-t-xl !rounded-b-none !bg-neutral-2 dark:!bg-neutral-10"
       :class="`language-${lang}`"
       v-html="highlightedCode" />
 
     <div
       v-clipboard:copy="normalizedCode"
-      class="absolute border-t bottom-0 w-full text-right rounded-b-xl py-1.5 px-3.5 text-xs cursor-pointer hover:bg-neutral-4 hover:bg-natural-4 dark:hover:bg-neutral-7 dark:hover:bg-natural-10"
+      class="bottom-0 w-full text-right border border-t-0 rounded-b-xl py-1.5 px-3.5 text-xs cursor-pointer bg-neutral-2 hover:bg-neutral-4 dark:bg-neutral-10 dark:hover:bg-neutral-8"
       @click="toast($t('general.copyToClipboard'))">
       {{ $t('codeChecker.copyCode') }}
     </div>
