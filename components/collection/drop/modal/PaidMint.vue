@@ -60,7 +60,7 @@ const props = withDefaults(
     hasMinimumFunds: boolean
     amountToMint: number
     readyToMint: boolean
-    hideMinimumFundsWarning: boolean
+    hideMinimumFundsWarning?: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
     mintingSession: MintingSession
