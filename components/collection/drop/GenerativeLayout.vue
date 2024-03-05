@@ -131,6 +131,8 @@ const props = withDefaults(
   {
     description: '',
     holderOfCollection: undefined,
+    amountToMint: undefined, // if provided will show massmint input
+    availableAmountToMint: undefined,
   },
 )
 
