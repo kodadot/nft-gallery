@@ -71,12 +71,14 @@ export type AllocateCollectionRequest = {
   image?: string
 }
 
+export type AllocateCollectionResult = {
+  id: number
+  name: string
+  image: string
+}
+
 type AllocateCollectionResponse = {
-  result: {
-    id: number
-    name: string
-    image: string
-  }
+  result: AllocateCollectionResult
 }
 
 export const allocateCollection = async (
