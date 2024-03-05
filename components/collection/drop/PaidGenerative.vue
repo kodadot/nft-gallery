@@ -1,7 +1,6 @@
 <template>
   <CollectionDropGenerativeLayout
     v-model:amount-to-mint="amountToMint"
-    :available-amount-to-mint="availableAmountToMint"
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
@@ -87,8 +86,7 @@ const props = withDefaults(
 )
 
 const { chainSymbol, decimals } = useChain()
-const { hasCurrentChainBalance, transferableCurrentChainBalance } =
-  useMultipleBalance()
+const { hasCurrentChainBalance } = useMultipleBalance()
 
 const {
   hasMinimumFunds,
@@ -227,14 +225,6 @@ const mintButtonDisabled = computed<boolean>(
           disabledByBackend.value ||
           maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
       )),
-)
-
-const availableAmountToMint = computed(() =>
-  transferableCurrentChainBalance.value
-    ? Math.floor(
-        (transferableCurrentChainBalance.value || 0) / Number(price.value),
-      )
-    : 1,
 )
 
 const mintButtonProps = computed(() => ({

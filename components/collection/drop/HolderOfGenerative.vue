@@ -109,11 +109,7 @@ const props = withDefaults(
   },
 )
 
-const {
-  fetchMultipleBalance,
-  hasCurrentChainBalance,
-  transferableCurrentChainBalance,
-} = useMultipleBalance()
+const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 
 const {
   hasMinimumFunds,
@@ -255,22 +251,9 @@ const { data: holderOfCollectionData } = await useAsyncData(
   },
 )
 
-const availableAmountToMint = computed(() => {
-  if (!transferableCurrentChainBalance.value) {
-    return 1
-  }
-
-  if (isHolderOfWithPaidMint.value) {
-    return Math.min(
-      availableNfts.amount,
-      Math.floor(
-        Number(transferableCurrentChainBalance.value) / Number(price.value),
-      ),
-    )
-  }
-
-  return availableNfts.amount
-})
+const availableAmountToMint = computed(() =>
+  accountId.value ? availableNfts.amount : undefined,
+)
 
 const maxMintLimitForCurrentUser = computed(
   () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
