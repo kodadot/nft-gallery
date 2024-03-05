@@ -65,6 +65,5 @@ export type Owners = {
     totalSold: number
     nfts: NFTExcludingEvents[]
     lastActivityTimestamp: number
-    longestHold: number
   }
 }

@@ -83,7 +83,6 @@ const updateOwnerWithNewNft = ({
   latestEvent,
   lastestTimeStamp,
   nft,
-  longestHold,
 }) => {
   owner.nftCount++
   if (latestEvent.interaction === Interaction.BUY) {
@@ -95,12 +94,18 @@ const updateOwnerWithNewNft = ({
       ? lastestTimeStamp
       : owner.lastActivityTimestamp
 
-  owner.longestHold = Math.max(
-    longestHold,
-    new Date().getTime() - lastestTimeStamp,
-  )
-
   owner.nfts = [...owner.nfts, nft]
+
+  let longestHoldTimestamp = lastestTimeStamp
+
+  owner.nfts.forEach((nft) => {
+    longestHoldTimestamp = Math.max(
+      longestHoldTimestamp,
+      new Date(nft.updatedAt).getTime(),
+    )
+  })
+  owner.longestHold = new Date().getTime() - longestHoldTimestamp
+
   return owner
 }
 
@@ -130,28 +135,11 @@ export const getOwners = (nfts) => {
         latestchangeHandsEvent.timestamp,
       ).getTime()
 
-      let longestHold = new Date().getTime() - lastestTimeStamp
-
-      events.forEach((event, i) => {
-        if (
-          event.interaction === Interaction.BUY ||
-          event.interaction === Interaction.SEND
-        ) {
-          if (i > 0 && event.currentOwner !== events[i - 1].currentOwner) {
-            const difference =
-              new Date(event.timestamp).getTime() -
-              new Date(events[i - 1].timestamp).getTime()
-            longestHold = Math.max(longestHold, difference)
-          }
-        }
-      })
-
       owners[nft.currentOwner] = updateOwnerWithNewNft({
         owner,
         latestEvent: latestchangeHandsEvent,
         lastestTimeStamp,
         nft,
-        longestHold,
       })
       return
     }
@@ -165,7 +153,6 @@ export const getOwners = (nfts) => {
       latestEvent: mintInteraction,
       lastestTimeStamp: mintTimeStamp,
       nft,
-      longestHold: new Date().getTime() - mintTimeStamp,
     })
   })
   return owners

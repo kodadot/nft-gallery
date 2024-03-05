@@ -10,9 +10,12 @@
       </div>
       <div class="flex flex-col">
         {{ name }}
-        <TimeAgo
-          custom-class="text-xs text-k-grey"
-          :timestamp="new Date(updatedAt).getTime()" />
+        <p class="text-xs text-k-grey">
+          {{ $t('activity.bought') }}
+          <TimeAgo
+            custom-class="text-xs text-k-grey"
+            :timestamp="new Date(updatedAt).getTime()" />
+        </p>
       </div>
     </nuxt-link>
     <div ref="target" />

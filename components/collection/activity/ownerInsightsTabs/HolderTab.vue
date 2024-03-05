@@ -37,17 +37,6 @@
               <span v-else>--</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs text-k-grey">{{ $t('activity.date') }}</span>
-              <p>
-                {{
-                  formatSecondsToDuration(
-                    (new Date().getTime() - holdings.lastActivityTimestamp) /
-                      1000,
-                  )
-                }}
-              </p>
-            </div>
-            <div class="flex justify-between">
               <span class="text-xs text-k-grey">{{
                 $t('activity.longestHold')
               }}</span>
