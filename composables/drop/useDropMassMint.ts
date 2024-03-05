@@ -81,6 +81,7 @@ export default ({
     description,
     collectionName,
     defaultName,
+    mintingSession,
   })
 
   const canMint = computed(() => Boolean(allocatedNfts.value.length))
@@ -90,6 +91,7 @@ export default ({
     pinning.value = new Map()
     allocatedNfts.value = []
     raffleEmail.value = undefined
+    mintingSession.value = { txHash: '', items: [] }
   }
 
   const allocateRaffleMode = async (
