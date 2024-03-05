@@ -15,7 +15,8 @@
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+    :handle-submit-mint="handleSubmitMint"
+    :on-failed-data-payload-regenerate-nft="!isMintModalActive" />
 
   <NeoModalExtend v-model:active="isRaffleModalActive">
     <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">

@@ -42,6 +42,9 @@
             :mint-count-available="mintCountAvailable"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
+            :on-failed-data-payload-regenerate-nft="
+              onFailedDataPayloadRegenerateNft
+            "
             @mint="handleSubmitMint"
             @generation:start="handleNftGeneration"
             @generation:end="handleNftGenerationEnd" />
@@ -75,6 +78,9 @@
             :mint-count-available="mintCountAvailable"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
+            :on-failed-data-payload-regenerate-nft="
+              onFailedDataPayloadRegenerateNft
+            "
             @mint="handleSubmitMint"
             @generation:start="handleNftGeneration"
             @generation:end="handleNftGenerationEnd" />
@@ -127,12 +133,14 @@ const props = withDefaults(
     userMintedCount: number
     handleSelectImage: (preview: GenerativePreviewItem) => void
     handleSubmitMint: () => void
+    onFailedDataPayloadRegenerateNft?: boolean
   }>(),
   {
     description: '',
     holderOfCollection: undefined,
     amountToMint: undefined, // if provided will show massmint input
     availableAmountToMint: undefined,
+    onFailedDataPayloadRegenerateNft: true,
   },
 )
 

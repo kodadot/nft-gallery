@@ -116,6 +116,7 @@ const props = defineProps<{
   isLoading: boolean
   mintButton: MintButtonProp
   holderOfCollection?: HolderOfCollectionProp
+  onFailedDataPayloadRegenerateNft?: boolean
 }>()
 
 const amount = useVModel(props, 'amountToMint')
@@ -186,7 +187,10 @@ watch(
 watchDebounced(
   [imageDataPayload],
   () => {
-    if (imageDataPayload.value?.image === 'data:,') {
+    if (
+      imageDataPayload.value?.image === 'data:,' &&
+      props.onFailedDataPayloadRegenerateNft
+    ) {
       generateNft()
     }
   },
