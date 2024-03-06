@@ -22,7 +22,9 @@
     </ModalBody>
   </NeoModal>
 
-  <CollectionDropGenerativeLayout @mint="handleSubmitMint" />
+  <CollectionDropGenerativeLayout
+    :holder-of-collection="holderOfCollection"
+    @mint="handleSubmitMint" />
 
   <CollectionDropModalPaidMint
     v-if="isHolderOfWithPaidMint"
@@ -57,7 +59,7 @@ import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
-import type { ToMintNft } from './types'
+import type { HolderOfCollectionProp, ToMintNft } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { getFakeEmail } from './utils'
@@ -118,6 +120,25 @@ const { data: holderOfCollectionData } = await useAsyncData(
     watch: [accountId, () => dropStore.runtimeMintCount],
   },
 )
+
+const maxMintLimitForCurrentUser = computed(
+  () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
+)
+
+const isHolderOfTargetCollection = computed(
+  () => maxMintLimitForCurrentUser.value > 0,
+)
+
+const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
+  id: drop.value?.holder_of as string,
+  isHolder: isHolderOfTargetCollection.value,
+  hasAvailable: availableNfts.amount !== 0,
+  isLoading: availableNfts.isLoading,
+  amount: {
+    total: maxMintLimitForCurrentUser.value,
+    available: availableNfts.amount,
+  },
+}))
 
 const isWalletConnecting = ref(false)
 const mintNftSN = ref('0')
