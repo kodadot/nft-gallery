@@ -12,6 +12,7 @@
       <BaseMediaItem
         class="border border-k-shade aspect-square w-8"
         :src="item.image"
+        :mime-type="mediaMimeType"
         preview
         is-detail />
 
@@ -49,6 +50,7 @@ const COLLAPSED_ITEMS_COUNT = 5
 const props = defineProps<{
   items: { image: string; name: string; id: string }[]
   header: string
+  mediaMimeType?: string
 }>()
 
 const expanded = ref(false)

@@ -9,11 +9,13 @@
       :src="sanitizeIpfsUrl(mintedNft.image)"
       :nft-name="mintedNft.name"
       :collection-id="mintedNft.collection"
-      :collection-name="mintedNft.collectionName" />
+      :collection-name="mintedNft.collectionName"
+      media-mime-type="text/html" />
     <MultiItemMedia
       v-else
       :header="$t('drops.amountMintedSuccessfully', [items.length])"
-      :items="sanatizedItems" />
+      :items="sanatizedItems"
+      media-mime-type="text/html" />
   </SuccessfulModalBody>
 </template>
 
