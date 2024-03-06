@@ -53,6 +53,7 @@
     :ready-to-mint="canMint"
     :token="token"
     :chain="chainName"
+    hide-minimum-funds-warning
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
