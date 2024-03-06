@@ -45,7 +45,11 @@ const { accountId } = useAuth()
 const sharingTxt = $i18n.t('sharing.nft')
 
 const txHash = computed(() => props.mintingSession.txHash || '')
-const share = computed(() => ({ text: sharingTxt, url: nftFullUrl.value }))
+const share = computed(() => ({
+  text: sharingTxt,
+  url: nftFullUrl.value,
+  withCopy: singleMint.value,
+}))
 const items = computed(() =>
   props.mintingSession.items.map((item) => ({
     id: item.id,
