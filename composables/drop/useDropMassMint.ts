@@ -87,6 +87,7 @@ export default ({
   const canMint = computed(() => Boolean(allocatedNfts.value.length))
 
   const clear = () => {
+    isLoading.value = false
     toMintNfts.value = []
     pinning.value = new Map()
     allocatedNfts.value = []
@@ -138,6 +139,7 @@ export default ({
 
   const mintGenerated = async (previewItem: GenerativePreviewItem) => {
     try {
+      clear()
       isLoading.value = true
 
       const [item] = getPreviewItemsToMintedNfts([previewItem])
@@ -325,5 +327,6 @@ export default ({
     mint,
     payloads,
     mintGenerated,
+    clearMassMint: clear,
   }
 }

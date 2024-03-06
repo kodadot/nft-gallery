@@ -432,6 +432,7 @@ const {
   submitMint,
   mint,
   mintGenerated,
+  clearMassMint,
 } = useDropMassMint({
   drop: props.drop,
   collectionName,
@@ -482,6 +483,7 @@ const checkAvailableNfts = async () => {
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const handleDropAddModalConfirm = () => {

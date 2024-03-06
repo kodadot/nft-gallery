@@ -307,6 +307,7 @@ const openMintModal = () => {
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const submitMints = async (session: Ref<MintingSession>) => {
@@ -366,6 +367,7 @@ const {
   allocateRaffleMode,
   raffleEmail,
   mint,
+  clearMassMint,
 } = useDropMassMint({
   drop: props.drop,
   collectionName,
