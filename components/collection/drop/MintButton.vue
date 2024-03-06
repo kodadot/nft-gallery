@@ -6,9 +6,11 @@
     no-shadow
     size="large"
     :loading="loading"
-    :disabled="buttonMint.disabled"
-    :loading-with-label="buttonMint.withLabel || dropStore.walletConnecting"
-    :label="buttonMint.label"
+    :disabled="!isButtonEnabled || loading"
+    :loading-with-label="
+      isCheckingMintRequirements || dropStore.walletConnecting
+    "
+    :label="mintButtonLabel"
     @click="handleMint" />
 </template>
 
@@ -78,6 +80,13 @@ const isHolderAndEligible = computed(() => {
 })
 
 const mintButtonLabel = computed(() => {
+  if (!mintCountAvailable.value) {
+    return $i18n.t('mint.unlockable.seeListings')
+  }
+  if (isCheckingMintRequirements.value) {
+    return $i18n.t('checking')
+  }
+
   if (dropStore.walletConnecting) {
     return $i18n.t('shoppingCart.wallet')
   }
@@ -106,9 +115,10 @@ const mintButtonLabel = computed(() => {
 const isButtonEnabled = computed(() => {
   if (
     !mintCountAvailable.value ||
-    drop.value?.disabled ||
-    !isLogIn.value ||
-    !selectedImage.value
+    Boolean(drop.value?.disabled) ||
+    !selectedImage.value ||
+    isCheckingMintRequirements.value ||
+    loading.value
   ) {
     return false
   }
@@ -140,39 +150,6 @@ const isCheckingMintRequirements = computed(
     isLogIn.value &&
     (props.holderOfCollection?.isLoading || !hasCurrentChainBalance.value),
 )
-
-const buttonMint = computed<{
-  label: string
-  disabled: boolean
-  withLabel?: boolean
-}>(() => {
-  if (!mintCountAvailable.value) {
-    return {
-      label: $i18n.t('mint.unlockable.seeListings'),
-      disabled: false,
-    }
-  }
-
-  if (isCheckingMintRequirements.value) {
-    return {
-      label: $i18n.t('checking'),
-      disabled: true,
-      withLabel: true,
-    }
-  }
-
-  if (isLogIn.value && !drop.value?.userAccess) {
-    return {
-      label: mintButtonLabel.value,
-      disabled: true,
-    }
-  }
-
-  return {
-    label: mintButtonLabel.value,
-    disabled: !isButtonEnabled.value || loading.value,
-  }
-})
 
 const handleMint = () => {
   if (!mintCountAvailable.value) {
