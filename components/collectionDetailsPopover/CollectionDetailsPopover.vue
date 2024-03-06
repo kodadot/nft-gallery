@@ -3,7 +3,7 @@
     :append-to="body"
     placement="bottom"
     :class="[
-      'hidden md:inline-block overflow-hidden text-ellipsis whitespace-nowrap text-k-grey hover:text-text-color',
+      'hidden md:inline-flex overflow-hidden text-ellipsis whitespace-nowrap text-k-grey hover:text-text-color',
       className,
     ]"
     :delay="[showDelay, hideDelay]"
