@@ -82,7 +82,7 @@ import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { formatSecondsToDuration } from '~/utils/format/time'
+import { formatSecondsToDuration } from '@/utils/format/time'
 
 const props = defineProps<{
   owners?: Owners
