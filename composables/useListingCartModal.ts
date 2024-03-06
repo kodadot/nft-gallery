@@ -5,7 +5,7 @@ import {
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { NFTWithMetadata } from './useNft'
 
-export default () => {
+export default (clearItemsOnModalClose = false) => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
 
@@ -35,12 +35,27 @@ export default () => {
   const openListingCartModal = () =>
     (preferencesStore.listingCartModalOpen = true)
 
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
+  const clearItemsInChain = () => {
     listingCartStore.itemsInChain.forEach((item) =>
       listingCartStore.removeItem(item.id),
     )
+  }
+
+  onBeforeUnmount(() => {
+    preferencesStore.listingCartModalOpen = false
+    clearItemsInChain()
   })
+
+  if (clearItemsOnModalClose) {
+    watch(
+      () => preferencesStore.listingCartModalOpen,
+      (isOpen, wasOpen) => {
+        if (!isOpen && wasOpen) {
+          clearItemsInChain()
+        }
+      },
+    )
+  }
 
   return {
     listNftByShoppingCartItem,

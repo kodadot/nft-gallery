@@ -31,7 +31,7 @@ export default ({
 }: GenerativeDropMintParams) => {
   const { imageDataPayload } = useGenerativeIframeData()
   const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal()
+    useListingCartModal(true)
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()

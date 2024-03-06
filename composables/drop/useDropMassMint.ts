@@ -57,7 +57,7 @@ export default ({
   const { accountId } = useAuth()
   const { client } = usePrefix()
   const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal()
+    useListingCartModal(true)
 
   const amountToMint = ref(1)
   const isAllocating = ref(false)
