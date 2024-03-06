@@ -21,12 +21,12 @@
           (nft.collection.name || nft.collection.id)
         "
         :show-delay="collectionPopoverShowDelay"
-        class="text-xs text-k-grey hover:text-text-color is-ellipsis"
+        class="text-xs text-k-grey hover:text-text-color"
         :nft="nft">
         <template #content>
           <a
             :v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
-            class="text-k-grey hover:text-text-color">
+            class="text-k-grey hover:text-text-color whitespace-nowrap">
             {{ nft.collection.name || '--' }}
           </a>
         </template>
