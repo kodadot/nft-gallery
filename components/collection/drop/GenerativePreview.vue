@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="isLoading"
+      v-if="dropStore.loading"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -88,6 +88,7 @@ defineProps<{
 }>()
 
 const { drop } = useDrop()
+const dropStore = useDropStore()
 
 const {
   maxCount,
@@ -104,7 +105,7 @@ const { start: startTimer } = useTimeoutFn(() => {
   // only applicable if the drop is old one that missing`kodahash/render/completed` event
 
   if (!mintCountAvailable.value && !imageDataLoaded.value) {
-    isLoading.value = false
+    dropStore.setLoading(false)
     emit('generation:end')
   }
 }, 5000)
@@ -146,11 +147,9 @@ const getHash = () => {
 
 const generativeImageUrl = ref('')
 
-const isLoading = ref(false)
-
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 const generateNft = () => {
-  isLoading.value = true
+  dropStore.setLoading(true)
   startTimer()
   const metadata = `${drop.value?.content}/?hash=${getHash()}`
   console.log('metadata', metadata)
@@ -161,16 +160,20 @@ const generateNft = () => {
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    isLoading.value = false
+    dropStore.setLoading(false)
     emit('generation:end')
   }
 })
 
-watch([accountId, () => drop.value?.content], () => {
-  if (drop.value?.content) {
-    generateNft()
-  }
-})
+watch(
+  [accountId, () => drop.value?.content],
+  () => {
+    if (drop.value?.content) {
+      generateNft()
+    }
+  },
+  { immediate: true },
+)
 
 watchDebounced(
   [imageDataPayload],
