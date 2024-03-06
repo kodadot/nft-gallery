@@ -22,9 +22,6 @@ export const useDropStore = defineStore('drop', {
     mintedDropCount: null,
   }),
   getters: {
-    // loading: (state) => state.loading,
-    // walletConnecting: (state) => state.walletConnecting,
-    // isCaptutingImage: (state) => state.isCaptutingImage,
   },
   actions: {
     setLoading(payload: boolean) {
