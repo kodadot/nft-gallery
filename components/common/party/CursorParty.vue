@@ -51,6 +51,14 @@ const colors = [
   'text-slate-500',
 ]
 
+const props = defineProps<{
+  connections: UserDetails[]
+  ghostOnElements?: string[]
+  labelFormatter: (connection: UserDetails) => CursorLabel
+}>()
+
+const cursorConnections = ref(new Map<string, CursorDetails>())
+
 const availableColors = ref([...colors])
 
 const getRandomColor = () => {
@@ -64,14 +72,6 @@ const getRandomColor = () => {
   availableColors.value = newColors
   return randomColor
 }
-
-const props = defineProps<{
-  connections: UserDetails[]
-  ghostOnElements?: string[]
-  labelFormatter: (connection: UserDetails) => CursorLabel
-}>()
-
-const cursorConnections = ref(new Map<string, CursorDetails>())
 
 const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
   return !(
