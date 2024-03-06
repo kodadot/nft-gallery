@@ -57,8 +57,8 @@
           <AutoTeleportActionButton
             ref="autoteleportButton"
             :actions="actions"
-            :disabled="Boolean(listingCartStore.incompleteListPrices)"
-            :fees="{ actionLazyFetch: true }"
+            :disabled="confirmButtonDisabled"
+            :fees="{ actionLazyFetch: true, pesimistic: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
@@ -172,9 +172,19 @@ const title = computed(() => {
     : `List ${items}`
 })
 
+const confirmButtonDisabled = computed(
+  () =>
+    Boolean(listingCartStore.incompleteListPrices) ||
+    !autoteleportButton.value?.isReady,
+)
+
 const confirmListingLabel = computed(() => {
   switch (listingCartStore.incompleteListPrices) {
     case 0:
+      if (!autoteleportButton.value?.isReady) {
+        return $i18n.t('autoTeleport.checking')
+      }
+
       return showChangePriceModal.value
         ? $i18n.t('transaction.price.change')
         : $i18n.t('listingCart.complete')
