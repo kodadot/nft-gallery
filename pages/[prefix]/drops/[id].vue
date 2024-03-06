@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useDrop } from '@/components/drops/useDrops'
+import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 import { isProduction } from '@/utils/chain'
 
@@ -16,7 +16,10 @@ definePageMeta({
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 
-const { drop } = useDrop()
+const { drop, fetchDrop } = useDrop()
+fetchDrop()
+useDropStatus().fetchDropStatus()
+
 const dropType = computed(() => drop.value?.type)
 
 watchEffect(() => {

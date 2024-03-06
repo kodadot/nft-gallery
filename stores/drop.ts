@@ -8,6 +8,7 @@ interface State {
   selectedImage: string
   runtimeMintCount: number
   drop: DropItem | null
+  mintedDropCount: number | null
 }
 
 export const useDropStore = defineStore('drop', {
@@ -18,6 +19,7 @@ export const useDropStore = defineStore('drop', {
     selectedImage: '',
     runtimeMintCount: 0,
     drop: null,
+    mintedDropCount: null,
   }),
   getters: {
     // loading: (state) => state.loading,
@@ -45,6 +47,9 @@ export const useDropStore = defineStore('drop', {
     },
     setDrop(payload: DropItem | null) {
       this.drop = payload
+    },
+    setMintedDropCount(payload: number | null) {
+      this.mintedDropCount = payload
     },
   },
 })
