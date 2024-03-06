@@ -33,6 +33,7 @@ const highlightedCode = computed(() => {
     props.lang,
   )
 
+  // prevent Bulma's global styles from overriding styling of elements with `.tag` class
   return html.replaceAll(
     'class="token tag"',
     'class="token text-red-800 dark:text-rose-400"',
