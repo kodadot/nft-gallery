@@ -13,7 +13,7 @@
     <MultiItemMedia
       v-else
       :header="$t('drops.amountMintedSuccessfully', [items.length])"
-      :items="items" />
+      :items="sanatizedItems" />
   </SuccessfulModalBody>
 </template>
 
@@ -27,6 +27,13 @@ const props = defineProps<{
 }>()
 
 const mintedNft = computed(() => props.mintingSession.items[0])
+const sanatizedItems = computed(() =>
+  items.value.map((item) => ({
+    id: item.id,
+    name: item.name,
+    image: sanitizeIpfsUrl(item.image),
+  })),
+)
 
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()

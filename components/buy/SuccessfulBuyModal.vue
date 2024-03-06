@@ -16,7 +16,7 @@
       <MultiItemMedia
         v-else
         :header="$t('buyModal.amountPurchaseSuccessfully', [items.length])"
-        :items="processedItems" />
+        :items="sanatizedItems" />
     </SuccessfulModal>
 
     <ListingCartModal />
@@ -57,7 +57,7 @@ const shareText = computed(() => {
   return $i18n.t('sharing.boughtNfts', [someNfts.join(', ')])
 })
 
-const processedItems = computed(() =>
+const sanatizedItems = computed(() =>
   props.items.map((item) => ({
     id: item.id,
     name: item.name,
