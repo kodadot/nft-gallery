@@ -5,7 +5,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 const lengthChanged = <T>(current: T | T[], prev: T | T[]): boolean =>
   Array.isArray(current) && Array.isArray(prev)
     ? current.length !== prev.length
-    : !Boolean(current && prev)
+    : !(current && prev)
 
 const checkIfActionNeedsRefetch = (
   action: Actions | undefined,
