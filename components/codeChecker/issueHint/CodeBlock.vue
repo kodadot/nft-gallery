@@ -24,25 +24,18 @@ const nw = new Normalizer({
 })
 
 const props = defineProps<{ code: string; lang: string }>()
+const { toast } = useToast()
 const normalizedCode = computed(() => nw.normalize(props.code))
-const highlightedCode = computed(() =>
-  Prism.highlight(
+const highlightedCode = computed(() => {
+  const html = Prism.highlight(
     normalizedCode.value,
     Prism.languages[props.lang],
     props.lang,
-  ),
-)
+  )
 
-const { toast } = useToast()
-
-onMounted(() => {
-  const codeBlock = document.querySelector('.resolve-issue-code-example')
-  if (codeBlock && props.lang === 'markup') {
-    // prevent Bulma's global styles from overriding styling of elements with `.tag` class
-    Array.from(codeBlock.querySelectorAll('.tag')).forEach((t) => {
-      t.classList.remove('tag')
-      t.classList.add('text-red-800', 'dark:text-rose-400')
-    })
-  }
+  return html.replaceAll(
+    'class="token tag"',
+    'class="token text-red-800 dark:text-rose-400"',
+  )
 })
 </script>
