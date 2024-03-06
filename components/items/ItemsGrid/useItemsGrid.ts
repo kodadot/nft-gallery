@@ -151,24 +151,6 @@ export function useFetchSearch({
       ]),
     }
 
-    const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
-      if (!sort) {
-        return false
-      }
-      const sortArray = Array.isArray(sort) ? sort : [sort]
-      return sortArray.some((sortBy) => (sortBy ?? '').includes('price'))
-    }
-    watch(
-      () => route.query.sort,
-      (newSort, oldSort) => {
-        const priceSortHasBeenActivated =
-          isPriceSortActive(newSort) && !isPriceSortActive(oldSort)
-        if (priceSortHasBeenActivated && route.query.listed !== 'true') {
-          route.query.listed = 'true'
-        }
-      },
-    )
-
     const searchForToken = getSearchCriteria(
       search?.length ? search : searchParams.value,
     )
