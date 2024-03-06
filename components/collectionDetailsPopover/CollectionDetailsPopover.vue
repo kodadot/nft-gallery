@@ -2,7 +2,10 @@
   <tippy
     :append-to="body"
     placement="bottom"
-    :class="['hidden md:inline-block', className]"
+    :class="[
+      'hidden md:inline-block overflow-hidden text-ellipsis whitespace-nowrap text-k-grey hover:text-text-color',
+      className,
+    ]"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
     @show="triggered = true">
