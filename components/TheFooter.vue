@@ -207,7 +207,7 @@ const menuMarketplace: Menu[] = [
 
 const menuKodadot: Menu[] = [
   {
-    name: $i18n.t('about'),
+    name: $i18n.t('footer.guide'),
     url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
   },
