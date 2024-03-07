@@ -24,7 +24,7 @@ const props = withDefaults(
     gridSection?: GridSection
     mobileCols?: number
     gapSize?: number
-    persist: boolean
+    persist?: boolean
     fillRows?: number // total amount of items in grid
   }>(),
   {
