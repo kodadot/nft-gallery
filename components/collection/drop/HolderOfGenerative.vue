@@ -97,6 +97,7 @@ import type {
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -360,6 +361,9 @@ watch(status, (curStatus) => {
       return
     }
     submitMint(mintNftSN.value)
+  }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
   }
 })
 

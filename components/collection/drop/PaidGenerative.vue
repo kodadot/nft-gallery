@@ -74,6 +74,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ToMintNft } from './types'
 import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -284,6 +285,9 @@ const mintNft = async () => {
 watch(status, (curStatus) => {
   if (curStatus === TransactionStatus.Block) {
     submitMint(mintNftSN.value)
+  }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
   }
 })
 
