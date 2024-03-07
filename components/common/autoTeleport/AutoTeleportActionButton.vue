@@ -226,7 +226,7 @@ const autoTeleportLabel = computed(() => {
 })
 
 const isDisabled = computed(() => {
-  if (props.disabled) {
+  if (props.disabled || !isReady.value) {
     return true
   }
 
