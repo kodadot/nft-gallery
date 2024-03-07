@@ -96,15 +96,15 @@ const updateOwnerWithNewNft = ({
 
   owner.nfts = [...owner.nfts, nft]
 
-  let longestHoldTimestamp = lastestTimeStamp
+  let longestHoldTimestamp = 0
 
   owner.nfts.forEach((nft) => {
     longestHoldTimestamp = Math.max(
       longestHoldTimestamp,
-      new Date(nft.updatedAt).getTime(),
+      new Date().getTime() - new Date(nft.updatedAt).getTime(),
     )
   })
-  owner.longestHold = new Date().getTime() - longestHoldTimestamp
+  owner.longestHold = longestHoldTimestamp
 
   return owner
 }
