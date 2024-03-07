@@ -37,60 +37,6 @@
     </div>
   </div>
 
-  <div
-    v-if="!hasMinimumFunds && !hideMinimumFundsWarning"
-    class="border border-k-orange2 bg-k-orange-light">
-    <div class="p-4 flex gap-3">
-      <NeoIcon
-        icon="circle-exclamation-check"
-        class="text-k-orange3"
-        size="large" />
-
-      <div class="text-xs">
-        <span class="text-text-color">
-          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-        </span>
-
-        <tippy placement="left" :append-to="body" class="float-right">
-          <p class="lowercase text-k-orange3">
-            {{ $t('teleport.why') }}
-          </p>
-
-          <template #content>
-            <div
-              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
-              <p
-                v-dompurify-html="
-                  $t('drops.paidDropWhyTooltip', [
-                    formattedMinimumFunds,
-                    formattedExistentialDeposit,
-                  ])
-                " />
-
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
-                class="text-k-blue hover:text-k-blue-hover text-xs capitalize mt-5 block"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >{{ $t('helper.learnMoreAboutEd') }}</a
-              >
-            </div>
-          </template>
-        </tippy>
-      </div>
-    </div>
-
-    <div class="py-2 border-t border-k-orange2 text-center">
-      <p class="text-xs">
-        {{
-          canAutoTeleport
-            ? $t('drops.youCanContinueWithAutoteleport')
-            : $t('drops.pleaseAddFunds')
-        }}
-      </p>
-    </div>
-  </div>
-
   <div class="flex pt-5">
     <AutoTeleportActionButton
       ref="autoteleport"
@@ -108,7 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { ToMintNft } from '../../types'
@@ -116,26 +61,18 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 defineEmits(['confirm', 'close'])
 
-withDefaults(
-  defineProps<{
-    toMintNft: ToMintNft
-    action: AutoTeleportAction
+defineProps<{
+  toMintNft: ToMintNft
+  action: AutoTeleportAction
 
-    minimumFunds: number
-    hasMinimumFunds: boolean
-    hideMinimumFundsWarning: boolean
-    formattedMinimumFunds: string
-    formattedExistentialDeposit: string
-  }>(),
-  {
-    hideMinimumFundsWarning: false,
-  },
-)
+  minimumFunds: number
 
-const body = ref(document.body)
+  formattedMinimumFunds: string
+  formattedExistentialDeposit: string
+}>()
+
 const autoteleport = ref()
 
-const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
 
 defineExpose({ loading })

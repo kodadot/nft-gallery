@@ -10,7 +10,7 @@
       :id="`cursor-${connection.id}`"
       icon="arrow-pointer"
       pack="fas"
-      :class="cursorDetails.color" />
+      :class="color" />
 
     <div
       v-if="cursorLabel?.label"
@@ -40,4 +40,6 @@ const props = defineProps<{
 }>()
 
 const cursorLabel = computed<CursorLabel>(() => props.cursorDetails.label)
+
+const color = props.cursorDetails.color()
 </script>
