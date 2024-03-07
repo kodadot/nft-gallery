@@ -71,7 +71,7 @@ const COLLAPSED_ITEMS_COUNT = 5
 defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
-  txHash: string
+  txHash?: string
   items: ShoppingCartItem[]
 }>()
 
