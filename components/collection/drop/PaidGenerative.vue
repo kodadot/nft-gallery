@@ -53,7 +53,6 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
