@@ -27,6 +27,7 @@
     <LazyTheFooter />
     <LazyCookieBanner />
     <Buy />
+    <ListingCartModal />
   </div>
 </template>
 
