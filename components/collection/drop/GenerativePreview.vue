@@ -180,15 +180,11 @@ watch(imageDataLoaded, () => {
   }
 })
 
-watch(
-  accountId,
-  () => {
-    generateNft()
-  },
-  {
-    immediate: true,
-  },
-)
+watch(accountId, generateNft)
+
+onMounted(() => {
+  setTimeout(generateNft, 1000)
+})
 
 watchDebounced(
   [imageDataPayload],
