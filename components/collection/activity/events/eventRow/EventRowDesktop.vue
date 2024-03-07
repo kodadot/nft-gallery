@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="column">
+    <div class="column flex items-center">
       <TimeAgo
         custom-class="height-50px flex items-center"
         :timestamp="event.timestamp" />
