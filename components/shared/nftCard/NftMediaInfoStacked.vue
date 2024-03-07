@@ -42,12 +42,12 @@
         <CollectionDetailsPopover
           v-if="collectionNameLabel"
           :show-delay="collectionPopoverShowDelay"
-          class-name="text-xs text-k-grey hover:text-text-color overflow-hidden text-ellipsis whitespace-nowrap"
+          class-name="text-xs text-k-grey hover:text-text-color"
           :nft="token">
           <template #content>
             <a
               :v-safe-href="`/${prefix}/collection/${token.collection.id}`"
-              class="text-k-grey hover:text-text-color">
+              class="text-k-grey hover:text-text-color whitespace-nowrap">
               {{ collectionNameLabel }}
             </a>
           </template>
