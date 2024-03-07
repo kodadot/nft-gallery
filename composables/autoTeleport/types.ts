@@ -49,6 +49,12 @@ export type AutoTeleportFeeParams = {
   actions?: number
   actionAutoFees?: boolean
   actionLazyFetch?: boolean
+  /**
+   * If optimistic is true, will fetch tx fees setting isReady to false
+   * even if the current actions are sufficient and no teleport is needed,
+   * useful for actions that change dynamically,
+   */
+  pesimistic?: boolean
 }
 
 export type AutoteleportInteraction = ActionsInteractions &
