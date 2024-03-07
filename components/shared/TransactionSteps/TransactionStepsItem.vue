@@ -59,7 +59,7 @@
           <NeoButton
             v-if="showTryAgain"
             class="ml-4"
-            variant="pill"
+            variant="outlined-rounded"
             size="small"
             @click="tryAgain">
             {{ $t('helper.tryAgain') }}

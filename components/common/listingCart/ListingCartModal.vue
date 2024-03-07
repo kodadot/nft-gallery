@@ -17,7 +17,7 @@
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
-        :loading="loadingAutoTeleport"
+        :loading="!autoTeleportLoaded"
         @close="onClose">
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
@@ -57,8 +57,8 @@
           <AutoTeleportActionButton
             ref="autoteleportButton"
             :actions="actions"
-            :disabled="Boolean(listingCartStore.incompleteListPrices)"
-            :fees="{ actionLazyFetch: true }"
+            :disabled="confirmButtonDisabled"
+            :fees="{ actionLazyFetch: true, pesimistic: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
@@ -104,8 +104,7 @@ const autoTeleport = ref(false)
 const autoteleportButton = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
-
-const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
+const autoTeleportLoaded = ref(false)
 
 const teleportTransitionTxFees = computed(() =>
   format(
@@ -173,9 +172,19 @@ const title = computed(() => {
     : `List ${items}`
 })
 
+const confirmButtonDisabled = computed(
+  () =>
+    Boolean(listingCartStore.incompleteListPrices) ||
+    !autoteleportButton.value?.isReady,
+)
+
 const confirmListingLabel = computed(() => {
   switch (listingCartStore.incompleteListPrices) {
     case 0:
+      if (!autoteleportButton.value?.isReady) {
+        return $i18n.t('autoTeleport.checking')
+      }
+
       return showChangePriceModal.value
         ? $i18n.t('transaction.price.change')
         : $i18n.t('listingCart.complete')
@@ -255,6 +264,15 @@ watch(
   (listingCartModalOpen) => {
     if (!listingCartModalOpen) {
       listingCartStore.clearDiscardedItems()
+    }
+  },
+)
+
+watch(
+  () => autoteleportButton.value?.isReady,
+  () => {
+    if (autoteleportButton.value?.isReady && !autoTeleportLoaded.value) {
+      autoTeleportLoaded.value = true
     }
   },
 )
