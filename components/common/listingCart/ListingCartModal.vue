@@ -265,9 +265,11 @@ watchSyncEffect(() => {
   }
 })
 
-onUnmounted(() => {
-  preferencesStore.listingCartModalOpen = false
-})
+const closeListingCartModal = () =>
+  (preferencesStore.listingCartModalOpen = false)
+
+onBeforeMount(closeListingCartModal)
+onUnmounted(closeListingCartModal)
 </script>
 
 <style lang="scss" scoped>
