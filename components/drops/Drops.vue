@@ -81,7 +81,7 @@ import filter from 'lodash/filter'
 
 const GRID_DEFAULT_WIDTH = {
   small: 0,
-  medium: 334,
+  medium: DROP_CARD_MIN_WIDTH,
   large: 0,
 }
 

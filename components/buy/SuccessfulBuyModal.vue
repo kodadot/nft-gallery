@@ -58,8 +58,6 @@
         </div>
       </template>
     </SuccessfulModal>
-
-    <ListingCartModal />
   </div>
 </template>
 
