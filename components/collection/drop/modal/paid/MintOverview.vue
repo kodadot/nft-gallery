@@ -97,6 +97,7 @@
       :label="$t('drops.proceedToSigning')"
       :amount="minimumFunds"
       :actions="[action]"
+      :parent-ready="!modalLoading"
       :fees="{
         actionAutoFees: false,
       }"
@@ -121,6 +122,7 @@ withDefaults(
     toMintNft: ToMintNft
     action: AutoTeleportAction
 
+    modalLoading: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
     hideMinimumFundsWarning: boolean
