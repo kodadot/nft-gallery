@@ -19,10 +19,9 @@
 
 <script lang="ts" setup>
 import { useDrops } from '@/components/drops/useDrops'
-import { CarouselConfig } from './module/CarouselAgnostic.vue'
 
 let queries = {
-  limit: 6,
+  limit: 12,
   active: [true],
   chain: ['ahp'],
 }
@@ -43,7 +42,7 @@ const { cols } = useDynamicGrid({
 })
 
 const perView = computed(() => (cols.value === 1 ? 1.2 : cols.value))
-const config = computed<CarouselConfig>(() => ({
+const config = computed(() => ({
   slides: { perView: perView.value, spacing: 16 },
 }))
 const skeletonCount = computed(() =>

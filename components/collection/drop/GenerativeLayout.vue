@@ -27,7 +27,7 @@
           <hr class="hidden md:block mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
-            class="md:hidden mt-7"
+            v-if="width < mdBreakpoint"
             :minted="userMintedCount"
             :drop="drop"
             :collection-id="collectionId"
@@ -57,7 +57,9 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div class="flex-1 hidden md:flex justify-end mt-[-213px]">
+        <div
+          v-if="width >= mdBreakpoint"
+          class="flex-1 flex py-3 px-4 justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
@@ -102,6 +104,7 @@ import type {
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
+import { useWindowSize } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -126,6 +129,9 @@ const props = withDefaults(
     holderOfCollection: undefined,
   },
 )
+
+const { width } = useWindowSize()
+const mdBreakpoint = 768
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents(props.drop.alias)
 const { collection: collectionInfo } = useCollectionMinimal({

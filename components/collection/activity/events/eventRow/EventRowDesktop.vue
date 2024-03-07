@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-2 py-[.65rem]">
-    <div class="flex-1 overflow-clip">
+  <div class="flex gap-3 py-[.55rem]">
+    <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 flex items-center">
       <TimeAgo
         custom-class="height-50px flex items-center"
         :timestamp="event.timestamp" />
