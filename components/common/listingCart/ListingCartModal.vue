@@ -224,7 +224,7 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     }
 
     listingCartStore.clearListedItems()
-    preferencesStore.listingCartModalOpen = false
+    closeListingCartModal()
     resetCartToDefaults()
   } catch (error) {
     warningMessage(error)
@@ -233,7 +233,7 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 
 const onClose = () => {
   resetCartToDefaults()
-  preferencesStore.listingCartModalOpen = false
+  closeListingCartModal()
 }
 
 const resetCartToDefaults = () => {
@@ -245,7 +245,7 @@ watch(
   () => listingCartStore.count,
   () => {
     if (listingCartStore.count === 0) {
-      preferencesStore.listingCartModalOpen = false
+      closeListingCartModal()
     }
   },
 )
