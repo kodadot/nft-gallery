@@ -70,6 +70,9 @@ import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 import { NeoField } from '@kodadot1/brick'
 import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
+
 const route = useRoute()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity',
@@ -86,12 +89,10 @@ const collectionIdList = computed(
   () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(
-  () =>
-    collectionArray.value?.filter(
-      (collection) =>
-        collectionIdList.value?.find((id) => collection.id === id),
-    ),
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id),
+  ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()
@@ -118,7 +119,7 @@ const clearAllFilters = () => {
 }
 
 const queryMapTranslation = {
-  listed: $i18n.t('sort.listed'),
+  listed: isRemark.value ? $i18n.t('sort.listed_RMRK') : $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
   art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),

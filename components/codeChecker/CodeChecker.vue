@@ -94,23 +94,43 @@
         class="border-t border-k-shade pt-5 flex flex-col gap-5">
         <CodeCheckerTestItem
           :passed="fileValidity.resizerUsed"
-          :description="$t('codeChecker.automaticResize')" />
+          :description="$t('codeChecker.automaticResize')">
+          <template #modalContent>
+            <CodeCheckerIssueHintAutomaticResize />
+          </template>
+        </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.validTitle"
-          :description="$t('codeChecker.correctHTMLName')" />
+          :description="$t('codeChecker.correctHTMLName')">
+          <template #modalContent>
+            <CodeCheckerIssueHintCorrectHTMLName />
+          </template>
+        </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.kodaRendererUsed"
-          :description="$t('codeChecker.usingKodaHash')" />
+          :description="$t('codeChecker.usingKodaHash')">
+          <template #modalContent>
+            <CodeCheckerIssueHintUsingKodaHash />
+          </template>
+        </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
-          :description="$t('codeChecker.usingParamHash')" />
+          :description="$t('codeChecker.usingParamHash')">
+          <template #modalContent>
+            <CodeCheckerIssueHintUsingParamHash />
+          </template>
+        </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.renderDurationValid"
           :description="
             $t('codeChecker.variationLoadingTime', [
               (config.maxAllowedLoadTime / 1000).toFixed(0),
             ])
-          " />
+          ">
+          <template #modalContent>
+            <CodeCheckerIssueHintVariationLoadingTime />
+          </template>
+        </CodeCheckerTestItem>
       </div>
     </div>
 
@@ -146,9 +166,9 @@ const validtyDefault: Validity = {
   webGLSupported: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
-  resizerUsed: false,
-  usesHashParam: false,
-  validTitle: false,
+  resizerUsed: 'unknown',
+  usesHashParam: 'unknown',
+  validTitle: 'unknown',
   renderDurationValid: 'loading',
   title: '-',
 }
