@@ -183,7 +183,7 @@ watch(imageDataLoaded, () => {
 watch(accountId, generateNft)
 
 onMounted(() => {
-  setTimeout(generateNft, 1000)
+  setTimeout(generateNft, 100)
 })
 
 watchDebounced(
