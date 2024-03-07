@@ -48,8 +48,6 @@
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
     :formatted-existential-deposit="formattedExistentialDeposit"
-    :token="token"
-    :chain="chainName"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
@@ -141,7 +139,6 @@ const {
   collectionId,
   chainName,
   disabledByBackend,
-  token,
   price,
 } = useGenerativeDropDetails(props.drop)
 
