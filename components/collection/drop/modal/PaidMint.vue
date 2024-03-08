@@ -19,6 +19,7 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
