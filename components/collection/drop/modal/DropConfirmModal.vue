@@ -25,7 +25,8 @@
       <SigningModalBody
         v-else-if="isClaimingDropStep"
         :title="$t('drops.preparingYourNft')"
-        :subtitle="est">
+        :subtitle="$t('mint.progress')"
+        :custom-formatted-estimation="est">
         <p class="py-5 capitalize">
           {{ $t('drops.stayTuned') }}
         </p>

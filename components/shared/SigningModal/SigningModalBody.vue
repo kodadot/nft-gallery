@@ -41,9 +41,12 @@
 
       <template v-if="showEstimation" #footer>
         <div
-          :class="{ 'min-w-[80px]': !est, 'w-max': est }"
+          :class="{
+            'min-w-[80px]': !customFormattedEstimation,
+            'w-max': customFormattedEstimation,
+          }"
           class="absolute z-[4] left-2/4 top-[90%] -translate-x-2/4 -translate-y-[90%] px-3 text-center rounded-full py-1 text-k-grey bg-background-color text-xs">
-          {{ estimation }}
+          {{ formattedEstimation }}
         </div>
       </template>
     </SkeletonLoader>
@@ -62,7 +65,7 @@ const props = withDefaults(
     showSubtitleDots?: boolean
     failed?: boolean
     status?: TransactionStatus
-    est?: string
+    customFormattedEstimation?: string
   }>(),
   {
     showSubtitleDots: false,
@@ -75,8 +78,12 @@ const { formattedState, isTransactionInProgress } = useTransactionEstimatedTime(
 )
 
 const showEstimation = computed(() =>
-  props.est ? true : isTransactionInProgress.value && !props.failed,
+  props.customFormattedEstimation
+    ? true
+    : isTransactionInProgress.value && !props.failed,
 )
 
-const estimation = computed(() => props.est || formattedState.value)
+const formattedEstimation = computed(
+  () => props.customFormattedEstimation || formattedState.value,
+)
 </script>
