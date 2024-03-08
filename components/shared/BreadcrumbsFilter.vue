@@ -1,6 +1,6 @@
 <template>
   <NeoField grouped group-multiline>
-    <div class="flex flex-wrap gap-3">
+    <div class="flex flex-wrap gap-3 lg:mt-6">
       <template v-for="(value, key) in breads" :key="key">
         <NeoTag
           v-if="key === 'search'"

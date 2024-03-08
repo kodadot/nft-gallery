@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     content-class="add-funds-modal"
     @close="onClose">
     <ModalBody

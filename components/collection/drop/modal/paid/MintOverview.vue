@@ -43,6 +43,7 @@
       :label="$t('drops.proceedToSigning')"
       :amount="minimumFunds"
       :actions="[action]"
+      :parent-ready="!modalLoading"
       :fees="{
         actionAutoFees: false,
       }"
@@ -64,9 +65,8 @@ defineEmits(['confirm', 'close'])
 defineProps<{
   toMintNft: ToMintNft
   action: AutoTeleportAction
-
+  modalLoading: boolean
   minimumFunds: number
-
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
 }>()
