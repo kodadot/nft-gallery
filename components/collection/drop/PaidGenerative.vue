@@ -53,7 +53,6 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -73,6 +72,8 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ToMintNft } from './types'
+import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -214,6 +215,9 @@ useCursorDropEvents(
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
   if (isLoading.value) {
     return $i18n.t('loader.ipfs')
   }
@@ -281,6 +285,9 @@ watch(status, (curStatus) => {
   if (curStatus === TransactionStatus.Block) {
     submitMint(mintNftSN.value)
   }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
+  }
 })
 
 const clearWalletConnecting = () => {
@@ -332,9 +339,7 @@ const handleSubmitMint = async () => {
 
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
   openMintModal()
   await allocateRaffle()
 }

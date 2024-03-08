@@ -1,5 +1,5 @@
 <template>
-  <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
+  <div class="collection-banner" :style="bannerBackgroundStyles">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-[368px] lg:h-full">
@@ -40,12 +40,18 @@ const props = defineProps({
 })
 
 const route = useRoute()
+const img = useImage()
 
 const title = computed(() => props.drop?.name)
 
 const banner = computed(() => sanitizeIpfsUrl(props.drop?.banner))
 
 const image = computed(() => sanitizeIpfsUrl(props.drop?.image))
+
+const bannerBackgroundStyles = computed(() => {
+  const imgUrl = img(banner.value, { width: window.innerWidth })
+  return { backgroundImage: `url('${imgUrl}')` }
+})
 
 const description = computed(() => {
   switch (props.drop?.type) {

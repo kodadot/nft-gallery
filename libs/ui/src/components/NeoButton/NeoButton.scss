@@ -100,7 +100,7 @@
     }
 
     &--outlined-rounded {
-      @apply h-[35px] w-min rounded shadow-none border border-card-border-color-light bg-background-color;
+      @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
 
       &:hover {
         @apply bg-background-color border border-text-color text-text-color;
@@ -178,11 +178,12 @@
         @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
       }
 
-      // commented out in https://github.com/kodadot/nft-gallery/pull/9394
-
-      // .o-btn__wrapper .o-btn__label {
-      //   @apply flex justify-between items-center;
-      // }
+      .o-btn__wrapper {
+        @apply flex justify-between items-center;
+      }
+      .o-btn__label {
+        @apply flex justify-center items-center;
+      }
     }
 
 

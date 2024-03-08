@@ -96,6 +96,8 @@ import type {
 } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -293,15 +295,12 @@ const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : isLogIn.value
-      ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value &&
-        hasAvailableNfts.value
+      ? isHolderOfTargetCollection.value && hasAvailableNfts.value
         ? $i18n.t('drops.mintForPaid', [
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
+      : $i18n.t('general.connect_wallet')
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
@@ -313,7 +312,6 @@ const mintButtonDisabled = computed<boolean>(
           !isHolderOfTargetCollection.value ||
           maxMintLimitForCurrentUser.value <=
             mintedAmountForCurrentUser.value ||
-          !hasMinimumFunds.value ||
           !hasAvailableNfts.value,
       )),
 )
@@ -363,6 +361,9 @@ watch(status, (curStatus) => {
       return
     }
     submitMint(mintNftSN.value)
+  }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
   }
 })
 
@@ -431,9 +432,7 @@ const handleSubmitMint = async () => {
 const prepareRaffle = async () => {
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
 
   await allocateRaffle()
 }
@@ -467,7 +466,10 @@ const submitMint = async (sn: string) => {
     const id = `${collectionId.value}-${result.sn}`
 
     subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
+      const mintedNft = await fetchNft(id)
+      if (mintedNft) {
+        mintedNftWithMetadata.value = mintedNft
+      }
     })
 
     isLoading.value = false

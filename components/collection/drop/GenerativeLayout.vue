@@ -1,13 +1,24 @@
 <template>
   <div class="border-t">
     <div
-      class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] pt-6">
+      class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px]">
       <div class="columns is-variable is-4-tablet">
         <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
-          <div class="font-bold is-size-5 mb-4">
-            {{ $t('tooltip.created') }}
+          <div class="flex justify-between flex-wrap max-w-[504px]">
+            <div class="mt-7 mr-2">
+              <div class="font-bold is-size-5 mb-4 capitalize">
+                {{ $t('tooltip.created') }}
+              </div>
+              <CollectionDropCreatedBy v-if="address" :address="address" />
+            </div>
+            <div v-if="ownerAddresses.length" class="mt-7">
+              <div class="font-bold is-size-5 mb-4 capitalize">
+                {{ $t('tooltip.collectedBy') }}
+              </div>
+              <CollectionDropCollectedBy :addresses="ownerAddresses" />
+            </div>
           </div>
-          <CollectionDropCreatedBy v-if="address" :address="address" />
+
           <CollectionUnlockableCollectionInfo
             class="mt-7"
             :collection-id="collectionId"
@@ -16,7 +27,7 @@
           <hr class="hidden md:block mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
-            class="md:hidden mt-7"
+            v-if="width < mdBreakpoint"
             :minted="userMintedCount"
             :drop="drop"
             :collection-id="collectionId"
@@ -34,17 +45,21 @@
             @generation:end="handleNftGenerationEnd" />
 
           <CollectionDropPhase
-            class="mt-7"
+            class="mt-28 md:mt-7"
             :minimum-funds="minimumFunds"
             :mint-count-available="mintCountAvailable"
-            :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
-            :holder-of-collection="holderOfCollection" />
+            :holder-of-collection="holderOfCollection"
+            :drop-status="formattedDropItem?.status"
+            :drop-start-time="formattedDropItem?.dropStartTime"
+            :drop="drop" />
 
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div class="column hidden md:flex justify-end mt-[-245px]">
+        <div
+          v-if="width >= mdBreakpoint"
+          class="column md:flex justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
@@ -79,6 +94,8 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import { Drop, getFormattedDropItem } from '@/components/drops/useDrops'
+import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -87,6 +104,7 @@ import type {
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
+import { useWindowSize } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -112,11 +130,31 @@ const props = withDefaults(
   },
 )
 
+const { width } = useWindowSize()
+const mdBreakpoint = 768
+
 const { emitEvent, completeLastEvent } = useCursorDropEvents(props.drop.alias)
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
 })
 const address = computed(() => collectionInfo.value?.currentOwner)
+
+const { owners } = useCollectionActivity({ collectionId: props.collectionId })
+const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+
+const formattedDropItem = ref<Drop>()
+watch(
+  [collectionInfo],
+  async () => {
+    if (collectionInfo.value) {
+      formattedDropItem.value = await getFormattedDropItem(
+        collectionInfo.value,
+        props.drop,
+      )
+    }
+  },
+  { immediate: true },
+)
 
 const handleNftGeneration = ({ image }: { image: string }) => {
   emitEvent(DropEventType.DROP_GENERATING)
