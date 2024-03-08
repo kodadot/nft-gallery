@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -58,7 +57,7 @@ const props = withDefaults(
     isAllocatingRaffle: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
-    hideMinimumFundsWarning: boolean
+    hideMinimumFundsWarning?: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
     mintedNft?: DropMintedNft
