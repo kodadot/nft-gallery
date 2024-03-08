@@ -70,10 +70,7 @@ const options = computed(() => {
   let sortBy: string[]
 
   if (isItems.value) {
-    const removeSn = ['sn_ASC', 'sn_DESC']
-    sortBy = NFT_SQUID_SORT_CONDITION_LIST.filter(
-      (item) => !removeSn.includes(item),
-    )
+    sortBy = NFT_SQUID_SORT_CONDITION_LIST
 
     if (isRemark.value) {
       sortBy = [...sortBy, 'instance_ASC']
