@@ -97,6 +97,7 @@ import type {
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -294,10 +295,7 @@ const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : isLogIn.value
-      ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value &&
-        hasAvailableNfts.value
+      ? isHolderOfTargetCollection.value && hasAvailableNfts.value
         ? $i18n.t('drops.mintForPaid', [
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
@@ -314,7 +312,6 @@ const mintButtonDisabled = computed<boolean>(
           !isHolderOfTargetCollection.value ||
           maxMintLimitForCurrentUser.value <=
             mintedAmountForCurrentUser.value ||
-          !hasMinimumFunds.value ||
           !hasAvailableNfts.value,
       )),
 )
@@ -364,6 +361,9 @@ watch(status, (curStatus) => {
       return
     }
     submitMint(mintNftSN.value)
+  }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
   }
 })
 

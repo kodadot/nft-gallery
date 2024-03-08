@@ -124,7 +124,7 @@ useLazyAsyncData('stats', async () => {
   }
 
   stats.value = {
-    listedCount: data.value?.listed.totalCount,
+    listedCount: data.value?.listed.length,
     totalCollected: data.value?.obtained.totalCount,
   }
 
@@ -154,24 +154,23 @@ const getInvestorStatsEvents = (data: any) => {
 
 // Sellor stats
 // Check all SEND events, and get the List event for keep the price with e.meta
-const getSellerEvents = (data: any) => {
+const getSellerEvents = (data) => {
   const soldEvents: Event[] = []
-  data.sold.edges.forEach((e: any) => {
-    if (e.node?.events && e.node.events.length > 0) {
-      e.node.events.forEach((e: Event) => {
-        if (BigInt(e.meta)) {
-          soldEvents.push(e)
-        }
-      })
-    }
-  })
 
-  totalSoldItems.value = data.sold.totalCount
-  const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
-  const maxPriceSold = Math.max(...allValuesList, 0)
-  // Highest Buy and Total amount sell
-  maxSoldPrice.value = maxPriceSold
-  totalSell.value = getSum(allValuesList)
+  if (data.sold.length) {
+    data.sold.forEach((e) => {
+      if (BigInt(e.meta)) {
+        soldEvents.push(e)
+      }
+    })
+
+    totalSoldItems.value = data.sold.length
+
+    const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
+    // Highest Buy and Total amount sell
+    maxSoldPrice.value = Math.max(...allValuesList, 0)
+    totalSell.value = getSum(allValuesList)
+  }
 }
 </script>
 

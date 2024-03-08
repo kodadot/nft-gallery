@@ -31,7 +31,7 @@ const footerLinks = [
     linkAddress: 'https://hello.kodadot.xyz/tutorial/',
   },
   {
-    linkName: 'About',
+    linkName: 'Tutorials & Guides',
     linkAddress: 'https://hello.kodadot.xyz/about-us/who-are-we',
   },
   {
