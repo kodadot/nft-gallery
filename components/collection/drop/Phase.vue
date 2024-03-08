@@ -77,7 +77,10 @@
       :minimum-funds="minimumFunds"
       :is-minted-out="isMintedOut" />
 
-    <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
+    <DropsCreateCalendarEventModal
+      v-model="isCreateEventModalActive"
+      :title="`Drop: ${drop.name}`"
+      show-exact-date />
 
     <!-- if there is location on the campaign -->
     <CollectionDropRequirementItem
