@@ -37,6 +37,7 @@ type MassMintParams = {
   isTransactionLoading: Ref<boolean>
   submitMints: (session: Ref<MintingSession>) => Promise<void>
   mintSubmit: (session: Ref<MintingSession>) => Promise<void>
+  onTransactionCancel?: () => void
 }
 
 export default ({
@@ -53,6 +54,7 @@ export default ({
   status,
   submitMints,
   mintSubmit,
+  onTransactionCancel,
 }: MassMintParams) => {
   const { accountId } = useAuth()
   const { client } = usePrefix()
@@ -307,6 +309,10 @@ export default ({
         return
       }
       submitMints(mintingSession)
+    }
+
+    if (curStatus === TransactionStatus.Cancelled) {
+      onTransactionCancel?.()
     }
   })
 
