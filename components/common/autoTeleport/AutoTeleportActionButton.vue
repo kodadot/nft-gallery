@@ -107,6 +107,7 @@ const props = withDefaults(
     autoCloseModalDelayModal?: number
     interaction?: ActionlessInteraction
     hideTop?: boolean
+    parentReady?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -117,6 +118,7 @@ const props = withDefaults(
     actions: () => [],
     label: '',
     hideTop: false,
+    parentReady: true,
   },
 )
 
@@ -145,7 +147,10 @@ const isModalOpen = ref(false)
 const onRampActive = ref(false)
 const autoTeleport = ref(false)
 const showFirstTimeTeleport = computed(
-  () => preferencesStore.firstTimeAutoTeleport && autoTeleport.value,
+  () =>
+    preferencesStore.firstTimeAutoTeleport &&
+    autoTeleport.value &&
+    props.parentReady,
 )
 
 const isTelportIconActive = computed(() => {
