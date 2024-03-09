@@ -207,9 +207,11 @@
 @media screen and (max-width: 640px) {
   .search-bar-container {
     .o-acp__menu {
-      left: -29px;
+      left: -28px;
       width: 100vw;
       max-height: 93dvh;
+      margin-top: .8rem;
+      border: none;
     }
   }
 }
