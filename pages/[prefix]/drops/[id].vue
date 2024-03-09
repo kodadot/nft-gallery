@@ -17,12 +17,21 @@ const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 
 const { drop, fetchDrop } = useDrop()
-fetchDrop()
 useDropStatus().fetchDropStatus()
 
 const dropType = computed(() => drop.value?.type)
+const ready = ref(false)
+
+onMounted(() =>
+  fetchDrop().then(() => {
+    ready.value = true
+  }),
+)
 
 watchEffect(() => {
+  if (!ready.value) {
+    return
+  }
   if (drop.value?.chain === 'ahk' && isProduction) {
     useRouter().push('/')
     return

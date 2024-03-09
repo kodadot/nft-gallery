@@ -6,7 +6,7 @@ import { useDrop } from '@/components/drops/useDrops'
 type EventParams = { image?: string; completed?: boolean }
 
 export default (mintingWatch?: Ref<boolean>[]) => {
-  const drop = useDrop()
+  const { drop } = useDrop()
   const { mintedNft } = useGenerativeDropMint()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),

@@ -12,6 +12,7 @@ import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
+import { getChainName } from '@/utils/chain'
 
 export interface Drop {
   collection: DropItem
@@ -137,14 +138,9 @@ export const getDropDetails = async (alias: string) => {
   return getFormattedDropItem(collectionEntity, drop)
 }
 
-export function useDrop() {
+export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
-  const defaults: Partial<DropItem> = {
-    name: '',
-    max: 255,
-    collection: '',
-  }
 
   const drop = computed({
     get: () => dropStore.drop,
@@ -155,8 +151,7 @@ export function useDrop() {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    const fetchedDropItem = await getDropById(params.id.toString())
-    drop.value = { ...defaults, ...fetchedDropItem }
+    drop.value = await getDropById(alias ?? params.id.toString())
   }
 
   watch(() => params.id, fetchDrop)
