@@ -54,9 +54,6 @@ const description = computed(() => {
   switch (drop.value?.type) {
     case 'paid':
       return unlockableDesc(50)
-
-    // case 'drop':
-    //   return unlockableDesc(40)
     default:
       return ''
   }
