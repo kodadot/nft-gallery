@@ -6,11 +6,11 @@
     no-shadow
     size="large"
     :loading="loading"
-    :disabled="!isButtonEnabled || loading"
+    :disabled="!enabled || loading"
     :loading-with-label="
       isCheckingMintRequirements || dropStore.walletConnecting
     "
-    :label="mintButtonLabel"
+    :label="label"
     @click="handleMint" />
 </template>
 
@@ -79,7 +79,7 @@ const isHolderAndEligible = computed(() => {
   )
 })
 
-const mintButtonLabel = computed(() => {
+const label = computed(() => {
   if (!mintCountAvailable.value) {
     return $i18n.t('mint.unlockable.seeListings')
   }
@@ -112,7 +112,7 @@ const mintButtonLabel = computed(() => {
   }
 })
 
-const isButtonEnabled = computed(() => {
+const enabled = computed(() => {
   if (
     !mintCountAvailable.value ||
     Boolean(drop.value?.disabled) ||
