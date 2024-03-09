@@ -19,11 +19,11 @@
           {{ $t('search.landingTitle3') }}
         </div>
       </h1>
-      <div class="container is-fluid flex justify-center">
+      <div class="container is-fluid flex justify-center mt-[2rem]">
         <LandingFarcasterBanner />
       </div>
 
-      <div class="flex justify-center mt-6 md:!mt-12">
+      <div class="flex justify-center mt-[2rem]">
         <p class="with-divider capitalize text-base">
           {{ $t('landing.featuredGenerativeDrops') }}
         </p>
