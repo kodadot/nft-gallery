@@ -1157,7 +1157,8 @@
     "artists": {
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
-    }
+    },
+    "connectFarcaster": "Connect with Koda on Farcaster"
   },
   "history": {
     "label": "History",

@@ -19,6 +19,9 @@
           {{ $t('search.landingTitle3') }}
         </div>
       </h1>
+      <div class="container is-fluid flex justify-center">
+        <LandingFarcasterBanner />
+      </div>
 
       <div class="flex justify-center mt-6 md:!mt-12">
         <p class="with-divider capitalize text-base">
