@@ -27,7 +27,6 @@
 
   .o-acp__menu {
     max-height: 610px;
-    min-width: 400px;
 
     .o-acp__item {
       padding: 0;
@@ -202,6 +201,16 @@
   }
   .landing-shapes {
     display: none;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .search-bar-container {
+    .o-acp__menu {
+      left: -29px;
+      width: 100vw;
+      max-height: 93dvh;
+    }
   }
 }
 

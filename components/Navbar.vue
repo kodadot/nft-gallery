@@ -10,7 +10,7 @@
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link
-          v-if="!isMobile"
+          v-if="!isMobile || !openMobileSearchBar"
           to="/"
           class="navbar-item logo nuxt-link-active">
           <img
