@@ -1,6 +1,6 @@
 <template>
-  <div class="columns mb-2">
-    <div class="column is-clipped">
+  <div class="flex gap-3 py-[.55rem]">
+    <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="column is-1">
+    <div class="w-1/12">
       <div class="height-50px flex items-center">
         <EventTag
           :interaction="event.interaction"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="column is-ellipsis">
+    <div class="flex-1 text-ellipsis">
       <div class="height-50px flex items-center">
         <div v-if="amount === blank">
           {{ blank }}
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="flex-1">
       <div class="height-50px flex items-center">
         <nuxt-link
           v-if="fromAddress !== blank"
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="column">
+    <div class="flex-1">
       <div class="height-50px flex items-center">
         <nuxt-link
           v-if="toAddress !== blank"
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="column flex items-center">
+    <div class="flex-1 flex items-center">
       <TimeAgo
         custom-class="height-50px flex items-center"
         :timestamp="event.timestamp" />
