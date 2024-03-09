@@ -66,6 +66,7 @@
       :mint-count-available="mintCountAvailable"
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
+      :drop="drop"
       @mint="emit('mint')" />
 
     <div
@@ -111,6 +112,17 @@ const props = defineProps<{
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+ // only applicable if the drop is old one that missing`kodahash/render/completed` event
+ 
+  if (!props.mintCountAvailable && !imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+}, 5000)
+
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 
@@ -155,6 +167,7 @@ const displayUrl = computed(() => {
 })
 const generateNft = () => {
   isLoading.value = true
+  startTimer()
   const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
   emit('generation:start', { image: generativeImageUrl.value })
@@ -176,5 +189,15 @@ watch(
   {
     immediate: true,
   },
+)
+
+watchDebounced(
+  [imageDataPayload],
+  () => {
+    if (imageDataPayload.value?.image === 'data:,') {
+      generateNft()
+    }
+  },
+  { debounce: 1000 },
 )
 </script>
