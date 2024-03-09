@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -20,6 +19,7 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
@@ -58,7 +58,7 @@ const props = withDefaults(
     isAllocatingRaffle: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
-    hideMinimumFundsWarning: boolean
+    hideMinimumFundsWarning?: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
     mintedNft?: DropMintedNft

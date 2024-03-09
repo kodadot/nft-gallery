@@ -56,12 +56,13 @@ export function useDrops(query?: GetDropsQuery) {
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    dropsList.value.map(async (drop) => {
-      const newDrop = await getFormattedDropItem(drop, drop)
+    const formattedDrops = await Promise.all(
+      dropsList.value.map(async (drop) => getFormattedDropItem(drop, drop)),
+    )
 
-      drops.value.push(newDrop)
-      loaded.value = true
-    })
+    drops.value = formattedDrops
+
+    loaded.value = true
   })
 
   const sortDrops = computed(() =>
@@ -83,7 +84,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
     ...drop,
     collection: collection,
     max: chainMax,
-    dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
+    dropStartTime: count >= 5 ? new Date(Date.now() - 1e10) : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),

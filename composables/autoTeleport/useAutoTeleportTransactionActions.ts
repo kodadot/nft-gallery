@@ -4,29 +4,6 @@ import type {
   AutoteleportInteraction,
 } from './types'
 
-const isCancelled = (
-  action: AutoTeleportAction,
-  prevAction?: AutoTeleportAction,
-) => {
-  const loading = action.details.isLoading
-  const status = action.details.status
-
-  let prevLoading = false
-  let prevStatus = ''
-
-  if (prevAction) {
-    prevLoading = prevAction.details.isLoading
-    prevStatus = prevAction.details.status
-  }
-
-  return (
-    !loading &&
-    prevLoading &&
-    prevStatus === TransactionStatus.Unknown &&
-    status === TransactionStatus.Unknown
-  )
-}
-
 export const getAutoTeleportActionInteraction = (
   autoTeleportAction: AutoTeleportAction,
 ): AutoteleportInteraction =>
@@ -58,9 +35,9 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
 
   watch(
     actions,
-    (newActions, prevActions) => {
-      newActions.forEach((action, index) => {
-        const cancelled = isCancelled(action, prevActions?.[index])
+    (actions) => {
+      actions.forEach((action) => {
+        const cancelled = action.details.status === TransactionStatus.Cancelled
         actionsCancelled.value.set(
           getAutoTeleportActionInteraction(action),
           cancelled,
