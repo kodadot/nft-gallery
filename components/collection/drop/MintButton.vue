@@ -76,7 +76,7 @@ const buttonMint = computed<{
 
   if (isLogIn.value && props.drop.userAccess === false) {
     return {
-      label: props.mintButton.label,
+      label: $i18n.t('mint.unlockable.notEligibility'),
       disabled: true,
     }
   }

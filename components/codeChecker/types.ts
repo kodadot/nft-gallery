@@ -18,9 +18,9 @@ export type Validity = {
   webGLSupported: boolean
   localP5jsUsed: boolean
   kodaRendererUsed: Passed
-  resizerUsed: boolean
-  usesHashParam: boolean
-  validTitle: boolean
+  resizerUsed: Passed
+  usesHashParam: Passed
+  validTitle: Passed
   renderDurationValid: Passed
 }
 
