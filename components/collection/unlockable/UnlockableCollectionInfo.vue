@@ -7,7 +7,7 @@
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
       </div>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center mb-4">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text text-left p-0"
