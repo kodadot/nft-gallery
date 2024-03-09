@@ -42,8 +42,6 @@
     free
     @close="closeAddFundModal"
     @confirm="handleDropAddModalConfirm" />
-
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -51,7 +49,6 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
-import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
   type UnlockableCollectionById,

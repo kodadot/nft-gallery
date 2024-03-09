@@ -99,6 +99,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 import useDropMassMint from '@/composables/drop/useDropMassMint'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -274,10 +275,7 @@ const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : isLogIn.value
-      ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value &&
-        hasAvailableNfts.value
+      ? isHolderOfTargetCollection.value && hasAvailableNfts.value
         ? $i18n.t('drops.mintForPaid', [
             `${withoutDecimals({ value: Number(props.drop?.price), prefix: props.drop?.chain })} ${chainSymbol.value}`,
           ])
@@ -418,6 +416,11 @@ const submitMints = async (session: Ref<MintingSession>) => {
   }
 }
 
+const closeMintModal = () => {
+  isMintModalActive.value = false
+  clearMassMint()
+}
+
 const {
   toMintNfts,
   amountToMint,
@@ -447,6 +450,7 @@ const {
   submitMints,
   isError: isTransactionError,
   mintSubmit,
+  onTransactionCancel: closeMintModal,
 })
 
 const {
@@ -479,11 +483,6 @@ const checkAvailableNfts = async () => {
 
   availableNfts.amount = claimed.filter((x) => !x).length
   availableNfts.isLoading = false
-}
-
-const closeMintModal = () => {
-  isMintModalActive.value = false
-  clearMassMint()
 }
 
 const handleDropAddModalConfirm = () => {

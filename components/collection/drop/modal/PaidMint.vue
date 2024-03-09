@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -15,12 +14,11 @@
         ref="mintOverview"
         :to-mint-nfts="toMintNfts"
         :minimum-funds="minimumFunds"
-        :has-minimum-funds="hasMinimumFunds"
         :mint-button="mintButton"
-        :hide-minimum-funds-warning="hideMinimumFundsWarning"
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
@@ -51,25 +49,18 @@ import { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 
-const props = withDefaults(
-  defineProps<{
-    modelValue: boolean
-    toMintNfts: MassMintNFT[]
-    action: AutoTeleportAction
-    minimumFunds: number
-    hasMinimumFunds: boolean
-    amountToMint: number
-    readyToMint: boolean
-    hideMinimumFundsWarning?: boolean
-    formattedMinimumFunds: string
-    formattedExistentialDeposit: string
-    mintingSession: MintingSession
-    canListNft: boolean
-  }>(),
-  {
-    hideMinimumFundsWarning: false,
-  },
-)
+const props = defineProps<{
+  modelValue: boolean
+  toMintNfts: MassMintNFT[]
+  action: AutoTeleportAction
+  minimumFunds: number
+  amountToMint: number
+  readyToMint: boolean
+  formattedMinimumFunds: string
+  formattedExistentialDeposit: string
+  mintingSession: MintingSession
+  canListNft: boolean
+}>()
 
 enum ModalStep {
   OVERVIEW = 'overview',

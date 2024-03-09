@@ -3,7 +3,6 @@
     v-model:active="isModalActive"
     class="neo-modal"
     data-testid="on-ramp-modal"
-    scroll="clip"
     @close="onClose">
     <div class="w-[unset] lg:w-[25rem]">
       <div class="border-b border-grey flex items-center justify-between px-6">

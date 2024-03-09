@@ -52,60 +52,6 @@
     </div>
   </div>
 
-  <div
-    v-if="!hasMinimumFunds && !hideMinimumFundsWarning"
-    class="border border-k-orange2 bg-k-orange-light">
-    <div class="p-4 flex gap-3">
-      <NeoIcon
-        icon="circle-exclamation-check"
-        class="text-k-orange3"
-        size="large" />
-
-      <div class="text-xs">
-        <span class="text-text-color">
-          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-        </span>
-
-        <tippy placement="left" :append-to="body" class="float-right">
-          <p class="lowercase text-k-orange3">
-            {{ $t('teleport.why') }}
-          </p>
-
-          <template #content>
-            <div
-              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
-              <p
-                v-dompurify-html="
-                  $t('drops.paidDropWhyTooltip', [
-                    formattedMinimumFunds,
-                    formattedExistentialDeposit,
-                  ])
-                " />
-
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
-                class="text-k-blue hover:text-k-blue-hover text-xs capitalize mt-5 block"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >{{ $t('helper.learnMoreAboutEd') }}</a
-              >
-            </div>
-          </template>
-        </tippy>
-      </div>
-    </div>
-
-    <div class="py-2 border-t border-k-orange2 text-center">
-      <p class="text-xs">
-        {{
-          canAutoTeleport
-            ? $t('drops.youCanContinueWithAutoteleport')
-            : $t('drops.pleaseAddFunds')
-        }}
-      </p>
-    </div>
-  </div>
-
   <div class="flex pt-5">
     <AutoTeleportActionButton
       ref="autoteleport"
@@ -113,6 +59,7 @@
       :disabled="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
+      :parent-ready="!modalLoading"
       :fees="{
         actionAutoFees: false,
       }"
@@ -124,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -132,28 +79,20 @@ import type { MassMintNFT } from '@/composables/drop/useDropMassMint'
 
 defineEmits(['confirm', 'close'])
 
-const props = withDefaults(
-  defineProps<{
-    toMintNfts: MassMintNFT[]
-    action: AutoTeleportAction
-    mintButton: { label: string; disabled: boolean; loading?: boolean }
-    minimumFunds: number
-    hasMinimumFunds: boolean
-    hideMinimumFundsWarning: boolean
-    formattedMinimumFunds: string
-    formattedExistentialDeposit: string
-  }>(),
-  {
-    hideMinimumFundsWarning: false,
-  },
-)
+const props = defineProps<{
+  toMintNfts: MassMintNFT[]
+  action: AutoTeleportAction
+  mintButton: { label: string; disabled: boolean; loading?: boolean }
+  modalLoading: boolean
+  minimumFunds: number
+  formattedMinimumFunds: string
+  formattedExistentialDeposit: string
+}>()
 
 const { chainSymbol, decimals } = useChain()
 
-const body = ref(document.body)
 const autoteleport = ref()
 
-const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
 
 const { usd: priceUSD } = useAmount(

@@ -45,19 +45,15 @@
     :to-mint-nfts="toMintNfts"
     :minting-session="mintingSession"
     :minimum-funds="minimumFunds"
-    :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNfts"
     :formatted-minimum-funds="formattedMinimumFunds"
     :formatted-existential-deposit="formattedExistentialDeposit"
     :amount-to-mint="amountToMint"
     :ready-to-mint="canMint"
-    :token="token"
     :chain="chainName"
-    hide-minimum-funds-warning
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -76,6 +72,7 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/useDropMassMint'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 import { MintingSession } from './types'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -123,7 +120,6 @@ const {
   collectionId,
   chainName,
   disabledByBackend,
-  token,
   price,
 } = useGenerativeDropDetails(props.drop)
 
@@ -382,6 +378,7 @@ const {
   isError: isTransactionError,
   isTransactionLoading: isTransactionLoading,
   mintSubmit,
+  onTransactionCancel: closeMintModal,
 })
 
 const {

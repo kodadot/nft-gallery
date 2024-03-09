@@ -49,7 +49,10 @@
         <div
           v-if="isError || status === TransactionStatus.Cancelled"
           class="flex-1 text-right">
-          <NeoButton variant="pill" size="small" @click="burnItems()">
+          <NeoButton
+            variant="outlined-rounded"
+            size="small"
+            @click="burnItems()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>

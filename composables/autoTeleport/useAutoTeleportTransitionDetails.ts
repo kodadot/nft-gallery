@@ -10,6 +10,7 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
+import { checkIfAutoTeleportActionsNeedRefetch } from './utils'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -18,6 +19,7 @@ const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
   actions: 0,
   actionLazyFetch: false,
+  pesimistic: false,
 }
 
 export default function (
@@ -200,6 +202,10 @@ export default function (
   )
 
   const doesNotNeedsTeleport = computed<boolean>(() => {
+    if (fees.pesimistic) {
+      return false
+    }
+
     const needsTeleport =
       Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
 
@@ -255,25 +261,27 @@ export default function (
   )
 
   watch(
-    actionsId,
-    async () => {
-      if (actionAutoFees.value) {
+    [actionsId, actions],
+    async ([id, actions], [prevId, prevActions]) => {
+      if (
+        id !== prevId &&
+        actionAutoFees.value &&
+        checkIfAutoTeleportActionsNeedRefetch(actions, prevActions)
+      ) {
         try {
           hasFetched.actionTxFees = false
-          const feesPromisses = actions.value.map(
-            async ({ action, prefix }) => {
-              let api = await apiInstance.value
-              if (prefix) {
-                api = await apiInstanceByPrefix(prefix)
-              }
-              const address = getAddressByChain(currentChain.value as Chain)
-              return getActionTransactionFee({
-                api,
-                action: action,
-                address,
-              })
-            },
-          )
+          const feesPromisses = actions.map(async ({ action, prefix }) => {
+            let api = await apiInstance.value
+            if (prefix) {
+              api = await apiInstanceByPrefix(prefix)
+            }
+            const address = getAddressByChain(currentChain.value as Chain)
+            return getActionTransactionFee({
+              api,
+              action: action,
+              address,
+            })
+          })
           const fees = await Promise.all(feesPromisses)
           actionTxFees.value = fees.map(Number)
         } catch (error) {

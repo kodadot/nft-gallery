@@ -18,8 +18,6 @@
         :header="$t('buyModal.amountPurchaseSuccessfully', [items.length])"
         :items="sanatizedItems" />
     </SuccessfulModal>
-
-    <ListingCartModal />
   </div>
 </template>
 
@@ -29,7 +27,7 @@ import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
-  txHash: string
+  txHash?: string
   items: ShoppingCartItem[]
 }>()
 
