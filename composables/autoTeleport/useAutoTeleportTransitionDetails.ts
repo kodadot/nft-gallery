@@ -192,17 +192,21 @@ export default function (
     return sourceChainProperties?.tokenSymbol === chainSymbol.value
   })
 
+  const isPesimistic = computed(
+    () => fees.pesimistic && Boolean(richestChain.value),
+  )
+
   const canGetTeleportFee = computed<boolean>(
     () =>
-      Boolean(richestChain.value) &&
       !teleportTxFee.value &&
+      Boolean(richestChain.value) &&
       addTeleportFee.value &&
-      hasEnoughInRichestChain.value &&
-      amountToTeleport.value > 0,
+      ((hasEnoughInRichestChain.value && amountToTeleport.value > 0) ||
+        isPesimistic.value),
   )
 
   const doesNotNeedsTeleport = computed<boolean>(() => {
-    if (fees.pesimistic) {
+    if (isPesimistic.value) {
       return false
     }
 
@@ -231,7 +235,7 @@ export default function (
 
   const getTeleportTransactionFee = async () => {
     return await getTransactionFee({
-      amount: amountToTeleport.value,
+      amount: isPesimistic.value ? 1 : amountToTeleport.value,
       from: richestChain.value as Chain,
       fromAddress: getAddressByChain(richestChain.value as Chain),
       to: currentChain.value as Chain,
@@ -247,14 +251,18 @@ export default function (
     ])
   }
 
-  watch(canGetTeleportFee, async () => {
-    if (canGetTeleportFee.value) {
-      hasFetched.teleportTxFee = false
-      const fee = await getTeleportTransactionFee()
-      teleportTxFee.value = Number(fee) || 0
-      hasFetched.teleportTxFee = true
-    }
-  })
+  watch(
+    canGetTeleportFee,
+    async () => {
+      if (canGetTeleportFee.value) {
+        hasFetched.teleportTxFee = false
+        const fee = await getTeleportTransactionFee()
+        teleportTxFee.value = Number(fee) || 0
+        hasFetched.teleportTxFee = true
+      }
+    },
+    { immediate: true },
+  )
 
   const actionsId = computed(() =>
     actions.value.map(({ action }) => JSON.stringify(action)).join('_'),
