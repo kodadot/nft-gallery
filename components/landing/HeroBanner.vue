@@ -7,14 +7,14 @@
         class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none" />
 
       <h1
-        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
+        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col md:flex-row md:gap-5 flex-wrap justify-center items-center mb-0">
         <div>
           {{ $t('search.landingTitle1') }}
-          <span
-            class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize block md:inline">
-            {{ $t('search.landingTitle2') }}
-          </span>
         </div>
+        <span
+          class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize md:inline">
+          {{ $t('search.landingTitle2') }}
+        </span>
         <div>
           {{ $t('search.landingTitle3') }}
         </div>
