@@ -11,8 +11,8 @@
       </section>
       <section class="px-6 py-12">
         <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-half">
+          <div class="flex flex-col md:flex-row gap-3 justify-center">
+            <div class="w-full md:w-1/2">
               <Error
                 v-if="$nuxt.isOffline"
                 :has-img="false"
@@ -27,7 +27,6 @@
     <LazyTheFooter />
     <LazyCookieBanner />
     <Buy />
-    <ListingCartModal />
   </div>
 </template>
 

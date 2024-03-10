@@ -9,7 +9,6 @@
 
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
-      scroll="clip"
       append-to-body
       @close="onClose">
       <ModalBody
@@ -58,7 +57,7 @@
             ref="autoteleportButton"
             :actions="actions"
             :disabled="confirmButtonDisabled"
-            :fees="{ actionLazyFetch: true, pesimistic: true }"
+            :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
