@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { DropItem } from '@/params/types'
-import { DropMintedNft } from '~/composables/drop/useGenerativeDropMint'
+import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
