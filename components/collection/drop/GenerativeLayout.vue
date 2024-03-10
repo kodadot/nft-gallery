@@ -59,7 +59,7 @@
 
         <div
           v-if="width >= mdBreakpoint"
-          class="column md:flex justify-end mt-[-213px]">
+          class="flex-1 flex py-3 px-4 justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"

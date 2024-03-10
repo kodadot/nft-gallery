@@ -18,8 +18,7 @@ const BUFFER_AMOUNT_PERCENT = 0.02
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
   actions: 0,
-  actionLazyFetch: false,
-  pesimistic: false,
+  forceActionAutoFees: false,
 }
 
 export default function (
@@ -93,7 +92,7 @@ export default function (
 
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? fees.actionLazyFetch || needsSourceChainBalances.value
+      ? fees.forceActionAutoFees || needsSourceChainBalances.value
       : false,
   )
 
@@ -194,18 +193,14 @@ export default function (
 
   const canGetTeleportFee = computed<boolean>(
     () =>
-      Boolean(richestChain.value) &&
       !teleportTxFee.value &&
+      Boolean(richestChain.value) &&
       addTeleportFee.value &&
       hasEnoughInRichestChain.value &&
       amountToTeleport.value > 0,
   )
 
   const doesNotNeedsTeleport = computed<boolean>(() => {
-    if (fees.pesimistic) {
-      return false
-    }
-
     const needsTeleport =
       Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
 
@@ -217,14 +212,18 @@ export default function (
   })
 
   const hasFetchedDetails = computed(() => {
+    const hasFetchedActionsTxFees = actionAutoFees.value
+      ? hasFetched.actionTxFees
+      : true
+
     if (doesNotNeedsTeleport.value) {
+      if (fees.forceActionAutoFees) {
+        return hasFetchedActionsTxFees
+      }
       return true
     }
 
-    return [
-      hasFetched.teleportTxFee,
-      actionAutoFees.value ? hasFetched.actionTxFees : true,
-    ].every(Boolean)
+    return [hasFetched.teleportTxFee, hasFetchedActionsTxFees].every(Boolean)
   })
 
   const isReady = computed(() => hasBalances.value && hasFetchedDetails.value)

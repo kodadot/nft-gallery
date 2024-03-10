@@ -2,7 +2,6 @@
   <NeoModal
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody :title="$t('success')" @close="onClose">
       <SuccessfulModalBody
@@ -29,7 +28,7 @@ import SuccessfulModalBody, {
 defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
-  txHash: string
+  txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
 }>()

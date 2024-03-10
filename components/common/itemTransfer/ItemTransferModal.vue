@@ -6,7 +6,7 @@
       :status="status"
       @try-again="transfer" />
 
-    <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
+    <NeoModal :value="isModalActive" @close="onClose">
       <div class="modal-width">
         <header
           class="border-b border-grey flex items-center justify-between px-6">

@@ -1,7 +1,6 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    scroll="clip"
     :can-cancel="!loading"
     @close="emit('close')">
     <div class="p-7">
