@@ -90,9 +90,11 @@ export default function (
     () => !hasEnoughInCurrentChain.value,
   )
 
+  const forceActionAutoFees = computed(() => fees.forceActionAutoFees)
+
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? fees.forceActionAutoFees || needsSourceChainBalances.value
+      ? forceActionAutoFees.value || needsSourceChainBalances.value
       : false,
   )
 
@@ -190,10 +192,6 @@ export default function (
     )
     return sourceChainProperties?.tokenSymbol === chainSymbol.value
   })
-
-  const forceActionAutoFees = computed(
-    () => fees.forceActionAutoFees && Boolean(richestChain.value),
-  )
 
   const canGetTeleportFee = computed<boolean>(
     () =>
