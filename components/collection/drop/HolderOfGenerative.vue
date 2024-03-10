@@ -161,6 +161,10 @@ const availableNfts = reactive<{
   snList: [],
 })
 
+// used by MintButton to determine if button is disabled and to determine label
+// in case of drop.type is 'holder'
+provide('hasNFTsAvailable', availableNfts.amount !== 0)
+
 useCursorDropEvents([isTransactionLoading, isLoading])
 
 const isHolderOfWithPaidMint = computed(() => Boolean(drop.value?.price))

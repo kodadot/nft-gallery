@@ -59,17 +59,13 @@ const { data: holderOfCollectionData } = await useAsyncData(
 )
 
 const isHolderAndEligible = computed(() => {
-  // Determine the max mint limit for the current user based on the holderOfCollectionData
   const maxMintLimit =
     holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0
 
-  // Check if the user is considered a holder of the target collection
   const isHolder = maxMintLimit > 0
 
-  // Determine if there are available NFTs for minting
-  const hasNFTsAvailable = availableNfts.amount !== 0
+  const hasNFTsAvailable = inject('hasNFTsAvailable', true) // true if not provided
 
-  // Combine the conditions to evaluate if the user is eligible for minting
   return (
     isHolder &&
     maxMintLimit > mintedAmountForCurrentUser.value &&
