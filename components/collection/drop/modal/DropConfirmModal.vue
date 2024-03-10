@@ -52,9 +52,7 @@ import {
 } from '@/components/collection/unlockable/utils/useCountDown'
 import { usePreloadMintedNftCover } from './utils'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
-import useGenerativeDropMint, {
-  DropMintedNft,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 
 enum ModalStep {
@@ -74,7 +72,6 @@ const emit = defineEmits([
 ])
 const props = defineProps<{
   modelValue: boolean
-  mintedNft: DropMintedNft
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
@@ -86,9 +83,7 @@ const dropStore = useDropStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
-)
+const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover()
 const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
 
 const {

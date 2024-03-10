@@ -7,7 +7,7 @@ type EventParams = { image?: string; completed?: boolean }
 
 export default (mintingWatch?: Ref<boolean>[]) => {
   const { drop } = useDrop()
-  const { mintedNft } = useGenerativeDropMint()
+  const { claimedNft } = useGenerativeDropMint()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
   })
@@ -44,10 +44,10 @@ export default (mintingWatch?: Ref<boolean>[]) => {
     })
   }
 
-  if (mintingWatch && mintedNft) {
+  if (mintingWatch && claimedNft) {
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
-      const image = mintedNft.value?.image
+      const image = claimedNft.value?.image
 
       if (completed && image) {
         return preloadImage(image).finally(() =>

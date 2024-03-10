@@ -27,7 +27,6 @@ import {
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import useGenerativeDropMint, {
-  DropMintedNft,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
@@ -62,6 +61,7 @@ const {
 } = useGenerativeDropNewsletter()
 
 const {
+  claimedNft,
   mintedNftWithMetadata,
   tryCapture,
   subscribeToMintedNft,
@@ -76,7 +76,6 @@ const imageHash = ref('')
 
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
-const mintedNft = ref<DropMintedNft>()
 
 useCursorDropEvents([computed(() => dropStore.loading)])
 
@@ -155,7 +154,7 @@ const submitMint = async () => {
 
     const id = `${drop.value?.collection}-${result.sn}`
 
-    mintedNft.value = {
+    claimedNft.value = {
       ...result,
       id,
       name: result.name,

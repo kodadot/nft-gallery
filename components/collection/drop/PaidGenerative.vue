@@ -27,7 +27,6 @@
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
-    :minted-nft="mintedNft"
     :is-allocating-raffle="isAllocatingRaffle"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
@@ -42,7 +41,6 @@ import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
-  DropMintedNft,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -79,7 +77,6 @@ const isRaffleModalActive = ref(false)
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
-const mintedNft = ref<DropMintedNft>()
 
 const { usd: priceUSD } = useAmount(
   computed(() => drop.value?.price),
@@ -106,6 +103,7 @@ const action = computed<AutoTeleportAction>(() => ({
 }))
 
 const {
+  claimedNft,
   mintedNftWithMetadata,
   selectedImage,
   tryCapture,
@@ -137,8 +135,8 @@ const mintNft = async () => {
 
     mintNftSN.value = raffleId.value
     howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
-      if (mintedNft.value) {
-        mintedNft.value.txHash = txHash
+      if (claimedNft.value) {
+        claimedNft.value.txHash = txHash
       }
     })
   } catch (e) {
@@ -248,7 +246,7 @@ const submitMint = async (sn: string) => {
 
     isLoading.value = false
 
-    mintedNft.value = {
+    claimedNft.value = {
       ...result,
       id,
       collection: result.collection,

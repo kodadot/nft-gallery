@@ -15,8 +15,7 @@
       :title="$i18n.t('success')"
       @close="isSuccessModalActive = false">
       <CollectionDropModalSharedSuccessfulDrop
-        v-if="mintedNft"
-        :minted-nft="mintedNft"
+        v-if="claimedNft"
         :can-list-nft="canListMintedNft"
         @list="handleList" />
     </ModalBody>
@@ -31,7 +30,6 @@
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
-    :minted-nft="mintedNft"
     :is-allocating-raffle="isAllocatingRaffle"
     hide-minimum-funds-warning
     @confirm="mintNft"
@@ -57,7 +55,6 @@ import {
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import useGenerativeDropMint, {
-  DropMintedNft,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
@@ -93,6 +90,7 @@ const { fetchDropStatus } = useDropStatus()
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const {
+  claimedNft,
   mintedNftWithMetadata,
   selectedImage,
   tryCapture,
@@ -153,7 +151,6 @@ const isMintModalActive = ref(false)
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
-const mintedNft = ref<DropMintedNft>()
 const availableNfts = reactive<{
   isLoading: boolean
   amount: number
@@ -211,8 +208,8 @@ const mintNft = async () => {
 
     mintNftSN.value = raffleId.value
     howAboutToExecute(accountId.value, cb, args, ({ txHash }) => {
-      if (mintedNft.value) {
-        mintedNft.value.txHash = txHash
+      if (claimedNft.value) {
+        claimedNft.value.txHash = txHash
       }
     })
   } catch (e) {
@@ -340,7 +337,7 @@ const submitMint = async (sn: string) => {
 
     isLoading.value = false
 
-    mintedNft.value = {
+    claimedNft.value = {
       ...result,
       id,
       name: result.name,

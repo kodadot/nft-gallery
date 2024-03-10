@@ -81,6 +81,11 @@ export default () => {
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
 
+  const claimedNft = computed({
+    get: () => dropStore.claimedNFT,
+    set: (value) => dropStore.setClaimedNFT(value),
+  })
+
   const mintedNftWithMetadata = computed({
     get: () => dropStore.mintedNFT,
     set: (value) => dropStore.setMintedNFT(value),
@@ -161,6 +166,7 @@ export default () => {
 
   return {
     maxCount,
+    claimedNft,
     mintedNftWithMetadata,
     mintedCount,
     mintCountAvailable,
