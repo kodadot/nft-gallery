@@ -7,5 +7,6 @@
     </main>
     <LazyCookieBanner />
     <Buy />
+    <ListingCartModal />
   </div>
 </template>
