@@ -95,16 +95,6 @@ const dropStore = useDropStore()
 const { maxCount, mintedCount, mintCountAvailable } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 
-watch(
-  [mintedCount, maxCount, () => dropStore.mintedDropCount],
-  () => {
-    console.log('debug - watch mintedCount', mintedCount.value)
-    console.log('debug - watch maxCount', maxCount.value)
-    console.log('debug - watch mintedDropCount', dropStore.mintedDropCount)
-  },
-  { immediate: true },
-)
-
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 
