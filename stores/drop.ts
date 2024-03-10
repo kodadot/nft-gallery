@@ -21,6 +21,7 @@ interface State {
   runtimeMintCount: number
   drop: DropItem
   mintedDropCount: number
+  mintedNFT: NFTWithMetadata | undefined
 }
 
 export const useDropStore = defineStore('drop', {
@@ -34,6 +35,7 @@ export const useDropStore = defineStore('drop', {
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
       mintedDropCount: 0,
+      mintedNFT: undefined,
     }
   },
   getters: {},
@@ -61,6 +63,9 @@ export const useDropStore = defineStore('drop', {
     },
     setMintedDropCount(payload: number) {
       this.mintedDropCount = payload
+    },
+    setMintedNFT(payload: NFTWithMetadata | undefined) {
+      this.mintedNFT = payload
     },
   },
 })

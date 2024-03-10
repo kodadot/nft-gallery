@@ -1,9 +1,10 @@
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 
-export const usePreloadMintedNftCover = () => {
+export const usePreloadMintedNftCover = (
+  mintedNft: ComputedRef<DropMintedNft | undefined>,
+) => {
   const nftCoverLoaded = ref(false)
   const retry = ref(3)
-  const { mintedNft } = useGenerativeDropMint()
 
   const sanitizedMintedNft = computed(
     () =>

@@ -67,6 +67,7 @@ const props = withDefaults(
     action: AutoTeleportAction
     isAllocatingRaffle: boolean
     hideMinimumFundsWarning: boolean
+    mintedNft?: DropMintedNft
   }>(),
   {
     hideMinimumFundsWarning: false,
@@ -81,7 +82,9 @@ enum ModalStep {
 
 const { $i18n } = useNuxtApp()
 
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover()
+const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
+  computed(() => props.mintedNft),
+)
 
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)

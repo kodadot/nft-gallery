@@ -27,6 +27,7 @@
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
+    :minted-nft="mintedNft"
     :is-allocating-raffle="isAllocatingRaffle"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
@@ -41,6 +42,7 @@ import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
+  DropMintedNft,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -77,6 +79,7 @@ const isRaffleModalActive = ref(false)
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
+const mintedNft = ref<DropMintedNft>()
 
 const { usd: priceUSD } = useAmount(
   computed(() => drop.value?.price),
@@ -103,7 +106,6 @@ const action = computed<AutoTeleportAction>(() => ({
 }))
 
 const {
-  mintedNft,
   mintedNftWithMetadata,
   selectedImage,
   tryCapture,

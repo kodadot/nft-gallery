@@ -81,8 +81,10 @@ export default () => {
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
 
-  const mintedNft = ref<DropMintedNft>()
-  const mintedNftWithMetadata = ref<NFTWithMetadata>()
+  const mintedNftWithMetadata = computed({
+    get: () => dropStore.mintedNFT,
+    set: (value) => dropStore.setMintedNFT(value),
+  })
   const selectedImage = computed({
     get: () => dropStore.selectedImage,
     set: (value) => dropStore.setSelectedImage(value),
@@ -159,7 +161,6 @@ export default () => {
 
   return {
     maxCount,
-    mintedNft,
     mintedNftWithMetadata,
     mintedCount,
     mintCountAvailable,

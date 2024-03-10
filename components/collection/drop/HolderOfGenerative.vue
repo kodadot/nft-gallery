@@ -31,6 +31,7 @@
     v-model="isMintModalActive"
     :action="action"
     :to-mint-nft="toMintNft"
+    :minted-nft="mintedNft"
     :is-allocating-raffle="isAllocatingRaffle"
     hide-minimum-funds-warning
     @confirm="mintNft"
@@ -56,6 +57,7 @@ import {
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import useGenerativeDropMint, {
+  DropMintedNft,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
@@ -91,7 +93,6 @@ const { fetchDropStatus } = useDropStatus()
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const {
-  mintedNft,
   mintedNftWithMetadata,
   selectedImage,
   tryCapture,
@@ -152,6 +153,7 @@ const isMintModalActive = ref(false)
 const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
+const mintedNft = ref<DropMintedNft>()
 const availableNfts = reactive<{
   isLoading: boolean
   amount: number
