@@ -2,7 +2,8 @@ import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
-import { useDrop, useDropStatus } from '~/components/drops/useDrops'
+import { useDrop } from '@/components/drops/useDrops'
+import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -21,44 +22,33 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-export default () => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
-  const dropStore = useDropStore()
-  const { imageDataPayload } = useGenerativeIframeData()
+export function useCollectionEntity(collectionId?: string) {
   const { drop } = useDrop()
-  const { mintedDropCount } = useDropStatus()
+  const { client } = usePrefix()
 
-  const mintedNft = ref<DropMintedNft>()
-  const mintedNftWithMetadata = ref<NFTWithMetadata>()
-  const selectedImage = computed({
-    get: () => dropStore.selectedImage,
-    set: (value) => dropStore.setSelectedImage(value),
-  })
+  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
 
-  const { data: collectionData } = useGraphql<UnlockableCollectionById>({
-    queryName: 'unlockableCollectionById',
-    variables: {
-      id: drop.value?.collection,
+  const { data: collectionData } = useAsyncData<UnlockableCollectionById>(
+    'collectionEntity' + collectionKey.value,
+    () =>
+      useAsyncQuery<UnlockableCollectionById>({
+        clientId: client.value,
+        query: unlockableCollectionById,
+        variables: {
+          id: collectionKey.value,
+        },
+      }).then((res) => res.data.value),
+    {
+      watch: collectionId ? undefined : [() => drop.value?.collection],
     },
-  })
+  )
 
   const maxCount = computed(
-    () => collectionData.value?.collectionEntity?.max ?? drop.value?.max ?? 0,
+    () => collectionData.value?.collectionEntity?.max ?? 0,
   )
 
   const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0, // todo: fetch from backend
-  )
-
-  const mintedCount = computed(() =>
-    Math.min(mintedDropCount.value, maxCount.value),
-  )
-
-  const mintCountAvailable = computed(
-    () => mintedCount.value < maxCount.value && !drop.value?.disabled,
+    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
   )
 
   const description = computed(
@@ -70,6 +60,44 @@ export default () => {
 
   const nftCount = computed(
     () => collectionData.value?.collectionEntity?.nftCount ?? 0,
+  )
+
+  return {
+    maxCount,
+    mintedAmountForCurrentUser,
+    description,
+    collectionName,
+    nftCount,
+  }
+}
+
+export default () => {
+  const { toast } = useToast()
+  const { $i18n } = useNuxtApp()
+  const listingCartStore = useListingCartStore()
+  const preferencesStore = usePreferencesStore()
+  const dropStore = useDropStore()
+  const { imageDataPayload } = useGenerativeIframeData()
+  const { drop } = useDrop()
+  const { maxCount: collectionMaxCount } = useCollectionEntity()
+
+  const mintedNft = ref<DropMintedNft>()
+  const mintedNftWithMetadata = ref<NFTWithMetadata>()
+  const selectedImage = computed({
+    get: () => dropStore.selectedImage,
+    set: (value) => dropStore.setSelectedImage(value),
+  })
+
+  const maxCount = computed(
+    () => collectionMaxCount.value ?? drop.value?.max ?? 0,
+  )
+
+  const mintedCount = computed(() =>
+    Math.min(dropStore.mintedDropCount, maxCount.value),
+  )
+
+  const mintCountAvailable = computed(
+    () => dropStore.mintedDropCount < maxCount.value,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
@@ -133,14 +161,10 @@ export default () => {
     maxCount,
     mintedNft,
     mintedNftWithMetadata,
-    mintedAmountForCurrentUser,
     mintedCount,
     mintCountAvailable,
     selectedImage,
-    description,
-    collectionName,
     canListMintedNft,
-    nftCount,
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,

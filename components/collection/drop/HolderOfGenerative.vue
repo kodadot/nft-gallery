@@ -55,7 +55,9 @@ import {
 } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
@@ -92,13 +94,12 @@ const {
   mintedNft,
   mintedNftWithMetadata,
   selectedImage,
-  description,
-  collectionName,
   tryCapture,
   subscribeToMintedNft,
   canListMintedNft,
   listMintedNft,
 } = useGenerativeDropMint()
+const { collectionName, description } = useCollectionEntity()
 const { usd: priceUSD } = useAmount(
   computed(() => drop.value?.price),
   decimals,

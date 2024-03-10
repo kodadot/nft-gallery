@@ -81,7 +81,9 @@ import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 
 defineProps<{
   holderOfCollection?: HolderOfCollectionProp
@@ -90,12 +92,18 @@ defineProps<{
 const { drop } = useDrop()
 const dropStore = useDropStore()
 
-const {
-  maxCount,
-  mintedCount,
-  mintCountAvailable,
-  mintedAmountForCurrentUser,
-} = useGenerativeDropMint()
+const { maxCount, mintedCount, mintCountAvailable } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+
+watch(
+  [mintedCount, maxCount, () => dropStore.mintedDropCount],
+  () => {
+    console.log('debug - watch mintedCount', mintedCount.value)
+    console.log('debug - watch maxCount', maxCount.value)
+    console.log('debug - watch mintedDropCount', dropStore.mintedDropCount)
+  },
+  { immediate: true },
+)
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()

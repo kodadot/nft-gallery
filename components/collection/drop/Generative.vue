@@ -26,7 +26,9 @@ import {
 } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
@@ -61,13 +63,13 @@ const {
 const {
   mintedNftWithMetadata,
   tryCapture,
-  collectionName,
   mintedNft,
   subscribeToMintedNft,
   selectedImage,
-  description,
   listMintedNft,
 } = useGenerativeDropMint()
+
+const { collectionName, description } = useCollectionEntity()
 
 const imageMetadata = ref('')
 const imageHash = ref('')
@@ -113,7 +115,7 @@ const getImageInfo = async (
   const metadata = await createUnlockableMetadata(
     imageCid,
     description.value ?? '',
-    collectionName.value ?? defaultName.value,
+    collectionName.value ?? drop.value?.name ?? '',
     'text/html',
     selectedImage.value,
   )

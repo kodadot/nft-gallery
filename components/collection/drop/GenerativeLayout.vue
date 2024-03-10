@@ -77,7 +77,9 @@ import type { HolderOfCollectionProp } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 
 defineProps<{
@@ -85,8 +87,8 @@ defineProps<{
 }>()
 
 const { drop } = useDrop()
-const { mintedAmountForCurrentUser, description, selectedImage } =
-  useGenerativeDropMint()
+const { selectedImage } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
 const { collection: collectionInfo } = useCollectionMinimal({

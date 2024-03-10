@@ -17,7 +17,9 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
@@ -36,12 +38,9 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const {
-  mintCountAvailable,
-  selectedImage,
-  mintedAmountForCurrentUser,
-  maxCount,
-} = useGenerativeDropMint()
+const { mintCountAvailable, selectedImage, maxCount } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
@@ -113,8 +112,10 @@ const label = computed(() => {
 })
 
 const enabled = computed(() => {
+  if (!mintCountAvailable.value) {
+    return true
+  }
   if (
-    !mintCountAvailable.value ||
     Boolean(drop.value?.disabled) ||
     !selectedImage.value ||
     isCheckingMintRequirements.value ||

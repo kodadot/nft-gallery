@@ -40,7 +40,9 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
@@ -104,13 +106,11 @@ const {
   mintedNft,
   mintedNftWithMetadata,
   selectedImage,
-  description,
-  collectionName,
-  nftCount,
   tryCapture,
   subscribeToMintedNft,
   listMintedNft,
 } = useGenerativeDropMint()
+const { description, collectionName, nftCount } = useCollectionEntity()
 
 useCursorDropEvents([isTransactionLoading, isLoading])
 
