@@ -18,8 +18,7 @@ const BUFFER_AMOUNT_PERCENT = 0.02
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
   actions: 0,
-  actionLazyFetch: false,
-  pesimistic: false,
+  forceActionAutoFees: false,
 }
 
 export default function (
@@ -93,7 +92,7 @@ export default function (
 
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? fees.actionLazyFetch || needsSourceChainBalances.value
+      ? fees.forceActionAutoFees || needsSourceChainBalances.value
       : false,
   )
 
@@ -192,8 +191,8 @@ export default function (
     return sourceChainProperties?.tokenSymbol === chainSymbol.value
   })
 
-  const isPesimistic = computed(
-    () => fees.pesimistic && Boolean(richestChain.value),
+  const forceActionAutoFees = computed(
+    () => fees.forceActionAutoFees && Boolean(richestChain.value),
   )
 
   const canGetTeleportFee = computed<boolean>(
@@ -201,15 +200,11 @@ export default function (
       !teleportTxFee.value &&
       Boolean(richestChain.value) &&
       addTeleportFee.value &&
-      ((hasEnoughInRichestChain.value && amountToTeleport.value > 0) ||
-        isPesimistic.value),
+      hasEnoughInRichestChain.value &&
+      amountToTeleport.value > 0,
   )
 
   const doesNotNeedsTeleport = computed<boolean>(() => {
-    if (isPesimistic.value) {
-      return false
-    }
-
     const needsTeleport =
       Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
 
@@ -221,21 +216,25 @@ export default function (
   })
 
   const hasFetchedDetails = computed(() => {
+    const hasFetchedActionsTxFees = actionAutoFees.value
+      ? hasFetched.actionTxFees
+      : true
+
     if (doesNotNeedsTeleport.value) {
+      if (forceActionAutoFees.value) {
+        return hasFetchedActionsTxFees
+      }
       return true
     }
 
-    return [
-      hasFetched.teleportTxFee,
-      actionAutoFees.value ? hasFetched.actionTxFees : true,
-    ].every(Boolean)
+    return [hasFetched.teleportTxFee, hasFetchedActionsTxFees].every(Boolean)
   })
 
   const isReady = computed(() => hasBalances.value && hasFetchedDetails.value)
 
   const getTeleportTransactionFee = async () => {
     return await getTransactionFee({
-      amount: isPesimistic.value ? 1 : amountToTeleport.value,
+      amount: amountToTeleport.value,
       from: richestChain.value as Chain,
       fromAddress: getAddressByChain(richestChain.value as Chain),
       to: currentChain.value as Chain,
@@ -251,18 +250,14 @@ export default function (
     ])
   }
 
-  watch(
-    canGetTeleportFee,
-    async () => {
-      if (canGetTeleportFee.value) {
-        hasFetched.teleportTxFee = false
-        const fee = await getTeleportTransactionFee()
-        teleportTxFee.value = Number(fee) || 0
-        hasFetched.teleportTxFee = true
-      }
-    },
-    { immediate: true },
-  )
+  watch(canGetTeleportFee, async () => {
+    if (canGetTeleportFee.value) {
+      hasFetched.teleportTxFee = false
+      const fee = await getTeleportTransactionFee()
+      teleportTxFee.value = Number(fee) || 0
+      hasFetched.teleportTxFee = true
+    }
+  })
 
   const actionsId = computed(() =>
     actions.value.map(({ action }) => JSON.stringify(action)).join('_'),
