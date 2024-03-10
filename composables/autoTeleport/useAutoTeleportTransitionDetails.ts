@@ -90,11 +90,9 @@ export default function (
     () => !hasEnoughInCurrentChain.value,
   )
 
-  const forceActionAutoFees = computed(() => fees.forceActionAutoFees)
-
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? forceActionAutoFees.value || needsSourceChainBalances.value
+      ? fees.forceActionAutoFees || needsSourceChainBalances.value
       : false,
   )
 
@@ -219,7 +217,7 @@ export default function (
       : true
 
     if (doesNotNeedsTeleport.value) {
-      if (forceActionAutoFees.value) {
+      if (fees.forceActionAutoFees) {
         return hasFetchedActionsTxFees
       }
       return true
