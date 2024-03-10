@@ -110,8 +110,8 @@
     "rankings": "Rankings",
     "units": "Units",
     "owners": "Owners",
-    "landingTitle1": "Go To",
-    "landingTitle2": "Polkadot NFT",
+    "landingTitle1": "Your",
+    "landingTitle2": "Generative Art",
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
@@ -1159,7 +1159,8 @@
     "artists": {
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
-    }
+    },
+    "connectFarcaster": "Connect with Koda on Farcaster"
   },
   "history": {
     "label": "History",
