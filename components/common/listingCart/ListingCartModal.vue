@@ -57,7 +57,7 @@
             ref="autoteleportButton"
             :actions="actions"
             :disabled="confirmButtonDisabled"
-            :fees="{ actionLazyFetch: true }"
+            :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
