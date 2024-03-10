@@ -1459,7 +1459,7 @@
     "mintingNow": "Minting Now",
     "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
-    "mintPerAddress": "Each address can mint only once",
+    "mintDropError": "Error encountered, please retry. {0}",
     "recentMints": "Recent NFT Mints",
     "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",

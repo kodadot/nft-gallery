@@ -390,7 +390,7 @@ const submitMint = async (sn: string) => {
       collectionName: collectionName.value as string,
     }
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isImageFetching.value = false
     closeMintModal()
     throw error
