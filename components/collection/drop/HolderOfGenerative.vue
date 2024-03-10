@@ -39,7 +39,7 @@
   <CollectionDropAddFundsModal
     v-if="isOnlyHolderOfMint"
     v-model="isAddFundModalActive"
-    @close="closeAddFundModal"
+    @close="isAddFundModalActive = false"
     @confirm="handleDropAddModalConfirm" />
 </template>
 
@@ -107,8 +107,11 @@ const { usd: priceUSD } = useAmount(
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
-  async () =>
-    await useAsyncQuery({
+  () =>
+    useAsyncQuery<{
+      nftEntitiesConnection: { totalCount: number }
+      nftEntities: Array<{ sn: string }>
+    }>({
       clientId: client.value,
       query: holderOfCollectionById,
       variables: {
@@ -122,7 +125,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
 )
 
 const maxMintLimitForCurrentUser = computed(
-  () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
+  () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
 )
 
 const isHolderOfTargetCollection = computed(
@@ -243,7 +246,7 @@ const allocateRaffle = async () => {
   isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
-  imageHash.value = imageUrl.searchParams.get('hash') || ''
+  imageHash.value = imageUrl.searchParams.get('hash') ?? ''
   const imageCid = await tryCapture()
   const metadata = await createUnlockableMetadata(
     imageCid,
@@ -260,7 +263,7 @@ const allocateRaffle = async () => {
     metadata: metadata,
   }
 
-  const response = await allocateCollection(body, drop.value?.id as string)
+  const response = await allocateCollection(body, drop.value.id)
   raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
@@ -292,7 +295,7 @@ const handleSubmitMint = async () => {
   if (hasMinimumFunds.value) {
     mint()
   } else {
-    openAddFundModal()
+    isAddFundModalActive.value = true
   }
 }
 
@@ -307,14 +310,6 @@ const prepareRaffle = async () => {
 const mint = async () => {
   await prepareRaffle()
   await mintNft()
-}
-
-const openAddFundModal = () => {
-  isAddFundModalActive.value = true
-}
-
-const closeAddFundModal = () => {
-  isAddFundModalActive.value = false
 }
 
 const submitMint = async (sn: string) => {
@@ -360,15 +355,15 @@ const submitMint = async (sn: string) => {
 
 const checkAvailableNfts = async () => {
   availableNfts.isLoading = true
-  const nftEntities = holderOfCollectionData.value?.nftEntities || []
+  const nftEntities = holderOfCollectionData.value?.nftEntities ?? []
   const nftIds = nftEntities.map((nft) => nft.sn)
   availableNfts.snList = []
   const claimed = await Promise.all(
     nftIds.map((sn) => {
       return isNftClaimed(
         sn,
-        drop.value?.holder_of as string,
-        drop.value?.collection as string,
+        drop.value.holder_of as string,
+        drop.value.collection,
       )
     }),
   )
@@ -388,7 +383,7 @@ const closeMintModal = () => {
 }
 
 const handleDropAddModalConfirm = () => {
-  closeAddFundModal()
+  isAddFundModalActive.value = false
   fetchMultipleBalance([urlPrefix.value])
 }
 
