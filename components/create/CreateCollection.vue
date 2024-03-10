@@ -1,5 +1,9 @@
 <template>
-  <div class="is-centered" :class="{ columns: classColumn }">
+  <div
+    :class="{
+      'lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light':
+        classColumn,
+    }">
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('mint.collection.minting')"
@@ -13,8 +17,10 @@
       :nft-information="collectionInformation"
       @confirm="handleCreateCollectionConfirmation" />
     <form
-      class="is-half"
-      :class="{ column: classColumn }"
+      :class="{
+        'px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
+          classColumn,
+      }"
       @submit.prevent="showConfirm">
       <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}

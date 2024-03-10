@@ -30,22 +30,22 @@
         :items="showList"
         :show-no-results="!showList.length">
         <template #columns>
-          <div class="column">
+          <div class="flex-1">
             <span>{{ $t('activity.event.item') }}</span>
           </div>
-          <div class="column is-1">
+          <div class="w-1/12">
             <span>{{ $t('activity.event.event') }}</span>
           </div>
-          <div class="column">
+          <div class="flex-1">
             <span>{{ $t('activity.event.amount') }}</span>
           </div>
-          <div class="column">
+          <div class="flex-1">
             <span>{{ $t('activity.event.from') }}</span>
           </div>
-          <div v-if="isToColumnVisible" class="column">
+          <div v-if="isToColumnVisible" class="flex-1">
             <span>{{ $t('activity.event.to') }}</span>
           </div>
-          <div class="column">
+          <div class="flex-1">
             <span>{{ $t('activity.event.time') }}</span>
           </div>
         </template>
