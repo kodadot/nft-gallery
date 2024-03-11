@@ -111,8 +111,10 @@ const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 
 const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / maxCount.value) * 100
-  return Math.round(percent)
+  if (!maxCount.value) {
+    return 0
+  }
+  return Math.round((mintedCount.value / maxCount.value) * 100)
 })
 
 const { formatted: formattedPrice } = useAmount(
@@ -146,6 +148,9 @@ const generativeImageUrl = ref('')
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 const generateNft = () => {
+  if (!drop.value?.content) {
+    return
+  }
   dropStore.setLoading(true)
   startTimer()
   const metadata = `${drop.value?.content}/?hash=${getHash()}`
@@ -161,13 +166,7 @@ watch(imageDataLoaded, () => {
     emit('generation:end')
   }
 })
-//TODO
-// check if     if (drop.value?.content) {
-//      generateNft()
-//    }
-// is needed
-
-watch(accountId, generateNft)
+watch([accountId, () => drop.value.content], generateNft)
 
 onMounted(() => {
   setTimeout(generateNft, 100)
