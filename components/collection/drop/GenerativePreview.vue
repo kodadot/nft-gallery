@@ -85,18 +85,26 @@ import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 
+const STEP = 64
+
+const { accountId } = useAuth()
+const { chainSymbol, decimals } = useChain()
+const { drop } = useDrop()
+const dropStore = useDropStore()
+const { maxCount, mintedCount } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+const { formatted: formattedPrice } = useAmount(
+  computed(() => drop.value.price),
+  decimals,
+  chainSymbol,
+)
+
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+
 defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
-
-const { drop } = useDrop()
-const dropStore = useDropStore()
-
-const { maxCount, mintedCount } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
-
-const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
@@ -107,8 +115,7 @@ const { start: startTimer } = useTimeoutFn(() => {
   }
 }, 5000)
 
-const { accountId } = useAuth()
-const { chainSymbol, decimals } = useChain()
+const generativeImageUrl = ref('')
 
 const mintedPercent = computed(() => {
   if (!maxCount.value) {
@@ -116,18 +123,12 @@ const mintedPercent = computed(() => {
   }
   return Math.round((mintedCount.value / maxCount.value) * 100)
 })
-
-const { formatted: formattedPrice } = useAmount(
-  computed(() => drop.value?.price),
-  decimals,
-  chainSymbol,
-)
-
-const STEP = 64
 const entropyRange = computed<[number, number]>(() => [
   STEP * mintedAmountForCurrentUser.value,
   STEP * (mintedAmountForCurrentUser.value + 1),
 ])
+
+const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 
 const getHash = () => {
   const randomSs58Format = getRandomIntFromRange(
@@ -144,9 +145,6 @@ const getHash = () => {
   return blake2AsHex(initialValue, 256, null, true)
 }
 
-const generativeImageUrl = ref('')
-
-const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 const generateNft = () => {
   if (!drop.value?.content) {
     return
