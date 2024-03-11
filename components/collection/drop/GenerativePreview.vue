@@ -55,10 +55,7 @@
       class="text-neutral-5 dark:text-neutral-9"
       :value="mintedCount / maxCount" />
 
-    <CollectionDropMintButton
-      class="mt-6"
-      :holder-of-collection="holderOfCollection"
-      @mint="emit('mint')" />
+    <CollectionDropMintButton class="mt-6" @mint="emit('mint')" />
 
     <div
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
@@ -76,7 +73,6 @@
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
@@ -101,10 +97,6 @@ const { formatted: formattedPrice } = useAmount(
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-
-defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared

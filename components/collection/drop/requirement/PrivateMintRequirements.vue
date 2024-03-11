@@ -79,11 +79,11 @@
 <script setup lang="ts">
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '../types'
+import type { HolderOfCollection } from '../types'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 
 const props = defineProps<{
-  holderOfCollection: HolderOfCollectionProp
+  holderOfCollection: HolderOfCollection
   isMintedOut: boolean
 }>()
 
