@@ -26,7 +26,6 @@ export default ({
   const { generatePreviewItem, getEntropyRange } = useGenerativePreview(drop)
   const { tryCapture } = useDropGenerativePreview()
 
-  const pinning = ref(new Map<string, boolean>())
   const payloads = ref(new Map<string, ImageDataPayload>())
 
   const allPinned = computed(
@@ -50,13 +49,9 @@ export default ({
       return regenerateNfTWithHash(payload.hash)
     }
 
-    console.log(
-      '[MASSMINT::PREVIEW] Successfully generated, starting pinning ',
-      payload.hash,
-    )
+    console.log('[MASSMINT::PREVIEW] Successfully generated ', payload.hash)
 
     handleNewImageDataPayload(payload)
-    pinNFTWithHash(payload.hash)
   }
 
   useGenerativeIframeData({
@@ -68,22 +63,6 @@ export default ({
       toMintNft.hash === payload.hash
         ? { ...toMintNft, imageDataPayload: payload }
         : toMintNft,
-    )
-  }
-
-  const pinNFTWithHash = async (hash: string) => {
-    const toMintNft = toMintNfts.value.find((item) => item.hash === hash)
-
-    if (!toMintNft || toMintNft.metadata || pinning.value.has(toMintNft.hash)) {
-      return
-    }
-
-    pinning.value.set(toMintNft.hash, true)
-
-    const metadata = await pinMetadata(toMintNft)
-
-    toMintNfts.value = toMintNfts.value.map((item) =>
-      item.hash === hash ? { ...item, metadata } : item,
     )
   }
 
@@ -123,7 +102,6 @@ export default ({
 
   return {
     getEntropyRange,
-    pinning,
     allPinned,
     generatePreviewItem,
     payloads,

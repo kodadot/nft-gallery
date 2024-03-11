@@ -12,7 +12,7 @@
         <template #image>
           <div class="relative">
             <NeoSkeleton
-              v-if="!toMintNft.metadata"
+              v-if="!toMintNft.imageDataPayload"
               class="absolute border border-border-color overflow-hidden"
               :width="48"
               :height="48"
@@ -25,7 +25,7 @@
               mime-type="text/html"
               preview
               is-detail
-              :class="{ 'opacity-0': !toMintNft.metadata }"
+              :class="{ 'opacity-0': !toMintNft.imageDataPayload }"
               class="border image is-48x48" />
           </div>
         </template>

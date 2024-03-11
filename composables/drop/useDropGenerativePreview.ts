@@ -40,5 +40,6 @@ export default () => {
 
   return {
     tryCapture,
+    getCaptureImageFile,
   }
 }

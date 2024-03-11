@@ -14,6 +14,7 @@ import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphq
 import { getFakeEmail } from '@/components/collection/drop/utils'
 import { TransactionStatus } from '../useTransactionStatus'
 import useDropMassMintPreview from './useDropMassMintPreview'
+import useDropMassMintUploader from './massmint/useDropMassMintUploader'
 
 export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
@@ -74,7 +75,6 @@ export default ({
     getEntropyRange,
     allPinned,
     generatePreviewItem,
-    pinning,
     payloads,
     pinMetadata,
   } = useDropMassMintPreview({
@@ -86,12 +86,18 @@ export default ({
     mintingSession,
   })
 
+  useDropMassMintUploader({
+    description,
+    collectionName,
+    defaultName,
+    toMintNfts,
+  })
+
   const canMint = computed(() => Boolean(allocatedNfts.value.length))
 
   const clear = () => {
     isLoading.value = false
     toMintNfts.value = []
-    pinning.value = new Map()
     allocatedNfts.value = []
     raffleEmail.value = undefined
     mintingSession.value = { txHash: '', items: [] }
