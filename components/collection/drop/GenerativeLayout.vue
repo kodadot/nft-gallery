@@ -24,7 +24,7 @@
             :collection-id="collectionId"
             :description="description" />
 
-          <hr class="hidden md:block mt-7 mb-0" />
+          <hr class="hidden md:block mt-4 mb-0" />
 
           <CollectionDropGenerativePreview
             v-if="width < mdBreakpoint"
