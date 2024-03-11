@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { DropItem } from '@/params/types'
 import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
+import { MintingSession } from '@/components/collection/drop/types'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
@@ -24,6 +27,11 @@ interface State {
   mintedDropCount: number
   claimedNFT: DropMintedNft | undefined
   mintedNFT: NFTWithMetadata | undefined
+  // massmint
+  amountToMint: number
+  toMintNFTs: MassMintNFT[]
+  previewItem: GenerativePreviewItem | undefined
+  mintingSession: MintingSession
 }
 
 export const useDropStore = defineStore('drop', {
@@ -39,6 +47,10 @@ export const useDropStore = defineStore('drop', {
       mintedDropCount: 0,
       claimedNFT: undefined,
       mintedNFT: undefined,
+      amountToMint: 1,
+      toMintNFTs: [],
+      previewItem: undefined,
+      mintingSession: { txHash: '', items: [] },
     }
   },
   getters: {},
@@ -51,6 +63,9 @@ export const useDropStore = defineStore('drop', {
     },
     setIsCaptutingImage(payload: boolean) {
       this.isCaptutingImage = payload
+    },
+    setPreviewItem(payload: GenerativePreviewItem) {
+      this.previewItem = payload
     },
     setSelectedImage(payload: string) {
       this.selectedImage = payload

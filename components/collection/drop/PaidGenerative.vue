@@ -26,8 +26,10 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
-    :to-mint-nft="toMintNft"
-    :is-allocating-raffle="isAllocatingRaffle"
+    :to-mint-nfts="toMintNFTs"
+    :amount-to-mint="amountToMint"
+    :minting-session="mintingSession"
+    :ready-to-mint="canMint"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
@@ -36,29 +38,19 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
-import { createUnlockableMetadata } from '../unlockable/utils'
-import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
-import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { ToMintNft } from './types'
-import { getFakeEmail } from './utils'
+import useDropMassMint, {
+  MassMintNFT,
+} from '@/composables/drop/massmint/useDropMassMint'
+import { MintingSession } from './types'
 
-const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
-
-const toMintNft = computed<ToMintNft>(() => ({
-  image: sanitizeIpfsUrl(selectedImage.value),
-  name: `${collectionName.value || ''} #${raffleId.value || nftCount.value || ''}`,
-  collectionName: collectionName.value || '',
-  price: drop.value?.price as string,
-  priceUSD: priceUSD.value,
-}))
 
 const isWalletConnecting = ref(false)
 const { fetchDropStatus } = useDropStatus()
@@ -70,19 +62,10 @@ const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const isLoading = ref(false)
-const isAllocatingRaffle = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
-const raffleEmail = ref('')
 const raffleId = ref()
-const imageHash = ref('')
-
-const { usd: priceUSD } = useAmount(
-  computed(() => drop.value?.price),
-  decimals,
-  chainSymbol,
-)
 
 const {
   howAboutToExecute,
@@ -102,16 +85,10 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const {
-  claimedNft,
-  mintedNftWithMetadata,
-  selectedImage,
-  tryCapture,
-  subscribeToMintedNft,
-  listMintedNft,
-} = useGenerativeDropMint()
-const { description, collectionName, nftCount } = useCollectionEntity()
-
+const { claimedNft, listMintedNft } = useGenerativeDropMint()
+const { collectionName } = useCollectionEntity()
+const { toMintNFTs, amountToMint, mintingSession, previewItem } =
+  storeToRefs(useDropStore())
 useCursorDropEvents([isTransactionLoading, isLoading])
 
 const mintNft = async () => {
@@ -147,43 +124,8 @@ const mintNft = async () => {
   }
 }
 
-watch(status, (curStatus) => {
-  if (curStatus === TransactionStatus.Block) {
-    submitMint(mintNftSN.value)
-  }
-})
-
 const clearWalletConnecting = () => {
   isWalletConnecting.value = false
-}
-
-const allocateRaffle = async () => {
-  isLoading.value = true
-  isAllocatingRaffle.value = true
-
-  const imageUrl = new URL(selectedImage.value)
-  imageHash.value = imageUrl.searchParams.get('hash') || ''
-  const imageCid = await tryCapture()
-  const metadata = await createUnlockableMetadata(
-    imageCid,
-    description.value || '',
-    collectionName.value || drop.value?.name || '',
-    'text/html',
-    selectedImage.value,
-  )
-  const body = {
-    email: raffleEmail.value,
-    hash: imageHash.value,
-    address: accountId.value,
-    image: selectedImage.value,
-    metadata: metadata,
-  }
-
-  const response = await allocateCollection(body, drop.value?.id)
-  raffleId.value = response.result.id
-
-  isAllocatingRaffle.value = false
-  isLoading.value = false
 }
 
 const handleSubmitMint = async () => {
@@ -202,9 +144,8 @@ const handleSubmitMint = async () => {
 
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  raffleEmail.value = getFakeEmail()
   openMintModal()
-  await allocateRaffle()
+  massGenerate()
 }
 
 const submitRaffle = async () => {
@@ -222,39 +163,38 @@ const closeMintModal = () => {
   isMintModalActive.value = false
 }
 
-const submitMint = async (sn: string) => {
+const allocateRaffle = async () => {
+  if (previewItem.value) {
+    await allocateRaffleMode(raffleEmail.value, previewItem.value)
+  }
+}
+
+const submitMints = async ({
+  session,
+  toMintNFTs,
+}: {
+  session: Ref<MintingSession>
+  toMintNFTs: MassMintNFT[]
+}) => {
   try {
-    const { result } = await allocateClaim(
-      {
-        sn: parseInt(sn),
-        txHash: imageHash.value,
-        address: accountId.value,
-      },
-      drop.value?.id,
-    )
+    const response = await Promise.all(toMintNFTs.map(submitMint))
+
+    const mintedNfts = response.map((item) => ({
+      id: `${drop.value.collection}-${item.sn}`,
+      collection: item.collection,
+      chain: item.chain,
+      name: item.name,
+      image: item.image as string,
+      collectionName: collectionName.value as string,
+    }))
+
+    session.value.items = mintedNfts
+
+    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
 
     await fetchDropStatus()
 
-    const id = `${drop.value?.collection}-${result.sn}`
-
-    subscribeToMintedNft(id, async () => {
-      const mintedNft = await fetchNft(id)
-      if (mintedNft) {
-        mintedNftWithMetadata.value = mintedNft
-      }
-    })
-
     isLoading.value = false
-
-    claimedNft.value = {
-      ...result,
-      id,
-      collection: result.collection,
-      chain: result.chain,
-      name: result.name,
-      image: result.image,
-      collectionName: collectionName.value,
-    }
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -281,6 +221,21 @@ watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
   if (wasLoading && !loading && status === TransactionStatus.Unknown) {
     stopMint()
   }
+})
+
+const {
+  massGenerate,
+  subscribeForNftsWithMetadata,
+  submitMint,
+  canMint,
+  allocateRaffleMode,
+  raffleEmail,
+} = useDropMassMint({
+  isLoading,
+  isError,
+  isTransactionLoading,
+  status,
+  submitMints,
 })
 </script>
 

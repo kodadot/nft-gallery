@@ -55,10 +55,16 @@
       class="text-neutral-5 dark:text-neutral-9"
       :value="mintedCount / maxCount" />
 
-    <CollectionDropMintButton
-      class="mt-6"
-      :holder-of-collection="holderOfCollection"
-      @mint="emit('mint')" />
+    <div class="flex mt-6 gap-4">
+      <NeoStepper
+        v-model="dropStore.amountToMint"
+        :max="10"
+        class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />
+
+      <CollectionDropMintButton
+        :holder-of-collection="holderOfCollection"
+        @mint="emit('mint')" />
+    </div>
 
     <div
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
@@ -73,17 +79,15 @@
 </template>
 
 <script setup lang="ts">
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoStepper } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
-import { getRandomIntFromRange } from '../unlockable/utils'
-import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
+import useGenerativePreview from '@/composables/drop/useGenerativePreview'
 
 defineProps<{
   holderOfCollection?: HolderOfCollectionProp
@@ -122,26 +126,7 @@ const { formatted: formattedPrice } = useAmount(
   chainSymbol,
 )
 
-const STEP = 64
-const entropyRange = computed<[number, number]>(() => [
-  STEP * mintedAmountForCurrentUser.value,
-  STEP * (mintedAmountForCurrentUser.value + 1),
-])
-
-const getHash = () => {
-  const randomSs58Format = getRandomIntFromRange(
-    entropyRange.value[0],
-    entropyRange.value[1],
-  )
-
-  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
-
-  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  const initialValue = accountId.value
-    ? encodeAddress(accountId.value, ss58Format)
-    : String(Date.now() << ss58Format)
-  return blake2AsHex(initialValue, 256, null, true)
-}
+const { generatePreviewItem, getEntropyRange } = useGenerativePreview()
 
 const generativeImageUrl = ref('')
 
@@ -149,10 +134,13 @@ const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
 const generateNft = () => {
   dropStore.setLoading(true)
   startTimer()
-  const metadata = `${drop.value?.content}/?hash=${getHash()}`
-  console.log('metadata', metadata)
-  generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value })
+
+  const previewItem = generatePreviewItem(
+    getEntropyRange(mintedAmountForCurrentUser.value),
+  )
+  generativeImageUrl.value = previewItem.image
+
+  emit('generation:start', previewItem)
   imageDataPayload.value = undefined
 }
 

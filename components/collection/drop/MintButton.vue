@@ -38,7 +38,7 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, selectedImage, maxCount } = useGenerativeDropMint()
+const { mintCountAvailable, previewItem, maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
@@ -113,7 +113,7 @@ const enabled = computed(() => {
   }
   if (
     Boolean(drop.value?.disabled) ||
-    !selectedImage.value ||
+    !previewItem.value ||
     isCheckingMintRequirements.value ||
     loading.value
   ) {

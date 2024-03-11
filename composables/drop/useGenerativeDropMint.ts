@@ -1,6 +1,5 @@
 import { DoResult } from '@/services/fxart'
 import { pinFileToIPFS } from '@/services/nftStorage'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -74,12 +73,13 @@ export function useCollectionEntity(collectionId?: string) {
 export default () => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
+
   const dropStore = useDropStore()
   const { imageDataPayload } = useGenerativeIframeData()
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
+  const { listNftByNftWithMetadata, openListingCartModal } =
+    useListingCartModal(true)
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
@@ -93,6 +93,11 @@ export default () => {
   const selectedImage = computed({
     get: () => dropStore.selectedImage,
     set: (value) => dropStore.setSelectedImage(value),
+  })
+
+  const previewItem = computed({
+    get: () => dropStore.previewItem,
+    set: (value) => dropStore.setPreviewItem(value),
   })
 
   const maxCount = computed(
@@ -140,29 +145,11 @@ export default () => {
   }
 
   const listMintedNft = async () => {
-    if (!mintedNftWithMetadata.value) {
-      return
+    if (mintedNftWithMetadata.value) {
+      listNftByNftWithMetadata(mintedNftWithMetadata.value)
+      openListingCartModal()
     }
-
-    if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-      const floorPrice =
-        mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-      listingCartStore.setItem(
-        nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-      )
-    }
-
-    preferencesStore.listingCartModalOpen = true
   }
-
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-
-    if (mintedNftWithMetadata.value?.id) {
-      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-    }
-  })
 
   return {
     maxCount,
@@ -175,5 +162,6 @@ export default () => {
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,
+    previewItem,
   }
 }

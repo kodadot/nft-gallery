@@ -81,13 +81,14 @@ import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
+import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
 const { drop } = useDrop()
-const { selectedImage } = useGenerativeDropMint()
+const { previewItem } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
@@ -117,9 +118,9 @@ watch(
   { immediate: true },
 )
 
-const handleNftGeneration = ({ image }: { image: string }) => {
+const handleNftGeneration = (preview: GenerativePreviewItem) => {
   emitEvent(DropEventType.DROP_GENERATING)
-  selectedImage.value = image
+  previewItem.value = preview
 }
 
 const handleNftGenerationEnd = () => {
