@@ -1,16 +1,15 @@
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
-export const usePreloadMintedNftCover = (
-  mintedNft: ComputedRef<DropMintedNft | undefined>,
-) => {
+export const usePreloadMintedNftCover = () => {
   const nftCoverLoaded = ref(false)
   const retry = ref(3)
+  const { claimedNft } = useGenerativeDropMint()
 
-  const sanitizedMintedNft = computed<DropMintedNft | undefined>(
+  const sanitizedMintedNft = computed(
     () =>
-      mintedNft?.value && {
-        ...mintedNft.value,
-        image: sanitizeIpfsUrl(mintedNft.value.image),
+      claimedNft?.value && {
+        ...claimedNft.value,
+        image: sanitizeIpfsUrl(claimedNft.value.image),
       },
   )
 

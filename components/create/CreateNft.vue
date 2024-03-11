@@ -156,8 +156,7 @@
       </NeoField>
 
       <!-- no of copies -->
-      <NeoField
-        :label="`${$t('mint.nft.copies.label')} (optional)`">
+      <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
         <div class="w-full">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput

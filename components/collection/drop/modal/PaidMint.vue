@@ -31,7 +31,7 @@
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
         :minted-nft="sanitizedMintedNft as DropMintedNft"
-        :can-list-nft="canListNft"
+        :can-list-nft="canListMintedNft"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -47,6 +47,16 @@ import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { usePreloadMintedNftCover } from './utils'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds()
+const { canListMintedNft } = useGenerativeDropMint()
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 
@@ -56,13 +66,7 @@ const props = withDefaults(
     toMintNft: ToMintNft
     action: AutoTeleportAction
     isAllocatingRaffle: boolean
-    minimumFunds: number
-    hasMinimumFunds: boolean
     hideMinimumFundsWarning: boolean
-    formattedMinimumFunds: string
-    formattedExistentialDeposit: string
-    mintedNft?: DropMintedNft
-    canListNft: boolean
   }>(),
   {
     hideMinimumFundsWarning: false,
@@ -77,9 +81,7 @@ enum ModalStep {
 
 const { $i18n } = useNuxtApp()
 
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
-)
+const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover()
 
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)

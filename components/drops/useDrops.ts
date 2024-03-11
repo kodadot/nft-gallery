@@ -10,6 +10,9 @@ import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useDropStore } from '@/stores/drop'
+import { getChainName } from '@/utils/chain'
 
 export interface Drop {
   collection: DropItem
@@ -120,7 +123,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
 }
 
 export const getDropDetails = async (alias: string) => {
-  const drop = await useDrop(alias)
+  const drop = await getDropById(alias)
 
   const { data: collectionData } = await useAsyncQuery({
     clientId: drop.chain,
@@ -135,23 +138,48 @@ export const getDropDetails = async (alias: string) => {
   return getFormattedDropItem(collectionEntity, drop)
 }
 
-export async function useDrop(id: string) {
-  const drop = await getDropById(id)
+export function useDrop(alias?: string) {
+  const { params } = useRoute()
+  const dropStore = useDropStore()
 
-  return drop
+  const drop = computed({
+    get: () => dropStore.drop,
+    set: (value) => dropStore.setDrop(value),
+  })
+
+  const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
+  const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
+
+  const fetchDrop = async () => {
+    drop.value = await getDropById(alias ?? params.id.toString())
+  }
+
+  watch(() => params.id, fetchDrop)
+
+  return {
+    drop,
+    fetchDrop,
+    chainName,
+    token,
+  }
 }
 
-export const useDropStatus = (id: string) => {
-  const mintedDropCount = ref(0)
+export const useDropStatus = () => {
+  const { params } = useRoute()
+  const dropStore = useDropStore()
   const { accountId } = useAuth()
+  const mintedDropCount = computed({
+    get: () => dropStore.mintedDropCount,
+    set: (value) => dropStore.setMintedDropCount(value),
+  })
 
   const fetchDropStatus = async () => {
-    const { count } = await getDropStatus(id)
+    const alias = params.id.toString()
+    const { count } = await getDropStatus(alias)
     mintedDropCount.value = count
   }
-  onBeforeMount(fetchDropStatus)
 
-  watch(accountId, fetchDropStatus)
+  watch([() => params.id, accountId], fetchDropStatus)
 
   return {
     mintedDropCount,
@@ -159,25 +187,28 @@ export const useDropStatus = (id: string) => {
   }
 }
 
-export const useDropMinimumFunds = (drop) => {
-  const chainProperties = chainPropListOf(drop.chain)
+export const useDropMinimumFunds = () => {
+  const { drop } = useDrop()
 
+  const chainProperties = computed(() =>
+    chainPropListOf(drop.value?.chain ?? 'ahp'),
+  )
   const { existentialDeposit } = useChain()
   const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
 
   const transferableDropChainBalance = computed(
     () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
   )
-  const meta = computed<number>(() => Number(drop.meta) || 0)
-  const price = computed<number>(() => Number(drop.price) || 0)
+  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
+  const price = computed<number>(() => Number(drop.value?.price) || 0)
   const minimumFunds = computed<number>(() => price.value || meta.value)
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
       transferableDropChainBalance.value >= minimumFunds.value,
   )
-  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
-  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
+  const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     minimumFunds,

@@ -41,11 +41,10 @@ export const getDrops = async (query?: GetDropsQuery) => {
   })
 }
 
-export const getDropById = async (id: string) => {
-  return await api<DropItem>(`/drops/${id}`, {
+export const getDropById = (id: string) =>
+  api<DropItem>(`/drops/${id}`, {
     method: 'GET',
   })
-}
 
 export const getDropStatus = async (alias: string) => {
   return await api<{ count: number }>(`/drops/${alias}/status`, {
