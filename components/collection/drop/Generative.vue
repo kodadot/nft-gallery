@@ -32,7 +32,6 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
 import { createUnlockableMetadata } from '../unlockable/utils'
-import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import { useDropStore } from '@/stores/drop'
 
 const instance = getCurrentInstance()
