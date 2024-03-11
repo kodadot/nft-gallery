@@ -16,63 +16,49 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
-import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import { formatAmountWithRound } from '@/utils/format/balance'
-
-const props = defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
+import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix, client } = usePrefix()
-const { isLogIn, accountId } = useAuth()
+const { urlPrefix } = usePrefix()
+const { isLogIn } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, selectedImage, maxCount } = useGenerativeDropMint()
+const { mintCountAvailable, selectedImage, maxCount, mintedCount } =
+  useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { data: holderOfCollectionData } = await useAsyncData(
-  'holderOfCollectionData',
-  async () =>
-    await useAsyncQuery({
-      clientId: client.value,
-      query: holderOfCollectionById,
-      variables: {
-        id: drop.value?.holder_of,
-        account: accountId.value,
-      },
-    }).then((res) => res.data.value),
-  {
-    watch: [accountId, () => dropStore.runtimeMintCount],
-  },
-)
+const { availableNfts, holderOfCollection } = useHolderOfCollection()
 
 const isHolderAndEligible = computed(() => {
-  const maxMintLimit =
-    holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0
-
-  const isHolder = maxMintLimit > 0
-
-  const hasNFTsAvailable = inject('hasNFTsAvailable', true) // true if not provided
+  const isHolder = mintedAmountForCurrentUser.value > 0
+  const hasNFTsAvailable = availableNfts.serialNumbers.length > 0
 
   return (
     isHolder &&
-    maxMintLimit > mintedAmountForCurrentUser.value &&
+    maxCount.value > mintedCount.value &&
     hasMinimumFunds.value &&
     hasNFTsAvailable
   )
 })
+
+const mintForLabel = computed(() =>
+  $i18n.t('drops.mintForPaid', [
+    `${formatAmountWithRound(drop.value?.price ?? '', decimals.value)} ${
+      chainSymbol.value
+    }`,
+  ]),
+)
 
 const label = computed(() => {
   if (!mintCountAvailable.value) {
@@ -94,14 +80,10 @@ const label = computed(() => {
       return $i18n.t('drops.mintForFree')
     case 'holder':
       return isHolderAndEligible.value
-        ? $i18n.t('drops.mintForHolder')
+        ? mintForLabel.value
         : $i18n.t('mint.unlockable.notEligibility')
     case 'paid':
-      return $i18n.t('drops.mintForPaid', [
-        `${formatAmountWithRound(drop.value?.price || '', decimals.value)} ${
-          chainSymbol.value
-        }`,
-      ])
+      return mintForLabel.value
     default:
       return $i18n.t('general.connect_wallet')
   }
@@ -139,13 +121,15 @@ const loading = computed(
     dropStore.loading,
 )
 
-const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const showHolderOfCollection = computed(() =>
+  Boolean(holderOfCollection.value?.id),
+)
 
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
     isLogIn.value &&
-    (props.holderOfCollection?.isLoading || !hasCurrentChainBalance.value),
+    (holderOfCollection.value?.isLoading || !hasCurrentChainBalance.value),
 )
 
 const handleMint = () => {
