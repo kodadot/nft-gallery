@@ -64,6 +64,7 @@ import type { HolderOfCollectionProp, ToMintNft } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { useDropStore } from '@/stores/drop'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -234,6 +235,9 @@ watch(status, (curStatus) => {
       return
     }
     submitMint(mintNftSN.value)
+  }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
   }
 })
 

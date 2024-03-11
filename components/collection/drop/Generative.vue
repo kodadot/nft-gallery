@@ -14,8 +14,6 @@
     free
     @close="isAddFundModalActive = false"
     @confirm="handleDropAddModalConfirm" />
-
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -25,7 +23,7 @@ import {
   useDropStatus,
 } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
-import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
+import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'

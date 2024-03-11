@@ -2,13 +2,13 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
 
-    <p class="title text-2xl capitalize">I want to be</p>
+    <p class="title text-2xl capitalize pl-3">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" rounded multiline />
 
-    <p class="title text-2xl capitalize">on</p>
+    <p class="title text-2xl capitalize pl-3">on</p>
     <RadioSelect v-model="form.art" :options="art" rounded separated />
 
-    <p class="title text-2xl capitalize">by method</p>
+    <p class="title text-2xl capitalize pl-3">by method</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
@@ -16,7 +16,7 @@
       rounded
       show-empty />
 
-    <p class="title text-2xl capitalize">displaying</p>
+    <p class="title text-2xl capitalize pl-3">displaying</p>
     <RadioSelect
       v-model="form.framing"
       :options="framing"
@@ -24,7 +24,7 @@
       show-empty
       rounded />
 
-    <p class="title text-2xl capitalize">having</p>
+    <p class="title text-2xl capitalize pl-3">having</p>
     <RadioSelect
       v-model="form.having"
       :options="accessories"
@@ -32,7 +32,7 @@
       show-empty
       rounded />
 
-    <p class="title text-2xl capitalize">wearing</p>
+    <p class="title text-2xl capitalize pl-3">wearing</p>
     <RadioSelect
       v-model="form.wearing"
       :options="clothes"
@@ -40,7 +40,7 @@
       show-empty
       rounded />
 
-    <p class="title text-2xl capitalize">in light</p>
+    <p class="title text-2xl capitalize pl-3">in light</p>
     <RadioSelect
       v-model="form.lighting"
       :options="lights"

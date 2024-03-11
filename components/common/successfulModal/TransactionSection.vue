@@ -40,7 +40,7 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const props = defineProps<{
-  txHash: string
+  txHash?: string
 }>()
 
 const { toast } = useToast()

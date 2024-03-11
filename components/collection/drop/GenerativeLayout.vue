@@ -24,10 +24,10 @@
             :collection-id="drop?.collection"
             :description="description" />
 
-          <hr class="hidden md:block mt-7 mb-0" />
+          <hr class="hidden md:block mt-4 mb-0" />
 
           <CollectionDropGenerativePreview
-            class="md:hidden mt-7"
+            v-if="width < mdBreakpoint"
             :holder-of-collection="holderOfCollection"
             @mint="emit('mint')"
             @generation:start="handleNftGeneration"
@@ -42,7 +42,9 @@
           <CollectionUnlockableTag :collection-id="drop?.collection" />
         </div>
 
-        <div class="column hidden md:flex justify-end mt-[-213px]">
+        <div
+          v-if="width >= mdBreakpoint"
+          class="flex-1 flex py-3 px-4 justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
             :holder-of-collection="holderOfCollection"
             @mint="emit('mint')"
@@ -77,6 +79,7 @@ import type { HolderOfCollectionProp } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
+import { useWindowSize } from '@vueuse/core'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
@@ -89,6 +92,8 @@ defineProps<{
 const { drop } = useDrop()
 const { selectedImage } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
+const { width } = useWindowSize()
+const mdBreakpoint = 768
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
 const { collection: collectionInfo } = useCollectionMinimal({

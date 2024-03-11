@@ -33,7 +33,7 @@ export type ActionButtonsProp = {
 }
 
 defineProps<{
-  txHash: string
+  txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
 }>()

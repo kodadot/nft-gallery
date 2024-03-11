@@ -92,7 +92,7 @@ defineProps<{
 const { drop } = useDrop()
 const dropStore = useDropStore()
 
-const { maxCount, mintedCount, mintCountAvailable } = useGenerativeDropMint()
+const { maxCount, mintedCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
@@ -100,9 +100,8 @@ const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
-  // only applicable if the drop is old one that missing`kodahash/render/completed` event
-
-  if (!mintCountAvailable.value && !imageDataLoaded.value) {
+  // only applicable if the drop is missing`kodahash/render/completed` event
+  if (!imageDataLoaded.value) {
     dropStore.setLoading(false)
     emit('generation:end')
   }
@@ -162,16 +161,17 @@ watch(imageDataLoaded, () => {
     emit('generation:end')
   }
 })
+//TODO
+// check if     if (drop.value?.content) {
+//      generateNft()
+//    }
+// is needed
 
-watch(
-  [accountId, () => drop.value?.content],
-  () => {
-    if (drop.value?.content) {
-      generateNft()
-    }
-  },
-  { immediate: true },
-)
+watch(accountId, generateNft)
+
+onMounted(() => {
+  setTimeout(generateNft, 100)
+})
 
 watchDebounced(
   [imageDataPayload],
