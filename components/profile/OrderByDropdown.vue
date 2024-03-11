@@ -84,6 +84,10 @@ const isCollectionsTab = computed(
 )
 
 const options = computed(() => {
+  if (route.name === 'prefix-drops-id') {
+    return [...NFT_SQUID_SORT_CONDITION_LIST, 'sn_ASC', 'sn_DESC']
+  }
+
   return isCollectionsTab.value
     ? NFT_SQUID_SORT_COLLECTIONS
     : NFT_SQUID_SORT_CONDITION_LIST
