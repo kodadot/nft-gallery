@@ -5,7 +5,11 @@ import {
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { NFTWithMetadata } from './useNft'
 
-export default (clearItemsOnModalClose = false) => {
+export default ({
+  clearItemsOnModalClose = false,
+}: {
+  clearItemsOnModalClose?: boolean
+}) => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
 

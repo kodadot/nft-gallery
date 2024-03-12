@@ -3,7 +3,7 @@ import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphq
 
 export default () => {
   const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal(true)
+    useListingCartModal({ clearItemsOnModalClose: true })
 
   const { client } = usePrefix()
 

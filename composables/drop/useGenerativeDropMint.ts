@@ -73,7 +73,7 @@ export default () => {
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
   const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal(true)
+    useListingCartModal({ clearItemsOnModalClose: true })
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
