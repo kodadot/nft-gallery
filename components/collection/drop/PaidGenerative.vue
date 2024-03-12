@@ -27,7 +27,7 @@
     v-model="isMintModalActive"
     :action="action"
     @confirm="handleConfirmPaidMint"
-    @close="closeMintModal"
+    @close="handleMintModalClose"
     @list="handleList" />
 </template>
 
@@ -150,9 +150,13 @@ const openMintModal = () => {
   isMintModalActive.value = true
 }
 
+const handleMintModalClose = () => {
+  closeMintModal()
+  clearMassMint()
+}
+
 const closeMintModal = () => {
   isMintModalActive.value = false
-  clearMassMint()
 }
 
 const allocateRaffle = async () => {
