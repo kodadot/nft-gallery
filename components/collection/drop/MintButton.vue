@@ -69,6 +69,9 @@ const label = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('general.connect_wallet')
   }
+  if (!drop.value.userAccess) {
+    return $i18n.t('mint.unlockable.notEligibility')
+  }
 
   switch (drop.value?.type) {
     case 'free':
@@ -92,10 +95,11 @@ const enabled = computed(() => {
     return true
   }
   if (
-    Boolean(drop.value?.disabled) ||
-    !selectedImage.value ||
-    isCheckingMintRequirements.value ||
-    loading.value
+    Boolean(drop.value.disabled) || // drop is disabled
+    !selectedImage.value || // no image
+    isCheckingMintRequirements.value || // still checking requirements
+    loading.value || // still loading
+    !drop.value.userAccess // no access due to geofencing
   ) {
     return false
   }
