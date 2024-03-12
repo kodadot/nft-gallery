@@ -45,7 +45,7 @@ import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
-import useDropMassmintState from '@/composables/drop/massmint/useDropMassmintState'
+import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -59,7 +59,7 @@ const props = defineProps<{
   action: AutoTeleportAction
 }>()
 
-const { canMint, canList } = useDropMassmintState()
+const { canMint, canList } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
