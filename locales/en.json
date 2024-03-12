@@ -896,7 +896,7 @@
     "owned": "Owned",
     "totalBought": "Total Bought",
     "totalSold": "Total Sold",
-    "date": "Date",
+    "longestHold": "Longest hold",
     "bestFlip": "Best Flip",
     "latestActivity": "LatestActivity",
     "nftDetails": "NFT Details",

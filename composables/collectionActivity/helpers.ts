@@ -33,6 +33,7 @@ const newOwnerEntry = () => ({
   totalBought: 0,
   totalSold: 0,
   lastActivityTimestamp: -Infinity,
+  longestHold: 0,
   nfts: [],
 })
 
@@ -92,7 +93,19 @@ const updateOwnerWithNewNft = ({
     lastestTimeStamp > owner.lastActivityTimestamp
       ? lastestTimeStamp
       : owner.lastActivityTimestamp
+
   owner.nfts = [...owner.nfts, nft]
+
+  let longestHoldTimestamp = 0
+
+  owner.nfts.forEach((nft) => {
+    longestHoldTimestamp = Math.max(
+      longestHoldTimestamp,
+      new Date().getTime() - new Date(nft.updatedAt).getTime(),
+    )
+  })
+  owner.longestHold = longestHoldTimestamp
+
   return owner
 }
 
