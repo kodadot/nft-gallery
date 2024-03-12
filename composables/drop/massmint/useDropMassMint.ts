@@ -250,6 +250,8 @@ export default ({
     }
   })
 
+  onBeforeUnmount(clearMassmint)
+
   return {
     raffleEmail,
     massGenerate,
