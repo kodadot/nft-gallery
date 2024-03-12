@@ -1,9 +1,6 @@
-import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
-  type DropMintedStatus,
   GetDropsQuery,
   getDropById,
-  getDropMintedStatus,
   getDropStatus,
   getDrops,
 } from '@/services/fxart'
@@ -12,9 +9,10 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
+import type { Prefix } from '@kodadot1/static'
 
 export interface Drop {
-  collection: CollectionWithMeta
+  collection: DropItem
   chain: string
   minted: number
   max: number
@@ -22,9 +20,11 @@ export interface Drop {
   dropStartTime: Date
   price: string
   alias: string
+  name: string
   isMintedOut: boolean
   status: DropStatus
   image?: string
+  banner?: string
 }
 
 export enum DropStatus {
@@ -56,12 +56,13 @@ export function useDrops(query?: GetDropsQuery) {
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    dropsList.value.map(async (drop) => {
-      const newDrop = await getFormattedDropItem(drop, drop)
+    const formattedDrops = await Promise.all(
+      dropsList.value.map(async (drop) => getFormattedDropItem(drop, drop)),
+    )
 
-      drops.value.push(newDrop)
-      loaded.value = true
-    })
+    drops.value = formattedDrops
+
+    loaded.value = true
   })
 
   const sortDrops = computed(() =>
@@ -75,7 +76,7 @@ export function useDrops(query?: GetDropsQuery) {
   return { drops: sortDrops, count, loaded }
 }
 
-const getFormattedDropItem = async (collection, drop: DropItem) => {
+export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
@@ -83,7 +84,7 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
     ...drop,
     collection: collection,
     max: chainMax,
-    dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
+    dropStartTime: count >= 5 ? new Date(Date.now() - 1e10) : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
@@ -112,7 +113,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
     return DropStatus.MINTING_LIVE
   }
 
-  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
     return DropStatus.SCHEDULED_SOON
   }
 
@@ -142,23 +143,18 @@ export async function useDrop(id: string) {
 }
 
 export const useDropStatus = (id: string) => {
-  const currentAccountMintedToken = ref<DropMintedStatus | null>(null)
   const mintedDropCount = ref(0)
   const { accountId } = useAuth()
 
   const fetchDropStatus = async () => {
     const { count } = await getDropStatus(id)
     mintedDropCount.value = count
-    currentAccountMintedToken.value = accountId.value
-      ? await getDropMintedStatus(id, accountId.value)
-      : null
   }
   onBeforeMount(fetchDropStatus)
 
   watch(accountId, fetchDropStatus)
 
   return {
-    currentAccountMintedToken,
     mintedDropCount,
     fetchDropStatus,
   }
@@ -249,4 +245,32 @@ export const useHolderOfCollectionDrop = () => {
   }
 
   return { isNftClaimed }
+}
+
+export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
+  const { drops } = useDrops({
+    chain: [chain],
+  })
+
+  const relatedActiveDrop = computed(() =>
+    drops.value.find(
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        !drop.disabled &&
+        drop.status === DropStatus.MINTING_LIVE,
+    ),
+  )
+
+  const relatedEndedDrop = computed(() =>
+    drops.value.find(
+      (drop) =>
+        drop?.collection.collection === collectionId &&
+        drop.status === DropStatus.MINTING_ENDED,
+    ),
+  )
+
+  return {
+    relatedActiveDrop,
+    relatedEndedDrop,
+  }
 }

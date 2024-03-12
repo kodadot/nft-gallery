@@ -13,7 +13,13 @@ type CursorPartyEvents = UpdateMessage | RemoveMessage | SyncMessage
 const ZERO_DOT_VISIBLE_CURSOR_AMOUNT = 10
 const THROTTLE_AMOUNT_MESSAGE_UPDATE = 100 // ms
 
-export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
+export default ({
+  room,
+  spent,
+}: {
+  room: Ref<string>
+  spent: Ref<number | undefined>
+}) => {
   const { x, y, sourceType } = useMouse()
   const { width } = useWindowSize()
   const connections = ref(new Map<string, MaybeUserDetails>())
@@ -54,14 +60,19 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
     details: UserDetails,
   ): UserDetails => ({
     ...details,
-    x: details.x * width.value,
+    cursor: {
+      y: details.cursor?.y as number,
+      x: (details.cursor?.x || 0) * width.value,
+      type: details.cursor?.type,
+    },
   })
 
-  const isZeroDot = (connection: UserDetails) => !Number(connection.spent)
+  const isZeroDot = (connection: UserDetails) =>
+    !Number(connection.spent) && connection.spent !== undefined
 
   const visibleConnections = computed(() => {
     const withPositionFirst = cursorConnections.value.sort(
-      (a, b) => Number(b?.x) - Number(a?.x),
+      (a, b) => Number(b?.cursor?.x) - Number(a?.cursor?.x),
     )
     const someZeroDotCursors = filter(withPositionFirst, (connection) =>
       isZeroDot(connection),
@@ -77,9 +88,11 @@ export default ({ room, spent }: { room: Ref<string>; spent: Ref<number> }) => {
 
   watchEffect(() => {
     sendMessage({
-      x: x.value / width.value,
-      y: y.value,
-      cursor: sourceType.value,
+      cursor: {
+        x: x.value / width.value,
+        y: y.value,
+        type: sourceType.value,
+      },
       spent: spent.value,
     })
   })

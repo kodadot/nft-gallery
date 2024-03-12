@@ -1,5 +1,6 @@
 <template>
-  <div class="is-centered columns">
+  <div
+    class="lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light">
     <SigningModal
       v-if="!autoTeleport"
       :is-loading="isLoading"
@@ -13,7 +14,9 @@
       :nft-information="nftInformation"
       @confirm="confirm" />
 
-    <form class="is-half column" @submit.prevent="submitHandler">
+    <form
+      class="px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
+      @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -85,6 +88,10 @@
         </div>
       </NeoField>
 
+      <InfoBox v-if="isRemark" variant="warning" class="mb-5">
+        <div>{{ $t('mint.disabledRmrk') }}</div>
+      </InfoBox>
+
       <!-- list for sale -->
       <NeoField
         :key="currentChain"
@@ -130,6 +137,7 @@
 
       <!-- select collections -->
       <NeoField
+        v-if="!isRemark"
         :key="`collection-${currentChain}`"
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
@@ -228,6 +236,7 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
+        :disabled="isRemark"
         class="text-base"
         native-type="submit"
         size="medium"
@@ -281,6 +290,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import InfoBox from '@/components/shared/view/InfoBox.vue'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -336,7 +346,7 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
@@ -349,7 +359,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isRemark, isRmrk } = useIsChain(currentChain)
+const { isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0

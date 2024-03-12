@@ -1,7 +1,7 @@
 <template>
   <div
     data-partykit="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px]">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
@@ -58,7 +58,6 @@
     <CollectionDropMintButton
       class="mt-6"
       :collection-id="collectionId"
-      :user-minted-nft-id="userMintedNftId"
       :is-wallet-connecting="isWalletConnecting"
       :is-image-fetching="isImageFetching"
       :is-loading="isLoading"
@@ -67,7 +66,18 @@
       :mint-count-available="mintCountAvailable"
       :mint-button="mintButton"
       :holder-of-collection="holderOfCollection"
+      :drop="drop"
       @mint="emit('mint')" />
+
+    <div
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
+        <NeoIcon
+          icon="fa-sharp fa-solid fa-hourglass-half"
+          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+        Generate
+      </p>
+    </div>
   </div>
 </template>
 
@@ -82,6 +92,8 @@ import type {
   MintButtonProp,
 } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
+import { isValidSs58Format } from '@/utils/ss58Format'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 const props = defineProps<{
   drop: DropItem
@@ -95,11 +107,20 @@ const props = defineProps<{
   isWalletConnecting: boolean
   isLoading: boolean
   mintButton: MintButtonProp
-  userMintedNftId?: string
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
-const emit = defineEmits(['select', 'mint'])
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+  // only applicable if the drop is missing`kodahash/render/completed` event
+  if (!imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+}, 5000)
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -121,10 +142,13 @@ const entropyRange = computed<[number, number]>(() => [
   STEP * (props.minted + 1),
 ])
 
-const getHash = (isDefault?: boolean) => {
-  const ss58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+const getHash = () => {
+  const randomSs58Format = getRandomIntFromRange(
+    entropyRange.value[0],
+    entropyRange.value[1],
+  )
+
+  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
 
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
   const initialValue = accountId.value
@@ -133,33 +157,42 @@ const getHash = (isDefault?: boolean) => {
   return blake2AsHex(initialValue, 256, null, true)
 }
 
-const generativeImageUrl = ref(
-  accountId.value ? `${props.drop.content}/?hash=${getHash(true)}` : '',
-)
+const generativeImageUrl = ref('')
 
 const isLoading = ref(false)
 
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.drop.image
 })
-const generateNft = (isDefault: boolean = false) => {
+const generateNft = () => {
   isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
+  startTimer()
+  const metadata = `${props.drop.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
-  emit('select', generativeImageUrl.value)
-
-  setTimeout(() => {
-    isLoading.value = false
-  }, 3000)
+  emit('generation:start', { image: generativeImageUrl.value })
+  imageDataPayload.value = undefined
 }
 
-watch(
-  accountId,
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
+    isLoading.value = false
+    emit('generation:end')
+  }
+})
+
+watch(accountId, generateNft)
+
+onMounted(() => {
+  setTimeout(generateNft, 100)
+})
+
+watchDebounced(
+  [imageDataPayload],
   () => {
-    generateNft(true)
+    if (imageDataPayload.value?.image === 'data:,') {
+      generateNft()
+    }
   },
-  {
-    immediate: true,
-  },
+  { debounce: 1000 },
 )
 </script>

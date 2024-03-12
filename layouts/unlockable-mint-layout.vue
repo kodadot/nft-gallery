@@ -5,8 +5,8 @@
     <main class="flex-grow">
       <NuxtPage />
     </main>
-    <LazyTheFooter />
     <LazyCookieBanner />
     <Buy />
+    <ListingCartModal />
   </div>
 </template>

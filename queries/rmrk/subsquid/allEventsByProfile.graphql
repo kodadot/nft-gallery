@@ -1,5 +1,5 @@
 query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
-  events(where: {caller_eq : $id, AND: $search }) {
+  events(where: { caller_eq: $id, AND: $search }) {
     meta
     interaction
     blockNumber
@@ -9,6 +9,7 @@ query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
     id
     nft {
       id
+      sn
       name
       metadata
       collection {

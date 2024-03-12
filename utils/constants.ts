@@ -50,7 +50,7 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
-    marck: 'https://squid.subsquid.io/marck/graphql',
+    marck: 'https://ksm.gql.api.kodadot.xyz/',
     stick: 'https://ahk.gql.api.kodadot.xyz/',
     speck: 'https://ahp.gql.api.kodadot.xyz/',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',

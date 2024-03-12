@@ -1,8 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
-    scroll="clip"
+    :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     class="top"
     content-class="modal-width"
     @close="onClose">
@@ -25,7 +24,8 @@
       <SigningModalBody
         v-else-if="isClaimingDropStep"
         :title="$t('drops.preparingYourNft')"
-        :subtitle="est">
+        :subtitle="$t('mint.progress')"
+        :custom-formatted-estimation="est">
         <p class="py-5 capitalize">
           {{ $t('drops.stayTuned') }}
         </p>

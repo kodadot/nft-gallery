@@ -1,7 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 
-const BASE_URL = 'https://fxart.kodadot.workers.dev/'
+const BASE_URL =
+  window.location.host === 'kodadot.xyz'
+    ? 'https://fxart.kodadot.workers.dev/'
+    : 'https://fxart-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -15,6 +18,14 @@ export type DoResult = {
   timestamp?: string
   image?: string
   name: string
+}
+
+export type AllocateCollectionRequest = {
+  address: string
+  email: string
+  metadata?: string
+  hash: string
+  image?: string
 }
 
 export type GetDropsQuery = {
@@ -57,7 +68,10 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const allocateCollection = async (body, id) => {
+export const allocateCollection = async (
+  body: AllocateCollectionRequest,
+  id: string,
+) => {
   try {
     const response = await api(`/drops/allocate/${id}`, {
       method: 'POST',

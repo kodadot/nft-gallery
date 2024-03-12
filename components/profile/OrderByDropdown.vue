@@ -13,6 +13,8 @@
         <NeoButton
           :active="active"
           type="button"
+          :no-shadow="noShadow"
+          :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
           data-testid="explore-sort">
@@ -60,6 +62,19 @@ import {
 } from '@/utils/constants'
 import ActiveCount from '@/components/explore/ActiveCount.vue'
 
+const props = withDefaults(
+  defineProps<{
+    preselect?: string | null
+    noShadow: boolean
+    rounded: boolean
+  }>(),
+  {
+    noShadow: false,
+    rounded: false,
+    preselect: null,
+  },
+)
+
 const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
@@ -69,6 +84,10 @@ const isCollectionsTab = computed(
 )
 
 const options = computed(() => {
+  if (route.name === 'prefix-drops-id') {
+    return [...NFT_SQUID_SORT_CONDITION_LIST, 'sn_ASC', 'sn_DESC']
+  }
+
   return isCollectionsTab.value
     ? NFT_SQUID_SORT_COLLECTIONS
     : NFT_SQUID_SORT_CONDITION_LIST
@@ -121,6 +140,10 @@ watch(
 
 onMounted(() => {
   const sort = route.query.sort
+
+  if (props.preselect) {
+    selectedSort.value = [props.preselect]
+  }
 
   if (sort?.length) {
     if (Array.isArray(sort)) {

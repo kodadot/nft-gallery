@@ -1,7 +1,6 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    scroll="clip"
     :enable-mobile="false"
     content-class="mx-4 "
     :can-cancel="false">

@@ -38,8 +38,13 @@
             {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>
         </div>
-        <div v-if="isError" class="flex-1 text-right">
-          <NeoButton variant="pill" size="small" @click="tryAgain()">
+        <div
+          v-if="isError || status === TransactionStatus.Cancelled"
+          class="flex-1 text-right">
+          <NeoButton
+            variant="outlined-rounded"
+            size="small"
+            @click="tryAgain()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>
@@ -49,8 +54,7 @@
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
-          <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
-          <NeoIcon v-else v-bind="iconIdle" />
+          <NeoIcon v-bind="whichIcon()" />
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
@@ -218,16 +222,16 @@ watchEffect(async () => {
 })
 
 const whichIcon = () => {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
+    return iconError
+  }
+
   if (step1Iterations.value === 0) {
     return iconSuccess
   }
 
   if (step1Iterations.value < ITERATIONS) {
     return iconLoading
-  }
-
-  if (isError.value) {
-    return iconError
   }
 
   return iconIdle
