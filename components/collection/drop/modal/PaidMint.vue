@@ -88,7 +88,7 @@ const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 
 const isSingleMintNotReady = computed(
-  () => props.amountToMint === 1 && !props.toMintNfts[0]?.metadata,
+  () => props.amountToMint === 1 && !props.readyToMint,
 )
 
 const mintButton = computed(() => {
