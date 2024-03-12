@@ -51,7 +51,7 @@ const isHolderAndEligible = computed(
 
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
-    `${formatAmountWithRound(drop.value?.price ?? '', decimals.value)} ${
+    `${formatAmountWithRound(drop.value.price ?? '', decimals.value)} ${
       chainSymbol.value
     }`,
   ]),
@@ -74,11 +74,11 @@ const label = computed(() => {
   if (!mintCountAvailable.value) {
     return $i18n.t('mint.unlockable.seeListings')
   }
-  if (drop.value?.userAccess === false) {
+  if (drop.value.userAccess === false) {
     return $i18n.t('mint.unlockable.notEligibility')
   }
 
-  switch (drop.value?.type) {
+  switch (drop.value.type) {
     case 'free':
       return $i18n.t('drops.mintForFree')
     case 'holder':
@@ -104,12 +104,12 @@ const enabled = computed(() => {
     !selectedImage.value || // no image
     isCheckingMintRequirements.value || // still checking requirements
     loading.value || // still loading
-    drop.value?.userAccess === false // no access due to geofencing
+    drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }
 
-  switch (drop.value?.type) {
+  switch (drop.value.type) {
     case 'free':
       return true
     case 'holder':
@@ -129,20 +129,20 @@ const loading = computed(
 )
 
 const showHolderOfCollection = computed(() =>
-  Boolean(holderOfCollection.value?.id),
+  Boolean(holderOfCollection.value.id),
 )
 
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
     isLogIn.value &&
-    (holderOfCollection.value?.isLoading || !hasCurrentChainBalance.value),
+    (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
 )
 
 const handleMint = () => {
   if (!mintCountAvailable.value) {
     return navigateTo(
-      `/${urlPrefix.value}/collection/${drop.value?.collection}?listed=true`,
+      `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
   }
 
