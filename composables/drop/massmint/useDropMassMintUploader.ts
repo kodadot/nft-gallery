@@ -61,6 +61,4 @@ export default () => {
       prepareMetadatas()
     }
   })
-
-  return {}
 }

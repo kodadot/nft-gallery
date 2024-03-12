@@ -43,7 +43,6 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
-import useDropMassMintRefs from '@/composables/drop/massmint/useDropMassMintRefs'
 
 const { drop } = useDrop()
 
@@ -79,8 +78,8 @@ const action = computed<AutoTeleportAction>(() => ({
 }))
 
 const { collectionName } = useCollectionEntity()
-const { amountToMint, previewItem } = storeToRefs(useDropStore())
-const { mintingSession, toMintNFTs, allocatedNFTs } = useDropMassMintRefs()
+const { amountToMint, previewItem, mintingSession, toMintNFTs, allocatedNFTs } =
+  storeToRefs(useDropStore())
 useCursorDropEvents([isTransactionLoading, isLoading])
 
 const mintNft = async () => {

@@ -12,7 +12,6 @@ import { TransactionStatus } from '../../useTransactionStatus'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
 import useDropMassMintListing from './useDropMassMintListing'
-import useDropMassMintRefs from './useDropMassMintRefs'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
@@ -55,12 +54,17 @@ export default ({
     getPreviewItemsToMintedNfts,
   } = useDropMassMintPreview()
   useDropMassMintUploader()
-  const { toMintNFTs, mintingSession } = useDropMassMintRefs()
   const { mintedAmountForCurrentUser } = useCollectionEntity()
 
   const dropStore = useDropStore()
-  const { drop, amountToMint, previewItem, allocatedNFTs } =
-    storeToRefs(dropStore)
+  const {
+    drop,
+    amountToMint,
+    previewItem,
+    allocatedNFTs,
+    toMintNFTs,
+    mintingSession,
+  } = storeToRefs(dropStore)
 
   const isAllocating = ref(false)
   const raffleEmail = ref()

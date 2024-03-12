@@ -61,8 +61,6 @@ import type { HolderOfCollectionProp } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import { useDropStore } from '@/stores/drop'
-import useDropMassMintRefs from '@/composables/drop/massmint/useDropMassMintRefs'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -70,6 +68,8 @@ const { urlPrefix, client } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const dropStore = useDropStore()
+const { mintingSession, toMintNFTs, allocatedNFTs, runtimeMintCount } =
+  storeToRefs(dropStore)
 
 const { fetchMultipleBalance } = useMultipleBalance()
 const {
@@ -81,7 +81,6 @@ const {
 } = useMetaTransaction()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { mintingSession, toMintNFTs, allocatedNFTs } = useDropMassMintRefs()
 const instance = getCurrentInstance()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
@@ -105,7 +104,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       },
     }).then((res) => res.data.value),
   {
-    watch: [accountId, () => dropStore.runtimeMintCount],
+    watch: [accountId, runtimeMintCount],
   },
 )
 
@@ -329,14 +328,10 @@ const {
   onTransactionCancel: stopMint,
 })
 
-watch(
-  [holderOfCollectionData, () => dropStore.runtimeMintCount],
-  checkAvailableNfts,
-  {
-    immediate: true,
-  },
-)
-watch(() => dropStore.runtimeMintCount, fetchDropStatus, {
+watch([holderOfCollectionData, runtimeMintCount], checkAvailableNfts, {
+  immediate: true,
+})
+watch(runtimeMintCount, fetchDropStatus, {
   immediate: true,
 })
 </script>

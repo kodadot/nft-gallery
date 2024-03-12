@@ -70,18 +70,6 @@ export const useDropStore = defineStore('drop', {
     setPreviewItem(payload: GenerativePreviewItem | undefined) {
       this.previewItem = payload
     },
-    setMintingSession(payload: MintingSession) {
-      this.mintingSession = payload
-    },
-    setToMintNFTs(payload: MassMintNFT[]) {
-      this.toMintNFTs = payload
-    },
-    setAllocatedNFTs(payload: AllocatedNFT[]) {
-      this.allocatedNFTs = payload
-    },
-    setAmountToMint(payload: number) {
-      this.amountToMint = payload
-    },
     setSelectedImage(payload: string) {
       this.selectedImage = payload
     },

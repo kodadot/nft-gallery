@@ -6,9 +6,8 @@
 </template>
 <script lang="ts" setup>
 import { NeoStepper } from '@kodadot1/brick'
-import useDropMassMintRefs from '@/composables/drop/massmint/useDropMassMintRefs'
 
-const { amountToMint } = useDropMassMintRefs()
+const { amountToMint } = storeToRefs(useDropStore())
 
 const max = inject('amountAvailableNFTs') as number | undefined
 </script>
