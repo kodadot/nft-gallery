@@ -150,16 +150,6 @@ watch(imageDataLoaded, () => {
 watch([accountId, () => drop.value.content], generateNft)
 
 onMounted(() => {
-  setTimeout(generateNft, 100)
+  setTimeout(generateNft, 500)
 })
-
-watchDebounced(
-  [imageDataPayload],
-  () => {
-    if (imageDataPayload.value?.image === 'data:,') {
-      generateNft()
-    }
-  },
-  { debounce: 1000 },
-)
 </script>
