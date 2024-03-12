@@ -1,4 +1,5 @@
 import { getCollectionIds } from '@/utils/queryParams'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 export const useItemsGridQueryParams = () => {
   const route = useRoute()
@@ -68,12 +69,24 @@ function useSearchPriceRange() {
 function useSearchOwner() {
   const route = useRoute()
   const { accountId } = useAuth()
+  const store = useExploreFiltersStore()
+
+  let issuer = store.issuer
+
+  watch(
+    () => store.issuer,
+    (val) => {
+      issuer = val
+    },
+  )
 
   return {
     owner: computed(() => {
-      return route.query.owned === 'true' && accountId.value
-        ? [{ currentOwner_eq: accountId.value }]
-        : []
+      return route.query.soldByCreator === 'true' && !!issuer
+        ? [{ currentOwner_eq: issuer }]
+        : route.query.owned === 'true' && accountId.value
+          ? [{ currentOwner_eq: accountId.value }]
+          : []
     }),
   }
 }
