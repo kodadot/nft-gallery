@@ -6,7 +6,6 @@ import useGenerativePreview, {
   GenerativePreviewItem,
 } from '../useGenerativePreview'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
-import useDropGenerativePreview from '../useDropGenerativePreview'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '../useGenerativeDropMint'
@@ -16,7 +15,6 @@ export default () => {
   const { toMintNFTs, drop, mintingSession } = storeToRefs(dropStore)
 
   const { generatePreviewItem } = useGenerativePreview()
-  const { tryCapture } = useDropGenerativePreview()
   const { description, collectionName } = useCollectionEntity()
   const { mintedCount } = useGenerativeDropMint()
 

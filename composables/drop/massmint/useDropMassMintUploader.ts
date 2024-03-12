@@ -3,12 +3,10 @@ import {
   uploadMediaAndMetadataDirectories,
 } from '@/composables/transaction/mintToken/constructDirectoryMeta'
 import { makeUnlockableMetadata } from '@/components/collection/unlockable/utils'
-import useDropGenerativePreview from '../useDropGenerativePreview'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { GenerativePreviewItem } from '../useGenerativePreview'
 
 export default () => {
-  const { getCaptureImageFile } = useDropGenerativePreview()
   const { toMintNFTs, drop } = storeToRefs(useDropStore())
   const { collectionName, description } = useCollectionEntity()
 

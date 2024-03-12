@@ -33,6 +33,7 @@ import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { useDropStore } from '@/stores/drop'
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
@@ -60,13 +61,13 @@ const {
 const {
   claimedNft,
   mintedNftWithMetadata,
-  tryCapture,
   subscribeToMintedNft,
   selectedImage,
   listMintedNft,
 } = useGenerativeDropMint()
 
 const { collectionName, description } = useCollectionEntity()
+const { imageDataPayload } = useGenerativeIframeData()
 
 const imageMetadata = ref('')
 const imageHash = ref('')
@@ -108,7 +109,10 @@ const getImageInfo = async (
   dropStore.setIsCaptutingImage(true)
   const imageUrl = new URL(image)
   const hash = imageUrl.searchParams.get('hash') || ''
-  const imageCid = await tryCapture()
+  const imageCid = await tryCapture({
+    data: imageDataPayload.value,
+    image: selectedImage.value,
+  })
   const metadata = await createUnlockableMetadata(
     imageCid,
     description.value ?? '',

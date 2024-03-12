@@ -1,6 +1,4 @@
 import { DoResult } from '@/services/fxart'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 
@@ -71,11 +69,7 @@ export function useCollectionEntity(collectionId?: string) {
 }
 
 export default () => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
-
   const dropStore = useDropStore()
-  const { imageDataPayload } = useGenerativeIframeData()
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
   const { listNftByNftWithMetadata, openListingCartModal } =
@@ -113,27 +107,6 @@ export default () => {
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
-
-  const tryCapture = async () => {
-    try {
-      const imgFile = await getCaptureImageFile()
-      const imageHash = await pinFileToIPFS(imgFile)
-      return imageHash
-    } catch (error) {
-      toast($i18n.t('drops.capture'))
-      throw error
-    }
-  }
-
-  const getCaptureImageFile = async () => {
-    const selectedImageHash = selectedImage.value.split('?hash=')[1]
-    const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
-    if (!imageDataPayload.value?.image || !isTheSameImage) {
-      throw new Error('Failed to load image, please try again later')
-    }
-    const res = (await fetch(imageDataPayload.value.image)) as any
-    return new File([res], 'image.png', { type: 'image/png' })
-  }
 
   const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
     useSubscriptionGraphql({
