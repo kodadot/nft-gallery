@@ -89,49 +89,50 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativePreview from '@/composables/drop/useGenerativePreview'
 
+const { accountId } = useAuth()
+const { chainSymbol, decimals } = useChain()
+const { drop } = useDrop()
+const dropStore = useDropStore()
+const { maxCount, mintedCount } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+const { generatePreviewItem, getEntropyRange } = useGenerativePreview()
+const { formatted: formattedPrice } = useAmount(
+  computed(() => drop.value.price),
+  decimals,
+  chainSymbol,
+)
+
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+
 defineProps<{
   holderOfCollection?: HolderOfCollectionProp
 }>()
 
-const { drop } = useDrop()
-const dropStore = useDropStore()
-
-const { maxCount, mintedCount, mintCountAvailable } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
-
-const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
-
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
-  // only applicable if the drop is old one that missing`kodahash/render/completed` event
-
-  if (!mintCountAvailable.value && !imageDataLoaded.value) {
+  // only applicable if the drop is missing`kodahash/render/completed` event
+  if (!imageDataLoaded.value) {
     dropStore.setLoading(false)
     emit('generation:end')
   }
 }, 5000)
 
-const { accountId } = useAuth()
-const { chainSymbol, decimals } = useChain()
-
-const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / maxCount.value) * 100
-  return Math.round(percent)
-})
-
-const { formatted: formattedPrice } = useAmount(
-  computed(() => drop.value?.price),
-  decimals,
-  chainSymbol,
-)
-
-const { generatePreviewItem, getEntropyRange } = useGenerativePreview()
-
 const generativeImageUrl = ref('')
 
+const mintedPercent = computed(() => {
+  if (!maxCount.value) {
+    return 0
+  }
+  return Math.round((mintedCount.value / maxCount.value) * 100)
+})
+
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
+
 const generateNft = () => {
+  if (!drop.value?.content) {
+    return
+  }
   dropStore.setLoading(true)
   startTimer()
 
@@ -150,16 +151,11 @@ watch(imageDataLoaded, () => {
     emit('generation:end')
   }
 })
+watch([accountId, () => drop.value.content], generateNft)
 
-watch(
-  [accountId, () => drop.value?.content],
-  () => {
-    if (drop.value?.content) {
-      generateNft()
-    }
-  },
-  { immediate: true },
-)
+onMounted(() => {
+  setTimeout(generateNft, 100)
+})
 
 watchDebounced(
   [imageDataPayload],

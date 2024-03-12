@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -21,6 +20,7 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
@@ -71,7 +71,7 @@ const props = withDefaults(
     mintingSession: MintingSession
     readyToMint: boolean
     action: AutoTeleportAction
-    hideMinimumFundsWarning: boolean
+    hideMinimumFundsWarning?: boolean
   }>(),
   {
     hideMinimumFundsWarning: false,
