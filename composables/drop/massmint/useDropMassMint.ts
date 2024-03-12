@@ -48,7 +48,6 @@ export default ({
     mintedNFTsWithMetadata,
   } = useDropMassMintListing()
   const {
-    getEntropyRange,
     allPinned,
     generatePreviewItem,
     payloads,

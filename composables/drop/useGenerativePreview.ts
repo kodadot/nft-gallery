@@ -1,8 +1,6 @@
 import { getRandomIntFromRange } from '@/components/collection/unlockable/utils'
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 
-const ENTROPY_RANGE_STEP = 64
-
 export type EntropyRange = [number, number]
 
 export type GenerativePreviewItem = {
@@ -14,11 +12,6 @@ export type GenerativePreviewItem = {
 export default () => {
   const { accountId } = useAuth()
   const { drop } = storeToRefs(useDropStore())
-
-  const getEntropyRange = (minted: number): EntropyRange => [
-    ENTROPY_RANGE_STEP * minted,
-    ENTROPY_RANGE_STEP * (minted + 1),
-  ]
 
   const getHash = (randomSs58Format: number) => {
     const ss58Format = isValidSs58Format(randomSs58Format)
@@ -43,5 +36,5 @@ export default () => {
     return { hash, image, entropyRange }
   }
 
-  return { generateHash, getEntropyRange, generatePreviewItem }
+  return { generateHash, generatePreviewItem }
 }

@@ -92,7 +92,7 @@ const dropStore = useDropStore()
 const { maxCount, mintedCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
-const { generatePreviewItem, getEntropyRange } = useGenerativePreview()
+const { generatePreviewItem } = useGenerativePreview()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
   decimals,

@@ -15,7 +15,7 @@ export default () => {
   const dropStore = useDropStore()
   const { toMintNFTs, drop, mintingSession } = storeToRefs(dropStore)
 
-  const { generatePreviewItem, getEntropyRange } = useGenerativePreview()
+  const { generatePreviewItem } = useGenerativePreview()
   const { tryCapture } = useDropGenerativePreview()
   const { description, collectionName } = useCollectionEntity()
   const { mintedCount } = useGenerativeDropMint()
@@ -111,7 +111,6 @@ export default () => {
 
   return {
     getPreviewItemsToMintedNfts,
-    getEntropyRange,
     allPinned,
     generatePreviewItem,
     payloads,
