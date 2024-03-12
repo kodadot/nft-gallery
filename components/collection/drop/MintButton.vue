@@ -24,6 +24,7 @@ import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import { formatAmountWithRound } from '@/utils/format/balance'
+import useDropMassMintRefs from '@/composables/drop/massmint/useDropMassMintRefs'
 
 const props = defineProps<{
   holderOfCollection?: HolderOfCollectionProp
@@ -40,6 +41,7 @@ const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
 const { mintCountAvailable, previewItem, maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { amountToMint } = useDropMassMintRefs()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { data: holderOfCollectionData } = await useAsyncData(
@@ -98,7 +100,7 @@ const label = computed(() => {
         : $i18n.t('mint.unlockable.notEligibility')
     case 'paid':
       return $i18n.t('drops.mintForPaid', [
-        `${formatAmountWithRound(drop.value?.price || '', decimals.value)} ${
+        `${formatAmountWithRound(Number(drop.value?.price) * amountToMint.value, decimals.value)} ${
           chainSymbol.value
         }`,
       ])

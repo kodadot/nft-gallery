@@ -103,7 +103,6 @@ export default () => {
         collectionName: collectionName.value as string,
         image: item.image,
         price: drop.value.price,
-        priceUSD: 'priceUSD.value' as string,
         hash: item.hash,
         entropyRange: item.entropyRange,
       }

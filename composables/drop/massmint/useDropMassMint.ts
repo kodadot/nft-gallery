@@ -15,7 +15,7 @@ import useDropMassMintListing from './useDropMassMintListing'
 import useDropMassMintRefs from './useDropMassMintRefs'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 
-export type MassMintNFT = ToMintNft & {
+export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   imageDataPayload?: ImageDataPayload
   metadata?: string
   hash: string

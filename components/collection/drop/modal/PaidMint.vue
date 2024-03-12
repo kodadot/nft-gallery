@@ -49,9 +49,6 @@ import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { type MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 import { MintingSession } from '../types'
 
-const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
-  useDropMinimumFunds()
-
 // can mass list
 const { canListMintedNft } = useGenerativeDropMint()
 
@@ -71,6 +68,9 @@ const props = withDefaults(
     hideMinimumFundsWarning: false,
   },
 )
+
+const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
+  useDropMinimumFunds(computed(() => props.amountToMint))
 
 enum ModalStep {
   OVERVIEW = 'overview',

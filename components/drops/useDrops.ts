@@ -188,7 +188,7 @@ export const useDropStatus = () => {
   }
 }
 
-export const useDropMinimumFunds = () => {
+export const useDropMinimumFunds = (amount = ref(1)) => {
   const { drop } = useDrop()
 
   const chainProperties = computed(() =>
@@ -200,7 +200,9 @@ export const useDropMinimumFunds = () => {
 
   const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
-  const minimumFunds = computed<number>(() => price.value || meta.value)
+  const minimumFunds = computed<number>(() =>
+    price.value ? amount.value * price.value : meta.value,
+  )
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
