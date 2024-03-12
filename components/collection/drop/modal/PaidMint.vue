@@ -30,7 +30,7 @@
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
         :minting-session="mintingSession"
-        :can-list-nft="canListMintedNft"
+        :can-list-nfts="canList"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -45,7 +45,6 @@ import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import useDropMassmintState from '@/composables/drop/massmint/useDropMassmintState'
 
 enum ModalStep {
@@ -60,9 +59,7 @@ const props = defineProps<{
   action: AutoTeleportAction
 }>()
 
-// can mass list
-const { canListMintedNft } = useGenerativeDropMint()
-const { canMint } = useDropMassmintState()
+const { canMint, canList } = useDropMassmintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 

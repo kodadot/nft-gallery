@@ -17,7 +17,7 @@
       <CollectionDropModalSharedSuccessfulDrop
         v-if="claimedNft"
         :minting-session="mintingSession"
-        :can-list-nft="canListMintedNft"
+        :can-list-nfts="canListMintedNft"
         @list="handleList" />
     </ModalBody>
   </NeoModal>
@@ -60,6 +60,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
+import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
@@ -309,21 +310,18 @@ const stopMint = () => {
   closeMintModal()
 }
 
-const {
-  massGenerate,
-  allocateGenerated,
-  subscribeForNftsWithMetadata,
-  submitMint,
-  listMintedNFts,
-  clearMassMint,
-} = useDropMassMint({
-  isLoading,
-  isError: isTransactionError,
-  isTransactionLoading,
-  status,
-  onSubmitMints: submitMints,
-  onTransactionCancel: stopMint,
-})
+const { massGenerate, allocateGenerated, submitMint, clearMassMint } =
+  useDropMassMint({
+    isLoading,
+    isError: isTransactionError,
+    isTransactionLoading,
+    status,
+    onSubmitMints: submitMints,
+    onTransactionCancel: stopMint,
+  })
+
+const { subscribeForNftsWithMetadata, listMintedNFts } =
+  useDropMassMintListing()
 
 watch([holderOfCollectionData, runtimeMintCount], checkAvailableNfts, {
   immediate: true,

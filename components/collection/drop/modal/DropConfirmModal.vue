@@ -33,7 +33,7 @@
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
         :minted-nft="sanitizedMintedNft"
-        :can-list-nft="canListMintedNft"
+        :can-list-nfts="canListMintedNft"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>

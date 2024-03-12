@@ -1,7 +1,8 @@
 export default () => {
-  const { allocatedNFTs } = storeToRefs(useDropStore())
+  const { allocatedNFTs, mintedNFTs } = storeToRefs(useDropStore())
 
   const canMint = computed(() => Boolean(allocatedNFTs.value.length))
+  const canList = computed(() => Boolean(mintedNFTs.value.length))
 
-  return { canMint }
+  return { canMint, canList }
 }

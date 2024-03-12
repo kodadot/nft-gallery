@@ -11,7 +11,6 @@ import { getFakeEmail } from '@/components/collection/drop/utils'
 import { TransactionStatus } from '../../useTransactionStatus'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
-import useDropMassMintListing from './useDropMassMintListing'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
@@ -40,12 +39,7 @@ export default ({
   onTransactionCancel,
 }: MassMintParams) => {
   const { accountId } = useAuth()
-  const {
-    canListMintedNfts,
-    subscribeForNftsWithMetadata,
-    listMintedNFts,
-    mintedNFTsWithMetadata,
-  } = useDropMassMintListing()
+
   const {
     allPinned,
     generatePreviewItem,
@@ -63,6 +57,7 @@ export default ({
     allocatedNFTs,
     toMintNFTs,
     mintingSession,
+    mintedNFTs,
   } = storeToRefs(useDropStore())
 
   const isAllocating = ref(false)
@@ -73,7 +68,7 @@ export default ({
     toMintNFTs.value = []
     allocatedNFTs.value = []
     raffleEmail.value = undefined
-    mintedNFTsWithMetadata.value = []
+    mintedNFTs.value = []
     mintingSession.value = { txHash: '', items: [] }
   }
 
@@ -257,10 +252,7 @@ export default ({
 
   return {
     raffleEmail,
-    canListMintedNfts,
-    subscribeForNftsWithMetadata,
     massGenerate,
-    listMintedNFts,
     submitMint,
     allocateRaffleMode,
     allocateGenerated,

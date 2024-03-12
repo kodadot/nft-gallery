@@ -39,6 +39,7 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
+import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
 const { drop } = useDrop()
 
@@ -204,11 +205,9 @@ const stopMint = () => {
 
 const {
   massGenerate,
-  subscribeForNftsWithMetadata,
   submitMint,
   allocateRaffleMode,
   raffleEmail,
-  listMintedNFts,
   clearMassMint,
 } = useDropMassMint({
   isLoading,
@@ -218,6 +217,9 @@ const {
   onSubmitMints: submitMints,
   onTransactionCancel: stopMint,
 })
+
+const { subscribeForNftsWithMetadata, listMintedNFts } =
+  useDropMassMintListing()
 </script>
 
 <style scoped lang="scss">

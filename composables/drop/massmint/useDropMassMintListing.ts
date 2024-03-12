@@ -7,7 +7,7 @@ export default () => {
 
   const { client } = usePrefix()
 
-  const mintedNFTsWithMetadata = ref<NFTWithMetadata[]>([])
+  const { mintedNFTs } = storeToRefs(useDropStore())
 
   const subscribeForNftsWithMetadata = (nftIds: string[]) => {
     subscribeToNfts(nftIds, async (data) => {
@@ -25,24 +25,18 @@ export default () => {
           clientId: client.value,
         })
 
-        mintedNFTsWithMetadata.value = data.value.nftEntities
+        mintedNFTs.value = data.value.nftEntities
       }
     })
   }
 
-  const canListMintedNfts = computed(() =>
-    Boolean(mintedNFTsWithMetadata.value.length),
-  )
-
   const listMintedNFts = () => {
-    mintedNFTsWithMetadata.value.forEach(listNftByNftWithMetadata)
+    mintedNFTs.value.forEach(listNftByNftWithMetadata)
     openListingCartModal()
   }
 
   return {
     listMintedNFts,
-    canListMintedNfts,
-    mintedNFTsWithMetadata,
     subscribeForNftsWithMetadata,
   }
 }

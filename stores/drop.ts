@@ -34,6 +34,7 @@ interface State {
   previewItem: GenerativePreviewItem | undefined
   mintingSession: MintingSession
   allocatedNFTs: AllocatedNFT[]
+  mintedNFTs: NFTWithMetadata[]
 }
 
 export const useDropStore = defineStore('drop', {
@@ -54,6 +55,7 @@ export const useDropStore = defineStore('drop', {
       previewItem: undefined,
       mintingSession: { txHash: '', items: [] },
       allocatedNFTs: [],
+      mintedNFTs: [],
     }
   },
   getters: {},

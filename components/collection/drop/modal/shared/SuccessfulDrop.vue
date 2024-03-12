@@ -25,7 +25,7 @@ import { MintingSession } from '../../types'
 const emit = defineEmits(['list'])
 const props = defineProps<{
   mintingSession: MintingSession
-  canListNft: boolean
+  canListNfts: boolean
 }>()
 
 const mintedNft = computed(() => props.mintingSession.items[0])
@@ -78,7 +78,7 @@ const userProfilePath = computed(
   () => `/${urlPrefix.value}/u/${accountId.value}`,
 )
 const singleMint = computed(() => props.mintingSession.items.length === 1)
-const cantList = computed(() => !props.canListNft)
+const cantList = computed(() => !props.canListNfts)
 
 const handleViewNft = () => {
   window.open(
@@ -92,7 +92,7 @@ const listNft = () => {
 }
 
 watch(
-  () => props.canListNft,
+  () => props.canListNfts,
   (canListNft) => {
     if (canListNft) {
       toast($i18n.t('drops.canList'))
