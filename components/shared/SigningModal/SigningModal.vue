@@ -1,9 +1,5 @@
 <template>
-  <NeoModal
-    :value="isModalActive"
-    :can-cancel="false"
-    scroll="clip"
-    @close="onClose">
+  <NeoModal :value="isModalActive" :can-cancel="false" @close="onClose">
     <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
       <SigningModalBody
         :title="title"
@@ -21,12 +17,17 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
-const props = defineProps<{
-  isLoading: boolean
-  status: TransactionStatus
-  title: string
-  isError?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    isLoading: boolean
+    status: TransactionStatus
+    title: string
+    isError?: boolean
+  }>(),
+  {
+    isError: false,
+  },
+)
 
 const { $i18n } = useNuxtApp()
 
@@ -61,24 +62,16 @@ const onClose = () => {
   isCancelled.value = false
 }
 
-watch(
-  [() => props.status, () => props.isLoading],
-  ([status, loading], [prevStatus, wasLoading]) => {
-    if (loading) {
-      isModalActive.value = true
-    }
+watch([() => props.status, () => props.isLoading], ([status, loading]) => {
+  if (loading) {
+    isModalActive.value = true
+  }
 
-    if (status === TransactionStatus.Finalized) {
-      isModalActive.value = false
-      return
-    }
+  if (status === TransactionStatus.Finalized) {
+    isModalActive.value = false
+    return
+  }
 
-    isCancelled.value = Boolean(
-      !loading &&
-        wasLoading &&
-        prevStatus === TransactionStatus.Unknown &&
-        status === TransactionStatus.Unknown,
-    )
-  },
-)
+  isCancelled.value = status === TransactionStatus.Cancelled
+})
 </script>

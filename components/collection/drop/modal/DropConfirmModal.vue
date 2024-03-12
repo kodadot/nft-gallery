@@ -2,7 +2,6 @@
   <NeoModal
     :value="isModalActive"
     :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
-    scroll="clip"
     class="top"
     content-class="modal-width"
     @close="onClose">

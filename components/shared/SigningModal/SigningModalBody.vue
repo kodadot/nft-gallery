@@ -30,7 +30,7 @@
 
             <NeoButton
               class="ml-4"
-              variant="pill"
+              variant="outlined-rounded"
               size="small"
               @click="() => $emit('tryAgain')">
               {{ $t('helper.tryAgain') }}
