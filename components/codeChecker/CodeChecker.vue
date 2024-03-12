@@ -141,7 +141,8 @@
         :file-name="fileName"
         :assets="assets"
         :render="Boolean(selectedFile)"
-        :koda-renderer-used="fileValidity.kodaRendererUsed" />
+        :koda-renderer-used="fileValidity.kodaRendererUsed"
+        @reload="startClock" />
     </div>
   </div>
 </template>
@@ -183,7 +184,7 @@ const renderEndTime = ref(0)
 
 const onFileSelected = async (file: File) => {
   clear()
-  renderStartTime.value = performance.now()
+  startClock()
   selectedFile.value = file
   const { indexFile, sketchFile, entries } = await extractAssetsFromZip(file)
 
@@ -210,5 +211,10 @@ const clear = () => {
   assets.value = []
   errorMessage.value = ''
   Object.assign(fileValidity, validtyDefault)
+}
+
+const startClock = () => {
+  renderStartTime.value = performance.now()
+  fileValidity.renderDurationValid = 'loading'
 }
 </script>
