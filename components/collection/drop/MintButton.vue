@@ -8,7 +8,9 @@
     :loading="loading"
     :disabled="!enabled || loading"
     :loading-with-label="
-      isCheckingMintRequirements || dropStore.walletConnecting
+      isCheckingMintRequirements ||
+      dropStore.walletConnecting ||
+      dropStore.loading
     "
     :label="label"
     @click="handleMint" />
@@ -56,18 +58,21 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (!mintCountAvailable.value) {
-    return $i18n.t('mint.unlockable.seeListings')
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
+  if (dropStore.walletConnecting) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+  if (dropStore.loading) {
+    // TODO: listen to transaction status and update label accordingly
+    return $i18n.t('loader.ipfs')
   }
   if (isCheckingMintRequirements.value) {
     return $i18n.t('checking')
   }
-
-  if (dropStore.walletConnecting) {
-    return $i18n.t('shoppingCart.wallet')
-  }
-  if (!isLogIn.value) {
-    return $i18n.t('general.connect_wallet')
+  if (!mintCountAvailable.value) {
+    return $i18n.t('mint.unlockable.seeListings')
   }
   if (drop.value?.userAccess === false) {
     return $i18n.t('mint.unlockable.notEligibility')

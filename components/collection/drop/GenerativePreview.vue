@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="dropStore.loading"
+      v-if="dropStore.isCaptutingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -141,7 +141,7 @@ const generateNft = () => {
   if (!drop.value?.content) {
     return
   }
-  dropStore.setLoading(true)
+  dropStore.setIsCaptutingImage(true)
   startTimer()
   const metadata = `${drop.value?.content}/?hash=${getHash()}`
   console.log('metadata', metadata)
@@ -152,7 +152,7 @@ const generateNft = () => {
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 })

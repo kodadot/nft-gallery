@@ -2,7 +2,7 @@
   <SigningModal
     v-if="isOnlyHolderOfMint"
     :title="$t('mint.nft.minting')"
-    :is-loading="isLoading"
+    :is-loading="loading"
     :status="status"
     :is-error="isTransactionError"
     @try-again="mintNft" />
@@ -102,10 +102,9 @@ const { usd: priceUSD } = useAmount(
   chainSymbol,
 )
 const { availableNfts } = useHolderOfCollection()
+const { loading, walletConnecting } = storeToRefs(useDropStore())
 
-const isWalletConnecting = ref(false)
 const mintNftSN = ref('0')
-const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const isSuccessModalActive = ref(false)
@@ -115,7 +114,7 @@ const raffleEmail = ref('')
 const raffleId = ref()
 const imageHash = ref('')
 
-useCursorDropEvents([isTransactionLoading, isLoading])
+useCursorDropEvents([isTransactionLoading, loading])
 
 const isHolderOfWithPaidMint = computed(() => Boolean(drop.value?.price))
 const isOnlyHolderOfMint = computed(() => !isHolderOfWithPaidMint.value)
@@ -176,7 +175,7 @@ const mintNft = async () => {
 watch(status, (curStatus) => {
   if (curStatus === TransactionStatus.Block) {
     if (isTransactionError.value) {
-      isLoading.value = false
+      loading.value = false
       isTransactionLoading.value = false
       return
     }
@@ -188,11 +187,11 @@ watch(status, (curStatus) => {
 })
 
 const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
+  walletConnecting.value = false
 }
 
 const allocateRaffle = async () => {
-  isLoading.value = true
+  loading.value = true
   isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
@@ -217,12 +216,12 @@ const allocateRaffle = async () => {
   raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
-  isLoading.value = false
+  loading.value = false
 }
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    isWalletConnecting.value = true
+    walletConnecting.value = true
     doAfterLogin({
       onLoginSuccess: clearWalletConnecting,
       onCancel: clearWalletConnecting,
@@ -231,7 +230,7 @@ const handleSubmitMint = async () => {
     return
   }
 
-  if (isLoading.value || isTransactionLoading.value || isImageFetching.value) {
+  if (loading.value || isTransactionLoading.value || isImageFetching.value) {
     return false
   }
 
@@ -284,7 +283,7 @@ const submitMint = async (sn: string) => {
       }
     })
 
-    isLoading.value = false
+    loading.value = false
 
     claimedNft.value = {
       ...result,
