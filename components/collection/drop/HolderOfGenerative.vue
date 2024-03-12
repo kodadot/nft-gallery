@@ -43,6 +43,7 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
