@@ -33,24 +33,19 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, selectedImage, maxCount, mintedCount } =
-  useGenerativeDropMint()
+const { mintCountAvailable, selectedImage, maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { availableNfts, holderOfCollection } = useHolderOfCollection()
+const { holderOfCollection } = useHolderOfCollection()
 
-const isHolderAndEligible = computed(() => {
-  const isHolder = mintedAmountForCurrentUser.value > 0
-  const hasNFTsAvailable = availableNfts.serialNumbers.length > 0
-
-  return (
-    isHolder &&
-    maxCount.value > mintedCount.value &&
+const isHolderAndEligible = computed(
+  () =>
+    holderOfCollection.value.isHolder &&
+    maxCount.value > dropStore.mintsCount &&
     hasMinimumFunds.value &&
-    hasNFTsAvailable
-  )
-})
+    holderOfCollection.value.hasAvailable,
+)
 
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
@@ -91,6 +86,9 @@ const label = computed(() => {
 
 const enabled = computed(() => {
   if (!mintCountAvailable.value) {
+    return true
+  }
+  if (!isLogIn.value) {
     return true
   }
   if (

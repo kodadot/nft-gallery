@@ -45,7 +45,7 @@
       <div class="flex justify-end items-center">
         <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
         <div class="font-bold">
-          {{ mintedCount }}/{{ maxCount }}
+          {{ dropStore.mintsCount }}/{{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
       </div>
@@ -53,7 +53,7 @@
 
     <CollectionUnlockableSlider
       class="text-neutral-5 dark:text-neutral-9"
-      :value="mintedCount / maxCount" />
+      :value="dropStore.mintsCount / maxCount" />
 
     <CollectionDropMintButton class="mt-6" @mint="emit('mint')" />
 
@@ -87,7 +87,7 @@ const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
-const { maxCount, mintedCount } = useGenerativeDropMint()
+const { maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
@@ -113,7 +113,7 @@ const mintedPercent = computed(() => {
   if (!maxCount.value) {
     return 0
   }
-  return Math.round((mintedCount.value / maxCount.value) * 100)
+  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
 const entropyRange = computed<[number, number]>(() => [
   STEP * mintedAmountForCurrentUser.value,
