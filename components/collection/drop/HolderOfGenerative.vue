@@ -43,6 +43,7 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
@@ -484,7 +485,7 @@ const submitMint = async (sn: string) => {
     isSuccessModalActive.value = true
     runtimeMintedCount.value += 1
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isImageFetching.value = false
     $consola.error(error)
     throw error
