@@ -16,9 +16,15 @@ export default () => {
     set: (value) => dropStore.setAllocatedNFTs(value),
   })
 
+  const amountToMint = computed({
+    get: () => dropStore.amountToMint,
+    set: (value) => dropStore.setAmountToMint(value),
+  })
+
   return {
     mintingSession,
     toMintNFTs,
     allocatedNFTs,
+    amountToMint,
   }
 }

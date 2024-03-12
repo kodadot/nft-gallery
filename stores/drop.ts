@@ -79,6 +79,9 @@ export const useDropStore = defineStore('drop', {
     setAllocatedNFTs(payload: AllocatedNFT[]) {
       this.allocatedNFTs = payload
     },
+    setAmountToMint(payload: number) {
+      this.amountToMint = payload
+    },
     setSelectedImage(payload: string) {
       this.selectedImage = payload
     },

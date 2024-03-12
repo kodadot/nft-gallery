@@ -156,6 +156,7 @@ const openMintModal = () => {
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const allocateRaffle = async () => {
@@ -214,6 +215,7 @@ const {
   allocateRaffleMode,
   raffleEmail,
   listMintedNFts,
+  clearMassMint,
 } = useDropMassMint({
   isLoading,
   isError,

@@ -56,11 +56,7 @@
       :value="mintedCount / maxCount" />
 
     <div class="flex mt-6 gap-4">
-      <NeoStepper
-        v-model="dropStore.amountToMint"
-        :max="10"
-        class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />
-
+      <CollectionDropMintStepper />
       <CollectionDropMintButton
         :holder-of-collection="holderOfCollection"
         @mint="emit('mint')" />
@@ -79,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoStepper } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'

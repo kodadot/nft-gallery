@@ -15,8 +15,6 @@
         :to-mint-nfts="toMintNfts"
         :minimum-funds="minimumFunds"
         :mint-button="mintButton"
-        :has-minimum-funds="hasMinimumFunds"
-        :hide-minimum-funds-warning="hideMinimumFundsWarning"
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
@@ -51,12 +49,8 @@ import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { type MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 import { MintingSession } from '../types'
 
-const {
-  hasMinimumFunds,
-  formattedMinimumFunds,
-  minimumFunds,
-  formattedExistentialDeposit,
-} = useDropMinimumFunds()
+const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
+  useDropMinimumFunds()
 
 // can mass list
 const { canListMintedNft } = useGenerativeDropMint()
@@ -98,7 +92,11 @@ const isSingleMintNotReady = computed(
 )
 
 const mintButton = computed(() => {
-  if (props.amountToMint !== props.toMintNfts.length) {
+  const generatingVariations =
+    props.toMintNfts.map((nft) => nft.imageDataPayload).filter(Boolean)
+      .length !== props.toMintNfts.length
+
+  if (generatingVariations) {
     return {
       label: `${$i18n.t('drops.generatingVariations')} ~ 5s `,
       disabled: true,
