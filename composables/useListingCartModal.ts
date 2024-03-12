@@ -9,7 +9,7 @@ export default ({
   clearItemsOnModalClose = false,
 }: {
   clearItemsOnModalClose?: boolean
-}) => {
+} = {}) => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
 
