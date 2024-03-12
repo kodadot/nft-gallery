@@ -56,7 +56,6 @@ export default ({
   useDropMassMintUploader()
   const { mintedAmountForCurrentUser } = useCollectionEntity()
 
-  const dropStore = useDropStore()
   const {
     drop,
     amountToMint,
@@ -64,12 +63,10 @@ export default ({
     allocatedNFTs,
     toMintNFTs,
     mintingSession,
-  } = storeToRefs(dropStore)
+  } = storeToRefs(useDropStore())
 
   const isAllocating = ref(false)
   const raffleEmail = ref()
-
-  const canMint = computed(() => Boolean(allocatedNFTs.value.length))
 
   const clearMassmint = () => {
     isLoading.value = false
@@ -260,7 +257,6 @@ export default ({
 
   return {
     raffleEmail,
-    canMint,
     canListMintedNfts,
     subscribeForNftsWithMetadata,
     massGenerate,

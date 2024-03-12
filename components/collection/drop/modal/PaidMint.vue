@@ -12,7 +12,7 @@
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
-        :to-mint-nfts="toMintNfts"
+        :to-mint-nfts="toMintNFTs"
         :minimum-funds="minimumFunds"
         :mint-button="mintButton"
         :formatted-minimum-funds="formattedMinimumFunds"
@@ -46,31 +46,7 @@ import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
-import { type MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
-import { MintingSession } from '../types'
-
-// can mass list
-const { canListMintedNft } = useGenerativeDropMint()
-
-const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
-
-const props = withDefaults(
-  defineProps<{
-    modelValue: boolean
-    toMintNfts: MassMintNFT[]
-    amountToMint: number
-    mintingSession: MintingSession
-    readyToMint: boolean
-    action: AutoTeleportAction
-    hideMinimumFundsWarning?: boolean
-  }>(),
-  {
-    hideMinimumFundsWarning: false,
-  },
-)
-
-const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
-  useDropMinimumFunds(computed(() => props.amountToMint))
+import useDropMassmintState from '@/composables/drop/massmint/useDropMassmintState'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -78,23 +54,36 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
+const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
+const props = defineProps<{
+  modelValue: boolean
+  action: AutoTeleportAction
+}>()
+
+// can mass list
+const { canListMintedNft } = useGenerativeDropMint()
+const { canMint } = useDropMassmintState()
+const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
+const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
+  useDropMinimumFunds(computed(() => amountToMint.value))
+
 const { loadedAll, triedAll } = usePreloadImages(
-  computed(() => props.mintingSession.items),
+  computed(() => mintingSession.value.items),
 )
 
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 
 const isSingleMintNotReady = computed(
-  () => props.amountToMint === 1 && !props.readyToMint,
+  () => amountToMint.value === 1 && !canMint.value,
 )
 
 const mintButton = computed(() => {
   const generatingVariations =
-    props.toMintNfts.map((nft) => nft.imageDataPayload).filter(Boolean)
-      .length !== props.toMintNfts.length
+    toMintNFTs.value.map((nft) => nft.imageDataPayload).filter(Boolean)
+      .length !== toMintNFTs.value.length
 
   if (generatingVariations) {
     return {
@@ -104,7 +93,7 @@ const mintButton = computed(() => {
     }
   }
 
-  if (!props.readyToMint) {
+  if (!canMint.value) {
     return { label: $i18n.t('loader.ipfs'), disabled: true }
   }
 
@@ -132,8 +121,8 @@ const moveSuccessfulDrop = computed(() => {
   }
 
   return (
-    props.mintingSession.items.length &&
-    props.mintingSession.txHash &&
+    mintingSession.value.items.length &&
+    mintingSession.value.txHash &&
     triedAll.value &&
     props.action.details.status === TransactionStatus.Finalized
   )

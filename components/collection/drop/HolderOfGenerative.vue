@@ -30,8 +30,6 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
-    :ready-to-mint="canMint"
-    :to-mint-nfts="toMintNFTs"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList" />
@@ -316,7 +314,6 @@ const {
   allocateGenerated,
   subscribeForNftsWithMetadata,
   submitMint,
-  canMint,
   listMintedNFts,
   clearMassMint,
 } = useDropMassMint({

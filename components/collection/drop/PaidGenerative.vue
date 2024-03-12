@@ -26,10 +26,6 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
-    :to-mint-nfts="toMintNFTs"
-    :amount-to-mint="amountToMint"
-    :minting-session="mintingSession"
-    :ready-to-mint="canMint"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
@@ -78,7 +74,7 @@ const action = computed<AutoTeleportAction>(() => ({
 }))
 
 const { collectionName } = useCollectionEntity()
-const { amountToMint, previewItem, mintingSession, toMintNFTs, allocatedNFTs } =
+const { previewItem, mintingSession, toMintNFTs, allocatedNFTs } =
   storeToRefs(useDropStore())
 useCursorDropEvents([isTransactionLoading, isLoading])
 
@@ -210,7 +206,6 @@ const {
   massGenerate,
   subscribeForNftsWithMetadata,
   submitMint,
-  canMint,
   allocateRaffleMode,
   raffleEmail,
   listMintedNFts,
