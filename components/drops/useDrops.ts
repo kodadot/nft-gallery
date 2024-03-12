@@ -206,7 +206,7 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
-      (transferableCurrentChainBalance.value || 0) >= minimumFunds.value,
+      (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
   )
   const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
   const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
