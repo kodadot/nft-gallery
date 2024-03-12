@@ -69,7 +69,7 @@ const label = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('general.connect_wallet')
   }
-  if (!drop.value.userAccess) {
+  if (drop.value?.userAccess === false) {
     return $i18n.t('mint.unlockable.notEligibility')
   }
 
@@ -99,7 +99,7 @@ const enabled = computed(() => {
     !selectedImage.value || // no image
     isCheckingMintRequirements.value || // still checking requirements
     loading.value || // still loading
-    !drop.value.userAccess // no access due to geofencing
+    drop.value?.userAccess === false // no access due to geofencing
   ) {
     return false
   }
