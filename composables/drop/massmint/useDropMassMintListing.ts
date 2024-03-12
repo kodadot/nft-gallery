@@ -42,6 +42,7 @@ export default () => {
   return {
     listMintedNFts,
     canListMintedNfts,
+    mintedNFTsWithMetadata,
     subscribeForNftsWithMetadata,
   }
 }

@@ -41,8 +41,12 @@ export default ({
   onTransactionCancel,
 }: MassMintParams) => {
   const { accountId } = useAuth()
-  const { canListMintedNfts, subscribeForNftsWithMetadata, listMintedNFts } =
-    useDropMassMintListing()
+  const {
+    canListMintedNfts,
+    subscribeForNftsWithMetadata,
+    listMintedNFts,
+    mintedNFTsWithMetadata,
+  } = useDropMassMintListing()
   const {
     getEntropyRange,
     allPinned,
@@ -69,6 +73,7 @@ export default ({
     toMintNFTs.value = []
     allocatedNFTs.value = []
     raffleEmail.value = undefined
+    mintedNFTsWithMetadata.value = []
     mintingSession.value = { txHash: '', items: [] }
   }
 
