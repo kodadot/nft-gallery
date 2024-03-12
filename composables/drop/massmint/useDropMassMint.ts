@@ -1,18 +1,19 @@
 import {
-  AllocateCollectionResult,
-  BatchAllocateResponseNft,
+  AllocatedNFT,
   DoResult,
   allocateCollection,
   allocateClaim as claimAllocation,
 } from '@/services/fxart'
 import { EntropyRange, GenerativePreviewItem } from '../useGenerativePreview'
 import { ImageDataPayload } from '../useGenerativeIframeData'
-import { MintingSession, ToMintNft } from '@/components/collection/drop/types'
+import { ToMintNft } from '@/components/collection/drop/types'
 import { getFakeEmail } from '@/components/collection/drop/utils'
 import { TransactionStatus } from '../../useTransactionStatus'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
 import useDropMassMintListing from './useDropMassMintListing'
+import useDropMassMintRefs from './useDropMassMintRefs'
+import { useCollectionEntity } from '../useGenerativeDropMint'
 
 export type MassMintNFT = ToMintNft & {
   imageDataPayload?: ImageDataPayload
@@ -27,11 +28,7 @@ type MassMintParams = {
   status: Ref<TransactionStatus>
   isError: Ref<boolean>
   isTransactionLoading: Ref<boolean>
-  submitMints: (params: {
-    session: Ref<MintingSession>
-    toMintNFTs: MassMintNFT[]
-  }) => Promise<void>
-  mintSubmit: (session: Ref<MintingSession>) => Promise<void>
+  onSubmitMints: () => Promise<void>
   onTransactionCancel?: () => void
 }
 
@@ -40,20 +37,12 @@ export default ({
   isTransactionLoading,
   isError,
   status,
-  submitMints,
-  mintSubmit,
+  onSubmitMints,
   onTransactionCancel,
 }: MassMintParams) => {
   const { accountId } = useAuth()
-
-  const dropStore = useDropStore()
-  const { drop, amountToMint, previewItem, toMintNFTs, mintingSession } =
-    storeToRefs(dropStore)
-
-  const isAllocating = ref(false)
-  const allocatedNfts = ref<BatchAllocateResponseNft[]>([])
-  const raffleEmail = ref()
-
+  const { canListMintedNfts, subscribeForNftsWithMetadata, listMintedNFts } =
+    useDropMassMintListing()
   const {
     getEntropyRange,
     allPinned,
@@ -62,18 +51,23 @@ export default ({
     pinMetadata,
     getPreviewItemsToMintedNfts,
   } = useDropMassMintPreview()
-
   useDropMassMintUploader()
+  const { toMintNFTs, mintingSession } = useDropMassMintRefs()
+  const { mintedAmountForCurrentUser } = useCollectionEntity()
 
-  const { canListMintedNfts, subscribeForNftsWithMetadata, listMintedNFts } =
-    useDropMassMintListing()
+  const dropStore = useDropStore()
+  const { drop, amountToMint, previewItem, allocatedNFTs } =
+    storeToRefs(dropStore)
 
-  const canMint = computed(() => Boolean(allocatedNfts.value.length))
+  const isAllocating = ref(false)
+  const raffleEmail = ref()
 
-  const clear = () => {
+  const canMint = computed(() => Boolean(allocatedNFTs.value.length))
+
+  const clearMassmint = () => {
     isLoading.value = false
     toMintNFTs.value = []
-    allocatedNfts.value = []
+    allocatedNFTs.value = []
     raffleEmail.value = undefined
     mintingSession.value = { txHash: '', items: [] }
   }
@@ -83,7 +77,7 @@ export default ({
     previewItem: GenerativePreviewItem,
   ) => {
     try {
-      clear()
+      clearMassmint()
       isLoading.value = true
       raffleEmail.value = email
       toMintNFTs.value = getPreviewItemsToMintedNfts([previewItem])
@@ -102,11 +96,9 @@ export default ({
       })
   }
 
-  const mint = () => mintSubmit(mintingSession)
-
   const mintGenerated = async () => {
     try {
-      clear()
+      clearMassmint()
 
       isLoading.value = true
 
@@ -131,12 +123,14 @@ export default ({
 
   const massGenerate = () => {
     try {
-      clear()
+      clearMassmint()
 
       const single = amountToMint.value === 1
 
       if (single && !previewItem.value) {
-        console.log('[MASSMINT::GENERATE] Cant')
+        console.log(
+          '[MASSMINT::GENERATE] Cant mint no preview item is provided',
+        )
         return
       }
 
@@ -150,7 +144,6 @@ export default ({
           )
 
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
-      console.log(toMintNFTs.value)
     } catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
       isLoading.value = false
@@ -171,16 +164,16 @@ export default ({
         metadata,
       }))
 
-      allocatedNfts.value = await allocateItems({ items, email, address })
+      allocatedNFTs.value = await allocateItems({ items, email, address })
 
       // even thought the user might want x amount of items the worker can return a different amount
-      const allocatedNftsToMint = toMintNFTs.value.slice(
+      const allocatedNFTsToMint = toMintNFTs.value.slice(
         0,
-        allocatedNfts.value.length,
+        allocatedNFTs.value.length,
       )
 
-      toMintNFTs.value = allocatedNftsToMint.map((toMint, index) => {
-        const allocated = allocatedNfts.value[index]
+      toMintNFTs.value = allocatedNFTsToMint.map((toMint, index) => {
+        const allocated = allocatedNFTs.value[index]
         return allocated
           ? { ...toMint, name: allocated.name, sn: Number(allocated.id) }
           : toMint
@@ -197,8 +190,8 @@ export default ({
     items,
     email,
     address,
-  }): Promise<AllocateCollectionResult[]> => {
-    const results = [] as Array<AllocateCollectionResult>
+  }): Promise<AllocatedNFT[]> => {
+    const results = [] as Array<AllocatedNFT>
 
     // @see https://github.com/kodadot/private-workers/pull/86#issuecomment-1975842570 for context
     for (const item of items) {
@@ -242,6 +235,10 @@ export default ({
   })
 
   watch([status, () => mintingSession.value.txHash], ([curStatus, txHash]) => {
+    if (curStatus === TransactionStatus.Cancelled) {
+      return onTransactionCancel?.()
+    }
+
     // ensure txHash is set, it's needed when calling /do/:id
     if (curStatus === TransactionStatus.Block && txHash) {
       if (isError.value) {
@@ -249,11 +246,7 @@ export default ({
         isTransactionLoading.value = false
         return
       }
-      submitMints({ session: mintingSession, toMintNFTs: toMintNFTs.value })
-    }
-
-    if (curStatus === TransactionStatus.Cancelled) {
-      onTransactionCancel?.()
+      onSubmitMints()
     }
   })
 
@@ -261,17 +254,12 @@ export default ({
     raffleEmail,
     canMint,
     canListMintedNfts,
-    allocatedNfts,
-    mintingSession,
-    previewItem,
     subscribeForNftsWithMetadata,
     massGenerate,
     listMintedNFts,
     submitMint,
     allocateRaffleMode,
-    mint,
-    payloads,
     mintGenerated,
-    clearMassMint: clear,
+    clearMassMint: clearMassmint,
   }
 }

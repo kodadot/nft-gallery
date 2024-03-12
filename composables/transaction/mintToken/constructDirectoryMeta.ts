@@ -15,11 +15,11 @@ export const constructDirectoryMeta = async (
   const tokensMedia = tokens.map((token) => token.file) as File[]
   const { enableCarbonOffset = false } = options ?? {}
 
-  return await uploadMediaAndMetadataDirectories(tokensMedia, (imageHashes) => {
+  return await uploadMediaAndMetadataDirectories(tokensMedia, (imageHashes) =>
     tokens.map((token, index) =>
       createTokenMetadata(token, imageHashes[index], enableCarbonOffset, index),
-    )
-  })
+    ),
+  )
 }
 
 export const uploadMediaAndMetadataDirectories = async (

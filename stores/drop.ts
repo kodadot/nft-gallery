@@ -4,6 +4,7 @@ import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 import { MintingSession } from '@/components/collection/drop/types'
+import { AllocatedNFT } from '@/services/fxart'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
@@ -32,6 +33,7 @@ interface State {
   toMintNFTs: MassMintNFT[]
   previewItem: GenerativePreviewItem | undefined
   mintingSession: MintingSession
+  allocatedNFTs: AllocatedNFT[]
 }
 
 export const useDropStore = defineStore('drop', {
@@ -51,6 +53,7 @@ export const useDropStore = defineStore('drop', {
       toMintNFTs: [],
       previewItem: undefined,
       mintingSession: { txHash: '', items: [] },
+      allocatedNFTs: [],
     }
   },
   getters: {},
@@ -64,8 +67,17 @@ export const useDropStore = defineStore('drop', {
     setIsCaptutingImage(payload: boolean) {
       this.isCaptutingImage = payload
     },
-    setPreviewItem(payload: GenerativePreviewItem) {
+    setPreviewItem(payload: GenerativePreviewItem | undefined) {
       this.previewItem = payload
+    },
+    setMintingSession(payload: MintingSession) {
+      this.mintingSession = payload
+    },
+    setToMintNFTs(payload: MassMintNFT[]) {
+      this.toMintNFTs = payload
+    },
+    setAllocatedNFTs(payload: AllocatedNFT[]) {
+      this.allocatedNFTs = payload
     },
     setSelectedImage(payload: string) {
       this.selectedImage = payload

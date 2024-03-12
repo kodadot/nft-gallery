@@ -67,14 +67,8 @@ export type AllocateCollectionRequest = {
   image?: string
 }
 
-export type AllocateCollectionResult = {
-  id: number
-  name: string
-  image: string
-}
-
 type AllocateCollectionResponse = {
-  result: AllocateCollectionResult
+  result: AllocatedNFT
 }
 
 export const allocateCollection = async (
@@ -108,14 +102,14 @@ export type BatchMintBody = {
   items: MintItem[]
 }
 
-export type BatchAllocateResponseNft = {
+export type AllocatedNFT = {
   id: number
   name: string
   image: string
 }
 
 type BatchAllocateResponse = {
-  result: BatchAllocateResponseNft[]
+  result: AllocatedNFT[]
 }
 
 export const batchAllocate = async (body: BatchMintBody, id: string) => {
