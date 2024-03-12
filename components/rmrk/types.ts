@@ -44,7 +44,7 @@ export enum MediaType {
   JSON = 'Json',
   TEXT = 'Text',
   IFRAME = 'IFrame',
-  UNKNOWN = '',
+  UNKNOWN = 'Unknown',
   OBJECT = 'Object',
 }
 
