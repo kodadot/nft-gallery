@@ -70,6 +70,7 @@ const props = withDefaults(
   {
     showSubtitleDots: false,
     failed: false,
+    customFormattedEstimation: undefined,
   },
 )
 
