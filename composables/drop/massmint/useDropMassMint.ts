@@ -101,7 +101,7 @@ export default ({
       })
   }
 
-  const mintGenerated = async () => {
+  const allocateGenerated = async () => {
     try {
       clearMassmint()
 
@@ -264,7 +264,7 @@ export default ({
     listMintedNFts,
     submitMint,
     allocateRaffleMode,
-    mintGenerated,
+    allocateGenerated,
     clearMassMint: clearMassmint,
   }
 }

@@ -16,6 +16,7 @@
       @close="isSuccessModalActive = false">
       <CollectionDropModalSharedSuccessfulDrop
         v-if="claimedNft"
+        :minting-session="mintingSession"
         :can-list-nft="canListMintedNft"
         @list="handleList" />
     </ModalBody>
@@ -29,9 +30,8 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
-    :to-mint-nft="toMintNft"
-    :is-allocating-raffle="isAllocatingRaffle"
-    hide-minimum-funds-warning
+    :ready-to-mint="canMint"
+    :to-mint-nfts="toMintNFTs"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList" />
@@ -45,33 +45,30 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import { createUnlockableMetadata } from '../unlockable/utils'
 import {
   useDrop,
   useDropMinimumFunds,
   useDropStatus,
   useHolderOfCollectionDrop,
 } from '@/components/drops/useDrops'
-import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
-import { allocateClaim, allocateCollection } from '@/services/fxart'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 
-import type { HolderOfCollectionProp, ToMintNft } from './types'
+import type { HolderOfCollectionProp } from './types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { getFakeEmail } from './utils'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { useDropStore } from '@/stores/drop'
+import useDropMassMintRefs from '@/composables/drop/massmint/useDropMassMintRefs'
+import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 
 const { fetchMultipleBalance } = useMultipleBalance()
@@ -84,27 +81,14 @@ const {
 } = useMetaTransaction()
 
 const { hasMinimumFunds } = useDropMinimumFunds()
-
+const { mintingSession, toMintNFTs, allocatedNFTs } = useDropMassMintRefs()
 const instance = getCurrentInstance()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
 const { isNftClaimed } = useHolderOfCollectionDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
-const {
-  claimedNft,
-  mintedNftWithMetadata,
-  selectedImage,
-  tryCapture,
-  subscribeToMintedNft,
-  canListMintedNft,
-  listMintedNft,
-} = useGenerativeDropMint()
-const { collectionName, description } = useCollectionEntity()
-const { usd: priceUSD } = useAmount(
-  computed(() => drop.value?.price),
-  decimals,
-  chainSymbol,
-)
+const { claimedNft, canListMintedNft } = useGenerativeDropMint()
+const { collectionName } = useCollectionEntity()
 
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
@@ -145,16 +129,12 @@ const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
 }))
 
 const isWalletConnecting = ref(false)
-const mintNftSN = ref('0')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const isSuccessModalActive = ref(false)
-const isAllocatingRaffle = ref(false)
 const isMintModalActive = ref(false)
-const raffleEmail = ref('')
-const raffleId = ref()
-const imageHash = ref('')
+
 const availableNfts = reactive<{
   isLoading: boolean
   amount: number
@@ -185,42 +165,32 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const toMintNft = computed<ToMintNft>(() => ({
-  image: sanitizeIpfsUrl(selectedImage.value),
-  name:
-    collectionName.value && raffleId.value
-      ? `${collectionName.value} #${raffleId.value}`
-      : '',
-  collectionName: collectionName.value || '',
-  price: drop.value?.price as string,
-  priceUSD: priceUSD.value,
-}))
-
 const mintNft = async () => {
   try {
     isTransactionError.value = false
+    mintingSession.value.txHash = undefined
+
     const { apiInstance } = useApi()
     const api = await apiInstance.value
 
     initTransactionLoader()
-    const cb = api.tx.nfts.mint
 
-    const args = [
-      drop.value?.collection,
-      raffleId.value,
-      accountId.value,
-      {
-        ownedItem: availableNfts.snList[0],
-        mintPrice: drop.value?.price,
-      },
-    ]
+    const cb = api.tx.utility.batchAll
+    const args = allocatedNFTs.value.map((allocatedNft, index) =>
+      api.tx.nfts.mint(
+        drop.value?.collection,
+        allocatedNft.id,
+        accountId.value,
+        {
+          ownedItem: availableNfts.snList[index],
+          mintPrice: drop.value?.price,
+        },
+      ),
+    )
 
-    mintNftSN.value = raffleId.value
-    howAboutToExecute(accountId.value, cb, args, {
+    howAboutToExecute(accountId.value, cb, [args], {
       onResult: ({ txHash }) => {
-        if (claimedNft.value) {
-          claimedNft.value.txHash = txHash
-        }
+        mintingSession.value.txHash = txHash
       },
     })
   } catch (e) {
@@ -230,51 +200,8 @@ const mintNft = async () => {
   }
 }
 
-watch(status, (curStatus) => {
-  if (curStatus === TransactionStatus.Block) {
-    if (isTransactionError.value) {
-      isLoading.value = false
-      isTransactionLoading.value = false
-      return
-    }
-    submitMint(mintNftSN.value)
-  }
-  if (curStatus === TransactionStatus.Cancelled) {
-    isMintModalActive.value = false
-  }
-})
-
 const clearWalletConnecting = () => {
   isWalletConnecting.value = false
-}
-
-const allocateRaffle = async () => {
-  isLoading.value = true
-  isAllocatingRaffle.value = true
-
-  const imageUrl = new URL(selectedImage.value)
-  imageHash.value = imageUrl.searchParams.get('hash') ?? ''
-  const imageCid = await tryCapture()
-  const metadata = await createUnlockableMetadata(
-    imageCid,
-    description.value || '',
-    collectionName.value || drop.value?.name || '',
-    'text/html',
-    selectedImage.value,
-  )
-  const body = {
-    email: raffleEmail.value,
-    hash: imageHash.value,
-    address: accountId.value,
-    image: selectedImage.value,
-    metadata: metadata,
-  }
-
-  const response = await allocateCollection(body, drop.value.id)
-  raffleId.value = response.result.id
-
-  isAllocatingRaffle.value = false
-  isLoading.value = false
 }
 
 const handleSubmitMint = async () => {
@@ -295,8 +222,7 @@ const handleSubmitMint = async () => {
   // use paid modal if it's holder of + price
   if (isHolderOfWithPaidMint.value) {
     isMintModalActive.value = true
-    await prepareRaffle()
-    return
+    return massGenerate()
   }
 
   if (hasMinimumFunds.value) {
@@ -306,51 +232,33 @@ const handleSubmitMint = async () => {
   }
 }
 
-const prepareRaffle = async () => {
-  // skip raffle modal at the moment. generate random email instead
-  // isRaffleModalActive.value = true
-  raffleEmail.value = getFakeEmail()
-
-  await allocateRaffle()
-}
-
 const mint = async () => {
-  await prepareRaffle()
+  await allocateGenerated()
   await mintNft()
 }
 
-const submitMint = async (sn: string) => {
+const submitMints = async () => {
   try {
-    const { result } = await allocateClaim(
-      {
-        sn: parseInt(sn),
-        txHash: imageHash.value,
-        address: accountId.value,
-      },
-      drop.value?.id,
-    )
+    const response = await Promise.all(toMintNFTs.value.map(submitMint))
+
+    const mintedNfts = response.map((item) => ({
+      id: `${drop.value?.collection}-${item.sn}`,
+      collection: item.collection,
+      chain: item.chain,
+      name: item.name,
+      image: item.image as string,
+      collectionName: collectionName.value as string,
+    }))
+
+    mintingSession.value.items = mintedNfts
+
+    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
 
     await fetchDropStatus()
 
-    const id = `${drop.value?.collection}-${result.sn}`
-
-    subscribeToMintedNft(id, async () => {
-      const mintedNft = await fetchNft(id)
-      if (mintedNft) {
-        mintedNftWithMetadata.value = mintedNft
-      }
-    })
-
     isLoading.value = false
-
-    claimedNft.value = {
-      ...result,
-      id,
-      name: result.name,
-      collectionName: collectionName.value,
-    }
-
     isSuccessModalActive.value = true
+
     dropStore.incrementRuntimeMintCount()
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
@@ -387,6 +295,7 @@ const checkAvailableNfts = async () => {
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const handleDropAddModalConfirm = () => {
@@ -396,8 +305,29 @@ const handleDropAddModalConfirm = () => {
 
 const handleList = () => {
   isSuccessModalActive.value = false
-  listMintedNft()
+  listMintedNFts()
 }
+
+const stopMint = () => {
+  closeMintModal()
+}
+
+const {
+  massGenerate,
+  allocateGenerated,
+  subscribeForNftsWithMetadata,
+  submitMint,
+  canMint,
+  listMintedNFts,
+  clearMassMint,
+} = useDropMassMint({
+  isLoading,
+  isError: isTransactionError,
+  isTransactionLoading,
+  status,
+  onSubmitMints: submitMints,
+  onTransactionCancel: stopMint,
+})
 
 watch(
   [holderOfCollectionData, () => dropStore.runtimeMintCount],
