@@ -110,7 +110,6 @@ export default () => {
   return {
     getPreviewItemsToMintedNfts,
     allPinned,
-    generatePreviewItem,
     payloads,
     pinMetadata,
   }
