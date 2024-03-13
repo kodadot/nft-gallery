@@ -22,12 +22,10 @@ interface State {
   loading: boolean
   walletConnecting: boolean
   isCaptutingImage: boolean
-  selectedImage: string
   runtimeMintCount: number
   drop: DropItem
   mintedDropCount: number
   claimedNFT: DropMintedNft | undefined
-  mintedNFT: NFTWithMetadata | undefined
   // massmint
   amountToMint: number
   toMintNFTs: MassMintNFT[]
@@ -44,12 +42,10 @@ export const useDropStore = defineStore('drop', {
       loading: false,
       walletConnecting: false,
       isCaptutingImage: false,
-      selectedImage: '',
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
       mintedDropCount: 0,
       claimedNFT: undefined,
-      mintedNFT: undefined,
       amountToMint: 1,
       toMintNFTs: [],
       previewItem: undefined,
@@ -72,9 +68,6 @@ export const useDropStore = defineStore('drop', {
     setPreviewItem(payload: GenerativePreviewItem | undefined) {
       this.previewItem = payload
     },
-    setSelectedImage(payload: string) {
-      this.selectedImage = payload
-    },
     setRuntimeMintCount(payload: number) {
       this.runtimeMintCount = payload
     },
@@ -89,9 +82,6 @@ export const useDropStore = defineStore('drop', {
     },
     setClaimedNFT(payload: DropMintedNft | undefined) {
       this.claimedNFT = payload
-    },
-    setMintedNFT(payload: NFTWithMetadata | undefined) {
-      this.mintedNFT = payload
     },
   },
 })

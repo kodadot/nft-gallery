@@ -33,15 +33,19 @@ import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { useDropStore } from '@/stores/drop'
-import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import useGenerativeIframeData, {
+  ImageDataPayload,
+} from '@/composables/drop/useGenerativeIframeData'
 
 const instance = getCurrentInstance()
-const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { openListingCartModal } = useListingCartModal()
 const dropStore = useDropStore()
+const { previewItem, mintedNFTs } = storeToRefs(dropStore)
 
 const { toast } = useToast()
 
+const { $i18n } = useNuxtApp()
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { drop } = useDrop()
@@ -58,19 +62,15 @@ const {
   emailConfirmed,
 } = useGenerativeDropNewsletter()
 
-const {
-  claimedNft,
-  mintedNftWithMetadata,
-  subscribeToMintedNft,
-  selectedImage,
-  listMintedNft,
-} = useGenerativeDropMint()
+const { claimedNft, subscribeToMintedNft, listMintedNft } =
+  useGenerativeDropMint()
 
 const { collectionName, description } = useCollectionEntity()
 const { imageDataPayload } = useGenerativeIframeData()
 
 const imageMetadata = ref('')
-const imageHash = ref('')
+const imageHash = computed(() => previewItem.value?.hash || '')
+const selectedImage = computed(() => previewItem.value?.image || '')
 
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
@@ -103,40 +103,51 @@ const handleSubmitMint = () => {
   }
 }
 
-const getImageInfo = async (
-  image: string,
-): Promise<{ metadata: string; hash: string }> => {
-  dropStore.setIsCaptutingImage(true)
-  const imageUrl = new URL(image)
-  const hash = imageUrl.searchParams.get('hash') || ''
-  const imageCid = await tryCapture({
-    data: imageDataPayload.value,
-    image: selectedImage.value,
-  })
-  const metadata = await createUnlockableMetadata(
-    imageCid,
-    description.value ?? '',
-    collectionName.value ?? drop.value?.name ?? '',
-    'text/html',
-    selectedImage.value,
-  )
-  imageMetadata.value = metadata
-  imageHash.value = hash
-  dropStore.setIsCaptutingImage(false)
-  return { metadata, hash }
+const generateMetadata = async ({
+  data,
+  image,
+}: {
+  image: string
+  data: ImageDataPayload
+}): Promise<string> => {
+  try {
+    dropStore.setIsCaptutingImage(true)
+    const imageCid = await tryCapture({
+      data,
+      image,
+    })
+    const metadata = await createUnlockableMetadata(
+      imageCid,
+      description.value ?? '',
+      collectionName.value ?? drop.value?.name ?? '',
+      'text/html',
+      selectedImage.value,
+    )
+    imageMetadata.value = metadata
+    dropStore.setIsCaptutingImage(false)
+    return metadata
+  } catch (error) {
+    toast($i18n.t('drops.capture'))
+    throw error
+  }
 }
 
 const allocateRaffle = async (): Promise<{ raffleId: number }> => {
-  const { metadata, hash } = await getImageInfo(selectedImage.value)
+  const metadata = await generateMetadata({
+    image: selectedImage.value,
+    data: imageDataPayload.value as ImageDataPayload,
+  })
+
   const body = {
     email: getFakeEmail(),
-    hash,
+    hash: imageHash.value,
     address: accountId.value,
     image: selectedImage.value,
     metadata: metadata,
   }
 
   const response = await allocateCollection(body, drop.value.id)
+
   return { raffleId: parseInt(response.result.id) }
 }
 
@@ -167,7 +178,7 @@ const submitMint = async () => {
     subscribeToMintedNft(id, async (): Promise<void> => {
       const mintedNft = await fetchNft(id)
       if (mintedNft) {
-        mintedNftWithMetadata.value = mintedNft
+        mintedNFTs.value = [mintedNft]
       }
     })
   } catch (error) {
@@ -196,14 +207,12 @@ const startMinting = async () => {
 const handleList = async () => {
   isConfirmModalActive.value = false
   listMintedNft()
+  openListingCartModal()
 }
 
 const clear = () => {
   isConfirmModalActive.value = false
   preferencesStore.listingCartModalOpen = false
-  if (mintedNftWithMetadata.value?.id) {
-    listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-  }
 }
 
 const handleDropAddModalConfirm = () => {

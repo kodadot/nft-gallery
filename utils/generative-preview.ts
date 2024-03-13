@@ -30,12 +30,7 @@ export const tryCapture = async ({
   image: string
   data: ImageDataPayload
 }) => {
-  try {
-    const imgFile = await getCaptureImageFile({ image, data })
-    const imageHash = await pinFileToIPFS(imgFile)
-    return imageHash
-  } catch (error) {
-    // toast($i18n.t('drops.capture'))
-    throw error
-  }
+  const imgFile = await getCaptureImageFile({ image, data })
+  const imageHash = await pinFileToIPFS(imgFile)
+  return imageHash
 }

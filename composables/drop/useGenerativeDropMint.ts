@@ -70,23 +70,16 @@ export function useCollectionEntity(collectionId?: string) {
 
 export default () => {
   const dropStore = useDropStore()
+  const { mintedNFTs } = storeToRefs(dropStore)
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
-  const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal({ clearItemsOnModalClose: true })
+  const { listNftByNftWithMetadata } = useListingCartModal({
+    clearItemsOnModalClose: true,
+  })
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
     set: (value) => dropStore.setClaimedNFT(value),
-  })
-
-  const mintedNftWithMetadata = computed({
-    get: () => dropStore.mintedNFT,
-    set: (value) => dropStore.setMintedNFT(value),
-  })
-  const selectedImage = computed({
-    get: () => dropStore.selectedImage,
-    set: (value) => dropStore.setSelectedImage(value),
   })
 
   const previewItem = computed({
@@ -106,7 +99,7 @@ export default () => {
     () => dropStore.mintedDropCount < maxCount.value,
   )
 
-  const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
+  const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))
 
   const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
     useSubscriptionGraphql({
@@ -118,19 +111,17 @@ export default () => {
   }
 
   const listMintedNft = async () => {
-    if (mintedNftWithMetadata.value) {
-      listNftByNftWithMetadata(mintedNftWithMetadata.value)
-      openListingCartModal()
+    const mintedNFT = mintedNFTs.value[0]
+    if (mintedNFT) {
+      listNftByNftWithMetadata(mintedNFT)
     }
   }
 
   return {
     maxCount,
     claimedNft,
-    mintedNftWithMetadata,
     mintedCount,
     mintCountAvailable,
-    selectedImage,
     canListMintedNft,
     listMintedNft,
     tryCapture,
