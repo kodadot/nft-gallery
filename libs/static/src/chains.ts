@@ -90,10 +90,10 @@ export const chainList = (): Option[] => {
 }
 
 export const existentialDeposit: Record<Prefix, number> = {
-  ksm: 333333333,
-  rmrk: 333333333,
-  ahk: 33333333,
-  dot: 10000000000,
-  ahp: 1000000000,
+  ksm: 666666666,
+  rmrk: 666666666,
+  ahk: 666666666,
+  dot: 15000000000,
+  ahp: 15000000000,
   imx: 0, // nothing like ED in EVM :)
 }
