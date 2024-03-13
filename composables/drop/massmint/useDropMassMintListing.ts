@@ -2,10 +2,10 @@ import isEqual from 'lodash/isEqual'
 import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
 
 export default () => {
-  const { listNftByNftWithMetadata, openListingCartModal } =
-    useListingCartModal({ clearItemsOnModalClose: true })
-
   const { client } = usePrefix()
+  const { listNftByNftWithMetadata } = useListingCartModal({
+    clearItemsOnModalClose: true,
+  })
 
   const { mintedNFTs } = storeToRefs(useDropStore())
 
@@ -30,13 +30,12 @@ export default () => {
     })
   }
 
-  const listMintedNFts = () => {
+  const listMintedNFTs = () => {
     mintedNFTs.value.forEach(listNftByNftWithMetadata)
-    openListingCartModal()
   }
 
   return {
-    listMintedNFts,
+    listMintedNFTs,
     subscribeForNftsWithMetadata,
   }
 }

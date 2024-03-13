@@ -69,6 +69,7 @@ const { accountId, isLogIn } = useAuth()
 const dropStore = useDropStore()
 const { mintingSession, toMintNFTs, allocatedNFTs, runtimeMintCount } =
   storeToRefs(dropStore)
+const { openListingCartModal } = useListingCartModal()
 
 const { fetchMultipleBalance } = useMultipleBalance()
 const {
@@ -303,7 +304,8 @@ const handleDropAddModalConfirm = () => {
 
 const handleList = () => {
   isSuccessModalActive.value = false
-  listMintedNFts()
+  listMintedNFTs()
+  openListingCartModal()
 }
 
 const stopMint = () => {
@@ -320,7 +322,7 @@ const { massGenerate, allocateGenerated, submitMint, clearMassMint } =
     onTransactionCancel: stopMint,
   })
 
-const { subscribeForNftsWithMetadata, listMintedNFts } =
+const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()
 
 watch([holderOfCollectionData, runtimeMintCount], checkAvailableNfts, {

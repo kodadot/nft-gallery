@@ -50,6 +50,7 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
+const { openListingCartModal } = useListingCartModal()
 
 const isLoading = ref(false)
 const isImageFetching = ref(false)
@@ -195,7 +196,8 @@ const submitMints = async () => {
 
 const handleList = () => {
   closeMintModal()
-  listMintedNFts()
+  listMintedNFTs()
+  openListingCartModal()
 }
 
 const handleConfirmPaidMint = () => {
@@ -222,7 +224,7 @@ const {
   onTransactionCancel: stopMint,
 })
 
-const { subscribeForNftsWithMetadata, listMintedNFts } =
+const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()
 </script>
 
