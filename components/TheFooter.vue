@@ -122,7 +122,10 @@
                   </defs>
                 </svg>
                 <!-- farcaster doesnt have a font awesome icon -->
-                <FarcasterIcon v-else-if="item.icon === 'farcaster'" />
+                <FarcasterIcon
+                  v-else-if="item.icon === 'farcaster'"
+                  width="20"
+                  height="20" />
                 <NeoIcon
                   v-else
                   :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
