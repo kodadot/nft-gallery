@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="dropStore.loading"
+      v-if="dropStore.isCaptutingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -45,7 +45,7 @@
       <div class="flex justify-end items-center">
         <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
         <div class="font-bold">
-          {{ mintedCount }}/{{ maxCount }}
+          {{ dropStore.mintsCount }}/{{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
       </div>
@@ -53,12 +53,9 @@
 
     <CollectionUnlockableSlider
       class="text-neutral-5 dark:text-neutral-9"
-      :value="mintedCount / maxCount" />
+      :value="dropStore.mintsCount / maxCount" />
 
-    <CollectionDropMintButton
-      class="mt-6"
-      :holder-of-collection="holderOfCollection"
-      @mint="emit('mint')" />
+    <CollectionDropMintButton class="mt-6" @mint="emit('mint')" />
 
     <div
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
@@ -76,7 +73,6 @@
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import { getRandomIntFromRange } from '../unlockable/utils'
 import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
@@ -91,7 +87,7 @@ const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
-const { maxCount, mintedCount } = useGenerativeDropMint()
+const { maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
@@ -102,15 +98,11 @@ const { formatted: formattedPrice } = useAmount(
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
-defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
-
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
   // only applicable if the drop is missing`kodahash/render/completed` event
   if (!imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 }, 5000)
@@ -121,7 +113,7 @@ const mintedPercent = computed(() => {
   if (!maxCount.value) {
     return 0
   }
-  return Math.round((mintedCount.value / maxCount.value) * 100)
+  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
 const entropyRange = computed<[number, number]>(() => [
   STEP * mintedAmountForCurrentUser.value,
@@ -149,7 +141,7 @@ const generateNft = () => {
   if (!drop.value?.content) {
     return
   }
-  dropStore.setLoading(true)
+  dropStore.setIsCaptutingImage(true)
   startTimer()
   const metadata = `${drop.value?.content}/?hash=${getHash()}`
   console.log('metadata', metadata)
@@ -160,7 +152,7 @@ const generateNft = () => {
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 })

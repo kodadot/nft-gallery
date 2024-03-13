@@ -21,7 +21,7 @@ interface State {
   selectedImage: string
   runtimeMintCount: number
   drop: DropItem
-  mintedDropCount: number
+  mintsCount: number
   claimedNFT: DropMintedNft | undefined
   mintedNFT: NFTWithMetadata | undefined
 }
@@ -36,7 +36,7 @@ export const useDropStore = defineStore('drop', {
       selectedImage: '',
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
-      mintedDropCount: 0,
+      mintsCount: 0,
       claimedNFT: undefined,
       mintedNFT: undefined,
     }
@@ -65,13 +65,25 @@ export const useDropStore = defineStore('drop', {
       this.drop = payload
     },
     setMintedDropCount(payload: number) {
-      this.mintedDropCount = payload
+      this.mintsCount = payload
     },
     setClaimedNFT(payload: DropMintedNft | undefined) {
       this.claimedNFT = payload
     },
     setMintedNFT(payload: NFTWithMetadata | undefined) {
       this.mintedNFT = payload
+    },
+    reset() {
+      const { urlPrefix } = usePrefix()
+      this.loading = false
+      this.walletConnecting = false
+      this.isCaptutingImage = false
+      this.selectedImage = ''
+      this.runtimeMintCount = 0
+      this.drop = { ...DEFAULT_DROP, chain: urlPrefix.value }
+      this.mintsCount = 0
+      this.claimedNFT = undefined
+      this.mintedNFT = undefined
     },
   },
 })

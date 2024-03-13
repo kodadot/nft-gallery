@@ -9,14 +9,14 @@
           placeholder="Email"
           class="mb-4"
           type="email"
-          :disabled="isLoading"
+          :disabled="loading"
           required />
         <NeoButton
           expanded
           variant="k-accent"
           native-type="submit"
-          :loading="isLoading"
-          :disabled="isLoading">
+          :loading="loading"
+          :disabled="loading">
           Allocate
         </NeoButton>
       </form>
@@ -60,7 +60,6 @@ const toMintNft = computed<ToMintNft>(() => ({
   priceUSD: priceUSD.value,
 }))
 
-const isWalletConnecting = ref(false)
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
@@ -68,8 +67,8 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
+const { loading, walletConnecting } = storeToRefs(useDropStore())
 
-const isLoading = ref(false)
 const isAllocatingRaffle = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
@@ -112,11 +111,11 @@ const {
 } = useGenerativeDropMint()
 const { description, collectionName, nftCount } = useCollectionEntity()
 
-useCursorDropEvents([isTransactionLoading, isLoading])
+useCursorDropEvents([isTransactionLoading, loading])
 
 const mintNft = async () => {
   try {
-    isLoading.value = true
+    loading.value = true
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
@@ -143,7 +142,7 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
-    isLoading.value = false
+    loading.value = false
   }
 }
 
@@ -157,11 +156,11 @@ watch(status, (curStatus) => {
 })
 
 const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
+  walletConnecting.value = false
 }
 
 const allocateRaffle = async () => {
-  isLoading.value = true
+  loading.value = true
   isAllocatingRaffle.value = true
 
   const imageUrl = new URL(selectedImage.value)
@@ -186,12 +185,12 @@ const allocateRaffle = async () => {
   raffleId.value = response.result.id
 
   isAllocatingRaffle.value = false
-  isLoading.value = false
+  loading.value = false
 }
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    isWalletConnecting.value = true
+    walletConnecting.value = true
     doAfterLogin({
       onLoginSuccess: clearWalletConnecting,
       onCancel: clearWalletConnecting,
@@ -199,7 +198,7 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+  if (loading.value || isImageFetching.value) {
     return false
   }
 
@@ -247,7 +246,7 @@ const submitMint = async (sn: string) => {
       }
     })
 
-    isLoading.value = false
+    loading.value = false
 
     claimedNft.value = {
       ...result,
@@ -277,7 +276,7 @@ const handleConfirmPaidMint = () => {
 
 const stopMint = () => {
   isMintModalActive.value = false
-  isLoading.value = false
+  loading.value = false
 }
 
 watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {

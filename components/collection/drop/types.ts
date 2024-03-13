@@ -10,7 +10,7 @@ export type MintButtonProp = {
   disabled: boolean
 }
 
-export type HolderOfCollectionProp = {
+export type HolderOfCollection = {
   id: string
   isHolder: boolean
   isLoading: boolean
