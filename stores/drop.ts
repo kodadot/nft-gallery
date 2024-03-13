@@ -65,9 +65,6 @@ export const useDropStore = defineStore('drop', {
     setIsCaptutingImage(payload: boolean) {
       this.isCaptutingImage = payload
     },
-    setPreviewItem(payload: GenerativePreviewItem | undefined) {
-      this.previewItem = payload
-    },
     setRuntimeMintCount(payload: number) {
       this.runtimeMintCount = payload
     },

@@ -80,9 +80,7 @@ import { useCollectionMinimal } from '@/components/collection/utils/useCollectio
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
 import { useWindowSize } from '@vueuse/core'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
@@ -91,7 +89,7 @@ defineProps<{
 }>()
 
 const { drop } = useDrop()
-const { previewItem } = useGenerativeDropMint()
+const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
 const mdBreakpoint = 768

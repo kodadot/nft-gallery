@@ -38,9 +38,9 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, previewItem, maxCount } = useGenerativeDropMint()
+const { mintCountAvailable, maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
-const { amountToMint } = storeToRefs(dropStore)
+const { amountToMint, previewItem } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { data: holderOfCollectionData } = await useAsyncData(

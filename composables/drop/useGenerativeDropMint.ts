@@ -82,11 +82,6 @@ export default () => {
     set: (value) => dropStore.setClaimedNFT(value),
   })
 
-  const previewItem = computed({
-    get: () => dropStore.previewItem,
-    set: (value) => dropStore.setPreviewItem(value),
-  })
-
   const maxCount = computed(
     () => collectionMaxCount.value ?? drop.value?.max ?? 0,
   )
@@ -126,6 +121,5 @@ export default () => {
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,
-    previewItem,
   }
 }
