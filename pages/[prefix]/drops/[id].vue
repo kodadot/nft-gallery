@@ -20,21 +20,13 @@ const { reset } = useDropStore()
 const { drop, fetchDrop } = useDrop()
 useDropStatus().fetchDropStatus()
 
-const dropType = computed(() => drop.value?.type)
-const ready = ref(false)
+const dropType = computed(() => drop.value.type)
 
-onMounted(() =>
-  fetchDrop().then(() => {
-    ready.value = true
-  }),
-)
+onMounted(() => fetchDrop().then(fixPrefix))
 
 onBeforeUnmount(reset)
 
-onMounted(() => {
-  if (!ready.value) {
-    return
-  }
+const fixPrefix = () => {
   if (drop.value?.chain === 'ahk' && isProduction) {
     useRouter().push('/')
     return
@@ -43,5 +35,5 @@ onMounted(() => {
     setUrlPrefix(drop.value?.chain)
     redirectAfterChainChange(drop.value?.chain)
   }
-})
+}
 </script>
