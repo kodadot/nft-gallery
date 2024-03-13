@@ -93,10 +93,10 @@ const label = computed(() => {
 })
 
 const enabled = computed(() => {
-  if (!mintCountAvailable.value) {
+  if (!isLogIn.value) {
     return true
   }
-  if (!isLogIn.value) {
+  if (!mintCountAvailable.value) {
     return true
   }
   if (

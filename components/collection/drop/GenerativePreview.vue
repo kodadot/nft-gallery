@@ -102,7 +102,7 @@ const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
   // only applicable if the drop is missing`kodahash/render/completed` event
   if (!imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 }, 5000)
