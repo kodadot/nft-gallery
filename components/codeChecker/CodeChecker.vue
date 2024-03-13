@@ -37,6 +37,20 @@
             </div>
             <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-[14px]" />
           </a>
+          <a
+            v-safe-href="
+              'https://hello.kodadot.xyz/tutorial/generative-art/code-checker'
+            "
+            class="flex items-center w-fit"
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            <div
+              class="text-k-blue hover:text-k-blue-hover flex items-center mr-2">
+              <NeoIcon icon="circle" pack="fas" class="text-[4px] mr-2" />
+              {{ $t('codeChecker.codeChecker') }}
+            </div>
+            <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-[14px]" />
+          </a>
         </div>
       </div>
 

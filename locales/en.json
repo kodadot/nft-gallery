@@ -1754,6 +1754,7 @@
     "resources": "Resources",
     "kodahashTemplate": "Kodahash Template",
     "learnAboutGenArt": "Learn About Generative Art On Kodadot",
+    "codeChecker": "Code Checker",
     "upload": "Upload Your Code",
     "uploadInstructions": "Drop your code file here or click to select, and initiate the automated review.",
     "codeValidation": "Code Validation",
