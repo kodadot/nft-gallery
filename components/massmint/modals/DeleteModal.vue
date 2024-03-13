@@ -1,5 +1,5 @@
 <template>
-  <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal :value="isModalActive" @close="emit('close')">
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="flex justify-center text-xl pb-4 border-b border-k-shade">
         <span>

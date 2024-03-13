@@ -2,7 +2,6 @@
   <NeoModal
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     class="z-[1000]"
     @close="onClose">
     <div class="modal-width">

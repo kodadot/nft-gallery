@@ -30,7 +30,7 @@
 
             <NeoButton
               class="ml-4"
-              variant="pill"
+              variant="outlined-rounded"
               size="small"
               @click="() => $emit('tryAgain')">
               {{ $t('helper.tryAgain') }}
@@ -39,8 +39,15 @@
         </div>
       </template>
 
-      <template #footer>
-        <slot name="footer"></slot>
+      <template v-if="showEstimation" #footer>
+        <div
+          :class="{
+            'min-w-[80px]': !customFormattedEstimation,
+            'w-max': customFormattedEstimation,
+          }"
+          class="absolute z-[4] left-2/4 top-[90%] -translate-x-2/4 -translate-y-[90%] px-3 text-center rounded-full py-1 text-k-grey bg-background-color text-xs">
+          {{ formattedEstimation }}
+        </div>
       </template>
     </SkeletonLoader>
   </div>
@@ -48,18 +55,36 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title: string
     subtitle: string
     showSubtitleDots?: boolean
     failed?: boolean
+    status?: TransactionStatus
+    customFormattedEstimation?: string
   }>(),
   {
     showSubtitleDots: false,
     failed: false,
+    customFormattedEstimation: undefined,
   },
+)
+
+const { formattedState, isTransactionInProgress } = useTransactionEstimatedTime(
+  computed(() => props.status),
+)
+
+const showEstimation = computed(() =>
+  props.customFormattedEstimation
+    ? true
+    : isTransactionInProgress.value && !props.failed,
+)
+
+const formattedEstimation = computed(
+  () => props.customFormattedEstimation || formattedState.value,
 )
 </script>

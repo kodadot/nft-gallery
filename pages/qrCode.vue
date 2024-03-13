@@ -1,9 +1,9 @@
 <template>
-  <div class="columns is-multiline">
+  <div class="flex flex-col md:flex-row flex-wrap gap-3">
     <div
       v-for="item in qrCodeList"
       :key="item.title"
-      class="column is-half text-center mb-3">
+      class="w-1/2 text-center mb-3">
       <a v-safe-href="item.link">{{ item.title }}</a>
       <img :src="item.img" class="is-half px-8 mt-2" :alt="item.title" />
     </div>

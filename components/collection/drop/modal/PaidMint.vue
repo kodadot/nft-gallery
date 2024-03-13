@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody
       :title="title"
@@ -20,13 +19,15 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
       <SigningModalBody
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
-        :subtitle="transactionStatus" />
+        :subtitle="transactionStatus"
+        :status="status" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -47,6 +48,7 @@ import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { usePreloadMintedNftCover } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 
@@ -54,11 +56,12 @@ const props = withDefaults(
   defineProps<{
     modelValue: boolean
     toMintNft: ToMintNft
+    status: TransactionStatus
     action: AutoTeleportAction
     isAllocatingRaffle: boolean
     minimumFunds: number
     hasMinimumFunds: boolean
-    hideMinimumFundsWarning: boolean
+    hideMinimumFundsWarning?: boolean
     formattedMinimumFunds: string
     formattedExistentialDeposit: string
     mintedNft?: DropMintedNft

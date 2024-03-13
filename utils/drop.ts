@@ -21,6 +21,11 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '108', // Motifs
+  '106', // Refraction
+  '99', // Leadlight
+  '95', // Echo
+  '91', // SailWings
   '87', // Florist
   '82', // Alchemy
   '77', // Chained
@@ -41,3 +46,5 @@ export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
 
 export const FALLBACK_DROP_COLLECTION_MAX = 300
 export const FUTURE_DROP_DATE = new Date(Date.UTC(2024, 0, 25, 14, 0, 0))
+
+export const DROP_CARD_MIN_WIDTH = 334 // px

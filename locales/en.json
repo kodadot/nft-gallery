@@ -110,8 +110,8 @@
     "rankings": "Rankings",
     "units": "Units",
     "owners": "Owners",
-    "landingTitle1": "Go To",
-    "landingTitle2": "Polkadot NFT",
+    "landingTitle1": "Your",
+    "landingTitle2": "Generative Art",
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
@@ -425,9 +425,11 @@
     "updatedAt_ASC": "Unpopular",
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
-    "sn_ASC": "Alphabetically",
+    "sn_ASC": "Serial (Low→High)",
+    "sn_DESC": "Serial (High→Low)",
     "instance_ASC": "Sequence",
     "listed": "Buy now",
+    "listed_RMRK": "Listed",
     "own": "Own",
     "clearAll": "Clear All",
     "collection": {
@@ -439,7 +441,8 @@
       "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
-      "sn_ASC": "Alphabetically",
+      "sn_ASC": "Serial (Low→High)",
+      "sn_DESC": "Serial (High→Low)",
       "volume_DESC": "Volume",
       "highestSale_DESC": "Highest Sale",
       "listed": "Buy now",
@@ -455,6 +458,7 @@
     }
   },
   "mint": {
+    "progress": "In Progress",
     "creatingCollection": "Creating collection {name}",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
@@ -477,6 +481,7 @@
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "disabledRmrk": "Minting on Kusama is no longer supported, please select another chain",
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
@@ -667,7 +672,6 @@
           "note": "Transactions may require a network confirmation"
         }
       },
-      "requirements": "Requirements",
       "connectWallet": "Connect wallet to proceed",
       "availableForMint": "Available for mint",
       "readyToMint": "Ready to Mint: {0} NFTs Remaining",
@@ -685,6 +689,7 @@
     "name": "NFT will be visible under this name in gallery",
     "edition": "Number of copies",
     "created": "Created by",
+    "collectedBy": "Collected by",
     "collections": "Collections created by",
     "sold": "Nfts sold by",
     "collected": "Nfts collected by",
@@ -891,7 +896,7 @@
     "owned": "Owned",
     "totalBought": "Total Bought",
     "totalSold": "Total Sold",
-    "date": "Date",
+    "longestHold": "Longest hold",
     "bestFlip": "Best Flip",
     "latestActivity": "LatestActivity",
     "nftDetails": "NFT Details",
@@ -1155,7 +1160,8 @@
     "artists": {
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
-    }
+    },
+    "connectFarcaster": "Connect with Koda on Farcaster"
   },
   "history": {
     "label": "History",
@@ -1204,6 +1210,7 @@
     "join": "Join Our Community",
     "subscribeLabel": "Subscribe",
     "toc": "Terms of Use",
+    "guide": "Tutorials & Guides",
     "privacyPolicy": "Privacy Policy"
   },
   "signupBanner": {
@@ -1450,9 +1457,10 @@
     "mintingLive": "Minting Live",
     "viewDrop": "View Drop",
     "mintingEnded": "Ended",
+    "mintingNow": "Minting Now",
     "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
-    "mintPerAddress": "Each address can mint only once",
+    "mintDropError": "Error encountered, please retry. {0}",
     "recentMints": "Recent NFT Mints",
     "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",
@@ -1504,8 +1512,8 @@
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
     "phases": {
-      "private": "Private Mint",
-      "public": "Public Sale"
+      "private": "Allowlist",
+      "public": "Public Mint"
     }
   },
   "confirmPurchase": {
@@ -1570,7 +1578,7 @@
       },
       "faq4": {
         "title": "Learn More About Process",
-        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='text-k-blue hover:text-k-blue-hover' href='#!'>See Article -&gt;</a></p>"
+        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='text-k-blue hover:text-k-blue-hover' target='_blank' href='https://hello.kodadot.xyz/multi-chain/migrator'>See Article -&gt;</a></p>"
       }
     },
     "resultFor": "Showing Results For:",
@@ -1756,14 +1764,23 @@
     "webglSupported": "WebGL Supported",
     "local": "Local",
     "automaticResize": "Automatic Sizing - Responsiveness",
+    "automaticResizeMeans":"Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
     "correctHTMLName": "Correct HTML Name",
+    "correctHTMLNameMeans": "An issue in this category means that the html should have a title tag and the title should be different from kodaHash. Like this:",
     "usingKodaHash": "Using Kodahash Render",
+    "usingKodaHashMeans": "Once the rendering of art is done, a message needs to be sent signaling the end of the render. This message is necessary for art to work properly on KodaDot. More details can be found in the {link}. This message should look like this:",
     "usingParamHash": "Param Hash From Url For Rendering",
+    "usingParamHashMeans": "Your artwork is expected to use hash url param. Like this:",
     "variationLoadingTime": "Variation loading time < {0} seconds",
+    "variationLoadingTimeMeans1": "The time between the start of render and message kodahash/render/completed is measured. As we mentioned in the documentation, art should be quick, to make the experience for the user better. Loading time check could fail if:",
+    "variationLoadingTimeMeans2": "Artwork is not rendered in the checker.",
+    "variationLoadingTimeMeans3": "Takes too long to render, no clear way to fix that, the artist needs to find a way to cut down time.",
     "newHash": "New Hash",
     "currentHash": "Current Hash",
     "replayAnimation": "Replay Animation",
-    "exportVariations": "Export Variations"
+    "exportVariations": "Export Variations",
+    "resolveIssue": "Resolve Issue",
+    "copyCode": "Copy Code"
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"

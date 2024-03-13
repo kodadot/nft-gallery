@@ -40,6 +40,7 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     :to-mint-nft="toMintNft"
     :minted-nft="mintedNft"
     :minimum-funds="minimumFunds"
@@ -48,12 +49,9 @@
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
     :formatted-existential-deposit="formattedExistentialDeposit"
-    :token="token"
-    :chain="chainName"
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -73,6 +71,8 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ToMintNft } from './types'
+import { getFakeEmail } from './utils'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = withDefaults(
   defineProps<{
@@ -140,7 +140,6 @@ const {
   collectionId,
   chainName,
   disabledByBackend,
-  token,
   price,
 } = useGenerativeDropDetails(props.drop)
 
@@ -214,6 +213,9 @@ useCursorDropEvents(
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
   if (isLoading.value) {
     return $i18n.t('loader.ipfs')
   }
@@ -281,6 +283,9 @@ watch(status, (curStatus) => {
   if (curStatus === TransactionStatus.Block) {
     submitMint(mintNftSN.value)
   }
+  if (curStatus === TransactionStatus.Cancelled) {
+    isMintModalActive.value = false
+  }
 })
 
 const clearWalletConnecting = () => {
@@ -332,9 +337,7 @@ const handleSubmitMint = async () => {
 
   // skip raffle modal at the moment. generate random email instead
   // isRaffleModalActive.value = true
-  const crypto = window.crypto
-  const array = new Uint32Array(1)
-  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  raffleEmail.value = getFakeEmail()
   openMintModal()
   await allocateRaffle()
 }
@@ -388,7 +391,7 @@ const submitMint = async (sn: string) => {
       collectionName: collectionName.value as string,
     }
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isImageFetching.value = false
     closeMintModal()
     throw error
