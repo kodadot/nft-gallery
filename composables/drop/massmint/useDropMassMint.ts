@@ -11,7 +11,6 @@ import useGenerativePreview, {
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
 import { getFakeEmail } from '@/components/collection/drop/utils'
-import { TransactionStatus } from '../../useTransactionStatus'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
 import { useCollectionEntity } from '../useGenerativeDropMint'
@@ -26,21 +25,9 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 
 type MassMintParams = {
   isLoading: Ref<boolean>
-  status: Ref<TransactionStatus>
-  isError: Ref<boolean>
-  isTransactionLoading: Ref<boolean>
-  onSubmitMints: () => Promise<void>
-  onTransactionCancel?: () => void
 }
 
-export default ({
-  isLoading,
-  isTransactionLoading,
-  isError,
-  status,
-  onSubmitMints,
-  onTransactionCancel,
-}: MassMintParams) => {
+export default ({ isLoading }: MassMintParams) => {
   const { accountId } = useAuth()
 
   useDropMassMintUploader()
@@ -230,22 +217,6 @@ export default ({
   watch(allPinned, async (pinned) => {
     if (pinned) {
       await allocate(toMintNFTs.value)
-    }
-  })
-
-  watch([status, () => mintingSession.value.txHash], ([curStatus, txHash]) => {
-    if (curStatus === TransactionStatus.Cancelled) {
-      return onTransactionCancel?.()
-    }
-
-    // ensure txHash is set, it's needed when calling /do/:id
-    if (curStatus === TransactionStatus.Block && txHash) {
-      if (isError.value) {
-        isLoading.value = false
-        isTransactionLoading.value = false
-        return
-      }
-      onSubmitMints()
     }
   })
 

@@ -207,6 +207,7 @@ const handleConfirmPaidMint = () => {
 const stopMint = () => {
   isMintModalActive.value = false
   isLoading.value = false
+  clearMassMint()
 }
 
 const {
@@ -215,17 +216,24 @@ const {
   allocateRaffleMode,
   raffleEmail,
   clearMassMint,
-} = useDropMassMint({
-  isLoading,
-  isError,
-  isTransactionLoading,
-  status,
-  onSubmitMints: submitMints,
-  onTransactionCancel: stopMint,
-})
+} = useDropMassMint({ isLoading })
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()
+
+useTransactionTracker({
+  transaction: {
+    isError,
+    status,
+  },
+  onSuccess: submitMints,
+  onCancel: stopMint,
+  onError: () => {
+    isLoading.value = false
+  },
+  // ensure txHash is set, it's needed when calling /do/:id
+  waitFor: [computed(() => mintingSession.value.txHash)],
+})
 </script>
 
 <style scoped lang="scss">
