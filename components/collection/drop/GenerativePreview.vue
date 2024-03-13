@@ -147,7 +147,11 @@ watch(imageDataLoaded, () => {
     emit('generation:end')
   }
 })
-watch([accountId, () => drop.value.content], generateNft)
+
+watch(
+  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
+  generateNft,
+)
 
 onMounted(() => {
   setTimeout(generateNft, 500)
