@@ -73,5 +73,17 @@ export const useDropStore = defineStore('drop', {
     setMintedNFT(payload: NFTWithMetadata | undefined) {
       this.mintedNFT = payload
     },
+    reset() {
+      const { urlPrefix } = usePrefix()
+      this.loading = false
+      this.walletConnecting = false
+      this.isCaptutingImage = false
+      this.selectedImage = ''
+      this.runtimeMintCount = 0
+      this.drop = { ...DEFAULT_DROP, chain: urlPrefix.value }
+      this.mintsCount = 0
+      this.claimedNFT = undefined
+      this.mintedNFT = undefined
+    },
   },
 })

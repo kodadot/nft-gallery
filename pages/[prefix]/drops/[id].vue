@@ -15,6 +15,7 @@ definePageMeta({
 })
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
+const { reset } = useDropStore()
 
 const { drop, fetchDrop } = useDrop()
 useDropStatus().fetchDropStatus()
@@ -28,7 +29,9 @@ onMounted(() =>
   }),
 )
 
-watchEffect(() => {
+onBeforeUnmount(reset)
+
+onMounted(() => {
   if (!ready.value) {
     return
   }
