@@ -175,4 +175,13 @@ watchEffect(() => {
     modalStep.value = ModalStep.SUCCEEDED
   }
 })
+
+watch(
+  () => props.action.details.status,
+  (status) => {
+    if (status === TransactionStatus.Cancelled) {
+      modalStep.value = ModalStep.OVERVIEW
+    }
+  },
+)
 </script>

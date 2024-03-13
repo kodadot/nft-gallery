@@ -331,7 +331,7 @@ useTransactionTracker({
     isLoading.value = false
   },
   // ensure txHash is set, it's needed when calling /do/:id
-  waitFor: [computed(() => mintingSession.value.txHash)],
+  waitFor: [computed(() => Boolean(mintingSession.value.txHash))],
 })
 
 watch([holderOfCollectionData, runtimeMintCount], checkAvailableNfts, {

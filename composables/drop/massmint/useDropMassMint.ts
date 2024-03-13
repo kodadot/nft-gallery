@@ -55,7 +55,7 @@ export default ({ isLoading }: MassMintParams) => {
     allocatedNFTs.value = []
     raffleEmail.value = undefined
     mintedNFTs.value = []
-    mintingSession.value = { txHash: '', items: [] }
+    mintingSession.value = { txHash: undefined, items: [] }
   }
 
   const allocateRaffleMode = async (

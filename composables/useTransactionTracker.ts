@@ -9,7 +9,7 @@ type Params = {
   onCancel?: () => void
   onError?: () => void
   successStatus?: TransactionStatus
-  waitFor?: Array<Ref>
+  waitFor?: Array<Ref<boolean>>
 }
 
 export default ({
@@ -29,7 +29,7 @@ export default ({
       return onError?.()
     }
 
-    if (curStatus === successStatus && waitFor.every((i) => Boolean(i.value))) {
+    if (curStatus === successStatus && waitFor.every((i) => i.value)) {
       onSuccess()
     }
   })

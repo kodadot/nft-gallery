@@ -53,7 +53,7 @@ export const useDropStore = defineStore('drop', {
       amountToMint: 1,
       toMintNFTs: [],
       previewItem: undefined,
-      mintingSession: { txHash: '', items: [] },
+      mintingSession: { txHash: undefined, items: [] },
       allocatedNFTs: [],
       mintedNFTs: [],
     }
