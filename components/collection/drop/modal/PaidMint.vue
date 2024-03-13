@@ -176,12 +176,13 @@ watchEffect(() => {
   }
 })
 
-watch(
-  () => props.action.details.status,
-  (status) => {
-    if (status === TransactionStatus.Cancelled) {
+watchDebounced(
+  () => props.modelValue,
+  (isOpen) => {
+    if (!isOpen) {
       modalStep.value = ModalStep.OVERVIEW
     }
   },
+  { debounce: 500 }, // wait for the modal closing animation to finish
 )
 </script>
