@@ -1070,7 +1070,7 @@
     "boughtNft": "Check out this awesome NFT I bought on KodaDot",
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
-    "dropNft": "Check out this awesome NFT on KodaDot {'#'}{0}{'/'}{1}",
+    "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
