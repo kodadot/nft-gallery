@@ -89,6 +89,7 @@ export const chainList = (): Option[] => {
   }))
 }
 
+// DEV: note that ED is double the amount of on-chain ED to prevent weird edge cases of XCM
 export const existentialDeposit: Record<Prefix, number> = {
   ksm: 666666666,
   rmrk: 666666666,
