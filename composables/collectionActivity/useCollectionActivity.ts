@@ -1,27 +1,35 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
 import { nameWithIndex } from '@/utils/nft'
+import collectionActivityEvents from '@/queries/subsquid/general/collectionActivityEvents.graphql'
 
-export const useCollectionActivity = ({ collectionId }) => {
-  const { urlPrefix } = usePrefix()
+export const useCollectionActivity = ({
+  collectionId,
+}: { collectionId?: string } = {}) => {
+  const { client } = usePrefix()
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
   const flippers = ref<Flippers>()
   const offers = ref<Offer[]>([])
+  const { drop } = storeToRefs(useDropStore())
 
-  const queryPrefixMap = {
-    ksm: 'chain-ksm',
-  }
-
-  const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
-
-  const { data } = useGraphql({
-    queryPrefix,
-    queryName: 'collectionActivityEvents',
-    variables: {
-      id: collectionId,
+  const { data } = useAsyncData(
+    'collectionActivityEvents' + drop.value.collection,
+    () =>
+      useAsyncQuery({
+        clientId: client.value,
+        query: collectionActivityEvents,
+        variables: {
+          id: drop.value.collection,
+        },
+      }).then((res) => {
+        console.log('debug - res', res.data.value)
+        return res.data.value
+      }),
+    {
+      watch: collectionId ? undefined : [() => drop.value?.collection],
     },
-  })
+  )
 
   watch(data, (result) => {
     if (result) {

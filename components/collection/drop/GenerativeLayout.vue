@@ -93,9 +93,7 @@ const { collection: collectionInfo } = useCollectionMinimal({
 const emit = defineEmits(['mint'])
 const address = computed(() => collectionInfo.value?.currentOwner)
 
-const { owners } = useCollectionActivity({
-  collectionId: drop.value?.collection,
-})
+const { owners } = useCollectionActivity()
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
 
 const formattedDropItem = ref<Drop>()
