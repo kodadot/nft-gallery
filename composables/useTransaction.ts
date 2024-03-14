@@ -122,7 +122,10 @@ const useExecuteTransaction = (options: TransactionOptions) => {
       warningMessage(message)
     }
 
-    howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
+    howAboutToExecute(accountId.value, cb, arg, {
+      onSuccess: successCb,
+      onError: errorCb,
+    })
   }
 
   return {

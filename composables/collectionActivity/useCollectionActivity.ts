@@ -25,8 +25,9 @@ export const useCollectionActivity = ({ collectionId }) => {
 
   watch(data, (result) => {
     if (result) {
+      const nfts = result.collection?.nfts ?? []
       // flat events for chart
-      const interactions: InteractionWithNFT[] = result.collection.nfts
+      const interactions: InteractionWithNFT[] = nfts
         .map((nft) =>
           nft.events.map((e) => ({
             ...e,
@@ -42,7 +43,7 @@ export const useCollectionActivity = ({ collectionId }) => {
       events.value = interactions
 
       // not to repeat ref names
-      const ownersTemp = getOwners(result.collection.nfts)
+      const ownersTemp = getOwners(nfts)
       const flippersTemp = getFlippers(interactions)
 
       const flipperdIds = Object.keys(flippersTemp)

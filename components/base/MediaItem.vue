@@ -104,7 +104,6 @@ const props = withDefaults(
 )
 
 const mediaItem = ref<HTMLDivElement>()
-
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 

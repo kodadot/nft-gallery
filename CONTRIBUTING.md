@@ -8,7 +8,7 @@ If everything goes well, chances that you will be **rewarded are high**.
 
 We might give retro-active reward, where the bounty label wasn't present, **if we like your contribution.**
 
-**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
+**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/koda_eco)**
 
 ## Deploy Kodadot nft gallery to Netlify
  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kodadot/nft-gallery)
@@ -242,7 +242,7 @@ The aim of this repository is:
 
 ### Better comfort
 
-For crafting much better culture and Developer Experience, we reccomend some extension to browse issues faster
+For crafting much better culture and Developer Experience, we recommend some extension to browse issues faster
 
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)

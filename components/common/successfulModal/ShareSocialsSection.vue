@@ -1,6 +1,10 @@
 <template>
   <div class="mt-5 mb-6">
-    <div class="flex justify-around px-8 items-center w-full">
+    <div
+      :class="[
+        `flex justify-around px-8 items-center w-full gap-6`,
+        { '!gap-4': withCopy },
+      ]">
       <NeoButton variant="icon" no-shadow @click="handleShareOnX">
         <div class="flex flex-col text-k-grey">
           <NeoIcon pack="fab" icon="x-twitter" />
@@ -8,11 +12,13 @@
         </div>
       </NeoButton>
 
-      <NeoButton
-        variant="icon"
-        no-shadow
-        :class="{ 'mx-7': withCopy }"
-        @click="handleShareOnTelegram">
+      <NeoButton variant="icon" no-shadow @click="handleShareOnFarcaster">
+        <div class="flex flex-col items-center text-k-grey">
+          <FarcasterIcon />
+          <span class="text-center mt-1">Farcaster</span>
+        </div>
+      </NeoButton>
+      <NeoButton variant="icon" no-shadow @click="handleShareOnTelegram">
         <div class="flex flex-col text-k-grey">
           <NeoIcon pack="fab" icon="telegram" />
           <span class="text-center mt-1">Telegram</span>
@@ -36,7 +42,9 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-
+const FarcasterIcon = defineAsyncComponent(
+  () => import('@/assets/icons/farcaster-icon.svg?component'),
+)
 const props = withDefaults(
   defineProps<{
     text: string
@@ -49,7 +57,7 @@ const props = withDefaults(
 )
 
 const { toast } = useToast()
-const { shareOnX, shareOnTelegram } = useSocialShare()
+const { shareOnX, shareOnTelegram, shareOnFarcaster } = useSocialShare()
 
 const handleShareOnX = () => {
   shareOnX(props.text, props.url)
@@ -57,5 +65,8 @@ const handleShareOnX = () => {
 
 const handleShareOnTelegram = () => {
   shareOnTelegram(props.text, props.url)
+}
+const handleShareOnFarcaster = () => {
+  shareOnFarcaster(props.text, props.url)
 }
 </script>
