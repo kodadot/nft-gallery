@@ -242,7 +242,7 @@ The aim of this repository is:
 
 ### Better comfort
 
-For crafting much better culture and Developer Experience, we reccomend some extension to browse issues faster
+For crafting much better culture and Developer Experience, we recommend some extension to browse issues faster
 
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
