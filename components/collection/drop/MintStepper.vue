@@ -7,10 +7,11 @@
 </template>
 <script lang="ts" setup>
 import { NeoStepper } from '@kodadot1/brick'
+import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
+const { availableNfts } = useHolderOfCollection()
 const { amountToMint, drop } = storeToRefs(useDropStore())
 
 const show = computed(() => drop.value.type !== 'free')
-
-const max = inject('amountAvailableNFTs') as number | undefined
+const max = computed(() => availableNfts.serialNumbers.length)
 </script>
