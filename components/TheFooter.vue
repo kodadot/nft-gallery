@@ -248,6 +248,11 @@ const socials = [
     icon: 'farcaster',
   },
   {
+    name: 'Telegram',
+    url: 'https://t.me/koda_eco',
+    icon: 'telegram',
+  },
+  {
     name: 'Beehiiv',
     url: 'https://kodadotweeklyroundup.beehiiv.com',
     icon: 'newspaper',
