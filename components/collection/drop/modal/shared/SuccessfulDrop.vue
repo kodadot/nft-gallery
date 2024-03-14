@@ -7,7 +7,7 @@
       v-if="props.mintedNft"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
       :src="sanitizeIpfsUrl(mintedNft?.image)"
-      :nft-name="mintedNft?.name"
+      :nft-name="mintedNft.name"
       :collection-id="mintedNft.collection"
       :collection-name="mintedNft.collectionName" />
   </SuccessfulModalBody>
