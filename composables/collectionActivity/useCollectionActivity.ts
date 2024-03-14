@@ -12,20 +12,18 @@ export const useCollectionActivity = ({
   const flippers = ref<Flippers>()
   const offers = ref<Offer[]>([])
   const { drop } = storeToRefs(useDropStore())
+  const id = computed(() => collectionId ?? drop.value.collection)
 
   const { data } = useAsyncData(
-    'collectionActivityEvents' + drop.value.collection,
+    'collectionActivityEvents' + id.value,
     () =>
       useAsyncQuery({
         clientId: client.value,
         query: collectionActivityEvents,
         variables: {
-          id: drop.value.collection,
+          id,
         },
-      }).then((res) => {
-        console.log('debug - res', res.data.value)
-        return res.data.value
-      }),
+      }).then((res) => res.data.value),
     {
       watch: collectionId ? undefined : [() => drop.value?.collection],
     },
