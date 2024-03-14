@@ -78,7 +78,6 @@ import { DropEventType } from '@/composables/party/types'
 import { useWindowSize } from '@vueuse/core'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
-import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 
 const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())

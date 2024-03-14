@@ -4,10 +4,7 @@ import {
   allocateCollection,
   allocateClaim as claimAllocation,
 } from '@/services/fxart'
-import useGenerativePreview, {
-  EntropyRange,
-  GenerativePreviewItem,
-} from '../useGenerativePreview'
+
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
 import { getFakeEmail } from '@/components/collection/drop/utils'
@@ -27,7 +24,7 @@ export default () => {
   const { accountId } = useAuth()
 
   useDropMassMintUploader()
-  const { generatePreviewItem } = useGenerativePreview()
+
   const { allPinned, payloads, pinMetadata, getPreviewItemsToMintedNfts } =
     useDropMassMintPreview()
   const { mintedAmountForCurrentUser } = useCollectionEntity()
@@ -70,7 +67,11 @@ export default () => {
       .fill(null)
       .map((_, index) => {
         const entropyRange = getEntropyRange(minted + index)
-        return generatePreviewItem(entropyRange)
+        return generatePreviewItem({
+          entropyRange,
+          accountId: accountId.value,
+          content: drop.value.content,
+        })
       })
   }
 

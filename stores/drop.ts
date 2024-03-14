@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { DropItem } from '@/params/types'
 import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
-import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
 import { MintingSession } from '@/components/collection/drop/types'
 import { AllocatedNFT } from '@/services/fxart'
 

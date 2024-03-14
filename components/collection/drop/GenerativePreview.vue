@@ -80,7 +80,6 @@ import { useDrop } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
-import useGenerativePreview from '@/composables/drop/useGenerativePreview'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -89,7 +88,6 @@ const dropStore = useDropStore()
 const { maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
-const { generatePreviewItem } = useGenerativePreview()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
   decimals,
@@ -125,9 +123,12 @@ const generateNft = () => {
   dropStore.setIsCapturingImage(true)
   startTimer()
 
-  const previewItem = generatePreviewItem(
-    getEntropyRange(mintedAmountForCurrentUser.value),
-  )
+  const previewItem = generatePreviewItem({
+    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    accountId: accountId.value,
+    content: drop.value.content,
+  })
+
   generativeImageUrl.value = previewItem.image
 
   emit('generation:start', previewItem)

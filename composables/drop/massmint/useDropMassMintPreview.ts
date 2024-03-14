@@ -2,18 +2,15 @@ import { MassMintNFT } from './useDropMassMint'
 import useGenerativeIframeData, {
   ImageDataPayload,
 } from '../useGenerativeIframeData'
-import useGenerativePreview, {
-  GenerativePreviewItem,
-} from '../useGenerativePreview'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 
 export default () => {
+  const { accountId } = useAuth()
   const dropStore = useDropStore()
   const { toMintNFTs, drop, mintingSession, mintsCount } =
     storeToRefs(dropStore)
 
-  const { generatePreviewItem } = useGenerativePreview()
   const { description, collectionName } = useCollectionEntity()
 
   const payloads = ref(new Map<string, ImageDataPayload>())
@@ -63,7 +60,14 @@ export default () => {
           '[MASSMINT::PREVIEW] Regenerating nft with range ',
           item.entropyRange,
         )
-        return { ...item, ...generatePreviewItem(item.entropyRange) }
+        return {
+          ...item,
+          ...generatePreviewItem({
+            entropyRange: item.entropyRange,
+            accountId: accountId.value,
+            content: drop.value.content,
+          }),
+        }
       }
       return item
     })

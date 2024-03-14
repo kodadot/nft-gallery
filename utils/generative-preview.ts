@@ -1,6 +1,15 @@
-import { EntropyRange } from '@/composables/drop/useGenerativePreview'
 import { ImageDataPayload } from '@/composables/drop/useGenerativeIframeData'
 import { pinFileToIPFS } from '@/services/nftStorage'
+import { getRandomIntFromRange } from '@/components/collection/unlockable/utils'
+import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
+
+export type EntropyRange = [number, number]
+
+export type GenerativePreviewItem = {
+  hash: string
+  image: string
+  entropyRange: EntropyRange
+}
 
 export const getEntropyRange = (num: number, step = 64): EntropyRange => [
   step * num,
@@ -33,4 +42,31 @@ export const tryCapture = async ({
   const imgFile = await getCaptureImageFile({ image, data })
   const imageHash = await pinFileToIPFS(imgFile)
   return imageHash
+}
+
+const getHash = (randomSs58Format: number, accountId: string) => {
+  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
+
+  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
+  const initialValue = accountId
+    ? encodeAddress(accountId, ss58Format)
+    : String(Date.now() << ss58Format)
+  return blake2AsHex(initialValue, 256, null, true)
+}
+
+const generateHash = (range: EntropyRange, accountId: string) =>
+  getHash(getRandomIntFromRange(...range), accountId)
+
+export const generatePreviewItem = ({
+  entropyRange,
+  accountId,
+  content,
+}: {
+  entropyRange: EntropyRange
+  accountId: string
+  content: string
+}): GenerativePreviewItem => {
+  const hash = generateHash(entropyRange, accountId)
+  const image = `${content}/?hash=${hash}`
+  return { hash, image, entropyRange }
 }
