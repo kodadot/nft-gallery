@@ -6,11 +6,11 @@
       icon-right="plus"
       icon-clickable
       icon-right-clickable
+      class="text-center"
       type="number"
       :min="min"
       :max="max"
       :disabled="disabled"
-      steps="1"
       @icon-click="handleLeftClick"
       @icon-right-click="handleRightClick" />
   </div>
