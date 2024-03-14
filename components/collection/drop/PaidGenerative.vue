@@ -57,6 +57,7 @@ const {
   mintingSession,
   toMintNFTs,
   allocatedNFTs,
+  isCaptutingImage,
 } = storeToRefs(useDropStore())
 
 const {
@@ -68,7 +69,6 @@ const {
 } = useMetaTransaction()
 useCursorDropEvents([isTransactionLoading, loading])
 
-const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
 
@@ -132,7 +132,7 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (loading.value || isImageFetching.value) {
+  if (loading.value || isCaptutingImage.value) {
     return false
   }
 
@@ -190,7 +190,7 @@ const submitMints = async () => {
     loading.value = false
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
-    isImageFetching.value = false
+    isCaptutingImage.value = false
     closeMintModal()
     throw error
   }
