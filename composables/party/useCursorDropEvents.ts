@@ -1,15 +1,16 @@
 import useParty from '@/composables/party/useParty'
 import { DropEventType } from './types'
-import { DropMintedNft } from '../drop/useGenerativeDropMint'
+import useGenerativeDropMint from '../drop/useGenerativeDropMint'
+import { useDrop } from '@/components/drops/useDrops'
 
 type EventParams = { image?: string; completed?: boolean }
 
-export default (
-  drop: string,
-  mintingWatch?: Ref<boolean>[],
-  mintedNft?: Ref<DropMintedNft | undefined>,
-) => {
-  const { sendMessage } = useParty({ room: computed(() => drop) })
+export default (mintingWatch?: Ref<boolean>[]) => {
+  const { drop } = useDrop()
+  const { claimedNft } = useGenerativeDropMint()
+  const { sendMessage } = useParty({
+    room: computed(() => drop.value?.alias ?? ''),
+  })
 
   const broadastEvent = ({
     image,
@@ -43,10 +44,10 @@ export default (
     })
   }
 
-  if (mintingWatch && mintedNft) {
+  if (mintingWatch && claimedNft) {
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
-      const image = mintedNft.value?.image
+      const image = claimedNft.value?.image
 
       if (completed && image) {
         return preloadImage(image).finally(() =>

@@ -1449,6 +1449,8 @@
     "drops": "Drops",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
+    "generatingVariations": "Generating Variations",
+    "amountMintedSuccessfully": "{0} NFTs minted successfully",
     "everyThursday": "Every Thursday",
     "addToCal": "Add To Cal",
     "createACalendarEvent": "Create A Calendar Event",

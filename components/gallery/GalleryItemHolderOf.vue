@@ -11,6 +11,11 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { useDrop, useHolderOfCollectionDrop } from '../drops/useDrops'
+import {
+  DROP_COLLECTION_TO_ALIAS_MAP,
+  FALLBACK_DROP_COLLECTION_MAX,
+  HOLDER_OF_DROP_MAP,
+} from '@/utils/drop'
 
 const props = defineProps<{
   nft: NFT
@@ -24,20 +29,23 @@ const isHolderOfCollection = computed(() =>
 
 const exclusiveCollectionId = HOLDER_OF_DROP_MAP[props.nft.collection.id]
 
-const exclusiveDrop = await useDrop(
+const { drop: exclusiveDrop } = useDrop(
   DROP_COLLECTION_TO_ALIAS_MAP[exclusiveCollectionId],
 )
 
 const hasAvailable = computed(() => {
-  const chainMax = exclusiveDrop?.max ?? FALLBACK_DROP_COLLECTION_MAX
-  return Math.min(exclusiveDrop?.minted || 0, chainMax) < chainMax
+  const chainMax = exclusiveDrop.value?.max ?? FALLBACK_DROP_COLLECTION_MAX
+  return Math.min(exclusiveDrop.value?.minted || 0, chainMax) < chainMax
 })
 
 const checkIfAlreadyClaimed = async () =>
   isNftClaimed(props.nft.sn, props.nft.collection.id, exclusiveCollectionId)
 
 const isActiveDrop = computed(
-  () => Boolean(exclusiveDrop) && !exclusiveDrop.disabled && hasAvailable.value,
+  () =>
+    Boolean(exclusiveDrop) &&
+    !exclusiveDrop.value?.disabled &&
+    hasAvailable.value,
 )
 
 const showWarning = computed(
