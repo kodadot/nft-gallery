@@ -188,7 +188,7 @@ const submitMints = async () => {
       chain: item.chain,
       name: item.name,
       image: item.image as string,
-      collectionName: collectionName.value as string,
+      collectionName: collectionName.value,
     }))
 
     mintingSession.value.items = mintedNfts
