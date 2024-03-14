@@ -23,11 +23,7 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   entropyRange: EntropyRange
 }
 
-type MassMintParams = {
-  isLoading: Ref<boolean>
-}
-
-export default ({ isLoading }: MassMintParams) => {
+export default () => {
   const { accountId } = useAuth()
 
   useDropMassMintUploader()
@@ -44,13 +40,14 @@ export default ({ isLoading }: MassMintParams) => {
     toMintNFTs,
     mintingSession,
     mintedNFTs,
+    loading,
   } = storeToRefs(useDropStore())
 
   const isAllocating = ref(false)
   const raffleEmail = ref()
 
   const clearMassmint = () => {
-    isLoading.value = false
+    loading.value = false
     toMintNFTs.value = []
     allocatedNFTs.value = []
     raffleEmail.value = undefined
@@ -64,12 +61,12 @@ export default ({ isLoading }: MassMintParams) => {
   ) => {
     try {
       clearMassmint()
-      isLoading.value = true
+      loading.value = true
       raffleEmail.value = email
       toMintNFTs.value = getPreviewItemsToMintedNfts([previewItem])
     } catch (error) {
       console.log('[MASSMINT::RAFFLE] Failed', error)
-      isLoading.value = false
+      loading.value = false
     }
   }
 
@@ -86,7 +83,7 @@ export default ({ isLoading }: MassMintParams) => {
     try {
       clearMassmint()
 
-      isLoading.value = true
+      loading.value = true
 
       const [item] = getPreviewItemsToMintedNfts([
         previewItem.value as GenerativePreviewItem,
@@ -103,7 +100,7 @@ export default ({ isLoading }: MassMintParams) => {
         },
       ])
     } catch (error) {
-      isLoading.value = false
+      loading.value = false
     }
   }
 
@@ -120,7 +117,7 @@ export default ({ isLoading }: MassMintParams) => {
         return
       }
 
-      isLoading.value = true
+      loading.value = true
 
       const previewItems = single
         ? ([previewItem.value] as GenerativePreviewItem[])
@@ -132,13 +129,13 @@ export default ({ isLoading }: MassMintParams) => {
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
     } catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
-      isLoading.value = false
+      loading.value = false
     }
   }
 
   const allocate = async (mintNfts: MassMintNFT[]) => {
     try {
-      isLoading.value = true
+      loading.value = true
       isAllocating.value = true
 
       const email = raffleEmail.value || getFakeEmail()
@@ -168,7 +165,7 @@ export default ({ isLoading }: MassMintParams) => {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
       isAllocating.value = false
-      isLoading.value = false
+      loading.value = false
     }
   }
 
