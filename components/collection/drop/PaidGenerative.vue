@@ -53,7 +53,6 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 const { collectionName } = useCollectionEntity()
-const dropStore = useDropStore()
 const {
   loading,
   walletConnecting,
@@ -62,8 +61,7 @@ const {
   toMintNFTs,
   allocatedNFTs,
   isCapturingImage,
-  runtimeMintCount,
-} = storeToRefs(dropStore)
+} = storeToRefs(useDropStore())
 
 const {
   howAboutToExecute,
@@ -193,10 +191,6 @@ const submitMints = async () => {
     await fetchDropStatus()
 
     loading.value = false
-
-    dropStore.setRuntimeMintCount(
-      runtimeMintCount.value + runtimeMintCount.value * mintedNfts.length,
-    )
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isCapturingImage.value = false

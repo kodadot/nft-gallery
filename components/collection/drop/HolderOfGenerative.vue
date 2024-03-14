@@ -86,7 +86,6 @@ const {
   loading,
   walletConnecting,
   isCapturingImage,
-  runtimeMintCount,
 } = storeToRefs(dropStore)
 
 const {
@@ -210,9 +209,7 @@ const submitMints = async () => {
     loading.value = false
     isSuccessModalActive.value = true
 
-    dropStore.setRuntimeMintCount(
-      runtimeMintCount.value + runtimeMintCount.value * mintedNfts.length,
-    )
+    dropStore.incrementRuntimeMintCount()
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isCapturingImage.value = false
