@@ -10,16 +10,20 @@
         </div>
       </div>
       <Transition name="fade">
-        <div
+        <button
           v-if="leftArrowValid"
-          class="arrow arrow-left"
-          @click="slider?.moveToIdx(leftCarouselIndex)"></div>
+          class="button justify-center arrow arrow-left arrow-icon rounded-full"
+          @click="slider?.moveToIdx(leftCarouselIndex)">
+          <NeoIcon icon="chevron-left" size="medium" />
+        </button>
       </Transition>
       <Transition name="fade">
-        <div
+        <button
           v-if="rightArrowValid"
-          class="arrow arrow-right"
-          @click="slider?.moveToIdx(rightCarouselIndex)"></div>
+          class="button justify-center arrow arrow-right arrow-icon rounded-full"
+          @click="slider?.moveToIdx(rightCarouselIndex)">
+          <NeoIcon icon="chevron-right" size="medium" />
+        </button>
       </Transition>
     </div>
   </div>
@@ -29,6 +33,7 @@
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
 import { CarouselWheelsPlugin } from '../utils/useCarousel'
+import { NeoIcon } from '@kodadot1/brick'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
 

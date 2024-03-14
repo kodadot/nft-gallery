@@ -155,6 +155,7 @@ const submitMint = async () => {
       ...result,
       id,
       name: result.name,
+      max: defaultMax.value,
       collectionName: collectionName.value,
     }
 

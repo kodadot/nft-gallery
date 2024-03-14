@@ -26,6 +26,7 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     :to-mint-nft="toMintNft"
     :is-allocating-raffle="isAllocatingRaffle"
     @confirm="handleConfirmPaidMint"
@@ -40,6 +41,7 @@ import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
+  DEFAULT_MAX,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -255,10 +257,11 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
+      max: drop.value?.max ?? DEFAULT_MAX,
       collectionName: collectionName.value,
     }
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isImageFetching.value = false
     closeMintModal()
     throw error

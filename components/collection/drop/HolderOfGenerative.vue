@@ -27,6 +27,7 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     :to-mint-nft="toMintNft"
     :is-allocating-raffle="isAllocatingRaffle"
     hide-minimum-funds-warning
@@ -289,13 +290,14 @@ const submitMint = async (sn: string) => {
       ...result,
       id,
       name: result.name,
+      max: defaultMax.value,
       collectionName: collectionName.value,
     }
 
     isSuccessModalActive.value = true
     dropStore.incrementRuntimeMintCount()
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isImageFetching.value = false
     $consola.error(error)
     throw error
