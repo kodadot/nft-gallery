@@ -82,7 +82,7 @@ const {
   allocatedNFTs,
   loading,
   walletConnecting,
-  isCaptutingImage,
+  isCapturingImage,
 } = storeToRefs(dropStore)
 
 const {
@@ -162,7 +162,7 @@ const handleSubmitMint = async () => {
     return
   }
 
-  if (loading.value || isTransactionLoading.value || isCaptutingImage.value) {
+  if (loading.value || isTransactionLoading.value || isCapturingImage.value) {
     return false
   }
 
@@ -209,7 +209,7 @@ const submitMints = async () => {
     dropStore.incrementRuntimeMintCount()
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
-    isCaptutingImage.value = false
+    isCapturingImage.value = false
     $consola.error(error)
     throw error
   }

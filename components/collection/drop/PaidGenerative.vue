@@ -57,7 +57,7 @@ const {
   mintingSession,
   toMintNFTs,
   allocatedNFTs,
-  isCaptutingImage,
+  isCapturingImage,
 } = storeToRefs(useDropStore())
 
 const {
@@ -132,7 +132,7 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (loading.value || isCaptutingImage.value) {
+  if (loading.value || isCapturingImage.value) {
     return false
   }
 
@@ -190,7 +190,7 @@ const submitMints = async () => {
     loading.value = false
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
-    isCaptutingImage.value = false
+    isCapturingImage.value = false
     closeMintModal()
     throw error
   }

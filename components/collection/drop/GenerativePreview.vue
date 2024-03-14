@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="dropStore.isCaptutingImage"
+      v-if="dropStore.isCapturingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -102,7 +102,7 @@ const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
   // only applicable if the drop is missing`kodahash/render/completed` event
   if (!imageDataLoaded.value) {
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     emit('generation:end')
   }
 }, 5000)
@@ -122,7 +122,7 @@ const generateNft = () => {
   if (!drop.value?.content) {
     return
   }
-  dropStore.setIsCaptutingImage(true)
+  dropStore.setIsCapturingImage(true)
   startTimer()
 
   const previewItem = generatePreviewItem(
@@ -136,7 +136,7 @@ const generateNft = () => {
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     emit('generation:end')
   }
 })

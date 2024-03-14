@@ -21,7 +21,7 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
 interface State {
   loading: boolean
   walletConnecting: boolean
-  isCaptutingImage: boolean
+  isCapturingImage: boolean
   runtimeMintCount: number
   drop: DropItem
   mintsCount: number
@@ -41,7 +41,7 @@ export const useDropStore = defineStore('drop', {
     return {
       loading: false,
       walletConnecting: false,
-      isCaptutingImage: false,
+      isCapturingImage: false,
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
       mintsCount: 0,
@@ -62,8 +62,8 @@ export const useDropStore = defineStore('drop', {
     setWalletConnecting(payload: boolean) {
       this.walletConnecting = payload
     },
-    setIsCaptutingImage(payload: boolean) {
-      this.isCaptutingImage = payload
+    setIsCapturingImage(payload: boolean) {
+      this.isCapturingImage = payload
     },
     setRuntimeMintCount(payload: number) {
       this.runtimeMintCount = payload
@@ -84,7 +84,7 @@ export const useDropStore = defineStore('drop', {
       const { urlPrefix } = usePrefix()
       this.loading = false
       this.walletConnecting = false
-      this.isCaptutingImage = false
+      this.isCapturingImage = false
       this.previewItem = undefined
       this.runtimeMintCount = 0
       this.drop = { ...DEFAULT_DROP, chain: urlPrefix.value }

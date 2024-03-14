@@ -124,7 +124,7 @@ const enabled = computed(() => {
 
 const loading = computed(
   () =>
-    dropStore.isCaptutingImage ||
+    dropStore.isCapturingImage ||
     dropStore.walletConnecting ||
     dropStore.loading,
 )

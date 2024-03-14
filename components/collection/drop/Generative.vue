@@ -92,7 +92,7 @@ const handleSubmitMint = () => {
     return
   }
 
-  if (dropStore.loading || dropStore.isCaptutingImage) {
+  if (dropStore.loading || dropStore.isCapturingImage) {
     return false
   }
 
@@ -111,7 +111,7 @@ const generateMetadata = async ({
   data: ImageDataPayload
 }): Promise<string> => {
   try {
-    dropStore.setIsCaptutingImage(true)
+    dropStore.setIsCapturingImage(true)
     const imageCid = await tryCapture({
       data,
       image,
@@ -124,7 +124,7 @@ const generateMetadata = async ({
       selectedImage.value,
     )
     imageMetadata.value = metadata
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     return metadata
   } catch (error) {
     toast($i18n.t('drops.capture'))
@@ -183,7 +183,7 @@ const submitMint = async () => {
     })
   } catch (error) {
     toast((error as Error).message)
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     throw error
   }
 }
