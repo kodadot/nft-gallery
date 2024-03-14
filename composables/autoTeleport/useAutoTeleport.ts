@@ -1,6 +1,7 @@
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
+import useAutoTeleportTransitionDetails from './useAutoTeleportTransitionDetails'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
@@ -23,17 +24,18 @@ export default function (
     isAvailable,
   } = useTeleport()
 
-  const {
-    hasEnoughInCurrentChain,
-    hasEnoughInRichestChain,
-    isReady,
-    optimalTransition,
-  } = useAutoTeleportTransition({
+  const { optimalTransition } = useAutoTeleportTransition({
     actions,
     neededAmount,
     fees,
     autoTeleportStarted,
   })
+
+  const { hasEnoughInCurrentChain } = useAutoTeleportTransitionDetails(
+    actions,
+    neededAmount,
+    fees,
+  )
 
   const { transactionActions, clear: clearActions } =
     useAutoTeleportTransactionActions(actions)
@@ -81,9 +83,6 @@ export default function (
   })
 
   return {
-    hasEnoughInCurrentChain,
-    hasEnoughInRichestChain,
-    isReady,
     optimalTransition,
     transactions,
     isAvailable,

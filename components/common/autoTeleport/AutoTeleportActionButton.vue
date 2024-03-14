@@ -78,6 +78,7 @@
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
+import useAutoTeleportTransitionDetails from '@/composables/autoTeleport/useAutoTeleportTransitionDetails'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
@@ -128,20 +129,20 @@ const { chainSymbol, name } = useChain()
 
 const amount = ref()
 
-const {
-  isAvailable: isAutoTeleportAvailable,
-  isReady,
-  hasEnoughInCurrentChain,
-  hasEnoughInRichestChain,
-  optimalTransition,
-  transactions,
-  teleport,
-  clear,
-} = useAutoTeleport(
+const { optimalTransition, transactions, teleport, clear } = useAutoTeleport(
   computed<AutoTeleportAction[]>(() => props.actions),
   computed(() => amount.value),
   props.fees,
 )
+
+const { isAvailable: isAutoTeleportAvailable } = useTeleport()
+
+const { isReady, hasEnoughInCurrentChain, hasEnoughInRichestChain } =
+  useAutoTeleportTransitionDetails(
+    computed<AutoTeleportAction[]>(() => props.actions),
+    computed(() => amount.value),
+    props.fees,
+  )
 
 const isModalOpen = ref(false)
 const onRampActive = ref(false)

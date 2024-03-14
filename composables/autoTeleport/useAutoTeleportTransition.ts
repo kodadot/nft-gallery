@@ -20,11 +20,10 @@ export default function ({
   fees: AutoTeleportFeeParams
 }) {
   const { urlPrefix } = usePrefix()
-  const { isAvailable, getChainTokenDecimals } = useTeleport()
+  const { getChainTokenDecimals } = useTeleport()
 
   const {
     amountToTeleport,
-    hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
@@ -72,10 +71,6 @@ export default function ({
   })
 
   return {
-    isAvailable,
-    isReady,
-    hasEnoughInCurrentChain,
-    hasEnoughInRichestChain,
     optimalTransition,
   }
 }
