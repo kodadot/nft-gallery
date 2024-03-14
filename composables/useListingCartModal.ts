@@ -12,11 +12,10 @@ export default ({
 } = {}) => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
+  const { isItemInCart } = listingCartStore
 
   const getFloorPrice = (cartItem: ShoppingCartItem | NFTWithMetadata) =>
     cartItem.collection.floorPrice[0]?.price || '0'
-
-  const isItemInCart = (id: string) => listingCartStore.isItemInCart(id)
 
   const tryAddingItemToListingCart = (item: ListCartItem) => {
     if (!isItemInCart(item.id)) {
