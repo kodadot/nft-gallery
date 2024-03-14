@@ -69,8 +69,8 @@ const { collectionName, description } = useCollectionEntity()
 const { imageDataPayload } = useGenerativeIframeData()
 
 const imageMetadata = ref('')
-const imageHash = computed(() => previewItem.value?.hash || '')
-const selectedImage = computed(() => previewItem.value?.image || '')
+const imageHash = computed(() => previewItem.value?.hash ?? '')
+const selectedImage = computed(() => previewItem.value?.image ?? '')
 
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
@@ -148,7 +148,7 @@ const allocateRaffle = async (): Promise<{ raffleId: number }> => {
 
   const response = await allocateCollection(body, drop.value.id)
 
-  return { raffleId: parseInt(response.result.id) }
+  return { raffleId: response.result.id }
 }
 
 const submitMint = async () => {
