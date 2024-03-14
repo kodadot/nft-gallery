@@ -152,6 +152,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.71.1",
     "tailwindcss": "^3.4.1",
+    "vite-svg-loader": "^5.1.0",
     "vitest": "^0.34.6",
     "vue-eslint-parser": "^9.4.2",
     "vue-gtag": "^2.0.1"
