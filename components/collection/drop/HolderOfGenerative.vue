@@ -72,11 +72,18 @@ const { hasMinimumFunds } = useDropMinimumFunds()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
 const dropStore = useDropStore()
-const { mintingSession, toMintNFTs, allocatedNFTs, loading, walletConnecting } =
-  storeToRefs(dropStore)
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { collectionName } = useCollectionEntity()
 const { availableNfts } = useHolderOfCollection()
+
+const {
+  mintingSession,
+  toMintNFTs,
+  allocatedNFTs,
+  loading,
+  walletConnecting,
+  isCaptutingImage,
+} = storeToRefs(dropStore)
 
 const {
   howAboutToExecute,
@@ -88,7 +95,6 @@ const {
 
 useCursorDropEvents([isTransactionLoading, loading])
 
-const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const isSuccessModalActive = ref(false)
 const isMintModalActive = ref(false)
@@ -156,7 +162,7 @@ const handleSubmitMint = async () => {
     return
   }
 
-  if (loading.value || isTransactionLoading.value || isImageFetching.value) {
+  if (loading.value || isTransactionLoading.value || isCaptutingImage.value) {
     return false
   }
 
@@ -203,7 +209,7 @@ const submitMints = async () => {
     dropStore.incrementRuntimeMintCount()
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
-    isImageFetching.value = false
+    isCaptutingImage.value = false
     $consola.error(error)
     throw error
   }
