@@ -35,8 +35,9 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
-const { mintCountAvailable, selectedImage, maxCount } = useGenerativeDropMint()
+const { mintCountAvailable, maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { amountToMint, previewItem } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
@@ -51,7 +52,7 @@ const isHolderAndEligible = computed(
 
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
-    `${formatAmountWithRound(drop.value.price ?? '', decimals.value)} ${
+    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
       chainSymbol.value
     }`,
   ]),
@@ -101,7 +102,7 @@ const enabled = computed(() => {
   }
   if (
     Boolean(drop.value.disabled) || // drop is disabled
-    !selectedImage.value || // no image
+    !previewItem.value || // no image
     isCheckingMintRequirements.value || // still checking requirements
     loading.value || // still loading
     drop.value.userAccess === false // no access due to geofencing
@@ -123,7 +124,7 @@ const enabled = computed(() => {
 
 const loading = computed(
   () =>
-    dropStore.isCaptutingImage ||
+    dropStore.isCapturingImage ||
     dropStore.walletConnecting ||
     dropStore.loading,
 )

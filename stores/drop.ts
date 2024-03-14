@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { DropItem } from '@/params/types'
 import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
+import { MintingSession } from '@/components/collection/drop/types'
+import { AllocatedNFT } from '@/services/fxart'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
@@ -17,13 +20,18 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
 interface State {
   loading: boolean
   walletConnecting: boolean
-  isCaptutingImage: boolean
-  selectedImage: string
+  isCapturingImage: boolean
   runtimeMintCount: number
   drop: DropItem
   mintsCount: number
   claimedNFT: DropMintedNft | undefined
-  mintedNFT: NFTWithMetadata | undefined
+  previewItem: GenerativePreviewItem | undefined
+  // massmint
+  amountToMint: number
+  toMintNFTs: MassMintNFT[] // used to render each NFT and track their data, after a successfull preview generation the metadata is uplaoded
+  allocatedNFTs: AllocatedNFT[] // once all toMintNFTs have metadata they are allocated
+  mintedNFTs: NFTWithMetadata[] // once all allocated NFTs are claimed, we retrieve 'NFTWithMetadata' to be able to list them
+  mintingSession: MintingSession // used to show the final success modal with the minted NFTs and txHash if provided
 }
 
 export const useDropStore = defineStore('drop', {
@@ -32,13 +40,17 @@ export const useDropStore = defineStore('drop', {
     return {
       loading: false,
       walletConnecting: false,
-      isCaptutingImage: false,
-      selectedImage: '',
+      isCapturingImage: false,
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
       mintsCount: 0,
       claimedNFT: undefined,
-      mintedNFT: undefined,
+      amountToMint: 1,
+      toMintNFTs: [],
+      previewItem: undefined,
+      mintingSession: { txHash: undefined, items: [] },
+      allocatedNFTs: [],
+      mintedNFTs: [],
     }
   },
   getters: {},
@@ -49,11 +61,8 @@ export const useDropStore = defineStore('drop', {
     setWalletConnecting(payload: boolean) {
       this.walletConnecting = payload
     },
-    setIsCaptutingImage(payload: boolean) {
-      this.isCaptutingImage = payload
-    },
-    setSelectedImage(payload: string) {
-      this.selectedImage = payload
+    setIsCapturingImage(payload: boolean) {
+      this.isCapturingImage = payload
     },
     setRuntimeMintCount(payload: number) {
       this.runtimeMintCount = payload
@@ -70,20 +79,28 @@ export const useDropStore = defineStore('drop', {
     setClaimedNFT(payload: DropMintedNft | undefined) {
       this.claimedNFT = payload
     },
-    setMintedNFT(payload: NFTWithMetadata | undefined) {
-      this.mintedNFT = payload
-    },
     reset() {
       const { urlPrefix } = usePrefix()
       this.loading = false
       this.walletConnecting = false
-      this.isCaptutingImage = false
-      this.selectedImage = ''
+      this.isCapturingImage = false
+      this.previewItem = undefined
       this.runtimeMintCount = 0
       this.drop = { ...DEFAULT_DROP, chain: urlPrefix.value }
       this.mintsCount = 0
       this.claimedNFT = undefined
-      this.mintedNFT = undefined
+      this.amountToMint = 1
+      this.mintedNFTs = []
+      this.toMintNFTs = []
+      this.mintingSession = { txHash: undefined, items: [] }
+      this.allocatedNFTs = []
+    },
+    resetMassmint() {
+      this.loading = false
+      this.toMintNFTs = []
+      this.allocatedNFTs = []
+      this.mintedNFTs = []
+      this.mintingSession = { txHash: undefined, items: [] }
     },
   },
 })

@@ -1,7 +1,4 @@
 import { DoResult } from '@/services/fxart'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 
@@ -74,27 +71,15 @@ export function useCollectionEntity(collectionId?: string) {
 }
 
 export default () => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
   const dropStore = useDropStore()
-  const { imageDataPayload } = useGenerativeIframeData()
+  const { mintedNFTs } = storeToRefs(dropStore)
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
+  const { listNftByNftWithMetadata } = useListingCartModal()
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
     set: (value) => dropStore.setClaimedNFT(value),
-  })
-
-  const mintedNftWithMetadata = computed({
-    get: () => dropStore.mintedNFT,
-    set: (value) => dropStore.setMintedNFT(value),
-  })
-  const selectedImage = computed({
-    get: () => dropStore.selectedImage,
-    set: (value) => dropStore.setSelectedImage(value),
   })
 
   const maxCount = computed(
@@ -104,28 +89,8 @@ export default () => {
   const mintCountAvailable = computed(
     () => dropStore.mintsCount < maxCount.value,
   )
-  const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
 
-  const tryCapture = async () => {
-    try {
-      const imgFile = await getCaptureImageFile()
-      const imageHash = await pinFileToIPFS(imgFile)
-      return imageHash
-    } catch (error) {
-      toast($i18n.t('drops.capture'))
-      throw error
-    }
-  }
-
-  const getCaptureImageFile = async () => {
-    const selectedImageHash = selectedImage.value.split('?hash=')[1]
-    const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
-    if (!imageDataPayload.value?.image || !isTheSameImage) {
-      throw new Error('Failed to load image, please try again later')
-    }
-    const res = (await fetch(imageDataPayload.value.image)) as any
-    return new File([res], 'image.png', { type: 'image/png' })
-  }
+  const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))
 
   const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
     useSubscriptionGraphql({
@@ -137,39 +102,18 @@ export default () => {
   }
 
   const listMintedNft = async () => {
-    if (!mintedNftWithMetadata.value) {
-      return
+    const mintedNFT = mintedNFTs.value[0]
+    if (mintedNFT) {
+      listNftByNftWithMetadata(mintedNFT)
     }
-
-    if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-      const floorPrice =
-        mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-      listingCartStore.setItem(
-        nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-      )
-    }
-
-    preferencesStore.listingCartModalOpen = true
   }
-
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-
-    if (mintedNftWithMetadata.value?.id) {
-      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-    }
-  })
 
   return {
     maxCount,
     claimedNft,
-    mintedNftWithMetadata,
     mintCountAvailable,
-    selectedImage,
     canListMintedNft,
     listMintedNft,
-    tryCapture,
     subscribeToMintedNft,
   }
 }

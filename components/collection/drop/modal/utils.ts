@@ -1,31 +1,21 @@
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+type PreloadableImage = {
+  id: string
+  image: string
+}
 
-export const usePreloadMintedNftCover = () => {
-  const nftCoverLoaded = ref(false)
-  const retry = ref(3)
-  const { claimedNft } = useGenerativeDropMint()
+export const usePreloadImages = (mintedNFTs: Ref<PreloadableImage[]>) => {
+  const { completedAll, tryItem, triedAll } = useAsyncRetry()
 
-  const sanitizedMintedNft = computed(
-    () =>
-      claimedNft?.value && {
-        ...claimedNft.value,
-        image: sanitizeIpfsUrl(claimedNft.value.image),
-      },
-  )
-
-  watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
-    if (mintedNft?.image && retry.value) {
-      try {
-        nftCoverLoaded.value = await preloadImage(mintedNft.image)
-      } catch (error) {
-        retry.value -= 1
-      }
+  watch(mintedNFTs, (items) => {
+    if (items?.length) {
+      items.forEach((item) =>
+        tryItem({
+          id: item.id,
+          promise: () => preloadImage(sanitizeIpfsUrl(item.image)),
+        }),
+      )
     }
   })
 
-  return {
-    sanitizedMintedNft,
-    nftCoverLoaded,
-    retry,
-  }
+  return { triedAll, loadedAll: completedAll }
 }

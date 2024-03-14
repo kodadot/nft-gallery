@@ -76,13 +76,11 @@ import { useCollectionMinimal } from '@/components/collection/utils/useCollectio
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
 import { useWindowSize } from '@vueuse/core'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 
 const { drop } = useDrop()
-const { selectedImage } = useGenerativeDropMint()
+const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
 const mdBreakpoint = 768
@@ -114,9 +112,9 @@ watch(
   { immediate: true },
 )
 
-const handleNftGeneration = ({ image }: { image: string }) => {
+const handleNftGeneration = (preview: GenerativePreviewItem) => {
   emitEvent(DropEventType.DROP_GENERATING)
-  selectedImage.value = image
+  previewItem.value = preview
 }
 
 const handleNftGenerationEnd = () => {

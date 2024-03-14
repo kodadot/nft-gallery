@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="dropStore.isCaptutingImage"
+      v-if="dropStore.isCapturingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -55,7 +55,10 @@
       class="text-neutral-5 dark:text-neutral-9"
       :value="dropStore.mintsCount / maxCount" />
 
-    <CollectionDropMintButton class="mt-6" @mint="emit('mint')" />
+    <div class="flex mt-6 gap-4 max-md:flex-col">
+      <CollectionDropMintStepper />
+      <CollectionDropMintButton @mint="emit('mint')" />
+    </div>
 
     <div
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
@@ -70,18 +73,13 @@
 </template>
 
 <script setup lang="ts">
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getRandomIntFromRange } from '../unlockable/utils'
-import { isValidSs58Format } from '@/utils/ss58Format'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
-
-const STEP = 64
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
@@ -102,7 +100,7 @@ const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
   // only applicable if the drop is missing`kodahash/render/completed` event
   if (!imageDataLoaded.value) {
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     emit('generation:end')
   }
 }, 5000)
@@ -115,48 +113,39 @@ const mintedPercent = computed(() => {
   }
   return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
-const entropyRange = computed<[number, number]>(() => [
-  STEP * mintedAmountForCurrentUser.value,
-  STEP * (mintedAmountForCurrentUser.value + 1),
-])
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
-
-const getHash = () => {
-  const randomSs58Format = getRandomIntFromRange(
-    entropyRange.value[0],
-    entropyRange.value[1],
-  )
-
-  const ss58Format = isValidSs58Format(randomSs58Format) ? randomSs58Format : 0
-
-  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  const initialValue = accountId.value
-    ? encodeAddress(accountId.value, ss58Format)
-    : String(Date.now() << ss58Format)
-  return blake2AsHex(initialValue, 256, null, true)
-}
 
 const generateNft = () => {
   if (!drop.value?.content) {
     return
   }
-  dropStore.setIsCaptutingImage(true)
+  dropStore.setIsCapturingImage(true)
   startTimer()
-  const metadata = `${drop.value?.content}/?hash=${getHash()}`
-  console.log('metadata', metadata)
-  generativeImageUrl.value = metadata
-  emit('generation:start', { image: generativeImageUrl.value })
+
+  const previewItem = generatePreviewItem({
+    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    accountId: accountId.value,
+    content: drop.value.content,
+  })
+
+  generativeImageUrl.value = previewItem.image
+
+  emit('generation:start', previewItem)
   imageDataPayload.value = undefined
 }
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    dropStore.setIsCaptutingImage(false)
+    dropStore.setIsCapturingImage(false)
     emit('generation:end')
   }
 })
-watch([accountId, () => drop.value.content], generateNft)
+
+watch(
+  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
+  generateNft,
+)
 
 onMounted(() => {
   setTimeout(generateNft, 500)

@@ -33,8 +33,8 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft"
-        :can-list-nft="canListMintedNft"
+        :minting-session="mintingSession"
+        :can-list-nfts="canListMintedNft"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -50,10 +50,11 @@ import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
-import { usePreloadMintedNftCover } from './utils'
+import { usePreloadImages } from './utils'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
+import { MintedNFT, MintingSession } from '../types'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -83,7 +84,6 @@ const dropStore = useDropStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover()
 const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
 
 const {
@@ -94,12 +94,27 @@ const {
   emailConfirmed,
 } = useGenerativeDropNewsletter()
 
-const { canListMintedNft } = useGenerativeDropMint()
+const { canListMintedNft, claimedNft } = useGenerativeDropMint()
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
+
+const sanitizedMintedNft = computed(() =>
+  claimedNft.value
+    ? { ...claimedNft.value, image: sanitizeIpfsUrl(claimedNft.value.image) }
+    : undefined,
+)
+
+const { loadedAll, triedAll } = usePreloadImages(
+  computed(() => (sanitizedMintedNft.value ? [sanitizedMintedNft.value] : [])),
+)
+
+const mintingSession = computed<MintingSession>(() => ({
+  items: [sanitizedMintedNft.value as MintedNFT].filter(Boolean),
+  txHash: undefined, // free mint does not have a txHash
+}))
 
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
@@ -113,11 +128,11 @@ const isSuccessfulDropStep = computed(
 )
 
 const moveSuccessfulDrop = computed(() => {
-  if (nftCoverLoaded.value) {
+  if (loadedAll.value) {
     return true
   }
 
-  return distance.value <= 0 && sanitizedMintedNft.value && retry.value === 0
+  return distance.value <= 0 && sanitizedMintedNft.value && triedAll.value
 })
 
 const est = computed(() => `Est ~ ${displayDuration.value}`)
