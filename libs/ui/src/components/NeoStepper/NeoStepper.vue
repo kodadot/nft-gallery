@@ -20,7 +20,7 @@
 import NeoInput from '../NeoInput/NeoInput.vue'
 const props = withDefaults(
   defineProps<{
-    modelValue: number
+    modelValue: number | ''
     min?: number
     max?: number
     disabled?: boolean
@@ -33,23 +33,25 @@ const props = withDefaults(
 )
 const input = useVModel(props, 'modelValue')
 const handleLeftClick = () => {
-  if (input.value === props.min || props.disabled) {
+  if (input.value === '' || input.value === props.min || props.disabled) {
     return
   }
   input.value--
 }
 const handleRightClick = () => {
-  if (input.value === props.max || props.disabled) {
+  if (input.value === '' || input.value === props.max || props.disabled) {
     return
   }
   input.value++
 }
 
 watchEffect(() => {
-  if (input.value < props.min) {
-    input.value = props.min
-  } else if (input.value > props.max) {
-    input.value = props.max
+  if (input.value !== '') {
+    if (input.value < props.min) {
+      input.value = props.min
+    } else if (input.value > props.max) {
+      input.value = props.max
+    }
   }
 })
 </script>
