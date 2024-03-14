@@ -101,6 +101,7 @@ const enabled = computed(() => {
     return true
   }
   if (
+    !amountToMint.value || // number of drop to be mint is 0
     Boolean(drop.value.disabled) || // drop is disabled
     !previewItem.value || // no image
     isCheckingMintRequirements.value || // still checking requirements

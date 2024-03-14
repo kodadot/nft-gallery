@@ -13,5 +13,8 @@ const { availableNfts } = useHolderOfCollection()
 const { amountToMint, drop } = storeToRefs(useDropStore())
 
 const show = computed(() => drop.value.type !== 'free')
-const max = computed(() => availableNfts.serialNumbers.length)
+
+const max = computed(() =>
+  drop.value.type === 'holder' ? availableNfts.serialNumbers.length : undefined,
+)
 </script>
