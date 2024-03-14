@@ -24,13 +24,13 @@ export default ({
     }
   }
 
-  const listNftByShoppingCartItem = async (cartItem: ShoppingCartItem) => {
+  const listNftByShoppingCartItem = (cartItem: ShoppingCartItem) => {
     tryAddingItemToListingCart(
       shoppingCartItemToListingCartItem(cartItem, getFloorPrice(cartItem)),
     )
   }
 
-  const listNftByNftWithMetadata = async (nftWithMetadata: NFTWithMetadata) => {
+  const listNftByNftWithMetadata = (nftWithMetadata: NFTWithMetadata) => {
     tryAddingItemToListingCart(
       nftToListingCartItem(nftWithMetadata, getFloorPrice(nftWithMetadata)),
     )
