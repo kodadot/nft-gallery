@@ -13,6 +13,7 @@
         <NeoButton
           :active="active"
           type="button"
+          variant="outlined-rounded"
           :no-shadow="noShadow"
           :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"

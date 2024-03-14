@@ -1,5 +1,6 @@
 <template>
   <NeoButton
+    variant="outlined-rounded"
     :active="model"
     no-shadow
     rounded
