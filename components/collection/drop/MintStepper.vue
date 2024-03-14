@@ -3,7 +3,7 @@
     v-if="show"
     v-model="amountToMint"
     :max="max"
-    class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full w-[200px]" />
+    class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]" />
 </template>
 <script lang="ts" setup>
 import { NeoStepper } from '@kodadot1/brick'

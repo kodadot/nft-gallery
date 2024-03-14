@@ -11,7 +11,6 @@
       :max="max"
       :disabled="disabled"
       steps="1"
-      readonly
       @icon-click="handleLeftClick"
       @icon-right-click="handleRightClick" />
   </div>
