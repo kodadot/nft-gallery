@@ -16,7 +16,7 @@
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="font-bold text-text-color whitespace-nowrap is-clipped text-ellipsis"
             @click="emit('click-item')">
-            {{ nft.name }}
+            {{ nameWithIndex(nft.name, nft.sn) }}
           </nuxt-link>
           <div class="flex justify-between w-full">
             <div class="whitespace-nowrap is-clipped text-ellipsis">
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { parseNftAvatar } from '@/utils/nft'
+import { nameWithIndex, parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { useElementHover } from '@vueuse/core'
 import { NeoButton } from '@kodadot1/brick'
