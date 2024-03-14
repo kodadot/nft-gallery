@@ -9,14 +9,14 @@
           placeholder="Email"
           class="mb-4"
           type="email"
-          :disabled="isLoading"
+          :disabled="loading"
           required />
         <NeoButton
           expanded
           variant="k-accent"
           native-type="submit"
-          :loading="isLoading"
-          :disabled="isLoading">
+          :loading="loading"
+          :disabled="loading">
           Allocate
         </NeoButton>
       </form>
@@ -43,7 +43,19 @@ import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintL
 
 const { drop } = useDrop()
 
-const isWalletConnecting = ref(false)
+// <<<<<<< HEAD
+// const isWalletConnecting = ref(false)
+// =======
+// const toMintNft = computed<ToMintNft>(() => ({
+//   image: sanitizeIpfsUrl(selectedImage.value),
+//   name: `${collectionName.value || ''} #${raffleId.value || nftCount.value || ''}`,
+//   collectionName: collectionName.value || '',
+//   price: drop.value?.price as string,
+//   priceUSD: priceUSD.value,
+// }))
+
+// >>>>>>> drops-refactor
+
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -51,8 +63,16 @@ const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { openListingCartModal } = useListingCartModal()
+const {
+  loading,
+  walletConnecting,
+  previewItem,
+  mintingSession,
+  toMintNFTs,
+  allocatedNFTs,
+} = storeToRefs(useDropStore())
+const { collectionName } = useCollectionEntity()
 
-const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
@@ -75,14 +95,11 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const { collectionName } = useCollectionEntity()
-const { previewItem, mintingSession, toMintNFTs, allocatedNFTs } =
-  storeToRefs(useDropStore())
-useCursorDropEvents([isTransactionLoading, isLoading])
+useCursorDropEvents([isTransactionLoading, loading])
 
 const mintNft = async () => {
   try {
-    isLoading.value = true
+    loading.value = true
     mintingSession.value.txHash = undefined
 
     const { apiInstance } = useApi()
@@ -112,17 +129,17 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
-    isLoading.value = false
+    loading.value = false
   }
 }
 
 const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
+  walletConnecting.value = false
 }
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    isWalletConnecting.value = true
+    walletConnecting.value = true
     doAfterLogin({
       onLoginSuccess: clearWalletConnecting,
       onCancel: clearWalletConnecting,
@@ -130,7 +147,7 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+  if (loading.value || isImageFetching.value) {
     return false
   }
 
@@ -185,7 +202,7 @@ const submitMints = async () => {
 
     await fetchDropStatus()
 
-    isLoading.value = false
+    loading.value = false
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
@@ -206,7 +223,7 @@ const handleConfirmPaidMint = () => {
 
 const stopMint = () => {
   isMintModalActive.value = false
-  isLoading.value = false
+  loading.value = false
   clearMassMint()
 }
 
@@ -216,7 +233,7 @@ const {
   allocateRaffleMode,
   raffleEmail,
   clearMassMint,
-} = useDropMassMint({ isLoading })
+} = useDropMassMint()
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()
@@ -229,7 +246,7 @@ useTransactionTracker({
   onSuccess: submitMints,
   onCancel: stopMint,
   onError: () => {
-    isLoading.value = false
+    loading.value = false
   },
   // ensure txHash is set, it's needed when calling /do/:id
   waitFor: [computed(() => Boolean(mintingSession.value.txHash))],

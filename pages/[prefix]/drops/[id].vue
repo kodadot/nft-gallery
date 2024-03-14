@@ -15,23 +15,18 @@ definePageMeta({
 })
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
+const { reset } = useDropStore()
 
 const { drop, fetchDrop } = useDrop()
 useDropStatus().fetchDropStatus()
 
-const dropType = computed(() => drop.value?.type)
-const ready = ref(false)
+const dropType = computed(() => drop.value.type)
 
-onMounted(() =>
-  fetchDrop().then(() => {
-    ready.value = true
-  }),
-)
+onMounted(() => fetchDrop().then(fixPrefix))
 
-watchEffect(() => {
-  if (!ready.value) {
-    return
-  }
+onBeforeUnmount(reset)
+
+const fixPrefix = () => {
   if (drop.value?.chain === 'ahk' && isProduction) {
     useRouter().push('/')
     return
@@ -40,5 +35,5 @@ watchEffect(() => {
     setUrlPrefix(drop.value?.chain)
     redirectAfterChainChange(drop.value?.chain)
   }
-})
+}
 </script>

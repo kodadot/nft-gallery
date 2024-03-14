@@ -10,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="dropStore.loading"
+      v-if="dropStore.isCaptutingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -45,7 +45,7 @@
       <div class="flex justify-end items-center">
         <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
         <div class="font-bold">
-          {{ mintedCount }}/{{ maxCount }}
+          {{ dropStore.mintsCount }}/{{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
       </div>
@@ -53,13 +53,11 @@
 
     <CollectionUnlockableSlider
       class="text-neutral-5 dark:text-neutral-9"
-      :value="mintedCount / maxCount" />
+      :value="dropStore.mintsCount / maxCount" />
 
     <div class="flex mt-6 gap-4">
       <CollectionDropMintStepper />
-      <CollectionDropMintButton
-        :holder-of-collection="holderOfCollection"
-        @mint="emit('mint')" />
+      <CollectionDropMintButton @mint="emit('mint')" />
     </div>
 
     <div
@@ -77,7 +75,6 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
@@ -89,7 +86,7 @@ const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
-const { maxCount, mintedCount } = useGenerativeDropMint()
+const { maxCount } = useGenerativeDropMint()
 const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { generatePreviewItem } = useGenerativePreview()
@@ -101,15 +98,11 @@ const { formatted: formattedPrice } = useAmount(
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
-defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
-
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
   // only applicable if the drop is missing`kodahash/render/completed` event
   if (!imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 }, 5000)
@@ -120,7 +113,7 @@ const mintedPercent = computed(() => {
   if (!maxCount.value) {
     return 0
   }
-  return Math.round((mintedCount.value / maxCount.value) * 100)
+  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
@@ -129,7 +122,7 @@ const generateNft = () => {
   if (!drop.value?.content) {
     return
   }
-  dropStore.setLoading(true)
+  dropStore.setIsCaptutingImage(true)
   startTimer()
 
   const previewItem = generatePreviewItem(
@@ -143,7 +136,7 @@ const generateNft = () => {
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
-    dropStore.setLoading(false)
+    dropStore.setIsCaptutingImage(false)
     emit('generation:end')
   }
 })

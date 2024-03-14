@@ -28,14 +28,12 @@
 
           <CollectionDropGenerativePreview
             v-if="width < mdBreakpoint"
-            :holder-of-collection="holderOfCollection"
             @mint="emit('mint')"
             @generation:start="handleNftGeneration"
             @generation:end="handleNftGenerationEnd" />
 
           <CollectionDropPhase
             class="mt-28 md:mt-7"
-            :holder-of-collection="holderOfCollection"
             :drop-status="formattedDropItem?.status"
             :drop-start-time="formattedDropItem?.dropStartTime" />
 
@@ -46,7 +44,6 @@
           v-if="width >= mdBreakpoint"
           class="flex-1 flex py-3 px-4 justify-end mt-[-213px]">
           <CollectionDropGenerativePreview
-            :holder-of-collection="holderOfCollection"
             @mint="emit('mint')"
             @generation:start="handleNftGeneration"
             @generation:end="handleNftGenerationEnd" />
@@ -75,7 +72,6 @@ import {
   useDrop,
 } from '@/components/drops/useDrops'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
-import type { HolderOfCollectionProp } from './types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
@@ -83,10 +79,6 @@ import { useWindowSize } from '@vueuse/core'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 import { GenerativePreviewItem } from '@/composables/drop/useGenerativePreview'
-
-defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
 
 const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())

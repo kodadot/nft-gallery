@@ -169,21 +169,21 @@ export const useDropStatus = () => {
   const { params } = useRoute()
   const dropStore = useDropStore()
   const { accountId } = useAuth()
-  const mintedDropCount = computed({
-    get: () => dropStore.mintedDropCount,
+  const mintsCount = computed({
+    get: () => dropStore.mintsCount,
     set: (value) => dropStore.setMintedDropCount(value),
   })
 
   const fetchDropStatus = async () => {
     const alias = params.id.toString()
     const { count } = await getDropStatus(alias)
-    mintedDropCount.value = count
+    mintsCount.value = count
   }
 
   watch([() => params.id, accountId], fetchDropStatus)
 
   return {
-    mintedDropCount,
+    mintsCount,
     fetchDropStatus,
   }
 }

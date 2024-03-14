@@ -40,9 +40,7 @@ export function useCollectionEntity(collectionId?: string) {
     },
   )
 
-  const maxCount = computed(
-    () => collectionData.value?.collectionEntity?.max ?? 0,
-  )
+  const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
 
   const mintedAmountForCurrentUser = computed(
     () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
@@ -77,21 +75,20 @@ export default () => {
     clearItemsOnModalClose: true,
   })
 
+  // for feature parity with canary, no idea where this number comes from (by daiagi on 12/03/2024 PR #9709)
+  const DEFAULT_MAX = 255
+
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
     set: (value) => dropStore.setClaimedNFT(value),
   })
 
   const maxCount = computed(
-    () => collectionMaxCount.value ?? drop.value?.max ?? 0,
-  )
-
-  const mintedCount = computed(() =>
-    Math.min(dropStore.mintedDropCount, maxCount.value),
+    () => collectionMaxCount.value ?? drop.value?.max ?? DEFAULT_MAX,
   )
 
   const mintCountAvailable = computed(
-    () => dropStore.mintedDropCount < maxCount.value,
+    () => dropStore.mintsCount < maxCount.value,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))
@@ -115,7 +112,6 @@ export default () => {
   return {
     maxCount,
     claimedNft,
-    mintedCount,
     mintCountAvailable,
     canListMintedNft,
     listMintedNft,

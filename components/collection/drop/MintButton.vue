@@ -8,7 +8,9 @@
     :loading="loading"
     :disabled="!enabled || loading"
     :loading-with-label="
-      isCheckingMintRequirements || dropStore.walletConnecting
+      isCheckingMintRequirements ||
+      dropStore.walletConnecting ||
+      dropStore.loading
     "
     :label="label"
     @click="handleMint" />
@@ -16,24 +18,19 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '@/components/collection/drop/types'
 import useGenerativeDropMint, {
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
-import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import { formatAmountWithRound } from '@/utils/format/balance'
-
-const props = defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
-}>()
+import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix, client } = usePrefix()
-const { isLogIn, accountId } = useAuth()
+const { urlPrefix } = usePrefix()
+const { isLogIn } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
@@ -43,85 +40,77 @@ const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { amountToMint, previewItem } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { data: holderOfCollectionData } = await useAsyncData(
-  'holderOfCollectionData',
-  async () =>
-    await useAsyncQuery({
-      clientId: client.value,
-      query: holderOfCollectionById,
-      variables: {
-        id: drop.value?.holder_of,
-        account: accountId.value,
-      },
-    }).then((res) => res.data.value),
-  {
-    watch: [accountId, () => dropStore.runtimeMintCount],
-  },
+const { holderOfCollection } = useHolderOfCollection()
+
+const isHolderAndEligible = computed(
+  () =>
+    holderOfCollection.value.isHolder &&
+    maxCount.value > dropStore.mintsCount &&
+    hasMinimumFunds.value &&
+    holderOfCollection.value.hasAvailable,
 )
 
-const isHolderAndEligible = computed(() => {
-  const maxMintLimit =
-    holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0
-
-  const isHolder = maxMintLimit > 0
-
-  const hasNFTsAvailable = inject('hasNFTsAvailable', true) // true if not provided
-
-  return (
-    isHolder &&
-    maxMintLimit > mintedAmountForCurrentUser.value &&
-    hasMinimumFunds.value &&
-    hasNFTsAvailable
-  )
-})
+const mintForLabel = computed(() =>
+  $i18n.t('drops.mintForPaid', [
+    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
+      chainSymbol.value
+    }`,
+  ]),
+)
 
 const label = computed(() => {
-  if (!mintCountAvailable.value) {
-    return $i18n.t('mint.unlockable.seeListings')
+  if (!isLogIn.value) {
+    return $i18n.t('general.connect_wallet')
+  }
+  if (dropStore.walletConnecting) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+  if (dropStore.loading) {
+    // TODO: listen to transaction status and update label accordingly
+    return $i18n.t('loader.ipfs')
   }
   if (isCheckingMintRequirements.value) {
     return $i18n.t('checking')
   }
-
-  if (dropStore.walletConnecting) {
-    return $i18n.t('shoppingCart.wallet')
+  if (!mintCountAvailable.value) {
+    return $i18n.t('mint.unlockable.seeListings')
   }
-  if (!isLogIn.value) {
-    return $i18n.t('general.connect_wallet')
+  if (drop.value.userAccess === false) {
+    return $i18n.t('mint.unlockable.notEligibility')
   }
 
-  switch (drop.value?.type) {
+  switch (drop.value.type) {
     case 'free':
       return $i18n.t('drops.mintForFree')
     case 'holder':
       return isHolderAndEligible.value
-        ? $i18n.t('drops.mintForHolder')
+        ? mintForLabel.value
         : $i18n.t('mint.unlockable.notEligibility')
     case 'paid':
-      return $i18n.t('drops.mintForPaid', [
-        `${formatAmountWithRound(Number(drop.value?.price) * amountToMint.value, decimals.value)} ${
-          chainSymbol.value
-        }`,
-      ])
+      return mintForLabel.value
     default:
       return $i18n.t('general.connect_wallet')
   }
 })
 
 const enabled = computed(() => {
+  if (!isLogIn.value) {
+    return true
+  }
   if (!mintCountAvailable.value) {
     return true
   }
   if (
-    Boolean(drop.value?.disabled) ||
-    !previewItem.value ||
-    isCheckingMintRequirements.value ||
-    loading.value
+    Boolean(drop.value.disabled) || // drop is disabled
+    !previewItem.value || // no image
+    isCheckingMintRequirements.value || // still checking requirements
+    loading.value || // still loading
+    drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }
 
-  switch (drop.value?.type) {
+  switch (drop.value.type) {
     case 'free':
       return true
     case 'holder':
@@ -140,19 +129,21 @@ const loading = computed(
     dropStore.loading,
 )
 
-const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const showHolderOfCollection = computed(() =>
+  Boolean(holderOfCollection.value.id),
+)
 
 const isCheckingMintRequirements = computed(
   () =>
     showHolderOfCollection.value &&
     isLogIn.value &&
-    (props.holderOfCollection?.isLoading || !hasCurrentChainBalance.value),
+    (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
 )
 
 const handleMint = () => {
   if (!mintCountAvailable.value) {
     return navigateTo(
-      `/${urlPrefix.value}/collection/${drop.value?.collection}?listed=true`,
+      `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
   }
 

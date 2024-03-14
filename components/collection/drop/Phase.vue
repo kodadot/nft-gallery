@@ -98,20 +98,18 @@ import {
   formatDropStartTime,
   toDropScheduledDurationString,
 } from '@/components/drops/utils'
-import type { HolderOfCollectionProp } from './types'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const props = defineProps<{
-  holderOfCollection?: HolderOfCollectionProp
   dropStatus?: DropStatus
   dropStartTime?: Date
 }>()
 
 const { $i18n } = useNuxtApp()
-
 const { drop } = useDrop()
-
 const { mintCountAvailable } = useGenerativeDropMint()
+const { holderOfCollection } = useHolderOfCollection()
 
 const scheduledStatuses: DropStatus[] = [
   DropStatus.SCHEDULED,
@@ -121,7 +119,7 @@ const scheduledStatuses: DropStatus[] = [
 
 const isMintedOut = computed(() => !mintCountAvailable.value)
 const showHolderOfCollection = computed(() =>
-  Boolean(props.holderOfCollection?.id),
+  Boolean(holderOfCollection.value?.id),
 )
 const showRequirements = ref(true)
 

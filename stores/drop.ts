@@ -24,7 +24,7 @@ interface State {
   isCaptutingImage: boolean
   runtimeMintCount: number
   drop: DropItem
-  mintedDropCount: number
+  mintsCount: number
   claimedNFT: DropMintedNft | undefined
   // massmint
   amountToMint: number
@@ -44,7 +44,7 @@ export const useDropStore = defineStore('drop', {
       isCaptutingImage: false,
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
-      mintedDropCount: 0,
+      mintsCount: 0,
       claimedNFT: undefined,
       amountToMint: 1,
       toMintNFTs: [],
@@ -75,10 +75,26 @@ export const useDropStore = defineStore('drop', {
       this.drop = payload
     },
     setMintedDropCount(payload: number) {
-      this.mintedDropCount = payload
+      this.mintsCount = payload
     },
     setClaimedNFT(payload: DropMintedNft | undefined) {
       this.claimedNFT = payload
+    },
+    reset() {
+      const { urlPrefix } = usePrefix()
+      this.loading = false
+      this.walletConnecting = false
+      this.isCaptutingImage = false
+      this.previewItem = undefined
+      this.runtimeMintCount = 0
+      this.drop = { ...DEFAULT_DROP, chain: urlPrefix.value }
+      this.mintsCount = 0
+      this.claimedNFT = undefined
+      this.amountToMint = 1
+      this.mintedNFTs = []
+      this.toMintNFTs = []
+      this.mintingSession = { txHash: undefined, items: [] }
+      this.allocatedNFTs = []
     },
   },
 })
