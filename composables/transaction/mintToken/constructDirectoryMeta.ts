@@ -14,19 +14,29 @@ export const constructDirectoryMeta = async (
   const tokens = tokensToMint.filter((token) => Boolean(token.file))
   const tokensMedia = tokens.map((token) => token.file) as File[]
   const { enableCarbonOffset = false } = options ?? {}
-  const imageHashes = await uploadMediaFiles(tokensMedia)
+
+  return await uploadMediaAndMetadataDirectories(tokensMedia, (imageHashes) =>
+    tokens.map((token, index) =>
+      createTokenMetadata(token, imageHashes[index], enableCarbonOffset, index),
+    ),
+  )
+}
+
+export const uploadMediaAndMetadataDirectories = async (
+  mediaFiles: File[],
+  metadataFactory: (imageHashes: string[]) => File[],
+) => {
+  const imageHashes = await uploadMediaFiles(mediaFiles)
 
   // Create metadata files
-  const metadataFiles = tokens.map((token, index) =>
-    createTokenMetadata(token, imageHashes[index], enableCarbonOffset, index),
-  )
+  const metadataFiles = metadataFactory(imageHashes)
 
   // Upload all metadata files as a directory
   const metaDirectoryCid = await pinDirectory(metadataFiles)
 
   // Preheat and upload files
   await Promise.all(
-    tokensMedia.map((media, index) =>
+    mediaFiles.map((media, index) =>
       preheatAndDirectUpload(media, imageHashes[index]),
     ),
   )
@@ -112,10 +122,13 @@ const createTokenMetadata = (
     (file as File).type,
   )
 
-  return new File([JSON.stringify(meta, null, 2)], `${index}.json`, {
+  return makeJsonFile(meta, String(index))
+}
+
+export const makeJsonFile = (data: any, name: string) =>
+  new File([JSON.stringify(data, null, 2)], `${name}.json`, {
     type: 'application/json',
   })
-}
 
 const preheatAndDirectUpload = async (
   media: File,

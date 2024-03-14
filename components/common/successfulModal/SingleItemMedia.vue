@@ -4,6 +4,7 @@
       class="border border-k-shade w-[200px] h-[200px]"
       :src="src"
       :animation-src="src"
+      :mime-type="mediaMimeType"
       preview
       is-detail />
 
@@ -32,6 +33,7 @@ defineProps<{
   nftName: string
   collectionName: string
   collectionId: string
+  mediaMimeType?: string
 }>()
 
 const { urlPrefix } = usePrefix()

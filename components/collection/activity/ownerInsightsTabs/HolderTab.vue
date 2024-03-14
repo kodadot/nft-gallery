@@ -37,8 +37,10 @@
               <span v-else>--</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs text-k-grey">{{ $t('activity.date') }}</span>
-              <TimeAgo :timestamp="holdings.lastActivityTimestamp" />
+              <span class="text-xs text-k-grey">{{
+                $t('activity.longestHold')
+              }}</span>
+              <p>{{ formatSecondsToDuration(holdings.longestHold / 1000) }}</p>
             </div>
             <div>
               <div
@@ -80,6 +82,7 @@ import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
+import { formatSecondsToDuration } from '@/utils/format/time'
 
 const props = defineProps<{
   owners?: Owners

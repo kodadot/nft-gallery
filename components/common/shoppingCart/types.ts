@@ -17,4 +17,5 @@ export type ShoppingCartItem = {
   addedAt: number
   meta?: NFTMetadata
   metadata: string
+  sn: string
 }
