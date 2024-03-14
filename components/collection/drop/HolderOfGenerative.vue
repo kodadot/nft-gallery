@@ -65,7 +65,10 @@ const { accountId, isLogIn } = useAuth()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 
-const { openListingCartModal } = useListingCartModal()
+const { openListingCartModal } = useListingCartModal({
+  clearItemsOnBeforeUnmount: true,
+  clearItemsOnModalClose: true,
+})
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 

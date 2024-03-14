@@ -36,8 +36,12 @@ const isModalActive = useVModel(props, 'modelValue')
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const { listNftByShoppingCartItem, openListingCartModal } =
-  useListingCartModal()
+const { listNftByShoppingCartItem, openListingCartModal } = useListingCartModal(
+  {
+    clearItemsOnBeforeUnmount: true,
+    clearItemsOnModalClose: true,
+  },
+)
 
 const canListItems = ref(false)
 const nftSubscription = ref(() => {})

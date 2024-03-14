@@ -7,8 +7,12 @@ import { NFTWithMetadata } from './useNft'
 
 export default ({
   clearItemsOnModalClose = false,
+  clearItemsOnBeforeUnmount = false,
+  closeModalOnBeforeUnmount = false,
 }: {
   clearItemsOnModalClose?: boolean
+  clearItemsOnBeforeUnmount?: boolean
+  closeModalOnBeforeUnmount?: boolean
 } = {}) => {
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
@@ -45,8 +49,12 @@ export default ({
   }
 
   onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-    clearItemsInChain()
+    if (closeModalOnBeforeUnmount) {
+      preferencesStore.listingCartModalOpen = false
+    }
+    if (clearItemsOnBeforeUnmount) {
+      clearItemsInChain()
+    }
   })
 
   if (clearItemsOnModalClose) {

@@ -71,9 +71,7 @@ export default () => {
   const { mintedNFTs } = storeToRefs(dropStore)
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
-  const { listNftByNftWithMetadata } = useListingCartModal({
-    clearItemsOnModalClose: true,
-  })
+  const { listNftByNftWithMetadata } = useListingCartModal()
 
   // for feature parity with canary, no idea where this number comes from (by daiagi on 12/03/2024 PR #9709)
   const DEFAULT_MAX = 255

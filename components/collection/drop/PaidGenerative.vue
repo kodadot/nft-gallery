@@ -48,7 +48,10 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-const { openListingCartModal } = useListingCartModal()
+const { openListingCartModal } = useListingCartModal({
+  clearItemsOnBeforeUnmount: true,
+  clearItemsOnModalClose: true,
+})
 const { collectionName } = useCollectionEntity()
 const {
   loading,

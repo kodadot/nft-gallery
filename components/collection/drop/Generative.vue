@@ -39,7 +39,10 @@ import useGenerativeIframeData, {
 
 const instance = getCurrentInstance()
 const preferencesStore = usePreferencesStore()
-const { openListingCartModal } = useListingCartModal()
+const { openListingCartModal } = useListingCartModal({
+  clearItemsOnBeforeUnmount: true,
+  clearItemsOnModalClose: true,
+})
 const dropStore = useDropStore()
 const { previewItem, mintedNFTs } = storeToRefs(dropStore)
 
