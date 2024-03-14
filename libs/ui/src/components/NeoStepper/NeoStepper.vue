@@ -27,7 +27,7 @@ const props = withDefaults(
   }>(),
   {
     min: 1,
-    max: undefined,
+    max: Infinity,
     disabled: false,
   },
 )
@@ -44,4 +44,12 @@ const handleRightClick = () => {
   }
   input.value++
 }
+
+watchEffect(() => {
+  if (input.value < props.min) {
+    input.value = props.min
+  } else if (input.value > props.max) {
+    input.value = props.max
+  }
+})
 </script>
