@@ -115,7 +115,6 @@ export default () => {
     mintCountAvailable,
     canListMintedNft,
     listMintedNft,
-    tryCapture,
     subscribeToMintedNft,
   }
 }
