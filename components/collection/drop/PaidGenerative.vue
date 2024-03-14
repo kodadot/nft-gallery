@@ -388,6 +388,7 @@ const submitMint = async (sn: string) => {
       chain: result.chain,
       name: result.name,
       image: result.image,
+      max: defaultMax.value,
       collectionName: collectionName.value as string,
     }
   } catch (error) {

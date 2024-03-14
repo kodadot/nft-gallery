@@ -7,6 +7,7 @@ export type DropMintedNft = DoResult & {
   id: string
   collectionName: string
   name: string
+  max: number
 }
 
 export type UnlockableCollectionById = {

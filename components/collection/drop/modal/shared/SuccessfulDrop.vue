@@ -24,10 +24,15 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
-const sharingTxt = $i18n.t('sharing.nft')
+const sharingTxt = computed(() =>
+  $i18n.t('sharing.dropNft', [props.mintedNft.sn, props.mintedNft.max]),
+)
 
 const txHash = computed(() => props.mintedNft.txHash || '')
-const share = computed(() => ({ text: sharingTxt, url: nftFullUrl.value }))
+const share = computed(() => ({
+  text: sharingTxt.value,
+  url: nftFullUrl.value,
+}))
 
 const actionButtons = computed(() => ({
   secondary: {
