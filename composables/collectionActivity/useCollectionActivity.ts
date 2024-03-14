@@ -14,14 +14,17 @@ export const useCollectionActivity = ({ collectionId }) => {
   }
 
   const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
 
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryPrefix,
     queryName: 'collectionActivityEvents',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
+
+  watch(variables, () => refetch(variables.value))
 
   watch(data, (result) => {
     if (result) {
