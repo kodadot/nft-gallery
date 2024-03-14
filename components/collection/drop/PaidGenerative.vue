@@ -43,19 +43,6 @@ import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintL
 
 const { drop } = useDrop()
 
-// <<<<<<< HEAD
-// const isWalletConnecting = ref(false)
-// =======
-// const toMintNft = computed<ToMintNft>(() => ({
-//   image: sanitizeIpfsUrl(selectedImage.value),
-//   name: `${collectionName.value || ''} #${raffleId.value || nftCount.value || ''}`,
-//   collectionName: collectionName.value || '',
-//   price: drop.value?.price as string,
-//   priceUSD: priceUSD.value,
-// }))
-
-// >>>>>>> drops-refactor
-
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
