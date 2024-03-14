@@ -42,7 +42,6 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
 const { drop } = useDrop()
-
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -50,6 +49,7 @@ const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { openListingCartModal } = useListingCartModal()
+const { collectionName } = useCollectionEntity()
 const {
   loading,
   walletConnecting,
@@ -58,11 +58,6 @@ const {
   toMintNFTs,
   allocatedNFTs,
 } = storeToRefs(useDropStore())
-const { collectionName } = useCollectionEntity()
-
-const isImageFetching = ref(false)
-const isMintModalActive = ref(false)
-const isRaffleModalActive = ref(false)
 
 const {
   howAboutToExecute,
@@ -71,6 +66,11 @@ const {
   isError,
   status,
 } = useMetaTransaction()
+useCursorDropEvents([isTransactionLoading, loading])
+
+const isImageFetching = ref(false)
+const isMintModalActive = ref(false)
+const isRaffleModalActive = ref(false)
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -81,8 +81,6 @@ const action = computed<AutoTeleportAction>(() => ({
     isError: isError.value,
   },
 }))
-
-useCursorDropEvents([isTransactionLoading, loading])
 
 const mintNft = async () => {
   try {
