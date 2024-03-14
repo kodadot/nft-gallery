@@ -1,47 +1,41 @@
 <template>
-  <div class="mt-5 mb-6">
+  <div class="my-5">
     <div
       :class="[
         `flex justify-around px-8 items-center w-full gap-6`,
         { '!gap-4': withCopy },
       ]">
-      <NeoButton variant="icon" no-shadow @click="handleShareOnX">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon pack="fab" icon="x-twitter" />
-          <span class="text-center mt-1">X</span>
-        </div>
-      </NeoButton>
+      <NeoTooltip label="X">
+        <NeoButton variant="icon" no-shadow @click="handleShareOnX">
+          <NeoIcon pack="fab" icon="x-twitter" class="text-k-grey" />
+        </NeoButton>
+      </NeoTooltip>
+      <NeoTooltip label="Farcaster">
+        <NeoButton variant="icon" no-shadow @click="handleShareOnFarcaster">
+          <FarcasterIcon class="text-k-grey" />
+        </NeoButton>
+      </NeoTooltip>
 
-      <NeoButton variant="icon" no-shadow @click="handleShareOnFarcaster">
-        <div class="flex flex-col items-center text-k-grey">
-          <FarcasterIcon />
-          <span class="text-center mt-1">Farcaster</span>
-        </div>
-      </NeoButton>
-      <NeoButton variant="icon" no-shadow @click="handleShareOnTelegram">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon pack="fab" icon="telegram" />
-          <span class="text-center mt-1">Telegram</span>
-        </div>
-      </NeoButton>
-
-      <NeoButton
-        v-if="withCopy"
-        v-clipboard:copy="url"
-        variant="icon"
-        no-shadow
-        @click="toast($t('general.copyToClipboard'))">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon icon="link" />
-          <span class="text-center mt-1">{{ $t('general.copy') }}</span>
-        </div>
-      </NeoButton>
+      <NeoTooltip label="Telegram">
+        <NeoButton variant="icon" no-shadow @click="handleShareOnTelegram">
+          <NeoIcon class="text-k-grey" pack="fab" icon="telegram" />
+        </NeoButton>
+      </NeoTooltip>
+      <NeoTooltip v-if="withCopy" :label="$t('general.copy')">
+        <NeoButton
+          v-clipboard:copy="url"
+          variant="icon"
+          no-shadow
+          @click="toast($t('general.copyToClipboard'))">
+          <NeoIcon icon="link" class="text-k-grey" />
+        </NeoButton>
+      </NeoTooltip>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
