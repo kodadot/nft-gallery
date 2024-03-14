@@ -6,6 +6,7 @@ export type DropMintedNft = DoResult & {
   id: string
   collectionName: string
   name: string
+  max: number
 }
 
 export type UnlockableCollectionById = {
@@ -18,6 +19,9 @@ export type UnlockableCollectionById = {
   }
   nftEntitiesConnection: { totalCount: number }
 }
+
+// for feature parity with canary, no idea where this number comes from (by daiagi on 12/03/2024 PR #9709)
+export const DEFAULT_MAX = 255
 
 export function useCollectionEntity(collectionId?: string) {
   const { drop } = useDrop()
@@ -72,9 +76,6 @@ export default () => {
   const { drop } = useDrop()
   const { maxCount: collectionMaxCount } = useCollectionEntity()
   const { listNftByNftWithMetadata } = useListingCartModal()
-
-  // for feature parity with canary, no idea where this number comes from (by daiagi on 12/03/2024 PR #9709)
-  const DEFAULT_MAX = 255
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,

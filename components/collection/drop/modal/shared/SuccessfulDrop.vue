@@ -3,13 +3,14 @@
     :tx-hash="txHash"
     :share="share"
     :action-buttons="actionButtons">
+    <!-- ?? '' below is to appease TS, in reality it's always defined because of the v-if -->
     <SingleItemMedia
       v-if="singleMint"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
-      :src="sanitizeIpfsUrl(mintedNft.image)"
-      :nft-name="mintedNft.name"
-      :collection-id="mintedNft.collection"
-      :collection-name="mintedNft.collectionName"
+      :src="sanitizeIpfsUrl(mintedNft?.image)"
+      :nft-name="mintedNft?.name ?? ''"
+      :collection-id="mintedNft?.collection ?? ''"
+      :collection-name="mintedNft?.collectionName ?? ''"
       media-mime-type="text/html" />
     <MultiItemMedia
       v-else
@@ -42,11 +43,13 @@ const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 
-const sharingTxt = $i18n.t('sharing.nft')
+const sharingTxt = computed(() =>
+  $i18n.t('sharing.dropNft', [mintedNft.value?.sn, mintedNft.value?.max]),
+)
 
-const txHash = computed(() => props.mintingSession.txHash || '')
+const txHash = computed(() => props.mintingSession.txHash ?? '')
 const share = computed(() => ({
-  text: sharingTxt,
+  text: sharingTxt.value,
   url: nftFullUrl.value,
   withCopy: singleMint.value,
 }))

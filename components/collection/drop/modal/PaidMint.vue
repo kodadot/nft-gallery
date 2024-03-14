@@ -25,7 +25,8 @@
       <SigningModalBody
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
-        :subtitle="transactionStatus" />
+        :subtitle="transactionStatus"
+        :status="status" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -46,6 +47,7 @@ import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -57,6 +59,7 @@ const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 const props = defineProps<{
   modelValue: boolean
   action: AutoTeleportAction
+  status: TransactionStatus
 }>()
 
 const { canMint, canList } = useDropMassMintState()

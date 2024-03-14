@@ -62,7 +62,7 @@ $steps-content-padding: 1rem !default;
         color: $steps-previous-color;
       }
       // move divider to right side (color it active)
-      // this is required becuase of the theme override above of the divider background
+      // this is required because of the theme override above of the divider background
       .o-steps__divider {
         @apply bg-k-blue bg-[left_bottom];
       }
@@ -80,7 +80,7 @@ $steps-content-padding: 1rem !default;
       }
 
       // move divider to right side (color it active)
-      // this is required becuase of the theme override above of the divider background
+      // this is required because of the theme override above of the divider background
       .o-steps__divider {
         @apply bg-k-blue bg-[left_bottom];
       }

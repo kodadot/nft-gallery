@@ -458,6 +458,7 @@
     }
   },
   "mint": {
+    "progress": "In Progress",
     "creatingCollection": "Creating collection {name}",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
@@ -895,7 +896,7 @@
     "owned": "Owned",
     "totalBought": "Total Bought",
     "totalSold": "Total Sold",
-    "date": "Date",
+    "longestHold": "Longest hold",
     "bestFlip": "Best Flip",
     "latestActivity": "LatestActivity",
     "nftDetails": "NFT Details",
@@ -1069,6 +1070,7 @@
     "boughtNft": "Check out this awesome NFT I bought on KodaDot",
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
+    "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
@@ -1461,7 +1463,7 @@
     "mintingNow": "Minting Now",
     "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
-    "mintPerAddress": "Each address can mint only once",
+    "mintDropError": "Error encountered, please retry. {0}",
     "recentMints": "Recent NFT Mints",
     "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",
@@ -1755,6 +1757,7 @@
     "resources": "Resources",
     "kodahashTemplate": "Kodahash Template",
     "learnAboutGenArt": "Learn About Generative Art On Kodadot",
+    "codeChecker": "Code Checker",
     "upload": "Upload Your Code",
     "uploadInstructions": "Drop your code file here or click to select, and initiate the automated review.",
     "codeValidation": "Code Validation",

@@ -28,6 +28,7 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList" />
@@ -211,7 +212,7 @@ const submitMints = async () => {
 
     dropStore.incrementRuntimeMintCount()
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isCapturingImage.value = false
     $consola.error(error)
     throw error

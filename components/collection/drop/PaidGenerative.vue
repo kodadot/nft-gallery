@@ -26,6 +26,7 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
+    :status="status"
     @confirm="handleConfirmPaidMint"
     @close="handleMintModalClose"
     @list="handleList" />
@@ -192,7 +193,7 @@ const submitMints = async () => {
 
     loading.value = false
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isCapturingImage.value = false
     closeMintModal()
     throw error
