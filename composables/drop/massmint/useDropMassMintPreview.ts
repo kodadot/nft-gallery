@@ -98,7 +98,7 @@ export default () => {
         name: `${drop.value.name} #${mintsCount.value + (index + 1)}`,
         collectionName: collectionName.value as string,
         image: item.image,
-        price: drop.value.price,
+        price: drop.value.price as string,
         hash: item.hash,
         entropyRange: item.entropyRange,
       }
