@@ -96,5 +96,12 @@ export const useDropStore = defineStore('drop', {
       this.mintingSession = { txHash: undefined, items: [] }
       this.allocatedNFTs = []
     },
+    resetMassmint() {
+      this.loading = false
+      this.toMintNFTs = []
+      this.allocatedNFTs = []
+      this.mintedNFTs = []
+      this.mintingSession = { txHash: undefined, items: [] }
+    },
   },
 })

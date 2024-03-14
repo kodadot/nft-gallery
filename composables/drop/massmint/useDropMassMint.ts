@@ -31,6 +31,7 @@ export default () => {
   const { allPinned, payloads, pinMetadata, getPreviewItemsToMintedNfts } =
     useDropMassMintPreview()
   const { mintedAmountForCurrentUser } = useCollectionEntity()
+  const dropStore = useDropStore()
 
   const {
     drop,
@@ -39,19 +40,14 @@ export default () => {
     allocatedNFTs,
     toMintNFTs,
     mintingSession,
-    mintedNFTs,
     loading,
-  } = storeToRefs(useDropStore())
+  } = storeToRefs(dropStore)
 
   const raffleEmail = ref()
 
   const clearMassmint = () => {
-    loading.value = false
-    toMintNFTs.value = []
-    allocatedNFTs.value = []
     raffleEmail.value = undefined
-    mintedNFTs.value = []
-    mintingSession.value = { txHash: undefined, items: [] }
+    dropStore.resetMassmint()
   }
 
   const allocateRaffleMode = async (
