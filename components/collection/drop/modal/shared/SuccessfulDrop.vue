@@ -3,13 +3,14 @@
     :tx-hash="txHash"
     :share="share"
     :action-buttons="actionButtons">
+    <!-- ?? '' below is to appease TS, in reality it's always defined because of the v-if -->
     <SingleItemMedia
       v-if="props.mintedNft"
       :header="$t('drops.youSuccessfullyClaimedNft', [1])"
       :src="sanitizeIpfsUrl(mintedNft?.image)"
-      :nft-name="mintedNft.name"
-      :collection-id="mintedNft.collection"
-      :collection-name="mintedNft.collectionName" />
+      :nft-name="mintedNft?.name ?? ''"
+      :collection-id="mintedNft?.collection ?? ''"
+      :collection-name="mintedNft?.collectionName ?? ''" />
   </SuccessfulModalBody>
 </template>
 

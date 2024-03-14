@@ -52,6 +52,7 @@ import {
 } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
+  DEFAULT_MAX,
   useCollectionEntity,
 } from '@/composables/drop/useGenerativeDropMint'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
@@ -290,7 +291,7 @@ const submitMint = async (sn: string) => {
       ...result,
       id,
       name: result.name,
-      max: defaultMax.value,
+      max: drop.value?.max ?? DEFAULT_MAX,
       collectionName: collectionName.value,
     }
 
