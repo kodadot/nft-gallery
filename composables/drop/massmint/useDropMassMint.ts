@@ -43,7 +43,6 @@ export default () => {
     loading,
   } = storeToRefs(useDropStore())
 
-  const isAllocating = ref(false)
   const raffleEmail = ref()
 
   const clearMassmint = () => {
@@ -136,7 +135,6 @@ export default () => {
   const allocate = async (mintNfts: MassMintNFT[]) => {
     try {
       loading.value = true
-      isAllocating.value = true
 
       const email = raffleEmail.value || getFakeEmail()
       const address = accountId.value
@@ -164,7 +162,6 @@ export default () => {
     } catch (error) {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
-      isAllocating.value = false
       loading.value = false
     }
   }
