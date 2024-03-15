@@ -71,8 +71,8 @@ export function useDrops(query?: GetDropsQuery) {
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
-      ['asc', 'asc'],
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      ['asc'],
     ),
   )
 
