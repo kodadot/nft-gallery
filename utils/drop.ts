@@ -21,6 +21,7 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_POPULAR_DROP_COLLECTIONS = [
+  '112', // Convergente
   '108', // Motifs
   '106', // Refraction
   '99', // Leadlight

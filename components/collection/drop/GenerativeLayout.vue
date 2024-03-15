@@ -94,7 +94,7 @@ const emit = defineEmits(['mint'])
 const address = computed(() => collectionInfo.value?.currentOwner)
 
 const { owners } = useCollectionActivity({
-  collectionId: drop.value?.collection,
+  collectionId: computed(() => drop.value?.collection),
 })
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
 
