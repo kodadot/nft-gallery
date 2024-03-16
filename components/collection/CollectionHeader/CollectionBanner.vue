@@ -97,7 +97,7 @@ watchEffect(async () => {
   const image = collection?.meta?.image
   const name = collection?.name
 
-  if (!!collection.issuer) {
+  if (!!collection?.issuer) {
     useExploreFiltersStore().setIssuer(collection.issuer)
   }
 
