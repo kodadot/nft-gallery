@@ -385,7 +385,7 @@ const deposit = computed(() =>
 const tokenType = computed(() => undefined)
 
 const calculateUsdValue = (amount) => {
-  // remove comma from amount - required becuase bsx balance is formatted string
+  // remove comma from amount - required because bsx balance is formatted string
   const parsedAmount = parseFloat(amount?.replace(/,/g, '') || '0')
   return toUsdPrice(parsedAmount, tokenType.value)
 }
