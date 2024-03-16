@@ -85,7 +85,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
   let dropStartTime = drop.start_at ? new Date(drop.start_at) : undefined
 
   if (count >= 5) {
-    dropStartTime = new Date(Date.now() - 1e10)
+    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
   }
 
   const newDrop = {
