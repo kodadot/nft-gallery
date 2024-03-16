@@ -13,18 +13,6 @@
             relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
-          <!-- preview button -->
-          <a
-            v-if="
-              canPreview &&
-              !mediaItemRef?.isLewdBlurredLayer &&
-              !hasAnimatedResources &&
-              !isFullscreen
-            "
-            class="fullscreen-button justify-center items-center"
-            @click="toggleFullscreen">
-            <NeoIcon icon="expand" />
-          </a>
           <NeoButton
             v-if="isFullscreen"
             class="back-button"
@@ -70,6 +58,35 @@
             :image-component="NuxtImg"
             :sizes="sizes"
             :audio-player-cover="image" />
+        </div>
+        <div v-if="generativeArtToolbar">
+          <div
+            class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
+            <a
+              v-if="
+                canPreview &&
+                !mediaItemRef?.isLewdBlurredLayer &&
+                !hasAnimatedResources &&
+                !isFullscreen
+              "
+              data-testid="reload"
+              :label="$t('reload')"
+              no-shadow
+              @click="handleReloadClick">
+              <NeoIcon
+                :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
+                size="medium"
+                :spin="isLoading" />
+            </a>
+            <a data-testid="fullscreen" no-shadow @click="toggleFullscreen">
+              <NeoIcon
+                icon="arrow-up-right-and-arrow-down-left-from-center"
+                size="medium" />
+            </a>
+            <a data-testid="newtab" no-shadow @click="handleNewTab">
+              <NeoIcon icon="arrow-up-right" size="medium" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -251,6 +268,9 @@ const canPreview = computed(
 
 const activeCarousel = ref(0)
 
+const isLoading = ref(false)
+const generativeArtToolbar = computed(() => route.path.includes('/gallery'))
+
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
 )
@@ -343,6 +363,32 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
+}
+
+function handleReloadClick() {
+  isLoading.value = true
+  setTimeout(() => {
+    isLoading.value = false
+    const iframe = document.querySelector(
+      'iframe[title="html-embed"]',
+    ) as HTMLIFrameElement
+    if (iframe) {
+      iframe.src += ''
+    }
+  }, 2000)
+}
+
+function handleNewTab() {
+  const iframe = document.querySelector(
+    'iframe[title="html-embed"]',
+  ) as HTMLIFrameElement
+  if (iframe) {
+    const iframeSrc = iframe.getAttribute('src')
+    if (!iframeSrc) {
+      return
+    }
+    window.open(iframeSrc, '_blank')
+  }
 }
 
 function toggleFallback() {
