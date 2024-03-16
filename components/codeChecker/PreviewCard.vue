@@ -23,7 +23,7 @@
         variant="pill"
         class="w-full px-5"
         :disabled="!selectedFile"
-        @click="count++"
+        @click="replay"
         >{{ $t('codeChecker.replayAnimation') }}</NeoButton
       >
     </div>
@@ -83,6 +83,8 @@ const props = defineProps<{
   render: boolean
   kodaRendererUsed: Passed
 }>()
+
+const emit = defineEmits(['reload'])
 const variationOptions = config.varaitionsOptions
 
 const hash = ref('')
@@ -92,6 +94,12 @@ const selectedVariation = ref(variationOptions[0])
 
 const newHash = () => {
   hash.value = generateRandomHash()
+  emit('reload')
+}
+
+const replay = () => {
+  count.value++
+  emit('reload')
 }
 
 onMounted(newHash)

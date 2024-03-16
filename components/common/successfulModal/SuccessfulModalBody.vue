@@ -1,8 +1,10 @@
 <template>
   <div>
-    <TransactionSection :tx-hash="txHash" class="mb-5" />
+    <TransactionSection v-if="txHash" :tx-hash="txHash" />
 
-    <slot />
+    <div class="mt-5">
+      <slot />
+    </div>
 
     <hr class="!my-5" />
 
@@ -33,7 +35,7 @@ export type ActionButtonsProp = {
 }
 
 defineProps<{
-  txHash: string
+  txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
 }>()

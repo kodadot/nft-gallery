@@ -2,6 +2,7 @@ import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import svgLoader from 'vite-svg-loader'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -40,6 +41,9 @@ export default defineNuxtConfig({
             project: 'nft-gallery',
             authToken: process.env.SENTRY_AUTH_TOKEN,
           }),
+      svgLoader({
+        defaultImport: 'url',
+      }),
     ],
     // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
     optimizeDeps:

@@ -10,6 +10,9 @@ import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useDropStore } from '@/stores/drop'
+import { getChainName } from '@/utils/chain'
 
 export interface Drop {
   collection: DropItem
@@ -68,8 +71,8 @@ export function useDrops(query?: GetDropsQuery) {
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
-      ['asc', 'asc'],
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      ['asc'],
     ),
   )
 
@@ -84,7 +87,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
     ...drop,
     collection: collection,
     max: chainMax,
-    dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
+    dropStartTime: count >= 5 ? new Date(Date.now() - 1e10) : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
@@ -121,7 +124,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
 }
 
 export const getDropDetails = async (alias: string) => {
-  const drop = await useDrop(alias)
+  const drop = await getDropById(alias)
 
   const { data: collectionData } = await useAsyncQuery({
     clientId: drop.chain,
@@ -136,49 +139,77 @@ export const getDropDetails = async (alias: string) => {
   return getFormattedDropItem(collectionEntity, drop)
 }
 
-export async function useDrop(id: string) {
-  const drop = await getDropById(id)
+export function useDrop(alias?: string) {
+  const { params } = useRoute()
+  const dropStore = useDropStore()
 
-  return drop
-}
+  const drop = computed({
+    get: () => dropStore.drop,
+    set: (value) => dropStore.setDrop(value),
+  })
 
-export const useDropStatus = (id: string) => {
-  const mintedDropCount = ref(0)
-  const { accountId } = useAuth()
+  const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
+  const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
-  const fetchDropStatus = async () => {
-    const { count } = await getDropStatus(id)
-    mintedDropCount.value = count
+  const fetchDrop = async () => {
+    drop.value = await getDropById(alias ?? params.id.toString())
   }
-  onBeforeMount(fetchDropStatus)
 
-  watch(accountId, fetchDropStatus)
+  watch(() => params.id, fetchDrop)
 
   return {
-    mintedDropCount,
+    drop,
+    fetchDrop,
+    chainName,
+    token,
+  }
+}
+
+export const useDropStatus = () => {
+  const { params } = useRoute()
+  const dropStore = useDropStore()
+  const { accountId } = useAuth()
+  const mintsCount = computed({
+    get: () => dropStore.mintsCount,
+    set: (value) => dropStore.setMintedDropCount(value),
+  })
+
+  const fetchDropStatus = async () => {
+    const alias = params.id.toString()
+    const { count } = await getDropStatus(alias)
+    mintsCount.value = count
+  }
+
+  watch([() => params.id, accountId], fetchDropStatus)
+
+  return {
+    mintsCount,
     fetchDropStatus,
   }
 }
 
-export const useDropMinimumFunds = (drop) => {
-  const chainProperties = chainPropListOf(drop.chain)
+export const useDropMinimumFunds = (amount = ref(1)) => {
+  const { drop } = useDrop()
 
-  const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
-
-  const transferableDropChainBalance = computed(
-    () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
+  const chainProperties = computed(() =>
+    chainPropListOf(drop.value?.chain ?? 'ahp'),
   )
-  const meta = computed<number>(() => Number(drop.meta) || 0)
-  const price = computed<number>(() => Number(drop.price) || 0)
-  const minimumFunds = computed<number>(() => price.value || meta.value)
+  const { existentialDeposit } = useChain()
+  const { fetchMultipleBalance, transferableCurrentChainBalance } =
+    useMultipleBalance()
+
+  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
+  const price = computed<number>(() => Number(drop.value?.price) || 0)
+  const minimumFunds = computed<number>(() =>
+    price.value ? amount.value * price.value : meta.value,
+  )
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
-      transferableDropChainBalance.value >= minimumFunds.value,
+      (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
   )
-  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
-  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
+  const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     minimumFunds,

@@ -14,19 +14,23 @@ export const useCollectionActivity = ({ collectionId }) => {
   }
 
   const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
 
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryPrefix,
     queryName: 'collectionActivityEvents',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
+
+  watch(variables, () => refetch(variables.value))
 
   watch(data, (result) => {
     if (result) {
+      const nfts = result.collection?.nfts ?? []
       // flat events for chart
-      const interactions: InteractionWithNFT[] = result.collection.nfts
+      const interactions: InteractionWithNFT[] = nfts
         .map((nft) =>
           nft.events.map((e) => ({
             ...e,
@@ -42,7 +46,7 @@ export const useCollectionActivity = ({ collectionId }) => {
       events.value = interactions
 
       // not to repeat ref names
-      const ownersTemp = getOwners(result.collection.nfts)
+      const ownersTemp = getOwners(nfts)
       const flippersTemp = getFlippers(interactions)
 
       const flipperdIds = Object.keys(flippersTemp)

@@ -2,7 +2,6 @@
   <NeoModal
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     @close="onClose">
     <ModalBody :title="$t('drops.createACalendarEvent')" @close="onClose">
       <p class="capitalize">

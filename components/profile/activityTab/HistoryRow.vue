@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isDesktop" class="columns mb-2">
-    <div class="column is-clipped">
+  <div v-if="isDesktop" class="flex gap-3 py-[.6rem]">
+    <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="column is-1">
+    <div class="w-1/12">
       <div class="h-[50px] flex items-center">
         <EventTag
           :interaction="event.Type"
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="column is-ellipsis">
+    <div class="flex-1 is-ellipsis">
       <div class="h-[50px] flex items-center">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <nuxt-link
           v-if="!!fromAddress"
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div v-if="withToColumn" class="column">
+    <div v-if="withToColumn" class="flex-1">
       <div class="h-[50px] flex items-center">
         <nuxt-link
           v-if="!!toAddress"
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <div class="column">
+    <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <NeoTooltip :label="event.Date" position="left">
           <BlockExplorerLink :block-id="event.Block" :text="event.Time" />

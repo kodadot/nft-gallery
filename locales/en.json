@@ -110,8 +110,8 @@
     "rankings": "Rankings",
     "units": "Units",
     "owners": "Owners",
-    "landingTitle1": "Go To",
-    "landingTitle2": "Polkadot NFT",
+    "landingTitle1": "Your",
+    "landingTitle2": "Generative Art",
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
@@ -425,7 +425,8 @@
     "updatedAt_ASC": "Unpopular",
     "price_DESC": "Price: High to Low",
     "price_ASC": "Price: Low to High",
-    "sn_ASC": "Alphabetically",
+    "sn_ASC": "Serial (Low→High)",
+    "sn_DESC": "Serial (High→Low)",
     "instance_ASC": "Sequence",
     "listed": "Buy now",
     "listed_RMRK": "Listed",
@@ -440,7 +441,8 @@
       "supply_ASC": "Least Supply",
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
-      "sn_ASC": "Alphabetically",
+      "sn_ASC": "Serial (Low→High)",
+      "sn_DESC": "Serial (High→Low)",
       "volume_DESC": "Volume",
       "highestSale_DESC": "Highest Sale",
       "listed": "Buy now",
@@ -456,6 +458,7 @@
     }
   },
   "mint": {
+    "progress": "In Progress",
     "creatingCollection": "Creating collection {name}",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
@@ -893,7 +896,7 @@
     "owned": "Owned",
     "totalBought": "Total Bought",
     "totalSold": "Total Sold",
-    "date": "Date",
+    "longestHold": "Longest hold",
     "bestFlip": "Best Flip",
     "latestActivity": "LatestActivity",
     "nftDetails": "NFT Details",
@@ -1067,6 +1070,7 @@
     "boughtNft": "Check out this awesome NFT I bought on KodaDot",
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
+    "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
@@ -1157,7 +1161,8 @@
     "artists": {
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
-    }
+    },
+    "connectFarcaster": "Connect with Koda on Farcaster"
   },
   "history": {
     "label": "History",
@@ -1444,6 +1449,8 @@
     "drops": "Drops",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
+    "generatingVariations": "Generating Variations",
+    "amountMintedSuccessfully": "{0} NFTs minted successfully",
     "everyThursday": "Every Thursday",
     "addToCal": "Add To Cal",
     "createACalendarEvent": "Create A Calendar Event",
@@ -1456,7 +1463,7 @@
     "mintingNow": "Minting Now",
     "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
-    "mintPerAddress": "Each address can mint only once",
+    "mintDropError": "Error encountered, please retry. {0}",
     "recentMints": "Recent NFT Mints",
     "latestMints": "Latest NFT Mints",
     "capture": "Unable to screenshot your art continuting without",
@@ -1750,6 +1757,7 @@
     "resources": "Resources",
     "kodahashTemplate": "Kodahash Template",
     "learnAboutGenArt": "Learn About Generative Art On Kodadot",
+    "codeChecker": "Code Checker",
     "upload": "Upload Your Code",
     "uploadInstructions": "Drop your code file here or click to select, and initiate the automated review.",
     "codeValidation": "Code Validation",
