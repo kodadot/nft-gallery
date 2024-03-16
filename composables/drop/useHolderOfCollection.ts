@@ -61,9 +61,8 @@ export default function useHolderOfCollection() {
     immediate: true,
   })
 
-  useAsyncData(
-    'holderOfCollectionData',
-    () =>
+  watchEffect(() => {
+    if (drop.holder_of) {
       useAsyncQuery<{
         nftEntitiesConnection: { totalCount: number }
         nftEntities: Array<{ sn: string }>
@@ -74,15 +73,9 @@ export default function useHolderOfCollection() {
           id: drop.holder_of,
           account: accountId.value,
         },
-      }).then((res) => (holderOfCollectionData.value = res.data.value)),
-    {
-      watch: [
-        accountId,
-        () => runtimeMintCount,
-        computed(() => drop.holder_of),
-      ],
-    },
-  )
+      }).then((res) => (holderOfCollectionData.value = res.data.value))
+    }
+  })
 
   return {
     holderOfCollectionData,
