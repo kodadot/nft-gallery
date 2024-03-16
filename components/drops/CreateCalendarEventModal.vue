@@ -37,7 +37,7 @@ type CalendarProvider = 'google'
 const props = defineProps<{
   modelValue: boolean
   title: string
-  showExactDate?: boolean
+  dropStartTime?: Date
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -88,8 +88,8 @@ const addGoogleEvent = () => {
 }
 
 const formattedDate = computed(() =>
-  props.showExactDate
-    ? format(FUTURE_DROP_DATE, 'dd/MM/yyyy')
+  props.dropStartTime
+    ? format(props.dropStartTime, 'dd/MM/yyyy')
     : $i18n.t('drops.everyThursday'),
 )
 

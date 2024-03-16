@@ -79,7 +79,7 @@
     <DropsCreateCalendarEventModal
       v-model="isCreateEventModalActive"
       :title="`Drop: ${drop.name}`"
-      show-exact-date />
+      :drop-start-time="dropStartTime" />
 
     <!-- if there is location on the campaign -->
     <CollectionDropRequirementItem
