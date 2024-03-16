@@ -206,11 +206,13 @@ export const useCarouselGenerativeNftEvents = () => {
     return Object.keys(GENERATIVE_CONFIG).map((chain) => {
       let collections = GENERATIVE_CONFIG[chain].collections
 
+      if (isProduction && chain === 'ahk') {
+        return []
+      }
+
       if (chain === 'ahp' && dropsAhp.value?.length) {
         collections = dropsAhp.value.map((drop) => drop.collection)
       }
-
-      console.log('dropsAhp', chain, collections)
 
       return eventType.map((eventName) => {
         const { data } = useEvents(
