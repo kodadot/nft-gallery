@@ -312,14 +312,16 @@ const deleteIdentity = async (): Promise<void> => {
   isClearingIdentity.value = true
   initTransactionLoader()
   const cb = api.tx.identity.clearIdentity
-  howAboutToExecute(accountId.value, cb, [], ({ blockNumber }) => {
-    identity.value = {}
-    refetchIdentity()
+  howAboutToExecute(accountId.value, cb, [], {
+    onSuccess: ({ blockNumber }) => {
+      identity.value = {}
+      refetchIdentity()
 
-    showNotification(
-      `[Identity] You have cleared your account's identity since block ${blockNumber}`,
-      notificationTypes.success,
-    )
+      showNotification(
+        `[Identity] You have cleared your account's identity since block ${blockNumber}`,
+        notificationTypes.success,
+      )
+    },
   })
 }
 
@@ -330,18 +332,15 @@ const setIdentity = async (): Promise<void> => {
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]
-  howAboutToExecute(
-    accountId.value,
-    cb,
-    args,
-    ({ blockNumber }) => {
+  howAboutToExecute(accountId.value, cb, args, {
+    onSuccess: ({ blockNumber }) => {
       showNotification(
         `[Identity] You are known as ${identity.value.display} since block ${blockNumber}`,
         notificationTypes.success,
       )
     },
     onError,
-  )
+  })
 }
 
 const onError = () => {

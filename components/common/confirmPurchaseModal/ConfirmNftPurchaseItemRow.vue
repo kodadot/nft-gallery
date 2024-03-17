@@ -2,6 +2,7 @@
   <ConfirmPurchaseItemRow
     :image="avatar"
     :name="nft.name"
+    :sn="nft.sn"
     :collection-name="nft.collection?.name || nft.collection.id"
     :price="nft.price" />
 </template>

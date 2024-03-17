@@ -200,13 +200,10 @@ Then we can use it like this:
 
     const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
       initTransactionLoader()
-      howAboutToExecute(
-        accountId.value,
-        cb,
-        arg,
-        () => infoMessage(successMessage || 'Success!'),
-        () => warningMessage(errorMessage || 'Failed!')
-      )
+      howAboutToExecute(accountId.value, cb, arg, {
+        onSuccess: () => infoMessage(successMessage || 'Success!'),
+        onError: () => warningMessage(errorMessage || 'Failed!'),
+      })
     }
 
     executeTransaction({
