@@ -29,6 +29,7 @@ const disabled = computed(() => {
     'prefix-explore-items',
     'prefix-collection-id',
     'prefix-collection-id-activity',
+    'prefix-explore-collectibles',
   ]
 
   return !allowedList.includes(route.name || '')

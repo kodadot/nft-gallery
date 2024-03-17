@@ -5,6 +5,7 @@ interface State {
   listed: boolean
   owned: boolean
   artView: boolean
+  moreThanItems: number
   // price
   min: number | undefined
   max: number | undefined
@@ -19,6 +20,7 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     max: undefined,
     artView: false,
     collections: undefined,
+    moreThanItems: 0,
   }),
   getters: {
     getStatusFilters: (state) => ({
@@ -26,6 +28,7 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
       owned: state.owned,
       artView: state.artView,
       collections: state.collections?.toString(),
+      moreThanItems: state.moreThanItems,
     }),
     getPriceRange: (state) => ({ min: state.min, max: state.max }),
   },
@@ -51,6 +54,9 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     },
     setCollections(payload) {
       this.collections = payload
+    },
+    setMoreThanItems(payload) {
+      this.moreThanItems = payload
     },
   },
 })

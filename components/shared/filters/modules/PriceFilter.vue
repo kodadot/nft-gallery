@@ -7,7 +7,7 @@
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title font-normal">
-          {{ $t('tabs.tabActivity.price') }}
+          {{ isCollectibles ? 'Volume' : $t('tabs.tabActivity.price') }}
         </p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
@@ -154,6 +154,10 @@ const inputFocused = ref(false)
 const toggleInputFocused = (): void => {
   inputFocused.value = !inputFocused.value
 }
+
+const isCollectibles = computed(
+  () => route.name === 'prefix-explore-collectibles',
+)
 </script>
 
 <style lang="scss">

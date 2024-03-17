@@ -1,6 +1,9 @@
 <template>
-  <div class="container is-fluid">
-    <CollectionGridWithBreadcrumbs />
+  <div class="flex">
+    <SidebarFilter />
+    <div class="container is-fluid">
+      <CollectionGridWithBreadcrumbs />
+    </div>
   </div>
 </template>
 
