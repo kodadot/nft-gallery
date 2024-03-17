@@ -55,6 +55,8 @@ module.exports = {
         'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
+        'purple-light-color': 'var(--purple-light-color)',
+        'purple-dark-color': 'var(--purple-dark-color)',
         'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
 
         neutral: {

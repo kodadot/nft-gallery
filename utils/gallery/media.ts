@@ -86,5 +86,5 @@ export function resolveMedia(mimeType?: string): MediaType {
     }
   })
 
-  return result
+  return result ?? MediaType.UNKNOWN
 }
