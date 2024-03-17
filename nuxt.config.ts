@@ -45,10 +45,44 @@ export default defineNuxtConfig({
         defaultImport: 'url',
       }),
     ],
-  },
-
-  build: {
-    transpile: ['graphql-ws', '@polkadot/x-global'],
+    // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
+    optimizeDeps:
+      process.env.NODE_ENV === 'development'
+        ? {
+            include: [
+              '@google/model-viewer',
+              '@kodadot1/minimark/common',
+              '@kodadot1/minimark/shared',
+              '@kodadot1/minimark/v1',
+              '@kodadot1/minimark/v2',
+              '@paraspell/sdk',
+              '@polkadot/api',
+              '@polkadot/extension-dapp',
+              '@polkadot/vue-identicon',
+              '@ramp-network/ramp-instant-sdk',
+              '@transak/transak-sdk',
+              '@unhead/vue',
+              'bn.js',
+              'chart.js/auto',
+              'chartjs-adapter-date-fns',
+              'chartjs-plugin-zoom',
+              'graphql-ws',
+              'keen-slider/vue',
+              'keen-slider/vue.es',
+              'lodash/isEqual',
+              'lodash/filter',
+              'lodash/orderBy',
+              'lodash/sortBy',
+              'lodash/sum',
+              'lodash/unionBy',
+              'markdown-it',
+              'partysocket',
+              'prismjs',
+              'qrcode.vue',
+              'wavesurfer.js',
+            ],
+          }
+        : undefined,
   },
 
   nitro: {
