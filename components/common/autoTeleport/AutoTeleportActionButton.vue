@@ -9,7 +9,7 @@
             <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
             <img
               v-if="isTelportIconActive"
-              src="/accent-blur.svg"
+              src="~/assets/svg/accent-blur.svg"
               alt="blur"
               class="blur autotelport-blur" />
           </div>
