@@ -42,6 +42,7 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
+const { uid } = useExperiments()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
@@ -95,6 +96,10 @@ const mintNft = async () => {
     const api = await apiInstance.value
 
     initTransactionLoader()
+
+    if (uid.value) {
+      console.log('uid', uid.value)
+    }
 
     const cb = api.tx.utility.batchAll
     const args = allocatedNFTs.value.map((allocatedNFT) =>
