@@ -14,7 +14,7 @@
           </nuxt-link>
 
           <div class="flex flex-col items-start">
-            <div class="flex justify-between items-center">
+            <div class="justify-between items-center hidden md:flex">
               <p class="text-xs text-k-grey">
                 {{ $t('drops.mintedBy') }}
               </p>
@@ -39,7 +39,7 @@
 import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
 const CarouselList = defineAsyncComponent(
-  () => import('./module/CarouselAgnostic.vue'),
+  () => import('./module/NftCarousel.vue'),
 )
 
 const { urlOf } = useCarouselUrl()

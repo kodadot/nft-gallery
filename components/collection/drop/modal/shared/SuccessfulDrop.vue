@@ -1,172 +1,101 @@
 <template>
-  <div
-    class="border border-k-shade rounded-[4rem] py-2 px-5 mb-7 flex items-center justify-between">
-    <div class="text-k-green flex">
-      <NeoIcon icon="check" />
-
-      <p class="ml-3 text-xs">{{ $t('confirmed') }}</p>
-    </div>
-
-    <div class="flex items-center">
-      <a
-        v-safe-href="txUrl"
-        class="text-k-blue hover:text-k-blue-hover ml-3 text-xs"
-        target="_blank"
-        rel="nofollow noopener noreferrer">
-        {{ $t('helper.viewTx') }}
-        <NeoIcon icon="arrow-up-right" />
-      </a>
-
-      <NeoIcon
-        class="text-k-grey opacity-20 mx-2 is-size-8"
-        icon="circle"
-        pack="fass"
-        size="small" />
-
-      <NeoIcon
-        v-clipboard:copy="txUrl"
-        icon="copy"
-        pack="fass"
-        class="text-k-grey cursor-pointer"
-        data-testid="tx-clipboard"
-        @click="toast($t('general.copyToClipboard'))" />
-    </div>
-  </div>
-
-  <BaseMediaItem
-    class="border border-k-shade"
-    :src="mintedNft.image"
-    preview
-    is-detail />
-
-  <div class="py-5 border-b-k-shade">
-    <p class="is-size-6 capitalize font-bold text-center">
-      {{ $t('drops.youSuccessfullyClaimedNft', [1]) }}
-    </p>
-    <p class="capitalize text-xs text-center mt-2">
-      {{ $t('drops.artBy', [mintedNft.name]) }}
-      <a
-        v-safe-href="collectionUrl"
-        class="text-k-blue hover:text-k-blue-hover"
-        target="_blank"
-        rel="nofollow noopener noreferrer">
-        {{ mintedNft.collectionName }}
-      </a>
-    </p>
-  </div>
-
-  <div class="mt-5 mb-6">
-    <div class="flex justify-around px-8 items-center w-full">
-      <NeoButton variant="icon" no-shadow @click="handleShareOnX">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon pack="fab" icon="x-twitter" />
-          <span class="text-center mt-1">X</span>
-        </div>
-      </NeoButton>
-
-      <NeoButton
-        variant="icon"
-        no-shadow
-        class="mx-7"
-        @click="handleShareOnTelegram">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon pack="fab" icon="telegram" />
-          <span class="text-center mt-1">Telegram</span>
-        </div>
-      </NeoButton>
-
-      <NeoButton
-        v-clipboard:copy="nftFullUrl"
-        variant="icon"
-        no-shadow
-        @click="toast($t('general.copyToClipboard'))">
-        <div class="flex flex-col text-k-grey">
-          <NeoIcon icon="link" />
-          <span class="text-center mt-1">{{ $t('general.copy') }}</span>
-        </div>
-      </NeoButton>
-    </div>
-  </div>
-
-  <div class="flex">
-    <NeoButton
-      class="border-k-grey hover-button w-full"
-      rounded
-      no-shadow
-      @click="viewNft"
-      >{{ $t('drops.viewNft') }}</NeoButton
-    >
-
-    <NeoButton
-      class="hover-button w-full ml-4"
-      :class="{ border: canListNft }"
-      :disabled="cantList"
-      :loading="cantList"
-      variant="k-accent"
-      rounded
-      no-shadow
-      loading-with-label
-      @click="listNft"
-      >{{ cantList ? $t('loading') : $t('drops.listNft') }}</NeoButton
-    >
-  </div>
+  <SuccessfulModalBody
+    :tx-hash="txHash"
+    :share="share"
+    :action-buttons="actionButtons">
+    <!-- ?? '' below is to appease TS, in reality it's always defined because of the v-if -->
+    <SingleItemMedia
+      v-if="singleMint"
+      :header="$t('drops.youSuccessfullyClaimedNft', [1])"
+      :src="sanitizeIpfsUrl(mintedNft?.image)"
+      :nft-name="mintedNft?.name ?? ''"
+      :collection-id="mintedNft?.collection ?? ''"
+      :collection-name="mintedNft?.collectionName ?? ''"
+      media-mime-type="text/html" />
+    <MultiItemMedia
+      v-else
+      :header="$t('drops.amountMintedSuccessfully', [items.length])"
+      :items="sanatizedItems"
+      media-mime-type="text/html" />
+  </SuccessfulModalBody>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
-import { Prefix } from '@kodadot1/static'
+import { MintingSession } from '../../types'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
-  mintedNft: DropMintedNft
-  canListNft: boolean
+  mintingSession: MintingSession
+  canListNfts: boolean
 }>()
+
+const mintedNft = computed(() => props.mintingSession.items[0])
+const sanatizedItems = computed(() =>
+  items.value.map((item) => ({
+    id: item.id,
+    name: item.name,
+    image: sanitizeIpfsUrl(item.image),
+  })),
+)
 
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
-const { getExtrinsicUrl } = useExplorer()
-const { shareOnX, shareOnTelegram } = useSocialShare()
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
 
-const sharingTxt = $i18n.t('sharing.nft')
-
-const txUrl = computed(() =>
-  getExtrinsicUrl(
-    props.mintedNft.txHash || '',
-    props.mintedNft.chain as Prefix,
-  ),
+const sharingTxt = computed(() =>
+  $i18n.t('sharing.dropNft', [mintedNft.value?.sn, mintedNft.value?.max]),
 )
 
-const collectionUrl = computed(
-  () => `/${props.mintedNft.chain}/collection/${props.mintedNft.collection}`,
+const txHash = computed(() => props.mintingSession.txHash ?? '')
+const share = computed(() => ({
+  text: sharingTxt.value,
+  url: nftFullUrl.value,
+  withCopy: singleMint.value,
+}))
+const items = computed(() =>
+  props.mintingSession.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    image: sanitizeIpfsUrl(item.image),
+  })),
 )
+
+const actionButtons = computed(() => ({
+  secondary: {
+    label: $i18n.t('viewNft', props.mintingSession.items.length),
+    onClick: handleViewNft,
+  },
+  primary: {
+    label: $i18n.t('listNft', props.mintingSession.items.length),
+    onClick: listNft,
+    disabled: cantList.value,
+  },
+}))
 
 const nftPath = computed(
-  () => `/${props.mintedNft.chain}/gallery/${props.mintedNft.id}`,
+  () => `/${mintedNft.value.chain}/gallery/${mintedNft.value.id}`,
 )
-
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
+const userProfilePath = computed(
+  () => `/${urlPrefix.value}/u/${accountId.value}`,
+)
+const singleMint = computed(() => props.mintingSession.items.length === 1)
+const cantList = computed(() => !props.canListNfts)
 
-const cantList = computed(() => !props.canListNft)
-
-const viewNft = () => {
-  window.open(nftFullUrl.value, '_blank')
+const handleViewNft = () => {
+  window.open(
+    singleMint.value ? nftPath.value : userProfilePath.value,
+    '_blank',
+  )
 }
 
 const listNft = () => {
   emit('list')
 }
 
-const handleShareOnX = () => {
-  shareOnX(sharingTxt, nftFullUrl.value)
-}
-
-const handleShareOnTelegram = () => {
-  shareOnTelegram(sharingTxt, nftFullUrl.value)
-}
-
 watch(
-  () => props.canListNft,
+  () => props.canListNfts,
   (canListNft) => {
     if (canListNft) {
       toast($i18n.t('drops.canList'))

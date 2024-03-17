@@ -1,41 +1,65 @@
 <template>
   <div
     class="tag-container rounded-[2rem] flex border py-1 px-2 justify-between items-center">
-    <div v-if="!ended" class="image is-24x24 text-center">
-      <img v-if="isMintingLive" src="/drop/unlockable-pulse.svg" />
+    <div
+      v-if="showIcon"
+      class="image is-24x24 text-center flex items-center justify-center">
+      <span v-if="isMintingLive" class="relative flex h-3 w-3">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-k-primary opacity-75"></span>
+        <span
+          class="relative inline-flex rounded-full h-3 w-3 bg-k-primary"></span>
+      </span>
       <NeoIcon v-else icon="calendar-day" variant="k-grey" />
     </div>
-    {{ displayText }}
+    <span
+      v-if="isInLessThan24Hours && !isMintingLive"
+      class="text-k-grey mr-2 capitalize"
+      >{{ $t('opensIn') }}</span
+    >
+    <span>{{ displayText }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
+import { DropStatus } from './useDrops'
+import { formatDropStartTime, toDropScheduledDurationString } from './utils'
+
 const { $i18n } = useNuxtApp()
 const props = defineProps<{
-  dropStartTime: Date
-  ended: boolean
+  dropStartTime?: Date
+  dropStatus: DropStatus
 }>()
 
-const isMintingLive = computed(() => {
-  const now = new Date()
-  return props.dropStartTime <= now
-})
+const isMintingLive = computed(
+  () =>
+    props.dropStatus === DropStatus.MINTING_LIVE ||
+    props.dropStatus === DropStatus.COMING_SOON,
+)
+const isInLessThan24Hours = computed(
+  () => props.dropStatus === DropStatus.SCHEDULED_SOON,
+)
+const showIcon = computed(
+  () => props.dropStatus !== DropStatus.MINTING_ENDED && isMintingLive.value,
+)
 
 const displayText = computed(() => {
-  if (props.ended) {
-    return $i18n.t('drops.mintingEnded')
-  } else if (isMintingLive.value) {
-    return $i18n.t('drops.mintingLive')
-  } else {
-    const options = {
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    } as any
-    return props.dropStartTime.toLocaleString($i18n.locale, options)
+  switch (props.dropStatus) {
+    case DropStatus.MINTING_ENDED:
+      return $i18n.t('drops.mintingEnded')
+    case DropStatus.COMING_SOON:
+      return $i18n.t('drops.comingSoon')
+    case DropStatus.MINTING_LIVE:
+      return $i18n.t('drops.mintingLive')
+    case DropStatus.SCHEDULED_SOON:
+      return toDropScheduledDurationString(props.dropStartTime as Date)
+    case DropStatus.SCHEDULED:
+      return formatDropStartTime(props.dropStartTime as Date, $i18n.locale)
+    case DropStatus.UNSCHEDULED:
+      return
+    default:
+      return ''
   }
 })
 </script>

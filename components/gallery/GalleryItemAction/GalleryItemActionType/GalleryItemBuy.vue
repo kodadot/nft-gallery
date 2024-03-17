@@ -9,16 +9,18 @@
             class="button-height w-full"
             variant="k-accent"
             data-testid="item-buy"
+            :disabled="isRemark"
             @click="onClick" />
         </div>
 
         <NeoButton
+          v-if="!isRemark"
           class="button-height square-button-width border-l-0"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon
             size="medium"
-            class="icon"
+            class="w-4 h-4"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -53,6 +55,8 @@ const shoppingCartStore = useShoppingCartStore()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const showRampModal = ref(false)
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 enum BuyStatus {
   BUY,

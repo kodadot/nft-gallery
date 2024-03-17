@@ -92,52 +92,48 @@
             v-for="item in socials"
             :key="item.url"
             class="footer-container-socials-list-item flex items-center justify-center">
-            <a
-              v-safe-href="item.url"
-              class="flex icon"
-              rel="nofollow noopener noreferrer"
-              target="_blank"
-              role="link"
-              :aria-label="item.name">
-              <!-- substack doesnt have a font awesome icon -->
-              <svg
-                v-if="item.icon === 'substack'"
-                width="16"
-                height="16"
-                viewBox="0 0 448 512"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6104_83750)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
-                    fill="currentColor" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_6104_83750">
-                    <rect width="448" height="511.471" fill="currentColor" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <NeoIcon
-                v-else
-                :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
-                :icon="item.icon" />
-            </a>
+            <NeoTooltip :label="item.name" position="top">
+              <a
+                v-safe-href="item.url"
+                class="flex items-center justify-center hover:text-text-color"
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+                role="link"
+                :aria-label="item.name">
+                <!-- substack doesnt have a font awesome icon -->
+                <svg
+                  v-if="item.icon === 'substack'"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 448 512"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_6104_83750)">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
+                      fill="currentColor" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_6104_83750">
+                      <rect width="448" height="511.471" fill="currentColor" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <!-- farcaster doesnt have a font awesome icon -->
+                <FarcasterIcon
+                  v-else-if="item.icon === 'farcaster'"
+                  width="20"
+                  height="20" />
+                <NeoIcon
+                  v-else
+                  :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
+                  :icon="item.icon" />
+              </a>
+            </NeoTooltip>
           </li>
         </ul>
-
-        <a
-          href="https://stellate.co/?ref=powered-by"
-          target="_blank"
-          rel="nofollow noopener noreferrer">
-          <img
-            :src="`https://stellate.co/${
-              isDarkMode ? 'badge-light' : 'badge'
-            }.svg`"
-            alt="Powered by Stellate, the GraphQL API Management platform" />
-        </a>
       </section>
     </div>
     <img
@@ -150,9 +146,11 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-const { isDarkMode } = useTheme()
+const FarcasterIcon = defineAsyncComponent(
+  () => import('@/assets/icons/farcaster-icon.svg?component'),
+)
 
 interface Menu {
   name: string
@@ -201,7 +199,7 @@ const menuMarketplace: Menu[] = [
 
 const menuKodadot: Menu[] = [
   {
-    name: $i18n.t('about'),
+    name: $i18n.t('footer.guide'),
     url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
   },
@@ -243,6 +241,16 @@ const socials = [
     name: 'Twitter',
     url: 'https://twitter.com/KodaDot',
     icon: 'x-twitter',
+  },
+  {
+    name: 'Farcaster',
+    url: 'https://warpcast.com/~/channel/koda',
+    icon: 'farcaster',
+  },
+  {
+    name: 'Telegram',
+    url: 'https://t.me/koda_eco',
+    icon: 'telegram',
   },
   {
     name: 'Beehiiv',

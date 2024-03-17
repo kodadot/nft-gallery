@@ -6,11 +6,11 @@
       :status="status"
       @try-again="transfer" />
 
-    <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
+    <NeoModal :value="isModalActive" @close="onClose">
       <div class="modal-width">
         <header
           class="border-b border-grey flex items-center justify-between px-6">
-          <p class="py-5 is-size-6 font-bold">
+          <p class="py-5 text-base font-bold">
             {{ $t('transaction.transferNft') }}
           </p>
 

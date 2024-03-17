@@ -1,45 +1,73 @@
 <template>
-  <div class="fixed-size border">
-    <div
-      class="fixed-top-left border px-4 py-2 bg-background-color z-[1] whitespace-nowrap">
-      {{ $t('mint.unlockable.yourVariation') }}
-    </div>
-
+  <div
+    data-partykit="generative-preview-card"
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border-b" />
-    <div class="flex justify-center items-center py-6">
-      <NeoButton
-        v-if="isLoading"
-        class="border-k-grey hover-button fixed-width pointer-events-auto cursor-wait"
-        rounded
-        no-shadow
-        disabled>
-        {{ $t('mint.unlockable.generating') }}
-        <NeoIcon icon="circle-notch" spin />
-      </NeoButton>
-      <NeoButton
-        v-else
-        class="border-k-grey hover-button fixed-width"
-        rounded
-        no-shadow
-        icon="arrow-rotate-left"
-        @click="generateNft()">
-        {{ $t('mint.unlockable.variations') }}
-      </NeoButton>
+      class="border" />
 
-      <a
-        v-safe-href="sanitizeIpfsUrl(displayUrl)"
-        class="flex items-center text-k-blue hover:text-k-blue-hover fixed-right"
-        rel="nofollow noopener noreferrer"
-        target="_blank"
-        role="link">
-        {{ $t('img') }}
-        <NeoIcon icon="arrow-up-right" class="ml-1" />
-      </a>
+    <NeoButton
+      v-if="dropStore.isCapturingImage"
+      class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
+      expanded
+      rounded
+      no-shadow
+      disabled>
+      <div class="inline-flex items-center">
+        <span class="mr-2">{{ $t('mint.unlockable.generating') }}</span>
+        <NeoIcon icon="circle-notch" spin />
+      </div>
+    </NeoButton>
+
+    <NeoButton
+      v-else
+      class="mt-5 h-[40px] border-k-grey hover:!bg-transparent"
+      expanded
+      rounded
+      no-shadow
+      @click="generateNft()">
+      <div class="inline-flex items-center">
+        <span>{{ $t('drops.createNewVariation') }}</span>
+        <NeoIcon icon="arrow-rotate-left" class="ml-2" />
+      </div>
+    </NeoButton>
+
+    <hr class="my-5" />
+
+    <div class="flex justify-between items-center mb-4">
+      <div class="font-bold">
+        <span v-if="!!Number(drop?.price)">{{ formattedPrice }}</span>
+        <span v-else>{{ $t('free') }}</span>
+      </div>
+      <div class="flex justify-end items-center">
+        <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
+        <div class="font-bold">
+          {{ dropStore.mintsCount }}/{{ maxCount }}
+          {{ $t('statsOverview.minted') }}
+        </div>
+      </div>
+    </div>
+
+    <CollectionUnlockableSlider
+      class="text-neutral-5 dark:text-neutral-9"
+      :value="dropStore.mintsCount / maxCount" />
+
+    <div class="flex mt-6 gap-4 max-md:flex-col">
+      <CollectionDropMintStepper />
+      <CollectionDropMintButton @mint="emit('mint')" />
+    </div>
+
+    <div
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
+        <NeoIcon
+          icon="fa-sharp fa-solid fa-hourglass-half"
+          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+        Generate
+      </p>
     </div>
   </div>
 </template>
@@ -47,111 +75,79 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getRandomIntFromRange } from '../unlockable/utils'
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
-
-const props = defineProps<{
-  minted: number
-  content: string
-  image?: string
-}>()
-
-const emit = defineEmits(['select'])
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import { useDrop } from '@/components/drops/useDrops'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
-
-const STEP = 64
-const entropyRange = computed<[number, number]>(() => [
-  STEP * props.minted,
-  STEP * (props.minted + 1),
-])
-
-const getHash = (isDefault?: boolean) => {
-  const ss58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
-
-  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  const initialValue = accountId.value
-    ? encodeAddress(accountId.value, ss58Format)
-    : String(Date.now() << ss58Format)
-  return blake2AsHex(initialValue, 256, null, true)
-}
-
-const generativeImageUrl = ref(
-  accountId.value ? `${props.content}/?hash=${getHash(true)}` : '',
+const { chainSymbol, decimals } = useChain()
+const { drop } = useDrop()
+const dropStore = useDropStore()
+const { maxCount } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
+const { formatted: formattedPrice } = useAmount(
+  computed(() => drop.value.price),
+  decimals,
+  chainSymbol,
 )
 
-const isLoading = ref(false)
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
-const displayUrl = computed(() => {
-  return generativeImageUrl.value || props.image
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+  // only applicable if the drop is missing`kodahash/render/completed` event
+  if (!imageDataLoaded.value) {
+    dropStore.setIsCapturingImage(false)
+    emit('generation:end')
+  }
+}, 5000)
+
+const generativeImageUrl = ref('')
+
+const mintedPercent = computed(() => {
+  if (!maxCount.value) {
+    return 0
+  }
+  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
-const generateNft = (isDefault: boolean = false) => {
-  isLoading.value = true
-  const metadata = `${props.content}/?hash=${getHash(isDefault)}`
-  generativeImageUrl.value = metadata
-  emit('select', generativeImageUrl.value)
 
-  setTimeout(() => {
-    isLoading.value = false
-  }, 3000)
+const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
+
+const generateNft = () => {
+  if (!drop.value?.content) {
+    return
+  }
+  dropStore.setIsCapturingImage(true)
+  startTimer()
+
+  const previewItem = generatePreviewItem({
+    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    accountId: accountId.value,
+    content: drop.value.content,
+  })
+
+  generativeImageUrl.value = previewItem.image
+
+  emit('generation:start', previewItem)
+  imageDataPayload.value = undefined
 }
+
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
+    dropStore.setIsCapturingImage(false)
+    emit('generation:end')
+  }
+})
 
 watch(
-  accountId,
-  () => {
-    generateNft(true)
-  },
-  {
-    immediate: true,
-  },
+  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
+  generateNft,
 )
+
+onMounted(() => {
+  setTimeout(generateNft, 500)
+})
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.fixed-size {
-  width: 36rem;
-  height: min-content;
-  position: relative;
-
-  @include mobile {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 35rem;
-  }
-  @include tablet-only {
-    width: 48rem;
-  }
-}
-
-.fixed-top-left {
-  @apply absolute rounded-[3rem] left-[26px] -top-3.5;
-
-  @include mobile {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-.hover-button:hover {
-  background: unset;
-  @include ktheme() {
-    border-color: theme('border-color') !important;
-  }
-}
-
-.fixed-right {
-  position: absolute;
-  right: 2rem;
-  @include mobile {
-    right: 1rem;
-  }
-}
-
-.fixed-width {
-  width: 10rem;
-}
-</style>

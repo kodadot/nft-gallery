@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <nuxt-link
-            class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
+            class="text-base break-word mr-2 text-k-blue hover:text-k-blue-hover"
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
             }`">
@@ -20,30 +20,30 @@
     <div class="popover-stats-container flex flex-col pt-2">
       <div class="pb-2">
         <div class="flex items-center justify-between">
-          <span class="is-size-6">{{ $t('statsOverview.uniqueOwners') }}</span>
+          <span class="text-base">{{ $t('statsOverview.uniqueOwners') }}</span>
 
-          <p class="is-size-6" data-testid="identity-collected">
+          <p class="text-base" data-testid="identity-collected">
             {{ stats.uniqueOwnersPercent }}
           </p>
         </div>
         <div class="flex items-center justify-between">
-          <span class="is-size-6">{{ $t('statsOverview.highestSale') }}</span>
+          <span class="text-base">{{ $t('statsOverview.highestSale') }}</span>
 
-          <p class="is-size-6" data-testid="identity-collected">
+          <p class="text-base" data-testid="identity-collected">
             <CommonTokenMoney :value="highestBuyPrice" inline />
           </p>
         </div>
         <div class="flex items-center justify-between">
-          <span class="is-size-6">{{ $t('statsOverview.floorPrice') }}</span>
+          <span class="text-base">{{ $t('statsOverview.floorPrice') }}</span>
 
-          <p class="is-size-6" data-testid="identity-collected">
+          <p class="text-base" data-testid="identity-collected">
             <CommonTokenMoney :value="stats.collectionFloorPrice" inline />
           </p>
         </div>
         <div class="flex items-center justify-between">
-          <span class="is-size-6">{{ $t('statsOverview.totalVolume') }}</span>
+          <span class="text-base">{{ $t('statsOverview.totalVolume') }}</span>
 
-          <p class="is-size-6" data-testid="identity-collected">
+          <p class="text-base" data-testid="identity-collected">
             <CommonTokenMoney
               :value="stats.collectionTradedVolumeNumber"
               inline />

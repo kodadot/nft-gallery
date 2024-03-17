@@ -1,5 +1,6 @@
 <template>
-  <div class="is-centered columns">
+  <div
+    class="lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light">
     <SigningModal
       v-if="!autoTeleport"
       :is-loading="isLoading"
@@ -13,7 +14,9 @@
       :nft-information="nftInformation"
       @confirm="confirm" />
 
-    <form class="is-half column" @submit.prevent="submitHandler">
+    <form
+      class="px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
+      @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -23,7 +26,7 @@
         :image="imagePreview"
         data-testid="create-nft-preview-box" />
 
-      <h1 class="title is-size-3 mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
@@ -64,27 +67,30 @@
           :placeholder="$t('mint.nft.description.placeholder')" />
       </NeoField>
 
-      <!-- select collections -->
-      <NeoField
-        :key="`collection-${currentChain}`"
-        ref="chooseCollectionRef"
-        :label="`${$t('mint.nft.collection.label')} *`"
-        @click="startSelectedCollection = true">
+      <!-- select blockchain -->
+      <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div class="w-full">
-          <p
-            :class="{
-              'text-k-red': startSelectedCollection && !selectedCollection,
-            }">
-            {{ $t('mint.nft.collection.message') }}
-          </p>
-          <ChooseCollectionDropdown
-            full-width
-            no-shadow
+          <p>{{ $t('mint.blockchain.message') }}</p>
+          <NeoSelect
+            v-model="selectChain"
             class="mt-3"
-            :preselected="preselectedCollectionId"
-            @selected-collection="onCollectionSelected" />
+            data-testid="create-nft-dropdown-select"
+            expanded
+            required>
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
         </div>
       </NeoField>
+
+      <InfoBox v-if="isRemark" variant="warning" class="mb-5">
+        <div>{{ $t('mint.disabledRmrk') }}</div>
+      </InfoBox>
 
       <!-- list for sale -->
       <NeoField
@@ -129,24 +135,26 @@
         </div>
       </NeoField>
 
-      <!-- select blockchain -->
-      <NeoField :label="`${$t('mint.blockchain.label')} *`">
+      <!-- select collections -->
+      <NeoField
+        v-if="!isRemark"
+        :key="`collection-${currentChain}`"
+        ref="chooseCollectionRef"
+        :label="`${$t('mint.nft.collection.label')} *`"
+        @click="startSelectedCollection = true">
         <div class="w-full">
-          <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect
-            v-model="selectChain"
+          <p
+            :class="{
+              'text-k-red': startSelectedCollection && !selectedCollection,
+            }">
+            {{ $t('mint.nft.collection.message') }}
+          </p>
+          <ChooseCollectionDropdown
+            full-width
+            no-shadow
             class="mt-3"
-            data-testid="create-nft-dropdown-select"
-            expanded
-            required>
-            <option
-              v-for="menu in menus"
-              :key="menu.value"
-              :value="menu.value"
-              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
-              {{ menu.text }}
-            </option>
-          </NeoSelect>
+            :preselected="preselectedCollectionId"
+            @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
 
@@ -228,7 +236,8 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
-        class="is-size-6"
+        :disabled="isRemark"
+        class="text-base"
         native-type="submit"
         size="medium"
         :loading="isLoading" />
@@ -281,6 +290,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import InfoBox from '@/components/shared/view/InfoBox.vue'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -336,7 +346,7 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
@@ -349,7 +359,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isRemark, isRmrk } = useIsChain(currentChain)
+const { isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
@@ -375,7 +385,7 @@ const deposit = computed(() =>
 const tokenType = computed(() => undefined)
 
 const calculateUsdValue = (amount) => {
-  // remove comma from amount - required becuase bsx balance is formatted string
+  // remove comma from amount - required because bsx balance is formatted string
   const parsedAmount = parseFloat(amount?.replace(/,/g, '') || '0')
   return toUsdPrice(parsedAmount, tokenType.value)
 }

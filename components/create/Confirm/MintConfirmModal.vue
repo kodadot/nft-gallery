@@ -2,7 +2,6 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     class="z-[1000]"
     max-height="calc(100vh - 180px)"
     content-class="modal-width"
@@ -11,28 +10,15 @@
       :title="$t('mint.nft.modal.action')"
       :loading="loading"
       @close="onClose">
-      <div v-if="isLogIn">
-        <div
-          class="rounded-[10rem] border shade-border-color flex justify-start flex-grow pl-3">
-          <IdentityItem
-            :label="$t('confirmPurchase.connectedWith')"
-            hide-identity-popover
-            disable-identity-link
-            :prefix="urlPrefix"
-            :account="accountId"
-            class="identity-name-font-weight-regular"
-            data-testid="item-creator" />
-        </div>
-      </div>
+      <ModalIdentityItem />
       <div class="mt-4 font-bold">
         {{ title }}
       </div>
-      <div class="py-4">
+      <div class="mt-4">
         <ConfirmMintItem :nft="extendedInformation" />
       </div>
-      <div>
-        <PriceItem :nft="extendedInformation" />
-      </div>
+      <hr class="my-4" />
+      <PriceItem :nft="extendedInformation" />
       <div class="pt-5">
         <div class="flex justify-between">
           <AutoTeleportActionButton
@@ -58,7 +44,6 @@ import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import type { ChainProperties, Option } from '@kodadot1/static'
 import { BaseMintedCollection } from '@/components/base/types'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
 import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'

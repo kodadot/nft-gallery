@@ -1,18 +1,21 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { useNow } from '@vueuse/core'
 
-export default (status: Ref) => {
+export default (status: Ref<TransactionStatus | undefined>) => {
+  const { $i18n } = useNuxtApp()
   const now = useNow()
   const estimatedEndDate = ref<Date>()
 
   const { estimatedTimes } = useBlockTime()
 
-  const isActive = computed<boolean>(
-    () =>
-      ![TransactionStatus.Unknown, TransactionStatus.Finalized].includes(
-        status.value,
-      ),
+  const isTransactionInProgress = computed<boolean>(() =>
+    status.value
+      ? ![TransactionStatus.Unknown, TransactionStatus.Finalized].includes(
+          status.value,
+        )
+      : false,
   )
+
   const initialEstimatedTime = computed<number>(
     () => estimatedTimes.value[TransactionStatus.Block],
   )
@@ -33,13 +36,22 @@ export default (status: Ref) => {
     return time && time > 0 ? `${time}s` : 'few seconds'
   })
 
-  watch(isActive, (active) => {
-    if (active) {
-      const date = new Date()
-      date.setSeconds(now.value.getSeconds() + initialEstimatedTime.value)
-      estimatedEndDate.value = date
-    }
-  })
+  const formattedState = computed<string>(() =>
+    status.value === TransactionStatus.Broadcast
+      ? $i18n.t('transactionSteps.broadcastingTx')
+      : `Est. ~ ${estimatedTime.value}`,
+  )
 
-  return { estimatedTime, isActive }
+  watch(
+    () => status.value === TransactionStatus.Block,
+    (inBlock: boolean) => {
+      if (inBlock) {
+        const date = new Date()
+        date.setSeconds(now.value.getSeconds() + initialEstimatedTime.value)
+        estimatedEndDate.value = date
+      }
+    },
+  )
+
+  return { formattedState, isTransactionInProgress }
 }

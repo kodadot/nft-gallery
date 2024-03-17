@@ -1,5 +1,6 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
+import { nameWithIndex } from '@/utils/nft'
 
 export const useCollectionActivity = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
@@ -13,31 +14,39 @@ export const useCollectionActivity = ({ collectionId }) => {
   }
 
   const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
 
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryPrefix,
     queryName: 'collectionActivityEvents',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
+
+  watch(variables, () => refetch(variables.value))
 
   watch(data, (result) => {
     if (result) {
+      const nfts = result.collection?.nfts ?? []
       // flat events for chart
-      const interactions: InteractionWithNFT[] = result.collection.nfts
+      const interactions: InteractionWithNFT[] = nfts
         .map((nft) =>
           nft.events.map((e) => ({
             ...e,
             timestamp: new Date(e.timestamp).getTime(),
-            nft: { ...nft, events: undefined },
+            nft: {
+              ...nft,
+              name: nameWithIndex(nft?.name, nft?.sn),
+              events: undefined,
+            },
           })),
         )
         .flat()
       events.value = interactions
 
       // not to repeat ref names
-      const ownersTemp = getOwners(result.collection.nfts)
+      const ownersTemp = getOwners(nfts)
       const flippersTemp = getFlippers(interactions)
 
       const flipperdIds = Object.keys(flippersTemp)

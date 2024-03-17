@@ -28,10 +28,10 @@ const footerLinks = [
   },
   {
     linkName: 'Tutorial',
-    linkAddress: 'https://hello.kodadot.xyz/tutorial/',
+    linkAddress: 'https://hello.kodadot.xyz/tutorial',
   },
   {
-    linkName: 'About',
+    linkName: 'Tutorials & Guides',
     linkAddress: 'https://hello.kodadot.xyz/about-us/who-are-we',
   },
   {
@@ -93,9 +93,9 @@ test('Check Footer links', async ({ page }) => {
   for (const data of footerLinks) {
     const footer = page.getByTestId('footer-container')
     const newTabPromise = page.waitForEvent('popup')
-    await footer.getByRole('link', { name: data.linkName }).click()
+    await footer.getByRole('link', { name: data.linkName }).first().click()
     const newTab = await newTabPromise
-    await expect(newTab).toHaveURL(new RegExp(`${data.linkAddress}`))
+    expect(newTab.url()).toMatch(new RegExp(`${data.linkAddress}`))
     await newTab.close()
   }
 })
@@ -104,7 +104,7 @@ test('Check blog link', async ({ page }) => {
   await page.goto(pageWithFooter)
   const footer = page.getByTestId('footer-container')
   await footer.getByRole('link', { name: 'Blog' }).click()
-  await expect(page).toHaveURL('http://localhost:9090/blog')
+  await expect(page).toHaveURL('/blog')
 })
 
 test('Check Social Media Links', async ({ page }) => {

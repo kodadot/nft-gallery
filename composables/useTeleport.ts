@@ -63,7 +63,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
     isError.value = false
 
     const transactionHandler = txCb(
-      (blockHash) => {
+      ({ blockHash }) => {
         showNotification(
           `Transaction finalized at blockHash ${blockHash}`,
           notificationTypes.success,

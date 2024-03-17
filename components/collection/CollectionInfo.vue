@@ -23,7 +23,7 @@
             placement="bottom"
             class="text-neutral-7"
             :append-to="body">
-            <NeoIcon class="icon" icon="info-circle" />
+            <NeoIcon class="w-4 h-4" icon="info-circle" />
 
             <template #content>
               <div class="bg-background-color border py-2 px-4 text-xs">
@@ -88,14 +88,14 @@
         :title="$t('series.owners')"
         :value="stats.uniqueOwners" />
       <CollectionInfoLine :title="$t('activity.listedAndMinted')">
-        <span class="text-xs text-neutral-7 leading-6 font-normal mr-2"
-          >{{
-            Math.floor(
-              (Number(stats.listedCount) / Number(stats.collectionLength)) *
-                100,
-            )
-          }}%</span
-        >
+        <span class="text-xs text-neutral-7 leading-6 font-normal mr-2">{{
+          Boolean(stats.collectionLength)
+            ? Math.floor(
+                (Number(stats.listedCount) / Number(stats.collectionLength)) *
+                  100,
+              ) + '%'
+            : '-'
+        }}</span>
         {{ stats.listedCount }} /
         {{ stats.collectionLength }}
       </CollectionInfoLine>
@@ -105,7 +105,10 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-
+import {
+  DESCRIPTION_MAX_LENGTH,
+  generatePreviewDescription,
+} from '@/components/collection/utils/description'
 import {
   useCollectionDetails,
   useCollectionMinimal,
@@ -126,7 +129,6 @@ const recipient = computed(() => collectionInfo.value?.recipient)
 const royalty = computed(() => collectionInfo.value?.royalty)
 const createdAt = computed(() => collectionInfo.value?.createdAt)
 const seeAllDescription = ref(false)
-const DESCRIPTION_MAX_LENGTH = 210
 
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -145,8 +147,7 @@ const visibleDescription = computed(() => {
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
       ? desc
-      : desc?.slice(0, DESCRIPTION_MAX_LENGTH)
-    )?.replaceAll('\n', '  \n') || ''
+      : generatePreviewDescription(desc)) || ''
   )
 })
 

@@ -1,7 +1,7 @@
 <template>
   <div class="info-box" :class="`info-box__${variant}`">
     <div v-if="title" class="header-container box-padding">
-      <p class="is-size-6 title">{{ title }}</p>
+      <p class="text-base title">{{ title }}</p>
 
       <NeoButton
         variant="text"

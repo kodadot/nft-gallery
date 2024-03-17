@@ -8,7 +8,7 @@
         'font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full',
         { 'flex justify-between items-center': isCollection },
       ]">
-      <span class="is-ellipsis">{{ item.name || '--' }}</span>
+      <span class="is-ellipsis text-text-color">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="text-text-color">----></span>
     </div>
 
@@ -35,7 +35,7 @@
       v-if="!isCollection"
       class="carousel-info-footer flex items-center"
       :class="[showPrice ? 'justify-between' : 'justify-end']">
-      <div v-if="showPrice" class="flex items-center">
+      <div v-if="showPrice" class="flex items-center text-text-color">
         <Money
           :value="price"
           inline

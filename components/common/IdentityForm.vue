@@ -1,11 +1,11 @@
 <template>
   <section>
     <form @submit.prevent>
-      <h1 class="title is-size-3 mb-8 capitalize">
+      <h1 class="title text-3xl mb-8 capitalize">
         {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
       </h1>
 
-      <div v-if="alreadyHasIdentity" class="is-size-6">
+      <div v-if="alreadyHasIdentity" class="text-base">
         <hr class="my-7" />
         <div class="mb-4">
           {{ $t('identity.establishedIdentity') }}
@@ -86,7 +86,7 @@
 
       <hr />
 
-      <p class="subtitle is-size-6">
+      <p class="subtitle text-base">
         {{ $t('identity.deposit') }}
         <Money :value="deposit" :unit-symbol="identityUnit" inline />
 
@@ -312,14 +312,16 @@ const deleteIdentity = async (): Promise<void> => {
   isClearingIdentity.value = true
   initTransactionLoader()
   const cb = api.tx.identity.clearIdentity
-  howAboutToExecute(accountId.value, cb, [], (block: string) => {
-    identity.value = {}
-    refetchIdentity()
+  howAboutToExecute(accountId.value, cb, [], {
+    onSuccess: ({ blockNumber }) => {
+      identity.value = {}
+      refetchIdentity()
 
-    showNotification(
-      `[Identity] You have cleared your account's identity since block ${block}`,
-      notificationTypes.success,
-    )
+      showNotification(
+        `[Identity] You have cleared your account's identity since block ${blockNumber}`,
+        notificationTypes.success,
+      )
+    },
   })
 }
 
@@ -330,18 +332,15 @@ const setIdentity = async (): Promise<void> => {
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]
-  howAboutToExecute(
-    accountId.value,
-    cb,
-    args,
-    (block: string) => {
+  howAboutToExecute(accountId.value, cb, args, {
+    onSuccess: ({ blockNumber }) => {
       showNotification(
-        `[Identity] You are known as ${identity.value.display} since block ${block}`,
+        `[Identity] You are known as ${identity.value.display} since block ${blockNumber}`,
         notificationTypes.success,
       )
     },
     onError,
-  )
+  })
 }
 
 const onError = () => {

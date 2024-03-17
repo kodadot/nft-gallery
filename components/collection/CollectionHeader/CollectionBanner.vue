@@ -9,14 +9,11 @@
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
             <div class="collection-banner-avatar">
-              <NuxtImg
-                v-if="collectionAvatar"
-                height="88"
-                densities="2x"
+              <BaseMediaItem
                 :src="collectionAvatar"
-                class="object-fit-cover"
-                :alt="collectionName" />
-              <img v-else :src="placeholder" alt="image placeholder" />
+                :image-component="NuxtImg"
+                :title="collectionName"
+                class="w-[5.5rem] h-[5.5rem] border" />
             </div>
             <h1
               class="collection-banner-name"
@@ -27,7 +24,7 @@
         </div>
 
         <!-- migration is ready -->
-        <div v-if="isMigrate">
+        <div v-if="isMigrate && isRemark">
           <div
             class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
             <div class="flex items-center">
@@ -45,6 +42,9 @@
           </div>
         </div>
 
+        <!-- related active drop -->
+        <CollectionRelatedDropNotification :collection-id="collectionId" />
+
         <HeroButtons class="is-hidden-mobile self-end lg:flex-1" />
       </div>
     </section>
@@ -60,10 +60,13 @@ import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { useReadyItems } from '@/composables/useMigrate'
 
-const collectionId = computed(() => route.params.id)
+const NuxtImg = resolveComponent('NuxtImg')
+
+const collectionId = computed(() => route.params.id as string)
 const route = useRoute()
-const { placeholder } = useTheme()
 const { entities } = useReadyItems()
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
@@ -176,13 +179,6 @@ useSeoMeta({
       border: 1px solid theme('border-color');
       background-color: theme('background-color');
       box-shadow: theme('primary-shadow');
-    }
-
-    img {
-      display: block;
-      width: 5.5rem;
-      height: 5.5rem;
-      border: 1px solid;
     }
   }
 

@@ -5,13 +5,13 @@
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-6"
         data-testid="explore-items"
-        @click="emitClose">
+        @click="emitSelect">
         {{ $t('items') }}
       </nuxt-link>
       <nuxt-link
         :to="`/${urlPrefix}/explore/collectibles`"
         class="menu-item mr-6"
-        @click="emitClose">
+        @click="emitSelect">
         {{ $t('collections') }}
       </nuxt-link>
       <span class="menu-item is-disabled text-k-shade">
@@ -45,7 +45,7 @@
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
-const emit = defineEmits(['closeMobileNavbar', 'closeMobileSubMenu'])
+const emit = defineEmits(['select'])
 
 const prefixToExploreOptionName = {
   ahk: 'KusamaHub',
@@ -65,13 +65,12 @@ const filteredChains = computed(() => {
     }))
 })
 
-const emitClose = () => {
-  emit('closeMobileNavbar')
-  emit('closeMobileSubMenu')
+const emitSelect = () => {
+  emit('select')
 }
 const setSelectedChain = (value) => {
   setUrlPrefix(value)
-  emitClose()
+  emitSelect()
   navigateTo(`/${value}/explore/collectibles`)
 }
 </script>

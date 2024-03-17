@@ -55,7 +55,7 @@
           v-slot="props"
           :visible="columnsVisible['Name'].display"
           :field="groupKey"
-          cell-class="short-name-column"
+          cell-class="md:w-1/5"
           :label="nameHeaderLabel">
           <nuxt-link
             v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
@@ -123,9 +123,7 @@
         <template #detail="props">
           <tr v-for="item in props.row.Items" :key="item.Item.id">
             <td v-if="showDetailIcon"></td>
-            <td
-              v-show="columnsVisible['Name'].display"
-              class="short-name-column">
+            <td v-show="columnsVisible['Name'].display" class="md:w-1/5">
               <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
                 {{ item.Item.name || item.Item.id }}
               </nuxt-link>

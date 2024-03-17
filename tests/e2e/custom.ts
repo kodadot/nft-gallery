@@ -6,7 +6,6 @@ export class Commands {
 
   async e2elogin() {
     await this.page.goto('/e2e-login')
-    await expect(this.page.getByTestId('navbar-profile-dropdown')).toBeVisible()
     await expect(
       this.page.getByTestId('navbar-button-connect-wallet'),
     ).toBeHidden()

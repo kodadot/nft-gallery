@@ -46,7 +46,7 @@
       :toggle="toggleLanguageMenu">
       <NeoDropdownItem
         aria-role="listitem"
-        class="is-active flex items-center language-heading is-size-6"
+        class="is-active flex items-center language-heading text-base"
         @click="toggleLanguageMenu">
         <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
       </NeoDropdownItem>

@@ -77,9 +77,11 @@ const constructCallback = (cb: () => void, result: string) => {
   }
 }
 
+export type TxCbOnSuccessParams = { blockHash: Hash; txHash: Hash }
+
 export const txCb =
   (
-    onSuccess: (blockHash: Hash) => void,
+    onSuccess: (prams: TxCbOnSuccessParams) => void,
     onError: (err: DispatchError) => void,
     onResult: (result: ISubmittableResult) => void = console.log,
   ) =>
@@ -93,7 +95,7 @@ export const txCb =
     if (result.status.isFinalized) {
       console.log('[EXEC] Finalized', result)
       console.log(`[EXEC] blockHash ${result.status.asFinalized}`)
-      onSuccess(result.status.asFinalized)
+      onSuccess({ blockHash: result.status.asFinalized, txHash: result.txHash })
     }
   }
 

@@ -75,6 +75,11 @@
   }
   padding: 13px;
   min-height: 102px;
+
+  &__slim {
+    min-height: 83px;
+  }
+
   &__minimal {
     padding: 9px;
     min-height: 76px;
@@ -82,14 +87,5 @@
   &-footer {
     overflow: visible;
     line-height: 1.5rem;
-  }
-}
-
-.nft-info-collection-name {
-  @include ktheme() {
-    color: theme('k-grey');
-    &:hover {
-      color: theme('text-color');
-    }
   }
 }

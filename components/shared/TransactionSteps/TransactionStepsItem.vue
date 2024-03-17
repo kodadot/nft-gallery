@@ -33,7 +33,7 @@
           v-if="step.tooltip"
           position="top"
           multiline
-          class="is-max-width-fit-content">
+          class="max-w-fit">
           <p class="capitalize font-bold">
             {{ step.title }}
             <NeoIcon
@@ -59,7 +59,7 @@
           <NeoButton
             v-if="showTryAgain"
             class="ml-4"
-            variant="pill"
+            variant="outlined-rounded"
             size="small"
             @click="tryAgain">
             {{ $t('helper.tryAgain') }}

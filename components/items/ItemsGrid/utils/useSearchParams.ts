@@ -12,13 +12,19 @@ export const useItemsGridQueryParams = () => {
 // search items by keywords
 function useSearchKeywords() {
   const { search, searchBySn } = useItemsGridQueryParams()
+  const { urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
 
   return {
     keywords: computed(() => {
-      const conditions = [{ name_containsInsensitive: search.value }]
+      const conditions = [{ name_containsInsensitive: search.value }] as Record<
+        string,
+        string | undefined
+      >[]
 
       if (searchBySn.value) {
-        conditions.push({ sn_contains: search.value })
+        const key = isAssetHub.value ? 'sn_eq' : 'sn_contains'
+        conditions.push({ [key]: search.value })
       }
 
       return search.value?.length

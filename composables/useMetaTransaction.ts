@@ -1,6 +1,7 @@
 import exec, {
   ExecResult,
   Extrinsic,
+  TxCbOnSuccessParams,
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
@@ -8,6 +9,17 @@ import useTransactionStatus from './useTransactionStatus'
 import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
+import { ISubmittableResult } from '@polkadot/types/types'
+
+export type HowAboutToExecuteOnSuccessParam = {
+  txHash: string
+  blockNumber: string
+}
+
+export type HowAboutToExecuteOnResultParam = {
+  txHash: string
+  result: ISubmittableResult
+}
 
 function useMetaTransaction() {
   const { $i18n } = useNuxtApp()
@@ -26,8 +38,15 @@ function useMetaTransaction() {
     account: string,
     cb: (...params: any[]) => Extrinsic,
     args: any[],
-    onSuccess?: (blockNumber: string) => void,
-    onError?: () => void,
+    {
+      onSuccess,
+      onError,
+      onResult,
+    }: {
+      onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void
+      onError?: () => void
+      onResult?: (result: HowAboutToExecuteOnResultParam) => void
+    } = {},
   ): Promise<void> => {
     try {
       tx.value = await exec(
@@ -35,27 +54,29 @@ function useMetaTransaction() {
         '',
         cb,
         args,
-        txCb(successCb(onSuccess), errorCb(onError), onResult),
+        txCb(successCb(onSuccess), errorCb(onError), resultCb(onResult)),
       )
     } catch (e) {
       onCatchError(e)
     }
   }
 
-  const successCb = (onSuccess) => async (blockHash) => {
-    const api = await apiInstance.value
+  const successCb =
+    (onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void) =>
+    async ({ blockHash, txHash }: TxCbOnSuccessParams) => {
+      const api = await apiInstance.value
 
-    tx.value && execResultValue(tx.value)
-    const header = await api.rpc.chain.getHeader(blockHash)
-    const blockNumber = header.number.toString()
+      tx.value && execResultValue(tx.value)
+      const header = await api.rpc.chain.getHeader(blockHash)
+      const blockNumber = header.number.toString()
 
-    if (onSuccess) {
-      onSuccess(blockNumber)
+      if (onSuccess) {
+        onSuccess({ txHash: txHash.toString(), blockNumber })
+      }
+
+      isLoading.value = false
+      tx.value = undefined
     }
-
-    isLoading.value = false
-    tx.value = undefined
-  }
 
   const errorCb = (onError) => (dispatchError) => {
     tx.value && execResultValue(tx.value)
@@ -67,7 +88,12 @@ function useMetaTransaction() {
     }
   }
 
-  const onResult = (res) => resolveStatus(res.status)
+  const resultCb =
+    (onResult?: (result: HowAboutToExecuteOnResultParam) => void) =>
+    (result: ISubmittableResult) => {
+      resolveStatus(result.status)
+      onResult?.({ txHash: result.txHash.toString(), result })
+    }
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
@@ -77,6 +103,8 @@ function useMetaTransaction() {
           $i18n.t('general.tx.cancelled'),
           notificationTypes.warn,
         )
+
+        status.value = TransactionStatus.Cancelled
       } else {
         showNotification(e.toString(), notificationTypes.warn)
       }

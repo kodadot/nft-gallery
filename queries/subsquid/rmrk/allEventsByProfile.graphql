@@ -1,5 +1,5 @@
 query allEventsByProfile($id: String) {
-  events(where: {caller_eq: $id, OR: {currentOwner_eq: $id}}) {
+  events(where: { caller_eq: $id, OR: { currentOwner_eq: $id } }) {
     meta
     interaction
     blockNumber
@@ -9,6 +9,7 @@ query allEventsByProfile($id: String) {
     id
     nft {
       id
+      sn
       name
       metadata
       collection {
@@ -19,6 +20,7 @@ query allEventsByProfile($id: String) {
       meta {
         id
         image
+        animationUrl
         __typename
       }
       resources {

@@ -35,14 +35,14 @@ test('Share Button on Gallery Item', async ({ page, Commands }) => {
   })
 })
 
-test('Share Button on Collection', async ({ page, Commands }) => {
+test('Share Button on Collection', async ({ page, Commands, baseURL }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
   const shareBtn = page.getByTestId('share-button').first()
   await test.step('Share button functionality', async () => {
     //Copy
     await shareBtn.click()
     await page.getByTestId('hero-copy-link-dropdown').first().click()
-    await Commands.copyText('http://localhost:9090/ahp/collection/38')
+    await Commands.copyText(`${baseURL}/ahp/collection/38`)
   })
   //QR
   await test.step('Clicks on QR code and verify its existance', async () => {

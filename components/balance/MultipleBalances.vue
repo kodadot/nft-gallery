@@ -10,6 +10,7 @@
         variant="pill"
         size="small"
         class="px-4 py-1"
+        data-testid="button-add-funds-empty"
         @click="openRampModal"
         >+ {{ $t('addFunds') }}</NeoButton
       >
@@ -29,7 +30,7 @@
       <div
         v-for="(data, key) in multiBalancesChainsList"
         :key="key"
-        class="is-size-6">
+        class="text-base">
         <div
           v-for="token in filterEmptyBalanceChains(data.chain)"
           :key="token.name"
@@ -59,7 +60,7 @@
     <hr class="my-2" />
     <p class="flex justify-between items-end">
       <span class="text-xs"> {{ $t('spotlight.total') }}: </span>
-      <span class="is-size-6"
+      <span class="text-base"
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
       >
     </p>
@@ -67,7 +68,10 @@
     <div
       v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="mt-4 flex items-center justify-end">
-      <a class="text-k-grey text-xs" @click="openRampModal"
+      <a
+        class="text-k-grey text-xs"
+        data-testid="button-add-funds-not-empty"
+        @click="openRampModal"
         >+ {{ $t('addFunds') }}</a
       >
     </div>

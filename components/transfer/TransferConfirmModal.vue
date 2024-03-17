@@ -15,7 +15,7 @@
 
     <template #body>
       <div class="flex justify-between items-center py-4">
-        <span class="font-bold is-size-6">{{ $t('activity.network') }}</span>
+        <span class="font-bold text-base">{{ $t('activity.network') }}</span>
         <span class="flex items-center">
           <img class="mr-2 image is-24x24" :src="tokenIcon" alt="token" />
           {{ network }}
@@ -23,22 +23,22 @@
       </div>
 
       <div class="flex justify-between items-center py-4 border-t-k-shade">
-        <span class="font-bold is-size-6 capitalize">{{
+        <span class="font-bold text-base capitalize">{{
           $t('general.from')
         }}</span>
         <span class="flex items-center">
           <Avatar :value="accountId" :size="24" />
-          <span class="ml-2 is-size-6">
+          <span class="ml-2 text-base">
             <Identity :address="accountId" hide-identity-popover />
           </span>
         </span>
       </div>
 
       <div class="flex justify-between items-center py-4 border-t-k-shade">
-        <span class="font-bold is-size-6">{{ $t('transfers.sendTo') }}</span>
+        <span class="font-bold text-base">{{ $t('transfers.sendTo') }}</span>
         <div v-if="targetAddresses.length === 1" class="flex items-center">
           <Avatar :value="targetAddresses[0].address" :size="24" />
-          <span class="mx-2 is-size-6">
+          <span class="mx-2 text-base">
             <Identity
               :address="targetAddresses[0].address"
               hide-identity-popover />
@@ -47,14 +47,14 @@
             :label="targetAddresses[0].address"
             append-to-body
             content-class="transfer-tooltip">
-            <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
+            <NeoIcon icon="circle-info" class="text-base" pack="far" />
           </NeoTooltip>
         </div>
         <div
           v-else
           class="cursor-pointer"
           @click="isExpandList = !isExpandList">
-          <span class="mx-2 is-size-6">
+          <span class="mx-2 text-base">
             {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
           </span>
           <NeoIcon
@@ -75,14 +75,14 @@
               >
               <div class="flex items-center">
                 <Avatar :value="address.address" :size="18" />
-                <span class="mx-2 is-size-6">
+                <span class="mx-2 text-base">
                   <Identity :address="address.address" hide-identity-popover />
                 </span>
                 <NeoTooltip
                   :label="address.address"
                   append-to-body
                   content-class="transfer-tooltip">
-                  <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
+                  <NeoIcon icon="circle-info" class="text-base" pack="far" />
                 </NeoTooltip>
               </div>
             </div>
@@ -93,7 +93,7 @@
                 <span class="text-k-grey"
                   >({{ address.token }} {{ unit }})</span
                 >
-                <span class="ml-1 is-size-6">${{ address.usd }}</span>
+                <span class="ml-1 text-base">${{ address.usd }}</span>
               </div>
             </div>
           </div>
@@ -103,14 +103,14 @@
 
     <template #footer>
       <div class="flex justify-between items-center mb-3">
-        <span class="font-bold is-size-6">{{
+        <span class="font-bold text-base">{{
           $t('transfers.totalAmount')
         }}</span>
         <div class="flex items-center">
           <span class="text-k-grey mr-1 text-xs"
             >({{ displayTotalValue[0] }})</span
           >
-          <span class="font-bold is-size-5"> {{ displayTotalValue[1] }}</span>
+          <span class="font-bold text-xl"> {{ displayTotalValue[1] }}</span>
         </div>
       </div>
 

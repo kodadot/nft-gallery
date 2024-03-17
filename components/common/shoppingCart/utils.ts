@@ -60,6 +60,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
     addedAt: new Date().getTime(),
     metadata: nft.metadata,
     meta: nft.meta,
+    sn: nft.sn,
   }
 }
 
@@ -78,9 +79,26 @@ export const nftToListingCartItem = (
       ...nft.collection,
       floor,
     },
-    listPrice: null,
+    listPrice: undefined,
     metadata: nft.metadata,
     meta: nft.meta,
     token: nft.token,
+    sn: nft.sn,
+  }
+}
+
+export const shoppingCartItemToListingCartItem = (
+  item: ShoppingCartItem,
+  floor = '',
+): ListCartItem => {
+  return {
+    id: item.id,
+    name: item.name,
+    price: item.price ?? '0',
+    urlPrefix: item.urlPrefix,
+    collection: { ...item.collection, floor },
+    metadata: item.metadata,
+    meta: item.meta,
+    listPrice: undefined,
   }
 }

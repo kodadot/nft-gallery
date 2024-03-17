@@ -1,8 +1,8 @@
 <template>
   <div
+    v-if="isLogIn"
     class="rounded-[10rem] border border-k-shade flex justify-start flex-grow pl-3">
     <IdentityItem
-      v-if="isLogIn"
       :label="$t('confirmPurchase.connectedWith')"
       hide-identity-popover
       disable-identity-link

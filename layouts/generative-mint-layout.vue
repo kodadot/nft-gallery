@@ -4,15 +4,15 @@
     <main class="flex-grow">
       <section class="hero is-medium is-link">
         <div class="hero-body">
-          <h1 class="subtitle text-center font-bold is-size-3">
+          <h1 class="subtitle text-center font-bold text-3xl">
             Mint Your {{ NAME }} Waifu
           </h1>
         </div>
       </section>
       <section class="px-6 py-12">
         <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-half">
+          <div class="flex flex-col md:flex-row gap-3 justify-center">
+            <div class="w-full md:w-1/2">
               <Error
                 v-if="$nuxt.isOffline"
                 :has-img="false"

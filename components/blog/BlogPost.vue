@@ -1,6 +1,6 @@
 <template>
   <div v-if="post?.title" class="article">
-    <div class="flex items-center text-k-grey is-size-5 mb-1">
+    <div class="flex items-center text-k-grey text-xl mb-1">
       <nuxt-link class="text-k-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
       <NeoIcon icon="chevron-right" class="mx-5" />
       <span>{{ post?.title?.slice(0, 15) }}...</span>
@@ -20,14 +20,14 @@
           icon="x-twitter"
           icon-pack="fab"
           no-shadow
-          class="border-0 is-text is-size-4 p-0 mr-4"
+          class="border-0 is-text text-2xl p-0 mr-4"
           @click="openShareUrl('twitter')" />
 
         <NeoButton
           icon="linkedin"
           icon-pack="fab"
           no-shadow
-          class="border-0 is-text is-size-4 p-0"
+          class="border-0 is-text text-2xl p-0"
           @click="openShareUrl('linkedin')" />
       </div>
     </div>

@@ -1,5 +1,9 @@
 <template>
-  <div class="is-centered" :class="{ columns: classColumn }">
+  <div
+    :class="{
+      'lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light':
+        classColumn,
+    }">
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('mint.collection.minting')"
@@ -13,10 +17,12 @@
       :nft-information="collectionInformation"
       @confirm="handleCreateCollectionConfirmation" />
     <form
-      class="is-half"
-      :class="{ column: classColumn }"
+      :class="{
+        'px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
+          classColumn,
+      }"
       @submit.prevent="showConfirm">
-      <h1 class="title is-size-3 mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -95,21 +101,9 @@
         </div>
       </NeoField>
 
-      <!-- collection symbol -->
-      <NeoField
-        v-if="isRemark"
-        :label="`${$t('mint.collection.symbol.label')} *`">
-        <div>
-          <p>{{ $t('mint.collection.symbol.message') }}</p>
-          <NeoInput
-            ref="symbolInput"
-            v-model="symbol"
-            :placeholder="$t('mint.collection.symbol.placeholder')"
-            minlength="3"
-            required
-            expanded />
-        </div>
-      </NeoField>
+      <InfoBox v-if="isRemark" variant="warning">
+        <div>{{ $t('mint.disabledRmrk') }}</div>
+      </InfoBox>
 
       <!-- royalty -->
       <NeoField v-if="isAssetHub">
@@ -141,8 +135,9 @@
 
       <!-- create collection button -->
       <NeoButton
-        class="is-size-6"
+        class="text-base"
         expanded
+        :disabled="isRemark"
         :label="submitButtonLabel"
         native-type="submit"
         size="medium"
@@ -168,6 +163,10 @@
         </p>
       </div>
     </form>
+    <CreateModalsCollectionSuccessModal
+      v-model="displaySuccessModal"
+      :tx-hash="txHash"
+      :collection="mintedCollectionInfo" />
   </div>
 </template>
 
@@ -198,6 +197,15 @@ import {
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@kodadot1/minimark/v1'
 
+export type MintedCollectionInfo = {
+  id: string
+  name: string
+  meta: {
+    image: string
+    description: string
+  }
+}
+
 // props
 withDefaults(
   defineProps<{
@@ -208,8 +216,14 @@ withDefaults(
   },
 )
 
+//refs
+
+const mintedCollectionInfo = ref<MintedCollectionInfo>()
+const collectionSubscription = ref(() => {})
+const displaySuccessModal = ref(false)
+
 // composables
-const { transaction, status, isLoading, isError, blockNumber } =
+const { transaction, status, isLoading, isError, blockNumber, txHash } =
   useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
@@ -229,7 +243,9 @@ const royalty = ref({
   address: accountId.value,
 })
 
-const menus = availablePrefixes()
+const menus = availablePrefixes().filter(
+  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
+)
 
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
@@ -330,13 +346,62 @@ const handleCreateCollectionConfirmation = async ({
 const createCollection = async () => {
   try {
     isLoading.value = true
-
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     $consola.error(error)
   }
 }
+
+const isTransactionCompleted = computed(
+  () => Boolean(txHash.value) && !isLoading.value,
+)
+
+watch(isTransactionCompleted, () => {
+  if (isTransactionCompleted.value) {
+    subscribeToCollectionInfo()
+  }
+})
+
+const subscribeToCollectionInfo = () => {
+  const query = `  collectionEntities(
+    orderBy: blockNumber_DESC,
+    limit: 1,
+    where: {
+        issuer_eq: "${accountId.value}",
+        burned_eq: false
+        }
+    ) {
+    id
+    name
+    meta {
+      image
+      description
+    }
+    }`
+
+  collectionSubscription.value = useSubscriptionGraphql({
+    query,
+    onChange: ({ data }) => {
+      if (data.collectionEntities) {
+        // wait for collection info to match
+        if (
+          data.collectionEntities[0].name == name.value &&
+          data.collectionEntities[0].meta.description == description.value
+        ) {
+          mintedCollectionInfo.value = data.collectionEntities[0]
+          // show success modal
+          displaySuccessModal.value = true
+
+          //unsubscribe
+          collectionSubscription.value()
+        }
+      }
+    },
+  })
+}
+
+onBeforeUnmount(collectionSubscription.value)
 
 // autoteleport
 const actions = computed<AutoTeleportAction[]>(() => [

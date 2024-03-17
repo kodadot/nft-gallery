@@ -1,129 +1,68 @@
 <template>
-  <CollectionDropGenerativeLayout
-    :collection-id="collectionId"
-    :description="description"
-    :drop="drop"
-    :user-minted-nft-id="userMintedNftId"
-    :user-minted-count="mintedAmountForCurrentUser"
-    :is-wallet-connecting="isWalletConnecting"
-    :is-image-fetching="isImageFetching"
-    :is-loading="isLoading"
-    :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable"
-    :mint-button="mintButtonProps"
-    :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+  <CollectionDropGenerativeLayout @mint="handleSubmitMint" />
+
+  <NeoModalExtend v-model:active="isRaffleModalActive">
+    <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
+      <form @submit.prevent="submitRaffle()">
+        <NeoInput
+          v-model="raffleEmail"
+          placeholder="Email"
+          class="mb-4"
+          type="email"
+          :disabled="loading"
+          required />
+        <NeoButton
+          expanded
+          variant="k-accent"
+          native-type="submit"
+          :loading="loading"
+          :disabled="loading">
+          Allocate
+        </NeoButton>
+      </form>
+    </ModalBody>
+  </NeoModalExtend>
 
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
-    :to-mint-nft="toMintNft"
-    :minted-nft="mintedNft"
-    :minimum-funds="minimumFunds"
-    :has-minimum-funds="hasMinimumFunds"
-    :can-list-nft="canListMintedNft"
-    :formatted-minimum-funds="formattedMinimumFunds"
-    :formatted-existential-deposit="formattedExistentialDeposit"
-    :token="token"
-    :chain="chainName"
+    :status="status"
     @confirm="handleConfirmPaidMint"
-    @close="closeMintModal"
+    @close="handleMintModalClose"
     @list="handleList" />
-
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
-import { createUnlockableMetadata } from '../unlockable/utils'
-import { DropItem } from '@/params/types'
-import { claimDropItem } from '@/services/waifu'
-import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
-import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import useGenerativeDropMint, {
-  type UnlockableCollectionById,
-} from '@/composables/drop/useGenerativeDropMint'
-import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import { formatAmountWithRound } from '@/utils/format/balance'
+import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
+import { useDrop, useDropStatus } from '@/components/drops/useDrops'
+import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
+import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
+import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
-
-const props = withDefaults(
-  defineProps<{
-    drop: DropItem
-  }>(),
-  {
-    drop: () => ({}) as DropItem,
-  },
-)
-
-useMultipleBalance()
-const { chainSymbol, decimals } = useChain()
-
-const {
-  hasMinimumFunds,
-  formattedMinimumFunds,
-  minimumFunds,
-  formattedExistentialDeposit,
-} = useDropMinimumFunds(props.drop)
-const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.minimumFundsDescription', [
-    formattedMinimumFunds.value,
-    chainName.value,
-  ]),
-)
-
-const toMintNft = computed<ToMintNft>(() => ({
-  image: sanitizeIpfsUrl(selectedImage.value),
-  name: `${collectionName.value || ''} #${nftCount.value || ''}`,
-  collectionName: collectionName.value || '',
-  price: price.value as string,
-  priceUSD: priceUSD.value,
-}))
-
-const minimumFundsProps = computed(() => ({
-  amount: minimumFunds.value,
-  description: minimumFundsDescription.value,
-  hasAmount: hasMinimumFunds.value,
-}))
-
-const isWalletConnecting = ref(false)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { drop } = useDrop()
+const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
-const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-
-const { client } = usePrefix()
-const isLoading = ref(false)
-const isImageFetching = ref(false)
-const isMintModalActive = ref(false)
-
+const { openListingCartModal } = useListingCartModal({
+  clearItemsOnBeforeUnmount: true,
+  clearItemsOnModalClose: true,
+})
+const { collectionName } = useCollectionEntity()
 const {
-  defaultName,
-  defaultImage,
-  defaultMax,
-  collectionId,
-  chainName,
-  disabledByBackend,
-  token,
-  price,
-} = useGenerativeDropDetails(props.drop)
-
-const { usd: priceUSD } = useAmount(price, decimals, chainSymbol)
+  loading,
+  walletConnecting,
+  previewItem,
+  mintingSession,
+  toMintNFTs,
+  allocatedNFTs,
+  isCapturingImage,
+} = storeToRefs(useDropStore())
 
 const {
   howAboutToExecute,
@@ -132,6 +71,10 @@ const {
   isError,
   status,
 } = useMetaTransaction()
+useCursorDropEvents([isTransactionLoading, loading])
+
+const isMintModalActive = ref(false)
+const isRaffleModalActive = ref(false)
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -143,125 +86,49 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
-
-const { data: collectionData } = await useAsyncData(
-  'unlockableCollectionData',
-  async () =>
-    await useAsyncQuery<UnlockableCollectionById>({
-      clientId: client.value,
-      query: unlockableCollectionById,
-      variables: {
-        id: collectionId.value,
-        search: { currentOwner_eq: accountId.value },
-      },
-    }).then((res) => res.data.value),
-  {
-    watch: [accountId],
-  },
-)
-
-const {
-  maxCount,
-  mintedNft,
-  mintedNftWithMetadata,
-  userMintedNftId,
-  mintedCount,
-  mintCountAvailable,
-  mintedAmountForCurrentUser,
-  canListMintedNft,
-  selectedImage,
-  description,
-  collectionName,
-  nftCount,
-  tryCapture,
-  subscribeToMintedNft,
-  listMintedNft,
-} = useGenerativeDropMint({
-  collectionData,
-  defaultMax,
-  currentAccountMintedToken,
-  collectionId,
-  mintedDropCount,
-  defaultImage,
-})
-
-const maxMintLimitForCurrentUser = computed(() => maxCount.value)
-
-const mintButtonLabel = computed(() => {
-  return isWalletConnecting.value
-    ? $i18n.t('shoppingCart.wallet')
-    : $i18n.t('mint.unlockable.claimPaidNft', [
-        `${formatAmountWithRound(price.value || '', decimals.value)} ${
-          chainSymbol.value
-        }`,
-      ])
-})
-const mintButtonDisabled = computed<boolean>(
-  () =>
-    !mintCountAvailable.value ||
-    Boolean(disabledByBackend.value) ||
-    (isLogIn.value &&
-      Boolean(
-        !selectedImage.value ||
-          disabledByBackend.value ||
-          maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
-      )),
-)
-
-const mintButtonProps = computed(() => ({
-  disabled: mintButtonDisabled.value,
-  label: mintButtonLabel.value,
-}))
-
 const mintNft = async () => {
   try {
-    isLoading.value = true
+    loading.value = true
+    mintingSession.value.txHash = undefined
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
-    const collectionRes = (
-      await api.query.nfts.collection(collectionId.value)
-    ).toJSON() as {
-      items: string
-    }
 
     initTransactionLoader()
-    const cb = api.tx.nfts.mint
-    const args = [
-      collectionId.value,
-      collectionRes.items,
-      accountId.value,
-      {
-        ownedItem: null,
-        mintPrice: price.value,
-      },
-    ]
 
-    mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, args)
+    const cb = api.tx.utility.batchAll
+    const args = allocatedNFTs.value.map((allocatedNFT) =>
+      api.tx.nfts.mint(
+        drop.value?.collection,
+        allocatedNFT.id,
+        accountId.value,
+        {
+          ownedItem: null,
+          mintPrice: drop.value?.price,
+        },
+      ),
+    )
+
+    howAboutToExecute(accountId.value, cb, [args], {
+      onResult: ({ txHash }) => {
+        mintingSession.value.txHash = txHash
+      },
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    loading.value = false
   }
 }
 
-watch(status, (curStatus) => {
-  if (curStatus === TransactionStatus.Block) {
-    submitMint(mintNftSN.value)
-  }
-})
-
 const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
+  walletConnecting.value = false
 }
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    isWalletConnecting.value = true
+    walletConnecting.value = true
     doAfterLogin({
       onLoginSuccess: clearWalletConnecting,
       onCancel: clearWalletConnecting,
@@ -269,10 +136,20 @@ const handleSubmitMint = async () => {
 
     return
   }
-  if (isLoading.value || isImageFetching.value) {
+  if (loading.value || isCapturingImage.value) {
     return false
   }
 
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  openMintModal()
+  massGenerate()
+}
+
+const submitRaffle = async () => {
+  await allocateRaffle()
+
+  isRaffleModalActive.value = false
   openMintModal()
 }
 
@@ -280,59 +157,44 @@ const openMintModal = () => {
   isMintModalActive.value = true
 }
 
+const handleMintModalClose = () => {
+  closeMintModal()
+  clearMassMint()
+}
+
 const closeMintModal = () => {
   isMintModalActive.value = false
 }
 
-const submitMint = async (sn: string) => {
+const allocateRaffle = async () => {
+  if (previewItem.value) {
+    await allocateRaffleMode(raffleEmail.value, previewItem.value)
+  }
+}
+
+const submitMints = async () => {
   try {
-    isImageFetching.value = true
+    const response = await Promise.all(toMintNFTs.value.map(submitMint))
 
-    const imageHash = await tryCapture()
+    const mintedNfts = response.map((item) => ({
+      id: `${drop.value.collection}-${item.sn}`,
+      collection: item.collection,
+      chain: item.chain,
+      name: item.name,
+      image: item.image as string,
+      collectionName: collectionName.value,
+    }))
 
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
+    mintingSession.value.items = mintedNfts
 
-    isImageFetching.value = false
-
-    const { result } = await claimDropItem(
-      {
-        account: accountId.value,
-        metadata: hash,
-        sn,
-        image: imageHash,
-      },
-      props.drop.id,
-    )
+    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
 
     await fetchDropStatus()
 
-    const id = `${collectionId.value}-${result.sn}`
-
-    subscribeToMintedNft(id, async () => {
-      mintedNftWithMetadata.value = await fetchNft(id)
-    })
-
-    isLoading.value = false
-
-    mintedNft.value = {
-      ...result,
-      id,
-      collection: result.collection,
-      chain: result.chain,
-      name: result.name,
-      image: result.image,
-      txHash: result.txHash.versionstamp,
-      collectionName: collectionName.value as string,
-    }
+    loading.value = false
   } catch (error) {
-    toast($i18n.t('drops.mintPerAddress'))
-    isImageFetching.value = false
+    toast($i18n.t('drops.mintDropError', [error?.toString()]))
+    isCapturingImage.value = false
     closeMintModal()
     throw error
   }
@@ -340,7 +202,8 @@ const submitMint = async (sn: string) => {
 
 const handleList = () => {
   closeMintModal()
-  listMintedNft()
+  listMintedNFTs()
+  openListingCartModal()
 }
 
 const handleConfirmPaidMint = () => {
@@ -349,13 +212,33 @@ const handleConfirmPaidMint = () => {
 
 const stopMint = () => {
   isMintModalActive.value = false
-  isLoading.value = false
+  loading.value = false
+  clearMassMint()
 }
 
-watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
-  if (wasLoading && !loading && status === TransactionStatus.Unknown) {
-    stopMint()
-  }
+const {
+  massGenerate,
+  submitMint,
+  allocateRaffleMode,
+  raffleEmail,
+  clearMassMint,
+} = useDropMassMint()
+
+const { subscribeForNftsWithMetadata, listMintedNFTs } =
+  useDropMassMintListing()
+
+useTransactionTracker({
+  transaction: {
+    isError,
+    status,
+  },
+  onSuccess: submitMints,
+  onCancel: stopMint,
+  onError: () => {
+    loading.value = false
+  },
+  // ensure txHash is set, it's needed when calling /do/:id
+  waitFor: [computed(() => Boolean(mintingSession.value.txHash))],
 })
 </script>
 

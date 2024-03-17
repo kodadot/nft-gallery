@@ -30,7 +30,15 @@
     }
 
     &--k-accent {
-      @apply bg-k-primary text-black;
+      @apply bg-k-primary;
+
+      &:not(:hover):not(:disabled) {
+        @apply text-black #{!important};
+      }
+
+      &:enabled {
+        @apply border-border-color #{!important};
+      }
 
       &:hover {
         @apply bg-background-color text-text-color;
@@ -92,7 +100,7 @@
     }
 
     &--outlined-rounded {
-      @apply h-[35px] w-min rounded shadow-none border border-card-border-color-light bg-background-color;
+      @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
 
       &:hover {
         @apply bg-background-color border border-text-color text-text-color;
@@ -170,8 +178,25 @@
         @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
       }
 
-      .o-btn__wrapper .o-btn__label {
+      .o-btn__wrapper {
         @apply flex justify-between items-center;
+      }
+      .o-btn__label {
+        @apply flex justify-center items-center;
+      }
+    }
+
+
+    &--secondary-rounded {
+      @apply rounded-[2rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-text-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      &__active,
+      &.active {
+        @apply border-2;
       }
     }
   }

@@ -60,7 +60,7 @@ We already mentioned some of the features we implemented in this article. All of
    The basic limit is selecting how many NFTs in total can be minted. This varies on your collection size, but in some cases (AI minting, generative art), this number can be adjusted regarding your preferences.
    You can also limit mints by the number of NFTs that can be minted at various times. Choose how many can be minted max during different phases. And, of course, we can show the availability of your NFTs so people know how much of them are left.
 3. AI tools
-   We had anime waifus in our previous campaigns created by a highly trained AI model. Im sure we can also use it in your case. You just need to tell us [your idea](https://form.kodadot.xyz/drop-page-interest).
+   We had anime waifus in our previous campaigns created by a highly trained AI model. Im sure we can also use it in your case. You just need to tell us [your idea](https://form.kodadot.xyz/drop-interest).
 4. Custom link
    Do you want your custom link to your drop page? No problem. In some exceptional cases, we can also hide your Drop so you can target a specific audience.
 5. Free mint - Paid mint
@@ -76,4 +76,4 @@ We already mentioned some of the features we implemented in this article. All of
 
 ## Interested?
 
-Are you a project looking to release an exciting new collection or an artist exploring fresh ideas? Let's collaborate! Simply fill out [this form](https://form.kodadot.xyz/drop-page-interest) to share your vision with us. If you're interested in featuring your collection in our shop, please keep in mind your budget. This form will provide us with a general idea of your plans, and we'll discuss all the specifics later. We'll be in touch soon!
+Are you a project looking to release an exciting new collection or an artist exploring fresh ideas? Let's collaborate! Simply fill out [this form](https://form.kodadot.xyz/drop-interest) to share your vision with us. If you're interested in featuring your collection in our shop, please keep in mind your budget. This form will provide us with a general idea of your plans, and we'll discuss all the specifics later. We'll be in touch soon!

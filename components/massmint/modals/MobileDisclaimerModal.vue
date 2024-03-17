@@ -1,12 +1,11 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    scroll="clip"
     :enable-mobile="false"
     content-class="mx-4"
     :can-cancel="false">
     <div class="px-6 py-5 w-[unset] lg:w-[25rem]">
-      <div class="flex is-size-5 mb-4 items-center">
+      <div class="flex text-xl mb-4 items-center">
         <NeoIcon icon="triangle-exclamation" pack="fasr" class="mr-3" />
         <span class="font-bold">
           {{ $t('massmint.mobileDisclaimer.title') }}

@@ -1,9 +1,10 @@
 <template>
   <div v-if="isUnlockable">
     <hr class="text-color my-4" />
-    <div class="columns is-desktop">
-      <div class="column is-half-desktop flex flex-col justify-center order-1">
-        <div class="flex items-center font-bold is-size-6 mb-2">
+    <div class="flex flex-col lg:flex-row gap-3">
+      <div
+        class="flex-1 lg:flex-0 lg:w-1/2 flex flex-col justify-center order-1">
+        <div class="flex items-center font-bold text-base mb-2">
           <NeoIcon icon="unlock" class="mr-2" />
           {{ $t('mint.unlockable.howItemWork') }}
         </div>
@@ -26,7 +27,7 @@
           {{ $t('helper.learnMore') }}
         </NeoButton>
       </div>
-      <div class="column">
+      <div class="flex-1">
         <img src="/unlockable-introduce.svg" alt="Unlockable" />
       </div>
     </div>

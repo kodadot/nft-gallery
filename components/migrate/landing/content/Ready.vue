@@ -31,7 +31,7 @@
         <div class="collection-card-info">
           <div class="flex justify-between items-center">
             <div>
-              <p class="is-size-5 font-bold">
+              <p class="text-xl font-bold">
                 {{ collection.name }}
               </p>
               <p>

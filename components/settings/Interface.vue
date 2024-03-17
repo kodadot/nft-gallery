@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="label">
+    <div class="label text-xs/normal">
       {{ $t('user interface mode') }}
     </div>
     <NeoSwitch v-model="enabledAdvancedUI" size="is-medium">
@@ -46,7 +46,7 @@
         </NeoCheckbox>
       </div>
       <div class="layout-wrapper">
-        <div class="label">
+        <div class="label text-xs/normal">
           {{ $t('Layout Options') }}
         </div>
         <Layout :disabled="!enabledAdvancedUI" position="is-left" />

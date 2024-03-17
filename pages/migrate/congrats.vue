@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="is-centered columns">
-      <div class="is-4-widescreen column">
+    <div class="flex flex-col md:flex-row justify-center gap-3">
+      <div class="flex-1 2xl:flex-0 2xl:w-1/3">
         <img :src="congratsSrc" alt="Congratulations" class="w-full" />
-        <h1 class="is-size-3 font-bold text-center">
+        <h1 class="text-3xl font-bold text-center">
           {{ $t('migrate.congrats.title') }}
         </h1>
-        <p class="text-center is-size-5">
+        <p class="text-center text-xl">
           {{ $t('migrate.congrats.subtitle') }}
         </p>
         <p class="text-center text-k-grey mt-5">

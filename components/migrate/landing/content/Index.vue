@@ -17,7 +17,7 @@
     <div
       v-else-if="!loadingReady && !loadingWaiting && !isReady && !isWaiting"
       class="text-center">
-      <p class="is-size-4 font-bold">Nothing to Migrate</p>
+      <p class="text-2xl font-bold">Nothing to Migrate</p>
       <p>
         It looks like you have no collections or items ready for migration at
         this time.

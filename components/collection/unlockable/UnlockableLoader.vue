@@ -37,7 +37,7 @@
         </div>
         <nuxt-link :to="`/${urlPrefix}/gallery/${minted}`">
           <NeoButton
-            class="mb-2 mt-4 loading-button is-size-6"
+            class="mb-2 mt-4 loading-button text-base"
             variant="secondary"
             tag="span"
             :disabled="!minted"

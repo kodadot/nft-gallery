@@ -46,6 +46,8 @@
         :display-name-with-sn="displayNameWithSn"
         :prefix="prefix"
         :show-price="showPrice"
+        :show-timestamp="showTimestamp"
+        :collection-popover-hide="collectionPopoverHide"
         :collection-popover-show-delay="collectionPopoverShowDelay" />
     </component>
 
@@ -55,7 +57,12 @@
           <NeoSkeleton :rounded="false" full-size no-margin />
         </div>
       </div>
-      <div class="nft-media-info" :class="`nft-media-info__${variant}`">
+      <div
+        class="nft-media-info"
+        :class="[
+          `nft-media-info__${variant}`,
+          { 'nft-media-info__slim': hideMediaInfo },
+        ]">
         <NeoSkeleton size="medium" no-margin />
         <div v-if="!isMinimal" class="flex mt-2">
           <NeoSkeleton
@@ -89,6 +96,8 @@ const props = withDefaults(
     nft: NeoNFT
     prefix: string
     showPrice?: boolean
+    showTimestamp?: boolean
+    collectionPopoverHide?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder?: string

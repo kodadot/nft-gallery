@@ -44,6 +44,7 @@ module.exports = {
         'k-primary': 'var(--k-primary)',
         'k-primary-light': 'var(--k-primary-light)',
         'k-shade': 'rgb(var(--k-shade) / <alpha-value>)',
+        'k-shade2': 'var(--k-shade2)',
         'placeholder-color': 'var(--placeholder-color)',
         disabled: 'var(--disabled)',
         'card-border-color': 'var(--card-border-color)',
@@ -54,6 +55,8 @@ module.exports = {
         'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
+        'purple-light-color': 'var(--purple-light-color)',
+        'purple-dark-color': 'var(--purple-dark-color)',
         'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
 
         neutral: {
@@ -92,6 +95,7 @@ module.exports = {
       animation: {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1s)',
+        ping: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       // TODO: remove it after removing bulma
       padding: {
@@ -99,6 +103,9 @@ module.exports = {
         'tw-8': '2rem',
         'button-x': 'calc(0.75em - 1px)',
         'button-y': 'calc(0.5em - 1px)',
+      },
+      fontSize: {
+        '3xl': '2rem',
       },
     },
   },

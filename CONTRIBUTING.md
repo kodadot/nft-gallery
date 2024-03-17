@@ -8,7 +8,7 @@ If everything goes well, chances that you will be **rewarded are high**.
 
 We might give retro-active reward, where the bounty label wasn't present, **if we like your contribution.**
 
-**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
+**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/koda_eco)**
 
 ## Deploy Kodadot nft gallery to Netlify
  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kodadot/nft-gallery)
@@ -24,6 +24,25 @@ Before you being:
 - Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
+
+## Codespaces
+
+
+- For an instant setup of the development environment, please follow the instructions provided below. If you’re setting up for the first time and need a detailed guide, you can refer to our First-Time Setup Guide [first-time setup](https://github.com/kodadot/nft-gallery/blob/main/content/blog/first-time.md)
+
+- Click on the button below:
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kodadot/nft-gallery)
+
+
+- Copy and paste these commands to your terminal: (It will install all dependencies and start the server.)
+
+```
+pnpm i;
+pnpm dev
+```
+
+KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
 Recommended VSCode Extensions:
 
@@ -223,7 +242,7 @@ The aim of this repository is:
 
 ### Better comfort
 
-For crafting much better culture and Developer Experience, we reccomend some extension to browse issues faster
+For crafting much better culture and Developer Experience, we recommend some extension to browse issues faster
 
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)

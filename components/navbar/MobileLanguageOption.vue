@@ -16,11 +16,10 @@
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 
 const { $i18n } = useNuxtApp()
-const emit = defineEmits(['closeLanguageOption', 'closeMobileSubMenu'])
+const emit = defineEmits(['select'])
 
 const setUserLang = (value: string) => {
   setUserLocale(value)
-  emit('closeLanguageOption')
-  emit('closeMobileSubMenu')
+  emit('select')
 }
 </script>

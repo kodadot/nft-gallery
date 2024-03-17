@@ -2,6 +2,7 @@ import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
 // import { sentryVitePlugin } from '@sentry/vite-plugin'
+import svgLoader from 'vite-svg-loader'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -14,7 +15,7 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       'tailwindcss/nesting': {},
-      tailwindcss: { config: './libs/ui/tailwind.config.js' },
+      tailwindcss: {},
       autoprefixer: {},
     },
   },
@@ -32,15 +33,18 @@ export default defineNuxtConfig({
     build: {
       sourcemap: false,
     },
-    // plugins: [
-    //   process.env.NODE_ENV === 'development'
-    //     ? null
-    //     : sentryVitePlugin({
-    //         org: 'kodadot',
-    //         project: 'nft-gallery',
-    //         authToken: process.env.SENTRY_AUTH_TOKEN,
-    //       }),
-    // ],
+    plugins: [
+      // process.env.NODE_ENV === 'development'
+      //   ? null
+      //   : sentryVitePlugin({
+      //       org: 'kodadot',
+      //       project: 'nft-gallery',
+      //       authToken: process.env.SENTRY_AUTH_TOKEN,
+      //     }),
+      svgLoader({
+        defaultImport: 'url',
+      }),
+    ],
   },
 
   build: {
@@ -177,6 +181,10 @@ export default defineNuxtConfig({
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
+
+  colorMode: {
+    classSuffix: '',
+  },
 
   // Auto import components: https://nuxt.com/docs/api/nuxt-config#components
   components: {

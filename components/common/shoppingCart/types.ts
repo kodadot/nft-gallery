@@ -1,4 +1,9 @@
-import { EntityWithId, NFTMetadata } from '../../rmrk/service/scheme'
+import {
+  CollectionFloorPrice,
+  EntityWithId,
+  NFTMetadata,
+} from '@/components/rmrk/service/scheme'
+
 import { Royalty } from '@/utils/royalty'
 
 export type ShoppingCartItem = {
@@ -8,8 +13,9 @@ export type ShoppingCartItem = {
   name: string
   currentOwner: string
   royalty?: Royalty
-  collection: EntityWithId
+  collection: EntityWithId & CollectionFloorPrice
   addedAt: number
   meta?: NFTMetadata
   metadata: string
+  sn: string
 }

@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { useResizeObserver } from '@vueuse/core'
 import {
   DEFAULT_GRID_SECTION,
   GridSection,
@@ -24,6 +23,9 @@ const props = withDefaults(
     mobileVariant?: boolean
     gridSection?: GridSection
     mobileCols?: number
+    gapSize?: number
+    persist?: boolean
+    fillRows?: number // total amount of items in grid
   }>(),
   {
     defaultWidth: () => ({
@@ -34,14 +36,14 @@ const props = withDefaults(
     mobileVariant: true,
     gridSection: DEFAULT_GRID_SECTION,
     mobileCols: 1,
+    gapSize: 16, // 1rem
+    persist: false,
   },
 )
 
 const preferencesStore = usePreferencesStore()
 
-const cols = ref(5)
-const containerWidth = ref(0)
-const container = ref<HTMLDivElement | null>(null)
+const container = ref<HTMLDivElement>()
 
 const grid = computed(
   () =>
@@ -49,33 +51,20 @@ const grid = computed(
     (props.gridSection &&
       preferencesStore.getGridConfigBySection(props.gridSection)?.size),
 )
-const isMobileVariant = computed(
-  () => props.mobileVariant && containerWidth.value <= 768,
-)
 
-const updateColumns = () => {
-  if (containerWidth.value) {
-    const getCols = Math.floor(
-      containerWidth.value / props.defaultWidth[grid.value],
-    )
-
-    cols.value = isMobileVariant.value ? props.mobileCols : getCols
-  }
-}
-
-useResizeObserver(container, (entries) => {
-  const entry = entries[0]
-  containerWidth.value = entry.contentRect.width
-  updateColumns()
-})
-
-watch(grid, () => {
-  updateColumns()
+const { cols, isMobileVariant } = useDynamicGrid({
+  container,
+  itemMintWidth: computed(() => props.defaultWidth[grid.value] || undefined),
+  gapSize: computed(() => props.gapSize),
+  mobileVariant: props.mobileVariant,
+  persist: props.persist,
+  fillRows: computed(() => props.fillRows),
+  mobileCols: props.mobileCols,
 })
 
 const gridCols = computed(() => ({
   display: 'grid',
-  gap: '1rem',
+  gap: `${props.gapSize}px`,
   gridTemplateColumns: `repeat(${cols.value}, minmax(0, 1fr))`,
 }))
 </script>

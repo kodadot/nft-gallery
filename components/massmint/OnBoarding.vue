@@ -3,7 +3,7 @@
     <div class="flex items-center mb-7 px-8">
       <nuxt-link
         :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
-        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile flex flex-grow justify-center font-bold"
+        class="md:text-[2.5rem]/normal text-3xl/normal flex flex-grow justify-center font-bold"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
@@ -26,14 +26,14 @@
           :content="card.content"
           :active="index === currentSlide">
           <div v-if="index === 1">
-            <p class="is-size-6 font-bold mb-3">
+            <p class="text-base font-bold mb-3">
               {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
-            <p class="is-size-6 mb-5">
+            <p class="text-base mb-5">
               {{ $t('massmint.onboarding.cards.1.instructions') }}
             </p>
             <div class="flex justify-between items-center mb-4 column-mobile">
-              <span class="is-size-6 font-bold">
+              <span class="text-base font-bold">
                 {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
               </span>
               <div class="flex tab-gap">
@@ -188,6 +188,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   --card-height: 464px;
   --base-shift: calc((100% - var(--card-width)) / 2);
   gap: var(--card-gap);
+
   @include mobile {
     --card-width: 90vw;
     --card-gap: 2.5%;
@@ -226,15 +227,18 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
     gap: 0.75rem;
   }
 }
+
 .filter-tag {
   &:hover {
     background-color: unset;
   }
+
   &.active {
     @include ktheme() {
       background-color: theme('k-shade');
       color: theme('black');
     }
+
     &:hover {
       @include ktheme() {
         background-color: theme('k-shade') !important;
@@ -279,6 +283,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   &-left {
     left: calc((100% - $card-width) / 2 - 32px);
   }
+
   &-right {
     right: calc((100% - $card-width) / 2 - 32px);
   }
