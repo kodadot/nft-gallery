@@ -35,10 +35,8 @@ export const uploadMediaAndMetadataDirectories = async (
   const metaDirectoryCid = await pinDirectory(metadataFiles)
 
   // Preheat and upload files
-  await Promise.all(
-    mediaFiles.map((media, index) =>
-      preheatAndDirectUpload(media, imageHashes[index]),
-    ),
+  mediaFiles.map((_, index) =>
+    preheatFileFromIPFS(extractCid(imageHashes[index])),
   )
 
   return metadataFiles.map((_, index) =>
@@ -125,18 +123,7 @@ const createTokenMetadata = (
   return makeJsonFile(meta, String(index))
 }
 
-export const makeJsonFile = (data: any, name: string) =>
+export const makeJsonFile = (data: unknown, name: string) =>
   new File([JSON.stringify(data, null, 2)], `${name}.json`, {
     type: 'application/json',
   })
-
-const preheatAndDirectUpload = async (
-  media: File,
-  primaryHash: string,
-): Promise<void> => {
-  const { $consola } = useNuxtApp()
-  preheatFileFromIPFS(primaryHash)
-  const filePair: [File, File | null] = [media, null]
-  const hashPair: [string, string | undefined] = [primaryHash, undefined]
-  await uploadDirectWhenMultiple(filePair, hashPair).catch($consola.warn)
-}
