@@ -15,10 +15,9 @@
         modal-max-height="100vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
-        :scrollable="false"
         :loading="!autoTeleportLoaded"
         @close="onClose">
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div class="px-6">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
