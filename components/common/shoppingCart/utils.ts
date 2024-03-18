@@ -60,6 +60,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
     addedAt: new Date().getTime(),
     metadata: nft.metadata,
     meta: nft.meta,
+    sn: nft.sn,
   }
 }
 
@@ -82,6 +83,7 @@ export const nftToListingCartItem = (
     metadata: nft.metadata,
     meta: nft.meta,
     token: nft.token,
+    sn: nft.sn,
   }
 }
 

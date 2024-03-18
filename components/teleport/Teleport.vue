@@ -194,7 +194,7 @@ const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
-const amount = ref(0) //Required amount to be transfered is stored here
+const amount = ref(0) //Required amount to be transferred is stored here
 const { urlPrefix } = usePrefix()
 
 const displayAmount = computed({

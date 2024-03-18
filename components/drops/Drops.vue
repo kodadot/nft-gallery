@@ -68,7 +68,9 @@
       </div>
     </DynamicGrid>
 
-    <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
+    <DropsCreateCalendarEventModal
+      v-model="isCreateEventModalActive"
+      :title="$t('drops.kodadotWeeklyGenerativeDrop')" />
   </div>
 </template>
 

@@ -13,27 +13,16 @@
         <h2 class="mb-3">{{ $t('codeChecker.resources') }}:</h2>
         <div class="pl-3 flex flex-col gap-3">
           <a
-            v-safe-href="'https://hello.kodadot.xyz/tutorial/generative-art'"
+            v-for="item in RESOURCES_LIST"
+            :key="item.title"
+            v-safe-href="item.url"
             class="flex items-center w-fit"
             target="_blank"
             rel="nofollow noopener noreferrer">
             <div
               class="text-k-blue hover:text-k-blue-hover flex items-center mr-2">
               <NeoIcon icon="circle" pack="fas" class="text-[4px] mr-2" />
-              {{ $t('codeChecker.kodahashTemplate') }}
-            </div>
-            <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-[14px]" />
-          </a>
-
-          <a
-            v-safe-href="'https://github.com/vikiival/kodahash'"
-            class="flex items-center w-fit"
-            target="_blank"
-            rel="nofollow noopener noreferrer">
-            <div
-              class="text-k-blue hover:text-k-blue-hover flex items-center mr-2">
-              <NeoIcon icon="circle" pack="fas" class="text-[4px] mr-2" />
-              {{ $t('codeChecker.learnAboutGenArt') }}
+              {{ $t(item.title) }}
             </div>
             <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-[14px]" />
           </a>
@@ -154,6 +143,20 @@ import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Validity } from './types'
 
+const RESOURCES_LIST = [
+  {
+    title: 'codeChecker.kodahashTemplate',
+    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
+  },
+  {
+    title: 'codeChecker.learnAboutGenArt',
+    url: 'https://github.com/vikiival/kodahash',
+  },
+  {
+    title: 'codeChecker.codeChecker',
+    url: 'https://hello.kodadot.xyz/tutorial/generative-art/code-checker',
+  },
+]
 useEventListener(window, 'message', (res) => {
   if (res.data?.type === 'kodahash/render/completed') {
     renderEndTime.value = performance.now()
