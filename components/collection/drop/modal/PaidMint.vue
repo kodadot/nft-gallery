@@ -87,14 +87,17 @@ const mintButton = computed(() => {
 
   if (generatingVariations) {
     return {
-      label: `${$i18n.t('drops.generatingVariations')} ~ 5s `,
+      label: `${$i18n.t('drops.generatingVariations')} ~ 5s`,
       disabled: true,
       loading: true,
     }
   }
 
   if (!canMint.value) {
-    return { label: $i18n.t('loader.ipfs'), disabled: true }
+    return {
+      label: `${$i18n.t('loader.ipfs')} ~ 15s`,
+      disabled: true,
+    }
   }
 
   return { label: $i18n.t('drops.proceedToSigning'), disabled: false }
