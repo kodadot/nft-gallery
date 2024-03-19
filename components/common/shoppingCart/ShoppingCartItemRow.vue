@@ -19,7 +19,8 @@
             {{ nameWithIndex(nft.name, nft.sn) }}
           </nuxt-link>
           <div class="flex justify-between w-full">
-            <div class="whitespace-nowrap is-clipped text-ellipsis">
+            <div
+              class="whitespace-nowrap is-clipped text-ellipsis leading-normal">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
 
