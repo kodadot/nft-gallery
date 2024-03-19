@@ -179,7 +179,10 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" class="w-4 h-4" size="medium" />
+                <NeoIcon
+                  icon="user-circle"
+                  class="w-4 h-4 ml-2 mb-1"
+                  size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
@@ -256,8 +259,6 @@ const handleMobileChainSelect = () => {
 const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
-  showMobileNavbar()
-
   closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,

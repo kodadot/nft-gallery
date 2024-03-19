@@ -1,7 +1,15 @@
 <template>
   <a class="navbar-item" @click="toggleNotificationModal">
     <span v-if="props.showLabel">{{ $t('notification.notifications') }}</span>
-    <NeoIcon icon="bell" class="w-4 h-4" size="medium" />
+    <NeoIcon
+      icon="bell"
+      class="w-4 h-4"
+      :class="{ 'm-4': isMobileWithoutTablet }"
+      size="medium" />
+    <NeoIcon
+      v-if="isMobileWithoutTablet"
+      class="icon--right"
+      icon="chevron-right" />
   </a>
 </template>
 
