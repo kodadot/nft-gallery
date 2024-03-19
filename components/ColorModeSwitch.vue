@@ -10,7 +10,7 @@
       <template #trigger>
         <div class="flex items-center cursor-pointer">
           <NeoIcon :icon="currentMode.icon" size="medium" />
-          <span class="ml-1">{{ currentMode?.label }}</span>
+          <span class="ml-1 min-w-[82px]">{{ currentMode?.label }}</span>
         </div>
       </template>
       <NeoDropdownItem
