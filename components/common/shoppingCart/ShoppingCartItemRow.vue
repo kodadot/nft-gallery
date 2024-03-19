@@ -11,7 +11,7 @@
             class="border image is-48x48" />
         </nuxt-link>
         <div
-          class="flex flex-col justify-between ml-4 min-w-0 w-full leading-none">
+          class="flex flex-col justify-between ml-4 min-w-0 w-full leading-tight">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="font-bold text-text-color whitespace-nowrap is-clipped text-ellipsis"
@@ -19,8 +19,7 @@
             {{ nameWithIndex(nft.name, nft.sn) }}
           </nuxt-link>
           <div class="flex justify-between w-full">
-            <div
-              class="whitespace-nowrap is-clipped text-ellipsis leading-normal">
+            <div class="whitespace-nowrap is-clipped text-ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
 
