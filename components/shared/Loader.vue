@@ -47,7 +47,7 @@ const props = withDefaults(
 )
 
 const { $i18n } = useNuxtApp()
-const placeholder = '/preloader.svg'
+const placeholder = '~/assets/svg/preloader.svg'
 const randomNumber = ref(randomIntegerBetween(1, 35))
 const interval = ref()
 
