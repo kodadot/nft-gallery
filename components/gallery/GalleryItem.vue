@@ -59,33 +59,39 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
-        <div v-if="generativeArtToolbar">
+        <div v-if="nftAnimation && nftAnimationMimeType">
           <div
             class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
-            <a
-              v-if="
-                canPreview &&
-                !mediaItemRef?.isLewdBlurredLayer &&
-                !hasAnimatedResources &&
-                !isFullscreen
-              "
-              data-testid="reload"
-              :label="$t('reload')"
-              no-shadow
-              @click="handleReloadClick">
-              <NeoIcon
-                :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
-                size="medium"
-                :spin="isLoading" />
-            </a>
-            <a data-testid="fullscreen" no-shadow @click="toggleFullscreen">
-              <NeoIcon
-                icon="arrow-up-right-and-arrow-down-left-from-center"
-                size="medium" />
-            </a>
-            <a data-testid="newtab" no-shadow @click="handleNewTab">
-              <NeoIcon icon="arrow-up-right" size="medium" />
-            </a>
+            <NeoTooltip :label="$t('reload')" position="top">
+              <a
+                v-if="
+                  canPreview &&
+                  !mediaItemRef?.isLewdBlurredLayer &&
+                  !hasAnimatedResources &&
+                  !isFullscreen
+                "
+                data-testid="reload"
+                no-shadow
+                @click="handleReloadClick">
+                <NeoIcon
+                  :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
+                  size="medium"
+                  :label="$t('reload')"
+                  :spin="isLoading" />
+              </a>
+            </NeoTooltip>
+            <NeoTooltip :label="$t('fullscreen')" position="top">
+              <a data-testid="fullscreen" no-shadow @click="toggleFullscreen">
+                <NeoIcon
+                  icon="arrow-up-right-and-arrow-down-left-from-center"
+                  size="medium" />
+              </a>
+            </NeoTooltip>
+            <NeoTooltip :label="$t('new tab')" position="top">
+              <a data-testid="newtab" no-shadow @click="handleNewTab">
+                <NeoIcon icon="arrow-up-right" size="medium" />
+              </a>
+            </NeoTooltip>
           </div>
         </div>
       </div>
@@ -222,6 +228,7 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import NeoTooltip from '~/libs/ui/src/components/NeoTooltip/NeoTooltip.vue'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -269,7 +276,6 @@ const canPreview = computed(
 const activeCarousel = ref(0)
 
 const isLoading = ref(false)
-const generativeArtToolbar = computed(() => route.path.includes('/gallery'))
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
