@@ -89,20 +89,18 @@ export const useTopCollections = (limit: number, immediate = true) => {
 
       topCollectionWithVolumeList.value = []
       collectionsSalesResults.value = data.value
-    }
-  })
 
-  watch(collectionsSalesResults, () => {
-    if (
-      collectionsSalesResults.value &&
-      topCollections.value?.collectionEntities.length
-    ) {
-      topCollectionWithVolumeList.value = proccessData(
-        topCollections.value.collectionEntities,
-        collectionsSalesResults.value.collectionsSales,
-      )
+      if (
+        collectionsSalesResults.value &&
+        topCollections.value?.collectionEntities.length
+      ) {
+        topCollectionWithVolumeList.value = proccessData(
+          topCollections.value.collectionEntities,
+          collectionsSalesResults.value.collectionsSales,
+        )
 
-      loading.value = false
+        loading.value = false
+      }
     }
   })
 
