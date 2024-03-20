@@ -13,6 +13,18 @@
             relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
+          <!-- preview button -->
+          <a
+            v-if="
+              canPreview &&
+              !mediaItemRef?.isLewdBlurredLayer &&
+              !hasAnimatedResources &&
+              !isFullscreen
+            "
+            class="fullscreen-button justify-center items-center"
+            @click="toggleFullscreen">
+            <NeoIcon icon="expand" />
+          </a>
           <NeoButton
             v-if="isFullscreen"
             class="back-button"
@@ -63,16 +75,7 @@
           <div
             class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
             <NeoTooltip :label="$t('reload')" position="top">
-              <a
-                v-if="
-                  canPreview &&
-                  !mediaItemRef?.isLewdBlurredLayer &&
-                  !hasAnimatedResources &&
-                  !isFullscreen
-                "
-                data-testid="reload"
-                no-shadow
-                @click="handleReloadClick">
+              <a data-testid="reload" no-shadow @click="handleReloadClick">
                 <NeoIcon
                   :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
                   size="medium"
