@@ -31,9 +31,11 @@
             </div>
 
             <div class="flex gap-2">
-              <span class="text-k-grey">{{ $t('price') }}</span>
-              <span v-if="isFreeDrop">{{ $t('free') }}</span>
-              <Money v-else :value="price" :prefix="dropPrefix" inline />
+              <slot name="price">
+                <span class="text-k-grey">{{ $t('price') }}</span>
+                <span v-if="isFreeDrop">{{ $t('free') }}</span>
+                <Money v-else :value="price" :prefix="dropPrefix" inline
+              /></slot>
             </div>
           </div>
         </div>
@@ -50,14 +52,13 @@ import { DropStatus } from '@/components/drops/useDrops'
 import TimeTag from './TimeTag.vue'
 
 const emit = defineEmits(['click'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     image: string
     name: string
     showTimeTag: boolean
-    dropStartTime: Date
+    dropStartTime?: Date | null
     dropStatus: DropStatus
-    isFreeDrop: boolean
     price: string
     dropPrefix?: Prefix
     loading?: boolean
@@ -68,11 +69,13 @@ withDefaults(
     loading: false,
     cardIs: 'a',
     to: undefined,
+    dropStartTime: undefined,
     dropPrefix: 'ahp',
   },
 )
-</script>
 
+const isFreeDrop = computed(() => !Number(props.price))
+</script>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .is-ellipsis {

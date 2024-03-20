@@ -21,7 +21,7 @@
             @click="emit('close')" />
         </header>
 
-        <div class="!mt-6">
+        <div v-if="dropStartTime" class="!mt-6">
           <NeoButton no-shadow rounded @click="isCreateEventModalActive = true">
             {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span
             >{{ formattedDate }}
@@ -51,34 +51,63 @@
           </div>
         </div>
 
+        <CarouselModuleCarouselAgnostic
+          v-slot="{ item }"
+          class="!mt-10"
+          :items="dropCalendar.items"
+          :config="config">
+          <BaseMediaItem
+            class="border border-k-shade"
+            :src="sanitizeIpfsUrl(item.image)"
+            preview
+            is-detail />
+        </CarouselModuleCarouselAgnostic>
+
         <div class="!mt-10">
           <h2 class="text-xl font-bold">{{ $t('drops.dropInformation') }}</h2>
 
           <div class="!mt-6 flex gap-16">
             <div>
               <span class="text-k-grey !mr-3">{{ $t('price') }}:</span>
-              <span></span>
+              <span>{{ price }}</span>
             </div>
 
             <div>
               <span class="text-k-grey !mr-3">{{ $t('supply') }}:</span>
-              <span>{{ dropCalendar.supply || $t('helper.unlimited') }}</span>
+              <span>{{
+                withPlaceholder(
+                  dropCalendar.supply,
+                  dropCalendar.supply || $t('helper.unlimited'),
+                )
+              }}</span>
             </div>
           </div>
         </div>
 
-        <div class="!mt-6">
+        <div
+          v-if="dropCalendar.holder_of || dropCalendar.location"
+          class="!mt-6">
           <h2 class="text-lg font-bold">{{ $t('requirements') }}</h2>
 
           <ul class="list-disc !mt-4">
-            <li v-if="dropCalendar.holder_of" class="ml-4">Holder Of NFT</li>
-            <li v-if="dropCalendar.location" class="ml-4"></li>
+            <li v-if="dropCalendar.holder_of && collection" class="ml-4">
+              Holder Of
+              <nuxt-link
+                class="has-text-link"
+                :to="`/ahp/collection/${collection.id}`"
+                >{{ collection.name }}</nuxt-link
+              >
+              NFT
+            </li>
+            <li v-if="dropCalendar.location" class="ml-4">
+              Geolocation of {{ dropCalendar.location }}
+            </li>
           </ul>
         </div>
 
         <hr class="my-10" />
 
-        <Markdown :source="dropCalendar.description" />
+        <Markdown :source="dropCalendar.description ?? ''" />
       </template>
     </NeoModal>
 
@@ -94,11 +123,38 @@
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { format } from 'date-fns'
 import { DropCalendar } from '@/services/fxart'
+import { useCollectionMinimal } from '~/components/collection/utils/useCollectionDetails'
+
+const placeholder = 'TBA'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{ dropCalendar?: DropCalendar }>()
 
+const { $i18n } = useNuxtApp()
+const { decimalsOf } = useChain()
+const { width } = useWindowSize()
+
+const { formatted: formattedPrice } = useAmount(
+  computed(() => props.dropCalendar?.price || ''),
+  computed(() => decimalsOf('ahp')),
+  computed(() => 'DOT'),
+)
+
+const { collection } = useCollectionMinimal({
+  collectionId: computed(() => props.dropCalendar?.holder_of as string),
+})
+
+const config = computed(() => ({
+  slides: { perView: width.value > 768 ? 2 : 1.2, spacing: 16 },
+}))
 const isCreateEventModalActive = ref(false)
+
+const price = computed(() =>
+  withPlaceholder(
+    props.dropCalendar?.price,
+    props.dropCalendar?.price ? formattedPrice.value : $i18n.t('free'),
+  ),
+)
 
 const isModalActive = computed(() => Boolean(props.dropCalendar))
 const formattedDate = computed(() =>
@@ -108,8 +164,11 @@ const formattedDate = computed(() =>
 )
 
 const dropStartTime = computed(() =>
-  props.dropCalendar
-    ? new Date(`${props.dropCalendar.date} ${props.dropCalendar.time}`)
+  props.dropCalendar?.date
+    ? new Date(`${props.dropCalendar.date} ${props.dropCalendar.time || ''}`)
     : undefined,
 )
+
+const withPlaceholder = (nullableValue: unknown, or: unknown) =>
+  nullableValue === null ? placeholder : or
 </script>

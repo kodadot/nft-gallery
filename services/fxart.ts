@@ -149,13 +149,21 @@ export type DropCalendar = {
   id: number
   name: string
   description: string
-  supply: number | undefined
-  royalty: number | undefined
-  address: string
-  content: string
   twitter_handle: string
-  date: string
-  time: string
+  date: string | null
+  time: string | null
+  address: string | null
+  content: string | null
+  supply: number | null
+  royalty: number | null
+  price: string | null
+  holder_of: string | null
+  location: string | null
+  items: CalendarItem[]
+}
+
+export type CalendarItem = {
+  image: string
 }
 
 export const getDropCalendar = async () => {

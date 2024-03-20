@@ -5,10 +5,10 @@
     </h2>
 
     <div class="flex flex-col gap-14">
-      <div v-for="(grouppedDrop, date) in grouppedDrops" :key="date">
+      <div v-for="(grouppedDrop, label) in grouppedDropCalendars" :key="label">
         <div class="mb-6 flex items-center">
           <NeoButton variant="secondary-rounded" no-shadow>{{
-            formatDate(date as string)
+            label
           }}</NeoButton>
           <hr class="w-full" />
         </div>
@@ -18,14 +18,19 @@
           :loaded="!pending"
           :default-skeleton-count="defaultSkeletonCount"
           skeleton-key="current-drops-skeleton">
-          <template #card="{ item }">
+          <template #card="{ item }: { item: DropCalendar }">
             <DropsBasicDropCard
               :name="item.name"
-              :image="sanitizeIpfsUrl(item.image)"
-              :drop-start-time="new Date(item.date)"
+              :price="item.price"
+              :image="sanitizeIpfsUrl(item.items[0]?.image)"
+              :drop-start-time="item.date ? new Date(item.date) : null"
               :drop-status="DropStatus.SCHEDULED"
-              show-time-tag
-              @click="() => handleClick(item)" />
+              :show-time-tag="item.date !== null"
+              @click="() => handleClick(item)">
+              <template v-if="item.price === null" #price>
+                <span class="text-k-grey">{{ $t('priceNoSet') }}</span>
+              </template>
+            </DropsBasicDropCard>
           </template>
         </DropsGrid>
       </div>
@@ -39,20 +44,48 @@
 <script lang="ts" setup>
 import { DropStatus } from '@/components/drops/useDrops'
 import { NeoButton } from '@kodadot1/brick'
-import { format } from 'date-fns'
-import groupBy from 'lodash/groupBy'
+import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
+import groupBy from 'lodash/groupBy'
 
 defineProps<{
   defaultSkeletonCount: number
 }>()
 
-const { data, pending } = useAsyncData(() => getDropCalendar())
+const { data, pending } = useAsyncData<DropCalendar[]>(() => getDropCalendar())
 
 const previewDropCalendar = ref<DropCalendar>()
 
-const grouppedDrops = computed(() => groupBy(data.value, (i) => i.date))
+const scheduledDropCalendars = computed(() =>
+  data.value?.filter((item) => item.date),
+)
+
+const unscheduledDropCalendars = computed(() =>
+  data.value?.filter((item) => !item.date),
+)
+
+const oldestDate = computed(() =>
+  Math.min.apply(
+    null,
+    scheduledDropCalendars.value?.map((x) => new Date(x.date)),
+  ),
+)
+
+const grouppedDropCalendars = computed(() => {
+  const groupped = groupBy(scheduledDropCalendars.value, (x) =>
+    formatDate(x.date!),
+  )
+
+  if (unscheduledDropCalendars.value?.length) {
+    Object.assign(groupped, {
+      [`${format(addMonths(oldestDate.value, 1), 'MMMM')} +`]:
+        unscheduledDropCalendars.value,
+    })
+  }
+
+  return groupped
+})
 
 const formatDate = (date: string) => format(new Date(date), 'dd. MMMM')
 

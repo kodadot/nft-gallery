@@ -8,7 +8,6 @@
     :show-time-tag="Boolean(drop.dropStartTime || ended)"
     :drop-start-time="drop.dropStartTime"
     :drop-status="drop.status"
-    :is-free-drop="isFreeDrop"
     :price="drop.price" />
 </template>
 
@@ -33,7 +32,6 @@ const image = ref('')
 const externalUrl = ref()
 
 const dropPrefix = computed(() => props.drop.chain as Prefix)
-const isFreeDrop = computed(() => !Number(props.drop.price))
 const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 
 onMounted(async () => {
