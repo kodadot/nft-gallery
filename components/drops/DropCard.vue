@@ -11,7 +11,7 @@
         <img
           :src="image"
           :alt="drop.collection.name"
-          class="group-hover:opacity-[0.85] h-[174px] object-cover w-full" />
+          class="group-hover:opacity-[0.85] aspect-video object-cover w-full" />
 
         <div
           class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
@@ -21,19 +21,19 @@
           >
 
           <div
-            class="flex item-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2">
-            <div class="flex justify-between items-center min-h-[34px]">
-              <TimeTag
-                v-if="drop.dropStartTime || ended"
-                :drop-start-time="drop.dropStartTime"
-                :drop-status="drop.status" />
+            class="min-h-[66px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
+            <div>
+              <span>{{ mintedCount }}</span
+              ><span class="text-k-grey">/{{ drop.max }}</span>
             </div>
-
-            <div class="flex gap-2">
-              <span class="text-k-grey">{{ $t('price') }}</span>
-              <span v-if="isFreeDrop">{{ $t('free') }}</span>
-              <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
-            </div>
+            <TimeTag
+              v-if="drop.dropStartTime && !ownerAddresses.length"
+              :drop-start-time="drop.dropStartTime"
+              :drop-status="drop.status" />
+            <CollectionDropCollectedBy
+              v-if="ownerAddresses.length"
+              :addresses="ownerAddresses"
+              :max-address-count="3" />
           </div>
         </div>
       </component>
@@ -49,9 +49,11 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
-import { Drop, DropStatus } from './useDrops'
+import { Drop } from './useDrops'
 import { resolveComponent } from 'vue'
 import { Prefix } from '@kodadot1/static'
+import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
+import { getDropStatus } from '@/services/fxart'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -67,13 +69,23 @@ const image = ref('')
 const externalUrl = ref()
 
 const dropPrefix = computed(() => props.drop.chain as Prefix)
-const isFreeDrop = computed(() => !Number(props.drop.price))
-const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
+
+const { owners } = useCollectionActivity({
+  collectionId: computed(() => props.drop?.collection).value,
+})
+
+const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+
+const mintedCount = ref(0)
 
 onMounted(async () => {
   if (!props.drop?.collection) {
     return
   }
+
+  getDropStatus(props.drop.collection.alias)
+    .then((res) => (mintedCount.value = res.count))
+    .catch((err) => console.error(err))
 
   const dropCardImage = props.drop.banner || props.drop.image
 

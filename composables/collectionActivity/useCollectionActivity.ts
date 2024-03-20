@@ -15,7 +15,7 @@ export const useCollectionActivity = ({ collectionId }) => {
 
   const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
   const variables = computed(() => ({
-    id: collectionId.value,
+    id: collectionId.value || collectionId.collection,
   }))
 
   const { data, refetch } = useGraphql({
