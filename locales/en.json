@@ -1521,6 +1521,7 @@
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
+    "calendarMoreDrops": "More drops are in the works! Dates will be announced soon. Stay tuned.",
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"

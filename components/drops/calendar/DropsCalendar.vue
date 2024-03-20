@@ -7,9 +7,28 @@
     <div class="flex flex-col gap-14">
       <div v-for="(grouppedDrop, label) in grouppedDropCalendars" :key="label">
         <div class="mb-6 flex items-center">
-          <NeoButton variant="secondary-rounded" no-shadow>{{
-            label
-          }}</NeoButton>
+          <NeoButton variant="secondary-rounded" no-shadow
+            >{{ label }}
+
+            <tippy
+              v-if="
+                unscheduledDropCalendars?.length && label === unScheduledLabel
+              "
+              placement="right"
+              :append-to="body">
+              <NeoIcon
+                icon="fa-info-circle"
+                pack="fa-regular"
+                class="text-k-grey" />
+
+              <template #content>
+                <div class="w-[16rem] bg-background-color text-xs border p-4">
+                  <p class="font-bold !mb-2">{{ $t('drops.comingSoon') }}</p>
+                  <p>{{ $t('drops.calendarMoreDrops') }}</p>
+                </div>
+              </template>
+            </tippy>
+          </NeoButton>
           <hr class="w-full" />
         </div>
 
@@ -46,7 +65,7 @@
 </template>
 <script lang="ts" setup>
 import { DropStatus } from '@/components/drops/useDrops'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
@@ -60,6 +79,7 @@ defineProps<{
 const { data, pending } = useAsyncData<DropCalendar[]>(() => getDropCalendar())
 
 const previewDropCalendar = ref<DropCalendar>()
+const body = ref(document.body)
 
 const scheduledDropCalendars = computed(() =>
   data.value?.filter((item) => item.date),
@@ -76,6 +96,10 @@ const oldestDate = computed(() =>
   ),
 )
 
+const unScheduledLabel = computed(
+  () => `${format(addMonths(oldestDate.value, 1), 'MMMM')} +`,
+)
+
 const grouppedDropCalendars = computed(() => {
   const groupped = groupBy(scheduledDropCalendars.value, (x) =>
     formatDate(x.date!),
@@ -83,8 +107,7 @@ const grouppedDropCalendars = computed(() => {
 
   if (unscheduledDropCalendars.value?.length) {
     Object.assign(groupped, {
-      [`${format(addMonths(oldestDate.value, 1), 'MMMM')} +`]:
-        unscheduledDropCalendars.value,
+      [unScheduledLabel.value]: unscheduledDropCalendars.value,
     })
   }
 
