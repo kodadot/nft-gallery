@@ -28,7 +28,7 @@
               :show-time-tag="item.date !== null"
               @click="() => handleClick(item)">
               <template v-if="item.price === null" #price>
-                <span class="text-k-grey">{{ $t('priceNoSet') }}</span>
+                <span class="text-k-grey">{{ $t('helper.priceNotSet') }}</span>
               </template>
             </DropsBasicDropCard>
           </template>
