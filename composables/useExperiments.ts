@@ -6,7 +6,7 @@ export default function () {
 
   // poc by using unique id. ref: https://github.com/kodadot/private-workers/issues/87#issuecomment-1997444473
   const route = useRoute()
-  const pocDrops = ['/ahk/drops/pills']
+  const pocDrops = ['/ahk/drops/pills', '/ahk/drops/monotifs']
   const uid = computed(() => {
     return has('uid') || pocDrops.includes(route.path)
   })

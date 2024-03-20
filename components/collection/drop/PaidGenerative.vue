@@ -101,7 +101,7 @@ const mintNft = async () => {
       console.log('uid', uid.value)
     }
 
-    const cb = api.tx.utility.batchAll
+    const cb = api.tx.utility.batch
     const args = allocatedNFTs.value.map((allocatedNFT) =>
       api.tx.nfts.mint(
         drop.value?.collection,
@@ -114,7 +114,21 @@ const mintNft = async () => {
       ),
     )
 
-    howAboutToExecute(accountId.value, cb, [args], {
+    const url = new URL(
+      'https://nft-metadata.preschian-cdn.workers.dev/generate',
+    )
+    const args2 = allocatedNFTs.value.map((nft) => {
+      url.searchParams.set('collection', drop.value?.collection)
+      url.searchParams.set('nft', nft.id.toString())
+      url.searchParams.set('image', previewItem.value?.image as string)
+      return api.tx.nfts.setMetadata(
+        drop.value?.collection,
+        nft.id,
+        url.toString(),
+      )
+    })
+
+    howAboutToExecute(accountId.value, cb, [[args, args2]], {
       onResult: ({ txHash }) => {
         mintingSession.value.txHash = txHash
       },
