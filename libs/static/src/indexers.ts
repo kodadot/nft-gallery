@@ -12,6 +12,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   ahp: 'https://ahp.gql.api.kodadot.xyz/',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
   imx: 'https://squid.subsquid.io/flick/graphql',
+  base: 'https://squid.subsquid.io/basick/graphql',
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   // glmr: 'https://squid.subsquid.io/click/v/002/graphql',
