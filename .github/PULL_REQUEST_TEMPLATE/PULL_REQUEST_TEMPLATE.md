@@ -1,4 +1,4 @@
-**Thank you for your contribution** to the [KodaDot - One Stop Shop for Polkadot NFTs](https://kodadot.xyz).
+**Thank you for your contribution** to the [Koda - Generative Art Marketplace](https://kodadot.xyz).
 
 👇 __ Let's make a quick check before the contribution.
 
@@ -11,7 +11,7 @@
 ## Context
 
 - [ ] Closes #<issue_number>
-- [ ] Requires deployment <snek/rubick/worker>
+- [ ] Requires deployment <worker/stick/speck>
 
 #### Before submitting pull request, please make sure:
 
@@ -22,7 +22,7 @@
 
 #### Optional
 
-- [ ] I've tested it at </ksm/collection>
+- [ ] I've tested it at </ahp/collection>
 - [ ] I've tested PR on mobile
 - [ ] I've written unit tests 🧪
 - [ ] I've found edge cases
@@ -33,7 +33,7 @@
 
 #### Community participation
 
-- [ ] [Are you at KodaDot Ecosystem Telegram?](https://t.me/koda_eco)
+- [ ] [Are you at Koda Ecosystem Telegram?](https://t.me/koda_eco)
 
 ## Screenshot 📸
 
