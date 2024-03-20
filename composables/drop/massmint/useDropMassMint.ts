@@ -2,7 +2,8 @@ import {
   // AllocatedNFT,
   DoResult,
   // allocateCollection,
-  allocateClaim as claimAllocation,
+  // allocateClaim as claimAllocation,
+  updateMetadata,
 } from '@/services/fxart'
 
 import { ImageDataPayload } from '../useGenerativeIframeData'
@@ -36,7 +37,7 @@ export default () => {
     previewItem,
     allocatedNFTs,
     toMintNFTs,
-    mintingSession,
+    // mintingSession,
     loading,
   } = storeToRefs(dropStore)
 
@@ -200,14 +201,13 @@ export default () => {
   const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
     return new Promise((resolve, reject) => {
       try {
-        claimAllocation(
-          {
-            sn: nft.sn,
-            txHash: mintingSession.value.txHash,
-            address: accountId.value,
-          },
-          drop.value.id,
-        ).then(({ result }) => resolve(result))
+        updateMetadata({
+          nft: nft.sn,
+          collection: drop.value.id,
+          chain: drop.value.chain,
+          image: nft.image,
+          animationUrl: nft.image,
+        }).then(({ result }) => resolve(result))
       } catch (e) {
         reject(e)
       }
