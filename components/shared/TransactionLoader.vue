@@ -148,8 +148,8 @@ const steps = [
   },
 ]
 
-const loading = '/preloader.svg'
-const congrats = '/congrats-message-header.svg'
+const loading = '~/assets/svg/preloader.svg'
+const congrats = '~/assets/svg/congrats-message-header.svg'
 
 const isFinalStep = computed(() => activeStep.value === steps.length)
 
