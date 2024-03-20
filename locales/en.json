@@ -1198,6 +1198,10 @@
   "profileMenu": {
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
+    "systemMode": "System ({0})",
+    "system": "System Default",
+    "light": "Light",
+    "dark": "Dark",
     "language": "Language",
     "disconnect": "Disconnect",
     "wallet": "Wallet"
@@ -1768,7 +1772,7 @@
     "webglSupported": "WebGL Supported",
     "local": "Local",
     "automaticResize": "Automatic Sizing - Responsiveness",
-    "automaticResizeMeans":"Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
+    "automaticResizeMeans": "Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
     "correctHTMLName": "Correct HTML Name",
     "correctHTMLNameMeans": "An issue in this category means that the html should have a title tag and the title should be different from kodaHash. Like this:",
     "usingKodaHash": "Using Kodahash Render",
