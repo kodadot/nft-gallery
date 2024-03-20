@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
-    (prefix) => location.hostname.startsWith(`${prefix}.`),
+    (prefix) => process.client && location.hostname.startsWith(`${prefix}.`),
   )
 
   if (

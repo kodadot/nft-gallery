@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
     plugins: [
       svgLoader({
@@ -49,10 +49,12 @@ export default defineNuxtConfig({
               '@kodadot1/minimark/v2',
               '@paraspell/sdk',
               '@polkadot/api',
+              '@polkadot/extension-dapp',
               '@polkadot/vue-identicon',
               '@ramp-network/ramp-instant-sdk',
               '@transak/transak-sdk',
               '@unhead/vue',
+              'bn.js',
               'chart.js/auto',
               'chartjs-adapter-date-fns',
               'chartjs-plugin-zoom',
@@ -60,11 +62,16 @@ export default defineNuxtConfig({
               'keen-slider/vue',
               'keen-slider/vue.es',
               'lodash/isEqual',
+              'lodash/filter',
+              'lodash/orderBy',
               'lodash/sortBy',
               'lodash/sum',
               'lodash/unionBy',
               'markdown-it',
+              'partysocket',
               'prismjs',
+              'qrcode.vue',
+              'wavesurfer.js',
             ],
           }
         : undefined,
@@ -80,7 +87,7 @@ export default defineNuxtConfig({
   },
 
   // Disable server-side rendering
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {

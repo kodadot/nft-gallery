@@ -14,7 +14,9 @@ export type IPFSProviders =
   | 'image'
 
 export const kodaImage =
-  window.location.host === 'kodadot.xyz' ? SERVICES.image : SERVICES.imageBeta
+  process.client && window.location.host === 'kodadot.xyz'
+    ? SERVICES.image
+    : SERVICES.imageBeta
 
 const ipfsProviders: Partial<Record<IPFSProviders, string>> = {
   pinata: 'https://kodadot.mypinata.cloud/',
