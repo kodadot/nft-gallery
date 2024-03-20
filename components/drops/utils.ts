@@ -33,5 +33,6 @@ export function formatDropStartTime(
 }
 
 export const fromatCETDate = (date: string, time: string = ''): Date => {
-  return new Date(`${date}${time ? `T${time}` : ''}+01:00`)
+  const t = time ? `T${time}` : ''
+  return new Date(`${date}${t}+01:00`)
 }
