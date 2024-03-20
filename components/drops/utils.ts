@@ -5,8 +5,9 @@ export function toDropScheduledDurationString(startTime: Date) {
     start: startTime,
     end: new Date(),
   })
+  const { hours = 0 } = duration
   return formatDuration(duration, {
-    format: ['hours', 'minutes'],
+    format: hours > 0 ? ['hours'] : ['minutes'],
   })
 }
 
