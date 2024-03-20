@@ -89,15 +89,16 @@ const unscheduledDropCalendars = computed(() =>
   data.value?.filter((item) => !item.date),
 )
 
-const oldestDate = computed(() =>
-  Math.min.apply(
-    null,
-    scheduledDropCalendars.value?.map((x) => new Date(x.date)),
-  ),
+const lastMonthDate = computed(() =>
+  scheduledDropCalendars.value
+    ?.map((x: DropCalendar) => new Date(x.date!))
+    .reduce((oldest, current) => (current > oldest ? current : oldest)),
 )
 
-const unScheduledLabel = computed(
-  () => `${format(addMonths(oldestDate.value, 1), 'MMMM')} +`,
+const unScheduledLabel = computed(() =>
+  lastMonthDate.value
+    ? `${format(addMonths(lastMonthDate.value, 1), 'MMMM')} +`
+    : '',
 )
 
 const grouppedDropCalendars = computed(() => {
