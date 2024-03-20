@@ -9,6 +9,8 @@ export function toDropScheduledDurationString(startTime: Date) {
   return formatDuration(duration, {
     format: hours > 0 ? ['hours'] : ['minutes'],
   })
+    .replace('hour', 'Hr')
+    .replace('minute', 'Min')
 }
 
 export function formatDropStartTime(startTime: Date, locale: string) {
