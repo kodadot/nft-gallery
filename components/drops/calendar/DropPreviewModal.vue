@@ -105,7 +105,7 @@
           </ul>
         </div>
 
-        <hr class="my-10" />
+        <hr class="!my-10" />
 
         <Markdown :source="dropCalendar.description ?? ''" />
       </template>
