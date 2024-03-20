@@ -4,7 +4,7 @@
       :value="isModalActive"
       append-to-body
       no-shadow
-      content-class="!p-10 h-full !absolute top-0 right-0 !border-y-0 max-md:!border-0 !border-r-0 !w-2/3 "
+      content-class="!p-10 h-full !absolute top-0 right-0 !border-y-0 max-md:!border-0 !border-r-0 md:!w-2/3 "
       max-height="100vh"
       @close="emit('close')">
       <template v-if="dropCalendar">
