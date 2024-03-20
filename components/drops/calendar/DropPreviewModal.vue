@@ -157,9 +157,10 @@ const price = computed(() =>
 )
 
 const isModalActive = computed(() => Boolean(props.dropCalendar))
+
 const formattedDate = computed(() =>
   dropStartTime.value
-    ? `${format(dropStartTime.value, 'd. MMMM s:mm')} CET`
+    ? `${format(dropStartTime.value, 'd. MMMM h:mm')} CET`
     : '',
 )
 

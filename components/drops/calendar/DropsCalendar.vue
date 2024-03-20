@@ -23,9 +23,12 @@
               :name="item.name"
               :price="item.price"
               :image="sanitizeIpfsUrl(item.items[0]?.image)"
-              :drop-start-time="item.date ? new Date(item.date) : null"
+              :drop-start-time="
+                item.date ? fromatCETDate(item.date, item.time) : null
+              "
               :drop-status="DropStatus.SCHEDULED"
               :show-time-tag="item.date !== null"
+              :time-tag-with-time="Boolean(item.time)"
               @click="() => handleClick(item)">
               <template v-if="item.price === null" #price>
                 <span class="text-k-grey">{{ $t('helper.priceNotSet') }}</span>
@@ -48,6 +51,7 @@ import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
 import groupBy from 'lodash/groupBy'
+import { fromatCETDate } from '@/components/drops/utils'
 
 defineProps<{
   defaultSkeletonCount: number

@@ -27,14 +27,15 @@
               <TimeTag
                 v-if="showTimeTag"
                 :drop-start-time="dropStartTime"
-                :drop-status="dropStatus" />
+                :drop-status="dropStatus"
+                :with-time="timeTagWithTime" />
             </div>
 
             <div class="flex gap-2">
               <slot name="price">
                 <span class="text-k-grey">{{ $t('price') }}</span>
                 <span v-if="isFreeDrop">{{ $t('free') }}</span>
-                <Money v-else :value="price" :prefix="dropPrefix" inline
+                <Money v-else :value="price ?? ''" :prefix="dropPrefix" inline
               /></slot>
             </div>
           </div>
@@ -59,11 +60,12 @@ const props = withDefaults(
     showTimeTag: boolean
     dropStartTime?: Date | null
     dropStatus: DropStatus
-    price: string
+    price: string | null
     dropPrefix?: Prefix
     loading?: boolean
     cardIs?: string | object
     to?: string
+    timeTagWithTime?: boolean
   }>(),
   {
     loading: false,
@@ -71,6 +73,7 @@ const props = withDefaults(
     to: undefined,
     dropStartTime: undefined,
     dropPrefix: 'ahp',
+    timeTagWithTime: false,
   },
 )
 
