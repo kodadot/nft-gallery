@@ -179,7 +179,10 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" class="w-4 h-4" size="medium" />
+                <NeoIcon
+                  icon="user-circle"
+                  class="w-4 h-4 ml-2 lg:!ml-0"
+                  size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
