@@ -12,7 +12,7 @@ export function uidCrypto(length = 9) {
   return paddedNumber.slice(0, length)
 }
 
-export function uidMathDate(length = 5) {
+export function uidMathDate(length = 6) {
   const date = format(new Date(), 'yyMM')
   return date + uidMath(length)
 }

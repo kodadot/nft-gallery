@@ -42,7 +42,6 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
-const { uid } = useExperiments()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
 const instance = getCurrentInstance()
@@ -97,11 +96,7 @@ const mintNft = async () => {
 
     initTransactionLoader()
 
-    if (uid.value) {
-      console.log('uid', uid.value)
-    }
-
-    const cb = api.tx.utility.batch
+    const cb = api.tx.utility.batchAll
     const args = allocatedNFTs.value.map((allocatedNFT) =>
       api.tx.nfts.mint(
         drop.value?.collection,
@@ -114,21 +109,7 @@ const mintNft = async () => {
       ),
     )
 
-    const url = new URL(
-      'https://nft-metadata.preschian-cdn.workers.dev/generate',
-    )
-    const args2 = allocatedNFTs.value.map((nft) => {
-      url.searchParams.set('collection', drop.value?.collection)
-      url.searchParams.set('nft', nft.id.toString())
-      url.searchParams.set('image', previewItem.value?.image as string)
-      return api.tx.nfts.setMetadata(
-        drop.value?.collection,
-        nft.id,
-        url.toString(),
-      )
-    })
-
-    howAboutToExecute(accountId.value, cb, [[args, args2]], {
+    howAboutToExecute(accountId.value, cb, [args], {
       onResult: ({ txHash }) => {
         mintingSession.value.txHash = txHash
       },
@@ -196,7 +177,7 @@ const submitMints = async () => {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
 
     const mintedNfts = response.map((item) => ({
-      id: `${drop.value.collection}-${item.sn}`,
+      id: drop.value.collection,
       collection: item.collection,
       chain: item.chain,
       name: item.name,

@@ -144,3 +144,30 @@ export const allocateClaim = async (body, id) => {
     )
   }
 }
+
+export const updateMetadata = async ({
+  nft,
+  collection,
+  chain,
+  image,
+  animationUrl,
+}) => {
+  try {
+    const response = await api<{ result: DoResult }>('/drops/update-metadata', {
+      method: 'get',
+      query: {
+        nft,
+        collection,
+        chain,
+        image,
+        animationUrl,
+      },
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[FXART::UPDATE_METADATA] ERROR: ${(error as FetchError).data}`,
+    )
+  }
+}

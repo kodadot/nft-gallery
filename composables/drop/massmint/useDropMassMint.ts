@@ -1,13 +1,13 @@
 import {
-  AllocatedNFT,
+  // AllocatedNFT,
   DoResult,
-  allocateCollection,
+  // allocateCollection,
   allocateClaim as claimAllocation,
 } from '@/services/fxart'
 
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
-import { getFakeEmail } from '@/components/collection/drop/utils'
+// import { getFakeEmail } from '@/components/collection/drop/utils'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
 import { useCollectionEntity } from '../useGenerativeDropMint'
@@ -133,8 +133,8 @@ export default () => {
     try {
       loading.value = true
 
-      const email = raffleEmail.value || getFakeEmail()
-      const address = accountId.value
+      // const email = raffleEmail.value || getFakeEmail()
+      // const address = accountId.value
 
       const items = mintNfts.map(({ image, hash, metadata }) => ({
         image,
@@ -142,20 +142,29 @@ export default () => {
         metadata,
       }))
 
-      allocatedNFTs.value = await allocateItems({ items, email, address })
+      // allocatedNFTs.value = await allocateItems({ items, email, address })
+      allocatedNFTs.value = items.map((item) => {
+        return {
+          id: parseInt(uidMathDate()),
+          name: '',
+          image: item.image,
+        }
+      })
+      console.log('[MASSMINT::ALLOCATE] Allocating', allocatedNFTs.value)
 
       // even thought the user might want x amount of items the worker can return a different amount
-      const allocatedNFTsToMint = toMintNFTs.value.slice(
-        0,
-        allocatedNFTs.value.length,
-      )
+      // const allocatedNFTsToMint = toMintNFTs.value.slice(
+      //   0,
+      //   allocatedNFTs.value.length,
+      // )
 
-      toMintNFTs.value = allocatedNFTsToMint.map((toMint, index) => {
+      toMintNFTs.value = toMintNFTs.value.map((toMint, index) => {
         const allocated = allocatedNFTs.value[index]
         return allocated
-          ? { ...toMint, name: allocated.name, sn: Number(allocated.id) }
+          ? { ...toMint, name: toMint.collectionName, sn: Number(allocated.id) }
           : toMint
       })
+      console.log('[MASSMINT::ALLOCATE] Allocated', toMintNFTs.value)
     } catch (error) {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
@@ -163,30 +172,30 @@ export default () => {
     }
   }
 
-  const allocateItems = async ({
-    items,
-    email,
-    address,
-  }): Promise<AllocatedNFT[]> => {
-    const results = [] as Array<AllocatedNFT>
+  // const allocateItems = async ({
+  //   items,
+  //   email,
+  //   address,
+  // }): Promise<AllocatedNFT[]> => {
+  //   const results = [] as Array<AllocatedNFT>
 
-    // @see https://github.com/kodadot/private-workers/pull/86#issuecomment-1975842570 for context
-    for (const item of items) {
-      const { result } = await allocateCollection(
-        {
-          email,
-          address,
-          image: item.image,
-          hash: item.hash,
-          metadata: item.metadata,
-        },
-        drop.value.id,
-      )
-      results.push(result)
-    }
+  //   // @see https://github.com/kodadot/private-workers/pull/86#issuecomment-1975842570 for context
+  //   for (const item of items) {
+  //     const { result } = await allocateCollection(
+  //       {
+  //         email,
+  //         address,
+  //         image: item.image,
+  //         hash: item.hash,
+  //         metadata: item.metadata,
+  //       },
+  //       drop.value.id,
+  //     )
+  //     results.push(result)
+  //   }
 
-    return results
-  }
+  //   return results
+  // }
 
   const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
     return new Promise((resolve, reject) => {
