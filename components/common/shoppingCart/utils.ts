@@ -1,11 +1,10 @@
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { ListCartItem, ListCartItemAnimationUrl } from '@/stores/listingCart'
+import { ListCartItem } from '@/stores/listingCart'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { nameWithIndex } from '@/utils/nft'
 
 export const prefixToToken = {
   ksm: 'KSM',
@@ -50,7 +49,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
   const { urlPrefix } = usePrefix()
   return {
     id: nft.id,
-    name: nameWithIndex(nft.name, nft.sn),
+    name: nft.name,
     currentOwner: nft.currentOwner,
     price: nft.price ?? '0',
     urlPrefix: urlPrefix.value,
@@ -68,13 +67,12 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
 export const nftToListingCartItem = (
   nft: NFT & TokenId,
   floor = '',
-  animationUrl?: ListCartItemAnimationUrl,
 ): ListCartItem => {
   const { urlPrefix } = usePrefix()
 
   return {
     id: nft.id,
-    name: nameWithIndex(nft.name, nft.sn),
+    name: nft.name,
     price: nft.price ?? '0',
     urlPrefix: urlPrefix.value,
     collection: {
@@ -86,7 +84,6 @@ export const nftToListingCartItem = (
     meta: nft.meta,
     token: nft.token,
     sn: nft.sn,
-    animationUrl: animationUrl,
   }
 }
 
@@ -96,13 +93,12 @@ export const shoppingCartItemToListingCartItem = (
 ): ListCartItem => {
   return {
     id: item.id,
-    name: nameWithIndex(item.name, item.sn),
+    name: item.name,
     price: item.price ?? '0',
     urlPrefix: item.urlPrefix,
     collection: { ...item.collection, floor },
     metadata: item.metadata,
     meta: item.meta,
     listPrice: undefined,
-    sn: item.sn,
   }
 }

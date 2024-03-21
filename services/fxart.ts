@@ -144,30 +144,3 @@ export const allocateClaim = async (body, id) => {
     )
   }
 }
-
-export type DropCalendar = {
-  id: number
-  name: string
-  description: string
-  twitter_handle: string
-  date: string | null
-  time: string | null
-  address: string | null
-  content: string | null
-  supply: number | null
-  royalty: number | null
-  price: string | null
-  holder_of: string | null
-  location: string | null
-  items: CalendarItem[]
-}
-
-export type CalendarItem = {
-  image: string
-}
-
-export const getDropCalendar = async () => {
-  return await api<DropCalendar[]>('/calendars', {
-    method: 'GET',
-  })
-}

@@ -4,6 +4,7 @@ import {
 } from '@/composables/transaction/mintToken/constructDirectoryMeta'
 import { makeUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
+import { GenerativePreviewItem } from '../useGenerativePreview'
 
 export default () => {
   const { toMintNFTs, drop } = storeToRefs(useDropStore())

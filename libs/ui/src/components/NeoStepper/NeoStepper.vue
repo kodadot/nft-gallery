@@ -26,7 +26,7 @@ const props = withDefaults(
     disabled?: boolean
   }>(),
   {
-    min: 0,
+    min: 1,
     max: Infinity,
     disabled: false,
   },

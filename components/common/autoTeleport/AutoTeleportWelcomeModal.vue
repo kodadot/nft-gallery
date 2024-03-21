@@ -30,10 +30,7 @@
                 :icon="reasonsIcons[index]"
                 size="large"
                 class="text-k-primary mb-3" />
-              <img
-                src="~/assets/svg/accent-blur.svg"
-                class="blur icon-blur"
-                alt="blur" />
+              <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
             <p class="font-bold text-xl mb-3">

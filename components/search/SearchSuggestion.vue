@@ -1,7 +1,6 @@
 <template>
   <div
-    class="search-suggestion-container max-sm:pb-4"
-    data-testid="search-suggestion-container"
+    class="search-suggestion-container"
     @click="resetSelectedIndex"
     @keydown="onKeyDown">
     <NeoTabs

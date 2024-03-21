@@ -31,7 +31,6 @@
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import placeholder from '~/assets/svg/preloader.svg?url'
 
 const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
@@ -48,6 +47,7 @@ const props = withDefaults(
 )
 
 const { $i18n } = useNuxtApp()
+const placeholder = '/preloader.svg'
 const randomNumber = ref(randomIntegerBetween(1, 35))
 const interval = ref()
 

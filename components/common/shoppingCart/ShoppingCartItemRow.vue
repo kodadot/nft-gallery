@@ -11,7 +11,7 @@
             class="border image is-48x48" />
         </nuxt-link>
         <div
-          class="flex flex-col justify-between ml-4 min-w-0 w-full leading-tight">
+          class="flex flex-col justify-between ml-4 min-w-0 w-full leading-none">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="font-bold text-text-color whitespace-nowrap is-clipped text-ellipsis"

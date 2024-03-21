@@ -13,7 +13,6 @@
         <NeoButton
           :active="active"
           type="button"
-          :variant="variant"
           :no-shadow="noShadow"
           :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
@@ -53,7 +52,6 @@
 <script setup lang="ts">
 import {
   NeoButton,
-  NeoButtonVariant,
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
@@ -69,7 +67,6 @@ const props = withDefaults(
     preselect?: string | null
     noShadow: boolean
     rounded: boolean
-    variant?: NeoButtonVariant
   }>(),
   {
     noShadow: false,

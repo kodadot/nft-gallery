@@ -78,7 +78,7 @@
           <div
             class="flex flex-row justify-between items-center md:flex-col md:items-end">
             <p class="capitalize text-k-grey text-end text-xs">
-              <span v-if="collection">{{ $t('series.volume') }}</span>
+              <span v-if="collection">{{ $t('volume') }}</span>
               <NeoSkeleton
                 v-else
                 no-margin
