@@ -26,15 +26,16 @@
               <span>{{ minted }}</span
               ><span class="text-k-grey">/{{ dropMax }}</span>
             </div>
-            <DropsTimeTag
-              v-if="dropStartTime && !ownerAddresses.length"
-              :drop-start-time="dropStartTime"
-              :drop-status="dropStatus" />
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
               :max-address-count="3"
               size="small" />
+            <DropsTimeTag
+              v-else-if="dropStartTime"
+              :drop-start-time="dropStartTime"
+              :with-time="timeTagWithTime"
+              :drop-status="dropStatus" />
           </div>
         </div>
       </component>
@@ -53,7 +54,6 @@ withDefaults(
   defineProps<{
     image: string
     name: string
-    showTimeTag: boolean
     dropStartTime?: Date | null
     dropStatus: DropStatus
     dropPrefix?: Prefix

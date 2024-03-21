@@ -16,18 +16,23 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  addresses: string[]
-  maxAddressCount?: number
-  size?: 'small' | 'medium'
-}>()
+const props = withDefaults(
+  defineProps<{
+    addresses: string[]
+    maxAddressCount?: number
+    size?: 'small' | 'medium'
+  }>(),
+  {
+    size: 'medium',
+    maxAddressCount: 5,
+  },
+)
 
-const maxAddressCount = props.maxAddressCount || 5
 const zIndexMap = ['z-50', 'z-40', 'z-30', 'z-20', 'z-10']
 
 const remainingCount = computed(() =>
-  props.addresses.length > maxAddressCount
-    ? props.addresses.length - maxAddressCount
+  props.addresses.length > props.maxAddressCount
+    ? props.addresses.length - props.maxAddressCount
     : 0,
 )
 </script>

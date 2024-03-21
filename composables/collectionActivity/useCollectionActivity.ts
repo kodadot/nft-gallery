@@ -1,8 +1,15 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
 import { nameWithIndex } from '@/utils/nft'
+import type { Prefix } from '@kodadot1/static'
 
-export const useCollectionActivity = ({ collectionId, prefix }) => {
+export const useCollectionActivity = ({
+  collectionId,
+  prefix,
+}: {
+  collectionId: ComputedRef<string>
+  prefix?: Prefix
+}) => {
   const { urlPrefix } = usePrefix()
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
