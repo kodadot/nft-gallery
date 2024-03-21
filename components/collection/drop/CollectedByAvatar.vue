@@ -1,15 +1,24 @@
 <template>
-  <IdentityModuleIdentityPopover class="h-[38px]">
+  <IdentityModuleIdentityPopover
+    class="h-[38px]"
+    :class="{ 'h-[28px]': size === 'small' }"
+    :show-popover="props.size !== 'small'">
     <template #content>
-      <Avatar :size="38" :value="address" />
+      <Avatar :size="size === 'small' ? 26 : 38" :value="address" />
     </template>
   </IdentityModuleIdentityPopover>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  address: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    address: string
+    size?: 'small' | 'medium'
+  }>(),
+  {
+    size: 'medium',
+  },
+)
 
 const { shortenedAddress } = useIdentity({
   address: computed(() => props.address),
