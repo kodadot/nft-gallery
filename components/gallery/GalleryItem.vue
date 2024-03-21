@@ -63,7 +63,7 @@
           <div
             class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
             <NeoTooltip :label="$t('reload')" position="top">
-              <a data-testid="reload" no-shadow @click="handleReloadClick">
+              <a no-shadow @click="handleReloadClick">
                 <NeoIcon
                   :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
                   size="medium"
@@ -72,14 +72,14 @@
               </a>
             </NeoTooltip>
             <NeoTooltip :label="$t('fullscreen')" position="top">
-              <a  no-shadow @click="toggleFullscreen">
+              <a no-shadow @click="toggleFullscreen">
                 <NeoIcon
                   icon="arrow-up-right-and-arrow-down-left-from-center"
                   size="medium" />
               </a>
             </NeoTooltip>
-            <NeoTooltip :label="$t('new tab')" position="top">
-              <a data-testid="newtab" no-shadow @click="handleNewTab">
+            <NeoTooltip :label="$t('newTab')" position="top">
+              <a no-shadow @click="handleNewTab">
                 <NeoIcon icon="arrow-up-right" size="medium" />
               </a>
             </NeoTooltip>
@@ -217,7 +217,7 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import NeoTooltip from '~/libs/ui/src/components/NeoTooltip/NeoTooltip.vue'
+import { NeoTooltip } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
