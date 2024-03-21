@@ -7,7 +7,6 @@ import {
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
-import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
@@ -20,7 +19,7 @@ export interface Drop {
   minted: number
   max: number
   disabled: number
-  dropStartTime: Date
+  dropStartTime?: Date
   price: string
   alias: string
   name: string
@@ -71,8 +70,8 @@ export function useDrops(query?: GetDropsQuery) {
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
-      ['asc', 'asc'],
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      ['asc'],
     ),
   )
 
@@ -83,11 +82,17 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
+  let dropStartTime = drop.start_at ? new Date(drop.start_at) : undefined
+
+  if (count >= 5) {
+    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
+  }
+
   const newDrop = {
     ...drop,
     collection: collection,
     max: chainMax,
-    dropStartTime: count >= 5 ? new Date(Date.now() - 1e10) : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
+    dropStartTime,
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),

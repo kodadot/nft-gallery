@@ -31,7 +31,7 @@
               <img
                 width="42"
                 height="42"
-                src="/migrate/state-ready.svg"
+                src="~/assets/svg/migrate/state-ready.svg"
                 alt="unlockable icon" />
               <span> {{ $t('migrate.ready.title') }} </span>
             </div>

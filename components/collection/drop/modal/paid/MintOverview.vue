@@ -57,6 +57,7 @@
       ref="autoteleport"
       :label="mintButton.label"
       :disabled="mintButton.disabled"
+      :loading="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
       :parent-ready="!modalLoading"
