@@ -44,7 +44,7 @@
             class="mb-4"
             rounded
             :tag="NuxtLink"
-            size="small">
+            variant="outlined-rounded">
             + {{ $t('identity.set') }}
           </NeoButton>
 
@@ -141,17 +141,20 @@
           <div class="flex">
             <FilterButton
               :label="$t('sort.listed')"
+              variant="outlined-rounded"
               url-param="buy_now"
               data-testid="profile-filter-button-buynow" />
             <FilterButton
               v-if="activeTab === 'created'"
               :label="$t('activity.sold')"
+              variant="outlined-rounded"
               url-param="sold"
               class="ml-4" />
 
             <CollectionFilter
               :id="id.toString()"
               v-model="collections"
+              variant="outlined-rounded"
               :search="itemsGridSearch"
               :tab-key="tabKey"
               class="ml-4" />
