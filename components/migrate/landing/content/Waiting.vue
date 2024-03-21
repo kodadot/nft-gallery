@@ -1,7 +1,7 @@
 <template>
   <div class="mt-8 pt-4">
     <div class="flex relative section-title">
-      <img src="/migrate/state-waiting.svg" alt="Ready" />
+      <img src="~/assets/svg/migrate/state-waiting.svg" alt="Ready" />
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
 

@@ -28,7 +28,7 @@
         </NeoButton>
       </div>
       <div class="flex-1">
-        <img src="/unlockable-introduce.svg" alt="Unlockable" />
+        <img src="~/assets/svg/unlockable-introduce.svg" alt="Unlockable" />
       </div>
     </div>
   </div>
