@@ -1,14 +1,14 @@
 <template>
   <div
     class="rounded-full h-[62px] md:w-auto border border-k-shade inline-flex items-center justify-between px-3"
-    :class="{ 'h-full border-none': isDropsPage }">
+    :class="{ 'h-full border-none': size === 'small' }">
     <div class="flex items-center">
       <CollectionDropCollectedByAvatar
         v-for="(address, index) in addresses.slice(0, maxAddressCount)"
         :key="address"
         :class="[zIndexMap[index], { '-ml-2': index > 0 }]"
         :address="address"
-        :is-drops-page="isDropsPage || false" />
+        :size="size" />
     </div>
 
     <div v-if="remainingCount" class="ml-2.5">+{{ remainingCount }}</div>
@@ -19,7 +19,7 @@
 const props = defineProps<{
   addresses: string[]
   maxAddressCount?: number
-  isDropsPage?: boolean
+  size?: string
 }>()
 
 const maxAddressCount = props.maxAddressCount || 5

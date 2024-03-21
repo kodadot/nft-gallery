@@ -1,9 +1,9 @@
 <template>
   <IdentityModuleIdentityPopover
     class="h-[38px]"
-    :class="{ 'h-[28px]': isDropsPage }">
+    :class="{ 'h-[28px]': size === 'small' }">
     <template #content>
-      <Avatar :size="isDropsPage ? 26 : 38" :value="address" />
+      <Avatar :size="size === 'small' ? 26 : 38" :value="address" />
     </template>
   </IdentityModuleIdentityPopover>
 </template>
@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   address: string
-  isDropsPage: boolean
+  size?: string
 }>()
 
 const { shortenedAddress } = useIdentity({

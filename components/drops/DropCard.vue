@@ -14,7 +14,7 @@
           class="group-hover:opacity-[0.85] aspect-video object-cover w-full" />
 
         <div
-          class="h-[115px] py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
+          class="min-h-[115px] py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
           <span
             class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
             >{{ drop.collection.name }}</span
@@ -34,7 +34,7 @@
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
               :max-address-count="3"
-              is-drops-page />
+              :size="'small'" />
           </div>
         </div>
       </component>
@@ -72,7 +72,7 @@ const externalUrl = ref()
 const dropPrefix = computed(() => props.drop.chain as Prefix)
 
 const { owners } = useCollectionActivity({
-  collectionId: computed(() => props.drop?.collection).value,
+  collectionId: computed(() => props.drop?.collection.collection),
 })
 
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
