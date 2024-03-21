@@ -13,18 +13,6 @@
             relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
-          <!-- preview button -->
-          <a
-            v-if="
-              canPreview &&
-              !mediaItemRef?.isLewdBlurredLayer &&
-              !hasAnimatedResources &&
-              !isFullscreen
-            "
-            class="fullscreen-button justify-center items-center"
-            @click="toggleFullscreen">
-            <NeoIcon icon="expand" />
-          </a>
           <NeoButton
             v-if="isFullscreen"
             class="back-button"
@@ -227,8 +215,6 @@ import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
-import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import NeoTooltip from '~/libs/ui/src/components/NeoTooltip/NeoTooltip.vue'
@@ -268,26 +254,12 @@ const tabs = {
 }
 const activeTab = ref(tabs.activity)
 
-const canPreview = computed(
-  () =>
-    !nftMimeType.value ||
-    [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-      resolveMedia(nftMimeType.value),
-    ),
-)
-
 const activeCarousel = ref(0)
 
 const isLoading = ref(false)
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
-)
-const hasAnimatedResources = computed(
-  () =>
-    nftResources.value &&
-    nftResources.value?.length > 1 &&
-    nftResources.value[1].animation,
 )
 
 const onNFTBought = () => {
