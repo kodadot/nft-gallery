@@ -126,6 +126,7 @@ import { DropCalendar } from '@/services/fxart'
 import { useCollectionMinimal } from '~/components/collection/utils/useCollectionDetails'
 
 const placeholder = 'TBA'
+const MOBILE_BREAKPOINT = 768
 
 const emit = defineEmits(['close'])
 const props = defineProps<{ dropCalendar?: DropCalendar }>()
@@ -136,18 +137,19 @@ const { width } = useWindowSize()
 
 const { formatted: formattedPrice } = useAmount(
   computed(() => props.dropCalendar?.price || ''),
-  computed(() => decimalsOf('ahp')),
+  computed(() => decimalsOf('ahp')), // drops page only shows ahp drops
   computed(() => 'DOT'),
 )
 
 const { collection } = useCollectionMinimal({
-  collectionId: computed(() => props.dropCalendar?.holder_of as string),
+  collectionId: computed(() => props.dropCalendar?.holder_of ?? ''),
 })
 
-const config = computed(() => ({
-  slides: { perView: width.value > 768 ? 2 : 1.2, spacing: 16 },
-}))
 const isCreateEventModalActive = ref(false)
+
+const config = computed(() => ({
+  slides: { perView: width.value > MOBILE_BREAKPOINT ? 2 : 1.2, spacing: 16 },
+}))
 
 const price = computed(() =>
   withPlaceholder(
