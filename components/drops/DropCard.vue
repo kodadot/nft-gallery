@@ -14,7 +14,7 @@
           class="group-hover:opacity-[0.85] aspect-video object-cover w-full" />
 
         <div
-          class="min-h-[115px] py-5 px-2 sm:px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
+          class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
           <span
             class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
             >{{ drop.collection.name }}</span
