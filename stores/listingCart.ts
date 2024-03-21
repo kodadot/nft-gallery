@@ -7,6 +7,8 @@ import {
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 
+export type ListCartItemAnimationUrl = { url: string; mimeType?: string }
+
 type ListCartItemInternal = {
   id: string
   name: string
@@ -18,7 +20,7 @@ type ListCartItemInternal = {
   meta?: NFTMetadata
   metadata?: string
   discarded?: boolean
-  animationUrl?: string // used inside the drop page to show the actual nft image before the metadata is updated
+  animationUrl?: ListCartItemAnimationUrl // used inside the drop page to show the actual nft image before the metadata is updated
 }
 
 export type ListCartItem = ListCartItemInternal & TokenId

@@ -8,8 +8,8 @@
             class="border border-k-shade image is-48x48"
             :class="{ 'opacity-50': discarded }"
             :alt="nft?.name"
-            :animation-src="sanitizeIpfsUrl(nft.animationUrl)"
-            mime-type="text/html"
+            :animation-src="sanitizeIpfsUrl(nft.animationUrl.url)"
+            :mime-type="nft.animationUrl.mimeType"
             preview
             is-detail />
           <!-- keeping BasicImage since its has a skeleton laoder -->

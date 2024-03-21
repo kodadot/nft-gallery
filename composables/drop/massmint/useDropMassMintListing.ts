@@ -33,7 +33,10 @@ export default () => {
       const mintinSessionNft = mintingSession.value.items.find(
         (nft) => nft.id === withMetadataNFT.id,
       )
-      listNftByNftWithMetadata(withMetadataNFT, mintinSessionNft?.image)
+      listNftByNftWithMetadata(withMetadataNFT, {
+        url: mintinSessionNft?.image as string,
+        mimeType: 'text/html',
+      })
     })
   }
 

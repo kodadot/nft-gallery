@@ -1,5 +1,5 @@
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { ListCartItem } from '@/stores/listingCart'
+import { ListCartItem, ListCartItemAnimationUrl } from '@/stores/listingCart'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
@@ -68,7 +68,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
 export const nftToListingCartItem = (
   nft: NFT & TokenId,
   floor = '',
-  animationUrl?: string,
+  animationUrl?: ListCartItemAnimationUrl,
 ): ListCartItem => {
   const { urlPrefix } = usePrefix()
 
