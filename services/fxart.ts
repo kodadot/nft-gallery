@@ -167,7 +167,7 @@ export type CalendarItem = {
 }
 
 export const getDropCalendar = async () => {
-  return await api<DropCalendar[]>('/drops/calendar', {
+  return await api<DropCalendar[]>('/calendars', {
     method: 'GET',
   })
 }
