@@ -34,7 +34,7 @@
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
               :max-address-count="3"
-              :size="'small'" />
+              size="small" />
           </div>
         </div>
       </component>
