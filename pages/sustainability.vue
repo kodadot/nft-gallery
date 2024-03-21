@@ -9,7 +9,7 @@
       As part of our micro-dao-bedrock-boostrap experiment, we would like to
       keep our efforts sustainable
       <b>in the long-run and create trust from creators culture</b> and economy
-      for KodaDot that we will won't dissapear tomorrow and keep running as long
+      for KodaDot that we will won't disappear tomorrow and keep running as long
       we can cover our efforts to keep it online and working.
     </p>
     <br />

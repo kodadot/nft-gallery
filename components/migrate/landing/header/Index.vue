@@ -4,7 +4,9 @@
       <div class="flex flex-col justify-between h-full">
         <div>
           <div class="migrate-title">
-            <img src="/migrate/title-arrow.svg" alt="Migrate Your Art" />
+            <img
+              src="~/assets/svg/migrate/title-arrow.svg"
+              alt="Migrate Your Art" />
             <h1 class="title">{{ $t('migrate.heading') }}</h1>
           </div>
           <p>{{ $t('migrate.subHeading') }}</p>
