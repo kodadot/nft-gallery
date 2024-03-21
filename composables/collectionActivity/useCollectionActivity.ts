@@ -28,11 +28,7 @@ export const useCollectionActivity = ({ collectionId }) => {
 
   watch(data, (result) => {
     if (result) {
-      const nfts =
-        result.collection?.nfts.map((nft) => ({
-          ...nft,
-          name: nameWithIndex(nft?.name, nft?.sn),
-        })) ?? []
+      const nfts = result.collection?.nfts ?? []
       // flat events for chart
       const interactions: InteractionWithNFT[] = nfts
         .map((nft) =>
@@ -41,6 +37,7 @@ export const useCollectionActivity = ({ collectionId }) => {
             timestamp: new Date(e.timestamp).getTime(),
             nft: {
               ...nft,
+              name: nameWithIndex(nft?.name, nft?.sn),
               events: undefined,
             },
           })),

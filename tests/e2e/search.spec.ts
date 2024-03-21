@@ -14,7 +14,7 @@ test('Check if search provide results', async ({ page }) => {
       .locator('[data-testid="search-bar-input"] >> visible = true')
       .fill('waifu')
     await page
-      .locator('[data-testid="search-suggestion-container"] >> visible = true')
+      .locator('[class="search-suggestion-container"] >> visible = true')
       .hover()
   })
 

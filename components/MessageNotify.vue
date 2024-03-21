@@ -7,9 +7,7 @@
     :duration="realDuration"
     :auto-close="autoClose"
     @close="$emit('close')">
-    <img
-      src="~/assets/svg/congrats-message-header.svg"
-      class="congrats-message" />
+    <img src="/congrats-message-header.svg" class="congrats-message" />
     <div class="flex flex-col">
       <div class="title is-3 mb-4">
         {{ title }}

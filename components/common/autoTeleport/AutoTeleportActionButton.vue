@@ -9,7 +9,7 @@
             <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
             <img
               v-if="isTelportIconActive"
-              src="~/assets/svg/accent-blur.svg"
+              src="/accent-blur.svg"
               alt="blur"
               class="blur autotelport-blur" />
           </div>
@@ -48,8 +48,6 @@
         variant="k-accent"
         no-shadow
         :disabled="isDisabled"
-        :loading="loading"
-        :loading-with-label="loading"
         class="flex flex-grow btn-height capitalize"
         @click="handleSubmit" />
     </div>
@@ -110,7 +108,6 @@ const props = withDefaults(
     interaction?: ActionlessInteraction
     hideTop?: boolean
     parentReady?: boolean
-    loading?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -122,7 +119,6 @@ const props = withDefaults(
     label: '',
     hideTop: false,
     parentReady: true,
-    loading: false,
   },
 )
 

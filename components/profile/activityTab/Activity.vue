@@ -16,7 +16,6 @@
               v-for="param in filters"
               :key="param"
               :label="param"
-              variant="outlined-rounded"
               data-testid="profile-activity-button-filter"
               class="capitalize"
               :url-param="param" />

@@ -76,10 +76,7 @@
       :holder-of-collection="holderOfCollection"
       :is-minted-out="isMintedOut" />
 
-    <DropsCreateCalendarEventModal
-      v-model="isCreateEventModalActive"
-      :title="`Drop: ${drop.name}`"
-      :drop-start-time="dropStartTime" />
+    <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
 
     <!-- if there is location on the campaign -->
     <CollectionDropRequirementItem

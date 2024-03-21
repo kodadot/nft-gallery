@@ -57,8 +57,13 @@ export default function useHolderOfCollection() {
     availableNfts.isLoading = false
   }
 
-  watchEffect(() => {
-    if (drop.holder_of || runtimeMintCount) {
+  watch([holderOfCollectionData, () => runtimeMintCount], checkAvailableNfts, {
+    immediate: true,
+  })
+
+  useAsyncData(
+    'holderOfCollectionData',
+    () =>
       useAsyncQuery<{
         nftEntitiesConnection: { totalCount: number }
         nftEntities: Array<{ sn: string }>
@@ -69,12 +74,15 @@ export default function useHolderOfCollection() {
           id: drop.holder_of,
           account: accountId.value,
         },
-      }).then((res) => {
-        holderOfCollectionData.value = res.data.value
-        checkAvailableNfts()
-      })
-    }
-  })
+      }).then((res) => (holderOfCollectionData.value = res.data.value)),
+    {
+      watch: [
+        accountId,
+        () => runtimeMintCount,
+        computed(() => drop.holder_of),
+      ],
+    },
+  )
 
   return {
     holderOfCollectionData,

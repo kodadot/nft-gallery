@@ -22,7 +22,7 @@
             {{ subtitle }}
           </p>
         </div>
-        <img v-else-if="loading" src="~/assets/svg/preloader.svg" width="200" />
+        <img v-else-if="loading" src="/preloader.svg" width="200" />
         <div v-else class="flex items-center">
           <div class="flex flex-col justify-between">
             <NeoIcon icon="circle-check" class="check-icon text-k-green" />
