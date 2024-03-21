@@ -19,7 +19,7 @@
 const props = defineProps<{
   addresses: string[]
   maxAddressCount?: number
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'medium'
 }>()
 
 const maxAddressCount = props.maxAddressCount || 5

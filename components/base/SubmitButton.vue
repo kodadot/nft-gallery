@@ -27,7 +27,7 @@ export interface Props {
   label: string
   loading?: boolean
   type?: string
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'medium'
   customClass?: string
 }
 

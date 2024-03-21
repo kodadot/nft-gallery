@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   address: string
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'medium'
 }>()
 
 const { shortenedAddress } = useIdentity({
