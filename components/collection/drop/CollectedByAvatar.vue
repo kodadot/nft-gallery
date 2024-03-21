@@ -1,7 +1,8 @@
 <template>
   <IdentityModuleIdentityPopover
     class="h-[38px]"
-    :class="{ 'h-[28px]': size === 'small' }">
+    :class="{ 'h-[28px]': size === 'small' }"
+    :size="props.size">
     <template #content>
       <Avatar :size="size === 'small' ? 26 : 38" :value="address" />
     </template>
@@ -11,6 +12,7 @@
 <script lang="ts" setup>
 const props = withDefaults(
   defineProps<{
+    address: string
     size?: 'small' | 'medium'
   }>(),
   {

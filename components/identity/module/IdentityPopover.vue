@@ -5,7 +5,7 @@
     boundary="viewport"
     :delay="0"
     data-testid="identity-tippy-link"
-    :on-show="() => (showContent = true)">
+    :on-show="() => (showContent = props.size !== 'small')">
     <slot name="content" />
 
     <template #content>
@@ -25,6 +25,10 @@ import { useIdentitySoldData } from '../utils/useIdentity'
 
 import IdentityPopoverHeader from './IdentityPopoverHeader.vue'
 import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
+
+const props = defineProps<{
+  size?: 'small' | 'medium'
+}>()
 
 const address = inject('address')
 const body = ref(document.body)
