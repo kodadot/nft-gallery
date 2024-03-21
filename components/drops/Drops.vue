@@ -10,7 +10,7 @@
       </h1>
 
       <div
-        class="max-md:pt-8 flex items-center max-md:gap-8 md:justify-between flex-grow">
+        class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-between flex-grow">
         <NeoButton
           icon-left="plus"
           rounded
