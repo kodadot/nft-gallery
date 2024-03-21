@@ -33,9 +33,16 @@ export default ({
     )
   }
 
-  const listNftByNftWithMetadata = (nftWithMetadata: NFTWithMetadata) => {
+  const listNftByNftWithMetadata = (
+    nftWithMetadata: NFTWithMetadata,
+    animationUrl?: string,
+  ) => {
     tryAddingItemToListingCart(
-      nftToListingCartItem(nftWithMetadata, getFloorPrice(nftWithMetadata)),
+      nftToListingCartItem(
+        nftWithMetadata,
+        getFloorPrice(nftWithMetadata),
+        animationUrl,
+      ),
     )
   }
 

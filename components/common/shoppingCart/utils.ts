@@ -68,6 +68,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
 export const nftToListingCartItem = (
   nft: NFT & TokenId,
   floor = '',
+  animationUrl?: string,
 ): ListCartItem => {
   const { urlPrefix } = usePrefix()
 
@@ -85,6 +86,7 @@ export const nftToListingCartItem = (
     meta: nft.meta,
     token: nft.token,
     sn: nft.sn,
+    animationUrl: animationUrl,
   }
 }
 

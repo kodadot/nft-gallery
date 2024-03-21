@@ -18,7 +18,9 @@ type ListCartItemInternal = {
   meta?: NFTMetadata
   metadata?: string
   discarded?: boolean
+  animationUrl?: string // used inside the drop page to show the actual nft image before the metadata is updated
 }
+
 export type ListCartItem = ListCartItemInternal & TokenId
 
 type ID = string
