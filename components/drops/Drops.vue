@@ -30,21 +30,18 @@
       </div>
     </div>
 
-    <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
-      <template v-if="!loaded">
-        <DropsDropCardSkeleton
-          v-for="x in DEFAULT_SKELETON_COUNT"
-          :key="`current-drops-skeleton-${x}`" />
-      </template>
-      <div
-        v-for="(drop, index) in currentDrops"
-        v-else
-        :key="`${drop.collection?.id}=${index}`"
-        class="w-full h-full"
-        :data-testid="index">
-        <DropCard :drop="drop" />
-      </div>
-    </DynamicGrid>
+    <DropsGrid
+      :drops="currentDrops"
+      :loaded="loaded"
+      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+      skeleton-key="current-drops-skeleton" />
+
+    <hr class="my-14" />
+
+    <DropsCalendar
+      :drops="drops"
+      :loaded="loaded"
+      :default-skeleton-count="DEFAULT_SKELETON_COUNT" />
 
     <hr class="my-14" />
 
@@ -52,21 +49,11 @@
       {{ $i18n.t('drops.pastArtDrops') }}
     </h2>
 
-    <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
-      <template v-if="!loaded">
-        <DropsDropCardSkeleton
-          v-for="x in DEFAULT_SKELETON_COUNT"
-          :key="`skeleton-${x}`" />
-      </template>
-      <div
-        v-for="(drop, index) in pastDrops"
-        :key="`${drop.collection?.id}=${index}`"
-        v-lese
-        class="w-full h-full"
-        :data-testid="index">
-        <DropCard :drop="drop" />
-      </div>
-    </DynamicGrid>
+    <DropsGrid
+      :drops="pastDrops"
+      :loaded="loaded"
+      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+      skeleton-key="skeleton" />
 
     <DropsCreateCalendarEventModal
       v-model="isCreateEventModalActive"
@@ -75,17 +62,10 @@
 </template>
 
 <script lang="ts" setup>
-import DropCard from '@/components/drops/DropCard.vue'
 import { DropStatus, useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import filter from 'lodash/filter'
-
-const GRID_DEFAULT_WIDTH = {
-  small: 0,
-  medium: DROP_CARD_MIN_WIDTH,
-  large: 0,
-}
 
 const DEFAULT_SKELETON_COUNT = 4
 const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
@@ -93,8 +73,11 @@ const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
 )
 
 const { $i18n } = useNuxtApp()
-const { drops, loaded } = useDrops({ active: [true, false] })
 const { urlPrefix } = usePrefix()
+const { drops, loaded } = useDrops({
+  active: [true, false],
+  chain: !isProduction ? [urlPrefix.value] : [],
+})
 
 const isCreateEventModalActive = ref(false)
 

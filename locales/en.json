@@ -2,6 +2,10 @@
   "translation": "english",
   "create": "Create",
   "explore": "Explore",
+  "scheduled": "Scheduled",
+  "supply": "Supply",
+  "artist": "Artist",
+  "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
@@ -1006,6 +1010,7 @@
   "helper": {
     "tryAgain": "Try again",
     "viewTx": "View Tx",
+    "priceNotSet": "Price Not Set",
     "seeMore": "See More",
     "learnMore": "Learn More",
     "learnMoreAboutEd": "Learn more about Existential deposit",
@@ -1451,6 +1456,8 @@
   "drops": {
     "title": "Generative Art Drops",
     "drops": "Drops",
+    "dropInformation": "Drop Information",
+    "dropCalendar": "Drop Calendar",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
     "generatingVariations": "Generating Variations",
@@ -1518,6 +1525,7 @@
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
+    "calendarMoreDrops": "More drops are in the works! Dates will be announced soon. Stay tuned.",
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"
