@@ -1,7 +1,6 @@
 <template>
   <IdentityModuleIdentityPopover
-    class="h-[38px]"
-    :class="{ 'h-[28px]': size === 'small' }"
+    :class="{ 'h-[28px]': size === 'small', 'h-[38px]': size === 'medium' }"
     :show-popover="props.size !== 'small'">
     <template #content>
       <Avatar :size="size === 'small' ? 26 : 38" :value="address" />

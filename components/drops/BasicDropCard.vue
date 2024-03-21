@@ -20,22 +20,21 @@
             class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
             >{{ name }}</span
           >
-
           <div
             class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
-            <!-- <div>
-              <span>{{ mintedCount }}</span
-              ><span class="text-k-grey">/{{ drop.max }}</span>
-            </div> -->
-            <!-- <TimeTag
+            <div>
+              <span>{{ minted }}</span
+              ><span class="text-k-grey">/{{ dropMax }}</span>
+            </div>
+            <DropsTimeTag
               v-if="dropStartTime && !ownerAddresses.length"
-              :drop-start-time="drop.dropStartTime"
-              :drop-status="drop.status" /> -->
-            <!-- <CollectionDropCollectedBy
+              :drop-start-time="dropStartTime"
+              :drop-status="dropStatus" />
+            <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
               :max-address-count="3"
-              size="small" /> -->
+              size="small" />
           </div>
         </div>
       </component>
@@ -48,7 +47,6 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import { DropStatus } from '@/components/drops/useDrops'
-// import TimeTag from './TimeTag.vue'
 
 const emit = defineEmits(['click'])
 withDefaults(
@@ -58,12 +56,14 @@ withDefaults(
     showTimeTag: boolean
     dropStartTime?: Date | null
     dropStatus: DropStatus
-    price: string | null
     dropPrefix?: Prefix
     loading?: boolean
     cardIs?: string | object
     to?: string
     timeTagWithTime?: boolean
+    dropMax?: number
+    minted?: number
+    ownerAddresses?: string[]
   }>(),
   {
     loading: false,
@@ -71,7 +71,10 @@ withDefaults(
     to: undefined,
     dropStartTime: undefined,
     dropPrefix: 'ahp',
+    minted: 0,
+    dropMax: 0,
     timeTagWithTime: false,
+    ownerAddresses: () => [],
   },
 )
 </script>
