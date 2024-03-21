@@ -82,7 +82,13 @@ const previewDropCalendar = ref<DropCalendar>()
 const body = ref(document.body)
 
 const scheduledDropCalendars = computed(() =>
-  data.value?.filter((item) => item.date),
+  data.value
+    ?.filter((item) => item.date)
+    .sort(
+      (a, b) =>
+        new Date(a.date as string).getTime() -
+        new Date(b.date as string).getTime(),
+    ),
 )
 
 const unscheduledDropCalendars = computed(() =>
