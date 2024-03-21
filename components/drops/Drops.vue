@@ -77,6 +77,7 @@ const { urlPrefix } = usePrefix()
 const { drops, loaded } = useDrops({
   active: [true, false],
   chain: !isProduction ? [urlPrefix.value] : [],
+  limit: 100, // set limit to enable sort from backend
 })
 
 const isCreateEventModalActive = ref(false)
