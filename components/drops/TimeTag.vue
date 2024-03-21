@@ -28,8 +28,9 @@ import { formatDropStartTime, toDropScheduledDurationString } from './utils'
 
 const { $i18n } = useNuxtApp()
 const props = defineProps<{
-  dropStartTime?: Date
+  dropStartTime?: Date | null
   dropStatus: DropStatus
+  withTime?: boolean
 }>()
 
 const isMintingLive = computed(
@@ -55,7 +56,11 @@ const displayText = computed(() => {
     case DropStatus.SCHEDULED_SOON:
       return toDropScheduledDurationString(props.dropStartTime as Date)
     case DropStatus.SCHEDULED:
-      return formatDropStartTime(props.dropStartTime as Date, $i18n.locale)
+      return formatDropStartTime(
+        props.dropStartTime as Date,
+        $i18n.locale,
+        Boolean(props.withTime),
+      )
     case DropStatus.UNSCHEDULED:
       return
     default:
