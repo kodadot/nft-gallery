@@ -14,14 +14,14 @@
           class="group-hover:opacity-[0.85] aspect-video object-cover w-full" />
 
         <div
-          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
+          class="h-[115px] py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
           <span
             class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
             >{{ drop.collection.name }}</span
           >
 
           <div
-            class="min-h-[66px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
+            class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
             <div>
               <span>{{ mintedCount }}</span
               ><span class="text-k-grey">/{{ drop.max }}</span>
@@ -33,7 +33,8 @@
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
-              :max-address-count="3" />
+              :max-address-count="3"
+              is-drops-page />
           </div>
         </div>
       </component>
