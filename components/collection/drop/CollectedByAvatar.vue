@@ -9,10 +9,14 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  address: string
-  size?: 'small' | 'medium'
-}>()
+const props = withDefaults(
+  defineProps<{
+    size?: 'small' | 'medium'
+  }>(),
+  {
+    size: 'medium',
+  },
+)
 
 const { shortenedAddress } = useIdentity({
   address: computed(() => props.address),
