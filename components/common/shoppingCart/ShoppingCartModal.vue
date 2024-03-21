@@ -64,6 +64,7 @@
           }}</span>
           <NeoButton
             v-safe-href="`/${urlPrefix}/explore/items`"
+            variant="outlined-rounded"
             :label="$t('shoppingCart.exploreNfts')"
             rounded
             no-shadow
