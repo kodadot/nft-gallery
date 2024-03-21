@@ -1,4 +1,4 @@
-**Thank you for your contribution** to the [KodaDot - One Stop Shop for Polkadot NFTs](https://kodadot.xyz).
+**Thank you for your contribution** to the [Koda - Generative Art Marketplace](https://kodadot.xyz).
 
 👇 __ Let's make a quick check before the contribution.
 
@@ -15,7 +15,7 @@
 ## Context
 
 - [ ] Closes #<issue_number>
-- [ ] Requires deployment <snek/rubick/worker>
+- [ ] Requires deployment <worker/stick/speck>
 
 #### Did your issue had any of the "$" label on it?
 
@@ -23,4 +23,4 @@
 
 ## Screenshot 📸
 
-- [ ] My fix has changed UI
+- [ ] My fix has changed **something** on UI; a screenshot is best to understand changes for others.

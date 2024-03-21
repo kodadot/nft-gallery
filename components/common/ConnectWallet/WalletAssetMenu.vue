@@ -15,14 +15,7 @@
       </div>
       <div class="wallet-asset-footer flex py-5 text-xs text-k-grey">
         <!-- light/dark mode -->
-        <div class="items-center" @click="toggleColorMode">
-          <NeoIcon icon="circle-half-stroke" size="medium" />
-          <span class="is-hidden-mobile">
-            {{
-              $t(isDarkMode ? 'profileMenu.lightMode' : 'profileMenu.darkMode')
-            }}
-          </span>
-        </div>
+        <ColorModeSwitch />
 
         <!-- language -->
         <div data-testid="sidebar-language" class="language-selector">
@@ -69,7 +62,6 @@ import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 
 const { urlPrefix } = usePrefix()
 // const { isAssetHub } = useIsChain(urlPrefix)
-const { toggleColorMode, isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const menus = ref([
