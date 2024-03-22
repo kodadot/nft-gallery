@@ -68,7 +68,7 @@ import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
 import groupBy from 'lodash/groupBy'
-import { fromatCETDate } from '@/components/drops/utils'
+import { formatCETDate } from '@/components/drops/utils'
 
 defineProps<{
   defaultSkeletonCount: number
@@ -127,7 +127,7 @@ const getDropStartTime = (calendar: DropCalendar): Date | null => {
   }
 
   return calendar.time
-    ? fromatCETDate(calendar.date, calendar.time)
+    ? formatCETDate(calendar.date, calendar.time)
     : new Date(calendar.date)
 }
 
