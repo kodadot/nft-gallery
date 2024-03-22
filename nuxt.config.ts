@@ -1,6 +1,7 @@
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import svgLoader from 'vite-svg-loader'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
@@ -33,6 +34,13 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
+      process.env.NODE_ENV === 'development'
+        ? null
+        : sentryVitePlugin({
+            org: 'kodadot',
+            project: 'nft-gallery',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          }),
       svgLoader({
         defaultImport: 'url',
       }),
@@ -259,6 +267,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
+    // '@nuxtjs/sentry',
     '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',

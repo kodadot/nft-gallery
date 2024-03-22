@@ -102,7 +102,8 @@ export const replaceIpfsGateway = (
 }
 
 export const assetExternalUrl = (url: string) => {
-  const kodaUrl = new URL(`/type/endpoint/${url}`, kodaImage)
+  const kodaUrl = new URL('/type/url', kodaImage)
+  kodaUrl.searchParams.set('endpoint', url)
 
   return kodaUrl.href.toString()
 }

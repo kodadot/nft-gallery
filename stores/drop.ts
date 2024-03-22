@@ -28,7 +28,7 @@ interface State {
   previewItem: GenerativePreviewItem | undefined
   // massmint
   amountToMint: number
-  toMintNFTs: MassMintNFT[] // used to render each NFT and track their data, after a successfully preview generation the metadata is uplaoded
+  toMintNFTs: MassMintNFT[] // used to render each NFT and track their data, after a successfull preview generation the metadata is uplaoded
   allocatedNFTs: AllocatedNFT[] // once all toMintNFTs have metadata they are allocated
   mintedNFTs: NFTWithMetadata[] // once all allocated NFTs are claimed, we retrieve 'NFTWithMetadata' to be able to list them
   mintingSession: MintingSession // used to show the final success modal with the minted NFTs and txHash if provided

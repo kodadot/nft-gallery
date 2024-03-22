@@ -9,7 +9,7 @@
         <div class="ml-4 relative signup-banner-voucher flex-shrink-0">
           <img :src="signUpVoucherIcon" alt="signup voucher" />
           <img
-            src="~/assets/svg/signup-voucher-blur.svg"
+            src="/signup-voucher-blur.svg"
             alt="signup voucher blur"
             class="blur" />
         </div>

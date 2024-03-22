@@ -3,22 +3,11 @@
     <div class="flex justify-between">
       <div class="flex">
         <div>
-          <BaseMediaItem
-            v-if="nft.animationUrl"
-            class="border border-k-shade image is-48x48"
-            :class="{ 'opacity-50': discarded }"
-            :alt="nft?.name"
-            :animation-src="sanitizeIpfsUrl(nft.animationUrl.url)"
-            :mime-type="nft.animationUrl.mimeType"
-            preview
-            is-detail />
-          <!-- keeping BasicImage since its has a skeleton laoder -->
           <BasicImage
-            v-else
             :src="avatar"
             :alt="nft?.name"
             class="border image is-48x48"
-            :class="{ 'opacity-50': discarded }" />
+            :class="{ 'is-50-percent': discarded }" />
         </div>
 
         <div class="flex flex-col justify-between ml-4 limit-width">
@@ -60,9 +49,7 @@ const getAvatar = async () => {
 }
 
 onMounted(() => {
-  if (!props.nft.animationUrl) {
-    getAvatar()
-  }
+  getAvatar()
 })
 </script>
 
@@ -78,5 +65,9 @@ onMounted(() => {
 
 .line-height-1 {
   line-height: 1;
+}
+
+.is-50-percent {
+  opacity: 50%;
 }
 </style>

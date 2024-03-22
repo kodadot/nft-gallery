@@ -83,25 +83,16 @@ it('should return proper url', () => {
   inputUrl =
     'https://polkadot-data.s3.us-east-2.amazonaws.com/metadata/nfts-88/nfts-88_item-5413-meta.json'
   output =
-    'https://image-beta.w.kodadot.xyz/type/endpoint/https://polkadot-data.s3.us-east-2.amazonaws.com/metadata/nfts-88/nfts-88_item-5413-meta.json'
+    'https://image-beta.w.kodadot.xyz/type/url?endpoint=https%3A%2F%2Fpolkadot-data.s3.us-east-2.amazonaws.com%2Fmetadata%2Fnfts-88%2Fnfts-88_item-5413-meta.json'
   extract = fastExtract(inputUrl)
   expect(extract).toBe(inputUrl)
   expect(sanitizeIpfsUrl(inputUrl)).toBe(output)
 
   // external url from workers
   inputUrl =
-    'https://image-beta.w.kodadot.xyz/type/endpoint/https://polkadot-data.s3.us-east-2.amazonaws.com/metadata/nfts-88/nfts-88_item-5413-meta.json'
+    'https://image-beta.w.kodadot.xyz/type/url?endpoint=https%3A%2F%2Fpolkadot-data.s3.us-east-2.amazonaws.com%2Fmetadata%2Fnfts-88%2Fnfts-88_item-5413-meta.json'
   extract = fastExtract(inputUrl)
   expect(extract).toBe(inputUrl)
   expect(extract.includes(kodaImage)).toBe(true)
-  expect(sanitizeIpfsUrl(inputUrl)).toBe(output)
-
-  // external url with html assets
-  inputUrl =
-    'https://arweave.net/JYh76DBFB1mvvpOS7jrKpOuJG2AFPt1NUp8-5Q9tMUY/index.html?&a=0x3c93690BBe585475FdfADaB3f59b4604008C7ac4&c=8453&tid=1&h=0xebee57cf2600aabca328750397f348b0fcb4e03449863c17c8305c887624ea4e&bh=0xfd6538c8182a8758bb52120ab0ee8820f4d1afc70f4dc1f0b52c9f7ff3e1bf18&bn=3656801&t=1694102949&wa=0x60B824cA6457330f923dd61cf14A011C3421BD6d&ms=1&mi=1&s=120&gp=0&gu=0'
-  output =
-    'https://image-beta.w.kodadot.xyz/type/endpoint/https://arweave.net/JYh76DBFB1mvvpOS7jrKpOuJG2AFPt1NUp8-5Q9tMUY/index.html?&a=0x3c93690BBe585475FdfADaB3f59b4604008C7ac4&c=8453&tid=1&h=0xebee57cf2600aabca328750397f348b0fcb4e03449863c17c8305c887624ea4e&bh=0xfd6538c8182a8758bb52120ab0ee8820f4d1afc70f4dc1f0b52c9f7ff3e1bf18&bn=3656801&t=1694102949&wa=0x60B824cA6457330f923dd61cf14A011C3421BD6d&ms=1&mi=1&s=120&gp=0&gu=0'
-  extract = fastExtract(inputUrl)
-  expect(extract).toBe(inputUrl)
   expect(sanitizeIpfsUrl(inputUrl)).toBe(output)
 })

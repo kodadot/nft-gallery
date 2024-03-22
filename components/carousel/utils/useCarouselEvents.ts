@@ -18,12 +18,13 @@ const nftEventVariables = {
   newestList: { interaction_eq: 'LIST' },
 }
 
-const fetchLatestEvents = (chain, type, where = {}, limit = 20) => {
+const fetchLatestEvents = async (chain, type, where = {}, limit = 20) => {
   const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
 
-  return useQuery(
+  return await useAsyncQuery({
     query,
-    {
+    clientId: chain,
+    variables: {
       limit,
       orderBy: 'timestamp_DESC',
       where: {
@@ -31,8 +32,7 @@ const fetchLatestEvents = (chain, type, where = {}, limit = 20) => {
         ...where,
       },
     },
-    { clientId: chain },
-  )
+  })
 }
 
 const createEventQuery = (
@@ -73,15 +73,14 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
     return items.value.some((item) => item.id === nft.id)
   }
 
-  const where = createEventQuery(
-    type,
-    excludeNfts,
-    excludeCollections,
-    collectionIds,
-  )
-  const { result: data } = fetchLatestEvents(chain, type, where)
-
   const constructNfts = async () => {
+    const where = createEventQuery(
+      type,
+      excludeNfts,
+      excludeCollections,
+      collectionIds,
+    )
+    const { data } = await fetchLatestEvents(chain, type, where)
     const events = (
       data.value as {
         events: { meta: string; nft: NFTWithMetadata; timestamp: string }[]
@@ -118,7 +117,7 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
   }
 
   watchEffect(async () => {
-    if (items.value.length < limit && data.value) {
+    if (items.value.length < limit) {
       await constructNfts()
     }
   })

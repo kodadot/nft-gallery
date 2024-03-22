@@ -11,7 +11,7 @@
       {{ shortenedAddress }}
       <img
         v-if="isFetchingIdentity"
-        src="~/assets/svg/infinity.svg"
+        src="/infinity.svg"
         class="ml-1 infinity-loader" />
       <template v-else>
         <span v-if="identity?.display" class="ml-1">

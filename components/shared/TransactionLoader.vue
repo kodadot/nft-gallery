@@ -87,8 +87,6 @@
 import { NeoButton, NeoModal, NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import loading from '~/assets/svg/preloader.svg?url'
-import congrats from '~/assets/svg/congrats-message-header.svg?url'
 
 const props = withDefaults(
   defineProps<{
@@ -149,6 +147,9 @@ const steps = [
     tip: $i18n.t('transactionLoader.completedTip'),
   },
 ]
+
+const loading = '/preloader.svg'
+const congrats = '/congrats-message-header.svg'
 
 const isFinalStep = computed(() => activeStep.value === steps.length)
 

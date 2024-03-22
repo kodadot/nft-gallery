@@ -7,15 +7,10 @@
       </h3>
 
       <div class="flex gap-4 items-center">
-        <ProfileOrderByDropdown
-          no-shadow
-          rounded
-          :preselect="defaultSort"
-          variant="outlined-rounded" />
+        <ProfileOrderByDropdown no-shadow rounded :preselect="defaultSort" />
         <ProfileFilterButton
           :label="$t('sort.listed')"
           url-param="listed"
-          variant="outlined-rounded"
           data-testid="drop-filter-button-buynow" />
       </div>
     </div>

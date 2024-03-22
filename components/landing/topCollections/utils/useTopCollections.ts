@@ -77,30 +77,32 @@ export const useTopCollections = (limit: number, immediate = true) => {
     },
   )
 
-  watchEffect(async () => {
+  watch([topCollections], async () => {
     if (topCollections.value) {
       const ids = topCollections.value.collectionEntities.map((c) => c.id)
 
-      const { result: data } = useQuery(
-        collectionsSales,
-        { ids },
-        { clientId: client.value },
-      )
+      const { data } = await useAsyncQuery<CollectionsSalesResult>({
+        query: collectionsSales,
+        variables: { ids },
+        clientId: client.value,
+      })
 
       topCollectionWithVolumeList.value = []
       collectionsSalesResults.value = data.value
+    }
+  })
 
-      if (
-        collectionsSalesResults.value &&
-        topCollections.value?.collectionEntities.length
-      ) {
-        topCollectionWithVolumeList.value = proccessData(
-          topCollections.value.collectionEntities,
-          collectionsSalesResults.value.collectionsSales,
-        )
+  watch(collectionsSalesResults, () => {
+    if (
+      collectionsSalesResults.value &&
+      topCollections.value?.collectionEntities.length
+    ) {
+      topCollectionWithVolumeList.value = proccessData(
+        topCollections.value.collectionEntities,
+        collectionsSalesResults.value.collectionsSales,
+      )
 
-        loading.value = false
-      }
+      loading.value = false
     }
   })
 
