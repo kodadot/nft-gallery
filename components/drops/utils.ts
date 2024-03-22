@@ -28,7 +28,10 @@ export function formatDropStartTime(
     })
   }
 
-  return intlFormat(startTime, options, { locale })
+  return intlFormat(startTime, { ...options, month: 'long' }, { locale })
+    .split(' ')
+    .reverse()
+    .join('. ')
 }
 
 export const formatCETDate = (date: string, time: string): Date =>
