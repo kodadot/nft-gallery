@@ -39,8 +39,8 @@ export enum DropStatus {
 }
 
 const DROP_LIST_ORDER = [
-  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED_SOON,
+  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED,
   DropStatus.COMING_SOON,
   DropStatus.MINTING_ENDED,
