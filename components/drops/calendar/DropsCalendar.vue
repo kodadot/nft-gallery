@@ -40,18 +40,13 @@
           <template #card="{ item }: { item: DropCalendar }">
             <DropsBasicDropCard
               :name="item.name"
-              :price="item.price"
               :image="sanitizeIpfsUrl(item.items[0]?.image)"
               :drop-start-time="
                 item.date ? fromatCETDate(item.date, item.time) : null
               "
               :drop-status="DropStatus.SCHEDULED"
-              :show-time-tag="item.date !== null"
               :time-tag-with-time="Boolean(item.time)"
               @click="() => handleClick(item)">
-              <template v-if="item.price === null" #price>
-                <span class="text-k-grey">{{ $t('helper.priceNotSet') }}</span>
-              </template>
             </DropsBasicDropCard>
           </template>
         </DropsGrid>
