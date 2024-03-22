@@ -18,7 +18,6 @@ export function formatDropStartTime(
   const options = {
     day: '2-digit',
     month: '2-digit',
-    year: 'numeric',
     hour12: withTime,
   } as const
 
@@ -32,7 +31,10 @@ export function formatDropStartTime(
   return intlFormat(startTime, options, { locale })
 }
 
-export const fromatCETDate = (date: string, time: string = ''): Date => {
-  const t = time ? `T${time}` : ''
-  return new Date(`${date}${t}+01:00`)
+export const formatCETDate = (date: string, time: string): Date =>
+  new Date(`${date}T${time}+01:00`)
+
+export const parseCETDate = (datetime: string): Date => {
+  const [date, time] = datetime.split(' ')
+  return formatCETDate(date, time)
 }
