@@ -1,5 +1,6 @@
 <template>
   <NeoButton
+    :variant="variant"
     :active="model"
     no-shadow
     rounded
@@ -8,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
@@ -16,6 +17,7 @@ const { replaceUrl } = useReplaceUrl()
 const props = defineProps<{
   label?: string
   urlParam: string
+  variant?: NeoButtonVariant
 }>()
 
 const model = computed({
