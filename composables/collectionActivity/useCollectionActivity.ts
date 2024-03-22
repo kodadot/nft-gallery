@@ -25,7 +25,7 @@ export const useCollectionActivity = ({
     id: collectionId.value,
   }))
 
-  const { data, refetch } = useGraphql({
+  const { data, refetch, loading } = useGraphql({
     queryPrefix,
     queryName: 'collectionActivityEvents',
     variables: variables.value,
@@ -78,5 +78,6 @@ export const useCollectionActivity = ({
     owners,
     flippers,
     offers,
+    loading,
   }
 }
