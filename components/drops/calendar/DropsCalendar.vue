@@ -42,9 +42,7 @@
               :name="item.name"
               :price="item.price"
               :image="sanitizeIpfsUrl(item.items[0]?.image)"
-              :drop-start-time="
-                item.date ? fromatCETDate(item.date, item.time) : null
-              "
+              :drop-start-time="getDropStartTime(item)"
               :drop-status="DropStatus.SCHEDULED"
               :show-time-tag="item.date !== null"
               :time-tag-with-time="Boolean(item.time)"
@@ -122,6 +120,16 @@ const grouppedDropCalendars = computed(() => {
 })
 
 const formatDate = (date: string) => format(new Date(date), 'dd. MMMM')
+
+const getDropStartTime = (calendar: DropCalendar): Date | null => {
+  if (!calendar.date) {
+    return null
+  }
+
+  return calendar.time
+    ? fromatCETDate(calendar.date, calendar.time)
+    : new Date(calendar.date)
+}
 
 const handleClick = (dropCalendar: DropCalendar) => {
   previewDropCalendar.value = dropCalendar
