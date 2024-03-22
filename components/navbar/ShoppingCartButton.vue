@@ -4,7 +4,7 @@
     <div class="relative leading-4" :class="{ 'ml-2': showLabel }">
       <NeoIcon
         class="w-4 h-4"
-        :class="{ 'ml-2 mb-8': isMobile }"
+        :class="{ 'ml-2': isMobile }"
         icon="fa-shopping-cart-outline-sharp"
         pack="fa-kit fa-fw"
         size="medium" />
