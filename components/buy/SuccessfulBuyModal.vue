@@ -5,24 +5,20 @@
       :tx-hash="txHash"
       :share="share"
       :action-buttons="actionButtons">
-      <template v-if="singleBuy">
-        <SingleItemMedia
-          :header="$t('buyModal.purchaseSuccessful')"
-          :src="sanitizeIpfsUrl(firsItem.meta?.image)"
-          :nft-name="firsItem.name"
-          :collection-id="firsItem.collection.id"
-          :collection-name="firsItem.collection.name" />
-      </template>
-      <MultiItemMedia
-        v-else
-        :header="$t('buyModal.amountPurchaseSuccessfully', [items.length])"
-        :items="sanatizedItems" />
+      <SuccessfulItemsMedia
+        :header="{
+          single: $t('buyModal.purchaseSuccessful'),
+          multiple: $t('buyModal.amountPurchaseSuccessfully', [items.length]),
+        }"
+        :items="items"
+        media-mime-type="text/html" />
     </SuccessfulModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
 
 defineEmits(['modelValue'])
 const props = defineProps<{
@@ -49,6 +45,16 @@ const nftSubscription = ref(() => {})
 const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
 
+const items = computed<ItemMedia[]>(() =>
+  props.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    image: item.meta?.image as string,
+    collection: item.collection.id,
+    collectionName: item.collection.name,
+  })),
+)
+
 const shareText = computed(() => {
   if (singleBuy.value) {
     return $i18n.t('sharing.boughtNft')
@@ -58,14 +64,6 @@ const shareText = computed(() => {
 
   return $i18n.t('sharing.boughtNfts', [someNfts.join(', ')])
 })
-
-const sanatizedItems = computed(() =>
-  props.items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    image: sanitizeIpfsUrl(item.meta?.image),
-  })),
-)
 
 const url = computed(() => window.location.origin)
 const userProfilePath = computed(
