@@ -17,7 +17,7 @@ export function formatDropStartTime(
 ) {
   const options = {
     day: '2-digit',
-    month: '2-digit',
+    month: withTime ? '2-digit' : 'long',
     hour12: withTime,
   } as const
 
