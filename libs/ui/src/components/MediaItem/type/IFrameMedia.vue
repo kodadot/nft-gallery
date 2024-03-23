@@ -4,7 +4,7 @@
       ref="iframe"
       title="html-embed"
       class="absolute flex w-[1080px] h-[1080px] aspect-square origin-top-left"
-      :src="animationSrc || src"
+      :src="iframeSrc"
       :alt="alt"
       sandbox="allow-scripts allow-same-origin allow-modals"
       allow="accelerometer *; camera *; gyroscope *; microphone *; xr-spatial-tracking *;" />
@@ -15,9 +15,35 @@
 import { ref, watchEffect } from 'vue'
 import { useElementSize } from '@vueuse/core'
 
+const props = defineProps<{
+  src?: string
+  animationSrc?: string
+  alt?: string
+}>()
+
 const wrapper = ref<HTMLDivElement>()
 const iframe = ref<HTMLIFrameElement>()
 const { width, height } = useElementSize(wrapper)
+
+const computedSrc = computed(() => props.animationSrc || props.src || '')
+
+const iframeSrc = ref('')
+
+onMounted(() => {
+  iframeSrc.value = computedSrc.value
+})
+
+watch(computedSrc, (src) => {
+  if (iframe.value?.src !== src) {
+    iframe.value?.contentWindow?.location.replace(src)
+  }
+})
+
+watchEffect(() => {
+  if (iframe.value) {
+    iframe.value.style.transform = ''
+  }
+})
 
 watchEffect(() => {
   if (width.value && height.value) {
@@ -30,10 +56,4 @@ watchEffect(() => {
     iframe.value.style.transform = `scale(${scale})`
   }
 })
-
-defineProps<{
-  src?: string
-  animationSrc?: string
-  alt?: string
-}>()
 </script>
