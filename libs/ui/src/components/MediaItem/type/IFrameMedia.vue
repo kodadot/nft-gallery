@@ -40,12 +40,6 @@ watch(computedSrc, (src) => {
 })
 
 watchEffect(() => {
-  if (iframe.value) {
-    iframe.value.style.transform = ''
-  }
-})
-
-watchEffect(() => {
   if (width.value && height.value) {
     if (!iframe.value) {
       return
