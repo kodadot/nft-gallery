@@ -1,6 +1,7 @@
 <template>
-  <div class="flex">
+  <div class="flex gap-4">
     <NeoButton
+      v-if="secondary"
       class="border-k-grey hover-button w-full"
       :disabled="secondary.disabled"
       rounded
@@ -10,7 +11,7 @@
     >
 
     <NeoButton
-      class="hover-button w-full ml-4"
+      class="hover-button w-full"
       :disabled="primary.disabled"
       :loading="primary.disabled"
       variant="k-accent"
@@ -34,6 +35,6 @@ export type ActionButton = {
 defineEmits(['primary', 'secondary'])
 defineProps<{
   primary: ActionButton
-  secondary: ActionButton
+  secondary?: ActionButton
 }>()
 </script>

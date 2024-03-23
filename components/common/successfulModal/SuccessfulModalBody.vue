@@ -18,7 +18,7 @@
         :primary="actionButtons.primary"
         :secondary="actionButtons.secondary"
         @primary="actionButtons.primary.onClick"
-        @secondary="actionButtons.secondary.onClick" />
+        @secondary="actionButtons.secondary?.onClick" />
     </slot>
   </div>
 </template>
@@ -31,7 +31,7 @@ type ActionButtonWithHandler = ActionButton & { onClick: () => void }
 
 export type ActionButtonsProp = {
   primary: ActionButtonWithHandler
-  secondary: ActionButtonWithHandler
+  secondary?: ActionButtonWithHandler
 }
 
 defineProps<{
