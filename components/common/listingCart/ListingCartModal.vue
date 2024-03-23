@@ -8,7 +8,7 @@
       @try-again="submitListing" />
 
     <NeoModal
-      :value="successfullyListed"
+      :value="isSuccessModalOpen"
       append-to-body
       @close="handleSuccessModalClose">
       <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
@@ -114,7 +114,7 @@ const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
 const autoTeleportLoaded = ref(false)
 
-const successfullyListed = computed(
+const isSuccessModalOpen = computed(
   () =>
     Boolean(items.value.length) && status.value === TransactionStatus.Finalized,
 )
