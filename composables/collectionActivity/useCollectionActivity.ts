@@ -1,8 +1,15 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
 import { nameWithIndex } from '@/utils/nft'
+import type { Prefix } from '@kodadot1/static'
 
-export const useCollectionActivity = ({ collectionId }) => {
+export const useCollectionActivity = ({
+  collectionId,
+  prefix,
+}: {
+  collectionId: ComputedRef<string>
+  prefix?: Prefix
+}) => {
   const { urlPrefix } = usePrefix()
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
@@ -13,7 +20,7 @@ export const useCollectionActivity = ({ collectionId }) => {
     ksm: 'chain-ksm',
   }
 
-  const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
+  const queryPrefix = queryPrefixMap[prefix ?? urlPrefix.value] || 'subsquid'
   const variables = computed(() => ({
     id: collectionId.value,
   }))
@@ -22,6 +29,7 @@ export const useCollectionActivity = ({ collectionId }) => {
     queryPrefix,
     queryName: 'collectionActivityEvents',
     variables: variables.value,
+    clientName: prefix,
   })
 
   watch(variables, () => refetch(variables.value))
