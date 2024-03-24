@@ -101,18 +101,26 @@ const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
 
-const sanitizedMintedNft = computed(() =>
+const mintedNFT = computed<MintedNFT | undefined>(() =>
   claimedNft.value
-    ? { ...claimedNft.value, image: sanitizeIpfsUrl(claimedNft.value.image) }
+    ? {
+        ...claimedNft.value,
+        image: sanitizeIpfsUrl(claimedNft.value.image),
+        collection: {
+          id: claimedNft.value.collection,
+          name: claimedNft.value.collectionName,
+          max: claimedNft.value.max,
+        },
+      }
     : undefined,
 )
 
 const { loadedAll, triedAll } = usePreloadImages(
-  computed(() => (sanitizedMintedNft.value ? [sanitizedMintedNft.value] : [])),
+  computed(() => (mintedNFT.value ? [mintedNFT.value] : [])),
 )
 
 const mintingSession = computed<MintingSession>(() => ({
-  items: [sanitizedMintedNft.value as MintedNFT].filter(Boolean),
+  items: [mintedNFT.value as MintedNFT].filter(Boolean),
   txHash: undefined, // free mint does not have a txHash
 }))
 
@@ -132,7 +140,7 @@ const moveSuccessfulDrop = computed(() => {
     return true
   }
 
-  return distance.value <= 0 && sanitizedMintedNft.value && triedAll.value
+  return distance.value <= 0 && mintedNFT.value && triedAll.value
 })
 
 const est = computed(() => `Est ~ ${displayDuration.value}`)
