@@ -1,4 +1,4 @@
-# One Stop Shop for your Polkadot NFTs
+# Generative Art Marketplace 
 
 ![Frame 819](https://github.com/kodadot/nft-gallery/assets/90852205/70989633-9c78-47ee-9e23-4a60c12d8d76)
 
