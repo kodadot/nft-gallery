@@ -23,7 +23,7 @@ export type ItemMedia = {
   name: string
   collection: string
   collectionName: string
-  price?: number
+  price?: string
 }
 
 const props = defineProps<{

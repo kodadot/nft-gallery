@@ -33,7 +33,7 @@ const mediaItems = computed<ItemMedia[]>(() =>
     collection: item.collection.id,
     collectionName: item.collection.name,
     price: item.listPrice
-      ? item.listPrice * Math.pow(10, decimals.value)
+      ? String(item.listPrice * Math.pow(10, decimals.value))
       : undefined,
   })),
 )
