@@ -10,8 +10,7 @@
           single: $t('buyModal.purchaseSuccessful'),
           multiple: $t('buyModal.amountPurchaseSuccessfully', [items.length]),
         }"
-        :items="items"
-        media-mime-type="text/html" />
+        :items="items" />
     </SuccessfulModal>
   </div>
 </template>
