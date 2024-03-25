@@ -90,8 +90,10 @@ sitemap.xml
 ### its generated, this time is different
 ## service-worker.js
 
-# cypress
-# cypress/screenshots/
+# playwright
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# playwright screenshots
+/tests/e2e/v-regression.spec.ts-snapshots/
