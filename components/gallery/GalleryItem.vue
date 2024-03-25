@@ -361,7 +361,7 @@ function handleReloadClick() {
       isLoading.value = false
       const element: ReloadElement = document.querySelector(selector)
       if (element) {
-        element.src = element.src
+        element.src += ''
       }
     }, 2000)
   }
