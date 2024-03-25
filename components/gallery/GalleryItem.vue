@@ -72,7 +72,7 @@
               </a>
             </NeoTooltip>
             <NeoTooltip :label="$t('fullscreen')" position="top">
-              <a no-shadow @click="toggleFullscreen">
+              <a data-testid="fullscreen" no-shadow @click="toggleFullscreen">
                 <NeoIcon
                   icon="arrow-up-right-and-arrow-down-left-from-center"
                   size="medium" />
@@ -197,6 +197,7 @@ import {
   NeoCarousel,
   NeoCarouselItem,
   NeoIcon,
+  NeoTooltip,
 } from '@kodadot1/brick'
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 
@@ -215,9 +216,10 @@ import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoTooltip } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -257,6 +259,11 @@ const activeTab = ref(tabs.activity)
 const activeCarousel = ref(0)
 
 const isLoading = ref(false)
+type ReloadElement =
+  | HTMLIFrameElement
+  | HTMLVideoElement
+  | HTMLImageElement
+  | null
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
@@ -348,27 +355,47 @@ function toggleFullscreen() {
 
 function handleReloadClick() {
   isLoading.value = true
-  setTimeout(() => {
-    isLoading.value = false
-    const iframe = document.querySelector(
-      'iframe[title="html-embed"]',
-    ) as HTMLIFrameElement
-    if (iframe) {
-      iframe.src += ''
-    }
-  }, 2000)
+
+  const reloadElement = (selector: string) => {
+    setTimeout(() => {
+      isLoading.value = false
+      const element: ReloadElement = document.querySelector(selector)
+      if (element) {
+        element.src = element.src
+      }
+    }, 2000)
+  }
+
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+
+  if ([MediaType.IFRAME].includes(mediaType)) {
+    reloadElement('iframe[title="html-embed"]')
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    reloadElement('video[data-testid="type-video"]')
+  } else if ([MediaType.OBJECT].includes(mediaType)) {
+    reloadElement('object')
+  }
 }
 
 function handleNewTab() {
-  const iframe = document.querySelector(
-    'iframe[title="html-embed"]',
-  ) as HTMLIFrameElement
-  if (iframe) {
-    const iframeSrc = iframe.getAttribute('src')
-    if (!iframeSrc) {
-      return
+  const openInNewTab = (selector: string, attribute: string) => {
+    const element = document.querySelector(selector)
+    if (element) {
+      const src = element.getAttribute(attribute)
+      if (src) {
+        window.open(src, '_blank')
+      }
     }
-    window.open(iframeSrc, '_blank')
+  }
+
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+
+  if ([MediaType.IFRAME].includes(mediaType)) {
+    openInNewTab('iframe[title="html-embed"]', 'src')
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    openInNewTab('video[data-testid="type-video"]', 'src')
+  } else if ([MediaType.OBJECT].includes(mediaType)) {
+    openInNewTab('object', 'src')
   }
 }
 
