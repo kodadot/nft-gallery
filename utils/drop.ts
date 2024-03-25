@@ -43,6 +43,6 @@ export const AHP_POPULAR_DROP_COLLECTIONS = [
   '38', // Generativ Art - Pare1d0scope
 ]
 
-export const FALLBACK_DROP_COLLECTION_MAX = 300
+export const FALLBACK_DROP_COLLECTION_MAX = 256
 
 export const DROP_CARD_MIN_WIDTH = 334 // px

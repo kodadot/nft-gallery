@@ -6,7 +6,7 @@ export const NAMES: Record<Prefix, string> = {
   ahk: 'KusamaHub',
   dot: 'Polkadot',
   ahp: 'PolkadotHub',
-  imx: 'ImmutableZKEVM',
+  imx: 'Immutable zkEVM',
   base: 'Base',
   // ahr: 'RococoHub',
   // glmr: 'Moonbeam [Beta]',

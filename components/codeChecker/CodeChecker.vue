@@ -63,12 +63,7 @@
               </span>
               <span>{{ fileValidity.title }}</span>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-neutral-7">{{
-                $t('codeChecker.webglSupported')
-              }}</span>
-              <span>{{ fileValidity.webGLSupported ? 'Yes' : 'No' }}</span>
-            </div>
+
             <div class="flex justify-between items-center">
               <span class="text-neutral-7"
                 >{{ $t('codeChecker.local') }} p5js</span
@@ -107,6 +102,13 @@
           :description="$t('codeChecker.usingParamHash')">
           <template #modalContent>
             <CodeCheckerIssueHintUsingParamHash />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="!fileValidity.webGLSupported"
+          :description="$t('codeChecker.notUsingWebGl')">
+          <template #modalContent>
+            <CodeCheckerIssueHintNoWebGl />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem

@@ -2,6 +2,10 @@
   "translation": "english",
   "create": "Create",
   "explore": "Explore",
+  "scheduled": "Scheduled",
+  "supply": "Supply",
+  "artist": "Artist",
+  "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
@@ -16,7 +20,7 @@
   "burn": "Burn",
   "purchase": "Purchase",
   "delete": "Delete",
-  "opensIn": "Opens in",
+  "opensIn": "in",
   "bridging": "Bridging",
   "recent": "Recent",
   "user": "User",
@@ -1006,6 +1010,7 @@
   "helper": {
     "tryAgain": "Try again",
     "viewTx": "View Tx",
+    "priceNotSet": "Price Not Set",
     "seeMore": "See More",
     "learnMore": "Learn More",
     "learnMoreAboutEd": "Learn more about Existential deposit",
@@ -1069,6 +1074,8 @@
     "nft": "Check out this awesome NFT on KodaDot",
     "boughtNft": "Check out this awesome NFT I bought on KodaDot",
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
+    "listedNft": "Check out this awesome NFT I just listed on KodaDot",
+    "listedNfts": "Check out these awesome NFTs I just listed on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
     "pack": "Check out this awesome Pack on KodaDot",
@@ -1451,17 +1458,18 @@
   "drops": {
     "title": "Generative Art Drops",
     "drops": "Drops",
+    "dropInformation": "Drop Information",
+    "dropCalendar": "Drop Calendar",
     "pastArtDrops": "Past Art Drops",
     "createYourOwn": "Create your own",
     "generatingVariations": "Generating Variations",
     "amountMintedSuccessfully": "{0} NFTs minted successfully",
     "everyThursday": "Every Thursday",
-    "addToCal": "Add To Cal",
+    "addToCal": "Add To Calendar",
     "createACalendarEvent": "Create A Calendar Event",
     "kodadotWeeklyGenerativeDrop": "Kodadot weekly generative drop",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
-    "mintingLive": "Minting Live",
     "viewDrop": "View Drop",
     "mintingEnded": "Ended",
     "mintingNow": "Minting Now",
@@ -1518,6 +1526,7 @@
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },
+    "calendarMoreDrops": "More drops are in the works! Dates will be announced soon. Stay tuned.",
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"
@@ -1562,7 +1571,9 @@
     "floorPrice": "Floor Price",
     "inputPriceFirst": "Input Price First",
     "setAllTo": "Set All To",
-    "listingNft": "Listing NFT | Listing NFTs"
+    "listingNft": "Listing NFT | Listing NFTs",
+    "newListingPrice": "New Listing Price",
+    "bulkListingSuccessful": "Bulk Listing Successful"
   },
   "migrate": {
     "cta": "Migrate Now",
@@ -1779,6 +1790,8 @@
     "usingKodaHashMeans": "Once the rendering of art is done, a message needs to be sent signaling the end of the render. This message is necessary for art to work properly on KodaDot. More details can be found in the {link}. This message should look like this:",
     "usingParamHash": "Param Hash From Url For Rendering",
     "usingParamHashMeans": "Your artwork is expected to use hash url param. Like this:",
+    "notUsingWebGl": "Not Using WebGL",
+    "notUsingWebGlMeans": "    Please do not use WebGl canvas in your artwork. It is not supported on KodaDot.",
     "variationLoadingTime": "Variation loading time < {0} seconds",
     "variationLoadingTimeMeans1": "The time between the start of render and message kodahash/render/completed is measured. As we mentioned in the documentation, art should be quick, to make the experience for the user better. Loading time check could fail if:",
     "variationLoadingTimeMeans2": "Artwork is not rendered in the checker.",
