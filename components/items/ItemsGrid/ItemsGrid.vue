@@ -217,14 +217,14 @@ watch(
 onBeforeMount(() => {
   if (listingCartEnabled.value) {
     listingCartStore.clear()
-  }
 
-  fetchSearch({
-    page: startPage.value,
-    search: parseSearch(props.search),
-  }).then(() => {
-    isLoading.value = false
-  })
+    fetchSearch({
+      page: startPage.value,
+      search: parseSearch(props.search),
+    }).then(() => {
+      isLoading.value = false
+    })
+  }
 })
 
 // trigger intersection observer
