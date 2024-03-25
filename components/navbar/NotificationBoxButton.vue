@@ -4,7 +4,7 @@
     <NeoIcon
       icon="bell"
       class="w-4 h-4"
-      :class="{ 'm-4': isMobileWithoutTablet }"
+      :class="{ 'm-2': isMobileWithoutTablet }"
       size="medium" />
     <NeoIcon
       v-if="isMobileWithoutTablet"
