@@ -1074,6 +1074,8 @@
     "nft": "Check out this awesome NFT on KodaDot",
     "boughtNft": "Check out this awesome NFT I bought on KodaDot",
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
+    "listedNft": "Check out this awesome NFT I just listed on KodaDot",
+    "listedNfts": "Check out these awesome NFTs I just listed on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
     "pack": "Check out this awesome Pack on KodaDot",
@@ -1569,7 +1571,9 @@
     "floorPrice": "Floor Price",
     "inputPriceFirst": "Input Price First",
     "setAllTo": "Set All To",
-    "listingNft": "Listing NFT | Listing NFTs"
+    "listingNft": "Listing NFT | Listing NFTs",
+    "newListingPrice": "New Listing Price",
+    "bulkListingSuccessful": "Bulk Listing Successful"
   },
   "migrate": {
     "cta": "Migrate Now",
