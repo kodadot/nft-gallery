@@ -18,7 +18,7 @@
         :primary="actionButtons.primary"
         :secondary="actionButtons.secondary"
         @primary="actionButtons.primary.onClick"
-        @secondary="actionButtons.secondary?.onClick" />
+        @secondary="handleSecondaryActionClick" />
     </slot>
   </div>
 </template>
@@ -34,9 +34,15 @@ export type ActionButtonsProp = {
   secondary?: ActionButtonWithHandler
 }
 
-defineProps<{
+const props = defineProps<{
   txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
 }>()
+
+const handleSecondaryActionClick = () => {
+  if (props.actionButtons.secondary) {
+    props.actionButtons.secondary.onClick()
+  }
+}
 </script>
