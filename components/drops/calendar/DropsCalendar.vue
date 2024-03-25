@@ -43,8 +43,14 @@
               :image="sanitizeIpfsUrl(item.items[0]?.image)"
               :drop-start-time="getDropStartTime(item)"
               :drop-status="DropStatus.SCHEDULED"
+              :drop-max="item.supply as number"
               :time-tag-with-time="Boolean(item.time)"
               @click="() => handleClick(item)">
+              <template v-if="item.supply === null" #supply>
+                <span class="text-k-grey">
+                  {{ $t('helper.supplyNotSet') }}
+                </span>
+              </template>
             </DropsBasicDropCard>
           </template>
         </DropsGrid>
