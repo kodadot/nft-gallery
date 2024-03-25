@@ -17,7 +17,8 @@
     :width="width"
     :count="count"
     :rounded="rounded"
-    :size="size">
+    :size="size"
+    data-testid="skeleton-component">
   </o-skeleton>
 </template>
 
