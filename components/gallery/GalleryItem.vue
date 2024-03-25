@@ -72,7 +72,7 @@
               </a>
             </NeoTooltip>
             <NeoTooltip :label="$t('fullscreen')" position="top">
-              <a data-testid="fullscreen" no-shadow @click="toggleFullscreen">
+              <a no-shadow @click="toggleFullscreen">
                 <NeoIcon
                   icon="arrow-up-right-and-arrow-down-left-from-center"
                   size="medium" />
