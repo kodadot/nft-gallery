@@ -55,13 +55,13 @@ const isHolderAndEligible = computed(
     holderOfCollection.value.hasAvailable,
 )
 
-watch([drop, amountToMint], async () => {
+watch(drop, async () => {
   const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
   const tokenAmount = calculateBalanceUsdValue(
     Number(drop.value.price),
     decimals.value,
   )
-  priceUsd.value = `${tokenPrice ? Number(tokenAmount * tokenPrice) : null}`
+  priceUsd.value = `${Number(tokenAmount * tokenPrice)}`
 })
 
 const mintForLabel = computed(() =>
