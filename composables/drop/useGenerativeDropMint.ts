@@ -1,6 +1,7 @@
 import { DoResult } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -19,9 +20,6 @@ export type UnlockableCollectionById = {
   }
   nftEntitiesConnection: { totalCount: number }
 }
-
-// for feature parity with canary, no idea where this number comes from (by daiagi on 12/03/2024 PR #9709)
-export const DEFAULT_MAX = 255
 
 export function useCollectionEntity(collectionId?: string) {
   const { drop } = useDrop()
@@ -83,7 +81,10 @@ export default () => {
   })
 
   const maxCount = computed(
-    () => collectionMaxCount.value ?? drop.value?.max ?? DEFAULT_MAX,
+    () =>
+      collectionMaxCount.value ??
+      drop.value?.max ??
+      FALLBACK_DROP_COLLECTION_MAX,
   )
 
   const mintCountAvailable = computed(

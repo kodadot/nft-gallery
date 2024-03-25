@@ -3,8 +3,7 @@
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div class="relative leading-4" :class="{ 'ml-2': showLabel }">
       <NeoIcon
-        class="w-4 h-4"
-        :class="{ 'ml-2': isMobile }"
+        class="w-6 h-6"
         icon="fa-shopping-cart-outline-sharp"
         pack="fa-kit fa-fw"
         size="medium" />
