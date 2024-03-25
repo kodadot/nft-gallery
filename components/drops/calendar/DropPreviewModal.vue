@@ -30,18 +30,18 @@
 
         <div class="flex justify-between !mt-6">
           <div>
-            <span
+            <span :class="{ 'text-k-grey': !dropCalendar.twitter_handle }"
               >{{ $t('artist') }}:
-              <a
-                v-safe-href="
-                  `https://twitter.com/${dropCalendar.twitter_handle}`
-                "
-                class="has-text-link"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >{{ dropCalendar.twitter_handle }}</a
-              ></span
+            </span>
+            <a
+              v-if="dropCalendar.twitter_handle"
+              v-safe-href="`https://twitter.com/${dropCalendar.twitter_handle}`"
+              class="has-text-link"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              >{{ dropCalendar.twitter_handle }}</a
             >
+            <span v-else> {{ placeholder }}</span>
           </div>
 
           <div v-if="dropCalendar.royalty">
@@ -52,6 +52,7 @@
         </div>
 
         <CarouselModuleCarouselAgnostic
+          v-if="dropCalendar.items.length"
           v-slot="{ item }"
           class="!mt-10"
           :items="dropCalendar.items"
