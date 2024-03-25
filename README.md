@@ -5,6 +5,8 @@
 
 # Contributing
 
+[Farcaster /koda](https://warpcast.com/~/channel/koda) 👈👀🫡
+
 [![Twitter Follow](https://img.shields.io/twitter/follow/kodadot?style=social)](https://twitter.com/intent/follow?screen_name=kodadot)
 
 [![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
