@@ -51,4 +51,10 @@ export class Commands {
     await expect(newTab).toHaveURL(new RegExp(url))
     await newTab.close()
   }
+  async waitForNoSkeletons() {
+    await expect(
+      this.page.getByTestId('skeleton-component').last(),
+    ).not.toBeVisible({ timeout: 10000 })
+    await this.page.waitForTimeout(3000)
+  }
 }
