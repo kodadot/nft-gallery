@@ -1,38 +1,44 @@
 import useParty from '@/composables/party/useParty'
-import { DropEventType } from './types'
-import useGenerativeDropMint from '../drop/useGenerativeDropMint'
+import { DropEventMintingSession, DropEventType } from './types'
 import { useDrop } from '@/components/drops/useDrops'
+import useDropMassMintState from '../drop/massmint/useDropMassMintState'
 
-type EventParams = { image?: string; completed?: boolean }
+type EventParams = {
+  mintingSession?: DropEventMintingSession
+  completed?: boolean
+}
 
 export default (mintingWatch?: Ref<boolean>[]) => {
   const { drop } = useDrop()
-  const { claimedNft } = useGenerativeDropMint()
+  const { mintingSession, toMintNFTs } = storeToRefs(useDropStore())
+  const { canPin } = useDropMassMintState()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
   })
 
+  const randomGeneration = computed(() => toMintNFTs.value.length > 1)
+
   const broadastEvent = ({
-    image,
+    mintingSession,
     completed,
     type,
     id,
   }: EventParams & { id?: string; type: DropEventType }) => {
     sendMessage({
-      event: { id, type, image, completed },
+      event: { id, type, mintingSession, completed },
     })
   }
 
   const emitEvent = (
     type: DropEventType,
-    { image, completed = false }: EventParams = {},
+    { mintingSession, completed = false }: EventParams = {},
   ) => {
     const id = `${type}_${Date.now() * Math.floor(Math.random() * 10)}`
 
     broadastEvent({
       id,
       type,
-      image,
+      mintingSession,
       completed,
     })
   }
@@ -44,15 +50,33 @@ export default (mintingWatch?: Ref<boolean>[]) => {
     })
   }
 
-  if (mintingWatch && claimedNft) {
+  watch(
+    () => toMintNFTs.value.length,
+    () => {
+      if (randomGeneration.value) {
+        emitEvent(DropEventType.DROP_GENERATING)
+      }
+    },
+  )
+
+  watch(canPin, (value) => {
+    if (randomGeneration.value && value) {
+      completeLastEvent(DropEventType.DROP_GENERATING)
+    }
+  })
+
+  if (mintingWatch) {
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
-      const image = claimedNft.value?.image
+      const hasMintedItems = Boolean(mintingSession.value.items.length)
 
-      if (completed && image) {
-        return preloadImage(image).finally(() =>
-          emitEvent(DropEventType.DROP_MINTED, { image }),
-        )
+      if (completed && hasMintedItems) {
+        return emitEvent(DropEventType.DROP_MINTED, {
+          mintingSession: {
+            image: mintingSession.value.items[0].image,
+            amount: mintingSession.value.items.length,
+          },
+        })
       }
 
       emitEvent(DropEventType.DROP_MINTING, {
