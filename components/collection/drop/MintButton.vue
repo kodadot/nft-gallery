@@ -61,7 +61,7 @@ watch(drop, async () => {
     Number(drop.value.price),
     decimals.value,
   )
-  priceUsd.value = `${Number(tokenAmount * tokenPrice)}`
+  priceUsd.value = tokenAmount * tokenPrice
 })
 
 const mintForLabel = computed(() =>
