@@ -11,7 +11,7 @@ type EventParams = {
 export default (mintingWatch?: Ref<boolean>[]) => {
   const { drop } = useDrop()
   const { mintingSession, toMintNFTs } = storeToRefs(useDropStore())
-  const { canPin } = useDropMassMintState()
+  const { canPin, canMint } = useDropMassMintState()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
   })
@@ -79,9 +79,11 @@ export default (mintingWatch?: Ref<boolean>[]) => {
         })
       }
 
-      emitEvent(DropEventType.DROP_MINTING, {
-        completed,
-      })
+      if (canMint.value) {
+        emitEvent(DropEventType.DROP_MINTING, {
+          completed,
+        })
+      }
     })
   }
 
