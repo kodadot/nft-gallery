@@ -50,22 +50,22 @@ export default (mintingWatch?: Ref<boolean>[]) => {
     })
   }
 
-  watch(
-    () => toMintNFTs.value.length,
-    () => {
-      if (randomGeneration.value) {
-        emitEvent(DropEventType.DROP_GENERATING)
-      }
-    },
-  )
-
-  watch(canPin, (value) => {
-    if (randomGeneration.value && value) {
-      completeLastEvent(DropEventType.DROP_GENERATING)
-    }
-  })
-
   if (mintingWatch) {
+    watch(
+      () => toMintNFTs.value.length,
+      () => {
+        if (randomGeneration.value) {
+          emitEvent(DropEventType.DROP_GENERATING)
+        }
+      },
+    )
+
+    watch(canPin, (value) => {
+      if (randomGeneration.value && value) {
+        completeLastEvent(DropEventType.DROP_GENERATING)
+      }
+    })
+
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
       const hasMintedItems = Boolean(mintingSession.value.items.length)
