@@ -2,15 +2,20 @@ import useParty from '@/composables/party/useParty'
 import { DropEventMintingSession, DropEventType } from './types'
 import { useDrop } from '@/components/drops/useDrops'
 import useDropMassMintState from '../drop/massmint/useDropMassMintState'
+import useGenerativeDropMint from '../drop/useGenerativeDropMint'
 
 type EventParams = {
   mintingSession?: DropEventMintingSession
   completed?: boolean
 }
 
-export default (mintingWatch?: Ref<boolean>[]) => {
+export default (
+  mintingWatch?: Ref<boolean>[],
+  { massmint = true }: { massmint?: boolean } = {},
+) => {
   const { drop } = useDrop()
   const { mintingSession, toMintNFTs } = storeToRefs(useDropStore())
+  const { claimedNft } = useGenerativeDropMint()
   const { canPin, canMint } = useDropMassMintState()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
@@ -68,18 +73,28 @@ export default (mintingWatch?: Ref<boolean>[]) => {
 
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
-      const hasMintedItems = Boolean(mintingSession.value.items.length)
+      const hasMintedItems = massmint
+        ? Boolean(mintingSession.value.items.length)
+        : Boolean(claimedNft.value?.image)
 
       if (completed && hasMintedItems) {
+        const image = massmint
+          ? mintingSession.value.items[0].image
+          : (claimedNft.value?.image as string)
+
+        const amount = massmint ? mintingSession.value.items.length : 1
+
         return emitEvent(DropEventType.DROP_MINTED, {
           mintingSession: {
-            image: mintingSession.value.items[0].image,
-            amount: mintingSession.value.items.length,
+            image,
+            amount,
           },
         })
       }
 
-      if (canMint.value) {
+      const emitDropMinting = massmint ? canMint.value : true
+
+      if (emitDropMinting) {
         emitEvent(DropEventType.DROP_MINTING, {
           completed,
         })

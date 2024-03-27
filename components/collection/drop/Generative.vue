@@ -78,7 +78,7 @@ const selectedImage = computed(() => previewItem.value?.image ?? '')
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
 
-useCursorDropEvents([computed(() => dropStore.loading)])
+useCursorDropEvents([computed(() => dropStore.loading)], { massmint: false })
 
 const clearWalletConnecting = () => {
   dropStore.setWalletConnecting(false)
