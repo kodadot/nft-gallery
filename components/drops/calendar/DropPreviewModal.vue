@@ -117,6 +117,7 @@
       v-model="isCreateEventModalActive"
       :title="`Drop: ${dropCalendar.name}`"
       :drop-start-time="dropCalendar.dropStartTime ?? undefined"
+      use-time-from-date
       @close="isCreateEventModalActive = false" />
   </div>
 </template>

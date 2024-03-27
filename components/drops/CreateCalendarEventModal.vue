@@ -8,7 +8,9 @@
         {{ title }}
       </p>
 
-      <p class="text-k-grey mt-3">{{ formattedDate }} - 3pm CET</p>
+      <p class="text-k-grey mt-3">
+        {{ formattedDate }} <span v-if="!useTimeFromDate">- 3pm CET</span>
+      </p>
 
       <div class="flex !mt-6 flex-col gap-6">
         <NeoButton
@@ -38,6 +40,7 @@ const props = defineProps<{
   modelValue: boolean
   title: string
   dropStartTime?: Date
+  useTimeFromDate?: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -89,7 +92,10 @@ const addGoogleEvent = () => {
 
 const formattedDate = computed(() =>
   props.dropStartTime
-    ? format(props.dropStartTime, 'dd/MM/yyyy')
+    ? format(
+        props.dropStartTime,
+        props.useTimeFromDate ? 'dd/MM/yyyy - h:mm aa' : 'dd/MM/yyyy',
+      )
     : $i18n.t('drops.everyThursday'),
 )
 
