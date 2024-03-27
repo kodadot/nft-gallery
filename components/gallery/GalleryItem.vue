@@ -59,7 +59,7 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
-        <div v-if="nftAnimation && nftAnimationMimeType">
+        <div>
           <div
             class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
             <NeoTooltip :label="$t('reload')" position="top">
@@ -356,17 +356,28 @@ function toggleFullscreen() {
 function handleReloadClick() {
   isLoading.value = true
 
-  const reloadElement = (selector: string) => {
+  const reloadElement = (selector: string, isImage?: boolean) => {
     setTimeout(() => {
       isLoading.value = false
       const element: ReloadElement = document.querySelector(selector)
       if (element) {
-        element.src += ''
+        if (isImage) {
+          let src = element.src
+          const timestamp = new Date().getTime()
+          const separatorIndex = src.indexOf('?')
+          if (separatorIndex !== -1) {
+            src = src.substring(0, separatorIndex)
+          }
+          element.src = `${src}?t=${timestamp}`
+        } else {
+          element.src += ''
+        }
       }
     }, 2000)
   }
 
   const mediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageType = resolveMedia(nftMimeType.value)
 
   if ([MediaType.IFRAME].includes(mediaType)) {
     reloadElement('iframe[title="html-embed"]')
@@ -374,6 +385,8 @@ function handleReloadClick() {
     reloadElement('video[data-testid="type-video"]')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
     reloadElement('object')
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    reloadElement('img[data-testid="type-image"]', true)
   }
 }
 
@@ -389,6 +402,7 @@ function handleNewTab() {
   }
 
   const mediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageType = resolveMedia(nftMimeType.value)
 
   if ([MediaType.IFRAME].includes(mediaType)) {
     openInNewTab('iframe[title="html-embed"]', 'src')
@@ -396,6 +410,8 @@ function handleNewTab() {
     openInNewTab('video[data-testid="type-video"]', 'src')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
     openInNewTab('object', 'src')
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    openInNewTab('img[data-testid="type-image"]', 'src')
   }
 }
 
