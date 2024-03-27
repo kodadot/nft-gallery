@@ -3,9 +3,6 @@
 
   <DropConfirmModal
     v-model="isConfirmModalActive"
-    @subscribe="subscribe"
-    @check-subscription="handleCheckSubscription"
-    @resend-confirmation-email="handleResendConfirmationEmail"
     @close="isConfirmModalActive = false"
     @list="handleList" />
 
@@ -57,13 +54,7 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { fetchDropStatus } = useDropStatus()
 
-const {
-  checkSubscription,
-  subscribe,
-  resendConfirmationEmail,
-  subscriptionId,
-  emailConfirmed,
-} = useGenerativeDropNewsletter()
+const { emailConfirmed } = useGenerativeDropNewsletter()
 
 const { claimedNft, subscribeToMintedNft, listMintedNft, maxCount } =
   useGenerativeDropMint()
@@ -191,12 +182,6 @@ const submitMint = async () => {
     throw error
   }
 }
-
-const handleCheckSubscription = () =>
-  checkSubscription(subscriptionId.value as string)
-
-const handleResendConfirmationEmail = () =>
-  resendConfirmationEmail(subscriptionId.value as string)
 
 const startMinting = async () => {
   try {
