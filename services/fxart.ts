@@ -15,6 +15,7 @@ export type DoResult = {
   timestamp?: string
   image?: string
   name: string
+  metadata?: string
 }
 
 export type GetDropsQuery = {
@@ -144,7 +145,7 @@ export const allocateClaim = async (body, id) => {
 
 export const updateMetadata = async ({ chain, collection, sn, metadata }) => {
   try {
-    const response = await api('/metadata/update', {
+    const response = await api<DoResult>('/metadata/update', {
       method: 'get',
       query: {
         chain,

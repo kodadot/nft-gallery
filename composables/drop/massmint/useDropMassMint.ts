@@ -206,7 +206,7 @@ export default () => {
           collection: drop.value.collection,
           sn: nft.sn,
           metadata: nft.metadata,
-        }).then(({ result }) => resolve(result))
+        }).then((result) => resolve(result))
       } catch (e) {
         reject(e)
       }

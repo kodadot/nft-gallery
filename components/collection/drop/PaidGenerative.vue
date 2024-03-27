@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
-// import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
+import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
@@ -47,7 +47,7 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus()
+const { fetchDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
@@ -57,7 +57,7 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
 })
-// const { collectionName } = useCollectionEntity()
+const { collectionName } = useCollectionEntity()
 const {
   loading,
   walletConnecting,
@@ -112,7 +112,7 @@ const mintNft = async () => {
     initTransactionLoader()
 
     const cb = api.tx.utility.batchAll
-    const args = allocatedNFTs.value.map((allocatedNFT) => {
+    let args = allocatedNFTs.value.map((allocatedNFT) => {
       return [
         api.tx.nfts.mint(
           drop.value?.collection,
@@ -126,6 +126,10 @@ const mintNft = async () => {
         api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
       ]
     })
+
+    if (args.length > 1) {
+      args = [args.reverse().flat()]
+    }
 
     howAboutToExecute(accountId.value, cb, [...args], {
       onResult: ({ txHash }) => {
@@ -195,18 +199,32 @@ const submitMints = async () => {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
     console.log('submitMints response', response)
 
-    // const mintedNfts = response.map((item) => ({
-    //   id: drop.value.collection,
-    //   collection: item.collection,
-    //   chain: item.chain,
-    //   name: item.name,
-    //   image: item.image as string,
-    //   collectionName: collectionName.value,
-    // }))
+    const mintedNfts: Array<{
+      id: string
+      collection: string
+      chain: string
+      name: string
+      image: string
+      collectionName: string
+    }> = []
+    for (const res of response) {
+      const metadata: { image: string } = await $fetch(
+        sanitizeIpfsUrl(res.metadata),
+      )
 
-    // mintingSession.value.items = mintedNfts
+      mintedNfts.push({
+        id: drop.value.collection,
+        collection: res.collection,
+        chain: res.chain,
+        name: res.name,
+        image: metadata.image,
+        collectionName: collectionName.value,
+      })
+    }
 
-    // subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
+    mintingSession.value.items = mintedNfts
+
+    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
 
     await fetchDropStatus()
 
@@ -243,10 +261,8 @@ const {
   clearMassMint,
 } = useDropMassMint()
 
-const {
-  // subscribeForNftsWithMetadata,
-  listMintedNFTs,
-} = useDropMassMintListing()
+const { subscribeForNftsWithMetadata, listMintedNFTs } =
+  useDropMassMintListing()
 
 useTransactionTracker({
   transaction: {

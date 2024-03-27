@@ -8,8 +8,7 @@ import { useCollectionEntity } from '../useGenerativeDropMint'
 export default () => {
   const { accountId } = useAuth()
   const dropStore = useDropStore()
-  const { toMintNFTs, drop, mintingSession, mintsCount } =
-    storeToRefs(dropStore)
+  const { toMintNFTs, drop, mintingSession } = storeToRefs(dropStore)
 
   const { description, collectionName } = useCollectionEntity()
 
@@ -97,9 +96,9 @@ export default () => {
   const getPreviewItemsToMintedNfts = (
     previewItems: GenerativePreviewItem[],
   ) => {
-    return previewItems.map((item, index) => {
+    return previewItems.map((item) => {
       return {
-        name: `${drop.value.name} #${mintsCount.value + (index + 1)}`,
+        name: drop.value.name,
         collectionName: collectionName.value as string,
         image: item.image,
         price: drop.value.price as string,
