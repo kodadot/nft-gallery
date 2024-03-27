@@ -9,7 +9,7 @@
           <span
             class="relative inline-flex rounded-full h-3 w-3 bg-k-primary"></span>
         </span>
-        <span> {{ $t('drops.mintingLive') }} </span>
+        <span> {{ $t('drops.mintingNow') }} </span>
       </div>
       <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
       <nuxt-link

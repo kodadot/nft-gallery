@@ -31,6 +31,7 @@ export const CHAINS: Config<ChainProperties> = {
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
   imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/'), // ss58Format is not available
+  base: toChainProperty(42, 18, 'ETH', 'https://basescan.org'), // ss58Format is not available
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
@@ -45,6 +46,7 @@ export const chainPrefixes: Prefix[] = [
   'ksm',
   'dot',
   'imx',
+  'base',
   // 'ahr',
   // 'movr',
   // 'glmr',
@@ -64,6 +66,7 @@ export const chainInfo: Record<Prefix, string> = {
   dot: 'polkadot',
   ahp: 'statemint',
   imx: 'immutable',
+  base: 'base',
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
@@ -76,6 +79,7 @@ export const chainNames: Record<Prefix, string> = {
   dot: 'Polkadot',
   ahp: 'Polkadot AssetHub',
   imx: 'Immutable zkEVM',
+  base: 'Base',
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
@@ -89,11 +93,13 @@ export const chainList = (): Option[] => {
   }))
 }
 
+// DEV: note that ED is double the amount of on-chain ED to prevent weird edge cases of XCM
 export const existentialDeposit: Record<Prefix, number> = {
-  ksm: 333333333,
-  rmrk: 333333333,
-  ahk: 33333333,
-  dot: 10000000000,
-  ahp: 1000000000,
+  ksm: 666666666,
+  rmrk: 666666666,
+  ahk: 666666666,
+  dot: 15000000000,
+  ahp: 15000000000,
   imx: 0, // nothing like ED in EVM :)
+  base: 0,
 }

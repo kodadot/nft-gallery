@@ -5,7 +5,7 @@
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
     <div class="flex flex-col lg:flex-row">
-      <div class="w-full lg:w-2/5 lg:pr-7">
+      <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
           id="nft-img-container"
           ref="imgref"
@@ -474,10 +474,6 @@ $break-point-width: 930px;
     border-color: rgba(theme('background-color'), 0.3);
     color: theme('text-color');
   }
-}
-
-.column > div:hover .fullscreen-button {
-  display: flex;
 }
 
 @media screen and (max-width: $break-point-width) {

@@ -330,7 +330,7 @@ const { client, urlPrefix } = usePrefix()
 const nbRows = ref('50')
 const nbDays = ref('7')
 const isLoading = ref(false)
-const sortBy = reactive<SortType>({ field: 'volume', value: 'DESC' })
+const sortBy = reactive<SortType>({ field: 'series.volume', value: 'DESC' })
 
 const data = ref<RowSeries[]>([])
 

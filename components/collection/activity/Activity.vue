@@ -49,7 +49,7 @@ const isBreadCrumbsShowing = computed(
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({
-  collectionId: collectionId.value,
+  collectionId,
 })
 
 const InteractionIncluded = [

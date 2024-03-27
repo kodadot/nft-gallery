@@ -1,8 +1,10 @@
 <template>
   <div>
-    <TransactionSection :tx-hash="txHash" class="mb-5" />
+    <TransactionSection v-if="txHash" :tx-hash="txHash" />
 
-    <slot />
+    <div class="mt-5">
+      <slot />
+    </div>
 
     <hr class="!my-5" />
 
@@ -16,7 +18,7 @@
         :primary="actionButtons.primary"
         :secondary="actionButtons.secondary"
         @primary="actionButtons.primary.onClick"
-        @secondary="actionButtons.secondary.onClick" />
+        @secondary="handleSecondaryActionClick" />
     </slot>
   </div>
 </template>
@@ -29,12 +31,18 @@ type ActionButtonWithHandler = ActionButton & { onClick: () => void }
 
 export type ActionButtonsProp = {
   primary: ActionButtonWithHandler
-  secondary: ActionButtonWithHandler
+  secondary?: ActionButtonWithHandler
 }
 
-defineProps<{
+const props = defineProps<{
   txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
 }>()
+
+const handleSecondaryActionClick = () => {
+  if (props.actionButtons.secondary) {
+    props.actionButtons.secondary.onClick()
+  }
+}
 </script>
