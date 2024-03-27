@@ -55,7 +55,7 @@ export default (
     })
   }
 
-  if (mintingWatch) {
+  if (mintingWatch && massmint) {
     watch(
       () => toMintNFTs.value.length,
       () => {
@@ -70,7 +70,9 @@ export default (
         completeLastEvent(DropEventType.DROP_GENERATING)
       }
     })
+  }
 
+  if (mintingWatch) {
     watch(mintingWatch, (values) => {
       const completed = !values.every(Boolean)
       const hasMintedItems = massmint
