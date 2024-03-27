@@ -82,10 +82,19 @@ function getAttributes(nft, metadata) {
     : attr
 }
 
-function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
+function getGeneralMetadata<T extends NFTWithMetadata>(
+  nft: T,
+  displaySn = true,
+) {
+  let name = nft.name || nft.meta.name || nft.id
+
+  if (displaySn && nft.sn) {
+    name = nameWithIndex(name, nft.sn)
+  }
+
   return {
     ...nft,
-    name: nameWithIndex(nft.name || nft.meta.name, nft.sn) || nft.id,
+    name,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animationUrl: sanitizeIpfsUrl(
@@ -179,6 +188,7 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   nft: T,
   prefix: string,
   unify = false,
+  displaySn = true,
 ) {
   if (unify) {
     return await getMetadata(sanitizeIpfsUrl(nft.meta.id))
@@ -186,7 +196,7 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
 
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
-    return getGeneralMetadata(nft)
+    return getGeneralMetadata(nft, displaySn)
   }
 
   // if it's rmrk2, we need to check `resources` field
@@ -197,7 +207,10 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   return await getProcessMetadata(nft)
 }
 
-export default function useNftMetadata<T extends NFTWithMetadata>(nft: T) {
+export default function useNftMetadata<T extends NFTWithMetadata>(
+  nft: T,
+  displaySn = true,
+) {
   const item = ref<
     T & {
       name: string
@@ -211,7 +224,7 @@ export default function useNftMetadata<T extends NFTWithMetadata>(nft: T) {
   const { urlPrefix } = usePrefix()
 
   onMounted(async () => {
-    item.value = await getNftMetadata(nft, urlPrefix.value)
+    item.value = await getNftMetadata(nft, urlPrefix.value, false, displaySn)
   })
 
   return {

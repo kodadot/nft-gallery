@@ -126,7 +126,7 @@ const listLabel = computed(() => {
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
-const { nft } = useNft(props.nft)
+const { nft } = useNft(props.nft, props.displayNameWithSn)
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 

@@ -202,11 +202,10 @@ export default () => {
     return new Promise((resolve, reject) => {
       try {
         updateMetadata({
-          nft: nft.sn,
-          collection: drop.value.id,
           chain: drop.value.chain,
-          image: nft.image,
-          animationUrl: nft.image,
+          collection: drop.value.collection,
+          sn: nft.sn,
+          metadata: nft.metadata,
         }).then(({ result }) => resolve(result))
       } catch (e) {
         reject(e)

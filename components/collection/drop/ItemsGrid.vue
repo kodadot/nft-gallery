@@ -18,7 +18,7 @@
     <ItemsGrid
       :search="itemsGridSearch"
       :grid-size="'medium'"
-      display-name-with-sn
+      :display-name-with-sn="!flagUid"
       collection-popover-hide
       show-timestamp
       :reset-search-query-params="['sort']" />
@@ -27,6 +27,8 @@
 
 <script setup lang="ts">
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
+
+const { flagUid } = useExperiments()
 
 const defaultSort = 'blockNumber_DESC'
 
