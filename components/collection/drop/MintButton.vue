@@ -5,6 +5,7 @@
     expanded
     no-shadow
     size="large"
+    data-testid="drop-mint-button"
     :loading="loading"
     :disabled="!enabled || loading"
     :loading-with-label="

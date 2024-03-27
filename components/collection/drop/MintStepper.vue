@@ -2,6 +2,7 @@
   <NeoStepper
     v-if="show"
     v-model="amountToMint"
+    data-testid="drop-stepper-container"
     :max="max"
     class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]" />
 </template>
