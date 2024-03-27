@@ -85,7 +85,7 @@ export default defineNuxtConfig({
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
     head: {
-      title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+      title: 'KodaDot - Your Generative Art Marketplace',
       titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
       htmlAttrs: {
         lang: 'en',
@@ -355,4 +355,8 @@ export default defineNuxtConfig({
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
+
+  devtools: {
+    enabled: true,
+  },
 })
