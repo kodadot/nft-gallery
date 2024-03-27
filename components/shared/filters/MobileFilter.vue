@@ -187,13 +187,21 @@ const applyFilters = () => {
   const priceRangeFilter = exploreFiltersStore.getPriceRange
   const eventTypeFilter = activityFiltersStore.getEventTypeFilters
 
+  console.log(
+    'isactivitytab',
+    isCollectionActivityTab.value,
+    'restfilters',
+    restStatusFilters,
+  )
   // apply to URL
   if (isCollectionActivityTab.value) {
+    console.log('here1')
     replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
   } else {
+    console.log('here2', restStatusFilters.moreThanItems)
     replaceUrl({ art_view: artView, ...restStatusFilters, ...priceRangeFilter })
   }
-  emit('resetPage')
+  // emit('resetPage')
   closeFilterModal()
 }
 

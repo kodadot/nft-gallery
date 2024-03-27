@@ -20,10 +20,19 @@
           {{ $t(ListedOrBuynow) }}</NeoCheckbox
         >
       </NeoField>
-      <NeoField>
+      <NeoField v-if="!isCollectibles">
         <NeoCheckbox v-model="owned" :disabled="!accountId">
           {{ $t('sort.own') }}
         </NeoCheckbox>
+      </NeoField>
+      <NeoField v-if="isCollectibles">
+        <div>More than {{ moreThanItems }} nfts</div>
+        <NeoInput
+          v-model="moreThanItems"
+          type="number"
+          min="0"
+          step="any"
+          placeholder="0" />
       </NeoField>
     </div>
   </NeoCollapse>
@@ -31,7 +40,13 @@
 
 <script lang="ts" setup>
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoCollapse,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+} from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
@@ -39,6 +54,9 @@ const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
 const { urlPrefix } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
+const isCollectibles = computed(
+  () => route.name === 'prefix-explore-collectibles',
+)
 
 type DataModel = 'query' | 'store'
 
@@ -81,6 +99,17 @@ const owned =
     : computed({
         get: () => exploreFiltersStore.owned,
         set: (value) => exploreFiltersStore.setOwned(value),
+      })
+
+const moreThanItems =
+  props.dataModel === 'query'
+    ? computed({
+        get: () => route.query?.moreThanItems,
+        set: (value) => applyToUrl({ moreThanItems: value }),
+      })
+    : computed({
+        get: () => exploreFiltersStore.moreThanItems,
+        set: (value) => exploreFiltersStore.setMoreThanItems(value),
       })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {

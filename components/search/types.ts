@@ -18,6 +18,7 @@ export type SearchQuery = {
   priceMin?: number
   priceMax?: number
   sortByMultiple?: string[]
+  moreThanItems?: number
 }
 
 export type SearchSuggestion = Record<

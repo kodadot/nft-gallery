@@ -5,14 +5,14 @@
         <EventTypeFilter expanded fluid-padding />
         <IdentityVerficationFilter expanded fluid-padding />
       </template>
-      <StatusFilter v-else expanded fluid-padding />
+      <StatusFilter v-if="!isCollectionActivityTab" expanded fluid-padding />
       <PriceFilter
         v-if="!isCollectionActivityTab"
         fluid-padding
         data-testid="sidebar-price-filter" />
       <PopularCollections v-if="isExploreItems" expanded fluid-padding />
       <AdvancedFilter
-        v-if="!isCollectionActivityTab"
+        v-if="!isCollectionActivityTab && !isCollectibles"
         fluid-padding
         data-testid="sidebar-advanced-filter" />
     </NeoSidebar>
@@ -33,6 +33,9 @@ const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity',
+)
+const isCollectibles = computed(
+  () => route.name === 'prefix-explore-collectibles',
 )
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>

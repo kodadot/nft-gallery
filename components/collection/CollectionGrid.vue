@@ -71,6 +71,7 @@ const searchQuery = reactive<SearchQuery>({
   type: route.query?.type?.toString() ?? '',
   sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
+  moreThanItems: route.query?.moreThanItems || 0,
 })
 
 const resetPage = useDebounceFn(() => {
@@ -87,6 +88,18 @@ const buildSearchParam = (): Record<string, unknown>[] => {
 
   if (searchQuery.listed) {
     params.push({ nfts_some: { price_gt: '0' } })
+  }
+
+  if (!!searchQuery.moreThanItems) {
+    params.push({ nftCount_gt: Number(searchQuery.moreThanItems) })
+  }
+
+  if (!!searchQuery.priceMin) {
+    params.push({ volume_gte: Number(searchQuery.priceMin) })
+  }
+
+  if (!!searchQuery.priceMax) {
+    params.push({ volume_lte: Number(searchQuery.priceMax) })
   }
 
   return params
@@ -204,6 +217,46 @@ watch(
     if (!isEqual(val, oldVal)) {
       resetPage()
       searchQuery.sortBy = String(val) || undefined
+    }
+  },
+)
+
+watch(
+  () => route.query.moreThanItems,
+  (val, oldVal) => {
+    if (!isEqual(val, oldVal)) {
+      resetPage()
+      searchQuery.moreThanItems = Number(val) || 0
+    }
+  },
+)
+
+watch(
+  () => route.query.listed,
+  (val, oldVal) => {
+    if (!isEqual(val, oldVal)) {
+      resetPage()
+      searchQuery.listed = val
+    }
+  },
+)
+
+watch(
+  () => route.query.min,
+  (val, oldVal) => {
+    if (!isEqual(val, oldVal)) {
+      resetPage()
+      searchQuery.priceMin = val
+    }
+  },
+)
+
+watch(
+  () => route.query.max,
+  (val, oldVal) => {
+    if (!isEqual(val, oldVal)) {
+      resetPage()
+      searchQuery.priceMax = val
     }
   },
 )
