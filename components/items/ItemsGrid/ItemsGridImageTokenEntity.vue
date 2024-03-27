@@ -48,28 +48,6 @@
             pack="fa-kit" />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="flex">
-        <template v-if="isStack">
-          <NeoButton
-            v-if="isThereAnythingToList !== undefined"
-            :label="listLabel"
-            data-testid="item-buy"
-            no-shadow
-            class="flex-grow btn-height"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
-        </template>
-
-        <template v-else>
-          <NeoButton
-            :label="listLabel"
-            data-testid="item-buy"
-            no-shadow
-            class="flex-grow btn-height"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
-        </template>
-      </div>
     </template>
   </NftCard>
 </template>
@@ -83,13 +61,10 @@ import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import {
-  nftToListingCartItem,
-  nftToShoppingCartItem,
-} from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
-import { getTokensNfts, useNftActions } from './useNftActions'
+import { useNftActions } from './useNftActions'
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
@@ -115,7 +90,6 @@ const {
   isStack,
   nftForShoppingCart,
   isOwner,
-  isThereAnythingToList,
 } = useNftActions(props.entity)
 const cheapestNFT = ref<NFTWithMetadata>()
 
@@ -155,19 +129,6 @@ const buyLabel = computed(function () {
   )
 })
 
-const listLabel = computed(() => {
-  const isPriceAvailable = Number(nftForShoppingCart.value?.price)
-  const shouldListForSale =
-    (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
-  const isInCart = listingCartStore.isItemInCart(props.entity.id)
-
-  const label = shouldListForSale
-    ? $i18n.t('listingCart.listForSale')
-    : $i18n.t('transaction.price.change')
-
-  return isInCart ? label + ' ✓' : label
-})
-
 const { nft: entity } = useNft(props.entity)
 
 const openCompletePurcahseModal = () => {
@@ -198,20 +159,6 @@ const onClickShoppingCart = async () => {
   } else {
     const nft = await getNFTForBuying()
     shoppingCartStore.setItem(nftToShoppingCartItem(nft))
-  }
-}
-
-const onClickListingCart = async () => {
-  const nftsToProcess = await getTokensNfts([props.entity])
-
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
-
-  for (const nft of nftsToProcess) {
-    if (listingCartStore.isItemInCart(nft.id)) {
-      listingCartStore.removeItem(nft.id)
-    } else {
-      listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
-    }
   }
 }
 
