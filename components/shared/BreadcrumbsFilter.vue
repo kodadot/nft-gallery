@@ -121,6 +121,7 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: isRemark.value ? $i18n.t('sort.listed_RMRK') : $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  soldByCreator: $i18n.t('sort.soldByCreator'),
   art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),
   offer: $i18n.t('filters.offer'),

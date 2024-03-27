@@ -435,6 +435,7 @@
     "listed": "Buy now",
     "listed_RMRK": "Listed",
     "own": "Own",
+    "soldByCreator": "Sold By Creator",
     "clearAll": "Clear All",
     "collection": {
       "blockNumber_DESC": "Newest",

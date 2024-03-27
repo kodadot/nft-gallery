@@ -25,6 +25,11 @@
           {{ $t('sort.own') }}
         </NeoCheckbox>
       </NeoField>
+      <NeoField>
+        <NeoCheckbox v-model="soldByCreator">
+          {{ $t('sort.soldByCreator') }}
+        </NeoCheckbox>
+      </NeoField>
     </div>
   </NeoCollapse>
 </template>
@@ -81,6 +86,17 @@ const owned =
     : computed({
         get: () => exploreFiltersStore.owned,
         set: (value) => exploreFiltersStore.setOwned(value),
+      })
+
+const soldByCreator =
+  props.dataModel === 'query'
+    ? computed({
+        get: () => route.query?.soldByCreator?.toString() === 'true',
+        set: (value) => applyToUrl({ soldByCreator: String(value) }),
+      })
+    : computed({
+        get: () => exploreFiltersStore.soldByCreator,
+        set: (value) => exploreFiltersStore.setSoldByCreator(value),
       })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
