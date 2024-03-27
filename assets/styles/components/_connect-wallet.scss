@@ -13,10 +13,6 @@
 }
 
 .connect-wallet-modal {
-  @include mobile {
-    z-index: 999 !important;
-  }
-
   .modal-content {
     border: none !important;
   }
