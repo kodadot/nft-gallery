@@ -75,7 +75,7 @@ const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { drops, loaded } = useDrops({
-  active: [true, false],
+  active: [false, true],
   chain: !isProduction ? [urlPrefix.value] : [],
   limit: 100, // set limit to enable sort from backend
 })
