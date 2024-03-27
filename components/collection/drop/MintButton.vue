@@ -24,7 +24,10 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
-import { formatAmountWithRound } from '@/utils/format/balance'
+import {
+  calculateBalanceUsdValue,
+  formatAmountWithRound,
+} from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const emit = defineEmits(['mint'])
@@ -43,6 +46,8 @@ const { amountToMint, previewItem } = storeToRefs(dropStore)
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
 
+const priceUsd = ref()
+
 const isHolderAndEligible = computed(
   () =>
     holderOfCollection.value.isHolder &&
@@ -51,11 +56,20 @@ const isHolderAndEligible = computed(
     holderOfCollection.value.hasAvailable,
 )
 
+watch(drop, async () => {
+  const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
+  const tokenAmount = calculateBalanceUsdValue(
+    Number(drop.value.price),
+    decimals.value,
+  )
+  priceUsd.value = tokenAmount * tokenPrice
+})
+
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
     `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
       chainSymbol.value
-    }`,
+    } ${priceUsd.value ? '/ ' + (priceUsd.value * amountToMint.value).toFixed(1) + ' ' + $i18n.t('general.usd') : ''}`,
   ]),
 )
 
