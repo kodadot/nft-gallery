@@ -99,7 +99,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMetadata.value = metadata
     nftResources.value = resources
 
-    nftImage.value = metadata.image || ''
+    nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
     nftMimeType.value = metadata.imageMimeType || ''
     nftAnimation.value = metadata.animationUrl || ''
     nftAnimationMimeType.value = metadata.animationUrlMimeType || ''

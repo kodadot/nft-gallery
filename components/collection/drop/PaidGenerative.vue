@@ -1,8 +1,4 @@
 <template>
-  <code>
-    {{ nftsMetadata }}
-  </code>
-
   <CollectionDropGenerativeLayout @mint="handleSubmitMint" />
 
   <NeoModalExtend v-model:active="isRaffleModalActive">
@@ -116,9 +112,9 @@ const mintNft = async () => {
     initTransactionLoader()
 
     const cb = api.tx.utility.batchAll
-    let args = allocatedNFTs.value.map((allocatedNFT) => {
-      return [
-        api.tx.nfts.mint(
+    const mints = allocatedNFTs.value
+      .map((allocatedNFT) => {
+        return api.tx.nfts.mint(
           drop.value?.collection,
           allocatedNFT.id,
           accountId.value,
@@ -126,16 +122,16 @@ const mintNft = async () => {
             ownedItem: null,
             mintPrice: drop.value?.price,
           },
-        ),
-        api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
-      ]
-    })
+        )
+      })
+      .flat()
 
-    if (args.length > 1) {
-      args = [args.reverse().flat()]
-    }
+    const args = [
+      mints,
+      api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
+    ]
 
-    howAboutToExecute(accountId.value, cb, [...args], {
+    howAboutToExecute(accountId.value, cb, [args.flat()], {
       onResult: ({ txHash }) => {
         mintingSession.value.txHash = txHash
       },
@@ -204,15 +200,26 @@ const submitMints = async () => {
 
     const mintedNfts: MintedNFT[] = []
     for (const res of response) {
-      const metadata: { image: string } = await $fetch(
-        sanitizeIpfsUrl(res.metadata),
-      )
+      let metadata: { animation_url: string; image: string; name: string } = {
+        animation_url: '',
+        image: '',
+        name: '',
+      }
+
+      try {
+        metadata = await $fetch(sanitizeIpfsUrl(res.metadata), {
+          retry: 20,
+          retryDelay: 5000,
+        })
+      } catch (error) {
+        $consola.error(error)
+      }
 
       mintedNfts.push({
         id: drop.value.collection,
         chain: res.chain,
-        name: res.name,
-        image: metadata.image,
+        name: metadata.name,
+        image: metadata.animation_url,
         collection: {
           id: res.collection,
           name: collectionName.value,
