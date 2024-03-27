@@ -14,6 +14,7 @@ import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
 import { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
+import { parseCETDate } from './utils'
 
 export interface Drop {
   collection: DropItem
@@ -41,8 +42,8 @@ export enum DropStatus {
 }
 
 const DROP_LIST_ORDER = [
-  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED_SOON,
+  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED,
   DropStatus.COMING_SOON,
   DropStatus.MINTING_ENDED,
@@ -84,7 +85,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
-  let dropStartTime = drop.start_at ? new Date(drop.start_at) : undefined
+  let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
 
   if (count >= 5) {
     dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI

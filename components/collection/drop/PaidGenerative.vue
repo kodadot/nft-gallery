@@ -39,14 +39,18 @@
 <script setup lang="ts">
 import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
-import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import { MintedNFT } from './types'
 
 const { drop } = useDrop()
+const { maxCount } = useGenerativeDropMint()
 const { fetchDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -197,16 +201,8 @@ const allocateRaffle = async () => {
 const submitMints = async () => {
   try {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
-    console.log('submitMints response', response)
 
-    const mintedNfts: Array<{
-      id: string
-      collection: string
-      chain: string
-      name: string
-      image: string
-      collectionName: string
-    }> = []
+    const mintedNfts: MintedNFT[] = []
     for (const res of response) {
       const metadata: { image: string } = await $fetch(
         sanitizeIpfsUrl(res.metadata),
@@ -214,11 +210,14 @@ const submitMints = async () => {
 
       mintedNfts.push({
         id: drop.value.collection,
-        collection: res.collection,
         chain: res.chain,
         name: res.name,
         image: metadata.image,
-        collectionName: collectionName.value,
+        collection: {
+          id: res.collection,
+          name: collectionName.value,
+          max: maxCount.value,
+        },
       })
     }
 

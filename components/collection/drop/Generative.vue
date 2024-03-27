@@ -65,7 +65,7 @@ const {
   emailConfirmed,
 } = useGenerativeDropNewsletter()
 
-const { claimedNft, subscribeToMintedNft, listMintedNft } =
+const { claimedNft, subscribeToMintedNft, listMintedNft, maxCount } =
   useGenerativeDropMint()
 
 const { collectionName, description } = useCollectionEntity()
@@ -173,7 +173,7 @@ const submitMint = async () => {
       ...result,
       id,
       name: result.name,
-      max: defaultMax.value,
+      max: maxCount.value,
       collectionName: collectionName.value,
     }
 
