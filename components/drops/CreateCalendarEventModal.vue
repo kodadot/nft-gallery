@@ -90,14 +90,14 @@ const addGoogleEvent = () => {
   window.open(calendarURL.toString(), '_blank')
 }
 
-const formattedDate = computed(() =>
-  props.dropStartTime
-    ? format(
-        props.dropStartTime,
-        props.useTimeFromDate ? 'dd/MM/yyyy - h:mm aa' : 'dd/MM/yyyy',
-      )
-    : $i18n.t('drops.everyThursday'),
-)
+const formattedDate = computed(() => {
+  const dateFormat = props.useTimeFromDate
+    ? 'dd/MM/yyyy - h:mm aa'
+    : 'dd/MM/yyyy'
+  return props.dropStartTime
+    ? format(props.dropStartTime, dateFormat)
+    : $i18n.t('drops.everyThursday')
+})
 
 const addEvent = (provider: CalendarProvider) => {
   if (provider === 'google') {
