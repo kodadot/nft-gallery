@@ -21,7 +21,7 @@
             @click="emit('close')" />
         </header>
 
-        <div v-if="dropStartTime" class="!mt-6">
+        <div v-if="dropCalendar.dropStartTime" class="!mt-6">
           <NeoButton no-shadow rounded @click="isCreateEventModalActive = true">
             {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span
             >{{ formattedDate }}
@@ -30,18 +30,18 @@
 
         <div class="flex justify-between !mt-6">
           <div>
-            <span
+            <span :class="{ 'text-k-grey': !dropCalendar.twitter_handle }"
               >{{ $t('artist') }}:
-              <a
-                v-safe-href="
-                  `https://twitter.com/${dropCalendar.twitter_handle}`
-                "
-                class="has-text-link"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >{{ dropCalendar.twitter_handle }}</a
-              ></span
+            </span>
+            <a
+              v-if="dropCalendar.twitter_handle"
+              v-safe-href="`https://twitter.com/${dropCalendar.twitter_handle}`"
+              class="has-text-link"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              >{{ dropCalendar.twitter_handle }}</a
             >
+            <span v-else> {{ placeholder }}</span>
           </div>
 
           <div v-if="dropCalendar.royalty">
@@ -52,6 +52,7 @@
         </div>
 
         <CarouselModuleCarouselAgnostic
+          v-if="dropCalendar.items.length"
           v-slot="{ item }"
           class="!mt-10"
           :items="dropCalendar.items"
@@ -115,21 +116,22 @@
       v-if="dropCalendar"
       v-model="isCreateEventModalActive"
       :title="`Drop: ${dropCalendar.name}`"
-      :drop-start-time="dropStartTime"
+      :drop-start-time="dropCalendar.dropStartTime ?? undefined"
+      use-time-from-date
       @close="isCreateEventModalActive = false" />
   </div>
 </template>
 <script lang="ts" setup>
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { format } from 'date-fns'
-import { DropCalendar } from '@/services/fxart'
 import { useCollectionMinimal } from '~/components/collection/utils/useCollectionDetails'
+import type { InternalDropCalendar } from './DropsCalendar.vue'
 
 const placeholder = 'TBA'
 const MOBILE_BREAKPOINT = 768
 
 const emit = defineEmits(['close'])
-const props = defineProps<{ dropCalendar?: DropCalendar }>()
+const props = defineProps<{ dropCalendar?: InternalDropCalendar }>()
 
 const { $i18n } = useNuxtApp()
 const { decimalsOf } = useChain()
@@ -161,15 +163,9 @@ const price = computed(() =>
 const isModalActive = computed(() => Boolean(props.dropCalendar))
 
 const formattedDate = computed(() =>
-  dropStartTime.value
-    ? `${format(dropStartTime.value, 'd. MMMM h:mm')} CET`
+  props.dropCalendar?.dropStartTime
+    ? `${format(props.dropCalendar.dropStartTime, 'd. MMMM h:mm aa')}`
     : '',
-)
-
-const dropStartTime = computed(() =>
-  props.dropCalendar?.date
-    ? new Date(`${props.dropCalendar.date} ${props.dropCalendar.time || ''}`)
-    : undefined,
 )
 
 const withPlaceholder = (nullableValue: unknown, or: unknown) =>

@@ -10,7 +10,7 @@
         :to="to"
         @click="emit('click')">
         <img
-          :src="image"
+          :src="image || placeholder"
           :alt="name"
           class="group-hover:opacity-[0.85] aspect-video object-cover w-full" />
 
@@ -22,10 +22,12 @@
           >
           <div
             class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
-            <div>
-              <span>{{ minted }}</span
-              ><span class="text-k-grey">/{{ dropMax }}</span>
-            </div>
+            <slot name="supply">
+              <div>
+                <span>{{ minted }}</span
+                ><span class="text-k-grey">/{{ dropMax }}</span>
+              </div>
+            </slot>
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
@@ -52,7 +54,7 @@ import { DropStatus } from '@/components/drops/useDrops'
 const emit = defineEmits(['click'])
 withDefaults(
   defineProps<{
-    image: string
+    image: string | undefined
     name: string
     dropStartTime?: Date | null
     dropStatus: DropStatus
@@ -77,6 +79,8 @@ withDefaults(
     ownerAddresses: () => [],
   },
 )
+
+const { placeholder } = useTheme()
 </script>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
