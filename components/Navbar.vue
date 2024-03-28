@@ -43,7 +43,7 @@
         <!-- BURGER MENU -->
         <a
           role="button"
-          class="navbar-burger sm:hidden"
+          class="navbar-burger lg:hidden"
           :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
