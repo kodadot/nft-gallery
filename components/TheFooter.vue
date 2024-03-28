@@ -86,7 +86,7 @@
       <section class="footer-container-info flex flex-col">
         <h2 class="subtitle is-5">{{ $t('footer.join') }}</h2>
         <ul
-          class="footer-container-list columns-1 lg:columns-2"
+          class="footer-container-list columns-1"
           data-testid="footer-social-list">
           <li v-for="item in socials" :key="item.url">
             <a

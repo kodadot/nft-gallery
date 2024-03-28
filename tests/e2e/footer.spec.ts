@@ -102,7 +102,7 @@ test('Check blog link', async ({ page }) => {
 test('Check Social Media Links', async ({ page }) => {
   await page.goto(pageWithFooter)
   for (const data of footerSocialMediaLinks) {
-    const socialMedia = page.locator('.footer-social-list')
+    const socialMedia = page.getByTestId('footer-social-list')
     const newTabPromise = page.waitForEvent('popup')
     await socialMedia.getByRole('link', { name: data.linkName }).first().click()
     const newTab = await newTabPromise
