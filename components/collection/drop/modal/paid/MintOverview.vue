@@ -22,9 +22,13 @@
 
             <BaseMediaItem
               v-if="toMintNft.canRender"
-              :src="sanitizeIpfsUrl(toMintNft.image)"
+              :src="
+                toMintNft.imageDataPayload
+                  ? toMintNft.imageDataPayload.image
+                  : sanitizeIpfsUrl(toMintNft.image)
+              "
               :alt="toMintNft.name"
-              mime-type="text/html"
+              :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
               preview
               is-detail
               :class="{ 'opacity-0': !toMintNft.imageDataPayload }"
