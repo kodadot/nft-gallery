@@ -59,32 +59,9 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
-        <div>
-          <div
-            class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
-            <NeoTooltip :label="$t('reload')" position="top">
-              <a no-shadow @click="handleReloadClick">
-                <NeoIcon
-                  :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
-                  size="medium"
-                  :label="$t('reload')"
-                  :spin="isLoading" />
-              </a>
-            </NeoTooltip>
-            <NeoTooltip :label="$t('fullscreen')" position="top">
-              <a no-shadow @click="toggleFullscreen">
-                <NeoIcon
-                  icon="arrow-up-right-and-arrow-down-left-from-center"
-                  size="medium" />
-              </a>
-            </NeoTooltip>
-            <NeoTooltip :label="$t('newTab')" position="top">
-              <a no-shadow @click="handleNewTab">
-                <NeoIcon icon="arrow-up-right" size="medium" />
-              </a>
-            </NeoTooltip>
-          </div>
-        </div>
+        <!-- <div> -->
+        <GalleryItemToolBar @toggle="toggleFullscreen" />
+        <!-- </div> -->
       </div>
 
       <div class="w-full lg:w-3/5 lg:pl-5 py-7">
@@ -197,7 +174,6 @@ import {
   NeoCarousel,
   NeoCarouselItem,
   NeoIcon,
-  NeoTooltip,
 } from '@kodadot1/brick'
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 
@@ -207,6 +183,7 @@ import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 
+import GalleryItemToolBar from './GalleryItemToolBar.vue'
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
@@ -216,8 +193,6 @@ import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
-import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
@@ -257,13 +232,6 @@ const tabs = {
 const activeTab = ref(tabs.activity)
 
 const activeCarousel = ref(0)
-
-const isLoading = ref(false)
-type ReloadElement =
-  | HTMLIFrameElement
-  | HTMLVideoElement
-  | HTMLImageElement
-  | null
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
@@ -351,65 +319,6 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
-}
-
-function handleReloadClick() {
-  isLoading.value = true
-
-  const reloadElement = (selector: string, isImage?: boolean) => {
-    setTimeout(() => {
-      isLoading.value = false
-      const element: ReloadElement = document.querySelector(selector)
-      if (element) {
-        if (isImage) {
-          const timestamp = new Date().getTime()
-          const url = new URL(element.src)
-          url.searchParams.set('t', timestamp.toString())
-          element.src = url.toString()
-        } else {
-          element.src += ''
-        }
-      }
-    }, 2000)
-  }
-
-  const mediaType = resolveMedia(nftAnimationMimeType.value)
-  const imageType = resolveMedia(nftMimeType.value)
-
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    reloadElement('iframe[title="html-embed"]')
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    reloadElement('video[controlslist=nodownload]')
-  } else if ([MediaType.OBJECT].includes(mediaType)) {
-    reloadElement('object')
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    reloadElement('img[data-nuxt-img]', true)
-  }
-}
-
-function handleNewTab() {
-  const openInNewTab = (selector: string, attribute: string) => {
-    const element = document.querySelector(selector)
-    if (element) {
-      const src = element.getAttribute(attribute)
-      if (src) {
-        window.open(src, '_blank')
-      }
-    }
-  }
-
-  const mediaType = resolveMedia(nftAnimationMimeType.value)
-  const imageType = resolveMedia(nftMimeType.value)
-
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    openInNewTab('iframe[title="html-embed"]', 'src')
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    openInNewTab('video', 'src')
-  } else if ([MediaType.OBJECT].includes(mediaType)) {
-    openInNewTab('object', 'src')
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    openInNewTab('img[data-nuxt-img]', 'src')
-  }
 }
 
 function toggleFallback() {
