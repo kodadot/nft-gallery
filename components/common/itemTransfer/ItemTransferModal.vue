@@ -6,10 +6,7 @@
       :status="status"
       @try-again="transfer" />
 
-    <NeoModal
-      :value="isModalActive"
-      content-class="!w-[unset]"
-      @close="onClose">
+    <NeoModal :value="isModalActive" @close="onClose">
       <div class="lg:w-[25rem]">
         <header
           class="border-b border-grey flex items-center justify-between px-6">
