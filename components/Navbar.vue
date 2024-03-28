@@ -6,7 +6,7 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
+    <div class="container items-center px-0" :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link
