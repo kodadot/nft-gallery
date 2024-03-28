@@ -9,7 +9,7 @@ export function execMintDrop({
   const { accountId } = useAuth()
 
   const args = item.nfts.map((allocatedNft, index) =>
-    api.tx.nfts.mint(item?.collectionId, allocatedNft.id, accountId.value, {
+    api.tx.nfts.mint(item.collectionId, allocatedNft.id, accountId.value, {
       ownedItem: (item.availableSerialNumbers || [])[index] || null,
       mintPrice: item.price || null,
     }),
