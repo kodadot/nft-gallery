@@ -35,7 +35,6 @@ const { drop } = useDrop()
 
 const route = useRoute()
 const img = useImage()
-const { $config } = useNuxtApp()
 
 const title = computed(() => drop.value?.name)
 
@@ -71,14 +70,9 @@ const meta = computed(() => {
   ]
 })
 
-useSeoMeta({
-  title: title,
-  ogTitle: title,
-  description: meta.value[0].description,
-  ogDescription: meta.value[0].description,
-  ogImage: meta.value[0].image,
-  twitterCard: 'summary_large_image',
-  ogUrl: $config.public.baseUrl + route.path,
+useHead({
+  title,
+  meta,
 })
 </script>
 
