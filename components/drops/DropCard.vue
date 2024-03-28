@@ -1,6 +1,6 @@
 <template>
   <DropsBasicDropCard
-    :loading="!(drop.collection && !isLoadingMeta)"
+    :loading="!(drop.collection && !isLoadingMeta && !collectionOwnersLoading)"
     :card-is="externalUrl ? 'a' : NuxtLink"
     :to="`/${dropPrefix}/drops/${drop.alias}`"
     :name="drop.collection.name"
@@ -38,7 +38,7 @@ const externalUrl = ref()
 const dropPrefix = computed(() => props.drop.chain as Prefix)
 const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 
-const { owners } = useCollectionActivity({
+const { owners, loading: collectionOwnersLoading } = useCollectionActivity({
   collectionId: computed(() => props.drop?.collection.collection),
   prefix: dropPrefix.value,
 })

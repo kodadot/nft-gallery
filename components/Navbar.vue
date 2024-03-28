@@ -259,8 +259,6 @@ const handleMobileChainSelect = () => {
 const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
-  showMobileNavbar()
-
   closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,

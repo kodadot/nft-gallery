@@ -13,15 +13,17 @@
     <div
       class="flex pb-5 justify-between w-full gap-4 border-b border-neutral-5">
       <NeoButton
-        variant="pill"
-        class="w-full px-5"
+        rounded
+        no-shadow
+        class="w-full px-5 border-k-grey hover:!bg-transparent"
         icon="arrow-rotate-left"
         @click="newHash"
         >{{ $t('codeChecker.newHash') }}</NeoButton
       >
       <NeoButton
-        variant="pill"
-        class="w-full px-5"
+        rounded
+        no-shadow
+        class="w-full px-5 border-k-grey hover:!bg-transparent"
         :disabled="!selectedFile"
         @click="replay"
         >{{ $t('codeChecker.replayAnimation') }}</NeoButton
@@ -42,7 +44,7 @@
           class="flex-grow text-ellipsis overflow-hidden"
           :disabled="!kodaRendererUsed"
           @click="exportAsPNG">
-          {{ `Export ${fileName} as PNG` }}
+          <span class="text-k-grey">{{ `Export ${fileName} as PNG` }}</span>
         </NeoButton>
         <NeoDropdown v-model="selectedVariation">
           <template #trigger="{ active }">

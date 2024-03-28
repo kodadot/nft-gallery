@@ -8,6 +8,15 @@
       @try-again="submitListing" />
 
     <NeoModal
+      :value="isSuccessModalOpen"
+      append-to-body
+      @close="handleSuccessModalClose">
+      <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
+        <SuccessfulListingBody :tx-hash="txHash" :items="items" />
+      </ModalBody>
+    </NeoModal>
+
+    <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       append-to-body
       @close="onClose">
@@ -92,7 +101,7 @@ const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError, blockNumber } =
+const { transaction, isLoading, status, isError, blockNumber, txHash } =
   useTransaction()
 
 const { chainSymbol, decimals } = useChain()
@@ -104,6 +113,11 @@ const autoteleportButton = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
 const autoTeleportLoaded = ref(false)
+
+const isSuccessModalOpen = computed(
+  () =>
+    Boolean(items.value.length) && status.value === TransactionStatus.Finalized,
+)
 
 const teleportTransitionTxFees = computed(() =>
   format(
@@ -242,6 +256,10 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 const onClose = () => {
   resetCartToDefaults()
   closeListingCartModal()
+}
+
+const handleSuccessModalClose = () => {
+  items.value = []
 }
 
 const resetCartToDefaults = () => {
