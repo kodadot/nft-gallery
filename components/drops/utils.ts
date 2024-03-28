@@ -38,3 +38,5 @@ export const parseCETDate = (datetime: string): Date => {
   const [date, time] = datetime.split(' ')
   return formatCETDate(date, time)
 }
+
+export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)

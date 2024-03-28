@@ -63,14 +63,7 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
-const emit = defineEmits([
-  'completed',
-  'close',
-  'list',
-  'subscribe',
-  'check-subscription',
-  'resend-confirmation-email',
-])
+const emit = defineEmits(['completed', 'close', 'list'])
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -92,6 +85,10 @@ const {
   resendingConfirmationEmail,
   sendConfirmationEmailOnModalOpen,
   emailConfirmed,
+  subscribe,
+  checkSubscription,
+  subscriptionId,
+  resendConfirmationEmail,
 } = useGenerativeDropNewsletter()
 
 const { canListMintedNft, claimedNft } = useGenerativeDropMint()
@@ -101,18 +98,26 @@ const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
 
-const sanitizedMintedNft = computed(() =>
+const mintedNFT = computed<MintedNFT | undefined>(() =>
   claimedNft.value
-    ? { ...claimedNft.value, image: sanitizeIpfsUrl(claimedNft.value.image) }
+    ? {
+        ...claimedNft.value,
+        image: sanitizeIpfsUrl(claimedNft.value.image),
+        collection: {
+          id: claimedNft.value.collection,
+          name: claimedNft.value.collectionName,
+          max: claimedNft.value.max,
+        },
+      }
     : undefined,
 )
 
 const { loadedAll, triedAll } = usePreloadImages(
-  computed(() => (sanitizedMintedNft.value ? [sanitizedMintedNft.value] : [])),
+  computed(() => (mintedNFT.value ? [mintedNFT.value] : [])),
 )
 
 const mintingSession = computed<MintingSession>(() => ({
-  items: [sanitizedMintedNft.value as MintedNFT].filter(Boolean),
+  items: [mintedNFT.value as MintedNFT].filter(Boolean),
   txHash: undefined, // free mint does not have a txHash
 }))
 
@@ -132,7 +137,7 @@ const moveSuccessfulDrop = computed(() => {
     return true
   }
 
-  return distance.value <= 0 && sanitizedMintedNft.value && triedAll.value
+  return distance.value <= 0 && mintedNFT.value && triedAll.value
 })
 
 const est = computed(() => `Est ~ ${displayDuration.value}`)
@@ -165,15 +170,15 @@ const handleEmailChange = () => {
 
 const handleEmailSignupConfirm = (value: string) => {
   email.value = value
-  emit('subscribe', value)
+  subscribe(value)
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email')
+  resendConfirmationEmail(subscriptionId.value as string)
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription')
+  checkSubscription(subscriptionId.value as string)
 }
 
 watch(
@@ -187,7 +192,7 @@ watch(
 
 watchEffect(() => {
   const claiming = dropStore.loading
-  const alreadyConfirmed = emailConfirmed && !email.value
+  const alreadyConfirmed = emailConfirmed.value && !email.value
   const alreadySubscribed =
     subscriptionEmail && !email.value && !changeEmail.value
 
@@ -200,7 +205,7 @@ watchEffect(() => {
     email.value &&
     isEmailSignupStep.value &&
     subscriptionEmail &&
-    !subscribingToNewsletter
+    !subscribingToNewsletter.value
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
@@ -219,7 +224,7 @@ watch(
       isModalOpen &&
       emailConfirmStep &&
       !resentInitialConfirmationEmail.value &&
-      sendConfirmationEmailOnModalOpen
+      sendConfirmationEmailOnModalOpen.value
     ) {
       handleConfirmationEmailResend()
       resentInitialConfirmationEmail.value = true
