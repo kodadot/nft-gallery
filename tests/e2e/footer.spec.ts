@@ -70,14 +70,6 @@ const footerSocialMediaLinks = [
     linkName: 'Youtube',
     linkAddress: 'UCEULduld5NrqOL49k1KVjoA',
   },
-  {
-    linkName: 'Instagram',
-    linkAddress: 'kodadot.xyz',
-  },
-  {
-    linkName: 'Reddit',
-    linkAddress: 'KodaDot',
-  },
 ]
 
 test('Check Footer Subscription', async ({ page }) => {

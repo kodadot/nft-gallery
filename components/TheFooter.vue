@@ -227,14 +227,5 @@ const socials = [
     name: 'Youtube',
     url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
   },
-
-  {
-    name: 'Instagram',
-    url: 'https://instagram.com/kodadot.xyz',
-  },
-  {
-    name: 'Reddit',
-    url: 'https://www.reddit.com/r/KodaDot',
-  },
 ]
 </script>
