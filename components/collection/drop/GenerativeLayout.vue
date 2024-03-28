@@ -55,6 +55,7 @@
       <hr class="my-20" />
 
       <LazyCollectionDropItemsGrid
+        v-if="drop?.collection"
         class="mb-4"
         :collection-id="drop?.collection" />
     </div>
