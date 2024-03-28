@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     class="top"
-    content-class="modal-width"
+    content-class="!w-[unset]"
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
       <EmailSignup
