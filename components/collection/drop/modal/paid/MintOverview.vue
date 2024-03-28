@@ -13,13 +13,15 @@
           <div class="relative">
             <NeoSkeleton
               v-if="!toMintNft.imageDataPayload"
-              class="absolute border border-border-color overflow-hidden"
-              :width="48"
-              :height="48"
+              class="border border-border-color overflow-hidden"
+              :class="{ absolute: toMintNft.canRender }"
+              :width="46"
+              :height="46"
               :rounded="false"
               no-margin />
 
             <BaseMediaItem
+              v-if="toMintNft.canRender"
               :src="sanitizeIpfsUrl(toMintNft.image)"
               :alt="toMintNft.name"
               mime-type="text/html"
