@@ -362,13 +362,10 @@ function handleReloadClick() {
       const element: ReloadElement = document.querySelector(selector)
       if (element) {
         if (isImage) {
-          let src = element.src
           const timestamp = new Date().getTime()
-          const separatorIndex = src.indexOf('?')
-          if (separatorIndex !== -1) {
-            src = src.substring(0, separatorIndex)
-          }
-          element.src = `${src}?t=${timestamp}`
+          const url = new URL(element.src)
+          url.searchParams.set('t', timestamp.toString())
+          element.src = url.toString()
         } else {
           element.src += ''
         }
@@ -382,11 +379,11 @@ function handleReloadClick() {
   if ([MediaType.IFRAME].includes(mediaType)) {
     reloadElement('iframe[title="html-embed"]')
   } else if ([MediaType.VIDEO].includes(mediaType)) {
-    reloadElement('video[data-testid="type-video"]')
+    reloadElement('video[controlslist=nodownload]')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
     reloadElement('object')
   } else if ([MediaType.IMAGE].includes(imageType)) {
-    reloadElement('img[data-testid="type-image"]', true)
+    reloadElement('img[data-nuxt-img]', true)
   }
 }
 
@@ -407,11 +404,11 @@ function handleNewTab() {
   if ([MediaType.IFRAME].includes(mediaType)) {
     openInNewTab('iframe[title="html-embed"]', 'src')
   } else if ([MediaType.VIDEO].includes(mediaType)) {
-    openInNewTab('video[data-testid="type-video"]', 'src')
+    openInNewTab('video', 'src')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
     openInNewTab('object', 'src')
   } else if ([MediaType.IMAGE].includes(imageType)) {
-    openInNewTab('img[data-testid="type-image"]', 'src')
+    openInNewTab('img[data-nuxt-img]', 'src')
   }
 }
 
