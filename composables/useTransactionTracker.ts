@@ -8,7 +8,7 @@ type Params = {
   onSuccess: () => any
   onCancel?: () => void
   onError?: () => void
-  successStatus?: TransactionStatus
+  successStatus?: TransactionStatus[]
   waitFor?: Array<Ref<boolean>>
 }
 
@@ -17,7 +17,7 @@ export default ({
   onSuccess,
   onError,
   onCancel,
-  successStatus = TransactionStatus.Block,
+  successStatus = [TransactionStatus.Block, TransactionStatus.Finalized],
   waitFor = [],
 }: Params) => {
   watch([status, ...waitFor], ([curStatus]) => {
@@ -29,7 +29,7 @@ export default ({
       return onError?.()
     }
 
-    if (curStatus === successStatus && waitFor.every((i) => i.value)) {
+    if (successStatus.includes(curStatus) && waitFor.every((i) => i.value)) {
       onSuccess()
     }
   })
