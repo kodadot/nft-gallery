@@ -11,10 +11,12 @@ export enum DropEventType {
   DROP_MINTED = 'drop_minted',
 }
 
+export type DropEventMintingSession = { image: string; amount: number }
+
 export type DropEvent = {
   id: string
   type: DropEventType
-  image?: string
+  mintingSession?: DropEventMintingSession
   timestamp: number
   completed?: boolean
 }
