@@ -15,6 +15,6 @@ query topCollections(
     volume
     floor
     nftCount
-    ownerCount
+    ownerCount: distribution
   }
 }
