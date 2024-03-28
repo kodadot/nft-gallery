@@ -74,6 +74,9 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
+  if (!mintCountAvailable.value) {
+    return $i18n.t('mint.unlockable.seeListings')
+  }
   if (!isLogIn.value) {
     return $i18n.t('general.connect_wallet')
   }
@@ -86,9 +89,6 @@ const label = computed(() => {
   }
   if (isCheckingMintRequirements.value) {
     return $i18n.t('checking')
-  }
-  if (!mintCountAvailable.value) {
-    return $i18n.t('mint.unlockable.seeListings')
   }
   if (drop.value.userAccess === false) {
     return $i18n.t('mint.unlockable.notEligibility')

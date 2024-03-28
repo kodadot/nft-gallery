@@ -63,14 +63,7 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
-const emit = defineEmits([
-  'completed',
-  'close',
-  'list',
-  'subscribe',
-  'check-subscription',
-  'resend-confirmation-email',
-])
+const emit = defineEmits(['completed', 'close', 'list'])
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -92,6 +85,10 @@ const {
   resendingConfirmationEmail,
   sendConfirmationEmailOnModalOpen,
   emailConfirmed,
+  subscribe,
+  checkSubscription,
+  subscriptionId,
+  resendConfirmationEmail,
 } = useGenerativeDropNewsletter()
 
 const { canListMintedNft, claimedNft } = useGenerativeDropMint()
@@ -173,15 +170,15 @@ const handleEmailChange = () => {
 
 const handleEmailSignupConfirm = (value: string) => {
   email.value = value
-  emit('subscribe', value)
+  subscribe(value)
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email')
+  resendConfirmationEmail(subscriptionId.value as string)
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription')
+  checkSubscription(subscriptionId.value as string)
 }
 
 watch(
@@ -195,7 +192,7 @@ watch(
 
 watchEffect(() => {
   const claiming = dropStore.loading
-  const alreadyConfirmed = emailConfirmed && !email.value
+  const alreadyConfirmed = emailConfirmed.value && !email.value
   const alreadySubscribed =
     subscriptionEmail && !email.value && !changeEmail.value
 
@@ -208,7 +205,7 @@ watchEffect(() => {
     email.value &&
     isEmailSignupStep.value &&
     subscriptionEmail &&
-    !subscribingToNewsletter
+    !subscribingToNewsletter.value
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
@@ -227,7 +224,7 @@ watch(
       isModalOpen &&
       emailConfirmStep &&
       !resentInitialConfirmationEmail.value &&
-      sendConfirmationEmailOnModalOpen
+      sendConfirmationEmailOnModalOpen.value
     ) {
       handleConfirmationEmailResend()
       resentInitialConfirmationEmail.value = true

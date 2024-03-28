@@ -12,12 +12,16 @@
 </template>
 
 <script setup lang="ts">
-import { UserDetails } from '@/composables/party/types'
+import { DropEventMintingSession, UserDetails } from '@/composables/party/types'
 import isEqual from 'lodash/isEqual'
 import Cursor from './Cusor.vue'
 
 export type CursorLabel =
-  | { loading?: boolean; label?: string; image?: string }
+  | {
+      loading?: boolean
+      label?: string
+      mintingSession?: DropEventMintingSession
+    }
   | undefined
 
 export type CursorDetails = {
