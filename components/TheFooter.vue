@@ -85,24 +85,21 @@
       </section>
       <section class="footer-container-info flex flex-col">
         <h2 class="subtitle is-5">{{ $t('footer.join') }}</h2>
-        <div class="flex">
-          <ul class="footer-container-list columns-1 lg:columns-2">
-            <li
-              v-for="item in socials"
-              :key="item.url"
-              class="footer-container-info-list-item">
-              <a
-                v-if="item.url"
-                v-safe-href="item.url"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                class="flex items-center">
-                {{ item.name }}
-                <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
-              </a>
-            </li>
-          </ul>
-        </div>
+        <ul
+          class="footer-container-list columns-1 lg:columns-2"
+          data-testid="footer-social-list">
+          <li v-for="item in socials" :key="item.url">
+            <a
+              v-if="item.url"
+              v-safe-href="item.url"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              class="flex items-center">
+              {{ item.name }}
+              <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+            </a>
+          </li>
+        </ul>
       </section>
     </div>
     <img
