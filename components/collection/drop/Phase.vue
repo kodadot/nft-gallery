@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6">
+    <div
+      class="flex justify-between items-center mb-6"
+      data-testid="drop-phase-container">
       <div class="flex items-center">
         <div
           v-if="isFetchingDropStatus"
@@ -31,7 +33,10 @@
             {{ $t('opensIn') }}
             <span class="text-text-color">{{ statusText }}</span>
           </div>
-          <div v-else class="text-neutral-7 leading-tight">
+          <div
+            v-else
+            class="text-neutral-7 leading-tight"
+            data-testid="drop-status">
             {{ statusText }}
           </div>
         </div>

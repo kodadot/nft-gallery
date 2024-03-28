@@ -17,7 +17,7 @@ export function formatDropStartTime(
 ) {
   const options = {
     day: '2-digit',
-    month: '2-digit',
+    month: withTime ? '2-digit' : 'long',
     hour12: withTime,
   } as const
 
@@ -38,3 +38,5 @@ export const parseCETDate = (datetime: string): Date => {
   const [date, time] = datetime.split(' ')
   return formatCETDate(date, time)
 }
+
+export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)
