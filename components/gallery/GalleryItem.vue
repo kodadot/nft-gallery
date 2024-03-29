@@ -59,9 +59,7 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
-        <!-- <div> -->
         <GalleryItemToolBar @toggle="toggleFullscreen" />
-        <!-- </div> -->
       </div>
 
       <div class="w-full lg:w-3/5 lg:pl-5 py-7">
@@ -183,7 +181,6 @@ import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 
-import GalleryItemToolBar from './GalleryItemToolBar.vue'
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'

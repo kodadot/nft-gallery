@@ -1,5 +1,6 @@
 <template>
-  <div class="toolbar">
+  <div
+    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
     <NeoTooltip :label="$t('reload')" position="top">
       <a no-shadow @click="handleReloadClick">
         <NeoIcon
@@ -37,77 +38,83 @@ type ReloadElement =
   | HTMLImageElement
   | null
 
-const isLoading = ref(false)
+const selectors: Record<
+  Extract<
+    MediaType,
+    MediaType.IMAGE | MediaType.VIDEO | MediaType.OBJECT | MediaType.IFRAME
+  >,
+  string
+> = {
+  [MediaType.IMAGE]: 'img[data-nuxt-img]',
+  [MediaType.VIDEO]: 'video',
+  [MediaType.OBJECT]: 'object',
+  [MediaType.IFRAME]: 'iframe[title="html-embed"]',
+}
+
 defineEmits(['toggle'])
 
-const galleryItem = useGalleryItem()
+const { nftAnimationMimeType, nftMimeType } = useGalleryItem()
 
-const { nftAnimationMimeType, nftMimeType } = galleryItem
+const isLoading = ref(false)
 
-function handleReloadClick() {
+const mediaAndImageType = computed(() => {
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageType = resolveMedia(nftMimeType.value)
+  return { mediaType, imageType }
+})
+
+const reloadElement = (selector: string) => {
+  setTimeout(() => {
+    isLoading.value = false
+    const element: ReloadElement = document.querySelector(selector)
+    if (!element) {
+      return
+    }
+    if (selectors[MediaType.IMAGE] === selector) {
+      const timestamp = new Date().getTime()
+      const url = new URL(element.src)
+      url.searchParams.set('t', timestamp.toString())
+      element.src = url.toString()
+    } else {
+      element.src += ''
+    }
+  }, 500)
+}
+
+const handleReloadClick = () => {
   isLoading.value = true
 
-  const reloadElement = (selector: string, isImage?: boolean) => {
-    setTimeout(() => {
-      isLoading.value = false
-      const element: ReloadElement = document.querySelector(selector)
-      if (element) {
-        if (isImage) {
-          const timestamp = new Date().getTime()
-          const url = new URL(element.src)
-          url.searchParams.set('t', timestamp.toString())
-          element.src = url.toString()
-        } else {
-          element.src += ''
-        }
-      }
-    }, 500)
-  }
-
-  const mediaType = resolveMedia(nftAnimationMimeType.value)
-  const imageType = resolveMedia(nftMimeType.value)
-
+  const { mediaType, imageType } = mediaAndImageType.value
   if ([MediaType.IFRAME].includes(mediaType)) {
-    reloadElement('iframe[title="html-embed"]')
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    reloadElement('video')
-  } else if ([MediaType.OBJECT].includes(mediaType)) {
-    reloadElement('object')
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    reloadElement('img[data-nuxt-img]', true)
+    return reloadElement(selectors[mediaType])
   }
+
+  if ([MediaType.IMAGE].includes(imageType)) {
+    return reloadElement(selectors[imageType])
+  }
+
+  reloadElement(selectors[mediaType])
 }
 
-function handleNewTab() {
-  const openInNewTab = (selector: string, attribute: string) => {
-    const element = document.querySelector(selector)
-    if (element) {
-      const src = element.getAttribute(attribute)
-      if (src) {
-        window.open(src, '_blank')
-      }
+const openInNewTab = (selector: string, attribute: string = 'src') => {
+  const element = document.querySelector(selector)
+  if (element) {
+    const src = element.getAttribute(attribute)
+    if (src) {
+      window.open(src, '_blank')
     }
   }
+}
 
-  const mediaType = resolveMedia(nftAnimationMimeType.value)
-  const imageType = resolveMedia(nftMimeType.value)
-
+const handleNewTab = () => {
+  const { mediaType, imageType } = mediaAndImageType.value
   if ([MediaType.IFRAME].includes(mediaType)) {
-    openInNewTab('iframe[title="html-embed"]', 'src')
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    openInNewTab('video', 'src')
-  } else if ([MediaType.OBJECT].includes(mediaType)) {
-    openInNewTab('object', 'src')
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    openInNewTab('img[data-nuxt-img]', 'src')
+    return openInNewTab(selectors[mediaType])
   }
+
+  if ([MediaType.IMAGE].includes(imageType)) {
+    return openInNewTab(selectors[imageType])
+  }
+  openInNewTab(selectors[mediaType])
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.toolbar {
-  @apply w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400;
-}
-</style>
