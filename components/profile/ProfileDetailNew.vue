@@ -64,6 +64,7 @@
                 class="mr-1" />
               {{ buttonConfig.label }}
             </NeoButton>
+            <!-- Wallet And Links Dropdown -->
             <NeoDropdown class="">
               <template #trigger="{ active }">
                 <NeoButton
@@ -85,12 +86,13 @@
                       hide-identity-popover
                       :address="id"
                       show-onchain-identity
-                      class="bg-neutral-3 text-base rounded-2xl text-center px-2" />
+                      class="bg-neutral-3 dark:bg-neutral-9 text-base rounded-2xl text-center px-2" />
                     <NeoButton
                       v-clipboard:copy="id"
                       variant="text"
                       no-shadow
                       icon="copy"
+                      :icon-pack="'fas'"
                       class="ml-2.5"
                       @click="toast('Copied to clipboard')" />
                   </div>
@@ -100,25 +102,27 @@
                       v-safe-href="`https://subscan.io/account/${id}`"
                       no-shadow
                       variant="text"
+                      class="text-xs"
                       label="Subscan"
                       tag="a"
                       target="_blank"
                       rel="nofollow noopener noreferrer" />
-                    <span class="divider"></span>
+                    <span class="w-px h-1.5 bg-k-shade mx-2"></span>
                     <NeoButton
                       v-safe-href="`https://sub.id/#/${id}`"
                       no-shadow
                       variant="text"
+                      class="text-xs"
                       label="SubID"
                       tag="a"
                       target="_blank"
                       rel="nofollow noopener noreferrer" />
                   </div>
-                  <!-- Trans  fer Button -->
+                  <!-- Transfer Button -->
                   <NeoButton
                     no-shadow
                     rounded
-                    class="hover:!bg-transparent"
+                    class="hover:!bg-transparent text-xs"
                     :label="`${$t('transfer')} $`"
                     :tag="NuxtLink"
                     :to="`/${urlPrefix}/transfer?target=${id}`">
@@ -142,17 +146,43 @@
               </NeoDropdownItem>
             </NeoDropdown>
           </div>
-          <NeoDropdown class="">
+          <!-- Share Dropdown -->
+          <NeoDropdown>
             <template #trigger="{ active }">
               <NeoButton
                 rounded
                 no-shadow
+                icon="arrow-up-from-bracket"
                 :active="active"
-                icon-right="arrow-up-from-bracket"
                 data-testid="gallery-sort-by">
               </NeoButton>
             </template>
-            <NeoDropdownItem value="a" data-testid="a"> aaa </NeoDropdownItem>
+
+            <NeoDropdownItem
+              v-clipboard:copy="shareURL"
+              @click="toast(String($t('toast.urlCopy')))">
+              <div class="flex text-nowrap w-max">
+                <NeoIcon icon="copy" pack="fas" class="mr-3" />
+                {{ $t('share.copyLink') }}
+              </div>
+            </NeoDropdownItem>
+
+            <NeoDropdownItem
+              data-testid="gallery-item-share-dropdown-twitter"
+              @click="shareOnX($i18n.t('sharing.profile'), shareURL, '')">
+              <div class="flex text-nowrap w-max">
+                <NeoIcon icon="x-twitter" pack="fab" class="mr-3" />
+                {{ $t('share.twitter') }}
+              </div>
+            </NeoDropdownItem>
+            <NeoDropdownItem
+              data-testid="gallery-item-share-dropdown-twitter"
+              @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
+              <div class="flex text-nowrap w-max">
+                <NeoIcon icon="f" class="mr-3" />
+                {{ $t('share.farcaster') }}
+              </div>
+            </NeoDropdownItem>
           </NeoDropdown>
         </div>
         <!-- Profile Description -->
@@ -187,6 +217,7 @@
           </div>
         </div>
       </div>
+      <!-- Mobile Profile Activity -->
       <ProfileActivity
         :profile-data="userProfile"
         class="pt-4 invisible md:visible w-60" />
@@ -345,10 +376,13 @@ const gridSection = GridSection.PROFILE_GALLERY
 const NuxtLink = resolveComponent('NuxtLink')
 
 const route = useRoute()
+const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
+const { shareOnX, shareOnFarcaster } = useSocialShare()
+
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
@@ -356,6 +390,7 @@ const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
 const buttonRef = ref(null)
 const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
+const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socials = {
   [Socials.Twitter]: {
