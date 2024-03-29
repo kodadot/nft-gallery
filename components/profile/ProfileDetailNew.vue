@@ -13,7 +13,7 @@
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile.bannerImage
+        backgroundImage: userProfile?.bannerImage
           ? `url(${userProfile.bannerImage})`
           : undefined,
       }">
@@ -22,7 +22,7 @@
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
           <BaseMediaItem
-            v-if="hasProfile"
+            v-if="userProfile?.avatar"
             :src="userProfile.avatar"
             :image-component="NuxtImg"
             :title="'User Avatar'"
@@ -36,7 +36,7 @@
       <div class="flex flex-col gap-6">
         <!-- Idetity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
-          <span v-if="userProfile.name">{{ userProfile.name }}</span>
+          <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity
             v-else
             ref="identity"
@@ -50,8 +50,10 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-nowrap">
             <NeoButton
+              ref="buttonRef"
               rounded
               no-shadow
+              class="min-w-28"
               :class="buttonConfig.classes"
               :variant="buttonConfig.variant"
               :active="buttonConfig.active"
@@ -60,7 +62,7 @@
                 v-if="buttonConfig.icon"
                 :icon="buttonConfig.icon"
                 class="mr-1" />
-              {{ buttonConfig.text }}
+              {{ buttonConfig.label }}
             </NeoButton>
             <NeoDropdown class="">
               <template #trigger="{ active }">
@@ -91,7 +93,9 @@
           </NeoDropdown>
         </div>
         <!-- Profile Description -->
-        <div v-if="hasProfile" class="max-w-lg whitespace-break-spaces text-sm">
+        <div
+          v-if="userProfile?.description"
+          class="max-w-lg whitespace-break-spaces text-sm">
           {{ userProfile.description }}
         </div>
         <!-- Followers -->
@@ -103,7 +107,7 @@
             <span class="text-sm text-k-grey"> Followed By: </span>
             <div class="flex -space-x-3">
               <NuxtImg
-                v-for="(avatarImg, index) in userProfile.followersAvatars"
+                v-for="(avatarImg, index) in userProfile?.followersAvatars"
                 :key="avatarImg"
                 :src="avatarImg"
                 alt="follower avatar"
@@ -112,7 +116,9 @@
             </div>
             <span class="text-sm">
               +
-              {{ userProfile.followers - userProfile.followersAvatars.length }}
+              {{
+                userProfile?.followers - userProfile?.followersAvatars.length
+              }}
               More
             </span>
           </div>
@@ -264,10 +270,10 @@ enum ProfileTab {
 }
 
 interface ButtonConfig {
-  text: string
+  label: string
   icon?: string
-  onClick: () => void
-  classes: string
+  onClick?: () => void
+  classes?: string
   variant?: NeoButtonVariant
   active?: boolean
 }
@@ -284,33 +290,49 @@ const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
 
+const buttonRef = ref(null)
+const isHovered = useElementHover(buttonRef)
+const showFollowing = ref(false)
+
+watch(isHovered, (newHover, oldHover) => {
+  const curserExited = newHover === false && oldHover === true
+  if (curserExited) {
+    showFollowing.value = false
+  }
+})
+
 const editProfileConfig: ButtonConfig = {
-  text: 'Edit Profile',
+  label: 'Edit Profile',
   icon: 'pen',
   onClick: () => console.log('edit profile'),
   classes: 'hover:!bg-transparent',
 }
 
 const createProfileConfig: ButtonConfig = {
-  text: 'Create Profile',
+  label: 'Create Profile',
   icon: 'sparkles',
   onClick: () => console.log('create profile'),
-  classes: '',
   variant: 'k-accent' as NeoButtonVariant,
 }
 
 const followConfig: ButtonConfig = {
-  text: 'Follow',
+  label: 'Follow',
   icon: 'plus',
-  onClick: follow,
-  classes: 'hover:!bg-transparent min-w-28',
+  onClick: () => {
+    follow(true)
+    showFollowing.value = true
+  },
+  classes: 'hover:!bg-transparent',
 }
 
 const followingConfig: ButtonConfig = {
-  text: 'Following',
-  onClick: () => console.log('unfollow'),
-  classes: 'min-w-28',
-  active: true,
+  label: 'Following',
+}
+
+const unfollowConfig: ButtonConfig = {
+  label: 'Unfollow',
+  onClick: () => [follow(false)],
+  classes: 'hover:!border-k-red',
 }
 
 const isOwner = computed(() => route.params.id === accountId.value)
@@ -319,7 +341,13 @@ const buttonConfig = computed((): ButtonConfig => {
   if (isOwner.value) {
     return hasProfile.value ? editProfileConfig : createProfileConfig
   }
-  return isFollowingThisAccount.value ? followingConfig : followConfig
+  if (
+    showFollowing.value ||
+    (!isHovered.value && isFollowingThisAccount.value)
+  ) {
+    return { ...followingConfig, active: isHovered.value }
+  }
+  return isFollowingThisAccount.value ? unfollowConfig : followConfig
 })
 
 const tabs = [

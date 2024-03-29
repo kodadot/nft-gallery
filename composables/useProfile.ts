@@ -38,11 +38,11 @@ export default function useUserProfile() {
   const mock = computed(() => query.mock === 'true')
   const isFollowingThisAccount = ref(false)
 
-  const follow = async (who?: string) => {
+  const setFollowing = async (follow: boolean, who?: string) => {
     const followee = who || params.id
     //for now just toggle the follow state
     console.log('Following:', followee)
-    isFollowingThisAccount.value = true
+    isFollowingThisAccount.value = follow
   }
 
   const fetchProfileMedia = async () => {
@@ -79,10 +79,7 @@ export default function useUserProfile() {
   return {
     hasProfile,
     isFollowingThisAccount,
-    userProfile: computed(() => ({
-      ...userProfileData.value,
-      avatar: userProfileData.value?.avatar,
-    })),
-    follow,
+    userProfile: computed(() => userProfileData.value),
+    follow: setFollowing,
   }
 }
