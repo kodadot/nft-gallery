@@ -57,7 +57,7 @@
       offsets and forestation. We will try to put at least some amount of
       artists' profits based on their decision to drive towards buying credit
       offsets. Not just feel good about, but with a real impactful way to do
-      proove it.
+      prove it.
     </p>
     <br />
     <h1 class="title is-4">Building impactful environmental relief</h1>

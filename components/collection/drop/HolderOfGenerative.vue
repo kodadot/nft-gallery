@@ -58,6 +58,7 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
+import { MintedNFT } from './types'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
@@ -76,7 +77,7 @@ const { hasMinimumFunds } = useDropMinimumFunds()
 const { drop } = useDrop()
 const { fetchDropStatus } = useDropStatus()
 const dropStore = useDropStore()
-const { claimedNft, canListMintedNft } = useGenerativeDropMint()
+const { claimedNft, canListMintedNft, maxCount } = useGenerativeDropMint()
 const { collectionName } = useCollectionEntity()
 const { availableNfts } = useHolderOfCollection()
 
@@ -192,14 +193,20 @@ const submitMints = async () => {
   try {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
 
-    const mintedNfts = response.map((item) => ({
-      id: `${drop.value?.collection}-${item.sn}`,
-      collection: item.collection,
-      chain: item.chain,
-      name: item.name,
-      image: item.image as string,
-      collectionName: collectionName.value,
-    }))
+    const mintedNfts = response.map(
+      (item) =>
+        ({
+          id: `${drop.value?.collection}-${item.sn}`,
+          chain: item.chain,
+          name: item.name,
+          image: item.image as string,
+          collection: {
+            id: item.collection,
+            name: collectionName.value,
+            max: maxCount.value,
+          },
+        }) as MintedNFT,
+    )
 
     mintingSession.value.items = mintedNfts
 

@@ -4,18 +4,12 @@ import {
 } from '@/composables/transaction/mintToken/constructDirectoryMeta'
 import { makeUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
-import { GenerativePreviewItem } from '../useGenerativePreview'
+import useDropMassMintState from './useDropMassMintState'
 
 export default () => {
   const { toMintNFTs, drop } = storeToRefs(useDropStore())
   const { collectionName, description } = useCollectionEntity()
-
-  const readyToPin = computed<boolean>(
-    () =>
-      toMintNFTs.value
-        .map((toMintNft) => toMintNft.imageDataPayload)
-        .every(Boolean) && Boolean(toMintNFTs.value.length),
-  )
+  const { canPin } = useDropMassMintState()
 
   const prepareMetadatas = async () => {
     try {
@@ -56,7 +50,7 @@ export default () => {
     }
   }
 
-  watch(readyToPin, (isReady) => {
+  watch(canPin, (isReady) => {
     if (isReady) {
       prepareMetadatas()
     }
