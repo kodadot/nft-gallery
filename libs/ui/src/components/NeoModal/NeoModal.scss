@@ -23,11 +23,6 @@ $modal-overlay-background-color: rgb(0 0 0 / 0.17);
     &.enable-mobile {
       @media screen and (max-width: 425px) {
         @apply absolute -bottom-[1px] -right-[1px] -left-[1px] flex flex-col;
-
-        .modal-width,
-        &.modal-width {
-          @apply w-[unset];
-        }
       }
     }
   }
