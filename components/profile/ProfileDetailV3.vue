@@ -27,7 +27,7 @@
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="w-[124px] h-[124px] object-cover rounded-full" />
-          <Avatar v-else :value="id" size="124" class="mb-[-7px]" />
+          <Avatar v-else :value="id" :size="124" class="mb-[-7px]" />
         </div>
       </div>
     </div>
@@ -72,8 +72,7 @@
                   no-shadow
                   :active="active"
                   class="min-w-48"
-                  :icon-right="active ? 'chevron-up' : 'chevron-down'"
-                  data-testid="gallery-sort-by">
+                  :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   Wallet And Links
                 </NeoButton>
               </template>
@@ -138,9 +137,11 @@
                   class="flex items-center w-full text-left hover:!text-text-color"
                   rel="noopener noreferrer">
                   <NeoIcon
+                    v-if="typeof item?.icon === 'string'"
                     :class="'mr-2.5'"
                     :icon="item?.icon"
                     :pack="item?.iconPack" />
+                  <component :is="item?.icon" v-else class="mr-2.5" />
                   <span>{{ item?.label }}</span>
                 </a>
               </NeoDropdownItem>
@@ -161,7 +162,7 @@
             <NeoDropdownItem
               v-clipboard:copy="shareURL"
               @click="toast(String($t('toast.urlCopy')))">
-              <div class="flex text-nowrap w-max">
+              <div class="flex text-nowrap w-max items-center">
                 <NeoIcon icon="copy" pack="fas" class="mr-3" />
                 {{ $t('share.copyLink') }}
               </div>
@@ -170,7 +171,7 @@
             <NeoDropdownItem
               data-testid="gallery-item-share-dropdown-twitter"
               @click="shareOnX($i18n.t('sharing.profile'), shareURL, '')">
-              <div class="flex text-nowrap w-max">
+              <div class="flex text-nowrap w-max items-center">
                 <NeoIcon icon="x-twitter" pack="fab" class="mr-3" />
                 {{ $t('share.twitter') }}
               </div>
@@ -178,8 +179,8 @@
             <NeoDropdownItem
               data-testid="gallery-item-share-dropdown-twitter"
               @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
-              <div class="flex text-nowrap w-max">
-                <NeoIcon icon="f" class="mr-3" />
+              <div class="flex text-nowrap w-max items-center">
+                <FarcasterIcon class="mr-3" />
                 {{ $t('share.farcaster') }}
               </div>
             </NeoDropdownItem>
@@ -356,6 +357,9 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
+const FarcasterIcon = defineAsyncComponent(
+  () => import('@/assets/icons/farcaster-icon.svg?component'),
+)
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -392,7 +396,7 @@ const socials = {
     },
   },
   [Socials.Farcaster]: {
-    icon: 'f',
+    icon: FarcasterIcon,
     getUrlLabel: (value) => ({
       label: `@${value}`,
       url: `https://www.farcaster.xyz/${value}`,
