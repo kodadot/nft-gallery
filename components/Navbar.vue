@@ -6,7 +6,9 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
+    <div
+      class="container items-center max-lg:!px-0"
+      :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link
@@ -43,7 +45,7 @@
         <!-- BURGER MENU -->
         <a
           role="button"
-          class="navbar-burger sm:hidden"
+          class="navbar-burger lg:hidden"
           :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
