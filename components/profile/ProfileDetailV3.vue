@@ -337,7 +337,7 @@ import {
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
-import ProfileActivity from './ProfileActivitySummeryNew.vue'
+import ProfileActivity from './ProfileActivitySummeryV3.vue'
 import Avatar from '@/components/shared/Avatar.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
@@ -355,6 +355,7 @@ import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 
 const NuxtImg = resolveComponent('NuxtImg')
+const NuxtLink = resolveComponent('NuxtLink')
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -373,24 +374,6 @@ interface ButtonConfig {
 }
 
 const gridSection = GridSection.PROFILE_GALLERY
-const NuxtLink = resolveComponent('NuxtLink')
-
-const route = useRoute()
-const { $i18n } = useNuxtApp()
-const { toast } = useToast()
-const { replaceUrl } = useReplaceUrl()
-const { accountId } = useAuth()
-const { urlPrefix, client } = usePrefix()
-const { shareOnX, shareOnFarcaster } = useSocialShare()
-
-const { isRemark } = useIsChain(urlPrefix)
-const listingCartStore = useListingCartStore()
-const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
-
-const buttonRef = ref(null)
-const isHovered = useElementHover(buttonRef)
-const showFollowing = ref(false)
-const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socials = {
   [Socials.Twitter]: {
@@ -417,31 +400,23 @@ const socials = {
   },
 }
 
-const socialDropdownItems = computed(() => {
-  return Object.entries(userProfile.value?.socials ?? {}).map(
-    ([key, value]) => {
-      const socialConfig = socials[key]
-      if (socialConfig) {
-        const { icon, iconPack, getUrlLabel } = socialConfig
-        const { label, url } = getUrlLabel(value)
+const tabs = [
+  ProfileTab.OWNED,
+  ProfileTab.CREATED,
+  ProfileTab.COLLECTIONS,
+  ProfileTab.ACTIVITY,
+]
 
-        return {
-          label,
-          icon,
-          iconPack,
-          url,
-        }
-      }
-    },
-  )
-})
-
-watch(isHovered, (newHover, oldHover) => {
-  const curserExited = newHover === false && oldHover === true
-  if (curserExited) {
-    showFollowing.value = false
-  }
-})
+const route = useRoute()
+const { $i18n } = useNuxtApp()
+const { toast } = useToast()
+const { replaceUrl } = useReplaceUrl()
+const { accountId } = useAuth()
+const { urlPrefix, client } = usePrefix()
+const { shareOnX, shareOnFarcaster } = useSocialShare()
+const { isRemark } = useIsChain(urlPrefix)
+const listingCartStore = useListingCartStore()
+const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
 
 const editProfileConfig: ButtonConfig = {
   label: 'Edit Profile',
@@ -477,6 +452,45 @@ const unfollowConfig: ButtonConfig = {
   classes: 'hover:!border-k-red',
 }
 
+const buttonRef = ref(null)
+const showFollowing = ref(false)
+const counts = ref({})
+const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
+const loadingOtherNetwork = ref(false)
+const id = computed(() => route.params.id || '')
+const email = ref('')
+const twitter = ref('')
+const displayName = ref('')
+const web = ref('')
+const legal = ref('')
+const riot = ref('')
+const isModalActive = ref(false)
+const collections = ref(
+  route.query.collections?.toString().split(',').filter(Boolean) || [],
+)
+
+const isHovered = useElementHover(buttonRef)
+const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
+
+const socialDropdownItems = computed(() => {
+  return Object.entries(userProfile.value?.socials ?? {}).map(
+    ([key, value]) => {
+      const socialConfig = socials[key]
+      if (socialConfig) {
+        const { icon, iconPack, getUrlLabel } = socialConfig
+        const { label, url } = getUrlLabel(value)
+
+        return {
+          label,
+          icon,
+          iconPack,
+          url,
+        }
+      }
+    },
+  )
+})
+
 const isOwner = computed(() => route.params.id === accountId.value)
 
 const buttonConfig = computed((): ButtonConfig => {
@@ -492,36 +506,12 @@ const buttonConfig = computed((): ButtonConfig => {
   return isFollowingThisAccount.value ? unfollowConfig : followConfig
 })
 
-const tabs = [
-  ProfileTab.OWNED,
-  ProfileTab.CREATED,
-  ProfileTab.COLLECTIONS,
-  ProfileTab.ACTIVITY,
-]
-
 const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
 }
 
-const counts = ref({})
-
-const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
-const loadingOtherNetwork = ref(false)
-const id = computed(() => route.params.id || '')
-const email = ref('')
-const twitter = ref('')
-const displayName = ref('')
-const web = ref('')
-const legal = ref('')
-const riot = ref('')
-const isModalActive = ref(false)
-
 const tabKey = computed(() =>
   activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq',
-)
-
-const collections = ref(
-  route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
 
 const itemsGridSearch = computed(() => {
@@ -687,6 +677,13 @@ const updateEmptyResultTab = (
     hasAssetPrefixMap.value[tab]!.push(prefix)
   }
 }
+
+watch(isHovered, (newHover, oldHover) => {
+  const curserExited = newHover === false && oldHover === true
+  if (curserExited) {
+    showFollowing.value = false
+  }
+})
 
 watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {

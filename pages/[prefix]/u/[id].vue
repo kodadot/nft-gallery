@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileDetailNew v-if="redesign" />
+    <ProfileDetailV3 v-if="redesign" />
     <ProfileDetail v-else />
     <ListingCartMini />
     <ListingCartModal />
