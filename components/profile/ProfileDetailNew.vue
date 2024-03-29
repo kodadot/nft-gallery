@@ -13,8 +13,8 @@
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.bannerImage
-          ? `url(${userProfile?.bannerImage})`
+        backgroundImage: userProfile.bannerImage
+          ? `url(${userProfile.bannerImage})`
           : undefined,
       }">
       <div
@@ -22,10 +22,12 @@
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
           <BaseMediaItem
-            :src="userProfile?.avatar"
+            v-if="hasProfile"
+            :src="userProfile.avatar"
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="w-[124px] h-[124px] object-cover rounded-full" />
+          <Avatar v-else :value="id" size="124" class="mb-[-7px]" />
         </div>
       </div>
     </div>
@@ -34,7 +36,7 @@
       <div class="flex flex-col gap-6">
         <!-- Idetity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
-          <span v-if="userProfile?.name">{{ userProfile?.name }}</span>
+          <span v-if="userProfile.name">{{ userProfile.name }}</span>
           <Identity
             v-else
             ref="identity"
@@ -90,7 +92,7 @@
         </div>
         <!-- Profile Description -->
         <div v-if="hasProfile" class="max-w-lg whitespace-break-spaces text-sm">
-          {{ userProfile?.description }}
+          {{ userProfile.description }}
         </div>
         <!-- Followers -->
         <div>
@@ -101,7 +103,7 @@
             <span class="text-sm text-k-grey"> Followed By: </span>
             <div class="flex -space-x-3">
               <NuxtImg
-                v-for="(avatarImg, index) in userProfile?.followersAvatars"
+                v-for="(avatarImg, index) in userProfile.followersAvatars"
                 :key="avatarImg"
                 :src="avatarImg"
                 alt="follower avatar"
@@ -110,9 +112,7 @@
             </div>
             <span class="text-sm">
               +
-              {{
-                userProfile?.followers - userProfile?.followersAvatars?.length
-              }}
+              {{ userProfile.followers - userProfile.followersAvatars.length }}
               More
             </span>
           </div>
@@ -238,6 +238,7 @@ import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
 import ProfileActivity from './ProfileActivitySummeryNew.vue'
+import Avatar from '@/components/shared/Avatar.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'

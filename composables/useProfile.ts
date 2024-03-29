@@ -1,13 +1,13 @@
 import { $fetch } from 'ofetch'
 
 export type UserProfileData = {
-  bannerImage?: string
+  bannerImage: string
   avatar: string
-  name?: string
-  description?: string
-  followers?: number
-  following?: number
-  followersAvatars?: string[]
+  name: string
+  description: string
+  followers: number
+  following: number
+  followersAvatars: string[]
 }
 
 const mockProfileData: UserProfileData = {
@@ -29,11 +29,7 @@ const mockProfileData: UserProfileData = {
 
 export default function useUserProfile() {
   const { accountId } = useAuth()
-  const { isLightMode } = useTheme()
 
-  const defaultAvatar = computed(() =>
-    isLightMode.value ? '/default-avatar.svg' : '/default-avatar-dark.svg',
-  )
   // for dev only - remove when done
   const { query, params } = useRoute()
 
@@ -61,11 +57,12 @@ export default function useUserProfile() {
       if (data && data.status === 200) {
         userProfileData.value = {
           bannerImage: data.bannerImage,
-          avatar: data.avatarImage || defaultAvatar,
+          avatar: data.avatarImage,
           name: data.userName,
           followers: data.followers,
           following: data.following,
           followersAvatars: data.followersAvatars.slice(0, 3),
+          description: data.description,
         }
 
         hasProfile.value = true
@@ -84,7 +81,7 @@ export default function useUserProfile() {
     isFollowingThisAccount,
     userProfile: computed(() => ({
       ...userProfileData.value,
-      avatar: userProfileData.value?.avatar || defaultAvatar.value,
+      avatar: userProfileData.value?.avatar,
     })),
     follow,
   }
