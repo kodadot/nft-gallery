@@ -70,14 +70,6 @@ const footerSocialMediaLinks = [
     linkName: 'Youtube',
     linkAddress: 'UCEULduld5NrqOL49k1KVjoA',
   },
-  {
-    linkName: 'Instagram',
-    linkAddress: 'kodadot.xyz',
-  },
-  {
-    linkName: 'Reddit',
-    linkAddress: 'KodaDot',
-  },
 ]
 
 test('Check Footer Subscription', async ({ page }) => {
@@ -110,9 +102,9 @@ test('Check blog link', async ({ page }) => {
 test('Check Social Media Links', async ({ page }) => {
   await page.goto(pageWithFooter)
   for (const data of footerSocialMediaLinks) {
-    const socialMedia = page.locator('.footer-container-socials-list')
+    const socialMedia = page.getByTestId('footer-social-list')
     const newTabPromise = page.waitForEvent('popup')
-    await socialMedia.locator(`[aria-label="${data.linkName}"]`).click()
+    await socialMedia.getByRole('link', { name: data.linkName }).first().click()
     const newTab = await newTabPromise
     await expect(newTab).toHaveURL(new RegExp(`${data.linkAddress}`))
     await newTab.close()
