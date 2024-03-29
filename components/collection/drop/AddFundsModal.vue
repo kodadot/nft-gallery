@@ -2,7 +2,7 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
-    content-class="add-funds-modal"
+    content-class="add-funds-modal !w-[unset]"
     @close="onClose">
     <ModalBody
       :title="$t('mint.unlockable.addFundsModal.title')"
@@ -122,12 +122,6 @@ const handleModalClose = (completed: boolean) => {
 
   .o-tip__trigger > * {
     height: initial;
-  }
-}
-
-@include mobile() {
-  .modal-width {
-    width: unset;
   }
 }
 </style>
