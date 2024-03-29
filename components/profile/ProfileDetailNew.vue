@@ -76,7 +76,70 @@
                   Wallet And Links
                 </NeoButton>
               </template>
-              <NeoDropdownItem value="a" data-testid="a"> aaa </NeoDropdownItem>
+              <NeoDropdownItem
+                class="hover:!bg-transparent hover:!cursor-default">
+                <div class="flex flex-col gap-4 py-2.5">
+                  <!-- Copy Address -->
+                  <div class="flex items-center">
+                    <Identity
+                      hide-identity-popover
+                      :address="id"
+                      show-onchain-identity
+                      class="bg-neutral-3 text-base rounded-2xl text-center px-2" />
+                    <NeoButton
+                      v-clipboard:copy="id"
+                      variant="text"
+                      no-shadow
+                      icon="copy"
+                      class="ml-2.5"
+                      @click="toast('Copied to clipboard')" />
+                  </div>
+                  <!-- View on Subscan and SubID -->
+                  <div class="flex items-center">
+                    <NeoButton
+                      v-safe-href="`https://subscan.io/account/${id}`"
+                      no-shadow
+                      variant="text"
+                      label="Subscan"
+                      tag="a"
+                      target="_blank"
+                      rel="nofollow noopener noreferrer" />
+                    <span class="divider"></span>
+                    <NeoButton
+                      v-safe-href="`https://sub.id/#/${id}`"
+                      no-shadow
+                      variant="text"
+                      label="SubID"
+                      tag="a"
+                      target="_blank"
+                      rel="nofollow noopener noreferrer" />
+                  </div>
+                  <!-- Trans  fer Button -->
+                  <NeoButton
+                    no-shadow
+                    rounded
+                    class="hover:!bg-transparent"
+                    :label="`${$t('transfer')} $`"
+                    :tag="NuxtLink"
+                    :to="`/${urlPrefix}/transfer?target=${id}`">
+                  </NeoButton>
+                </div>
+              </NeoDropdownItem>
+              <NeoDropdownItem
+                v-for="(item, index) in socialDropdownItems"
+                :key="index">
+                <a
+                  :href="item?.url"
+                  target="_blank"
+                  class="flex items-center w-full text-left hover:!text-text-color"
+                  rel="noopener noreferrer">
+                  <NeoIcon
+                    :class="'mr-2.5'"
+                    :icon="item?.icon"
+                    :pack="item?.iconPack" />
+                  <span>{{ item?.label }}</span>
+                </a>
+              </NeoDropdownItem>
             </NeoDropdown>
           </div>
           <NeoDropdown class="">
@@ -279,10 +342,10 @@ interface ButtonConfig {
 }
 
 const gridSection = GridSection.PROFILE_GALLERY
-// const NuxtLink = resolveComponent('NuxtLink')
+const NuxtLink = resolveComponent('NuxtLink')
 
 const route = useRoute()
-// const { toast } = useToast()
+const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
@@ -293,6 +356,50 @@ const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
 const buttonRef = ref(null)
 const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
+
+const socials = {
+  [Socials.Twitter]: {
+    icon: 'x-twitter',
+    iconPack: 'fab',
+    getUrlLabel: (value) => ({
+      label: `@${value}`,
+      url: `https://twitter.com/${value}`,
+    }),
+  },
+  [Socials.Website]: {
+    icon: 'globe',
+    getUrlLabel: (value: string) => {
+      const label = value.replace('https://', '')
+      return { label, url: value }
+    },
+  },
+  [Socials.Farcaster]: {
+    icon: 'f',
+    getUrlLabel: (value) => ({
+      label: `@${value}`,
+      url: `https://www.farcaster.xyz/${value}`,
+    }),
+  },
+}
+
+const socialDropdownItems = computed(() => {
+  return Object.entries(userProfile.value?.socials ?? {}).map(
+    ([key, value]) => {
+      const socialConfig = socials[key]
+      if (socialConfig) {
+        const { icon, iconPack, getUrlLabel } = socialConfig
+        const { label, url } = getUrlLabel(value)
+
+        return {
+          label,
+          icon,
+          iconPack,
+          url,
+        }
+      }
+    },
+  )
+})
 
 watch(isHovered, (newHover, oldHover) => {
   const curserExited = newHover === false && oldHover === true
