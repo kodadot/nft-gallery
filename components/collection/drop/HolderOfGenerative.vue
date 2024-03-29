@@ -126,9 +126,7 @@ const mintNft = async () => {
     transaction({
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
-      nfts: allocatedNFTs.value.map((allocatedNft) => ({
-        id: allocatedNft.id,
-      })),
+      nfts: allocatedNFTs.value,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
     })
