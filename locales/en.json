@@ -885,6 +885,8 @@
   },
   "activity": {
     "listed": "Listed",
+    "items": "Items",
+    "estimatedValue": "Est. Value",
     "totalItems": "Σ Items",
     "todayTraded": "24H",
     "totalTraded": "Σ VOLUME TRADED",
@@ -923,7 +925,9 @@
     "noHolders": "Start collecting NFTs and make your mark at the top!",
     "noResultsSub": "Check back later or reset your filters",
     "hideOutliers": "Hide Outliers",
-    "applySmoothing": "Apply Smoothing"
+    "applySmoothing": "Apply Smoothing",
+    "followers": "Followers",
+    "following": "Following"
   },
   "profileStats": {
     "listed": "Listed",

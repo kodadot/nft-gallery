@@ -1,28 +1,32 @@
 <template>
   <div v-if="stats" class="flex flex-col items-center gap-2.5">
     <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey"> Listed/Items </span>
+      <span class="text-sm text-k-grey">
+        {{ $t('activity.listed') }}/{{ $t('activity.items') }}
+      </span>
       <span class="text-xl font-bold">
         {{ listedCount }}/{{ totalHoldingsNfts }}
       </span>
     </div>
 
     <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey"> Est. value </span>
+      <span class="text-sm text-k-grey">{{
+        $t('activity.estimatedValue')
+      }}</span>
       <span class="text-xl font-bold">
         <CommonTokenMoney :value="stats.listedValue" inline />
       </span>
     </div>
 
     <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey"> Followers </span>
+      <span class="text-sm text-k-grey">{{ $t('activity.followers') }}</span>
       <span class="text-xl font-bold">
         {{ profileData?.followers ?? '-' }}
       </span>
     </div>
 
     <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey"> Following </span>
+      <span class="text-sm text-k-grey"> {{ $t('activity.following') }} </span>
       <span class="text-xl font-bold">
         {{ profileData?.following ?? '-' }}
       </span>
