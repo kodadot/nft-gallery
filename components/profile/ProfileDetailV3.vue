@@ -132,7 +132,7 @@
                 v-for="(item, index) in socialDropdownItems"
                 :key="index">
                 <a
-                  :href="item?.url"
+                  v-safe-href="item?.url"
                   target="_blank"
                   class="flex items-center w-full text-left hover:!text-text-color"
                   rel="noopener noreferrer">
