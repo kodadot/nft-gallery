@@ -6,5 +6,6 @@ export default function () {
 
   return {
     redesign: computed(() => has('redesign')),
+    flagAutoTeleport: computed(() => has('autoTeleport')), // disable auto teleport by default. can be enabled by query param or local storage. to test it internally
   }
 }

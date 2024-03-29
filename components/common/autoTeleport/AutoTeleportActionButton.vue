@@ -129,6 +129,7 @@ const props = withDefaults(
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
+const { flagAutoTeleport } = useFlags()
 
 const amount = ref()
 
@@ -187,7 +188,8 @@ const showAutoTeleport = computed(
     !hasEnoughInCurrentChain.value &&
     isAutoTeleportAvailable.value &&
     isReady.value &&
-    !props.disabled,
+    !props.disabled &&
+    flagAutoTeleport.value,
 )
 
 const allowAutoTeleport = computed(
@@ -306,6 +308,10 @@ const handleAutoTeleportModalClose = (completed: boolean) => {
 watch(allowAutoTeleport, (allow) => {
   if (allow) {
     autoTeleport.value = true
+  }
+
+  if (!flagAutoTeleport.value) {
+    autoTeleport.value = false
   }
 })
 
