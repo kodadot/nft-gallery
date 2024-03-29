@@ -19,12 +19,12 @@ export type UserProfileData = {
 
 const mockProfileData: UserProfileData = {
   bannerImage:
-    'https://s3-alpha-sig.figma.com/img/a754/fbdc/a687a9843b536b0d5292ce53c3c8ff47?Expires=1712534400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Lp0ACavV8A9ViM8gzSjHC6M5oO3hGjazkBBg-8ksEQTT03YUzfvqt5d-M~Ukr3t6-CIdEX3YeJeHc7U7pb1AM~POh~YjkikzMfuTvmk9KvIjcSkvGDNpkydAtjAVT7eCwMT9nqVzZ2OpYHiBCtC7KgUpLSbUCcL03iCc7hb1b6on3Wx0ouWUb97MQge0uBHcw4Cia-jCRl8Lyk99bZyVX9Riq8hNITDa5QN4oLTgNDMidzi2khZlI4iTXNpbwj~1JKyVA7ZWNlElFNnBKTZQX~9OQUb36MNbqIZdHOOaeSsMY-EQQfoaik~SzFO1SgyZkdVnw2nxDSQi7o0dEdR32g__',
+    'https://pbs.twimg.com/profile_banners/19893776/1672062169/1500x500',
   avatar:
-    'https://s3-alpha-sig.figma.com/img/30d9/ae90/9b1922befd95754a1314bb3739e46a06?Expires=1712534400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JXjNgwHHHWgb0Hx~TGrqpVNafAjdozel-XGsswPTtB~D5Twazf75QEsciWxgasxcOR7-DAS37jVs0NHu-zDBGuwG~PdF8Fd~ofwqxZ~zSNZLEidrBIuc0n9T7bgXhedXmbJGQB-N4zVencj0~k8U~xofP1jGdWIB-vV8DJqxcxN7-L024vEM6jp0QZFftI0e9-S-C4bcZeecm8axUe9HWipD-M7yYpClJ4tQ~9vfmxuQBVTLAk0Spin37sxRcCmujVXcMqNnuyjTxF~ho8i9LbEtTapAKSILoHLIaPaIEymIy-88P77PuXJuQtWTzIow~JAarZx-2P3jolzyWPqF0g__',
-  name: 'John Doe',
+    'https://upload.wikimedia.org/wikipedia/en/f/ff/Timoth%C3%A9e_Chalamet_as_Paul_Atreides_%28Dune_2021%29.jpg',
+  name: 'Paul Atreides',
   description:
-    'Lorem ipsum dolor sit amet consectetur. Turpis elit magna nunc eget. Non in a semper tristique bibendum ut. Habitant metus facilisis in lacus sollicitudin orci tellus a eget dignissim hac pellentesque.',
+    '"I will bend like a reed in the wind" • Not affiliated with any known literature or cinematic experience.',
   followers: 87,
   following: 11,
   followersAvatars: [
@@ -33,9 +33,9 @@ const mockProfileData: UserProfileData = {
     'https://s3-alpha-sig.figma.com/img/e8cc/a1ff/881565b7bf767070aa1ba9925e186be7?Expires=1712534400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=j~HRVDwz2svnmc33xPSeD-YF-jGrlYwKl0z3Fig8ahw0ueVZ9U1X0r4sHNsVz5wA~7P4bu4vjZAA17mdVnucxWO3nBECvt2yel8ISxHfBlMALHqMfHmO2K2MGbm5nc5DZzyauHNiHbMPiuHQ4beL2PqOdn41RIXPiTgcUl6uo8lTI7btvRckAvbd-NXBWr9UNyf4A~8ll55xaJdMgrdp94SzpTv2HvTbbfWYiKf5EbwFdBAsSVqnxkKiLrXfOmsYxAlA8L3Go3dCF~Bsa9VJ61D46CmnV477qWFGAx0jtWqTo8c1qQw~wKJyu0K1AiYdRSLhiTJLvNf0VFv7twMatw__',
   ],
   socials: {
-    [Socials.Twitter]: 'twitterUser',
-    [Socials.Website]: 'https://example.com',
-    [Socials.Farcaster]: 'farcasterUser',
+    [Socials.Twitter]: 'PaulAtreides',
+    [Socials.Website]: 'https://dune.fandom.com/wiki/Paul_Atreides',
+    [Socials.Farcaster]: 'PaulAtreides',
   },
 }
 export default function useUserProfile() {
