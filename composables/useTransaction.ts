@@ -214,6 +214,7 @@ export const useTransaction = (
   options: TransactionOptions = { disableSuccessNotification: false },
 ) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
+  const { $i18n } = useNuxtApp()
   const { urlPrefix } = usePrefix()
   const {
     isLoading,
@@ -228,7 +229,7 @@ export const useTransaction = (
     let api = await apiInstance.value
 
     if (disabledOperationPrefixes(prefix || urlPrefix.value)) {
-      warningMessage('This operation is not supported on the current chain')
+      warningMessage($i18n.t('toast.unsupportedOperation'))
       return
     }
 

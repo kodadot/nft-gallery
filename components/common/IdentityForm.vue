@@ -151,6 +151,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { calculateUsdFromToken } from '@/utils/calculation'
 import format from '@/utils/format/balance'
 import { getChainName } from '@/utils/chain'
+import { disabledOperationPrefixes } from '@/utils/prefix'
 
 const { $i18n } = useNuxtApp()
 
@@ -308,7 +309,13 @@ const fetchDeposit = async () => {
 }
 
 const deleteIdentity = async (): Promise<void> => {
+  if (disabledOperationPrefixes(urlPrefix.value)) {
+    warningMessage($i18n.t('toast.unsupportedOperation'))
+    return
+  }
+
   const api = await identityApi.value
+
   isClearingIdentity.value = true
   initTransactionLoader()
   const cb = api.tx.identity.clearIdentity
@@ -326,6 +333,11 @@ const deleteIdentity = async (): Promise<void> => {
 }
 
 const setIdentity = async (): Promise<void> => {
+  if (disabledOperationPrefixes(urlPrefix.value)) {
+    warningMessage($i18n.t('toast.unsupportedOperation'))
+    return
+  }
+
   isConfirmModalActive.value = false
   const api = await identityApi.value
   isClearingIdentity.value = false

@@ -81,13 +81,14 @@ import {
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
 import waifuApi from '@/services/waifu'
+import { disabledOperationPrefixes } from '@/utils/prefix'
 
 const { accountId } = useAuth()
 const { client } = usePrefix()
 const { apiInstance } = useApi()
 const { nextCollectionId } = useStatemineNewCollectionId()
 const { howAboutToExecute, status, isError } = useMetaTransaction()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
@@ -114,6 +115,11 @@ const fromCollection = collections.value.find(
 )
 
 const startStep1 = async () => {
+  if (disabledOperationPrefixes(from)) {
+    warningMessage($i18n.t('toast.unsupportedOperation'))
+    return
+  }
+
   step1Iterations.value -= 1
   nextId.value = (await nextCollectionId())?.toString() || '0'
   relocationsBody.value = {
