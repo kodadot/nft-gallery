@@ -138,7 +138,10 @@
     }
 
     &.is-active .navbar-brand {
-      min-height: $navbar-mobile-min-height;
+      min-height: $navbar-desktop-min-height;
+      @include mobile {
+        min-height: $navbar-mobile-min-height;
+      }
     }
   }
 }

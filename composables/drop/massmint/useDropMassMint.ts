@@ -19,6 +19,7 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   hash: string
   sn?: number
   entropyRange: EntropyRange
+  canRender: boolean
 }
 
 export default () => {
