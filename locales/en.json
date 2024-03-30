@@ -827,7 +827,17 @@
     "searchNoResultsText": "Explore artist's portfolio on other networks ({0})",
     "searchNoResultsButton": "Explore on {0}",
     "collectedFromCreator": "Collected {0} NFT(s) from this creator",
-    "highestSales": "Highest Sales"
+    "highestSales": "Highest Sales",
+    "walletAndLinks": "Wallets and Links",
+    "subscan": "Subscan",
+    "subId": "SubId",
+    "notFollowed": "not followed by anyone you’re following",
+    "followedBy": "Followed by",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "following": "Following",
+    "editProfile": "Edit Profile",
+    "createProfile": "Create Profile"
   },
   "sales": {
     "page": "Sales",

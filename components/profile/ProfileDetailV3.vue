@@ -71,7 +71,7 @@
                   variant="outlined-rounded"
                   :active="active"
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
-                  Wallet And Links
+                  {{ $t('profile.walletAndLinks') }}
                 </NeoButton>
               </template>
               <NeoDropdownItem
@@ -101,7 +101,7 @@
                       no-shadow
                       variant="text"
                       class="text-xs"
-                      label="Subscan"
+                      :label="$t('profile.subscan')"
                       tag="a"
                       target="_blank"
                       rel="nofollow noopener noreferrer" />
@@ -111,7 +111,7 @@
                       no-shadow
                       variant="text"
                       class="text-xs"
-                      label="SubID"
+                      :label="$t('profile.subId')"
                       tag="a"
                       target="_blank"
                       rel="nofollow noopener noreferrer" />
@@ -151,8 +151,7 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
-                :active="active"
-                data-testid="gallery-sort-by">
+                :active="active">
               </NeoButton>
             </template>
 
@@ -166,7 +165,6 @@
             </NeoDropdownItem>
 
             <NeoDropdownItem
-              data-testid="gallery-item-share-dropdown-twitter"
               @click="shareOnX($i18n.t('sharing.profile'), shareURL, '')">
               <div class="flex text-nowrap w-max items-center">
                 <NeoIcon icon="x-twitter" pack="fab" class="mr-3" />
@@ -174,7 +172,6 @@
               </div>
             </NeoDropdownItem>
             <NeoDropdownItem
-              data-testid="gallery-item-share-dropdown-twitter"
               @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
               <div class="flex text-nowrap w-max items-center">
                 <FarcasterIcon class="mr-3" />
@@ -192,10 +189,12 @@
         <!-- Followers -->
         <div>
           <span v-if="isOwner || !hasProfile" class="text-sm text-k-grey">
-            not followed by anyone you’re following
+            {{ $t('profile.notFollowed') }}
           </span>
           <div v-else class="flex gap-4 items-center">
-            <span class="text-sm text-k-grey"> Followed By: </span>
+            <span class="text-sm text-k-grey">
+              {{ $t('profile.followedBy') }}:
+            </span>
             <div class="flex -space-x-3">
               <NuxtImg
                 v-for="(avatarImg, index) in userProfile?.followersAvatars"
@@ -427,14 +426,14 @@ const editProfileConfig: ButtonConfig = {
 }
 
 const createProfileConfig: ButtonConfig = {
-  label: 'Create Profile',
+  label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
   onClick: () => console.log('create profile'),
   variant: 'k-accent',
 }
 
 const followConfig: ButtonConfig = {
-  label: 'Follow',
+  label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: () => {
     follow(true)
@@ -444,11 +443,11 @@ const followConfig: ButtonConfig = {
 }
 
 const followingConfig: ButtonConfig = {
-  label: 'Following',
+  label: $i18n.t('profile.following'),
 }
 
 const unfollowConfig: ButtonConfig = {
-  label: 'Unfollow',
+  label: $i18n.t('profile.unfollow'),
   onClick: () => {
     follow(false)
   },
