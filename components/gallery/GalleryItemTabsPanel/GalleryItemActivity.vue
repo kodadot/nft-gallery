@@ -31,7 +31,7 @@
     <GalleryItemActivityTable
       :key="interactions.join('')"
       :nft-id="nftId"
-      :interactions="interactions" />
+      :interactions="filteredInteractions" />
   </div>
 </template>
 
@@ -66,6 +66,13 @@ const cssActive = (value) => {
     ),
   }
 }
+
+const filteredInteractions = computed(() => {
+  if (interactions.value.length === allInteractions.length) {
+    return interactions.value
+  }
+  return interactions.value.filter((interaction) => interaction !== 'UNLIST')
+})
 </script>
 
 <style lang="scss" scoped>
