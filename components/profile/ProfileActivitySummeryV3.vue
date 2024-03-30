@@ -12,7 +12,7 @@
           :is="item.component"
           v-if="item.component"
           :value="item.value"
-          inline></component>
+          inline />
         <span v-else>{{ item.value }}</span>
       </div>
     </div>
