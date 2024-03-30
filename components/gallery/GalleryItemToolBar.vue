@@ -85,15 +85,17 @@ const handleReloadClick = () => {
   isLoading.value = true
 
   const { mediaType, imageType } = mediaAndImageType.value
+  let elementType
+
   if ([MediaType.IFRAME].includes(mediaType)) {
-    return reloadElement(selectors[mediaType])
+    elementType = mediaType
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    elementType = mediaType
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    elementType = imageType
   }
 
-  if ([MediaType.IMAGE].includes(imageType)) {
-    return reloadElement(selectors[imageType])
-  }
-
-  reloadElement(selectors[mediaType])
+  return reloadElement(selectors[elementType])
 }
 
 const openInNewTab = (selector: string, attribute: string = 'src') => {
@@ -108,13 +110,16 @@ const openInNewTab = (selector: string, attribute: string = 'src') => {
 
 const handleNewTab = () => {
   const { mediaType, imageType } = mediaAndImageType.value
+  let elementType
+
   if ([MediaType.IFRAME].includes(mediaType)) {
-    return openInNewTab(selectors[mediaType])
+    elementType = mediaType
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    elementType = mediaType
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    elementType = imageType
   }
 
-  if ([MediaType.IMAGE].includes(imageType)) {
-    return openInNewTab(selectors[imageType])
-  }
-  openInNewTab(selectors[mediaType])
+  return openInNewTab(selectors[elementType])
 }
 </script>
