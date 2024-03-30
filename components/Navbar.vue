@@ -62,7 +62,7 @@
       <!-- MENU -->
       <div
         id="MainNavbar"
-        class="navbar-menu"
+        class="navbar-menu py-0"
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
