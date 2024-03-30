@@ -184,9 +184,9 @@ const filteredItems = computed(() => {
 watch(
   () => route.query,
   () => {
-    const itemsFilteredOut =
+    const newTotal =
       total.value - (items.value.length - filteredItems.value.length)
-    emit('total', itemsFilteredOut)
+    emit('total', newTotal)
   },
 )
 
