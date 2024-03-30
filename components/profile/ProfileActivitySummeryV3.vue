@@ -1,35 +1,20 @@
 <template>
   <div v-if="stats" class="flex flex-col items-center gap-2.5">
-    <div class="flex justify-between w-full items-center">
+    <div
+      v-for="(item, index) in statsRows"
+      :key="index"
+      class="flex justify-between w-full items-center">
       <span class="text-sm text-k-grey">
-        {{ $t('activity.listed') }}/{{ $t('activity.items') }}
+        {{ $t(item.label) }}
       </span>
-      <span class="text-xl font-bold">
-        {{ listedCount }}/{{ totalHoldingsNfts }}
-      </span>
-    </div>
-
-    <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey">{{
-        $t('activity.estimatedValue')
-      }}</span>
-      <span class="text-xl font-bold">
-        <CommonTokenMoney :value="stats.listedValue" inline />
-      </span>
-    </div>
-
-    <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey">{{ $t('activity.followers') }}</span>
-      <span class="text-xl font-bold">
-        {{ profileData?.followers ?? '-' }}
-      </span>
-    </div>
-
-    <div class="flex justify-between w-full items-center">
-      <span class="text-sm text-k-grey"> {{ $t('activity.following') }} </span>
-      <span class="text-xl font-bold">
-        {{ profileData?.following ?? '-' }}
-      </span>
+      <div class="text-lg font-bold">
+        <component
+          :is="item.component"
+          v-if="item.component"
+          :value="item.value"
+          inline></component>
+        <span v-else>{{ item.value }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +50,26 @@ const stats = ref<Stats>({
 
 const totalHoldingsNfts = computed(() => stats.value.totalCollected)
 const listedCount = computed(() => stats.value.listedCount)
+
+const statsRows = computed(() => [
+  {
+    label: 'activity.listed',
+    value: `${listedCount.value}/${totalHoldingsNfts.value}`,
+  },
+  {
+    label: 'activity.estimatedValue',
+    value: stats.value.listedValue,
+    component: CommonTokenMoney,
+  },
+  {
+    label: 'activity.followers',
+    value: props.profileData?.followers ?? '-',
+  },
+  {
+    label: 'activity.following',
+    value: props.profileData?.following ?? '-',
+  },
+])
 
 useLazyAsyncData('stats', async () => {
   if (!id.value) {
