@@ -90,9 +90,7 @@ const owned =
 
 const soldByCreator = computed({
   get: () => route.query?.soldByCreator?.toString() === 'true',
-  set: (value) => {
-    applyToUrl({ soldByCreator: String(value) })
-  },
+  set: (value) => applyToUrl({ soldByCreator: String(value) }),
 })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
