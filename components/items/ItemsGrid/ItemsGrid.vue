@@ -22,7 +22,7 @@
           :nft="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
-          :display-name-with-sn="displayNameWithSn"
+          :display-name-with-sn="displaySn(entity.id)"
           :show-timestamp="showTimestamp"
           :collection-popover-hide="collectionPopoverHide"
           hide-video-controls
@@ -36,7 +36,7 @@
           :entity="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
-          :display-name-with-sn="displayNameWithSn"
+          :display-name-with-sn="displaySn(entity.id)"
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -110,6 +110,11 @@ const props = defineProps<{
   hideHoverAction?: boolean
   collectionPopoverHide?: boolean
 }>()
+
+// display sn if nftId is less than 4 digits
+const displaySn = (nftId) => {
+  return props.displayNameWithSn && nftId.split('-')[1].length <= 4
+}
 
 const emit = defineEmits(['total', 'loading'])
 
