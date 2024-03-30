@@ -9,7 +9,7 @@
           :source="visibleDescription"
           data-testid="drops-text-description-container" />
       </div>
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center mb-6 md:!mb-4">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text text-left p-0"
