@@ -205,7 +205,7 @@ export default () => {
         updateMetadata({
           chain: drop.value.chain,
           collection: drop.value.collection,
-          sn: nft.sn,
+          nft: nft.sn,
           metadata: nft.metadata,
         }).then((result) => resolve(result))
       } catch (e) {

@@ -1,7 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 
-const BASE_URL = 'http://localhost:8787/'
+const BASE_URL =
+  window.location.host === 'kodadot.xyz'
+    ? 'https://fxart.kodadot.workers.dev/'
+    : 'https://fxart-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -143,14 +146,14 @@ export const allocateClaim = async (body, id) => {
   }
 }
 
-export const updateMetadata = async ({ chain, collection, sn, metadata }) => {
+export const updateMetadata = async ({ chain, collection, nft, metadata }) => {
   try {
-    const response = await api<DoResult>('/metadata/update', {
+    const response = await api<DoResult>('/metadata/v1/update', {
       method: 'get',
       query: {
         chain,
         collection,
-        sn,
+        nft,
         metadata,
       },
     })

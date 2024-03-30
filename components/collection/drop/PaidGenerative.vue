@@ -199,20 +199,20 @@ const submitMints = async () => {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
 
     const mintedNfts: MintedNFT[] = []
-    for (const res of response) {
-      let metadata: { animation_url: string; image: string; name: string } = {
-        animation_url: '',
-        image: '',
-        name: '',
+    for (const [index, res] of response.entries()) {
+      let metadata = {
+        animation_url: toMintNFTs.value[index].image,
+        image: toMintNFTs.value[index].image,
+        name: toMintNFTs.value[index].name,
       }
 
       try {
         metadata = await $fetch(sanitizeIpfsUrl(res.metadata), {
-          retry: 20,
+          retry: 12,
           retryDelay: 5000,
         })
       } catch (error) {
-        $consola.error(error)
+        $consola.warn(error)
       }
 
       mintedNfts.push({
