@@ -207,7 +207,8 @@
             <span class="text-sm">
               +
               {{
-                userProfile?.followers - userProfile?.followersAvatars.length
+                (userProfile?.followers ?? 0) -
+                (userProfile?.followersAvatars?.length ?? 0)
               }}
               More
             </span>
