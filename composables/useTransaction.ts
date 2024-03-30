@@ -39,6 +39,7 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
+import { disabledOperationPrefixes } from '@/utils/prefix'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -213,6 +214,7 @@ export const useTransaction = (
   options: TransactionOptions = { disableSuccessNotification: false },
 ) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
+  const { urlPrefix } = usePrefix()
   const {
     isLoading,
     status,
@@ -224,6 +226,11 @@ export const useTransaction = (
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
+
+    if (disabledOperationPrefixes(prefix || urlPrefix.value)) {
+      warningMessage('This operation is not supported on the current chain')
+      return
+    }
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)
