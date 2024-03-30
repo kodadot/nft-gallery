@@ -131,7 +131,7 @@ const color = computed(() => {
   if (!diffPercent.value) {
     return undefined
   }
-  return diffPercent.value < 0 ? 'text-k-red' : 'text-k-green'
+  return diffPercent.value < 0 ? 'text-k-grey' : 'text-k-green'
 })
 </script>
 
