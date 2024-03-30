@@ -65,7 +65,7 @@
               {{ buttonConfig.label }}
             </NeoButton>
             <!-- Wallet And Links Dropdown -->
-            <NeoDropdown class="">
+            <NeoDropdown position="bottom-left">
               <template #trigger="{ active }">
                 <NeoButton
                   variant="outlined-rounded"
@@ -81,6 +81,7 @@
                   <div class="flex items-center">
                     <Identity
                       hide-identity-popover
+                      hide-display-name
                       :address="id"
                       show-onchain-identity
                       class="bg-neutral-3 dark:bg-neutral-9 text-base rounded-2xl text-center px-2" />
