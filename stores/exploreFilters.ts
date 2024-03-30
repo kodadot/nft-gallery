@@ -4,7 +4,6 @@ interface State {
   // status
   listed: boolean
   owned: boolean
-  issuer: string
   artView: boolean
   // price
   min: number | undefined
@@ -16,7 +15,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
   state: (): State => ({
     listed: false,
     owned: false,
-    issuer: '',
     min: undefined,
     max: undefined,
     artView: false,
@@ -26,7 +24,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     getStatusFilters: (state) => ({
       listed: state.listed,
       owned: state.owned,
-      issuer: state.issuer,
       artView: state.artView,
       collections: state.collections?.toString(),
     }),
@@ -38,9 +35,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     },
     setOwned(payload) {
       this.owned = payload
-    },
-    setIssuer(payload) {
-      this.issuer = payload
     },
     setArtView(payload) {
       this.artView = payload
