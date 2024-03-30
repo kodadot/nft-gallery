@@ -30,7 +30,6 @@ export default () => {
     previewItem,
     allocatedNFTs,
     toMintNFTs,
-    // mintingSession,
     loading,
   } = storeToRefs(dropStore)
 

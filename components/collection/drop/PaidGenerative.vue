@@ -202,7 +202,6 @@ const submitMints = async () => {
     for (const [index, res] of response.entries()) {
       let metadata = {
         animation_url: toMintNFTs.value[index].image,
-        image: toMintNFTs.value[index].image,
         name: toMintNFTs.value[index].name,
       }
 
