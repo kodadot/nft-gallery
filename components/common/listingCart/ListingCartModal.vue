@@ -96,6 +96,7 @@ import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCar
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { disabledOperationPrefixes } from '@/utils/prefix'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -187,11 +188,15 @@ const title = computed(() => {
 
 const confirmButtonDisabled = computed(
   () =>
+    disabledOperationPrefixes(urlPrefix.value) ||
     Boolean(listingCartStore.incompleteListPrices) ||
     !autoteleportButton.value?.isReady,
 )
 
 const confirmListingLabel = computed(() => {
+  if (disabledOperationPrefixes(urlPrefix.value)) {
+    return $i18n.t('toast.unsupportedOperation')
+  }
   switch (listingCartStore.incompleteListPrices) {
     case 0:
       if (!autoteleportButton.value?.isReady) {

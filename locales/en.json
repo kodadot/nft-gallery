@@ -1217,7 +1217,7 @@
     "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard",
     "downloadError": "Unable to download image",
-    "unsupportedOperation": "This operation is not supported on the current chain",
+    "unsupportedOperation": "Unsupported action",
     "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds."
   },
   "profileMenu": {

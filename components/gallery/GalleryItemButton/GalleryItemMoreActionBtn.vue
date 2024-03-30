@@ -21,7 +21,10 @@
         Download
       </NeoDropdownItem>
 
-      <template v-if="accountId === currentOwner">
+      <template
+        v-if="
+          accountId === currentOwner && !disabledOperationPrefixes(urlPrefix)
+        ">
         <NeoDropdownItem @click="burn">Burn</NeoDropdownItem>
         <NeoDropdownItem v-if="price !== '0'" @click="unlist">
           Delist
@@ -38,6 +41,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
+import { disabledOperationPrefixes } from '@/utils/prefix'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
