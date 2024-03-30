@@ -68,10 +68,8 @@
             <NeoDropdown class="">
               <template #trigger="{ active }">
                 <NeoButton
-                  rounded
-                  no-shadow
+                  variant="outlined-rounded"
                   :active="active"
-                  class="min-w-48"
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   Wallet And Links
                 </NeoButton>
@@ -119,9 +117,8 @@
                   </div>
                   <!-- Transfer Button -->
                   <NeoButton
-                    no-shadow
-                    rounded
-                    class="hover:!bg-transparent text-xs"
+                    variant="outlined-rounded"
+                    class="!w-full text-xs"
                     :label="`${$t('transfer')} $`"
                     :tag="NuxtLink"
                     :to="`/${urlPrefix}/transfer?target=${id}`">
@@ -151,8 +148,7 @@
           <NeoDropdown>
             <template #trigger="{ active }">
               <NeoButton
-                rounded
-                no-shadow
+                variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
                 :active="active"
                 data-testid="gallery-sort-by">
@@ -433,7 +429,7 @@ const createProfileConfig: ButtonConfig = {
   label: 'Create Profile',
   icon: 'sparkles',
   onClick: () => console.log('create profile'),
-  variant: 'k-accent' as NeoButtonVariant,
+  variant: 'k-accent',
 }
 
 const followConfig: ButtonConfig = {
@@ -452,7 +448,9 @@ const followingConfig: ButtonConfig = {
 
 const unfollowConfig: ButtonConfig = {
   label: 'Unfollow',
-  onClick: () => [follow(false)],
+  onClick: () => {
+    follow(false)
+  },
   classes: 'hover:!border-k-red',
 }
 
