@@ -1,17 +1,25 @@
 <template>
   <div
     class="border bg-background-color shadow-primary p-5 pb-6 w-full lg:max-w-[490px] flex flex-col gap-5">
-    <div>
+    <div ref="fullscreenRef" class="overflow-y-scroll">
+      <NeoButton
+        v-if="isFullscreen"
+        class="fixed top-[3rem] left-[3rem] z-[1]"
+        icon-left="chevron-left"
+        @click="toggleFullscreen">
+        <div class="mr-2">{{ $t('massmint.goBack') }}</div>
+      </NeoButton>
+
       <CodeCheckerSandboxIFrame
         v-if="render"
         v-model:count="count"
+        :is-fullscreen="isFullscreen"
+        :custom-class="isFullscreen ? 'h-fit aspect-square' : ''"
         :hash="hash"
         :assets="assets" />
-
       <BaseMediaItem v-else preview is-detail class="border" />
     </div>
-    <div
-      class="flex pb-5 justify-between w-full gap-4 border-b border-neutral-5">
+    <div class="pb-5 columns-2 w-full gap-4 border-b border-neutral-5">
       <NeoButton
         rounded
         no-shadow
@@ -19,6 +27,15 @@
         icon="arrow-rotate-left"
         @click="newHash"
         >{{ $t('codeChecker.newHash') }}</NeoButton
+      >
+      <NeoButton
+        rounded
+        no-shadow
+        :disabled="!render"
+        class="w-full px-5 border-k-grey hover:!bg-transparent mt-4"
+        icon="arrow-up-right-and-arrow-down-left-from-center"
+        @click="toggleFullscreen"
+        >{{ $t('fullscreen') }}</NeoButton
       >
       <NeoButton
         rounded
@@ -74,6 +91,8 @@ import {
   NeoDropdownItem,
   NeoInput,
 } from '@kodadot1/brick'
+import { useFullscreen } from '@vueuse/core'
+
 import { generateRandomHash } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Passed } from './types'
@@ -85,6 +104,10 @@ const props = defineProps<{
   render: boolean
   kodaRendererUsed: Passed
 }>()
+
+const fullscreenRef = ref<HTMLElement | null>(null)
+
+const { toggle: toggleFullscreen, isFullscreen } = useFullscreen(fullscreenRef)
 
 const emit = defineEmits(['reload'])
 const variationOptions = config.varaitionsOptions
