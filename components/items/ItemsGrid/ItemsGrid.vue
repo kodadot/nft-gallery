@@ -171,6 +171,23 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   resetSearchQueryParams: props.resetSearchQueryParams,
 })
 
+watch(
+  () => items.value.length,
+  async () => {
+    if (listingCartEnabled.value && items.value.length > 0) {
+      if (usingTokens.value) {
+        const nftsForPotentialList = await getTokensNfts(
+          items.value as TokenEntity[],
+        )
+        updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
+      } else {
+        updatePotentialNftsForListingCart(items.value as NFT[])
+      }
+    }
+  },
+  { immediate: true },
+)
+
 const filteredItems = computed(() => {
   const soldByCreator = route.query?.soldByCreator?.toString() === 'true'
   if (!soldByCreator) {
@@ -188,23 +205,6 @@ watch(
       total.value - (items.value.length - filteredItems.value.length)
     emit('total', newTotal)
   },
-)
-
-watch(
-  () => items.value.length,
-  async () => {
-    if (listingCartEnabled.value && items.value.length > 0) {
-      if (usingTokens.value) {
-        const nftsForPotentialList = await getTokensNfts(
-          items.value as TokenEntity[],
-        )
-        updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
-      } else {
-        updatePotentialNftsForListingCart(items.value as NFT[])
-      }
-    }
-  },
-  { immediate: true },
 )
 
 watch(total, () => {
