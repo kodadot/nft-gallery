@@ -59,7 +59,6 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { useReadyItems } from '@/composables/useMigrate'
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -96,10 +95,6 @@ watchEffect(async () => {
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
-
-  if (!!collection?.issuer) {
-    useExploreFiltersStore().setIssuer(collection.issuer)
-  }
 
   isMigrate.value = entities[collectionId.value.toString()]?.name
 

@@ -88,16 +88,12 @@ const owned =
         set: (value) => exploreFiltersStore.setOwned(value),
       })
 
-const soldByCreator =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.soldByCreator?.toString() === 'true',
-        set: (value) => applyToUrl({ soldByCreator: String(value) }),
-      })
-    : computed({
-        get: () => exploreFiltersStore.soldByCreator,
-        set: (value) => exploreFiltersStore.setSoldByCreator(value),
-      })
+const soldByCreator = computed({
+  get: () => route.query?.soldByCreator?.toString() === 'true',
+  set: (value) => {
+    applyToUrl({ soldByCreator: String(value) })
+  },
+})
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
   replaceURL(queryCondition)

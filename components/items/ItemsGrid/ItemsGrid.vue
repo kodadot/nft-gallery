@@ -13,7 +13,7 @@
       :mobile-cols="2"
       class="my-5">
       <div
-        v-for="(entity, index) in items"
+        v-for="(entity, index) in filteredItems"
         :key="`${entity.id}=${index}`"
         :data-testid="index"
         :class="scrollItemClassName">
@@ -170,6 +170,25 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   resetSearch: resetPage,
   resetSearchQueryParams: props.resetSearchQueryParams,
 })
+
+const filteredItems = computed(() => {
+  const soldByCreator = route.query?.soldByCreator?.toString() === 'true'
+  if (!soldByCreator) {
+    return items.value
+  }
+  return items.value.filter((item) =>
+    !isTokenEntity(item) ? item.issuer === item.currentOwner : true,
+  )
+})
+
+watch(
+  () => route.query,
+  () => {
+    const itemsFilteredOut =
+      total.value - (items.value.length - filteredItems.value.length)
+    emit('total', itemsFilteredOut)
+  },
+)
 
 watch(
   () => items.value.length,

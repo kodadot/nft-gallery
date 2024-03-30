@@ -106,14 +106,12 @@ const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
     artView = route.query?.art_view?.toString() === 'true',
-    soldByCreator = route.query?.soldByCreator?.toString() === 'true',
     collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
   exploreFiltersStore.setArtView(artView)
   exploreFiltersStore.setCollections(collections)
-  exploreFiltersStore.setSoldByCreator(soldByCreator)
 }
 
 const syncFromUrl = () => {
@@ -159,14 +157,12 @@ const resetFilters = () => {
       owned: false,
       artView: false,
       collections: undefined,
-      soldByCreator: false,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
     exploreFiltersStore.setArtView(statusDefaults.artView)
     exploreFiltersStore.setCollections(statusDefaults.collections)
-    exploreFiltersStore.setSoldByCreator(statusDefaults.soldByCreator)
 
     // price
     const priceDefaults = {

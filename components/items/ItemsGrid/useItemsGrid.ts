@@ -10,7 +10,6 @@ import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
@@ -20,7 +19,6 @@ const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'max',
   'owned',
   'collections',
-  'soldByCreator',
 ]
 
 const EXCLUDED_TOKEN_USE_PAGES = [
@@ -47,7 +45,6 @@ export function useFetchSearch({
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const route = useRoute()
-  const store = useExploreFiltersStore()
 
   const useTokens = computed(
     () =>
@@ -58,7 +55,7 @@ export function useFetchSearch({
   const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
 
-  let { searchParams } = useSearchParams()
+  const { searchParams } = useSearchParams()
   const { searchBySn } = useItemsGridQueryParams()
 
   interface FetchSearchParams {
@@ -242,13 +239,6 @@ export function useFetchSearch({
     }
     loadedPages.value = []
     resetSearch()
-  })
-
-  watch(useSearchParams, (val) => {
-    searchParams = val.searchParams
-    if (!!store.issuer && store.soldByCreator) {
-      refetch()
-    }
   })
 
   return {

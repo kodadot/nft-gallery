@@ -5,7 +5,6 @@ interface State {
   listed: boolean
   owned: boolean
   issuer: string
-  soldByCreator: boolean
   artView: boolean
   // price
   min: number | undefined
@@ -18,7 +17,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     listed: false,
     owned: false,
     issuer: '',
-    soldByCreator: false,
     min: undefined,
     max: undefined,
     artView: false,
@@ -29,7 +27,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
       listed: state.listed,
       owned: state.owned,
       issuer: state.issuer,
-      soldByCreator: state.soldByCreator,
       artView: state.artView,
       collections: state.collections?.toString(),
     }),
@@ -44,9 +41,6 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     },
     setIssuer(payload) {
       this.issuer = payload
-    },
-    setSoldByCreator(payload) {
-      this.soldByCreator = payload
     },
     setArtView(payload) {
       this.artView = payload
