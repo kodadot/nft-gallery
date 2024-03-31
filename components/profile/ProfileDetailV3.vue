@@ -381,7 +381,7 @@ const socials = {
     icon: FarcasterIcon,
     getUrlLabel: (value) => ({
       label: `@${value}`,
-      url: `https://www.farcaster.xyz/${value}`,
+      url: `https://warpcast.com/${value}`,
     }),
     order: 1,
   },
