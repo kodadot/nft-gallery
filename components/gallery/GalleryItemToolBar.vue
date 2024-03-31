@@ -63,6 +63,13 @@ const mediaAndImageType = computed(() => {
   return { mediaType, imageType }
 })
 
+const determineElementType = (mediaType, imageType) => {
+  if ([MediaType.IFRAME, MediaType.VIDEO].includes(mediaType)) {
+    return mediaType
+  }
+  return imageType
+}
+
 const reloadElement = (selector: string) => {
   setTimeout(() => {
     isLoading.value = false
@@ -85,15 +92,7 @@ const handleReloadClick = () => {
   isLoading.value = true
 
   const { mediaType, imageType } = mediaAndImageType.value
-  let elementType
-
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    elementType = mediaType
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    elementType = mediaType
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    elementType = imageType
-  }
+  const elementType = determineElementType(mediaType, imageType)
 
   return reloadElement(selectors[elementType])
 }
@@ -110,15 +109,7 @@ const openInNewTab = (selector: string, attribute: string = 'src') => {
 
 const handleNewTab = () => {
   const { mediaType, imageType } = mediaAndImageType.value
-  let elementType
-
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    elementType = mediaType
-  } else if ([MediaType.VIDEO].includes(mediaType)) {
-    elementType = mediaType
-  } else if ([MediaType.IMAGE].includes(imageType)) {
-    elementType = imageType
-  }
+  const elementType = determineElementType(mediaType, imageType)
 
   return openInNewTab(selectors[elementType])
 }
