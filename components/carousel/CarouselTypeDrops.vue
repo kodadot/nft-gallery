@@ -28,8 +28,7 @@ let queries = {
 
 if (!isProduction) {
   queries = {
-    limit: 12,
-    active: [true, false],
+    ...queries,
     chain: ['ahp', 'ahk'],
   }
 }
