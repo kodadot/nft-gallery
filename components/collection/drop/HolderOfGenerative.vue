@@ -60,6 +60,7 @@ import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { MintedNFT } from './types'
 
+const { flagUid } = useExperiments()
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
@@ -122,29 +123,32 @@ const mintNft = async () => {
     isTransactionError.value = false
     mintingSession.value.txHash = undefined
 
-    const { apiInstance } = useApi()
-    const api = await apiInstance.value
+    // test paid generative first. remove the flag after that
+    if (flagUid.value) {
+      const { apiInstance } = useApi()
+      const api = await apiInstance.value
 
-    initTransactionLoader()
+      initTransactionLoader()
 
-    const cb = api.tx.utility.batchAll
-    const args = allocatedNFTs.value.map((allocatedNft, index) =>
-      api.tx.nfts.mint(
-        drop.value?.collection,
-        allocatedNft.id,
-        accountId.value,
-        {
-          ownedItem: availableNfts.serialNumbers[index],
-          mintPrice: drop.value?.price,
+      const cb = api.tx.utility.batchAll
+      const args = allocatedNFTs.value.map((allocatedNft, index) =>
+        api.tx.nfts.mint(
+          drop.value?.collection,
+          allocatedNft.id,
+          accountId.value,
+          {
+            ownedItem: availableNfts.serialNumbers[index],
+            mintPrice: drop.value?.price,
+          },
+        ),
+      )
+
+      howAboutToExecute(accountId.value, cb, [args], {
+        onResult: ({ txHash }) => {
+          mintingSession.value.txHash = txHash
         },
-      ),
-    )
-
-    howAboutToExecute(accountId.value, cb, [args], {
-      onResult: ({ txHash }) => {
-        mintingSession.value.txHash = txHash
-      },
-    })
+      })
+    }
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)

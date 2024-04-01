@@ -45,6 +45,7 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { MintedNFT } from './types'
 
+const { flagUid } = useExperiments()
 const { drop } = useDrop()
 const { maxCount } = useGenerativeDropMint()
 const { fetchDropStatus } = useDropStatus(drop)
@@ -106,36 +107,39 @@ const mintNft = async () => {
     loading.value = true
     mintingSession.value.txHash = undefined
 
-    const { apiInstance } = useApi()
-    const api = await apiInstance.value
+    // for testing purposes only. remove the flag before merge
+    if (flagUid.value) {
+      const { apiInstance } = useApi()
+      const api = await apiInstance.value
 
-    initTransactionLoader()
+      initTransactionLoader()
 
-    const cb = api.tx.utility.batchAll
-    const mints = allocatedNFTs.value
-      .map((allocatedNFT) => {
-        return api.tx.nfts.mint(
-          drop.value?.collection,
-          allocatedNFT.id,
-          accountId.value,
-          {
-            ownedItem: null,
-            mintPrice: drop.value?.price,
-          },
-        )
+      const cb = api.tx.utility.batchAll
+      const mints = allocatedNFTs.value
+        .map((allocatedNFT) => {
+          return api.tx.nfts.mint(
+            drop.value?.collection,
+            allocatedNFT.id,
+            accountId.value,
+            {
+              ownedItem: null,
+              mintPrice: drop.value?.price,
+            },
+          )
+        })
+        .flat()
+
+      const args = [
+        mints,
+        api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
+      ]
+
+      howAboutToExecute(accountId.value, cb, [args.flat()], {
+        onResult: ({ txHash }) => {
+          mintingSession.value.txHash = txHash
+        },
       })
-      .flat()
-
-    const args = [
-      mints,
-      api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
-    ]
-
-    howAboutToExecute(accountId.value, cb, [args.flat()], {
-      onResult: ({ txHash }) => {
-        mintingSession.value.txHash = txHash
-      },
-    })
+    }
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
