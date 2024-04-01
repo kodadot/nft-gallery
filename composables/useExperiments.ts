@@ -13,10 +13,6 @@ export default function () {
     )
   })
 
-  watchEffect(() => {
-    console.log('route', route)
-  })
-
   return {
     redesign: computed(() => has('redesign')),
     flagUid,
