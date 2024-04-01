@@ -377,6 +377,14 @@ interface ButtonConfig {
 const gridSection = GridSection.PROFILE_GALLERY
 
 const socials = {
+  [Socials.Farcaster]: {
+    icon: FarcasterIcon,
+    getUrlLabel: (value) => ({
+      label: `@${value}`,
+      url: `https://warpcast.com/${value}`,
+    }),
+    order: 1,
+  },
   [Socials.Twitter]: {
     icon: 'x-twitter',
     iconPack: 'fab',
@@ -384,6 +392,7 @@ const socials = {
       label: `@${value}`,
       url: `https://twitter.com/${value}`,
     }),
+    order: 2,
   },
   [Socials.Website]: {
     icon: 'globe',
@@ -391,13 +400,7 @@ const socials = {
       const label = value.replace('https://', '')
       return { label, url: value }
     },
-  },
-  [Socials.Farcaster]: {
-    icon: FarcasterIcon,
-    getUrlLabel: (value) => ({
-      label: `@${value}`,
-      url: `https://www.farcaster.xyz/${value}`,
-    }),
+    order: 3,
   },
 }
 
@@ -476,11 +479,11 @@ const isHovered = useElementHover(buttonRef)
 const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socialDropdownItems = computed(() => {
-  return Object.entries(userProfile.value?.socials ?? {}).map(
-    ([key, value]) => {
+  return Object.entries(userProfile.value?.socials ?? {})
+    .map(([key, value]) => {
       const socialConfig = socials[key]
       if (socialConfig) {
-        const { icon, iconPack, getUrlLabel } = socialConfig
+        const { icon, iconPack, getUrlLabel, order } = socialConfig
         const { label, url } = getUrlLabel(value)
 
         return {
@@ -488,10 +491,11 @@ const socialDropdownItems = computed(() => {
           icon,
           iconPack,
           url,
+          order,
         }
       }
-    },
-  )
+    })
+    .sort((a, b) => a?.order - b?.order)
 })
 
 const isOwner = computed(() => route.params.id === accountId.value)
