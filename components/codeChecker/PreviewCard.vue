@@ -19,7 +19,7 @@
         :assets="assets" />
       <BaseMediaItem v-else preview is-detail class="border" />
     </div>
-    <div class="pb-5 flex w-full gap-1 border-b border-neutral-5">
+    <div class="pb-5 flex w-full gap-3 border-b border-neutral-5">
       <NeoButton
         rounded
         no-shadow
