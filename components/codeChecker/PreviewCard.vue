@@ -19,32 +19,30 @@
         :assets="assets" />
       <BaseMediaItem v-else preview is-detail class="border" />
     </div>
-    <div class="pb-5 columns-2 w-full gap-4 border-b border-neutral-5">
+    <div class="pb-5 flex w-full gap-1 border-b border-neutral-5">
       <NeoButton
         rounded
         no-shadow
-        class="w-full px-5 border-k-grey hover:!bg-transparent"
-        icon="arrow-rotate-left"
+        class="px-5 flex-1 border-k-grey hover:!bg-transparent"
+        icon-right="arrow-rotate-left"
         @click="newHash"
         >{{ $t('codeChecker.newHash') }}</NeoButton
       >
       <NeoButton
         rounded
         no-shadow
-        :disabled="!render"
-        class="w-full px-5 border-k-grey hover:!bg-transparent mt-4"
-        icon="arrow-up-right-and-arrow-down-left-from-center"
-        @click="toggleFullscreen"
-        >{{ $t('fullscreen') }}</NeoButton
-      >
-      <NeoButton
-        rounded
-        no-shadow
-        class="w-full px-5 border-k-grey hover:!bg-transparent"
+        class="flex-1 border-k-grey hover:!bg-transparent"
         :disabled="!selectedFile"
         @click="replay"
         >{{ $t('codeChecker.replayAnimation') }}</NeoButton
       >
+      <NeoButton
+        rounded
+        no-shadow
+        :disabled="!render"
+        class="border-k-grey px-4 hover:!bg-transparent"
+        icon="arrow-up-right-and-arrow-down-left-from-center"
+        @click="toggleFullscreen"></NeoButton>
     </div>
     <div>
       <span>{{ $t('codeChecker.currentHash') }}</span>
