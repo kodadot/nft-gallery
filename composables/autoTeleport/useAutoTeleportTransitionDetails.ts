@@ -43,6 +43,7 @@ export default function (
     balances: false,
   })
 
+  const shouldTeleportAllBalance = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -155,22 +156,24 @@ export default function (
       : requiredAmountToTeleport.value,
   )
 
-  const shouldTeleportAllBalance = computed<boolean>(() => {
-    const hasRichesChain = Boolean(richestChain.value)
-    const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
-    const willRemainingRichestChainBalanceBeSlashed =
-      richestChainBalance.value - requiredAmountToTeleport.value <=
-      richestChainExistentialDeposit.value
-    const hasRequiredAmountInRichestChain =
-      richestChainBalance.value >= requiredAmountToTeleport.value
+  // Disabled until delivery fee accounting is fixed by PolkadotJS
+  // @see https://github.com/kodadot/nft-gallery/issues/9596#issuecomment-2026772987
+  // const shouldTeleportAllBalance = computed<boolean>(() => {
+  //   const hasRichesChain = Boolean(richestChain.value)
+  //   const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
+  //   const willRemainingRichestChainBalanceBeSlashed =
+  //     richestChainBalance.value - requiredAmountToTeleport.value <=
+  //     richestChainExistentialDeposit.value
+  //   const hasRequiredAmountInRichestChain =
+  //     richestChainBalance.value >= requiredAmountToTeleport.value
 
-    return (
-      hasRichesChain &&
-      doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed &&
-      hasRequiredAmountInRichestChain
-    )
-  })
+  //   return (
+  //     hasRichesChain &&
+  //     doesntHaveEnoughInCurrentChain &&
+  //     willRemainingRichestChainBalanceBeSlashed &&
+  //     hasRequiredAmountInRichestChain
+  //   )
+  // })
 
   const hasEnoughInRichestChain = computed(() => {
     const balance = shouldTeleportAllBalance.value
