@@ -31,7 +31,7 @@
     <GalleryItemActivityTable
       :key="interactions.join('')"
       :nft-id="nftId"
-      :interactions="filteredInteractions" />
+      :interactions="interactions" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ defineProps<{
 
 const defaultInteractions = ['BUY', 'LIST']
 
-const allInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'CONSUME', 'UNLIST']
+const allInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'CONSUME']
 
 const interactions = ref(defaultInteractions)
 const filters = {
@@ -66,13 +66,6 @@ const cssActive = (value) => {
     ),
   }
 }
-
-const filteredInteractions = computed(() => {
-  if (interactions.value.length === allInteractions.length) {
-    return interactions.value
-  }
-  return interactions.value.filter((interaction) => interaction !== 'UNLIST')
-})
 </script>
 
 <style lang="scss" scoped>
