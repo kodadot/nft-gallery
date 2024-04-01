@@ -44,8 +44,8 @@ import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { MintedNFT } from './types'
+import { NFTs } from '@/composables/transaction/types'
 
-const { flagUid } = useExperiments()
 const { drop } = useDrop()
 const { maxCount } = useGenerativeDropMint()
 const { fetchDropStatus } = useDropStatus(drop)
@@ -53,11 +53,12 @@ const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn } = useAuth()
 const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
 })
+
 const { collectionName } = useCollectionEntity()
 const {
   loading,
@@ -70,12 +71,15 @@ const {
 } = storeToRefs(useDropStore())
 
 const {
-  howAboutToExecute,
+  transaction,
   isLoading: isTransactionLoading,
-  initTransactionLoader,
-  isError,
   status,
-} = useMetaTransaction()
+  isError,
+  txHash,
+} = useTransaction({
+  disableSuccessNotification: true,
+})
+
 useCursorDropEvents([isTransactionLoading, loading])
 
 const isMintModalActive = ref(false)
@@ -91,55 +95,17 @@ const action = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const nftsMetadata = computed(() => {
-  return toMintNFTs.value.map((nft) => {
-    return {
-      chain: drop.value.chain,
-      collection: drop.value.collection,
-      sn: nft.sn,
-      metadata: nft.metadata,
-    }
-  })
-})
-
 const mintNft = async () => {
   try {
     loading.value = true
     mintingSession.value.txHash = undefined
 
-    // for testing purposes only. remove the flag before merge
-    if (flagUid.value) {
-      const { apiInstance } = useApi()
-      const api = await apiInstance.value
-
-      initTransactionLoader()
-
-      const cb = api.tx.utility.batchAll
-      const mints = allocatedNFTs.value
-        .map((allocatedNFT) => {
-          return api.tx.nfts.mint(
-            drop.value?.collection,
-            allocatedNFT.id,
-            accountId.value,
-            {
-              ownedItem: null,
-              mintPrice: drop.value?.price,
-            },
-          )
-        })
-        .flat()
-
-      const args = [
-        mints,
-        api.tx.system.remark(JSON.stringify(nftsMetadata.value)), // another workaround to store nft metadata on-chain
-      ]
-
-      howAboutToExecute(accountId.value, cb, [args.flat()], {
-        onResult: ({ txHash }) => {
-          mintingSession.value.txHash = txHash
-        },
-      })
-    }
+    transaction({
+      interaction: NFTs.MINT_DROP,
+      collectionId: drop.value?.collection,
+      nfts: allocatedNFTs.value,
+      price: drop.value?.price || null,
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
@@ -285,6 +251,10 @@ useTransactionTracker({
   },
   // ensure txHash is set, it's needed when calling /do/:id
   waitFor: [computed(() => Boolean(mintingSession.value.txHash))],
+})
+
+watch(txHash, () => {
+  mintingSession.value.txHash = txHash.value
 })
 </script>
 

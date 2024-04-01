@@ -27,6 +27,7 @@ import {
   ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
+  ActionMintDrop,
   ActionMintToken,
   ActionSend,
   ActionSetCollectionMaxSupply,
@@ -39,6 +40,7 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
+import { execMintDrop } from './transaction/transactionMintDrop'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -195,6 +197,14 @@ export const executeAction = ({
       ),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(item as ActionBurnMultipleNFTs, api, executeTransaction),
+    [NFTs.MINT_DROP]: () =>
+      execMintDrop({
+        item: item as ActionMintDrop,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
   }
 
   if (!isActionValid(item)) {
