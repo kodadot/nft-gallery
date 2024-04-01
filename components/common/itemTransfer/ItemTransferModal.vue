@@ -106,7 +106,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import formatBalance from '@/utils/format/balance'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import type { Actions } from '@/composables/transaction/types'
-import { disabledOperationPrefixes } from '@/utils/prefix'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -164,7 +164,7 @@ const isYourAddress = computed(
 
 const isDisabled = computed(
   () =>
-    disabledOperationPrefixes(urlPrefix.value) ||
+    hasOperationsDisabled(urlPrefix.value) ||
     !address.value ||
     !isAddressValid.value ||
     isYourAddress.value,

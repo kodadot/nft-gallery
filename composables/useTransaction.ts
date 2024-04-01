@@ -39,7 +39,7 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-import { disabledOperationPrefixes } from '@/utils/prefix'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -228,7 +228,7 @@ export const useTransaction = (
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
 
-    if (disabledOperationPrefixes(prefix || urlPrefix.value)) {
+    if (hasOperationsDisabled(prefix || urlPrefix.value)) {
       warningMessage($i18n.t('toast.unsupportedOperation'))
       return
     }

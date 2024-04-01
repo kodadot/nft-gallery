@@ -81,7 +81,7 @@ import {
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
 import waifuApi from '@/services/waifu'
-import { disabledOperationPrefixes } from '@/utils/prefix'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const { accountId } = useAuth()
 const { client } = usePrefix()
@@ -115,7 +115,7 @@ const fromCollection = collections.value.find(
 )
 
 const startStep1 = async () => {
-  if (disabledOperationPrefixes(from)) {
+  if (hasOperationsDisabled(from)) {
     warningMessage($i18n.t('toast.unsupportedOperation'))
     return
   }

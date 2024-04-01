@@ -244,7 +244,7 @@ import { type Prefix } from '@kodadot1/static'
 import { prefixToNetwork } from '@/composables/useMultipleBalance'
 import { useCollectionReady, useMigrateDeposit } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
-import { disabledOperationPrefixes } from '@/utils/prefix'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
@@ -309,7 +309,7 @@ const checkBalances = computed(() => {
   const destinationBalances = parseFloat(destinationBalance.value)
   const total = parseFloat(totalDestination.value.toString())
 
-  if (disabledOperationPrefixes(sourceChain.value)) {
+  if (hasOperationsDisabled(sourceChain.value)) {
     return {
       label: $i18n.t('toast.unsupportedOperation'),
       disabled: true,
