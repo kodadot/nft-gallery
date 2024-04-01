@@ -123,7 +123,7 @@ const mintNft = async () => {
     isTransactionError.value = false
     mintingSession.value.txHash = undefined
 
-    // test paid generative first. remove the flag after that
+    // remove the flag before merging
     if (flagUid.value) {
       const { apiInstance } = useApi()
       const api = await apiInstance.value
