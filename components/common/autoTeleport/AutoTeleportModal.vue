@@ -182,7 +182,7 @@ const actionsFinalized = computed(() =>
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
-const hasCompletedBalanceCheck = computed(
+const isBalanceCheckCompleted = computed(
   () => balanceCheckState.value === TransactionStepStatus.COMPLETED,
 )
 
@@ -191,18 +191,24 @@ const isTeleportTransactionFinalized = computed(
     props.transactions.teleport.status.value === TransactionStatus.Finalized,
 )
 
+const hasCompletedActionPreSteps = computed(
+  () => isTeleportTransactionFinalized.value && isBalanceCheckCompleted.value,
+)
+
 const autoteleportFinalized = computed(() =>
-  hasActions.value ? actionsFinalized.value : hasCompletedBalanceCheck.value,
+  hasActions.value
+    ? hasCompletedActionPreSteps.value && actionsFinalized.value
+    : hasCompletedActionPreSteps.value,
 )
 
 const btnLabel = computed<string>(() => {
-  if (!hasActions.value && hasCompletedBalanceCheck.value) {
+  if (!hasActions.value && isBalanceCheckCompleted.value) {
     return $i18n.t('redirect.continue')
   }
 
   if (
     !hasActions.value ||
-    !hasCompletedBalanceCheck.value ||
+    !isBalanceCheckCompleted.value ||
     !activeStepInteraction.value
   ) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
@@ -242,7 +248,7 @@ const onClose = () => {
 watch(
   [isTeleportTransactionFinalized, () => props.canDoAction],
   ([telportFinalized, canDoAction]) => {
-    if (!telportFinalized || hasCompletedBalanceCheck.value) {
+    if (!telportFinalized || isBalanceCheckCompleted.value) {
       return
     }
 
