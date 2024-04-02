@@ -19,6 +19,7 @@ export type DoResult = {
   image?: string
   name: string
   metadata?: string
+  nft?: string
 }
 
 export type GetDropsQuery = {
