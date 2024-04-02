@@ -101,21 +101,14 @@ function onChange(selected) {
 watch(
   () => route.query.sort,
   (sort) => {
-    selectedSort.value = sort as string[]
-  },
-)
-
-onMounted(() => {
-  const sort = route.query.sort
-
-  if (sort?.length) {
-    if (Array.isArray(sort)) {
-      selectedSort.value = sort as string[]
-    } else {
-      selectedSort.value = [sort] as string[]
+    if (sort?.length) {
+      selectedSort.value = Array.isArray(sort)
+        ? (sort as string[])
+        : ([sort] as string[])
     }
-  }
-})
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss" scoped>
