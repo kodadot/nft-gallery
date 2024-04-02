@@ -28,6 +28,17 @@
       :time-range="state.timeRange"
       :loading="loading"
       :skeleton-count="limit" />
+
+    <div class="!mt-8 flex justify-center">
+      <NeoButton
+        :tag="NuxtLink"
+        :to="`/${urlPrefix}/explore/collectibles?sort=volume_DESC`"
+        icon="arrow-right"
+        rounded
+        variant="outlined-rounded">
+        {{ $t('helper.viewAll') }}
+      </NeoButton>
+    </div>
   </div>
 </template>
 
@@ -37,10 +48,13 @@ import { NeoButton } from '@kodadot1/brick'
 import { useTopCollections } from './utils/useTopCollections'
 import { useFiatStore } from '@/stores/fiat'
 
-const fiatStore = useFiatStore()
+const NuxtLink = resolveComponent('NuxtLink')
 
 const limit = 12
+
 const { data, loading } = useTopCollections(limit)
+const fiatStore = useFiatStore()
+const { urlPrefix } = usePrefix()
 
 const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'Month' })
 
