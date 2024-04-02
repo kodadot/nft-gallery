@@ -23,7 +23,6 @@
 <script lang="ts" setup>
 import { exist, existArray } from '@/utils/exist'
 import { SearchQuery } from './types'
-import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { NeoField } from '@kodadot1/brick'
 import PriceRange from '@/components/shared/format/PriceRange.vue'
 import SearchBar from '@/components/search/SearchBar.vue'
@@ -63,6 +62,7 @@ const { neoModal } = useProgrammatic()
 const { $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { decimals } = useChain()
+const { options: sortByOptions } = useRouteSortByOptions()
 const route = useRoute()
 const router = useRouter()
 
@@ -154,7 +154,7 @@ const replaceUrl = useDebounceFn(
 
 const updateSortBy = useDebounceFn((value: string[] | string) => {
   const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
-    NFT_SQUID_SORT_CONDITION_LIST.includes(condition),
+    sortByOptions.value.includes(condition),
   )
   const listed = final.some(
     (condition) => condition.toLowerCase().indexOf('price') > -1,

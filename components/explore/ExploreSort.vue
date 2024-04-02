@@ -51,40 +51,14 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import {
-  NFT_SQUID_SORT_COLLECTIONS,
-  NFT_SQUID_SORT_CONDITION_LIST,
-} from '@/utils/constants'
 import ActiveCount from './ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
-const { isRemark, isAssetHub } = useIsChain(urlPrefix)
 
-const isItems = computed(
-  () => route.path.includes('items') || route.path.includes('collection'),
-)
-const options = computed(() => {
-  let sortBy: string[]
-
-  if (isItems.value) {
-    sortBy = NFT_SQUID_SORT_CONDITION_LIST
-
-    if (isRemark.value) {
-      sortBy = [...sortBy, 'instance_ASC']
-    }
-  } else {
-    sortBy = NFT_SQUID_SORT_COLLECTIONS
-
-    if (isAssetHub.value) {
-      sortBy = [...sortBy, 'volume_DESC', 'highestSale_DESC']
-    }
-  }
-
-  return sortBy
-})
+const { hasItems: isItems } = useHasRoute()
+const { options } = useRouteSortByOptions()
 
 function removeDuplicateSortKeys(options: string[]) {
   const uniqueOptions = {}
