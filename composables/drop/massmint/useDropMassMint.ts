@@ -33,26 +33,8 @@ export default () => {
     loading,
   } = storeToRefs(dropStore)
 
-  const raffleEmail = ref()
-
   const clearMassmint = () => {
-    raffleEmail.value = undefined
     dropStore.resetMassmint()
-  }
-
-  const allocateRaffleMode = async (
-    email: string,
-    previewItem: GenerativePreviewItem,
-  ) => {
-    try {
-      clearMassmint()
-      loading.value = true
-      raffleEmail.value = email
-      toMintNFTs.value = getPreviewItemsToMintedNfts([previewItem])
-    } catch (error) {
-      console.log('[MASSMINT::RAFFLE] Failed', error)
-      loading.value = false
-    }
   }
 
   const generateMassPreview = (amount: number, minted: number) => {
@@ -179,10 +161,8 @@ export default () => {
   onBeforeUnmount(clearMassmint)
 
   return {
-    raffleEmail,
     massGenerate,
     submitMint,
-    allocateRaffleMode,
     allocateGenerated,
     clearMassMint: clearMassmint,
   }
