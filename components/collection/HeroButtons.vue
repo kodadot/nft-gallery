@@ -57,7 +57,7 @@
           </template>
 
           <!-- related: #5792 -->
-          <div v-if="isOwner">
+          <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
             <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
@@ -92,6 +92,7 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const route = useRoute()
 const { isCurrentOwner } = useAuth()
