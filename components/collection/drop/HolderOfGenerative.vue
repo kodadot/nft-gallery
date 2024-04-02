@@ -178,20 +178,34 @@ const submitMints = async () => {
   try {
     const response = await Promise.all(toMintNFTs.value.map(submitMint))
 
-    const mintedNfts = response.map(
-      (item) =>
-        ({
-          id: `${drop.value?.collection}-${item.sn}`,
-          chain: item.chain,
-          name: item.name,
-          image: item.image as string,
-          collection: {
-            id: item.collection,
-            name: collectionName.value,
-            max: maxCount.value,
-          },
-        }) as MintedNFT,
-    )
+    const mintedNfts: MintedNFT[] = []
+    for (const [index, res] of response.entries()) {
+      let metadata = {
+        animation_url: toMintNFTs.value[index].image,
+        name: toMintNFTs.value[index].name,
+      }
+
+      try {
+        metadata = await $fetch(sanitizeIpfsUrl(res.metadata), {
+          retry: 12,
+          retryDelay: 5000,
+        })
+      } catch (error) {
+        $consola.warn(error)
+      }
+
+      mintedNfts.push({
+        id: drop.value?.collection,
+        chain: res.chain,
+        name: metadata.name,
+        image: metadata.animation_url,
+        collection: {
+          id: res.collection,
+          name: collectionName.value,
+          max: maxCount.value,
+        },
+      })
+    }
 
     mintingSession.value.items = mintedNfts
 
