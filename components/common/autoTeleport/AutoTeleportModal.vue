@@ -174,10 +174,12 @@ const btnDisabled = computed(() => {
   return !autoteleportFinalized.value
 })
 
-const actionsFinalized = computed(() =>
-  props.transactions.actions
-    .map((action) => action.status)
-    .every((status) => status.value === TransactionStatus.Finalized),
+const actionsFinalized = computed(
+  () =>
+    hasActions.value &&
+    props.transactions.actions
+      .map((action) => action.status)
+      .every((status) => status.value === TransactionStatus.Finalized),
 )
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
