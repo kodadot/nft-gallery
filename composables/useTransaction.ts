@@ -40,6 +40,7 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
+import { hasOperationsDisabled } from '@/utils/prefix'
 import { execMintDrop } from './transaction/transactionMintDrop'
 
 export type TransactionOptions = {
@@ -223,6 +224,8 @@ export const useTransaction = (
   options: TransactionOptions = { disableSuccessNotification: false },
 ) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
+  const { $i18n } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
   const {
     isLoading,
     status,
@@ -234,6 +237,11 @@ export const useTransaction = (
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
+
+    if (hasOperationsDisabled(prefix || urlPrefix.value)) {
+      warningMessage($i18n.t('toast.unsupportedOperation'))
+      return
+    }
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)
