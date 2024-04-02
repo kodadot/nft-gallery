@@ -35,19 +35,15 @@
 <script setup lang="ts">
 import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import { useUpdateMetadata } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import { MintedNFT } from './types'
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
-const { maxCount } = useGenerativeDropMint()
 const { fetchDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -59,13 +55,11 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 
-const { collectionName } = useCollectionEntity()
 const {
   loading,
   walletConnecting,
   previewItem,
   mintingSession,
-  toMintNFTs,
   allocatedNFTs,
   isCapturingImage,
 } = storeToRefs(useDropStore())
@@ -166,40 +160,10 @@ const allocateRaffle = async () => {
 
 const submitMints = async () => {
   try {
-    const response = await Promise.all(toMintNFTs.value.map(submitMint))
+    const { mintedNfts } = await useUpdateMetadata()
+    mintingSession.value.items = mintedNfts.value
 
-    const mintedNfts: MintedNFT[] = []
-    for (const [index, res] of response.entries()) {
-      let metadata = {
-        animation_url: toMintNFTs.value[index].image,
-        name: toMintNFTs.value[index].name,
-      }
-
-      try {
-        metadata = await $fetch(sanitizeIpfsUrl(res.metadata), {
-          retry: 12,
-          retryDelay: 5000,
-        })
-      } catch (error) {
-        $consola.warn(error)
-      }
-
-      mintedNfts.push({
-        id: drop.value.collection,
-        chain: res.chain,
-        name: metadata.name,
-        image: metadata.animation_url,
-        collection: {
-          id: res.collection,
-          name: collectionName.value,
-          max: maxCount.value,
-        },
-      })
-    }
-
-    mintingSession.value.items = mintedNfts
-
-    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
+    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
     await fetchDropStatus()
 
@@ -228,13 +192,8 @@ const stopMint = () => {
   clearMassMint()
 }
 
-const {
-  massGenerate,
-  submitMint,
-  allocateRaffleMode,
-  raffleEmail,
-  clearMassMint,
-} = useDropMassMint()
+const { massGenerate, allocateRaffleMode, raffleEmail, clearMassMint } =
+  useDropMassMint()
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()

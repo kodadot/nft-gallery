@@ -1,7 +1,9 @@
+import { type MintedNFT } from '@/components/collection/drop/types'
 import { DoResult } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
+import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -66,6 +68,47 @@ export function useCollectionEntity(collectionId?: string) {
     collectionName,
     nftCount,
   }
+}
+
+export const useUpdateMetadata = async () => {
+  const { drop } = useDrop()
+  const { toMintNFTs } = storeToRefs(useDropStore())
+  const { submitMint } = useDropMassMint()
+  const { collectionName, maxCount } = useCollectionEntity()
+  const { $consola } = useNuxtApp()
+
+  const response = await Promise.all(toMintNFTs.value.map(submitMint))
+
+  const mintedNfts: Ref<MintedNFT[]> = ref([])
+  for (const [index, res] of response.entries()) {
+    let metadata = {
+      animation_url: toMintNFTs.value[index].image,
+      name: toMintNFTs.value[index].name,
+    }
+
+    try {
+      metadata = await $fetch(sanitizeIpfsUrl(res.metadata), {
+        retry: 12,
+        retryDelay: 5000,
+      })
+    } catch (error) {
+      $consola.warn(error)
+    }
+
+    mintedNfts.value.push({
+      id: drop.value.collection,
+      chain: res.chain,
+      name: metadata.name,
+      image: metadata.animation_url,
+      collection: {
+        id: res.collection,
+        name: collectionName.value,
+        max: maxCount.value ?? drop.value.max ?? FALLBACK_DROP_COLLECTION_MAX,
+      },
+    })
+  }
+
+  return { mintedNfts }
 }
 
 export default () => {
