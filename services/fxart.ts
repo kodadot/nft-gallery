@@ -150,8 +150,8 @@ export const allocateClaim = async (body, id) => {
 export const updateMetadata = async ({ chain, collection, nft, metadata }) => {
   try {
     const response = await api<DoResult>('/metadata/v1/update', {
-      method: 'get',
-      query: {
+      method: 'post',
+      body: {
         chain,
         collection,
         nft,
