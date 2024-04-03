@@ -14,7 +14,7 @@
             for details.
           </div>
           <div
-            class="bg-separator-line-color ml-4 mr-4 my-4 md:!my-0 !w-full !h-[1px] md:!w-[1px] md:!h-[13px]" />
+            class="bg-separator-line-color m-4 md:!my-0 !w-full !h-[1px] md:!w-[1px] md:!h-[13px]" />
           <div
             class="flex items-center justify-between md:!my-0 w-full md:w-fit">
             <NeoButton variant="text" no-shadow @click="declineCookies">
