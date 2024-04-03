@@ -30,7 +30,7 @@ import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
+import { determineElementType, resolveMedia } from '@/utils/gallery/media'
 
 type ReloadElement =
   | HTMLIFrameElement
@@ -62,13 +62,6 @@ const mediaAndImageType = computed(() => {
   const imageType = resolveMedia(nftMimeType.value)
   return { mediaType, imageType }
 })
-
-const determineElementType = (mediaType, imageType) => {
-  if ([MediaType.IFRAME, MediaType.VIDEO].includes(mediaType)) {
-    return mediaType
-  }
-  return imageType
-}
 
 const reloadElement = (selector: string) => {
   setTimeout(() => {

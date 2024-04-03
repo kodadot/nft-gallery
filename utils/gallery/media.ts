@@ -10,6 +10,13 @@ const mediaWithoutImage = [
   MediaType.OBJECT,
 ]
 
+export const determineElementType = (mediaType, imageType) => {
+  if ([MediaType.IFRAME, MediaType.VIDEO].includes(mediaType)) {
+    return mediaType
+  }
+  return imageType
+}
+
 export function isImageVisible(type: MediaType) {
   return mediaWithoutImage.every((media) => media !== type)
 }
