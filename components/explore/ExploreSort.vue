@@ -105,6 +105,8 @@ watch(
       selectedSort.value = Array.isArray(sort)
         ? (sort as string[])
         : ([sort] as string[])
+    } else if (selectedSort.value.length) {
+      selectedSort.value = []
     }
   },
   { immediate: true },
