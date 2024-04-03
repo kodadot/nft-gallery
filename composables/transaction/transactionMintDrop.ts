@@ -7,7 +7,6 @@ export function execMintDrop({
   executeTransaction,
   isLoading,
 }: MintDropParams) {
-  const { flagUid } = useExperiments()
   const { drop } = useDrop()
   const { toMintNFTs } = storeToRefs(useDropStore())
   const { accountId } = useAuth()
@@ -22,20 +21,17 @@ export function execMintDrop({
     })
   })
 
-  // for testing purposes only. remove the flag before merge
-  if (flagUid.value) {
-    const args = item.nfts.map((allocatedNft, index) =>
-      api.tx.nfts.mint(item.collectionId, allocatedNft.id, accountId.value, {
-        ownedItem: (item.availableSerialNumbers || [])[index] || null,
-        mintPrice: item.price || null,
-      }),
-    )
-    args.push(api.tx.system.remark(JSON.stringify(nftsMetadata.value)))
-    isLoading.value = true
+  const args = item.nfts.map((allocatedNft, index) =>
+    api.tx.nfts.mint(item.collectionId, allocatedNft.id, accountId.value, {
+      ownedItem: (item.availableSerialNumbers || [])[index] || null,
+      mintPrice: item.price || null,
+    }),
+  )
+  args.push(api.tx.system.remark(JSON.stringify(nftsMetadata.value)))
+  isLoading.value = true
 
-    executeTransaction({
-      cb: api.tx.utility.batchAll,
-      arg: [args],
-    })
-  }
+  executeTransaction({
+    cb: api.tx.utility.batchAll,
+    arg: [args],
+  })
 }
