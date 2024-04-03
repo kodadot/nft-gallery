@@ -1,4 +1,4 @@
-import { uidCrypto, uidMath, uidMathDate } from '../utils/randomize'
+import { uidCrypto, uidMathDate } from '../utils/randomize'
 
 const users = 100 // concurrent users
 
@@ -6,7 +6,7 @@ const users = 100 // concurrent users
 
 // for more than 1k concurrent users, prefer uidCrypto() or uidMath() to ensure uniqueness
 
-it.each([uidCrypto, uidMath, uidMathDate])('generate unique id', (random) => {
+it.each([uidCrypto, uidMathDate])('generate unique id', (random) => {
   const ids = new Set<string>()
 
   // eslint-disable-next-line no-restricted-syntax
