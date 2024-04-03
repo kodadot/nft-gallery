@@ -8,6 +8,7 @@ import {
   ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
+  ActionMintDrop,
   ActionMintToken,
   ActionOffer,
   ActionSend,
@@ -76,6 +77,7 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.collectionId),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),
+    [NFTs.MINT_DROP]: (action: ActionMintDrop) => hasContent(action.nfts),
   }
 
   const checker = validityMap[action.interaction]
