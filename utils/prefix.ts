@@ -20,3 +20,6 @@ export function isRemark(prefix: string): boolean {
 
 export const hasMarketplace = (prefix: string): boolean =>
   ['rmrk', 'ksm', 'ahp', 'ahk'].includes(prefix)
+
+export const hasOperationsDisabled = (prefix: string): boolean =>
+  ['rmrk', 'ksm'].includes(prefix)
