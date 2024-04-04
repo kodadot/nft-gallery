@@ -1,18 +1,19 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { useNow } from '@vueuse/core'
 
-export default (status: Ref) => {
+export default (status: Ref<TransactionStatus | undefined>) => {
   const { $i18n } = useNuxtApp()
   const now = useNow()
   const estimatedEndDate = ref<Date>()
 
   const { estimatedTimes } = useBlockTime()
 
-  const isTransactionInProgress = computed<boolean>(
-    () =>
-      ![TransactionStatus.Unknown, TransactionStatus.Finalized].includes(
-        status.value,
-      ),
+  const isTransactionInProgress = computed<boolean>(() =>
+    status.value
+      ? ![TransactionStatus.Unknown, TransactionStatus.Finalized].includes(
+          status.value,
+        )
+      : false,
   )
 
   const initialEstimatedTime = computed<number>(

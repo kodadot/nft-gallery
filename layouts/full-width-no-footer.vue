@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
-    <main class="flex-grow py-8">
+    <main class="flex-grow">
       <Error
         v-if="$nuxt.isOffline"
         :has-img="false"

@@ -8,6 +8,8 @@
     :variant="variant"
     :hide-media-info="hideMediaInfo"
     :display-name-with-sn="displayNameWithSn"
+    :show-timestamp="showTimestamp"
+    :collection-popover-hide="collectionPopoverHide"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -22,7 +24,7 @@
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && Number(nft?.price)" class="flex">
+      <div v-if="!isOwner && Number(nft?.price) && !isRemark" class="flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -84,6 +86,7 @@ const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
+const { isRemark } = useIsChain(urlPrefix)
 
 const props = defineProps<{
   nft: NFTWithMetadata
@@ -92,6 +95,8 @@ const props = defineProps<{
   hideAction?: boolean
   hideVideoControls?: boolean
   displayNameWithSn?: boolean
+  showTimestamp?: boolean
+  collectionPopoverHide?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

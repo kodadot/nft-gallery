@@ -1,10 +1,12 @@
 <template>
-  <div class="columns mb-6">
-    <div class="column is-5">
+  <div class="flex flex-col md:flex-row md:justify-around gap-3 mb-6">
+    <div class="flex-1 md:flex-0 md:w-5/12">
       <div class="flex flex-col justify-between h-full">
         <div>
           <div class="migrate-title">
-            <img src="/migrate/title-arrow.svg" alt="Migrate Your Art" />
+            <img
+              src="~/assets/svg/migrate/title-arrow.svg"
+              alt="Migrate Your Art" />
             <h1 class="title">{{ $t('migrate.heading') }}</h1>
           </div>
           <p>{{ $t('migrate.subHeading') }}</p>
@@ -78,12 +80,14 @@
                   variant="pill"
                   :active="active"
                   class="chain-selector">
-                  <img
-                    :src="destinationSelected?.icon"
-                    :alt="destinationSelected?.text"
-                    class="mr-2"
-                    width="20" />
-                  <span class="mr-2">{{ destinationSelected?.text }}</span>
+                  <div class="flex">
+                    <img
+                      :src="destinationSelected?.icon"
+                      :alt="destinationSelected?.text"
+                      class="mr-2"
+                      width="20" />
+                    <span class="mr-2">{{ destinationSelected?.text }}</span>
+                  </div>
                   <NeoIcon :icon="active ? 'chevron-up' : 'chevron-down'" />
                 </NeoButton>
               </template>
@@ -111,9 +115,9 @@
     </div>
 
     <!-- spacing -->
-    <div class="column"></div>
+    <div class="w-1/12"></div>
 
-    <div class="column is-5"><MigrateLandingHeaderFaq /></div>
+    <div class="flex-1 md:flex-0 md:w-5/12"><MigrateLandingHeaderFaq /></div>
   </div>
 </template>
 

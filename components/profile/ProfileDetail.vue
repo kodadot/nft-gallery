@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="py-8">
     <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
@@ -11,8 +11,8 @@
       </div>
     </NeoModal>
     <div class="container is-fluid py-7 border-b">
-      <div class="columns is-centered">
-        <div class="column is-half text-center">
+      <div class="flex flex-col md:flex-row justify-center gap-3">
+        <div class="w-full md:w-1/2 text-center">
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
@@ -44,7 +44,7 @@
             class="mb-4"
             rounded
             :tag="NuxtLink"
-            size="small">
+            variant="outlined-rounded">
             + {{ $t('identity.set') }}
           </NeoButton>
 
@@ -94,9 +94,9 @@
           </div>
         </div>
       </div>
-      <div class="columns is-centered items-center">
-        <div
-          class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
+      <div
+        class="flex-1 flex flex-col md:flex-row justify-center items-center py-4 my-2">
+        <div class="w-12/12 md:w-1/2 lg:w-8/12 2xl:w-8/12">
           <ProfileActivity :id="id" />
         </div>
       </div>
@@ -141,17 +141,20 @@
           <div class="flex">
             <FilterButton
               :label="$t('sort.listed')"
+              variant="outlined-rounded"
               url-param="buy_now"
               data-testid="profile-filter-button-buynow" />
             <FilterButton
               v-if="activeTab === 'created'"
               :label="$t('activity.sold')"
+              variant="outlined-rounded"
               url-param="sold"
               class="ml-4" />
 
             <CollectionFilter
               :id="id.toString()"
               v-model="collections"
+              variant="outlined-rounded"
               :search="itemsGridSearch"
               :tab-key="tabKey"
               class="ml-4" />

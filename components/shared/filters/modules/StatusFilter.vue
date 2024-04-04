@@ -17,7 +17,7 @@
     <div class="p-4">
       <NeoField>
         <NeoCheckbox v-model="listed" data-testid="filter-checkbox-buynow">
-          {{ $t('sort.listed') }}</NeoCheckbox
+          {{ $t(ListedOrBuynow) }}</NeoCheckbox
         >
       </NeoField>
       <NeoField>
@@ -37,6 +37,8 @@ const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 type DataModel = 'query' | 'store'
 
@@ -51,6 +53,10 @@ const props = withDefaults(
     dataModel: 'query',
     fluidPadding: false,
   },
+)
+
+const ListedOrBuynow = computed(() =>
+  isRemark.value ? 'sort.listed_RMRK' : 'sort.listed',
 )
 
 const emit = defineEmits(['resetPage'])

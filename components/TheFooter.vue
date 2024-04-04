@@ -83,60 +83,23 @@
           </ul>
         </div>
       </section>
-      <section class="footer-container-socials flex flex-col">
-        <h2 class="subtitle is-5">
-          {{ $t('footer.join') }}
-        </h2>
-        <ul class="footer-container-socials-list flex mb-6">
-          <li
-            v-for="item in socials"
-            :key="item.url"
-            class="footer-container-socials-list-item flex items-center justify-center">
+      <section class="footer-container-info flex flex-col">
+        <h2 class="subtitle is-5">{{ $t('footer.join') }}</h2>
+        <ul
+          class="footer-container-list columns-1"
+          data-testid="footer-social-list">
+          <li v-for="item in socials" :key="item.url">
             <a
+              v-if="item.url"
               v-safe-href="item.url"
-              rel="nofollow noopener noreferrer"
               target="_blank"
-              role="link"
-              :aria-label="item.name">
-              <!-- substack doesnt have a font awesome icon -->
-              <svg
-                v-if="item.icon === 'substack'"
-                width="16"
-                height="16"
-                viewBox="0 0 448 512"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6104_83750)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
-                    fill="currentColor" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_6104_83750">
-                    <rect width="448" height="511.471" fill="currentColor" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <NeoIcon
-                v-else
-                :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
-                :icon="item.icon" />
+              rel="nofollow noopener noreferrer"
+              class="flex items-center">
+              {{ item.name }}
+              <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
             </a>
           </li>
         </ul>
-
-        <a
-          href="https://stellate.co/?ref=powered-by"
-          target="_blank"
-          rel="nofollow noopener noreferrer">
-          <img
-            :src="`https://stellate.co/${
-              isDarkMode ? 'badge-light' : 'badge'
-            }.svg`"
-            alt="Powered by Stellate, the GraphQL API Management platform" />
-        </a>
       </section>
     </div>
     <img
@@ -150,8 +113,6 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-
-const { isDarkMode } = useTheme()
 
 interface Menu {
   name: string
@@ -200,7 +161,7 @@ const menuMarketplace: Menu[] = [
 
 const menuKodadot: Menu[] = [
   {
-    name: $i18n.t('about'),
+    name: $i18n.t('footer.guide'),
     url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
   },
@@ -241,39 +202,30 @@ const socials = [
   {
     name: 'Twitter',
     url: 'https://twitter.com/KodaDot',
-    icon: 'x-twitter',
+  },
+  {
+    name: 'Farcaster',
+    url: 'https://warpcast.com/~/channel/koda',
+  },
+  {
+    name: 'Telegram',
+    url: 'https://t.me/koda_eco',
   },
   {
     name: 'Beehiiv',
     url: 'https://kodadotweeklyroundup.beehiiv.com',
-    icon: 'newspaper',
-    pack: 'fal',
   },
   {
     name: 'Linkedin',
     url: 'https://www.linkedin.com/company/kodadot',
-    icon: 'linkedin',
   },
   {
     name: 'Medium',
     url: 'https://medium.com/kodadot',
-    icon: 'medium',
   },
   {
     name: 'Youtube',
     url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
-    icon: 'youtube',
-  },
-
-  {
-    name: 'Instagram',
-    url: 'https://instagram.com/kodadot.xyz',
-    icon: 'instagram',
-  },
-  {
-    name: 'Reddit',
-    url: 'https://www.reddit.com/r/KodaDot',
-    icon: 'reddit-alien',
   },
 ]
 </script>

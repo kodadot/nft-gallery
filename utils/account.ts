@@ -15,7 +15,7 @@ import { useChainStore } from '@/stores/chain'
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
   const address = typeof account === 'string' ? account : account.address
-  // DEV: Account return true when addres is not available
+  // DEV: Account return true when address is not available
   if (keyring.isAvailable(address)) {
     return false
   }

@@ -1,9 +1,7 @@
 export default function () {
   const route = useRoute()
 
-  const realworldFullPathShare = ref(
-    `${window.location.origin}${route.fullPath}`,
-  )
+  const fullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 
   const open = (url: string) => {
     window.open(url, '_blank')
@@ -11,7 +9,7 @@ export default function () {
 
   const shareOnX = (
     text: string,
-    url: string = realworldFullPathShare.value,
+    url: string = fullPathShare.value,
     via: string = 'KodaDot',
   ) => {
     open(
@@ -21,10 +19,7 @@ export default function () {
     )
   }
 
-  const shareOnTelegram = (
-    text: string,
-    url: string = realworldFullPathShare.value,
-  ) => {
+  const shareOnTelegram = (text: string, url: string = fullPathShare.value) => {
     open(
       `https://t.me/share/url?url=${encodeURIComponent(
         url,
@@ -32,5 +27,16 @@ export default function () {
     )
   }
 
-  return { shareOnX, shareOnTelegram }
+  const shareOnFarcaster = (
+    text: string,
+    url: string = fullPathShare.value,
+  ) => {
+    open(
+      `https://warpcast.com/~/compose?text=${encodeURIComponent(
+        text,
+      )}&embeds[]=${url}`,
+    )
+  }
+
+  return { shareOnX, shareOnTelegram, shareOnFarcaster }
 }

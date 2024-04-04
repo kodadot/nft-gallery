@@ -9,10 +9,16 @@ import useTransactionStatus from './useTransactionStatus'
 import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
+import { ISubmittableResult } from '@polkadot/types/types'
 
 export type HowAboutToExecuteOnSuccessParam = {
   txHash: string
   blockNumber: string
+}
+
+export type HowAboutToExecuteOnResultParam = {
+  txHash: string
+  result: ISubmittableResult
 }
 
 function useMetaTransaction() {
@@ -32,8 +38,15 @@ function useMetaTransaction() {
     account: string,
     cb: (...params: any[]) => Extrinsic,
     args: any[],
-    onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void,
-    onError?: () => void,
+    {
+      onSuccess,
+      onError,
+      onResult,
+    }: {
+      onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void
+      onError?: () => void
+      onResult?: (result: HowAboutToExecuteOnResultParam) => void
+    } = {},
   ): Promise<void> => {
     try {
       tx.value = await exec(
@@ -41,7 +54,7 @@ function useMetaTransaction() {
         '',
         cb,
         args,
-        txCb(successCb(onSuccess), errorCb(onError), onResult),
+        txCb(successCb(onSuccess), errorCb(onError), resultCb(onResult)),
       )
     } catch (e) {
       onCatchError(e)
@@ -75,7 +88,12 @@ function useMetaTransaction() {
     }
   }
 
-  const onResult = (res) => resolveStatus(res.status)
+  const resultCb =
+    (onResult?: (result: HowAboutToExecuteOnResultParam) => void) =>
+    (result: ISubmittableResult) => {
+      resolveStatus(result.status)
+      onResult?.({ txHash: result.txHash.toString(), result })
+    }
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
@@ -85,6 +103,8 @@ function useMetaTransaction() {
           $i18n.t('general.tx.cancelled'),
           notificationTypes.warn,
         )
+
+        status.value = TransactionStatus.Cancelled
       } else {
         showNotification(e.toString(), notificationTypes.warn)
       }

@@ -27,6 +27,7 @@ import {
   ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
+  ActionMintDrop,
   ActionMintToken,
   ActionSend,
   ActionSetCollectionMaxSupply,
@@ -39,6 +40,8 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
+import { hasOperationsDisabled } from '@/utils/prefix'
+import { execMintDrop } from './transaction/transactionMintDrop'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -122,7 +125,10 @@ const useExecuteTransaction = (options: TransactionOptions) => {
       warningMessage(message)
     }
 
-    howAboutToExecute(accountId.value, cb, arg, successCb, errorCb)
+    howAboutToExecute(accountId.value, cb, arg, {
+      onSuccess: successCb,
+      onError: errorCb,
+    })
   }
 
   return {
@@ -192,6 +198,14 @@ export const executeAction = ({
       ),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(item as ActionBurnMultipleNFTs, api, executeTransaction),
+    [NFTs.MINT_DROP]: () =>
+      execMintDrop({
+        item: item as ActionMintDrop,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
   }
 
   if (!isActionValid(item)) {
@@ -210,6 +224,8 @@ export const useTransaction = (
   options: TransactionOptions = { disableSuccessNotification: false },
 ) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
+  const { $i18n } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
   const {
     isLoading,
     status,
@@ -221,6 +237,11 @@ export const useTransaction = (
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
+
+    if (hasOperationsDisabled(prefix || urlPrefix.value)) {
+      warningMessage($i18n.t('toast.unsupportedOperation'))
+      return
+    }
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)

@@ -2,10 +2,9 @@
   <NeoModal
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
-    scroll="clip"
     class="z-[1000]"
     @close="onClose">
-    <div class="modal-width">
+    <div class="sm:w-[25rem]">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
         <span class="modal-card-title text-base font-bold">
           {{ $t('autoTeleport.signTransactions') }}
@@ -175,15 +174,17 @@ const btnDisabled = computed(() => {
   return !autoteleportFinalized.value
 })
 
-const actionsFinalized = computed(() =>
-  props.transactions.actions
-    .map((action) => action.status)
-    .every((status) => status.value === TransactionStatus.Finalized),
+const actionsFinalized = computed(
+  () =>
+    hasActions.value &&
+    props.transactions.actions
+      .map((action) => action.status)
+      .every((status) => status.value === TransactionStatus.Finalized),
 )
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
-const hasCompletedBalanceCheck = computed(
+const isBalanceCheckCompleted = computed(
   () => balanceCheckState.value === TransactionStepStatus.COMPLETED,
 )
 
@@ -192,18 +193,24 @@ const isTeleportTransactionFinalized = computed(
     props.transactions.teleport.status.value === TransactionStatus.Finalized,
 )
 
+const hasCompletedActionPreSteps = computed(
+  () => isTeleportTransactionFinalized.value && isBalanceCheckCompleted.value,
+)
+
 const autoteleportFinalized = computed(() =>
-  hasActions.value ? actionsFinalized.value : hasCompletedBalanceCheck.value,
+  hasActions.value
+    ? hasCompletedActionPreSteps.value && actionsFinalized.value
+    : hasCompletedActionPreSteps.value,
 )
 
 const btnLabel = computed<string>(() => {
-  if (!hasActions.value && hasCompletedBalanceCheck.value) {
+  if (!hasActions.value && isBalanceCheckCompleted.value) {
     return $i18n.t('redirect.continue')
   }
 
   if (
     !hasActions.value ||
-    !hasCompletedBalanceCheck.value ||
+    !isBalanceCheckCompleted.value ||
     !activeStepInteraction.value
   ) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
@@ -243,7 +250,7 @@ const onClose = () => {
 watch(
   [isTeleportTransactionFinalized, () => props.canDoAction],
   ([telportFinalized, canDoAction]) => {
-    if (!telportFinalized || hasCompletedBalanceCheck.value) {
+    if (!telportFinalized || isBalanceCheckCompleted.value) {
       return
     }
 
@@ -269,10 +276,6 @@ watch(autoteleportFinalized, () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.modal-width {
-  width: 25rem;
-}
-
 .btn-height {
   height: 3.5rem;
 }
@@ -280,11 +283,5 @@ watch(autoteleportFinalized, () => {
 .limit-height {
   max-height: 80vh;
   overflow-y: auto;
-}
-
-@include mobile() {
-  .modal-width {
-    width: unset;
-  }
 }
 </style>

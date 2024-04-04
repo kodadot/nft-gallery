@@ -6,10 +6,15 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
+    <div
+      class="container items-center max-lg:!px-0"
+      :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+        <nuxt-link
+          v-if="!isMobile || !openMobileSearchBar"
+          to="/"
+          class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot" />
@@ -18,16 +23,18 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
+            v-show="isMobile && !openMobileSearchBar"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
-          <div v-show="openMobileSearchBar">
-            <div class="fixed-stack flex items-center justify-between p-2">
+          <div v-show="!isMobile || openMobileSearchBar" class="w-full">
+            <div
+              class="is-fixed-top z-10 flex items-center justify-between p-2">
               <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless border-0 capitalize"
+                class="p-3 is-shadowless border-0 capitalize sm:hidden"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
@@ -38,7 +45,7 @@
         <!-- BURGER MENU -->
         <a
           role="button"
-          class="navbar-burger"
+          class="navbar-burger lg:hidden"
           :class="{ 'is-active': isMobileNavbarOpen }"
           aria-label="menu"
           aria-expanded="false"
@@ -55,7 +62,7 @@
       <!-- MENU -->
       <div
         id="MainNavbar"
-        class="navbar-menu"
+        class="navbar-menu py-0"
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
@@ -73,7 +80,7 @@
         <div class="navbar-end">
           <nuxt-link to="/ahp/drops" rel="nofollow">
             <div class="navbar-item" data-testid="drops">
-              {{ $t('drops.title') }}
+              {{ $t('drops.drops') }}
 
               <NeoIcon
                 class="ml-1"
@@ -174,7 +181,10 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" class="w-4 h-4" size="medium" />
+                <NeoIcon
+                  icon="user-circle"
+                  class="w-4 h-4 ml-2 lg:!ml-0"
+                  size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
@@ -251,8 +261,6 @@ const handleMobileChainSelect = () => {
 const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
-  showMobileNavbar()
-
   closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,

@@ -73,8 +73,9 @@
           min="0.01"
           step="0.00001"
           type="number"
+          icon-right-class="!hidden"
           placeholder="Enter Amount" />
-        <div class="is-absolute-right">
+        <div class="absolute right-8 top-3">
           <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
@@ -193,7 +194,8 @@ const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
-const amount = ref(0) //Required amount to be transfered is stored here
+const amount = ref(0) //Required amount to be transferred is stored here
+const { urlPrefix } = usePrefix()
 
 const displayAmount = computed({
   get: () =>
@@ -325,17 +327,16 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
-  // also uncomment setRelatedChain()
-  // {
-  //   label: getChainName('rmrk'),
-  //   value: Chain.KUSAMA,
-  //   icon: chainIcons.rmrk,
-  // },
-  // {
-  //   label: getChainName('ahk'),
-  //   value: Chain.ASSETHUBKUSAMA,
-  //   icon: chainIcons.ahk,
-  // },
+  {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    icon: chainIcons.rmrk,
+  },
+  {
+    label: getChainName('ahk'),
+    value: Chain.ASSETHUBKUSAMA,
+    icon: chainIcons.ahk,
+  },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -348,18 +349,18 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
-  // {
-  //   label: getChainName('rmrk'),
-  //   value: Chain.KUSAMA,
-  //   disabled: computed(() => isDisabled(Chain.KUSAMA)),
-  //   icon: chainIcons.rmrk,
-  // },
-  // {
-  //   label: getChainName('ahk'),
-  //   value: Chain.ASSETHUBKUSAMA,
-  //   disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
-  //   icon: chainIcons.ahk,
-  // },
+  {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    disabled: computed(() => isDisabled(Chain.KUSAMA)),
+    icon: chainIcons.rmrk,
+  },
+  {
+    label: getChainName('ahk'),
+    value: Chain.ASSETHUBKUSAMA,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
+    icon: chainIcons.ahk,
+  },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -406,20 +407,20 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
-// const setRelatedChain = () => {
-//   const relatedFromChain =  prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
-//   onChainChange(relatedFromChain, true)
-// }
-//
-// watch(
-//   urlPrefix,
-//   () => {
-//     setRelatedChain()
-//   },
-//   {
-//     immediate: true,
-//   },
-// )
+const setRelatedChain = () => {
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  onChainChange(relatedFromChain, true)
+}
+
+watch(
+  urlPrefix,
+  () => {
+    setRelatedChain()
+  },
+  {
+    immediate: true,
+  },
+)
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
@@ -519,12 +520,6 @@ $xs-breakpoint: 400px;
   @include until($xs-breakpoint) {
     justify-content: flex-end;
   }
-}
-
-.is-absolute-right {
-  position: absolute;
-  right: 2rem;
-  top: 0.75rem;
 }
 
 .networks {

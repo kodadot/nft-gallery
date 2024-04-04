@@ -11,10 +11,10 @@
       {{ shortenedAddress }}
       <img
         v-if="isFetchingIdentity"
-        src="/infinity.svg"
+        src="~/assets/svg/infinity.svg"
         class="ml-1 infinity-loader" />
       <template v-else>
-        <span v-if="identity?.display" class="ml-1">
+        <span v-if="identity?.display && !hideDisplayName" class="ml-1">
           ({{ identity?.display }})
         </span>
       </template>
@@ -51,6 +51,7 @@ defineProps<{
   address?: Address
   shortenedAddress?: string
   name?: string | object
+  hideDisplayName?: boolean
 }>()
 </script>
 

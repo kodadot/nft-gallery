@@ -30,6 +30,9 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
 
   //Fill form
   await test.step('Add and Fill input recipients', async () => {
+    //selects token tab
+    await page.getByTestId('transfer-tab-token').click()
+    //fill input
     await page.getByTestId('global-address-input').nth(0).fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(0).fill('1')
     //add recipient

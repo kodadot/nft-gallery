@@ -8,8 +8,16 @@
       @try-again="submitListing" />
 
     <NeoModal
+      :value="isSuccessModalOpen"
+      append-to-body
+      @close="handleSuccessModalClose">
+      <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
+        <SuccessfulListingBody :tx-hash="txHash" :items="items" />
+      </ModalBody>
+    </NeoModal>
+
+    <NeoModal
       :value="preferencesStore.listingCartModalOpen"
-      scroll="clip"
       append-to-body
       @close="onClose">
       <ModalBody
@@ -17,7 +25,7 @@
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
-        :loading="loadingAutoTeleport"
+        :loading="!autoTeleportLoaded"
         @close="onClose">
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
@@ -57,8 +65,8 @@
           <AutoTeleportActionButton
             ref="autoteleportButton"
             :actions="actions"
-            :disabled="Boolean(listingCartStore.incompleteListPrices)"
-            :fees="{ actionLazyFetch: true }"
+            :disabled="confirmButtonDisabled"
+            :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
@@ -88,12 +96,13 @@ import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCar
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError, blockNumber } =
+const { transaction, isLoading, status, isError, blockNumber, txHash } =
   useTransaction()
 
 const { chainSymbol, decimals } = useChain()
@@ -104,8 +113,12 @@ const autoTeleport = ref(false)
 const autoteleportButton = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
+const autoTeleportLoaded = ref(false)
 
-const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
+const isSuccessModalOpen = computed(
+  () =>
+    Boolean(items.value.length) && status.value === TransactionStatus.Finalized,
+)
 
 const teleportTransitionTxFees = computed(() =>
   format(
@@ -173,9 +186,23 @@ const title = computed(() => {
     : `List ${items}`
 })
 
+const confirmButtonDisabled = computed(
+  () =>
+    hasOperationsDisabled(urlPrefix.value) ||
+    Boolean(listingCartStore.incompleteListPrices) ||
+    !autoteleportButton.value?.isReady,
+)
+
 const confirmListingLabel = computed(() => {
+  if (hasOperationsDisabled(urlPrefix.value)) {
+    return $i18n.t('toast.unsupportedOperation')
+  }
   switch (listingCartStore.incompleteListPrices) {
     case 0:
+      if (!autoteleportButton.value?.isReady) {
+        return $i18n.t('autoTeleport.checking')
+      }
+
       return showChangePriceModal.value
         ? $i18n.t('transaction.price.change')
         : $i18n.t('listingCart.complete')
@@ -224,7 +251,7 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     }
 
     listingCartStore.clearListedItems()
-    preferencesStore.listingCartModalOpen = false
+    closeListingCartModal()
     resetCartToDefaults()
   } catch (error) {
     warningMessage(error)
@@ -233,7 +260,11 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 
 const onClose = () => {
   resetCartToDefaults()
-  preferencesStore.listingCartModalOpen = false
+  closeListingCartModal()
+}
+
+const handleSuccessModalClose = () => {
+  items.value = []
 }
 
 const resetCartToDefaults = () => {
@@ -245,7 +276,7 @@ watch(
   () => listingCartStore.count,
   () => {
     if (listingCartStore.count === 0) {
-      preferencesStore.listingCartModalOpen = false
+      closeListingCartModal()
     }
   },
 )
@@ -259,15 +290,26 @@ watch(
   },
 )
 
+watch(
+  () => autoteleportButton.value?.isReady,
+  () => {
+    if (autoteleportButton.value?.isReady && !autoTeleportLoaded.value) {
+      autoTeleportLoaded.value = true
+    }
+  },
+)
+
 watchSyncEffect(() => {
   if (!autoTeleport.value) {
     action.value = getAction(listingCartStore.itemsInChain)
   }
 })
 
-onUnmounted(() => {
-  preferencesStore.listingCartModalOpen = false
-})
+const closeListingCartModal = () =>
+  (preferencesStore.listingCartModalOpen = false)
+
+onBeforeMount(closeListingCartModal)
+onUnmounted(closeListingCartModal)
 </script>
 
 <style lang="scss" scoped>

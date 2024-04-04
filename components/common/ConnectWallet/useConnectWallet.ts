@@ -3,7 +3,7 @@ import ConnectWalletModal from './ConnectWalletModal.vue'
 export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
   canCancel: ['escape', 'outside'],
-  rootClass: 'connect-wallet-modal',
+  rootClass: 'connect-wallet-modal !z-[999] sm:!z-[998]',
   trapFocus: false,
 }
 

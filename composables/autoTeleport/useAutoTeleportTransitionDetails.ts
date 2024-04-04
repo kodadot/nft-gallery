@@ -10,6 +10,7 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
+import { checkIfAutoTeleportActionsNeedRefetch } from './utils'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -17,7 +18,7 @@ const BUFFER_AMOUNT_PERCENT = 0.02
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
   actions: 0,
-  actionLazyFetch: false,
+  forceActionAutoFees: false,
 }
 
 export default function (
@@ -42,6 +43,7 @@ export default function (
     balances: false,
   })
 
+  const shouldTeleportAllBalance = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -91,7 +93,7 @@ export default function (
 
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? fees.actionLazyFetch || needsSourceChainBalances.value
+      ? fees.forceActionAutoFees || needsSourceChainBalances.value
       : false,
   )
 
@@ -154,22 +156,24 @@ export default function (
       : requiredAmountToTeleport.value,
   )
 
-  const shouldTeleportAllBalance = computed<boolean>(() => {
-    const hasRichesChain = Boolean(richestChain.value)
-    const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
-    const willRemainingRichestChainBalanceBeSlashed =
-      richestChainBalance.value - requiredAmountToTeleport.value <=
-      richestChainExistentialDeposit.value
-    const hasRequiredAmountInRichestChain =
-      richestChainBalance.value >= requiredAmountToTeleport.value
+  // Disabled until delivery fee accounting is fixed by PolkadotJS
+  // @see https://github.com/kodadot/nft-gallery/issues/9596#issuecomment-2026772987
+  // const shouldTeleportAllBalance = computed<boolean>(() => {
+  //   const hasRichesChain = Boolean(richestChain.value)
+  //   const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
+  //   const willRemainingRichestChainBalanceBeSlashed =
+  //     richestChainBalance.value - requiredAmountToTeleport.value <=
+  //     richestChainExistentialDeposit.value
+  //   const hasRequiredAmountInRichestChain =
+  //     richestChainBalance.value >= requiredAmountToTeleport.value
 
-    return (
-      hasRichesChain &&
-      doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed &&
-      hasRequiredAmountInRichestChain
-    )
-  })
+  //   return (
+  //     hasRichesChain &&
+  //     doesntHaveEnoughInCurrentChain &&
+  //     willRemainingRichestChainBalanceBeSlashed &&
+  //     hasRequiredAmountInRichestChain
+  //   )
+  // })
 
   const hasEnoughInRichestChain = computed(() => {
     const balance = shouldTeleportAllBalance.value
@@ -192,8 +196,8 @@ export default function (
 
   const canGetTeleportFee = computed<boolean>(
     () =>
-      Boolean(richestChain.value) &&
       !teleportTxFee.value &&
+      Boolean(richestChain.value) &&
       addTeleportFee.value &&
       hasEnoughInRichestChain.value &&
       amountToTeleport.value > 0,
@@ -211,14 +215,18 @@ export default function (
   })
 
   const hasFetchedDetails = computed(() => {
+    const hasFetchedActionsTxFees = actionAutoFees.value
+      ? hasFetched.actionTxFees
+      : true
+
     if (doesNotNeedsTeleport.value) {
+      if (fees.forceActionAutoFees) {
+        return hasFetchedActionsTxFees
+      }
       return true
     }
 
-    return [
-      hasFetched.teleportTxFee,
-      actionAutoFees.value ? hasFetched.actionTxFees : true,
-    ].every(Boolean)
+    return [hasFetched.teleportTxFee, hasFetchedActionsTxFees].every(Boolean)
   })
 
   const isReady = computed(() => hasBalances.value && hasFetchedDetails.value)
@@ -255,25 +263,27 @@ export default function (
   )
 
   watch(
-    actionsId,
-    async () => {
-      if (actionAutoFees.value) {
+    [actionsId, actions],
+    async ([id, actions], [prevId, prevActions]) => {
+      if (
+        id !== prevId &&
+        actionAutoFees.value &&
+        checkIfAutoTeleportActionsNeedRefetch(actions, prevActions)
+      ) {
         try {
           hasFetched.actionTxFees = false
-          const feesPromisses = actions.value.map(
-            async ({ action, prefix }) => {
-              let api = await apiInstance.value
-              if (prefix) {
-                api = await apiInstanceByPrefix(prefix)
-              }
-              const address = getAddressByChain(currentChain.value as Chain)
-              return getActionTransactionFee({
-                api,
-                action: action,
-                address,
-              })
-            },
-          )
+          const feesPromisses = actions.map(async ({ action, prefix }) => {
+            let api = await apiInstance.value
+            if (prefix) {
+              api = await apiInstanceByPrefix(prefix)
+            }
+            const address = getAddressByChain(currentChain.value as Chain)
+            return getActionTransactionFee({
+              api,
+              action: action,
+              address,
+            })
+          })
           const fees = await Promise.all(feesPromisses)
           actionTxFees.value = fees.map(Number)
         } catch (error) {

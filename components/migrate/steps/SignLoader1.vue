@@ -38,8 +38,13 @@
             {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>
         </div>
-        <div v-if="isError" class="flex-1 text-right">
-          <NeoButton variant="pill" size="small" @click="tryAgain()">
+        <div
+          v-if="isError || status === TransactionStatus.Cancelled"
+          class="flex-1 text-right">
+          <NeoButton
+            variant="outlined-rounded"
+            size="small"
+            @click="tryAgain()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>
@@ -49,8 +54,7 @@
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
-          <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
-          <NeoIcon v-else v-bind="iconIdle" />
+          <NeoIcon v-bind="whichIcon()" />
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
@@ -77,13 +81,14 @@ import {
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
 import waifuApi from '@/services/waifu'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const { accountId } = useAuth()
 const { client } = usePrefix()
 const { apiInstance } = useApi()
 const { nextCollectionId } = useStatemineNewCollectionId()
 const { howAboutToExecute, status, isError } = useMetaTransaction()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
@@ -110,6 +115,11 @@ const fromCollection = collections.value.find(
 )
 
 const startStep1 = async () => {
+  if (hasOperationsDisabled(from)) {
+    warningMessage($i18n.t('toast.unsupportedOperation'))
+    return
+  }
+
   step1Iterations.value -= 1
   nextId.value = (await nextCollectionId())?.toString() || '0'
   relocationsBody.value = {
@@ -218,16 +228,16 @@ watchEffect(async () => {
 })
 
 const whichIcon = () => {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
+    return iconError
+  }
+
   if (step1Iterations.value === 0) {
     return iconSuccess
   }
 
   if (step1Iterations.value < ITERATIONS) {
     return iconLoading
-  }
-
-  if (isError.value) {
-    return iconError
   }
 
   return iconIdle

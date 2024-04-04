@@ -16,6 +16,23 @@ export const unlockableDesc = (value: number) => `
   Enjoy and be quick 😉
 `
 
+export const makeUnlockableMetadata = (
+  name: string,
+  description: string,
+  imageHash: string,
+  animationUrl: string | undefined,
+  mimeType: string,
+) =>
+  createMetadata(
+    name,
+    description,
+    imageHash,
+    animationUrl,
+    [],
+    'kodadot.xyz',
+    mimeType,
+  )
+
 export async function createUnlockableMetadata(
   imageHash: string,
   description: string,
@@ -23,13 +40,11 @@ export async function createUnlockableMetadata(
   mimeType: string = 'image/png',
   animationUrl?: string,
 ) {
-  const meta = createMetadata(
+  const meta = makeUnlockableMetadata(
     name,
     description,
     imageHash,
     animationUrl,
-    [],
-    'kodadot.xyz',
     mimeType,
   )
 

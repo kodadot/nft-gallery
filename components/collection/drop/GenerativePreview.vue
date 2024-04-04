@@ -1,6 +1,7 @@
 <template>
   <div
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px]">
+    data-partykit="generative-preview-card"
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
@@ -9,7 +10,7 @@
       class="border" />
 
     <NeoButton
-      v-if="isLoading"
+      v-if="dropStore.isCapturingImage"
       class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
       expanded
       rounded
@@ -38,13 +39,13 @@
 
     <div class="flex justify-between items-center mb-4">
       <div class="font-bold">
-        <span v-if="!!Number(drop.price)">{{ formattedPrice }}</span>
+        <span v-if="!!Number(drop?.price)">{{ formattedPrice }}</span>
         <span v-else>{{ $t('free') }}</span>
       </div>
       <div class="flex justify-end items-center">
         <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
         <div class="font-bold">
-          {{ mintedCount }}/{{ maxCount }}
+          {{ dropStore.mintsCount }}/{{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
       </div>
@@ -52,113 +53,101 @@
 
     <CollectionUnlockableSlider
       class="text-neutral-5 dark:text-neutral-9"
-      :value="mintedCount / maxCount" />
+      :value="dropStore.mintsCount / maxCount" />
 
-    <CollectionDropMintButton
-      class="mt-6"
-      :collection-id="collectionId"
-      :user-minted-nft-id="userMintedNftId"
-      :is-wallet-connecting="isWalletConnecting"
-      :is-image-fetching="isImageFetching"
-      :is-loading="isLoading"
-      :minimum-funds="minimumFunds"
-      :max-count="maxCount"
-      :mint-count-available="mintCountAvailable"
-      :mint-button="mintButton"
-      :holder-of-collection="holderOfCollection"
-      @mint="emit('mint')" />
+    <div class="flex mt-6 gap-4 max-md:flex-col">
+      <CollectionDropMintStepper />
+      <CollectionDropMintButton @mint="emit('mint')" />
+    </div>
+
+    <div
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
+        <NeoIcon
+          icon="fa-sharp fa-solid fa-hourglass-half"
+          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+        Generate
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { DropItem } from '@/params/types'
-import type {
-  HolderOfCollectionProp,
-  MinimumFundsProp,
-  MintButtonProp,
-} from '@/components/collection/drop/types'
-import { getRandomIntFromRange } from '../unlockable/utils'
-
-const props = defineProps<{
-  drop: DropItem
-  minted: number
-  collectionId: string
-  mintedCount: number
-  mintCountAvailable: boolean
-  maxCount: number
-  minimumFunds: MinimumFundsProp
-  isImageFetching: boolean
-  isWalletConnecting: boolean
-  isLoading: boolean
-  mintButton: MintButtonProp
-  userMintedNftId?: string
-  holderOfCollection?: HolderOfCollectionProp
-}>()
-
-const emit = defineEmits(['select', 'mint'])
+import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import { useDrop } from '@/components/drops/useDrops'
+import useGenerativeDropMint, {
+  useCollectionEntity,
+} from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
-
-const mintedPercent = computed(() => {
-  const percent = (props.mintedCount / props.maxCount) * 100
-  return Math.round(percent)
-})
-
+const { drop } = useDrop()
+const dropStore = useDropStore()
+const { maxCount } = useGenerativeDropMint()
+const { mintedAmountForCurrentUser } = useCollectionEntity()
+const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
-  computed(() => props.drop.price),
+  computed(() => drop.value.price),
   decimals,
   chainSymbol,
 )
 
-const STEP = 64
-const entropyRange = computed<[number, number]>(() => [
-  STEP * props.minted,
-  STEP * (props.minted + 1),
-])
+const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
 
-const getHash = (isDefault?: boolean) => {
-  const ss58Format = isDefault
-    ? entropyRange.value[0]
-    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+const { start: startTimer } = useTimeoutFn(() => {
+  // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
+  // only applicable if the drop is missing`kodahash/render/completed` event
+  if (!imageDataLoaded.value) {
+    dropStore.setIsCapturingImage(false)
+    emit('generation:end')
+  }
+}, 5000)
 
-  // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  const initialValue = accountId.value
-    ? encodeAddress(accountId.value, ss58Format)
-    : String(Date.now() << ss58Format)
-  return blake2AsHex(initialValue, 256, null, true)
-}
+const generativeImageUrl = ref('')
 
-const generativeImageUrl = ref(
-  accountId.value ? `${props.drop.content}/?hash=${getHash(true)}` : '',
-)
-
-const isLoading = ref(false)
-
-const displayUrl = computed(() => {
-  return generativeImageUrl.value || props.drop.image
+const mintedPercent = computed(() => {
+  if (!maxCount.value) {
+    return 0
+  }
+  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
 })
-const generateNft = (isDefault: boolean = false) => {
-  isLoading.value = true
-  const metadata = `${props.drop.content}/?hash=${getHash(isDefault)}`
-  generativeImageUrl.value = metadata
-  emit('select', generativeImageUrl.value)
 
-  setTimeout(() => {
-    isLoading.value = false
-  }, 3000)
+const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
+
+const generateNft = () => {
+  if (!drop.value?.content) {
+    return
+  }
+  dropStore.setIsCapturingImage(true)
+  startTimer()
+
+  const previewItem = generatePreviewItem({
+    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    accountId: accountId.value,
+    content: drop.value.content,
+  })
+
+  generativeImageUrl.value = previewItem.image
+
+  emit('generation:start', previewItem)
+  imageDataPayload.value = undefined
 }
+
+watch(imageDataLoaded, () => {
+  if (imageDataLoaded.value) {
+    dropStore.setIsCapturingImage(false)
+    emit('generation:end')
+  }
+})
 
 watch(
-  accountId,
-  () => {
-    generateNft(true)
-  },
-  {
-    immediate: true,
-  },
+  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
+  generateNft,
 )
+
+onMounted(() => {
+  setTimeout(generateNft, 500)
+})
 </script>

@@ -65,6 +65,7 @@ export type DropItem = {
   chain: Prefix
   collection: string
   image: string
+  banner: string
   name: string
   content: string
   alias: string
@@ -75,4 +76,8 @@ export type DropItem = {
   max?: number
   price?: string
   holder_of?: string
+  location?: string
+  userLocation?: string
+  userAccess?: boolean
+  start_at?: string
 }

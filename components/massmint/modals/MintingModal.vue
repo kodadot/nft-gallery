@@ -1,12 +1,11 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    scroll="clip"
     :can-cancel="!loading"
     @close="emit('close')">
     <div class="p-7">
       <div v-if="loading" class="flex flex-col items-center">
-        <img src="/preloader.svg" width="200" />
+        <img src="~/assets/svg/preloader.svg" width="200" />
         <span class="mt-6">{{ $t('massmint.mintingYourNFTs') }}</span>
       </div>
       <div v-else class="flex flex-col items-center">

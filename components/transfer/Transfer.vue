@@ -160,13 +160,13 @@
                   placeholder="0"
                   step="0.01"
                   min="0"
-                  icon-right-class="search"
+                  icon-right-class="search !hidden"
                   data-testid="transfer-input-amount-token"
                   @focus="onAmountFieldFocus(destinationAddress, 'token')"
                   @update:modelValue="
                     onAmountFieldChange(destinationAddress)
                   " />
-                <div class="is-absolute-right text-k-grey">
+                <div class="absolute right-2 top-3 text-k-grey">
                   {{ unit }}
                 </div>
               </div>
@@ -400,7 +400,7 @@ const isTransferModalVisible = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
-const displayUnit = ref<'token' | 'usd'>('token')
+const displayUnit = ref<'token' | 'usd'>('usd')
 const selectedTabFirst = ref(true)
 const tokenTabs = ref<PillTab[]>([])
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
@@ -1025,11 +1025,5 @@ watchDebounced(
 }
 :deep(.o-drop__menu.no-border-bottom) {
   @apply border-b-0;
-}
-
-.is-absolute-right {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.75rem;
 }
 </style>

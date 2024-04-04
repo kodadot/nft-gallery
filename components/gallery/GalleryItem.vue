@@ -4,8 +4,8 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <div class="columns is-variable is-6">
-      <div class="column is-two-fifths">
+    <div class="flex flex-col lg:flex-row">
+      <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
           id="nft-img-container"
           ref="imgref"
@@ -13,18 +13,6 @@
             relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
-          <!-- preview button -->
-          <a
-            v-if="
-              canPreview &&
-              !mediaItemRef?.isLewdBlurredLayer &&
-              !hasAnimatedResources &&
-              !isFullscreen
-            "
-            class="fullscreen-button justify-center items-center"
-            @click="toggleFullscreen">
-            <NeoIcon icon="expand" />
-          </a>
           <NeoButton
             v-if="isFullscreen"
             class="back-button"
@@ -71,9 +59,35 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
+        <div>
+          <div
+            class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
+            <NeoTooltip :label="$t('reload')" position="top">
+              <a no-shadow @click="handleReloadClick">
+                <NeoIcon
+                  :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
+                  size="medium"
+                  :label="$t('reload')"
+                  :spin="isLoading" />
+              </a>
+            </NeoTooltip>
+            <NeoTooltip :label="$t('fullscreen')" position="top">
+              <a no-shadow @click="toggleFullscreen">
+                <NeoIcon
+                  icon="arrow-up-right-and-arrow-down-left-from-center"
+                  size="medium" />
+              </a>
+            </NeoTooltip>
+            <NeoTooltip :label="$t('newTab')" position="top">
+              <a no-shadow @click="handleNewTab">
+                <NeoIcon icon="arrow-up-right" size="medium" />
+              </a>
+            </NeoTooltip>
+          </div>
+        </div>
       </div>
 
-      <div class="py-8 column">
+      <div class="w-full lg:w-3/5 lg:pl-5 py-7">
         <div class="flex flex-col justify-between h-full">
           <!-- title section -->
           <div class="pb-2">
@@ -153,14 +167,14 @@
       </div>
     </div>
 
-    <div class="columns is-variable is-6 mt-5">
-      <div class="column is-two-fifths">
+    <div class="flex flex-col lg:flex-row gap-8 mt-8 lg:pb-2">
+      <div class="w-full lg:w-2/5 lg:pr-4">
         <GalleryItemDescription
           ref="galleryDescriptionRef"
           :gallery-item="galleryItem" />
       </div>
 
-      <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
+      <div class="w-full lg:w-3/5 gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel
           :active-tab="activeTab"
           :gallery-item="galleryItem" />
@@ -183,6 +197,7 @@ import {
   NeoCarousel,
   NeoCarouselItem,
   NeoIcon,
+  NeoTooltip,
 } from '@kodadot1/brick'
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 
@@ -241,22 +256,17 @@ const tabs = {
 }
 const activeTab = ref(tabs.activity)
 
-const canPreview = computed(() =>
-  [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-    resolveMedia(nftMimeType.value),
-  ),
-)
-
 const activeCarousel = ref(0)
+
+const isLoading = ref(false)
+type ReloadElement =
+  | HTMLIFrameElement
+  | HTMLVideoElement
+  | HTMLImageElement
+  | null
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
-)
-const hasAnimatedResources = computed(
-  () =>
-    nftResources.value &&
-    nftResources.value?.length > 1 &&
-    nftResources.value[1].animation,
 )
 
 const onNFTBought = () => {
@@ -293,7 +303,7 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
-  addSnSuffixName(
+  nameWithIndex(
     nft.value?.name || nftMetadata.value?.name || '',
     nft.value?.sn,
   ),
@@ -341,6 +351,65 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
+}
+
+function handleReloadClick() {
+  isLoading.value = true
+
+  const reloadElement = (selector: string, isImage?: boolean) => {
+    setTimeout(() => {
+      isLoading.value = false
+      const element: ReloadElement = document.querySelector(selector)
+      if (element) {
+        if (isImage) {
+          const timestamp = new Date().getTime()
+          const url = new URL(element.src)
+          url.searchParams.set('t', timestamp.toString())
+          element.src = url.toString()
+        } else {
+          element.src += ''
+        }
+      }
+    }, 2000)
+  }
+
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageType = resolveMedia(nftMimeType.value)
+
+  if ([MediaType.IFRAME].includes(mediaType)) {
+    reloadElement('iframe[title="html-embed"]')
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    reloadElement('video[controlslist=nodownload]')
+  } else if ([MediaType.OBJECT].includes(mediaType)) {
+    reloadElement('object')
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    reloadElement('img[data-nuxt-img]', true)
+  }
+}
+
+function handleNewTab() {
+  const openInNewTab = (selector: string, attribute: string) => {
+    const element = document.querySelector(selector)
+    if (element) {
+      const src = element.getAttribute(attribute)
+      if (src) {
+        window.open(src, '_blank')
+      }
+    }
+  }
+
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageType = resolveMedia(nftMimeType.value)
+
+  if ([MediaType.IFRAME].includes(mediaType)) {
+    openInNewTab('iframe[title="html-embed"]', 'src')
+  } else if ([MediaType.VIDEO].includes(mediaType)) {
+    openInNewTab('video', 'src')
+  } else if ([MediaType.OBJECT].includes(mediaType)) {
+    openInNewTab('object', 'src')
+  } else if ([MediaType.IMAGE].includes(imageType)) {
+    openInNewTab('img[data-nuxt-img]', 'src')
+  }
 }
 
 function toggleFallback() {
@@ -400,14 +469,6 @@ $break-point-width: 930px;
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: $break-point-width) {
-  .columns {
-    display: inherit;
-    & > .column {
-      width: 100%;
-    }
-  }
-}
 .back-button {
   @apply fixed z-[1] left-3 top-8;
   @include desktop {
@@ -426,10 +487,6 @@ $break-point-width: 930px;
     border-color: rgba(theme('background-color'), 0.3);
     color: theme('text-color');
   }
-}
-
-.column > div:hover .fullscreen-button {
-  display: flex;
 }
 
 @media screen and (max-width: $break-point-width) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
+  <div class="collection-banner" :style="bannerBackgroundStyles">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-[368px] lg:h-full">
@@ -8,6 +8,7 @@
         <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
           <div class="collection-banner-avatar">
             <NuxtImg
+              v-if="image"
               height="88"
               densities="2x"
               :src="image"
@@ -26,36 +27,33 @@
 
 <script setup lang="ts">
 import { unlockableDesc } from '../unlockable/utils'
-import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
-import { DropItem } from '@/params/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { useDrop } from '~/components/drops/useDrops'
 
-const props = defineProps({
-  drop: {
-    type: Object,
-    default: () => {
-      return {} as DropItem
-    },
-  },
-})
+const { drop } = useDrop()
 
 const route = useRoute()
+const img = useImage()
 
-const title = computed(() => props.drop?.name)
+const title = computed(() => drop.value?.name)
 
-const banner = computed(() => sanitizeIpfsUrl(props.drop?.banner))
+const banner = computed(() => sanitizeIpfsUrl(drop.value?.banner))
 
-const image = computed(() => sanitizeIpfsUrl(props.drop?.image))
+const image = computed(() => sanitizeIpfsUrl(drop.value?.image))
+
+const bannerBackgroundStyles = computed(() => {
+  if (banner.value) {
+    const imgUrl = img(banner.value, { width: window.innerWidth })
+    return { backgroundImage: `url('${imgUrl}')` }
+  }
+  return {}
+})
 
 const description = computed(() => {
-  switch (props.drop?.type) {
-    case 'vote':
-      return VOTE_DROP_DESCRIPTION
+  switch (drop.value?.type) {
     case 'paid':
       return unlockableDesc(50)
-    case 'drop':
-      return unlockableDesc(40)
     default:
       return ''
   }

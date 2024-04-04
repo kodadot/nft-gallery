@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="is-centered columns">
-      <div class="is-4-widescreen column">
+    <div class="flex flex-col md:flex-row justify-center gap-3">
+      <div class="flex-1 2xl:flex-0 2xl:w-1/3">
         <img :src="congratsSrc" alt="Congratulations" class="w-full" />
         <h1 class="text-3xl font-bold text-center">
           {{ $t('migrate.congrats.title') }}

@@ -13,6 +13,9 @@
         <NeoButton
           :active="active"
           type="button"
+          :variant="variant"
+          :no-shadow="noShadow"
+          :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
           data-testid="explore-sort">
@@ -50,6 +53,7 @@
 <script setup lang="ts">
 import {
   NeoButton,
+  NeoButtonVariant,
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
@@ -59,6 +63,20 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
 import ActiveCount from '@/components/explore/ActiveCount.vue'
+
+const props = withDefaults(
+  defineProps<{
+    preselect?: string | null
+    noShadow: boolean
+    rounded: boolean
+    variant?: NeoButtonVariant
+  }>(),
+  {
+    noShadow: false,
+    rounded: false,
+    preselect: null,
+  },
+)
 
 const route = useRoute()
 const router = useRouter()
@@ -121,6 +139,10 @@ watch(
 
 onMounted(() => {
   const sort = route.query.sort
+
+  if (props.preselect) {
+    selectedSort.value = [props.preselect]
+  }
 
   if (sort?.length) {
     if (Array.isArray(sort)) {

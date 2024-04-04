@@ -2,99 +2,69 @@
   <ModalIdentityItem class="mb-5" />
 
   <div class="pt-2 pb-5">
-    <ConfirmPurchaseItemRow
-      :name="toMintNft.name"
-      :collection-name="toMintNft.collectionName"
-      :price="toMintNft.price">
-      <template #image>
-        <BaseMediaItem
-          :src="toMintNft.image"
-          :alt="toMintNft.name"
-          mime-type="text/html"
-          preview
-          is-detail
-          class="border image is-48x48" />
-      </template>
-    </ConfirmPurchaseItemRow>
+    <div class="flex gap-4 flex-col">
+      <ConfirmPurchaseItemRow
+        v-for="toMintNft in toMintNfts"
+        :key="toMintNft.hash"
+        :name="toMintNft.name"
+        :collection-name="toMintNft.collectionName"
+        :price="toMintNft.price"
+        :hide-collection="true">
+        <template #image>
+          <div class="relative">
+            <NeoSkeleton
+              v-if="!toMintNft.imageDataPayload"
+              class="border border-border-color overflow-hidden"
+              :class="{ absolute: toMintNft.canRender }"
+              :width="46"
+              :height="46"
+              :rounded="false"
+              no-margin />
+
+            <BaseMediaItem
+              v-if="toMintNft.canRender"
+              :src="
+                toMintNft.imageDataPayload
+                  ? toMintNft.imageDataPayload.image
+                  : sanitizeIpfsUrl(toMintNft.image)
+              "
+              :alt="toMintNft.name"
+              :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
+              preview
+              is-detail
+              :class="{ 'opacity-0': !toMintNft.imageDataPayload }"
+              class="border image is-48x48" />
+          </div>
+        </template>
+      </ConfirmPurchaseItemRow>
+    </div>
 
     <hr class="my-4" />
 
     <div class="flex justify-between items-center">
       <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
-      <CommonTokenMoney :value="toMintNft.price" />
+      <CommonTokenMoney :value="minimumFunds" />
     </div>
 
     <hr class="my-4" />
 
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
-      <div class="flex">
-        <CommonTokenMoney :value="toMintNft.price" class="text-k-grey" />
+      <div class="flex items-center">
+        <CommonTokenMoney :value="minimumFunds" class="text-k-grey text-xs" />
         <span class="font-bold ml-2">
-          {{ toMintNft.priceUSD }}
+          {{ priceUSD }}
         </span>
       </div>
-    </div>
-  </div>
-
-  <div
-    v-if="!hasMinimumFunds"
-    class="border border-k-orange2 bg-k-orange-light">
-    <div class="p-4 flex gap-3">
-      <NeoIcon
-        icon="circle-exclamation-check"
-        class="text-k-orange3"
-        size="large" />
-
-      <div class="text-xs">
-        <span class="text-text-color">
-          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-        </span>
-
-        <tippy placement="left" :append-to="body" class="float-right">
-          <p class="lowercase text-k-orange3">
-            {{ $t('teleport.why') }}
-          </p>
-
-          <template #content>
-            <div
-              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
-              <p
-                v-dompurify-html="
-                  $t('drops.paidDropWhyTooltip', [
-                    formattedMinimumFunds,
-                    formattedExistentialDeposit,
-                  ])
-                " />
-
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
-                class="text-k-blue hover:text-k-blue-hover text-xs capitalize mt-5 block"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >{{ $t('helper.learnMoreAboutEd') }}</a
-              >
-            </div>
-          </template>
-        </tippy>
-      </div>
-    </div>
-
-    <div class="py-2 border-t border-k-orange2 text-center">
-      <p class="text-xs">
-        {{
-          canAutoTeleport
-            ? $t('drops.youCanContinueWithAutoteleport')
-            : $t('drops.pleaseAddFunds')
-        }}
-      </p>
     </div>
   </div>
 
   <div class="flex pt-5">
     <AutoTeleportActionButton
       ref="autoteleport"
-      :label="$t('drops.proceedToSigning')"
+      :label="mintButton.label"
+      :disabled="mintButton.disabled"
+      :loading="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
       :fees="{
@@ -108,31 +78,34 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoSkeleton } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { ToMintNft } from '../../PaidGenerative.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { type MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 
 defineEmits(['confirm', 'close'])
 
-defineProps<{
-  toMintNft: ToMintNft
-  action: AutoTeleportAction
+const { chainSymbol, decimals } = useChain()
 
+const props = defineProps<{
+  toMintNfts: MassMintNFT[]
+  action: AutoTeleportAction
   minimumFunds: number
-  hasMinimumFunds: boolean
+  mintButton: { label: string; disabled: boolean; loading?: boolean }
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
 }>()
 
-const body = ref(document.body)
 const autoteleport = ref()
 
-const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
+
+const { usd: priceUSD } = useAmount(
+  computed(() => props.minimumFunds),
+  decimals,
+  chainSymbol,
+)
 
 defineExpose({ loading })
 </script>
-
-<style scoped></style>

@@ -5,20 +5,24 @@
         <div class="mr-2 font-bold text-xl mb-1">About Collection</div>
       </div>
       <div class="overflow-wrap">
-        <Markdown :source="visibleDescription" />
+        <Markdown
+          :source="visibleDescription"
+          data-testid="drops-text-description-container" />
       </div>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center mb-6 md:!mb-4">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text text-left p-0"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+          data-testid="drops-text-description-button"
           @click="toggleSeeAllDescription" />
         <NeoButton
           variant="outlined-rounded"
           rounded
           :tag="NuxtLink"
           :to="`/${urlPrefix}/collection/${collectionId}`"
-          icon="arrow-right">
+          icon="arrow-right"
+          data-testid="drops-view-collection-button">
           <span>View Collection</span>
         </NeoButton>
       </div>

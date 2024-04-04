@@ -1,6 +1,6 @@
 <template>
   <NeoField grouped group-multiline>
-    <div class="flex flex-wrap gap-3">
+    <div class="flex flex-wrap gap-3 lg:mt-6">
       <template v-for="(value, key) in breads" :key="key">
         <NeoTag
           v-if="key === 'search'"
@@ -70,6 +70,9 @@ import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 import { NeoField } from '@kodadot1/brick'
 import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
+
 const route = useRoute()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity',
@@ -78,7 +81,6 @@ const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
 })
 const { $i18n } = useNuxtApp()
-const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = useActiveRouterFilters()
 
@@ -86,12 +88,10 @@ const collectionIdList = computed(
   () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(
-  () =>
-    collectionArray.value?.filter(
-      (collection) =>
-        collectionIdList.value?.find((id) => collection.id === id),
-    ),
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id),
+  ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()
@@ -118,7 +118,7 @@ const clearAllFilters = () => {
 }
 
 const queryMapTranslation = {
-  listed: $i18n.t('sort.listed'),
+  listed: isRemark.value ? $i18n.t('sort.listed_RMRK') : $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
   art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),
@@ -128,12 +128,6 @@ const queryMapTranslation = {
   transfer: $i18n.t('filters.transfer'),
   verified: $i18n.t('filters.onlyVerifiedIdentities'),
 }
-
-onMounted(() => {
-  if (isItemsExplore.value && route.query.listed == undefined) {
-    replaceUrl({ listed: 'true' })
-  }
-})
 
 const closeTag = (key: string) => {
   replaceUrl({ [key]: false })

@@ -3,23 +3,27 @@
     <div class="flex justify-between">
       <div class="flex gap-4 flex-col w-full">
         <CollectionDropRequirementItem
+          :fulfilled="fulfillsMinimumFunds"
+          :loading="minimumFundsAttrs.isLoading">
+          <p v-dompurify-html="minimumFundsAttrs.description" />
+        </CollectionDropRequirementItem>
+        <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading">
           <i18n-t keypath="drops.holderOfCollection" class="capitalize" tag="p">
             <template #name>
-              <nuxt-link
-                class="has-text-link"
-                :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
-                {{ collection?.name }}
-              </nuxt-link>
+              <CollectionDetailsPopover :collection="collection">
+                <template #content>
+                  <nuxt-link
+                    :to="`/${urlPrefix}/collection/${holderOfCollection.id}`"
+                    class="text-k-blue hover:text-k-blue-hover">
+                    {{ collection?.name }}
+                  </nuxt-link>
+                </template>
+              </CollectionDetailsPopover>
             </template>
           </i18n-t>
-        </CollectionDropRequirementItem>
-        <CollectionDropRequirementItem
-          :fulfilled="fulfillsMinimumFunds"
-          :loading="minimumFunds.isLoading">
-          <p v-dompurify-html="minimumFunds.description" />
         </CollectionDropRequirementItem>
       </div>
     </div>
@@ -75,17 +79,18 @@
 <script setup lang="ts">
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import type { HolderOfCollectionProp, MinimumFundsProp } from '../types'
+import type { HolderOfCollection } from '../types'
+import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 
 const props = defineProps<{
-  holderOfCollection: HolderOfCollectionProp
-  minimumFunds: MinimumFundsProp
+  holderOfCollection: HolderOfCollection
   isMintedOut: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { chainName } = useDrop()
 
 const { collection } = useCollectionMinimal({
   collectionId: computed(() => props.holderOfCollection.id || ''),
@@ -93,14 +98,30 @@ const { collection } = useCollectionMinimal({
 
 const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 
+const { hasCurrentChainBalance } = useMultipleBalance()
+const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
+  useDropMinimumFunds()
+
 const fulfillsHolderOfCollection = computed(
   () =>
     Boolean(props.holderOfCollection.isHolder) &&
     props.holderOfCollection.hasAvailable,
 )
 
+const minimumFundsAttrs = computed(() => ({
+  amount: minimumFunds.value,
+  description: $i18n.t('drops.requirements.minimumFunds', [
+    formattedMinimumFunds.value,
+    chainName.value,
+  ]),
+  hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
+}))
+
 const fulfillsMinimumFunds = computed(
-  () => Boolean(props.minimumFunds.amount) && props.minimumFunds.hasAmount,
+  () =>
+    Boolean(minimumFundsAttrs.value.amount) &&
+    minimumFundsAttrs.value.hasAmount,
 )
 
 const readyToMint = computed(

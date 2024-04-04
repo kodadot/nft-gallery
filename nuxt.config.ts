@@ -1,7 +1,7 @@
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
+import svgLoader from 'vite-svg-loader'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -33,13 +33,9 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
-      process.env.NODE_ENV === 'development'
-        ? null
-        : sentryVitePlugin({
-            org: 'kodadot',
-            project: 'nft-gallery',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          }),
+      svgLoader({
+        defaultImport: 'url',
+      }),
     ],
     // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
     optimizeDeps:
@@ -89,7 +85,7 @@ export default defineNuxtConfig({
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
     head: {
-      title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+      title: 'KodaDot - Your Generative Art Marketplace',
       titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
       htmlAttrs: {
         lang: 'en',
@@ -249,7 +245,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    // '@nuxtjs/sentry',
     '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
@@ -387,4 +382,8 @@ export default defineNuxtConfig({
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
+
+  devtools: {
+    enabled: true,
+  },
 })

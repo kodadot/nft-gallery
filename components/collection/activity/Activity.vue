@@ -3,11 +3,11 @@
     <SidebarFilter />
     <div ref="wrapper" class="w-full mt-4">
       <div v-if="tablet">
-        <div class="columns">
-          <div class="column is-two-thirds">
+        <div class="flex gap-4">
+          <div class="w-2/3 pr-2">
             <ActivityChart :events="events" class="mt-2" />
           </div>
-          <div class="column">
+          <div class="flex-1">
             <OwnerInsights :owners="owners" :flippers="flippers" />
           </div>
         </div>
@@ -49,7 +49,7 @@ const isBreadCrumbsShowing = computed(
 
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({
-  collectionId: collectionId.value,
+  collectionId,
 })
 
 const InteractionIncluded = [
