@@ -114,7 +114,7 @@
     "workbox-window": "^6.6.0"
   },
   "devDependencies": {
-    "@dargmuesli/nuxt-cookie-control": "^7.2.6",
+    "@dargmuesli/nuxt-cookie-control": "^7.5.1",
     "@nuxt/content": "^2.12.1",
     "@nuxt/types": "^2.17.3",
     "@nuxtjs/color-mode": "^3.3.3",
@@ -147,7 +147,7 @@
     "jsdom": "^19.0.0",
     "lint-staged": "^12.5.0",
     "nuxt": "^3.11.1",
-    "nuxt-gtag": "^1.2.0",
+    "nuxt-gtag": "^1.2.1",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "sass": "^1.72.0",
