@@ -173,7 +173,7 @@ import NetworkDropdown from './NetworkDropdown.vue'
 import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { useFiatStore } from '@/stores/fiat'
-import { existentialDeposit } from '@kodadot1/static'
+import { teleportExistentialDeposit } from '@kodadot1/static'
 
 type ValuePair = {
   value: number
@@ -219,7 +219,9 @@ const teleportBufferFee = computed(() =>
 )
 
 const sourceExistentialDeposit: ValuePair = reactive({
-  value: computed(() => existentialDeposit[chainToPrefixMap[fromChain.value]]),
+  value: computed(
+    () => teleportExistentialDeposit[chainToPrefixMap[fromChain.value]],
+  ),
   displayValue: computed(() =>
     withoutDecimals({
       value: sourceExistentialDeposit.value,
@@ -230,7 +232,9 @@ const sourceExistentialDeposit: ValuePair = reactive({
 })
 
 const targetExistentialDeposit: ValuePair = reactive({
-  value: computed(() => existentialDeposit[chainToPrefixMap[toChain.value]]),
+  value: computed(
+    () => teleportExistentialDeposit[chainToPrefixMap[toChain.value]],
+  ),
   displayValue: computed(() =>
     withoutDecimals({
       value: targetExistentialDeposit.value,

@@ -93,13 +93,23 @@ export const chainList = (): Option[] => {
   }))
 }
 
-// DEV: note that ED is double the amount of on-chain ED to prevent weird edge cases of XCM
-export const existentialDeposit: Record<Prefix, number> = {
+// DEV: note that ED is different from the on-chain ED to prevent weird edge cases of XCM
+export const teleportExistentialDeposit: Record<Prefix, number> = {
   ksm: 666666666,
   rmrk: 666666666,
   ahk: 666666666,
   dot: 15000000000,
-  ahp: 15000000000,
+  ahp: 5000000000,
+  imx: 0,
+  base: 0,
+}
+
+export const existentialDeposit: Record<Prefix, number> = {
+  ksm: 333333333,
+  rmrk: 333333333,
+  ahk: 333333333,
+  dot: 10000000000,
+  ahp: 1000000000,
   imx: 0, // nothing like ED in EVM :)
   base: 0,
 }
