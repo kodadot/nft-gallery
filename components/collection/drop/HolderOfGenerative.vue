@@ -48,7 +48,7 @@ import {
   useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
-  useCollectionEntity,
+  useUpdateMetadata,
 } from '@/composables/drop/useGenerativeDropMint'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
@@ -58,15 +58,23 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
-import { MintedNFT } from './types'
+import { NFTs } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn } = useAuth()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
-
+const {
+  transaction,
+  isLoading: isTransactionLoading,
+  status,
+  isError: isTransactionError,
+  txHash,
+} = useTransaction({
+  disableSuccessNotification: true,
+})
 const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
@@ -75,28 +83,18 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus()
+const { fetchDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
-const { claimedNft, canListMintedNft, maxCount } = useGenerativeDropMint()
-const { collectionName } = useCollectionEntity()
+const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 
 const {
   mintingSession,
-  toMintNFTs,
   allocatedNFTs,
   loading,
   walletConnecting,
   isCapturingImage,
 } = storeToRefs(dropStore)
-
-const {
-  howAboutToExecute,
-  isLoading: isTransactionLoading,
-  initTransactionLoader,
-  status,
-  isError: isTransactionError,
-} = useMetaTransaction()
 
 useCursorDropEvents([isTransactionLoading, loading])
 
@@ -122,28 +120,12 @@ const mintNft = async () => {
     isTransactionError.value = false
     mintingSession.value.txHash = undefined
 
-    const { apiInstance } = useApi()
-    const api = await apiInstance.value
-
-    initTransactionLoader()
-
-    const cb = api.tx.utility.batchAll
-    const args = allocatedNFTs.value.map((allocatedNft, index) =>
-      api.tx.nfts.mint(
-        drop.value?.collection,
-        allocatedNft.id,
-        accountId.value,
-        {
-          ownedItem: availableNfts.serialNumbers[index],
-          mintPrice: drop.value?.price,
-        },
-      ),
-    )
-
-    howAboutToExecute(accountId.value, cb, [args], {
-      onResult: ({ txHash }) => {
-        mintingSession.value.txHash = txHash
-      },
+    transaction({
+      interaction: NFTs.MINT_DROP,
+      collectionId: drop.value?.collection,
+      nfts: allocatedNFTs.value,
+      availableSerialNumbers: availableNfts.serialNumbers,
+      price: drop.value?.price || null,
     })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
@@ -191,26 +173,10 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    const response = await Promise.all(toMintNFTs.value.map(submitMint))
+    const { mintedNfts } = await useUpdateMetadata()
+    mintingSession.value.items = mintedNfts.value
 
-    const mintedNfts = response.map(
-      (item) =>
-        ({
-          id: `${drop.value?.collection}-${item.sn}`,
-          chain: item.chain,
-          name: item.name,
-          image: item.image as string,
-          collection: {
-            id: item.collection,
-            name: collectionName.value,
-            max: maxCount.value,
-          },
-        }) as MintedNFT,
-    )
-
-    mintingSession.value.items = mintedNfts
-
-    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
+    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
     await fetchDropStatus()
 
@@ -248,8 +214,7 @@ const stopMint = () => {
   clearMassMint()
 }
 
-const { massGenerate, allocateGenerated, submitMint, clearMassMint } =
-  useDropMassMint()
+const { massGenerate, allocateGenerated, clearMassMint } = useDropMassMint()
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()
@@ -266,6 +231,10 @@ useTransactionTracker({
   },
   // ensure txHash is set, it's needed when calling /do/:id
   waitFor: [computed(() => Boolean(mintingSession.value.txHash))],
+})
+
+watch(txHash, () => {
+  mintingSession.value.txHash = txHash.value
 })
 
 watch(() => dropStore.runtimeMintCount, fetchDropStatus, {

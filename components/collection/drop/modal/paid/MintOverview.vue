@@ -8,7 +8,8 @@
         :key="toMintNft.hash"
         :name="toMintNft.name"
         :collection-name="toMintNft.collectionName"
-        :price="toMintNft.price">
+        :price="toMintNft.price"
+        :hide-collection="true">
         <template #image>
           <div class="relative">
             <NeoSkeleton
@@ -66,7 +67,6 @@
       :loading="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
-      :parent-ready="!modalLoading"
       :fees="{
         actionAutoFees: false,
       }"
@@ -93,7 +93,6 @@ const props = defineProps<{
   action: AutoTeleportAction
   minimumFunds: number
   mintButton: { label: string; disabled: boolean; loading?: boolean }
-  modalLoading: boolean
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
 }>()

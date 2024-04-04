@@ -70,16 +70,23 @@ test('Drop page verification', async ({ page, Commands }) => {
     await expect(dropContainer).toBeVisible()
     await expect(dropPhase).toBeVisible()
     await expect(mintButton).toBeVisible()
-    await expect(mintButton).toHaveText('Connect your wallet')
-    await Commands.e2elogin()
-    await page.goto(addresses[0])
     const dropPhaseStatus = await dropPhase.innerText()
 
     if (dropPhaseStatus == 'Minting Now') {
+      await expect(mintButton).toHaveText('Connect your wallet')
+      await page.getByTestId('drop-mint-button').click()
+      await expect(
+        page.getByTestId('wallet-connect-sidebar-modal'),
+      ).toBeVisible()
+      await Commands.e2elogin()
+      await page.goto(addresses[0])
       await expect(mintButton).toContainText('Mint For')
       await expect(page.getByTestId('drop-stepper-container')).toBeVisible()
     } else {
       await expect(mintButton).toContainText('See Listings')
+      await page.getByTestId('drop-mint-button').click()
+      await page.waitForTimeout(2000)
+      await expect(page).toHaveURL(`${collections[0]}?listed=true`)
     }
   })
 })
@@ -90,17 +97,4 @@ test('View Collection', async ({ page }) => {
   await page.getByTestId('drops-view-collection-button').click()
   await page.waitForTimeout(2000)
   await expect(page).toHaveURL(collections[0])
-})
-
-test('Clicking connect wallet opens sidebar', async ({ page }) => {
-  for (const data of TEST_DROPS) {
-    await test.step(`Checking: ${data.address}`, async () => {
-      await page.goto(data.address)
-      await expect(page.getByTestId('drop-mint-button')).toBeVisible()
-      await page.getByTestId('drop-mint-button').click()
-      await expect(
-        page.getByTestId('wallet-connect-sidebar-modal'),
-      ).toBeVisible()
-    })
-  }
 })

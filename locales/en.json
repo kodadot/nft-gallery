@@ -827,7 +827,17 @@
     "searchNoResultsText": "Explore artist's portfolio on other networks ({0})",
     "searchNoResultsButton": "Explore on {0}",
     "collectedFromCreator": "Collected {0} NFT(s) from this creator",
-    "highestSales": "Highest Sales"
+    "highestSales": "Highest Sales",
+    "walletAndLinks": "Wallets and Links",
+    "subscan": "Subscan",
+    "subId": "SubId",
+    "notFollowed": "not followed by anyone you’re following",
+    "followedBy": "Followed by",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "following": "Following",
+    "editProfile": "Edit Profile",
+    "createProfile": "Create Profile"
   },
   "sales": {
     "page": "Sales",
@@ -885,6 +895,8 @@
   },
   "activity": {
     "listed": "Listed",
+    "items": "Items",
+    "estimatedValue": "Est. Value",
     "totalItems": "Σ Items",
     "todayTraded": "24H",
     "totalTraded": "Σ VOLUME TRADED",
@@ -923,7 +935,9 @@
     "noHolders": "Start collecting NFTs and make your mark at the top!",
     "noResultsSub": "Check back later or reset your filters",
     "hideOutliers": "Hide Outliers",
-    "applySmoothing": "Apply Smoothing"
+    "applySmoothing": "Apply Smoothing",
+    "followers": "Followers",
+    "following": "Following"
   },
   "profileStats": {
     "listed": "Listed",
@@ -1011,6 +1025,7 @@
     "tos": "KodaDot's Terms and Conditions"
   },
   "helper": {
+    "viewAll": "View All",
     "tryAgain": "Try again",
     "viewTx": "View Tx",
     "supplyNotSet": "Supply Not Set",
@@ -1203,6 +1218,7 @@
     "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard",
     "downloadError": "Unable to download image",
+    "unsupportedOperation": "Unsupported action",
     "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds."
   },
   "profileMenu": {
@@ -1239,6 +1255,7 @@
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
     "twitter": "Share on Twitter",
+    "farcaster": "Share on Farcaster",
     "copyAddress": "Copy Address"
   },
   "moreActions": {
