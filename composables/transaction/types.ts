@@ -37,6 +37,8 @@ export type MintTokenParams = BaseMintParams<ActionMintToken>
 
 export type MintCollectionParams = BaseMintParams<ActionMintCollection>
 
+export type MintDropParams = BaseMintParams<ActionMintDrop>
+
 export type NftCountType = {
   nftCount: number
 }
@@ -170,6 +172,14 @@ export interface ActionMintToken {
   errorMessage?: string
 }
 
+export interface ActionMintDrop {
+  interaction: NFTs.MINT_DROP
+  nfts: { id: number }[]
+  availableSerialNumbers?: string[]
+  price: string | null
+  collectionId: string
+}
+
 export interface ActionMintCollection {
   interaction: Interaction.MINT
   urlPrefix: string
@@ -198,6 +208,7 @@ export interface ActionDeleteCollection {
 
 export enum NFTs {
   BURN_MULTIPLE = 'burnMultiple',
+  MINT_DROP = 'mintDrop',
 }
 
 export interface ActionBurnMultipleNFTs {
@@ -229,3 +240,4 @@ export type Actions =
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
   | ActionSetCollectionMaxSupply
+  | ActionMintDrop

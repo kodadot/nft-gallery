@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     class="top"
-    content-class="modal-width"
+    content-class="!w-[unset]"
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
       <EmailSignup
@@ -77,7 +77,6 @@ const dropStore = useDropStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
-const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
 
 const {
   checkingSubscription,
@@ -121,6 +120,9 @@ const mintingSession = computed<MintingSession>(() => ({
   txHash: undefined, // free mint does not have a txHash
 }))
 
+const subscriptionEmail = computed(
+  () => preferencesStore.getNewsletterSubscription.email,
+)
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
   () => modalStep.value === ModalStep.CONFIRM_EMAIL,
@@ -194,17 +196,17 @@ watchEffect(() => {
   const claiming = dropStore.loading
   const alreadyConfirmed = emailConfirmed.value && !email.value
   const alreadySubscribed =
-    subscriptionEmail && !email.value && !changeEmail.value
+    subscriptionEmail.value && !email.value && !changeEmail.value
 
   if (alreadyConfirmed && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (alreadySubscribed && isEmailSignupStep.value) {
-    email.value = subscriptionEmail
+    email.value = subscriptionEmail.value
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (
     email.value &&
     isEmailSignupStep.value &&
-    subscriptionEmail &&
+    subscriptionEmail.value &&
     !subscribingToNewsletter.value
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL

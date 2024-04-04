@@ -23,25 +23,6 @@
           </div>
         </div>
 
-        <!-- migration is ready -->
-        <div v-if="isMigrate && isRemark">
-          <div
-            class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
-            <div class="flex items-center">
-              <img
-                width="42"
-                height="42"
-                src="~/assets/svg/migrate/state-ready.svg"
-                alt="unlockable icon" />
-              <span> {{ $t('migrate.ready.title') }} </span>
-            </div>
-            <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
-            <nuxt-link class="flex items-center font-bold my-2" to="/migrate">
-              {{ $t('migrate.cta') }}
-            </nuxt-link>
-          </div>
-        </div>
-
         <!-- related active drop -->
         <CollectionRelatedDropNotification :collection-id="collectionId" />
 
@@ -58,15 +39,11 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-import { useReadyItems } from '@/composables/useMigrate'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
 const collectionId = computed(() => route.params.id as string)
 const route = useRoute()
-const { entities } = useReadyItems()
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
@@ -77,7 +54,6 @@ const { data, refetch } = useGraphql({
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
-const isMigrate = ref(false)
 
 const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
@@ -95,8 +71,6 @@ watchEffect(async () => {
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
-
-  isMigrate.value = entities[collectionId.value.toString()]?.name
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)

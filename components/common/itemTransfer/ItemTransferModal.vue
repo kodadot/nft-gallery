@@ -7,7 +7,7 @@
       @try-again="transfer" />
 
     <NeoModal :value="isModalActive" @close="onClose">
-      <div class="modal-width">
+      <div class="lg:w-[25rem]">
         <header
           class="border-b border-grey flex items-center justify-between px-6">
           <p class="py-5 text-base font-bold">
@@ -106,6 +106,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import formatBalance from '@/utils/format/balance'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import type { Actions } from '@/composables/transaction/types'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -162,7 +163,11 @@ const isYourAddress = computed(
 )
 
 const isDisabled = computed(
-  () => !address.value || !isAddressValid.value || isYourAddress.value,
+  () =>
+    hasOperationsDisabled(urlPrefix.value) ||
+    !address.value ||
+    !isAddressValid.value ||
+    isYourAddress.value,
 )
 
 const nftPrice = computed(() =>
@@ -218,15 +223,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.modal-width {
-  width: 25rem;
-}
-
-@include touch() {
-  .modal-width {
-    width: unset;
-  }
-}
 .btn-height {
   height: 3.5rem;
 }

@@ -3,7 +3,7 @@
     :id="config.iframeId"
     :key="count"
     title="render-preview"
-    class="sandbox-iframe w-full h-[440px] border"
+    :class="['sandbox-iframe w-full h-[440px] border', customClass]"
     sandbox="allow-scripts allow-same-origin"
     :src="iframeSrc"
     @load="onIframeLoad">
@@ -19,6 +19,7 @@ const props = defineProps<{
   hash: string
   assets: Array<AssetMessage>
   count: number
+  customClass?: string
 }>()
 
 const emit = defineEmits(['update:count'])

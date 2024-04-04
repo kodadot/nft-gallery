@@ -43,6 +43,13 @@ onBeforeMount(() => checkRouteAvailability())
 
 definePageMeta({
   layout: 'explore-layout',
+  middleware: [
+    function (to) {
+      if (to.query.listed === undefined) {
+        return navigateTo({ path: to.path, query: { listed: true } })
+      }
+    },
+  ],
 })
 
 useSeoMeta({
