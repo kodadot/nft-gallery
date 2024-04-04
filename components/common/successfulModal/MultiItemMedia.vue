@@ -10,7 +10,7 @@
       :key="item.id"
       class="flex flex-row items-center gap-4">
       <BaseMediaItem
-        class="border border-k-shade aspect-square w-8"
+        class="border border-k-shade aspect-square w-10 !h-10"
         :src="sanitizeIpfsUrl(item.image)"
         :mime-type="mediaMimeType"
         preview
