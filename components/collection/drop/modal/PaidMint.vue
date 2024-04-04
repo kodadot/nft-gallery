@@ -18,7 +18,6 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
-        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
@@ -62,7 +61,7 @@ const props = defineProps<{
   status: TransactionStatus
 }>()
 
-const { canMint, canList } = useDropMassMintState()
+const { canMint, canList, isRendering } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
@@ -81,11 +80,7 @@ const isSingleMintNotReady = computed(
 )
 
 const mintButton = computed(() => {
-  const generatingVariations =
-    toMintNFTs.value.map((nft) => nft.imageDataPayload).filter(Boolean)
-      .length !== toMintNFTs.value.length
-
-  if (generatingVariations) {
+  if (isRendering.value) {
     return {
       label: `${$i18n.t('drops.generatingVariations')} ~ 5s`,
       disabled: true,
