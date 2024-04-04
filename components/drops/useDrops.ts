@@ -78,7 +78,11 @@ export function useDrops(query?: GetDropsQuery) {
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-  const count = await fetchDropMintedCount(drop)
+
+  let count = drop.minted
+  if (!count) {
+    count = await fetchDropMintedCount(drop)
+  }
   const price = drop.price || 0
   let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
 
