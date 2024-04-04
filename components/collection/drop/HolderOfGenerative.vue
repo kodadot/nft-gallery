@@ -48,7 +48,7 @@ import {
   useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
-  useCollectionEntity,
+  useUpdateMetadata,
 } from '@/composables/drop/useGenerativeDropMint'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
@@ -58,7 +58,6 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
-import { MintedNFT } from './types'
 import { NFTs } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -84,15 +83,13 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus()
+const { fetchDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
-const { claimedNft, canListMintedNft, maxCount } = useGenerativeDropMint()
-const { collectionName } = useCollectionEntity()
+const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 
 const {
   mintingSession,
-  toMintNFTs,
   allocatedNFTs,
   loading,
   walletConnecting,
@@ -176,26 +173,10 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    const response = await Promise.all(toMintNFTs.value.map(submitMint))
+    const { mintedNfts } = await useUpdateMetadata()
+    mintingSession.value.items = mintedNfts.value
 
-    const mintedNfts = response.map(
-      (item) =>
-        ({
-          id: `${drop.value?.collection}-${item.sn}`,
-          chain: item.chain,
-          name: item.name,
-          image: item.image as string,
-          collection: {
-            id: item.collection,
-            name: collectionName.value,
-            max: maxCount.value,
-          },
-        }) as MintedNFT,
-    )
-
-    mintingSession.value.items = mintedNfts
-
-    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
+    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
     await fetchDropStatus()
 
@@ -233,8 +214,7 @@ const stopMint = () => {
   clearMassMint()
 }
 
-const { massGenerate, allocateGenerated, submitMint, clearMassMint } =
-  useDropMassMint()
+const { massGenerate, allocateGenerated, clearMassMint } = useDropMassMint()
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()

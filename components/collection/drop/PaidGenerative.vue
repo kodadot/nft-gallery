@@ -1,28 +1,6 @@
 <template>
   <CollectionDropGenerativeLayout @mint="handleSubmitMint" />
 
-  <NeoModalExtend v-model:active="isRaffleModalActive">
-    <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
-      <form @submit.prevent="submitRaffle()">
-        <NeoInput
-          v-model="raffleEmail"
-          placeholder="Email"
-          class="mb-4"
-          type="email"
-          :disabled="loading"
-          required />
-        <NeoButton
-          expanded
-          variant="k-accent"
-          native-type="submit"
-          :loading="loading"
-          :disabled="loading">
-          Allocate
-        </NeoButton>
-      </form>
-    </ModalBody>
-  </NeoModalExtend>
-
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
@@ -33,22 +11,17 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { useDrop, useDropStatus } from '@/components/drops/useDrops'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import { useUpdateMetadata } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import { MintedNFT } from './types'
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
-const { maxCount } = useGenerativeDropMint()
-const { fetchDropStatus } = useDropStatus()
+const { fetchDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
@@ -59,13 +32,10 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 
-const { collectionName } = useCollectionEntity()
 const {
   loading,
   walletConnecting,
-  previewItem,
   mintingSession,
-  toMintNFTs,
   allocatedNFTs,
   isCapturingImage,
 } = storeToRefs(useDropStore())
@@ -83,7 +53,6 @@ const {
 useCursorDropEvents([isTransactionLoading, loading])
 
 const isMintModalActive = ref(false)
-const isRaffleModalActive = ref(false)
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -132,17 +101,8 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  // skip raffle modal at the moment. generate random email instead
-  // isRaffleModalActive.value = true
   openMintModal()
   massGenerate()
-}
-
-const submitRaffle = async () => {
-  await allocateRaffle()
-
-  isRaffleModalActive.value = false
-  openMintModal()
 }
 
 const openMintModal = () => {
@@ -158,34 +118,12 @@ const closeMintModal = () => {
   isMintModalActive.value = false
 }
 
-const allocateRaffle = async () => {
-  if (previewItem.value) {
-    await allocateRaffleMode(raffleEmail.value, previewItem.value)
-  }
-}
-
 const submitMints = async () => {
   try {
-    const response = await Promise.all(toMintNFTs.value.map(submitMint))
+    const { mintedNfts } = await useUpdateMetadata()
+    mintingSession.value.items = mintedNfts.value
 
-    const mintedNfts = response.map(
-      (item) =>
-        ({
-          id: `${drop.value.collection}-${item.sn}`,
-          chain: item.chain,
-          name: item.name,
-          image: item.image as string,
-          collection: {
-            id: item.collection,
-            name: collectionName.value,
-            max: maxCount.value,
-          },
-        }) as MintedNFT,
-    )
-
-    mintingSession.value.items = mintedNfts
-
-    subscribeForNftsWithMetadata(mintedNfts.map((item) => item.id))
+    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
     await fetchDropStatus()
 
@@ -214,13 +152,7 @@ const stopMint = () => {
   clearMassMint()
 }
 
-const {
-  massGenerate,
-  submitMint,
-  allocateRaffleMode,
-  raffleEmail,
-  clearMassMint,
-} = useDropMassMint()
+const { massGenerate, clearMassMint } = useDropMassMint()
 
 const { subscribeForNftsWithMetadata, listMintedNFTs } =
   useDropMassMintListing()

@@ -23,5 +23,11 @@ export const nameWithIndex = (name: string = '', sn?: string) => {
   if (!name || !sn) {
     return name
   }
+
+  // display sn if nftId is less than 4 digits
+  if (sn.length >= 4) {
+    return name
+  }
+
   return suffixRegex.test(name) ? name : `${name} #${trimLeadingZeros(sn)}`
 }
