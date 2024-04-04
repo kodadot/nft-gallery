@@ -1,10 +1,5 @@
 import format from 'date-fns/format'
 
-// sonarcloud not happy with Math.random()
-// export function uidMath(length = 9) {
-//   const random = Math.floor(Math.random() * 900000000) + 100000000
-//   return random.toString().slice(0, length)
-// }
 
 export function uidCrypto(length = 9) {
   const array = new Uint32Array(1)
