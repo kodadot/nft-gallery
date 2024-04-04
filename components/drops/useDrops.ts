@@ -1,9 +1,4 @@
-import {
-  GetDropsQuery,
-  getDropById,
-  getDropStatus,
-  getDrops,
-} from '@/services/fxart'
+import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import collectionStatsById from '@/queries/subsquid/general/collectionStatsById.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
@@ -18,7 +13,7 @@ import { parseCETDate } from './utils'
 
 export interface Drop {
   collection: DropItem
-  chain: string
+  chain: Prefix
   minted: number
   max: number
   disabled: number
@@ -83,7 +78,7 @@ export function useDrops(query?: GetDropsQuery) {
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-  const { count } = await getDropStatus(drop.alias)
+  const count = await fetchDropMintedCount(drop)
   const price = drop.price || 0
   let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
 
@@ -99,6 +94,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
+    minted: count,
   } as any
 
   Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
@@ -173,8 +169,28 @@ export function useDrop(alias?: string) {
   }
 }
 
+export const fetchDropMintedCount = async (
+  drop: Pick<DropItem, 'collection' | 'chain'>,
+) => {
+  if (!drop.collection || !drop.chain) {
+    return 0
+  }
+
+  const { data } = await useAsyncQuery<{
+    stats: { base: string[] }
+  }>({
+    query: collectionStatsById,
+    variables: {
+      id: drop.collection,
+    },
+    clientId: drop.chain,
+  })
+
+  return data.value?.stats?.base.length
+}
+
 export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string; chain: string }>,
+  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
 ) => {
   const dropStore = useDropStore()
   const mintsCount = computed({
@@ -183,18 +199,8 @@ export const useDropStatus = (
   })
 
   const fetchDropStatus = async () => {
-    if (drop?.value.collection) {
-      const { data } = await useAsyncQuery<{
-        stats: { base: string[] }
-      }>({
-        query: collectionStatsById,
-        variables: {
-          id: drop.value.collection,
-        },
-        clientId: drop.value.chain,
-      })
-
-      mintsCount.value = data.value?.stats.base.length
+    if (drop.value) {
+      mintsCount.value = await fetchDropMintedCount(drop.value)
     }
   }
 
