@@ -194,7 +194,7 @@ export const fetchDropMintedCount = async (
 }
 
 export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
+  drop?: WritableComputedRef<{ collection: string; chain: Prefix }>,
 ) => {
   const dropStore = useDropStore()
   const mintsCount = computed({
@@ -203,7 +203,7 @@ export const useDropStatus = (
   })
 
   const fetchDropStatus = async () => {
-    if (drop.value) {
+    if (drop?.value) {
       mintsCount.value = await fetchDropMintedCount(drop.value)
     }
   }
