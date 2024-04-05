@@ -97,7 +97,7 @@ export default () => {
               previewItem.value,
               ...generateMassPreview(
                 amountToMint.value - 1,
-                mintedAmountForCurrentUser.value,
+                mintedAmountForCurrentUser.value + 1,
               ),
             ]
       ) as GenerativePreviewItem[]
