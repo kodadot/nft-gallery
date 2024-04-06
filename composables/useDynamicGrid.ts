@@ -46,6 +46,8 @@ export default ({
     return fillRows ? getColsFilledByAllRows(getCols) : getCols
   })
 
+  onMounted(() => (containerWidth.value = container.value?.clientWidth ?? 0))
+
   useResizeObserver(container, (entries) => {
     const entry = entries[0]
     containerWidth.value = entry.contentRect.width

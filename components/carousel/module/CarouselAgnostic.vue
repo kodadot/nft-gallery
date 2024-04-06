@@ -45,7 +45,7 @@ export type CarouseBreakpointsConfig = Record<
 >
 
 const SYNC_SLIDER_ON_EVENTS = ['slideChanged', 'optionsChanged']
-const SYNC_CONFIG_DEBOUNCE_AMOUNT = 100
+const SYNC_CONFIG_DEBOUNCE_AMOUNT = 1 // anything bellow this makes the carousel to glitch
 const DEFAULT_SLIDES_CONFIG = { perView: 3, spacing: 16 }
 
 const props = defineProps<{
