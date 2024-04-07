@@ -1,13 +1,33 @@
 <template>
-  <section class="px-[96px] md:container md:mx-auto">
+  <section class="container mx-auto">
     <div
       v-for="section in sections"
       :id="section.id"
       :key="section.id"
-      class="py-[5.5rem]"
-      :class="{ 'border-b': section.id !== 'offline_exhibitions' }">
+      class="py-14 md:py-[5.5rem] border-k-shade2"
+      :class="{ 'border-b': section.id !== 'onboarding' }">
       <WhyKodaSectionItem :section="section">
-        <template v-if="section.id === 'offline_exhibitions'"> </template>
+        <div v-if="section.id === 'offline_exhibitions'" class="relative">
+          <div class="flex gap-4 py-20">
+            <img
+              v-for="img in offlineExhibitionsImages"
+              :key="img"
+              :src="img"
+              alt="offline_exhibitions"
+              class="h-[358px] min-w-[480px] object-cover shadow-primary border rounded-xl" />
+          </div>
+
+          <div>
+            <p class="text-xl md:text-2xl">{{ $t('benefits') }}:</p>
+            <div class="flex gap-4 flex-wrap !mt-4">
+              <div v-for="benefit in benefits" :key="benefit">
+                <span class="border rounded-full px-2 text-xl md:text-2xl">
+                  {{ $t(`whyKoda.benefits.${benefit}`) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </WhyKodaSectionItem>
     </div>
   </section>
@@ -16,4 +36,18 @@
 defineProps<{
   sections: { name: string; id: string; description: string; number: number }[]
 }>()
+
+const glob = import.meta.glob('~/public/why-koda-*.jpeg', { eager: true })
+
+const offlineExhibitionsImages = Object.entries(glob).map(
+  ([, value]) => value.default,
+)
+
+const benefits = [
+  'visibility_recognition',
+  'digital_creations_to_physical_audience',
+  'increased_sales',
+  'artist_growth',
+  'new_space_for_collaborations',
+]
 </script>

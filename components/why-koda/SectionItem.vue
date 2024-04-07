@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="grid grid-cols-12 gap-4">
-      <div class="col-span-2">
+    <div class="max-md:flex max-md:flex-col md:grid md:grid-cols-12 md:gap-4">
+      <div class="md:col-span-2">
         <NeoButton rounded tag="a" :href="`#${section.id}`">
           {{ section.number }}.
         </NeoButton>
       </div>
       <p
-        class="text-3xl md:text-6xl font-bold text-center capitalize md:inline text-start col-span-5">
+        class="text-3xl md:text-6xl font-bold text-center capitalize md:inline text-start md:col-span-5 max-md:mt-8">
         {{ section.name }}
       </p>
-      <p class="col-span-5">{{ section.description }}</p>
+      <p class="md:col-span-5 max-md:mt-6">{{ section.description }}</p>
     </div>
 
     <slot />
