@@ -2,14 +2,13 @@
   <section class="border-b relative max-md:flex max-md:flex-col-reverse">
     <div class="container">
       <div class="max-md:px-4 max-md:py-16 md:py-[96px]">
-        <h1 class="flex items-center gap-6">
+        <h1 class="flex items-center gap-6 flex-wrap items-center">
           <span class="text-6xl font-bold text-center capitalize md:inline">
-            Why
+            {{ $t('why') }}
           </span>
-          <img
-            src="~/public/Koda_logo.svg"
-            alt="koda-logo"
-            class="max-md:h-[42px] md:h-15" />
+          <div class="h-[calc(100%-13px)] flex items-center">
+            <img :src="logoSrc" alt="koda-logo" class="h-full" />
+          </div>
         </h1>
 
         <p class="!mt-6 text-xl">
@@ -21,7 +20,7 @@
             <li
               v-for="section in sections"
               :key="section.id"
-              class="!mb-3 border rounded-full px-2 md:!px-5">
+              class="!mb-3 border rounded-full px-2 md:!px-3">
               <NeoButton
                 variant="text"
                 tag="a"
@@ -54,8 +53,7 @@
             class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary">
             <BasicImage
               :src="sanitizeIpfsUrl(nft.meta.image)"
-              :alt="nft?.name"
-              class="rounde-xl rounded-xl shadow-primary" />
+              :alt="nft?.name" />
           </div>
         </div>
       </div>
@@ -73,7 +71,11 @@ defineProps<{
   sections: { name: string; id: string }[]
 }>()
 
-const PER_STRIP = 10
+const NFTS_PER_STRIP = 10
+const AMOUNT_OF_STRIPS = 2
+
+const { isMobileOrTablet: isTouch } = useDevice()
+const { isDarkMode } = useTheme()
 
 const { data: collections } = await useAsyncData(
   () =>
@@ -110,9 +112,15 @@ const { data: nftss } = await useAsyncData(
       uniqBy(
         events.map((event) => event.nft),
         'id',
-      ).slice(0, PER_STRIP * 2),
+      ).slice(0, NFTS_PER_STRIP * AMOUNT_OF_STRIPS),
   },
 )
 
-const nftsByStrip = computed(() => chunk(nftss?.value ?? [], PER_STRIP))
+const nftsByStrip = computed(() => chunk(nftss?.value ?? [], NFTS_PER_STRIP))
+
+const logoSrc = computed(() => {
+  const variant = isTouch ? 'Koda' : 'Koda_logo'
+  const color = isDarkMode.value ? '_dark' : ''
+  return `/${variant}${color}.svg`
+})
 </script>

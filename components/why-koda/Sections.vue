@@ -7,7 +7,7 @@
         :key="section.id"
         class="py-14 md:py-[5.5rem] border-k-shade2"
         :class="{
-          'border-b': section.id !== 'onboarding',
+          'border-b': section.id !== 'offline_exhibitions',
           '!pb-0': section.id === 'onboarding',
         }">
         <WhyKodaSectionItem :section="section" />
@@ -15,11 +15,11 @@
     </div>
 
     <div>
-      <div class="flex gap-4 py-20 justify-center">
+      <div class="flex gap-4 max-md:pb-14 max-md:pt-6 md:py-20 justify-center">
         <div
           v-for="img in offlineExhibitionsImages"
           :key="img"
-          class="h-[358px] min-w-[480px] shadow-primary border rounded-xl overflow-hidden">
+          class="h-[216px] min-w-[291px] md:h-[358px] md:min-w-[480px] shadow-primary border rounded-xl overflow-hidden">
           <BasicImage :src="img" alt="offline_exhibitions" />
         </div>
       </div>
@@ -38,6 +38,7 @@
 
         <div
           v-if="lastSection"
+          :id="lastSection.id"
           class="py-14 md:py-[5.5rem] border-k-shade2 border-t">
           <WhyKodaSectionItem :section="lastSection" />
         </div>
