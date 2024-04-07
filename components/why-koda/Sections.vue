@@ -1,5 +1,5 @@
 <template>
-  <section class="container mx-auto">
+  <section class="container mx-auto max-md:px-4">
     <div
       v-for="section in sections"
       :id="section.id"
@@ -9,12 +9,12 @@
       <WhyKodaSectionItem :section="section">
         <div v-if="section.id === 'offline_exhibitions'" class="relative">
           <div class="flex gap-4 py-20">
-            <img
+            <div
               v-for="img in offlineExhibitionsImages"
               :key="img"
-              :src="img"
-              alt="offline_exhibitions"
-              class="h-[358px] min-w-[480px] object-cover shadow-primary border rounded-xl" />
+              class="h-[358px] min-w-[480px] shadow-primary border rounded-xl overflow-hidden">
+              <BasicImage :src="img" alt="offline_exhibitions" />
+            </div>
           </div>
 
           <div>

@@ -1,7 +1,7 @@
 <template>
-  <section class="flex max-md:flex-col-reverse max-md:flex-col border-b">
-    <div class="w-full md:w-1/2 flex justify-end max-md:border-t md:border-r">
-      <div class="max-md:px-4 max-md:py-16 md:p-[96px]">
+  <section class="border-b relative max-md:flex max-md:flex-col-reverse">
+    <div class="container">
+      <div class="max-md:px-4 max-md:py-16 md:py-[96px]">
         <h1 class="flex items-center gap-6">
           <span class="text-6xl font-bold text-center capitalize md:inline">
             Why
@@ -17,16 +17,16 @@
         </p>
 
         <div class="!mt-10 md:mt-16">
-          <ol class="text-2xl !pl-7 list-decimal w-[300px]">
+          <ol class="text-xl md:text-2xl !pl-7 list-decimal w-[300px]">
             <li
               v-for="section in sections"
               :key="section.id"
-              class="!mb-3 border rounded-full !px-5">
+              class="!mb-3 border rounded-full px-2 md:!px-5">
               <NeoButton
                 variant="text"
                 tag="a"
                 no-shadow
-                class="text-2xl"
+                class="text-xl md:text-2xl"
                 :href="`#${section.id}`">
                 {{ section.name }}
               </NeoButton>
@@ -37,24 +37,26 @@
     </div>
 
     <div
-      class="w-full h-full md:w-1/2 flex h-full overflow-hidden bg-neutral-3 dark:bg-neutral-11">
+      class="md:absolute top-0 right-0 md:w-[55%] h-full overflow-hidden bg-neutral-3 dark:bg-neutral-11 max-md:border-b md:border-l">
       <div
-        class="max-md:py-9 md:!py-[4.75rem] flex flex-col max-md:gap-4 md:gap-8 h-full">
+        class="max-md:py-9 flex flex-col max-md:gap-4 md:gap-8 h-full justify-center">
         <div
           v-for="(nfts, index) in nftsByStrip"
           :key="`strip-${index}`"
-          class="w-full flex max-md:gap-4 md:gap-8">
-          <BaseMediaItem
+          class="flex max-md:gap-4 md:gap-8"
+          :class="{
+            'transform -translate-x-60': index !== 1,
+            'transform translate-x-4 md:translate-x-8': index === 1,
+          }">
+          <div
             v-for="nft in nfts"
             :key="nft.id"
-            :src="sanitizeIpfsUrl(nft.meta.image)"
-            :alt="nft?.name"
-            :class="{
-              'transform -translate-x-60': index !== 1,
-              'transform translate-x-4 md:translate-x-8': index === 1,
-            }"
-            is-detail
-            class="max-md:w-[134px] max-md:h-[134px] md:w-[285px] md:h-[285px] object-cover border rounded-xl shadow-primary" />
+            class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary">
+            <BasicImage
+              :src="sanitizeIpfsUrl(nft.meta.image)"
+              :alt="nft?.name"
+              class="rounde-xl rounded-xl shadow-primary" />
+          </div>
         </div>
       </div>
     </div>
