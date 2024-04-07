@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="label">
-      {{ $t('Partykit') }}
+      {{ $t('partykit') }}
     </div>
     <NeoSwitch v-model="partyMode" size="is-medium">
-      {{ $t('Party Mode') }}
+      {{ $t('partyMode') }}
       <NeoTooltip
         multiline
         :label="

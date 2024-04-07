@@ -87,6 +87,8 @@
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
+  "partykit": "Partykit",
+  "partyMode": "Party Mode",
   "user interface mode": "User Interface Mode",
   "advanced user interface": "Advanced User Interface",
   "basic user interface": "Basic User Interface",
