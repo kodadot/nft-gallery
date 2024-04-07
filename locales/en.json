@@ -89,6 +89,7 @@
   "Minting Settings": "Minting Settings",
   "partykit": "Partykit",
   "partyMode": "Party Mode",
+  "partyTooltipText": "Toggle Party Mode. See live cursors on the Drop page only. Turn off to browse solo.",
   "user interface mode": "User Interface Mode",
   "advanced user interface": "Advanced User Interface",
   "basic user interface": "Basic User Interface",

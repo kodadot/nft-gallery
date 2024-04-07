@@ -5,13 +5,7 @@
     </div>
     <NeoSwitch v-model="partyMode" size="is-medium">
       {{ $t('partyMode') }}
-      <NeoTooltip
-        multiline
-        :label="
-          $t(
-            'Toggle Party Mode. See live cursors on the Drop page only. Turn off to browse solo.',
-          )
-        "
+      <NeoTooltip multiline :label="$t('partyTooltipText')"
         ><NeoIcon icon="circle-info" class="text-k-grey"
       /></NeoTooltip>
     </NeoSwitch>
