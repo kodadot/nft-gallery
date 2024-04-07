@@ -12,8 +12,6 @@
       </p>
       <p class="md:col-span-5 max-md:mt-6 text-xl">{{ section.description }}</p>
     </div>
-
-    <slot />
   </div>
 </template>
 <script lang="ts" setup>
