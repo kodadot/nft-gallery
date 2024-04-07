@@ -1,6 +1,21 @@
 <template>
   <div>
-    <div class="label text-xs/normal">
+    <div class="label">
+      {{ $t('Partykit') }}
+    </div>
+    <NeoSwitch v-model="partyMode" size="is-medium">
+      {{ $t('Party Mode') }}
+      <NeoTooltip
+        multiline
+        :label="
+          $t(
+            'Toggle Party Mode. See live cursors on the Drop page only. Turn off to browse solo.',
+          )
+        "
+        ><NeoIcon icon="circle-info" class="text-k-grey"
+      /></NeoTooltip>
+    </NeoSwitch>
+    <div class="label mt-4">
       {{ $t('user interface mode') }}
     </div>
     <NeoSwitch v-model="enabledAdvancedUI" size="is-medium">
@@ -96,13 +111,24 @@
 
 <script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoField, NeoSelect, NeoSwitch } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoField,
+  NeoIcon,
+  NeoSelect,
+  NeoSwitch,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import Layout from '@/components/rmrk/Gallery/Layout.vue'
 
 const paginationOptions = ref([9, 12, 24, 36])
 const exploreTabOptions = ref(['GALLERY', 'COLLECTION'])
 const preferencesStore = usePreferencesStore()
 
+const partyMode = computed({
+  get: () => preferencesStore.partyMode,
+  set: (value) => preferencesStore.setPartyMode(value),
+})
 const enabledAdvancedUI = computed({
   get: () => preferencesStore.advancedUI,
   set: (value) => preferencesStore.setAdvancedUI(value),

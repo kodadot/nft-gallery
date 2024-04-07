@@ -53,6 +53,8 @@ interface State {
   layoutClass: string
   gridConfigs: GridConfig[]
   gridSize: GridSize
+  partyMode: boolean
+  firstTimePartyMode: boolean
   advancedUI: boolean
   theatreView: string
   compactGalleryItem: boolean
@@ -90,6 +92,8 @@ export const usePreferencesStore = defineStore('preferences', {
     triggerBuySuccess: false,
     layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
     gridConfigs: defaultGridConfigs,
+    partyMode: true,
+    firstTimePartyMode: true,
     advancedUI: false,
     theatreView: 'default',
     compactGalleryItem: true,
@@ -163,6 +167,12 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setLayoutClass(payload) {
       this.layoutClass = payload
+    },
+    setPartyMode(payload) {
+      this.partyMode = payload
+    },
+    setFirstTimePartyMode(payload) {
+      this.firstTimePartyMode = payload
     },
     setAdvancedUI(payload) {
       // if set to false reset state back to default

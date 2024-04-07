@@ -10,6 +10,7 @@ import useCursorParty from '@/composables/party/useCursorParty'
 import { DropEventType, UserDetails } from '@/composables/party/types'
 import { formatAmountWithRound } from '@/utils/format/balance'
 import { type CursorLabel } from '@/components/common/party/CursorParty.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const DROP_MITED_EVENT_DURATION = 30000
 
@@ -22,11 +23,21 @@ const { $i18n } = useNuxtApp()
 const { chainSymbol, decimals } = useChain()
 const { totalSpent, getUserStats } = useUserStats()
 const { accountId } = useAuth()
+const preferencesStore = usePreferencesStore()
 
-const { connections } = useCursorParty({
+const { connections, closeConnection } = useCursorParty({
   room: computed(() => props.dropAlias),
   spent: computed(() => (accountId.value ? totalSpent.value : undefined)),
 })
+
+watch(
+  () => preferencesStore.partyMode,
+  (newValue) => {
+    if (newValue === false) {
+      closeConnection()
+    }
+  },
+)
 
 const labelFormatter = (connection: UserDetails): CursorLabel => {
   const lastEvent = connection.lastEvent

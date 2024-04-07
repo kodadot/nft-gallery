@@ -64,6 +64,8 @@
   <CollectionDropCursorParty
     :drop-alias="drop.alias"
     :user-minted-count="mintedAmountForCurrentUser" />
+
+  <PartyModal v-if="preferencesStore.firstTimePartyMode" />
 </template>
 
 <script setup lang="ts">
@@ -74,6 +76,8 @@ import {
 } from '@/components/drops/useDrops'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import PartyModal from '@/components/common/party/PartyModal.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
 import { useWindowSize } from '@vueuse/core'
@@ -84,6 +88,7 @@ const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
+const preferencesStore = usePreferencesStore()
 const mdBreakpoint = 768
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()

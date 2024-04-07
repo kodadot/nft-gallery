@@ -47,7 +47,10 @@ export default ({
     }
   }
 
-  const { sendMessage: send } = useParty<CursorPartyEvents>({ room, onMessage })
+  const { sendMessage: send, closeConnection } = useParty<CursorPartyEvents>({
+    room,
+    onMessage,
+  })
 
   const cursorConnections = computed(
     () =>
@@ -97,5 +100,5 @@ export default ({
     })
   })
 
-  return { connections: visibleConnections }
+  return { connections: visibleConnections, closeConnection }
 }

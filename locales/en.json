@@ -1552,6 +1552,12 @@
       "public": "Public Mint"
     }
   },
+  "partyModal": {
+    "title": "Experience The Drop Party",
+    "text": "See and join other collectors browsing the drop in real time.",
+    "no": "OPT OUT",
+    "yes": "DIVE IN!"
+  },
   "confirmPurchase": {
     "action": "Confirm Purchase",
     "connectedWith": "Connected with",

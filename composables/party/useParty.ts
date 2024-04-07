@@ -1,4 +1,5 @@
 import PartySocket from 'partysocket'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type UsePartyParams<T> = {
   room: Ref<string>
@@ -10,6 +11,7 @@ const wss = ref(new Map<string, PartySocket>())
 
 export default <T>({ room, onMessage }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
+  const preferencesStore = usePreferencesStore()
 
   const connect = (room: string) => {
     console.log(`[PARTY::CONNECTION] Establishing connection with room ${room}`)
@@ -57,23 +59,25 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     wss.value.get(room.value)?.send(JSON.stringify(value))
   }
 
+  const closeConnection = () => {
+    for (const [room, ws] of wss.value) {
+      console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
+      ws.close()
+      wss.value.delete(room)
+    }
+  }
+
   watch(
     room,
     (value) => {
-      if (value) {
+      if (value && preferencesStore.partyMode) {
         connect(value)
       }
     },
     { immediate: true },
   )
 
-  onBeforeUnmount(() => {
-    for (const [room, ws] of wss.value) {
-      console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
-      ws.close()
-      wss.value.delete(room)
-    }
-  })
+  onBeforeUnmount(closeConnection)
 
-  return { sendMessage }
+  return { sendMessage, closeConnection }
 }
