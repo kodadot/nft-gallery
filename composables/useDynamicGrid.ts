@@ -46,6 +46,8 @@ export default ({
     return fillRows ? getColsFilledByAllRows(getCols) : getCols
   })
 
+  const isReady = computed(() => Boolean(containerWidth.value))
+
   onMounted(() => (containerWidth.value = container.value?.clientWidth ?? 0))
 
   useResizeObserver(container, (entries) => {
@@ -53,5 +55,5 @@ export default ({
     containerWidth.value = entry.contentRect.width
   })
 
-  return { cols, isMobileVariant }
+  return { cols, isMobileVariant, isReady }
 }
