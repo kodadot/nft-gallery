@@ -42,11 +42,7 @@
         <div
           v-for="(nfts, index) in nftsByStrip"
           :key="`strip-${index}`"
-          class="flex max-md:gap-4 md:gap-8"
-          :class="{
-            'transform -translate-x-60': index !== 1,
-            'transform translate-x-4 md:translate-x-8': index === 1,
-          }">
+          class="flex max-md:gap-4 md:gap-8 transform first:-translate-x-60 last:translate-x-4 last:md:translate-x-8">
           <div
             v-for="nft in nfts"
             :key="nft.id"
