@@ -11,8 +11,8 @@
         </p>
 
         <NeoButton
-          :tag="NuxtLink"
-          to="https://t.me/just_luuuu"
+          tag="a"
+          href="https://t.me/just_luuuu"
           target="_blank"
           no-shadow
           icon-left="arrow-right"
@@ -26,5 +26,4 @@
 </template>
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
-const NuxtLink = resolveComponent('NuxtLink')
 </script>
