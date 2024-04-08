@@ -90,12 +90,17 @@ export default () => {
 
       loading.value = true
 
-      const previewItems = single
-        ? ([previewItem.value] as GenerativePreviewItem[])
-        : generateMassPreview(
-            amountToMint.value,
-            mintedAmountForCurrentUser.value,
-          )
+      const previewItems = (
+        single
+          ? [previewItem.value]
+          : [
+              previewItem.value,
+              ...generateMassPreview(
+                amountToMint.value - 1,
+                mintedAmountForCurrentUser.value + 1,
+              ),
+            ]
+      ) as GenerativePreviewItem[]
 
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
     } catch (error) {
