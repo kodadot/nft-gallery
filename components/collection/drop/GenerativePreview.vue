@@ -57,7 +57,9 @@
 
     <div class="flex mt-6 gap-4 max-md:flex-col">
       <CollectionDropMintStepper />
-      <CollectionDropMintButton @mint="emit('mint')" />
+      <div class="sm:w-3/4 md:w-full min-w-[200px]">
+        <CollectionDropMintButton @mint="emit('mint')" />
+      </div>
     </div>
 
     <div
