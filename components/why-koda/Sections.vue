@@ -2,22 +2,23 @@
   <section>
     <div :class="containerClasses">
       <div
-        v-for="section in mainSections"
+        v-for="(section, index) in sections"
         :id="section.id"
         :key="section.id"
         class="py-14 md:py-[5.5rem] border-k-shade2"
         :class="{
-          'border-b': section.id !== 'offline_exhibitions',
-          '!pb-0': section.id === 'onboarding',
+          'border-b': galleryImages?.length && index !== sections.length - 1,
         }">
         <WhyKodaSectionItem :section="section" />
       </div>
     </div>
 
     <div>
-      <div class="flex gap-4 max-md:pb-14 max-md:pt-6 md:py-20 justify-center">
+      <div
+        v-if="galleryImages"
+        class="flex gap-4 max-md:pb-14 max-md:pt-6 md:py-20 justify-center">
         <div
-          v-for="img in offlineExhibitionsImages"
+          v-for="img in galleryImages"
           :key="img"
           class="h-[216px] min-w-[291px] md:h-[358px] md:min-w-[480px] shadow-primary border rounded-xl overflow-hidden">
           <BasicImage :src="img" alt="offline_exhibitions" />
@@ -25,22 +26,15 @@
       </div>
 
       <div :class="containerClasses">
-        <div class="pb-20">
+        <div v-if="tags" class="pb-20">
           <p class="text-xl md:text-2xl">{{ $t('benefits') }}:</p>
           <div class="flex gap-4 flex-wrap !mt-4">
-            <div v-for="benefit in offlineExhibitionsBenefits" :key="benefit">
+            <div v-for="tag in tags" :key="tag">
               <span class="border rounded-full px-2 text-xl md:text-2xl">
-                {{ $t(`whyKoda.benefits.${benefit}`) }}
+                {{ $t(`whyKoda.benefits.${tag}`) }}
               </span>
             </div>
           </div>
-        </div>
-
-        <div
-          v-if="lastSection"
-          :id="lastSection.id"
-          class="py-14 md:py-[5.5rem] border-k-shade2 border-t">
-          <WhyKodaSectionItem :section="lastSection" />
         </div>
       </div>
     </div>
@@ -55,23 +49,19 @@ const props = defineProps<{
   sections: Section[]
 }>()
 
-const glob = import.meta.glob('~/public/why-koda-*.webp', { eager: true })
-
-const offlineExhibitionsImages = Object.entries(glob).map(
-  ([, value]) => value.default,
+const nextBlockIndex = computed(() =>
+  props.sections.findIndex((section) =>
+    Boolean(section.images || section.tags),
+  ),
 )
 
-const mainSections = computed(() =>
-  props.sections.slice(0, props.sections.length - 1),
+const galleryImages = computed(() =>
+  nextBlockIndex.value
+    ? props.sections[nextBlockIndex.value]?.images
+    : undefined,
 )
 
-const lastSection = computed(() => props.sections[props.sections.length - 1])
-
-const offlineExhibitionsBenefits = [
-  'visibility_recognition',
-  'digital_creations_to_physical_audience',
-  'increased_sales',
-  'artist_growth',
-  'new_space_for_collaborations',
-]
+const tags = computed(() =>
+  nextBlockIndex.value ? props.sections[nextBlockIndex.value]?.tags : undefined,
+)
 </script>

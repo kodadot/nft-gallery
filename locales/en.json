@@ -1203,7 +1203,7 @@
         "name": "Community",
         "description": "We're not just about art; we're about fostering a community where quality and creativity shine bright. Bringing together collectors, artists and enthusiasts brings us joy and open doors for new opportunities."
       },
-      "generative_art": {
+      "generativeArt": {
         "name": "Generative Art",
         "description": "Our heart beats for generative art, where code meets canvas, crafting the extraordinary out of the ordinary. It's not just art; it's an experience, a journey through creativity powered by the elegance of algorithms"
       },
@@ -1211,15 +1211,15 @@
         "name": "Koda",
         "description": "Koda means code in the Slovenian language. Which is now our primary focus. To deliver not only high-quality generative art but also to grow our code base, add new features and expand our horizons not only in the Polkadot ecosystem but also outside of it."
       },
-      "weekly_drops": {
+      "weeklyDrops": {
         "name": "Weekly Drops",
         "description": "We offer brand new weekly drops that are limited, created by various talented artists. At this point we did more than 18 drops from various talented artists from around the globe."
       },
-      "earn_rewards": {
+      "earnRewards": {
         "name": "Earn Rewards",
         "description": "Participate in our competitions, try commission work, collect rewards by referring artists, or become part of the team. There are so many opportunities that are waiting for you."
       },
-      "offline_exhibitions": {
+      "offlineExhibitions": {
         "name": "Offline Exhibitions",
         "description": "Organized to connect people with the same passion - art. During these events, we focus on promoting digital art, enlightening people about its significance and the technology behind it, building connections, and enjoying amazing art. Always happening in a big cities that love art like Berlin, Prague, Lisbon, Budapest and many more."
       },
@@ -1229,11 +1229,11 @@
       }
     },
     "benefits": {
-      "visibility_recognition": "gain visibility and recognition",
-      "digital_creations_to_physical_audience": "bringing digital creations to a physical audience",
-      "increased_sales": "increased sales",
-      "artist_growth": "artist growth",
-      "new_space_for_collaborations": "new space for collaborations"
+      "visibilityRecognition": "gain visibility and recognition",
+      "digitalCreationsToPhysicalAudience": "bringing digital creations to a physical audience",
+      "increasedSales": "increased sales",
+      "artistGrowth": "artist growth",
+      "newSpaceForCollaborations": "new space for collaborations"
     },
     "cta": {
       "heading": "Take the Next Step",

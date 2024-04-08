@@ -3,4 +3,6 @@ export type Section = {
   number: number
   name: string
   description: string
+  images?: string[]
+  tags?: string[]
 }
