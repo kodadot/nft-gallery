@@ -47,10 +47,12 @@
   </section>
 </template>
 <script lang="ts" setup>
+import type { Section } from './types'
+
 const containerClasses = 'container mx-auto max-md:px-4'
 
 const props = defineProps<{
-  sections: { name: string; id: string; description: string; number: number }[]
+  sections: Section[]
 }>()
 
 const glob = import.meta.glob('~/public/why-koda-*.webp', { eager: true })

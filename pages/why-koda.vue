@@ -8,12 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-export type Section = {
-  id: string
-  number: number
-  name: string
-  description: string
-}
+import type { Section } from '@/components/why-koda/types'
 
 const sectionIds = [
   'team',
