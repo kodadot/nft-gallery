@@ -168,10 +168,10 @@ export const usePreferencesStore = defineStore('preferences', {
     setLayoutClass(payload) {
       this.layoutClass = payload
     },
-    setPartyMode(payload) {
+    setPartyMode(payload: boolean) {
       this.partyMode = payload
     },
-    setFirstTimePartyMode(payload) {
+    setFirstTimePartyMode(payload: boolean) {
       this.firstTimePartyMode = payload
     },
     setAdvancedUI(payload) {

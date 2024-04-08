@@ -7,6 +7,7 @@ import {
   UserDetails,
 } from './types'
 import filter from 'lodash/filter'
+import { usePreferencesStore } from '@/stores/preferences'
 
 type CursorPartyEvents = UpdateMessage | RemoveMessage | SyncMessage
 
@@ -20,6 +21,7 @@ export default ({
   room: Ref<string>
   spent: Ref<number | undefined>
 }) => {
+  const { partyMode } = storeToRefs(usePreferencesStore())
   const { x, y, sourceType } = useMouse()
   const { width } = useWindowSize()
   const connections = ref(new Map<string, MaybeUserDetails>())
@@ -47,9 +49,10 @@ export default ({
     }
   }
 
-  const { sendMessage: send, closeConnection } = useParty<CursorPartyEvents>({
+  const { sendMessage: send } = useParty<CursorPartyEvents>({
     room,
     onMessage,
+    disabled: !partyMode,
   })
 
   const cursorConnections = computed(
@@ -100,5 +103,5 @@ export default ({
     })
   })
 
-  return { connections: visibleConnections, closeConnection }
+  return { connections: visibleConnections }
 }

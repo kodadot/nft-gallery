@@ -1558,8 +1558,8 @@
   "partyModal": {
     "title": "Experience The Drop Party",
     "text": "See and join other collectors browsing the drop in real time.",
-    "no": "OPT OUT",
-    "yes": "DIVE IN!"
+    "no": "Opt Out",
+    "yes": "Dive In!"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",

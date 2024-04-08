@@ -37,11 +37,17 @@ import { usePreferencesStore } from '@/stores/preferences'
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 
+const emit = defineEmits(['close'])
+
 const closeModal = () => {
-  preferencesStore.firstTimePartyMode = false
+  emit('close')
 }
 const stopParty = () => {
   preferencesStore.partyMode = false
   closeModal()
 }
+
+onMounted(() => {
+  preferencesStore.firstTimePartyMode = false
+})
 </script>

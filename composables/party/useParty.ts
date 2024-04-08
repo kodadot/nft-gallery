@@ -4,12 +4,13 @@ import { usePreferencesStore } from '@/stores/preferences'
 type UsePartyParams<T> = {
   room: Ref<string>
   onMessage?: (value: T) => void
+  disabled?: boolean
 }
 
 const PARTY_SOCKET_HOST = 'https://partykit.kodadot.workers.dev/'
 const wss = ref(new Map<string, PartySocket>())
 
-export default <T>({ room, onMessage }: UsePartyParams<T>) => {
+export default <T>({ room, onMessage, disabled }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
   const preferencesStore = usePreferencesStore()
 
@@ -59,25 +60,37 @@ export default <T>({ room, onMessage }: UsePartyParams<T>) => {
     wss.value.get(room.value)?.send(JSON.stringify(value))
   }
 
-  const closeConnection = () => {
+  const closeConnection = (room, ws) => {
+    console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
+    ws.close()
+    wss.value.delete(room)
+  }
+  const closeAllConnections = () => {
     for (const [room, ws] of wss.value) {
-      console.log(`[PARTY::CONNECTION] Closing connection with room ${room}`)
-      ws.close()
-      wss.value.delete(room)
+      closeConnection(room, ws)
     }
   }
 
   watch(
     room,
     (value) => {
-      if (value && preferencesStore.partyMode) {
+      if (value && !disabled) {
         connect(value)
       }
     },
     { immediate: true },
   )
 
-  onBeforeUnmount(closeConnection)
+  watch(
+    () => preferencesStore.partyMode,
+    (newValue) => {
+      if (newValue === false) {
+        closeAllConnections()
+      }
+    },
+  )
 
-  return { sendMessage, closeConnection }
+  onBeforeUnmount(closeAllConnections)
+
+  return { sendMessage }
 }
