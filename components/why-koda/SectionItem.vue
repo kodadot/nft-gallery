@@ -2,7 +2,7 @@
   <div>
     <div class="max-md:flex max-md:flex-col md:grid md:grid-cols-12 md:gap-4">
       <div class="md:col-span-2">
-        <NeoButton rounded tag="a" :href="`#${section.id}`">
+        <NeoButton v-safe-href="`#${section.id}`" rounded tag="a">
           {{ section.number }}.
         </NeoButton>
       </div>

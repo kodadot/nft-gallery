@@ -22,11 +22,11 @@
               :key="section.id"
               class="!mb-3 border rounded-full px-2 md:!px-3">
               <NeoButton
+                v-safe-href="`#${section.id}`"
                 variant="text"
                 tag="a"
                 no-shadow
-                class="text-xl md:text-2xl"
-                :href="`#${section.id}`">
+                class="text-xl md:text-2xl">
                 {{ section.name }}
               </NeoButton>
             </li>
