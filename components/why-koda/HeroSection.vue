@@ -7,7 +7,14 @@
             {{ $t('why') }}
           </span>
           <div class="h-[calc(100%-13px)] flex items-center">
-            <img :src="logoSrc" alt="koda-logo" class="h-full" />
+            <img
+              src="/Koda_logo.svg"
+              alt="koda logo"
+              class="h-full dark:hidden" />
+            <img
+              src="/Koda_logo_dark.svg"
+              alt="koda logo dark mode"
+              class="h-full hidden dark:block" />
           </div>
         </h1>
 
@@ -70,9 +77,6 @@ defineProps<{
 const NFTS_PER_STRIP = 10
 const AMOUNT_OF_STRIPS = 2
 
-const { isMobileOrTablet: isTouch } = useDevice()
-const { isDarkMode } = useTheme()
-
 const { data: collections } = await useAsyncData(
   () =>
     getDrops({
@@ -113,10 +117,4 @@ const { data: nftss } = await useAsyncData(
 )
 
 const nftsByStrip = computed(() => chunk(nftss?.value ?? [], NFTS_PER_STRIP))
-
-const logoSrc = computed(() => {
-  const variant = isTouch ? 'Koda' : 'Koda_logo'
-  const color = isDarkMode.value ? '_dark' : ''
-  return `/${variant}${color}.svg`
-})
 </script>
