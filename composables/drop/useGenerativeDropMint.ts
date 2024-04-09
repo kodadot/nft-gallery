@@ -23,13 +23,8 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-export function useCollectionEntity(collectionId?: string) {
-  const { drop } = useDrop()
-  const { client } = usePrefix()
-
-  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
-
-  const { data: collectionData } = useAsyncData<UnlockableCollectionById>(
+function useCollectionData(collectionKey, client, collectionId, drop) {
+  return useAsyncData<UnlockableCollectionById>(
     'collectionEntity' + collectionKey.value,
     () =>
       useAsyncQuery<UnlockableCollectionById>({
@@ -43,30 +38,35 @@ export function useCollectionEntity(collectionId?: string) {
       watch: collectionId ? undefined : [() => drop.value?.collection],
     },
   )
+}
 
-  const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
+export function useCollectionEntity(collectionId?: string) {
+  const { drop } = useDrop()
+  const { client } = usePrefix()
 
-  const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
-  )
+  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
 
-  const description = computed(
-    () => collectionData.value?.collectionEntity?.meta?.description ?? '',
-  )
-  const collectionName = computed(
-    () => collectionData.value?.collectionEntity?.name ?? '',
-  )
-
-  const nftCount = computed(
-    () => collectionData.value?.collectionEntity?.nftCount ?? 0,
+  const { data: collectionData } = useCollectionData(
+    collectionKey,
+    client,
+    collectionId,
+    drop,
   )
 
   return {
-    maxCount,
-    mintedAmountForCurrentUser,
-    description,
-    collectionName,
-    nftCount,
+    maxCount: computed(() => collectionData.value?.collectionEntity?.max),
+    mintedAmountForCurrentUser: computed(
+      () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
+    ),
+    description: computed(
+      () => collectionData.value?.collectionEntity?.meta?.description ?? '',
+    ),
+    collectionName: computed(
+      () => collectionData.value?.collectionEntity?.name ?? '',
+    ),
+    nftCount: computed(
+      () => collectionData.value?.collectionEntity?.nftCount ?? 0,
+    ),
   }
 }
 
