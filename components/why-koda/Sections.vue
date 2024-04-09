@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div :class="containerClasses">
+    <div class="section-container">
       <div
         v-for="(section, index) in sections"
         :id="section.id"
@@ -26,10 +26,7 @@
         </div>
       </div>
 
-      <div
-        v-if="tags"
-        class="pb-20 border-b border-k-shade2"
-        :class="containerClasses">
+      <div v-if="tags" class="section-container pb-20 border-b border-k-shade2">
         <p class="text-xl md:text-2xl">{{ $t('benefits') }}:</p>
         <div class="flex gap-4 flex-wrap !mt-4">
           <div v-for="tag in tags" :key="tag">
@@ -44,8 +41,6 @@
 </template>
 <script lang="ts" setup>
 import type { Section } from './types'
-
-const containerClasses = 'container mx-auto max-md:px-4'
 
 const props = defineProps<{
   sections: Section[]
@@ -69,3 +64,8 @@ const tags = computed(() =>
   nextBlockIndex.value ? props.sections[nextBlockIndex.value]?.tags : undefined,
 )
 </script>
+<style lang="scss" scoped>
+.section-container {
+  @apply container mx-auto max-md:px-4;
+}
+</style>
