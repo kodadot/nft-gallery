@@ -96,6 +96,15 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
+export function allocateCollection(
+  body: AllocateCollectionRequest,
+  id: string,
+): Promise<AllocateCollectionResponse>
+export function allocateCollection(
+  body: BatchMintBody,
+  id: string,
+): Promise<BatchAllocateResponse>
+
 export async function allocateCollection(
   body: AllocateCollectionRequest | BatchMintBody,
   id: string,
