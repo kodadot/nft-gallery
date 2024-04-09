@@ -7,7 +7,8 @@
         :key="section.id"
         class="py-14 md:py-[5.5rem] border-k-shade2"
         :class="{
-          'border-b': galleryImages?.length && index !== sections.length - 1,
+          'border-b': hasBlock && index !== sections.length - 1,
+          'last:pb-0': hasBlock,
         }">
         <WhyKodaSectionItem :section="section" />
       </div>
@@ -25,15 +26,16 @@
         </div>
       </div>
 
-      <div :class="containerClasses">
-        <div v-if="tags" class="pb-20">
-          <p class="text-xl md:text-2xl">{{ $t('benefits') }}:</p>
-          <div class="flex gap-4 flex-wrap !mt-4">
-            <div v-for="tag in tags" :key="tag">
-              <span class="border rounded-full px-2 text-xl md:text-2xl">
-                {{ $t(`whyKoda.benefits.${tag}`) }}
-              </span>
-            </div>
+      <div
+        v-if="tags"
+        class="pb-20 border-b border-k-shade2"
+        :class="containerClasses">
+        <p class="text-xl md:text-2xl">{{ $t('benefits') }}:</p>
+        <div class="flex gap-4 flex-wrap !mt-4">
+          <div v-for="tag in tags" :key="tag">
+            <span class="border rounded-full px-2 text-xl md:text-2xl">
+              {{ $t(`whyKoda.benefits.${tag}`) }}
+            </span>
           </div>
         </div>
       </div>
@@ -54,6 +56,8 @@ const nextBlockIndex = computed(() =>
     Boolean(section.images || section.tags),
   ),
 )
+
+const hasBlock = computed(() => nextBlockIndex.value > 0)
 
 const galleryImages = computed(() =>
   nextBlockIndex.value
