@@ -1,10 +1,6 @@
-import {
-  GetDropsQuery,
-  getDropById,
-  getDropStatus,
-  getDrops,
-} from '@/services/fxart'
+import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import collectionStatsById from '@/queries/subsquid/general/collectionStatsById.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import orderBy from 'lodash/orderBy'
@@ -12,11 +8,12 @@ import type { Prefix } from '@kodadot1/static'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
+import { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
 import { parseCETDate } from './utils'
 
 export interface Drop {
   collection: DropItem
-  chain: string
+  chain: Prefix
   minted: number
   max: number
   disabled: number
@@ -81,7 +78,11 @@ export function useDrops(query?: GetDropsQuery) {
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-  const { count } = await getDropStatus(drop.alias)
+
+  let count = drop.minted
+  if (!count) {
+    count = await fetchDropMintedCount(drop)
+  }
   const price = drop.price || 0
   let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
 
@@ -97,6 +98,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
+    minted: count,
   } as any
 
   Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
@@ -171,22 +173,44 @@ export function useDrop(alias?: string) {
   }
 }
 
-export const useDropStatus = () => {
-  const { params } = useRoute()
+export const fetchDropMintedCount = async (
+  drop: Pick<DropItem, 'collection' | 'chain'>,
+) => {
+  if (!drop.collection || !drop.chain) {
+    return 0
+  }
+
+  const { data } = await useAsyncQuery<{
+    stats: { base: string[] }
+  }>({
+    query: collectionStatsById,
+    variables: {
+      id: drop.collection,
+    },
+    clientId: drop.chain,
+  })
+
+  return data.value?.stats?.base.length
+}
+
+export const useDropStatus = (
+  drop?: WritableComputedRef<{ collection: string; chain: Prefix }>,
+) => {
   const dropStore = useDropStore()
-  const { accountId } = useAuth()
   const mintsCount = computed({
     get: () => dropStore.mintsCount,
     set: (value) => dropStore.setMintedDropCount(value),
   })
 
   const fetchDropStatus = async () => {
-    const alias = params.id.toString()
-    const { count } = await getDropStatus(alias)
-    mintsCount.value = count
+    if (drop?.value) {
+      mintsCount.value = await fetchDropMintedCount(drop.value)
+    }
   }
 
-  watch([() => params.id, accountId], fetchDropStatus)
+  watchEffect(() => {
+    fetchDropStatus()
+  })
 
   return {
     mintsCount,

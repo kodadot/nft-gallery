@@ -189,6 +189,7 @@ const {
   isLoading,
   getAddressByChain,
   getChainTokenDecimals,
+  fetchChainsBalances,
   status,
 } = useTeleport(true)
 
@@ -306,6 +307,11 @@ const teleportLabel = computed(() => {
 
 const resetStatus = () => {
   amount.value = 0
+}
+
+const handleTeleportSuccess = () => {
+  fetchChainsBalances([fromChain.value, toChain.value])
+  resetStatus()
 }
 
 const switchChains = () => {
@@ -463,7 +469,7 @@ const teleport = async () => {
     toAddress: toAddress.value,
     fromAddress: fromAddress.value,
     currency: currency.value,
-    onSuccess: () => resetStatus(),
+    onSuccess: handleTeleportSuccess,
   })
 }
 

@@ -1025,6 +1025,7 @@
     "tos": "KodaDot's Terms and Conditions"
   },
   "helper": {
+    "viewAll": "View All",
     "tryAgain": "Try again",
     "viewTx": "View Tx",
     "supplyNotSet": "Supply Not Set",
