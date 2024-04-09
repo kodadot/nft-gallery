@@ -30,16 +30,19 @@
             v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
             @click="toast($t('toast.urlCopy'))">
+            <NeoIcon icon="link" />
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-QR-dropdown"
             @click="QRModalActive = true">
+            <NeoIcon icon="qrcode" />
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-twitter-dropdown"
             @click="shareUrlToX">
+            <NeoIcon icon="share" />
             {{ $i18n.t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
@@ -89,6 +92,7 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
+  NeoIcon,
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
