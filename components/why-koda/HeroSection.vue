@@ -24,16 +24,13 @@
 
         <div class="!mt-10 md:mt-16">
           <ol class="text-xl md:text-2xl !pl-7 list-decimal w-[300px]">
-            <li
-              v-for="section in sections"
-              :key="section.id"
-              class="!mb-3 border rounded-full px-2 md:!px-3">
+            <li v-for="section in sections" :key="section.id" class="!mb-3">
               <NeoButton
                 v-safe-href="`#${section.id}`"
-                variant="text"
                 tag="a"
                 no-shadow
-                class="text-xl md:text-2xl">
+                variant="secondary-rounded"
+                class="text-start text-xl md:text-2xl h-fit w-full !px-2 py-0">
                 {{ section.name }}
               </NeoButton>
             </li>
