@@ -17,7 +17,7 @@
         <NeoDropdown
           position="bottom-left"
           append-to-body
-          class="w-fit"
+          menu-class="w-fit"
           :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
@@ -30,6 +30,7 @@
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
+            class="w-max"
             @click="shareCollectionToFarcaster">
             <NeoIcon icon="frame" class="mr-2" />
             {{ $i18n.t('share.farcasterFrame') }}
