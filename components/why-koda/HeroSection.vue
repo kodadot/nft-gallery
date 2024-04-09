@@ -23,14 +23,15 @@
         </p>
 
         <div class="!mt-10 md:mt-16">
-          <ol class="text-xl md:text-2xl !pl-7 list-decimal w-[300px]">
+          <ol
+            class="text-xl md:text-2xl !pl-7 list-decimal w-[300px] !leading-7">
             <li v-for="section in sections" :key="section.id" class="!mb-3">
               <NeoButton
                 v-safe-href="`#${section.id}`"
                 tag="a"
                 no-shadow
                 variant="secondary-rounded"
-                class="text-start text-xl md:text-2xl h-fit w-full !px-2 py-0">
+                class="text-start text-xl md:text-2xl h-fit w-full !px-2 py-0 !leading-7">
                 {{ section.name }}
               </NeoButton>
             </li>
