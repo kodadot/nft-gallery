@@ -28,74 +28,10 @@ export type GetDropsQuery = {
   chain?: string[]
 }
 
-export const getDrops = async (query?: GetDropsQuery) => {
-  return await api<DropItem[]>('drops', {
-    method: 'GET',
-    query,
-  })
-}
-
-export const getDropById = (id: string) =>
-  api<DropItem>(`/drops/${id}`, {
-    method: 'GET',
-  })
-
-export type DropMintedStatus = {
-  created_at: string
-  id: number
-  image: string
-  metadata: string
-  claimed: number
-  email: string
-  hash: string
-}
-export const getDropMintedStatus = async (alias: string, accountId: string) => {
-  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
-    method: 'GET',
-  })
-}
-
-export type AllocateCollectionRequest = {
-  address: string
-  email: string
-  metadata?: string
-  hash: string
-  image?: string
-}
-
-type AllocateCollectionResponse = {
-  result: AllocatedNFT
-}
-
-export const allocateCollection = async (
-  body: AllocateCollectionRequest,
-  id: string,
-) => {
-  try {
-    const response = await api<AllocateCollectionResponse>(
-      `/drops/allocate/${id}`,
-      {
-        method: 'POST',
-        body,
-      },
-    )
-
-    return response
-  } catch (error) {
-    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
-  }
-}
-
 export type MintItem = {
   hash: string
   image: string
   metadata: string
-}
-
-export type BatchMintBody = {
-  email: string
-  address: string
-  items: MintItem[]
 }
 
 export type AllocatedNFT = {
@@ -108,21 +44,81 @@ type BatchAllocateResponse = {
   result: AllocatedNFT[]
 }
 
-export const batchAllocate = async (body: BatchMintBody, id: string) => {
-  try {
-    const response = await api<BatchAllocateResponse>(
-      `/drops/allocate/${id}/batch`,
-      {
-        method: 'post',
-        body,
-      },
-    )
+export type DropMintedStatus = {
+  created_at: string
+  id: number
+  image: string
+  metadata: string
+  claimed: number
+  email: string
+  hash: string
+}
 
-    return response
+export type AllocateCollectionRequest = {
+  address: string
+  email: string
+  metadata?: string
+  hash: string
+  image?: string
+}
+
+export type BatchMintBody = {
+  email: string
+  address: string
+  items: MintItem[]
+}
+
+type AllocateCollectionResponse = {
+  result: AllocatedNFT
+}
+
+function isAllocateCollectionRequest(
+  body: AllocateCollectionRequest | BatchMintBody,
+): body is AllocateCollectionRequest {
+  return 'hash' in body && !('items' in body)
+}
+
+export const getDrops = async (query?: GetDropsQuery) => {
+  return await api<DropItem[]>('drops', {
+    method: 'GET',
+    query,
+  })
+}
+
+export const getDropById = (id: string) =>
+  api<DropItem>(`/drops/${id}`, {
+    method: 'GET',
+  })
+
+export const getDropMintedStatus = async (alias: string, accountId: string) => {
+  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
+    method: 'GET',
+  })
+}
+
+export async function allocateCollection(
+  body: AllocateCollectionRequest | BatchMintBody,
+  id: string,
+) {
+  const endpoint = isAllocateCollectionRequest(body)
+    ? `/drops/allocate/${id}`
+    : `/drops/allocate/${id}/batch`
+
+  try {
+    return isAllocateCollectionRequest(body)
+      ? api<AllocateCollectionResponse>(endpoint, {
+          method: 'POST',
+          body,
+        })
+      : api<BatchAllocateResponse>(endpoint, {
+          method: 'POST',
+          body,
+        })
   } catch (error) {
-    throw new Error(
-      `[FXART::BATCH_ALLOCATE] ERROR: ${(error as FetchError).data}`,
-    )
+    const prefix = isAllocateCollectionRequest(body)
+      ? '[FXART::ALLOCATE]'
+      : '[FXART::BATCH_ALLOCATE]'
+    throw new Error(`${prefix} ERROR: ${(error as FetchError).data}`)
   }
 }
 
