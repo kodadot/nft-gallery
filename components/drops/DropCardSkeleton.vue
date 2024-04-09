@@ -11,7 +11,7 @@
       </div>
 
       <div
-        class="flex items-start sm:items-center flex-col sm:flex-row justify-between flex-wrap gap-y-4 gap-x-2 w-full">
+        class="flex justify-between items-center flex-wrap gap-y-4 gap-x-2 w-full">
         <div class="w-16 flex gap-2">
           <NeoSkeleton height="28" width="100%" :rounded="false" no-margin />
           <NeoSkeleton height="28" width="100%" :rounded="false" no-margin />
