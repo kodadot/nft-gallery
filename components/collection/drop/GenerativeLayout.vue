@@ -87,8 +87,7 @@ const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
-const { firstTimePartyMode } = usePreferencesStore()
-const isPartyModalOpen = ref(firstTimePartyMode)
+const isPartyModalOpen = ref(usePreferencesStore().firstTimePartyMode)
 const mdBreakpoint = 768
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()

@@ -1,10 +1,9 @@
 import PartySocket from 'partysocket'
-import { usePreferencesStore } from '@/stores/preferences'
 
 type UsePartyParams<T> = {
   room: Ref<string>
   onMessage?: (value: T) => void
-  disabled?: boolean
+  disabled: ComputedRef<boolean>
 }
 
 const PARTY_SOCKET_HOST = 'https://partykit.kodadot.workers.dev/'
@@ -12,7 +11,6 @@ const wss = ref(new Map<string, PartySocket>())
 
 export default <T>({ room, onMessage, disabled }: UsePartyParams<T>) => {
   const { accountId } = useAuth()
-  const preferencesStore = usePreferencesStore()
 
   const connect = (room: string) => {
     console.log(`[PARTY::CONNECTION] Establishing connection with room ${room}`)
@@ -81,14 +79,11 @@ export default <T>({ room, onMessage, disabled }: UsePartyParams<T>) => {
     { immediate: true },
   )
 
-  watch(
-    () => preferencesStore.partyMode,
-    (newValue) => {
-      if (newValue === false) {
-        closeAllConnections()
-      }
-    },
-  )
+  watch(disabled, (isDisabled) => {
+    if (isDisabled) {
+      closeAllConnections()
+    }
+  })
 
   onBeforeUnmount(closeAllConnections)
 

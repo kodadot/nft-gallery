@@ -21,7 +21,7 @@ export default ({
   room: Ref<string>
   spent: Ref<number | undefined>
 }) => {
-  const { partyMode } = storeToRefs(usePreferencesStore())
+  const disabled = computed(() => !usePreferencesStore().partyMode)
   const { x, y, sourceType } = useMouse()
   const { width } = useWindowSize()
   const connections = ref(new Map<string, MaybeUserDetails>())
@@ -52,7 +52,7 @@ export default ({
   const { sendMessage: send } = useParty<CursorPartyEvents>({
     room,
     onMessage,
-    disabled: !partyMode,
+    disabled,
   })
 
   const cursorConnections = computed(
