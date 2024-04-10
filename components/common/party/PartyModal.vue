@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div
-      class="party shadow-primary h-fit fixed !z-60 !top-20 md:!top-24 left-4 border-2 bg-background-color p-2 sm:p-6 flex justify-between gap-6 max-w-[498px]">
+      class="party shadow-primary h-fit fixed !top-20 md:!top-24 left-4 border-2 bg-background-color p-2 sm:p-6 flex justify-between gap-6 max-w-[498px]">
       <div
         class="flex-1 min-w-[91px] h-[116px] flex justify-center items-center">
         <img :src="'/drop/party.svg'" :alt="'cursors'" />
