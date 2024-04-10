@@ -29,7 +29,6 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
-            data-testid="hero-copy-link-dropdown"
             class="w-max"
             @click="shareCollectionToFarcaster">
             <NeoIcon icon="frame" class="mr-2" />
