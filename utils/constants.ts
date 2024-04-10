@@ -61,6 +61,7 @@ export const URLS = {
     baseUrl: 'https://kodadot.xyz',
     newsletter: 'https://newsletter.w.kodadot.xyz',
     counter: 'https://counter.kodadot.workers.dev',
+    frame: 'https://frame.kodadot.workers.dev/gallery',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',

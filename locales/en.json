@@ -1260,7 +1260,8 @@
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
-    "twitter": "Share on Twitter",
+    "twitter": "Share on X",
+    "farcasterFrame": "Share as Farcaster Frame",
     "farcaster": "Share on Farcaster",
     "copyAddress": "Copy Address"
   },
