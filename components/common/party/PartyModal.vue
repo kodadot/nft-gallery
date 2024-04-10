@@ -17,6 +17,7 @@
             href="https://hello.kodadot.xyz/tutorial/generative-art/generative-drops/drop-party"
             class="text-k-blue"
             target="_blank"
+            rel="nofollow noopener noreferrer"
             >{{ $i18n.t('helper.learnMore') }}
           </a>
         </p>
