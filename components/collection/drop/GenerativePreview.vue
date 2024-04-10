@@ -55,9 +55,9 @@
       class="text-neutral-5 dark:text-neutral-9"
       :value="dropStore.mintsCount / maxCount" />
 
-    <div class="flex mt-6 gap-4 max-md:flex-col">
+    <div class="flex mt-6 gap-4 max-sm:flex-col">
       <CollectionDropMintStepper />
-      <div class="md:w-3/4 lg:w-full min-w-[200px]">
+      <div class="sm:w-3/4 md:w-full min-w-[200px]">
         <CollectionDropMintButton @mint="emit('mint')" />
       </div>
     </div>
