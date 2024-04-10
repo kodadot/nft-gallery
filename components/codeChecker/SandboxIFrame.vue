@@ -3,7 +3,10 @@
     :id="config.iframeId"
     :key="count"
     title="render-preview"
-    :class="['sandbox-iframe w-full h-[440px] border', customClass]"
+    :class="[
+      'sandbox-iframe w-full h-full sm:h-[440px] aspect-square border',
+      customClass,
+    ]"
     sandbox="allow-scripts allow-same-origin"
     :src="iframeSrc"
     @load="onIframeLoad">
