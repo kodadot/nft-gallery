@@ -18,7 +18,7 @@
           v-for="(wallet, index) in installedWallet"
           :key="index"
           :wallet="wallet"
-          @setAccount="setAccount" />
+          @set-account="setAccount" />
       </div>
 
       <a
@@ -40,29 +40,22 @@
       </div>
     </section>
 
-    <div
-      v-if="!showAccount"
-      class="bg-k-grey-light p-4 flex items-center mx-6 my-4">
-      <NeoIcon class="ml-1" icon="circle-info" pack="fass" variant="k-grey" />
+    <div v-if="!showAccount" class="bg-k-grey-light p-4 flex items-center mx-6">
+      <NeoIcon class="ml-1" icon="circle-info" variant="k-grey" />
       <div class="text-xs text-neutral-7 ml-3">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
     </div>
 
-    <footer v-if="!showAccount" class="px-6 py-4">
-      <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
-      <div class="text-xs">
-        {{ $i18n.t('walletConnect.walletAnswer') }}
-      </div>
+    <div v-if="!showAccount" class="px-6 !pb-6 pt-2">
       <a
-        class="text-xs text-k-blue hover:text-k-blue-hover flex items-center"
-        href="https://docs.kodadot.xyz/tutorial-overview.html"
+        class="text-xs text-k-blue hover:text-k-blue-hover flex items-center flex justify-center"
+        href="https://hello.kodadot.xyz/tutorial/wallet"
         target="_blank"
         rel="nofollow noopener noreferrer">
-        <NeoIcon class="mr-2" icon="circle-info" />
         {{ $i18n.t('walletConnect.walletLink') }}
       </a>
-    </footer>
+    </div>
   </div>
 </template>
 
