@@ -51,7 +51,7 @@
           v-for="n in skeletonCount"
           :key="n"
           :hide-media-info="hideMediaInfo"
-          :minimal="slotProps.isMobileVariant || slotProps.grid === 'small'" />
+          :variant="getSkeletonVariant(slotProps)" />
       </template>
 
       <!-- intersection observer element -->
@@ -70,8 +70,7 @@
         v-for="n in skeletonCount"
         :key="n"
         :hide-media-info="hideMediaInfo"
-        :slim-media-info="collectionPopoverHide"
-        :minimal="slotProps.isMobileVariant || slotProps.grid === 'small'" />
+        :variant="getSkeletonVariant(slotProps)" />
     </DynamicGrid>
 
     <template v-if="total === 0 && (!isLoading || !isFetchingData)">
@@ -237,4 +236,13 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
     await fetchNextPage()
   }
 })
+
+const getSkeletonVariant = (slotProps) => {
+  if (slotProps.isMobileVariant || slotProps.grid === 'small') {
+    return 'minimal'
+  }
+  if (props.collectionPopoverHide) {
+    return 'slim'
+  }
+}
 </script>
