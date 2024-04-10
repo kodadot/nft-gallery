@@ -244,5 +244,6 @@ const getSkeletonVariant = (slotProps) => {
   if (props.collectionPopoverHide) {
     return 'slim'
   }
+  return 'primary'
 }
 </script>
