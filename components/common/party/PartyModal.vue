@@ -4,7 +4,7 @@
       class="party shadow-primary h-fit fixed !z-60 !top-20 md:!top-24 left-4 border-2 bg-background-color p-2 sm:p-6 flex justify-between gap-6 max-w-[498px]">
       <div
         class="flex-1 min-w-[91px] h-[116px] flex justify-center items-center">
-        <img :src="'/drop/party.svg'" />
+        <img :src="'/drop/party.svg'" :alt="'cursors'" />
       </div>
       <div class="max-w-[335px] flex flex-col gap-3">
         <div class="flex justify-between font-bold">
