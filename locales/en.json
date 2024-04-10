@@ -1170,7 +1170,15 @@
     "authTip": "Waiting For Authorization",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
-    "downloadExtension": "Download extension"
+    "downloadExtension": "Download extension",
+    "newToKoda": "New to Koda?",
+    "startConnect": "Start trading NFTs by connecting a digital wallet.",
+    "quickSteps": "Quick Steps to Begin:",
+    "chooseWallet":"Choose a Wallet: ",
+    "chooseBelow": "Choose from trusted providers below.",
+    "downloadAndConnect": "Download and Connect: ",
+    "setUpConnect": "Set up your wallet, then return to connect.",
+    "selectWallet": "select your wallet"
   },
   "landing": {
     "newNftHeading": "New to NFTs?",
