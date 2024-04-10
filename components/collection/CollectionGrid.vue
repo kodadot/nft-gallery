@@ -194,10 +194,8 @@ watch(
 
 watch(
   () => route.query.sort,
-  (value) => {
-    searchQuery.sortBy = value
-      ? parseQueryParamToArray(route.query?.sort)
-      : undefined
+  (sort) => {
+    searchQuery.sortBy = sort ? parseQueryParamToArray(sort) : undefined
   },
   { immediate: true },
 )
