@@ -101,6 +101,7 @@ const props = defineProps<{
   fileName?: string
   render: boolean
   kodaRendererUsed: Passed
+  reloadTrigger: number
 }>()
 
 const fullscreenRef = ref<HTMLElement | null>(null)
@@ -153,6 +154,8 @@ const exportAsPNG = async () => {
   window.addEventListener('message', handleRenderComplete)
   count.value++
 }
+
+watch(() => props.reloadTrigger, replay)
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
