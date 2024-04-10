@@ -190,11 +190,7 @@ const handleResult = (
 
   const isLatestPageResult = isEqual(variables, getQueryVariables(page))
 
-  if (!isLatestPageResult) {
-    return
-  }
-
-  if (loadedPages.value.includes(page)) {
+  if (loadedPages.value.includes(page) || !isLatestPageResult) {
     return
   }
 
