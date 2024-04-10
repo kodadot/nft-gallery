@@ -72,7 +72,7 @@ defineProps<{
   sections: { name: string; id: string }[]
 }>()
 
-const NFTS_PER_STRIP = 10
+const NFTS_PER_STRIP = 7
 const AMOUNT_OF_STRIPS = 2
 
 const { data: collections } = await useAsyncData(
