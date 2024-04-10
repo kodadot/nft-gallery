@@ -95,7 +95,7 @@ const body = ref(document.body)
 
 const scheduledDropCalendars = computed(() =>
   data.value
-    ?.filter((item) => item.date)
+    ?.filter((item) => item.date && new Date(item.date).getTime() > Date.now())
     .sort(
       (a, b) =>
         new Date(a.date as string).getTime() -
