@@ -122,6 +122,20 @@
             <CodeCheckerIssueHintVariationLoadingTime />
           </template>
         </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.validKodaRenderPayload"
+          :description="$t('codeChecker.validImage')">
+          <template #modalContent>
+            <CodeCheckerIssueHintValidImage />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.consistent"
+          :description="$t('codeChecker.consistentArt')">
+          <template #modalContent>
+            <CodeCheckerIssueHintConsistentArt />
+          </template>
+        </CodeCheckerTestItem>
       </div>
     </div>
 
@@ -133,6 +147,7 @@
         :assets="assets"
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
+        :reload-trigger="reloadTrigger"
         @reload="startClock" />
     </div>
   </div>
@@ -144,6 +159,7 @@ import { validate } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Validity } from './types'
+import compareImages from './useImageCompare'
 
 const RESOURCES_LIST = [
   {
@@ -159,13 +175,6 @@ const RESOURCES_LIST = [
     url: 'https://hello.kodadot.xyz/tutorial/generative-art/code-checker',
   },
 ]
-useEventListener(window, 'message', (res) => {
-  if (res.data?.type === 'kodahash/render/completed') {
-    renderEndTime.value = performance.now()
-    const duration = renderEndTime.value - renderStartTime.value
-    fileValidity.renderDurationValid = duration < config.maxAllowedLoadTime
-  }
-})
 
 const validtyDefault: Validity = {
   canvasSize: '',
@@ -177,6 +186,8 @@ const validtyDefault: Validity = {
   validTitle: 'unknown',
   renderDurationValid: 'loading',
   title: '-',
+  validKodaRenderPayload: 'loading',
+  consistent: 'loading',
 }
 
 const selectedFile = ref<File | null>(null)
@@ -186,6 +197,9 @@ const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
 const renderStartTime = ref(0)
 const renderEndTime = ref(0)
+const reloadTrigger = ref(0)
+const image = ref('')
+const checkedConsistency = ref(false)
 
 const onFileSelected = async (file: File) => {
   clear()
@@ -206,6 +220,8 @@ const onFileSelected = async (file: File) => {
 
   if (!fileValidity.kodaRendererUsed) {
     fileValidity.renderDurationValid = 'unknown'
+    fileValidity.validKodaRenderPayload = 'unknown'
+    fileValidity.consistent = 'unknown'
   }
 
   assets.value = await createSandboxAssets(indexFile, entries)
@@ -215,6 +231,8 @@ const clear = () => {
   selectedFile.value = null
   assets.value = []
   errorMessage.value = ''
+  reloadTrigger.value = 0
+  checkedConsistency.value = false
   Object.assign(fileValidity, validtyDefault)
 }
 
@@ -222,4 +240,41 @@ const startClock = () => {
   renderStartTime.value = performance.now()
   fileValidity.renderDurationValid = 'loading'
 }
+
+function hasImage(dataURL: string): boolean {
+  const regex = /^data:image\/png;base64,([A-Za-z0-9+/]+={0,2})$/
+  return regex.test(dataURL)
+}
+
+useEventListener(window, 'message', async (res) => {
+  if (res.data?.type === 'kodahash/render/completed') {
+    const payload = res.data?.payload
+    renderEndTime.value = performance.now()
+    const duration = renderEndTime.value - renderStartTime.value
+    fileValidity.renderDurationValid = duration < config.maxAllowedLoadTime
+
+    fileValidity.validKodaRenderPayload =
+      Boolean(payload?.image) && hasImage(payload.image)
+    if (fileValidity.validKodaRenderPayload) {
+      if (reloadTrigger.value === 0) {
+        image.value = payload.image
+        reloadTrigger.value = 1
+      } else {
+        const { areIdentical } = compareImages(image.value, payload.image)
+        watch(
+          areIdentical,
+          (val) => {
+            if (!checkedConsistency.value) {
+              fileValidity.consistent = val
+              checkedConsistency.value = true
+            }
+          },
+          { once: true },
+        )
+      }
+    } else {
+      fileValidity.consistent = 'unknown'
+    }
+  }
+})
 </script>
