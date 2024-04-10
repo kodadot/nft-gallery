@@ -51,6 +51,7 @@ const route = useRoute()
 const props = defineProps<{
   mimeType?: string
   name?: string
+  collectionName?: string
   ipfsImage?: string
   currentOwner?: string
   price?: string
@@ -89,7 +90,7 @@ const downloadMedia = () => {
       return
     }
     try {
-      downloadImage(originalUrl, props.name)
+      downloadImage(originalUrl, `${props.collectionName}_${props.name}`)
     } catch (error) {
       $consola.warn('[ERR] unable to fetch image')
       toast($i18n.t('toast.downloadError'))
