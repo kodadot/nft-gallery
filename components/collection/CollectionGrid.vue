@@ -40,36 +40,32 @@ import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import collectionListWithSearchProfile from '@/queries/subsquid/general/collectionListWithSearchProfile.graphql'
-import isEqual from 'lodash/isEqual'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
+const emit = defineEmits(['total', 'isLoading'])
 const props = defineProps<{
   id?: string
   loadingOtherNetwork?: boolean
 }>()
+
 const slots = useSlots()
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
-const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
-const sortBy = ref(
-  typeof route.query?.sort === 'string'
-    ? [route.query?.sort]
-    : route.query?.sort,
-)
+
 const searchQuery = reactive<SearchQuery>({
-  search: route.query?.search?.toString() ?? '',
+  search: '',
+  sortBy: undefined,
   type: route.query?.type?.toString() ?? '',
-  sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
 })
 
@@ -190,30 +186,23 @@ watch(isLoading, (val) => emit('isLoading', val))
 
 watch(
   () => route.query.search,
-  (val, oldVal) => {
-    if (val !== oldVal) {
-      resetPage()
-      searchQuery.search = val === undefined ? val : String(val)
-    }
+  (value) => {
+    searchQuery.search = value?.toString() ?? ''
   },
+  { immediate: true },
 )
 
 watch(
   () => route.query.sort,
-  (val, oldVal) => {
-    if (!isEqual(val, oldVal)) {
-      resetPage()
-      searchQuery.sortBy = String(val) || undefined
-    }
+  (value) => {
+    searchQuery.sortBy = value
+      ? parseQueryParamToArray(route.query?.sort)
+      : undefined
   },
+  { immediate: true },
 )
 
-watch(
-  () => searchQuery,
-  () => {
-    resetPage()
-  },
-)
+watch(searchQuery, () => resetPage())
 </script>
 
 <style lang="scss" scoped>
