@@ -126,9 +126,9 @@ const refreshWallets = () => {
   wallets.value = SupportedWallets()
 }
 
-onMounted(() => {
-  refreshWallets()
-})
+
+onMounted(refreshWallets)
+
 
 const checkWallet = () => {
   refreshWallets()
