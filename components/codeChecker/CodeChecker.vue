@@ -156,7 +156,7 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 import { validate } from './validate'
-import { createSandboxAssets, extractAssetsFromZip, hashImage } from './utils'
+import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Validity } from './types'
 
@@ -197,8 +197,7 @@ const errorMessage = ref('')
 const renderStartTime = ref(0)
 const renderEndTime = ref(0)
 const reloadTrigger = ref(0)
-const firstImageHash = ref('')
-const checkedConsistency = ref(false)
+const firstImage = ref<string>()
 
 const onFileSelected = async (file: File) => {
   clear()
@@ -231,7 +230,6 @@ const clear = () => {
   assets.value = []
   errorMessage.value = ''
   reloadTrigger.value = 0
-  checkedConsistency.value = false
   Object.assign(fileValidity, validtyDefault)
 }
 
@@ -256,12 +254,13 @@ useEventListener(window, 'message', async (res) => {
       Boolean(payload?.image) && hasImage(payload.image)
     if (fileValidity.validKodaRenderPayload) {
       if (reloadTrigger.value === 0) {
-        firstImageHash.value = await hashImage(payload.image)
+        firstImage.value = payload.image
         reloadTrigger.value = 1
-      } else if (!checkedConsistency.value) {
-        const image2 = await hashImage(payload.image)
-        fileValidity.consistent = firstImageHash.value === image2
-        checkedConsistency.value = true
+      } else if (
+        fileValidity.consistent === 'loading' ||
+        fileValidity.consistent === 'unknown'
+      ) {
+        fileValidity.consistent = firstImage.value === payload.image
       }
     } else {
       fileValidity.consistent = 'unknown'
