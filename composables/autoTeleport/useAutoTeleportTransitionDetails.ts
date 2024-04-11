@@ -2,7 +2,6 @@ import {
   type Chain,
   chainToPrefixMap,
   getChainCurrency,
-  getChainExistentialDeposit,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
@@ -10,7 +9,11 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
-import { checkIfAutoTeleportActionsNeedRefetch } from './utils'
+import { existentialDeposit } from '@kodadot1/static'
+import {
+  checkIfAutoTeleportActionsNeedRefetch,
+  getChainExistentialDeposit,
+} from './utils'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -73,7 +76,9 @@ export default function (
   )
 
   const currentChainExistentialDeposit = computed(() =>
-    getChainExistentialDeposit(currentChain.value),
+    currentChain.value
+      ? existentialDeposit[chainToPrefixMap[currentChain.value]] ?? 0
+      : 0,
   )
 
   const transferableCurrentChainBalance = computed(
