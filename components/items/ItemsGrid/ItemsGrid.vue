@@ -50,7 +50,8 @@
         <NftCardSkeleton
           v-for="n in skeletonCount"
           :key="n"
-          :hide-media-info="hideMediaInfo" />
+          :hide-media-info="hideMediaInfo"
+          :variant="getSkeletonVariant(slotProps)" />
       </template>
 
       <!-- intersection observer element -->
@@ -60,6 +61,7 @@
     <!-- skeleton on first load -->
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData || loadingOtherNetwork)"
+      v-slot="slotProps"
       :grid-section="gridSection"
       :grid-size="gridSize"
       class="my-5"
@@ -68,7 +70,7 @@
         v-for="n in skeletonCount"
         :key="n"
         :hide-media-info="hideMediaInfo"
-        :slim-media-info="collectionPopoverHide" />
+        :variant="getSkeletonVariant(slotProps)" />
     </DynamicGrid>
 
     <template v-if="total === 0 && (!isLoading || !isFetchingData)">
@@ -234,4 +236,14 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
     await fetchNextPage()
   }
 })
+
+const getSkeletonVariant = (slotProps) => {
+  if (slotProps.isMobileVariant || slotProps.grid === 'small') {
+    return 'minimal'
+  }
+  if (props.collectionPopoverHide) {
+    return 'slim'
+  }
+  return 'primary'
+}
 </script>

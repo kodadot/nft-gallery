@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-wrap pb-44">
-    <div class="w-1/2 flex flex-col gap-10">
+  <div class="flex flex-wrap pb-44 gap-10 lg:gap-0">
+    <div class="lg:w-1/2 flex flex-col gap-10">
       <!-- Content of the first column -->
       <div class="">
         <h1 class="title is-3 mb-4">{{ $t('codeChecker.title') }}</h1>
@@ -139,7 +139,8 @@
       </div>
     </div>
 
-    <div class="w-1/2 flex flex-col items-end">
+    <div
+      class="w-full lg:w-1/2 flex flex-col items-center lg:mt-4 lg:items-end">
       <!-- Content of the second column -->
       <CodeCheckerPreviewCard
         :selected-file="selectedFile"
