@@ -52,7 +52,9 @@
             v-for="nft in nfts"
             :key="nft.id"
             class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary">
-            <BasicImage :src="sanitizeIpfsUrl(nft.image)" :alt="nft?.name" />
+            <BasicImage
+              :src="sanitizeIpfsUrl(nft.image)"
+              :alt="nft?.name ?? `nft ${nft.id}`" />
           </div>
         </div>
       </div>
@@ -65,6 +67,8 @@ import { getDrops } from '@/services/fxart'
 import latestEventsNfts from '@/queries/subsquid/general/latestEventsNfts.graphql'
 import chunk from 'lodash/chunk'
 import type { Section } from './types'
+
+type NFT = { id: string; name?: string; image: string }
 
 defineProps<{
   sections: Section[]
@@ -87,7 +91,7 @@ const { data: collections } = await useAsyncData(
 
 const { data: nftss } = await useAsyncData(async () => {
   const { data } = await useAsyncQuery<{
-    nfts: { name: string; image: string }[]
+    latestestEventsNfts: NFT[]
   }>({
     query: latestEventsNfts,
     clientId: 'ahp',
@@ -99,5 +103,7 @@ const { data: nftss } = await useAsyncData(async () => {
   return data?.value.latestestEventsNfts || []
 })
 
-const nftsByStrip = computed(() => chunk(nftss?.value ?? [], NFTS_PER_STRIP))
+const nftsByStrip = computed(() =>
+  chunk<NFT>(nftss?.value ?? [], NFTS_PER_STRIP),
+)
 </script>
