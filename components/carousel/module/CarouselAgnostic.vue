@@ -129,6 +129,8 @@ const syncSlider = (s) => {
   updateSliderArrows(s)
 }
 
+const updateConfig = () => slider.value?.update(props.config)
+
 if (props.config) {
   watch(
     slider,
@@ -142,14 +144,11 @@ if (props.config) {
     { immediate: true },
   )
 
-  watchDebounced(
-    [() => props.config, () => props.items.length],
-    () => slider.value?.update(props.config),
-    {
-      debounce: SYNC_CONFIG_DEBOUNCE_AMOUNT,
-      immediate: true,
-    },
-  )
+  onMounted(updateConfig)
+
+  watchDebounced([() => props.config, () => props.items.length], updateConfig, {
+    debounce: SYNC_CONFIG_DEBOUNCE_AMOUNT,
+  })
 }
 </script>
 
