@@ -147,7 +147,7 @@ watch(
   generateNft,
 )
 
-onMounted(() => {
-  setTimeout(generateNft, 500)
-})
+// onMounted(() => {
+//   setTimeout(generateNft, 500)
+// })
 </script>
