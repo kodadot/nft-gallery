@@ -156,10 +156,9 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 import { validate } from './validate'
-import { createSandboxAssets, extractAssetsFromZip } from './utils'
+import { createSandboxAssets, extractAssetsFromZip, hashImage } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Validity } from './types'
-import compareImages from './useImageCompare'
 
 const RESOURCES_LIST = [
   {
@@ -198,7 +197,7 @@ const errorMessage = ref('')
 const renderStartTime = ref(0)
 const renderEndTime = ref(0)
 const reloadTrigger = ref(0)
-const image = ref('')
+const firstImageHash = ref('')
 const checkedConsistency = ref(false)
 
 const onFileSelected = async (file: File) => {
@@ -257,20 +256,12 @@ useEventListener(window, 'message', async (res) => {
       Boolean(payload?.image) && hasImage(payload.image)
     if (fileValidity.validKodaRenderPayload) {
       if (reloadTrigger.value === 0) {
-        image.value = payload.image
+        firstImageHash.value = await hashImage(payload.image)
         reloadTrigger.value = 1
-      } else {
-        const { areIdentical } = compareImages(image.value, payload.image)
-        watch(
-          areIdentical,
-          (val) => {
-            if (!checkedConsistency.value) {
-              fileValidity.consistent = val
-              checkedConsistency.value = true
-            }
-          },
-          { once: true },
-        )
+      } else if (!checkedConsistency.value) {
+        const image2 = await hashImage(payload.image)
+        fileValidity.consistent = firstImageHash.value === image2
+        checkedConsistency.value = true
       }
     } else {
       fileValidity.consistent = 'unknown'

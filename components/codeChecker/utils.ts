@@ -101,6 +101,26 @@ const categorizeFiles = async (
   return { htmlFiles, jsFiles }
 }
 
+const loadImageOntoCanvas = (
+  base64Str: string,
+): Promise<CanvasRenderingContext2D> =>
+  new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = img.height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        return reject(new Error('Failed to get canvas context'))
+      }
+      ctx.drawImage(img, 0, 0)
+      resolve(ctx)
+    }
+    img.onerror = reject
+    img.src = base64Str
+  })
+
 // exported functions
 
 export const postAssetsToSandbox = (message: Array<AssetMessage>) => {
@@ -158,4 +178,11 @@ export const createSandboxAssets = async (
     await processAsset(element, entries, assets)
   }
   return assets
+}
+
+export const hashImage = async (base64Str: string): Promise<string> => {
+  const ctx = await loadImageOntoCanvas(base64Str)
+  const { canvas } = ctx
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  return blake2AsHex(imgData.data as unknown as Uint8Array)
 }
