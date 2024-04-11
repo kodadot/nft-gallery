@@ -40,12 +40,6 @@ export const getDropById = (id: string) =>
     method: 'GET',
   })
 
-export const getDropStatus = async (alias: string) => {
-  return await api<{ count: number }>(`/drops/${alias}/status`, {
-    method: 'GET',
-  })
-}
-
 export type DropMintedStatus = {
   created_at: string
   id: number

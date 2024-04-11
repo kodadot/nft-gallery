@@ -9,7 +9,7 @@
             class="border border-k-shade w-[3.125rem] h-[3.125rem]"
             :alt="event.Item.name"
             :src="image"
-            :animation-src="animationUrl"
+            :animation-src="!image ? animationUrl : undefined"
             preview
             is-detail />
         </nuxt-link>
@@ -86,7 +86,7 @@
             class="border border-k-shade w-[4.375rem] h-[4.375rem]"
             :alt="event.Item.name"
             :src="image"
-            :animation-src="animationUrl"
+            :animation-src="!image ? animationUrl : undefined"
             preview
             is-detail />
         </div>
