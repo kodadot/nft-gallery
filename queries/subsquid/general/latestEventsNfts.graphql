@@ -1,0 +1,10 @@
+query latestEventsNfts(
+  $limit: Int!
+  $collections: [String!]!
+) {
+    latestestEventsNfts(collections: $collections, limit: $limit) {
+      id
+      name
+      image
+    }
+}

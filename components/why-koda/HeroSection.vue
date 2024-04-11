@@ -52,9 +52,7 @@
             v-for="nft in nfts"
             :key="nft.id"
             class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary">
-            <BasicImage
-              :src="sanitizeIpfsUrl(nft.meta.image)"
-              :alt="nft?.name" />
+            <BasicImage :src="sanitizeIpfsUrl(nft.image)" :alt="nft?.name" />
           </div>
         </div>
       </div>
@@ -64,12 +62,12 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { getDrops } from '@/services/fxart'
-import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
+import latestEventsNfts from '@/queries/subsquid/general/latestEventsNfts.graphql'
 import chunk from 'lodash/chunk'
-import uniqBy from 'lodash/uniqBy'
+import type { Section } from './types'
 
 defineProps<{
-  sections: { name: string; id: string }[]
+  sections: Section[]
 }>()
 
 const NFTS_PER_STRIP = 7
@@ -87,32 +85,19 @@ const { data: collections } = await useAsyncData(
   },
 )
 
-const { data: nftss } = await useAsyncData(
-  async () => {
-    const { data } = await useAsyncQuery<{ events: unknown[] }>({
-      query: latestEvents,
-      clientId: 'ahp',
-      variables: {
-        limit: 40,
-        where: {
-          nft: {
-            collection: {
-              id_in: collections.value || [],
-            },
-          },
-        },
-      },
-    })
-    return data?.value.events || []
-  },
-  {
-    transform: (events) =>
-      uniqBy(
-        events.map((event) => event.nft),
-        'id',
-      ).slice(0, NFTS_PER_STRIP * AMOUNT_OF_STRIPS),
-  },
-)
+const { data: nftss } = await useAsyncData(async () => {
+  const { data } = await useAsyncQuery<{
+    nfts: { name: string; image: string }[]
+  }>({
+    query: latestEventsNfts,
+    clientId: 'ahp',
+    variables: {
+      limit: NFTS_PER_STRIP * AMOUNT_OF_STRIPS,
+      collections: collections.value || [],
+    },
+  })
+  return data?.value.latestestEventsNfts || []
+})
 
 const nftsByStrip = computed(() => chunk(nftss?.value ?? [], NFTS_PER_STRIP))
 </script>
