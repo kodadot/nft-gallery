@@ -1,7 +1,7 @@
 <template>
   <div
     data-partykit="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[460px] lg:w-full lg:max-w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
@@ -57,9 +57,7 @@
 
     <div class="flex mt-6 gap-4 max-sm:flex-col">
       <CollectionDropMintStepper />
-      <div class="sm:w-3/4 md:w-full min-w-[200px]">
-        <CollectionDropMintButton @mint="emit('mint')" />
-      </div>
+      <CollectionDropMintButton @mint="emit('mint')" />
     </div>
 
     <div
