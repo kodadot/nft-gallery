@@ -89,7 +89,7 @@ const { data: collections } = await useAsyncData(
   },
 )
 
-const { data: nftss } = await useAsyncData(async () => {
+const { data: items } = await useAsyncData(async () => {
   const { data } = await useAsyncQuery<{
     latestestEventsNfts: NFT[]
   }>({
@@ -104,6 +104,6 @@ const { data: nftss } = await useAsyncData(async () => {
 })
 
 const nftsByStrip = computed(() =>
-  chunk<NFT>(nftss?.value ?? [], NFTS_PER_STRIP),
+  chunk<NFT>(items?.value ?? [], NFTS_PER_STRIP),
 )
 </script>
