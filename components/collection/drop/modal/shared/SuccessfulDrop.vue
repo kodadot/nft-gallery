@@ -8,8 +8,7 @@
         single: $t('drops.youSuccessfullyClaimedNft', [1]),
         multiple: $t('drops.amountMintedSuccessfully', [items.length]),
       }"
-      :items="items"
-      media-mime-type="text/html" />
+      :items="items" />
   </SuccessfulModalBody>
 </template>
 
@@ -42,6 +41,7 @@ const items = computed<ItemMedia[]>(() =>
     image: item.image,
     collection: item.collection.id,
     collectionName: item.collection.name,
+    mimeType: 'text/html',
   })),
 )
 

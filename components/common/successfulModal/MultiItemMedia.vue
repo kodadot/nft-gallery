@@ -12,7 +12,7 @@
       <BaseMediaItem
         class="border border-k-shade aspect-square w-10 !h-10"
         :src="sanitizeIpfsUrl(item.image)"
-        :mime-type="mediaMimeType"
+        :mime-type="item.mimeType"
         preview
         is-detail />
 
@@ -55,7 +55,6 @@ const COLLAPSED_ITEMS_COUNT = 5
 const props = defineProps<{
   items: ItemMedia[]
   header: string
-  mediaMimeType?: string
   showPrice?: boolean
 }>()
 
