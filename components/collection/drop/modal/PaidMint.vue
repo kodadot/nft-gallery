@@ -8,6 +8,7 @@
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
+      :estimated-time="estimedTime"
       @close="onClose">
       <MintOverview
         v-if="isMintOverviewStep"
@@ -54,6 +55,8 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
+const IPFS_ESTIMATED_TIME_SECONDS = 15
+
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 const props = defineProps<{
   modelValue: boolean
@@ -79,6 +82,10 @@ const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
 )
 
+const estimedTime = computed(() =>
+  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
+)
+
 const mintButton = computed(() => {
   if (isRendering.value) {
     return {
@@ -90,7 +97,7 @@ const mintButton = computed(() => {
 
   if (!canMint.value) {
     return {
-      label: `${$i18n.t('loader.ipfs')} ~ 15s`,
+      label: `${$i18n.t('loader.ipfs')} ~ ${IPFS_ESTIMATED_TIME_SECONDS}s`,
       disabled: true,
     }
   }

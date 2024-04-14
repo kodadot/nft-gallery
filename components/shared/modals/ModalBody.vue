@@ -38,7 +38,13 @@
         contentClass,
       ]">
       <div v-if="loading">
-        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton" />
+        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton">
+          <template v-if="estimatedTime" #footer>
+            <SkeletonLoaderEstimatedTimePill>
+              {{ formattedEstimatedTime }}
+            </SkeletonLoaderEstimatedTimePill>
+          </template>
+        </SkeletonLoader>
       </div>
 
       <div
@@ -68,6 +74,7 @@ const props = withDefaults(
     contentClass?: string
     scrollable?: boolean
     customSkeletonTitle?: string
+    estimatedTime?: number
   }>(),
   {
     modalWidth: '25rem',
@@ -75,10 +82,13 @@ const props = withDefaults(
     modalMaxHeight: '70vh',
     scrollable: true,
     contentClass: 'pt-4 pb-5 px-6',
+    estimatedTime: undefined,
   },
 )
 
 const { $i18n } = useNuxtApp()
+const { estimatedTime: formattedEstimatedTime, start: startEstimatedTime } =
+  useEstimatedTime({ duration: computed(() => Number(props.estimatedTime)) })
 
 const titles = [
   $i18n.t('general.doingSomeMagic'),
@@ -86,15 +96,15 @@ const titles = [
   $i18n.t('general.finishingTouches'),
   $i18n.t('general.almostThere'),
 ]
-const seconds = ref(0)
+const titleSeconds = ref(0)
 
 const { pause, resume: start } = useIntervalFn(
-  () => (seconds.value += 1),
+  () => (titleSeconds.value += 1),
   1000,
   { immediate: false },
 )
 const titleRange = computed(() =>
-  Math.floor(seconds.value / TITLE_DURATION_SECONDS),
+  Math.floor(titleSeconds.value / TITLE_DURATION_SECONDS),
 )
 const skeletonTitle = computed(
   () =>
@@ -106,10 +116,20 @@ const skeletonTitle = computed(
 const onClose = () => emits('close')
 
 watch(
+  [() => props.loading, () => props.estimatedTime],
+  ([loading, estimatedTime]) => {
+    if (loading && Boolean(estimatedTime)) {
+      startEstimatedTime()
+    }
+  },
+  { immediate: true },
+)
+
+watch(
   [() => props.loading, () => props.customSkeletonTitle],
   ([loading, customTitle]) => {
     if (loading && !customTitle) {
-      seconds.value = 0
+      titleSeconds.value = 0
       start()
     } else {
       pause()
