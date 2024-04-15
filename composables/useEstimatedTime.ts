@@ -1,6 +1,6 @@
 import { useNow } from '@vueuse/core'
 
-export default ({ duration }: { duration: Ref<number> }) => {
+export default () => {
   const now = useNow()
   const estimatedEndDate = ref<Date>()
 
@@ -18,9 +18,9 @@ export default ({ duration }: { duration: Ref<number> }) => {
     return `Est. ~ ${formattedTime}`
   })
 
-  const start = () => {
+  const start = (duration: number) => {
     const date = new Date()
-    date.setSeconds(now.value.getSeconds() + duration.value)
+    date.setSeconds(now.value.getSeconds() + duration)
     estimatedEndDate.value = date
   }
 

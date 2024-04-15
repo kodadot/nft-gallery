@@ -16,9 +16,7 @@ export default (status: Ref<TransactionStatus | undefined>) => {
     () => estimatedTimes.value[TransactionStatus.Block],
   )
 
-  const { estimatedTime, start } = useEstimatedTime({
-    duration: initialEstimatedTime,
-  })
+  const { estimatedTime, start } = useEstimatedTime()
 
   const formattedState = computed<string>(() =>
     status.value === TransactionStatus.Broadcast
@@ -30,7 +28,7 @@ export default (status: Ref<TransactionStatus | undefined>) => {
     () => status.value === TransactionStatus.Block,
     (inBlock: boolean) => {
       if (inBlock) {
-        start()
+        start(initialEstimatedTime.value)
       }
     },
   )

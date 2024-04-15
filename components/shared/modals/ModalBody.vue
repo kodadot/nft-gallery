@@ -82,13 +82,12 @@ const props = withDefaults(
     modalMaxHeight: '70vh',
     scrollable: true,
     contentClass: 'pt-4 pb-5 px-6',
-    estimatedTime: undefined,
   },
 )
 
 const { $i18n } = useNuxtApp()
 const { estimatedTime: formattedEstimatedTime, start: startEstimatedTime } =
-  useEstimatedTime({ duration: computed(() => Number(props.estimatedTime)) })
+  useEstimatedTime()
 
 const titles = [
   $i18n.t('general.doingSomeMagic'),
@@ -119,7 +118,7 @@ watch(
   [() => props.loading, () => props.estimatedTime],
   ([loading, estimatedTime]) => {
     if (loading && Boolean(estimatedTime)) {
-      startEstimatedTime()
+      startEstimatedTime(Number(estimatedTime))
     }
   },
   { immediate: true },
