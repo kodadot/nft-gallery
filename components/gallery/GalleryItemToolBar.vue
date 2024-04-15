@@ -30,26 +30,17 @@ import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 import { MediaType } from '@/components/rmrk/types'
-import { determineElementType, resolveMedia } from '@/utils/gallery/media'
+import {
+  determineElementType,
+  mediaTypeElementSelectors,
+  resolveMedia,
+} from '@/utils/gallery/media'
 
 type ReloadElement =
   | HTMLIFrameElement
   | HTMLVideoElement
   | HTMLImageElement
   | null
-
-const selectors: Record<
-  Extract<
-    MediaType,
-    MediaType.IMAGE | MediaType.VIDEO | MediaType.OBJECT | MediaType.IFRAME
-  >,
-  string
-> = {
-  [MediaType.IMAGE]: 'img[data-nuxt-img]',
-  [MediaType.VIDEO]: 'video',
-  [MediaType.OBJECT]: 'object',
-  [MediaType.IFRAME]: 'iframe[title="html-embed"]',
-}
 
 defineEmits(['toggle'])
 
@@ -58,10 +49,16 @@ const { nftAnimationMimeType, nftMimeType } = useGalleryItem()
 const isLoading = ref(false)
 
 const mediaAndImageType = computed(() => {
-  const mediaType = resolveMedia(nftAnimationMimeType.value)
-  const imageType = resolveMedia(nftMimeType.value)
-  return { mediaType, imageType }
+  const animationMediaType = resolveMedia(nftAnimationMimeType.value)
+  const imageMediaType = resolveMedia(nftMimeType.value)
+  return { animationMediaType, imageMediaType }
 })
+
+const getElementSelector = ({ imageMediaType, animationMediaType }) => {
+  const elementType = determineElementType(animationMediaType, imageMediaType)
+  const selector = mediaTypeElementSelectors[elementType]
+  return selector
+}
 
 const reloadElement = (selector: string) => {
   setTimeout(() => {
@@ -70,7 +67,7 @@ const reloadElement = (selector: string) => {
     if (!element) {
       return
     }
-    if (selectors[MediaType.IMAGE] === selector) {
+    if (mediaTypeElementSelectors[MediaType.IMAGE] === selector) {
       const timestamp = new Date().getTime()
       const url = new URL(element.src)
       url.searchParams.set('t', timestamp.toString())
@@ -83,11 +80,11 @@ const reloadElement = (selector: string) => {
 
 const handleReloadClick = () => {
   isLoading.value = true
+  const { animationMediaType, imageMediaType } = mediaAndImageType.value
 
-  const { mediaType, imageType } = mediaAndImageType.value
-  const elementType = determineElementType(mediaType, imageType)
-
-  return reloadElement(selectors[elementType])
+  return reloadElement(
+    getElementSelector({ animationMediaType, imageMediaType }),
+  )
 }
 
 const openInNewTab = (selector: string, attribute: string = 'src') => {
@@ -101,9 +98,10 @@ const openInNewTab = (selector: string, attribute: string = 'src') => {
 }
 
 const handleNewTab = () => {
-  const { mediaType, imageType } = mediaAndImageType.value
-  const elementType = determineElementType(mediaType, imageType)
+  const { animationMediaType, imageMediaType } = mediaAndImageType.value
 
-  return openInNewTab(selectors[elementType])
+  return openInNewTab(
+    getElementSelector({ animationMediaType, imageMediaType }),
+  )
 }
 </script>
