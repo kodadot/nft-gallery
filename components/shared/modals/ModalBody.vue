@@ -40,9 +40,9 @@
       <div v-if="loading">
         <SkeletonLoader :title="skeletonTitle" class="modal-skeleton">
           <template v-if="estimatedTime" #footer>
-            <SkeletonLoaderEstimatedTimePill>
+            <SkeletonLoaderFooterPill>
               {{ formattedEstimatedTime }}
-            </SkeletonLoaderEstimatedTimePill>
+            </SkeletonLoaderFooterPill>
           </template>
         </SkeletonLoader>
       </div>

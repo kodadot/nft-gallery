@@ -40,10 +40,10 @@
       </template>
 
       <template v-if="showEstimation" #footer>
-        <SkeletonLoaderEstimatedTimePill
+        <SkeletonLoaderFooterPill
           :full-width="Boolean(customFormattedEstimation)">
           {{ formattedEstimation }}
-        </SkeletonLoaderEstimatedTimePill>
+        </SkeletonLoaderFooterPill>
       </template>
     </SkeletonLoader>
   </div>
