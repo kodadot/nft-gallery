@@ -18,31 +18,36 @@ export default () => {
       const files = await Promise.all(
         toMintNFTs.value.map((nft) =>
           getCaptureImageFile({
-            image: nft.image,
+            image: nft.animationUrl,
             data: nft.imageDataPayload as GenerativePreviewItem,
           }),
         ),
       )
 
+      let images = [] as string[]
+
       const metadatas = await uploadMediaAndMetadataDirectories(
         files,
-        (imageHashes) =>
-          toMintNFTs.value.map((nft, index) =>
+        (imageHashes) => {
+          images = imageHashes
+          return toMintNFTs.value.map((nft, index) =>
             makeJsonFile(
               makeUnlockableMetadata(
                 collectionName.value || drop.value.name,
                 description.value || '',
                 imageHashes[index],
-                nft.image,
+                nft.animationUrl,
                 'text/html',
               ),
               String(index),
             ),
-          ),
+          )
+        },
       )
 
       toMintNFTs.value = toMintNFTs.value.map((nft, index) => ({
         ...nft,
+        image: images[index],
         metadata: metadatas[index],
       }))
     } catch (error) {

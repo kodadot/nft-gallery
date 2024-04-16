@@ -9,6 +9,8 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   imageDataPayload?: ImageDataPayload
   metadata?: string
   hash: string
+  image?: string
+  animationUrl: string
   sn?: number
   entropyRange: EntropyRange
   canRender: boolean

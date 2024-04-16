@@ -99,15 +99,16 @@ const resentInitialConfirmationEmail = ref(false)
 
 const mintedNFT = computed<MintedNFT | undefined>(() =>
   claimedNft.value
-    ? {
+    ? ({
         ...claimedNft.value,
         image: sanitizeIpfsUrl(claimedNft.value.image),
+        mimeType: 'text/html',
         collection: {
           id: claimedNft.value.collection,
           name: claimedNft.value.collectionName,
           max: claimedNft.value.max,
         },
-      }
+      } as MintedNFT)
     : undefined,
 )
 

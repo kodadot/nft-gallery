@@ -41,7 +41,7 @@ const items = computed<ItemMedia[]>(() =>
     image: item.image,
     collection: item.collection.id,
     collectionName: item.collection.name,
-    mimeType: 'text/html',
+    mimeType: item.mimeType,
   })),
 )
 

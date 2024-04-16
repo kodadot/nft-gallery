@@ -82,7 +82,7 @@ export const useUpdateMetadata = async () => {
   const mintedNfts: Ref<MintedNFT[]> = ref([])
   for (const [index, res] of response.entries()) {
     let metadata = {
-      animation_url: toMintNFTs.value[index].image,
+      image: toMintNFTs.value[index].image,
       name: toMintNFTs.value[index].name,
     }
 
@@ -99,7 +99,7 @@ export const useUpdateMetadata = async () => {
       id: `${drop.value.collection}-${res.nft}`,
       chain: res.chain,
       name: metadata.name,
-      image: metadata.animation_url,
+      image: metadata.image,
       collection: {
         id: res.collection,
         name: collectionName.value,

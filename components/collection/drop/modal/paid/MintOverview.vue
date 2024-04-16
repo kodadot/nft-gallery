@@ -26,7 +26,7 @@
               :src="
                 toMintNft.imageDataPayload
                   ? toMintNft.imageDataPayload.image
-                  : sanitizeIpfsUrl(toMintNft.image)
+                  : sanitizeIpfsUrl(toMintNft.animationUrl)
               "
               :alt="toMintNft.name"
               :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
