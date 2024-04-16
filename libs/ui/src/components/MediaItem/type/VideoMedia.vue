@@ -9,7 +9,7 @@
       loop
       :autoplay="autoPlay"
       :muted="preview"
-      :poster="src"
+      :poster="placeholder"
       :src="animationSrc || src"
       controlslist="nodownload"
       data-testid="type-video"
@@ -19,6 +19,8 @@
 
 <script lang="ts" setup>
 import { useEventListener } from '@vueuse/core'
+
+const { placeholder } = useTheme()
 
 const props = withDefaults(
   defineProps<{
