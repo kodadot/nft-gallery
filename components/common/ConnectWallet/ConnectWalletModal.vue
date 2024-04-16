@@ -22,15 +22,15 @@
       </div>
 
       <div v-if="showUninstalledWallet" class="!px-8 !pt-6">
-        <div class="font-bold capitalize mb-3">
+        <div class="font-bold capitalize mb-3 text-xl">
           {{ $i18n.t('walletConnect.newToKoda') }}
         </div>
-        <div class="text-xs !mb-6">
+        <div class="text-[14px] !mb-6">
           {{ $i18n.t('walletConnect.startConnect') }}
         </div>
         <div class="border py-4 !px-6 !mb-6 bg-k-grey-light border-k-grey">
           <div class="mb-3">{{ $i18n.t('walletConnect.quickSteps') }}</div>
-          <ol class="text-xs font-bold pl-4">
+          <ol class="text-[14px] font-bold pl-4">
             <li class="mb-3">
               {{ $i18n.t('walletConnect.chooseWallet')
               }}<span class="font-normal">{{
@@ -92,7 +92,7 @@
 
     <div v-if="!showAccount" class="px-6 !pb-6 pt-2">
       <a
-        class="text-xs text-k-blue hover:text-k-blue-hover flex items-center flex justify-center"
+        class="text-[14px] text-k-blue hover:text-k-blue-hover flex items-center flex justify-center"
         href="https://hello.kodadot.xyz/tutorial/wallet"
         target="_blank"
         rel="nofollow noopener noreferrer">
