@@ -26,6 +26,7 @@ export type UnlockableCollectionById = {
 export function useCollectionEntity(collectionId?: string) {
   const { drop } = useDrop()
   const { client } = usePrefix()
+  const { accountId } = useAuth()
 
   const collectionKey = computed(() => collectionId ?? drop.value?.collection)
 
@@ -37,10 +38,13 @@ export function useCollectionEntity(collectionId?: string) {
         query: unlockableCollectionById,
         variables: {
           id: collectionKey.value,
+          search: { issuer_eq: accountId.value },
         },
       }).then((res) => res.data.value),
     {
-      watch: collectionId ? undefined : [() => drop.value?.collection],
+      watch: collectionId
+        ? [accountId]
+        : [() => drop.value?.collection, accountId],
     },
   )
 
