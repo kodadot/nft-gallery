@@ -21,10 +21,23 @@
             @click="emit('close')" />
         </header>
 
-        <div v-if="dropCalendar.dropStartTime" class="!mt-6">
-          <NeoButton no-shadow rounded @click="isCreateEventModalActive = true">
+        <div class="!mt-6 flex flex-wrap gap-6">
+          <NeoButton
+            v-if="dropCalendar.dropStartTime"
+            no-shadow
+            rounded
+            @click="isCreateEventModalActive = true">
             {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span
             >{{ formattedDate }}
+          </NeoButton>
+
+          <NeoButton
+            v-if="dropCalendar.alias"
+            variant="secondary-rounded"
+            icon-left="sparkles"
+            :tag="NuxtLink"
+            :to="`/ahp/drops/${dropCalendar.alias}`">
+            {{ $t('drops.goToDropPage') }}
           </NeoButton>
         </div>
 
@@ -127,6 +140,7 @@ import { format } from 'date-fns'
 import { useCollectionMinimal } from '~/components/collection/utils/useCollectionDetails'
 import type { InternalDropCalendar } from './DropsCalendar.vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const placeholder = 'TBA'
 const MOBILE_BREAKPOINT = 768
 

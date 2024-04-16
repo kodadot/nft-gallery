@@ -176,6 +176,7 @@ export type DropCalendar = {
   holder_of: string | null
   location: string | null
   items: CalendarItem[]
+  alias: string | null
 }
 
 export type CalendarItem = {
