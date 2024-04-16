@@ -56,8 +56,7 @@ const mediaAndImageType = computed(() => {
 
 const getElementSelector = ({ imageMediaType, animationMediaType }) => {
   const elementType = determineElementType(animationMediaType, imageMediaType)
-  const selector = mediaTypeElementSelectors[elementType]
-  return selector
+  return mediaTypeElementSelectors[elementType]
 }
 
 const reloadElement = (selector: string) => {
