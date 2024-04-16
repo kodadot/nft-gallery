@@ -401,8 +401,8 @@ function handleNewTab() {
   const mediaType = resolveMedia(nftAnimationMimeType.value)
   const imageType = resolveMedia(nftMimeType.value)
 
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    openInNewTab('iframe[title="html-embed"]', 'src')
+  if ([MediaType.IFRAME].includes(mediaType) && nftAnimation.value) {
+    window.open(nftAnimation.value, '_blank')
   } else if ([MediaType.VIDEO].includes(mediaType)) {
     openInNewTab('video', 'src')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
