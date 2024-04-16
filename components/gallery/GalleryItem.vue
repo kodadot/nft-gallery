@@ -15,7 +15,7 @@
           }">
           <NeoButton
             v-if="isFullscreen"
-            class="back-button"
+            class="back-button z-20"
             @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
             {{ $t('go back') }}
