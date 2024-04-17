@@ -13,8 +13,8 @@
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.bannerImage
-          ? `url(${userProfile.bannerImage})`
+        backgroundImage: userProfile?.banner
+          ? `url(${userProfile.banner})`
           : undefined,
       }">
       <div
@@ -22,8 +22,8 @@
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
           <BaseMediaItem
-            v-if="userProfile?.avatar"
-            :src="userProfile.avatar"
+            v-if="userProfile?.image"
+            :src="userProfile.image"
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="w-[124px] h-[124px] object-cover rounded-full" />
@@ -187,7 +187,7 @@
           {{ userProfile.description }}
         </div>
         <!-- Followers -->
-        <div>
+        <!-- <div>
           <span v-if="isOwner || !hasProfile" class="text-sm text-k-grey">
             {{ $t('profile.notFollowed') }}
           </span>
@@ -213,7 +213,7 @@
               More
             </span>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- Mobile Profile Activity -->
       <ProfileActivity
@@ -420,7 +420,7 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
+const { hasProfile, userProfile, isFollowingThisAccount } = useProfile()
 
 const editProfileConfig: ButtonConfig = {
   label: 'Edit Profile',
@@ -440,7 +440,7 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: () => {
-    follow(true)
+    // follow(true)
     showFollowing.value = true
   },
   classes: 'hover:!bg-transparent',
@@ -453,7 +453,7 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
-    follow(false)
+    // follow(false)
   },
   classes: 'hover:!border-k-red',
 }
