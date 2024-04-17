@@ -53,8 +53,8 @@
             :key="nft.id"
             class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary">
             <BasicImage
-              :src="sanitizeIpfsUrl(nft.image)"
-              :alt="nft?.name ?? `nft ${nft.id}`" />
+              :src="sanitizeIpfsUrl(nft.meta.image)"
+              :alt="nft?.name" />
           </div>
         </div>
       </div>
@@ -64,14 +64,12 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { getDrops } from '@/services/fxart'
-import latestEventsNfts from '@/queries/subsquid/general/latestEventsNfts.graphql'
+import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import chunk from 'lodash/chunk'
-import type { Section } from './types'
-
-type NFT = { id: string; name?: string; image: string }
+import uniqBy from 'lodash/uniqBy'
 
 defineProps<{
-  sections: Section[]
+  sections: { name: string; id: string }[]
 }>()
 
 const NFTS_PER_STRIP = 7
@@ -89,21 +87,32 @@ const { data: collections } = await useAsyncData(
   },
 )
 
-const { data: items } = await useAsyncData(async () => {
-  const { data } = await useAsyncQuery<{
-    latestestEventsNfts: NFT[]
-  }>({
-    query: latestEventsNfts,
-    clientId: 'ahp',
-    variables: {
-      limit: NFTS_PER_STRIP * AMOUNT_OF_STRIPS,
-      collections: collections.value || [],
-    },
-  })
-  return data?.value.latestestEventsNfts || []
-})
-
-const nftsByStrip = computed(() =>
-  chunk<NFT>(items?.value ?? [], NFTS_PER_STRIP),
+const { data: items } = await useAsyncData(
+  async () => {
+    const { data } = await useAsyncQuery<{ events: unknown[] }>({
+      query: latestEvents,
+      clientId: 'ahp',
+      variables: {
+        limit: 40,
+        where: {
+          nft: {
+            collection: {
+              id_in: collections.value || [],
+            },
+          },
+        },
+      },
+    })
+    return data?.value.events || []
+  },
+  {
+    transform: (events) =>
+      uniqBy(
+        events.map((event) => event.nft),
+        'id',
+      ).slice(0, NFTS_PER_STRIP * AMOUNT_OF_STRIPS),
+  },
 )
+
+const nftsByStrip = computed(() => chunk(items?.value ?? [], NFTS_PER_STRIP))
 </script>
