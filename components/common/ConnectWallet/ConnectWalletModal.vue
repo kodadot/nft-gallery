@@ -113,22 +113,24 @@ import { ModalCloseType } from '@/components/navbar/types'
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
+const wallets = ref<BaseDotsamaWallet[]>([])
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
 const emit = defineEmits(['close', 'connect'])
 const { toast } = useToast()
 const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value)
-
-const wallets = ref<BaseDotsamaWallet[]>([])
+const installedWallet = computed(() => {
+  return wallets.value.filter((wallet) => wallet.installed)
+})
+const uninstalledWallet = computed(() => {
+  return wallets.value.filter((wallet) => !wallet.installed)
+})
+const showUninstalledWallet = computed(() => !installedWallet.value.length)
 
 const refreshWallets = () => {
   wallets.value = SupportedWallets()
 }
-
-
-onMounted(refreshWallets)
-
 
 const checkWallet = () => {
   refreshWallets()
@@ -147,14 +149,6 @@ const setAccount = (account: Auth) => {
   }
 }
 
-const installedWallet = computed(() => {
-  return wallets.value.filter((wallet) => wallet.installed)
-})
-const uninstalledWallet = computed(() => {
-  return wallets.value.filter((wallet) => !wallet.installed)
-})
-const showUninstalledWallet = computed(() => !installedWallet.value.length)
-
 const isUninstalledWalletExpand = ref(!showUninstalledWallet.value)
 const toggleShowUninstalledWallet = () => {
   isUninstalledWalletExpand.value = !isUninstalledWalletExpand.value
@@ -167,4 +161,6 @@ watch(account, (account) => {
 watch([urlPrefix], () => {
   emit('close', ModalCloseType.NAVIGATION)
 })
+
+onMounted(refreshWallets)
 </script>
