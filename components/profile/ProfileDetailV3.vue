@@ -1,15 +1,8 @@
 <template>
   <div>
-    <NeoModal :value="isModalActive" @close="isModalActive = false">
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">{{ $t('sharing.profile') }}</p>
-        </header>
-        <div class="card-content text-center">
-          <QRCode :text="realworldFullPath" />
-        </div>
-      </div>
-    </NeoModal>
+    <ProfileCreateModal
+      v-model="isModalActive"
+      @close="isModalActive = false" />
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
@@ -330,7 +323,6 @@ import {
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
-  NeoModal,
 } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -432,7 +424,7 @@ const editProfileConfig: ButtonConfig = {
 const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
-  onClick: () => console.log('create profile'),
+  onClick: () => (isModalActive.value = true),
   variant: 'k-accent',
 }
 
@@ -479,18 +471,18 @@ const isHovered = useElementHover(buttonRef)
 const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socialDropdownItems = computed(() => {
-  return Object.entries(userProfile.value?.socials ?? {})
-    .map(([key, value]) => {
-      const socialConfig = socials[key]
+  return userProfile.value?.socials
+    .map(({ handle, platform, link }) => {
+      const socialConfig = socials[platform]
       if (socialConfig) {
-        const { icon, iconPack, getUrlLabel, order } = socialConfig
-        const { label, url } = getUrlLabel(value)
+        const { icon, iconPack, order } = socialConfig
+        // const { label, url } = getUrlLabel(value)
 
         return {
-          label,
+          label: handle || link,
           icon,
           iconPack,
-          url,
+          url: link,
           order,
         }
       }
@@ -546,8 +538,6 @@ const itemsGridSearch = computed(() => {
 
   return query
 })
-
-const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
   get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,

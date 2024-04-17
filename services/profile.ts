@@ -23,7 +23,7 @@ export type Profile = {
 }
 
 export type SocialLink = {
-  handle: string
+  handle?: string
   platform: string
   link: string
 }
@@ -61,7 +61,7 @@ export const fetchProfiles = async (limit?: number) => {
 }
 
 export const fetchProfileByAddress = async (address: string) => {
-  return await api<ProfileResponse>(`/profiles/${address}`, {
+  return await api<Profile>(`/profiles/${formatAddress(address, 42)}`, {
     method: 'GET',
   })
 }

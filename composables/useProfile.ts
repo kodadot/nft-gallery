@@ -2,9 +2,9 @@ import { fetchProfileByAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
 
 export enum Socials {
-  Twitter,
-  Website,
-  Farcaster,
+  Twitter = 'Twitter',
+  Website = 'Website',
+  Farcaster = 'Farcaster',
 }
 
 export default function useUserProfile() {
@@ -19,12 +19,10 @@ export default function useUserProfile() {
     }
     try {
       const response = await fetchProfileByAddress(accountId.value)
-      if (response.success && response.data) {
-        userProfileData.value = response.data
-        hasProfile.value = true
-      } else {
-        console.error('Profile fetch error:', response.message)
-      }
+      console.log('Profile fetch response:', response)
+
+      userProfileData.value = response
+      hasProfile.value = true
     } catch (error) {
       console.error('Failed to fetch user profile:', error)
     }
