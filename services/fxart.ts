@@ -1,5 +1,6 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
+import { Prefix } from '@kodadot1/static'
 
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
@@ -177,14 +178,20 @@ export type DropCalendar = {
   location: string | null
   items: CalendarItem[]
   alias: string | null
+  chain: Prefix
 }
 
 export type CalendarItem = {
   image: string
 }
 
-export const getDropCalendar = async () => {
+type GetCalendarsQuery = {
+  chain?: string[]
+}
+
+export const getDropCalendar = async (query: GetCalendarsQuery = {}) => {
   return await api<DropCalendar[]>('/calendars', {
     method: 'GET',
+    query: query,
   })
 }
