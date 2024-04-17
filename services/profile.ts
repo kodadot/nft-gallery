@@ -3,7 +3,7 @@ import { $fetch, FetchError } from 'ofetch'
 const hostToServiceMap = {
   'kodadot.xyz': 'https://profile.kodadot.workers.dev/',
   'canary.kodadot.xyz': 'https://profile-beta.kodadot.workers.dev/',
-  localhost: 'http://localhost:8787',
+  'localhost:9090': 'http://localhost:8787',
 }
 
 const BASE_URL = hostToServiceMap[window.location.host]
