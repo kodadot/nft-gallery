@@ -24,7 +24,7 @@
               <NeoIcon icon="circle" pack="fas" class="text-[4px] mr-2" />
               {{ $t(item.title) }}
             </div>
-            <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-[14px]" />
+            <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-sm" />
           </a>
         </div>
       </div>
