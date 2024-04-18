@@ -78,7 +78,10 @@
                   size="medium" />
               </a>
             </NeoTooltip>
-            <NeoTooltip :label="$t('newTab')" position="top">
+            <NeoTooltip
+              v-if="nftMetadata?.animationUrl && nftAnimation"
+              :label="$t('newTab')"
+              position="top">
               <a no-shadow @click="handleNewTab">
                 <NeoIcon icon="arrow-up-right" size="medium" />
               </a>
