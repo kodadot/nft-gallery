@@ -1,9 +1,9 @@
 <template>
   <transition name="slide">
     <div
-      class="party shadow-primary h-fit fixed !top-20 md:!top-24 left-4 border-2 bg-background-color p-2 sm:p-6 flex justify-between gap-6 max-w-[498px]">
+      class="party shadow-primary h-fit fixed !top-20 md:!top-24 left-4 border-2 bg-background-color p-6 flex justify-between gap-6 max-w-[350px] sm:max-w-[498px]">
       <div
-        class="flex-1 min-w-[91px] h-[116px] flex justify-center items-center">
+        class="hidden sm:flex flex-1 min-w-[91px] h-[116px] justify-center items-center">
         <img :src="'/drop/party.svg'" :alt="'cursors'" />
       </div>
       <div class="max-w-[335px] flex flex-col gap-3">
@@ -11,7 +11,7 @@
           <p>{{ $i18n.t('partyModal.title') }}</p>
           <NeoIcon icon="close" size="large" @click="closeModal" />
         </div>
-        <p class="text-sm w-5/6">
+        <p class="text-sm sm:w-5/6">
           {{ $i18n.t('partyModal.text') }}
           <a
             href="https://hello.kodadot.xyz/tutorial/generative-art/generative-drops/drop-party"
