@@ -173,11 +173,7 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    const { mintedNfts } = await useUpdateMetadata()
-    mintingSession.value.items = mintedNfts.value
-
-    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
-
+    await useUpdateMetadata()
     await fetchDropStatus()
 
     loading.value = false
@@ -216,8 +212,7 @@ const stopMint = () => {
 
 const { massGenerate, allocateGenerated, clearMassMint } = useDropMassMint()
 
-const { subscribeForNftsWithMetadata, listMintedNFTs } =
-  useDropMassMintListing()
+const { listMintedNFTs } = useDropMassMintListing()
 
 useTransactionTracker({
   transaction: {

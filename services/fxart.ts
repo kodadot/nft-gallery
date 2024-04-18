@@ -141,15 +141,16 @@ export const allocateClaim = async (body, id) => {
   }
 }
 
-export const updateMetadata = async ({ chain, collection, nft, metadata }) => {
+export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
   try {
-    const response = await api<DoResult>('/metadata/v1/update', {
+    const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
       body: {
         chain,
         collection,
         nft,
-        metadata,
+        sn,
+        hash,
       },
     })
 

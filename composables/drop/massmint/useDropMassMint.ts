@@ -2,22 +2,20 @@ import { DoResult, updateMetadata } from '@/services/fxart'
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
 import useDropMassMintPreview from './useDropMassMintPreview'
-import useDropMassMintUploader from './useDropMassMintUploader'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   imageDataPayload?: ImageDataPayload
   metadata?: string
   hash: string
-  sn?: number
+  sn?: number // nft id
+  index?: number // serial numbers
   entropyRange: EntropyRange
   canRender: boolean
 }
 
 export default () => {
   const { accountId } = useAuth()
-
-  useDropMassMintUploader()
 
   const { allPinned, payloads, pinMetadata, getPreviewItemsToMintedNfts } =
     useDropMassMintPreview()
@@ -88,21 +86,20 @@ export default () => {
         return
       }
 
-      loading.value = true
+      const previewItems = [toRaw(previewItem.value)] as GenerativePreviewItem[]
 
-      const previewItems = (
-        single
-          ? [previewItem.value]
-          : [
-              previewItem.value,
-              ...generateMassPreview(
-                amountToMint.value - 1,
-                mintedAmountForCurrentUser.value + 1,
-              ),
-            ]
-      ) as GenerativePreviewItem[]
+      if (!single) {
+        previewItems.push(
+          ...generateMassPreview(
+            amountToMint.value - 1,
+            mintedAmountForCurrentUser.value + 1,
+          ),
+        )
+      }
+      console.log('[MASSMINT::GENERATE] Generating', previewItems)
 
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
+      console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
     } catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
       loading.value = false
@@ -126,7 +123,7 @@ export default () => {
           image: item.image,
         }
       })
-      console.log('[MASSMINT::ALLOCATE] Allocating', allocatedNFTs.value)
+      console.log('[MASSMINT::ALLOCATE] Allocating', toRaw(allocatedNFTs.value))
 
       toMintNFTs.value = toMintNFTs.value.map((toMint, index) => {
         const allocated = allocatedNFTs.value[index]
@@ -134,7 +131,7 @@ export default () => {
           ? { ...toMint, name: toMint.collectionName, sn: Number(allocated.id) }
           : toMint
       })
-      console.log('[MASSMINT::ALLOCATE] Allocated', toMintNFTs.value)
+      console.log('[MASSMINT::ALLOCATE] Allocated', toRaw(toMintNFTs.value))
     } catch (error) {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
@@ -149,7 +146,8 @@ export default () => {
           chain: drop.value.chain,
           collection: drop.value.collection,
           nft: nft.sn,
-          metadata: nft.metadata,
+          sn: nft.index,
+          hash: nft.hash,
         }).then((result) => resolve(result))
       } catch (e) {
         reject(e)
