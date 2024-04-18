@@ -7,7 +7,17 @@ type HtmlContentValidationResult = {
   title: string
 }
 
-type InnerValidity = Omit<Validity, 'renderDurationValid'>
+type InnerValidity = Pick<
+  Validity,
+  | 'canvasSize'
+  | 'webGLSupported'
+  | 'localP5jsUsed'
+  | 'validTitle'
+  | 'kodaRendererUsed'
+  | 'resizerUsed'
+  | 'usesHashParam'
+  | 'title'
+>
 
 const constants = {
   canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
@@ -85,7 +95,15 @@ const validateHtmlContent = (
 const validateSketchContent = (
   sketchFileContent: string,
   canvasMatch: RegExpExecArray,
-): Omit<Validity, 'renderDurationValid' | 'usesHashParam' | 'title'> => {
+): Pick<
+  Validity,
+  | 'canvasSize'
+  | 'webGLSupported'
+  | 'localP5jsUsed'
+  | 'validTitle'
+  | 'kodaRendererUsed'
+  | 'resizerUsed'
+> => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
   const isNumericWidth = /^\d+$/.test(width)
@@ -106,7 +124,7 @@ const validateSketchContent = (
 export const validate = (
   htmlFileContent: string,
   sketchFileContent: string,
-): Result<Omit<Validity, 'renderDurationValid'>> => {
+): Result<InnerValidity> => {
   const canvasResult = validateCanvasCreation(sketchFileContent)
   if (!canvasResult.isSuccess) {
     return canvasResult
