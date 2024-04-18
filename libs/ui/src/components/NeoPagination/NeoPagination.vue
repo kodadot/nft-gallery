@@ -22,4 +22,8 @@ export default {
 .o-pag__link--current {
   @apply bg-k-primary;
 }
+
+.o-pag__link {
+  @apply text-text-color;
+}
 </style>
