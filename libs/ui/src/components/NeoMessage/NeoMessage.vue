@@ -1,146 +1,132 @@
 <template>
   <transition name="fade">
-    <article v-show="isActive" class="message" :class="[type, size]">
-      <header v-if="$slots.header || title" class="message-header">
-        <div v-if="$slots.header">
-          <slot name="header" />
+    <article
+      v-show="isActive"
+      ref="wrapper"
+      class="message !px-6 !py-4 shadow-primary border border-border-color relative"
+      :class="[`message__${variant}`]">
+      <div class="flex gap-4">
+        <div v-if="computedIcon">
+          <NeoIcon :icon="computedIcon" size="large" both />
         </div>
-        <p v-else-if="title">{{ title }}</p>
-        <NeoButton
-          v-if="closable"
-          type="button"
-          class="delete"
-          @click="close" />
-      </header>
-      <section v-if="$slots.default" class="message-body">
-        <div class="media">
-          <div v-if="computedIcon && hasIcon" class="media-left">
-            <NeoIcon :icon="computedIcon" :pack="iconPack" :class="type" both />
+
+        <div class="w-full flex justify-between">
+          <div>
+            <header>
+              <slot name="header">
+                <p class="text-[1rem] leading-[1.75rem] text-text-color">
+                  {{ title }}
+                </p>
+              </slot>
+            </header>
+
+            <section v-if="$slots.default">
+              <slot />
+            </section>
           </div>
-          <div class="media-content">
-            <slot />
-          </div>
+
+          <NeoButton
+            v-if="closable"
+            variant="icon"
+            icon="xmark"
+            no-shadow
+            class="!bg-[unset] text-[16px]"
+            @click="close" />
         </div>
-      </section>
+      </div>
+
+      <div
+        class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
+        :style="{ width: `${percent}%` }" />
     </article>
   </transition>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { useElementHover } from '@vueuse/core'
 import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
+import { NeoMessageVariant } from '../../types'
 
-export default {
-  name: 'NeoMessage',
-  components: {
-    NeoButton,
-    NeoIcon,
-  },
-  props: {
-    active: {
-      type: Boolean,
-      default: true,
-    },
-    title: String,
-    closable: {
-      type: Boolean,
-      default: true,
-    },
-    message: String,
-    type: String,
-    hasIcon: Boolean,
-    size: String,
-    icon: String,
-    iconPack: String,
-    iconSize: String,
-    autoClose: {
-      type: Boolean,
-      default: false,
-    },
-    duration: {
-      type: Number,
-      default: 2000,
-    },
-  },
-  data() {
-    return {
-      isActive: this.active,
-      remainingTime: this.duration / 1000, // in seconds
-    }
-  },
-  computed: {
-    computedIcon() {
-      if (this.icon) {
-        return this.icon
-      }
-      switch (this.type) {
-        case 'is-info':
-          return 'information'
-        case 'is-success':
-          return 'check-circle'
-        case 'is-warning':
-          return 'alert'
-        case 'is-danger':
-          return 'alert-circle'
-        default:
-          return null
-      }
-    },
-  },
-  watch: {
-    active(value) {
-      this.isActive = value
-    },
-    isActive(value) {
-      if (value) {
-        this.setAutoClose()
-      } else {
-        if (this.timer) {
-          clearTimeout(this.timer)
-        }
-      }
-    },
-  },
-  mounted() {
-    this.setAutoClose()
-  },
-  methods: {
-    /**
-     * Close the Message and emit events.
-     */
-    close() {
-      this.isActive = false
-      this.resetDurationProgress()
-      this.$emit('close')
-      this.$emit('update:active', false)
-    },
-    click() {
-      this.$emit('click')
-    },
-    /**
-     * Set timer to auto close message
-     */
-    setAutoClose() {
-      if (this.autoClose) {
-        this.timer = setTimeout(() => {
-          if (this.isActive) {
-            this.close()
-          }
-        }, this.duration)
-      }
-    },
-    resetDurationProgress() {
-      /**
-       * Wait until the component get closed and then reset
-       **/
-      setTimeout(() => {
-        this.remainingTime = this.duration / 1000
-      }, 100)
-    },
-  },
+const iconVariant: Record<NeoMessageVariant, string> = {
+  info: 'info',
+  success: 'check-circle',
+  warning: 'circle-exclamation',
+  danger: 'circle-exclamation',
 }
+
+const emit = defineEmits(['close', 'update:active', 'click'])
+const props = withDefaults(
+  defineProps<{
+    active: boolean
+    title?: string
+    message: string
+    closable: boolean
+    variant: NeoMessageVariant
+    autoClose: boolean
+    duration: number
+  }>(),
+  {
+    active: true,
+    closable: true,
+    autoClose: false,
+    duration: 2000,
+  },
+)
+
+const wrapper = ref()
+const isHovering = useElementHover(wrapper)
+
+const timer = ref()
+const isActive = ref(props.active)
+const remainingTime = ref(props.duration)
+
+const computedIcon = computed(() => iconVariant[props.variant] ?? null)
+
+const percent = computed(() => {
+  return (remainingTime.value / props.duration) * 100
+})
+
+const close = () => {
+  isActive.value = false
+  remainingTime.value = 0
+  emit('close')
+  emit('update:active', false)
+}
+
+watch(isActive, (active) => {
+  if (active) {
+    startTimer()
+  } else if (timer.value) {
+    clearTimeout(timer.value)
+  }
+})
+
+const startTimer = () => {
+  timer.value = setInterval(trackProgress, 100)
+}
+
+const trackProgress = () => {
+  if (remainingTime.value > 0 && !isHovering.value) {
+    remainingTime.value -= 100
+  }
+}
+
+watch(remainingTime, (time) => {
+  if (time === 0 && props.autoClose) {
+    close()
+  }
+})
+
+watch(
+  () => props.active,
+  (active) => (isActive.value = active),
+)
+
+onMounted(startTimer)
+onUnmounted(() => clearTimeout(timer.value))
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './NeoMessage.scss';
 </style>
