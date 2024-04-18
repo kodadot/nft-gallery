@@ -20,7 +20,7 @@
               </slot>
             </header>
 
-            <section v-if="$slots.default">
+            <section v-if="$slots.default" class="mt-2">
               <slot />
             </section>
           </div>
@@ -30,7 +30,7 @@
             variant="icon"
             icon="xmark"
             no-shadow
-            class="!bg-[unset] text-[16px]"
+            class="!bg-[unset] text-[16px] p-1"
             @click="close" />
         </div>
       </div>
@@ -49,7 +49,7 @@ import NeoIcon from '../NeoIcon/NeoIcon.vue'
 import { NeoMessageVariant } from '../../types'
 
 const iconVariant: Record<NeoMessageVariant, string> = {
-  info: 'info',
+  info: 'circle-info',
   success: 'check-circle',
   warning: 'circle-exclamation',
   danger: 'circle-exclamation',
@@ -58,9 +58,8 @@ const iconVariant: Record<NeoMessageVariant, string> = {
 const emit = defineEmits(['close', 'update:active', 'click'])
 const props = withDefaults(
   defineProps<{
-    active: boolean
     title?: string
-    message: string
+    active: boolean
     closable: boolean
     variant: NeoMessageVariant
     autoClose: boolean

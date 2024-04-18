@@ -1,9 +1,19 @@
 import MessageNotify from '@/components/MessageNotify.vue'
-import { NeoNotificationProgrammatic as Notif } from '@kodadot1/brick'
+import Notification from '@/components/common/Notification.vue'
+
+import {
+  type NeoMessageVariant,
+  NeoNotificationProgrammatic as Notif,
+} from '@kodadot1/brick'
 import consola from 'consola'
 import { h } from 'vue'
 
-export const notificationTypes = {
+type Params = {
+  variant: NeoMessageVariant
+  duration?: number
+}
+
+export const notificationTypes: Record<string, Params> = {
   success: {
     variant: 'success',
   },
@@ -19,22 +29,44 @@ export const notificationTypes = {
   },
 }
 
-export const showNotification = (
-  message: string | null,
-  params: any = notificationTypes.info,
+export const showNotification = ({
+  title,
+  message,
+  params = notificationTypes.info,
   duration = 10000,
-): void => {
+}: {
+  title: string
+  message: string | null
+  params?: Params
+  duration?: number
+}): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
     return
   }
 
-  Notif.open({
-    message,
-    duration,
-    closable: true,
-    ...params,
-  })
+  duration = params.duration || duration
+
+  const componentParams = {
+    component: h(Notification, {
+      title: title,
+      message: message,
+      variant: params.variant,
+      duration: duration,
+    }),
+    variant: 'component',
+    duration: duration,
+  }
+
+  Notif.open(
+    params.variant === 'success'
+      ? {
+          message,
+          duration: duration,
+          closable: true,
+        }
+      : componentParams,
+  )
 }
 
 export const showLargeNotification = ({
@@ -61,11 +93,27 @@ export const showLargeNotification = ({
   })
 }
 
-export const infoMessage = (msg) =>
-  showNotification(`[INFO] ${msg}`, notificationTypes.info)
-export const successMessage = (msg) =>
-  showNotification(`[SUCCESS] ${msg}`, notificationTypes.success)
-export const warningMessage = (msg) =>
-  showNotification(`[WARN] ${msg}`, notificationTypes.warn)
-export const dangerMessage = (msg) =>
-  showNotification(`[ERR] ${msg}`, notificationTypes.warn)
+export const infoMessage = (message: string) =>
+  showNotification({
+    title: 'Information',
+    message,
+    params: notificationTypes.info,
+  })
+export const successMessage = (message: string) =>
+  showNotification({
+    title: 'Succes',
+    message: `[SUCCESS] ${message}`,
+    params: notificationTypes.success,
+  })
+export const warningMessage = (message: string) =>
+  showNotification({
+    title: 'Warning',
+    message,
+    params: notificationTypes.warn,
+  })
+export const dangerMessage = (message: string) =>
+  showNotification({
+    title: 'Critical Error',
+    message,
+    params: notificationTypes.danger,
+  })
