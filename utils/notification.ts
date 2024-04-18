@@ -8,6 +8,8 @@ import {
 import consola from 'consola'
 import { h } from 'vue'
 
+type NotificationAction = { label: string; url: string }
+
 type Params = {
   variant: NeoMessageVariant
   duration?: number
@@ -29,32 +31,10 @@ export const notificationTypes: Record<string, Params> = {
   },
 }
 
-const getAction = ({
-  variant,
-  message,
-}: {
-  variant: NeoMessageVariant
-  message: string
-}) => {
-  const { $i18n } = useNuxtApp()
-
-  switch (variant) {
-    case 'info':
-      return { label: $i18n.t('helper.learnMore'), url: '' }
-    case 'danger':
-    case 'warning':
-      return {
-        label: $i18n.t('helper.reportIssue'),
-        url: getGithubReportUrl(message),
-      }
-    default:
-      return undefined
-  }
-}
-
 export const showNotification = ({
   title,
   message,
+  action,
   params = notificationTypes.info,
   duration = 10000,
 }: {
@@ -62,6 +42,7 @@ export const showNotification = ({
   message: string | null
   params?: Params
   duration?: number
+  action?: NotificationAction
 }): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -76,7 +57,7 @@ export const showNotification = ({
       message: message!,
       variant: params.variant,
       duration: duration,
-      action: getAction({ variant: params.variant, message: message ?? '' }),
+      action: action,
     }),
     variant: 'component',
     duration: 50000, // child component will trigger close when the real duration is ended
@@ -117,27 +98,42 @@ export const showLargeNotification = ({
   })
 }
 
-export const infoMessage = (message) =>
+export const infoMessage = (message, url?: string) => {
+  const { $i18n } = useNuxtApp()
   showNotification({
     title: 'Information',
     message,
     params: notificationTypes.info,
+    action: url ? { label: $i18n.t('helper.learnMore'), url: '' } : undefined,
   })
+}
+
 export const successMessage = (message) =>
   showNotification({
     title: 'Succes',
     message: `[SUCCESS] ${message}`,
     params: notificationTypes.success,
   })
+
+const getReportIssueAction = (message: string) => {
+  const { $i18n } = useNuxtApp()
+  return {
+    label: $i18n.t('helper.reportIssue'),
+    url: getGithubReportUrl(message),
+  }
+}
+
 export const warningMessage = (message) =>
   showNotification({
     title: 'Warning',
     message,
     params: notificationTypes.warn,
+    action: getReportIssueAction(message),
   })
 export const dangerMessage = (message) =>
   showNotification({
     title: 'Critical Error',
     message,
     params: notificationTypes.danger,
+    action: getReportIssueAction(message),
   })
