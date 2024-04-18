@@ -21,7 +21,7 @@ const max = computed(() => {
   const holderMax =
     drop.value.type === 'holder'
       ? availableNfts.serialNumbers.length
-      : undefined
+      : drop.value.max && drop.value.max - mintsCount.value
   // tmp remove when uploading to IPFS step can be skipped @see https://github.com/kodadot/nft-gallery/issues/10001#issuecomment-2041533819
   const dropMax = DROP_MASSMINT_LIMIT[drop.value.alias] ?? undefined
 
