@@ -10,10 +10,11 @@
       <p class="text-k-grey text-sm">{{ message }}</p>
 
       <a
+        v-if="action"
         class="text-[16px] !text-text-color"
-        :href="variantAction.url"
+        :href="action.url"
         target="_blank">
-        {{ variantAction.label }}
+        {{ action.label }}
       </a>
     </div>
   </NeoMessage>
@@ -22,33 +23,20 @@
 <script lang="ts" setup>
 import { NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
 
+type NotificationAction = { label: string; url: string }
+
 const emit = defineEmits(['close'])
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string
     message?: string
     duration?: number
     variant?: NeoMessageVariant
+    action?: NotificationAction
   }>(),
   {
     variant: 'success',
     duration: 10000,
   },
 )
-
-const { $i18n } = useNuxtApp()
-
-const variantAction = computed<{ label: string; url: string }>(() => {
-  if ('info' === props.variant) {
-    return {
-      label: $i18n.t('helper.learnMore'),
-      url: '',
-    }
-  }
-
-  return {
-    label: $i18n.t('helper.reportIssue'),
-    url: 'https://github.com/kodadot/nft-gallery/issues/new/choose',
-  }
-})
 </script>
