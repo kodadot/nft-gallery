@@ -1257,7 +1257,8 @@
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
-    "twitter": "Share on Twitter",
+    "twitter": "Share on X",
+    "farcasterFrame": "Share as Farcaster Frame",
     "farcaster": "Share on Farcaster",
     "copyAddress": "Copy Address"
   },
@@ -1825,6 +1826,10 @@
     "variationLoadingTimeMeans1": "The time between the start of render and message kodahash/render/completed is measured. As we mentioned in the documentation, art should be quick, to make the experience for the user better. Loading time check could fail if:",
     "variationLoadingTimeMeans2": "Artwork is not rendered in the checker.",
     "variationLoadingTimeMeans3": "Takes too long to render, no clear way to fix that, the artist needs to find a way to cut down time.",
+    "validImage": "Valid Image Sent to Kodahash Render",
+    "validImageMeans": "    Payload Send to kodahash render is empty or the image field is null. In Order to resolve this issue, you need to make sure that the image field is not null.",
+    "consistentArt": "Art Is Consistent",
+    "consistentArtMeans": "Same hash produced different images. To Resolve this issue, you need to make sure that the same hash produces the same image.",
     "newHash": "New Hash",
     "currentHash": "Current Hash",
     "replayAnimation": "Replay Animation",

@@ -56,7 +56,7 @@
 
       <LazyCollectionDropItemsGrid
         v-if="drop?.collection"
-        class="mb-4"
+        class="mb-14"
         :collection-id="drop?.collection" />
     </div>
   </div>

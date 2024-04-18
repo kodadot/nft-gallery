@@ -409,6 +409,8 @@ function handleNewTab() {
     openInNewTab('object', 'src')
   } else if ([MediaType.IMAGE].includes(imageType)) {
     openInNewTab('img[data-nuxt-img]', 'src')
+  } else {
+    window.open(nftAnimation.value || image.value, '_blank')
   }
 }
 

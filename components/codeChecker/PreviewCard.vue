@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full lg:max-w-[490px] flex flex-col gap-5">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full max-w-[490px] flex flex-col gap-5">
     <div ref="fullscreenRef" class="overflow-y-scroll">
       <NeoButton
         v-if="isFullscreen"
@@ -19,7 +19,7 @@
         :assets="assets" />
       <BaseMediaItem v-else preview is-detail class="border" />
     </div>
-    <div class="pb-5 flex w-full gap-3 border-b border-neutral-5">
+    <div class="pb-5 flex w-full gap-3 border-b border-neutral-5 flex-wrap">
       <NeoButton
         rounded
         no-shadow
@@ -101,6 +101,7 @@ const props = defineProps<{
   fileName?: string
   render: boolean
   kodaRendererUsed: Passed
+  reloadTrigger: number
 }>()
 
 const fullscreenRef = ref<HTMLElement | null>(null)
@@ -153,6 +154,8 @@ const exportAsPNG = async () => {
   window.addEventListener('message', handleRenderComplete)
   count.value++
 }
+
+watch(() => props.reloadTrigger, replay)
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
