@@ -1,3 +1,6 @@
+import type { Prefix } from '@kodadot1/static'
+import { URLS } from '@/utils/constants'
+
 export default function () {
   const route = useRoute()
 
@@ -38,5 +41,18 @@ export default function () {
     )
   }
 
-  return { shareOnX, shareOnTelegram, shareOnFarcaster }
+  const shareCollectionOnFarcaster = (
+    chain: Prefix,
+    collectionId: string,
+    text: string,
+  ) => {
+    shareOnFarcaster(text, `${URLS.koda.frame}/${chain}/${collectionId}`)
+  }
+
+  return {
+    shareOnX,
+    shareOnTelegram,
+    shareOnFarcaster,
+    shareCollectionOnFarcaster,
+  }
 }

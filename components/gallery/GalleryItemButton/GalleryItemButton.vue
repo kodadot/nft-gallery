@@ -8,6 +8,7 @@
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
       :name="nft?.name"
+      :collection-name="nft?.collection?.name"
       :current-owner="nft?.currentOwner"
       :price="nft?.price"
       data-testid="gallery-item-more-button" />
