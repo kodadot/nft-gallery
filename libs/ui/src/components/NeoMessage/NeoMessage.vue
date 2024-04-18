@@ -7,20 +7,20 @@
       :class="[`message__${variant}`]">
       <div class="flex gap-4">
         <div v-if="computedIcon">
-          <NeoIcon :icon="computedIcon" size="large" both />
+          <NeoIcon :icon="computedIcon" size="large" />
         </div>
 
         <div class="w-full flex justify-between">
           <div>
             <header>
               <slot name="header">
-                <p class="text-[1rem] leading-[1.75rem] text-text-color">
+                <p class="text-[1rem] leading-[1.2rem] text-text-color mb-2">
                   {{ title }}
                 </p>
               </slot>
             </header>
 
-            <section v-if="$slots.default" class="mt-2">
+            <section v-if="$slots.default">
               <slot />
             </section>
           </div>
@@ -36,6 +36,7 @@
       </div>
 
       <div
+        v-if="showProgressBar"
         class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
         :style="{ width: `${percent}%` }" />
     </article>
@@ -64,12 +65,14 @@ const props = withDefaults(
     variant: NeoMessageVariant
     autoClose: boolean
     duration: number
+    showProgressBar: boolean
   }>(),
   {
     active: true,
     closable: true,
     autoClose: false,
     duration: 2000,
+    showProgressBar: false,
   },
 )
 
@@ -101,13 +104,15 @@ watch(isActive, (active) => {
   }
 })
 
+const timerTime = computed(() => (props.showProgressBar ? 100 : 1000))
+
 const startTimer = () => {
-  timer.value = setInterval(trackProgress, 100)
+  timer.value = setInterval(trackProgress, timerTime.value)
 }
 
 const trackProgress = () => {
-  if (remainingTime.value > 0 && !isHovering.value) {
-    remainingTime.value -= 100
+  if (remainingTime.value > 0 && !isHovering.value && props.showProgressBar) {
+    remainingTime.value -= timerTime.value
   }
 }
 

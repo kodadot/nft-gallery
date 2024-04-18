@@ -4,6 +4,7 @@
     :title="title"
     :variant="variant"
     auto-close
+    show-progress-bar
     @close="emit('close')">
     <div class="flex gap-2 flex-col">
       <p class="text-k-grey text-sm">{{ message }}</p>

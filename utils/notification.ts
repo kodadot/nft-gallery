@@ -55,7 +55,7 @@ export const showNotification = ({
       duration: duration,
     }),
     variant: 'component',
-    duration: duration,
+    duration: 50000,
   }
 
   Notif.open(
