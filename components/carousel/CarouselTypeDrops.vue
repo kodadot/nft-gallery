@@ -1,19 +1,21 @@
 <template>
   <div ref="container">
-    <CarouselModuleCarouselAgnostic
-      v-if="isReady"
-      :key="dropsAlias.join('-')"
-      v-slot="{ item }"
-      :items="drops"
-      :config="config">
-      <DropsDropCard :drop="item" />
-    </CarouselModuleCarouselAgnostic>
-    <CarouselModuleCarouselAgnostic
-      v-else
-      :items="Array(skeletonCount).fill({ id: 'drop-skeleton' })"
-      :config="config">
-      <DropsDropCardSkeleton />
-    </CarouselModuleCarouselAgnostic>
+    <template v-if="isDynamicGridReady">
+      <CarouselModuleCarouselAgnostic
+        v-if="isReady"
+        :key="dropsAlias.join('-')"
+        v-slot="{ item }"
+        :items="drops"
+        :config="config">
+        <DropsDropCard :drop="item" />
+      </CarouselModuleCarouselAgnostic>
+      <CarouselModuleCarouselAgnostic
+        v-else
+        :items="Array(skeletonCount).fill({ id: 'drop-skeleton' })"
+        :config="config">
+        <DropsDropCardSkeleton />
+      </CarouselModuleCarouselAgnostic>
+    </template>
   </div>
 </template>
 
@@ -28,15 +30,14 @@ let queries = {
 
 if (!isProduction) {
   queries = {
-    limit: 12,
-    active: [true, false],
+    ...queries,
     chain: ['ahp', 'ahk'],
   }
 }
 
 const container = ref()
 
-const { cols } = useDynamicGrid({
+const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
   container,
   itemMintWidth: computed(() => DROP_CARD_MIN_WIDTH),
 })

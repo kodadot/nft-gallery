@@ -10,7 +10,7 @@
     :drop-status="drop.status"
     :owner-addresses="ownerAddresses"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"
-    :minted="mintedCount" />
+    :minted="drop.minted" />
 </template>
 
 <script setup lang="ts">
@@ -22,8 +22,6 @@ import { Drop, DropStatus } from './useDrops'
 import { resolveComponent } from 'vue'
 import { Prefix } from '@kodadot1/static'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
-import { getDropStatus } from '@/services/fxart'
-
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
@@ -44,16 +42,10 @@ const { owners, loading: collectionOwnersLoading } = useCollectionActivity({
 })
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
 
-const mintedCount = ref(0)
-
 onMounted(async () => {
   if (!props.drop?.collection) {
     return
   }
-
-  getDropStatus(props.drop.collection.alias)
-    .then((res) => (mintedCount.value = res.count))
-    .catch((err) => console.error(err))
 
   const dropCardImage = props.drop.banner || props.drop.image
 

@@ -18,6 +18,8 @@ export type DoResult = {
   timestamp?: string
   image?: string
   name: string
+  metadata?: string
+  nft?: string
 }
 
 export type GetDropsQuery = {
@@ -37,12 +39,6 @@ export const getDropById = (id: string) =>
   api<DropItem>(`/drops/${id}`, {
     method: 'GET',
   })
-
-export const getDropStatus = async (alias: string) => {
-  return await api<{ count: number }>(`/drops/${alias}/status`, {
-    method: 'GET',
-  })
-}
 
 export type DropMintedStatus = {
   created_at: string
@@ -141,6 +137,26 @@ export const allocateClaim = async (body, id) => {
   } catch (error) {
     throw new Error(
       `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
+    )
+  }
+}
+
+export const updateMetadata = async ({ chain, collection, nft, metadata }) => {
+  try {
+    const response = await api<DoResult>('/metadata/v1/update', {
+      method: 'post',
+      body: {
+        chain,
+        collection,
+        nft,
+        metadata,
+      },
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[FXART::UPDATE_METADATA] ERROR: ${(error as FetchError).data}`,
     )
   }
 }

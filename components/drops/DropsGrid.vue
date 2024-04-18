@@ -11,7 +11,7 @@
       :key="`${isDrop(drop) ? drop.collection?.id : drop.id}=${index}`"
       class="w-full h-full"
       :data-testid="index">
-      <slot name="card" :item="drop as DropCalendar">
+      <slot name="card" :item="drop as InternalDropCalendar">
         <DropCard :drop="drop as Drop" />
       </slot>
     </div>
@@ -19,8 +19,8 @@
 </template>
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
-import { DropCalendar } from '@/services/fxart'
 import { Drop } from './useDrops'
+import { InternalDropCalendar } from './calendar/DropsCalendar.vue'
 
 const GRID_DEFAULT_WIDTH = {
   small: 0,
@@ -29,13 +29,13 @@ const GRID_DEFAULT_WIDTH = {
 }
 
 defineProps<{
-  drops: Drop[] | DropCalendar[]
+  drops: Drop[] | InternalDropCalendar[]
   loaded: boolean
   defaultSkeletonCount: number
   skeletonKey: string
   clickable?: boolean
 }>()
 
-const isDrop = (item: Drop | DropCalendar): item is Drop =>
+const isDrop = (item: Drop | InternalDropCalendar): item is Drop =>
   (item as Drop).collection !== undefined
 </script>

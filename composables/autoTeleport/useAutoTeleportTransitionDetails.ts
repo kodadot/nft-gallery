@@ -2,7 +2,6 @@ import {
   type Chain,
   chainToPrefixMap,
   getChainCurrency,
-  getChainExistentialDeposit,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
@@ -10,7 +9,11 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
-import { checkIfAutoTeleportActionsNeedRefetch } from './utils'
+import { existentialDeposit } from '@kodadot1/static'
+import {
+  checkIfAutoTeleportActionsNeedRefetch,
+  getChainExistentialDeposit,
+} from './utils'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -43,6 +46,7 @@ export default function (
     balances: false,
   })
 
+  const shouldTeleportAllBalance = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -72,7 +76,9 @@ export default function (
   )
 
   const currentChainExistentialDeposit = computed(() =>
-    getChainExistentialDeposit(currentChain.value),
+    currentChain.value
+      ? existentialDeposit[chainToPrefixMap[currentChain.value]] ?? 0
+      : 0,
   )
 
   const transferableCurrentChainBalance = computed(
@@ -155,22 +161,24 @@ export default function (
       : requiredAmountToTeleport.value,
   )
 
-  const shouldTeleportAllBalance = computed<boolean>(() => {
-    const hasRichesChain = Boolean(richestChain.value)
-    const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
-    const willRemainingRichestChainBalanceBeSlashed =
-      richestChainBalance.value - requiredAmountToTeleport.value <=
-      richestChainExistentialDeposit.value
-    const hasRequiredAmountInRichestChain =
-      richestChainBalance.value >= requiredAmountToTeleport.value
+  // Disabled until delivery fee accounting is fixed by PolkadotJS
+  // @see https://github.com/kodadot/nft-gallery/issues/9596#issuecomment-2026772987
+  // const shouldTeleportAllBalance = computed<boolean>(() => {
+  //   const hasRichesChain = Boolean(richestChain.value)
+  //   const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
+  //   const willRemainingRichestChainBalanceBeSlashed =
+  //     richestChainBalance.value - requiredAmountToTeleport.value <=
+  //     richestChainExistentialDeposit.value
+  //   const hasRequiredAmountInRichestChain =
+  //     richestChainBalance.value >= requiredAmountToTeleport.value
 
-    return (
-      hasRichesChain &&
-      doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed &&
-      hasRequiredAmountInRichestChain
-    )
-  })
+  //   return (
+  //     hasRichesChain &&
+  //     doesntHaveEnoughInCurrentChain &&
+  //     willRemainingRichestChainBalanceBeSlashed &&
+  //     hasRequiredAmountInRichestChain
+  //   )
+  // })
 
   const hasEnoughInRichestChain = computed(() => {
     const balance = shouldTeleportAllBalance.value

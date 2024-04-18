@@ -30,13 +30,19 @@ export default () => {
 
   const listMintedNFTs = () => {
     mintedNFTs.value.forEach((withMetadataNFT: NFTWithMetadata) => {
-      const mintinSessionNft = mintingSession.value.items.find(
+      const mintingSessionNFT = mintingSession.value.items.find(
         (nft) => nft.id === withMetadataNFT.id,
       )
-      listNftByNftWithMetadata(withMetadataNFT, {
-        url: mintinSessionNft?.image as string,
-        mimeType: 'text/html',
-      })
+      listNftByNftWithMetadata(
+        {
+          ...withMetadataNFT,
+          name: mintingSessionNFT?.name || withMetadataNFT.name,
+        },
+        {
+          url: mintingSessionNFT?.image as string,
+          mimeType: 'text/html',
+        },
+      )
     })
   }
 

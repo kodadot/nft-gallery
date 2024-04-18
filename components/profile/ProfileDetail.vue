@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="py-8">
     <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">

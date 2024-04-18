@@ -71,8 +71,11 @@
           }
 
           &--fullpage {
-            @apply fixed h-screen w-full z-[100] top-[57px];
-
+            @apply fixed h-screen w-full z-[100];
+            top: $navbar-desktop-min-height;
+            @include mobile {
+              top: $navbar-mobile-min-height;
+            }
             @include ktheme() {
               background: theme('background-color');
             }
@@ -138,7 +141,10 @@
     }
 
     &.is-active .navbar-brand {
-      min-height: $navbar-mobile-min-height;
+      min-height: $navbar-desktop-min-height;
+      @include mobile {
+        min-height: $navbar-mobile-min-height;
+      }
     }
   }
 }

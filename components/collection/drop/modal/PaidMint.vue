@@ -8,6 +8,7 @@
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
+      :estimated-time="estimedTime"
       @close="onClose">
       <MintOverview
         v-if="isMintOverviewStep"
@@ -18,7 +19,6 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
-        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
@@ -55,6 +55,8 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
+const IPFS_ESTIMATED_TIME_SECONDS = 15
+
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 const props = defineProps<{
   modelValue: boolean
@@ -62,7 +64,7 @@ const props = defineProps<{
   status: TransactionStatus
 }>()
 
-const { canMint, canList } = useDropMassMintState()
+const { canMint, canList, isRendering } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
@@ -80,12 +82,12 @@ const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
 )
 
-const mintButton = computed(() => {
-  const generatingVariations =
-    toMintNFTs.value.map((nft) => nft.imageDataPayload).filter(Boolean)
-      .length !== toMintNFTs.value.length
+const estimedTime = computed(() =>
+  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
+)
 
-  if (generatingVariations) {
+const mintButton = computed(() => {
+  if (isRendering.value) {
     return {
       label: `${$i18n.t('drops.generatingVariations')} ~ 5s`,
       disabled: true,
@@ -95,7 +97,7 @@ const mintButton = computed(() => {
 
   if (!canMint.value) {
     return {
-      label: `${$i18n.t('loader.ipfs')} ~ 15s`,
+      label: `${$i18n.t('loader.ipfs')} ~ ${IPFS_ESTIMATED_TIME_SECONDS}s`,
       disabled: true,
     }
   }

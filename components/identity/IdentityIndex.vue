@@ -21,6 +21,7 @@
       :show-clipboard="showClipboard"
       :show-badge="showIdentityBadge"
       :shortened-address="shortenedAddress"
+      :hide-display-name="hideDisplayName"
       :name="name" />
   </div>
 </template>
@@ -47,6 +48,7 @@ const props = defineProps<{
   hideIdentityPopover?: boolean
   showClipboard?: boolean
   customNameOption?: string
+  hideDisplayName?: boolean
 }>()
 
 const {

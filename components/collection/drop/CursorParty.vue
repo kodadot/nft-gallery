@@ -35,9 +35,10 @@ const labelFormatter = (connection: UserDetails): CursorLabel => {
   if (lastEvent) {
     if (
       lastEvent.type === DropEventType.DROP_MINTED &&
+      lastEvent.mintingSession &&
       Date.now() - lastEvent.timestamp < DROP_MITED_EVENT_DURATION
     ) {
-      return { image: lastEvent.image }
+      return { mintingSession: lastEvent.mintingSession }
     }
 
     if (
