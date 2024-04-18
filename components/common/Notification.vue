@@ -11,8 +11,8 @@
 
       <a
         v-if="action"
+        v-safe-href="action.url"
         class="text-[16px] !text-text-color"
-        :href="action.url"
         target="_blank">
         {{ action.label }}
       </a>
