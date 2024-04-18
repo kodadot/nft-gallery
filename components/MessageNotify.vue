@@ -27,6 +27,8 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoMessage } from '@kodadot1/brick'
+
 const props = defineProps<{
   title?: string
   subtitle?: string
