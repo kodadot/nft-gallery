@@ -127,26 +127,16 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
 }
 
-export const SubstrateWallets = [
-  SupportWalletExtension.PolkadotJs,
-  SupportWalletExtension.Clover,
-  SupportWalletExtension.Math,
-  SupportWalletExtension.Nova,
-  SupportWalletExtension.SubWallet,
-  SupportWalletExtension.Talisman,
-  SupportWalletExtension.Enkrypt,
-]
-
 const MobileWalletExtensionList = [
-  SupportWalletExtension.Math,
   SupportWalletExtension.Nova,
   SupportWalletExtension.SubWallet,
+  SupportWalletExtension.Math,
 ]
 const PCWalletExtensionList = [
-  SupportWalletExtension.Enkrypt,
   SupportWalletExtension.Talisman,
-  SupportWalletExtension.PolkadotJs,
   SupportWalletExtension.SubWallet,
+  SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.Enkrypt,
   SupportWalletExtension.Clover,
 ]
 
@@ -185,11 +175,6 @@ export function getWalletBySource(
   return SupportedWallets().find((wallet) => {
     return wallet.extensionName === source
   })
-}
-
-export function isWalletInstalled(source: string | unknown): boolean {
-  const wallet = getWalletBySource(source)
-  return wallet?.installed as boolean
 }
 
 export type SubscriptionFn = (
