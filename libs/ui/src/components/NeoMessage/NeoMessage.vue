@@ -73,6 +73,7 @@ const props = withDefaults(
     autoClose: false,
     duration: 2000,
     showProgressBar: false,
+    variant: 'success',
   },
 )
 
