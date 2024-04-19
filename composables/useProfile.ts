@@ -8,17 +8,18 @@ export enum Socials {
 }
 
 export default function useUserProfile() {
-  const { accountId } = useAuth()
   const userProfileData = ref<Profile | null>(null)
   const hasProfile = ref(false)
   const isFollowingThisAccount = ref(false)
+  const { params, name } = useRoute()
 
-  const fetchProfileMedia = async () => {
-    if (!accountId.value) {
+  const fetchProfile = async () => {
+    const account = params?.id as string
+    if (!account) {
       return
     }
     try {
-      const response = await fetchProfileByAddress(accountId.value)
+      const response = await fetchProfileByAddress(account)
       console.log('Profile fetch response:', response)
 
       userProfileData.value = response
@@ -28,11 +29,20 @@ export default function useUserProfile() {
     }
   }
 
-  watch(accountId, fetchProfileMedia, { immediate: true })
+  watch(
+    [() => name, () => params],
+    () => {
+      if (name === 'prefix-u-id') {
+        fetchProfile()
+      }
+    },
+    { immediate: true },
+  )
 
   return {
     hasProfile,
     isFollowingThisAccount,
     userProfile: computed(() => userProfileData.value),
+    fetchProfile,
   }
 }

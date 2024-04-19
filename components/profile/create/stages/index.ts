@@ -1,6 +1,8 @@
-export { default as Stage1 } from './Stage1.vue'
-export { default as Stage2 } from './Stage2.vue'
-export { default as Stage3 } from './Stage3.vue'
+export { default as Introduction } from './Introduction.vue'
+export { default as Select } from './Select.vue'
+export { default as Form } from './Form.vue'
+export { default as Loading } from './Loading.vue'
+export { default as Success } from './Success.vue'
 
 export type ProfileFormData = {
   address: string
