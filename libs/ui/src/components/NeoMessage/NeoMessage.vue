@@ -118,7 +118,7 @@ const trackProgress = () => {
 }
 
 watch(remainingTime, (time) => {
-  if (time === 0 && props.autoClose) {
+  if (time <= 0 && props.autoClose) {
     close()
   }
 })
