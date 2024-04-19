@@ -22,7 +22,12 @@
             </NeoTag>
           </span>
 
-          <NeoIcon v-if="!wallet.installed" icon="download" />
+          <div
+            v-if="!wallet.installed"
+            class="text-xs capitalize text-neutral-7">
+            {{ $t('moreActions.download') }}
+            <NeoIcon icon="download" />
+          </div>
 
           <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
 
