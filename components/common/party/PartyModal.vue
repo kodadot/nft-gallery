@@ -3,13 +3,13 @@
     <div
       class="party shadow-primary h-fit fixed z-50 !top-20 md:!top-24 left-4 border-2 bg-background-color p-[24px] flex justify-between gap-6 max-w-[350px] sm:max-w-[498px]">
       <div
-        class="hidden sm:flex flex-1 min-w-[91px] h-[144px] justify-center items-center">
+        class="hidden sm:flex flex-1 min-w-[91px] h-[116px] justify-center items-center">
         <img
           :src="'/drop/party.svg'"
           :alt="'cursors'"
           class="w-full h-full scale-[1.5]" />
       </div>
-      <div class="max-w-[335px] flex flex-col gap-3">
+      <div class="max-w-[335px] flex flex-col justify-between gap-3">
         <div class="flex justify-between font-bold">
           <p>{{ $i18n.t('partyModal.title') }}</p>
           <NeoIcon icon="close" size="large" @click="closeModal" />
