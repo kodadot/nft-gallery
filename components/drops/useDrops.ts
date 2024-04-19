@@ -203,7 +203,7 @@ const subscribeDropMintedCount = (
         nftCount
       }
      `,
-    onChange: ({ data: data }) => {
+    onChange: ({ data }) => {
       onChange(data.collectionEntityById?.nftCount)
     },
   })
