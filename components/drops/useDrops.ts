@@ -1,6 +1,6 @@
 import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import collectionStatsById from '@/queries/subsquid/general/collectionStatsById.graphql'
+import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import orderBy from 'lodash/orderBy'
@@ -181,40 +181,78 @@ export const fetchDropMintedCount = async (
   }
 
   const { data } = await useAsyncQuery<{
-    stats: { base: string[] }
+    collectionEntityById: { nftCount: number | undefined }
   }>({
-    query: collectionStatsById,
+    query: collectionByIdMinimal,
     variables: {
       id: drop.collection,
     },
     clientId: drop.chain,
   })
 
-  return data.value?.stats?.base.length
+  return data.value?.collectionEntityById.nftCount
+}
+
+const subscribeDropMintedCount = (
+  drop: Pick<DropItem, 'collection'>,
+  onChange: (count: number | undefined) => void,
+) => {
+  return useSubscriptionGraphql({
+    query: `
+      collectionEntityById(id: "${drop.collection}") {
+        nftCount
+      }
+     `,
+    onChange: ({ data: data }) => {
+      onChange(data.collectionEntityById?.nftCount)
+    },
+  })
 }
 
 export const useDropStatus = (
   drop?: WritableComputedRef<{ collection: string; chain: Prefix }>,
 ) => {
   const dropStore = useDropStore()
+
+  const dropStatusSubscription = ref<{
+    collection: string | undefined
+    unsubscribe: () => void
+  }>({
+    collection: undefined,
+    unsubscribe: () => {},
+  })
+
   const mintsCount = computed({
     get: () => dropStore.mintsCount,
     set: (value) => dropStore.setMintedDropCount(value),
   })
 
-  const fetchDropStatus = async () => {
-    if (drop?.value) {
-      mintsCount.value = await fetchDropMintedCount(drop.value)
-    }
-  }
+  const subscribeDropStatus = () => {
+    watch(
+      () => drop?.value,
+      (drop) => {
+        if (drop) {
+          if (drop.collection !== dropStatusSubscription.value.collection) {
+            dropStatusSubscription.value.unsubscribe?.()
+          }
 
-  watchEffect(() => {
-    fetchDropStatus()
-  })
+          dropStatusSubscription.value.collection = drop.collection
+          dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
+            drop,
+            (count) => {
+              mintsCount.value = count ?? 0
+            },
+          )
+        }
+      },
+    )
+
+    onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
+  }
 
   return {
     mintsCount,
-    fetchDropStatus,
+    subscribeDropStatus,
   }
 }
 
