@@ -228,7 +228,10 @@ const { isAssetHub } = useIsChain(urlPrefix)
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
-const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const mediaItemRef = ref<{
+  isLewdBlurredLayer: boolean
+  toggleVideoFullscreen
+} | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
@@ -342,7 +345,7 @@ watch(isFullscreen, (value) => {
   sizes.value = value ? 'original' : '1000px'
 })
 
-function toggleFullscreen() {
+function toggleMediaFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {
     toggleFallback()
     return
@@ -351,6 +354,15 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
+}
+
+function toggleFullscreen() {
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  if ([MediaType.VIDEO].includes(mediaType)) {
+    mediaItemRef.value?.toggleVideoFullscreen()
+  } else {
+    toggleMediaFullscreen()
+  }
 }
 
 function handleReloadClick() {
