@@ -44,9 +44,18 @@ type ReloadElement =
 
 defineEmits(['toggle'])
 
-const { nftAnimationMimeType, nftMimeType } = useGalleryItem()
+const { nft, nftAnimation, nftImage, nftAnimationMimeType, nftMimeType } =
+  useGalleryItem()
 
 const isLoading = ref(false)
+
+const image = computed(() => {
+  if (!nftImage.value) {
+    return sanitizeIpfsUrl(nft.value?.meta?.image)
+  }
+
+  return nftImage.value
+})
 
 const mediaAndImageType = computed(() => {
   const animationMediaType = resolveMedia(nftAnimationMimeType.value)
@@ -92,15 +101,21 @@ const openInNewTab = (selector: string, attribute: string = 'src') => {
     const src = element.getAttribute(attribute)
     if (src) {
       window.open(src, '_blank')
+      return true
     }
   }
+  return false
 }
 
 const handleNewTab = () => {
   const { animationMediaType, imageMediaType } = mediaAndImageType.value
+  const elementSelector = getElementSelector({
+    animationMediaType,
+    imageMediaType,
+  })
 
-  return openInNewTab(
-    getElementSelector({ animationMediaType, imageMediaType }),
-  )
+  if (!openInNewTab(elementSelector)) {
+    window.open(nftAnimation.value || image.value, '_blank')
+  }
 }
 </script>
