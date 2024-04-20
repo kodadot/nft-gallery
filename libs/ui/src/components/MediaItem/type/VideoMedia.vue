@@ -1,14 +1,9 @@
 <template>
-  <div
-    class="h-full min-w-0 relative"
-    :class="{ 'w-[95%]': isFullscreen, 'w-full': !isFullscreen }">
-    <div
-      class="h-0 w-full"
-      :class="{ 'pb-[65%]': isFullscreen, 'pb-[100%]': !isFullscreen }" />
+  <div class="h-full z-10 min-w-0 relative">
+    <div class="h-0 w-full pb-[100%]" />
     <video
       ref="video"
       class="absolute inset-0 min-w-0 w-full h-full flex items-center justify-center"
-      :class="{ 'ml-7 pt-6': isFullscreen }"
       :controls="controls"
       playsinline
       loop
@@ -43,7 +38,7 @@ const props = withDefaults(
 )
 
 const video = ref()
-const { toggle: toggleVideoFullscreen, isFullscreen } = useFullscreen(video)
+const { toggle: toggleVideoFullscreen } = useFullscreen(video)
 
 const autoPlay = computed(() =>
   props.autoplay === undefined ? props.preview : props.autoplay,
