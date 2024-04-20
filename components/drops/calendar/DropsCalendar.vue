@@ -37,14 +37,20 @@
           :loaded="!pending"
           :default-skeleton-count="defaultSkeletonCount"
           skeleton-key="current-drops-skeleton">
-          <template #card="{ item }: { item: DropCalendar }">
+          <template #card="{ item }: { item: InternalDropCalendar }">
             <DropsBasicDropCard
               :name="item.name"
               :image="sanitizeIpfsUrl(item.items[0]?.image)"
-              :drop-start-time="getDropStartTime(item)"
+              :drop-start-time="item.dropStartTime"
               :drop-status="DropStatus.SCHEDULED"
-              :time-tag-with-time="Boolean(item.time)"
+              :drop-max="item.supply as number"
+              :time-tag-with-time="calendarHasTime(item)"
               @click="() => handleClick(item)">
+              <template v-if="item.supply === null" #supply>
+                <span class="text-k-grey">
+                  {{ $t('helper.supplyNotSet') }}
+                </span>
+              </template>
             </DropsBasicDropCard>
           </template>
         </DropsGrid>
@@ -63,20 +69,33 @@ import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
 import groupBy from 'lodash/groupBy'
-import { formatCETDate } from '@/components/drops/utils'
+import {
+  dateHasTime,
+  formatCETDate,
+  parseCETDate,
+} from '@/components/drops/utils'
+
+export type InternalDropCalendar = DropCalendar & { dropStartTime: Date | null }
 
 defineProps<{
   defaultSkeletonCount: number
 }>()
 
-const { data, pending } = useAsyncData<DropCalendar[]>(() => getDropCalendar())
+const { data, pending } = useAsyncData(() => getDropCalendar(), {
+  transform: (items) => {
+    return items.map((item) => ({
+      ...item,
+      dropStartTime: getDropStartTime(item),
+    })) as InternalDropCalendar[]
+  },
+})
 
-const previewDropCalendar = ref<DropCalendar>()
+const previewDropCalendar = ref<InternalDropCalendar>()
 const body = ref(document.body)
 
 const scheduledDropCalendars = computed(() =>
   data.value
-    ?.filter((item) => item.date)
+    ?.filter((item) => item.date && new Date(item.date).getTime() > Date.now())
     .sort(
       (a, b) =>
         new Date(a.date as string).getTime() -
@@ -116,17 +135,37 @@ const grouppedDropCalendars = computed(() => {
 
 const formatDate = (date: string) => format(new Date(date), 'dd. MMMM')
 
+const calendarHasTime = (calendar: DropCalendar): boolean =>
+  calendar.date ? dateHasTime(calendar.date) : Boolean(calendar.time)
+
+const getCalendarParsedDate = ({
+  date,
+  time,
+}: {
+  date: string
+  time: string | null
+}): Date | null => {
+  if (dateHasTime(date)) {
+    return parseCETDate(date)
+  }
+
+  if (time) {
+    const [dateDate] = date!.split(' ')
+    return formatCETDate(dateDate, time)
+  }
+
+  return new Date(date)
+}
+
 const getDropStartTime = (calendar: DropCalendar): Date | null => {
   if (!calendar.date) {
     return null
   }
 
-  return calendar.time
-    ? formatCETDate(calendar.date, calendar.time)
-    : new Date(calendar.date)
+  return getCalendarParsedDate({ date: calendar.date, time: calendar.time })
 }
 
-const handleClick = (dropCalendar: DropCalendar) => {
+const handleClick = (dropCalendar: InternalDropCalendar) => {
   previewDropCalendar.value = dropCalendar
 }
 </script>

@@ -8,21 +8,28 @@
         :key="toMintNft.hash"
         :name="toMintNft.name"
         :collection-name="toMintNft.collectionName"
-        :price="toMintNft.price">
+        :price="toMintNft.price"
+        :hide-collection="true">
         <template #image>
           <div class="relative">
             <NeoSkeleton
               v-if="!toMintNft.imageDataPayload"
-              class="absolute border border-border-color overflow-hidden"
-              :width="48"
-              :height="48"
+              class="border border-border-color overflow-hidden"
+              :class="{ absolute: toMintNft.canRender }"
+              :width="46"
+              :height="46"
               :rounded="false"
               no-margin />
 
             <BaseMediaItem
-              :src="sanitizeIpfsUrl(toMintNft.image)"
+              v-if="toMintNft.canRender"
+              :src="
+                toMintNft.imageDataPayload
+                  ? toMintNft.imageDataPayload.image
+                  : sanitizeIpfsUrl(toMintNft.image)
+              "
               :alt="toMintNft.name"
-              mime-type="text/html"
+              :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
               preview
               is-detail
               :class="{ 'opacity-0': !toMintNft.imageDataPayload }"
@@ -60,7 +67,6 @@
       :loading="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
-      :parent-ready="!modalLoading"
       :fees="{
         actionAutoFees: false,
       }"
@@ -87,7 +93,6 @@ const props = defineProps<{
   action: AutoTeleportAction
   minimumFunds: number
   mintButton: { label: string; disabled: boolean; loading?: boolean }
-  modalLoading: boolean
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
 }>()

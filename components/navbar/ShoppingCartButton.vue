@@ -13,6 +13,7 @@
         rounded
         class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs" />
     </div>
+    <NeoIcon v-if="isMobile" class="icon--right" icon="chevron-right" />
   </div>
 </template>
 

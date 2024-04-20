@@ -17,6 +17,7 @@
         <NeoDropdown
           position="bottom-left"
           append-to-body
+          menu-class="w-fit"
           :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
@@ -28,18 +29,28 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
+            class="w-max"
+            @click="shareCollectionToFarcaster">
+            <NeoIcon icon="frame" class="mr-2" />
+            {{ $i18n.t('share.farcasterFrame') }}
+          </NeoDropdownItem>
+          <NeoDropdownItem
+            v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
             @click="toast($t('toast.urlCopy'))">
+            <NeoIcon icon="link" class="mr-2" />
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-QR-dropdown"
             @click="QRModalActive = true">
+            <NeoIcon icon="qrcode" class="mr-2" />
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-twitter-dropdown"
             @click="shareUrlToX">
+            <NeoIcon icon="share" class="mr-2" />
             {{ $i18n.t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
@@ -57,7 +68,7 @@
           </template>
 
           <!-- related: #5792 -->
-          <div v-if="isOwner">
+          <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
             <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
@@ -89,16 +100,18 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
+  NeoIcon,
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import { hasOperationsDisabled } from '@/utils/prefix'
 
 const route = useRoute()
 const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
-const { shareOnX } = useSocialShare()
+const { shareOnX, shareCollectionOnFarcaster } = useSocialShare()
 
 const collectionId = computed(() => route.params.id.toString())
 const currentCollectionUrl = computed(
@@ -114,6 +127,14 @@ const shareUrlToX = () => {
     '',
   )
 }
+const shareCollectionToFarcaster = () => {
+  shareCollectionOnFarcaster(
+    urlPrefix.value,
+    collectionId.value,
+    `${$i18n.t('sharing.collection')} ${currentCollectionUrl.value}`,
+  )
+}
+
 const { collection } = useCollectionMinimal({
   collectionId,
 })

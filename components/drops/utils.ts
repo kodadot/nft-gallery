@@ -32,9 +32,11 @@ export function formatDropStartTime(
 }
 
 export const formatCETDate = (date: string, time: string): Date =>
-  new Date(`${date}T${time}+01:00`)
+  new Date(`${date}T${time}+02:00`)
 
 export const parseCETDate = (datetime: string): Date => {
   const [date, time] = datetime.split(' ')
   return formatCETDate(date, time)
 }
+
+export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)

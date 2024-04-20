@@ -5,23 +5,25 @@
         class="notices flex overflow-hidden pointer-events-none fixed p-[2em] inset-0 is-bottom items-center w-full z-[1000]">
         <div
           role="alertdialog"
-          class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
-          <div>
+          class="snackbar is-success is-bottom-left !py-4 md:!py-2 px-4 mb-3 flex-col md:flex-row">
+          <div class="md:flex md:gap-1">
             {{ $t('cookies.notice') }}, see
             <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
               >Cookie Policy</nuxt-link
             >
             for details.
           </div>
-          <div class="bar ml-4 mr-4" />
-          <div class="action is-success">
+          <div
+            class="bg-separator-line-color m-4 md:!my-0 !w-full !h-[1px] md:!w-[1px] md:!h-[13px]" />
+          <div
+            class="flex items-center justify-between md:!my-0 w-full md:w-fit">
             <NeoButton variant="text" no-shadow @click="declineCookies">
               {{ $t('cookies.decline') }}
             </NeoButton>
             <NeoButton
-              variant="text"
+              variant="secondary-rounded"
               no-shadow
-              class="font-bold ml-3"
+              class="ml-3 h-8"
               data-testid="cookie-banner-button-accept"
               @click="acceptCookies">
               {{ $t('cookies.accept') }}
@@ -58,29 +60,7 @@ const declineCookies = () => {
 .cookie-banner {
   .snackbar {
     align-self: flex-start;
-    height: 2.188rem;
     max-width: 720px;
-
-    @media screen and (max-width: 768px) {
-      height: auto;
-      width: 11.875rem;
-      flex-direction: column;
-      display: flex;
-      align-self: auto !important;
-
-      .action {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-      }
-
-      .bar {
-        height: 1px;
-        width: 100%;
-        margin-top: 11px;
-      }
-    }
   }
 }
 </style>

@@ -269,7 +269,7 @@ const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
   nameWithIndex(
-    nft.value?.name || nftMetadata.value?.name || '',
+    nftMetadata.value?.name || nft.value?.name || '',
     nft.value?.sn,
   ),
 )

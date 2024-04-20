@@ -4,7 +4,7 @@
     :can-cancel="['outside', 'escape']"
     class="z-[1000]"
     max-height="calc(100vh - 180px)"
-    content-class="modal-width"
+    content-class="!w-[unset]"
     @close="onClose">
     <ModalBody
       :title="$t('mint.nft.modal.action')"

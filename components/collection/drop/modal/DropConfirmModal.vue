@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     class="top"
-    content-class="modal-width"
+    content-class="!w-[unset]"
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
       <EmailSignup
@@ -63,14 +63,7 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
-const emit = defineEmits([
-  'completed',
-  'close',
-  'list',
-  'subscribe',
-  'check-subscription',
-  'resend-confirmation-email',
-])
+const emit = defineEmits(['completed', 'close', 'list'])
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -84,7 +77,6 @@ const dropStore = useDropStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
-const subscriptionEmail = preferencesStore.getNewsletterSubscription.email
 
 const {
   checkingSubscription,
@@ -92,6 +84,10 @@ const {
   resendingConfirmationEmail,
   sendConfirmationEmailOnModalOpen,
   emailConfirmed,
+  subscribe,
+  checkSubscription,
+  subscriptionId,
+  resendConfirmationEmail,
 } = useGenerativeDropNewsletter()
 
 const { canListMintedNft, claimedNft } = useGenerativeDropMint()
@@ -124,6 +120,9 @@ const mintingSession = computed<MintingSession>(() => ({
   txHash: undefined, // free mint does not have a txHash
 }))
 
+const subscriptionEmail = computed(
+  () => preferencesStore.getNewsletterSubscription.email,
+)
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
   () => modalStep.value === ModalStep.CONFIRM_EMAIL,
@@ -173,15 +172,15 @@ const handleEmailChange = () => {
 
 const handleEmailSignupConfirm = (value: string) => {
   email.value = value
-  emit('subscribe', value)
+  subscribe(value)
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email')
+  resendConfirmationEmail(subscriptionId.value as string)
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription')
+  checkSubscription(subscriptionId.value as string)
 }
 
 watch(
@@ -195,20 +194,20 @@ watch(
 
 watchEffect(() => {
   const claiming = dropStore.loading
-  const alreadyConfirmed = emailConfirmed && !email.value
+  const alreadyConfirmed = emailConfirmed.value && !email.value
   const alreadySubscribed =
-    subscriptionEmail && !email.value && !changeEmail.value
+    subscriptionEmail.value && !email.value && !changeEmail.value
 
   if (alreadyConfirmed && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (alreadySubscribed && isEmailSignupStep.value) {
-    email.value = subscriptionEmail
+    email.value = subscriptionEmail.value
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (
     email.value &&
     isEmailSignupStep.value &&
-    subscriptionEmail &&
-    !subscribingToNewsletter
+    subscriptionEmail.value &&
+    !subscribingToNewsletter.value
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
@@ -227,7 +226,7 @@ watch(
       isModalOpen &&
       emailConfirmStep &&
       !resentInitialConfirmationEmail.value &&
-      sendConfirmationEmailOnModalOpen
+      sendConfirmationEmailOnModalOpen.value
     ) {
       handleConfirmationEmailResend()
       resentInitialConfirmationEmail.value = true

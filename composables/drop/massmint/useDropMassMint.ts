@@ -1,13 +1,6 @@
-import {
-  AllocatedNFT,
-  DoResult,
-  allocateCollection,
-  allocateClaim as claimAllocation,
-} from '@/services/fxart'
-
+import { DoResult, updateMetadata } from '@/services/fxart'
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
-import { getFakeEmail } from '@/components/collection/drop/utils'
 import useDropMassMintPreview from './useDropMassMintPreview'
 import useDropMassMintUploader from './useDropMassMintUploader'
 import { useCollectionEntity } from '../useGenerativeDropMint'
@@ -18,6 +11,7 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   hash: string
   sn?: number
   entropyRange: EntropyRange
+  canRender: boolean
 }
 
 export default () => {
@@ -36,30 +30,11 @@ export default () => {
     previewItem,
     allocatedNFTs,
     toMintNFTs,
-    mintingSession,
     loading,
   } = storeToRefs(dropStore)
 
-  const raffleEmail = ref()
-
   const clearMassmint = () => {
-    raffleEmail.value = undefined
     dropStore.resetMassmint()
-  }
-
-  const allocateRaffleMode = async (
-    email: string,
-    previewItem: GenerativePreviewItem,
-  ) => {
-    try {
-      clearMassmint()
-      loading.value = true
-      raffleEmail.value = email
-      toMintNFTs.value = getPreviewItemsToMintedNfts([previewItem])
-    } catch (error) {
-      console.log('[MASSMINT::RAFFLE] Failed', error)
-      loading.value = false
-    }
   }
 
   const generateMassPreview = (amount: number, minted: number) => {
@@ -115,12 +90,17 @@ export default () => {
 
       loading.value = true
 
-      const previewItems = single
-        ? ([previewItem.value] as GenerativePreviewItem[])
-        : generateMassPreview(
-            amountToMint.value,
-            mintedAmountForCurrentUser.value,
-          )
+      const previewItems = (
+        single
+          ? [previewItem.value]
+          : [
+              previewItem.value,
+              ...generateMassPreview(
+                amountToMint.value - 1,
+                mintedAmountForCurrentUser.value + 1,
+              ),
+            ]
+      ) as GenerativePreviewItem[]
 
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
     } catch (error) {
@@ -133,29 +113,28 @@ export default () => {
     try {
       loading.value = true
 
-      const email = raffleEmail.value || getFakeEmail()
-      const address = accountId.value
-
       const items = mintNfts.map(({ image, hash, metadata }) => ({
         image,
         hash,
         metadata,
       }))
 
-      allocatedNFTs.value = await allocateItems({ items, email, address })
+      allocatedNFTs.value = items.map((item) => {
+        return {
+          id: parseInt(uidMathDate()),
+          name: '',
+          image: item.image,
+        }
+      })
+      console.log('[MASSMINT::ALLOCATE] Allocating', allocatedNFTs.value)
 
-      // even thought the user might want x amount of items the worker can return a different amount
-      const allocatedNFTsToMint = toMintNFTs.value.slice(
-        0,
-        allocatedNFTs.value.length,
-      )
-
-      toMintNFTs.value = allocatedNFTsToMint.map((toMint, index) => {
+      toMintNFTs.value = toMintNFTs.value.map((toMint, index) => {
         const allocated = allocatedNFTs.value[index]
         return allocated
-          ? { ...toMint, name: allocated.name, sn: Number(allocated.id) }
+          ? { ...toMint, name: toMint.collectionName, sn: Number(allocated.id) }
           : toMint
       })
+      console.log('[MASSMINT::ALLOCATE] Allocated', toMintNFTs.value)
     } catch (error) {
       console.log('[MASSMINT::ALLOCATE] Failed', error)
     } finally {
@@ -163,42 +142,15 @@ export default () => {
     }
   }
 
-  const allocateItems = async ({
-    items,
-    email,
-    address,
-  }): Promise<AllocatedNFT[]> => {
-    const results = [] as Array<AllocatedNFT>
-
-    // @see https://github.com/kodadot/private-workers/pull/86#issuecomment-1975842570 for context
-    for (const item of items) {
-      const { result } = await allocateCollection(
-        {
-          email,
-          address,
-          image: item.image,
-          hash: item.hash,
-          metadata: item.metadata,
-        },
-        drop.value.id,
-      )
-      results.push(result)
-    }
-
-    return results
-  }
-
   const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
     return new Promise((resolve, reject) => {
       try {
-        claimAllocation(
-          {
-            sn: nft.sn,
-            txHash: mintingSession.value.txHash,
-            address: accountId.value,
-          },
-          drop.value.id,
-        ).then(({ result }) => resolve(result))
+        updateMetadata({
+          chain: drop.value.chain,
+          collection: drop.value.collection,
+          nft: nft.sn,
+          metadata: nft.metadata,
+        }).then((result) => resolve(result))
       } catch (e) {
         reject(e)
       }
@@ -214,10 +166,8 @@ export default () => {
   onBeforeUnmount(clearMassmint)
 
   return {
-    raffleEmail,
     massGenerate,
     submitMint,
-    allocateRaffleMode,
     allocateGenerated,
     clearMassMint: clearMassmint,
   }
