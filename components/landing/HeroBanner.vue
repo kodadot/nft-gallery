@@ -20,7 +20,7 @@
         </div>
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
-        <LandingFarcasterBanner />
+        <LandingFarcasterMintNotificationBanner />
       </div>
 
       <div class="flex justify-center mt-[2rem]">
