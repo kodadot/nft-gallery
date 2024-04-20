@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div
-      class="party shadow-primary h-fit fixed z-50 !top-20 md:!top-24 left-4 border-2 bg-background-color p-[24px] flex justify-between gap-6 max-w-[350px] sm:max-w-[498px]">
+      class="shadow-primary h-fit fixed !top-20 md:!top-24 left-4 border-2 bg-background-color p-[24px] flex justify-between gap-6 max-w-[350px] sm:max-w-[498px]">
       <div
         class="hidden sm:flex flex-1 min-w-[91px] h-[116px] justify-center items-center">
         <img
@@ -42,20 +42,14 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const emit = defineEmits(['close'])
-
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 
 const closeModal = () => {
-  emit('close')
+  preferencesStore.firstTimePartyMode = false
 }
 const stopParty = () => {
   preferencesStore.partyMode = false
   closeModal()
 }
-
-onMounted(() => {
-  preferencesStore.firstTimePartyMode = false
-})
 </script>
