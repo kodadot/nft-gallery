@@ -326,7 +326,6 @@ import exec, {
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   calculateBalance,
   calculateBalanceUsdValue,
@@ -601,10 +600,7 @@ const getQueryTargetAddresses = () =>
     if (isAddress(address as string)) {
       return true
     }
-    showNotification(
-      `Unable to use target address ${address}`,
-      notificationTypes.warn,
-    )
+    warningMessage(`Unable to use target address ${address}`)
     return false
   })
 
@@ -855,7 +851,7 @@ const submit = async (
     )
   } catch (e: any) {
     if (e.message === 'Cancelled') {
-      showNotification(e.message, notificationTypes.warn)
+      warningMessage(e.message)
       isLoading.value = false
       isLoaderModalVisible.value = false
       return
@@ -873,7 +869,7 @@ const submit = async (
 
     if (e instanceof Error) {
       $consola.error('[ERR: TRANSFER SUBMIT]', e)
-      showNotification(e.toString(), notificationTypes.warn)
+      warningMessage(e.toString())
       isLoading.value = false
     }
   }
@@ -884,15 +880,9 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   if (dispatchError.isModule) {
     const decoded = api.registry.findMetaError(dispatchError.asModule)
     const { docs, name, section } = decoded
-    showNotification(
-      `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-      notificationTypes.warn,
-    )
+    warningMessage(`[ERR] ${section}.${name}: ${docs.join(' ')}`)
   } else {
-    showNotification(
-      `[ERR] ${dispatchError.toString()}`,
-      notificationTypes.warn,
-    )
+    warningMessage(`[ERR] ${dispatchError.toString()}`)
   }
 
   isLoading.value = false

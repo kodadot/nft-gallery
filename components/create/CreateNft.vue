@@ -282,7 +282,6 @@ import CreateNftPreview from './CreateNftPreview.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
 import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
@@ -481,7 +480,7 @@ const createNft = async () => {
       transactionStatus.value = 'mint'
     }
   } catch (error) {
-    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    warningMessage(`[ERR] ${error}`)
     $consola.error(error)
   }
 }
@@ -540,7 +539,7 @@ const listNft = async () => {
 
     transactionStatus.value = 'checkListed'
   } catch (error) {
-    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    warningMessage(`[ERR] ${error}`)
     $consola.error(error)
   }
 }
@@ -607,10 +606,9 @@ watchEffect(async () => {
     retry.value &&
     transactionStatus.value === 'done'
   ) {
-    showNotification(
+    infoMessage(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
-      notificationTypes.info,
-      DETAIL_TIMEOUT,
+      { duration: DETAIL_TIMEOUT },
     )
 
     await delay(DETAIL_TIMEOUT)

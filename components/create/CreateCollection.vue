@@ -185,7 +185,6 @@ import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTe
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { availablePrefixes } from '@/utils/chain'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NeoButton,
   NeoField,
@@ -348,7 +347,7 @@ const createCollection = async () => {
     isLoading.value = true
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
-    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    warningMessage(`[ERR] ${error}`)
     $consola.error(error)
   }
 }

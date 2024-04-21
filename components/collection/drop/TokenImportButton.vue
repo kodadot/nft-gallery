@@ -20,7 +20,6 @@ import { NeoButton } from '@kodadot1/brick'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
@@ -68,21 +67,18 @@ const handleTokenImport = async () => {
 
   const transactionHandler = txCb(
     ({ blockHash }) => {
-      showNotification(
-        `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success,
-      )
+      successMessage(`Transaction finalized at blockHash ${blockHash}`)
 
       isLoading.value = false
     },
     (dispatchError) => {
-      showNotification(dispatchError.toString(), notificationTypes.warn)
+      warningMessage(dispatchError.toString())
       isLoading.value = false
     },
   )
 
   const errorHandler = () => {
-    showNotification('Cancelled', notificationTypes.warn)
+    warningMessage('Cancelled')
     isLoading.value = false
   }
 

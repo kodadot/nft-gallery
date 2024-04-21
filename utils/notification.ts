@@ -98,13 +98,17 @@ export const showLargeNotification = ({
   })
 }
 
-export const infoMessage = (message, url?: string) => {
+export const infoMessage = (
+  message,
+  { url, duration }: { url?: string; duration?: number } = {},
+) => {
   const { $i18n } = useNuxtApp()
   showNotification({
     title: 'Information',
     message,
     params: notificationTypes.info,
     action: url ? { label: $i18n.t('helper.learnMore'), url: '' } : undefined,
+    duration,
   })
 }
 
