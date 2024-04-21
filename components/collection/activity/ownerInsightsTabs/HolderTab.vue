@@ -113,7 +113,7 @@ useIntersectionObserver(target, ([{ isIntersecting }]) => {
 
 const displayedHolders = computed(() => holders.value.slice(0, offset.value))
 
-// map of owner id to bolean, is the NFT details section of that owner open or nor
+// map of owner id to boolean, is the NFT details section of that owner open or nor
 // {id0: false, id1: true, id3: false, ...}
 const isNFTDetailsOpen = ref(
   holders.value.reduce(
