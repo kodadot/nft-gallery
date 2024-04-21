@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="border-b border-neutral-5">
-      <div
-        class="border border-k-shade rounded-[4rem] py-[7px] px-2 flex items-center justify-between">
+      <div class="border border-k-shade rounded-full p-2">
         <div
-          class="text-k-green flex px-2 py-[6px] bg-k-green-accent-2 rounded-full justify-center w-full">
+          class="text-k-green flex py-[6px] bg-k-green-accent-2 rounded-full justify-center w-full">
           <NeoIcon icon="check" />
           <p class="ml-2 text-xs">{{ $t('confirmed') }}</p>
         </div>
