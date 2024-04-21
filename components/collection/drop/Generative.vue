@@ -52,7 +52,7 @@ const { drop } = useDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { subscribeDropStatus } = useDropStatus()
+const { subscribeDropStatus } = useDropStatus(drop)
 
 const { emailConfirmed } = useGenerativeDropNewsletter()
 

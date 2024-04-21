@@ -210,7 +210,7 @@ const subscribeDropMintedCount = (
 }
 
 export const useDropStatus = (
-  drop?: WritableComputedRef<{ collection: string; chain: Prefix }>,
+  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
 ) => {
   const dropStore = useDropStore()
 
@@ -229,7 +229,7 @@ export const useDropStatus = (
 
   const subscribeDropStatus = () => {
     watch(
-      () => drop?.value,
+      () => drop.value,
       (drop) => {
         if (drop) {
           if (drop.collection !== dropStatusSubscription.value.collection) {
