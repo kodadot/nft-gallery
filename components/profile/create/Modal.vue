@@ -1,17 +1,14 @@
 <template>
   <NeoModal :value="vOpen" @close="close">
     <ModalBody
-      v-if="stage == 1"
       :title="'Profile Creation'"
-      content-class="p-0"
+      :content-class="stage === 1 ? 'p-0' : undefined"
       @close="close">
-      <Introduction @next="stage = 2" @close="close" />
-    </ModalBody>
-    <ModalBody v-else :title="'Profile Creation'" @close="close">
-      <Select v-if="stage == 2" @click="stage = 3" />
-      <Form v-if="stage == 3" @submit="handleProfileCreation" />
-      <Loading v-if="stage == 4" />
-      <Success v-if="stage == 5" @close="close" />
+      <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
+      <Select v-if="stage === 2" @click="stage = 3" />
+      <Form v-if="stage === 3" @submit="handleProfileCreation" />
+      <Loading v-if="stage === 4" />
+      <Success v-if="stage === 5" @close="close" />
     </ModalBody>
   </NeoModal>
 </template>
@@ -27,18 +24,20 @@ import {
   Success,
 } from './stages/index'
 import { CreateProfileRequest, createProfile } from '@/services/profile'
-import { rateLimitedPinFileToIPFS } from '~/services/nftStorage'
+import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 
-const { fetchProfile } = useProfile()
+const { hasProfile, fetchProfile } = useProfile()
 
 const props = defineProps<{
   modelValue: boolean
 }>()
 
+const initalStep = computed(() => (hasProfile.value ? 3 : 1))
+
 const vOpen = useVModel(props, 'modelValue')
-const stage = ref(1)
+const stage = ref(initalStep.value)
 const close = () => {
-  stage.value = 1
+  stage.value = initalStep.value
   vOpen.value = false
 }
 
