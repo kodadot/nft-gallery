@@ -8,7 +8,7 @@ export enum Socials {
 }
 
 export default function useUserProfile() {
-  const userProfileData = ref<Profile | null>(null)
+  const userProfileData = ref<Profile>()
   const hasProfile = ref(false)
   const isFollowingThisAccount = ref(false)
   const { params, name } = useRoute()

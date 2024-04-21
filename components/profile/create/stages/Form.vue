@@ -33,7 +33,9 @@
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
           </p>
-          <SelectImageField v-model="form.image" />
+          <SelectImageField
+            v-model="form.image"
+            :preview="userProfile?.image" />
         </div>
       </NeoField>
 
@@ -43,7 +45,9 @@
           <p class="text-k-grey text-sm mb-5">
             Recommended: 1440x360px (4:1 aspect ratio), up to 10MB (JPG, PNG)
           </p>
-          <SelectImageField v-model="form.banner" />
+          <SelectImageField
+            v-model="form.banner"
+            :preview="userProfile?.banner" />
         </div>
       </NeoField>
 
@@ -74,7 +78,7 @@
       variant="k-accent"
       label="Finish customization"
       data-testid="create-profile-submit-button"
-      @click="handleSubmit" />
+      @click="emit('submit', form)" />
   </div>
 </template>
 
@@ -84,6 +88,8 @@ import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
 const { accountId } = useAuth()
+const { hasProfile, userProfile } = useProfile()
+
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 
 const FarcasterIcon = defineAsyncComponent(
@@ -105,9 +111,9 @@ const form = reactive<ProfileFormData>({
   description: '',
   image: null,
   banner: null,
-  farcasterHandle: null,
-  twitterHandle: null,
-  website: null,
+  farcasterHandle: undefined,
+  twitterHandle: undefined,
+  website: undefined,
 })
 
 const socialLinks = [
@@ -134,11 +140,19 @@ const socialLinks = [
   },
 ]
 
-function handleSubmit() {
-  console.log('submitting form')
-  console.log(formRef.value.checkValidity())
-  if (formRef.value && formRef.value.checkValidity()) {
-    emit('submit', form)
+watch(hasProfile, (hasProfile) => {
+  if (hasProfile) {
+    form.name = userProfile.value?.name ?? ''
+    form.description = userProfile.value?.description ?? ''
+    form.farcasterHandle = userProfile.value?.socials.find(
+      (social) => social.platform === 'Farcaster',
+    )?.handle
+    form.twitterHandle = userProfile.value?.socials.find(
+      (social) => social.platform === 'Twitter',
+    )?.handle
+    form.website = userProfile.value?.socials.find(
+      (social) => social.platform === 'Website',
+    )?.handle
   }
-}
+})
 </script>

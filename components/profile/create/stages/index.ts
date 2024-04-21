@@ -10,7 +10,7 @@ export type ProfileFormData = {
   description: string
   image: File | null
   banner: File | null
-  farcasterHandle: string | null
-  twitterHandle: string | null
-  website: string | null
+  farcasterHandle?: string
+  twitterHandle?: string
+  website?: string
 }

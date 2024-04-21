@@ -6,13 +6,31 @@
     <span class="text-sm text-k-grey mb-5"
       >Quick import from Farcaster, or start fresh</span
     >
-    <NeoButton label="Farcaster" />
+    <NeoButton
+      expanded
+      class="!bg-purple-light-color h-14"
+      disabled
+      @click="emit('importFarcaster')">
+      <div class="flex items-center justify-center">
+        <img :src="farcasterIcon" alt="farcaster" class="w-5 h-5" />
+        <span class="ml-3">Farcaster Quick Import</span>
+      </div>
+    </NeoButton>
     <span class="my-4">- Or -</span>
-    <NeoButton label="Start Fresh" @click="emit('click')" />
+    <NeoButton
+      expanded
+      label="Start Fresh"
+      class="h-14"
+      @click="emit('startNew')" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-const emit = defineEmits(['click'])
+const { isDarkMode } = useTheme()
+
+const farcasterIcon = computed(() =>
+  isDarkMode.value ? '/farcaster-dark.svg' : '/farcaster-light.svg',
+)
+const emit = defineEmits(['startNew', 'edit', 'importFarcaster'])
 </script>
