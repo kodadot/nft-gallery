@@ -5,6 +5,7 @@ import useGenerativeIframeData, {
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 import useDropMassMintState from './useDropMassMintState'
+import { setMetadataUrl } from '@/services/fxart'
 
 const MAX_RENDER_AT_ONCE_AMOUNT = 3
 
@@ -109,7 +110,11 @@ export default () => {
         hash: item.hash,
         entropyRange: item.entropyRange,
         canRender: false,
-        metadata: `https://fxart-beta.kodadot.workers.dev/metadata/v2/json?chain=${drop.value.chain}&collection=${drop.value.collection}&hash=${item.hash}`, // TODO: refactor this to utils/fxart.ts
+        metadata: setMetadataUrl({
+          chain: drop.value.chain,
+          collection: drop.value.collection,
+          hash: item.hash,
+        }),
       }
     })
   }

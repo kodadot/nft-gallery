@@ -104,28 +104,6 @@ export type AllocatedNFT = {
   image: string
 }
 
-type BatchAllocateResponse = {
-  result: AllocatedNFT[]
-}
-
-export const batchAllocate = async (body: BatchMintBody, id: string) => {
-  try {
-    const response = await api<BatchAllocateResponse>(
-      `/drops/allocate/${id}/batch`,
-      {
-        method: 'post',
-        body,
-      },
-    )
-
-    return response
-  } catch (error) {
-    throw new Error(
-      `[FXART::BATCH_ALLOCATE] ERROR: ${(error as FetchError).data}`,
-    )
-  }
-}
-
 export const allocateClaim = async (body, id) => {
   try {
     const response = await api<{ result: DoResult }>(`/drops/do/${id}`, {
@@ -139,6 +117,17 @@ export const allocateClaim = async (body, id) => {
       `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
     )
   }
+}
+
+export const setMetadataUrl = ({ chain, collection, hash }) => {
+  const metadataUrl = new URL(
+    'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
+  )
+  metadataUrl.searchParams.set('chain', chain)
+  metadataUrl.searchParams.set('collection', collection)
+  metadataUrl.searchParams.set('hash', hash)
+
+  return metadataUrl.toString()
 }
 
 export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
