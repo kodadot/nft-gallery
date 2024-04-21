@@ -28,8 +28,8 @@ type NotificationAction = { label: string; url: string }
 const emit = defineEmits(['close'])
 withDefaults(
   defineProps<{
-    title?: string
-    message?: string
+    title: string
+    message: string
     duration?: number
     variant?: NeoMessageVariant
     action?: NotificationAction
