@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col gap-10">
-    <div>
-      <span class="mb-3">Setting your profile for</span>
+    <div class="flex flex-col gap-3">
+      <span>Setting your profile for</span>
       <CollectionDropCreatedBy :address="substrateAddress" />
     </div>
-    <form class="flex flex-col gap-10" @submit.prevent="() => {}">
+    <form class="flex flex-col gap-10" @submit.prevent>
       <!-- name -->
       <NeoField :label="`Your Name`" required :error="!form.name">
         <NeoInput
@@ -29,68 +29,70 @@
 
       <!-- profile picture -->
       <NeoField :label="`Upload profile picture`" required :error="!form.image">
-        <div>
-          <p class="text-k-grey text-sm">
+        <div class="max-w-full grow">
+          <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
           </p>
-          <DropUpload
-            v-model="form.image"
-            required
-            expanded
-            preview
-            accept="image/*"
-            :label="'Click to select a file'" />
+          <SelectImageField v-model="form.image" />
         </div>
       </NeoField>
 
       <!-- banner picture -->
       <NeoField :label="`Upload Cover Image`" required :error="!form.banner">
-        <div>
-          <p class="text-k-grey text-sm">
+        <div class="max-w-full grow">
+          <p class="text-k-grey text-sm mb-5">
             Recommended: 1440x360px (4:1 aspect ratio), up to 10MB (JPG, PNG)
           </p>
-          <DropUpload
-            v-model="form.banner"
-            required
-            expanded
-            accept="image/*"
-            :label="'Click to select a file'" />
+          <SelectImageField v-model="form.banner" />
         </div>
       </NeoField>
 
       <!-- socials -->
       <div>
         <p class="font-bold text-xl mb-4">Link socials</p>
-        <NeoField>
-          <NeoInput
-            v-model="form.farcasterHandle"
-            data-testid="create-profile-input-farcaster-handle"
-            :placeholder="'Farcaster Handle'" />
-        </NeoField>
-        <NeoField>
-          <NeoInput
-            v-model="form.website"
-            data-testid="create-profile-input-website"
-            :placeholder="'Website'" />
-        </NeoField>
-        <NeoField>
-          <NeoInput
-            v-model="form.twitterHandle"
-            data-testid="create-profile-input-x-handle"
-            :placeholder="'X Handle'" />
-        </NeoField>
+        <div class="flex flex-col gap-4">
+          <NeoField
+            v-for="social in socialLinks"
+            :key="social.name"
+            class="my-0">
+            <div
+              class="w-10 h-10 bg-neutral-3 dark:bg-neutral-11 flex justify-center items-center border-y border-l border-k-grey-fix">
+              <component :is="social.icon" />
+            </div>
+            <NeoInput
+              v-model="form[social.model]"
+              class="!h-10"
+              expanded
+              :data-testid="social.testId"
+              :placeholder="social.placeholder" />
+          </NeoField>
+        </div>
       </div>
     </form>
-    <NeoButton @click="emit('submit', form)">Create Profile</NeoButton>
+    <NeoButton
+      :disabled="submitDisabled"
+      variant="k-accent"
+      label="Finish customization"
+      data-testid="create-profile-submit-button"
+      @click="handleSubmit" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { formatAddress } from '@/utils/account'
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
+import SelectImageField from '../SelectImageField.vue'
 const { accountId } = useAuth()
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
+
+const FarcasterIcon = defineAsyncComponent(
+  () => import('@/assets/icons/farcaster-icon.svg?component'),
+)
+
+const submitDisabled = computed(
+  () => !form.name || !form.description || !form.image || !form.banner,
+)
 
 const emit = defineEmits<{
   (e: 'submit', value: ProfileFormData): void
@@ -107,4 +109,36 @@ const form = reactive<ProfileFormData>({
   twitterHandle: null,
   website: null,
 })
+
+const socialLinks = [
+  {
+    name: 'farcaster',
+    icon: FarcasterIcon,
+    model: 'farcasterHandle',
+    placeholder: 'Farcaster Handle',
+    testId: 'create-profile-input-farcaster-handle',
+  },
+  {
+    name: 'website',
+    icon: () => h(NeoIcon, { icon: 'globe', pack: 'fas' }),
+    model: 'website',
+    placeholder: 'Website',
+    testId: 'create-profile-input-website',
+  },
+  {
+    name: 'twitter',
+    icon: () => h(NeoIcon, { icon: 'twitter', pack: 'fab' }),
+    model: 'twitterHandle',
+    placeholder: 'Twitter Handle',
+    testId: 'create-profile-input-twitter-handle',
+  },
+]
+
+function handleSubmit() {
+  console.log('submitting form')
+  console.log(formRef.value.checkValidity())
+  if (formRef.value && formRef.value.checkValidity()) {
+    emit('submit', form)
+  }
+}
 </script>
