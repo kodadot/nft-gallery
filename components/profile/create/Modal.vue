@@ -1,7 +1,13 @@
 <template>
   <NeoModal :value="vOpen" @close="close">
-    <ModalBody :title="'Profile Creation'" @close="close">
-      <Introduction v-if="stage == 1" @click="stage = 2" />
+    <ModalBody
+      v-if="stage == 1"
+      :title="'Profile Creation'"
+      content-class="p-0"
+      @close="close">
+      <Introduction @next="stage = 2" @close="close" />
+    </ModalBody>
+    <ModalBody v-else :title="'Profile Creation'" @close="close">
       <Select v-if="stage == 2" @click="stage = 3" />
       <Form v-if="stage == 3" @submit="handleProfileCreation" />
       <Loading v-if="stage == 4" />
