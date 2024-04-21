@@ -1,8 +1,6 @@
 <template>
   <div>
-    <ProfileCreateModal
-      v-model="isModalActive"
-      @close="isModalActive = false" />
+    <ProfileCreateModal v-model="isModalActive" @success="reload" />
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
@@ -413,6 +411,14 @@ const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { hasProfile, userProfile, isFollowingThisAccount } = useProfile()
+
+const reload = () => {
+  location.reload()
+}
+
+watch(userProfile, (newProfile) => {
+  console.log('debug newProfile', newProfile)
+})
 
 const { data: followers } = await useAsyncData('followers', () =>
   fetchFollowersOf(route.params.id as string),

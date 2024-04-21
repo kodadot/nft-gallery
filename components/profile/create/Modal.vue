@@ -8,7 +8,7 @@
       <Select v-if="stage === 2" @click="stage = 3" />
       <Form v-if="stage === 3" @submit="handleProfileCreation" />
       <Loading v-if="stage === 4" />
-      <Success v-if="stage === 5" @close="close" />
+      <Success v-if="stage === 5" @close="onProfileCreated" />
     </ModalBody>
   </NeoModal>
 </template>
@@ -34,11 +34,19 @@ const props = defineProps<{
 
 const initalStep = computed(() => (hasProfile.value ? 3 : 1))
 
+const emit = defineEmits(['close', 'success'])
+
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initalStep.value)
 const close = () => {
   stage.value = initalStep.value
   vOpen.value = false
+  emit('close')
+}
+
+const onProfileCreated = () => {
+  emit('success')
+  close()
 }
 
 const handleProfileCreation = async (profileData: ProfileFormData) => {
