@@ -1,7 +1,7 @@
 <template>
   <div class="wallet-menu-item">
     <button
-      class="button my-0 flex justify-between items-center"
+      class="button my-0 !px-8 py-2.5 flex justify-between items-center"
       @click="onClickWallet(wallet)">
       <span>
         <div class="flex justify-between items-center">
