@@ -180,8 +180,10 @@
           {{ userProfile.description }}
         </div>
         <!-- Followers -->
-        <!-- <div>
-          <span v-if="isOwner || !hasProfile" class="text-sm text-k-grey">
+        <div>
+          <span
+            v-if="isOwner || !hasProfile || followersCount == 0"
+            class="text-sm text-k-grey">
             {{ $t('profile.notFollowed') }}
           </span>
           <div v-else class="flex gap-4 items-center">
@@ -190,23 +192,20 @@
             </span>
             <div class="flex -space-x-3">
               <NuxtImg
-                v-for="(avatarImg, index) in userProfile?.followersAvatars"
+                v-for="(avatarImg, index) in followersAvatars"
                 :key="avatarImg"
                 :src="avatarImg"
                 alt="follower avatar"
                 class="w-8 h-8 rounded-full border object-cover"
                 :style="{ zIndex: 3 - index }" />
             </div>
-            <span class="text-sm">
+            <span v-if="followersCount > 3" class="text-sm">
               +
-              {{
-                (userProfile?.followers ?? 0) -
-                (userProfile?.followersAvatars?.length ?? 0)
-              }}
+              {{ followersCount - (followersAvatars?.length ?? 0) }}
               More
             </span>
           </div>
-        </div> -->
+        </div>
       </div>
       <!-- Mobile Profile Activity -->
       <ProfileActivity
@@ -343,6 +342,7 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { fetchFollowersOf } from '@/services/profile'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -414,10 +414,19 @@ const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { hasProfile, userProfile, isFollowingThisAccount } = useProfile()
 
+const { data: followers } = await useAsyncData('followers', () =>
+  fetchFollowersOf(route.params.id as string),
+)
+
+const followersCount = computed(() => followers.value?.length ?? 0)
+const followersAvatars = computed(() =>
+  followers.value?.slice(0, 3).map(({ image }) => image),
+)
+
 const editProfileConfig: ButtonConfig = {
   label: 'Edit Profile',
   icon: 'pen',
-  onClick: () => console.log('edit profile'),
+  onClick: () => (isModalActive.value = true),
   classes: 'hover:!bg-transparent',
 }
 

@@ -22,6 +22,13 @@ export type Profile = {
   socials: SocialLink[]
 }
 
+export type Follower = {
+  address: string
+  name: string
+  description: string
+  image: string
+}
+
 export type SocialLink = {
   handle?: string
   platform: string
@@ -53,18 +60,32 @@ export type UpdateProfileRequest = {
 
 // API methods
 
-export const fetchProfiles = async (limit?: number) => {
-  return await api<Profile[]>('/profiles', {
+export const fetchProfiles = (limit?: number) =>
+  api<Profile[]>('/profiles', {
     method: 'GET',
     query: { limit },
   })
-}
 
-export const fetchProfileByAddress = async (address: string) => {
-  return await api<Profile>(`/profiles/${formatAddress(address, 42)}`, {
+export const fetchProfileByAddress = (address: string) =>
+  api<Profile>(`/profiles/${formatAddress(address, 42)}`, {
     method: 'GET',
   })
-}
+
+export const fetchFollowersOf = (address: string) =>
+  api<{ followers: Follower[] }>(
+    `/follow/${formatAddress(address, 42)}/followers`,
+    {
+      method: 'GET',
+    },
+  ).then((res) => res.followers)
+
+export const fetchFollowing = (address: string) =>
+  api<{ following: Follower[] }>(
+    `/follow/${formatAddress(address, 42)}/following`,
+    {
+      method: 'GET',
+    },
+  ).then((res) => res.following)
 
 export const createProfile = async (profileData: CreateProfileRequest) => {
   try {
