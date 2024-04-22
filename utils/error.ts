@@ -189,22 +189,32 @@ export const MODULE_ERRORS_CONFIG: Record<
   },
 }
 
+const extractErrorMetadata = async (dispatchError: DispatchError) => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+
+  const { name, docs, section } = api.registry.findMetaError(
+    dispatchError.asModule,
+  )
+
+  return {
+    key: `${section}.${name}`,
+    name,
+    description: docs.join(' '),
+    section,
+  }
+}
+
 export const notifyDispatchError = async (
   dispatchError: DispatchError,
 ): Promise<void> => {
-  const { apiInstance } = useApi()
-
-  const api = await apiInstance.value
-
   if (!dispatchError.isModule) {
     warningMessage(dispatchError.toString())
     return
   }
 
   const { $i18n } = useNuxtApp()
-  const { name, docs, section } = api.registry.findMetaError(
-    dispatchError.asModule,
-  )
+  const { name, description, key } = await extractErrorMetadata(dispatchError)
 
   const config = MODULE_ERRORS_CONFIG[name] ?? undefined
 
@@ -212,10 +222,10 @@ export const notifyDispatchError = async (
     title: config ? $i18n.t(`errors.${camelCase(name)}.name`) : name,
     message: config
       ? $i18n.t(`errors.${camelCase(name)}.description`)
-      : docs.join(' '),
+      : description,
     params: notificationTypes[config?.level] ?? notificationTypes.warn,
     action: config?.reportable
-      ? getReportIssueAction(`${section}.${name}: ${docs.join(' ')}`)
+      ? getReportIssueAction(`${key}: ${description}`)
       : undefined,
   })
 }
