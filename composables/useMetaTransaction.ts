@@ -114,9 +114,9 @@ function useMetaTransaction() {
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule)
       const { docs, name, section } = decoded
-      warningMessage(`[ERR] ${section}.${name}: ${docs.join(' ')}`)
+      warningMessage(`${section}.${name}: ${docs.join(' ')}`)
     } else {
-      warningMessage(`[ERR] ${dispatchError.toString()}`)
+      warningMessage(dispatchError.toString())
     }
 
     isLoading.value = false
