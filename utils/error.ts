@@ -217,15 +217,19 @@ export const notifyDispatchError = async (
   const { name, description, key } = await extractErrorMetadata(dispatchError)
 
   const config = MODULE_ERRORS_CONFIG[name] ?? undefined
+  const action =
+    config.reportable || Boolean(!config)
+      ? getReportIssueAction(`${key}: ${description}`)
+      : undefined
 
   showNotification({
     ...(Boolean(config)
       ? {
           title: $i18n.t(`errors.${camelCase(name)}.name`),
           message: $i18n.t(`errors.${camelCase(name)}.description`),
-          action: getReportIssueAction(`${key}: ${description}`),
         }
       : { title: name, message: description }),
+    action: action,
     params: notificationTypes[config?.level] ?? notificationTypes.warn,
   })
 }
