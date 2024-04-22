@@ -52,8 +52,8 @@ export const FALLBACK_DROP_COLLECTION_MAX = 256
 export const DROP_CARD_MIN_WIDTH = 334 // px
 
 export const FARCASTER_LIVE_MINT_CONFIG = {
-  name: 'Unfoldings',
+  name: 'Basescapes',
   image:
-    'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafybeicdw6phpf3xyng5icxenzmxpken3izmk5gwyew3jahxrno7ql3s3e/public',
-  url: 'https://warpcast.com/vikiival/0x86ba6499',
+    'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/bafybeiaystlm6xszy3eq5ovqgqjwxwgpeztdrvbsixiqx6me56yxp7efrq/public',
+  url: 'https://warpcast.com/th0mas-art/0x47bfc921',
 }
