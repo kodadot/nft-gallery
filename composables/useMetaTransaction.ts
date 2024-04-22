@@ -109,16 +109,7 @@ function useMetaTransaction() {
     }
   }
   const onTxError = async (dispatchError: DispatchError): Promise<void> => {
-    const api = await apiInstance.value
-
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      warningMessage(`${section}.${name}: ${docs.join(' ')}`)
-    } else {
-      warningMessage(dispatchError.toString())
-    }
-
+    await notifyDispatchError(dispatchError)
     isLoading.value = false
     tx.value = undefined
   }

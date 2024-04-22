@@ -46,7 +46,6 @@ export const showNotification = ({
 }): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
-    return
   }
 
   duration = params.duration || duration
@@ -119,7 +118,7 @@ export const successMessage = (message) =>
     params: notificationTypes.success,
   })
 
-const getReportIssueAction = (message: string) => {
+export const getReportIssueAction = (message: string) => {
   const { $i18n } = useNuxtApp()
   return {
     label: $i18n.t('helper.reportIssue'),
