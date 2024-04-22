@@ -128,7 +128,7 @@ const mintNft = async () => {
       price: drop.value?.price || null,
     })
   } catch (e) {
-    warningMessage(`[MINT::ERR] ${e}`)
+    warningMessage(`${e}`)
     $consola.error(e)
     isTransactionLoading.value = false
   }
