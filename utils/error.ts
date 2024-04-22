@@ -223,7 +223,7 @@ export const notifyDispatchError = async (
       : undefined
 
   showNotification({
-    ...(Boolean(config)
+    ...(config
       ? {
           title: $i18n.t(`errors.${camelCase(name)}.name`),
           message: $i18n.t(`errors.${camelCase(name)}.description`),
