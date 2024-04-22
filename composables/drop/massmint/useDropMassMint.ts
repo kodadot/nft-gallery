@@ -1,8 +1,8 @@
-import { DoResult, updateMetadata } from '@/services/fxart'
-import { ImageDataPayload } from '../useGenerativeIframeData'
 import { ToMintNft } from '@/components/collection/drop/types'
-import useDropMassMintPreview from './useDropMassMintPreview'
+import { DoResult, updateMetadata } from '@/services/fxart'
 import { useCollectionEntity } from '../useGenerativeDropMint'
+import { ImageDataPayload } from '../useGenerativeIframeData'
+import useDropMassMintPreview from './useDropMassMintPreview'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   imageDataPayload?: ImageDataPayload
