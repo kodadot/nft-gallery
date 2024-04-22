@@ -480,7 +480,7 @@ const createNft = async () => {
       transactionStatus.value = 'mint'
     }
   } catch (error) {
-    warningMessage(`[ERR] ${error}`)
+    warningMessage(`${error}`)
     $consola.error(error)
   }
 }
@@ -539,7 +539,7 @@ const listNft = async () => {
 
     transactionStatus.value = 'checkListed'
   } catch (error) {
-    warningMessage(`[ERR] ${error}`)
+    warningMessage(`${error}`)
     $consola.error(error)
   }
 }

@@ -138,7 +138,7 @@ const submit = async () => {
       },
     })
   } catch (e) {
-    warningMessage(`[ERR] ${e}`)
+    warningMessage(`${e}`)
     console.error(e)
     isLoading.value = false
   }

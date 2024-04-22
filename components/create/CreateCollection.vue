@@ -347,7 +347,7 @@ const createCollection = async () => {
     isLoading.value = true
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
-    warningMessage(`[ERR] ${error}`)
+    warningMessage(`${error}`)
     $consola.error(error)
   }
 }

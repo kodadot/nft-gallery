@@ -123,7 +123,7 @@ const submitAll = async () => {
     )
     goToStep(4)
   } catch (error) {
-    warningMessage('Error: ' + (error as Error).message)
+    warningMessage((error as Error).message)
   } finally {
     isLoading.value = false
     status.value = ''
