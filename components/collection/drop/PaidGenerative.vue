@@ -5,6 +5,7 @@
     v-model="isMintModalActive"
     :action="action"
     :status="status"
+    :is-error="isError"
     @confirm="handleConfirmPaidMint"
     @close="handleMintModalClose"
     @list="handleList" />
@@ -67,6 +68,7 @@ const action = computed<AutoTeleportAction>(() => ({
 const mintNft = async () => {
   try {
     loading.value = true
+    isError.value = false
     mintingSession.value.txHash = undefined
 
     transaction({
