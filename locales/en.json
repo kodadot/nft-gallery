@@ -1194,7 +1194,7 @@
       "touch": "touch"
     },
     "connectFarcaster": "Connect with Koda on Farcaster",
-    "FarcasterMintLive": "Mint is live!"
+    "farcasterMintLive": "Mint is live!"
   },
   "history": {
     "label": "History",
