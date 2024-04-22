@@ -74,6 +74,7 @@ const props = withDefaults(
     duration: 2000,
     showProgressBar: false,
     variant: 'success',
+    title: '',
   },
 )
 

@@ -37,6 +37,7 @@ withDefaults(
   {
     variant: 'success',
     duration: 10000,
+    action: undefined,
   },
 )
 </script>
