@@ -196,25 +196,26 @@ export const notifyDispatchError = async (
 
   const api = await apiInstance.value
 
-  if (dispatchError.isModule) {
-    const { $i18n } = useNuxtApp()
-    const { name, docs, section } = api.registry.findMetaError(
-      dispatchError.asModule,
-    )
-
-    const config = MODULE_ERRORS_CONFIG[name] ?? undefined
-
-    showNotification({
-      title: config ? $i18n.t(`errors.${camelCase(name)}.name`) : name,
-      message: config
-        ? $i18n.t(`errors.${camelCase(name)}.description`)
-        : docs.join(' '),
-      params: notificationTypes[config?.level] ?? notificationTypes.warn,
-      action: config?.reportable
-        ? getReportIssueAction(`${section}.${name}: ${docs.join(' ')}`)
-        : undefined,
-    })
-  } else {
+  if (!dispatchError.isModule) {
     warningMessage(dispatchError.toString())
+    return
   }
+
+  const { $i18n } = useNuxtApp()
+  const { name, docs, section } = api.registry.findMetaError(
+    dispatchError.asModule,
+  )
+
+  const config = MODULE_ERRORS_CONFIG[name] ?? undefined
+
+  showNotification({
+    title: config ? $i18n.t(`errors.${camelCase(name)}.name`) : name,
+    message: config
+      ? $i18n.t(`errors.${camelCase(name)}.description`)
+      : docs.join(' '),
+    params: notificationTypes[config?.level] ?? notificationTypes.warn,
+    action: config?.reportable
+      ? getReportIssueAction(`${section}.${name}: ${docs.join(' ')}`)
+      : undefined,
+  })
 }
