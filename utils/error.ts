@@ -219,13 +219,13 @@ export const notifyDispatchError = async (
   const config = MODULE_ERRORS_CONFIG[name] ?? undefined
 
   showNotification({
-    title: config ? $i18n.t(`errors.${camelCase(name)}.name`) : name,
-    message: config
-      ? $i18n.t(`errors.${camelCase(name)}.description`)
-      : description,
+    ...(Boolean(config)
+      ? {
+          title: $i18n.t(`errors.${camelCase(name)}.name`),
+          message: $i18n.t(`errors.${camelCase(name)}.description`),
+          action: getReportIssueAction(`${key}: ${description}`),
+        }
+      : { title: name, message: description }),
     params: notificationTypes[config?.level] ?? notificationTypes.warn,
-    action: config?.reportable
-      ? getReportIssueAction(`${key}: ${description}`)
-      : undefined,
   })
 }
