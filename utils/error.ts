@@ -218,7 +218,7 @@ export const notifyDispatchError = async (
 
   const config = MODULE_ERRORS_CONFIG[name] ?? undefined
   const action =
-    config.reportable || Boolean(!config)
+    !config || config.reportable
       ? getReportIssueAction(`${key}: ${description}`)
       : undefined
 
