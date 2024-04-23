@@ -28,14 +28,14 @@ importers:
         specifier: ^0.1.14-rc.0
         version: 0.1.14-rc.0(@polkadot/api@10.13.1)(@polkadot/util-crypto@12.6.2)
       '@kodadot1/minipfs':
-        specifier: 0.4.2-rc.0
-        version: 0.4.2-rc.0
+        specifier: 0.4.3-rc.1
+        version: 0.4.3-rc.1
       '@kodadot1/static':
         specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
-        specifier: 0.3.0-rc.0
-        version: 0.3.0-rc.0
+        specifier: 0.3.1-rc.0
+        version: 0.3.1-rc.0
       '@nuxt/image':
         specifier: ^1.5.0
         version: 1.5.0(rollup@4.14.1)
@@ -3350,22 +3350,22 @@ packages:
       - '@polkadot/util-crypto'
     dev: false
 
-  /@kodadot1/minipfs@0.4.2-rc.0:
-    resolution: {integrity: sha512-sZievAE9OfG9Islrxa8viHPXCeR4xAHeG3DSyJSOq/RgjNF23vgRCoJukLfuTbEZ6N9zsOSKrOqQlL0Jba44Iw==}
+  /@kodadot1/minipfs@0.4.3-rc.1:
+    resolution: {integrity: sha512-EB+J58semTct3+qi6EC+omxyaaN33SHSSOcXmcaqEL9cg3stGp0MCfeSXzbpriweDh2NF8MtI2oAdEckueAQDg==}
     dependencies:
       ofetch: 1.3.4
     dev: false
 
-  /@kodadot1/static@0.0.4:
-    resolution: {integrity: sha512-91HlWsm1RWaQCWeeEnyQohCOJ523XaDF8njCC2xfJCsi5Ae5mW84iqt+m+MI5ZicMld07Ejuuo/YYZ8TDUUK4Q==}
+  /@kodadot1/static@0.0.5:
+    resolution: {integrity: sha512-TKPnkXtdnkC/KL2j0DXDT+zPtje2sAQ7wToPD+1gmm6ObmIi41ArUNaEWotXFRP4FqYPIz80omo3SOmfYyyPxg==}
     dev: false
 
-  /@kodadot1/sub-api@0.3.0-rc.0:
-    resolution: {integrity: sha512-k1aIqnilpH3zbFhj6zuETEI/jnOOQ3ExGrSNkA7MlR8EBW+ywGKEvynAB8C/3g0q962CRi5/d9dAJTyDY5NFhg==}
+  /@kodadot1/sub-api@0.3.1-rc.0:
+    resolution: {integrity: sha512-wri1d8rB8JjrUti4cidCyw8HKF/zAdqKqUY3AfWMdstiuYWXTa1pj0EbOJ150TSk4YaAUzXuBjBuh5h0C6wb0Q==}
     dependencies:
-      '@kodadot1/static': 0.0.4
+      '@kodadot1/static': 0.0.5
       '@polkadot/api': 10.13.1
-      '@polkadot/types-codec': 10.12.2
+      '@polkadot/types-codec': 10.13.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -5380,15 +5380,6 @@ packages:
       '@polkadot/types': 9.14.2
       '@polkadot/types-codec': 9.14.2
       '@polkadot/util': 10.4.2
-    dev: false
-
-  /@polkadot/types-codec@10.12.2:
-    resolution: {integrity: sha512-9DHBVvixuc0CNTBANsxGFITWcpUxfL5whL0h/tUA3yL/kT5/3Rp3E+GgEOJhwFAwMRHlNY7ll4lA9K2h+leELQ==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@polkadot/util': 12.6.2
-      '@polkadot/x-bigint': 12.6.2
-      tslib: 2.6.2
     dev: false
 
   /@polkadot/types-codec@10.13.1:
