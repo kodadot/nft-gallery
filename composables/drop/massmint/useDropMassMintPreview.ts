@@ -19,12 +19,6 @@ export default () => {
 
   const payloads = ref(new Map<string, ImageDataPayload>())
 
-  const allPinned = computed(
-    () =>
-      toMintNFTs.value.length !== 0 &&
-      toMintNFTs.value.map((item) => item.metadata).every(Boolean),
-  )
-
   const onMessage = (payload: ImageDataPayload) => {
     // always keep track of incomming payloads
     payloads.value.set(payload.hash, payload)
@@ -151,7 +145,6 @@ export default () => {
 
   return {
     getPreviewItemsToMintedNfts,
-    allPinned,
     payloads,
     pinMetadata,
   }

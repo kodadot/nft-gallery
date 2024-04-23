@@ -17,7 +17,7 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 export default () => {
   const { accountId } = useAuth()
 
-  const { allPinned, payloads, pinMetadata, getPreviewItemsToMintedNfts } =
+  const { payloads, pinMetadata, getPreviewItemsToMintedNfts } =
     useDropMassMintPreview()
   const { mintedAmountForCurrentUser } = useCollectionEntity()
   const dropStore = useDropStore()
@@ -73,7 +73,7 @@ export default () => {
     }
   }
 
-  const massGenerate = () => {
+  const massGenerate = async () => {
     try {
       clearMassmint()
 
@@ -100,6 +100,8 @@ export default () => {
 
       toMintNFTs.value = getPreviewItemsToMintedNfts(previewItems)
       console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
+
+      await allocate(toMintNFTs.value)
     } catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
       loading.value = false
@@ -154,12 +156,6 @@ export default () => {
       }
     })
   }
-
-  watch(allPinned, async (pinned) => {
-    if (pinned) {
-      await allocate(toMintNFTs.value)
-    }
-  })
 
   onBeforeUnmount(clearMassmint)
 

@@ -104,7 +104,7 @@ const handleSubmitMint = async () => {
   }
 
   openMintModal()
-  massGenerate()
+  await massGenerate()
 }
 
 const openMintModal = () => {
