@@ -101,7 +101,9 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
     const errorHandler = () => {
       showNotification('Cancelled', notificationTypes.warn)
-      stopLoader()
+
+      isLoading.value = false
+      status.value = TransactionStatus.Cancelled
       isError.value = true
 
       if (onError) {

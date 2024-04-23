@@ -22,6 +22,9 @@ export type Validity = {
   usesHashParam: Passed
   validTitle: Passed
   renderDurationValid: Passed
+  validKodaRenderPayload: Passed
+  // same hash should create same art, otherwise this will be false
+  consistent: Passed
 }
 
 export type AssetMessage = {

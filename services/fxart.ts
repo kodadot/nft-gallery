@@ -6,6 +6,8 @@ const BASE_URL =
     ? 'https://fxart.kodadot.workers.dev/'
     : 'https://fxart-beta.kodadot.workers.dev/'
 
+export const DYNAMIC_METADATA = 'fxart-beta.kodadot.workers.dev/metadata/'
+
 const api = $fetch.create({
   baseURL: BASE_URL,
 })
@@ -39,12 +41,6 @@ export const getDropById = (id: string) =>
   api<DropItem>(`/drops/${id}`, {
     method: 'GET',
   })
-
-export const getDropStatus = async (alias: string) => {
-  return await api<{ count: number }>(`/drops/${alias}/status`, {
-    method: 'GET',
-  })
-}
 
 export type DropMintedStatus = {
   created_at: string

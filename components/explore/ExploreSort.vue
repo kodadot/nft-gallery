@@ -102,9 +102,7 @@ watch(
   () => route.query.sort,
   (sort) => {
     if (sort?.length) {
-      selectedSort.value = Array.isArray(sort)
-        ? (sort as string[])
-        : ([sort] as string[])
+      selectedSort.value = parseQueryParamToArray(sort)
     } else if (selectedSort.value.length) {
       selectedSort.value = []
     }

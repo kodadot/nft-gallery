@@ -1,5 +1,5 @@
 <template>
-  <div ref="mediaItem" class="media-object" style="height: fit-content">
+  <div ref="mediaItem" class="media-object h-fit">
     <component
       :is="resolveComponent"
       :src="properSrc"

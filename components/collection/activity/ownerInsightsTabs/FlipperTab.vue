@@ -121,7 +121,7 @@ useIntersectionObserver(target, ([{ isIntersecting }]) => {
 })
 
 const displayedFlippers = computed(() => flippers.value.slice(0, offset.value))
-// map of flipper id to bolean, is the NFT details section of that flipper open or nor
+// map of flipper id to boolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
 const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

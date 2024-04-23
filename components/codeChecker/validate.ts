@@ -7,10 +7,21 @@ type HtmlContentValidationResult = {
   title: string
 }
 
-type InnerValidity = Omit<Validity, 'renderDurationValid'>
+type InnerValidity = Pick<
+  Validity,
+  | 'canvasSize'
+  | 'webGLSupported'
+  | 'localP5jsUsed'
+  | 'validTitle'
+  | 'kodaRendererUsed'
+  | 'resizerUsed'
+  | 'usesHashParam'
+  | 'title'
+>
 
 const constants = {
   canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
+  graphicsRegex: /createGraphics\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
   getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
   urlSearchParamsRegex:
     /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
@@ -85,7 +96,15 @@ const validateHtmlContent = (
 const validateSketchContent = (
   sketchFileContent: string,
   canvasMatch: RegExpExecArray,
-): Omit<Validity, 'renderDurationValid' | 'usesHashParam' | 'title'> => {
+): Pick<
+  Validity,
+  | 'canvasSize'
+  | 'webGLSupported'
+  | 'localP5jsUsed'
+  | 'validTitle'
+  | 'kodaRendererUsed'
+  | 'resizerUsed'
+> => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
   const isNumericWidth = /^\d+$/.test(width)
@@ -95,7 +114,9 @@ const validateSketchContent = (
 
   return {
     canvasSize,
-    webGLSupported: !!canvasMatch[3],
+    webGLSupported: Boolean(
+      canvasMatch[3] || constants.graphicsRegex.exec(sketchFileContent)?.[3],
+    ),
     localP5jsUsed: false, // This will be set based on HTML content checks
     validTitle: false, // This will be updated after HTML content checks
     kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
@@ -106,7 +127,7 @@ const validateSketchContent = (
 export const validate = (
   htmlFileContent: string,
   sketchFileContent: string,
-): Result<Omit<Validity, 'renderDurationValid'>> => {
+): Result<InnerValidity> => {
   const canvasResult = validateCanvasCreation(sketchFileContent)
   if (!canvasResult.isSuccess) {
     return canvasResult

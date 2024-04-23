@@ -82,17 +82,34 @@ function getAttributes(nft, metadata) {
     : attr
 }
 
-function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
+async function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
+  let name = nft.name || nft.meta.name
+  let description = nft.description || nft.meta.description
+  let image = sanitizeIpfsUrl(nft.meta.image)
+  let animationUrl = sanitizeIpfsUrl(
+    nft.meta.animation_url || nft.meta.animationUrl || '',
+  )
+  let type = nft.meta.type
+
+  if (nft.metadata !== nft.meta.id && nft.metadata) {
+    const metadataUrl = sanitizeIpfsUrl(nft.metadata)
+    const res = await getMetadata(metadataUrl)
+
+    name = res.name
+    description = res.description
+    image = sanitizeIpfsUrl(res.image)
+    animationUrl = sanitizeIpfsUrl(res.animationUrl)
+    type = res.type
+  }
+
   return {
     ...nft,
-    name: nameWithIndex(nft.name || nft.meta.name, nft.sn) || nft.id,
-    description: nft.description || nft.meta.description || '',
-    image: sanitizeIpfsUrl(nft.meta.image),
-    animationUrl: sanitizeIpfsUrl(
-      nft.meta.animation_url || nft.meta.animationUrl || '',
-    ),
-    type: nft.meta.type || '',
-    attributes: getAttributes(nft, nft.meta),
+    name: nameWithIndex(name, nft.sn) || nft.id,
+    description,
+    image,
+    animationUrl,
+    type: type || '',
+    attributes: getAttributes(nft, nft.metadata || nft.meta),
   }
 }
 
@@ -150,7 +167,7 @@ async function getRmrk2Resources<T extends NFTWithMetadata>(nft: T) {
   const type = await getMimeType(image)
 
   return {
-    ...getGeneralMetadata(nft),
+    ...(await getGeneralMetadata(nft)),
     image,
     type,
   }
@@ -181,12 +198,12 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   unify = false,
 ) {
   if (unify) {
-    return await getMetadata(sanitizeIpfsUrl(nft.meta.id))
+    return await getMetadata(sanitizeIpfsUrl(nft.metadata || nft.meta.id))
   }
 
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
-    return getGeneralMetadata(nft)
+    return await getGeneralMetadata(nft)
   }
 
   // if it's rmrk2, we need to check `resources` field
