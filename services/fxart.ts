@@ -6,6 +6,8 @@ const BASE_URL =
     ? 'https://fxart.kodadot.workers.dev/'
     : 'https://fxart-beta.kodadot.workers.dev/'
 
+export const DYNAMIC_METADATA = 'fxart-beta.kodadot.workers.dev/metadata/'
+
 const api = $fetch.create({
   baseURL: BASE_URL,
 })

@@ -84,7 +84,7 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus(drop)
+const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
@@ -179,8 +179,6 @@ const submitMints = async () => {
 
     subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
-    await fetchDropStatus()
-
     loading.value = false
     isSuccessModalActive.value = true
 
@@ -238,9 +236,7 @@ watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
 
-watch(() => dropStore.runtimeMintCount, fetchDropStatus, {
-  immediate: true,
-})
+onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">
