@@ -43,8 +43,8 @@ importers:
         specifier: 5.0.0-alpha.6
         version: 5.0.0-alpha.6(react-dom@18.2.0)(react@18.2.0)(rollup@4.14.1)(typescript@5.4.4)(vue@3.4.8)
       '@paraspell/sdk':
-        specifier: ^4.1.1
-        version: 4.1.1(@polkadot/api-base@10.12.2)(@polkadot/api@10.12.2)(@polkadot/apps-config@0.133.1)(@polkadot/types@10.12.2)(@polkadot/util@12.6.2)
+        specifier: ^5.1.0
+        version: 5.1.0(@polkadot/api-base@10.12.2)(@polkadot/api@10.12.2)(@polkadot/apps-config@0.133.1)(@polkadot/types@10.12.2)(@polkadot/util@12.6.2)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.14.1)(typescript@5.4.4)(vue@3.4.8)
@@ -4452,14 +4452,14 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@4.1.1(@polkadot/api-base@10.12.2)(@polkadot/api@10.12.2)(@polkadot/apps-config@0.133.1)(@polkadot/types@10.12.2)(@polkadot/util@12.6.2):
-    resolution: {integrity: sha512-zAl+elHblw3P0133QZkXn+YFuAo5a0mFr9gLo+5zapeLvtp8JgsxNzd+ARFDs3w6LW8Vzl4e44w9M8u+S3q67Q==}
+  /@paraspell/sdk@5.1.0(@polkadot/api-base@10.12.2)(@polkadot/api@10.12.2)(@polkadot/apps-config@0.133.1)(@polkadot/types@10.12.2)(@polkadot/util@12.6.2):
+    resolution: {integrity: sha512-umvnwLQLhTbuGm9cySP5buKWRd25RjkfUi+ZzYcE+Fk/cDBNDa5FUYXcNE4FwuZa5JqioKQ0Oh/x2rYwiVB11w==}
     peerDependencies:
-      '@polkadot/api': ^10.11.1
-      '@polkadot/api-base': ^10.11.1
-      '@polkadot/apps-config': ^0.133.1
-      '@polkadot/types': ^10.11.1
-      '@polkadot/util': ^12.6.1
+      '@polkadot/api': ^10.12.4
+      '@polkadot/api-base': ^10.12.4
+      '@polkadot/apps-config': ^0.135.1
+      '@polkadot/types': ^10.12.4
+      '@polkadot/util': ^12.6.2
     dependencies:
       '@mangata-finance/type-definitions': 2.1.2(@polkadot/types@10.12.2)
       '@polkadot/api': 10.12.2

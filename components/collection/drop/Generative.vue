@@ -52,7 +52,7 @@ const { drop } = useDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
-const { fetchDropStatus } = useDropStatus()
+const { subscribeDropStatus } = useDropStatus(drop)
 
 const { emailConfirmed } = useGenerativeDropNewsletter()
 
@@ -156,7 +156,6 @@ const submitMint = async () => {
       },
       drop.value?.id,
     )
-    await fetchDropStatus()
 
     const id = `${drop.value?.collection}-${result.sn}`
 
@@ -217,6 +216,7 @@ watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
   }
 })
 
+onBeforeMount(subscribeDropStatus)
 onBeforeUnmount(clear)
 </script>
 
