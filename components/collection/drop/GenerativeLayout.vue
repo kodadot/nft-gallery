@@ -65,7 +65,7 @@
     :drop-alias="drop.alias"
     :user-minted-count="mintedAmountForCurrentUser" />
 
-  <PartyModal v-if="isPartyModalOpen" @close="isPartyModalOpen = false" />
+  <PartyModal v-if="isPartyModalOpen" />
 </template>
 
 <script setup lang="ts">
