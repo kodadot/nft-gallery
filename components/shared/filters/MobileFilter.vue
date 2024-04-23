@@ -12,15 +12,7 @@
     overlay-class="!bg-background-color opacity-[0.86]">
     <div class="flex flex-col h-full">
       <div class="flex-grow">
-        <div
-          class="filters-header px-4 border-b flex items-center justify-between">
-          <p class="font-bold">
-            {{ $t('general.filters') }}
-          </p>
-          <a @click="onClose">
-            <NeoIcon icon="xmark" />
-          </a>
-        </div>
+        <NeoCommonHead :title="$t('general.filters')" @close="onClose" />
         <EventTypeFilter
           v-if="isCollectionActivityTab"
           data-model="store"
@@ -55,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoSidebar } from '@kodadot1/brick'
+import { NeoButton, NeoCommonHead, NeoSidebar } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -65,7 +57,6 @@ import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { getCollectionIds } from '@/utils/queryParams'
-import { NeoIcon } from '@kodadot1/brick'
 
 const route = useRoute()
 const preferencesStore = usePreferencesStore()

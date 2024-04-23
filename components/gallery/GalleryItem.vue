@@ -335,7 +335,6 @@ function toggleFallback() {
 @import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
-  overflow: auto;
   @include ktheme() {
     background-color: theme('background-color');
   }
