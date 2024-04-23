@@ -24,30 +24,40 @@ const proccessData = (
   collectionsList: CollectionEntity[],
   collectionsSales: CollectionSales[],
 ) => {
-  return collectionsList.map((e): CollectionEntityWithVolumes => {
-    const thisCollectionSales = collectionsSales.find(
-      ({ id }) => id === e.id,
-    ) as CollectionSales
-    const saleEvents = thisCollectionSales.sales.map((nft) => nft.events).flat()
+  return Promise.all(
+    collectionsList.map(async (e): Promise<CollectionEntityWithVolumes> => {
+      const thisCollectionSales = collectionsSales.find(
+        ({ id }) => id === e.id,
+      ) as CollectionSales
+      const saleEvents = thisCollectionSales.sales
+        .map((nft) => nft.events)
+        .flat()
 
-    return {
-      ...e,
-      image: sanitizeIpfsUrl(e.image),
-      averagePrice: calculateAvgPrice(e.volume as string, e.buys),
-      volume: volume(saleEvents),
-      weeklyVolume: weeklyVolume(saleEvents),
-      monthlyVolume: monthlyVolume(saleEvents),
-      threeMonthVolume: threeMonthlyVolume(saleEvents),
-      weeklyrangeVolume: weeklyrangeVolume(saleEvents),
-      monthlyrangeVolume: monthlyrangeVolume(saleEvents),
-      threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
-    }
-  })
+      const image = e.image
+        ? sanitizeIpfsUrl(e.image)
+        : sanitizeIpfsUrl(
+            getCollectionImage(await processSingleMetadata(e.metadata)) || '',
+          )
+
+      return {
+        ...e,
+        image: image,
+        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
+        volume: volume(saleEvents),
+        weeklyVolume: weeklyVolume(saleEvents),
+        monthlyVolume: monthlyVolume(saleEvents),
+        threeMonthVolume: threeMonthlyVolume(saleEvents),
+        weeklyrangeVolume: weeklyrangeVolume(saleEvents),
+        monthlyrangeVolume: monthlyrangeVolume(saleEvents),
+        threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
+      }
+    }),
+  )
 }
 
 export const useTopCollections = (limit: number, immediate = true) => {
   const { client, urlPrefix } = usePrefix()
-  const { isAssetHub } = useIsChain(urlPrefix)
+  const { isAssetHub, isBase } = useIsChain(urlPrefix)
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
     () => [],
@@ -62,12 +72,25 @@ export const useTopCollections = (limit: number, immediate = true) => {
   } = useAsyncData(
     'topCollections',
     async () => {
-      const applyDenyList = isAssetHub.value
-        ? { denyList: getDenyList(urlPrefix.value) }
-        : {}
+      const where =
+        isAssetHub.value || isBase.value
+          ? {
+              issuer_not_in: getDenyList(urlPrefix.value) || [],
+              volume_gt: '0',
+            }
+          : {}
+
+      if (isBase.value) {
+        // remove once volume is tracked
+        delete where.volume_gt
+      }
+
       const { data } = await useAsyncQuery<TopCollectionListResult>({
-        query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
-        variables: { orderBy: 'volume_DESC', limit, ...applyDenyList },
+        query:
+          isAssetHub.value || isBase.value
+            ? topCollectionsListAh
+            : topCollectionList,
+        variables: { orderBy: 'volume_DESC', limit, where },
         clientId: client.value,
       })
       return data.value
@@ -94,7 +117,7 @@ export const useTopCollections = (limit: number, immediate = true) => {
         collectionsSalesResults.value &&
         topCollections.value?.collectionEntities.length
       ) {
-        topCollectionWithVolumeList.value = proccessData(
+        topCollectionWithVolumeList.value = await proccessData(
           topCollections.value.collectionEntities,
           collectionsSalesResults.value.collectionsSales,
         )
