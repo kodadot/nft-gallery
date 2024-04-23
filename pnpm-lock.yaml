@@ -43,8 +43,8 @@ importers:
         specifier: 5.0.0-alpha.6
         version: 5.0.0-alpha.6(react-dom@18.2.0)(react@18.2.0)(rollup@4.14.1)(typescript@5.4.4)(vue@3.4.8)
       '@paraspell/sdk':
-        specifier: ^4.1.1
-        version: 4.1.1(@polkadot/api-base@10.13.1)(@polkadot/api@10.13.1)(@polkadot/apps-config@0.136.1)(@polkadot/types@10.13.1)(@polkadot/util@12.6.2)
+        specifier: ^5.1.0
+        version: 5.1.0(@polkadot/api-base@10.13.1)(@polkadot/api@10.13.1)(@polkadot/apps-config@0.135.1)(@polkadot/types@10.13.1)(@polkadot/util@12.6.2)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.14.1)(typescript@5.4.4)(vue@3.4.8)
@@ -55,8 +55,8 @@ importers:
         specifier: ^10.13.1
         version: 10.13.1
       '@polkadot/apps-config':
-        specifier: ^0.136.1
-        version: 0.136.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+        specifier: ^0.135.1
+        version: 0.135.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       '@polkadot/extension-dapp':
         specifier: ^0.47.1
         version: 0.47.1(@polkadot/api@10.13.1)(@polkadot/util-crypto@12.6.2)(@polkadot/util@12.6.2)
@@ -3009,8 +3009,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@frequency-chain/api-augment@1.11.1:
-    resolution: {integrity: sha512-CzVjeGrWl8tbTavygZLUICrncjCC54hM5ioJU1Og2OPoX2P4GYf8xoks8MIyj1yOrYX++mzM6Uf0+nCh77QyFw==}
+  /@frequency-chain/api-augment@1.9.0:
+    resolution: {integrity: sha512-U9fl5EjVx2G9H4S8E1GOBJIgAOfDQa7T73gLNjUWc4vPPY16gXmABK+otC8Oubtb+yGNn2mETW1LkV5h2T/tXg==}
     dependencies:
       '@polkadot/api': 10.13.1
       '@polkadot/rpc-provider': 10.13.1
@@ -4452,19 +4452,19 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@4.1.1(@polkadot/api-base@10.13.1)(@polkadot/api@10.13.1)(@polkadot/apps-config@0.136.1)(@polkadot/types@10.13.1)(@polkadot/util@12.6.2):
-    resolution: {integrity: sha512-zAl+elHblw3P0133QZkXn+YFuAo5a0mFr9gLo+5zapeLvtp8JgsxNzd+ARFDs3w6LW8Vzl4e44w9M8u+S3q67Q==}
+  /@paraspell/sdk@5.1.0(@polkadot/api-base@10.13.1)(@polkadot/api@10.13.1)(@polkadot/apps-config@0.135.1)(@polkadot/types@10.13.1)(@polkadot/util@12.6.2):
+    resolution: {integrity: sha512-umvnwLQLhTbuGm9cySP5buKWRd25RjkfUi+ZzYcE+Fk/cDBNDa5FUYXcNE4FwuZa5JqioKQ0Oh/x2rYwiVB11w==}
     peerDependencies:
-      '@polkadot/api': ^10.11.1
-      '@polkadot/api-base': ^10.11.1
-      '@polkadot/apps-config': ^0.133.1
-      '@polkadot/types': ^10.11.1
-      '@polkadot/util': ^12.6.1
+      '@polkadot/api': ^10.12.4
+      '@polkadot/api-base': ^10.12.4
+      '@polkadot/apps-config': ^0.135.1
+      '@polkadot/types': ^10.12.4
+      '@polkadot/util': ^12.6.2
     dependencies:
       '@mangata-finance/type-definitions': 2.1.2(@polkadot/types@10.13.1)
       '@polkadot/api': 10.13.1
       '@polkadot/api-base': 10.13.1
-      '@polkadot/apps-config': 0.136.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+      '@polkadot/apps-config': 0.135.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       '@polkadot/types': 10.13.1
       '@polkadot/util': 12.6.2
       ethers: 5.7.2
@@ -4946,8 +4946,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@polkadot/apps-config@0.136.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-MNWlZjp+Ua5L4xvREodiMvOc9vgnS5WIIMiGpd3OZ/rnJg5DAEjQWWfSlICLjdbgUFwb3YwvAmkbz6GYxFVgAA==}
+  /@polkadot/apps-config@0.135.1(@polkadot/keyring@12.6.2)(@polkadot/util-crypto@12.6.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Y9nfYO55dHT5Zalp9m8/lwG3WbXjX0JhPRlsCD0n/nskLAwGMV/q7FR/HFb3bA4q+Mq/Ka8Y+7aVYqV0iIjLtw==}
     engines: {node: '>=18'}
     dependencies:
       '@acala-network/type-definitions': 5.1.2(@polkadot/types@10.13.1)
@@ -4960,7 +4960,7 @@ packages:
       '@edgeware/node-types': 3.6.2-wako
       '@equilab/definitions': 1.4.18
       '@fragnova/api-augment': 0.1.0-spec-1.0.4-mainnet
-      '@frequency-chain/api-augment': 1.11.1
+      '@frequency-chain/api-augment': 1.9.0
       '@interlay/interbtc-types': 1.13.0
       '@kiltprotocol/type-definitions': 0.34.0
       '@laminar/type-definitions': 0.3.1
