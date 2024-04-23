@@ -29,6 +29,7 @@
     v-model="isMintModalActive"
     :action="action"
     :status="status"
+    :is-error="isTransactionError"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList" />
@@ -83,7 +84,7 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus(drop)
+const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
@@ -174,7 +175,6 @@ const mint = async () => {
 const submitMints = async () => {
   try {
     await useUpdateMetadata()
-    await fetchDropStatus()
 
     loading.value = false
     isSuccessModalActive.value = true
@@ -232,9 +232,7 @@ watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
 
-watch(() => dropStore.runtimeMintCount, fetchDropStatus, {
-  immediate: true,
-})
+onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">

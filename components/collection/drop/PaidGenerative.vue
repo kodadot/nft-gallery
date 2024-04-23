@@ -5,6 +5,7 @@
     v-model="isMintModalActive"
     :action="action"
     :status="status"
+    :is-error="isError"
     @confirm="handleConfirmPaidMint"
     @close="handleMintModalClose"
     @list="handleList" />
@@ -21,7 +22,7 @@ import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintL
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus(drop)
+const { subscribeDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
@@ -67,6 +68,7 @@ const action = computed<AutoTeleportAction>(() => ({
 const mintNft = async () => {
   try {
     loading.value = true
+    isError.value = false
     mintingSession.value.txHash = undefined
 
     transaction({
@@ -121,7 +123,6 @@ const closeMintModal = () => {
 const submitMints = async () => {
   try {
     await useUpdateMetadata()
-    await fetchDropStatus()
 
     loading.value = false
   } catch (error) {
@@ -168,6 +169,8 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
+
+onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">
