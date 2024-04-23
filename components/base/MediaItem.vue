@@ -174,6 +174,15 @@ const toggleContent = () => {
 
 const isMediaItemHovering = useElementHover(mediaItem)
 
+watch(
+  () => props.isFullscreen,
+  (fullscreen) => {
+    if (fullscreen) {
+      // make sure the iframe was focused when entering fullscreen mode
+      mediaItem.value?.getElementsByTagName('iframe')[0]?.focus()
+    }
+  },
+)
 defineExpose({ isLewdBlurredLayer })
 </script>
 

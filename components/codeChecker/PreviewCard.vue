@@ -155,9 +155,11 @@ const exportAsPNG = async () => {
   count.value++
 }
 
-watch(isFullscreen, () => {
-  // make sure the iframe was focused when switch fullscreen mode
-  fullscreenRef.value?.getElementsByTagName('iframe')[0]?.focus()
+watch(isFullscreen, (fullscreen) => {
+  if (fullscreen) {
+    // make sure the iframe was focused when entering fullscreen mode
+    fullscreenRef.value?.getElementsByTagName('iframe')[0]?.focus()
+  }
 })
 
 watch(() => props.reloadTrigger, replay)
