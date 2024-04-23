@@ -105,7 +105,7 @@ test('Create NFT', async ({ page, Commands }) => {
 
   //Deposit
   await test.step('Check if deposits are loaded and properly calculated', async () => {
-    const expectedDeposit = `${0.0008 * numOfCopies} KSM`
+    const expectedDeposit = `${Number(0.0008 * numOfCopies).toFixed(4)} KSM`
     await expect(
       page.getByTestId('create-nft-deposit-amount-token'),
     ).toHaveText(expectedDeposit, { timeout: 30000 })
