@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useDrop, useDropStatus } from '@/components/drops/useDrops'
+import { useDrop } from '@/components/drops/useDrops'
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 import { isProduction } from '@/utils/chain'
 
@@ -18,7 +18,6 @@ const { urlPrefix, setUrlPrefix } = usePrefix()
 const { reset } = useDropStore()
 
 const { drop, fetchDrop } = useDrop()
-useDropStatus().fetchDropStatus()
 
 const dropType = computed(() => drop.value.type)
 
