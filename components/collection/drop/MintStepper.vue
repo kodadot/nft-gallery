@@ -18,17 +18,15 @@ const { amountToMint, drop, mintsCount } = storeToRefs(useDropStore())
 const show = computed(() => drop.value.type !== 'free')
 
 const max = computed(() => {
-  const holderMax =
-    drop.value.type === 'holder'
-      ? availableNfts.serialNumbers.length
-      : drop.value.max && drop.value.max - mintsCount.value
-  // tmp remove when uploading to IPFS step can be skipped @see https://github.com/kodadot/nft-gallery/issues/10001#issuecomment-2041533819
-  const dropMax = DROP_MASSMINT_LIMIT[drop.value.alias] ?? undefined
+  const options = [
+    drop.value.max && drop.value.max - mintsCount.value,
+    DROP_MASSMINT_LIMIT[drop.value.alias] ?? undefined, // tmp remove when uploading to IPFS step can be skipped @see https://github.com/kodadot/nft-gallery/issues/10001#issuecomment-2041533819
+  ]
 
-  if (holderMax) {
-    return dropMax ? Math.min(dropMax, holderMax) : holderMax
+  if (drop.value.type === 'holder') {
+    options.push(availableNfts.serialNumbers.length)
   }
 
-  return dropMax
+  return Math.min(...options.filter((option) => option !== undefined))
 })
 </script>
