@@ -21,8 +21,8 @@
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
         <LandingFarcasterMintNotificationBanner
-          v-if="FARCASTER_LIVE_MINT_CONFIG"
-          :config="FARCASTER_LIVE_MINT_CONFIG" />
+          v-if="farcasterLiveMint"
+          :config="farcasterLiveMint" />
         <LandingFarcasterBanner v-else />
       </div>
 
@@ -38,6 +38,36 @@
     </div>
   </section>
 </template>
+
+<script lang="ts" setup>
+import farcasterLiveMintConfig from '@/script/farcasterLiveMint.json'
+import { $fetch } from 'ofetch'
+
+const farcasterLiveMint = ref()
+
+const fetchFarcasterLiveMint = async () => {
+  if (isProduction) {
+    try {
+      const res = await $fetch(
+        'https://raw.githubusercontent.com/kodadot/nft-gallery/main/script/farcasterLiveMint.json',
+        {
+          method: 'GET',
+        },
+      )
+      const config = JSON.parse(res)
+      if (config) {
+        farcasterLiveMint.value = config
+      }
+    } catch (error) {
+      // no live mint
+    }
+  } else {
+    farcasterLiveMint.value = farcasterLiveMintConfig
+  }
+}
+
+onMounted(fetchFarcasterLiveMint)
+</script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
