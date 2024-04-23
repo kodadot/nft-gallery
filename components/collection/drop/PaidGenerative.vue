@@ -21,7 +21,7 @@ import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintL
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
-const { fetchDropStatus } = useDropStatus(drop)
+const { subscribeDropStatus } = useDropStatus(drop)
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
@@ -125,8 +125,6 @@ const submitMints = async () => {
 
     subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
 
-    await fetchDropStatus()
-
     loading.value = false
   } catch (error) {
     toast($i18n.t('drops.mintDropError', [error?.toString()]))
@@ -174,6 +172,8 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
+
+onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">
