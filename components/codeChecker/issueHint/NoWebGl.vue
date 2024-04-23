@@ -11,5 +11,7 @@ const code = `
   canvasSize = min(windowWidth, windowHeight)
 
   createCanvas(canvasSize, canvasSize)
+
+  createGraphics(canvasSize, canvasSize)
   `
 </script>

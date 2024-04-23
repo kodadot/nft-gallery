@@ -1,7 +1,7 @@
 <template>
   <div class="wallet-menu-item">
     <button
-      class="button my-0 flex justify-between items-center"
+      class="button my-0 !px-8 py-2.5 flex justify-between items-center"
       @click="onClickWallet(wallet)">
       <span>
         <div class="flex justify-between items-center">
@@ -22,7 +22,12 @@
             </NeoTag>
           </span>
 
-          <NeoIcon v-if="!wallet.installed" icon="download" />
+          <div
+            v-if="!wallet.installed"
+            class="text-xs capitalize text-neutral-7">
+            {{ $t('moreActions.download') }}
+            <NeoIcon icon="download" />
+          </div>
 
           <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
 
