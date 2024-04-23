@@ -3,7 +3,7 @@
 
 .o-btn {
   &.is-neo {
-    @apply  h-10 rounded-none font-inherit py-2;
+    @apply  h-10 min-w-10 rounded-none font-inherit py-2;
 
     &.o-btn--large {
       @apply text-base h-13;
@@ -20,7 +20,7 @@
     }
 
     &:focus {
-      @apply border-2 bg-k-accent-hover text-text-color;
+      @apply outline-1 outline bg-k-accent-hover text-text-color;
     }
 
     &:active {
