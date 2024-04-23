@@ -107,6 +107,11 @@ const mediaItem = ref<HTMLDivElement>()
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 
+useMediaFullscreen({
+  ref: mediaItem,
+  isFullscreen: computed(() => props.isFullscreen),
+})
+
 const targetIsVisible = useElementVisibility(mediaItem)
 const modelComponent = ref<Component>()
 const isModelComponentLoaded = ref(false)
@@ -174,15 +179,6 @@ const toggleContent = () => {
 
 const isMediaItemHovering = useElementHover(mediaItem)
 
-watch(
-  () => props.isFullscreen,
-  (fullscreen) => {
-    if (fullscreen) {
-      // make sure the iframe was focused when entering fullscreen mode
-      mediaItem.value?.getElementsByTagName('iframe')[0]?.focus()
-    }
-  },
-)
 defineExpose({ isLewdBlurredLayer })
 </script>
 
