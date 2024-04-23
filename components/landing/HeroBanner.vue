@@ -20,7 +20,10 @@
         </div>
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
-        <LandingFarcasterMintNotificationBanner />
+        <LandingFarcasterMintNotificationBanner
+          v-if="FARCASTER_LIVE_MINT_CONFIG"
+          :config="FARCASTER_LIVE_MINT_CONFIG" />
+        <LandingFarcasterBanner v-else />
       </div>
 
       <div class="flex justify-center mt-[2rem]">
