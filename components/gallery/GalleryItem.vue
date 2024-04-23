@@ -79,9 +79,20 @@
               </a>
             </NeoTooltip>
             <NeoTooltip :label="$t('newTab')" position="top">
-              <a no-shadow @click="handleNewTab">
+              <a
+                v-if="
+                  nftMetadata?.image ||
+                  (nftMetadata?.animationUrl && nftAnimation)
+                "
+                no-shadow
+                @click="handleNewTab">
                 <NeoIcon icon="arrow-up-right" size="medium" />
               </a>
+              <NeoIcon
+                v-else
+                icon="arrow-up-right"
+                size="medium"
+                class="text-k-grey" />
             </NeoTooltip>
           </div>
         </div>
@@ -401,14 +412,16 @@ function handleNewTab() {
   const mediaType = resolveMedia(nftAnimationMimeType.value)
   const imageType = resolveMedia(nftMimeType.value)
 
-  if ([MediaType.IFRAME].includes(mediaType)) {
-    openInNewTab('iframe[title="html-embed"]', 'src')
+  if ([MediaType.IFRAME].includes(mediaType) && nftAnimation.value) {
+    window.open(nftAnimation.value, '_blank')
   } else if ([MediaType.VIDEO].includes(mediaType)) {
     openInNewTab('video', 'src')
   } else if ([MediaType.OBJECT].includes(mediaType)) {
     openInNewTab('object', 'src')
   } else if ([MediaType.IMAGE].includes(imageType)) {
     openInNewTab('img[data-nuxt-img]', 'src')
+  } else {
+    window.open(nftAnimation.value || image.value, '_blank')
   }
 }
 
@@ -429,7 +442,6 @@ function toggleFallback() {
 @import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
-  overflow: auto;
   @include ktheme() {
     background-color: theme('background-color');
   }
