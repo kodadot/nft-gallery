@@ -41,14 +41,13 @@
 
 <script lang="ts" setup>
 import farcasterLiveMintConfig from '@/script/farcasterLiveMint.json'
-import { $fetch } from 'ofetch'
 
 const farcasterLiveMint = ref()
 
 const fetchFarcasterLiveMint = async () => {
   if (isProduction) {
     try {
-      const res = await $fetch(
+      const res: string = await $fetch(
         'https://raw.githubusercontent.com/kodadot/nft-gallery/main/script/farcasterLiveMint.json',
         {
           method: 'GET',
