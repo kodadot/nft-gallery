@@ -116,6 +116,11 @@ const count = ref(0)
 const variationCounter = ref(0)
 const selectedVariation = ref(variationOptions[0])
 
+useMediaFullscreen({
+  ref: fullscreenRef,
+  isFullscreen,
+})
+
 const newHash = () => {
   hash.value = generateRandomHash()
   emit('reload')
