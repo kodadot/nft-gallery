@@ -48,7 +48,7 @@ const props = withDefaults(
   }>(),
   {
     withCopy: true,
-    noFarcaster: true,
+    showFarcaster: true,
   },
 )
 
