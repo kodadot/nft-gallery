@@ -1,7 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 module.exports = {
   content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
   theme: {
+    screens: {
+      xs: '400px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         'text-color': 'rgb(var(--text-color) / <alpha-value>)',
