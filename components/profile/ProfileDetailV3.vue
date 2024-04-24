@@ -416,10 +416,6 @@ const reload = () => {
   location.reload()
 }
 
-watch(userProfile, (newProfile) => {
-  console.log('debug newProfile', newProfile)
-})
-
 const { data: followers } = await useAsyncData('followers', () =>
   fetchFollowersOf(route.params.id as string),
 )
