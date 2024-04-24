@@ -204,7 +204,7 @@ const router = useRouter()
 const { placeholder } = useTheme()
 const mediaItemRef = ref<{
   isLewdBlurredLayer: boolean
-  toggleVideoFullscreen
+  toggleFullscreen
 } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
@@ -326,7 +326,7 @@ function toggleMediaFullscreen() {
 function toggleFullscreen() {
   const mediaType = resolveMedia(nftAnimationMimeType.value)
   if ([MediaType.VIDEO].includes(mediaType)) {
-    mediaItemRef.value?.toggleVideoFullscreen()
+    mediaItemRef.value?.toggleFullscreen()
   } else {
     toggleMediaFullscreen()
   }

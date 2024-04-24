@@ -38,7 +38,7 @@ const props = withDefaults(
 )
 
 const video = ref()
-const { toggle: toggleVideoFullscreen } = useFullscreen(video)
+const { toggle: toggleFullscreen } = useFullscreen(video)
 
 const autoPlay = computed(() =>
   props.autoplay === undefined ? props.preview : props.autoplay,
@@ -52,5 +52,5 @@ if (!autoPlay.value && props.src) {
   })
 }
 
-defineExpose({ toggleVideoFullscreen })
+defineExpose({ toggleFullscreen })
 </script>
