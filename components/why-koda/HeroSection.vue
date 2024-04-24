@@ -1,7 +1,7 @@
 <template>
   <section class="border-b relative max-md:flex max-md:flex-col-reverse">
     <div class="!container mx-auto max-md:px-4">
-      <div class="max-md:py-16 md:py-[96px]">
+      <div class="max-md:py-16 md:py-[96px] md:w-min lg:w-auto">
         <h1 class="flex items-center gap-6 flex-wrap items-center">
           <span class="text-7xl font-bold text-center capitalize md:inline">
             {{ $t('why') }}
