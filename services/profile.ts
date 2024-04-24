@@ -1,12 +1,9 @@
 import { $fetch, FetchError } from 'ofetch'
 
-const hostToServiceMap = {
-  'kodadot.xyz': 'https://profile.kodadot.workers.dev/',
-  'canary.kodadot.xyz': 'https://profile-beta.kodadot.workers.dev/',
-  'localhost:9090': 'http://localhost:8787',
-}
-
-const BASE_URL = hostToServiceMap[window.location.host]
+const BASE_URL =
+  window.location.host === 'kodadot.xyz'
+    ? 'https://profile.kodadot.workers.dev/'
+    : 'https://profile-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
