@@ -39,7 +39,7 @@
 
         <!-- Buttons and Dropdowns -->
         <div class="flex gap-3 max-sm:flex-wrap">
-          <div class="flex gap-3 flex-nowrap">
+          <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
               ref="buttonRef"
               rounded
