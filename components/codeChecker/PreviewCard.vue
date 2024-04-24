@@ -1,7 +1,7 @@
 <template>
   <div
     class="border bg-background-color shadow-primary p-5 pb-6 w-full max-w-[490px] flex flex-col gap-5">
-    <div ref="fullscreenRef" class="overflow-y-scroll">
+    <div ref="fullscreenRef">
       <NeoButton
         v-if="isFullscreen"
         class="fixed top-[3rem] left-[3rem] z-[1]"
@@ -13,8 +13,7 @@
       <CodeCheckerSandboxIFrame
         v-if="render"
         v-model:count="count"
-        :is-fullscreen="isFullscreen"
-        :custom-class="isFullscreen ? 'h-fit aspect-square' : ''"
+        :custom-class="{ border: !isFullscreen }"
         :hash="hash"
         :assets="assets" />
       <BaseMediaItem v-else preview is-detail class="border" />
