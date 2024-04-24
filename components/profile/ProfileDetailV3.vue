@@ -416,13 +416,13 @@ const reload = () => {
   location.reload()
 }
 
-const { data: followers } = await useAsyncData('followers', () =>
-  fetchFollowersOf(route.params.id as string),
+const { data } = await useAsyncData('followers', () =>
+  fetchFollowersOf(route.params.id as string, 3),
 )
 
-const followersCount = computed(() => followers.value?.length ?? 0)
+const followersCount = computed(() => data.value?.totalCount)
 const followersAvatars = computed(() =>
-  followers.value?.slice(0, 3).map(({ image }) => image),
+  data.value?.followers.map(({ image }) => image),
 )
 
 const editProfileConfig: ButtonConfig = {

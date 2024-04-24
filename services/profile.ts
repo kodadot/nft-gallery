@@ -68,21 +68,31 @@ export const fetchProfileByAddress = (address: string) =>
     method: 'GET',
   })
 
-export const fetchFollowersOf = (address: string) =>
-  api<{ followers: Follower[] }>(
+export const fetchFollowersOf = (
+  address: string,
+  limit?: number,
+  offset?: number,
+) =>
+  api<{ followers: Follower[]; totalCount: number }>(
     `/follow/${formatAddress(address, 42)}/followers`,
     {
       method: 'GET',
+      query: { limit, offset },
     },
-  ).then((res) => res.followers)
+  )
 
-export const fetchFollowing = (address: string) =>
-  api<{ following: Follower[] }>(
+export const fetchFollowing = (
+  address: string,
+  limit?: number,
+  offset?: number,
+) =>
+  api<{ following: Follower[]; totalCount: number }>(
     `/follow/${formatAddress(address, 42)}/following`,
     {
       method: 'GET',
+      query: { limit, offset },
     },
-  ).then((res) => res.following)
+  )
 
 export const createProfile = async (profileData: CreateProfileRequest) => {
   try {

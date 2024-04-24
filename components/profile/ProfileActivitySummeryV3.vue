@@ -42,11 +42,11 @@ const route = useRoute()
 const { client, urlPrefix } = usePrefix()
 
 const { data: followers } = await useAsyncData('followers', () =>
-  fetchFollowersOf(route.params.id as string),
+  fetchFollowersOf(route.params.id as string, 1),
 )
 
 const { data: following } = await useAsyncData('following', () =>
-  fetchFollowing(route.params.id as string),
+  fetchFollowing(route.params.id as string, 1),
 )
 
 const id = computed(() => props?.userId || route.params.id || '')
@@ -72,11 +72,11 @@ const statsRows = computed(() => [
   },
   {
     label: 'activity.followers',
-    value: followers.value?.length ?? '-',
+    value: followers.value?.totalCount ?? '-',
   },
   {
     label: 'activity.following',
-    value: following.value?.length ?? '-',
+    value: following.value?.totalCount ?? '-',
   },
 ])
 
