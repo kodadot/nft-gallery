@@ -48,6 +48,7 @@
               :class="buttonConfig.classes"
               :variant="buttonConfig.variant"
               :active="buttonConfig.active"
+              :disabled="buttonConfig.disabled"
               @click="buttonConfig.onClick">
               <NeoIcon
                 v-if="buttonConfig.icon"
@@ -340,7 +341,7 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { fetchFollowersOf } from '@/services/profile'
+import { fetchFollowersOf, follow, unfollow } from '@/services/profile'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -362,6 +363,7 @@ interface ButtonConfig {
   classes?: string
   variant?: NeoButtonVariant
   active?: boolean
+  disabled?: boolean
 }
 
 const gridSection = GridSection.PROFILE_GALLERY
@@ -398,7 +400,8 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { hasProfile, userProfile, isFollowingThisAccount } = useProfile()
+const { hasProfile, userProfile, isFollowingThisAccount, syncIsFollowing } =
+  useProfile()
 
 const reload = () => {
   location.reload()
@@ -430,9 +433,14 @@ const createProfileConfig: ButtonConfig = {
 const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  onClick: () => {
-    // follow(true)
-    showFollowing.value = true
+  disabled: !hasProfile.value,
+  onClick: async () => {
+    await follow({
+      initiatorAddress: accountId.value,
+      targetAddress: id.value as string,
+    })
+    await syncIsFollowing()
+    showFollowing.value = isFollowingThisAccount.value
   },
   classes: 'hover:!bg-transparent',
 }
@@ -444,7 +452,10 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
-    // follow(false)
+    unfollow({
+      initiatorAddress: accountId.value,
+      targetAddress: id.value as string,
+    }).then(syncIsFollowing)
   },
   classes: 'hover:!border-k-red',
 }
@@ -475,8 +486,6 @@ const socialDropdownItems = computed(() => {
       const socialConfig = socials[platform]
       if (socialConfig) {
         const { icon, iconPack, order } = socialConfig
-        // const { label, url } = getUrlLabel(value)
-
         return {
           label: handle || link,
           icon,
