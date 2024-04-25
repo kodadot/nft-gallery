@@ -369,27 +369,15 @@ const gridSection = GridSection.PROFILE_GALLERY
 const socials = {
   [Socials.Farcaster]: {
     icon: FarcasterIcon,
-    getUrlLabel: (value) => ({
-      label: `@${value}`,
-      url: `https://warpcast.com/${value}`,
-    }),
     order: 1,
   },
   [Socials.Twitter]: {
     icon: 'x-twitter',
     iconPack: 'fab',
-    getUrlLabel: (value) => ({
-      label: `@${value}`,
-      url: `https://twitter.com/${value}`,
-    }),
     order: 2,
   },
   [Socials.Website]: {
     icon: 'globe',
-    getUrlLabel: (value: string) => {
-      const label = value.replace('https://', '')
-      return { label, url: value }
-    },
     order: 3,
   },
 }
