@@ -3,7 +3,7 @@
     <iframe
       :id="iframeId"
       ref="iframe"
-      title="title"
+      :title="title"
       class="absolute flex w-[1080px] h-[1080px] aspect-square origin-top-left"
       :src="iframeSrc"
       :alt="alt"
@@ -25,6 +25,7 @@ const props = withDefaults(
     src?: string
     animationSrc?: string
     alt?: string
+    title?: string
     iframeId?: string
     sandbox?: string
     allow?: string
