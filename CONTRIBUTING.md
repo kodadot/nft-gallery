@@ -27,7 +27,6 @@ Before you jump in:
 
 ## Codespaces
 
-
 - For an instant setup of the development environment, please follow the instructions provided below. If you’re setting up for the first time and need a detailed guide, you can refer to our First-Time Setup Guide [first-time setup](https://github.com/kodadot/nft-gallery/blob/main/content/blog/first-time.md)
 
 - Click on the button below:
@@ -54,14 +53,17 @@ Recommended VSCode Extensions:
 
 ### Which issue should you pick?
 
-We are working primarily on two metrics.
-Issues have
+We usually work using two metrics:
 
 - priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**.
 - bounty labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
 
 If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a **significant difference for users to fix high-priority issues**.
 If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
+
+Labels can also help you find a perfect issue for your skills, as the example above:
+
+- The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
 
 ### Assigning Issues
 
@@ -85,6 +87,17 @@ Whenever you open PR against our repository, our best recommendation is to finis
 - Once you submit your PR, others from the developers community will review it with you. The first thing you'll want to do is a [self-review](#self-review); **When self-reviewing, be aware of the quality of your contribution, if your PR has too many visible issues on UI or too many comments from Developers, it will be promptly closed.**
 - After that, we may have questions; check back on your PR and its current labels to keep up with the conversation.
 - Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
+
+### Check the labels on your Pull Request
+
+We use labels to keep track on how the PR is going, some examples:
+
+waiting for review - PR is waiting for developer review
+works for me: QA team has tested your PR
+visual-ok: Design team has checked and approved your PR
+changes-requested: Someone from our team identified that something needs to be changed/fixed on your PR
+stale: PR which haven't seen any changes for last 3 days and its prone to closing
+blocked: PR is currently blocked and cannot be merged
 
 ### Your PR is merged!
 
@@ -112,7 +125,7 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 
 Our small but mighty 💪 developer community is maintaining this repo. To preserve our bandwidth, off-topic conversations will be closed.
 
-## Issues 🐞
+## Regarding Issues 🐞
 
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet, and you shouldn't begin work on it.
 
@@ -126,21 +139,7 @@ Thank you for creating them.
 
 If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
 
-### Labels
-
-We use labels to keep track on how the PR is going, some examples:
-
-waiting for review - PR is waiting for developer review
-works for me: QA team has tested your PR
-changes-requested: Someone from our team identified that something needs to be changed/fixed on your PR
-stale: PR which haven't seen any changes for last 3 days and its prone to closing
-blocked: PR is currently blocked and cannot be merged
-
-Labels can also help you find a perfect issue for your skills.
-
-- The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
-
-## Pull requests 🛠️
+## Regarding Pull requests 🛠️
 
 A pull request is a way to suggest changes in our repository.
 When we merge those changes, they should be deployed to the live site within 24 hours.

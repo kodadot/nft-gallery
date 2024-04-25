@@ -109,8 +109,6 @@ Creating pull request for username:example-branch into main in kodadot/nft-galle
 ? Title example-branch-title
 ? Choose a template  [Use arrows to move, type to filter]
 > PULL_REQUEST_TEMPLATE.md
-  QUICK_AND_DESIGN_PULL_REQUEST_TEMPLATE.md
-  QUICK_AND_QA_PULL_REQUEST_TEMPLATE.md
   QUICK_PULL_REQUEST_TEMPLATE.md
   Open a blank pull request
 ```
