@@ -8,7 +8,7 @@ subtitle: Is this your first time contributing? Set up your local environment he
 
 We are using a `pnpm` workspace, as installing things via npm **will result in broken dependencies.**
 
-> If you want to know how KodaDot works, go to the [DOCS](https://docs.kodadot.xyz/).
+> If you want to know how KodaDot works, go to the [DOCS](https://hello.kodadot.xyz/).
 
 # Hyper start 🚀
 
