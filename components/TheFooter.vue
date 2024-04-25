@@ -182,6 +182,11 @@ const menuKodadot: Menu[] = [
     external: true,
   },
   {
+    name: $i18n.t('whyKoda.title'),
+    url: '/why-koda',
+    external: false,
+  },
+  {
     name: $i18n.t('blog'),
     url: '/blog',
     external: false,

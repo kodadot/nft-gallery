@@ -8,6 +8,7 @@
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
+      :estimated-time="estimedTime"
       @close="onClose">
       <MintOverview
         v-if="isMintOverviewStep"
@@ -25,7 +26,9 @@
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
         :subtitle="transactionStatus"
-        :status="status" />
+        :status="status"
+        :failed="isError"
+        @try-again="confirm" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -54,11 +57,14 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
+const IPFS_ESTIMATED_TIME_SECONDS = 15
+
 const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
 const props = defineProps<{
   modelValue: boolean
   action: AutoTeleportAction
   status: TransactionStatus
+  isError: boolean
 }>()
 
 const { canMint, canList, isRendering } = useDropMassMintState()
@@ -79,6 +85,10 @@ const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
 )
 
+const estimedTime = computed(() =>
+  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
+)
+
 const mintButton = computed(() => {
   if (isRendering.value) {
     return {
@@ -90,7 +100,7 @@ const mintButton = computed(() => {
 
   if (!canMint.value) {
     return {
-      label: `${$i18n.t('loader.ipfs')} ~ 15s`,
+      label: $i18n.t('drops.mintDropError'),
       disabled: true,
     }
   }
@@ -102,7 +112,7 @@ const loading = computed(
   () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
 )
 const preStepTitle = computed<string | undefined>(() =>
-  isSingleMintNotReady.value ? $i18n.t('loader.ipfs') : undefined,
+  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
 
 const isMintOverviewStep = computed(
@@ -162,11 +172,13 @@ const handleModalClose = (completed: boolean) => {
   }
 }
 
+const confirm = () => emit('confirm')
+
 const handleConfirm = ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   if (!autoteleport) {
-    emit('confirm')
+    confirm()
     modalStep.value = ModalStep.SIGNING
   }
 }
