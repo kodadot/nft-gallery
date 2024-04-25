@@ -25,33 +25,40 @@ const proccessData = (
   collectionsSales: CollectionSales[],
 ) => {
   return Promise.all(
-    collectionsList.map(async (e): Promise<CollectionEntityWithVolumes> => {
-      const thisCollectionSales = collectionsSales.find(
-        ({ id }) => id === e.id,
-      ) as CollectionSales
-      const saleEvents = thisCollectionSales.sales
-        .map((nft) => nft.events)
-        .flat()
+    collectionsList.map(
+      async (collection): Promise<CollectionEntityWithVolumes> => {
+        const thisCollectionSales = collectionsSales.find(
+          ({ id }) => id === collection.id,
+        ) as CollectionSales
+        const saleEvents = thisCollectionSales.sales
+          .map((nft) => nft.events)
+          .flat()
 
-      const image = e.image
-        ? sanitizeIpfsUrl(e.image)
-        : sanitizeIpfsUrl(
-            getCollectionImage(await processSingleMetadata(e.metadata)) || '',
-          )
+        const image = collection.image
+          ? sanitizeIpfsUrl(collection.image)
+          : sanitizeIpfsUrl(
+              getCollectionImage(
+                await processSingleMetadata(collection.metadata),
+              ) || '',
+            )
 
-      return {
-        ...e,
-        image: image,
-        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
-        volume: volume(saleEvents),
-        weeklyVolume: weeklyVolume(saleEvents),
-        monthlyVolume: monthlyVolume(saleEvents),
-        threeMonthVolume: threeMonthlyVolume(saleEvents),
-        weeklyrangeVolume: weeklyrangeVolume(saleEvents),
-        monthlyrangeVolume: monthlyrangeVolume(saleEvents),
-        threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
-      }
-    }),
+        return {
+          ...collection,
+          image: image,
+          averagePrice: calculateAvgPrice(
+            collection.volume as string,
+            collection.buys,
+          ),
+          volume: volume(saleEvents),
+          weeklyVolume: weeklyVolume(saleEvents),
+          monthlyVolume: monthlyVolume(saleEvents),
+          threeMonthVolume: threeMonthlyVolume(saleEvents),
+          weeklyrangeVolume: weeklyrangeVolume(saleEvents),
+          monthlyrangeVolume: monthlyrangeVolume(saleEvents),
+          threeMonthlyrangeVolume: threeMonthRangeVolume(saleEvents),
+        }
+      },
+    ),
   )
 }
 
