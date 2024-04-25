@@ -157,7 +157,7 @@ const handleSubmitMint = async () => {
   // use paid modal if it's holder of + price
   if (isHolderOfWithPaidMint.value) {
     isMintModalActive.value = true
-    return massGenerate()
+    return await massGenerate()
   }
 
   if (hasMinimumFunds.value) {
@@ -174,10 +174,7 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    const { mintedNfts } = await useUpdateMetadata()
-    mintingSession.value.items = mintedNfts.value
-
-    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
+    await useUpdateMetadata()
 
     loading.value = false
     isSuccessModalActive.value = true
@@ -215,8 +212,7 @@ const stopMint = () => {
 
 const { massGenerate, allocateGenerated, clearMassMint } = useDropMassMint()
 
-const { subscribeForNftsWithMetadata, listMintedNFTs } =
-  useDropMassMintListing()
+const { listMintedNFTs } = useDropMassMintListing()
 
 useTransactionTracker({
   transaction: {

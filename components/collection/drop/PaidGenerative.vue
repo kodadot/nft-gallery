@@ -104,7 +104,7 @@ const handleSubmitMint = async () => {
   }
 
   openMintModal()
-  massGenerate()
+  await massGenerate()
 }
 
 const openMintModal = () => {
@@ -122,10 +122,7 @@ const closeMintModal = () => {
 
 const submitMints = async () => {
   try {
-    const { mintedNfts } = await useUpdateMetadata()
-    mintingSession.value.items = mintedNfts.value
-
-    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
+    await useUpdateMetadata()
 
     loading.value = false
   } catch (error) {
@@ -153,9 +150,7 @@ const stopMint = () => {
 }
 
 const { massGenerate, clearMassMint } = useDropMassMint()
-
-const { subscribeForNftsWithMetadata, listMintedNFTs } =
-  useDropMassMintListing()
+const { listMintedNFTs } = useDropMassMintListing()
 
 useTransactionTracker({
   transaction: {

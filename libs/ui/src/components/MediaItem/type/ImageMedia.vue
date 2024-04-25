@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" setup>
-import consola from 'consola'
 import { computed, withDefaults } from 'vue'
 
 import TheImage from '../../TheImage/TheImage.vue'
@@ -87,7 +86,8 @@ const toOriginalContentUrl = (baseurl: string) => {
 }
 
 const onError = async (phase: Status) => {
-  consola.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
+  // silent the log. enable it to debug locally
+  // console.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
   status.value = phase
 }
 
