@@ -1,4 +1,4 @@
-import type { Metadata } from '@/components/rmrk/service/scheme'
+import type { TokenMetadata } from '@kodadot1/hyperdata'
 
-export const getCollectionImage = (metadata: Metadata) =>
+export const getCollectionImage = (metadata: TokenMetadata) =>
   metadata.image || metadata.thumbnailUri || metadata.mediaUri

@@ -29,7 +29,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import CollectionDetail from './CollectionDetail.vue'
 
-import type { Metadata } from '@/components/rmrk/service/scheme'
+import type { TokenMetadata } from '@kodadot1/hyperdata'
 
 const { urlPrefix } = usePrefix()
 const isLoadingMeta = ref(false)
@@ -50,7 +50,7 @@ onMounted(async () => {
   isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
     props.collection.metadata,
-  )) as Metadata
+  )) as TokenMetadata
   image.value = sanitizeIpfsUrl(getCollectionImage(metadata) || '')
   isLoadingMeta.value = false
 })
