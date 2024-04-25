@@ -16,10 +16,6 @@ export const DROP_COLLECTION_TO_ALIAS_MAP = {
   '95': 'echo',
 }
 
-export const DROP_MASSMINT_LIMIT = {
-  tilescape: 4,
-}
-
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained
 ]

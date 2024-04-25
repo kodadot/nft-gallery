@@ -5,10 +5,12 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "why": "Why",
   "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
+  "benefits": "Benefits",
   "img": "Img",
   "gallery": "Gallery",
   "collection": "Collection",
@@ -1193,7 +1195,58 @@
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
     },
-    "connectFarcaster": "Connect with Koda on Farcaster"
+    "connectFarcaster": "Connect with Koda on Farcaster",
+    "farcasterMintLive": "Mint is live!"
+  },
+  "whyKoda": {
+    "title": "Why Koda?",
+    "embraceTheFutureOfGenerativeArt": "Embrace the Future of <Generative Art>",
+    "sections": {
+      "team": {
+        "name": "Team",
+        "description": "In the heart of the KodaDot, we have a dedicated team. Our passion drives us, and we are strongly focused on onboarding quality art with quick problem-solving solutions."
+      },
+      "community": {
+        "name": "Community",
+        "description": "We're not just about art; we're about fostering a community where quality and creativity shine bright. Bringing together collectors, artists and enthusiasts brings us joy and open doors for new opportunities."
+      },
+      "generativeArt": {
+        "name": "Generative Art",
+        "description": "Our heart beats for generative art, where code meets canvas, crafting the extraordinary out of the ordinary. It's not just art; it's an experience, a journey through creativity powered by the elegance of algorithms"
+      },
+      "koda": {
+        "name": "Koda",
+        "description": "Koda means code in the Slovenian language. Which is now our primary focus. To deliver not only high-quality generative art but also to grow our code base, add new features and expand our horizons not only in the Polkadot ecosystem but also outside of it."
+      },
+      "weeklyDrops": {
+        "name": "Weekly Drops",
+        "description": "We offer brand new weekly drops that are limited, created by various talented artists. At this point we did more than 18 drops from various talented artists from around the globe."
+      },
+      "earnRewards": {
+        "name": "Earn Rewards",
+        "description": "Participate in our competitions, try commission work, collect rewards by referring artists, or become part of the team. There are so many opportunities that are waiting for you."
+      },
+      "offlineExhibitions": {
+        "name": "Offline Exhibitions",
+        "description": "Organized to connect people with the same passion - art. During these events, we focus on promoting digital art, enlightening people about its significance and the technology behind it, building connections, and enjoying amazing art. Always happening in a big cities that love art like Berlin, Prague, Lisbon, Budapest and many more."
+      },
+      "onboarding": {
+        "name": "Onboarding",
+        "description": "Simple onboarding is key to ensuring that artists are able to start selling their art. Their first steps on the platform are the most important. In the next steps, we introduce them to our community, provide them with support in case they need it, and listen to their ideas. In the end, it's the artists who always have amazing ideas about features we can bring."
+      }
+    },
+    "benefits": {
+      "visibilityRecognition": "gain visibility and recognition",
+      "digitalCreationsToPhysicalAudience": "bringing digital creations to a physical audience",
+      "increasedSales": "increased sales",
+      "artistGrowth": "artist growth",
+      "newSpaceForCollaborations": "new space for collaborations"
+    },
+    "cta": {
+      "heading": "Take the Next Step",
+      "description": "Elevate your art on KodaDot. Join a community where your creativity thrives, your voice is heard, and your art is celebrated. Start your journey, grow with us, and let every code on our platform mark the beginning of something extraordinary.",
+      "getInTouch": "Get In Touch"
+    }
   },
   "history": {
     "label": "History",
