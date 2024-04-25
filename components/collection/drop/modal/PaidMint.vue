@@ -50,6 +50,7 @@ import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
+import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -68,6 +69,7 @@ const props = defineProps<{
 }>()
 
 const { canMint, canList, isRendering } = useDropMassMintState()
+const { clearMassMint } = useDropMassMint()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
@@ -160,10 +162,7 @@ const title = computed(() => {
 
 const onClose = () => {
   emit('update:modelValue', false)
-
-  if (isSuccessfulDropStep.value) {
-    window.location.reload()
-  }
+  clearMassMint()
 }
 
 const handleModalClose = (completed: boolean) => {
