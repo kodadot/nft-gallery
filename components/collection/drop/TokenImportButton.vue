@@ -25,6 +25,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 
 const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
 
@@ -78,7 +79,7 @@ const handleTokenImport = async () => {
   )
 
   const errorHandler = () => {
-    warningMessage('Cancelled')
+    warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
     isLoading.value = false
   }
 

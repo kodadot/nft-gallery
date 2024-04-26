@@ -364,7 +364,7 @@ const Money = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals, withDecimals, withoutDecimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
@@ -851,7 +851,7 @@ const submit = async (
     )
   } catch (e: any) {
     if (e.message === 'Cancelled') {
-      warningMessage(e.message)
+      warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
       isLoading.value = false
       isLoaderModalVisible.value = false
       return

@@ -98,7 +98,7 @@ function useMetaTransaction() {
     if (e instanceof Error) {
       const isCancelled = e.message === 'Cancelled'
       if (isCancelled) {
-        warningMessage($i18n.t('general.tx.cancelled'))
+        warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 
         status.value = TransactionStatus.Cancelled
       } else {

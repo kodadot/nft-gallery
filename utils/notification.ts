@@ -126,12 +126,12 @@ export const getReportIssueAction = (message: string) => {
   }
 }
 
-export const warningMessage = (message) =>
+export const warningMessage = (message, { reportable = true } = {}) =>
   showNotification({
     title: 'Warning',
     message,
     params: notificationTypes.warn,
-    action: getReportIssueAction(message),
+    action: reportable ? getReportIssueAction(message) : undefined,
   })
 export const dangerMessage = (message) =>
   showNotification({
