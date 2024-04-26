@@ -36,8 +36,8 @@ import { NeoButton } from '@kodadot1/brick'
 const { isDarkMode } = useTheme()
 const art = computed(() =>
   isDarkMode.value
-    ? '/profile/create-profile-dark.svg'
-    : '/profile/create-profile.svg',
+    ? '/profile/create-profile-dark.png'
+    : '/profile/create-profile.png',
 )
 
 const emit = defineEmits(['next', 'close'])
