@@ -15,7 +15,7 @@
           }">
           <NeoButton
             v-if="isFullscreen"
-            class="back-button"
+            class="back-button z-20"
             @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
             {{ $t('go back') }}
@@ -192,6 +192,8 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/utils/gallery/media'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -200,7 +202,10 @@ const { isAssetHub } = useIsChain(urlPrefix)
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
-const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const mediaItemRef = ref<{
+  isLewdBlurredLayer: boolean
+  toggleFullscreen
+} | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
@@ -307,7 +312,7 @@ watch(isFullscreen, (value) => {
   sizes.value = value ? 'original' : '1000px'
 })
 
-function toggleFullscreen() {
+function toggleMediaFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {
     toggleFallback()
     return
@@ -316,6 +321,15 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
+}
+
+function toggleFullscreen() {
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  if ([MediaType.VIDEO].includes(mediaType)) {
+    mediaItemRef.value?.toggleFullscreen()
+  } else {
+    toggleMediaFullscreen()
+  }
 }
 
 function toggleFallback() {

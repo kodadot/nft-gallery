@@ -10,7 +10,7 @@
           <NeoIcon pack="fab" icon="x-twitter" class="text-k-grey" />
         </NeoButton>
       </NeoTooltip>
-      <NeoTooltip label="Farcaster">
+      <NeoTooltip v-if="showFarcaster" label="Farcaster">
         <NeoButton variant="icon" no-shadow @click="handleShareOnFarcaster">
           <FarcasterIcon class="text-k-grey" />
         </NeoButton>
@@ -44,9 +44,11 @@ const props = withDefaults(
     text: string
     url: string
     withCopy?: boolean
+    showFarcaster?: boolean
   }>(),
   {
     withCopy: true,
+    showFarcaster: true,
   },
 )
 

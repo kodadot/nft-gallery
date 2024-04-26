@@ -8,6 +8,16 @@
 - [ ] Feature
 - [ ] Refactoring
 
+(please remove design and QA checks below if not needed)
+
+## Needs Design check
+
+- @exezbcz please review
+
+## Needs QA check
+
+- @kodadot/qa-guild please review
+
 ## Context
 
 - [ ] Closes #<issue_number>
