@@ -6,7 +6,11 @@
     </div>
     <form class="flex flex-col gap-10" @submit.prevent>
       <!-- name -->
-      <NeoField :label="`Your Name`" required :error="!form.name">
+      <NeoField
+        :label="`Your Name`"
+        required
+        :error="!form.name"
+        label-class="!text-xl">
         <NeoInput
           v-model="form.name"
           data-testid="create-profile-input-name"
@@ -15,7 +19,11 @@
       </NeoField>
 
       <!-- bio -->
-      <NeoField :label="`Short Bio`" required :error="!form.description">
+      <NeoField
+        :label="`Short Bio`"
+        required
+        :error="!form.description"
+        label-class="!text-xl">
         <NeoInput
           v-model="form.description"
           data-testid="create-profile-input-bio"
@@ -28,7 +36,11 @@
       </NeoField>
 
       <!-- profile picture -->
-      <NeoField :label="`Upload profile picture`" required :error="!form.image">
+      <NeoField
+        :label="`Upload profile picture`"
+        required
+        :error="!form.image"
+        label-class="!text-xl">
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
@@ -40,7 +52,11 @@
       </NeoField>
 
       <!-- banner picture -->
-      <NeoField :label="`Upload Cover Image`" required :error="!form.banner">
+      <NeoField
+        :label="`Upload Cover Image`"
+        required
+        :error="!form.banner"
+        label-class="!text-xl">
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
             Recommended: 1440x360px (4:1 aspect ratio), up to 10MB (JPG, PNG)
