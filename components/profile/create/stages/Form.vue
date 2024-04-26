@@ -92,7 +92,9 @@
     <NeoButton
       :disabled="submitDisabled"
       variant="k-accent"
-      label="Finish customization"
+      label="Finish Customization"
+      size="large"
+      no-shadow
       data-testid="create-profile-submit-button"
       @click="emit('submit', form)" />
   </div>
