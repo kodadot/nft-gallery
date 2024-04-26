@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { notificationTypes, showNotification } from '@/utils/notification'
 
 interface DoFetchParams {
   variables?: Record<string, unknown>
@@ -51,7 +50,7 @@ export default function <T = unknown>({
       data.value = result.value
     } catch (err) {
       ;(error.value as unknown) = err
-      showNotification(`${err as string}`, notificationTypes.danger)
+      dangerMessage(`${err as string}`)
       $consola.error(err)
     } finally {
       loading.value = false

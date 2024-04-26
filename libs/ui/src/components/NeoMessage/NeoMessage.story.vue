@@ -1,7 +1,7 @@
 <template>
   <Story title="NeoMessage">
     <Variant title="Basic Message">
-      <NeoMessage> Message Content </NeoMessage>
+      <NeoMessage title="Message Title"> Message Content </NeoMessage>
     </Variant>
   </Story>
 </template>
