@@ -4,7 +4,7 @@
     <div class="mb-7">
       <div class="flex items-center justify-center">
         <div
-          class="px-4 py-2 rounded-full bg-k-accent-light-2 text-k-accent dark:text-k-accent-light">
+          class="px-4 py-2 rounded-full bg-k-accent-light-2 text-k-accent dark:text-k-accent-light text-xl font-bold">
           New
         </div>
         <span class="ml-4 weigh-bold text-xl"> profile customization </span>
