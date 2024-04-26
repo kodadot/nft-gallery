@@ -1,5 +1,6 @@
 @import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
 @import '../../scss/tailwind.scss';
+@import '../../scss/animation.scss';
 
 .o-btn {
   &.is-neo {
@@ -46,6 +47,14 @@
 
       &.o-btn--disabled {
         @apply opacity-unset bg-k-shade border-k-grey text-k-grey;
+      }
+
+      &.shiny:not(:hover):not(:disabled) {
+        @include shineEffect(var(--k-accent-light-3), lightgrey, false);
+
+        &:hover {
+            color: var(--k-accent2) !important;
+        }
       }
     }
 
