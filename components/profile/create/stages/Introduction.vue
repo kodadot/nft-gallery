@@ -10,8 +10,9 @@
         <span class="ml-4 weigh-bold text-xl"> profile customization </span>
       </div>
       <p class="mt-4 text-sm">
-        Make your profile truly yours in just 1 minute. Add your banner and
-        profile image to stand out.
+        Make Your Profile Truly Yours In
+        <span class="font-bold">Just 1 Minute</span>. Add Your Banner And
+        Profile Image To Stand Out.
       </p>
     </div>
     <div class="flex justify-between">
