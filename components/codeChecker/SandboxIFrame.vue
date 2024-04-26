@@ -1,16 +1,17 @@
 <template>
-  <iframe
-    :id="config.iframeId"
+  <NeoIFrameMedia
     :key="count"
-    title="render-preview"
-    :class="['sandbox-iframe w-full h-[440px] border', customClass]"
-    sandbox="allow-scripts allow-same-origin"
+    :class="['sandbox-iframe', customClass]"
+    :iframe-id="config.iframeId"
     :src="iframeSrc"
-    @load="onIframeLoad">
-  </iframe>
+    sandbox="allow-scripts allow-same-origin"
+    title="render-preview"
+    allow=""
+    @load="onIframeLoad" />
 </template>
 
 <script setup lang="ts">
+import { NeoIFrameMedia } from '@kodadot1/brick'
 import { postAssetsToSandbox } from './utils'
 import config from './codechecker.config'
 import { AssetMessage } from './types'
@@ -19,7 +20,7 @@ const props = defineProps<{
   hash: string
   assets: Array<AssetMessage>
   count: number
-  customClass?: string
+  customClass?: string | object
 }>()
 
 const emit = defineEmits(['update:count'])
