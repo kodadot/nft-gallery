@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full z-10 min-w-0 relative">
+  <div class="h-full z-10 min-w-0 relative">
     <div class="h-0 w-full pb-[100%]" />
     <video
       ref="video"
@@ -38,6 +38,7 @@ const props = withDefaults(
 )
 
 const video = ref()
+const { toggle: toggleFullscreen } = useFullscreen(video)
 
 const autoPlay = computed(() =>
   props.autoplay === undefined ? props.preview : props.autoplay,
@@ -50,4 +51,6 @@ if (!autoPlay.value && props.src) {
     video.value.pause()
   })
 }
+
+defineExpose({ toggleFullscreen })
 </script>
