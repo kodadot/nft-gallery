@@ -1,6 +1,15 @@
 <template>
   <div>
     <div class="label text-xs/normal">
+      {{ $t('party.partykit') }}
+    </div>
+    <NeoSwitch v-model="partyMode" size="is-medium" class="!mb-7">
+      {{ $t('party.partyMode') }}
+      <NeoTooltip multiline :label="$t('partyTooltipText')">
+        <NeoIcon icon="circle-info" class="text-k-grey" />
+      </NeoTooltip>
+    </NeoSwitch>
+    <div class="label text-xs/normal">
       {{ $t('user interface mode') }}
     </div>
     <NeoSwitch v-model="enabledAdvancedUI" size="is-medium">
@@ -102,6 +111,11 @@ import Layout from '@/components/rmrk/Gallery/Layout.vue'
 const paginationOptions = ref([9, 12, 24, 36])
 const exploreTabOptions = ref(['GALLERY', 'COLLECTION'])
 const preferencesStore = usePreferencesStore()
+
+const partyMode = computed({
+  get: () => preferencesStore.getIsPartyMode,
+  set: (value) => preferencesStore.setPartyMode(value),
+})
 
 const enabledAdvancedUI = computed({
   get: () => preferencesStore.advancedUI,
