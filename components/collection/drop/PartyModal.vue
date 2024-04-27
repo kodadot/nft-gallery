@@ -63,15 +63,11 @@ const { partyMode, getHasUserNotSetPartyMode } = storeToRefs(
   usePreferencesStore(),
 )
 
-const isPartyModalOpen = ref(false)
+const isPartyModalOpen = ref(getHasUserNotSetPartyMode.value)
 
 if (getHasUserNotSetPartyMode.value) {
-  watch(
-    getHasUserNotSetPartyMode,
-    () => {
-      isPartyModalOpen.value = getHasUserNotSetPartyMode.value
-    },
-    { immediate: true },
-  )
+  watch(getHasUserNotSetPartyMode, () => {
+    isPartyModalOpen.value = getHasUserNotSetPartyMode.value
+  })
 }
 </script>
