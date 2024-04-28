@@ -463,7 +463,7 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
     })
-    await refresh()
+    refresh()
     showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
