@@ -62,7 +62,8 @@ export type FollowRequest = {
   targetAddress: string
 }
 
-const toSubstrateAddress = (address: string) => formatAddress(address, 42)
+export const toSubstrateAddress = (address: string) =>
+  formatAddress(address, 42)
 
 const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
