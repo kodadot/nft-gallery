@@ -5,8 +5,8 @@
     </div>
     <NeoSwitch v-model="partyMode" size="is-medium" class="!mb-7">
       {{ $t('party.partyMode') }}
-      <NeoTooltip multiline :label="$t('partyTooltipText')">
-        <NeoIcon icon="circle-info" class="text-k-grey" />
+      <NeoTooltip multiline :label="$t('party.tooltipText')">
+        <NeoIcon icon="circle-info" class="!text-k-grey" />
       </NeoTooltip>
     </NeoSwitch>
     <div class="label text-xs/normal">
@@ -105,7 +105,14 @@
 
 <script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoCheckbox, NeoField, NeoSelect, NeoSwitch } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoField,
+  NeoIcon,
+  NeoSelect,
+  NeoSwitch,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import Layout from '@/components/rmrk/Gallery/Layout.vue'
 
 const paginationOptions = ref([9, 12, 24, 36])
