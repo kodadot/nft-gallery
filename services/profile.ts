@@ -1,9 +1,11 @@
 import { $fetch, FetchError } from 'ofetch'
 
-const BASE_URL =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://profile.kodadot.workers.dev/'
-    : 'https://profile-beta.kodadot.workers.dev/'
+// const BASE_URL =
+//   window.location.host === 'kodadot.xyz'
+//     ? 'https://profile.kodadot.workers.dev/'
+//     : 'https://profile-beta.kodadot.workers.dev/'
+
+const BASE_URL = 'http://localhost:8787'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
