@@ -5,7 +5,7 @@
     </div>
     <NeoSwitch v-model="partyMode" size="is-medium" class="!mb-7">
       {{ $t('party.partyMode') }}
-      <NeoTooltip multiline :label="$t('party.tooltipText')">
+      <NeoTooltip multiline :label="$t('party.settingsTooltip')">
         <NeoIcon icon="circle-info" class="!text-k-grey" />
       </NeoTooltip>
     </NeoSwitch>
