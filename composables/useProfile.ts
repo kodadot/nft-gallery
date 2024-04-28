@@ -1,4 +1,4 @@
-import { fetchProfileByAddress, isFollowing } from '@/services/profile'
+import { fetchProfileByAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
 
 export enum Socials {
@@ -10,9 +10,7 @@ export enum Socials {
 export default function useUserProfile() {
   const userProfileData = ref<Profile>()
   const hasProfile = ref(false)
-  const isFollowingThisAccount = ref(false)
   const { params, name } = useRoute()
-  const { accountId } = useAuth()
 
   const fetchProfile = async () => {
     const account = params?.id as string
@@ -30,27 +28,11 @@ export default function useUserProfile() {
     }
   }
 
-  const syncIsFollowing = async () => {
-    const targetAddress = params?.id as string
-    if (!targetAddress) {
-      return
-    }
-    try {
-      isFollowingThisAccount.value = await isFollowing(
-        accountId.value,
-        targetAddress,
-      )
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error)
-    }
-  }
-
   watch(
     [() => name, () => params],
     () => {
       if (name === 'prefix-u-id') {
         fetchProfile()
-        syncIsFollowing()
       }
     },
     { immediate: true },
@@ -58,9 +40,7 @@ export default function useUserProfile() {
 
   return {
     hasProfile,
-    isFollowingThisAccount,
     userProfile: computed(() => userProfileData.value),
     fetchProfile,
-    syncIsFollowing,
   }
 }
