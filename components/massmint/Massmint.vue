@@ -100,7 +100,6 @@ import {
   ReviewModal,
 } from './modals'
 import { MintedCollection } from '@/composables/transaction/types'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { useMassMint } from '@/composables/massmint/useMassMint'
 import { Entry } from '@/composables/massmint/parsers/common'
 import { FileObject } from '@/composables/massmint/useZipValidator'
@@ -183,10 +182,7 @@ const startMint = () => {
       if (isLoadingOldV && !isLoadingV) {
         mintModalOpen.value = false
         if (!isError.value && statusV !== TransactionStatus.Sign) {
-          showNotification(
-            $i18n.t('massmint.continueToCollectionPage'),
-            notificationTypes.success,
-          )
+          successMessage($i18n.t('massmint.continueToCollectionPage'))
         }
       }
 

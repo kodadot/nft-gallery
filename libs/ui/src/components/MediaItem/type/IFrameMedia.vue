@@ -1,13 +1,15 @@
 <template>
   <div ref="wrapper" class="relative w-full h-full aspect-square">
     <iframe
+      :id="iframeId"
       ref="iframe"
-      title="html-embed"
+      :title="title"
       class="absolute flex w-[1080px] h-[1080px] aspect-square origin-top-left"
       :src="iframeSrc"
       :alt="alt"
-      sandbox="allow-scripts allow-same-origin allow-modals"
-      allow="accelerometer *; camera *; gyroscope *; microphone *; xr-spatial-tracking *;" />
+      :sandbox="sandbox"
+      :allow="allow"
+      @load="emit('load')" />
   </div>
 </template>
 
@@ -17,11 +19,24 @@ import { useElementSize } from '@vueuse/core'
 
 const IFRAME_BASE_SIZE = 1080
 
-const props = defineProps<{
-  src?: string
-  animationSrc?: string
-  alt?: string
-}>()
+const emit = defineEmits(['load'])
+const props = withDefaults(
+  defineProps<{
+    src?: string
+    animationSrc?: string
+    alt?: string
+    title?: string
+    iframeId?: string
+    sandbox?: string
+    allow?: string
+  }>(),
+  {
+    title: 'html-embed',
+    sandbox: 'allow-scripts allow-same-origin allow-modals',
+    allow:
+      'accelerometer *; camera *; gyroscope *; microphone *; xr-spatial-tracking *;',
+  },
+)
 
 const wrapper = ref<HTMLDivElement>()
 const iframe = ref<HTMLIFrameElement>()
