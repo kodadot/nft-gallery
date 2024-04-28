@@ -47,7 +47,10 @@
             @click="partyMode = false">
             {{ $t('party.modal.decline') }}
           </NeoButton>
-          <NeoButton variant="pill" no-shadow @click="partyMode = true">
+          <NeoButton
+            variant="outlined-rounded"
+            no-shadow
+            @click="partyMode = true">
             {{ $t('party.modal.accept') }}
           </NeoButton>
         </div>
