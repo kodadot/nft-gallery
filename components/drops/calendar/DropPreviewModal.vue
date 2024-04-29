@@ -36,7 +36,7 @@
             variant="secondary-rounded"
             icon-left="sparkles"
             :tag="NuxtLink"
-            :to="`/${urlPrefix}/drops/${dropCalendar.alias}`">
+            :to="`/${chain}/drops/${dropCalendar.alias}`">
             {{ $t('drops.goToDropPage') }}
           </NeoButton>
         </div>
@@ -139,6 +139,7 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { format } from 'date-fns'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import type { InternalDropCalendar } from './DropsCalendar.vue'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const placeholder = 'TBA'
@@ -148,14 +149,15 @@ const emit = defineEmits(['close'])
 const props = defineProps<{ dropCalendar?: InternalDropCalendar }>()
 
 const { $i18n } = useNuxtApp()
-const { decimals, chainSymbol } = useChain()
 const { width } = useWindowSize()
 const { urlPrefix } = usePrefix()
 
+const chain = computed(() => props.dropCalendar?.chain ?? urlPrefix.value)
+
 const { formatted: formattedPrice } = useAmount(
   computed(() => props.dropCalendar?.price || ''),
-  decimals,
-  chainSymbol,
+  computed(() => chainPropListOf(chain.value)?.tokenDecimals),
+  computed(() => chainPropListOf(chain.value)?.tokenSymbol),
 )
 
 const { collection } = useCollectionMinimal({
