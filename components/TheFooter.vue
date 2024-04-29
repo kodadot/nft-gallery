@@ -82,7 +82,7 @@
                   v-if="item.highlight"
                   icon="sparkle"
                   pack="fasr"
-                  class="text-k-accent text-xl ml-1" />
+                  class="text-k-primary text-xl ml-1" />
               </nuxt-link>
             </li>
           </ul>
