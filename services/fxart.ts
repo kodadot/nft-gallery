@@ -170,7 +170,7 @@ export type DropCalendar = {
   location: string | null
   items: CalendarItem[]
   alias: string | null
-  chain: Prefix
+  chain: Prefix | null
 }
 
 export type CalendarItem = {
