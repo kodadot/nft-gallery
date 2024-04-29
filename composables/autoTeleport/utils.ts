@@ -1,6 +1,12 @@
 import type { ActionList, Actions } from '@/composables/transaction/types'
 import { AutoTeleportAction } from './types'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { teleportExistentialDeposit } from '@kodadot1/static'
+import { Chain } from '@/utils/teleport'
+
+export const getChainExistentialDeposit = (
+  chain: Chain | undefined | null,
+): number => (chain ? teleportExistentialDeposit[chainToPrefixMap[chain]] : 0)
 
 const lengthChanged = <T>(current: T | T[], prev: T | T[]): boolean =>
   Array.isArray(current) && Array.isArray(prev)

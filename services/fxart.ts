@@ -6,6 +6,8 @@ const BASE_URL =
     ? 'https://fxart.kodadot.workers.dev/'
     : 'https://fxart-beta.kodadot.workers.dev/'
 
+export const DYNAMIC_METADATA = 'fxart-beta.kodadot.workers.dev/metadata/'
+
 const api = $fetch.create({
   baseURL: BASE_URL,
 })
@@ -28,20 +30,10 @@ export type GetDropsQuery = {
   chain?: string[]
 }
 
-export type MintItem = {
-  hash: string
-  image: string
-  metadata: string
-}
-
 export type AllocatedNFT = {
   id: number
   name: string
   image: string
-}
-
-type BatchAllocateResponse = {
-  result: AllocatedNFT[]
 }
 
 export type DropMintedStatus = {
@@ -62,20 +54,8 @@ export type AllocateCollectionRequest = {
   image?: string
 }
 
-export type BatchMintBody = {
-  email: string
-  address: string
-  items: MintItem[]
-}
-
 type AllocateCollectionResponse = {
   result: AllocatedNFT
-}
-
-function isAllocateCollectionRequest(
-  body: AllocateCollectionRequest | BatchMintBody,
-): body is AllocateCollectionRequest {
-  return 'hash' in body && !('items' in body)
 }
 
 export const getDrops = async (query?: GetDropsQuery) => {
@@ -96,38 +76,22 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export function allocateCollection(
+export const allocateCollection = async (
   body: AllocateCollectionRequest,
   id: string,
-): Promise<AllocateCollectionResponse>
-export function allocateCollection(
-  body: BatchMintBody,
-  id: string,
-): Promise<BatchAllocateResponse>
-
-export async function allocateCollection(
-  body: AllocateCollectionRequest | BatchMintBody,
-  id: string,
-) {
-  const endpoint = isAllocateCollectionRequest(body)
-    ? `/drops/allocate/${id}`
-    : `/drops/allocate/${id}/batch`
-
+) => {
   try {
-    return isAllocateCollectionRequest(body)
-      ? api<AllocateCollectionResponse>(endpoint, {
-          method: 'POST',
-          body,
-        })
-      : api<BatchAllocateResponse>(endpoint, {
-          method: 'POST',
-          body,
-        })
+    const response = await api<AllocateCollectionResponse>(
+      `/drops/allocate/${id}`,
+      {
+        method: 'POST',
+        body,
+      },
+    )
+
+    return response
   } catch (error) {
-    const prefix = isAllocateCollectionRequest(body)
-      ? '[FXART::ALLOCATE]'
-      : '[FXART::BATCH_ALLOCATE]'
-    throw new Error(`${prefix} ERROR: ${(error as FetchError).data}`)
+    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
   }
 }
 
@@ -146,15 +110,27 @@ export const allocateClaim = async (body, id) => {
   }
 }
 
-export const updateMetadata = async ({ chain, collection, nft, metadata }) => {
+export const setMetadataUrl = ({ chain, collection, hash }) => {
+  const metadataUrl = new URL(
+    'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
+  )
+  metadataUrl.searchParams.set('chain', chain)
+  metadataUrl.searchParams.set('collection', collection)
+  metadataUrl.searchParams.set('hash', hash)
+
+  return metadataUrl.toString()
+}
+
+export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
   try {
-    const response = await api<DoResult>('/metadata/v1/update', {
+    const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
       body: {
         chain,
         collection,
         nft,
-        metadata,
+        sn,
+        hash,
       },
     })
 

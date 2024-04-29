@@ -70,6 +70,7 @@
       :fees="{
         actionAutoFees: false,
       }"
+      shiny
       auto-close-modal
       :auto-close-modal-delay-modal="0"
       @confirm="(e) => $emit('confirm', e)"

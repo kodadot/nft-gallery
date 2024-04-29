@@ -7,7 +7,6 @@ import exec, {
 } from '@/utils/transactionExecutor'
 import useTransactionStatus from './useTransactionStatus'
 import useAPI from './useApi'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { ISubmittableResult } from '@polkadot/types/types'
 
@@ -99,36 +98,18 @@ function useMetaTransaction() {
     if (e instanceof Error) {
       const isCancelled = e.message === 'Cancelled'
       if (isCancelled) {
-        showNotification(
-          $i18n.t('general.tx.cancelled'),
-          notificationTypes.warn,
-        )
+        warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 
         status.value = TransactionStatus.Cancelled
       } else {
-        showNotification(e.toString(), notificationTypes.warn)
+        warningMessage(e.toString())
       }
       isLoading.value = false
       tx.value = undefined
     }
   }
   const onTxError = async (dispatchError: DispatchError): Promise<void> => {
-    const api = await apiInstance.value
-
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      showNotification(
-        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.warn,
-      )
-    } else {
-      showNotification(
-        `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.warn,
-      )
-    }
-
+    await notifyDispatchError(dispatchError)
     isLoading.value = false
     tx.value = undefined
   }

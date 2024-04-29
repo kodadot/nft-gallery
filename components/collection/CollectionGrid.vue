@@ -40,42 +40,41 @@ import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import collectionListWithSearchProfile from '@/queries/subsquid/general/collectionListWithSearchProfile.graphql'
+import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
-import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
+const emit = defineEmits(['total', 'isLoading'])
 const props = defineProps<{
   id?: string
   loadingOtherNetwork?: boolean
 }>()
+
 const slots = useSlots()
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
-const emit = defineEmits(['total', 'isLoading'])
 
+const isProfilePage = route.name === 'prefix-u-id'
 const collections = ref<Collection[]>([])
+const loadedPages = ref<number[]>([])
 const isLoading = ref(true)
-const sortBy = ref(
-  typeof route.query?.sort === 'string'
-    ? [route.query?.sort]
-    : route.query?.sort,
-)
+
 const searchQuery = reactive<SearchQuery>({
-  search: route.query?.search?.toString() ?? '',
+  search: '',
+  sortBy: undefined,
   type: route.query?.type?.toString() ?? '',
-  sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
 })
 
 const resetPage = useDebounceFn(() => {
   gotoPage(1)
-}, 500)
+}, 1000)
 
 const buildSearchParam = (): Record<string, unknown>[] => {
   const params: any[] = []
@@ -98,8 +97,7 @@ onBeforeMount(() => {
   preferencesStore.setLayoutClass('is-one-quarter-desktop is-one-third-tablet')
 })
 
-const fetchPageData = async (page: number, loadDirection = 'down') => {
-  const isProfilePage = route.name === 'prefix-u-id'
+const getQueryVariables = (page: number) => {
   const searchParams = isProfilePage
     ? { currentOwner_eq: props.id, burned_eq: false }
     : { issuer_eq: props.id }
@@ -112,12 +110,7 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
     delete searchParams.burned_eq
   }
 
-  if (isFetchingData.value) {
-    return false
-  }
-  isFetchingData.value = true
-
-  const variables = props.id
+  return props.id
     ? {
         search: [searchParams],
         first: first.value,
@@ -132,6 +125,17 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
+}
+
+const fetchPageData = async (page: number, loadDirection = 'down') => {
+  if (isFetchingData.value) {
+    return false
+  }
+
+  const variables = getQueryVariables(page)
+
+  isFetchingData.value = true
+
   const { data: result } = await useAsyncQuery({
     query: isProfilePage
       ? collectionListWithSearchProfile
@@ -139,8 +143,11 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
     variables: variables,
     clientId: client.value,
   })
-  handleResult(result.value, loadDirection)
+
+  handleResult(result.value, { page, loadDirection, variables })
+
   isFetchingData.value = false
+
   return true
 }
 
@@ -149,6 +156,7 @@ const gotoPage = (page: number) => {
   startPage.value = page
   endPage.value = page
   collections.value = []
+  loadedPages.value = []
   isFetchingData.value = false
   isLoading.value = true
   fetchPageData(page)
@@ -170,8 +178,22 @@ const {
 
 const skeletonCount = first.value
 
-const handleResult = (data, loadDirection = 'down') => {
+const handleResult = (
+  data,
+  {
+    loadDirection = 'down',
+    page,
+    variables,
+  }: { loadDirection?: string; page: number; variables: object },
+) => {
   total.value = data.stats.totalCount
+
+  const isLatestPageResult = isEqual(variables, getQueryVariables(page))
+
+  if (loadedPages.value.includes(page) || !isLatestPageResult) {
+    return
+  }
+
   const newCollections = data.collectionEntities.map((e: any) => ({
     ...e,
   }))
@@ -182,6 +204,7 @@ const handleResult = (data, loadDirection = 'down') => {
     collections.value = collections.value.concat(newCollections)
   }
 
+  loadedPages.value.push(page)
   isLoading.value = false
 }
 
@@ -190,30 +213,25 @@ watch(isLoading, (val) => emit('isLoading', val))
 
 watch(
   () => route.query.search,
-  (val, oldVal) => {
-    if (val !== oldVal) {
-      resetPage()
-      searchQuery.search = val === undefined ? val : String(val)
+  (search, prevSearch) => {
+    if (!isEqual(search, prevSearch)) {
+      searchQuery.search = search?.toString() ?? ''
     }
   },
+  { immediate: true },
 )
 
 watch(
   () => route.query.sort,
-  (val, oldVal) => {
-    if (!isEqual(val, oldVal)) {
-      resetPage()
-      searchQuery.sortBy = String(val) || undefined
+  (sort, prevSort) => {
+    if (!isEqual(sort, prevSort)) {
+      searchQuery.sortBy = sort ? parseQueryParamToArray(sort) : undefined
     }
   },
+  { immediate: true },
 )
 
-watch(
-  () => searchQuery,
-  () => {
-    resetPage()
-  },
-)
+watch(searchQuery, () => resetPage())
 </script>
 
 <style lang="scss" scoped>
