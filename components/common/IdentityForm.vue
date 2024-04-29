@@ -134,7 +134,6 @@
 </template>
 
 <script lang="ts" setup>
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NeoButton,
   NeoField,
@@ -317,9 +316,8 @@ const deleteIdentity = async (): Promise<void> => {
       identity.value = {}
       refetchIdentity()
 
-      showNotification(
+      successMessage(
         `[Identity] You have cleared your account's identity since block ${blockNumber}`,
-        notificationTypes.success,
       )
     },
   })
@@ -334,9 +332,8 @@ const setIdentity = async (): Promise<void> => {
   const args = [enhanceIdentityData()]
   howAboutToExecute(accountId.value, cb, args, {
     onSuccess: ({ blockNumber }) => {
-      showNotification(
+      successMessage(
         `[Identity] You are known as ${identity.value.display} since block ${blockNumber}`,
-        notificationTypes.success,
       )
     },
     onError,

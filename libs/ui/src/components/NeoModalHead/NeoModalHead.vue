@@ -10,24 +10,11 @@
       <span>{{ title }}</span>
     </button>
   </header>
-  <header
-    class="hidden lg:flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color">
-    <span class="text-base font-bold">
-      {{ title }}
-    </span>
-    <NeoButton
-      class="py-1 px-2"
-      variant="text"
-      no-shadow
-      icon="xmark"
-      size="medium"
-      data-testid="modal-close-button"
-      @click="emit('close')" />
-  </header>
+  <NeoCommonHead class="hidden lg:flex" :title="title" @close="emit('close')" />
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoCommonHead, NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
   title: string

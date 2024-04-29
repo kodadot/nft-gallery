@@ -1,20 +1,11 @@
 <template>
   <div>
-    <NeoModal :value="isModalActive" @close="isModalActive = false">
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">{{ $t('sharing.profile') }}</p>
-        </header>
-        <div class="card-content text-center">
-          <QRCode :text="realworldFullPath" />
-        </div>
-      </div>
-    </NeoModal>
+    <ProfileCreateModal v-model="isModalActive" @success="reload" />
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.bannerImage
-          ? `url(${userProfile.bannerImage})`
+        backgroundImage: userProfile?.banner
+          ? `url(${userProfile.banner})`
           : undefined,
       }">
       <div
@@ -22,8 +13,8 @@
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
           <BaseMediaItem
-            v-if="userProfile?.avatar"
-            :src="userProfile.avatar"
+            v-if="userProfile?.image"
+            :src="userProfile.image"
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="w-[124px] h-[124px] object-cover rounded-full" />
@@ -48,7 +39,7 @@
 
         <!-- Buttons and Dropdowns -->
         <div class="flex gap-3 max-sm:flex-wrap">
-          <div class="flex gap-3 flex-nowrap">
+          <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
               ref="buttonRef"
               rounded
@@ -188,7 +179,9 @@
         </div>
         <!-- Followers -->
         <div>
-          <span v-if="isOwner || !hasProfile" class="text-sm text-k-grey">
+          <span
+            v-if="isOwner || !hasProfile || followersCount == 0"
+            class="text-sm text-k-grey">
             {{ $t('profile.notFollowed') }}
           </span>
           <div v-else class="flex gap-4 items-center">
@@ -197,19 +190,16 @@
             </span>
             <div class="flex -space-x-3">
               <NuxtImg
-                v-for="(avatarImg, index) in userProfile?.followersAvatars"
+                v-for="(avatarImg, index) in followersAvatars"
                 :key="avatarImg"
                 :src="avatarImg"
                 alt="follower avatar"
                 class="w-8 h-8 rounded-full border object-cover"
                 :style="{ zIndex: 3 - index }" />
             </div>
-            <span class="text-sm">
+            <span v-if="followersCount > 3" class="text-sm">
               +
-              {{
-                (userProfile?.followers ?? 0) -
-                (userProfile?.followersAvatars?.length ?? 0)
-              }}
+              {{ followersCount - (followersAvatars?.length ?? 0) }}
               More
             </span>
           </div>
@@ -330,7 +320,6 @@ import {
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
-  NeoModal,
 } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -351,6 +340,7 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { fetchFollowersOf } from '@/services/profile'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -420,19 +410,32 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { hasProfile, userProfile, follow, isFollowingThisAccount } = useProfile()
+const { hasProfile, userProfile, isFollowingThisAccount } = useProfile()
+
+const reload = () => {
+  location.reload()
+}
+
+const { data } = await useAsyncData('followers', () =>
+  fetchFollowersOf(route.params.id as string, 3),
+)
+
+const followersCount = computed(() => data.value?.totalCount)
+const followersAvatars = computed(() =>
+  data.value?.followers.map(({ image }) => image),
+)
 
 const editProfileConfig: ButtonConfig = {
   label: 'Edit Profile',
   icon: 'pen',
-  onClick: () => console.log('edit profile'),
+  onClick: () => (isModalActive.value = true),
   classes: 'hover:!bg-transparent',
 }
 
 const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
-  onClick: () => console.log('create profile'),
+  onClick: () => (isModalActive.value = true),
   variant: 'k-accent',
 }
 
@@ -440,7 +443,7 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: () => {
-    follow(true)
+    // follow(true)
     showFollowing.value = true
   },
   classes: 'hover:!bg-transparent',
@@ -453,7 +456,7 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
-    follow(false)
+    // follow(false)
   },
   classes: 'hover:!border-k-red',
 }
@@ -479,18 +482,18 @@ const isHovered = useElementHover(buttonRef)
 const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socialDropdownItems = computed(() => {
-  return Object.entries(userProfile.value?.socials ?? {})
-    .map(([key, value]) => {
-      const socialConfig = socials[key]
+  return userProfile.value?.socials
+    .map(({ handle, platform, link }) => {
+      const socialConfig = socials[platform]
       if (socialConfig) {
-        const { icon, iconPack, getUrlLabel, order } = socialConfig
-        const { label, url } = getUrlLabel(value)
+        const { icon, iconPack, order } = socialConfig
+        // const { label, url } = getUrlLabel(value)
 
         return {
-          label,
+          label: handle || link,
           icon,
           iconPack,
-          url,
+          url: link,
           order,
         }
       }
@@ -546,8 +549,6 @@ const itemsGridSearch = computed(() => {
 
   return query
 })
-
-const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
   get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,

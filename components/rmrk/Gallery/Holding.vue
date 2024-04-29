@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import { Interaction } from '../service/scheme'
 import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '@/utils/sorting'
 import CommonHolderTable, {
   NftHolderEvent,
@@ -45,7 +44,7 @@ const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
       ownerEventsOfNft.value = sortedEventByDate(events, 'ASC')
     }
   } catch (e) {
-    showNotification(`${e}`, notificationTypes.warn)
+    warningMessage(`${e}`)
   }
 })
 

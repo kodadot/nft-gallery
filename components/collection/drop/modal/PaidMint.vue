@@ -26,7 +26,9 @@
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
         :subtitle="transactionStatus"
-        :status="status" />
+        :status="status"
+        :failed="isError"
+        @try-again="confirm" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -62,6 +64,7 @@ const props = defineProps<{
   modelValue: boolean
   action: AutoTeleportAction
   status: TransactionStatus
+  isError: boolean
 }>()
 
 const { canMint, canList, isRendering } = useDropMassMintState()
@@ -97,7 +100,7 @@ const mintButton = computed(() => {
 
   if (!canMint.value) {
     return {
-      label: `${$i18n.t('loader.ipfs')} ~ ${IPFS_ESTIMATED_TIME_SECONDS}s`,
+      label: $i18n.t('drops.mintDropError'),
       disabled: true,
     }
   }
@@ -109,7 +112,7 @@ const loading = computed(
   () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
 )
 const preStepTitle = computed<string | undefined>(() =>
-  isSingleMintNotReady.value ? $i18n.t('loader.ipfs') : undefined,
+  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
 
 const isMintOverviewStep = computed(
@@ -169,11 +172,13 @@ const handleModalClose = (completed: boolean) => {
   }
 }
 
+const confirm = () => emit('confirm')
+
 const handleConfirm = ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   if (!autoteleport) {
-    emit('confirm')
+    confirm()
     modalStep.value = ModalStep.SIGNING
   }
 }

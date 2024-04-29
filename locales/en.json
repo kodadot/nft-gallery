@@ -5,10 +5,12 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "why": "Why",
   "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
+  "benefits": "Benefits",
   "img": "Img",
   "gallery": "Gallery",
   "collection": "Collection",
@@ -1030,6 +1032,7 @@
     "viewTx": "View Tx",
     "supplyNotSet": "Supply Not Set",
     "seeMore": "See More",
+    "reportIssue": "Report Issue",
     "learnMore": "Learn More",
     "learnMoreAboutEd": "Learn more about Existential deposit",
     "noCollections": "You have no collections",
@@ -1163,16 +1166,22 @@
     "confirm": "Confirm",
     "warning": "Warning",
     "moreOption": "More Options",
-    "walletQuestion": "Don't have a wallet yet?",
-    "walletAnswer": "Wallets are used to send, receive, store, and display digital assets",
-    "walletLink": "Learn about wallets",
+    "walletLink": "Learn more about wallets",
     "walletHeading": "Connect Wallet",
     "walletDetails": "Your Wallet",
     "authText": "KodaDot will never ask you to provide your mnemonic phrase or private key.",
     "authTip": "Waiting For Authorization",
     "understand": "I understand",
     "learnText": "Learn how to Connect",
-    "downloadExtension": "Download extension"
+    "downloadExtension": "Download extension",
+    "newToKoda": "New to Koda?",
+    "startConnect": "Start trading NFTs by connecting a digital wallet.",
+    "quickSteps": "Quick Steps to Begin:",
+    "chooseWallet":"Choose a Wallet: ",
+    "chooseBelow": "Choose from trusted providers below.",
+    "downloadAndConnect": "Download and Connect: ",
+    "setUpConnect": "Set up your wallet, then return to connect.",
+    "selectWallet": "select your wallet"
   },
   "landing": {
     "newNftHeading": "New to NFTs?",
@@ -1187,7 +1196,58 @@
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
     },
-    "connectFarcaster": "Connect with Koda on Farcaster"
+    "connectFarcaster": "Connect with Koda on Farcaster",
+    "farcasterMintLive": "Mint is live!"
+  },
+  "whyKoda": {
+    "title": "Why Koda?",
+    "embraceTheFutureOfGenerativeArt": "Embrace the Future of <Generative Art>",
+    "sections": {
+      "team": {
+        "name": "Team",
+        "description": "In the heart of the KodaDot, we have a dedicated team. Our passion drives us, and we are strongly focused on onboarding quality art with quick problem-solving solutions."
+      },
+      "community": {
+        "name": "Community",
+        "description": "We're not just about art; we're about fostering a community where quality and creativity shine bright. Bringing together collectors, artists and enthusiasts brings us joy and open doors for new opportunities."
+      },
+      "generativeArt": {
+        "name": "Generative Art",
+        "description": "Our heart beats for generative art, where code meets canvas, crafting the extraordinary out of the ordinary. It's not just art; it's an experience, a journey through creativity powered by the elegance of algorithms"
+      },
+      "koda": {
+        "name": "Koda",
+        "description": "Koda means code in the Slovenian language. Which is now our primary focus. To deliver not only high-quality generative art but also to grow our code base, add new features and expand our horizons not only in the Polkadot ecosystem but also outside of it."
+      },
+      "weeklyDrops": {
+        "name": "Weekly Drops",
+        "description": "We offer brand new weekly drops that are limited, created by various talented artists. At this point we did more than 18 drops from various talented artists from around the globe."
+      },
+      "earnRewards": {
+        "name": "Earn Rewards",
+        "description": "Participate in our competitions, try commission work, collect rewards by referring artists, or become part of the team. There are so many opportunities that are waiting for you."
+      },
+      "offlineExhibitions": {
+        "name": "Offline Exhibitions",
+        "description": "Organized to connect people with the same passion - art. During these events, we focus on promoting digital art, enlightening people about its significance and the technology behind it, building connections, and enjoying amazing art. Always happening in a big cities that love art like Berlin, Prague, Lisbon, Budapest and many more."
+      },
+      "onboarding": {
+        "name": "Onboarding",
+        "description": "Simple onboarding is key to ensuring that artists are able to start selling their art. Their first steps on the platform are the most important. In the next steps, we introduce them to our community, provide them with support in case they need it, and listen to their ideas. In the end, it's the artists who always have amazing ideas about features we can bring."
+      }
+    },
+    "benefits": {
+      "visibilityRecognition": "gain visibility and recognition",
+      "digitalCreationsToPhysicalAudience": "display digital art physically",
+      "increasedSales": "increased sales",
+      "artistGrowth": "artist growth",
+      "newSpaceForCollaborations": "new space for collaborations"
+    },
+    "cta": {
+      "heading": "Take the Next Step",
+      "description": "Elevate your art on KodaDot. Join a community where your creativity thrives, your voice is heard, and your art is celebrated. Start your journey, grow with us, and let every code on our platform mark the beginning of something extraordinary.",
+      "getInTouch": "Get In Touch"
+    }
   },
   "history": {
     "label": "History",
@@ -1831,5 +1891,187 @@
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"
+  },
+  "errors": {
+    "noPermission": {
+      "name": "No Permission",
+      "description": "You don't have permission to perform this action. Please check your account settings."
+    },
+    "unknownCollection": {
+      "name": "Unknown Collection",
+      "description": "The specified collection doesn't exist. Please verify the collection ID."
+    },
+    "alreadyExists": {
+      "name": "Item Already Exists",
+      "description": "An item with this ID already exists. Please choose a unique ID when minting."
+    },
+    "approvalExpired": {
+      "name": "Approval Expired",
+      "description": "The approval has expired and is no longer valid. Tip: Request a new approval from the item owner."
+    },
+    "wrongOwner": {
+      "name": "Wrong Owner",
+      "description": "The owner information is incorrect. Please double-check the owner details."
+    },
+    "badWitness": {
+      "name": "Witness Required",
+      "description": "The witness data should be provided."
+    },
+    "collectionIdInUse": {
+      "name": "Collection ID Taken",
+      "description": "The chosen collection ID is already in use. Please select a different ID."
+    },
+    "itemsNonTransferable": {
+      "name": "Items Not Transferable",
+      "description": "Items in this collection cannot be transferred. Please review the collection settings."
+    },
+    "notDelegate": {
+      "name": "Not a Delegate",
+      "description": "The provided account is not a delegate. Please check the account details."
+    },
+    "wrongDelegate": {
+      "name": "Wrong Delegate",
+      "description": "The delegate information is incorrect. Please verify the delegate details."
+    },
+    "unapproved": {
+      "name": "Unapproved",
+      "description": "No approval exists for this transfer. Tip: Ensure you have the necessary approvals before initiating a transfer."
+    },
+    "unaccepted": {
+      "name": "Unaccepted",
+      "description": "The collection owner has not accepted ownership."
+    },
+    "itemLocked": {
+      "name": "Item Locked",
+      "description": "This item is locked and cannot be transferred. Please contact the collection owner."
+    },
+    "lockedItemAttributes": {
+      "name": "Locked Item Attributes",
+      "description": "The item's attributes are locked and cannot be modified."
+    },
+    "lockedCollectionAttributes": {
+      "name": "Locked Collection Attributes",
+      "description": "The collection's attributes are locked and cannot be modified."
+    },
+    "lockedItemMetadata": {
+      "name": "Locked Item Metadata",
+      "description": "The item's metadata is locked and cannot be changed."
+    },
+    "lockedCollectionMetadata": {
+      "name": "Locked Collection Metadata",
+      "description": "The collection's metadata is locked and cannot be changed."
+    },
+    "maxSupplyReached": {
+      "name": "Collection Is Full",
+      "description": "This collection has reached its maximum supply. No more items can be minted."
+    },
+    "maxSupplyLocked": {
+      "name": "Max Supply Locked",
+      "description": "The maximum supply for this collection is locked and cannot be changed."
+    },
+    "maxSupplyTooSmall": {
+      "name": "Max Supply Too Small",
+      "description": "The provided maximum supply is less than the number of items in the collection. Tip: Increase the maximum supply or remove excess items from the collection."
+    },
+    "unknownItem": {
+      "name": "Unknown Item",
+      "description": "The specified item does not exist. Please check the item ID."
+    },
+    "unknownSwap": {
+      "name": "Unknown Swap",
+      "description": "The specified swap does not exist."
+    },
+    "metadataNotFound": {
+      "name": "Item Metadata Not Set",
+      "description": "This item has no metadata. Consider adding metadata to enhance its value."
+    },
+    "attributeNotFound": {
+      "name": "Attribute Not Found",
+      "description": "The requested attribute cannot be found."
+    },
+    "notForSale": {
+      "name": "Item Not for Sale",
+      "description": "This item is not available for purchase."
+    },
+    "bidTooLow": {
+      "name": "Bid Too Low",
+      "description": "Your bid is too low. Please increase your bid amount. Tip: Check the current highest bid and adjust your bid accordingly."
+    },
+    "reachedApprovalLimit": {
+      "name": "Reached Approval Limit",
+      "description": "This item has reached its approval limit."
+    },
+    "deadlineExpired": {
+      "name": "Deadline Expired",
+      "description": "The deadline for this action has already passed."
+    },
+    "wrongDuration": {
+      "name": "Wrong Duration",
+      "description": "The provided duration exceeds the maximum allowed deadline duration."
+    },
+    "methodDisabled": {
+      "name": "Method Disabled",
+      "description": "This method is currently disabled by system settings."
+    },
+    "wrongSetting": {
+      "name": "Wrong Setting",
+      "description": "The provided setting cannot be applied."
+    },
+    "inconsistentItemConfig": {
+      "name": "Inconsistent Item Config",
+      "description": "The item's configuration is inconsistent with the provided data."
+    },
+    "noConfig": {
+      "name": "No Config",
+      "description": "The configuration for this collection or item is missing."
+    },
+    "rolesNotCleared": {
+      "name": "Roles Not Cleared",
+      "description": "Some roles were not successfully cleared."
+    },
+    "mintNotStarted": {
+      "name": "Mint Not Started",
+      "description": "The minting process hasn't begun yet. Please wait for the mint to start."
+    },
+    "mintEnded": {
+      "name": "Mint Ended",
+      "description": "The minting process has already concluded. No more items can be minted."
+    },
+    "alreadyClaimed": {
+      "name": "NFT Already Used",
+      "description": "The provided NFT has already been used for a holder-based drop and cannot be used again."
+    },
+    "incorrectData": {
+      "name": "Incorrect Data",
+      "description": "The provided data needs to be corrected."
+    },
+    "wrongOrigin": {
+      "name": "Wrong Origin",
+      "description": "This action was performed by an unauthorized source."
+    },
+    "wrongSignature": {
+      "name": "Wrong Signature",
+      "description": "The provided signature is invalid. Please sign the transaction again."
+    },
+    "incorrectMetadata": {
+      "name": "Incorrect Metadata",
+      "description": "The provided metadata may exceed the allowed length."
+    },
+    "maxAttributesLimitReached": {
+      "name": "Max Attributes Limit Reached",
+      "description": "The maximum number of attributes per call has been reached."
+    },
+    "wrongNamespace": {
+      "name": "Wrong Namespace",
+      "description": "The provided namespace is not supported for this operation."
+    },
+    "collectionNotEmpty": {
+      "name": "Remove Items First",
+      "description": "The collection must be empty to be destroyed. Please remove all items first."
+    },
+    "witnessRequired": {
+      "name": "Witness Required",
+      "description": "The witness data should be provided."
+    }
   }
 }

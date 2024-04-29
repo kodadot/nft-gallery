@@ -5,6 +5,7 @@ import useGenerativeIframeData, {
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 import useDropMassMintState from './useDropMassMintState'
+import { setMetadataUrl } from '@/services/fxart'
 
 const MAX_RENDER_AT_ONCE_AMOUNT = 3
 
@@ -17,12 +18,6 @@ export default () => {
   const { description, collectionName } = useCollectionEntity()
 
   const payloads = ref(new Map<string, ImageDataPayload>())
-
-  const allPinned = computed(
-    () =>
-      toMintNFTs.value.length !== 0 &&
-      toMintNFTs.value.map((item) => item.metadata).every(Boolean),
-  )
 
   const onMessage = (payload: ImageDataPayload) => {
     // always keep track of incomming payloads
@@ -109,6 +104,11 @@ export default () => {
         hash: item.hash,
         entropyRange: item.entropyRange,
         canRender: false,
+        metadata: setMetadataUrl({
+          chain: drop.value.chain,
+          collection: drop.value.collection,
+          hash: item.hash,
+        }),
       }
     })
   }
@@ -145,7 +145,6 @@ export default () => {
 
   return {
     getPreviewItemsToMintedNfts,
-    allPinned,
     payloads,
     pinMetadata,
   }

@@ -2,6 +2,7 @@
   <div ref="mediaItem" class="media-object h-fit">
     <component
       :is="resolveComponent"
+      ref="mediaRef"
       :src="properSrc"
       :sizes="sizes"
       :mime-type="mimeType"
@@ -103,9 +104,15 @@ const props = withDefaults(
   },
 )
 
+const mediaRef = ref()
 const mediaItem = ref<HTMLDivElement>()
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+
+useMediaFullscreen({
+  ref: mediaItem,
+  isFullscreen: computed(() => props.isFullscreen),
+})
 
 const targetIsVisible = useElementVisibility(mediaItem)
 const modelComponent = ref<Component>()
@@ -174,7 +181,13 @@ const toggleContent = () => {
 
 const isMediaItemHovering = useElementHover(mediaItem)
 
-defineExpose({ isLewdBlurredLayer })
+function toggleFullscreen() {
+  if (mediaRef.value.toggleFullscreen) {
+    mediaRef.value.toggleFullscreen()
+  }
+}
+
+defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
 
 <style lang="scss" scoped>

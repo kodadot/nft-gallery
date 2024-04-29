@@ -24,6 +24,7 @@ import { getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
+import { Profile, fetchFollowersOf, fetchFollowing } from '@/services/profile'
 
 type Stats = {
   listedCount: number
@@ -33,12 +34,20 @@ type Stats = {
 
 const props = defineProps<{
   userId?: string
-  profileData?: UserProfileData
+  profileData?: Profile
 }>()
 
 const { $consola } = useNuxtApp()
 const route = useRoute()
 const { client, urlPrefix } = usePrefix()
+
+const { data: followers } = await useAsyncData('followers', () =>
+  fetchFollowersOf(route.params.id as string, 1),
+)
+
+const { data: following } = await useAsyncData('following', () =>
+  fetchFollowing(route.params.id as string, 1),
+)
 
 const id = computed(() => props?.userId || route.params.id || '')
 
@@ -63,11 +72,11 @@ const statsRows = computed(() => [
   },
   {
     label: 'activity.followers',
-    value: props.profileData?.followers ?? '-',
+    value: followers.value?.totalCount ?? '-',
   },
   {
     label: 'activity.following',
-    value: props.profileData?.following ?? '-',
+    value: following.value?.totalCount ?? '-',
   },
 ])
 
