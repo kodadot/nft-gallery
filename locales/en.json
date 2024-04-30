@@ -2072,5 +2072,16 @@
       "name": "Witness Required",
       "description": "The witness data should be provided."
     }
+  },
+  "party": {
+    "partykit": "Partykit",
+    "partyMode": "Party Mode",
+    "settingsTooltip": "Toggle Party Mode. See live cursors on the Drop page only. Turn off to browse solo.",
+    "modal": {
+      "title": "Experience The Drop Party",
+      "subtitle": "See and join other collectors browsing the drop in real time.",
+      "decline": "Opt Out",
+      "accept": "Dive In!"
+    }
   }
 }
