@@ -76,8 +76,13 @@
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
               </a>
-              <nuxt-link v-else :to="item.url">
+              <nuxt-link v-else :to="item.url" class="flex items-center">
                 {{ item.name }}
+                <NeoIcon
+                  v-if="item.highlight"
+                  icon="sparkle"
+                  pack="fasr"
+                  class="text-k-primary text-xl ml-1" />
               </nuxt-link>
             </li>
           </ul>
@@ -118,6 +123,7 @@ interface Menu {
   name: string
   url: string
   external?: boolean
+  highlight?: boolean
 }
 
 const { $i18n } = useNuxtApp()
@@ -161,6 +167,11 @@ const menuMarketplace: Menu[] = [
 
 const menuKodadot: Menu[] = [
   {
+    name: $i18n.t('whyKoda.title'),
+    url: '/why-koda',
+    highlight: true,
+  },
+  {
     name: $i18n.t('footer.guide'),
     url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
@@ -180,11 +191,6 @@ const menuKodadot: Menu[] = [
     name: $i18n.t('press kit'),
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/pre-v4',
     external: true,
-  },
-  {
-    name: $i18n.t('whyKoda.title'),
-    url: '/why-koda',
-    external: false,
   },
   {
     name: $i18n.t('blog'),
