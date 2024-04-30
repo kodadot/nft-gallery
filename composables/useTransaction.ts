@@ -121,7 +121,11 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     }
 
     const errorCb = () => {
-      const message = resolveMessage(errorMessage) || 'Failed!'
+      if (!errorMessage) {
+        return
+      }
+
+      const message = resolveMessage(errorMessage)
       warningMessage(message)
     }
 

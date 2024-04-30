@@ -64,6 +64,8 @@
   <CollectionDropCursorParty
     :drop-alias="drop.alias"
     :user-minted-count="mintedAmountForCurrentUser" />
+
+  <CollectionDropPartyModal />
 </template>
 
 <script setup lang="ts">

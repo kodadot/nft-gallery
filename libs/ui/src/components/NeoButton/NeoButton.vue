@@ -5,6 +5,7 @@
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
+      shiny: shiny,
     }"
     :size="size"
     :icon-right="icon"
@@ -41,6 +42,7 @@ withDefaults(
     noShadow?: boolean
     variant?: NeoButtonVariant
     rounded?: boolean
+    shiny?: boolean
     tag?:
       | string
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
@@ -49,6 +51,7 @@ withDefaults(
   }>(),
   {
     iconPack: 'fasr',
+    shiny: false,
   },
 )
 </script>

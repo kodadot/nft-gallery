@@ -74,6 +74,7 @@ interface State {
   visitedOnboarding: boolean
   userLocale: string
   newsletterSubscription: NewsletterSubscription
+  partyMode: boolean | undefined
 }
 
 export const usePreferencesStore = defineStore('preferences', {
@@ -110,6 +111,7 @@ export const usePreferencesStore = defineStore('preferences', {
     firstTimeAutoTeleport: true,
     userLocale: 'en',
     newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
+    partyMode: undefined,
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -138,6 +140,10 @@ export const usePreferencesStore = defineStore('preferences', {
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getUserLocale: (state) => state.userLocale,
     getNewsletterSubscription: (state) => state.newsletterSubscription,
+    getHasUserNotSetPartyMode: (state) => state.partyMode === undefined,
+    getIsPartyMode(): boolean {
+      return this.getHasUserNotSetPartyMode ? true : this.partyMode!
+    },
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -221,6 +227,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setGridSize(payload) {
       this.gridSize = payload
+    },
+    setPartyMode(payload: boolean) {
+      this.partyMode = payload
     },
     setGridConfig({ class: layoutClass, size, section }: GridConfig) {
       const gridConfig = this.getGridConfigBySection(section)

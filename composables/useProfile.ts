@@ -10,7 +10,6 @@ export enum Socials {
 export default function useUserProfile() {
   const userProfileData = ref<Profile>()
   const hasProfile = ref(false)
-  const isFollowingThisAccount = ref(false)
   const { params, name } = useRoute()
 
   const fetchProfile = async () => {
@@ -41,7 +40,6 @@ export default function useUserProfile() {
 
   return {
     hasProfile,
-    isFollowingThisAccount,
     userProfile: computed(() => userProfileData.value),
     fetchProfile,
   }
