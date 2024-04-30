@@ -108,8 +108,8 @@ export const existentialDeposit: Record<Prefix, number> = {
   ksm: 333333333,
   rmrk: 333333333,
   ahk: 333333333,
-  dot: 10000000000,
-  ahp: 100000000,
+  dot: 1e10,
+  ahp: 1e8,
   imx: 0, // nothing like ED in EVM :)
   base: 0,
 }
