@@ -147,23 +147,19 @@ const socialLinks = [
   },
 ]
 
-watch(
-  hasProfile,
-  (hasProfile) => {
-    if (hasProfile) {
-      form.name = userProfile.value?.name ?? ''
-      form.description = userProfile.value?.description ?? ''
-      form.farcasterHandle = userProfile.value?.socials.find(
-        (social) => social.platform === 'Farcaster',
-      )?.handle
-      form.twitterHandle = userProfile.value?.socials.find(
-        (social) => social.platform === 'Twitter',
-      )?.handle
-      form.website = userProfile.value?.socials.find(
-        (social) => social.platform === 'Website',
-      )?.handle
-    }
-  },
-  { immediate: true },
-)
+watchEffect(() => {
+  if (hasProfile) {
+    form.name = userProfile.value?.name ?? ''
+    form.description = userProfile.value?.description ?? ''
+    form.farcasterHandle = userProfile.value?.socials.find(
+      (social) => social.platform === 'Farcaster',
+    )?.handle
+    form.twitterHandle = userProfile.value?.socials.find(
+      (social) => social.platform === 'Twitter',
+    )?.handle
+    form.website = userProfile.value?.socials.find(
+      (social) => social.platform === 'Website',
+    )?.handle
+  }
+})
 </script>
