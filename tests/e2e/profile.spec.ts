@@ -19,6 +19,7 @@ test('Profile Interactions', async ({ page, Commands }) => {
 
   //Activity
   await test.step('Activity Tab', async () => {
+    await expect(page.getByTestId('profile-tabs').last()).toBeVisible()
     await page.getByTestId('profile-tabs').last().click()
     //usually sale and buy are active when you enter the page
     //SALE
@@ -59,26 +60,18 @@ test('Profile Interactions', async ({ page, Commands }) => {
 
   //PROFILE LINKS
   await test.step('Profile Links', async () => {
+    await expect(page.getByTestId('profile-button-multi-action')).toContainText(
+      'Follow',
+    )
     //copy address
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('Copy Address')
-      .click()
+    await page.getByTestId('profile-wallet-links-button').click()
+    await page.getByTestId('profile-wallet-links-button-copy').click()
     await Commands.copyText(KSM_TEST_ADDRESS)
-    //QR Code
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('QR Code')
-      .click()
-    await expect(page.locator('[class="card-header-title"]')).toBeVisible()
-    await page.keyboard.press('Escape')
     //Transfer
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('Transfer')
-      .click()
+    await page.getByTestId('profile-wallet-links-button').click()
+    await page.getByTestId('profile-wallet-links-button-transfer').click()
     await expect(page).toHaveURL(
-      `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=10&donation=true`,
+      `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=0`,
     )
   })
 })
