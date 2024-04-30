@@ -1,6 +1,13 @@
 <template>
   <div>
     <ProfileCreateModal v-model="isModalActive" @success="fetchProfile" />
+    <ProfileFollowModal
+      :key="`${followersCount}-${followingCount}`"
+      v-model="isFollowModalActive"
+      :initial-tab="followModalTab"
+      :followers-count="followersCount"
+      :following-count="followingCount"
+      @close="refresh" />
     <div
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
@@ -48,6 +55,7 @@
               :class="buttonConfig.classes"
               :variant="buttonConfig.variant"
               :active="buttonConfig.active"
+              :disabled="buttonConfig.disabled"
               @click="buttonConfig.onClick">
               <NeoIcon
                 v-if="buttonConfig.icon"
@@ -189,17 +197,20 @@
               {{ $t('profile.followedBy') }}:
             </span>
             <div class="flex -space-x-3">
-              <NuxtImg
-                v-for="(avatarImg, index) in followersAvatars"
-                :key="avatarImg"
-                :src="avatarImg"
-                alt="follower avatar"
-                class="w-8 h-8 rounded-full border object-cover"
-                :style="{ zIndex: 3 - index }" />
+              <NuxtLink
+                v-for="(follower, index) in followers?.followers"
+                :key="index"
+                :to="`/${urlPrefix}/u/${formatAddress(follower.address, chainProperties.ss58Format)}`">
+                <NuxtImg
+                  :src="follower.image"
+                  alt="follower avatar"
+                  class="w-8 h-8 rounded-full border object-cover"
+                  :style="{ zIndex: 3 - index }" />
+              </NuxtLink>
             </div>
             <span v-if="followersCount > 3" class="text-sm">
               +
-              {{ followersCount - (followersAvatars?.length ?? 0) }}
+              {{ followersCount - (followers?.followers?.length ?? 0) }}
               More
             </span>
           </div>
@@ -208,11 +219,21 @@
       <!-- Mobile Profile Activity -->
       <ProfileActivity
         :profile-data="userProfile"
-        class="pt-4 invisible md:visible w-60" />
+        class="pt-4 invisible md:visible w-60"
+        :followers-count="followersCount"
+        :following-count="followingCount"
+        @click-followers="onFollowersClick"
+        @click-following="onFollowingClick" />
     </div>
     <div
       class="visible md:invisible py-7 md:!py-0 md:h-0 border-b border-neutral-5 dark:border-neutral-9 max-sm:mx-5 mx-12">
-      <ProfileActivity :profile-data="userProfile" class="w-full" />
+      <ProfileActivity
+        :profile-data="userProfile"
+        class="w-full"
+        :followers-count="followersCount"
+        :following-count="followingCount"
+        @click-followers="onFollowersClick"
+        @click-following="onFollowingClick" />
     </div>
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
@@ -316,7 +337,6 @@
 <script lang="ts" setup>
 import {
   NeoButton,
-  NeoButtonVariant,
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
@@ -340,7 +360,14 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { fetchFollowersOf } from '@/services/profile'
+import {
+  fetchFollowersOf,
+  fetchFollowing,
+  follow,
+  isFollowing,
+  unfollow,
+} from '@/services/profile'
+import { ButtonConfig, ProfileTab } from './types'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -348,48 +375,20 @@ const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
 
-enum ProfileTab {
-  OWNED = 'owned',
-  CREATED = 'created',
-  COLLECTIONS = 'collections',
-  ACTIVITY = 'activity',
-}
-
-interface ButtonConfig {
-  label: string
-  icon?: string
-  onClick?: () => void
-  classes?: string
-  variant?: NeoButtonVariant
-  active?: boolean
-}
-
 const gridSection = GridSection.PROFILE_GALLERY
 
 const socials = {
   [Socials.Farcaster]: {
     icon: FarcasterIcon,
-    getUrlLabel: (value) => ({
-      label: `@${value}`,
-      url: `https://warpcast.com/${value}`,
-    }),
     order: 1,
   },
   [Socials.Twitter]: {
     icon: 'x-twitter',
     iconPack: 'fab',
-    getUrlLabel: (value) => ({
-      label: `@${value}`,
-      url: `https://twitter.com/${value}`,
-    }),
     order: 2,
   },
   [Socials.Website]: {
     icon: 'globe',
-    getUrlLabel: (value: string) => {
-      const label = value.replace('https://', '')
-      return { label, url: value }
-    },
     order: 3,
   },
 }
@@ -410,19 +409,34 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { hasProfile, userProfile, isFollowingThisAccount, fetchProfile } =
-  useProfile()
+const { chainProperties } = useChain()
+
+const { hasProfile, userProfile, fetchProfile } = useProfile()
 
 provide('userProfile', { hasProfile, userProfile })
 
-const { data } = await useAsyncData('followers', () =>
-  fetchFollowersOf(route.params.id as string, 3),
+const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
+  useAsyncData(`${accountId.value}/isFollowing/${route.params?.id}`, () =>
+    isFollowing(accountId.value, route.params?.id as string),
+  )
+
+const { data: followers, refresh: refreshFollowers } = await useAsyncData(
+  'followers',
+  () => fetchFollowersOf(route.params.id as string, 3),
 )
 
-const followersCount = computed(() => data.value?.totalCount)
-const followersAvatars = computed(() =>
-  data.value?.followers.map(({ image }) => image),
+const { data: following, refresh: refreshFollowing } = await useAsyncData(
+  'following',
+  () => fetchFollowing(route.params.id as string, 1),
 )
+
+const refresh = () => {
+  refreshFollowers()
+  refreshFollowing()
+  refreshFollowingStatus()
+}
+const followersCount = computed(() => followers.value?.totalCount ?? 0)
+const followingCount = computed(() => following.value?.totalCount ?? 0)
 
 const editProfileConfig: ButtonConfig = {
   label: 'Edit Profile',
@@ -441,9 +455,14 @@ const createProfileConfig: ButtonConfig = {
 const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  onClick: () => {
-    // follow(true)
-    showFollowing.value = true
+  disabled: !hasProfile.value,
+  onClick: async () => {
+    await follow({
+      initiatorAddress: accountId.value,
+      targetAddress: id.value as string,
+    })
+    refresh()
+    showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
 }
@@ -455,7 +474,10 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
-    // follow(false)
+    unfollow({
+      initiatorAddress: accountId.value,
+      targetAddress: id.value as string,
+    }).then(refresh)
   },
   classes: 'hover:!border-k-red',
 }
@@ -473,6 +495,8 @@ const web = ref('')
 const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
+const isFollowModalActive = ref(false)
+const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
@@ -486,8 +510,6 @@ const socialDropdownItems = computed(() => {
       const socialConfig = socials[platform]
       if (socialConfig) {
         const { icon, iconPack, order } = socialConfig
-        // const { label, url } = getUrlLabel(value)
-
         return {
           label: handle || link,
           icon,
@@ -517,6 +539,16 @@ const buttonConfig = computed((): ButtonConfig => {
 
 const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
+}
+
+const onFollowersClick = () => {
+  followModalTab.value = 'followers'
+  isFollowModalActive.value = true
+}
+
+const onFollowingClick = () => {
+  followModalTab.value = 'following'
+  isFollowModalActive.value = true
 }
 
 const tabKey = computed(() =>

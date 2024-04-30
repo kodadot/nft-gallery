@@ -100,7 +100,7 @@ const mintButton = computed(() => {
 
   if (!canMint.value) {
     return {
-      label: `${$i18n.t('loader.ipfs')} ~ ${IPFS_ESTIMATED_TIME_SECONDS}s`,
+      label: $i18n.t('drops.mintDropError'),
       disabled: true,
     }
   }
@@ -112,7 +112,7 @@ const loading = computed(
   () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
 )
 const preStepTitle = computed<string | undefined>(() =>
-  isSingleMintNotReady.value ? $i18n.t('loader.ipfs') : undefined,
+  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
 
 const isMintOverviewStep = computed(
