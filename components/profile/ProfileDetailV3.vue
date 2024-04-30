@@ -341,7 +341,7 @@ import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { fetchFollowersOf } from '@/services/profile'
-
+import { removeHttpFromUrl } from '@/utils/url'
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
 const FarcasterIcon = defineAsyncComponent(
@@ -489,7 +489,7 @@ const socialDropdownItems = computed(() => {
         // const { label, url } = getUrlLabel(value)
 
         return {
-          label: handle || link,
+          label: removeHttpFromUrl(handle || link),
           icon,
           iconPack,
           url: link,

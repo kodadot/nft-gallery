@@ -68,7 +68,8 @@
               class="!h-10"
               expanded
               :data-testid="social.testId"
-              :placeholder="social.placeholder" />
+              :placeholder="social.placeholder"
+              @blur="validatingFormInput(social.model)" />
           </NeoField>
         </div>
       </div>
@@ -88,6 +89,8 @@ import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
 import { Profile } from '@/services/profile'
+import { addHttpToUrl } from '@/utils/url'
+
 const { accountId } = useAuth()
 
 const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
@@ -110,6 +113,21 @@ const submitDisabled = computed(() =>
 const emit = defineEmits<{
   (e: 'submit', value: ProfileFormData): void
 }>()
+
+const validatingFormInput = (model: string) => {
+  switch (model) {
+    case 'farcasterHandle':
+      if (form.farcasterHandle?.startsWith('/')) {
+        form.farcasterHandle = form.farcasterHandle.slice(1)
+      }
+      break
+    case 'website':
+      if (form.website && !/^https?:\/\//i.test(form.website)) {
+        form.website = addHttpToUrl(form.website)
+      }
+      break
+  }
+}
 
 // form state
 const form = reactive<ProfileFormData>({
