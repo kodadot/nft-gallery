@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileCreateModal v-model="isModalActive" @success="reload" />
+    <ProfileCreateModal v-model="isModalActive" @success="fetchProfile" />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"
@@ -411,11 +411,9 @@ const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { chainProperties } = useChain()
 
-const { hasProfile, userProfile } = useProfile()
+const { hasProfile, userProfile, fetchProfile } = useProfile()
 
-const reload = () => {
-  location.reload()
-}
+provide('userProfile', { hasProfile, userProfile })
 
 const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
   useAsyncData(`${accountId.value}/isFollowing/${route.params?.id}`, () =>

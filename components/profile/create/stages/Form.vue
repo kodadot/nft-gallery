@@ -87,17 +87,24 @@ import { formatAddress } from '@/utils/account'
 import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
+import { Profile } from '@/services/profile'
 const { accountId } = useAuth()
-const { hasProfile, userProfile } = useProfile()
 
+const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
+  'userProfile',
+)
+const userProfile = computed(() => profile?.userProfile.value)
+const hasProfile = computed(() => profile?.hasProfile.value)
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
 
-const submitDisabled = computed(
-  () => !form.name || !form.description || !form.image || !form.banner,
+const submitDisabled = computed(() =>
+  hasProfile
+    ? false
+    : !form.name || !form.description || !form.image || !form.banner,
 )
 
 const emit = defineEmits<{
@@ -140,7 +147,7 @@ const socialLinks = [
   },
 ]
 
-watch(hasProfile, (hasProfile) => {
+watchEffect(() => {
   if (hasProfile) {
     form.name = userProfile.value?.name ?? ''
     form.description = userProfile.value?.description ?? ''

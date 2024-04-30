@@ -49,10 +49,12 @@ export type CreateProfileRequest = {
 }
 
 export type UpdateProfileRequest = {
+  address: string
   name?: string
   description?: string
   image?: string
   banner?: string
+  socials: SocialLink[]
 }
 
 export type FollowRequest = {
@@ -119,15 +121,15 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
   }
 }
 
-export const updateProfile = async (
-  address: string,
-  updates: UpdateProfileRequest,
-) => {
+export const updateProfile = async (updates: UpdateProfileRequest) => {
   try {
-    const response = await api<ProfileResponse>(`/profiles/${address}`, {
-      method: 'PATCH',
-      body: updates,
-    })
+    const response = await api<ProfileResponse>(
+      `/profiles/${updates.address}`,
+      {
+        method: 'PATCH',
+        body: updates,
+      },
+    )
     return response
   } catch (error) {
     throw new Error(`[PROFILE::UPDATE] ERROR: ${(error as FetchError).data}`)
