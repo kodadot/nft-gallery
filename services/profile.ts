@@ -55,6 +55,19 @@ export type UpdateProfileRequest = {
   banner?: string
 }
 
+export type FollowRequest = {
+  initiatorAddress: string
+  targetAddress: string
+}
+
+export const toSubstrateAddress = (address: string) =>
+  formatAddress(address, 42)
+
+const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
+  initiatorAddress: toSubstrateAddress(body.initiatorAddress),
+  targetAddress: toSubstrateAddress(body.targetAddress),
+})
+
 // API methods
 
 export const fetchProfiles = (limit?: number) =>
@@ -64,7 +77,7 @@ export const fetchProfiles = (limit?: number) =>
   })
 
 export const fetchProfileByAddress = (address: string) =>
-  api<Profile>(`/profiles/${formatAddress(address, 42)}`, {
+  api<Profile>(`/profiles/${toSubstrateAddress(address)}`, {
     method: 'GET',
   })
 
@@ -74,7 +87,7 @@ export const fetchFollowersOf = (
   offset?: number,
 ) =>
   api<{ followers: Follower[]; totalCount: number }>(
-    `/follow/${formatAddress(address, 42)}/followers`,
+    `/follow/${toSubstrateAddress(address)}/followers`,
     {
       method: 'GET',
       query: { limit, offset },
@@ -87,7 +100,7 @@ export const fetchFollowing = (
   offset?: number,
 ) =>
   api<{ following: Follower[]; totalCount: number }>(
-    `/follow/${formatAddress(address, 42)}/following`,
+    `/follow/${toSubstrateAddress(address)}/following`,
     {
       method: 'GET',
       query: { limit, offset },
@@ -118,5 +131,48 @@ export const updateProfile = async (
     return response
   } catch (error) {
     throw new Error(`[PROFILE::UPDATE] ERROR: ${(error as FetchError).data}`)
+  }
+}
+
+export const follow = async (followRequest: FollowRequest) => {
+  try {
+    const response = await api<ProfileResponse>('/follow', {
+      method: 'POST',
+      body: convertToSubstrateAddress(followRequest),
+    })
+    return response
+  } catch (error) {
+    throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
+  }
+}
+
+export const unfollow = async (unFollowRequest: FollowRequest) => {
+  try {
+    const response = await api<ProfileResponse>('/follow', {
+      method: 'DELETE',
+      body: convertToSubstrateAddress(unFollowRequest),
+    })
+    return response
+  } catch (error) {
+    throw new Error(`[PROFILE::UNFOLLOW] ERROR: ${(error as FetchError).data}`)
+  }
+}
+
+export const isFollowing = async (
+  follower: string,
+  target: string,
+): Promise<boolean> => {
+  try {
+    const response = await api<{ isFollowing: boolean }>(
+      `/follow/${toSubstrateAddress(follower)}/follows/${toSubstrateAddress(target)}`,
+      {
+        method: 'GET',
+      },
+    )
+    return response.isFollowing
+  } catch (error) {
+    throw new Error(
+      `[PROFILE::IS_FOLLOWING] ERROR: ${(error as FetchError).data}`,
+    )
   }
 }
