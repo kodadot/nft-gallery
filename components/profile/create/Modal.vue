@@ -6,9 +6,9 @@
       @close="close">
       <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
       <Select v-if="stage === 2" @click="stage = 3" />
-      <Form v-if="stage === 3" @submit="handleProfileCreation" />
+      <Form v-if="stage === 3" @submit="handleFormSubmition" />
       <Loading v-if="stage === 4" />
-      <Success v-if="stage === 5" @close="onProfileCreated" />
+      <Success v-if="stage === 5" @close="close" />
     </ModalBody>
   </NeoModal>
 </template>
@@ -23,14 +23,22 @@ import {
   Select,
   Success,
 } from './stages/index'
-import { CreateProfileRequest, createProfile } from '@/services/profile'
+import {
+  CreateProfileRequest,
+  SocialLink,
+  UpdateProfileRequest,
+  createProfile,
+  updateProfile,
+} from '@/services/profile'
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
-
-const { hasProfile, fetchProfile } = useProfile()
 
 const props = defineProps<{
   modelValue: boolean
 }>()
+
+const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
+
+const hasProfile = computed(() => profile?.hasProfile.value)
 
 const initalStep = computed(() => (hasProfile.value ? 3 : 1))
 
@@ -44,54 +52,69 @@ const close = () => {
   emit('close')
 }
 
-const onProfileCreated = () => {
-  emit('success')
-  close()
+const uploadImages = async (
+  imageFile: File | undefined,
+  bannerFile: File | undefined,
+): Promise<[string | undefined, string | undefined]> => {
+  const imageUrl = imageFile
+    ? await rateLimitedPinFileToIPFS(imageFile)
+    : undefined
+  const bannerUrl = bannerFile
+    ? await rateLimitedPinFileToIPFS(bannerFile)
+    : undefined
+
+  return [
+    imageUrl ? sanitizeIpfsUrl(imageUrl) : undefined,
+    bannerUrl ? sanitizeIpfsUrl(bannerUrl) : undefined,
+  ]
 }
 
-const handleProfileCreation = async (profileData: ProfileFormData) => {
-  stage.value = 4 // Transition to a loading or processing stage
+const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
+  return [
+    {
+      handle: profileData.farcasterHandle || '',
+      platform: 'Farcaster',
+      link: `https://warpcast.com/${profileData.farcasterHandle}`,
+    },
+    {
+      handle: profileData.twitterHandle || '',
+      platform: 'Twitter',
+      link: `https://twitter.com/${profileData.twitterHandle}`,
+    },
+    {
+      handle: profileData.website || '',
+      platform: 'Website',
+      link: profileData.website || '',
+    },
+  ].filter((social) => Boolean(social.handle))
+}
 
+const processProfile = async (profileData: ProfileFormData) => {
+  const [imageUrl, bannerUrl] = await uploadImages(
+    profileData.image as File,
+    profileData.banner as File,
+  )
+
+  const profileBody: CreateProfileRequest | UpdateProfileRequest = {
+    address: profileData.address,
+    name: profileData.name,
+    description: profileData.description,
+    image: imageUrl,
+    banner: bannerUrl,
+    socials: constructSocials(profileData),
+  }
+
+  return hasProfile.value
+    ? updateProfile(profileBody as UpdateProfileRequest)
+    : createProfile(profileBody as CreateProfileRequest)
+}
+
+const handleFormSubmition = async (profileData: ProfileFormData) => {
+  stage.value = 4 // Go to loading stage
   try {
-    // Upload images to IPFS
-
-    const [imageUrl, bannerUrl] = await Promise.all([
-      rateLimitedPinFileToIPFS(profileData.image as File),
-      rateLimitedPinFileToIPFS(profileData.banner as File),
-    ]).then((imageCIDs) => imageCIDs.map((cid) => sanitizeIpfsUrl(cid)))
-
-    // Create the profile with the uploaded image URLs
-    const profileRequest: CreateProfileRequest = {
-      address: profileData.address,
-      name: profileData.name,
-      description: profileData.description,
-      image: imageUrl,
-      banner: bannerUrl,
-      socials: [
-        {
-          handle: profileData.farcasterHandle || '',
-          platform: 'Farcaster',
-          link: `https://warpcast.com/${profileData.farcasterHandle}`,
-        },
-        {
-          handle: profileData.twitterHandle || '',
-          platform: 'Twitter',
-          link: `https://twitter.com/${profileData.twitterHandle}`,
-        },
-        {
-          handle: profileData.website || '',
-          platform: 'Website',
-          link: profileData.website || '',
-        },
-      ].filter((social) => Boolean(social.handle)),
-    }
-
-    const response = await createProfile(profileRequest)
-    if (response.success) {
-      fetchProfile()
-      stage.value = 5
-      console.error(response.message)
-    }
+    await processProfile(profileData)
+    emit('success')
+    stage.value = 5 // Go to success stage
   } catch (error) {
     console.error(error)
   }
