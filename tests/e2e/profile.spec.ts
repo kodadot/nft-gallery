@@ -4,18 +4,8 @@ const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
 const DOT_TEST_ADDRESS = '1vQCgtkdWs4r9RAWvdmUyr1kJgR9pmka2dUVFfrFxPYo1CP'
 
 test('Profile Interactions', async ({ page, Commands, baseURL }) => {
-  await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=owned`)
-  await Commands.scrollDownAndStop()
-
-  //test step - will check if buy now has items that are not listed
-  await test.step('Buy Now', async () => {
-    await Commands.acceptCookies()
-    await page.getByTestId('profile-filter-button-buynow').click()
-    await Commands.scrollDownAndStop()
-    for (const li of await page.locator('[class="nft-card"]').all()) {
-      await expect(li.getByText('KSM')).toBeVisible()
-    }
-  })
+  await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=activity`)
+  await Commands.scrollDownSlow()
 
   //Activity
   await test.step('Activity Tab', async () => {
@@ -86,4 +76,18 @@ test('Verify if there are no Assets on Selected chain', async ({
     timeout: 25000,
   })
   await expect(page.getByTestId('profile-no-assets-button')).toBeVisible()
+})
+
+test('Profile - is Buy now working?', async ({ page, Commands }) => {
+  await page.goto(
+    `ahk/u/${KSM_TEST_ADDRESS}?buy_now=true&tab=owned&buy=true&sale=true&collections=334`,
+  )
+  //test step - will check if buy now has items that are not listed
+  await test.step('Buy Now', async () => {
+    await Commands.acceptCookies()
+    await Commands.scrollDownSlow()
+    for (const li of await page.locator('[class="nft-card"]').all()) {
+      await expect(li.getByText('KSM')).toBeVisible()
+    }
+  })
 })
