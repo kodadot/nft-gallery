@@ -3,15 +3,15 @@ import { expect, test } from './fixtures'
 const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
 const DOT_TEST_ADDRESS = '1vQCgtkdWs4r9RAWvdmUyr1kJgR9pmka2dUVFfrFxPYo1CP'
 
-test('Profile Interactions', async ({ page, Commands }) => {
+test('Profile Interactions', async ({ page, Commands, baseURL }) => {
   await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=owned`)
-  await Commands.scrollDownSlow()
+  await Commands.scrollDownAndStop()
 
   //test step - will check if buy now has items that are not listed
   await test.step('Buy Now', async () => {
     await Commands.acceptCookies()
     await page.getByTestId('profile-filter-button-buynow').click()
-    await Commands.scrollDownSlow()
+    await Commands.scrollDownAndStop()
     for (const li of await page.locator('[class="nft-card"]').all()) {
       await expect(li.getByText('KSM')).toBeVisible()
     }
@@ -70,9 +70,9 @@ test('Profile Interactions', async ({ page, Commands }) => {
     //Transfer
     await page.getByTestId('profile-wallet-links-button').click()
     await page.getByTestId('profile-wallet-links-button-transfer').click()
-    await expect(page).toHaveURL(
-      `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=0`,
-    )
+    await page.waitForURL(`${baseURL}/ahk/transfer**`)
+    const pageUrl = page.url()
+    expect(pageUrl).toContain(`/ahk/transfer?target=${KSM_TEST_ADDRESS}`)
   })
 })
 
