@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileCreateModal v-model="isModalActive" @success="reload" />
+    <ProfileCreateModal v-model="isModalActive" @success="fetchProfile" />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"
@@ -32,7 +32,7 @@
     <div
       class="pt-6 pb-7 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
       <div class="flex flex-col gap-6">
-        <!-- Idetity Link -->
+        <!-- Identity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity
@@ -52,6 +52,7 @@
               rounded
               no-shadow
               class="min-w-28"
+              data-testid="profile-button-multi-action"
               :class="buttonConfig.classes"
               :variant="buttonConfig.variant"
               :active="buttonConfig.active"
@@ -68,6 +69,7 @@
               <template #trigger="{ active }">
                 <NeoButton
                   variant="outlined-rounded"
+                  data-testid="profile-wallet-links-button"
                   :active="active"
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   {{ $t('profile.walletAndLinks') }}
@@ -89,6 +91,7 @@
                       variant="text"
                       no-shadow
                       icon="copy"
+                      data-testid="profile-wallet-links-button-copy"
                       :icon-pack="'fas'"
                       class="ml-2.5"
                       @click="toast('Copied to clipboard')" />
@@ -119,6 +122,7 @@
                   <NeoButton
                     variant="outlined-rounded"
                     class="!w-full text-xs"
+                    data-testid="profile-wallet-links-button-transfer"
                     :label="`${$t('transfer')} $`"
                     :tag="NuxtLink"
                     :to="`/${urlPrefix}/transfer?target=${id}`">
@@ -367,6 +371,7 @@ import {
   isFollowing,
   unfollow,
 } from '@/services/profile'
+import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
 
 const NuxtImg = resolveComponent('NuxtImg')
@@ -411,11 +416,9 @@ const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { chainProperties } = useChain()
 
-const { hasProfile, userProfile } = useProfile()
+const { hasProfile, userProfile, fetchProfile } = useProfile()
 
-const reload = () => {
-  location.reload()
-}
+provide('userProfile', { hasProfile, userProfile })
 
 const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
   useAsyncData(`${accountId.value}/isFollowing/${route.params?.id}`, () =>
@@ -504,7 +507,7 @@ const collections = ref(
 )
 
 const isHovered = useElementHover(buttonRef)
-const shareURL = computed(() => `${window.location.origin}${route.path}`)
+const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
 
 const socialDropdownItems = computed(() => {
   return userProfile.value?.socials
@@ -513,7 +516,7 @@ const socialDropdownItems = computed(() => {
       if (socialConfig) {
         const { icon, iconPack, order } = socialConfig
         return {
-          label: handle || link,
+          label: removeHttpFromUrl(handle || link),
           icon,
           iconPack,
           url: link,
