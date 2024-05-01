@@ -507,7 +507,7 @@ const collections = ref(
 )
 
 const isHovered = useElementHover(buttonRef)
-const shareURL = computed(() => `${window.location.origin}${route.fullPath}`)
+const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
 const socialDropdownItems = computed(() => {
   return userProfile.value?.socials
