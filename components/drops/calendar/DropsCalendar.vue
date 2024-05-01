@@ -84,7 +84,7 @@ defineProps<{
 const { urlPrefix } = usePrefix()
 
 const { data, pending } = useAsyncData(
-  () => getDropCalendar({ chain: !isProduction ? [urlPrefix.value] : [] }),
+  () => getDropCalendar({ chain: !isProduction ? [urlPrefix.value] : ['ahp'] }),
   {
     transform: (items) => {
       return items.map((item) => ({

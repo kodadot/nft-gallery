@@ -178,7 +178,7 @@ export type CalendarItem = {
 }
 
 type GetCalendarsQuery = {
-  chain?: string[]
+  chain?: Prefix[]
 }
 
 export const getDropCalendar = async (query: GetCalendarsQuery = {}) => {
