@@ -4,7 +4,7 @@ type PreloadableImage = {
 }
 
 export const usePreloadImages = (mintedNFTs: Ref<PreloadableImage[]>) => {
-  const { completedAll, tryItem, triedAll } = useAsyncRetry()
+  const { completed, fulfilledAll, triedAll, tryItem } = useAsyncRetry()
 
   watch(mintedNFTs, (items) => {
     if (items?.length) {
@@ -17,5 +17,5 @@ export const usePreloadImages = (mintedNFTs: Ref<PreloadableImage[]>) => {
     }
   })
 
-  return { triedAll, loadedAll: completedAll }
+  return { triedAll, loadedAll: fulfilledAll, completed }
 }
