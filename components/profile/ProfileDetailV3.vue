@@ -367,6 +367,7 @@ import {
   isFollowing,
   unfollow,
 } from '@/services/profile'
+import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
 
 const NuxtImg = resolveComponent('NuxtImg')
@@ -511,7 +512,7 @@ const socialDropdownItems = computed(() => {
       if (socialConfig) {
         const { icon, iconPack, order } = socialConfig
         return {
-          label: handle || link,
+          label: removeHttpFromUrl(handle || link),
           icon,
           iconPack,
           url: link,
