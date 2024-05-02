@@ -47,6 +47,7 @@
         :label="autoTeleportLabel"
         variant="k-accent"
         no-shadow
+        :shiny="shiny"
         :disabled="isDisabled"
         :loading="loading"
         :loading-with-label="loading"
@@ -110,6 +111,7 @@ const props = withDefaults(
     interaction?: ActionlessInteraction
     hideTop?: boolean
     loading?: boolean
+    shiny?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -121,6 +123,7 @@ const props = withDefaults(
     label: '',
     hideTop: false,
     loading: false,
+    shiny: false,
   },
 )
 
