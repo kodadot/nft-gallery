@@ -39,3 +39,9 @@ export const replaceSingularCollectionUrlByText = (text: string) => {
 export function isExternal(url: string) {
   return !url.startsWith(window.location.origin)
 }
+
+export const removeHttpFromUrl = (url: string) =>
+  url.replace(/^https?:\/\//, '')
+
+export const addHttpToUrl = (url: string) =>
+  url.startsWith('http') ? url : `https://${url}`
