@@ -17,7 +17,7 @@ export const DROP_COLLECTION_TO_ALIAS_MAP = {
 }
 
 export const DROP_MASSMINT_LIMIT = {
-  tilescape: 4,
+  hdd: 1,
 }
 
 export const AHK_GENERATIVE_DROPS = [
