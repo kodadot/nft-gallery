@@ -10,7 +10,6 @@
       expanded
       class="!bg-purple-light-color h-14"
       no-shadow
-      disabled
       @click="emit('importFarcaster')">
       <div class="flex items-center justify-center">
         <img :src="farcasterIcon" alt="farcaster" class="w-5 h-5" />
