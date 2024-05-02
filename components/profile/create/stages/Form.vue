@@ -123,7 +123,7 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const submitDisabled = computed(() =>
-  hasProfile
+  hasProfile.value
     ? false
     : !form.name || !form.description || !form.image || !form.banner,
 )
