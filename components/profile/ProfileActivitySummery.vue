@@ -27,6 +27,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
 import { Profile } from '@/services/profile'
+import type ProfileStatsByIdRefined from '@/queries/types/subsquid/general/profileStatsByIdRefined'
 
 type Stats = {
   listedCount: number
@@ -87,7 +88,7 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsByIdRefined')
-  const { data } = await useAsyncQuery({
+  const { data } = await useAsyncQuery<ProfileStatsByIdRefined>({
     query: query.default,
     clientId: client.value,
     variables: {
@@ -101,7 +102,7 @@ useLazyAsyncData('stats', async () => {
     return
   }
 
-  const listEvents: number[] = data.value.listed
+  const listEvents = data.value.listed
     .filter((nft) => nft.events.length > 0)
     .map((nft) => nft.events[0])
 
