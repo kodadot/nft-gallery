@@ -8,7 +8,6 @@
 <script lang="ts" setup>
 import { Interaction } from '../service/scheme'
 import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '@/utils/sorting'
 
 import Flipper from '@/components/rmrk/Gallery/Flipper.vue'
@@ -32,7 +31,7 @@ const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
       ownerEventsOfNft.value = sortedEventByDate(data.value.events, 'ASC')
     }
   } catch (e) {
-    showNotification(`${e}`, notificationTypes.warn)
+    warningMessage(`${e}`)
   }
 })
 

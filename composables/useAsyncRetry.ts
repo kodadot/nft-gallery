@@ -5,44 +5,51 @@ type Item = {
 
 export default (retryCount: number = 3) => {
   const states = ref(
-    new Map<string, { tries: number; completed: boolean; response?: any }>(),
+    new Map<string, { tries: number; fulfilled: boolean; response?: any }>(),
   )
 
   const stateValues = computed(() =>
     Object.values(Object.fromEntries(states.value.entries())),
   )
 
-  const triedAll = computed(
+  const triedAll = computed<boolean>(
     () =>
-      stateValues.value.length &&
-      Number(getSumOfObjectField(stateValues.value, 'tries')) === 0,
+      Boolean(stateValues.value.length) &&
+      stateValues.value.every((item) => item.tries === 0),
   )
 
-  const completedAll = computed(() => {
-    const loaded = stateValues.value.map((item) => item.completed)
-    return loaded.length && loaded.every(Boolean)
-  })
+  const fulfilledAll = computed<boolean>(
+    () =>
+      Boolean(stateValues.value.length) &&
+      stateValues.value.every((item) => item.fulfilled),
+  )
+
+  const completed = computed<boolean>(
+    () =>
+      Boolean(stateValues.value.length) &&
+      stateValues.value.every((item) => item.fulfilled || item.tries === 0),
+  )
 
   const getDefaultState = () => ({
     tries: retryCount,
-    completed: false,
+    fulfilled: false,
   })
 
   const tryItem = async (item: Item) => {
     const currentState = states.value.get(item.id) || getDefaultState()
 
-    if (currentState.tries > 0 && !currentState.completed) {
+    if (currentState.tries > 0 && !currentState.fulfilled) {
       try {
         const response = await item.promise()
         states.value.set(item.id, {
           tries: currentState.tries,
-          completed: true,
+          fulfilled: true,
           response,
         })
       } catch (error) {
         states.value.set(item.id, {
           tries: currentState.tries - 1,
-          completed: false,
+          fulfilled: false,
         })
         await tryItem(item)
       }
@@ -51,7 +58,8 @@ export default (retryCount: number = 3) => {
 
   return {
     tryItem,
-    completedAll,
+    completed,
     triedAll,
+    fulfilledAll,
   }
 }

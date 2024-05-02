@@ -3,7 +3,9 @@
     <div
       v-for="(item, index) in statsRows"
       :key="index"
-      class="flex justify-between w-full items-center">
+      class="flex justify-between w-full items-center"
+      :class="{ 'cursor-pointer': item.onClick }"
+      @click="item.onClick">
       <span class="text-sm text-k-grey">
         {{ $t(item.label) }}
       </span>
@@ -24,6 +26,7 @@ import { getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
+import { Profile } from '@/services/profile'
 
 type Stats = {
   listedCount: number
@@ -33,12 +36,16 @@ type Stats = {
 
 const props = defineProps<{
   userId?: string
-  profileData?: UserProfileData
+  profileData?: Profile
+  followersCount?: number
+  followingCount?: number
 }>()
 
 const { $consola } = useNuxtApp()
 const route = useRoute()
 const { client, urlPrefix } = usePrefix()
+
+const emit = defineEmits(['click-followers', 'click-following'])
 
 const id = computed(() => props?.userId || route.params.id || '')
 
@@ -63,11 +70,13 @@ const statsRows = computed(() => [
   },
   {
     label: 'activity.followers',
-    value: props.profileData?.followers ?? '-',
+    value: props.followersCount ?? '-',
+    onClick: () => emit('click-followers'),
   },
   {
     label: 'activity.following',
-    value: props.profileData?.following ?? '-',
+    value: props.followingCount ?? '-',
+    onClick: () => emit('click-following'),
   },
 ])
 

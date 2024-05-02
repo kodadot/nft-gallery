@@ -11,7 +11,7 @@
         </NeoButton>
       </div>
       <p
-        class="text-3xl md:text-6xl font-bold text-center capitalize md:inline text-start md:col-span-5 max-md:mt-8">
+        class="text-3xl lg:text-6xl font-bold text-center capitalize md:inline text-start md:col-span-5 max-md:mt-8">
         {{ section.name }}
       </p>
       <p class="md:col-span-5 max-md:mt-6 text-xl">{{ section.description }}</p>

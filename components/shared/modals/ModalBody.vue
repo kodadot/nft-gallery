@@ -13,11 +13,13 @@
         variant="k-grey-light" />
 
       <transition name="fade">
-        <div
-          v-if="!loading"
-          class="modal-card-title text-base font-bold line-height">
-          {{ title }}
-        </div>
+        <slot name="header">
+          <div
+            v-if="!loading"
+            class="modal-card-title text-base font-bold line-height">
+            {{ title }}
+          </div>
+        </slot>
       </transition>
 
       <NeoButton
@@ -67,7 +69,7 @@ const TITLE_DURATION_SECONDS = 4
 const emits = defineEmits(['close'])
 const props = withDefaults(
   defineProps<{
-    title: string
+    title?: string
     loading?: boolean
     modalWidth?: string
     modalMaxHeight?: string
