@@ -12,9 +12,12 @@ export default function (prefix: ComputedRef<Prefix>) {
     () => prefix.value === 'ahk' || prefix.value === 'ahp', //|| prefix.value === 'ahr'
   )
 
+  const isBase = computed(() => 'base' === prefix.value)
+
   return {
     isRemark,
     isAssetHub,
     isRmrk,
+    isBase,
   }
 }

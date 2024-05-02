@@ -18,3 +18,5 @@ export type NeoButtonVariant =
   | 'outlined-rounded'
   | 'primary-rounded'
   | 'secondary-rounded'
+
+export type NeoMessageVariant = 'warning' | 'success' | 'danger' | 'info'

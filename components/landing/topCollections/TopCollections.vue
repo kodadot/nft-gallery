@@ -5,6 +5,7 @@
         {{ $t('general.topCollectionsHeading') }}
       </div>
       <div
+        v-if="!isBase"
         class="flex items-start justify-start flex-wrap pt-2 [&>.control:not(:last-of-type)]:border-r-0 [&>.control:not(:last-of-type)]:mb-2">
         <NeoButton
           v-for="{ value, label } in timeRanges"
@@ -19,7 +20,7 @@
           position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
-          :exclude="['ksm']" />
+          :exclude="['ksm', 'imx']" />
       </div>
     </div>
 
@@ -55,6 +56,7 @@ const limit = 12
 const { data, loading } = useTopCollections(limit)
 const fiatStore = useFiatStore()
 const { urlPrefix } = usePrefix()
+const { isBase } = useIsChain(urlPrefix)
 
 const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'Month' })
 

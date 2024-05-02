@@ -52,7 +52,6 @@ import { NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { PredictionStatus } from '@/services/replicate'
 import { doWaifu } from '@/services/waifu'
 import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   CAMPAIGN,
   Options,
@@ -124,10 +123,7 @@ const submitAll = async () => {
     )
     goToStep(4)
   } catch (error) {
-    showNotification(
-      'Error: ' + (error as Error).message,
-      notificationTypes.warn,
-    )
+    warningMessage((error as Error).message)
   } finally {
     isLoading.value = false
     status.value = ''
