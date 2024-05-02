@@ -69,7 +69,7 @@ const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
     `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
       chainSymbol.value
-    } ${priceUsd.value ? '/ ' + (priceUsd.value * amountToMint.value).toFixed(1) + ' ' + $i18n.t('general.usd') : ''}`,
+    } ${priceUsd.value ? '/ ' + (priceUsd.value * amountToMint.value).toFixed(2) + ' ' + $i18n.t('general.usd') : ''}`,
   ]),
 )
 
