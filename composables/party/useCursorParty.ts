@@ -47,7 +47,11 @@ export default ({
     }
   }
 
-  const { sendMessage: send } = useParty<CursorPartyEvents>({ room, onMessage })
+  const { sendMessage: send } = useParty<CursorPartyEvents>({
+    room,
+    onMessage,
+    disabled: computed(() => !usePreferencesStore().getIsPartyMode),
+  })
 
   const cursorConnections = computed(
     () =>

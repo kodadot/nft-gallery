@@ -15,14 +15,15 @@
       :text="$t('sharing.profile')"
       :show-farcaster="false"
       :url="profileUrl" />
-    <div class="flex justify-between w-full">
+    <div
+      class="max-[400px]:flex-wrap max-[400px]:justify-center max-[400px]:gap-4 flex justify-between w-full">
       <NeoButton
-        class="w-[150px]"
+        class="min-[400px]:w-[150px] w-full"
         variant="secondary-rounded"
         :label="$t('close')"
         @click="emit('close')" />
       <NeoButton
-        class="!w-[150px]"
+        class="min-[400px]:!w-[150px] !w-full"
         variant="primary-rounded"
         :label="'Go To Profile'"
         @click="emit('close')" />

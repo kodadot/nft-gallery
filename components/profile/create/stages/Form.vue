@@ -6,7 +6,11 @@
     </div>
     <form class="flex flex-col gap-10" @submit.prevent>
       <!-- name -->
-      <NeoField :label="`Your Name`" required :error="!form.name">
+      <NeoField
+        :label="`Your Name`"
+        required
+        :error="!form.name"
+        label-class="!text-xl">
         <NeoInput
           v-model="form.name"
           data-testid="create-profile-input-name"
@@ -15,7 +19,11 @@
       </NeoField>
 
       <!-- bio -->
-      <NeoField :label="`Short Bio`" required :error="!form.description">
+      <NeoField
+        :label="`Short Bio`"
+        required
+        :error="!form.description"
+        label-class="!text-xl">
         <NeoInput
           v-model="form.description"
           data-testid="create-profile-input-bio"
@@ -28,7 +36,11 @@
       </NeoField>
 
       <!-- profile picture -->
-      <NeoField :label="`Upload profile picture`" required :error="!form.image">
+      <NeoField
+        :label="`Upload profile picture`"
+        required
+        :error="!form.image"
+        label-class="!text-xl">
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
@@ -40,7 +52,11 @@
       </NeoField>
 
       <!-- banner picture -->
-      <NeoField :label="`Upload Cover Image`" required :error="!form.banner">
+      <NeoField
+        :label="`Upload Cover Image`"
+        required
+        :error="!form.banner"
+        label-class="!text-xl">
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
             Recommended: 1440x360px (4:1 aspect ratio), up to 10MB (JPG, PNG)
@@ -68,7 +84,8 @@
               class="!h-10"
               expanded
               :data-testid="social.testId"
-              :placeholder="social.placeholder" />
+              :placeholder="social.placeholder"
+              @blur="validatingFormInput(social.model)" />
           </NeoField>
         </div>
       </div>
@@ -76,7 +93,9 @@
     <NeoButton
       :disabled="submitDisabled"
       variant="k-accent"
-      label="Finish customization"
+      label="Finish Customization"
+      size="large"
+      no-shadow
       data-testid="create-profile-submit-button"
       @click="emit('submit', form)" />
   </div>
@@ -87,22 +106,46 @@ import { formatAddress } from '@/utils/account'
 import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
-const { accountId } = useAuth()
-const { hasProfile, userProfile } = useProfile()
+import { Profile } from '@/services/profile'
+import { addHttpToUrl } from '@/utils/url'
 
+const { accountId } = useAuth()
+
+const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
+  'userProfile',
+)
+const userProfile = computed(() => profile?.userProfile.value)
+const hasProfile = computed(() => profile?.hasProfile.value)
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
 
-const submitDisabled = computed(
-  () => !form.name || !form.description || !form.image || !form.banner,
+const submitDisabled = computed(() =>
+  hasProfile.value
+    ? false
+    : !form.name || !form.description || !form.image || !form.banner,
 )
 
 const emit = defineEmits<{
   (e: 'submit', value: ProfileFormData): void
 }>()
+
+const validatingFormInput = (model: string) => {
+  switch (model) {
+    case 'farcasterHandle':
+      if (form.farcasterHandle?.startsWith('/')) {
+        form.farcasterHandle = form.farcasterHandle.slice(1)
+      }
+      break
+    case 'website':
+      if (form.website && !/^https?:\/\//i.test(form.website)) {
+        form.website = addHttpToUrl(form.website)
+      }
+      break
+  }
+}
 
 // form state
 const form = reactive<ProfileFormData>({
@@ -140,7 +183,7 @@ const socialLinks = [
   },
 ]
 
-watch(hasProfile, (hasProfile) => {
+watchEffect(() => {
   if (hasProfile) {
     form.name = userProfile.value?.name ?? ''
     form.description = userProfile.value?.description ?? ''

@@ -19,6 +19,7 @@ export default (
   const { canPin, canMint } = useDropMassMintState()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
+    disabled: computed(() => !usePreferencesStore().getIsPartyMode),
   })
 
   const randomGeneration = computed(() => toMintNFTs.value.length > 1)
