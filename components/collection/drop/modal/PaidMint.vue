@@ -74,7 +74,7 @@ const { $i18n } = useNuxtApp()
 const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
   useDropMinimumFunds(computed(() => amountToMint.value))
 
-const { loadedAll, triedAll } = usePreloadImages(
+const { completed: imagePreloadingCompleted } = usePreloadImages(
   computed(() => mintingSession.value.items),
 )
 
@@ -123,18 +123,13 @@ const isSuccessfulDropStep = computed(
   () => modalStep.value === ModalStep.SUCCEEDED,
 )
 
-const moveSuccessfulDrop = computed(() => {
-  if (loadedAll.value) {
-    return true
-  }
-
-  return (
-    mintingSession.value.items.length &&
-    mintingSession.value.txHash &&
-    triedAll.value &&
-    props.action.details.status === TransactionStatus.Finalized
-  )
-})
+const moveSuccessfulDrop = computed<boolean>(
+  () =>
+    imagePreloadingCompleted.value &&
+    Boolean(mintingSession.value.items.length) &&
+    Boolean(mintingSession.value.txHash) &&
+    props.action.details.status === TransactionStatus.Finalized,
+)
 
 const transactionStatus = computed(() => {
   const status = props.action.details.status
