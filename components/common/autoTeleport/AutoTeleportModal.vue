@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
+    :can-cancel="canCancel"
     class="z-[1000]"
     @close="onClose">
     <div class="sm:w-[25rem]">
@@ -201,6 +201,10 @@ const autoteleportFinalized = computed(() =>
   hasActions.value
     ? hasCompletedActionPreSteps.value && actionsFinalized.value
     : hasCompletedActionPreSteps.value,
+)
+
+const canCancel = computed(() =>
+  autoteleportFinalized.value ? ['outside', 'escape'] : false,
 )
 
 const btnLabel = computed<string>(() => {
