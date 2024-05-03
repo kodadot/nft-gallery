@@ -148,12 +148,14 @@ const loginWithFarcaster = async () => {
 
   if (channel?.data?.url) {
     // Open a new tab with the URL
-    window.open(channel.data.url, '_blank')
+    const farcasterTab = window.open(channel.data.url, '_blank')
     const userData = await appClient.watchStatus({
       channelToken: channel.data.channelToken,
       timeout: 60_000,
       interval: 1_000,
     })
+
+    farcasterTab.close()
 
     if (userData?.data?.state !== 'completed') {
       console.error('No user data found')
