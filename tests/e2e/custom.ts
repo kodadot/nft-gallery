@@ -42,7 +42,7 @@ export class Commands {
     })
   }
   async acceptCookies() {
-    await this.page.getByTestId('cookie-banner-button-accept').click()
+    await this.page.getByRole('button', { name: 'Accept' }).click()
   }
   async checkNewTab(url: string, clickAction) {
     const newTabPromise = this.page.waitForEvent('popup')
