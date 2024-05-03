@@ -7,8 +7,9 @@
       <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
       <Select
         v-if="stage === 2"
-        @startNew="OnSelectStartNew"
-        @importFarcaster="onSelectFarcaster" />
+        :loading="farcasterSignInIsInProgress"
+        @start-new="OnSelectStartNew"
+        @import-farcaster="onSelectFarcaster" />
       <Form
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
@@ -57,6 +58,7 @@ const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initalStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
+const farcasterSignInIsInProgress = ref(false)
 const close = () => {
   stage.value = initalStep.value
   vOpen.value = false
@@ -127,7 +129,9 @@ const onSelectFarcaster = () => {
     stage.value = 3
     useFarcaster.value = true
   } else {
+    farcasterSignInIsInProgress.value = true
     loginWithFarcaster().then(() => {
+      farcasterSignInIsInProgress.value = false
       stage.value = 3
       useFarcaster.value = true
     })
@@ -149,14 +153,17 @@ const loginWithFarcaster = async () => {
       channelToken: channel.data.channelToken,
       timeout: 60_000,
       interval: 1_000,
-      onResponse: ({ data }) => {
-        console.log('Status data:', data)
-      },
     })
 
-    if (userData?.data?.state === 'completed') {
-      farcasterUserData.value = userData.data
+    if (userData?.data?.state !== 'completed') {
+      console.error('No user data found')
+      return
     }
+    if (userData.data.nonce !== channel.data.nonce) {
+      console.error('nonce mismatch')
+      return
+    }
+    farcasterUserData.value = userData.data
   } else {
     console.error('URL not found in channel data')
   }

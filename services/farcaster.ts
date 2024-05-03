@@ -9,18 +9,5 @@ export const createChannel = () =>
   appClient.createChannel({
     siweUri: window.location.origin,
     domain: window.location.host,
+    expirationTime: new Date(Date.now() + 1000 * 60 * 5).toISOString(), // 5 minutes
   })
-
-export const getFarcasterUser = async (channelToken: string) => {
-  const statusResponse = await appClient.watchStatus({
-    channelToken: channelToken,
-    timeout: 60_000,
-    interval: 1_000,
-    onResponse: ({ response, data }) => {
-      console.log('Response code:', response.status)
-      console.log('Status data:', data)
-    },
-  })
-
-  return statusResponse.data
-}
