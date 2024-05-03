@@ -171,7 +171,7 @@
               </div>
             </NeoDropdownItem>
             <NeoDropdownItem
-              @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
+              @click="shareOnFarcaster($i18n.t('sharing.profile'), [shareURL])">
               <div class="flex text-nowrap w-max items-center">
                 <FarcasterIcon class="mr-3" />
                 {{ $t('share.farcaster') }}
