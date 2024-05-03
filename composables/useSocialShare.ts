@@ -32,21 +32,22 @@ export default function () {
 
   const shareOnFarcaster = (
     text: string,
-    url: string = fullPathShare.value,
+    urls: string[] = [fullPathShare.value],
   ) => {
     open(
-      `https://warpcast.com/~/compose?text=${encodeURIComponent(
-        text,
-      )}&embeds[]=${url}`,
+      `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&${urls.map((url) => `embeds[]=${encodeURIComponent(url)}`).join('&')}`,
     )
   }
+
+  const getCollectionFrameUrl = (chain: Prefix, collectionId: string) =>
+    `${URLS.koda.frame}/${chain}/${collectionId}/246`
 
   const shareCollectionOnFarcaster = (
     chain: Prefix,
     collectionId: string,
     text: string,
   ) => {
-    shareOnFarcaster(text, `${URLS.koda.frame}/${chain}/${collectionId}`)
+    shareOnFarcaster(text, [getCollectionFrameUrl(chain, collectionId)])
   }
 
   return {
@@ -54,5 +55,6 @@ export default function () {
     shareOnTelegram,
     shareOnFarcaster,
     shareCollectionOnFarcaster,
+    getCollectionFrameUrl,
   }
 }

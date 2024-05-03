@@ -153,6 +153,7 @@ export const useUpdateMetadata = async () => {
 
       mintedNfts.value.push({
         id: `${drop.value.collection}-${res.nft}`,
+        index: mintNFTs.value[index].index as number,
         chain: res.chain,
         name: metadata.name,
         image: metadata.animation_url,

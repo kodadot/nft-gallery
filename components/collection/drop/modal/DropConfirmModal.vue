@@ -101,6 +101,7 @@ const mintedNFT = computed<MintedNFT | undefined>(() =>
   claimedNft.value
     ? {
         ...claimedNft.value,
+        index: Number(claimedNft.value.sn),
         image: sanitizeIpfsUrl(claimedNft.value.image),
         collection: {
           id: claimedNft.value.collection,

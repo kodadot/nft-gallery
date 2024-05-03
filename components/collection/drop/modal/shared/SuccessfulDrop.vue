@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
 import { MintedNFT, MintingSession } from '../../types'
+import { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
@@ -27,6 +28,7 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { getCollectionFrameUrl } = useSocialShare()
 
 const cantList = computed(() => !props.canListNfts)
 const txHash = computed(() => props.mintingSession.txHash ?? '')
@@ -54,16 +56,32 @@ const userProfilePath = computed(
 )
 
 const sharingTxt = computed(() =>
-  $i18n.t('sharing.dropNft', [
-    mintedNft.value?.id,
-    mintedNft.value?.collection.max,
-  ]),
+  singleMint.value
+    ? $i18n.t('sharing.dropNft', [
+        mintedNft.value?.index,
+        mintedNft.value?.collection.max,
+      ])
+    : $i18n.t('sharing.dropNfts', [
+        props.mintingSession.items
+          .map((item) => `#${item.index}/${item.collection.max}`)
+          .join(', '),
+      ]),
 )
 
-const share = computed(() => ({
+const share = computed<ShareProp>(() => ({
   text: sharingTxt.value,
   url: nftFullUrl.value,
   withCopy: singleMint.value,
+  social: {
+    farcaster: {
+      embeds: [
+        getCollectionFrameUrl(
+          urlPrefix.value,
+          mintedNft.value?.collection.id as string,
+        ),
+      ],
+    },
+  },
 }))
 
 const actionButtons = computed(() => ({

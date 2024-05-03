@@ -39,12 +39,18 @@ import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
+
+export type SocialMediaProps = {
+  farcaster?: { embeds: string[] }
+}
+
 const props = withDefaults(
   defineProps<{
     text: string
     url: string
     withCopy?: boolean
     showFarcaster?: boolean
+    social?: SocialMediaProps
   }>(),
   {
     withCopy: true,
@@ -63,6 +69,6 @@ const handleShareOnTelegram = () => {
   shareOnTelegram(props.text, props.url)
 }
 const handleShareOnFarcaster = () => {
-  shareOnFarcaster(props.text, props.url)
+  shareOnFarcaster(props.text, props.social?.farcaster?.embeds ?? [props.url])
 }
 </script>
