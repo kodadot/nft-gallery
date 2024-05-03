@@ -116,6 +116,8 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
     emit('success')
     stage.value = 5 // Go to success stage
   } catch (error) {
+    stage.value = 3 // Back to form stage
+    warningMessage(error!.toString())
     console.error(error)
   }
 }
