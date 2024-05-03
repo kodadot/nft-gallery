@@ -23,11 +23,10 @@
 
 <script lang="ts" setup>
 import { getSumOfObjectField } from '@/utils/math'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
 import { Profile } from '@/services/profile'
-import type ProfileStatsByIdRefined from '@/queries/types/subsquid/general/profileStatsByIdRefined'
+import { profileStatsByIdRefined } from '@/queries/subsquid/general/profileStatsByIdRefined'
 
 type Stats = {
   listedCount: number
@@ -87,9 +86,8 @@ useLazyAsyncData('stats', async () => {
     return
   }
 
-  const query = await resolveQueryPath(client.value, 'profileStatsByIdRefined')
-  const { data } = await useAsyncQuery<ProfileStatsByIdRefined>({
-    query: query.default,
+  const { data } = await useAsyncQuery({
+    query: profileStatsByIdRefined,
     clientId: client.value,
     variables: {
       id: id.value,

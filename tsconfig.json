@@ -22,6 +22,23 @@
       "@types/node",
       "vue-apollo",
       "vitest/globals"
+    ],
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schemas": [
+          {
+            "name": "rubick",
+            "schema": "https://squid.subsquid.io/rubick/graphql",
+            "tadaOutputLocation": "./queries/types/rubick.d.ts"
+          },
+          {
+            "name": "ahp",
+            "schema": "https://ahp.gql.api.kodadot.xyz/",
+            "tadaOutputLocation": "./queries/types/ahp.d.ts"
+          }
+        ]
+      }
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
