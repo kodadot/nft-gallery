@@ -60,20 +60,26 @@ export function useCollectionEntity(collectionId?: string) {
     drop,
   )
 
+  const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
+  const mintedAmountForCurrentUser = computed(
+    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
+  )
+  const description = computed(
+    () => collectionData.value?.collectionEntity?.meta?.description ?? '',
+  )
+  const collectionName = computed(
+    () => collectionData.value?.collectionEntity?.name ?? '',
+  )
+  const nftCount = computed(
+    () => collectionData.value?.collectionEntity?.nftCount ?? 0,
+  )
+
   return {
-    maxCount: computed(() => collectionData.value?.collectionEntity?.max),
-    mintedAmountForCurrentUser: computed(
-      () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
-    ),
-    description: computed(
-      () => collectionData.value?.collectionEntity?.meta?.description ?? '',
-    ),
-    collectionName: computed(
-      () => collectionData.value?.collectionEntity?.name ?? '',
-    ),
-    nftCount: computed(
-      () => collectionData.value?.collectionEntity?.nftCount ?? 0,
-    ),
+    maxCount,
+    mintedAmountForCurrentUser,
+    description,
+    collectionName,
+    nftCount,
   }
 }
 
