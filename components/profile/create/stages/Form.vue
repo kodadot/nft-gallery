@@ -54,7 +54,6 @@
       <!-- banner picture -->
       <NeoField
         :label="`Upload Cover Image`"
-        required
         :error="!form.banner"
         label-class="!text-xl">
         <div class="max-w-full grow">
@@ -123,9 +122,7 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const submitDisabled = computed(() =>
-  hasProfile.value
-    ? false
-    : !form.name || !form.description || !form.image || !form.banner,
+  hasProfile.value ? false : !form.name || !form.description || !form.image,
 )
 
 const emit = defineEmits<{
