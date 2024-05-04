@@ -70,7 +70,7 @@
     "@kodadot1/sub-api": "0.3.1-rc.0",
     "@nuxt/image": "^1.5.0",
     "@nuxtjs/apollo": "5.0.0-alpha.6",
-    "@paraspell/sdk": "^5.1.0",
+    "@paraspell/sdk": "^5.2.1",
     "@pinia/nuxt": "^0.5.1",
     "@polkadot/api": "^10.13.1",
     "@polkadot/api-base": "^10.13.1",
@@ -115,6 +115,7 @@
     "workbox-window": "^6.6.0"
   },
   "devDependencies": {
+    "@dargmuesli/nuxt-cookie-control": "^7.5.1",
     "@nuxt/content": "^2.12.1",
     "@nuxt/types": "^2.17.3",
     "@nuxtjs/color-mode": "^3.3.3",
@@ -147,14 +148,14 @@
     "jsdom": "^19.0.0",
     "lint-staged": "^12.5.0",
     "nuxt": "^3.11.2",
+    "nuxt-gtag": "^1.2.1",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "sass": "^1.74.1",
     "tailwindcss": "^3.4.3",
     "vite-svg-loader": "^5.1.0",
     "vitest": "^0.34.6",
-    "vue-eslint-parser": "^9.4.2",
-    "vue-gtag": "^2.0.1"
+    "vue-eslint-parser": "^9.4.2"
   },
   "resolutions": {
     "@apollo/federation": "0.38.1",

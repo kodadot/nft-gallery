@@ -26,14 +26,9 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-export function useCollectionEntity(collectionId?: string) {
-  const { drop } = useDrop()
-  const { client } = usePrefix()
+function useCollectionData(collectionKey, client, collectionId, drop) {
   const { accountId } = useAuth()
-
-  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
-
-  const { data: collectionData } = useAsyncData<UnlockableCollectionById>(
+  return useAsyncData<UnlockableCollectionById>(
     'collectionEntity' + collectionKey.value,
     () =>
       useAsyncQuery<UnlockableCollectionById>({
@@ -50,20 +45,31 @@ export function useCollectionEntity(collectionId?: string) {
         : [() => drop.value?.collection, accountId],
     },
   )
+}
+
+export function useCollectionEntity(collectionId?: string) {
+  const { drop } = useDrop()
+  const { client } = usePrefix()
+
+  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
+
+  const { data: collectionData } = useCollectionData(
+    collectionKey,
+    client,
+    collectionId,
+    drop,
+  )
 
   const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
-
   const mintedAmountForCurrentUser = computed(
     () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
   )
-
   const description = computed(
     () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
   const collectionName = computed(
     () => collectionData.value?.collectionEntity?.name ?? '',
   )
-
   const nftCount = computed(
     () => collectionData.value?.collectionEntity?.nftCount ?? 0,
   )
