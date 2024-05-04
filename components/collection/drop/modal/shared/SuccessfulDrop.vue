@@ -62,9 +62,7 @@ const sharingTxt = computed(() =>
         mintedNft.value?.collection.max,
       ])
     : $i18n.t('sharing.dropNfts', [
-        props.mintingSession.items
-          .map((item) => `#${item.index}/${item.collection.max}`)
-          .join(', '),
+        props.mintingSession.items.map((item) => `#${item.index}`).join(', '),
       ]),
 )
 
