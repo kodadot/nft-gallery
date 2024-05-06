@@ -1,17 +1,15 @@
 <template>
-  <transition name="slide">
-    <CookieControl class="cookie-banner">
-      <template #bar>
-        <p>
-          {{ $t('cookies.notice') }}
-          <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
-            >Cookie Policy</nuxt-link
-          >
-          <span class="invisible md:visible mx-2">|</span>
-        </p>
-      </template>
-    </CookieControl>
-  </transition>
+  <CookieControl class="cookie-banner">
+    <template #bar>
+      <p>
+        {{ $t('cookies.notice') }}
+        <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
+          >Cookie Policy</nuxt-link
+        >
+        <span class="invisible md:visible mx-2">|</span>
+      </p>
+    </template>
+  </CookieControl>
 </template>
 
 <script lang="ts" setup>
