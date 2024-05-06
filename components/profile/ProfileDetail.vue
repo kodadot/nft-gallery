@@ -202,18 +202,20 @@
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
             </span>
-            <div class="flex -space-x-3">
-              <NuxtLink
+            <NeoButton
+              variant="text"
+              class="flex -space-x-3"
+              no-shadow
+              @click="onFollowersClick">
+              <NuxtImg
                 v-for="(follower, index) in followers?.followers"
                 :key="index"
-                :to="`/${urlPrefix}/u/${formatAddress(follower.address, chainProperties.ss58Format)}`">
-                <NuxtImg
-                  :src="follower.image"
-                  alt="follower avatar"
-                  class="w-8 h-8 rounded-full border object-cover"
-                  :style="{ zIndex: 3 - index }" />
-              </NuxtLink>
-            </div>
+                :src="follower.image"
+                alt="follower avatar"
+                class="w-8 h-8 rounded-full border object-cover"
+                :style="{ zIndex: 3 - index }" />
+            </NeoButton>
+
             <span v-if="followersCount > 3" class="text-sm">
               +
               {{ followersCount - (followers?.followers?.length ?? 0) }}
@@ -416,7 +418,6 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { chainProperties } = useChain()
 
 const { hasProfile, userProfile, fetchProfile } = useProfile()
 
