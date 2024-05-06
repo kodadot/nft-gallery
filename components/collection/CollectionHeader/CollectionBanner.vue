@@ -39,17 +39,14 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-
+import collectionById from '@/queries/subsquid/general/collectionById.query'
 const NuxtImg = resolveComponent('NuxtImg')
 
 const collectionId = computed(() => route.params.id as string)
 const route = useRoute()
 
-const { data, refetch } = useGraphql({
-  queryName: 'collectionById',
-  variables: {
-    id: collectionId.value,
-  },
+const { result: data, refetch } = useQuery(collectionById, {
+  id: collectionId.value,
 })
 
 const collectionAvatar = ref('')
@@ -76,7 +73,9 @@ watchEffect(async () => {
     collectionAvatar.value = sanitizeIpfsUrl(image)
     collectionName.value = name
   } else {
-    const meta = (await processSingleMetadata(metadata)) as NFTMetadata
+    const meta = (await processSingleMetadata(
+      metadata as string,
+    )) as NFTMetadata
     const metaImage = sanitizeIpfsUrl(meta?.image)
     const metaName = meta?.name
 
@@ -93,21 +92,21 @@ watchEffect(async () => {
 useSeoMeta({
   title: collectionName,
   description: () =>
-    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
   ogUrl: route.path,
   ogTitle: collectionName,
   ogDescription: () =>
-    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
   ogImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection.totalCount,
+      data.value?.nftEntitiesConnection?.totalCount,
       collectionAvatar.value,
     ),
   twitterImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection.totalCount,
+      data.value?.nftEntitiesConnection?.totalCount,
       collectionAvatar.value,
     ),
 })
