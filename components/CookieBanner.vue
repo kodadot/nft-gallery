@@ -51,9 +51,6 @@ onMounted(() => {
 }
 .cookieControl__BarButtons button {
   @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-solid border-card-border-color-light bg-background-color flex-row-reverse hover:bg-background-color hover:border-text-color hover:text-text-color;
-  &:hover {
-    @apply hover:bg-background-color border border-solid border-text-color text-text-color;
-  }
 }
 .cookieControl__Bar button + button {
   @apply mr-3 border-none;
