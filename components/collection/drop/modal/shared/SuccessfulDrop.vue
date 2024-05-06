@@ -57,10 +57,7 @@ const userProfilePath = computed(
 
 const sharingTxt = computed(() =>
   singleMint.value
-    ? $i18n.t('sharing.dropNft', [
-        mintedNft.value?.index,
-        mintedNft.value?.collection.max,
-      ])
+    ? $i18n.t('sharing.dropNft', [`#${mintedNft.value?.index}`])
     : $i18n.t('sharing.dropNfts', [
         props.mintingSession.items.map((item) => `#${item.index}`).join(', '),
       ]),
