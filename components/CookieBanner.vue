@@ -6,7 +6,6 @@
         <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
           >Cookie Policy</nuxt-link
         >
-        <!-- <span class="invisible md:visible mx-2">|</span> -->
       </p>
     </template>
   </CookieControl>
@@ -78,7 +77,6 @@ button.cookieControl__ModalClose:after {
   @apply grid grid-cols-3 gap-4 mt-4 shrink-0 w-full;
 }
 .cookieControl__ModalButtons button {
-  // @apply text-sm bg-inherit text-text-color px-1 py-2;
   @apply py-2 px-4 rounded-[3rem] shadow-none border border-solid border-card-border-color-light bg-background-color text-text-color flex-row-reverse hover:bg-background-color hover:border-text-color hover:text-text-color;
 }
 .cookieControl__ModalContent .cookieControl__ModalInputWrapper input + button {
