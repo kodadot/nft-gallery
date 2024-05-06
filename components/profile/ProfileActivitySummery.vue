@@ -26,7 +26,7 @@ import { getSumOfObjectField } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
 import { Profile } from '@/services/profile'
-import { profileStatsByIdRefined } from '@/queries/subsquid/general/profileStatsByIdRefined'
+import profileStatsByIdRefined from '@/queries/subsquid/general/profileStatsByIdRefined'
 
 type Stats = {
   listedCount: number

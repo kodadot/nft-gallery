@@ -1,8 +1,8 @@
-import { graphql } from '@/queries/clients/subsquid-graphql'
+import { graphql } from '@/queries/clients/graphqlClients'
 import { eventFragment } from '@/queries/fragments/event'
 import { nftSubsquidFragment } from '@/queries/fragments/nftSubsquid'
 
-export const profileStatsByIdRefined = graphql(
+const profileStatsByIdRefined = graphql(
   `
     query profileStatsByIdRefined($id: String!, $denyList: [String!]) {
       listed: nftEntities(
@@ -57,3 +57,5 @@ export const profileStatsByIdRefined = graphql(
   `,
   [nftSubsquidFragment, eventFragment],
 )
+
+export default profileStatsByIdRefined
