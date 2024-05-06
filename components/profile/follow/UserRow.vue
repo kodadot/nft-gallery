@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-between">
-    <div class="flex">
+    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${user.address}`">
       <NuxtImg
         :src="user.image"
         placholder
@@ -15,7 +15,7 @@
           }}</span>
         </p>
       </div>
-    </div>
+    </NuxtLink>
     <NeoButton
       ref="buttonRef"
       rounded
@@ -59,6 +59,7 @@ const buttonRef = ref(null)
 const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
+const { urlPrefix } = usePrefix()
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
   () => fetchFollowersOf(props.user.address, 0).then((res) => res.totalCount),
