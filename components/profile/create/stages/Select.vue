@@ -25,7 +25,7 @@
       expanded
       no-shadow
       size="large"
-      :label="hasProfile ? $t('profile.editProfile') : 'Start Fresh'"
+      :label="hasProfile ? $t('profile.editProfile') : $t('profile.startFresh')"
       @click="emit('startNew')" />
   </div>
 </template>
