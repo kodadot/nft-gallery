@@ -1,4 +1,4 @@
-import { graphql } from '../clients/subsquid-graphql'
+import { graphqlAhp as graphql } from '../clients/graphqlClients'
 
 export const nftSubsquidFragment = graphql(`
   fragment nftSubsquid on NFTEntity {
