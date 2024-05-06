@@ -357,7 +357,6 @@ import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
 import { resolveComponent } from 'vue'
 import { useListingCartStore } from '@/stores/listingCart'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 import { Interaction } from '@kodadot1/minimark/v1'
 import CollectionFilter from './CollectionFilter.vue'
@@ -373,6 +372,8 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
+
+import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -633,9 +634,8 @@ useAsyncData('tabs-count', async () => {
     searchParams['burned_eq'] = false
   }
 
-  const query = await resolveQueryPath(client.value, 'profileTabsCount')
   const { data } = await useAsyncQuery({
-    query: query.default,
+    query: profileTabsCount,
     clientId: client.value,
     variables: {
       id: id.value,
@@ -670,9 +670,8 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     searchParams['burned_eq'] = false
   }
 
-  const query = await resolveQueryPath(chain, 'profileTabsCount')
   const { data } = await useAsyncQuery({
-    query: query.default,
+    query: profileTabsCount,
     clientId: chain,
     variables: {
       id: prefixAddress,
