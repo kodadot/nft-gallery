@@ -8,8 +8,9 @@
     >
     <NeoButton
       expanded
-      class="!bg-purple-light-color h-14"
+      class="!bg-purple-light-color !text-purple-dark-color !border-purple-dark-color hover:!bg-transparent"
       no-shadow
+      size="large"
       :loading="loading"
       :loading-with-label="true"
       label="Import from Farcaster"
@@ -23,8 +24,8 @@
     <NeoButton
       expanded
       no-shadow
-      :label="hasProfile ? 'Edit Profile' : 'Start Fresh'"
-      class="h-14"
+      size="large"
+      :label="hasProfile ? $t('profile.editProfile') : $t('profile.startFresh')"
       @click="emit('startNew')" />
   </div>
 </template>

@@ -444,7 +444,7 @@ const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
 
 const editProfileConfig: ButtonConfig = {
-  label: 'Edit Profile',
+  label: $i18n.t('profile.editProfile'),
   icon: 'pen',
   onClick: () => (isModalActive.value = true),
   classes: 'hover:!bg-transparent',
