@@ -8,6 +8,7 @@ export const graphqlRmrk = initGraphQLTada<{
   introspection: rmrkSchema
   scalars: {
     DateTime: string
+    BigInt: string
   }
 }>()
 
@@ -15,6 +16,7 @@ export const graphqlKsm = initGraphQLTada<{
   introspection: ksmScehma
   scalars: {
     DateTime: string
+    BigInt: string
   }
 }>()
 
@@ -22,6 +24,7 @@ export const graphqlAhp = initGraphQLTada<{
   introspection: ahpSchema
   scalars: {
     DateTime: string
+    BigInt: string
   }
 }>()
 
@@ -29,6 +32,7 @@ export const graphqlAhk = initGraphQLTada<{
   introspection: ahkSchema
   scalars: {
     DateTime: string
+    BigInt: string
   }
 }>()
 
