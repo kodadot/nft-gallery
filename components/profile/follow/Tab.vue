@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading">
+  <div v-if="isLoading" class="flex flex-col gap-5">
     <UserRowSkeleton v-for="(_, index) in loadingSkeletonItems" :key="index" />
   </div>
   <div v-else-if="totalCount > 0" ref="el" class="flex flex-col gap-5">
