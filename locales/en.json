@@ -1886,7 +1886,9 @@
     "replayAnimation": "Replay Animation",
     "exportVariations": "Export Variations",
     "resolveIssue": "Resolve Issue",
-    "copyCode": "Copy Code"
+    "copyCode": "Copy Code",
+    "testOutPerformance": "Test out performance",
+    "testOutCapture": "Test out capture service"
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"

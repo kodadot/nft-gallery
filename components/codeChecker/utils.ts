@@ -103,8 +103,11 @@ const categorizeFiles = async (
 
 // exported functions
 
-export const postAssetsToSandbox = (message: Array<AssetMessage>) => {
-  const iframe = document.getElementById(config.iframeId) as HTMLIFrameElement
+export const postAssetsToSandbox = (
+  message: Array<AssetMessage>,
+  iframeId: string,
+) => {
+  const iframe = document.getElementById(iframeId) as HTMLIFrameElement
   if (iframe?.contentWindow) {
     iframe.contentWindow.postMessage(
       { type: 'assets', assets: JSON.parse(JSON.stringify(message)) },

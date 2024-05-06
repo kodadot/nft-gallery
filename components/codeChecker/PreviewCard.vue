@@ -160,6 +160,7 @@ const exportAsPNG = async () => {
 }
 
 watch(() => props.reloadTrigger, replay)
+defineExpose({ hash })
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
