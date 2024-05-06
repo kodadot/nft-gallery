@@ -126,11 +126,9 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const submitDisabled = computed(() =>
-
   hasProfile.value || props.useFarcaster
-    ? false
+    ? form.name && form.description && form.image
     : !form.name || !form.description || !form.image,
-
 )
 
 const emit = defineEmits<{
