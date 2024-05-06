@@ -6,14 +6,13 @@
     :nft-name="item.name"
     :collection-id="item.collection"
     :collection-name="item.collectionName"
-    :media-mime-type="mediaMimeType"
+    :media-mime-type="item.mimeType"
     :price="item.price"
     :show-price="showPrice" />
   <MultiItemMedia
     v-else
     :header="header.multiple"
     :items="items"
-    :media-mime-type="mediaMimeType"
     :show-price="showPrice" />
 </template>
 <script lang="ts" setup>
@@ -24,12 +23,12 @@ export type ItemMedia = {
   collection: string
   collectionName: string
   price?: string
+  mimeType?: string
 }
 
 const props = defineProps<{
   header: { single: string; multiple: string }
   items: ItemMedia[]
-  mediaMimeType?: string
   showPrice?: boolean
 }>()
 
