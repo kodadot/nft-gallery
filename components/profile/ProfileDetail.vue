@@ -187,7 +187,9 @@
         <div
           v-if="userProfile?.description"
           class="max-w-lg whitespace-break-spaces text-sm">
-          {{ userProfile.description }}
+          <Markdown
+            :source="userProfile.description"
+            data-testid="profile-description" />
         </div>
         <!-- Followers -->
         <div>
