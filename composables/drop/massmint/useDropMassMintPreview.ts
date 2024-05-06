@@ -99,7 +99,7 @@ export default () => {
       return {
         name: drop.value.name,
         collectionName: collectionName.value as string,
-        image: item.image,
+        animationUrl: item.image as string,
         price: drop.value.price as string,
         hash: item.hash,
         entropyRange: item.entropyRange,
