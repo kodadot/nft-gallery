@@ -10,7 +10,7 @@
  * instead save to a .ts instead of a .d.ts file.
  */
 export type introspection = {
-  name: 'rubick';
+  name: 'rmrk';
   query: 'Query';
   mutation: never;
   subscription: 'Subscription';

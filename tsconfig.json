@@ -28,14 +28,24 @@
         "name": "@0no-co/graphqlsp",
         "schemas": [
           {
-            "name": "rubick",
+            "name": "rmrk",
             "schema": "https://squid.subsquid.io/rubick/graphql",
-            "tadaOutputLocation": "./queries/types/rubick.d.ts"
+            "tadaOutputLocation": "./queries/clients/types/rmrk.d.ts"
+          },
+          {
+            "name": "ksm",
+            "schema": "https://ksm.gql.api.kodadot.xyz/",
+            "tadaOutputLocation": "./queries/clients/types/ksm.d.ts"
           },
           {
             "name": "ahp",
             "schema": "https://ahp.gql.api.kodadot.xyz/",
-            "tadaOutputLocation": "./queries/types/ahp.d.ts"
+            "tadaOutputLocation": "./queries/clients/types/ahp.d.ts"
+          },
+          {
+            "name": "ahk",
+            "schema": "https://ahk.gql.api.kodadot.xyz/",
+            "tadaOutputLocation": "./queries/clients/types/ahk.d.ts"
           }
         ]
       }
