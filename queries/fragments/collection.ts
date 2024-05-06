@@ -1,13 +1,11 @@
 import { graphql } from '../clients/graphqlClients'
 
-export const nftSubsquidFragment = graphql(`
-  fragment nftSubsquid on NFTEntity @_unmask {
+export const collectionFragment = graphql(`
+  fragment collection on CollectionEntity @_unmask {
     id
     metadata
     issuer
     currentOwner
     blockNumber
-    burned
-    updatedAt
   }
 `)

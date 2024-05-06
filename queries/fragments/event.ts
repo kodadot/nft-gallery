@@ -1,7 +1,7 @@
 import { graphqlAhp as graphql } from '../clients/graphqlClients'
 
 export const eventFragment = graphql(`
-  fragment event on Event {
+  fragment event on Event @_unmask {
     id
     blockNumber
     timestamp
