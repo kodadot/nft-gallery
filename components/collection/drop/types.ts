@@ -35,6 +35,7 @@ export type MintedNFT = {
   name: string
   image: string
   collection: { id: string; name: string; max: number }
+  mimeType?: string
 }
 
 export type MintingSession = {
