@@ -93,31 +93,31 @@
       </NeoTableColumn>
 
       <!-- <NeoTableColumn
-          v-slot="props"
-          field="weeklyVolume"
-          label="7d %"
-          numeric
-          cell-class="is-vcentered"
-          :visible="nbDays === '7'">
-          <template v-if="!isLoading">
-            <div
-              :class="
-                displayVolumePercent(
-                  props.row.weeklyVolume,
-                  props.row.weeklyrangeVolume,
-                  true
-                )
-              ">
-              {{
-                displayVolumePercent(
-                  props.row.weeklyVolume,
-                  props.row.weeklyrangeVolume
-                )
-              }}
-            </div>
-          </template>
-          <NeoSkeleton :active="isLoading" />
-        </NeoTableColumn> -->
+        v-slot="props"
+        field="weeklyVolume"
+        label="7d %"
+        numeric
+        cell-class="is-vcentered"
+        :visible="nbDays === '7'">
+        <template v-if="!isLoading">
+          <div
+            :class="
+              displayVolumePercent(
+                props.row.weeklyVolume,
+                props.row.weeklyrangeVolume,
+                true
+              )
+            ">
+            {{
+              displayVolumePercent(
+                props.row.weeklyVolume,
+                props.row.weeklyrangeVolume
+              )
+            }}
+          </div>
+        </template>
+        <NeoSkeleton :active="isLoading" />
+      </NeoTableColumn> -->
 
       <NeoTableColumn
         v-slot="props"
@@ -330,7 +330,7 @@ const { client, urlPrefix } = usePrefix()
 const nbRows = ref('50')
 const nbDays = ref('7')
 const isLoading = ref(false)
-const sortBy = reactive<SortType>({ field: 'series.volume', value: 'DESC' })
+const sortBy = reactive<SortType>({ field: 'volume', value: 'DESC' })
 
 const data = ref<RowSeries[]>([])
 
