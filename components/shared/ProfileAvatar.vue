@@ -38,9 +38,13 @@ const fetchUserProfile = async () => {
   if (!props.address) {
     return
   }
-  const res = await fetchProfileByAddress(props.address)
-  if (res) {
-    user.value = res
+  try {
+    const res = await fetchProfileByAddress(props.address)
+    if (res) {
+      user.value = res
+    }
+  } catch (error) {
+    // no profile data for current user
   }
 }
 
