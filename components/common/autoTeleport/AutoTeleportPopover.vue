@@ -3,7 +3,7 @@
     <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2 text-k-grey" />
 
     <template #content>
-      <div class="w-[16rem] bg-background-color text-xs border p-4">
+      <div class="w-[16rem] bg-background-color text-sm border p-4">
         <div class="flex text-base mb-3">
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
 
@@ -49,7 +49,7 @@
         <div class="flex justify-start mt-5">
           <a
             href="https://hello.kodadot.xyz/tutorial/teleport/auto-teleport"
-            class="text-k-blue hover:text-k-blue-hover text-xs"
+            class="text-k-blue hover:text-k-blue-hover text-sm"
             target="_blank"
             rel="nofollow noopener noreferrer"
             >{{ $t('helper.learnMore') }}</a
