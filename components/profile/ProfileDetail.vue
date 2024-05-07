@@ -202,18 +202,16 @@
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
             </span>
-            <NeoButton
-              variant="text"
-              class="flex -space-x-3"
-              no-shadow
-              @click="onFollowersClick">
-              <NuxtImg
-                v-for="(follower, index) in followers?.followers"
-                :key="index"
-                :src="follower.image"
-                alt="follower avatar"
-                class="w-8 h-8 rounded-full border object-cover"
-                :style="{ zIndex: 3 - index }" />
+            <NeoButton variant="text" no-shadow @click="onFollowersClick">
+              <div class="flex -space-x-3">
+                <NuxtImg
+                  v-for="(follower, index) in followers?.followers"
+                  :key="index"
+                  :src="follower.image"
+                  alt="follower avatar"
+                  class="w-8 h-8 rounded-full border object-cover"
+                  :style="{ zIndex: 3 - index }" />
+              </div>
             </NeoButton>
 
             <span v-if="followersCount > 3" class="text-sm">
