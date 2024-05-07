@@ -60,6 +60,7 @@
   "packageManager": "pnpm@8.6.0",
   "dependencies": {
     "@braintree/sanitize-url": "^6.0.4",
+    "@farcaster/auth-client": "^0.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.6",
     "@kodadot1/brick": "workspace:*",
@@ -108,6 +109,7 @@
     "qrcode.vue": "^3.4.1",
     "slugify": "^1.6.6",
     "unzipit": "^1.4.3",
+    "viem": "^2.9.31",
     "vue-apollo": "^3.1.2",
     "vue-chartjs": "^5.3.0",
     "vue-dompurify-html": "^4.1.4",

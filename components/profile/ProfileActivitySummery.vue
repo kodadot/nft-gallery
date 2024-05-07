@@ -3,13 +3,15 @@
     <div
       v-for="(item, index) in statsRows"
       :key="index"
-      class="flex justify-between w-full items-center"
+      class="flex justify-between w-full items-center group"
       :class="{ 'cursor-pointer': item.onClick }"
       @click="item.onClick">
       <span class="text-sm text-k-grey">
         {{ $t(item.label) }}
       </span>
-      <div class="text-lg font-bold">
+      <div
+        class="text-lg font-bold"
+        :class="{ 'group-hover:underline underline-offset-4': item.onClick }">
         <component
           :is="item.component"
           v-if="item.component"

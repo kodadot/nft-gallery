@@ -838,7 +838,8 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "following": "Following",
-    "editProfile": "Edit Profile",
+    "editProfile": "Edit Existing Profile",
+    "startFresh": "Start Fresh",
     "createProfile": "Create Profile"
   },
   "sales": {
