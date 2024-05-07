@@ -7,10 +7,9 @@
         alt="follower avatar"
         class="w-12 h-12 rounded-full border object-cover mr-4" />
       <div class="flex flex-col gap-[6px]">
-        <span
-          class="text-k-black font-bold text-ellipsis whitespace-nowrap overflow-hidden max-w-[11rem]"
-          >{{ user.name }}</span
-        >
+        <span class="text-k-black font-bold truncate max-w-[11rem]">{{
+          user.name
+        }}</span>
         <p class="text-sm">
           {{ followersCount }}
           <span class="text-k-grey">{{
