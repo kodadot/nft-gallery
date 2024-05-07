@@ -19,7 +19,6 @@ export default function useUserProfile() {
     }
     try {
       const response = await fetchProfileByAddress(account)
-      console.log('Profile fetch response:', response)
 
       userProfileData.value = response
       hasProfile.value = true
