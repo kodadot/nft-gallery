@@ -1050,7 +1050,7 @@
     "unlimited": "Unlimited"
   },
   "cookies": {
-    "notice": "Being on our site, you agree with our",
+    "notice": "We use cookies for better service, see {0} for details.",
     "accept": "Accept",
     "decline": "Decline"
   },
