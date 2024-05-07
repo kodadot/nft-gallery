@@ -1,5 +1,5 @@
 <template>
-  <NeoModal :value="vOpen" @close="close">
+  <NeoModal :key="accountId" :value="vOpen" @close="close">
     <ModalBody content-class="px-6 py-5" @close="close">
       <template #header>
         <div class="flex">
@@ -38,6 +38,8 @@ import { NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import { Follower } from '@/services/profile'
 import { Tab } from '@/components/profile/types'
+
+const { accountId } = useAuth()
 
 const emit = defineEmits(['close'])
 
