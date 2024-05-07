@@ -838,7 +838,8 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "following": "Following",
-    "editProfile": "Edit Profile",
+    "editProfile": "Edit Existing Profile",
+    "startFresh": "Start Fresh",
     "createProfile": "Create Profile"
   },
   "sales": {
@@ -1098,7 +1099,8 @@
     "listedNft": "Check out this awesome NFT I just listed on KodaDot",
     "listedNfts": "Check out these awesome NFTs I just listed on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
-    "dropNft": "I've minted a generative art piece on Koda {'#'}{0}{'/'}{1}",
+    "dropNft": "I've minted {0} generative art piece on Koda!",
+    "dropNfts": "I've minted {0} generative art pieces on Koda!",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
