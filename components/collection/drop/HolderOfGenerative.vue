@@ -168,7 +168,6 @@ const handleSubmitMint = async () => {
 }
 
 const mint = async () => {
-  await allocateGenerated()
   await mintNft()
 }
 
@@ -210,7 +209,7 @@ const stopMint = () => {
   clearMassMint()
 }
 
-const { massGenerate, allocateGenerated, clearMassMint } = useDropMassMint()
+const { massGenerate, clearMassMint } = useDropMassMint()
 
 const { listMintedNFTs } = useDropMassMintListing()
 

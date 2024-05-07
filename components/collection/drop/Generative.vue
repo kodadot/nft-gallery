@@ -28,11 +28,7 @@ import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNew
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { getFakeEmail } from './utils'
-import { createUnlockableMetadata } from '../unlockable/utils'
 import { useDropStore } from '@/stores/drop'
-import useGenerativeIframeData, {
-  ImageDataPayload,
-} from '@/composables/drop/useGenerativeIframeData'
 
 const instance = getCurrentInstance()
 const preferencesStore = usePreferencesStore()
@@ -45,7 +41,6 @@ const { previewItem, mintedNFTs } = storeToRefs(dropStore)
 
 const { toast } = useToast()
 
-const { $i18n } = useNuxtApp()
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { drop } = useDrop()
@@ -59,10 +54,8 @@ const { emailConfirmed } = useGenerativeDropNewsletter()
 const { claimedNft, subscribeToMintedNft, listMintedNft, maxCount } =
   useGenerativeDropMint()
 
-const { collectionName, description } = useCollectionEntity()
-const { imageDataPayload } = useGenerativeIframeData()
+const { collectionName } = useCollectionEntity()
 
-const imageMetadata = ref('')
 const imageHash = computed(() => previewItem.value?.hash ?? '')
 const selectedImage = computed(() => previewItem.value?.image ?? '')
 
@@ -97,47 +90,12 @@ const handleSubmitMint = () => {
   }
 }
 
-const generateMetadata = async ({
-  data,
-  image,
-}: {
-  image: string
-  data: ImageDataPayload
-}): Promise<string> => {
-  try {
-    dropStore.setIsCapturingImage(true)
-    const imageCid = await tryCapture({
-      data,
-      image,
-    })
-    const metadata = await createUnlockableMetadata(
-      imageCid,
-      description.value ?? '',
-      collectionName.value ?? drop.value?.name ?? '',
-      'text/html',
-      selectedImage.value,
-    )
-    imageMetadata.value = metadata
-    dropStore.setIsCapturingImage(false)
-    return metadata
-  } catch (error) {
-    toast($i18n.t('drops.capture'))
-    throw error
-  }
-}
-
 const allocateRaffle = async (): Promise<{ raffleId: number }> => {
-  const metadata = await generateMetadata({
-    image: selectedImage.value,
-    data: imageDataPayload.value as ImageDataPayload,
-  })
-
   const body = {
     email: getFakeEmail(),
     hash: imageHash.value,
     address: accountId.value,
     image: selectedImage.value,
-    metadata: metadata,
   }
 
   const response = await allocateCollection(body, drop.value.id)

@@ -25,7 +25,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
   rmrk: KUSAMA_ENDPOINTS,
   ksm: KUSAMA_ENDPOINTS,
   ahk: [
-    'wss://sys.ibp.network/statemine',
+    'wss://kusama-asset-hub-rpc.polkadot.io',
     'wss://statemine-rpc.dwellir.com',
     'wss://sys.dotters.network/statemine',
     'wss://rpc-asset-hub-kusama.luckyfriday.io',
@@ -48,7 +48,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
 export const ENDPOINT_MAP: Config<ENDPOINT_URL> = {
   rmrk: KUSAMA_ENDPOINTS[0],
   ksm: KUSAMA_ENDPOINTS[0],
-  ahk: 'wss://sys.ibp.network/statemine',
+  ahk: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
   ahp: 'wss://sys.ibp.network/statemint',
   imx: 'https://rpc.immutable.com',
