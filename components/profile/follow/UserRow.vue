@@ -7,7 +7,7 @@
         alt="follower avatar"
         class="w-12 h-12 rounded-full border object-cover mr-4" />
       <div class="flex flex-col gap-[6px]">
-        <span class="text-k-black font-bold truncate max-w-[11rem]">{{
+        <span class="text-k-black font-bold truncate max-w-[10rem]">{{
           user.name
         }}</span>
         <p class="text-sm">
@@ -22,7 +22,7 @@
       ref="buttonRef"
       rounded
       no-shadow
-      class="!min-w-fit"
+      class="!min-w-28"
       :class="buttonConfig.classes"
       :variant="buttonConfig.variant"
       :active="buttonConfig.active"
