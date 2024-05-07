@@ -27,6 +27,7 @@ const props = defineProps<{
 }>()
 
 const vList = useVModel(props, 'userList')
+const { accountId } = useAuth()
 const offset = computed(() => vList.value.length)
 const limit = 10
 const el = ref<HTMLElement | null>(null)
@@ -42,18 +43,17 @@ const fetchNextPage = async () => {
     isLoading.value = true
   }
   if (props.type === 'following') {
-    const { following } = await fetchFollowing(
-      route.params.id as string,
+    const { following } = await fetchFollowing(route.params.id as string, {
       limit,
-      offset.value,
-    )
+      offset: offset.value,
+    })
     vList.value.push(...following)
   } else {
-    const { followers } = await fetchFollowersOf(
-      route.params.id as string,
+    const { followers } = await fetchFollowersOf(route.params.id as string, {
       limit,
-      offset.value,
-    )
+      offset: offset.value,
+      exclude: [accountId.value],
+    })
     vList.value.push(...followers)
   }
 

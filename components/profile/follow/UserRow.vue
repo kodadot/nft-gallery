@@ -62,7 +62,10 @@ const showFollowing = ref(false)
 const { urlPrefix } = usePrefix()
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
-  () => fetchFollowersOf(props.user.address, 0).then((res) => res.totalCount),
+  () =>
+    fetchFollowersOf(props.user.address, { limit: 0 }).then(
+      (res) => res.totalCount,
+    ),
 )
 
 const { data: isFollowed, refresh: refreshFollowStatus } = useAsyncData(
