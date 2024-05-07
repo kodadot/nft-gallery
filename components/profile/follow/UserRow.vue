@@ -47,7 +47,7 @@ import {
 } from '@/services/profile'
 import { ButtonConfig } from '@/components/profile/types'
 
-const { accountId } = useAuth()
+const { accountId, isLogIn } = useAuth()
 const { $i18n } = useNuxtApp()
 
 const props = defineProps<{
@@ -66,8 +66,12 @@ const { data: followersCount, refresh: refreshCount } = useAsyncData(
 )
 
 const { data: isFollowed, refresh: refreshFollowStatus } = useAsyncData(
-  `${accountId.value}/isFollowing/${props.user.address}`,
-  () => isFollowing(accountId.value, props.user.address),
+  `${isLogIn.value ? accountId.value : ''}/isFollowing/${props.user.address}`,
+  () =>
+    isLogIn.value
+      ? isFollowing(accountId.value, props.user.address)
+      : Promise.resolve(false),
+  {},
 )
 
 const refresh = () => {
@@ -86,7 +90,9 @@ const followConfig: ButtonConfig = {
     showFollowing.value = true
     refresh()
   },
-  disabled: props.user.address === toSubstrateAddress(accountId.value),
+  disabled:
+    !isLogIn.value ||
+    props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
