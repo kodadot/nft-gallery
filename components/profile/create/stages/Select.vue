@@ -8,9 +8,12 @@
     >
     <NeoButton
       expanded
-      class="!bg-purple-light-color h-14"
+      class="!bg-purple-light-color !text-purple-dark-color !border-purple-dark-color hover:!bg-transparent"
       no-shadow
-      disabled
+      size="large"
+      :loading="loading"
+      :loading-with-label="true"
+      label="Import from Farcaster"
       @click="emit('importFarcaster')">
       <div class="flex items-center justify-center">
         <img :src="farcasterIcon" alt="farcaster" class="w-5 h-5" />
@@ -21,8 +24,8 @@
     <NeoButton
       expanded
       no-shadow
-      label="Start Fresh"
-      class="h-14"
+      size="large"
+      :label="hasProfile ? $t('profile.editProfile') : $t('profile.startFresh')"
       @click="emit('startNew')" />
   </div>
 </template>
@@ -30,6 +33,14 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 const { isDarkMode } = useTheme()
+
+defineProps<{
+  loading?: boolean
+}>()
+
+const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
+
+const hasProfile = computed(() => profile?.hasProfile.value)
 
 const farcasterIcon = computed(() =>
   isDarkMode.value ? '/farcaster-dark.svg' : '/farcaster-light.svg',

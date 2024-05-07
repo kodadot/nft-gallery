@@ -65,10 +65,6 @@
       &.shiny:not(:hover):not(:disabled) {
         @include shineEffect(var(--k-accent-light-3), lightgrey, false);
       }
-
-      &.shiny {
-        @apply hover:text-k-accent2
-      }
     }
 
     &--k-blue {
