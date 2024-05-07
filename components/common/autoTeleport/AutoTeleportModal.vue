@@ -154,8 +154,10 @@ const steps = computed<TransactionStep[]>(() => {
     props.transactions.actions.map((action) => {
       return {
         title: getActionDetails(action.interaction).title,
-        status: action.status.value,
-        isError: action.isError.value,
+        status: hasCompletedActionPreSteps.value
+          ? action.status.value
+          : TransactionStatus.Unknown,
+        isError: action.isError.value && hasCompletedActionPreSteps.value,
         txId: action.txId.value,
         blockNumber: action.blockNumber?.value,
         isLoading: action.isLoading.value,
@@ -251,6 +253,10 @@ const onClose = () => {
   emit('close', autoteleportFinalized.value)
 }
 
+const clearModal = () => {
+  balanceCheckState.value = TransactionStepStatus.WAITING
+}
+
 watch(
   [isTeleportTransactionFinalized, () => props.canDoAction],
   ([telportFinalized, canDoAction]) => {
@@ -275,6 +281,16 @@ watch(autoteleportFinalized, () => {
     }
   }
 })
+
+watchDebounced(
+  () => props.modelValue,
+  (isOpen) => {
+    if (!isOpen) {
+      clearModal()
+    }
+  },
+  { debounce: 500 }, // wait for the modal closing animation to finish
+)
 </script>
 
 <style lang="scss" scoped>

@@ -11,18 +11,13 @@ export const getAutoTeleportActionInteraction = (
     autoTeleportAction.interaction) as AutoteleportInteraction
 
 export default function (actions: ComputedRef<AutoTeleportAction[]>) {
-  const actionsCancelled = ref(new Map<AutoteleportInteraction, boolean>())
-
   const transactionActions = computed<ActionTransactionDetails[]>(() => {
     return actions.value.map<ActionTransactionDetails>((action, index) => {
       return {
-        isError: toRef(
+        isError: computed(
           () =>
             action.details.isError ||
-            actionsCancelled.value.get(
-              getAutoTeleportActionInteraction(action),
-            ) ||
-            false,
+            action.details.status === TransactionStatus.Cancelled,
         ),
         blockNumber: toRef(() => action.details.blockNumber),
         status: toRef(() => action.details.status),
@@ -33,29 +28,7 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     })
   })
 
-  watch(
-    actions,
-    (actions) => {
-      actions.forEach((action) => {
-        const cancelled = action.details.status === TransactionStatus.Cancelled
-        actionsCancelled.value.set(
-          getAutoTeleportActionInteraction(action),
-          cancelled,
-        )
-      })
-    },
-    { immediate: true, deep: true },
-  )
-
-  const clear = () => {
-    const interactions = actions.value.map(getAutoTeleportActionInteraction)
-    interactions.forEach((interaction) => {
-      actionsCancelled.value.set(interaction, false)
-    })
-  }
-
   return {
     transactionActions,
-    clear,
   }
 }
