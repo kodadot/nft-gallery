@@ -55,6 +55,7 @@ const props = withDefaults(
   {
     withCopy: true,
     showFarcaster: true,
+    social: undefined,
   },
 )
 
