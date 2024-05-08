@@ -15,7 +15,7 @@ import {
   getChainExistentialDeposit,
 } from './utils'
 
-const BUFFER_FEE_PERCENT = 0.2
+const BUFFER_FEE_PERCENT = 0.25
 const BUFFER_AMOUNT_PERCENT = 0.02
 
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
