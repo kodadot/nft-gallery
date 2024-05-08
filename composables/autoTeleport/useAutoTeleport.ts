@@ -35,7 +35,10 @@ export default function (
     autoTeleportStarted,
   })
 
-  const { transactionActions } = useAutoTeleportTransactionActions(actions)
+  const { transactionActions } = useAutoTeleportTransactionActions({
+    actions,
+    teleportTxId,
+  })
 
   const clear = () => {
     teleportStatus.value = TransactionStatus.Unknown
