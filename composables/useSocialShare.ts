@@ -15,38 +15,39 @@ export default function () {
     url: string = fullPathShare.value,
     via: string = 'KodaDot',
   ) => {
-    open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        text,
-      )}&via=${via}&url=${url}`,
-    )
+    const shareUrl = new URL('https://twitter.com/intent/tweet')
+    shareUrl.searchParams.set('text', text)
+    shareUrl.searchParams.set('via', via)
+    shareUrl.searchParams.set('url', url)
+    open(shareUrl.toString())
   }
 
   const shareOnTelegram = (text: string, url: string = fullPathShare.value) => {
-    open(
-      `https://t.me/share/url?url=${encodeURIComponent(
-        url,
-      )}&text=${encodeURIComponent(text)}`,
-    )
+    const shareUrl = new URL('https://t.me/share/url')
+    shareUrl.searchParams.set('url', url)
+    shareUrl.searchParams.set('text', text)
+    open(shareUrl.toString())
   }
 
   const shareOnFarcaster = (
     text: string,
-    url: string = fullPathShare.value,
+    embeds: string[] = [fullPathShare.value],
   ) => {
-    open(
-      `https://warpcast.com/~/compose?text=${encodeURIComponent(
-        text,
-      )}&embeds[]=${url}`,
-    )
+    const url = new URL('https://warpcast.com/~/compose')
+    url.searchParams.set('text', text)
+    embeds.forEach((embed) => url.searchParams.append('embeds[]', embed))
+    open(url.toString())
   }
+
+  const getCollectionFrameUrl = (chain: Prefix, collectionId: string) =>
+    `${URLS.koda.frame}/${chain}/${collectionId}`
 
   const shareCollectionOnFarcaster = (
     chain: Prefix,
     collectionId: string,
     text: string,
   ) => {
-    shareOnFarcaster(text, `${URLS.koda.frame}/${chain}/${collectionId}`)
+    shareOnFarcaster(text, [getCollectionFrameUrl(chain, collectionId)])
   }
 
   return {
@@ -54,5 +55,6 @@ export default function () {
     shareOnTelegram,
     shareOnFarcaster,
     shareCollectionOnFarcaster,
+    getCollectionFrameUrl,
   }
 }
