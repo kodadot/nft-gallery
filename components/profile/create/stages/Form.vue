@@ -204,7 +204,7 @@ watchEffect(async () => {
     props.useFarcaster && farcasterProfile
       ? farcasterProfile.pfpUrl
       : profile?.image
-  form.bannerPreview = profile?.banner // Banner preview assumed to always come from the profile
+  form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
 
   // Conditional for Farcaster handle based on the useFarcaster prop
   form.farcasterHandle =
