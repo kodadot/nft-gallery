@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="user?.image"
+    v-if="profile?.image"
     class="rounded-full overflow-hidden bg-background-color border"
     :style="{
       width: `${size}px`,
@@ -8,7 +8,7 @@
       padding: `${size / 16}px`,
     }">
     <BaseMediaItem
-      :src="user?.image"
+      :src="profile?.image"
       :image-component="NuxtImg"
       title="User Avatar"
       class="object-cover overflow-hidden rounded-full h-full w-full" />
@@ -17,8 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Profile, fetchProfileByAddress } from '@/services/profile'
-
 const NuxtImg = resolveComponent('NuxtImg')
 
 const props = withDefaults(
@@ -32,28 +30,5 @@ const props = withDefaults(
   },
 )
 
-const user = ref<Profile | null>(null)
-
-const fetchUserProfile = async () => {
-  if (!props.address) {
-    return
-  }
-  try {
-    const res = await fetchProfileByAddress(props.address)
-    if (res) {
-      user.value = res
-    }
-  } catch (error) {
-    // no profile data for current user
-  }
-}
-
-watch(
-  () => props.address,
-  () => {
-    user.value = null
-    fetchUserProfile()
-  },
-  { immediate: true },
-)
+const { profile } = useFetchProfile(computed(() => props.address))
 </script>

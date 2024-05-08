@@ -7,12 +7,12 @@
       <IdentityItem
         :account="account"
         :label="display || shortenedAddress"
-        show-profile-avatar
+        show-profile-info
         :prefix="urlPrefix">
         <template #default="{ label }">
           <div class="pl-3">
-            <div class="font-bold mb-1">
-              {{ label }}
+            <div class="font-bold mb-1 truncate max-w-[11rem]">
+              {{ profile?.name ? profile?.name : label }}
             </div>
 
             <div class="text-xs text-k-grey">
@@ -48,6 +48,8 @@ const { toast } = useToast()
 const { neoModal } = useProgrammatic()
 
 const account = computed(() => identityStore.getAuthAddress)
+
+const { profile } = useFetchProfile(account)
 
 const { display, shortenedAddress } = useIdentity({
   address: account,

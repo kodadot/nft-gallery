@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <ProfileAvatar v-if="showProfileAvatar" :address="account" :size="48" />
+    <ProfileAvatar v-if="showProfileInfo" :address="account" :size="48" />
     <Avatar v-else :size="48" :value="account" />
     <slot :label="label">
       <div class="identity-container">
@@ -34,11 +34,12 @@ withDefaults(
     prefix: string
     hideIdentityPopover?: boolean
     disableIdentityLink?: boolean
-    showProfileAvatar?: boolean
+    showProfileInfo?: boolean
   }>(),
   {
     hideIdentityPopover: false,
     disableIdentityLink: false,
+    showProfileInfo: false,
   },
 )
 </script>
