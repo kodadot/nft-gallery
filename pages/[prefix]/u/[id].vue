@@ -1,7 +1,6 @@
 <template>
   <div>
-    <ProfileDetailV3 v-if="redesign" />
-    <ProfileDetail v-else />
+    <ProfileDetail />
     <ListingCartMini />
     <ListingCartModal />
   </div>
@@ -9,7 +8,6 @@
 
 <script lang="ts" setup>
 const route = useRoute()
-const { redesign } = useExperiments()
 
 definePageMeta({
   layout: 'full-width-no-footer',

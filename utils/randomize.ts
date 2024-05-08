@@ -1,6 +1,5 @@
 import format from 'date-fns/format'
 
-
 export function uidCrypto(length = 9) {
   const array = new Uint32Array(1)
   const randomNumber = window.crypto.getRandomValues(array)[0]

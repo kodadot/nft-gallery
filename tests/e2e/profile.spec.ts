@@ -3,22 +3,13 @@ import { expect, test } from './fixtures'
 const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
 const DOT_TEST_ADDRESS = '1vQCgtkdWs4r9RAWvdmUyr1kJgR9pmka2dUVFfrFxPYo1CP'
 
-test('Profile Interactions', async ({ page, Commands }) => {
-  await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=owned`)
+test('Profile Interactions', async ({ page, Commands, baseURL }) => {
+  await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=activity`)
   await Commands.scrollDownSlow()
-
-  //test step - will check if buy now has items that are not listed
-  await test.step('Buy Now', async () => {
-    await Commands.acceptCookies()
-    await page.getByTestId('profile-filter-button-buynow').click()
-    await Commands.scrollDownSlow()
-    for (const li of await page.locator('[class="nft-card"]').all()) {
-      await expect(li.getByText('KSM')).toBeVisible()
-    }
-  })
 
   //Activity
   await test.step('Activity Tab', async () => {
+    await expect(page.getByTestId('profile-tabs').last()).toBeVisible()
     await page.getByTestId('profile-tabs').last().click()
     //usually sale and buy are active when you enter the page
     //SALE
@@ -59,27 +50,19 @@ test('Profile Interactions', async ({ page, Commands }) => {
 
   //PROFILE LINKS
   await test.step('Profile Links', async () => {
-    //copy address
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('Copy Address')
-      .click()
-    await Commands.copyText(KSM_TEST_ADDRESS)
-    //QR Code
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('QR Code')
-      .click()
-    await expect(page.locator('[class="card-header-title"]')).toBeVisible()
-    await page.keyboard.press('Escape')
-    //Transfer
-    await page
-      .getByTestId('profile-identity-buttons')
-      .getByText('Transfer')
-      .click()
-    await expect(page).toHaveURL(
-      `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=10&donation=true`,
+    await expect(page.getByTestId('profile-button-multi-action')).toContainText(
+      'Follow',
     )
+    //copy address
+    await page.getByTestId('profile-wallet-links-button').click()
+    await page.getByTestId('profile-wallet-links-button-copy').click()
+    await Commands.copyText(KSM_TEST_ADDRESS)
+    //Transfer
+    await page.getByTestId('profile-wallet-links-button').click()
+    await page.getByTestId('profile-wallet-links-button-transfer').click()
+    await page.waitForURL(`${baseURL}/ahk/transfer**`)
+    const pageUrl = page.url()
+    expect(pageUrl).toContain(`/ahk/transfer?target=${KSM_TEST_ADDRESS}`)
   })
 })
 
@@ -93,4 +76,18 @@ test('Verify if there are no Assets on Selected chain', async ({
     timeout: 25000,
   })
   await expect(page.getByTestId('profile-no-assets-button')).toBeVisible()
+})
+
+test('Profile - is Buy now working?', async ({ page, Commands }) => {
+  await page.goto(
+    `ahk/u/${KSM_TEST_ADDRESS}?buy_now=true&tab=owned&buy=true&sale=true&collections=334`,
+  )
+  //test step - will check if buy now has items that are not listed
+  await test.step('Buy Now', async () => {
+    await Commands.acceptCookies()
+    await Commands.scrollDownSlow()
+    for (const li of await page.locator('[class="nft-card"]').all()) {
+      await expect(li.getByText('KSM')).toBeVisible()
+    }
+  })
 })

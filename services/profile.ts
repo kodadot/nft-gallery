@@ -117,7 +117,9 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
     })
     return response
   } catch (error) {
-    throw new Error(`[PROFILE::CREATE] ERROR: ${(error as FetchError).data}`)
+    throw new Error(
+      `[PROFILE::CREATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
+    )
   }
 }
 
@@ -132,7 +134,9 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
     )
     return response
   } catch (error) {
-    throw new Error(`[PROFILE::UPDATE] ERROR: ${(error as FetchError).data}`)
+    throw new Error(
+      `[PROFILE::UPDATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
+    )
   }
 }
 

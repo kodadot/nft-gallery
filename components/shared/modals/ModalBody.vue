@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-[unset]"
-    :class="[`sm:w-[${modalWidth}]`, `max-w-[${modalMaxHeight}]`]">
+  <div class="modal-body">
     <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
@@ -146,6 +144,11 @@ watch(
 $x-padding: 2rem;
 $t-padding: 1.5rem;
 $b-padding: 1.25rem;
+
+.modal-body {
+  width: v-bind(modalWidth);
+  @apply max-md:w-full;
+}
 
 .limit-height {
   &__scrollabe {

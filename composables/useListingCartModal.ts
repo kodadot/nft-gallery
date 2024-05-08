@@ -4,7 +4,7 @@ import {
 } from '@/components/common/shoppingCart/utils'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { NFTWithMetadata } from './useNft'
-import { ListCartItemAnimationUrl } from '@/stores/listingCart'
+import { ListCartItemMediaUrl } from '@/stores/listingCart'
 
 export default ({
   clearItemsOnModalClose = false,
@@ -36,13 +36,13 @@ export default ({
 
   const listNftByNftWithMetadata = (
     nftWithMetadata: NFTWithMetadata,
-    animationUrl?: ListCartItemAnimationUrl,
+    mediaUrl?: ListCartItemMediaUrl,
   ) => {
     tryAddingItemToListingCart(
       nftToListingCartItem(
         nftWithMetadata,
         getFloorPrice(nftWithMetadata),
-        animationUrl,
+        mediaUrl,
       ),
     )
   }
