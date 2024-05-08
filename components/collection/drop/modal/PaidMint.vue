@@ -71,7 +71,7 @@ const props = defineProps<{
 const { canMint, canList, isRendering } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
-const { isModalOpen: isAuteleportModalOpen } = useAutoTeleportModal()
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
   useDropMinimumFunds(computed(() => amountToMint.value))
@@ -208,9 +208,9 @@ watchEffect(() => {
 })
 
 watchDebounced(
-  [() => props.modelValue, isAuteleportModalOpen],
+  [() => props.modelValue, isAutoTeleportModalOpen],
   ([isOpen]) => {
-    if (!isOpen && !isAuteleportModalOpen.value) {
+    if (!isOpen && !isAutoTeleportModalOpen.value) {
       reset()
     }
   },
