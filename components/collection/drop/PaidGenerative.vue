@@ -42,7 +42,7 @@ const {
   isCapturingImage,
 } = storeToRefs(useDropStore())
 
-const { isModalOpen: isAutoTeleportModalOpen } = useAutoTeleportModal()
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const {
   transaction,

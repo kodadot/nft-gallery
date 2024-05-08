@@ -89,7 +89,7 @@ const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
-const { isModalOpen: isAutoTeleportModalOpen } = useAutoTeleportModal()
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const {
   mintingSession,
