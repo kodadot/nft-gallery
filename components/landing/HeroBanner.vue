@@ -2,7 +2,7 @@
   <section class="pt-6 md:!pt-[3.5rem]">
     <div class="relative">
       <img
-        src="/landing-blur.svg"
+        src="~/assets/svg/landing-blur.svg"
         alt="Hero banner background blur"
         class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none" />
 
@@ -20,7 +20,10 @@
         </div>
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
-        <LandingFarcasterBanner />
+        <LandingFarcasterMintNotificationBanner
+          v-if="farcasterLiveMint"
+          :config="farcasterLiveMint" />
+        <LandingFarcasterBanner v-else />
       </div>
 
       <div class="flex justify-center mt-[2rem]">
@@ -35,6 +38,35 @@
     </div>
   </section>
 </template>
+
+<script lang="ts" setup>
+import farcasterLiveMintConfig from '@/script/farcasterLiveMint.json'
+
+const farcasterLiveMint = ref()
+
+const fetchFarcasterLiveMint = async () => {
+  if (isProduction) {
+    try {
+      const res: string = await $fetch(
+        'https://raw.githubusercontent.com/kodadot/nft-gallery/main/script/farcasterLiveMint.json',
+        {
+          method: 'GET',
+        },
+      )
+      const config = JSON.parse(res)
+      if (config) {
+        farcasterLiveMint.value = config
+      }
+    } catch (error) {
+      // no live mint
+    }
+  } else {
+    farcasterLiveMint.value = farcasterLiveMintConfig
+  }
+}
+
+onMounted(fetchFarcasterLiveMint)
+</script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';

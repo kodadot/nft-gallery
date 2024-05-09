@@ -99,9 +99,10 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMetadata.value = metadata
     nftResources.value = resources
 
-    nftImage.value = metadata.image || ''
-    nftMimeType.value = metadata.imageMimeType || ''
-    nftAnimation.value = metadata.animationUrl || ''
+    nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
+    nftMimeType.value = metadata.imageMimeType || metadata.type || ''
+    nftAnimation.value =
+      sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
     nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
 
     // use cf-video & replace the video thumbnail

@@ -7,12 +7,14 @@
         </slot>
       </div>
 
-      <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
+      <div class="flex flex-col justify-center ml-4 w-[100px] md:w-[170px]">
         <div
           class="font-bold text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis">
-          {{ name }}
+          {{ nameWithIndex(name, sn) }}
         </div>
-        <div class="leading-none whitespace-nowrap is-clipped text-ellipsis">
+        <div
+          v-if="!hideCollection"
+          class="leading-none whitespace-nowrap is-clipped text-ellipsis mt-2">
           {{ collectionName }}
         </div>
       </div>
@@ -26,11 +28,13 @@
 
 <script setup lang="ts">
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-
+import { nameWithIndex } from '@/utils/nft'
 defineProps<{
   name: string
   collectionName: string
   price: string
+  sn?: string
   image?: string
+  hideCollection?: boolean
 }>()
 </script>

@@ -10,16 +10,20 @@
         </div>
       </div>
       <Transition name="fade">
-        <div
+        <button
           v-if="leftArrowValid"
-          class="arrow arrow-left"
-          @click="slider?.moveToIdx(leftCarouselIndex)"></div>
+          class="button justify-center arrow arrow-left arrow-icon rounded-full"
+          @click="slider?.moveToIdx(leftCarouselIndex)">
+          <NeoIcon icon="chevron-left" size="medium" />
+        </button>
       </Transition>
       <Transition name="fade">
-        <div
+        <button
           v-if="rightArrowValid"
-          class="arrow arrow-right"
-          @click="slider?.moveToIdx(rightCarouselIndex)"></div>
+          class="button justify-center arrow arrow-right arrow-icon rounded-full"
+          @click="slider?.moveToIdx(rightCarouselIndex)">
+          <NeoIcon icon="chevron-right" size="medium" />
+        </button>
       </Transition>
     </div>
   </div>
@@ -29,6 +33,7 @@
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
 import { CarouselWheelsPlugin } from '../utils/useCarousel'
+import { NeoIcon } from '@kodadot1/brick'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
 
@@ -40,7 +45,7 @@ export type CarouseBreakpointsConfig = Record<
 >
 
 const SYNC_SLIDER_ON_EVENTS = ['slideChanged', 'optionsChanged']
-const SYNC_CONFIG_DEBOUNCE_AMOUNT = 100
+const SYNC_CONFIG_DEBOUNCE_AMOUNT = 1 // anything bellow this makes the carousel to glitch
 const DEFAULT_SLIDES_CONFIG = { perView: 3, spacing: 16 }
 
 const props = defineProps<{
@@ -124,6 +129,8 @@ const syncSlider = (s) => {
   updateSliderArrows(s)
 }
 
+const updateConfig = () => slider.value?.update(props.config)
+
 if (props.config) {
   watch(
     slider,
@@ -137,15 +144,11 @@ if (props.config) {
     { immediate: true },
   )
 
-  watchDebounced(
-    [() => props.config, () => props.items.length],
-    () => {
-      if (slider.value) {
-        slider.value.update(props.config)
-      }
-    },
-    { debounce: SYNC_CONFIG_DEBOUNCE_AMOUNT, immediate: true },
-  )
+  onMounted(updateConfig)
+
+  watchDebounced([() => props.config, () => props.items.length], updateConfig, {
+    debounce: SYNC_CONFIG_DEBOUNCE_AMOUNT,
+  })
 }
 </script>
 

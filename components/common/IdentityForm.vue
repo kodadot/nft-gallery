@@ -134,7 +134,6 @@
 </template>
 
 <script lang="ts" setup>
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NeoButton,
   NeoField,
@@ -312,14 +311,15 @@ const deleteIdentity = async (): Promise<void> => {
   isClearingIdentity.value = true
   initTransactionLoader()
   const cb = api.tx.identity.clearIdentity
-  howAboutToExecute(accountId.value, cb, [], ({ blockNumber }) => {
-    identity.value = {}
-    refetchIdentity()
+  howAboutToExecute(accountId.value, cb, [], {
+    onSuccess: ({ blockNumber }) => {
+      identity.value = {}
+      refetchIdentity()
 
-    showNotification(
-      `[Identity] You have cleared your account's identity since block ${blockNumber}`,
-      notificationTypes.success,
-    )
+      successMessage(
+        `[Identity] You have cleared your account's identity since block ${blockNumber}`,
+      )
+    },
   })
 }
 
@@ -330,18 +330,14 @@ const setIdentity = async (): Promise<void> => {
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]
-  howAboutToExecute(
-    accountId.value,
-    cb,
-    args,
-    ({ blockNumber }) => {
-      showNotification(
+  howAboutToExecute(accountId.value, cb, args, {
+    onSuccess: ({ blockNumber }) => {
+      successMessage(
         `[Identity] You are known as ${identity.value.display} since block ${blockNumber}`,
-        notificationTypes.success,
       )
     },
     onError,
-  )
+  })
 }
 
 const onError = () => {

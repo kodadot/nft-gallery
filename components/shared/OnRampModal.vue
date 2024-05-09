@@ -69,7 +69,6 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
-import { showNotification } from '@/utils/notification'
 
 enum Provider {
   TRANSAK,
@@ -156,7 +155,7 @@ const transakInit = () => {
 }
 
 const onSuccess = () => {
-  showNotification($i18n.t('general.successfullyAddedFunds'))
+  successMessage($i18n.t('general.successfullyAddedFunds'))
 }
 </script>
 

@@ -5,7 +5,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import { web3Enable } from '@polkadot/extension-dapp'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
@@ -64,10 +63,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
     const transactionHandler = txCb(
       ({ blockHash }) => {
-        showNotification(
-          `Transaction finalized at blockHash ${blockHash}`,
-          notificationTypes.success,
-        )
+        successMessage(`Transaction finalized at blockHash ${blockHash}`)
         status.value = TransactionStatus.Finalized
         isLoading.value = false
 
@@ -76,7 +72,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
         }
       },
       (dispatchError) => {
-        showNotification(dispatchError.toString(), notificationTypes.warn)
+        warningMessage(dispatchError.toString())
         stopLoader()
         isError.value = true
 
@@ -88,10 +84,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
         const { txHash } = submittableResult
 
         if (isFirstStatus) {
-          showNotification(
-            `Transaction hash is ${txHash.toHex()}`,
-            notificationTypes.info,
-          )
+          infoMessage(`Transaction hash is ${txHash.toHex()}`)
           txId.value = txHash.toHex()
           status.value = TransactionStatus.Block
           isFirstStatus = false
@@ -100,8 +93,10 @@ export default function (fetchBalancePeriodically: boolean = false) {
     )
 
     const errorHandler = () => {
-      showNotification('Cancelled', notificationTypes.warn)
-      stopLoader()
+      warningMessage('Cancelled')
+
+      isLoading.value = false
+      status.value = TransactionStatus.Cancelled
       isError.value = true
 
       if (onError) {

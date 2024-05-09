@@ -13,6 +13,7 @@
         <NeoButton
           :active="active"
           type="button"
+          :variant="variant"
           :no-shadow="noShadow"
           :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
@@ -52,6 +53,7 @@
 <script setup lang="ts">
 import {
   NeoButton,
+  NeoButtonVariant,
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
@@ -67,6 +69,7 @@ const props = withDefaults(
     preselect?: string | null
     noShadow: boolean
     rounded: boolean
+    variant?: NeoButtonVariant
   }>(),
   {
     noShadow: false,
@@ -84,10 +87,6 @@ const isCollectionsTab = computed(
 )
 
 const options = computed(() => {
-  if (route.name === 'prefix-drops-id') {
-    return [...NFT_SQUID_SORT_CONDITION_LIST, 'sn_ASC', 'sn_DESC']
-  }
-
   return isCollectionsTab.value
     ? NFT_SQUID_SORT_COLLECTIONS
     : NFT_SQUID_SORT_CONDITION_LIST

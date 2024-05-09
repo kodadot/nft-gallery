@@ -39,10 +39,11 @@
 
     <div class="flex justify-between pt-4">
       <NeoButton
-        class="flex flex-1 h-14 capitalize shine"
+        class="flex flex-1 h-14 capitalize"
         :disabled="disabled"
         :loading="loading"
         no-shadow
+        shiny
         variant="k-accent"
         loading-with-label
         native-type="submit">
@@ -103,19 +104,6 @@ const confirm = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-@import '@/assets/styles/abstracts/animations';
-
-.modal-width {
-  width: 25rem;
-}
-
-.shine:not(:hover):not(:disabled) {
-  @include shineEffect(var(--k-accent-light-3), lightgrey, false);
-
-  &:hover {
-    color: var(--k-accent2) !important;
-  }
-}
 
 .voucher-container {
   gap: 0.5rem;

@@ -2,6 +2,19 @@ import { $fetch } from 'ofetch'
 
 import { MediaType } from '~/components/rmrk/types'
 
+export const mediaTypeElementSelectors: Record<
+  Extract<
+    MediaType,
+    MediaType.IMAGE | MediaType.VIDEO | MediaType.OBJECT | MediaType.IFRAME
+  >,
+  string
+> = {
+  [MediaType.IMAGE]: 'img[data-nuxt-img]',
+  [MediaType.VIDEO]: 'video',
+  [MediaType.OBJECT]: 'object',
+  [MediaType.IFRAME]: 'iframe[title="html-embed"]',
+}
+
 const mediaWithoutImage = [
   MediaType.VIDEO,
   MediaType.MODEL,
@@ -9,6 +22,11 @@ const mediaWithoutImage = [
   MediaType.AUDIO,
   MediaType.OBJECT,
 ]
+
+export const determineElementType = (animationType, imageType) =>
+  [MediaType.IFRAME, MediaType.VIDEO].includes(animationType)
+    ? animationType
+    : imageType
 
 export function isImageVisible(type: MediaType) {
   return mediaWithoutImage.every((media) => media !== type)
@@ -86,5 +104,5 @@ export function resolveMedia(mimeType?: string): MediaType {
     }
   })
 
-  return result
+  return result ?? MediaType.UNKNOWN
 }

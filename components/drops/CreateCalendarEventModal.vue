@@ -4,9 +4,13 @@
     :can-cancel="['outside', 'escape']"
     @close="onClose">
     <ModalBody :title="$t('drops.createACalendarEvent')" @close="onClose">
-      <p class="capitalize">{{ $t('drops.kodadotWeeklyGenerativeDrop') }}</p>
+      <p class="capitalize">
+        {{ title }}
+      </p>
 
-      <p class="text-k-grey mt-3">{{ $t('drops.everyThursday') }} - 3pm CET</p>
+      <p class="text-k-grey mt-3">
+        {{ formattedDate }} <span v-if="!useTimeFromDate">- 3pm CET</span>
+      </p>
 
       <div class="flex !mt-6 flex-col gap-6">
         <NeoButton
@@ -34,8 +38,12 @@ type CalendarProvider = 'google'
 
 const props = defineProps<{
   modelValue: boolean
+  title: string
+  dropStartTime?: Date
+  useTimeFromDate?: boolean
 }>()
 
+const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const providers: { id: CalendarProvider; label: string; icon: string }[] = [
@@ -81,6 +89,15 @@ const addGoogleEvent = () => {
 
   window.open(calendarURL.toString(), '_blank')
 }
+
+const formattedDate = computed(() => {
+  const dateFormat = props.useTimeFromDate
+    ? 'dd/MM/yyyy - h:mm aa'
+    : 'dd/MM/yyyy'
+  return props.dropStartTime
+    ? format(props.dropStartTime, dateFormat)
+    : $i18n.t('drops.everyThursday')
+})
 
 const addEvent = (provider: CalendarProvider) => {
   if (provider === 'google') {

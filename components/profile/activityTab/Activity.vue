@@ -4,7 +4,7 @@
       <template
         #header="{ currentPage, total, perPage, desktop, updateCurrentPage }">
         <div class="flex justify-between pb-4 pt-5 content-center">
-          <div class="flex gap-4 flex-wrap">
+          <div class="flex gap-4 items-center flex-wrap">
             <NeoButton
               no-shadow
               rounded
@@ -16,6 +16,7 @@
               v-for="param in filters"
               :key="param"
               :label="param"
+              variant="outlined-rounded"
               data-testid="profile-activity-button-filter"
               class="capitalize"
               :url-param="param" />

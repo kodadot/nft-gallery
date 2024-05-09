@@ -5,7 +5,7 @@
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
     <div class="flex flex-col lg:flex-row">
-      <div class="w-full lg:w-2/5 lg:pr-7">
+      <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
           id="nft-img-container"
           ref="imgref"
@@ -13,21 +13,9 @@
             relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
-          <!-- preview button -->
-          <a
-            v-if="
-              canPreview &&
-              !mediaItemRef?.isLewdBlurredLayer &&
-              !hasAnimatedResources &&
-              !isFullscreen
-            "
-            class="fullscreen-button justify-center items-center"
-            @click="toggleFullscreen">
-            <NeoIcon icon="expand" />
-          </a>
           <NeoButton
             v-if="isFullscreen"
-            class="back-button"
+            class="back-button z-20"
             @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
             {{ $t('go back') }}
@@ -71,6 +59,7 @@
             :sizes="sizes"
             :audio-player-cover="image" />
         </div>
+        <GalleryItemToolBar @toggle="toggleFullscreen" />
       </div>
 
       <div class="w-full lg:w-3/5 lg:pl-5 py-7">
@@ -201,10 +190,10 @@ import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
-import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { MediaType } from '@/components/rmrk/types'
+import { resolveMedia } from '@/utils/gallery/media'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -213,7 +202,10 @@ const { isAssetHub } = useIsChain(urlPrefix)
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
-const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
+const mediaItemRef = ref<{
+  isLewdBlurredLayer: boolean
+  toggleFullscreen
+} | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
@@ -241,24 +233,10 @@ const tabs = {
 }
 const activeTab = ref(tabs.activity)
 
-const canPreview = computed(
-  () =>
-    !nftMimeType.value ||
-    [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-      resolveMedia(nftMimeType.value),
-    ),
-)
-
 const activeCarousel = ref(0)
 
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
-)
-const hasAnimatedResources = computed(
-  () =>
-    nftResources.value &&
-    nftResources.value?.length > 1 &&
-    nftResources.value[1].animation,
 )
 
 const onNFTBought = () => {
@@ -296,7 +274,7 @@ const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
   nameWithIndex(
-    nft.value?.name || nftMetadata.value?.name || '',
+    nftMetadata.value?.name || nft.value?.name || '',
     nft.value?.sn,
   ),
 )
@@ -334,7 +312,7 @@ watch(isFullscreen, (value) => {
   sizes.value = value ? 'original' : '1000px'
 })
 
-function toggleFullscreen() {
+function toggleMediaFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {
     toggleFallback()
     return
@@ -343,6 +321,15 @@ function toggleFullscreen() {
     fullScreenDisabled.value = true
     toggleFallback()
   })
+}
+
+function toggleFullscreen() {
+  const mediaType = resolveMedia(nftAnimationMimeType.value)
+  if ([MediaType.VIDEO].includes(mediaType)) {
+    mediaItemRef.value?.toggleFullscreen()
+  } else {
+    toggleMediaFullscreen()
+  }
 }
 
 function toggleFallback() {
@@ -362,7 +349,6 @@ function toggleFallback() {
 @import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
-  overflow: auto;
   @include ktheme() {
     background-color: theme('background-color');
   }
@@ -420,10 +406,6 @@ $break-point-width: 930px;
     border-color: rgba(theme('background-color'), 0.3);
     color: theme('text-color');
   }
-}
-
-.column > div:hover .fullscreen-button {
-  display: flex;
 }
 
 @media screen and (max-width: $break-point-width) {

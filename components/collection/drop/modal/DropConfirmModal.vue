@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="isClaimingDropStep ? false : ['outside', 'escape']"
     class="top"
-    content-class="modal-width"
+    content-class="!w-[unset]"
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
       <EmailSignup
@@ -24,7 +24,8 @@
       <SigningModalBody
         v-else-if="isClaimingDropStep"
         :title="$t('drops.preparingYourNft')"
-        :subtitle="est">
+        :subtitle="$t('mint.progress')"
+        :custom-formatted-estimation="est">
         <p class="py-5 capitalize">
           {{ $t('drops.stayTuned') }}
         </p>
@@ -32,8 +33,8 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft"
-        :can-list-nft="canListNft"
+        :minting-session="mintingSession"
+        :can-list-nfts="canListMintedNft"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -44,12 +45,16 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import EmailSignup from './newsletter/EmailSignup.vue'
 import ConfirmEmail from './newsletter/ConfirmEmail.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import { MINTING_SECONDS } from '../const'
 import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
-import { usePreloadMintedNftCover } from './utils'
+import { usePreloadImages } from './utils'
+import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import { useDropStore } from '@/stores/drop'
+import { MintedNFT, MintingSession } from '../types'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -58,45 +63,68 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
-const emit = defineEmits([
-  'completed',
-  'close',
-  'list',
-  'subscribe',
-  'check-subscription',
-  'resend-confirmation-email',
-])
+const emit = defineEmits(['completed', 'close', 'list'])
 const props = defineProps<{
   modelValue: boolean
-  claiming: boolean
-  subscriptionEmail?: string
-  mintingSeconds: number
-  mintedNft?: DropMintedNft
-  canListNft: boolean
-  checkingSubscription: boolean
-  resendingConfirmationEmail: boolean
-  emailConfirmed: boolean
-  subscribingToNewsletter: boolean
-  sendConfirmationEmailOnModalOpen: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
   immediate: false,
 })
 
-const { $i18n } = useNuxtApp()
+const dropStore = useDropStore()
 
+const preferencesStore = usePreferencesStore()
+const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
-)
+const {
+  checkingSubscription,
+  subscribingToNewsletter,
+  resendingConfirmationEmail,
+  sendConfirmationEmailOnModalOpen,
+  emailConfirmed,
+  subscribe,
+  checkSubscription,
+  subscriptionId,
+  resendConfirmationEmail,
+} = useGenerativeDropNewsletter()
+
+const { canListMintedNft, claimedNft } = useGenerativeDropMint()
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
 
+const mintedNFT = computed<MintedNFT | undefined>(() =>
+  claimedNft.value
+    ? ({
+        ...claimedNft.value,
+        index: Number(claimedNft.value.sn),
+        image: sanitizeIpfsUrl(claimedNft.value.image),
+        mimeType: 'text/html',
+        collection: {
+          id: claimedNft.value.collection,
+          name: claimedNft.value.collectionName,
+          max: claimedNft.value.max,
+        },
+      } as MintedNFT)
+    : undefined,
+)
+
+const { loadedAll, triedAll } = usePreloadImages(
+  computed(() => (mintedNFT.value ? [mintedNFT.value] : [])),
+)
+
+const mintingSession = computed<MintingSession>(() => ({
+  items: [mintedNFT.value as MintedNFT].filter(Boolean),
+  txHash: undefined, // free mint does not have a txHash
+}))
+
+const subscriptionEmail = computed(
+  () => preferencesStore.getNewsletterSubscription.email,
+)
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
   () => modalStep.value === ModalStep.CONFIRM_EMAIL,
@@ -109,11 +137,11 @@ const isSuccessfulDropStep = computed(
 )
 
 const moveSuccessfulDrop = computed(() => {
-  if (nftCoverLoaded.value) {
+  if (loadedAll.value) {
     return true
   }
 
-  return distance.value <= 0 && sanitizedMintedNft.value && retry.value === 0
+  return distance.value <= 0 && mintedNFT.value && triedAll.value
 })
 
 const est = computed(() => `Est ~ ${displayDuration.value}`)
@@ -146,43 +174,42 @@ const handleEmailChange = () => {
 
 const handleEmailSignupConfirm = (value: string) => {
   email.value = value
-  emit('subscribe', value)
+  subscribe(value)
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email')
+  resendConfirmationEmail(subscriptionId.value as string)
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription')
+  checkSubscription(subscriptionId.value as string)
 }
 
 watch(
-  () => props.claiming,
+  () => dropStore.loading,
   (claiming) => {
     if (claiming) {
-      startCountDown(getCountDownTime(props.mintingSeconds))
+      startCountDown(getCountDownTime(MINTING_SECONDS))
     }
   },
 )
 
 watchEffect(() => {
-  const claiming = props.claiming
-  const subcriptionEmail = props.subscriptionEmail
-  const alreadyConfirmed = props.emailConfirmed && !email.value
+  const claiming = dropStore.loading
+  const alreadyConfirmed = emailConfirmed.value && !email.value
   const alreadySubscribed =
-    props.subscriptionEmail && !email.value && !changeEmail.value
+    subscriptionEmail.value && !email.value && !changeEmail.value
 
   if (alreadyConfirmed && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (alreadySubscribed && isEmailSignupStep.value) {
-    email.value = props.subscriptionEmail
+    email.value = subscriptionEmail.value
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (
     email.value &&
     isEmailSignupStep.value &&
-    subcriptionEmail &&
-    !props.subscribingToNewsletter
+    subscriptionEmail.value &&
+    !subscribingToNewsletter.value
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
@@ -201,7 +228,7 @@ watch(
       isModalOpen &&
       emailConfirmStep &&
       !resentInitialConfirmationEmail.value &&
-      props.sendConfirmationEmailOnModalOpen
+      sendConfirmationEmailOnModalOpen.value
     ) {
       handleConfirmationEmailResend()
       resentInitialConfirmationEmail.value = true

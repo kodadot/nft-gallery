@@ -8,7 +8,7 @@ subtitle: Is this your first time contributing? Set up your local environment he
 
 We are using a `pnpm` workspace, as installing things via npm **will result in broken dependencies.**
 
-> If you want to know how KodaDot works, go to the [DOCS](https://docs.kodadot.xyz/).
+> If you want to know how KodaDot works, go to the [DOCS](https://hello.kodadot.xyz/).
 
 # Hyper start 🚀
 
@@ -109,8 +109,6 @@ Creating pull request for username:example-branch into main in kodadot/nft-galle
 ? Title example-branch-title
 ? Choose a template  [Use arrows to move, type to filter]
 > PULL_REQUEST_TEMPLATE.md
-  QUICK_AND_DESIGN_PULL_REQUEST_TEMPLATE.md
-  QUICK_AND_QA_PULL_REQUEST_TEMPLATE.md
   QUICK_PULL_REQUEST_TEMPLATE.md
   Open a blank pull request
 ```
@@ -200,13 +198,10 @@ Then we can use it like this:
 
     const executeTransaction = ({ cb, arg, successMessage, errorMessage }) => {
       initTransactionLoader()
-      howAboutToExecute(
-        accountId.value,
-        cb,
-        arg,
-        () => infoMessage(successMessage || 'Success!'),
-        () => warningMessage(errorMessage || 'Failed!')
-      )
+      howAboutToExecute(accountId.value, cb, arg, {
+        onSuccess: () => infoMessage(successMessage || 'Success!'),
+        onError: () => warningMessage(errorMessage || 'Failed!'),
+      })
     }
 
     executeTransaction({

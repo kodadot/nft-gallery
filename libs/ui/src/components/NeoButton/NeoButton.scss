@@ -1,12 +1,17 @@
 @import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
 @import '../../scss/tailwind.scss';
+@import '../../scss/animation.scss';
 
 .o-btn {
   &.is-neo {
-    @apply rounded-none font-inherit py-2;
+    @apply  h-10 min-w-10 rounded-none font-inherit py-2;
 
     &.o-btn--large {
-      @apply text-base h-14;
+      @apply text-base h-13;
+    }
+
+    &.o-btn--small {
+      @apply h-6;
     }
 
     @apply shadow-primary border border-border-color text-text-color bg-background-color;
@@ -14,6 +19,15 @@
     &:hover {
       @apply bg-k-accent-hover text-text-color;
     }
+
+    &:focus {
+      @apply outline-1 outline bg-k-accent-hover text-text-color;
+    }
+
+    &:active {
+      @apply bg-background-color-inverse text-text-color-inverse;
+    }
+
 
     &.active {
       @apply bg-background-color-inverse text-text-color-inverse;
@@ -46,6 +60,10 @@
 
       &.o-btn--disabled {
         @apply opacity-unset bg-k-shade border-k-grey text-k-grey;
+      }
+
+      &.shiny:not(:hover):not(:disabled) {
+        @include shineEffect(var(--k-accent-light-3), lightgrey, false);
       }
     }
 

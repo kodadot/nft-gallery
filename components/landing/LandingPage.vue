@@ -52,7 +52,7 @@ import type { Prefix } from '@kodadot1/static'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
-const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
+const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot', 'imx']
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()

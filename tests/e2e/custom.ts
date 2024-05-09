@@ -35,14 +35,14 @@ export class Commands {
     await this.page.evaluate(async () => {
       const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
       // eslint-disable-next-line no-restricted-syntax
-      for (let i = 0; i < 800; i += 100) {
+      for (let i = 0; i < document.body.scrollHeight / 2; i += 100) {
         window.scrollTo(0, i)
         await delay(200)
       }
     })
   }
   async acceptCookies() {
-    await this.page.getByTestId('cookie-banner-button-accept').click()
+    await this.page.getByRole('button', { name: 'Accept' }).click()
   }
   async checkNewTab(url: string, clickAction) {
     const newTabPromise = this.page.waitForEvent('popup')

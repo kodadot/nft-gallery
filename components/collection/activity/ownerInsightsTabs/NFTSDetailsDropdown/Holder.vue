@@ -4,15 +4,18 @@
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       :to="`/${urlPrefix}/gallery/${id}`"
-      class="flex pt-2 px-5 justify-start hover:bg-k-accent-light-2 hoverable-lable-color">
+      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 hoverable-lable-color">
       <div class="mr-5">
         <BasicImage :src="avatar" :alt="name" class="border image-size pt-0" />
       </div>
       <div class="flex flex-col">
         {{ name }}
-        <TimeAgo
-          custom-class="text-xs text-k-grey"
-          :timestamp="new Date(updatedAt).getTime()" />
+        <p class="text-xs text-k-grey">
+          {{ $t('activity.bought') }}
+          <TimeAgo
+            custom-class="text-xs text-k-grey"
+            :timestamp="new Date(updatedAt).getTime()" />
+        </p>
       </div>
     </nuxt-link>
     <div ref="target" />

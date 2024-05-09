@@ -24,15 +24,17 @@
     position: fixed;
     top: 0;
     right: 0;
-    height: 100%;
-    padding-top: $navbar-desktop-min-height;
+    height: calc(100% - $navbar-desktop-min-height) ;
+    margin-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
 
     @include mobile {
+      inset: 0;
       border-left: none !important;
-      padding-top: $navbar-mobile-min-height;
       max-width: 100vw;
+      height: calc(100% - $navbar-mobile-min-height) ;
+      margin-top: $navbar-mobile-min-height;
     }
     @include ktheme() {
       background: theme('background-color');
@@ -66,7 +68,7 @@
     .wallet-menu-item {
       width: 100%;
       .button {
-        @apply w-full text-xl px-8 py-2.5 rounded-none border-none transition-none;
+        @apply w-full text-xl rounded-none border-none transition-none;
         background: unset;
         box-shadow: none !important;
         > span {

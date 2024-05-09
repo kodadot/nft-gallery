@@ -1,20 +1,17 @@
 query topCollections(
   $limit: Int
-  $denyList: [String!] = []
   $orderBy: CollectionEntityOrderByInput = volume_DESC
+  $where: CollectionEntityWhereInput = { volume_gt: "0" }
 ) {
-  collectionEntities(
-    orderBy: [$orderBy]
-    limit: $limit
-    where: { volume_gt: "0", issuer_not_in: $denyList }
-  ) {
+  collectionEntities(orderBy: [$orderBy], limit: $limit, where: $where) {
     id
     name
     image
     media
     volume
+    metadata
     floor
     nftCount
-    ownerCount
+    ownerCount: distribution
   }
 }

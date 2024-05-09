@@ -76,74 +76,33 @@
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
               </a>
-              <nuxt-link v-else :to="item.url">
+              <nuxt-link v-else :to="item.url" class="flex items-center">
                 {{ item.name }}
+                <NeoIcon
+                  v-if="item.highlight"
+                  icon="sparkle"
+                  pack="fasr"
+                  class="text-k-primary text-xl ml-1" />
               </nuxt-link>
             </li>
           </ul>
         </div>
       </section>
-      <section class="footer-container-socials flex flex-col">
-        <h2 class="subtitle is-5">
-          {{ $t('footer.join') }}
-        </h2>
-        <ul class="footer-container-socials-list flex mb-6">
-          <li
-            v-for="item in socials"
-            :key="item.url"
-            class="footer-container-socials-list-item flex items-center justify-center">
-            <NeoTooltip :label="item.name" position="top">
-              <a
-                v-safe-href="item.url"
-                rel="nofollow noopener noreferrer"
-                target="_blank"
-                role="link"
-                :aria-label="item.name">
-                <!-- substack doesnt have a font awesome icon -->
-                <svg
-                  v-if="item.icon === 'substack'"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 448 512"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_6104_83750)">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
-                      fill="currentColor" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_6104_83750">
-                      <rect width="448" height="511.471" fill="currentColor" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                <!-- farcaster doesnt have a font awesome icon -->
-                <svg
-                  v-else-if="item.icon === 'farcaster'"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 1000 800"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M257.778 155.556H742.222V844.445H671.111V528.889H670.414C662.554 441.677 589.258 373.333 500 373.333C410.742 373.333 337.446 441.677 329.586 528.889H328.889V844.445H257.778V155.556Z"
-                    fill="currentColor" />
-                  <path
-                    d="M128.889 253.333L157.778 351.111H182.222V746.667C169.949 746.667 160 756.616 160 768.889V795.556H155.556C143.283 795.556 133.333 805.505 133.333 817.778V844.445H382.222V817.778C382.222 805.505 372.273 795.556 360 795.556H355.556V768.889C355.556 756.616 345.606 746.667 333.333 746.667H306.667V253.333H128.889Z"
-                    fill="currentColor" />
-                  <path
-                    d="M675.556 746.667C663.282 746.667 653.333 756.616 653.333 768.889V795.556H648.889C636.616 795.556 626.667 805.505 626.667 817.778V844.445H875.556V817.778C875.556 805.505 865.606 795.556 853.333 795.556H848.889V768.889C848.889 756.616 838.94 746.667 826.667 746.667V351.111H851.111L880 253.333H702.222V746.667H675.556Z"
-                    fill="currentColor" />
-                </svg>
-                <NeoIcon
-                  v-else
-                  :pack="item.pack || item.name == 'Swag' ? 'fasr' : 'fab'"
-                  :icon="item.icon" />
-              </a>
-            </NeoTooltip>
+      <section class="footer-container-info flex flex-col">
+        <h2 class="subtitle is-5">{{ $t('footer.join') }}</h2>
+        <ul
+          class="footer-container-list columns-1"
+          data-testid="footer-social-list">
+          <li v-for="item in socials" :key="item.url">
+            <a
+              v-if="item.url"
+              v-safe-href="item.url"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              class="flex items-center">
+              {{ item.name }}
+              <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+            </a>
           </li>
         </ul>
       </section>
@@ -158,12 +117,13 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 
 interface Menu {
   name: string
   url: string
   external?: boolean
+  highlight?: boolean
 }
 
 const { $i18n } = useNuxtApp()
@@ -207,6 +167,11 @@ const menuMarketplace: Menu[] = [
 
 const menuKodadot: Menu[] = [
   {
+    name: $i18n.t('whyKoda.title'),
+    url: '/why-koda',
+    highlight: true,
+  },
+  {
     name: $i18n.t('footer.guide'),
     url: 'https://hello.kodadot.xyz/about-us/who-are-we',
     external: true,
@@ -248,44 +213,30 @@ const socials = [
   {
     name: 'Twitter',
     url: 'https://twitter.com/KodaDot',
-    icon: 'x-twitter',
   },
   {
     name: 'Farcaster',
     url: 'https://warpcast.com/~/channel/koda',
-    icon: 'farcaster',
+  },
+  {
+    name: 'Telegram',
+    url: 'https://t.me/koda_eco',
   },
   {
     name: 'Beehiiv',
     url: 'https://kodadotweeklyroundup.beehiiv.com',
-    icon: 'newspaper',
-    pack: 'fal',
   },
   {
     name: 'Linkedin',
     url: 'https://www.linkedin.com/company/kodadot',
-    icon: 'linkedin',
   },
   {
     name: 'Medium',
     url: 'https://medium.com/kodadot',
-    icon: 'medium',
   },
   {
     name: 'Youtube',
     url: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
-    icon: 'youtube',
-  },
-
-  {
-    name: 'Instagram',
-    url: 'https://instagram.com/kodadot.xyz',
-    icon: 'instagram',
-  },
-  {
-    name: 'Reddit',
-    url: 'https://www.reddit.com/r/KodaDot',
-    icon: 'reddit-alien',
   },
 ]
 </script>

@@ -1,23 +1,23 @@
-import {
-  GetDropsQuery,
-  getDropById,
-  getDropStatus,
-  getDrops,
-} from '@/services/fxart'
+import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
-import { FUTURE_DROP_DATE } from '@/utils/drop'
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useDropStore } from '@/stores/drop'
+import { getChainName } from '@/utils/chain'
+import { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
+import { parseCETDate } from './utils'
 
 export interface Drop {
   collection: DropItem
-  chain: string
+  chain: Prefix
   minted: number
   max: number
   disabled: number
-  dropStartTime: Date
+  dropStartTime?: Date
   price: string
   alias: string
   name: string
@@ -37,8 +37,8 @@ export enum DropStatus {
 }
 
 const DROP_LIST_ORDER = [
-  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED_SOON,
+  DropStatus.MINTING_LIVE,
   DropStatus.SCHEDULED,
   DropStatus.COMING_SOON,
   DropStatus.MINTING_ENDED,
@@ -68,8 +68,8 @@ export function useDrops(query?: GetDropsQuery) {
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status), 'alias'],
-      ['asc', 'asc'],
+      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      ['asc'],
     ),
   )
 
@@ -78,16 +78,27 @@ export function useDrops(query?: GetDropsQuery) {
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-  const { count } = await getDropStatus(drop.alias)
+
+  let count = drop.minted
+  if (!count) {
+    count = await fetchDropMintedCount(drop)
+  }
   const price = drop.price || 0
+  let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
+
+  if (count >= 5) {
+    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
+  }
+
   const newDrop = {
     ...drop,
     collection: collection,
     max: chainMax,
-    dropStartTime: count >= 5 ? new Date(Date.now() - 1e10) : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
+    dropStartTime,
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
+    minted: count,
   } as any
 
   Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
@@ -121,7 +132,7 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
 }
 
 export const getDropDetails = async (alias: string) => {
-  const drop = await useDrop(alias)
+  const drop = await getDropById(alias)
 
   const { data: collectionData } = await useAsyncQuery({
     clientId: drop.chain,
@@ -136,49 +147,137 @@ export const getDropDetails = async (alias: string) => {
   return getFormattedDropItem(collectionEntity, drop)
 }
 
-export async function useDrop(id: string) {
-  const drop = await getDropById(id)
+export function useDrop(alias?: string) {
+  const { params } = useRoute()
+  const dropStore = useDropStore()
 
-  return drop
-}
+  const drop = computed({
+    get: () => dropStore.drop,
+    set: (value) => dropStore.setDrop(value),
+  })
 
-export const useDropStatus = (id: string) => {
-  const mintedDropCount = ref(0)
-  const { accountId } = useAuth()
+  const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
+  const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
-  const fetchDropStatus = async () => {
-    const { count } = await getDropStatus(id)
-    mintedDropCount.value = count
+  const fetchDrop = async () => {
+    drop.value = await getDropById(alias ?? params.id.toString())
   }
-  onBeforeMount(fetchDropStatus)
 
-  watch(accountId, fetchDropStatus)
+  watch(() => params.id, fetchDrop)
 
   return {
-    mintedDropCount,
-    fetchDropStatus,
+    drop,
+    fetchDrop,
+    chainName,
+    token,
   }
 }
 
-export const useDropMinimumFunds = (drop) => {
-  const chainProperties = chainPropListOf(drop.chain)
+export const fetchDropMintedCount = async (
+  drop: Pick<DropItem, 'collection' | 'chain'>,
+) => {
+  if (!drop.collection || !drop.chain) {
+    return 0
+  }
 
-  const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
+  const { data } = await useAsyncQuery<{
+    collectionEntityById: { nftCount: number | undefined }
+  }>({
+    query: collectionByIdMinimal,
+    variables: {
+      id: drop.collection,
+    },
+    clientId: drop.chain,
+  })
 
-  const transferableDropChainBalance = computed(
-    () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
+  return data.value?.collectionEntityById.nftCount
+}
+
+const subscribeDropMintedCount = (
+  drop: Pick<DropItem, 'collection'>,
+  onChange: (count: number | undefined) => void,
+) => {
+  return useSubscriptionGraphql({
+    query: `
+      collectionEntityById(id: "${drop.collection}") {
+        nftCount
+      }
+     `,
+    onChange: ({ data }) => {
+      onChange(data.collectionEntityById?.nftCount)
+    },
+  })
+}
+
+export const useDropStatus = (
+  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
+) => {
+  const dropStore = useDropStore()
+
+  const dropStatusSubscription = ref<{
+    collection: string | undefined
+    unsubscribe: () => void
+  }>({
+    collection: undefined,
+    unsubscribe: () => {},
+  })
+
+  const mintsCount = computed({
+    get: () => dropStore.mintsCount,
+    set: (value) => dropStore.setMintedDropCount(value),
+  })
+
+  const subscribeDropStatus = () => {
+    watch(
+      () => drop.value,
+      (drop) => {
+        if (drop) {
+          if (drop.collection !== dropStatusSubscription.value.collection) {
+            dropStatusSubscription.value.unsubscribe?.()
+          }
+
+          dropStatusSubscription.value.collection = drop.collection
+          dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
+            drop,
+            (count) => {
+              mintsCount.value = count ?? 0
+            },
+          )
+        }
+      },
+    )
+
+    onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
+  }
+
+  return {
+    mintsCount,
+    subscribeDropStatus,
+  }
+}
+
+export const useDropMinimumFunds = (amount = ref(1)) => {
+  const { drop } = useDrop()
+
+  const chainProperties = computed(() =>
+    chainPropListOf(drop.value?.chain ?? 'ahp'),
   )
-  const meta = computed<number>(() => Number(drop.meta) || 0)
-  const price = computed<number>(() => Number(drop.price) || 0)
-  const minimumFunds = computed<number>(() => price.value || meta.value)
+  const { existentialDeposit } = useChain()
+  const { fetchMultipleBalance, transferableCurrentChainBalance } =
+    useMultipleBalance()
+
+  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
+  const price = computed<number>(() => Number(drop.value?.price) || 0)
+  const minimumFunds = computed<number>(() =>
+    price.value ? amount.value * price.value : meta.value,
+  )
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
-      transferableDropChainBalance.value >= minimumFunds.value,
+      (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
   )
-  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
-  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
+  const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     minimumFunds,

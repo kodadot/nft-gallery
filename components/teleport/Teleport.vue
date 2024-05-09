@@ -173,7 +173,10 @@ import NetworkDropdown from './NetworkDropdown.vue'
 import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { useFiatStore } from '@/stores/fiat'
-import { existentialDeposit } from '@kodadot1/static'
+import {
+  existentialDeposit,
+  teleportExistentialDeposit,
+} from '@kodadot1/static'
 
 type ValuePair = {
   value: number
@@ -186,6 +189,7 @@ const {
   isLoading,
   getAddressByChain,
   getChainTokenDecimals,
+  fetchChainsBalances,
   status,
 } = useTeleport(true)
 
@@ -194,7 +198,7 @@ const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
-const amount = ref(0) //Required amount to be transfered is stored here
+const amount = ref(0) //Required amount to be transferred is stored here
 const { urlPrefix } = usePrefix()
 
 const displayAmount = computed({
@@ -219,7 +223,9 @@ const teleportBufferFee = computed(() =>
 )
 
 const sourceExistentialDeposit: ValuePair = reactive({
-  value: computed(() => existentialDeposit[chainToPrefixMap[fromChain.value]]),
+  value: computed(
+    () => teleportExistentialDeposit[chainToPrefixMap[fromChain.value]],
+  ),
   displayValue: computed(() =>
     withoutDecimals({
       value: sourceExistentialDeposit.value,
@@ -301,6 +307,11 @@ const teleportLabel = computed(() => {
 
 const resetStatus = () => {
   amount.value = 0
+}
+
+const handleTeleportSuccess = () => {
+  fetchChainsBalances([fromChain.value, toChain.value])
+  resetStatus()
 }
 
 const switchChains = () => {
@@ -458,7 +469,7 @@ const teleport = async () => {
     toAddress: toAddress.value,
     fromAddress: fromAddress.value,
     currency: currency.value,
-    onSuccess: () => resetStatus(),
+    onSuccess: handleTeleportSuccess,
   })
 }
 

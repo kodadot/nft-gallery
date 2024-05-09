@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-width">
+  <div class="modal-body">
     <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
@@ -11,11 +11,13 @@
         variant="k-grey-light" />
 
       <transition name="fade">
-        <div
-          v-if="!loading"
-          class="modal-card-title text-base font-bold line-height">
-          {{ title }}
-        </div>
+        <slot name="header">
+          <div
+            v-if="!loading"
+            class="modal-card-title text-base font-bold line-height">
+            {{ title }}
+          </div>
+        </slot>
       </transition>
 
       <NeoButton
@@ -36,7 +38,13 @@
         contentClass,
       ]">
       <div v-if="loading">
-        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton" />
+        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton">
+          <template v-if="estimatedTime" #footer>
+            <SkeletonLoaderFooterPill>
+              {{ formattedEstimatedTime }}
+            </SkeletonLoaderFooterPill>
+          </template>
+        </SkeletonLoader>
       </div>
 
       <div
@@ -59,13 +67,14 @@ const TITLE_DURATION_SECONDS = 4
 const emits = defineEmits(['close'])
 const props = withDefaults(
   defineProps<{
-    title: string
+    title?: string
     loading?: boolean
     modalWidth?: string
     modalMaxHeight?: string
     contentClass?: string
     scrollable?: boolean
     customSkeletonTitle?: string
+    estimatedTime?: number
   }>(),
   {
     modalWidth: '25rem',
@@ -77,6 +86,8 @@ const props = withDefaults(
 )
 
 const { $i18n } = useNuxtApp()
+const { estimatedTime: formattedEstimatedTime, start: startEstimatedTime } =
+  useEstimatedTime()
 
 const titles = [
   $i18n.t('general.doingSomeMagic'),
@@ -84,15 +95,15 @@ const titles = [
   $i18n.t('general.finishingTouches'),
   $i18n.t('general.almostThere'),
 ]
-const seconds = ref(0)
+const titleSeconds = ref(0)
 
 const { pause, resume: start } = useIntervalFn(
-  () => (seconds.value += 1),
+  () => (titleSeconds.value += 1),
   1000,
   { immediate: false },
 )
 const titleRange = computed(() =>
-  Math.floor(seconds.value / TITLE_DURATION_SECONDS),
+  Math.floor(titleSeconds.value / TITLE_DURATION_SECONDS),
 )
 const skeletonTitle = computed(
   () =>
@@ -104,10 +115,20 @@ const skeletonTitle = computed(
 const onClose = () => emits('close')
 
 watch(
+  [() => props.loading, () => props.estimatedTime],
+  ([loading, estimatedTime]) => {
+    if (loading && Boolean(estimatedTime)) {
+      startEstimatedTime(Number(estimatedTime))
+    }
+  },
+  { immediate: true },
+)
+
+watch(
   [() => props.loading, () => props.customSkeletonTitle],
   ([loading, customTitle]) => {
     if (loading && !customTitle) {
-      seconds.value = 0
+      titleSeconds.value = 0
       start()
     } else {
       pause()
@@ -124,13 +145,9 @@ $x-padding: 2rem;
 $t-padding: 1.5rem;
 $b-padding: 1.25rem;
 
-.modal-width {
+.modal-body {
   width: v-bind(modalWidth);
-  max-width: v-bind(modalMaxHeight);
-
-  @include mobile {
-    width: unset;
-  }
+  @apply max-md:w-full;
 }
 
 .limit-height {

@@ -10,7 +10,7 @@ export type MintButtonProp = {
   disabled: boolean
 }
 
-export type HolderOfCollectionProp = {
+export type HolderOfCollection = {
   id: string
   isHolder: boolean
   isLoading: boolean
@@ -27,4 +27,19 @@ export type ToMintNft = {
   image: string
   price: string
   priceUSD: string
+}
+
+export type MintedNFT = {
+  id: string
+  chain: string
+  name: string
+  image: string
+  index: number
+  collection: { id: string; name: string; max: number }
+  mimeType?: string
+}
+
+export type MintingSession = {
+  txHash?: string
+  items: MintedNFT[]
 }

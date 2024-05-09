@@ -36,7 +36,7 @@ const { urlPrefix } = usePrefix()
 
 const props = withDefaults(
   defineProps<{
-    collection: Collection
+    collection?: Collection
     nft?: CarouselNFT
     showDelay?: number
     hideDelay?: number
@@ -47,6 +47,7 @@ const props = withDefaults(
     hideDelay: 0,
     className: '',
     nft: undefined,
+    collection: undefined,
   },
 )
 

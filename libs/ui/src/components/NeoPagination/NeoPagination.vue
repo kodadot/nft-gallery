@@ -19,7 +19,11 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 @import '@oruga-ui/oruga-next/src/scss/components/_pagination.scss';
 
-.o-pag__link--current {
-  @apply bg-k-primary;
+.o-pag__link {
+  @apply text-text-color;
+
+  &--current {
+    @apply bg-k-primary;
+  }
 }
 </style>

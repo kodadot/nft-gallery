@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { NeoCollapsible, NeoIcon } from '@kodadot1/brick'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
 import {
   useZipFileValidator,
@@ -81,9 +80,8 @@ const onFileSelected = (file) => {
               .map(({ name }) => name)
               .join(',   ')
 
-            showNotification(
+            warningMessage(
               `${fileNames}  ${warnings.value.length} files were not uploaded`,
-              notificationTypes.warn,
             )
           }
           showCheckmark.value = true

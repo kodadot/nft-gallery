@@ -1,12 +1,18 @@
+import { type MintedNFT } from '@/components/collection/drop/types'
 import { DoResult } from '@/services/fxart'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
+import { useDrop } from '@/components/drops/useDrops'
+import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
+import useDropMassMint, {
+  MassMintNFT,
+} from '@/composables/drop/massmint/useDropMassMint'
+import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 
 export type DropMintedNft = DoResult & {
   id: string
   collectionName: string
   name: string
+  max: number
 }
 
 export type UnlockableCollectionById = {
@@ -20,74 +26,180 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-type GenerativeDropMintParams = {
-  mintedDropCount: Ref<number>
-  defaultMax: Ref<number>
-  collectionData: Ref<UnlockableCollectionById | undefined | null>
+function useCollectionData(collectionKey, client, collectionId, drop) {
+  const { accountId } = useAuth()
+  return useAsyncData<UnlockableCollectionById>(
+    'collectionEntity' + collectionKey.value,
+    () =>
+      useAsyncQuery<UnlockableCollectionById>({
+        clientId: client.value,
+        query: unlockableCollectionById,
+        variables: {
+          id: collectionKey.value,
+          search: { issuer_eq: accountId.value },
+        },
+      }).then((res) => res.data.value),
+    {
+      watch: collectionId
+        ? [accountId]
+        : [() => drop.value?.collection, accountId],
+    },
+  )
 }
 
-export default ({
-  collectionData,
-  defaultMax,
-  mintedDropCount,
-}: GenerativeDropMintParams) => {
-  const { toast } = useToast()
-  const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
-  const { imageDataPayload } = useGenerativeIframeData()
+export function useCollectionEntity(collectionId?: string) {
+  const { drop } = useDrop()
+  const { client } = usePrefix()
 
-  const mintedNft = ref<DropMintedNft>()
-  const mintedNftWithMetadata = ref<NFTWithMetadata>()
-  const selectedImage = ref<string>('')
+  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
 
-  const maxCount = computed(
-    () => collectionData.value?.collectionEntity?.max || defaultMax.value,
+  const { data: collectionData } = useCollectionData(
+    collectionKey,
+    client,
+    collectionId,
+    drop,
   )
 
+  const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
   const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
+    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
   )
-
-  const mintedCount = computed(() =>
-    Math.min(mintedDropCount.value, maxCount.value),
-  )
-
-  const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
-
   const description = computed(
-    () => collectionData.value?.collectionEntity?.meta?.description,
+    () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
   const collectionName = computed(
-    () => collectionData.value?.collectionEntity?.name,
+    () => collectionData.value?.collectionEntity?.name ?? '',
   )
-
   const nftCount = computed(
-    () => collectionData.value?.collectionEntity?.nftCount,
+    () => collectionData.value?.collectionEntity?.nftCount ?? 0,
   )
 
-  const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
-
-  const tryCapture = async () => {
-    try {
-      const imgFile = await getCaptureImageFile()
-      const imageHash = await pinFileToIPFS(imgFile)
-      return imageHash
-    } catch (error) {
-      toast($i18n.t('drops.capture'))
-      throw error
-    }
+  return {
+    maxCount,
+    mintedAmountForCurrentUser,
+    description,
+    collectionName,
+    nftCount,
   }
+}
 
-  const getCaptureImageFile = async () => {
-    const selectedImageHash = selectedImage.value.split('?hash=')[1]
-    const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
-    if (!imageDataPayload.value?.image || !isTheSameImage) {
-      throw new Error('Failed to load image, please try again later')
+export const useUpdateMetadata = async () => {
+  const { drop } = useDrop()
+  const { toMintNFTs, amountToMint, mintingSession } =
+    storeToRefs(useDropStore())
+  const { submitMint } = useDropMassMint()
+  const { subscribeForNftsWithMetadata } = useDropMassMintListing()
+  const { collectionName, maxCount } = useCollectionEntity()
+  const { $consola } = useNuxtApp()
+
+  const status = ref<'index' | 'update'>('index')
+
+  // 1. get nft index
+  const mintNFTs: Ref<MassMintNFT[]> = ref([])
+  useSubscriptionGraphql({
+    query: `
+      nfts: nftEntities(
+        where: {collection: {id_eq: "${drop.value.collection}"}},
+        orderBy: [createdAt_ASC, sn_ASC]
+      ) {
+        id
+      }
+    `,
+    onChange: async ({ data: { nfts } }) => {
+      mintNFTs.value = []
+
+      if (status.value === 'update') {
+        return
+      }
+
+      const checkIndex = new Set() // check duplicate index
+      for (const mintNFT of toMintNFTs.value) {
+        const index =
+          nfts.findIndex(
+            (nft) => nft.id === `${drop.value.collection}-${mintNFT.sn}`,
+          ) + 1
+
+        if (index > 0) {
+          checkIndex.add(index)
+          const metadata = new URL(mintNFT.metadata || '')
+          metadata.searchParams.set('sn', index.toString())
+
+          mintNFTs.value.push({
+            ...mintNFT,
+            name: `${mintNFT.name} #${index}`,
+            metadata: metadata.toString(),
+            index,
+          })
+        }
+      }
+
+      if (checkIndex.size === amountToMint.value) {
+        status.value = 'update'
+        await updateMetadata()
+      }
+    },
+  })
+
+  // 2. update metadata
+  const mintedNfts: Ref<MintedNFT[]> = ref([])
+  const updateMetadata = async () => {
+    const response = await Promise.all(mintNFTs.value.map(submitMint))
+
+    for (const [index, res] of response.entries()) {
+      let metadata = {
+        image: mintNFTs.value[index].image,
+        name: mintNFTs.value[index].name,
+      }
+
+      try {
+        metadata = await $fetch(res.metadata || '')
+      } catch (error) {
+        $consola.warn(error)
+      }
+
+      mintedNfts.value.push({
+        id: `${drop.value.collection}-${res.nft}`,
+        index: mintNFTs.value[index].index as number,
+        chain: res.chain,
+        name: metadata.name,
+        image: metadata.image,
+        collection: {
+          id: res.collection,
+          name: collectionName.value,
+          max: maxCount.value ?? drop.value.max ?? FALLBACK_DROP_COLLECTION_MAX,
+        },
+      })
     }
-    const res = (await fetch(imageDataPayload.value.image)) as any
-    return new File([res], 'image.png', { type: 'image/png' })
+
+    mintingSession.value.items = mintedNfts.value
+    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
   }
+}
+
+export default () => {
+  const dropStore = useDropStore()
+  const { mintedNFTs } = storeToRefs(dropStore)
+  const { drop } = useDrop()
+  const { maxCount: collectionMaxCount } = useCollectionEntity()
+  const { listNftByNftWithMetadata } = useListingCartModal()
+
+  const claimedNft = computed({
+    get: () => dropStore.claimedNFT,
+    set: (value) => dropStore.setClaimedNFT(value),
+  })
+
+  const maxCount = computed(
+    () =>
+      collectionMaxCount.value ??
+      drop.value?.max ??
+      FALLBACK_DROP_COLLECTION_MAX,
+  )
+
+  const mintCountAvailable = computed(
+    () => dropStore.mintsCount < maxCount.value,
+  )
+
+  const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))
 
   const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
     useSubscriptionGraphql({
@@ -99,44 +211,18 @@ export default ({
   }
 
   const listMintedNft = async () => {
-    if (!mintedNftWithMetadata.value) {
-      return
+    const mintedNFT = mintedNFTs.value[0]
+    if (mintedNFT) {
+      listNftByNftWithMetadata(mintedNFT)
     }
-
-    if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-      const floorPrice =
-        mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-      listingCartStore.setItem(
-        nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-      )
-    }
-
-    preferencesStore.listingCartModalOpen = true
   }
-
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-
-    if (mintedNftWithMetadata.value?.id) {
-      listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-    }
-  })
 
   return {
     maxCount,
-    mintedNft,
-    mintedNftWithMetadata,
-    mintedAmountForCurrentUser,
-    mintedCount,
+    claimedNft,
     mintCountAvailable,
-    selectedImage,
-    description,
-    collectionName,
     canListMintedNft,
-    nftCount,
     listMintedNft,
-    tryCapture,
     subscribeToMintedNft,
   }
 }

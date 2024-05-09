@@ -16,6 +16,7 @@
     :height="height"
     :width="width"
     :count="count"
+    :position="position"
     :rounded="rounded"
     :size="size"
     data-testid="skeleton-component">

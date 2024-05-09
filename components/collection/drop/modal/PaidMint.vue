@@ -8,30 +8,32 @@
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
+      :estimated-time="estimedTime"
       @close="onClose">
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
-        :to-mint-nft="toMintNft"
+        :to-mint-nfts="toMintNFTs"
         :minimum-funds="minimumFunds"
-        :has-minimum-funds="hasMinimumFunds"
-        :hide-minimum-funds-warning="hideMinimumFundsWarning"
+        :mint-button="mintButton"
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
-        :modal-loading="loading"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
       <SigningModalBody
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
-        :subtitle="transactionStatus" />
+        :subtitle="transactionStatus"
+        :status="status"
+        :failed="isError"
+        @try-again="confirm" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
-        :minted-nft="sanitizedMintedNft as DropMintedNft"
-        :can-list-nft="canListNft"
+        :minting-session="mintingSession"
+        :can-list-nfts="canList"
         @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
@@ -41,33 +43,13 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import type { ToMintNft } from '../types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
-import { usePreloadMintedNftCover } from './utils'
-
-const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
-
-const props = withDefaults(
-  defineProps<{
-    modelValue: boolean
-    toMintNft: ToMintNft
-    action: AutoTeleportAction
-    isAllocatingRaffle: boolean
-    minimumFunds: number
-    hasMinimumFunds: boolean
-    hideMinimumFundsWarning?: boolean
-    formattedMinimumFunds: string
-    formattedExistentialDeposit: string
-    mintedNft?: DropMintedNft
-    canListNft: boolean
-  }>(),
-  {
-    hideMinimumFundsWarning: false,
-  },
-)
+import { usePreloadImages } from './utils'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
+import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -75,21 +57,64 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
+const IPFS_ESTIMATED_TIME_SECONDS = 15
+
+const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
+const props = defineProps<{
+  modelValue: boolean
+  action: AutoTeleportAction
+  status: TransactionStatus
+  isError: boolean
+}>()
+
+const { canMint, canList, isRendering } = useDropMassMintState()
+const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 
-const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  computed(() => props.mintedNft),
+const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
+  useDropMinimumFunds(computed(() => amountToMint.value))
+
+const { completed: imagePreloadingCompleted } = usePreloadImages(
+  computed(() => mintingSession.value.items),
 )
 
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 
+const isSingleMintNotReady = computed(
+  () => amountToMint.value === 1 && !canMint.value,
+)
+
+const estimedTime = computed(() =>
+  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
+)
+
+const mintButton = computed(() => {
+  if (isRendering.value) {
+    return {
+      label: `${$i18n.t('drops.generatingVariations')} ~ 5s`,
+      disabled: true,
+      loading: true,
+    }
+  }
+
+  if (!canMint.value) {
+    return {
+      label: $i18n.t('drops.mintDropError'),
+      disabled: true,
+    }
+  }
+
+  return { label: $i18n.t('drops.proceedToSigning'), disabled: false }
+})
+
 const loading = computed(
-  () => props.isAllocatingRaffle || mintOverview.value?.loading || false,
+  () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
 )
 const preStepTitle = computed<string | undefined>(() =>
-  props.isAllocatingRaffle ? $i18n.t('loader.ipfs') : undefined,
+  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
+
 const isMintOverviewStep = computed(
   () => modalStep.value === ModalStep.OVERVIEW,
 )
@@ -98,17 +123,13 @@ const isSuccessfulDropStep = computed(
   () => modalStep.value === ModalStep.SUCCEEDED,
 )
 
-const moveSuccessfulDrop = computed(() => {
-  if (nftCoverLoaded.value) {
-    return true
-  }
-
-  return (
-    sanitizedMintedNft.value &&
-    retry.value === 0 &&
-    props.action.details.status === TransactionStatus.Finalized
-  )
-})
+const moveSuccessfulDrop = computed<boolean>(
+  () =>
+    imagePreloadingCompleted.value &&
+    Boolean(mintingSession.value.items.length) &&
+    Boolean(mintingSession.value.txHash) &&
+    props.action.details.status === TransactionStatus.Finalized,
+)
 
 const transactionStatus = computed(() => {
   const status = props.action.details.status
@@ -146,11 +167,13 @@ const handleModalClose = (completed: boolean) => {
   }
 }
 
+const confirm = () => emit('confirm')
+
 const handleConfirm = ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   if (!autoteleport) {
-    emit('confirm')
+    confirm()
     modalStep.value = ModalStep.SIGNING
   }
 }
@@ -160,4 +183,14 @@ watchEffect(() => {
     modalStep.value = ModalStep.SUCCEEDED
   }
 })
+
+watchDebounced(
+  () => props.modelValue,
+  (isOpen) => {
+    if (!isOpen) {
+      modalStep.value = ModalStep.OVERVIEW
+    }
+  },
+  { debounce: 500 }, // wait for the modal closing animation to finish
+)
 </script>

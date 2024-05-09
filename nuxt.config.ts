@@ -1,7 +1,7 @@
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
+import svgLoader from 'vite-svg-loader'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -33,13 +33,9 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
-      process.env.NODE_ENV === 'development'
-        ? null
-        : sentryVitePlugin({
-            org: 'kodadot',
-            project: 'nft-gallery',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          }),
+      svgLoader({
+        defaultImport: 'url',
+      }),
     ],
     // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
     optimizeDeps:
@@ -53,22 +49,38 @@ export default defineNuxtConfig({
               '@kodadot1/minimark/v2',
               '@paraspell/sdk',
               '@polkadot/api',
+              '@polkadot/api-augment',
+              '@polkadot/types/generic/AccountId',
               '@polkadot/vue-identicon',
               '@ramp-network/ramp-instant-sdk',
               '@transak/transak-sdk',
               '@unhead/vue',
+              'bn.js',
+              'chart.js',
               'chart.js/auto',
               'chartjs-adapter-date-fns',
               'chartjs-plugin-zoom',
+              'date-fns/format',
+              'date-fns/formatDistanceToNow',
               'graphql-ws',
               'keen-slider/vue',
-              'keen-slider/vue.es',
+              'lodash/camelCase',
+              'lodash/filter',
+              'lodash/groupBy',
               'lodash/isEqual',
+              'lodash/orderBy',
               'lodash/sortBy',
               'lodash/sum',
               'lodash/unionBy',
+              'lodash/zipWith',
               'markdown-it',
+              'partysocket',
               'prismjs',
+              'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace',
+              'qrcode.vue',
+              'unzipit',
+              'vue-chartjs',
+              'wavesurfer.js',
             ],
           }
         : undefined,
@@ -89,7 +101,7 @@ export default defineNuxtConfig({
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
     head: {
-      title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+      title: 'KodaDot - Your Generative Art Marketplace',
       titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
       htmlAttrs: {
         lang: 'en',
@@ -174,20 +186,6 @@ export default defineNuxtConfig({
           async: true,
         },
         {
-          src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
-          async: true,
-        },
-        {
-          innerHTML: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
-        `,
-          type: 'text/javascript',
-        },
-        {
           // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
           innerHTML: `(function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -263,7 +261,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    // '@nuxtjs/sentry',
     '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
@@ -272,6 +269,8 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
+    '@dargmuesli/nuxt-cookie-control',
+    'nuxt-gtag',
   ],
 
   image: {
@@ -323,6 +322,45 @@ export default defineNuxtConfig({
     // https://github.com/nuxt-community/apollo-module#options
   },
 
+  cookieControl: {
+    isAcceptNecessaryButtonEnabled: false,
+
+    barPosition: 'bottom-full',
+
+    localeTexts: {
+      en: {
+        manageCookies: 'Customize',
+      },
+    },
+
+    cookies: {
+      necessary: [
+        {
+          name: 'Cookie Control',
+          description:
+            'We use our own cookies and third-party cookies so that we can show you this website and better understand how you use it, with a view to improving the services we offer. If you continue browsing, we consider that you have accepted the cookies.',
+          targetCookieIds: ['ncc_c', 'ncc_e'],
+        },
+      ],
+
+      optional: [
+        {
+          id: 'ga',
+          name: 'Google Analytics',
+          description:
+            'Analytics cookies help us understand how visitors interact with websites by collecting and reporting information anonymously.',
+          src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+          targetCookieIds: ['_ga', '_gat', '_gid', 'ga-cookie-consent'],
+        },
+      ],
+    },
+  },
+
+  gtag: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
+    initialConsent: false,
+  },
+
   site: {
     url: process.env.BASE_URL || 'http://localhost:9090',
     strictNuxtContentPaths: true,
@@ -360,4 +398,8 @@ export default defineNuxtConfig({
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
+
+  devtools: {
+    enabled: true,
+  },
 })

@@ -8,14 +8,14 @@ If everything goes well, chances that you will be **rewarded are high**.
 
 We might give retro-active reward, where the bounty label wasn't present, **if we like your contribution.**
 
-**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
+**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/koda_eco)**
 
 ## Deploy Kodadot nft gallery to Netlify
  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kodadot/nft-gallery)
 
 ## Getting started
 
-Before you being:
+Before you jump in:
 
 - We utilize [**Node.js**](https://nodejs.org) as a development tool. To avoid potential compatibility issues, check if you're on the version of **Node.js we support.**
 - Make sure that you use [**pnpm**](https://pnpm.io/installation) as the package manager.
@@ -26,7 +26,6 @@ Before you being:
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
 
 ## Codespaces
-
 
 - For an instant setup of the development environment, please follow the instructions provided below. If you’re setting up for the first time and need a detailed guide, you can refer to our First-Time Setup Guide [first-time setup](https://github.com/kodadot/nft-gallery/blob/main/content/blog/first-time.md)
 
@@ -54,14 +53,17 @@ Recommended VSCode Extensions:
 
 ### Which issue should you pick?
 
-We are working primarily on two metrics.
-Issues have
+We usually work using two metrics:
 
 - priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**.
 - bounty labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
 
 If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a **significant difference for users to fix high-priority issues**.
 If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
+
+Labels can also help you find a perfect issue for your skills, as the example above:
+
+- The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
 
 ### Assigning Issues
 
@@ -82,9 +84,20 @@ Whenever you open PR against our repository, our best recommendation is to finis
 
 ### Submit your PR & Get it reviewed
 
-- Once you submit your PR, others from the developers community will review it with you. The first thing you'll want to do is a [self-review](#self-review).
-- After that, we may have questions; check back on your PR to keep up with the conversation.
+- Once you submit your PR, others from the developers community will review it with you. The first thing you'll want to do is a [self-review](#self-review); **When self-reviewing, be aware of the quality of your contribution, if your PR has too many visible issues on UI or too many comments from Developers, it will be promptly closed.**
+- After that, we may have questions; check back on your PR and its current labels to keep up with the conversation.
 - Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
+
+### Check the labels on your Pull Request
+
+We use labels to keep track on how the PR is going, some examples:
+
+waiting for review - PR is waiting for developer review
+works for me: QA team has tested your PR
+visual-ok: Design team has checked and approved your PR
+changes-requested: Someone from our team identified that something needs to be changed/fixed on your PR
+stale: PR which haven't seen any changes for last 3 days and its prone to closing
+blocked: PR is currently blocked and cannot be merged
 
 ### Your PR is merged!
 
@@ -93,6 +106,10 @@ Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
 ### Avoiding stalled PRs
 
 When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
+
+### Avoid getting banned from contributing
+
+Our team has high standards when it comes to contributions, if our team identifies that you have a high rate of closed PRs we will prevent you from contributing in our repository. 
 
 ## Rewards
 
@@ -108,7 +125,7 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 
 Our small but mighty 💪 developer community is maintaining this repo. To preserve our bandwidth, off-topic conversations will be closed.
 
-## Issues 🐞
+## Regarding Issues 🐞
 
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet, and you shouldn't begin work on it.
 
@@ -122,14 +139,7 @@ Thank you for creating them.
 
 If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
 
-### Labels
-
-Labels can help you find a perfect issue for your skills.
-
-- The [help wanted](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) label is for problems or updates that anyone in the community can start working on.
-- The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
-
-## Pull requests 🛠️
+## Regarding Pull requests 🛠️
 
 A pull request is a way to suggest changes in our repository.
 When we merge those changes, they should be deployed to the live site within 24 hours.
@@ -140,7 +150,7 @@ Please have a look before making PR for [a directory with PR templates](https://
 When you open a pull request, you must fill out one of our PR templates. This template helps reviewers understand your changes and the purpose of your pull request.
 When deciding if we merge in a pull request, we look at the following things:
 
-### Does it state intent
+### State your intentions
 
 You should be clear about which problem you're trying to solve with your contribution.
 
@@ -199,7 +209,7 @@ For content changes, make sure that you:
 
 ### Keeping tests relevant🔬
 
-We are currently in the process of installing [Playwright](https://playwright.dev/). Tests will run automatically as [GitHub actions](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to do your part by manually testing your PR to see if you can find any errors and request a review from the @kodadot/qa-guild. 
+We run E2E tests using [Playwright](https://playwright.dev/). Tests will run automatically as [GitHub actions](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to do your part by manually testing your PR to see if you can find any errors and request a review from the @kodadot/qa-guild. 
 
 **Example:**
 
@@ -228,7 +238,7 @@ we don't want to mix the merging strategies, and we want to see only your commit
 - We follow what we have in `.eslintrc.js`, and you can see warnings and errors by running `pnpm lint`. With `pnpm lint --fix`, you will get auto fixed code.
 - We've formed [STYLE_GUIDE.md](STYLE_GUIDE.md) to help you answer formatting questions.
 
-### Don't have access to push to the repository
+### Don't have access to push directly into the repository?
 
 You need to fork the repository, commit a change to your repository, and [create pull request](https://opensource.com/article/19/7/create-pull-request-github).
 
@@ -242,7 +252,7 @@ The aim of this repository is:
 
 ### Better comfort
 
-For crafting much better culture and Developer Experience, we reccomend some extension to browse issues faster
+For crafting much better culture and Developer Experience, we recommend some extension to browse issues faster
 
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
@@ -259,10 +269,7 @@ This repository has a [code of conduct](CODE_OF_CONDUCT.md) and we will remove t
 
 ## Follow us
 
+- [FFarcaster /koda](https://warpcast.com/~/channel/koda)
 - [Twitter @KodaDot](https://twitter.com/kodadot)
 - [Medium Kodadot](https://medium.com/kodadot)
-- [Documentation](https://docs.kodadot.xyz)
-
-### Related
-
-Check best [contributing.md](https://github.com/github/docs/blob/main/CONTRIBUTING.md)
+- [Documentation](https://hello.kodadot.xyz/)

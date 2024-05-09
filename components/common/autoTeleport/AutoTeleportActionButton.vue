@@ -9,7 +9,7 @@
             <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
             <img
               v-if="isTelportIconActive"
-              src="/accent-blur.svg"
+              src="~/assets/svg/accent-blur.svg"
               alt="blur"
               class="blur autotelport-blur" />
           </div>
@@ -47,7 +47,10 @@
         :label="autoTeleportLabel"
         variant="k-accent"
         no-shadow
+        :shiny="shiny"
         :disabled="isDisabled"
+        :loading="loading"
+        :loading-with-label="loading"
         class="flex flex-grow btn-height capitalize"
         @click="handleSubmit" />
     </div>
@@ -107,7 +110,8 @@ const props = withDefaults(
     autoCloseModalDelayModal?: number
     interaction?: ActionlessInteraction
     hideTop?: boolean
-    parentReady?: boolean
+    loading?: boolean
+    shiny?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -118,7 +122,8 @@ const props = withDefaults(
     actions: () => [],
     label: '',
     hideTop: false,
-    parentReady: true,
+    loading: false,
+    shiny: false,
   },
 )
 
@@ -150,7 +155,7 @@ const showFirstTimeTeleport = computed(
   () =>
     preferencesStore.firstTimeAutoTeleport &&
     autoTeleport.value &&
-    props.parentReady,
+    !props.disabled,
 )
 
 const isTelportIconActive = computed(() => {

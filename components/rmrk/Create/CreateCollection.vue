@@ -52,7 +52,6 @@
 
 <script lang="ts" setup>
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark/v1'
 import Loader from '@/components/shared/Loader.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
@@ -139,7 +138,7 @@ const submit = async () => {
       },
     })
   } catch (e) {
-    showNotification(`[ERR] ${e}`, notificationTypes.warn)
+    warningMessage(`${e}`)
     console.error(e)
     isLoading.value = false
   }

@@ -39,8 +39,11 @@
         </div>
       </template>
 
-      <template #footer>
-        <slot name="footer"></slot>
+      <template v-if="showEstimation" #footer>
+        <SkeletonLoaderFooterPill
+          :full-width="Boolean(customFormattedEstimation)">
+          {{ formattedEstimation }}
+        </SkeletonLoaderFooterPill>
       </template>
     </SkeletonLoader>
   </div>
@@ -48,18 +51,36 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title: string
     subtitle: string
     showSubtitleDots?: boolean
     failed?: boolean
+    status?: TransactionStatus
+    customFormattedEstimation?: string
   }>(),
   {
     showSubtitleDots: false,
     failed: false,
+    customFormattedEstimation: undefined,
   },
+)
+
+const { formattedState, isTransactionInProgress } = useTransactionEstimatedTime(
+  computed(() => props.status),
+)
+
+const showEstimation = computed(() =>
+  props.customFormattedEstimation
+    ? true
+    : isTransactionInProgress.value && !props.failed,
+)
+
+const formattedEstimation = computed(
+  () => props.customFormattedEstimation || formattedState.value,
 )
 </script>

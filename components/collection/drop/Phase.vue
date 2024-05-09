@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6">
+    <div
+      class="flex justify-between items-center mb-6"
+      data-testid="drop-phase-container">
       <div class="flex items-center">
         <div
           v-if="isFetchingDropStatus"
@@ -31,7 +33,10 @@
             {{ $t('opensIn') }}
             <span class="text-text-color">{{ statusText }}</span>
           </div>
-          <div v-else class="text-neutral-7 leading-tight">
+          <div
+            v-else
+            class="text-neutral-7 leading-tight"
+            data-testid="drop-status">
             {{ statusText }}
           </div>
         </div>
@@ -74,19 +79,21 @@
       v-if="showHolderOfCollection"
       :class="{ hidden: !showRequirements || isFetchingDropStatus }"
       :holder-of-collection="holderOfCollection"
-      :minimum-funds="minimumFunds"
       :is-minted-out="isMintedOut" />
 
-    <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
+    <DropsCreateCalendarEventModal
+      v-model="isCreateEventModalActive"
+      :title="`Drop: ${drop.name}`"
+      :drop-start-time="dropStartTime" />
 
     <!-- if there is location on the campaign -->
     <CollectionDropRequirementItem
-      v-if="drop.location"
-      :fulfilled="Boolean(drop.userAccess)">
+      v-if="drop?.location"
+      :fulfilled="Boolean(drop?.userAccess)">
       <p class="capitalize">
         Location Verification: You are
-        <span v-if="!Boolean(drop.userAccess)" class="font-bold">not</span> in
-        <span class="font-bold">{{ drop.location }}</span>
+        <span v-if="!Boolean(drop?.userAccess)" class="font-bold">not</span> in
+        <span class="font-bold">{{ drop?.location }}</span>
       </p>
     </CollectionDropRequirementItem>
   </div>
@@ -94,29 +101,23 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { DropStatus } from '@/components/drops/useDrops'
+import { DropStatus, useDrop } from '@/components/drops/useDrops'
 import {
   formatDropStartTime,
   toDropScheduledDurationString,
 } from '@/components/drops/utils'
-import { DropItem } from '@/params/types'
-import type {
-  HolderOfCollectionProp,
-  MinimumFundsProp,
-  MintButtonProp,
-} from './types'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const props = defineProps<{
-  mintCountAvailable: boolean
-  minimumFunds: MinimumFundsProp
-  mintButton: MintButtonProp
-  holderOfCollection?: HolderOfCollectionProp
   dropStatus?: DropStatus
   dropStartTime?: Date
-  drop: DropItem
 }>()
 
 const { $i18n } = useNuxtApp()
+const { drop } = useDrop()
+const { mintCountAvailable } = useGenerativeDropMint()
+const { holderOfCollection } = useHolderOfCollection()
 
 const scheduledStatuses: DropStatus[] = [
   DropStatus.SCHEDULED,
@@ -124,8 +125,10 @@ const scheduledStatuses: DropStatus[] = [
   DropStatus.COMING_SOON,
 ]
 
-const isMintedOut = computed(() => !props.mintCountAvailable)
-const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const isMintedOut = computed(() => !mintCountAvailable.value)
+const showHolderOfCollection = computed(() =>
+  Boolean(holderOfCollection.value?.id),
+)
 const showRequirements = ref(true)
 
 const isCreateEventModalActive = ref(false)
