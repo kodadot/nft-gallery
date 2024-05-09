@@ -93,11 +93,13 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 }
 
 const processProfile = async (profileData: ProfileFormData) => {
-  const imageUrl =
-    profileData.imagePreview ?? (await uploadImage(profileData.image))
+  const imageUrl = profileData.image
+    ? await uploadImage(profileData.image)
+    : profileData.imagePreview
 
-  const bannerUrl =
-    profileData.bannerPreview ?? (await uploadImage(profileData.banner))
+  const bannerUrl = profileData.banner
+    ? await uploadImage(profileData.banner)
+    : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,
@@ -157,7 +159,7 @@ const loginWithFarcaster = async () => {
       interval: 1_000,
     })
 
-    farcasterTab.close()
+    farcasterTab?.close()
 
     if (userData?.data?.state !== 'completed') {
       console.error('No user data found')
