@@ -27,7 +27,7 @@
         >proposal#384 & motion#256 from Kusama Treasury funding</a
       >
       for milestone1. Mostly it went for development costs, not for running and
-      further maintance costs.
+      further maintenance costs.
     </p>
     <br />
     <p>
