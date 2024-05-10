@@ -222,10 +222,11 @@ const socials = [
     name: 'Telegram',
     url: 'https://t.me/koda_eco',
   },
-  {
-    name: 'Beehiiv',
-    url: 'https://kodadotweeklyroundup.beehiiv.com',
-  },
+  //https://github.com/kodadot/nft-gallery/issues/10247#issuecomment-2103245601
+  //{
+  //  name: 'Beehiiv',
+  //  url: 'https://kodadotweeklyroundup.beehiiv.com',
+  //},
   {
     name: 'Linkedin',
     url: 'https://www.linkedin.com/company/kodadot',
