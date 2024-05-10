@@ -28,6 +28,7 @@
       <CodeCheckerMassPreviewCapture
         v-if="capture"
         :assets="assets"
+        :index="index"
         :previews="PREVIEWS_AMOUNT" />
     </transition>
   </div>
@@ -43,5 +44,6 @@ const PREVIEWS_AMOUNT = 12
 
 defineProps<{
   assets: Array<AssetMessage>
+  index: string
 }>()
 </script>
