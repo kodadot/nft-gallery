@@ -13,4 +13,6 @@ export type ProfileFormData = {
   farcasterHandle?: string
   twitterHandle?: string
   website?: string
+  imagePreview?: string
+  bannerPreview?: string
 }

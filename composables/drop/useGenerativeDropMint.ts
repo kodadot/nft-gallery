@@ -147,7 +147,7 @@ export const useUpdateMetadata = async () => {
 
     for (const [index, res] of response.entries()) {
       let metadata = {
-        animation_url: mintNFTs.value[index].image,
+        image: mintNFTs.value[index].image,
         name: mintNFTs.value[index].name,
       }
 
@@ -159,9 +159,10 @@ export const useUpdateMetadata = async () => {
 
       mintedNfts.value.push({
         id: `${drop.value.collection}-${res.nft}`,
+        index: mintNFTs.value[index].index as number,
         chain: res.chain,
         name: metadata.name,
-        image: metadata.animation_url,
+        image: metadata.image,
         collection: {
           id: res.collection,
           name: collectionName.value,

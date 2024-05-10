@@ -45,9 +45,7 @@
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
           </p>
-          <SelectImageField
-            v-model="form.image"
-            :preview="userProfile?.image" />
+          <SelectImageField v-model="form.image" :preview="form.imagePreview" />
         </div>
       </NeoField>
 
@@ -62,7 +60,7 @@
           </p>
           <SelectImageField
             v-model="form.banner"
-            :preview="userProfile?.banner" />
+            :preview="form.bannerPreview" />
         </div>
       </NeoField>
 
@@ -107,22 +105,29 @@ import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
 import { Profile } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
+import { StatusAPIResponse } from '@farcaster/auth-client'
 
 const { accountId } = useAuth()
+
+const props = defineProps<{
+  farcasterUserData?: StatusAPIResponse
+  useFarcaster: boolean
+}>()
 
 const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 const userProfile = computed(() => profile?.userProfile.value)
-const hasProfile = computed(() => profile?.hasProfile.value)
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
 
-const submitDisabled = computed(() =>
-  hasProfile.value ? false : !form.name || !form.description || !form.image,
+const missingImage = computed(() => (form.imagePreview ? false : !form.image))
+
+const submitDisabled = computed(
+  () => !form.name || !form.description || missingImage.value,
 )
 
 const emit = defineEmits<{
@@ -150,7 +155,9 @@ const form = reactive<ProfileFormData>({
   name: '',
   description: '',
   image: null,
+  imagePreview: undefined,
   banner: null,
+  bannerPreview: undefined,
   farcasterHandle: undefined,
   twitterHandle: undefined,
   website: undefined,
@@ -180,19 +187,35 @@ const socialLinks = [
   },
 ]
 
-watchEffect(() => {
-  if (hasProfile) {
-    form.name = userProfile.value?.name ?? ''
-    form.description = userProfile.value?.description ?? ''
-    form.farcasterHandle = userProfile.value?.socials.find(
-      (social) => social.platform === 'Farcaster',
-    )?.handle
-    form.twitterHandle = userProfile.value?.socials.find(
-      (social) => social.platform === 'Twitter',
-    )?.handle
-    form.website = userProfile.value?.socials.find(
-      (social) => social.platform === 'Website',
-    )?.handle
-  }
+watchEffect(async () => {
+  const profile = userProfile.value
+  const farcasterProfile = props.farcasterUserData
+
+  // Use Farcaster data if useFarcaster is true and data is available, otherwise fallback to profile data
+  form.name =
+    props.useFarcaster && farcasterProfile
+      ? farcasterProfile.displayName ?? ''
+      : profile?.name ?? ''
+  form.description =
+    props.useFarcaster && farcasterProfile
+      ? farcasterProfile.bio ?? ''
+      : profile?.description ?? ''
+  form.imagePreview =
+    props.useFarcaster && farcasterProfile
+      ? farcasterProfile.pfpUrl
+      : profile?.image
+  form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
+
+  // Conditional for Farcaster handle based on the useFarcaster prop
+  form.farcasterHandle =
+    props.useFarcaster && farcasterProfile
+      ? farcasterProfile.username
+      : profile?.socials.find((s) => s.platform === 'Farcaster')?.handle
+
+  // Social handles are fetched from profile regardless of the Farcaster usage
+  form.twitterHandle = profile?.socials.find(
+    (s) => s.platform === 'Twitter',
+  )?.handle
+  form.website = profile?.socials.find((s) => s.platform === 'Website')?.handle
 })
 </script>

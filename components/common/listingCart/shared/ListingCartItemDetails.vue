@@ -4,12 +4,12 @@
       <div class="flex">
         <div>
           <BaseMediaItem
-            v-if="nft.animationUrl"
+            v-if="nft.mediaUrl"
             class="border border-k-shade image is-48x48"
             :class="{ 'opacity-50': discarded }"
             :alt="nft?.name"
-            :animation-src="sanitizeIpfsUrl(nft.animationUrl.url)"
-            :mime-type="nft.animationUrl.mimeType"
+            :src="sanitizeIpfsUrl(nft.mediaUrl.image)"
+            :mime-type="nft.mediaUrl.mimeType"
             preview
             is-detail />
           <!-- keeping BasicImage since its has a skeleton laoder -->
@@ -60,7 +60,7 @@ const getAvatar = async () => {
 }
 
 onMounted(() => {
-  if (!props.nft.animationUrl) {
+  if (!props.nft.mediaUrl) {
     getAvatar()
   }
 })

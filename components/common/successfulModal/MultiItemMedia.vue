@@ -10,9 +10,9 @@
       :key="item.id"
       class="flex flex-row items-center gap-4">
       <BaseMediaItem
-        class="border border-k-shade aspect-square w-10 !h-10"
+        class="border border-k-shade aspect-square !w-10 !h-10 shrink-0"
         :src="sanitizeIpfsUrl(item.image)"
-        :mime-type="mediaMimeType"
+        :mime-type="item.mimeType"
         preview
         is-detail />
 
@@ -55,7 +55,6 @@ const COLLAPSED_ITEMS_COUNT = 5
 const props = defineProps<{
   items: ItemMedia[]
   header: string
-  mediaMimeType?: string
   showPrice?: boolean
 }>()
 

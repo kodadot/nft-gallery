@@ -1,5 +1,5 @@
 <template>
-  <img :src="art" alt="Create Profile" class="h-56 object-cover" />
+  <img :src="art" alt="Create Profile" class="h-56 object-cover w-full" />
   <div class="px-6 pb-5 pt-7">
     <div class="mb-7">
       <div class="flex items-center justify-center">

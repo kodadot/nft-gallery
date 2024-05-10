@@ -1,13 +1,16 @@
 <template>
   <div class="flex items-center justify-between">
-    <div class="flex">
+    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${user.address}`">
       <NuxtImg
         :src="user.image"
         placholder
         alt="follower avatar"
         class="w-12 h-12 rounded-full border object-cover mr-4" />
       <div class="flex flex-col gap-[6px]">
-        <span class="text-k-black font-bold">{{ user.name }}</span>
+        <span
+          class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
+          >{{ user.name }}</span
+        >
         <p class="text-sm">
           {{ followersCount }}
           <span class="text-k-grey">{{
@@ -15,12 +18,12 @@
           }}</span>
         </p>
       </div>
-    </div>
+    </NuxtLink>
     <NeoButton
       ref="buttonRef"
       rounded
       no-shadow
-      class="min-w-28"
+      class="!min-w-28"
       :class="buttonConfig.classes"
       :variant="buttonConfig.variant"
       :active="buttonConfig.active"
@@ -59,6 +62,7 @@ const buttonRef = ref(null)
 const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
+const { urlPrefix } = usePrefix()
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
   () => fetchFollowersOf(props.user.address, 0).then((res) => res.totalCount),
