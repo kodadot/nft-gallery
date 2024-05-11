@@ -16,21 +16,11 @@
         class="!mt-6" />
     </transition>
 
-    <div class="flex justify-between mt-4">
-      <p class="font-bold capitalize">
-        {{ $t('codeChecker.testOutCapture') }}
-      </p>
-
-      <NeoSwitch v-model="capture" />
-    </div>
-
-    <transition name="slide">
-      <CodeCheckerMassPreviewCapture
-        v-if="capture"
-        :assets="assets"
-        :index="index"
-        :previews="PREVIEWS_AMOUNT" />
-    </transition>
+    <CodeCheckerMassPreviewCapture
+      class="mt-4"
+      :assets="assets"
+      :index="index"
+      :previews="PREVIEWS_AMOUNT" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -38,7 +28,6 @@ import { AssetMessage } from '../types'
 import { NeoSwitch } from '@kodadot1/brick'
 
 const performance = ref(false)
-const capture = ref(false)
 
 const PREVIEWS_AMOUNT = 12
 

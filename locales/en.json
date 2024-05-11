@@ -1890,7 +1890,8 @@
     "resolveIssue": "Resolve Issue",
     "copyCode": "Copy Code",
     "testOutPerformance": "Test out performance",
-    "testOutCapture": "Test out capture service"
+    "testOutCapture": "Test out capture service",
+    "uploadingFile": "Uploading File..."
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"

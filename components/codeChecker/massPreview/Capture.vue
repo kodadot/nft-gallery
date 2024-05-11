@@ -1,10 +1,23 @@
 <template>
   <div>
-    <CodeCheckerMassPreviewGrid :items="previews" class="mt-4">
-      <template #default="{ item }: { item: CapturePreviewItem }">
-        <BaseMediaItem v-if="item.image" :src="item.image" class="border" />
-      </template>
-    </CodeCheckerMassPreviewGrid>
+    <div class="flex justify-between">
+      <p class="font-bold capitalize">
+        {{ $t('codeChecker.testOutCapture') }}
+      </p>
+
+      <span v-if="uploading" class="text-sm text-k-grey capitalize">
+        {{ $t('codeChecker.uploadingFile') }}</span
+      >
+      <NeoSwitch v-else v-model="active" />
+    </div>
+
+    <transition name="slide">
+      <CodeCheckerMassPreviewGrid v-if="active" :items="previews" class="mt-4">
+        <template #default="{ item }: { item: CapturePreviewItem }">
+          <BaseMediaItem v-if="item.image" :src="item.image" class="border" />
+        </template>
+      </CodeCheckerMassPreviewGrid>
+    </transition>
   </div>
 </template>
 <script lang="ts" setup>
@@ -13,6 +26,7 @@ import { PreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { makeScreenshot } from '@/services/capture'
 import { uploadFile } from '@/services/playground'
+import { NeoSwitch } from '@kodadot1/brick'
 
 type CapturePreviewItem = { image?: string } & PreviewItem
 
@@ -21,12 +35,31 @@ const AssetElementMap = {
   script: { src: 'src', tag: 'script' },
 }
 
+const AssetReplaceElement: Record<
+  'style' | 'script',
+  (params: { content: string; doc: Document; element: Element }) => void
+> = {
+  style: ({ doc, content, element }) => {
+    const head = doc.querySelector('head')
+    const style = document.createElement('style')
+    style.innerHTML = content
+    head?.appendChild(style)
+    element.remove()
+  },
+  script: ({ content, element }) => {
+    element.innerHTML = content
+    element.removeAttribute(AssetElementMap.style.src)
+  },
+}
+
 const props = defineProps<{
   assets: Array<AssetMessage>
   index: string
   previews: number
 }>()
 
+const active = ref(false)
+const uploading = ref(false)
 const previews = ref<CapturePreviewItem[]>([])
 const content = ref()
 
@@ -43,17 +76,11 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
     return
   }
 
-  if (asset.type === 'style') {
-    const head = doc.querySelector('head')
-    const style = document.createElement('style')
-    style.innerHTML = response
-    head?.appendChild(style)
-    element.remove()
-    return
-  }
+  const assetReplace = AssetReplaceElement[asset.type] ?? null
 
-  element.innerHTML = response
-  element.removeAttribute(srcAttribute)
+  if (assetReplace) {
+    assetReplace({ doc, content: response, element })
+  }
 }
 
 const buildIndexFile = async (): Promise<Blob> => {
@@ -69,13 +96,18 @@ const buildIndexFile = async (): Promise<Blob> => {
   })
 }
 
+const uploadIndex = async () => {
+  try {
+    uploading.value = true
+    const file = await buildIndexFile()
+    await uploadFile(file, 'index.html')
+  } catch (error) {
+  } finally {
+    uploading.value = false
+  }
+}
+
 const initCapture = async () => {
-  const file = await buildIndexFile()
-
-  await uploadFile(file, 'index.html')
-
-  // get content url
-
   initScreenshot()
 }
 
@@ -85,12 +117,19 @@ const initScreenshot = () => {
 
     url.searchParams.set('hash', preview.hash)
 
-    const response = await makeScreenshot(url.toString())
+    try {
+      const response = await makeScreenshot(url.toString())
+      preview = {
+        ...preview,
+        image: URL.createObjectURL(response),
+        loading: false,
+      }
+    } catch (error) {
+      preview = { ...preview, loading: false }
+    }
 
     previews.value = previews.value.map((p) =>
-      p.hash === preview.hash
-        ? { ...preview, image: URL.createObjectURL(response) }
-        : p,
+      p.hash === preview.hash ? preview : p,
     )
   })
 }
@@ -101,8 +140,18 @@ const generateMassPreview = async () => {
     loading: true,
   }))
 
-  initCapture()
+  await initCapture()
 }
 
-watch(() => props.assets, generateMassPreview, { immediate: true })
+watch([() => props.index], uploadIndex, { immediate: true })
+
+watch(
+  [active, () => props.assets],
+  ([active]) => {
+    if (active) {
+      generateMassPreview()
+    }
+  },
+  { immediate: true },
+)
 </script>
