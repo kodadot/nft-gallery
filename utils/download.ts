@@ -12,6 +12,7 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
 
   const link = document.createElement('a')
   link.href = URL.createObjectURL(image)
+  name += ".png"
   link.download = name
   document.body.appendChild(link)
   link.click()
@@ -22,6 +23,7 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
 export const downloadBase64Image = (base64: string, name = 'unnamed') => {
   const a = document.createElement('a')
   a.href = base64
+  name += ".png"
   a.download = name
   document.body.appendChild(a)
   a.click()
