@@ -175,7 +175,7 @@
               </div>
             </NeoDropdownItem>
             <NeoDropdownItem
-              @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
+              @click="shareOnFarcaster($i18n.t('sharing.profile'), [shareURL])">
               <div class="flex text-nowrap w-max items-center">
                 <FarcasterIcon class="mr-3" />
                 {{ $t('share.farcaster') }}
@@ -187,7 +187,9 @@
         <div
           v-if="userProfile?.description"
           class="max-w-lg whitespace-break-spaces text-sm">
-          {{ userProfile.description }}
+          <Markdown
+            :source="userProfile.description"
+            data-testid="profile-description" />
         </div>
         <!-- Followers -->
         <div>
@@ -445,7 +447,7 @@ const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
 
 const editProfileConfig: ButtonConfig = {
-  label: 'Edit Profile',
+  label: $i18n.t('profile.editProfile'),
   icon: 'pen',
   onClick: () => (isModalActive.value = true),
   classes: 'hover:!bg-transparent',
