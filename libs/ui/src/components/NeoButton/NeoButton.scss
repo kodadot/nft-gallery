@@ -30,7 +30,7 @@
 
 
     &.active {
-      @apply bg-background-color-inverse text-text-color-inverse;
+      @apply bg-background-color-inverse text-text-color-inverse pointer-events-none;
     }
   }
 
