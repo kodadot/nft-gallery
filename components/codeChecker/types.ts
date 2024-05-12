@@ -27,8 +27,10 @@ export type Validity = {
   consistent: Passed
 }
 
+export type AssetType = 'script' | 'style'
+
 export type AssetMessage = {
-  type: 'script' | 'style'
+  type: AssetType
   parent: 'head' | 'body'
   src: string
   originalSrc: string

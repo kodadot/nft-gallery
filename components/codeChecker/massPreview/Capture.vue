@@ -25,32 +25,11 @@ import { AssetMessage } from '../types'
 import { PreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { makeScreenshot } from '@/services/capture'
-import { uploadFile } from '@/services/playground'
+import { uploadFile, uploadPresigned } from '@/services/playground'
 import { NeoSwitch } from '@kodadot1/brick'
+import { AssetElementMap, AssetReplaceElement } from './utils'
 
 type CapturePreviewItem = { image?: string } & PreviewItem
-
-const AssetElementMap = {
-  style: { src: 'href', tag: 'link' },
-  script: { src: 'src', tag: 'script' },
-}
-
-const AssetReplaceElement: Record<
-  'style' | 'script',
-  (params: { content: string; doc: Document; element: Element }) => void
-> = {
-  style: ({ doc, content, element }) => {
-    const head = doc.querySelector('head')
-    const style = document.createElement('style')
-    style.innerHTML = content
-    head?.appendChild(style)
-    element.remove()
-  },
-  script: ({ content, element }) => {
-    element.innerHTML = content
-    element.removeAttribute(AssetElementMap.style.src)
-  },
-}
 
 const props = defineProps<{
   assets: Array<AssetMessage>
@@ -61,7 +40,7 @@ const props = defineProps<{
 const active = ref(false)
 const uploading = ref(false)
 const previews = ref<CapturePreviewItem[]>([])
-const content = ref()
+const indexKey = ref()
 
 const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
   const response = await $fetch<string>(asset.src)
@@ -100,7 +79,8 @@ const uploadIndex = async () => {
   try {
     uploading.value = true
     const file = await buildIndexFile()
-    await uploadFile(file, 'index.html')
+    const { key } = await uploadFile(file, 'index.html')
+    indexKey.value = key
   } catch (error) {
   } finally {
     uploading.value = false
@@ -113,18 +93,19 @@ const initCapture = async () => {
 
 const initScreenshot = () => {
   previews.value.forEach(async (preview) => {
-    const url = new URL(content.value)
-
-    url.searchParams.set('hash', preview.hash)
-
     try {
-      const response = await makeScreenshot(url.toString())
+      const { url } = await uploadPresigned(indexKey.value, {
+        hash: preview.hash,
+      })
+
+      const response = await makeScreenshot(url)
+
       preview = {
         ...preview,
         image: URL.createObjectURL(response),
-        loading: false,
       }
     } catch (error) {
+    } finally {
       preview = { ...preview, loading: false }
     }
 
@@ -143,7 +124,15 @@ const generateMassPreview = async () => {
   await initCapture()
 }
 
-watch([() => props.index], uploadIndex, { immediate: true })
+watch(
+  [() => props.assets, () => props.index],
+  ([assets, index]) => {
+    if (assets.length && index) {
+      uploadIndex()
+    }
+  },
+  { immediate: true },
+)
 
 watch(
   [active, () => props.assets],

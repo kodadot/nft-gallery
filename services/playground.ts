@@ -9,13 +9,27 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
+type UploadFilesResponse = { key: string }
+
 export const uploadFile = async (file: Blob, fileName: string) => {
   const form = new FormData()
 
   form.append('file', file, fileName)
 
-  return await api('/upload', {
+  return await api<UploadFilesResponse>('/upload', {
     method: 'POST',
     body: form,
+  })
+}
+
+type UploadPresignedResponse = { url: string }
+
+export const uploadPresigned = async (key: string, query = {}) => {
+  return await api<UploadPresignedResponse>('/upload-presigned', {
+    method: 'POST',
+    body: {
+      key,
+      query,
+    },
   })
 }
