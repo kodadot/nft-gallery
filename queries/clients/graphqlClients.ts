@@ -1,35 +1,9 @@
 import { initGraphQLTada } from 'gql.tada'
-import type { introspection as rmrkSchema } from './types/rmrk'
-import type { introspection as ksmScehma } from './types/ksm'
+
 import type { introspection as ahpSchema } from './types/ahp'
-import type { introspection as ahkSchema } from './types/ahk'
 
-export const graphqlRmrk = initGraphQLTada<{
-  introspection: rmrkSchema
-  scalars: {
-    DateTime: string
-    BigInt: string
-  }
-}>()
-
-export const graphqlKsm = initGraphQLTada<{
-  introspection: ksmScehma
-  scalars: {
-    DateTime: string
-    BigInt: string
-  }
-}>()
-
-export const graphqlAhp = initGraphQLTada<{
+const graphqlAhp = initGraphQLTada<{
   introspection: ahpSchema
-  scalars: {
-    DateTime: string
-    BigInt: string
-  }
-}>()
-
-export const graphqlAhk = initGraphQLTada<{
-  introspection: ahkSchema
   scalars: {
     DateTime: string
     BigInt: string
