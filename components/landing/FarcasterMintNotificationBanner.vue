@@ -6,7 +6,7 @@
     <img :src="config.image" class="w-[38px] h-[38px] rounded-[14px]" />
 
     <div
-      class="bg-k-red-accent-2 flex flex-wrap gap-2 px-3 py-2 rounded-[14px]">
+      class="bg-k-accent-light-2 flex flex-wrap gap-2 px-3 py-2 rounded-[14px]">
       <div class="font-bold">{{ config.name }}</div>
       <div class="capitalize">{{ $t('landing.farcasterMintLive') }}</div>
     </div>

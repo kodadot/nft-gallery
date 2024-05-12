@@ -104,6 +104,7 @@ const validateSketchContent = (
   | 'validTitle'
   | 'kodaRendererUsed'
   | 'resizerUsed'
+  | 'usesHashParam'
 > => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
@@ -121,6 +122,7 @@ const validateSketchContent = (
     validTitle: false, // This will be updated after HTML content checks
     kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
     resizerUsed: constants.resizerRegex.test(sketchFileContent),
+    usesHashParam: validateURLParamsUsage(sketchFileContent).isSuccess,
   }
 }
 
@@ -133,10 +135,6 @@ export const validate = (
     return canvasResult
   }
 
-  const paramsResult = validateURLParamsUsage(sketchFileContent)
-  if (!paramsResult.isSuccess) {
-    return paramsResult
-  }
   const htmlValidationResult = validateHtmlContent(htmlFileContent)
   const partialValidity = validateSketchContent(
     sketchFileContent,
@@ -145,7 +143,6 @@ export const validate = (
 
   const validity: InnerValidity = {
     ...partialValidity,
-    usesHashParam: paramsResult.isSuccess,
     localP5jsUsed: htmlValidationResult.localP5jsUsed,
     validTitle:
       htmlValidationResult.titlePresent && htmlValidationResult.correctTitle,
