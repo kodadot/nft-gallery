@@ -62,7 +62,6 @@ const bannerImageUrl = computed(
 )
 
 watch(collectionId, () => {
-  console.log('debug refetch withcollectionId', collectionId.value)
   refetch()
   collectionAvatar.value = ''
 })
@@ -72,10 +71,6 @@ watchEffect(async () => {
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
-
-  console.log('debug collection.metdadta', metadata)
-  console.log('debug collection.meta.image', image)
-  console.log('debug collection.name', name)
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)

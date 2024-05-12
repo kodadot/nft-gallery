@@ -87,4 +87,4 @@ export type introspection = {
   };
 };
 
-import * as gqlTada from 'gql.tada'
+import * as gqlTada from 'gql.tada';
