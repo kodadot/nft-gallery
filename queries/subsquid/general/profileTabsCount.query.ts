@@ -1,4 +1,4 @@
-import { graphqlAhp } from '../../clients/graphqlClients'
+import { graphql } from '../../clients/graphqlClients'
 
 const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction!], $denyList: [String!]) {
 
@@ -56,6 +56,6 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
 
 }`
 
-const profileTabsCount = graphqlAhp(query)
+const profileTabsCount = graphql(query)
 
 export default profileTabsCount

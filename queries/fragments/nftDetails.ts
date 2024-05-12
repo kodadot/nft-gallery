@@ -1,8 +1,9 @@
-import { graphqlAhp } from '../clients/graphqlClients'
+import { graphql } from '../clients/graphqlClients'
 
-export const nftDetailsFragment =
-  graphqlAhp(`fragment nftDetails on NFTEntity  @_unmask{
-  name
-  sn
-  price
-}`)
+export const nftDetailsFragment = graphql(`
+  fragment nftDetails on NFTEntity @_unmask {
+    name
+    sn
+    price
+  }
+`)
