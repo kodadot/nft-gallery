@@ -1,4 +1,4 @@
-import { graphql } from '../clients/graphqlClients'
+import { graphql } from '../../clients/graphqlClients'
 
 export const nftFragment = graphql(`
   fragment nft on NFTEntity @_unmask {

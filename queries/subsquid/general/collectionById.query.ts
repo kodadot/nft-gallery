@@ -1,8 +1,8 @@
 import { graphql } from '@/queries/clients/graphqlClients'
-import { baseMetaFragment } from '@/queries/fragments/baseMeta'
-import { collectionFragment } from '@/queries/fragments/collection'
-import { collectionDetailsFragment } from '@/queries/fragments/collectionDetails'
-import { subsquidNftFragment } from '@/queries/fragments/subsquidNft'
+import { baseMetaFragment } from '@/queries/fragments/typed/baseMeta'
+import { collectionFragment } from '@/queries/fragments/typed/collection'
+import { collectionDetailsFragment } from '@/queries/fragments/typed/collectionDetails'
+import { subsquidNftFragment } from '@/queries/fragments/typed/subsquidNft'
 
 const collectionById = graphql(
   `

@@ -1,4 +1,4 @@
-import { graphql } from '../clients/graphqlClients'
+import { graphql } from '../../clients/graphqlClients'
 
 export const baseMetaFragment = graphql(`
   fragment baseMeta on MetadataEntity @_unmask {

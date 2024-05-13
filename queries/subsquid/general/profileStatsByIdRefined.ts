@@ -1,6 +1,6 @@
 import { graphql } from '@/queries/clients/graphqlClients'
-import { eventFragment } from '@/queries/fragments/event'
-import { nftSubsquidFragment } from '@/queries/fragments/nftSubsquid'
+import { eventFragment } from '@/queries/fragments/typed/event'
+import { nftSubsquidFragment } from '@/queries/fragments/typed/nftSubsquid'
 
 const profileStatsByIdRefined = graphql(
   `
