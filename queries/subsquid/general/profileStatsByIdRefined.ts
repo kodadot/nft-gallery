@@ -1,6 +1,6 @@
 import { graphql } from '@/queries/clients/graphqlClients'
 import { eventFragment } from '@/queries/fragments/typed/event'
-import { nftSubsquidFragment } from '@/queries/fragments/typed/nftSubsquid'
+import { nftFragment } from '@/queries/fragments/typed/nft'
 
 const profileStatsByIdRefined = graphql(
   `
@@ -50,12 +50,12 @@ const profileStatsByIdRefined = graphql(
       ) {
         ...event
         nft {
-          ...nftSubsquid
+          ...nft
         }
       }
     }
   `,
-  [nftSubsquidFragment, eventFragment],
+  [nftFragment, eventFragment],
 )
 
 export default profileStatsByIdRefined

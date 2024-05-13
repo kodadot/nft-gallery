@@ -8,5 +8,6 @@ export const nftFragment = graphql(`
     currentOwner
     blockNumber
     burned
+    updatedAt
   }
 `)
