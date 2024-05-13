@@ -8,7 +8,7 @@
       <span v-if="uploading" class="text-sm text-k-grey capitalize">
         {{ $t('codeChecker.uploadingFile') }}</span
       >
-      <NeoSwitch v-else v-model="active" />
+      <NeoSwitch v-else-if="indexKey" v-model="active" />
     </div>
 
     <transition name="slide">
@@ -85,7 +85,11 @@ const uploadIndex = async () => {
   try {
     uploading.value = true
     const file = await buildIndexFile()
-    const { key } = await uploadFile(file, 'index.html')
+    const { key } = await uploadFile({
+      file,
+      fileName: 'index.html',
+      prefix: 'codeChecker',
+    })
     indexKey.value = key
   } catch (error) {
     dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)

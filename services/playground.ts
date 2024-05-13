@@ -11,10 +11,22 @@ const api = $fetch.create({
 
 type UploadFilesResponse = { key: string }
 
-export const uploadFile = async (file: Blob, fileName: string) => {
+export const uploadFile = async ({
+  file,
+  fileName,
+  prefix,
+}: {
+  file: Blob
+  fileName: string
+  prefix?: string
+}) => {
   const form = new FormData()
 
   form.append('file', file, fileName)
+
+  if (prefix) {
+    form.append('prefix', prefix)
+  }
 
   return await api<UploadFilesResponse>('/upload', {
     method: 'POST',
