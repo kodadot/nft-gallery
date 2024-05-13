@@ -1,3 +1,4 @@
+const FILE_SUFFIX = '.png'
 export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
   if (!imageSrc) {
     return
@@ -12,6 +13,7 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
 
   const link = document.createElement('a')
   link.href = URL.createObjectURL(image)
+  name += FILE_SUFFIX
   link.download = name
   document.body.appendChild(link)
   link.click()
@@ -22,6 +24,7 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
 export const downloadBase64Image = (base64: string, name = 'unnamed') => {
   const a = document.createElement('a')
   a.href = base64
+  name += FILE_SUFFIX
   a.download = name
   document.body.appendChild(a)
   a.click()
