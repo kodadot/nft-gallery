@@ -118,17 +118,16 @@ const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 const userProfile = computed(() => profile?.userProfile.value)
-const hasProfile = computed(() => profile?.hasProfile.value)
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
 
-const submitDisabled = computed(() =>
-  hasProfile.value || props.useFarcaster
-    ? form.name && form.description && form.image
-    : !form.name || !form.description || !form.image,
+const missingImage = computed(() => (form.imagePreview ? false : !form.image))
+
+const submitDisabled = computed(
+  () => !form.name || !form.description || missingImage.value,
 )
 
 const emit = defineEmits<{
@@ -205,7 +204,7 @@ watchEffect(async () => {
     props.useFarcaster && farcasterProfile
       ? farcasterProfile.pfpUrl
       : profile?.image
-  form.bannerPreview = profile?.banner // Banner preview assumed to always come from the profile
+  form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
 
   // Conditional for Farcaster handle based on the useFarcaster prop
   form.farcasterHandle =

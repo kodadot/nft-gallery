@@ -23,10 +23,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.6",
-    "@google/model-viewer": "^3.4.0",
+    "@google/model-viewer": "^3.5.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.163.0",
-    "vue": "^3.4.21"
+    "three": "^0.164.1",
+    "vue": "^3.4.27"
   }
 }
