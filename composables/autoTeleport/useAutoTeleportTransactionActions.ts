@@ -1,3 +1,4 @@
+import { TransactionStatus } from '../useTransactionStatus'
 import type {
   ActionTransactionDetails,
   AutoTeleportAction,
@@ -10,22 +11,32 @@ export const getAutoTeleportActionInteraction = (
   (autoTeleportAction.action?.interaction ||
     autoTeleportAction.interaction) as AutoteleportInteraction
 
-export default function (actions: ComputedRef<AutoTeleportAction[]>) {
-  const actionsCancelled = ref(new Map<AutoteleportInteraction, boolean>())
+export default function ({
+  actions,
+  teleportTxId,
+}: {
+  actions: ComputedRef<AutoTeleportAction[]>
+  teleportTxId: Ref<string | null>
+}) {
+  const actionSessionStatus = ref(
+    new Map<string, Record<AutoteleportInteraction, TransactionStatus>>(),
+  )
 
   const transactionActions = computed<ActionTransactionDetails[]>(() => {
     return actions.value.map<ActionTransactionDetails>((action, index) => {
       return {
-        isError: toRef(
+        isError: computed(
           () =>
             action.details.isError ||
-            actionsCancelled.value.get(
-              getAutoTeleportActionInteraction(action),
-            ) ||
-            false,
+            action.details.status === TransactionStatus.Cancelled,
         ),
         blockNumber: toRef(() => action.details.blockNumber),
-        status: toRef(() => action.details.status),
+        status: computed(
+          () =>
+            actionSessionStatus.value.get(teleportTxId.value!)?.[
+              action.interaction!
+            ] ?? TransactionStatus.Unknown,
+        ),
         isLoading: toRef(() => action.details.isLoading),
         interaction: getAutoTeleportActionInteraction(actions.value[index]),
         txId: ref(''),
@@ -36,26 +47,21 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
   watch(
     actions,
     (actions) => {
+      if (!teleportTxId.value) {
+        return
+      }
+
       actions.forEach((action) => {
-        const cancelled = action.details.status === TransactionStatus.Cancelled
-        actionsCancelled.value.set(
-          getAutoTeleportActionInteraction(action),
-          cancelled,
-        )
+        actionSessionStatus.value.set(teleportTxId.value!, {
+          ...(actionSessionStatus.value.get(teleportTxId.value!) || {}),
+          [action.interaction as string]: action.details.status,
+        })
       })
     },
-    { immediate: true, deep: true },
+    { deep: true },
   )
-
-  const clear = () => {
-    const interactions = actions.value.map(getAutoTeleportActionInteraction)
-    interactions.forEach((interaction) => {
-      actionsCancelled.value.set(interaction, false)
-    })
-  }
 
   return {
     transactionActions,
-    clear,
   }
 }
