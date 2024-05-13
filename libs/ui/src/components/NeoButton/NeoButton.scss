@@ -4,7 +4,7 @@
 
 .o-btn {
   &.is-neo {
-    @apply  h-10 min-w-10 rounded-none font-inherit py-2;
+    @apply rounded-none font-inherit py-2;
 
     &.o-btn--large {
       @apply text-base h-13;
