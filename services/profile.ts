@@ -15,7 +15,7 @@ export type Profile = {
   name: string
   description: string
   image: string
-  banner: string
+  banner: string | null
   socials: SocialLink[]
 }
 
