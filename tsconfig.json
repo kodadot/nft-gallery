@@ -30,7 +30,7 @@
           {
             "name": "ahp",
             "schema": "https://ahp.gql.api.kodadot.xyz/",
-            "tadaOutputLocation": "./queries/clients/types/ahp.d.ts"
+            "tadaOutputLocation": "./queries/clients/ahp.d.ts"
           }
         ]
       }

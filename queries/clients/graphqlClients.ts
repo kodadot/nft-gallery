@@ -1,6 +1,6 @@
 import { initGraphQLTada } from 'gql.tada'
 
-import type { introspection as ahpSchema } from './types/ahp'
+import type { introspection as ahpSchema } from './ahp'
 
 const graphqlAhp = initGraphQLTada<{
   introspection: ahpSchema

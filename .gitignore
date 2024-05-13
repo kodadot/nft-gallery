@@ -97,4 +97,4 @@ sitemap.xml
 /playwright/.cache/
 
 
-queries/clients/types
+queries/clients/*.d.ts
