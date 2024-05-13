@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center">
       <p class="font-bold capitalize">
         {{ $t('codeChecker.testOutCapture') }}
       </p>
@@ -12,24 +12,29 @@
     </div>
 
     <transition name="slide">
-      <CodeCheckerMassPreviewGrid v-if="active" :items="previews" class="mt-4">
-        <template #default="{ item }: { item: CapturePreviewItem }">
-          <BaseMediaItem v-if="item.image" :src="item.image" class="border" />
-        </template>
-      </CodeCheckerMassPreviewGrid>
+      <div v-if="active" class="flex flex-col gap-4 !mt-6">
+        <CodeCheckerMassPreviewControls
+          v-model="previewAmount"
+          :previews="previews"
+          @retry="generateMassPreview" />
+
+        <CodeCheckerMassPreviewGrid :items="previews">
+          <template #default="{ item }: { item: CapturePreviewItem }">
+            <BaseMediaItem v-if="item.image" :src="item.image" class="border" />
+          </template>
+        </CodeCheckerMassPreviewGrid>
+      </div>
     </transition>
   </div>
 </template>
 <script lang="ts" setup>
-import { AssetMessage } from '../types'
-import { PreviewItem } from './types'
-import { generateRandomHash } from '../utils'
+import { NeoSwitch } from '@kodadot1/brick'
 import { makeScreenshot } from '@/services/capture'
 import { uploadFile, uploadPresigned } from '@/services/playground'
-import { NeoSwitch } from '@kodadot1/brick'
+import { AssetMessage } from '../types'
+import { CapturePreviewItem } from './types'
+import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
-
-type CapturePreviewItem = { image?: string } & PreviewItem
 
 const props = defineProps<{
   assets: Array<AssetMessage>
@@ -37,10 +42,13 @@ const props = defineProps<{
   previews: number
 }>()
 
+const { $i18n } = useNuxtApp()
+
+const previews = ref<CapturePreviewItem[]>([])
+const previewAmount = ref(props.previews)
 const active = ref(false)
 const uploading = ref(false)
-const previews = ref<CapturePreviewItem[]>([])
-const indexKey = ref()
+const indexKey = ref<string>()
 
 const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
   const response = await $fetch<string>(asset.src)
@@ -57,9 +65,7 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
 
   const assetReplace = AssetReplaceElement[asset.type] ?? null
 
-  if (assetReplace) {
-    assetReplace({ doc, content: response, element })
-  }
+  assetReplace?.({ doc, content: response, element })
 }
 
 const buildIndexFile = async (): Promise<Blob> => {
@@ -82,6 +88,7 @@ const uploadIndex = async () => {
     const { key } = await uploadFile(file, 'index.html')
     indexKey.value = key
   } catch (error) {
+    dangerMessage($i18n.t('codeChecker.failedUploadingIndex'))
   } finally {
     uploading.value = false
   }
@@ -91,32 +98,43 @@ const initCapture = async () => {
   initScreenshot()
 }
 
+const updatePreview = (preview: CapturePreviewItem) => {
+  previews.value = previews.value.map((p) =>
+    p.hash === preview.hash ? preview : p,
+  )
+}
+
 const initScreenshot = () => {
+  if (!indexKey.value) {
+    return
+  }
+
   previews.value.forEach(async (preview) => {
     try {
-      const { url } = await uploadPresigned(indexKey.value, {
+      const { url } = await uploadPresigned(indexKey.value!, {
         hash: preview.hash,
       })
+
+      preview = { ...preview, startedAt: performance.now() }
 
       const response = await makeScreenshot(url)
 
       preview = {
         ...preview,
         image: URL.createObjectURL(response),
+        renderedAt: performance.now(),
       }
     } catch (error) {
     } finally {
       preview = { ...preview, loading: false }
     }
 
-    previews.value = previews.value.map((p) =>
-      p.hash === preview.hash ? preview : p,
-    )
+    updatePreview(preview)
   })
 }
 
 const generateMassPreview = async () => {
-  previews.value = Array.from({ length: props.previews }).map(() => ({
+  previews.value = Array.from({ length: previewAmount.value }).map(() => ({
     hash: generateRandomHash(),
     loading: true,
   }))

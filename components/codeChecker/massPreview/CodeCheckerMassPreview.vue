@@ -1,11 +1,10 @@
 <template>
-  <div class="w-full max-w-[490px]">
+  <div class="w-full max-w-[490px] flex flex-col gap-4">
     <CodeCheckerMassPreviewCanvas
       :assets="assets"
       :previews="PREVIEWS_AMOUNT" />
 
     <CodeCheckerMassPreviewCapture
-      class="mt-4"
       :assets="assets"
       :index="index"
       :previews="PREVIEWS_AMOUNT" />

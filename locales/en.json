@@ -1891,7 +1891,11 @@
     "copyCode": "Copy Code",
     "testOutPerformance": "Test out performance",
     "testOutCapture": "Test out capture service",
-    "uploadingFile": "Uploading File..."
+    "uploadingFile": "Uploading File...",
+    "timePerVariation": "Time per variation",
+    "numberOfInputs": "Number Of Inputs",
+    "retryTest": "Retry test",
+    "failedUploadingIndex": "Failed uploading html file"
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"
