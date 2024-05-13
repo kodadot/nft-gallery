@@ -88,7 +88,7 @@ const uploadIndex = async () => {
     const { key } = await uploadFile(file, 'index.html')
     indexKey.value = key
   } catch (error) {
-    dangerMessage($i18n.t('codeChecker.failedUploadingIndex'))
+    dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)
   } finally {
     uploading.value = false
   }

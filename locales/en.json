@@ -1895,7 +1895,8 @@
     "timePerVariation": "Time per variation",
     "numberOfInputs": "Number Of Inputs",
     "retryTest": "Retry test",
-    "failedUploadingIndex": "Failed uploading html file"
+    "failedUploadingIndex": "Failed uploading html file",
+    "confidentialCode": "Rest assured, your code remains confidential with us. It is solely used for internal evaluation purposes and will not be distributed, shared, or sold in any form."
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"

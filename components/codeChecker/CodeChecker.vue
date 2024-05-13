@@ -153,10 +153,21 @@
         @reload="startClock" />
 
       <CodeCheckerMassPreview
-        v-if="selectedFile"
-        class="!mt-14"
+        v-if="selectedFile && index"
+        class="!mt-11"
         :assets="assets"
         :index="index" />
+
+      <div class="max-w-[490px] mt-11">
+        <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
+
+        <div class="flex items-center gap-5">
+          <NeoIcon icon="shield" class="!block text-k-grey" size="large" />
+          <p class="capitalize text-k-grey">
+            {{ $t('codeChecker.confidentialCode') }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
