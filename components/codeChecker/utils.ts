@@ -93,7 +93,7 @@ const categorizeFiles = async (
 
     if (path.endsWith('index.html')) {
       htmlFiles.push({ path: adjustedPath, content })
-    } else if (path.endsWith(config.sketchFile)) {
+    } else if (path.endsWith('.js') && !path.includes(config.p5)) {
       jsFiles.push({ path: adjustedPath, content })
     }
   }
@@ -126,6 +126,7 @@ export const extractAssetsFromZip = async (
   indexFile: FileEntry
   sketchFile: FileEntry
   entries: { [key: string]: ZipEntry }
+  jsFiles: FileEntry[]
 }> => {
   const { entries } = await unzip(zip)
   const filePaths = Object.keys(entries)
@@ -133,11 +134,15 @@ export const extractAssetsFromZip = async (
   const commonPrefix = calculateCommonPrefix(filePaths)
 
   const { htmlFiles, jsFiles } = await categorizeFiles(entries, commonPrefix)
+  const sketchFile = jsFiles.find((file) =>
+    file.path.includes(config.sketchFile),
+  ) as FileEntry
 
   return {
     indexFile: htmlFiles[0],
-    sketchFile: jsFiles[0],
+    sketchFile,
     entries,
+    jsFiles,
   }
 }
 
