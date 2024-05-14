@@ -34,7 +34,6 @@ import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { FromBlockTransactionStatus } from '@/composables/useTransactionStatus'
 
 type ConfirmPurchaseParams = {
   items: ShoppingCartItem[]
@@ -48,6 +47,11 @@ const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
 const { toast } = useToast()
 const { $i18n } = useNuxtApp()
+
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  status,
+  isError,
+})
 
 const nftSubscription = reactive<{
   unsubscribe: () => void
@@ -71,8 +75,7 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
 }))
 
 const isTransactionCompleted = computed(
-  () =>
-    Boolean(txHash.value) && FromBlockTransactionStatus.includes(status.value),
+  () => Boolean(txHash.value) && isTransactionSuccessful.value,
 )
 
 const isSimpleTransactionCompleted = computed(

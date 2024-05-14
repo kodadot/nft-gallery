@@ -14,10 +14,7 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import {
-  FromBlockTransactionStatus,
-  TransactionStatus,
-} from '@/composables/useTransactionStatus'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
 const props = withDefaults(
@@ -35,6 +32,10 @@ const props = withDefaults(
 )
 
 const { $i18n } = useNuxtApp()
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  isError: computed(() => props.isError),
+  status: computed(() => props.status),
+})
 
 const isModalActive = ref(false)
 const isCancelled = ref(false)
@@ -68,7 +69,7 @@ const onClose = () => {
 }
 
 watch([() => props.status, () => props.isLoading], ([status, loading]) => {
-  if (props.closeInBlock && FromBlockTransactionStatus.includes(status)) {
+  if (props.closeInBlock && isTransactionSuccessful.value) {
     isModalActive.value = false
     return
   }

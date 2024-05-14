@@ -109,6 +109,11 @@ const { $i18n } = useNuxtApp()
 const { transaction, isLoading, status, isError, blockNumber, txHash } =
   useTransaction()
 
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  status,
+  isError,
+})
+
 const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
@@ -120,11 +125,7 @@ const items = ref<ListCartItem[]>([])
 const autoTeleportLoaded = ref(false)
 
 const isSuccessModalOpen = computed(
-  () =>
-    Boolean(items.value.length) &&
-    [TransactionStatus.Block, TransactionStatus.Finalized].includes(
-      status.value,
-    ),
+  () => Boolean(items.value.length) && isTransactionSuccessful.value,
 )
 
 const teleportTransitionTxFees = computed(() =>
