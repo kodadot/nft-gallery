@@ -26,6 +26,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
     useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
+  const { $i18n } = useNuxtApp()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
   const { fetchMultipleBalance, chainBalances } = useMultipleBalance(
@@ -93,7 +94,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
     )
 
     const errorHandler = () => {
-      warningMessage('Cancelled')
+      warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 
       isLoading.value = false
       status.value = TransactionStatus.Cancelled

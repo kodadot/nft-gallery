@@ -70,6 +70,8 @@ const close = () => {
   emit('close')
 }
 
+onBeforeUnmount(close)
+
 watchEffect(() => {
   activeTab.value = props.initialTab
 })
