@@ -6,7 +6,10 @@
       role="button"
       aria-label="open profile menu"
       @click="toggleWalletConnectModal">
-      <Avatar :value="account" class="navbar__avatar-icon" :size="27" />
+      <ProfileAvatar
+        :address="account"
+        class="navbar__avatar-icon"
+        :size="27" />
     </a>
     <div v-else class="flex items-center">
       <NeoDropdown
@@ -66,7 +69,6 @@
 
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
-import Avatar from '@/components/shared/Avatar.vue'
 import { useIdentityStore } from '@/stores/identity'
 import {
   langsFlags as langsFlagsList,
