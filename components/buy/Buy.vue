@@ -5,11 +5,13 @@
       :title="$t('buyModal.buyingNft', buySessionItems.length)"
       :is-loading="isLoading"
       :status="status"
+      close-in-block
       @try-again="handleBuy" />
 
     <BuySuccessfulBuyModal
       v-model="isSuccessfulModalOpen"
       :tx-hash="txHash"
+      :status="status"
       :items="buySessionItems" />
 
     <ConfirmPurchaseModal
@@ -32,6 +34,7 @@ import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { FromBlockTransactionStatus } from '@/composables/useTransactionStatus'
 
 type ConfirmPurchaseParams = {
   items: ShoppingCartItem[]
@@ -68,8 +71,10 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
 }))
 
 const isTransactionCompleted = computed(
-  () => Boolean(txHash.value) && !isLoading.value,
+  () =>
+    Boolean(txHash.value) && FromBlockTransactionStatus.includes(status.value),
 )
+
 const isSimpleTransactionCompleted = computed(
   () => isTransactionCompleted.value && !usingAutoTeleport.value,
 )

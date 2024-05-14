@@ -14,7 +14,10 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import {
+  FromBlockTransactionStatus,
+  TransactionStatus,
+} from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
 const props = withDefaults(
@@ -65,10 +68,7 @@ const onClose = () => {
 }
 
 watch([() => props.status, () => props.isLoading], ([status, loading]) => {
-  if (
-    props.closeInBlock &&
-    [TransactionStatus.Block, TransactionStatus.Finalized].includes(status)
-  ) {
+  if (props.closeInBlock && FromBlockTransactionStatus.includes(status)) {
     isModalActive.value = false
     return
   }

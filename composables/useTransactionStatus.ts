@@ -11,6 +11,11 @@ export enum TransactionStatus {
   Cancelled = 'loader.cancelled',
 }
 
+export const FromBlockTransactionStatus = [
+  TransactionStatus.Block,
+  TransactionStatus.Finalized,
+]
+
 function useTransactionStatus() {
   const status = ref<TransactionStatus>(TransactionStatus.Unknown)
   const isLoading = ref(false)
