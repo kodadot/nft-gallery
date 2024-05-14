@@ -1,9 +1,8 @@
 import { getVolume } from '@/utils/math'
-import { NFT } from '@/components/rmrk/service/scheme'
+import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { Stats } from './types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 export const useCollectionDetails = ({
   collectionId,
