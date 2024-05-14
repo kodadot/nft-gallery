@@ -5,6 +5,7 @@
       :title="$t('listingCart.listingNft', itemCount)"
       :is-loading="isLoading"
       :status="status"
+      close-in-block
       @try-again="submitListing" />
 
     <NeoModal
@@ -12,7 +13,10 @@
       append-to-body
       @close="handleSuccessModalClose">
       <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
-        <SuccessfulListingBody :tx-hash="txHash" :items="items" />
+        <SuccessfulListingBody
+          :tx-hash="txHash"
+          :items="items"
+          :status="status" />
       </ModalBody>
     </NeoModal>
 
@@ -117,7 +121,10 @@ const autoTeleportLoaded = ref(false)
 
 const isSuccessModalOpen = computed(
   () =>
-    Boolean(items.value.length) && status.value === TransactionStatus.Finalized,
+    Boolean(items.value.length) &&
+    [TransactionStatus.Block, TransactionStatus.Finalized].includes(
+      status.value,
+    ),
 )
 
 const teleportTransitionTxFees = computed(() =>

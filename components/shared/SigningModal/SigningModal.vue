@@ -23,9 +23,11 @@ const props = withDefaults(
     status: TransactionStatus
     title: string
     isError?: boolean
+    closeInBlock?: boolean
   }>(),
   {
     isError: false,
+    closeInBlock: false,
   },
 )
 
@@ -63,6 +65,14 @@ const onClose = () => {
 }
 
 watch([() => props.status, () => props.isLoading], ([status, loading]) => {
+  if (
+    props.closeInBlock &&
+    [TransactionStatus.Block, TransactionStatus.Finalized].includes(status)
+  ) {
+    isModalActive.value = false
+    return
+  }
+
   if (loading) {
     isModalActive.value = true
   }

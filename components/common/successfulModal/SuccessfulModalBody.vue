@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TransactionSection v-if="txHash" :tx-hash="txHash" />
+    <TransactionSection v-if="txHash" :tx-hash="txHash" :status="status" />
 
     <div class="mt-5">
       <slot />
@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { type ActionButton } from './ActionButtons.vue'
 import { SocialMediaProps } from './ShareSocialsSection.vue'
 
@@ -42,6 +43,7 @@ export type ActionButtonsProp = {
 }
 
 const props = defineProps<{
+  status: TransactionStatus
   txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
