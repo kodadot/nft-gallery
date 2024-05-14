@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
-import { chainPropListOf } from '@/utils/config/chain.config'
 import { type Prefix } from '@kodadot1/static'
 import shortAddress from '@/utils/shortAddress'
 
@@ -8,14 +7,16 @@ export type IdentityFields = Record<string, string>
 
 export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
-  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
+  const isBaseAddress = computed(() => ['base'].includes(urlPrefix.value))
 
   const getIdentityId = (address: string) =>
-    isDotAddress.value
-      ? accountToPublicKey(address)
-      : getss58AddressByPrefix(address, 'rmrk')
+    isBaseAddress
+      ? address
+      : isDotAddress.value
+        ? accountToPublicKey(address)
+        : getss58AddressByPrefix(address, 'rmrk')
 
-  return { isDotAddress, getIdentityId, clientName }
+  return { isDotAddress, getIdentityId }
 }
 
 export default function useIdentity({
@@ -26,74 +27,72 @@ export default function useIdentity({
   customNameOption?: string
 }) {
   const { urlPrefix } = usePrefix()
-  const { apiInstanceByPrefix } = useApi()
-  const { isDotAddress, getIdentityId, clientName } =
-    useIdentityQuery(urlPrefix)
+  const { getIdentityId } = useIdentityQuery(urlPrefix)
 
   const id = computed(() => address.value && getIdentityId(address.value))
 
-  const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
-
-  const identityUnit = computed(
-    () => chainPropListOf(identityPrefix.value)?.tokenSymbol,
-  )
-
-  const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
-
-  const { data, refetch, loading } = useGraphql({
-    clientName,
-    queryName: 'identityById',
-    variables: {
-      id: id.value,
-    },
-    disabled: computed(() => !address.value),
-  })
-
-  const identity = computed<IdentityFields>(() => data.value?.identity || {})
+  const { profile, pending: loading } = useFetchProfile(id)
 
   const shortenedAddress = computed(() => shortAddress(address.value))
-  const twitter = computed(() => identity?.value?.twitter)
-  const display = computed(() => identity?.value?.display)
+  const twitter = computed(
+    () =>
+      profile?.value?.socials?.find((s) => s.platform === 'Twitter')?.handle,
+  )
+  const web = computed(
+    () =>
+      profile?.value?.socials?.find((s) => s.platform === 'Website')?.handle,
+  )
+  const farcaster = computed(
+    () =>
+      profile?.value?.socials?.find((s) => s.platform === 'Farcaster')?.handle,
+  )
+  const display = computed(() => profile?.value?.name)
   const name = computed(() =>
-    displayName({ customNameOption, identity, shortenedAddress }),
+    displayName({
+      customNameOption,
+      profileName: display.value,
+      shortenedAddress,
+    }),
   )
 
-  const hasIdentity = computed(() => {
-    const { display, legal, web, twitter, riot, email } = identity.value
-    return Boolean(display || legal || web || twitter || riot || email)
-  })
+  const identity = computed(() =>
+    profile.value
+      ? {
+          address: address.value,
+          name: name.value,
+          display: display.value,
+          twitter: twitter.value,
+          web: web.value,
+          farcaster: farcaster.value,
+        }
+      : null,
+  )
 
-  watch(urlPrefix, () => {
-    refetch()
-  })
+  const hasIdentity = computed(() => Boolean(profile.value))
+
   return {
-    identity,
     isFetchingIdentity: loading,
     shortenedAddress,
     twitter,
     display,
     name,
-    identityApi,
-    identityPrefix,
-    identityUnit,
     hasIdentity,
-    refetchIdentity: refetch,
+    identity,
   }
 }
 
 const displayName = ({
   customNameOption,
-  identity,
+  profileName,
   shortenedAddress,
 }): string => {
   if (customNameOption) {
     return customNameOption
   }
 
-  const display = identity.value?.display
-  if (display?.length > 20) {
-    return shortAddress(display)
+  if (profileName?.length > 20) {
+    return shortenedAddress.value
   }
 
-  return display || shortenedAddress.value
+  return profileName || shortenedAddress.value
 }

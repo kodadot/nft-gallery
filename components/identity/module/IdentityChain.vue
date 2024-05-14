@@ -14,8 +14,8 @@
         src="~/assets/svg/infinity.svg"
         class="ml-1 infinity-loader" />
       <template v-else>
-        <span v-if="identity?.display && !hideDisplayName" class="ml-1">
-          ({{ identity?.display }})
+        <span v-if="display && !hideDisplayName" class="ml-1">
+          ({{ display }})
         </span>
       </template>
     </span>
@@ -38,7 +38,6 @@ import { isMobileDevice } from '@/utils/extension'
 import IdentityPopover from './IdentityPopover.vue'
 import { NeoIcon } from '@kodadot1/brick'
 
-type IdentityFields = Record<string, string>
 type Address = string | GenericAccountId | undefined
 
 defineProps<{
@@ -47,8 +46,8 @@ defineProps<{
   isFetchingIdentity?: boolean
   showClipboard?: boolean
   showBadge?: boolean
-  identity?: IdentityFields
   address?: Address
+  display?: string
   shortenedAddress?: string
   name?: string | object
   hideDisplayName?: boolean

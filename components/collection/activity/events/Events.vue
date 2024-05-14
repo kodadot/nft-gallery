@@ -70,7 +70,7 @@ const isOnlyVerifiedUsersFilterActive = computed(() =>
 )
 
 const { urlPrefix } = usePrefix()
-const { getIdentityId, clientName } = useIdentityQuery(urlPrefix)
+const { getIdentityId } = useIdentityQuery(urlPrefix)
 
 const offset = ref(10)
 
@@ -90,8 +90,8 @@ const filteredEvents = computed(() => {
     [OfferInteraction]: is(query?.offer as string),
   }
 
-  const identityIds =
-    identities.value?.identities?.map((identity) => identity.id) || []
+  const identityIds = []
+  // identities.value?.identities?.map((identity) => identity.id) || []
 
   const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
 
@@ -116,31 +116,32 @@ const getEventAddresses = (event): string[] => {
   )
 }
 
-const eventsAddresses = computed(() => {
-  const addresses = props.events.map(getEventAddresses).flat()
+// const eventsAddresses = computed(() => {
+//   const addresses = props.events.map(getEventAddresses).flat()
 
-  return [...new Set([...addresses])].map(getIdentityId)
-})
+//   return [...new Set([...addresses])].map(getIdentityId)
+// })
 
-const { data: identities, refetch: getIdentities } = useGraphql({
-  clientName,
-  queryName: 'identities',
-  disabled: computed(() => true),
-  variables: { where: {} },
-})
+// todo: batch request for profiles
+// const { data: identities, refetch: getIdentities } = useGraphql({
+//   clientName,
+//   queryName: 'identities',
+//   disabled: computed(() => true),
+//   variables: { where: {} },
+// })
 
-watch(
-  eventsAddresses,
-  () => {
-    getIdentities({
-      where: {
-        id_in: eventsAddresses.value,
-        display_isNull: false,
-      },
-    })
-  },
-  { immediate: true },
-)
+// watch(
+//   eventsAddresses,
+//   () => {
+//     getIdentities({
+//       where: {
+//         id_in: eventsAddresses.value,
+//         display_isNull: false,
+//       },
+//     })
+//   },
+//   { immediate: true },
+// )
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
