@@ -105,7 +105,7 @@
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
-          :passed="!fileValidity.webGLSupported"
+          :passed="!fileValidity.webGlUsed"
           :description="$t('codeChecker.notUsingWebGl')">
           <template #modalContent>
             <CodeCheckerIssueHintNoWebGl />
@@ -156,7 +156,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { validate } from './validate'
+import { validate, webGlUsed } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
 import { AssetMessage, Validity } from './types'
@@ -178,7 +178,7 @@ const RESOURCES_LIST = [
 
 const validtyDefault: Validity = {
   canvasSize: '',
-  webGLSupported: false,
+  webGlUsed: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
   resizerUsed: 'unknown',
@@ -204,7 +204,8 @@ const onFileSelected = async (file: File) => {
   clear()
   startClock()
   selectedFile.value = file
-  const { indexFile, sketchFile, entries } = await extractAssetsFromZip(file)
+  const { indexFile, sketchFile, entries, jsFiles } =
+    await extractAssetsFromZip(file)
 
   if (!sketchFile) {
     errorMessage.value = `Sketch file not found: ${config.sketchFile}`
@@ -216,6 +217,9 @@ const onFileSelected = async (file: File) => {
   } else {
     Object.assign(fileValidity, valid.value)
   }
+  fileValidity.webGlUsed = jsFiles.some((file) =>
+    webGlUsed(file.content, file.path),
+  )
 
   if (!fileValidity.kodaRendererUsed) {
     fileValidity.renderDurationValid = 'unknown'
