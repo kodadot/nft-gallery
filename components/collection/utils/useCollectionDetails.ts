@@ -2,6 +2,8 @@ import { getVolume } from '@/utils/math'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { Stats } from './types'
+import { processSingleMetadata } from '@/utils/cachingStrategy'
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -125,6 +127,16 @@ export const useCollectionMinimal = ({
   })
 
   watch(variables, () => refetch(variables.value))
+
+  watchEffect(async () => {
+    const metadata = collection.value?.metadata
+    if (metadata && !collection.value?.meta) {
+      const meta = (await processSingleMetadata(metadata)) as NFTMetadata
+      if (meta) {
+        collection.value.meta = meta
+      }
+    }
+  })
 
   return { collection }
 }
