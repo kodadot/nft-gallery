@@ -20,7 +20,7 @@ export default ({
   successStatus = [TransactionStatus.Block, TransactionStatus.Finalized],
   waitFor = [],
 }: Params) => {
-  watch([status, ...waitFor], ([curStatus]) => {
+  watch([status, ...waitFor], ([curStatus], [prevStatus]) => {
     if (curStatus === TransactionStatus.Cancelled) {
       return onCancel?.()
     }
@@ -29,7 +29,11 @@ export default ({
       return onError?.()
     }
 
-    if (successStatus.includes(curStatus) && waitFor.every((i) => i.value)) {
+    if (
+      successStatus.includes(curStatus) &&
+      !successStatus.includes(prevStatus) &&
+      waitFor.every((i) => i.value)
+    ) {
       onSuccess()
     }
   })
