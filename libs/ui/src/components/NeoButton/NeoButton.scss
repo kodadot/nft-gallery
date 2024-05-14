@@ -250,4 +250,7 @@
   &.is-fixed-width {
     @apply w-40;
   }
+  &.neo-btn{
+    @apply h-8 min-w-28;
+  }
 }
