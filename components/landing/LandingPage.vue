@@ -68,3 +68,10 @@ const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
 </script>
+
+<style lang="scss">
+/* Fix: Button style bug #10269 */
+.o-btn.o-btn--k-accent {
+  width: inherit;
+}
+</style>
