@@ -29,7 +29,7 @@
         required />
 
       <NeoButton
-        class="ml-4 fixed-height [width:inherit]"
+        class="ml-4 fixed-height w-[inherit]"
         native-type="submit"
         variant="k-accent"
         :loading="loading"
