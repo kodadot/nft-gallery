@@ -29,7 +29,7 @@
         required />
 
       <NeoButton
-        class="ml-4 fixed-height"
+        class="ml-4 fixed-height [width:inherit]"
         native-type="submit"
         variant="k-accent"
         :loading="loading"
@@ -123,6 +123,7 @@ $column-gap: 20px;
 
     .neo-input {
       width: 100%;
+      border: 1px solid red;
     }
 
     @include tablet-only {
