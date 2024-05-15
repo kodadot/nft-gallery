@@ -87,10 +87,13 @@ import type {
 } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction, getActionDetails } from './utils'
 import { getAutoTeleportActionInteraction } from '@/composables/autoTeleport/useAutoTeleportTransactionActions'
+import { onKeyDown, onKeyStroke, onKeyUp } from '@vueuse/core'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
 }
+
+const CONTROL_PRESSED_KEY = ['Control', 'Meta']
 
 const emit = defineEmits([
   'confirm',
@@ -131,6 +134,22 @@ const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 
+onKeyDown(CONTROL_PRESSED_KEY, (e) => {
+  e.preventDefault()
+  isControlPressed.value = true
+})
+onKeyUp(CONTROL_PRESSED_KEY, (e) => {
+  e.preventDefault()
+  isControlPressed.value = false
+})
+onKeyStroke('Enter', (e) => {
+  e.preventDefault()
+  if (isControlPressed.value) {
+    handleSubmit()
+  }
+})
+
+const isControlPressed = ref(false)
 const amount = ref()
 
 const {
