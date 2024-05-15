@@ -635,7 +635,7 @@ useAsyncData('tabs-count', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileTabsCount')
-  const { data } = useAsyncQuery({
+  const { data } = await useAsyncQuery({
     query: query.default,
     clientId: client.value,
     variables: {
@@ -672,7 +672,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
   }
 
   const query = await resolveQueryPath(chain, 'profileTabsCount')
-  const { data } = useAsyncQuery({
+  const { data } = await useAsyncQuery({
     query: query.default,
     clientId: chain,
     variables: {
