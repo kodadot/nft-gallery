@@ -427,12 +427,12 @@ const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
     isFollowing(accountId.value, route.params?.id as string),
   )
 
-const { data: followers, refresh: refreshFollowers } = await useAsyncData(
+const { data: followers, refresh: refreshFollowers } = useAsyncData(
   'followers',
   () => fetchFollowersOf(route.params.id as string, 3),
 )
 
-const { data: following, refresh: refreshFollowing } = await useAsyncData(
+const { data: following, refresh: refreshFollowing } = useAsyncData(
   'following',
   () => fetchFollowing(route.params.id as string, 1),
 )
@@ -636,7 +636,7 @@ useAsyncData('tabs-count', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileTabsCount')
-  const { data } = await useAsyncQuery({
+  const { data } = useAsyncQuery({
     query: query.default,
     clientId: client.value,
     variables: {
@@ -673,7 +673,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
   }
 
   const query = await resolveQueryPath(chain, 'profileTabsCount')
-  const { data } = await useAsyncQuery({
+  const { data } = useAsyncQuery({
     query: query.default,
     clientId: chain,
     variables: {
