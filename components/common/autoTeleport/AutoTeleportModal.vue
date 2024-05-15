@@ -77,6 +77,8 @@ import TransactionSteps, {
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/types'
 import { AutoTeleportInteractions, getActionDetails } from './utils'
+import { ActionsInteractions } from '@/composables/transaction/types'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 export type ActionDetails = {
   title: string
@@ -102,10 +104,12 @@ const props = withDefaults(
     autoClose?: boolean
     autoCloseDelay?: number
     interaction?: AutoTeleportInteractions
+    earlySuccess?: boolean
   }>(),
   {
     autoClose: false,
     autoCloseDelay: AUTOCLOSE_DEFAULT_DELAY,
+    earlySuccess: true,
   },
 )
 
@@ -113,6 +117,7 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const activeStep = ref(0)
+const earlyCompletedActions = ref(new Map<ActionsInteractions, boolean>())
 const balanceCheckState = ref<TransactionStepStatus>(
   TransactionStepStatus.WAITING,
 )
@@ -129,6 +134,25 @@ const mainActionDetails = computed(() => {
     item: details.item,
   }
 })
+
+const actionsStatus = computed<Map<ActionsInteractions, TransactionStatus>>(
+  () =>
+    props.transactions.actions.reduce((map, action) => {
+      let status = TransactionStatus.Unknown
+
+      if (hasCompletedActionPreSteps.value) {
+        status =
+          props.earlySuccess &&
+          earlyCompletedActions.value.get(action.interaction)
+            ? TransactionStatus.Finalized
+            : action.status.value
+      }
+
+      map.set(action.interaction, status)
+
+      return map
+    }, new Map()),
+)
 
 const steps = computed<TransactionStep[]>(() => {
   return [
@@ -154,9 +178,7 @@ const steps = computed<TransactionStep[]>(() => {
     props.transactions.actions.map((action) => {
       return {
         title: getActionDetails(action.interaction).title,
-        status: hasCompletedActionPreSteps.value
-          ? action.status.value
-          : TransactionStatus.Unknown,
+        status: actionsStatus.value.get(action.interaction),
         isError: action.isError.value && hasCompletedActionPreSteps.value,
         txId: action.txId.value,
         blockNumber: action.blockNumber?.value,
@@ -176,13 +198,14 @@ const btnDisabled = computed(() => {
   return !autoteleportFinalized.value
 })
 
-const actionsFinalized = computed(
-  () =>
+const actionsFinalized = computed(() => {
+  return (
     hasActions.value &&
     props.transactions.actions
-      .map((action) => action.status)
-      .every((status) => status.value === TransactionStatus.Finalized),
-)
+      .map((action) => actionsStatus.value.get(action.interaction))
+      .every((status) => status === TransactionStatus.Finalized)
+  )
+})
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
@@ -255,7 +278,32 @@ const onClose = () => {
 
 const clearModal = () => {
   balanceCheckState.value = TransactionStepStatus.WAITING
+  earlyCompletedActions.value = new Map()
 }
+
+watch(
+  () => props.modelValue,
+  (open) => {
+    if (open && props.earlySuccess) {
+      props.transactions.actions.forEach((action) => {
+        const { isTransactionSuccessful } = useTransactionSuccessful({
+          isError: action.isError,
+          status: action.status,
+        })
+
+        watch(
+          isTransactionSuccessful,
+          (active) => {
+            if (active) {
+              earlyCompletedActions.value.set(action.interaction, true)
+            }
+          },
+          { once: true },
+        )
+      })
+    }
+  },
+)
 
 watch(
   [isTeleportTransactionFinalized, () => props.canDoAction],
