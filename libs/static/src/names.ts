@@ -8,6 +8,7 @@ export const NAMES: Record<Prefix, string> = {
   ahp: 'PolkadotHub',
   imx: 'Immutable zkEVM',
   base: 'Base',
+  basedev: 'Base Sepolia',
   // ahr: 'RococoHub',
   // glmr: 'Moonbeam [Beta]',
   // movr: 'Moonriver [Beta]',
