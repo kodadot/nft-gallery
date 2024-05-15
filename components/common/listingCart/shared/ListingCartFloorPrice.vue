@@ -12,29 +12,42 @@
         label="-5%"
         rounded
         :disabled="isDisabled"
+        :active="activePlusBtn"
         no-shadow
         @click="
           floorPricePercentAdjustment > 0.05 &&
             (floorPricePercentAdjustment -= 0.05)
-        " />
+        "
+        @mousedown="activePlusBtn = true"
+        @mouseup="activePlusBtn = false"
+        @mouseleave="activePlusBtn = false" />
       <NeoButton
         class="mr-2"
         :label="$t('statsOverview.floorPrice')"
         :disabled="isDisabled"
+        :active="activeFloorPriceBtn"
         rounded
         no-shadow
-        @click="floorPricePercentAdjustment = 1" />
+        @click="floorPricePercentAdjustment = 1"
+        @mousedown="activeFloorPriceBtn = true"
+        @mouseup="activeFloorPriceBtn = false"
+        @mouseleave="activeFloorPriceBtn = false" />
       <NeoButton
         label="+5%"
         :disabled="isDisabled"
+        :active="activeMinusBtn"
         rounded
         no-shadow
-        @click="floorPricePercentAdjustment += 0.05" />
+        @click="floorPricePercentAdjustment += 0.05"
+        @mousedown="activeMinusBtn = true"
+        @mouseup="activeMinusBtn = false"
+        @mouseleave="activeMinusBtn = false" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { NeoButton } from '@kodadot1/brick'
 import {
   DEFAULT_FLOOR_PRICE_RATE,
@@ -50,6 +63,10 @@ const props = withDefaults(
     modelValue: DEFAULT_FLOOR_PRICE_RATE,
   },
 )
+
+const activePlusBtn = ref(false)
+const activeFloorPriceBtn = ref(false)
+const activeMinusBtn = ref(false)
 
 const listingCartStore = useListingCartStore()
 
