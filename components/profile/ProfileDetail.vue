@@ -426,7 +426,7 @@ const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
     isFollowing(accountId.value, route.params?.id as string),
   )
 
-const { data: followers, refresh: refreshFollowers } = await useAsyncData(
+const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
   () =>
     fetchFollowersOf(route.params.id as string, {
@@ -435,7 +435,7 @@ const { data: followers, refresh: refreshFollowers } = await useAsyncData(
     }),
 )
 
-const { data: following, refresh: refreshFollowing } = await useAsyncData(
+const { data: following, refresh: refreshFollowing } = useAsyncData(
   `following${route.params.id}`,
   () => fetchFollowing(route.params.id as string, { limit: 1 }),
 )
