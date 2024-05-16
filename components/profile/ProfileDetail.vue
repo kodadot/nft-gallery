@@ -427,13 +427,17 @@ const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
   )
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
-  'followers',
-  () => fetchFollowersOf(route.params.id as string, 3),
+  `followersof${route.params.id}`,
+  () =>
+    fetchFollowersOf(route.params.id as string, {
+      limit: 3,
+      exclude: [accountId.value],
+    }),
 )
 
 const { data: following, refresh: refreshFollowing } = useAsyncData(
-  'following',
-  () => fetchFollowing(route.params.id as string, 1),
+  `following${route.params.id}`,
+  () => fetchFollowing(route.params.id as string, { limit: 1 }),
 )
 
 const refresh = () => {
