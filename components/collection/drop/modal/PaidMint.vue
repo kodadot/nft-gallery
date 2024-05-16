@@ -32,6 +32,7 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
+        :status="status"
         :minting-session="mintingSession"
         :can-list-nfts="canList"
         @list="$emit('list')" />

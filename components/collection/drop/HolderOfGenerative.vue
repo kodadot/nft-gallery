@@ -16,6 +16,7 @@
       @close="isSuccessModalActive = false">
       <CollectionDropModalSharedSuccessfulDrop
         v-if="claimedNft"
+        :status="status"
         :minting-session="mintingSession"
         :can-list-nfts="canListMintedNft"
         @list="handleList" />
