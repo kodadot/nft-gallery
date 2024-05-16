@@ -2,20 +2,20 @@ import { isAfter, subHours } from 'date-fns'
 
 import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
-import { Interaction } from '@/components/rmrk/service/scheme'
+import buyEventByProfile from '@/queries/subsquid/general/buyEventByProfile.query'
 
 const useLastBought = ({ address }) => {
   const lastBoughtDate = ref(new Date())
 
-  const { data } = useGraphql({
-    queryName: 'buyEventByProfile',
+  const { data } = useAsyncQuery({
+    query: buyEventByProfile,
     variables: {
       id: address,
     },
   })
 
   const fetchLastBought = () => {
-    const dataLastBought = data.value as unknown as { events: Interaction[] }
+    const dataLastBought = data.value
 
     if (!address && !data.value) {
       return

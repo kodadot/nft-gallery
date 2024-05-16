@@ -1,6 +1,7 @@
 import { Event, FilterOption } from './types'
 import { Interaction as _Interaction } from '@kodadot1/minimark/v1'
 import { sortedEventByDate } from '@/utils/sorting'
+import collectionByAccountQuery from '@/queries/subsquid/general/collectionByAccount.query'
 
 export const Interaction = {
   SALE: _Interaction.BUY,
@@ -41,8 +42,8 @@ export const useNotification = () => {
     return block.number.toNumber()
   }
 
-  const { data: collectionData } = useGraphql({
-    queryName: 'collectionByAccount',
+  const { data: collectionData } = useAsyncQuery({
+    query: collectionByAccountQuery,
     variables: {
       account: accountId.value,
     },
@@ -56,7 +57,10 @@ export const useNotification = () => {
   })
 
   watch(collectionData, (result) => {
-    collections.value = result.collectionEntities ?? []
+    collections.value = result.collectionEntities.map((collection) => ({
+      id: collection.id,
+      name: collection.name ?? '',
+    }))
   })
 
   watch(eventData, async (result) => {
