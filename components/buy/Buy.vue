@@ -264,14 +264,13 @@ watch(
   (isOpen, prevIsOpen) => {
     const modalGotOpened = isOpen && !prevIsOpen
     if (modalGotOpened) {
+      reset()
       syncBuyAction()
 
       const nftIds = shoppingItems.value.map((item) => item.id)
       if (nftIds.length) {
         subscribeToNftPriceChange(nftIds)
       }
-    } else {
-      reset()
     }
   },
 )
