@@ -176,6 +176,17 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
 watch(
   () => items.value.length,
   async () => {
+
+    let isExsist = [];
+    items.value = items.value.filter(itemValue=>{
+      let blockNumber = itemValue.blockNumber;
+      if(!isExsist.includes(blockNumber)){
+        isExsist.push(blockNumber);
+        return true;
+      }
+      return false;
+    })
+    
     if (listingCartEnabled.value && items.value.length > 0) {
       if (usingTokens.value) {
         const nftsForPotentialList = await getTokensNfts(
