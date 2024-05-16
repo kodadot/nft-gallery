@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <teleport v-if="isModalActive" to="body" :disabled="!appendToBody">
     <o-modal
       v-model:active="isModalActive"
       class="neo-modal"
