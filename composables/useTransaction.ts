@@ -141,6 +141,14 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     })
   }
 
+  const clear = () => {
+    status.value = TransactionStatus.Unknown
+    isError.value = false
+    blockNumber.value = undefined
+    txHash.value = undefined
+    isLoading.value = false
+  }
+
   return {
     isLoading,
     status,
@@ -149,6 +157,7 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     blockNumber,
     txHash,
     isError,
+    clear,
   }
 }
 
@@ -243,15 +252,8 @@ export const useTransaction = (
     blockNumber,
     txHash,
     isError,
+    clear,
   } = useExecuteTransaction(options)
-
-  const clear = () => {
-    status.value = TransactionStatus.Unknown
-    isError.value = false
-    blockNumber.value = undefined
-    txHash.value = undefined
-    isLoading.value = false
-  }
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
