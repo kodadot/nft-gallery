@@ -73,18 +73,16 @@ watch(
   ([status, loading, succeded]) => {
     isCancelled.value = status === TransactionStatus.Cancelled
 
-    if (props.closeInBlock && succeded) {
+    if (
+      (props.closeInBlock && succeded) ||
+      status === TransactionStatus.Finalized
+    ) {
       isModalActive.value = false
       return
     }
 
     if (loading) {
       isModalActive.value = true
-    }
-
-    if (status === TransactionStatus.Finalized) {
-      isModalActive.value = false
-      return
     }
   },
 )
