@@ -245,6 +245,14 @@ export const useTransaction = (
     isError,
   } = useExecuteTransaction(options)
 
+  const clear = () => {
+    status.value = TransactionStatus.Unknown
+    isError.value = false
+    blockNumber.value = undefined
+    txHash.value = undefined
+    isLoading.value = false
+  }
+
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
 
@@ -267,5 +275,6 @@ export const useTransaction = (
     blockNumber,
     txHash,
     isError,
+    clear,
   }
 }

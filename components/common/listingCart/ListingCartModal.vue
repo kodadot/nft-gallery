@@ -72,6 +72,9 @@
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
+            early-success
+            auto-close-modal
+            :auto-close-modal-delay-modal="0"
             @confirm="confirm" />
         </div>
       </ModalBody>
@@ -106,8 +109,15 @@ const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError, blockNumber, txHash } =
-  useTransaction()
+const {
+  transaction,
+  isLoading,
+  status,
+  isError,
+  blockNumber,
+  txHash,
+  clear: clearTransaction,
+} = useTransaction()
 
 const { isTransactionSuccessful } = useTransactionSuccessful({
   status,
@@ -250,6 +260,8 @@ const submitListing = () => {
 
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
+    clearTransaction()
+
     autoTeleport.value = autoteleport
     itemCount.value = listingCartStore.count
     items.value = [...listingCartStore.itemsInChain]
