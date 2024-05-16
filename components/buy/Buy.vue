@@ -105,8 +105,12 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   }
 }
 
-const handleClose = () => {
+const reset = () => {
   usingAutoTeleport.value = false
+}
+
+const handleClose = () => {
+  reset()
   stopListeningNftPriceChanges()
 }
 
@@ -123,7 +127,8 @@ const handleActionCompleted = () => {
 
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
-  handleClose()
+
+  stopListeningNftPriceChanges()
 }
 
 const handleConfirm = async ({
@@ -265,6 +270,8 @@ watch(
       if (nftIds.length) {
         subscribeToNftPriceChange(nftIds)
       }
+    } else {
+      reset()
     }
   },
 )
