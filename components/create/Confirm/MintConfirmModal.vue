@@ -32,6 +32,8 @@
               actionAutoFees: false,
             }"
             auto-close-modal
+            :auto-close-modal-delay-modal="0"
+            :early-success="!isNFT"
             @confirm="confirm" />
         </div>
       </div>
