@@ -68,21 +68,24 @@ const onClose = () => {
   isCancelled.value = false
 }
 
-watch([() => props.status, () => props.isLoading], ([status, loading]) => {
-  if (props.closeInBlock && isTransactionSuccessful.value) {
-    isModalActive.value = false
-    return
-  }
+watch(
+  [() => props.status, () => props.isLoading, isTransactionSuccessful],
+  ([status, loading, succeded]) => {
+    if (props.closeInBlock && succeded) {
+      isModalActive.value = false
+      return
+    }
 
-  if (loading) {
-    isModalActive.value = true
-  }
+    if (loading) {
+      isModalActive.value = true
+    }
 
-  if (status === TransactionStatus.Finalized) {
-    isModalActive.value = false
-    return
-  }
+    if (status === TransactionStatus.Finalized) {
+      isModalActive.value = false
+      return
+    }
 
-  isCancelled.value = status === TransactionStatus.Cancelled
-})
+    isCancelled.value = status === TransactionStatus.Cancelled
+  },
+)
 </script>
