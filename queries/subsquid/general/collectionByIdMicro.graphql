@@ -1,9 +1,0 @@
-query collectionByIdMicro($id: String!) {
-  collectionEntity: collectionEntityById(id: $id) {
-    id
-    max
-    nftCount
-    issuer
-    burned
-  }
-}

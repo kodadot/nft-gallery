@@ -3,6 +3,7 @@ import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { Stats } from './types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
+import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -58,9 +59,8 @@ export const useCollectionDetails = ({
 }
 
 export const useBuyEvents = ({ collectionId }) => {
-  const { data } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'collectionBuyEventStatsById',
+  const { data } = useAsyncQuery({
+    query: collectionBuyEventStatsById,
     variables: {
       id: collectionId,
     },
