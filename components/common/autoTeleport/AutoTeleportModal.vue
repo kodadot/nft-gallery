@@ -198,14 +198,13 @@ const btnDisabled = computed(() => {
   return !autoteleportFinalized.value
 })
 
-const actionsFinalized = computed(() => {
-  return (
+const actionsFinalized = computed(
+  () =>
     hasActions.value &&
     props.transactions.actions
       .map((action) => actionsStatus.value.get(action.interaction))
-      .every((status) => status === TransactionStatus.Finalized)
-  )
-})
+      .every((status) => status === TransactionStatus.Finalized),
+)
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
