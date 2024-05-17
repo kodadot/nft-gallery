@@ -1,7 +1,0 @@
-#import "../../fragments/event.graphql"
-
-query eventListByNftId($id: String!) {
-  events(where: {nft: {id_eq: $id}}) {
-    ...event
-  }
-}

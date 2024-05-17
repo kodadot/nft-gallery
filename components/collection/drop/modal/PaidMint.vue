@@ -109,7 +109,11 @@ const mintButton = computed(() => {
 })
 
 const loading = computed(
-  () => isSingleMintNotReady.value || mintOverview.value?.loading || false,
+  () =>
+    isSingleMintNotReady.value ||
+    mintOverview.value?.loading ||
+    (isSuccessfulDropStep.value && !moveSuccessfulDrop.value) ||
+    false,
 )
 const preStepTitle = computed<string | undefined>(() =>
   isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,

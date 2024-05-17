@@ -1,8 +1,0 @@
-query usedCollectionSymbolsByAccount($account: String!) {
-  collectionEntities(
-    where: { issuer_eq: $account, currentOwner_eq: $account }
-    orderBy: blockNumber_DESC
-  ) {
-    symbol
-  }
-}
