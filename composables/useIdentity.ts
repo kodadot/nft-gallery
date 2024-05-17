@@ -9,12 +9,15 @@ export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
   const isBaseAddress = computed(() => ['base'].includes(urlPrefix.value))
 
-  const getIdentityId = (address: string) =>
-    isBaseAddress
-      ? address
-      : isDotAddress.value
-        ? accountToPublicKey(address)
-        : getss58AddressByPrefix(address, 'rmrk')
+  const getIdentityId = (address: string) => {
+    if (isBaseAddress.value) {
+      return address
+    } else if (isDotAddress.value) {
+      return accountToPublicKey(address)
+    } else {
+      return getss58AddressByPrefix(address, 'rmrk')
+    }
+  }
 
   return { isDotAddress, getIdentityId }
 }
