@@ -95,3 +95,6 @@ sitemap.xml
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+
+queries/clients/*.d.ts
