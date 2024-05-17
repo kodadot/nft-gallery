@@ -72,10 +72,10 @@ const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
 
 // API methods
 
-export const fetchProfiles = (limit?: number) =>
+export const fetchProfilesByIds = (ids?: string[]) =>
   api<Profile[]>('/profiles', {
     method: 'GET',
-    query: { limit },
+    query: { ids: ids?.map(toSubstrateAddress).join(',') },
   })
 
 export const fetchProfileByAddress = (address: string) =>

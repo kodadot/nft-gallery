@@ -53,6 +53,7 @@ import {
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
+import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
@@ -68,9 +69,6 @@ const route = useRoute()
 const isOnlyVerifiedUsersFilterActive = computed(() =>
   is(route.query?.verified as string),
 )
-
-const { urlPrefix } = usePrefix()
-const { getIdentityId } = useIdentityQuery(urlPrefix)
 
 const offset = ref(10)
 
@@ -90,15 +88,14 @@ const filteredEvents = computed(() => {
     [OfferInteraction]: is(query?.offer as string),
   }
 
-  const identityIds = []
-  // identities.value?.identities?.map((identity) => identity.id) || []
+  const identityIds = profiles.value?.map((profile) => profile?.address) || []
 
   const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
 
   return props.events.filter((event) => {
     const isActiveEvent = filterByVerifiedIdentity
       ? getEventAddresses(event)
-          .map(getIdentityId)
+          .map(toSubstrateAddress)
           .some((x) => identityIds.includes(x))
       : true
 
@@ -116,32 +113,23 @@ const getEventAddresses = (event): string[] => {
   )
 }
 
-// const eventsAddresses = computed(() => {
-//   const addresses = props.events.map(getEventAddresses).flat()
+const eventsAddresses = computed(() => {
+  const addresses = props.events.map(getEventAddresses).flat()
+  return [...new Set([...addresses])]
+})
 
-//   return [...new Set([...addresses])].map(getIdentityId)
-// })
+const { data: profiles, refresh: refreshProfiles } = useAsyncData(
+  () => fetchProfilesByIds(eventsAddresses.value),
+  { immediate: true },
+)
 
-// todo: batch request for profiles
-// const { data: identities, refetch: getIdentities } = useGraphql({
-//   clientName,
-//   queryName: 'identities',
-//   disabled: computed(() => true),
-//   variables: { where: {} },
-// })
-
-// watch(
-//   eventsAddresses,
-//   () => {
-//     getIdentities({
-//       where: {
-//         id_in: eventsAddresses.value,
-//         display_isNull: false,
-//       },
-//     })
-//   },
-//   { immediate: true },
-// )
+watch(
+  eventsAddresses,
+  () => {
+    refreshProfiles()
+  },
+  { immediate: true },
+)
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
