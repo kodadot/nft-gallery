@@ -153,10 +153,10 @@
         @reload="startClock" />
 
       <CodeCheckerMassPreview
-        v-if="selectedFile && index"
+        v-if="selectedFile && indexContent"
         class="!mt-11"
         :assets="assets"
-        :index="index" />
+        :index-content="indexContent" />
 
       <div class="max-w-[490px] mt-11">
         <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
@@ -210,7 +210,7 @@ const validtyDefault: Validity = {
 
 const selectedFile = ref<File | null>(null)
 const assets = ref<AssetMessage[]>([])
-const index = ref<string>()
+const indexContent = ref<string>()
 const fileName = computed(() => selectedFile.value?.name)
 const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
@@ -247,7 +247,7 @@ const onFileSelected = async (file: File) => {
     fileValidity.consistent = 'unknown'
   }
 
-  index.value = indexFile.content
+  indexContent.value = indexFile.content
   assets.value = await createSandboxAssets(indexFile, entries)
 }
 

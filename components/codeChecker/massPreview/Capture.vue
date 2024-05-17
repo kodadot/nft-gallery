@@ -38,7 +38,7 @@ import { AssetElementMap, AssetReplaceElement } from './utils'
 
 const props = defineProps<{
   assets: Array<AssetMessage>
-  index: string
+  indexContent: string
   previews: number
 }>()
 
@@ -70,7 +70,7 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
 
 const buildIndexFile = async (): Promise<Blob> => {
   const parser = new DOMParser()
-  const doc = parser.parseFromString(props.index, 'text/html')
+  const doc = parser.parseFromString(props.indexContent, 'text/html')
 
   await Promise.all(
     props.assets.map((asset) => replaceAssetContent(doc, asset)),
@@ -147,7 +147,7 @@ const generateMassPreview = async () => {
 }
 
 watch(
-  [() => props.assets, () => props.index],
+  [() => props.assets, () => props.indexContent],
   ([assets, index]) => {
     if (assets.length && index) {
       uploadIndex()

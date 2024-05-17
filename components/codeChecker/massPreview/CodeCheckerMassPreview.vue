@@ -6,7 +6,7 @@
 
     <CodeCheckerMassPreviewCapture
       :assets="assets"
-      :index="index"
+      :index-content="indexContent"
       :previews="PREVIEWS_AMOUNT" />
   </div>
 </template>
@@ -17,6 +17,6 @@ const PREVIEWS_AMOUNT = 12
 
 defineProps<{
   assets: Array<AssetMessage>
-  index: string
+  indexContent: string
 }>()
 </script>
