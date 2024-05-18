@@ -2087,7 +2087,15 @@
     }
   },
   "profiles": {
-    "confirmConnection": "Confirm Connection",
-    "completeFarcasterAuth": "Please complete the confirmation in Farcaster, then return here"
+    "errors": {
+      "unconfrimedFarcasterAuth": {
+        "title": "Confirm Connection",
+        "message": "Please complete the confirmation in Farcaster, then return here"
+      },
+      "unsuccessfulFarcasterAuth": {
+        "title": "Unsuccessful Connection",
+        "message": "Somehting went wrong linking with your farcaster account, please try again."
+      }
+    }
   }
 }
