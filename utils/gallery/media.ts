@@ -1,5 +1,3 @@
-import { $fetch } from 'ofetch'
-
 import { MediaType } from '~/components/rmrk/types'
 
 export const mediaTypeElementSelectors: Record<
@@ -35,10 +33,7 @@ export function isImageVisible(type: MediaType) {
 export async function getMimeType(mediaUrl: string) {
   try {
     const { headers } = await $fetch.raw(mediaUrl, {
-      method: 'HEAD',
-      headers: {
-        'cache-control': 'no-cache',
-      },
+      method: mediaUrl.includes('w.kodadot.xyz') ? 'GET' : 'HEAD',
     })
     return headers.get('content-type') || ''
   } catch (error) {
