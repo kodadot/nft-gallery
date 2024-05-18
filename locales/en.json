@@ -2085,5 +2085,9 @@
       "decline": "Opt Out",
       "accept": "Dive In!"
     }
+  },
+  "profiles": {
+    "confirmConnection": "Confirm Connection",
+    "completeFarcasterAuth": "Please complete the confirmation in Farcaster, then return here"
   }
 }

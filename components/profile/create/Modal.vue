@@ -41,10 +41,14 @@ import {
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
+import { useDocumentVisibility } from '@vueuse/core'
 
 const props = defineProps<{
   modelValue: boolean
 }>()
+
+const documentVisibility = useDocumentVisibility()
+const { $i18n } = useNuxtApp()
 
 const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
@@ -174,4 +178,16 @@ const loginWithFarcaster = async () => {
     console.error('URL not found in channel data')
   }
 }
+
+watch(documentVisibility, (current, previous) => {
+  if (
+    current === 'visible' &&
+    previous === 'hidden' &&
+    farcasterSignInIsInProgress.value
+  ) {
+    infoMessage($i18n.t('profiles.completeFarcasterAuth'), {
+      title: $i18n.t('profiles.confirmConnection'),
+    })
+  }
+})
 </script>
