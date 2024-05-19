@@ -22,7 +22,7 @@
     <template v-else-if="!hideIdentityPopover && !isMobileDevice">
       <IdentityPopover v-if="address">
         <template #content>
-          <span>{{ name }}</span>
+          <span data-testid="collection-nft-holder-identity">{{ name }}</span>
         </template>
       </IdentityPopover>
     </template>
