@@ -125,10 +125,13 @@ const cacheProfilesKey = computed(
 const { data: profiles } = useAsyncData(
   cacheProfilesKey.value,
   () => {
+    if (!eventsAddresses.value.length) {
+      return Promise.resolve([])
+    }
     const cacheData = useNuxtData(cacheProfilesKey.value).data.value
     return cacheData ? cacheData : fetchProfilesByIds(eventsAddresses.value)
   },
-  { immediate: true, watch: [eventsAddresses] },
+  { watch: [cacheProfilesKey] },
 )
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
