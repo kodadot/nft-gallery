@@ -56,7 +56,9 @@ const collectionPath = computed(
   () => `/${urlPrefix.value}/collection/${props.collection?.id}`,
 )
 
-const addNftsPath = computed(() => `/${urlPrefix.value}/create/nft`)
+const addNftsPath = computed(
+  () => `/${urlPrefix.value}/create/nft?collectionId=${props.collection?.id}`,
+)
 
 const share = computed(() => ({
   text: $i18n.t('sharing.collection'),
