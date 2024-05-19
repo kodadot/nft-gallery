@@ -118,17 +118,17 @@ const eventsAddresses = computed(() => {
   return [...new Set([...addresses])]
 })
 
-const { data: profiles, refresh: refreshProfiles } = useAsyncData(
-  () => fetchProfilesByIds(eventsAddresses.value),
-  { immediate: true },
+const cacheProfilesKey = computed(
+  () => `profiles-${eventsAddresses.value.sort().join(',')}`,
 )
 
-watch(
-  eventsAddresses,
+const { data: profiles } = useAsyncData(
+  cacheProfilesKey.value,
   () => {
-    refreshProfiles()
+    const cacheData = useNuxtData(cacheProfilesKey.value).data.value
+    return cacheData ? cacheData : fetchProfilesByIds(eventsAddresses.value)
   },
-  { immediate: true },
+  { immediate: true, watch: [eventsAddresses] },
 )
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])

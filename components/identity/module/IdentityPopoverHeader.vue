@@ -39,7 +39,6 @@ const address = inject('address')
 const shortenedAddress = inject('shortenedAddress')
 
 const identity = inject<{ [x: string]: string }>('identity')
-// const name = inject('name')
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 </script>

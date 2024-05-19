@@ -7,10 +7,10 @@ export type IdentityFields = Record<string, string>
 
 export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
-  const isBaseAddress = computed(() => ['base'].includes(urlPrefix.value))
+  const { isBase } = useIsChain(computed(() => urlPrefix.value))
 
   const getIdentityId = (address: string) => {
-    if (isBaseAddress.value) {
+    if (isBase.value) {
       return address
     } else if (isDotAddress.value) {
       return accountToPublicKey(address)
@@ -37,18 +37,17 @@ export default function useIdentity({
   const { profile, pending: loading } = useFetchProfile(id)
 
   const shortenedAddress = computed(() => shortAddress(address.value))
-  const twitter = computed(
-    () =>
-      profile?.value?.socials?.find((s) => s.platform === 'Twitter')?.handle,
-  )
-  const web = computed(
-    () =>
-      profile?.value?.socials?.find((s) => s.platform === 'Website')?.handle,
-  )
-  const farcaster = computed(
-    () =>
-      profile?.value?.socials?.find((s) => s.platform === 'Farcaster')?.handle,
-  )
+
+  const getSocialHandle = (platform) =>
+    computed(
+      () =>
+        profile?.value?.socials?.find((s) => s.platform === platform)?.handle,
+    )
+
+  const twitter = getSocialHandle('Twitter')
+  const web = getSocialHandle('Website')
+  const farcaster = getSocialHandle('Farcaster')
+
   const display = computed(() => profile?.value?.name)
   const name = computed(() =>
     displayName({
