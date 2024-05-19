@@ -152,6 +152,11 @@ const confirmTransfer = () => {
   closeModal()
   emit('confirm')
 }
+
+useKeyboardKeys({
+  onPressControlEnter: confirmTransfer,
+})
+
 const { accountId } = useAuth()
 
 const network = computed(

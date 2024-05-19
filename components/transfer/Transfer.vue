@@ -297,6 +297,7 @@
         >
       </div>
       <TransferConfirmModal
+        v-if="isTransferModalVisible"
         :is-modal-active="isTransferModalVisible"
         :display-total-value="displayValues.total.withoutFee"
         :token-icon="tokenIcon"

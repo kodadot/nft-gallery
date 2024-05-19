@@ -87,7 +87,6 @@ import type {
 } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction, getActionDetails } from './utils'
 import { getAutoTeleportActionInteraction } from '@/composables/autoTeleport/useAutoTeleportTransactionActions'
-import { useMagicKeys } from '@vueuse/core'
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
 }
@@ -130,7 +129,6 @@ const props = withDefaults(
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
-const { Meta, Control, Enter } = useMagicKeys()
 
 const amount = ref()
 
@@ -305,6 +303,10 @@ const handleAutoTeleportModalClose = (completed: boolean) => {
   emit('modal:close', completed)
 }
 
+useKeyboardKeys({
+  onPressControlEnter: handleSubmit,
+})
+
 watch(allowAutoTeleport, (allow) => {
   if (allow) {
     autoTeleport.value = true
@@ -314,12 +316,6 @@ watch(allowAutoTeleport, (allow) => {
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
     amount.value = props.amount
-  }
-})
-
-watch([Meta, Control, Enter], () => {
-  if ((Meta.value || Control.value) && Enter.value) {
-    handleSubmit()
   }
 })
 
