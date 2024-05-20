@@ -22,6 +22,18 @@
       "@types/node",
       "vue-apollo",
       "vitest/globals"
+    ],
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schemas": [
+          {
+            "name": "ahp",
+            "schema": "https://ahp.gql.api.kodadot.xyz/",
+            "tadaOutputLocation": "./queries/clients/ahp.d.ts"
+          }
+        ]
+      }
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]

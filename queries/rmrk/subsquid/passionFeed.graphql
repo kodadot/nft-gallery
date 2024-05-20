@@ -1,5 +1,0 @@
-query passionFeed($account: String!) {
-  passionFeed(account: $account) {
-    id
-  }
-}

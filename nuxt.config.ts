@@ -242,10 +242,6 @@ export default defineNuxtConfig({
         extensions: ['vue'],
       },
       {
-        path: '~/components/spotlight',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/transfer',
         extensions: ['vue'],
       },

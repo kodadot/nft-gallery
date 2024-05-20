@@ -1,8 +1,0 @@
-query assetList {
-  assetList: assetEntities {
-    id
-    name
-    symbol
-    decimals
-  }
-}
