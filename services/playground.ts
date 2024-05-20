@@ -5,9 +5,13 @@ const BASE_URL =
     ? 'https://playground.kodadot.workers.dev/'
     : 'https://playground-beta.kodadot.workers.dev/'
 
+const PUBLIC_R2_BUCKET_URL = 'ACTUAL_URL.r2.dev'
+
 const api = $fetch.create({
   baseURL: BASE_URL,
 })
+
+export const getObjectUrl = (key: string) => `${PUBLIC_R2_BUCKET_URL}/${key}`
 
 type UploadFilesResponse = { key: string }
 
@@ -31,17 +35,5 @@ export const uploadFile = async ({
   return await api<UploadFilesResponse>('/upload', {
     method: 'POST',
     body: form,
-  })
-}
-
-type UploadPresignedResponse = { url: string }
-
-export const uploadPresigned = async (key: string, query = {}) => {
-  return await api<UploadPresignedResponse>('/upload-presigned', {
-    method: 'POST',
-    body: {
-      key,
-      query,
-    },
   })
 }

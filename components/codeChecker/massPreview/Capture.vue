@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
 import { makeScreenshot } from '@/services/capture'
-import { uploadFile, uploadPresigned } from '@/services/playground'
+import { getObjectUrl, uploadFile } from '@/services/playground'
 import { AssetMessage } from '../types'
 import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
@@ -115,9 +115,9 @@ const initScreenshot = () => {
 
   previews.value.forEach(async (preview) => {
     try {
-      const { url } = await uploadPresigned(indexKey.value!, {
-        hash: preview.hash,
-      })
+      let url = getObjectUrl(indexKey.value!)
+
+      url += `?hash=${preview.hash}`
 
       preview = { ...preview, startedAt: performance.now() }
 
