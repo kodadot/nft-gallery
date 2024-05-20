@@ -41,10 +41,14 @@ import {
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
+import { useDocumentVisibility } from '@vueuse/core'
 
 const props = defineProps<{
   modelValue: boolean
 }>()
+
+const documentVisibility = useDocumentVisibility()
+const { $i18n } = useNuxtApp()
 
 const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
@@ -134,11 +138,23 @@ const onSelectFarcaster = () => {
     useFarcaster.value = true
   } else {
     farcasterSignInIsInProgress.value = true
-    loginWithFarcaster().then(() => {
-      farcasterSignInIsInProgress.value = false
-      stage.value = 3
-      useFarcaster.value = true
-    })
+    loginWithFarcaster()
+      .then(() => {
+        farcasterSignInIsInProgress.value = false
+        stage.value = 3
+        useFarcaster.value = true
+      })
+      .catch((error) => {
+        farcasterSignInIsInProgress.value = false
+        console.error(error)
+        dangerMessage(
+          $i18n.t('profiles.errors.unsuccessfulFarcasterAuth.message'),
+          {
+            title: $i18n.t('profiles.errors.unsuccessfulFarcasterAuth.title'),
+            reportable: false,
+          },
+        )
+      })
   }
 }
 
@@ -150,28 +166,41 @@ const OnSelectStartNew = () => {
 const loginWithFarcaster = async () => {
   const channel = await createChannel()
 
-  if (channel?.data?.url) {
-    // Open a new tab with the URL
-    const farcasterTab = window.open(channel.data.url, '_blank')
-    const userData = await appClient.watchStatus({
-      channelToken: channel.data.channelToken,
-      timeout: 60_000,
-      interval: 1_000,
-    })
-
-    farcasterTab?.close()
-
-    if (userData?.data?.state !== 'completed') {
-      console.error('No user data found')
-      return
-    }
-    if (userData.data.nonce !== channel.data.nonce) {
-      console.error('nonce mismatch')
-      return
-    }
-    farcasterUserData.value = userData.data
-  } else {
-    console.error('URL not found in channel data')
+  if (!channel?.data?.url) {
+    throw new Error('[PROFILES::FARCASTER_AUTH] URL not found in channel data')
   }
+
+  // Open a new tab with the URL
+  const farcasterTab = window.open(channel.data.url, '_blank')
+  const userData = await appClient.watchStatus({
+    channelToken: channel.data.channelToken,
+    timeout: 60_000,
+    interval: 1_000,
+  })
+
+  farcasterTab?.close()
+
+  const stateNotCompleted = userData?.data?.state !== 'completed'
+  const nonceMismatch = userData.data?.nonce !== channel.data?.nonce
+
+  if (stateNotCompleted || nonceMismatch) {
+    throw new Error(
+      `[PROFILES::FARCASTER_AUTH] ${stateNotCompleted ? 'No user data found' : 'Nonce mismatch'}`,
+    )
+  }
+
+  farcasterUserData.value = userData.data
 }
+
+watch(documentVisibility, (current, previous) => {
+  if (
+    current === 'visible' &&
+    previous === 'hidden' &&
+    farcasterSignInIsInProgress.value
+  ) {
+    infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
+      title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),
+    })
+  }
+})
 </script>
