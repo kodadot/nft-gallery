@@ -81,6 +81,7 @@
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
@@ -130,6 +131,7 @@ const props = withDefaults(
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
+const { isModalOpen } = useAutoTeleportModal()
 
 const amount = ref()
 
@@ -148,7 +150,6 @@ const {
   props.fees,
 )
 
-const isModalOpen = ref(false)
 const onRampActive = ref(false)
 const autoTeleport = ref(false)
 const showFirstTimeTeleport = computed(
