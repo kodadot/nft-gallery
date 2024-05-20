@@ -248,6 +248,13 @@ function hasImage(dataURL: string): boolean {
   return regex.test(dataURL)
 }
 
+const consistencyField = (payload) => {
+  const version: number = parseFloat(payload?.version ?? '0')
+  if (version >= 1.0) {
+    return payload.base64Details
+  }
+  return payload.image
+}
 useEventListener(window, 'message', async (res) => {
   if (res.data?.type === 'kodahash/render/completed') {
     const payload = res.data?.payload
@@ -259,13 +266,13 @@ useEventListener(window, 'message', async (res) => {
       Boolean(payload?.image) && hasImage(payload.image)
     if (fileValidity.validKodaRenderPayload) {
       if (reloadTrigger.value === 0) {
-        firstImage.value = payload.image
+        firstImage.value = consistencyField(payload)
         reloadTrigger.value = 1
       } else if (
         fileValidity.consistent === 'loading' ||
         fileValidity.consistent === 'unknown'
       ) {
-        fileValidity.consistent = firstImage.value === payload.image
+        fileValidity.consistent = firstImage.value === consistencyField(payload)
       }
     } else {
       fileValidity.consistent = 'unknown'
