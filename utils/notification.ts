@@ -99,11 +99,15 @@ export const showLargeNotification = ({
 
 export const infoMessage = (
   message,
-  { url, duration }: { url?: string; duration?: number } = {},
+  {
+    url,
+    duration,
+    title = 'Information',
+  }: { url?: string; duration?: number; title?: string } = {},
 ) => {
   const { $i18n } = useNuxtApp()
   showNotification({
-    title: 'Information',
+    title,
     message,
     params: notificationTypes.info,
     action: url ? { label: $i18n.t('helper.learnMore'), url: '' } : undefined,
@@ -133,10 +137,16 @@ export const warningMessage = (message, { reportable = true } = {}) =>
     params: notificationTypes.warn,
     action: reportable ? getReportIssueAction(message) : undefined,
   })
-export const dangerMessage = (message) =>
+export const dangerMessage = (
+  message,
+  {
+    title = 'Critical Error',
+    reportable = true,
+  }: { title?: string; reportable?: boolean } = {},
+) =>
   showNotification({
-    title: 'Critical Error',
+    title,
     message,
     params: notificationTypes.danger,
-    action: getReportIssueAction(message),
+    action: reportable ? getReportIssueAction(message) : undefined,
   })
