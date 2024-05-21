@@ -1,6 +1,8 @@
 <template>
   <div class="flex items-center justify-between">
-    <NuxtLink class="flex" :to="userProfilePath">
+    <NuxtLink
+      class="flex"
+      :to="`/${urlPrefix}/u/${getss58AddressByPrefix(user.address, urlPrefix)}`">
       <NuxtImg
         :src="user.image"
         placholder
@@ -64,10 +66,6 @@ const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
 
-const userProfilePath = computed(
-  () =>
-    `/${urlPrefix.value}/u/${getss58AddressByPrefix(props.user.address, urlPrefix.value)}`,
-)
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
   () =>
