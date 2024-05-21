@@ -1,19 +1,14 @@
 <template>
   <div class="w-full max-w-[490px] flex flex-col gap-4">
-    <CodeCheckerMassPreviewCanvas
-      :assets="assets"
-      :previews="PREVIEWS_AMOUNT" />
+    <CodeCheckerMassPreviewCanvas :assets="assets" />
 
     <CodeCheckerMassPreviewCapture
       :assets="assets"
-      :index-content="indexContent"
-      :previews="PREVIEWS_AMOUNT" />
+      :index-content="indexContent" />
   </div>
 </template>
 <script lang="ts" setup>
 import { AssetMessage } from '../types'
-
-const PREVIEWS_AMOUNT = 12
 
 defineProps<{
   assets: Array<AssetMessage>

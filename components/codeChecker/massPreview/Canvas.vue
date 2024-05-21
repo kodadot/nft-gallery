@@ -35,10 +35,15 @@ import { AssetMessage } from '../types'
 import { CanvasPreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 
-const props = defineProps<{
-  assets: Array<AssetMessage>
-  previews: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    assets: Array<AssetMessage>
+    previews?: number
+  }>(),
+  {
+    previews: 12,
+  },
+)
 
 const active = ref(false)
 const amount = ref(props.previews)

@@ -36,11 +36,16 @@ import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
 
-const props = defineProps<{
-  assets: Array<AssetMessage>
-  indexContent: string
-  previews: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    assets: Array<AssetMessage>
+    indexContent: string
+    previews?: number
+  }>(),
+  {
+    previews: 12,
+  },
+)
 
 const { $i18n } = useNuxtApp()
 
