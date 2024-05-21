@@ -60,6 +60,7 @@ import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintL
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { NFTs } from '@/composables/transaction/types'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
@@ -88,6 +89,7 @@ const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const {
   mintingSession,
@@ -205,6 +207,10 @@ const handleList = () => {
 }
 
 const stopMint = () => {
+  if (isAutoTeleportModalOpen.value && isHolderOfWithPaidMint.value) {
+    return
+  }
+
   closeMintModal()
   loading.value = false
   clearMassMint()
