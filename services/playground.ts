@@ -1,11 +1,12 @@
 import { $fetch } from 'ofetch'
 
-const BASE_URL =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://playground.kodadot.workers.dev/'
-    : 'https://playground-beta.kodadot.workers.dev/'
+const BASE_URL = isProduction
+  ? 'https://playground.kodadot.workers.dev/'
+  : 'https://playground-beta.kodadot.workers.dev/'
 
-const PUBLIC_R2_BUCKET_URL = 'ACTUAL_URL.r2.dev'
+const PUBLIC_R2_BUCKET_URL = isProduction
+  ? 'https://playground-r2.koda.art/'
+  : 'https://pub-adc77a8fecb9405b9573442870905a67.r2.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
