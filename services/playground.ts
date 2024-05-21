@@ -5,8 +5,8 @@ const BASE_URL = isProduction
   : 'https://playground-beta.kodadot.workers.dev/'
 
 const PUBLIC_R2_BUCKET_URL = isProduction
-  ? 'https://playground-r2.koda.art/'
-  : 'https://pub-adc77a8fecb9405b9573442870905a67.r2.dev/'
+  ? 'https://playground-r2.koda.art'
+  : 'https://pub-adc77a8fecb9405b9573442870905a67.r2.dev'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
