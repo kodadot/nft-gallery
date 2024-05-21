@@ -143,14 +143,14 @@
       class="w-full lg:w-1/2 flex flex-col items-center lg:mt-4 lg:items-end">
       <!-- Content of the second column -->
       <CodeCheckerPreviewCard
-        ref="codeCheckerPreview"
         :selected-file="selectedFile"
         :file-name="fileName"
         :assets="assets"
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
-        @reload="startClock" />
+        @reload="startClock"
+        @hash:update="(hash) => (previewHash = hash)" />
 
       <CodeCheckerMassPreview
         v-if="selectedFile && indexContent"
@@ -218,7 +218,7 @@ const renderStartTime = ref(0)
 const renderEndTime = ref(0)
 const reloadTrigger = ref(0)
 const firstImage = ref<string>()
-const codeCheckerPreview = ref()
+const previewHash = ref()
 
 const onFileSelected = async (file: File) => {
   clear()
@@ -272,7 +272,7 @@ function hasImage(dataURL: string): boolean {
 useEventListener(window, 'message', async (res) => {
   if (
     res.data?.type === 'kodahash/render/completed' &&
-    codeCheckerPreview.value?.hash === res.data.payload.hash
+    previewHash.value === res.data.payload.hash
   ) {
     const payload = res.data?.payload
     renderEndTime.value = performance.now()
