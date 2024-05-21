@@ -157,21 +157,17 @@ const generateMassPreview = async () => {
 
 watch(
   [() => props.assets, () => props.indexContent],
-  ([assets, index]) => {
-    if (assets.length && index) {
+  ([assets, indexContent]) => {
+    if (assets.length && indexContent) {
       uploadIndex()
     }
   },
   { immediate: true },
 )
 
-watch(
-  [active, () => props.assets],
-  ([active]) => {
-    if (active) {
-      generateMassPreview()
-    }
-  },
-  { immediate: true },
-)
+watch(active, (active) => {
+  if (active) {
+    generateMassPreview()
+  }
+})
 </script>

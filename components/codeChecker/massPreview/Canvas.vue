@@ -73,13 +73,9 @@ useEventListener(window, 'message', async (res) => {
   }
 })
 
-watch(
-  [active, () => props.assets],
-  ([active]) => {
-    if (active) {
-      generateMassPreview()
-    }
-  },
-  { immediate: true },
-)
+watch(active, (active) => {
+  if (active) {
+    generateMassPreview()
+  }
+})
 </script>
