@@ -18,9 +18,13 @@
           :previews="previews"
           @retry="generateMassPreview" />
 
-        <CodeCheckerMassPreviewGrid :items="previews">
-          <template #default="{ item }: { item: CapturePreviewItem }">
-            <BaseMediaItem v-if="item.image" :src="item.image" class="border" />
+        <CodeCheckerMassPreviewGrid :items="previews.map((p) => p.loading)">
+          <template #default="{ index }">
+            <BaseMediaItem
+              v-if="previews[index].image"
+              :key="previews[index].hash"
+              :src="previews[index].image"
+              class="border" />
           </template>
         </CodeCheckerMassPreviewGrid>
       </div>

@@ -15,13 +15,15 @@
           :previews="previews"
           @retry="generateMassPreview" />
 
-        <CodeCheckerMassPreviewGrid :items="previews" class="!mt-4">
-          <template #default="{ item }: { item: CanvasPreviewItem }">
+        <CodeCheckerMassPreviewGrid
+          :items="previews.map((p) => p.loading)"
+          class="!mt-4">
+          <template #default="{ index }">
             <CodeCheckerSandboxIFrame
-              :hash="item.hash"
+              :hash="previews[index].hash"
               :assets="assets"
               :count="1"
-              :iframe-id="item.hash"
+              :iframe-id="previews[index].hash"
               class="border" />
           </template>
         </CodeCheckerMassPreviewGrid>
