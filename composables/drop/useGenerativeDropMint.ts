@@ -23,7 +23,6 @@ export type UnlockableCollectionById = {
     nftCount: number
     nfts: { sn: string }[]
   }
-  nftEntitiesConnection: { totalCount: number }
 }
 
 function useCollectionData(collectionKey, client, collectionId, drop) {
