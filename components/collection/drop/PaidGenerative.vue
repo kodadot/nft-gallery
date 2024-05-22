@@ -19,6 +19,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
@@ -40,6 +41,8 @@ const {
   allocatedNFTs,
   isCapturingImage,
 } = storeToRefs(useDropStore())
+
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const {
   transaction,
@@ -144,6 +147,10 @@ const handleConfirmPaidMint = () => {
 }
 
 const stopMint = () => {
+  if (isAutoTeleportModalOpen.value) {
+    return
+  }
+
   isMintModalActive.value = false
   loading.value = false
   clearMassMint()

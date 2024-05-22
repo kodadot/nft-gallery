@@ -32,6 +32,7 @@
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
+        :status="status"
         :minting-session="mintingSession"
         :can-list-nfts="canList"
         @list="$emit('list')" />
@@ -50,6 +51,7 @@ import { usePreloadImages } from './utils'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 
 enum ModalStep {
   OVERVIEW = 'overview',
@@ -59,7 +61,7 @@ enum ModalStep {
 
 const IPFS_ESTIMATED_TIME_SECONDS = 15
 
-const emit = defineEmits(['confirm', 'update:modelValue', 'list'])
+const emit = defineEmits(['confirm', 'update:modelValue', 'list', 'close'])
 const props = defineProps<{
   modelValue: boolean
   action: AutoTeleportAction
@@ -70,6 +72,7 @@ const props = defineProps<{
 const { canMint, canList, isRendering } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
   useDropMinimumFunds(computed(() => amountToMint.value))
@@ -80,6 +83,8 @@ const { completed: imagePreloadingCompleted } = usePreloadImages(
 
 const mintOverview = ref()
 const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
+const autoteleportCompleted = ref(false)
+const isModalOpen = useVModel(props, 'modelValue')
 
 const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
@@ -112,9 +117,10 @@ const loading = computed(
   () =>
     isSingleMintNotReady.value ||
     mintOverview.value?.loading ||
-    (isSuccessfulDropStep.value && !moveSuccessfulDrop.value) ||
+    (autoteleportCompleted.value && !moveSuccessfulDrop.value) ||
     false,
 )
+
 const preStepTitle = computed<string | undefined>(() =>
   isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
@@ -157,9 +163,10 @@ const title = computed(() => {
   return $i18n.t('success')
 })
 
-const onClose = () => {
-  emit('update:modelValue', false)
+const close = () => emit('close')
 
+const onClose = () => {
+  close()
   if (isSuccessfulDropStep.value) {
     window.location.reload()
   }
@@ -167,7 +174,10 @@ const onClose = () => {
 
 const handleModalClose = (completed: boolean) => {
   if (completed) {
-    modalStep.value = ModalStep.SUCCEEDED
+    autoteleportCompleted.value = true
+    isModalOpen.value = true
+  } else {
+    close()
   }
 }
 
@@ -179,20 +189,30 @@ const handleConfirm = ({
   if (!autoteleport) {
     confirm()
     modalStep.value = ModalStep.SIGNING
+  } else {
+    isModalOpen.value = false
   }
 }
 
+const reset = () => {
+  modalStep.value = ModalStep.OVERVIEW
+  autoteleportCompleted.value = false
+}
+
 watchEffect(() => {
-  if (moveSuccessfulDrop.value && isSigningStep.value) {
+  if (
+    moveSuccessfulDrop.value &&
+    (isSigningStep.value || autoteleportCompleted.value)
+  ) {
     modalStep.value = ModalStep.SUCCEEDED
   }
 })
 
 watchDebounced(
-  () => props.modelValue,
-  (isOpen) => {
-    if (!isOpen) {
-      modalStep.value = ModalStep.OVERVIEW
+  [() => props.modelValue, isAutoTeleportModalOpen],
+  ([isOpen]) => {
+    if (!isOpen && !isAutoTeleportModalOpen.value) {
+      reset()
     }
   },
   { debounce: 500 }, // wait for the modal closing animation to finish
