@@ -8,7 +8,7 @@ export default function useFetchProfile(address?: string) {
     isPending,
     refetch,
   } = useQuery<Profile | null>({
-    queryKey: ['user-profile', toSubstrateAddress(address!)],
+    queryKey: ['user-profile', address && toSubstrateAddress(address)],
     queryFn: () => fetchProfileByAddress(address!),
     enabled: !!address,
     staleTime: 1000 * 60 * 5,

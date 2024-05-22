@@ -54,6 +54,8 @@ import {
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
 import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
+import { useQuery } from '@tanstack/vue-query'
+import type { Profile } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
@@ -118,21 +120,12 @@ const eventsAddresses = computed(() => {
   return [...new Set([...addresses])]
 })
 
-const cacheProfilesKey = computed(
-  () => `profiles-${eventsAddresses.value.sort().join(',')}`,
-)
-
-const { data: profiles } = useAsyncData(
-  cacheProfilesKey.value,
-  () => {
-    if (!eventsAddresses.value.length) {
-      return Promise.resolve([])
-    }
-    const cacheData = useNuxtData(cacheProfilesKey.value).data.value
-    return cacheData ? cacheData : fetchProfilesByIds(eventsAddresses.value)
-  },
-  { watch: [cacheProfilesKey] },
-)
+const { data: profiles } = useQuery<Profile[] | null>({
+  queryKey: ['profiles', `${eventsAddresses.value.sort().join(',')}`],
+  queryFn: () => fetchProfilesByIds(eventsAddresses.value),
+  enabled: !!eventsAddresses.value.length,
+  staleTime: 1000 * 60 * 5,
+})
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
