@@ -4,6 +4,7 @@
       v-model="isModalActive"
       :tx-hash="txHash"
       :share="share"
+      :status="status"
       :action-buttons="actionButtons">
       <SuccessfulItemsMedia
         :header="{
@@ -18,11 +19,13 @@
 <script setup lang="ts">
 import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
   txHash?: string
+  status: TransactionStatus
   items: ShoppingCartItem[]
 }>()
 
