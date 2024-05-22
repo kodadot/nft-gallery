@@ -85,6 +85,7 @@
     "@polkadot/util-crypto": "^12.6.2",
     "@polkadot/vue-identicon": "^3.6.6",
     "@ramp-network/ramp-instant-sdk": "^4.0.5",
+    "@tanstack/vue-query": "^5.37.1",
     "@transak/transak-sdk": "^1.4.1",
     "@types/node": "^20.12.11",
     "@vitejs/plugin-vue": "^5.0.4",
