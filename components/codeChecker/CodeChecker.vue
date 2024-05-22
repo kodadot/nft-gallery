@@ -149,7 +149,25 @@
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
-        @reload="startClock" />
+        @reload="startClock"
+        @hash:update="(hash) => (previewHash = hash)" />
+
+      <CodeCheckerMassPreview
+        v-if="selectedFile && indexContent"
+        class="!mt-11"
+        :assets="assets"
+        :index-content="indexContent" />
+
+      <div class="max-w-[490px] mt-11">
+        <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
+
+        <div class="flex items-center gap-5">
+          <NeoIcon icon="shield" class="!block text-k-grey" size="large" />
+          <p class="capitalize text-k-grey">
+            {{ $t('codeChecker.confidentialCode') }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -192,6 +210,7 @@ const validtyDefault: Validity = {
 
 const selectedFile = ref<File | null>(null)
 const assets = ref<AssetMessage[]>([])
+const indexContent = ref<string>()
 const fileName = computed(() => selectedFile.value?.name)
 const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
@@ -199,6 +218,7 @@ const renderStartTime = ref(0)
 const renderEndTime = ref(0)
 const reloadTrigger = ref(0)
 const firstImage = ref<string>()
+const previewHash = ref()
 
 const onFileSelected = async (file: File) => {
   clear()
@@ -227,6 +247,7 @@ const onFileSelected = async (file: File) => {
     fileValidity.consistent = 'unknown'
   }
 
+  indexContent.value = indexFile.content
   assets.value = await createSandboxAssets(indexFile, entries)
 }
 
@@ -249,7 +270,10 @@ function hasImage(dataURL: string): boolean {
 }
 
 useEventListener(window, 'message', async (res) => {
-  if (res.data?.type === 'kodahash/render/completed') {
+  if (
+    res.data?.type === 'kodahash/render/completed' &&
+    previewHash.value === res.data.payload.hash
+  ) {
     const payload = res.data?.payload
     renderEndTime.value = performance.now()
     const duration = renderEndTime.value - renderStartTime.value

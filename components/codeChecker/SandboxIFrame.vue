@@ -2,7 +2,7 @@
   <NeoIFrameMedia
     :key="count"
     :class="['sandbox-iframe', customClass]"
-    :iframe-id="config.iframeId"
+    :iframe-id="iframeId"
     :src="iframeSrc"
     sandbox="allow-scripts allow-same-origin"
     title="render-preview"
@@ -16,12 +16,19 @@ import { postAssetsToSandbox } from './utils'
 import config from './codechecker.config'
 import { AssetMessage } from './types'
 
-const props = defineProps<{
-  hash: string
-  assets: Array<AssetMessage>
-  count: number
-  customClass?: string | object
-}>()
+const props = withDefaults(
+  defineProps<{
+    hash: string
+    assets: Array<AssetMessage>
+    count: number
+    customClass?: string | object
+    iframeId?: string
+  }>(),
+  {
+    iframeId: config.iframeId,
+    customClass: '',
+  },
+)
 
 const emit = defineEmits(['update:count'])
 
@@ -38,6 +45,6 @@ watch(
 )
 
 function onIframeLoad() {
-  postAssetsToSandbox(props.assets)
+  postAssetsToSandbox(props.assets, props.iframeId)
 }
 </script>
