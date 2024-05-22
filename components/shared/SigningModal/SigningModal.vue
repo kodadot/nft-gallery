@@ -23,13 +23,19 @@ const props = withDefaults(
     status: TransactionStatus
     title: string
     isError?: boolean
+    closeInBlock?: boolean
   }>(),
   {
     isError: false,
+    closeInBlock: false,
   },
 )
 
 const { $i18n } = useNuxtApp()
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  isError: computed(() => props.isError),
+  status: computed(() => props.status),
+})
 
 const isModalActive = ref(false)
 const isCancelled = ref(false)
@@ -62,16 +68,22 @@ const onClose = () => {
   isCancelled.value = false
 }
 
-watch([() => props.status, () => props.isLoading], ([status, loading]) => {
-  if (loading) {
-    isModalActive.value = true
-  }
+watch(
+  [() => props.status, () => props.isLoading, isTransactionSuccessful],
+  ([status, loading, succeded]) => {
+    isCancelled.value = status === TransactionStatus.Cancelled
 
-  if (status === TransactionStatus.Finalized) {
-    isModalActive.value = false
-    return
-  }
+    if (
+      (props.closeInBlock && succeded) ||
+      status === TransactionStatus.Finalized
+    ) {
+      isModalActive.value = false
+      return
+    }
 
-  isCancelled.value = status === TransactionStatus.Cancelled
-})
+    if (loading) {
+      isModalActive.value = true
+    }
+  },
+)
 </script>

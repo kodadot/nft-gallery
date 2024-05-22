@@ -2,6 +2,7 @@
   <SuccessfulModalBody
     :tx-hash="txHash"
     :share="share"
+    :status="status"
     :action-buttons="actionButtons">
     <SuccessfulItemsMedia
       :header="{
@@ -16,11 +17,13 @@
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
 import { MintedNFT, MintingSession } from '../../types'
 import { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
   mintingSession: MintingSession
   canListNfts: boolean
+  status: TransactionStatus
 }>()
 
 const { $i18n } = useNuxtApp()

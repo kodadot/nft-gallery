@@ -2,6 +2,7 @@
   <SuccessfulModalBody
     :tx-hash="txHash"
     :share="share"
+    :status="status"
     :action-buttons="actionButtons">
     <SuccessfulItemsMedia
       :header="{
@@ -14,10 +15,12 @@
 </template>
 <script lang="ts" setup>
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = defineProps<{
   items: ListCartItem[]
   txHash: string | undefined
+  status: TransactionStatus
 }>()
 
 const { $i18n } = useNuxtApp()
