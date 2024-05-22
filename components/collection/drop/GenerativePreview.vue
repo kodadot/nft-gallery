@@ -83,7 +83,7 @@ const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
-const { userMintsCount } = storeToRefs(dropStore)
+const { userMintsCount, mintsCount } = storeToRefs(dropStore)
 const { maxCount } = useGenerativeDropMint()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
@@ -109,7 +109,7 @@ const mintedPercent = computed(() => {
   if (!maxCount.value) {
     return 0
   }
-  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
+  return Math.round((mintsCount.value / maxCount.value) * 100)
 })
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
