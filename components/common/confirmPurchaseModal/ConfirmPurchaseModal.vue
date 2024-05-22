@@ -65,6 +65,7 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
+          early-success
           auto-close-modal
           :auto-close-modal-delay-modal="0"
           @confirm="confirm"
