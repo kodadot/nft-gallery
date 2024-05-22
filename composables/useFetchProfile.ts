@@ -1,25 +1,22 @@
-import { fetchProfileByAddress } from '@/services/profile'
+import { fetchProfileByAddress, toSubstrateAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
+import { useQuery } from '@tanstack/vue-query'
 
-export default function useFetchProfile(address: Ref<string | undefined>) {
+export default function useFetchProfile(address?: string) {
   const {
     data: profile,
-    pending,
-    refresh,
-  } = useAsyncData<Profile | null>(
-    `userProfile-${address.value}`,
-    () =>
-      address.value
-        ? fetchProfileByAddress(address.value)
-        : Promise.resolve(null),
-    {
-      watch: [address],
-    },
-  )
+    isPending,
+    refetch,
+  } = useQuery<Profile | null>({
+    queryKey: ['user-profile', toSubstrateAddress(address!)],
+    queryFn: () => fetchProfileByAddress(address!),
+    enabled: !!address,
+    staleTime: 1000 * 60 * 5,
+  })
 
   return {
     profile,
-    pending,
-    refresh,
+    isPending,
+    refetch,
   }
 }

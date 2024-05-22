@@ -49,7 +49,7 @@ const { neoModal } = useProgrammatic()
 
 const account = computed(() => identityStore.getAuthAddress)
 
-const { profile } = useFetchProfile(account)
+const { profile } = useFetchProfile(account.value)
 
 const { display, shortenedAddress } = useIdentity({
   address: account,
