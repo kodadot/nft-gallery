@@ -54,17 +54,16 @@ const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
 const hasProfile = computed(() => profile?.hasProfile.value)
 
-const initalStep = computed(() => (hasProfile.value ? 2 : 1))
+const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
 const emit = defineEmits(['close', 'success'])
 
 const vOpen = useVModel(props, 'modelValue')
-const stage = ref(initalStep.value)
+const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
 const close = () => {
-  stage.value = initalStep.value
   vOpen.value = false
   emit('close')
 }
@@ -192,6 +191,12 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
+watch(
+  () => props.modelValue,
+  () => {
+    stage.value = initialStep.value
+  },
+)
 watch(documentVisibility, (current, previous) => {
   if (
     current === 'visible' &&

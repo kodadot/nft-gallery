@@ -17,9 +17,7 @@ export default function useUserProfile() {
 
   watch(profile, (newProfile) => {
     hasProfile.value = !!newProfile
-    if (newProfile) {
-      userProfileData.value = newProfile
-    }
+    userProfileData.value = newProfile ? newProfile : undefined
   })
 
   watch(
