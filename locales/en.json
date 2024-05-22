@@ -64,6 +64,7 @@
   "name": "Name",
   "simple": "Simple",
   "confirmed": "Confirmed",
+  "finalazing": "Finalizing",
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
   "viewNft": "View NFT | View NFTs",
@@ -2084,6 +2085,18 @@
       "subtitle": "See and join other collectors browsing the drop in real time.",
       "decline": "Opt Out",
       "accept": "Dive In!"
+    }
+  },
+  "profiles": {
+    "errors": {
+      "unconfrimedFarcasterAuth": {
+        "title": "Confirm Connection",
+        "message": "Please complete the confirmation in Farcaster, then return here"
+      },
+      "unsuccessfulFarcasterAuth": {
+        "title": "Unsuccessful Connection",
+        "message": "Somehting went wrong linking with your farcaster account, please try again."
+      }
     }
   }
 }

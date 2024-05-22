@@ -13,7 +13,6 @@
             <ProfileLink
               :address="holderId"
               :avatar-size="35"
-              data-testid="collection-nft-holder-address"
               class="font-bold" />
             <div class="flex justify-between mt-2">
               <span class="text-xs text-k-grey">{{
