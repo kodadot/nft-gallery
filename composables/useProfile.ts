@@ -1,4 +1,3 @@
-import { fetchProfileByAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
 
 export enum Socials {
@@ -12,21 +11,14 @@ export default function useUserProfile() {
   const hasProfile = ref(false)
   const { params, name } = useRoute()
 
-  const fetchProfile = async () => {
-    const account = params?.id as string
-    if (!account) {
-      return
-    }
-    try {
-      const response = await fetchProfileByAddress(account)
-      console.log('Profile fetch response:', response)
+  const { profile, refetch: fetchProfile } = useFetchProfile(
+    params?.id as string,
+  )
 
-      userProfileData.value = response
-      hasProfile.value = true
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error)
-    }
-  }
+  watch(profile, (newProfile) => {
+    hasProfile.value = !!newProfile
+    userProfileData.value = newProfile ? newProfile : undefined
+  })
 
   watch(
     [() => name, () => params],

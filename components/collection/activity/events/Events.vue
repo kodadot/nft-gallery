@@ -53,6 +53,9 @@ import {
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
+import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
+import { useQuery } from '@tanstack/vue-query'
+import type { Profile } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
@@ -68,9 +71,6 @@ const route = useRoute()
 const isOnlyVerifiedUsersFilterActive = computed(() =>
   is(route.query?.verified as string),
 )
-
-const { urlPrefix } = usePrefix()
-const { getIdentityId, clientName } = useIdentityQuery(urlPrefix)
 
 const offset = ref(10)
 
@@ -90,15 +90,14 @@ const filteredEvents = computed(() => {
     [OfferInteraction]: is(query?.offer as string),
   }
 
-  const identityIds =
-    identities.value?.identities?.map((identity) => identity.id) || []
+  const identityIds = profiles.value?.map((profile) => profile?.address) || []
 
   const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
 
   return props.events.filter((event) => {
     const isActiveEvent = filterByVerifiedIdentity
       ? getEventAddresses(event)
-          .map(getIdentityId)
+          .map(toSubstrateAddress)
           .some((x) => identityIds.includes(x))
       : true
 
@@ -118,29 +117,15 @@ const getEventAddresses = (event): string[] => {
 
 const eventsAddresses = computed(() => {
   const addresses = props.events.map(getEventAddresses).flat()
-
-  return [...new Set([...addresses])].map(getIdentityId)
+  return [...new Set([...addresses])]
 })
 
-const { data: identities, refetch: getIdentities } = useGraphql({
-  clientName,
-  queryName: 'identities',
-  disabled: computed(() => true),
-  variables: { where: {} },
+const { data: profiles } = useQuery<Profile[] | null>({
+  queryKey: ['profiles', `${eventsAddresses.value.sort().join(',')}`],
+  queryFn: () => fetchProfilesByIds(eventsAddresses.value),
+  enabled: !!eventsAddresses.value.length,
+  staleTime: 1000 * 60 * 5,
 })
-
-watch(
-  eventsAddresses,
-  () => {
-    getIdentities({
-      where: {
-        id_in: eventsAddresses.value,
-        display_isNull: false,
-      },
-    })
-  },
-  { immediate: true },
-)
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 

@@ -19,7 +19,7 @@ test('Share Button on Gallery Item', async ({ page, Commands }) => {
   await test.step('Clicks on twitter and verify URL', async () => {
     await shareBtn.click()
     await Commands.checkNewTab(
-      'https://twitter.com',
+      'https://x.com',
       await shareBtn.getByTestId('gallery-item-share-dropdown-twitter').click(),
     )
   })
@@ -55,7 +55,7 @@ test('Share Button on Collection', async ({ page, Commands, baseURL }) => {
   await test.step('Clicks on twitter and verify URL', async () => {
     await shareBtn.click()
     await Commands.checkNewTab(
-      'https://twitter.com',
+      'https://x.com',
       await page.getByTestId('hero-share-twitter-dropdown').first().click(),
     )
   })
