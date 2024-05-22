@@ -24,6 +24,7 @@ interface State {
   runtimeMintCount: number
   drop: DropItem
   mintsCount: number
+  userMintsCount: number
   claimedNFT: DropMintedNft | undefined
   previewItem: GenerativePreviewItem | undefined
   // massmint
@@ -44,6 +45,7 @@ export const useDropStore = defineStore('drop', {
       runtimeMintCount: 0,
       drop: { ...DEFAULT_DROP, chain: urlPrefix.value },
       mintsCount: 0,
+      userMintsCount: 0,
       claimedNFT: undefined,
       amountToMint: 1,
       toMintNFTs: [],
@@ -72,9 +74,6 @@ export const useDropStore = defineStore('drop', {
     },
     setDrop(payload: DropItem) {
       this.drop = payload
-    },
-    setMintedDropCount(payload: number) {
-      this.mintsCount = payload
     },
     setClaimedNFT(payload: DropMintedNft | undefined) {
       this.claimedNFT = payload

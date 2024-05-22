@@ -1,6 +1,5 @@
 import { ToMintNft } from '@/components/collection/drop/types'
 import { DoResult, updateMetadata } from '@/services/fxart'
-import { useCollectionEntity } from '../useGenerativeDropMint'
 import { ImageDataPayload } from '../useGenerativeIframeData'
 import useDropMassMintPreview from './useDropMassMintPreview'
 
@@ -19,7 +18,6 @@ export default () => {
 
   const { payloads, pinMetadata, getPreviewItemsToMintedNfts } =
     useDropMassMintPreview()
-  const { mintedAmountForCurrentUser } = useCollectionEntity()
   const dropStore = useDropStore()
 
   const {
@@ -29,6 +27,7 @@ export default () => {
     allocatedNFTs,
     toMintNFTs,
     loading,
+    userMintsCount,
   } = storeToRefs(dropStore)
 
   const clearMassmint = () => {
@@ -92,7 +91,7 @@ export default () => {
         previewItems.push(
           ...generateMassPreview(
             amountToMint.value - 1,
-            mintedAmountForCurrentUser.value + 1,
+            userMintsCount.value + 1,
           ),
         )
       }

@@ -194,17 +194,23 @@ export const fetchDropMintedCount = async (
 }
 
 const subscribeDropMintedCount = (
-  drop: Pick<DropItem, 'collection'>,
-  onChange: (count: number | undefined) => void,
+  { drop, account }: { drop: Pick<DropItem, 'collection'>; account: string },
+  onChange: (params: { collection?: number; user?: number }) => void,
 ) => {
   return useSubscriptionGraphql({
     query: `
       collectionEntityById(id: "${drop.collection}") {
         nftCount
+        nfts(where: { issuer_eq: "${account}"  }) {
+          id
+        }
       }
      `,
     onChange: ({ data }) => {
-      onChange(data.collectionEntityById?.nftCount)
+      onChange({
+        collection: data.collectionEntityById?.nftCount,
+        user: data.collectionEntityById?.nfts.length,
+      })
     },
   })
 }
@@ -212,40 +218,40 @@ const subscribeDropMintedCount = (
 export const useDropStatus = (
   drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
 ) => {
-  const dropStore = useDropStore()
+  const { mintsCount, userMintsCount } = storeToRefs(useDropStore())
+  const { accountId } = useAuth()
 
   const dropStatusSubscription = ref<{
     collection: string | undefined
+    account: string | undefined
     unsubscribe: () => void
   }>({
+    account: undefined,
     collection: undefined,
     unsubscribe: () => {},
   })
 
-  const mintsCount = computed({
-    get: () => dropStore.mintsCount,
-    set: (value) => dropStore.setMintedDropCount(value),
-  })
-
   const subscribeDropStatus = () => {
-    watch(
-      () => drop.value,
-      (drop) => {
-        if (drop) {
-          if (drop.collection !== dropStatusSubscription.value.collection) {
-            dropStatusSubscription.value.unsubscribe?.()
-          }
-
-          dropStatusSubscription.value.collection = drop.collection
-          dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
-            drop,
-            (count) => {
-              mintsCount.value = count ?? 0
-            },
-          )
+    watch([() => drop.value, accountId], ([drop, account]) => {
+      if (drop) {
+        if (
+          drop.collection !== dropStatusSubscription.value.collection ||
+          account !== dropStatusSubscription.value.account
+        ) {
+          dropStatusSubscription.value.unsubscribe?.()
         }
-      },
-    )
+
+        dropStatusSubscription.value.collection = drop.collection
+        dropStatusSubscription.value.account = accountId.value
+        dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
+          { drop, account: accountId.value },
+          ({ collection, user }) => {
+            mintsCount.value = collection ?? 0
+            userMintsCount.value = user ?? 0
+          },
+        )
+      }
+    })
 
     onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
   }

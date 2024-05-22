@@ -63,7 +63,7 @@
 
   <CollectionDropCursorParty
     :drop-alias="drop.alias"
-    :user-minted-count="mintedAmountForCurrentUser" />
+    :user-minted-count="userMintsCount" />
 
   <CollectionDropPartyModal />
 </template>
@@ -83,8 +83,8 @@ import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 
 const { drop } = useDrop()
-const { previewItem } = storeToRefs(useDropStore())
-const { mintedAmountForCurrentUser, description } = useCollectionEntity()
+const { previewItem, userMintsCount } = storeToRefs(useDropStore())
+const { description } = useCollectionEntity()
 const { width } = useWindowSize()
 const mdBreakpoint = 768
 

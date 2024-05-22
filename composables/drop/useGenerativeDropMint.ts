@@ -61,9 +61,6 @@ export function useCollectionEntity(collectionId?: string) {
   )
 
   const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
-  const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
-  )
   const description = computed(
     () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
@@ -76,7 +73,6 @@ export function useCollectionEntity(collectionId?: string) {
 
   return {
     maxCount,
-    mintedAmountForCurrentUser,
     description,
     collectionName,
     nftCount,

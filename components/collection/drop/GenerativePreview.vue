@@ -77,16 +77,14 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
+const { userMintsCount } = storeToRefs(dropStore)
 const { maxCount } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
@@ -124,7 +122,7 @@ const generateNft = () => {
   startTimer()
 
   const previewItem = generatePreviewItem({
-    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    entropyRange: getEntropyRange(userMintsCount.value),
     accountId: accountId.value,
     content: drop.value.content,
   })
@@ -142,10 +140,7 @@ watch(imageDataLoaded, () => {
   }
 })
 
-watch(
-  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
-  generateNft,
-)
+watch([accountId, () => drop.value.content, userMintsCount], generateNft)
 
 onMounted(() => {
   setTimeout(generateNft, 500)
