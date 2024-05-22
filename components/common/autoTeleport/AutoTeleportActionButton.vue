@@ -63,6 +63,7 @@
       :auto-close="autoCloseModal"
       :auto-close-delay="autoCloseModalDelayModal"
       :interaction="interaction"
+      :early-success="earlySuccess"
       @close="handleAutoTeleportModalClose"
       @telport:retry="teleport"
       @action:start="(i) => actionRun(i)"
@@ -113,6 +114,7 @@ const props = withDefaults(
     hideTop?: boolean
     loading?: boolean
     shiny?: boolean
+    earlySuccess?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -125,6 +127,7 @@ const props = withDefaults(
     hideTop: false,
     loading: false,
     shiny: false,
+    earlySuccess: true,
   },
 )
 

@@ -5,11 +5,13 @@
       :title="$t('buyModal.buyingNft', buySessionItems.length)"
       :is-loading="isLoading"
       :status="status"
+      close-in-block
       @try-again="handleBuy" />
 
     <BuySuccessfulBuyModal
       v-model="isSuccessfulModalOpen"
       :tx-hash="txHash"
+      :status="status"
       :items="buySessionItems" />
 
     <ConfirmPurchaseModal
@@ -46,6 +48,11 @@ const fiatStore = useFiatStore()
 const { toast } = useToast()
 const { $i18n } = useNuxtApp()
 
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  status,
+  isError,
+})
+
 const nftSubscription = reactive<{
   unsubscribe: () => void
 }>({ unsubscribe: () => ({}) })
@@ -68,8 +75,9 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
 }))
 
 const isTransactionCompleted = computed(
-  () => Boolean(txHash.value) && !isLoading.value,
+  () => Boolean(txHash.value) && isTransactionSuccessful.value,
 )
+
 const isSimpleTransactionCompleted = computed(
   () => isTransactionCompleted.value && !usingAutoTeleport.value,
 )
@@ -97,8 +105,12 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   }
 }
 
-const handleClose = () => {
+const reset = () => {
   usingAutoTeleport.value = false
+}
+
+const handleClose = () => {
+  reset()
   stopListeningNftPriceChanges()
 }
 
@@ -115,7 +127,8 @@ const handleActionCompleted = () => {
 
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
-  handleClose()
+
+  stopListeningNftPriceChanges()
 }
 
 const handleConfirm = async ({
@@ -251,6 +264,7 @@ watch(
   (isOpen, prevIsOpen) => {
     const modalGotOpened = isOpen && !prevIsOpen
     if (modalGotOpened) {
+      reset()
       syncBuyAction()
 
       const nftIds = shoppingItems.value.map((item) => item.id)
