@@ -167,9 +167,6 @@ const close = () => emit('close')
 
 const onClose = () => {
   close()
-  if (isSuccessfulDropStep.value) {
-    window.location.reload()
-  }
 }
 
 const handleModalClose = (completed: boolean) => {
