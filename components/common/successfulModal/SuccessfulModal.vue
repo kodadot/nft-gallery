@@ -7,6 +7,7 @@
       <SuccessfulModalBody
         :tx-hash="txHash"
         :share="share"
+        :status="status"
         :action-buttons="actionButtons">
         <slot />
 
@@ -20,6 +21,8 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
+
 import SuccessfulModalBody, {
   ActionButtonsProp,
   ShareProp,
@@ -31,6 +34,7 @@ const props = defineProps<{
   txHash?: string
   share: ShareProp
   actionButtons: ActionButtonsProp
+  status: TransactionStatus
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')

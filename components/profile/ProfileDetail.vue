@@ -175,7 +175,7 @@
               </div>
             </NeoDropdownItem>
             <NeoDropdownItem
-              @click="shareOnFarcaster($i18n.t('sharing.profile'), shareURL)">
+              @click="shareOnFarcaster($i18n.t('sharing.profile'), [shareURL])">
               <div class="flex text-nowrap w-max items-center">
                 <FarcasterIcon class="mr-3" />
                 {{ $t('share.farcaster') }}
@@ -202,18 +202,18 @@
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
             </span>
-            <div class="flex -space-x-3">
-              <NuxtLink
-                v-for="(follower, index) in followers?.followers"
-                :key="index"
-                :to="`/${urlPrefix}/u/${formatAddress(follower.address, chainProperties.ss58Format)}`">
+            <NeoButton variant="text" no-shadow @click="onFollowersClick">
+              <div class="flex -space-x-3">
                 <NuxtImg
+                  v-for="(follower, index) in followers?.followers"
+                  :key="index"
                   :src="follower.image"
                   alt="follower avatar"
                   class="w-8 h-8 rounded-full border object-cover"
                   :style="{ zIndex: 3 - index }" />
-              </NuxtLink>
-            </div>
+              </div>
+            </NeoButton>
+
             <span v-if="followersCount > 3" class="text-sm">
               +
               {{ followersCount - (followers?.followers?.length ?? 0) }}
@@ -359,7 +359,6 @@ import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
 import { resolveComponent } from 'vue'
 import { useListingCartStore } from '@/stores/listingCart'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 import { Interaction } from '@kodadot1/minimark/v1'
 import CollectionFilter from './CollectionFilter.vue'
@@ -375,6 +374,8 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
+
+import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -416,7 +417,6 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
-const { chainProperties } = useChain()
 
 const { hasProfile, userProfile, fetchProfile } = useProfile()
 
@@ -427,14 +427,18 @@ const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
     isFollowing(accountId.value, route.params?.id as string),
   )
 
-const { data: followers, refresh: refreshFollowers } = await useAsyncData(
-  'followers',
-  () => fetchFollowersOf(route.params.id as string, 3),
+const { data: followers, refresh: refreshFollowers } = useAsyncData(
+  `followersof${route.params.id}`,
+  () =>
+    fetchFollowersOf(route.params.id as string, {
+      limit: 3,
+      exclude: [accountId.value],
+    }),
 )
 
-const { data: following, refresh: refreshFollowing } = await useAsyncData(
-  'following',
-  () => fetchFollowing(route.params.id as string, 1),
+const { data: following, refresh: refreshFollowing } = useAsyncData(
+  `following${route.params.id}`,
+  () => fetchFollowing(route.params.id as string, { limit: 1 }),
 )
 
 const refresh = () => {
@@ -635,9 +639,8 @@ useAsyncData('tabs-count', async () => {
     searchParams['burned_eq'] = false
   }
 
-  const query = await resolveQueryPath(client.value, 'profileTabsCount')
   const { data } = await useAsyncQuery({
-    query: query.default,
+    query: profileTabsCount,
     clientId: client.value,
     variables: {
       id: id.value,
@@ -672,9 +675,8 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     searchParams['burned_eq'] = false
   }
 
-  const query = await resolveQueryPath(chain, 'profileTabsCount')
   const { data } = await useAsyncQuery({
-    query: query.default,
+    query: profileTabsCount,
     clientId: chain,
     variables: {
       id: prefixAddress,

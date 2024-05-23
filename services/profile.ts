@@ -15,7 +15,7 @@ export type Profile = {
   name: string
   description: string
   image: string
-  banner: string
+  banner: string | null
   socials: SocialLink[]
 }
 
@@ -72,10 +72,10 @@ const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
 
 // API methods
 
-export const fetchProfiles = (limit?: number) =>
+export const fetchProfilesByIds = (ids?: string[]) =>
   api<Profile[]>('/profiles', {
     method: 'GET',
-    query: { limit },
+    query: { ids: ids?.map(toSubstrateAddress).join(',') },
   })
 
 export const fetchProfileByAddress = (address: string) =>
@@ -85,27 +85,29 @@ export const fetchProfileByAddress = (address: string) =>
 
 export const fetchFollowersOf = (
   address: string,
-  limit?: number,
-  offset?: number,
+  options?: { limit?: number; offset?: number; exclude?: string[] },
 ) =>
   api<{ followers: Follower[]; totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/followers`,
     {
       method: 'GET',
-      query: { limit, offset },
+      query: {
+        limit: options?.limit,
+        offset: options?.offset,
+        exclude: options?.exclude?.map(toSubstrateAddress).join(','),
+      },
     },
   )
 
 export const fetchFollowing = (
   address: string,
-  limit?: number,
-  offset?: number,
+  options?: { limit?: number; offset?: number },
 ) =>
   api<{ following: Follower[]; totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/following`,
     {
       method: 'GET',
-      query: { limit, offset },
+      query: { limit: options?.limit, offset: options?.offset },
     },
   )
 

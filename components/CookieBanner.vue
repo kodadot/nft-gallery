@@ -1,13 +1,14 @@
 <template>
   <CookieControl class="cookie-banner">
     <template #bar>
-      <p>
-        {{ $t('cookies.notice') }}
+      <i18n-t
+        keypath="cookies.notice"
+        tag="p"
+        class="border-none md:border-r md:border-solid md:border-k-shade">
         <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
           >Cookie Policy</nuxt-link
         >
-        <span class="invisible md:visible mx-2">|</span>
-      </p>
+      </i18n-t>
     </template>
   </CookieControl>
 </template>
@@ -41,14 +42,23 @@ onMounted(() => {
 
 <style lang="scss">
 /* Custom Cookie #Bar */
+.cookieControl__Bar {
+  font-family: 'Work Sans', sans-serif;
+}
 .cookieControl__BarContainer {
-  @apply fixed p-4 mx-auto max-w-3xl self-start left-6 bottom-5 text-text-color bg-background-color border border-border-color shadow-primary;
+  @apply fixed py-4 px-4 md:py-2 mb-3 mx-auto self-start left-6 bottom-5 text-text-color bg-background-color border border-border-color shadow-primary items-center max-w-[795px];
 }
 .cookieControl__BarContainer p {
-  @apply text-text-color text-base;
+  @apply text-text-color text-base px-4 m-0 md:pl-0;
+}
+.cookieControl__BarButtons {
+  @apply flex-row-reverse;
 }
 .cookieControl__BarButtons button {
-  @apply text-sm bg-inherit text-text-color px-2 py-1;
+  @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-solid border-card-border-color-light bg-background-color text-text-color flex-row-reverse hover:bg-k-accent-hover hover:border-text-color hover:text-text-color;
+}
+.cookieControl__Bar button + button {
+  @apply mr-3 border-none hover:text-link-hover;
 }
 
 /* Custom Cookie #Modal */
@@ -69,7 +79,7 @@ button.cookieControl__ModalClose:after {
   @apply grid grid-cols-3 gap-4 mt-4 shrink-0 w-full;
 }
 .cookieControl__ModalButtons button {
-  @apply text-sm bg-inherit text-text-color px-1 py-2;
+  @apply py-2 px-4 rounded-[3rem] shadow-none border border-solid border-card-border-color-light bg-background-color text-text-color flex-row-reverse hover:bg-background-color hover:border-text-color hover:text-text-color;
 }
 .cookieControl__ModalContent .cookieControl__ModalInputWrapper input + button {
   @apply bg-gray-400;
@@ -94,7 +104,7 @@ button.cookieControl__ModalClose:after {
     margin: 0;
   }
   .cookieControl__BarButtons {
-    flex-direction: row-reverse;
+    @apply mt-0 pt-5 justify-between border-t border-solid border-k-shade;
   }
   .cookieControl__BarContainer {
     right: 1.5rem;

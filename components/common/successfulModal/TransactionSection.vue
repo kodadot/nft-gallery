@@ -2,10 +2,17 @@
   <div
     class="border border-k-shade rounded-[4rem] py-[7px] px-2 flex items-center justify-between">
     <div
-      class="text-k-green flex px-2 py-[6px] bg-k-green-accent-2 rounded-full">
-      <NeoIcon icon="check" />
+      class="flex px-2 py-[6px] rounded-full gap-2"
+      :class="[
+        isFinalized
+          ? 'text-k-green bg-k-green-accent-2'
+          : 'text-k-grey bg-k-grey-light',
+      ]">
+      <NeoIcon v-if="isFinalized" icon="check" />
 
-      <p class="ml-2 text-xs">{{ $t('confirmed') }}</p>
+      <p class="text-xs">
+        {{ isFinalized ? $t('confirmed') : `${$t('finalazing')}...` }}
+      </p>
     </div>
 
     <div class="flex items-center">
@@ -38,14 +45,18 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = defineProps<{
   txHash?: string
+  status: TransactionStatus
 }>()
 
 const { toast } = useToast()
 const { getExtrinsicUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
+
+const isFinalized = computed(() => props.status == TransactionStatus.Finalized)
 
 const txUrl = computed(() =>
   getExtrinsicUrl(props.txHash || '', urlPrefix.value),

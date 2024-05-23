@@ -5,6 +5,7 @@
       :title="$t('listingCart.listingNft', itemCount)"
       :is-loading="isLoading"
       :status="status"
+      close-in-block
       @try-again="submitListing" />
 
     <NeoModal
@@ -12,7 +13,10 @@
       append-to-body
       @close="handleSuccessModalClose">
       <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
-        <SuccessfulListingBody :tx-hash="txHash" :items="items" />
+        <SuccessfulListingBody
+          :tx-hash="txHash"
+          :items="items"
+          :status="status" />
       </ModalBody>
     </NeoModal>
 
@@ -68,6 +72,9 @@
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
+            early-success
+            auto-close-modal
+            :auto-close-modal-delay-modal="0"
             @confirm="confirm" />
         </div>
       </ModalBody>
@@ -102,8 +109,20 @@ const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError, blockNumber, txHash } =
-  useTransaction()
+const {
+  transaction,
+  isLoading,
+  status,
+  isError,
+  blockNumber,
+  txHash,
+  clear: clearTransaction,
+} = useTransaction()
+
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  status,
+  isError,
+})
 
 const { chainSymbol, decimals } = useChain()
 
@@ -116,8 +135,7 @@ const items = ref<ListCartItem[]>([])
 const autoTeleportLoaded = ref(false)
 
 const isSuccessModalOpen = computed(
-  () =>
-    Boolean(items.value.length) && status.value === TransactionStatus.Finalized,
+  () => Boolean(items.value.length) && isTransactionSuccessful.value,
 )
 
 const teleportTransitionTxFees = computed(() =>
@@ -242,6 +260,8 @@ const submitListing = () => {
 
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
+    clearTransaction()
+
     autoTeleport.value = autoteleport
     itemCount.value = listingCartStore.count
     items.value = [...listingCartStore.itemsInChain]

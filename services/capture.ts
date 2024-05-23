@@ -1,5 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
-const CAPTURE_BASE_URL = 'https://capture.kodadot.workers.dev'
+const CAPTURE_BASE_URL = 'https://kodacapture.vercel.app/api'
 const WEBGL_CAPTURE_BASE_URL = 'https://capturegl.vercel.app/api'
 
 const api = $fetch.create({

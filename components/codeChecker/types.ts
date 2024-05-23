@@ -15,7 +15,7 @@ export type Result<T> = Success<T> | Failure
 export type Validity = {
   canvasSize: string
   title: string
-  webGLSupported: boolean
+  webGlUsed: boolean
   localP5jsUsed: boolean
   kodaRendererUsed: Passed
   resizerUsed: Passed
@@ -27,8 +27,10 @@ export type Validity = {
   consistent: Passed
 }
 
+export type AssetType = 'script' | 'style'
+
 export type AssetMessage = {
-  type: 'script' | 'style'
+  type: AssetType
   parent: 'head' | 'body'
   src: string
   originalSrc: string
