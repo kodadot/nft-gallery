@@ -201,13 +201,9 @@ watchEffect(() => {
   }
 })
 
-watchDebounced(
-  [() => props.modelValue, isAutoTeleportModalOpen],
-  ([isOpen]) => {
-    if (!isOpen && !isAutoTeleportModalOpen.value) {
-      reset()
-    }
-  },
-  { debounce: NEO_MODAL_ANIMATION_DURATION }, // wait for the modal closing animation to finish
-)
+useModalIsOpenTracker({
+  isOpen: computed(() => props.modelValue),
+  onChange: reset,
+  and: [computed(() => !isAutoTeleportModalOpen.value)],
+})
 </script>
