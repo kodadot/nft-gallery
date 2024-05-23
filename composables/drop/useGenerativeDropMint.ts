@@ -129,14 +129,14 @@ export const useUpdateMetadata = async () => {
 
       if (checkIndex.size === amountToMint.value) {
         status.value = 'update'
-        await updateMetadata()
+        await submitMetadata()
       }
     },
   })
 
   // 2. update metadata
   const mintedNfts: Ref<MintedNFT[]> = ref([])
-  const updateMetadata = async () => {
+  const submitMetadata = async () => {
     const response = await Promise.all(mintNFTs.value.map(submitMint))
 
     for (const [index, res] of response.entries()) {

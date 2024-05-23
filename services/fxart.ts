@@ -132,7 +132,7 @@ export const setMetadataUrl = ({ chain, collection, hash }) => {
   return metadataUrl.toString()
 }
 
-export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
+export const updateMetadata = async ({ chain, collection, nft, sn }) => {
   try {
     const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
@@ -141,7 +141,6 @@ export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
         collection,
         nft,
         sn,
-        hash,
       },
     })
 
