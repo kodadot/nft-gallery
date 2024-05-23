@@ -1,3 +1,5 @@
+export const NEO_MODAL_ANIMATION_DURATION = 200
+
 export default ({
   onChange,
   isOpen,
