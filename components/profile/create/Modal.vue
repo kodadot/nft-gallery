@@ -191,12 +191,13 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
-watch(
-  () => props.modelValue,
-  () => {
+useModalIsOpenTracker({
+  isOpen: computed(() => props.modelValue),
+  onChange: () => {
     stage.value = initialStep.value
   },
-)
+})
+
 watch(documentVisibility, (current, previous) => {
   if (
     current === 'visible' &&
