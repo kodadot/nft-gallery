@@ -28,38 +28,4 @@ async function subscribe(email: string) {
   }
 }
 
-type SubscriptionByEmailResponse = {
-  id: string
-  email: string
-  status: 'pending' | 'active'
-}
-
-async function getSubscription(subscriptionId: string) {
-  try {
-    const data = await api<SubscriptionByEmailResponse>(
-      `/subscribe/${subscriptionId}`,
-      {
-        method: 'GET',
-      },
-    )
-
-    return data
-  } catch (e) {
-    throw new Error('[NEWSLETTER] Unable to get subscription' + e)
-  }
-}
-
-async function resendConfirmationEmail(subscriptionId: string) {
-  try {
-    const data = await api<{ id: string }>('/subscribe/resend-confirmation', {
-      method: 'PUT',
-      body: { subscriptionId },
-    })
-
-    return data
-  } catch (e) {
-    throw new Error('[NEWSLETTER] Unable to resend confirmation email' + e)
-  }
-}
-
-export default { subscribe, getSubscription, resendConfirmationEmail }
+export default { subscribe }
