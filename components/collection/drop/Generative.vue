@@ -21,13 +21,9 @@ import {
 } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { allocateClaim, allocateCollection } from '@/services/fxart'
-import { getFakeEmail } from './utils'
 import { useDropStore } from '@/stores/drop'
 
 const instance = getCurrentInstance()
@@ -37,11 +33,11 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 const dropStore = useDropStore()
-const { previewItem, mintedNFTs } = storeToRefs(dropStore)
+const { mintedNFTs } = storeToRefs(dropStore)
 
 const { toast } = useToast()
 
-const { isLogIn, accountId } = useAuth()
+const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
 const { drop } = useDrop()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -51,13 +47,7 @@ const { subscribeDropStatus } = useDropStatus(drop)
 
 const { emailConfirmed } = useGenerativeDropNewsletter()
 
-const { claimedNft, subscribeToMintedNft, listMintedNft, maxCount } =
-  useGenerativeDropMint()
-
-const { collectionName } = useCollectionEntity()
-
-const imageHash = computed(() => previewItem.value?.hash ?? '')
-const selectedImage = computed(() => previewItem.value?.image ?? '')
+const { subscribeToMintedNft, listMintedNft } = useGenerativeDropMint()
 
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
@@ -90,40 +80,9 @@ const handleSubmitMint = () => {
   }
 }
 
-const allocateRaffle = async (): Promise<{ raffleId: number }> => {
-  const body = {
-    email: getFakeEmail(),
-    hash: imageHash.value,
-    address: accountId.value,
-    image: selectedImage.value,
-  }
-
-  const response = await allocateCollection(body, drop.value.id)
-
-  return { raffleId: response.result.id }
-}
-
 const submitMint = async () => {
   try {
-    const { raffleId } = await allocateRaffle()
-    const { result } = await allocateClaim(
-      {
-        sn: raffleId,
-        txHash: imageHash.value,
-        address: accountId.value,
-      },
-      drop.value?.id,
-    )
-
-    const id = `${drop.value?.collection}-${result.sn}`
-
-    claimedNft.value = {
-      ...result,
-      id,
-      name: result.name,
-      max: maxCount.value,
-      collectionName: collectionName.value,
-    }
+    const id = drop.value?.collection
 
     dropStore.setLoading(false)
 
