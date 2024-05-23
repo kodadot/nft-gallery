@@ -9,6 +9,7 @@
       :title="$t('mint.collection.minting')"
       :is-loading="isLoading"
       :status="status"
+      close-in-block
       @try-again="createCollection" />
 
     <MintConfirmModal
@@ -165,7 +166,8 @@
     </form>
     <CreateModalsCollectionSuccessModal
       v-model="displaySuccessModal"
-      :tx-hash="txHash"
+      :tx-hash="txHash as string"
+      :status="status"
       :collection="mintedCollectionInfo" />
   </div>
 </template>
@@ -185,7 +187,6 @@ import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTe
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { availablePrefixes } from '@/utils/chain'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NeoButton,
   NeoField,
@@ -198,12 +199,9 @@ import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@kodadot1/minimark/v1'
 
 export type MintedCollectionInfo = {
-  id: string
+  id?: string
   name: string
-  meta: {
-    image: string
-    description: string
-  }
+  image: string
 }
 
 // props
@@ -225,6 +223,10 @@ const displaySuccessModal = ref(false)
 // composables
 const { transaction, status, isLoading, isError, blockNumber, txHash } =
   useTransaction()
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  isError: isError,
+  status: status,
+})
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
 const { isLogIn, accountId } = useAuth()
@@ -348,17 +350,19 @@ const createCollection = async () => {
     isLoading.value = true
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
-    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    warningMessage(`${error}`)
     $consola.error(error)
   }
 }
 
-const isTransactionCompleted = computed(
-  () => Boolean(txHash.value) && !isLoading.value,
-)
+watch(isTransactionSuccessful, (success) => {
+  if (success) {
+    mintedCollectionInfo.value = {
+      name: name.value,
+      image: logo.value ? URL.createObjectURL(logo.value) : '',
+    }
 
-watch(isTransactionCompleted, () => {
-  if (isTransactionCompleted.value) {
+    displaySuccessModal.value = true
     subscribeToCollectionInfo()
   }
 })
@@ -373,27 +377,27 @@ const subscribeToCollectionInfo = () => {
         }
     ) {
     id
+    blockNumber
     name
-    meta {
-      image
-      description
-    }
-    }`
+  }`
 
   collectionSubscription.value = useSubscriptionGraphql({
     query,
     onChange: ({ data }) => {
       if (data.collectionEntities) {
-        // wait for collection info to match
-        if (
-          data.collectionEntities[0].name == name.value &&
-          data.collectionEntities[0].meta.description == description.value
-        ) {
-          mintedCollectionInfo.value = data.collectionEntities[0]
-          // show success modal
-          displaySuccessModal.value = true
+        const collection = data.collectionEntities[0]
 
-          //unsubscribe
+        if (
+          collection &&
+          collection.blockNumber == blockNumber.value &&
+          collection.name === name.value
+        ) {
+          mintedCollectionInfo.value = {
+            id: collection.id,
+            name: collection.name,
+            image: mintedCollectionInfo.value?.image as string,
+          }
+
           collectionSubscription.value()
         }
       }

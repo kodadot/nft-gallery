@@ -39,8 +39,7 @@ export default () => {
           name: mintingSessionNFT?.name || withMetadataNFT.name,
         },
         {
-          url: mintingSessionNFT?.image as string,
-          mimeType: 'text/html',
+          image: mintingSessionNFT?.image as string,
         },
       )
     })

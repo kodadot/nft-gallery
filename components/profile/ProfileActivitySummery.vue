@@ -1,119 +1,98 @@
 <template>
-  <div>
-    <div v-if="stats" class="level my-4 collection items-center">
-      <div class="level-item text-center">
-        <div>
-          <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
-          <p class="text-xs text-k-grey">
-            {{ $t('profileStats.listed') }} /
-            {{ $t('profileStats.totalSoldItems') }}
-          </p>
-        </div>
-      </div>
-
-      <StatsColumn
-        :value="totalHoldingsNfts"
-        :header="profileStats.holdingsNfts"
-        inline />
-
-      <StatsColumn
-        :value="totalPurchases"
-        :header="profileStats.totalBuys"
-        inline />
-
-      <div class="level-item text-center">
-        <div>
-          <p class="title">
-            <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
-            <CommonTokenMoney :value="totalSell" inline />
-          </p>
-          <p class="text-xs text-k-grey">
-            {{ $t('profileStats.maxSoldPrice') }} /
-            {{ $t('profileStats.totalSellValues') }}
-          </p>
-        </div>
-      </div>
-
-      <div class="level-item text-center">
-        <div>
-          <p class="title">
-            <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
-          </p>
-          <p class="text-xs text-k-grey">
-            {{ chainSymbol }} {{ $t('profileStats.totalHoldingsBoughtValues') }}
-          </p>
-        </div>
-      </div>
-
-      <div class="level-item text-center">
-        <div>
-          <p class="title">
-            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
-            <CommonTokenMoney :value="totalAmountSpend" inline />
-          </p>
-          <p class="text-xs text-k-grey">
-            {{ $t('profileStats.highestBuy') }} /
-            {{ $t('profileStats.totalAmountSpend') }}
-          </p>
-        </div>
+  <div v-if="stats" class="flex flex-col items-center gap-2.5">
+    <div
+      v-for="(item, index) in statsRows"
+      :key="index"
+      class="flex justify-between w-full items-center group"
+      :class="{ 'cursor-pointer': item.onClick }"
+      @click="item.onClick">
+      <span class="text-sm text-k-grey">
+        {{ $t(item.label) }}
+      </span>
+      <div
+        class="text-lg font-bold"
+        :class="{ 'group-hover:underline underline-offset-4': item.onClick }">
+        <component
+          :is="item.component"
+          v-if="item.component"
+          :value="item.value"
+          inline />
+        <span v-else>{{ item.value }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { getSum, getSumOfObjectField } from '@/utils/math'
-import resolveQueryPath from '@/utils/queryPathResolver'
+import { getSumOfObjectField } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import StatsColumn from '@/components/shared/format/StatsColumn.vue'
-import { Event } from '@/components/rmrk/service/types'
 import { getDenyList } from '@/utils/prefix'
+import { Profile } from '@/services/profile'
+import profileStatsByIdRefined from '@/queries/subsquid/general/profileStatsByIdRefined'
 
 type Stats = {
   listedCount: number
+  listedValue: number | bigint
   totalCollected: number
 }
 
-const props = defineProps({
-  id: { type: String, default: '' },
-})
+const props = defineProps<{
+  userId?: string
+  profileData?: Profile
+  followersCount?: number
+  followingCount?: number
+}>()
 
 const { $consola } = useNuxtApp()
+const route = useRoute()
 const { client, urlPrefix } = usePrefix()
-const { chainSymbol } = useDeposit(urlPrefix)
 
-const profileStats = ref({
-  totalBuys: 'profileStats.totalBuys',
-  holdingsNfts: 'profileStats.holdingsNfts',
-  totalHoldingsBoughtValues: 'profileStats.totalHoldingsBoughtValues',
-})
+const emit = defineEmits(['click-followers', 'click-following'])
+
+const id = computed(() => props?.userId || route.params.id || '')
+
 const stats = ref<Stats>({
   listedCount: 0,
+  listedValue: 0,
   totalCollected: 0,
 })
-const totalPurchases = ref(0)
-const highestBuyPrice = ref(0)
-const maxSoldPrice = ref(0)
-const totalSoldItems = ref(0)
-const totalHoldingsBoughtValues = ref<bigint | number>(BigInt(0))
-const totalAmountSpend = ref<bigint | number>(0)
-const totalSell = ref<bigint | number>(BigInt(0))
 
 const totalHoldingsNfts = computed(() => stats.value.totalCollected)
 const listedCount = computed(() => stats.value.listedCount)
 
+const statsRows = computed(() => [
+  {
+    label: 'activity.listed',
+    value: `${listedCount.value}/${totalHoldingsNfts.value}`,
+  },
+  {
+    label: 'activity.estimatedValue',
+    value: stats.value.listedValue,
+    component: CommonTokenMoney,
+  },
+  {
+    label: 'activity.followers',
+    value: props.followersCount ?? '-',
+    onClick: () => emit('click-followers'),
+  },
+  {
+    label: 'activity.following',
+    value: props.followingCount ?? '-',
+    onClick: () => emit('click-following'),
+  },
+])
+
 useLazyAsyncData('stats', async () => {
-  if (!props.id) {
+  if (!id.value) {
     $consola.warn('ProfilActivity: id is not defined')
     return
   }
 
-  const query = await resolveQueryPath(client.value, 'profileStatsById')
   const { data } = await useAsyncQuery({
-    query: query.default,
+    query: profileStatsByIdRefined,
     clientId: client.value,
     variables: {
-      id: props.id,
+      id: id.value,
       denyList: getDenyList(urlPrefix.value),
     },
   })
@@ -123,65 +102,14 @@ useLazyAsyncData('stats', async () => {
     return
   }
 
+  const listEvents = data.value.listed
+    .filter((nft) => nft.events.length > 0)
+    .map((nft) => nft.events[0])
+
   stats.value = {
-    listedCount: data.value?.listed.length,
+    listedCount: listEvents.length,
+    listedValue: getSumOfObjectField(listEvents, 'meta'),
     totalCollected: data.value?.obtained.totalCount,
   }
-
-  getSellerEvents(data.value)
-  getInvestorStatsEvents(data.value)
 })
-
-// Collector stats: Invested and Spend Statistics
-const getInvestorStatsEvents = (data: any) => {
-  const investedEvents: Event[] = data.invested
-  const maxPriceInvested = Math.max(
-    ...investedEvents.map((n: Event) => {
-      return parseInt(n.meta)
-    }),
-  )
-  highestBuyPrice.value = maxPriceInvested
-  totalPurchases.value = investedEvents.length
-
-  const holdingsEvents = investedEvents.filter(
-    (x) => x.nft.currentOwner == props.id,
-  )
-
-  totalAmountSpend.value = getSumOfObjectField(investedEvents, 'meta')
-  // Amount spend for holding this nft in the wallet
-  totalHoldingsBoughtValues.value = getSumOfObjectField(holdingsEvents, 'meta')
-}
-
-// Sellor stats
-// Check all SEND events, and get the List event for keep the price with e.meta
-const getSellerEvents = (data) => {
-  const soldEvents: Event[] = []
-
-  if (data.sold.length) {
-    data.sold.forEach((e) => {
-      if (BigInt(e.meta)) {
-        soldEvents.push(e)
-      }
-    })
-
-    totalSoldItems.value = data.sold.length
-
-    const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
-    // Highest Buy and Total amount sell
-    maxSoldPrice.value = Math.max(...allValuesList, 0)
-    totalSell.value = getSum(allValuesList)
-  }
-}
 </script>
-
-<style lang="scss" scoped>
-.collection {
-  display: grid;
-  grid-gap: 0.7rem;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.title {
-  font-size: 1.2rem;
-}
-</style>

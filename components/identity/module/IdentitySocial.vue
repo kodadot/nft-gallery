@@ -10,13 +10,6 @@
         {{ twitter }}
       </span>
     </a>
-
-    <div v-if="showDiscord && discord" class="flex items-center">
-      <NeoIcon pack="fab" icon="discord" />
-      <span class="aligned ml-2">
-        {{ discord }}
-      </span>
-    </div>
   </div>
 </template>
 
@@ -26,7 +19,5 @@ import { NeoIcon } from '@kodadot1/brick'
 defineProps<{
   twitter: string
   showTwitter: boolean
-  discord: string
-  showDiscord: boolean
 }>()
 </script>

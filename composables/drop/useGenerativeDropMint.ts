@@ -26,14 +26,9 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-export function useCollectionEntity(collectionId?: string) {
-  const { drop } = useDrop()
-  const { client } = usePrefix()
+function useCollectionData(collectionKey, client, collectionId, drop) {
   const { accountId } = useAuth()
-
-  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
-
-  const { data: collectionData } = useAsyncData<UnlockableCollectionById>(
+  return useAsyncData<UnlockableCollectionById>(
     'collectionEntity' + collectionKey.value,
     () =>
       useAsyncQuery<UnlockableCollectionById>({
@@ -50,20 +45,31 @@ export function useCollectionEntity(collectionId?: string) {
         : [() => drop.value?.collection, accountId],
     },
   )
+}
+
+export function useCollectionEntity(collectionId?: string) {
+  const { drop } = useDrop()
+  const { client } = usePrefix()
+
+  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
+
+  const { data: collectionData } = useCollectionData(
+    collectionKey,
+    client,
+    collectionId,
+    drop,
+  )
 
   const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
-
   const mintedAmountForCurrentUser = computed(
     () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
   )
-
   const description = computed(
     () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
   const collectionName = computed(
     () => collectionData.value?.collectionEntity?.name ?? '',
   )
-
   const nftCount = computed(
     () => collectionData.value?.collectionEntity?.nftCount ?? 0,
   )
@@ -141,7 +147,7 @@ export const useUpdateMetadata = async () => {
 
     for (const [index, res] of response.entries()) {
       let metadata = {
-        animation_url: mintNFTs.value[index].image,
+        image: mintNFTs.value[index].image,
         name: mintNFTs.value[index].name,
       }
 
@@ -153,9 +159,10 @@ export const useUpdateMetadata = async () => {
 
       mintedNfts.value.push({
         id: `${drop.value.collection}-${res.nft}`,
+        index: mintNFTs.value[index].index as number,
         chain: res.chain,
         name: metadata.name,
-        image: metadata.animation_url,
+        image: metadata.image,
         collection: {
           id: res.collection,
           name: collectionName.value,

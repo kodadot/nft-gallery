@@ -26,7 +26,7 @@
               :src="
                 toMintNft.imageDataPayload
                   ? toMintNft.imageDataPayload.image
-                  : sanitizeIpfsUrl(toMintNft.image)
+                  : sanitizeIpfsUrl(toMintNft.animationUrl)
               "
               :alt="toMintNft.name"
               :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
@@ -70,6 +70,7 @@
       :fees="{
         actionAutoFees: false,
       }"
+      shiny
       auto-close-modal
       :auto-close-modal-delay-modal="0"
       @confirm="(e) => $emit('confirm', e)"

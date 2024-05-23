@@ -2,6 +2,7 @@
   <SuccessfulModalBody
     :tx-hash="txHash"
     :share="share"
+    :status="status"
     :action-buttons="actionButtons">
     <SuccessfulItemsMedia
       :header="{
@@ -14,10 +15,12 @@
 </template>
 <script lang="ts" setup>
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = defineProps<{
   items: ListCartItem[]
   txHash: string | undefined
+  status: TransactionStatus
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -28,10 +31,11 @@ const { accountId } = useAuth()
 const mediaItems = computed<ItemMedia[]>(() =>
   props.items.map((item) => ({
     id: item.id,
-    image: item.meta?.image as string,
+    image: (item.mediaUrl?.image || item.meta?.image) as string,
     name: item.name,
     collection: item.collection.id,
     collectionName: item.collection.name,
+    mimeType: item.mediaUrl?.mimeType,
     price: item.listPrice
       ? String(item.listPrice * Math.pow(10, decimals.value))
       : undefined,

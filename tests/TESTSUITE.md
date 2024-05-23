@@ -22,4 +22,4 @@ Let's add items/views/collections which would be handy for fast testing without 
 
 ### Todo
 
-maybe add deploy preview url for easier clikcking whatever
+maybe add deploy preview url for easier clicking whatever

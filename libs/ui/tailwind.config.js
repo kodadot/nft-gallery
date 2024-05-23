@@ -1,7 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 module.exports = {
   content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
   theme: {
+    screens: {
+      xs: '400px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         'text-color': 'rgb(var(--text-color) / <alpha-value>)',
@@ -26,6 +32,7 @@ module.exports = {
         'k-orange-light': 'var(--k-orange-light)',
         'k-orange2': 'var(--k-orange2)',
         'k-orange3': 'var(--k-orange3)',
+        'k-orange4': 'var(--k-orange4)',
         'k-red-accent': 'var(--k-red-accent)',
         'k-red-accent-2': 'var(--k-red-accent-2)',
         'k-grey': 'var(--k-grey)',
@@ -33,6 +40,7 @@ module.exports = {
         'k-grey-light': 'rgb(var(--k-grey-light) / <alpha-value>)',
         'k-pink': 'var(--k-pink)',
         'k-yellow': 'var(--k-yellow)',
+        'k-yellow-light': 'var(--k-yellow-light)',
         'k-blue-accent': 'var(--k-blue-accent)',
         'k-aqua-blue': 'var(--k-aqua-blue)',
         'k-green-accent': 'var(--k-green-accent)',
@@ -91,6 +99,9 @@ module.exports = {
       },
       lineHeight: {
         4.5: '1.125rem',
+      },
+      height: {
+        13: '3.25rem',
       },
       animation: {
         'icon-spin':

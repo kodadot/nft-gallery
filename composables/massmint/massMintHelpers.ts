@@ -12,6 +12,7 @@ export const createTokensToMint = (
   nfts: NFTToMint[],
   collection: MintedCollection,
 ): TokenToMint[] => {
+  const { decimals } = useChain()
   return nfts.map((nft) => ({
     file: nft.file,
     name: nft.name,
@@ -19,7 +20,8 @@ export const createTokensToMint = (
     edition: 1,
     secondFile: null,
     selectedCollection: collection,
-    price: nft.price === undefined ? 0 : nft.price * Math.pow(10, 12),
+    price:
+      nft.price === undefined ? 0 : nft.price * Math.pow(10, decimals.value),
     nsfw: false,
     postfix: true,
     tags: [],

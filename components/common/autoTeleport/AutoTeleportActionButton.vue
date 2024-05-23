@@ -47,6 +47,7 @@
         :label="autoTeleportLabel"
         variant="k-accent"
         no-shadow
+        :shiny="shiny"
         :disabled="isDisabled"
         :loading="loading"
         :loading-with-label="loading"
@@ -62,6 +63,7 @@
       :auto-close="autoCloseModal"
       :auto-close-delay="autoCloseModalDelayModal"
       :interaction="interaction"
+      :early-success="earlySuccess"
       @close="handleAutoTeleportModalClose"
       @telport:retry="teleport"
       @action:start="(i) => actionRun(i)"
@@ -80,6 +82,7 @@
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
@@ -110,6 +113,8 @@ const props = withDefaults(
     interaction?: ActionlessInteraction
     hideTop?: boolean
     loading?: boolean
+    shiny?: boolean
+    earlySuccess?: boolean
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -121,12 +126,15 @@ const props = withDefaults(
     label: '',
     hideTop: false,
     loading: false,
+    shiny: false,
+    earlySuccess: true,
   },
 )
 
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
+const { isModalOpen } = useAutoTeleportModal()
 
 const amount = ref()
 
@@ -145,7 +153,6 @@ const {
   props.fees,
 )
 
-const isModalOpen = ref(false)
 const onRampActive = ref(false)
 const autoTeleport = ref(false)
 const showFirstTimeTeleport = computed(

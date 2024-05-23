@@ -10,7 +10,6 @@ type HtmlContentValidationResult = {
 type InnerValidity = Pick<
   Validity,
   | 'canvasSize'
-  | 'webGLSupported'
   | 'localP5jsUsed'
   | 'validTitle'
   | 'kodaRendererUsed'
@@ -20,8 +19,8 @@ type InnerValidity = Pick<
 >
 
 const constants = {
-  canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
-  graphicsRegex: /createGraphics\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/,
+  canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/g,
+  graphicsRegex: /createGraphics\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/g,
   getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
   urlSearchParamsRegex:
     /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
@@ -40,6 +39,24 @@ const validateCanvasCreation = (
     return { isSuccess: false, error: 'createCanvas function not found.' }
   }
   return { isSuccess: true, value: canvasMatch }
+}
+
+export const webGlUsed = (content, path) => {
+  const canvasMatches = content.match(constants.canvasRegex)
+  const graphicsMatches = content.match(constants.graphicsRegex)
+
+  const canvasWebGLUsed = canvasMatches
+    ? canvasMatches.some((match) => match.includes('WEBGL'))
+    : false
+  const graphicsWebGLUsed = graphicsMatches
+    ? graphicsMatches.some((match) => match.includes('WEBGL'))
+    : false
+
+  if (canvasWebGLUsed || graphicsWebGLUsed) {
+    console.warn(`WebGL usage found in file: ${path}`)
+  }
+
+  return canvasWebGLUsed || graphicsWebGLUsed
 }
 
 const validateGetURLParamsUsage = (
@@ -99,11 +116,11 @@ const validateSketchContent = (
 ): Pick<
   Validity,
   | 'canvasSize'
-  | 'webGLSupported'
   | 'localP5jsUsed'
   | 'validTitle'
   | 'kodaRendererUsed'
   | 'resizerUsed'
+  | 'usesHashParam'
 > => {
   const width = canvasMatch[1].trim()
   const height = canvasMatch[2].trim()
@@ -114,13 +131,11 @@ const validateSketchContent = (
 
   return {
     canvasSize,
-    webGLSupported: Boolean(
-      canvasMatch[3] || constants.graphicsRegex.exec(sketchFileContent)?.[3],
-    ),
     localP5jsUsed: false, // This will be set based on HTML content checks
     validTitle: false, // This will be updated after HTML content checks
     kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
     resizerUsed: constants.resizerRegex.test(sketchFileContent),
+    usesHashParam: validateURLParamsUsage(sketchFileContent).isSuccess,
   }
 }
 
@@ -133,10 +148,6 @@ export const validate = (
     return canvasResult
   }
 
-  const paramsResult = validateURLParamsUsage(sketchFileContent)
-  if (!paramsResult.isSuccess) {
-    return paramsResult
-  }
   const htmlValidationResult = validateHtmlContent(htmlFileContent)
   const partialValidity = validateSketchContent(
     sketchFileContent,
@@ -145,7 +156,6 @@ export const validate = (
 
   const validity: InnerValidity = {
     ...partialValidity,
-    usesHashParam: paramsResult.isSuccess,
     localP5jsUsed: htmlValidationResult.localP5jsUsed,
     validTitle:
       htmlValidationResult.titlePresent && htmlValidationResult.correctTitle,

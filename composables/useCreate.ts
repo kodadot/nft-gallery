@@ -1,5 +1,3 @@
-import { showNotification } from '@/utils/notification'
-
 export const enum CreateComponent {
   Collection = 'Collection',
   NFT = 'NFT',
@@ -19,7 +17,7 @@ export default function useCreate() {
   })
 
   const switchToNft = () => {
-    showNotification('You will go to create nft in 2 seconds')
+    successMessage('You will go to create nft in 2 seconds')
     setTimeout(() => replaceUrl({ tab: CreateComponent.NFT }), 2000)
     showExplainerText.value = true
   }

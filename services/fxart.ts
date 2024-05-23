@@ -30,17 +30,11 @@ export type GetDropsQuery = {
   chain?: string[]
 }
 
-export const getDrops = async (query?: GetDropsQuery) => {
-  return await api<DropItem[]>('drops', {
-    method: 'GET',
-    query,
-  })
+export type AllocatedNFT = {
+  id: number
+  name: string
+  image: string
 }
-
-export const getDropById = (id: string) =>
-  api<DropItem>(`/drops/${id}`, {
-    method: 'GET',
-  })
 
 export type DropMintedStatus = {
   created_at: string
@@ -50,11 +44,6 @@ export type DropMintedStatus = {
   claimed: number
   email: string
   hash: string
-}
-export const getDropMintedStatus = async (alias: string, accountId: string) => {
-  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
-    method: 'GET',
-  })
 }
 
 export type AllocateCollectionRequest = {
@@ -67,6 +56,24 @@ export type AllocateCollectionRequest = {
 
 type AllocateCollectionResponse = {
   result: AllocatedNFT
+}
+
+export const getDrops = async (query?: GetDropsQuery) => {
+  return await api<DropItem[]>('drops', {
+    method: 'GET',
+    query,
+  })
+}
+
+export const getDropById = (id: string) =>
+  api<DropItem>(`/drops/${id}`, {
+    method: 'GET',
+  })
+
+export const getDropMintedStatus = async (alias: string, accountId: string) => {
+  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
+    method: 'GET',
+  })
 }
 
 export const allocateCollection = async (
@@ -86,24 +93,6 @@ export const allocateCollection = async (
   } catch (error) {
     throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
   }
-}
-
-export type MintItem = {
-  hash: string
-  image: string
-  metadata: string
-}
-
-export type BatchMintBody = {
-  email: string
-  address: string
-  items: MintItem[]
-}
-
-export type AllocatedNFT = {
-  id: number
-  name: string
-  image: string
 }
 
 export const allocateClaim = async (body, id) => {
