@@ -20,6 +20,7 @@ const collections = TEST_DROPS.map((drop) => drop.collection)
 
 test('make sure drops page with type holder not broken', async ({ page }) => {
   await page.goto(addresses[2])
+  await page.waitForLoadState('networkidle')
   await expect(page.locator('div.content-markdown')).toHaveText(
     `
     Artist: Nicolas Lebrun
@@ -28,6 +29,7 @@ test('make sure drops page with type holder not broken', async ({ page }) => {
   )
 
   await page.goto(addresses[1])
+  await page.waitForLoadState('networkidle')
   await expect(page.locator('div.content-markdown')).toHaveText(
     `
     Artist: @atimtay
