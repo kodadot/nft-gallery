@@ -112,6 +112,7 @@ const handleSubmitMint = async () => {
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const submitMints = async () => {
