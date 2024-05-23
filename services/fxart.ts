@@ -46,14 +46,6 @@ export type DropMintedStatus = {
   hash: string
 }
 
-export type AllocateCollectionRequest = {
-  address: string
-  email: string
-  metadata?: string
-  hash: string
-  image?: string
-}
-
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
