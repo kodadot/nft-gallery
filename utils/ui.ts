@@ -1,0 +1,1 @@
+export const NEO_MODAL_ANIMATION_DURATION = 200

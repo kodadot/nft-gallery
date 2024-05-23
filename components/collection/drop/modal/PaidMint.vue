@@ -2,14 +2,14 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    @close="onClose">
+    @close="close">
     <ModalBody
       :title="title"
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
       :estimated-time="estimedTime"
-      @close="onClose">
+      @close="close">
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
@@ -165,10 +165,6 @@ const title = computed(() => {
 
 const close = () => emit('close')
 
-const onClose = () => {
-  close()
-}
-
 const handleModalClose = (completed: boolean) => {
   if (completed) {
     autoteleportCompleted.value = true
@@ -212,6 +208,6 @@ watchDebounced(
       reset()
     }
   },
-  { debounce: 500 }, // wait for the modal closing animation to finish
+  { debounce: NEO_MODAL_ANIMATION_DURATION }, // wait for the modal closing animation to finish
 )
 </script>

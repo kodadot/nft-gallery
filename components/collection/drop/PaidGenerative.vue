@@ -116,7 +116,7 @@ const openMintModal = () => {
 
 const handleMintModalClose = () => {
   closeMintModal()
-  clearMassMint()
+  setTimeout(clearMassMint, NEO_MODAL_ANIMATION_DURATION)
 }
 
 const closeMintModal = () => {
