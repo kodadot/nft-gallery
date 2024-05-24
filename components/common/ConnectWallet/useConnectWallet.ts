@@ -1,4 +1,4 @@
-import ConnectWalletModal from './ConnectWalletModal.vue'
+import ConnectWalletModal from './ConnectWalletModal/ConnectWalletModal.vue'
 
 export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
