@@ -11,7 +11,6 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   sn?: number // nft id
   index?: number // serial numbers
   entropyRange: EntropyRange
-  canRender: boolean
 }
 
 export default () => {

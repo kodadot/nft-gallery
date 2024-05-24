@@ -2,17 +2,12 @@ import useGenerativeIframeData, {
   ImageDataPayload,
 } from '../useGenerativeIframeData'
 import { useCollectionEntity } from '../useGenerativeDropMint'
-import useDropMassMintState from './useDropMassMintState'
 import { setMetadataUrl } from '@/services/fxart'
-
-const MAX_RENDER_AT_ONCE_AMOUNT = 3
 
 export default () => {
   const { accountId } = useAuth()
   const dropStore = useDropStore()
   const { toMintNFTs, drop, mintingSession } = storeToRefs(dropStore)
-  const { isRendering, renderingNFTsCount, toRenderNFTsCount } =
-    useDropMassMintState()
   const { collectionName } = useCollectionEntity()
 
   const onMessage = (payload: ImageDataPayload) => {
@@ -75,7 +70,6 @@ export default () => {
         price: drop.value.price as string,
         hash: item.hash,
         entropyRange: item.entropyRange,
-        canRender: false,
         image: '',
         metadata: setMetadataUrl({
           chain: drop.value.chain,
@@ -85,36 +79,6 @@ export default () => {
       }
     })
   }
-
-  watch(
-    [renderingNFTsCount, toRenderNFTsCount],
-    ([renderingCount, toRenderCount]) => {
-      if (
-        isRendering.value &&
-        Boolean(toRenderCount) &&
-        renderingCount < MAX_RENDER_AT_ONCE_AMOUNT
-      ) {
-        const toRenderMintNFT = toMintNFTs.value.find(
-          (nft) => !nft.imageDataPayload && !nft.canRender,
-        )
-
-        if (!toRenderMintNFT) {
-          return
-        }
-
-        console.log(
-          '[MASSMINT::PREVIEW] Starting to render',
-          toRenderMintNFT.hash,
-        )
-
-        toMintNFTs.value = toMintNFTs.value.map((toMintNFT) =>
-          toMintNFT.hash === toRenderMintNFT.hash
-            ? { ...toRenderMintNFT, canRender: true }
-            : toMintNFT,
-        )
-      }
-    },
-  )
 
   return {
     getPreviewItemsToMintedNfts,
