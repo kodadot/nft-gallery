@@ -14,7 +14,7 @@ const LINKABLE_SOCIAL_MEDIAS: LinkableSocialMedia[] = [
   {
     regex: /@(\w{1,15})\b/,
     template: (match: string) =>
-      `https://twitter.com/${match.slice(1, match.length)}`,
+      `https://warpcast.com/${match.slice(1, match.length)}`,
   },
 ]
 
