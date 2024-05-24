@@ -250,10 +250,7 @@ function hasImage(dataURL: string): boolean {
 
 const consistencyField = (payload) => {
   const version: number = parseFloat(payload?.version ?? '0')
-  if (version >= 1.0) {
-    return payload.base64Details
-  }
-  return payload.image
+  return version >= 1.0 ? payload.base64Details : payload.image
 }
 useEventListener(window, 'message', async (res) => {
   if (res.data?.type === 'kodahash/render/completed') {
