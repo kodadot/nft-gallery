@@ -3,7 +3,8 @@ type LinkableSocialMedia = {
   template: (match: string) => string
 }
 
-const createLink = (content: string, url: string) => `[${content}](${url})`
+const createLink = (content: string, url: string) =>
+  `<a href="${url}" target="_blank" rel="nofollow noopener noreferrer">${content}</a>`
 
 const LINKABLE_SOCIAL_MEDIAS: LinkableSocialMedia[] = [
   {
@@ -11,7 +12,7 @@ const LINKABLE_SOCIAL_MEDIAS: LinkableSocialMedia[] = [
     template: (match: string) => `https://warpcast.com/~/channel${match}`,
   },
   {
-    regex: /@(\w+)/,
+    regex: /@(\w{1,15})\b/,
     template: (match: string) =>
       `https://twitter.com/${match.slice(1, match.length)}`,
   },
