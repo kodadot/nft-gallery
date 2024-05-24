@@ -129,8 +129,7 @@ const moveSuccessfulDrop = computed<boolean>(
   () =>
     imagePreloadingCompleted.value &&
     Boolean(mintingSession.value.items.length) &&
-    Boolean(mintingSession.value.txHash) &&
-    props.action.details.status === TransactionStatus.Finalized,
+    Boolean(mintingSession.value.txHash),
 )
 
 const transactionStatus = computed(() => {

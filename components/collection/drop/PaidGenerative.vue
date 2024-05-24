@@ -34,13 +34,8 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 
-const {
-  loading,
-  walletConnecting,
-  mintingSession,
-  allocatedNFTs,
-  isCapturingImage,
-} = storeToRefs(useDropStore())
+const { loading, walletConnecting, mintingSession, isCapturingImage } =
+  storeToRefs(useDropStore())
 
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
@@ -77,7 +72,6 @@ const mintNft = async () => {
     transaction({
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
-      nfts: allocatedNFTs.value,
       price: drop.value?.price || null,
     })
   } catch (e) {

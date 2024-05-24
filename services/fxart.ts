@@ -30,12 +30,6 @@ export type GetDropsQuery = {
   chain?: string[]
 }
 
-export type AllocatedNFT = {
-  id: number
-  name: string
-  image: string
-}
-
 export type DropMintedStatus = {
   created_at: string
   id: number
@@ -64,18 +58,18 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const setMetadataUrl = ({ chain, collection, hash }) => {
+export const setMetadataUrl = ({ chain, collection, sn }) => {
   const metadataUrl = new URL(
     'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
   )
   metadataUrl.searchParams.set('chain', chain)
   metadataUrl.searchParams.set('collection', collection)
-  metadataUrl.searchParams.set('hash', hash)
+  metadataUrl.searchParams.set('sn', sn.toString())
 
   return metadataUrl.toString()
 }
 
-export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
+export const updateMetadata = async ({ chain, collection, nft, sn }) => {
   try {
     const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
@@ -84,7 +78,6 @@ export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
         collection,
         nft,
         sn,
-        hash,
       },
     })
 
