@@ -1,12 +1,11 @@
 import { chainPrefixes } from '@kodadot1/static'
-import { useIdentityStore } from '@/stores/identity'
-import { ss58Of } from '@/utils/config/chain.config'
+import { useWalletStore } from '@/stores/wallet'
 import consola from 'consola'
 
 export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
 export default defineNuxtRouteMiddleware((route) => {
-  const identityStore = useIdentityStore()
+  const walletStore = useWalletStore()
   const prefixInPath = route.params.prefix || route.path.split('/')[1]
   const { setUrlPrefix, urlPrefix } = usePrefix()
 
@@ -48,7 +47,7 @@ export default defineNuxtRouteMiddleware((route) => {
   }
 
   try {
-    identityStore.setCorrectAddressFormat(ss58Of(urlPrefix.value))
+    walletStore.setCorrectAddressFormat(urlPrefix.value)
   } catch {
     consola.warn('Invalid chain prefix')
   }

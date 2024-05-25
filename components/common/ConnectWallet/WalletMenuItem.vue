@@ -107,7 +107,12 @@ const emitAccountChange = (account): void => {
   const walletName = wallet?.name ?? ''
   const source = wallet?.source ?? ''
 
-  walletStore.setWallet({ name: walletName, extension: source })
+  walletStore.setWallet({
+    name: walletName,
+    extension: source,
+    vm: 'SUB',
+    address: wallet?.address as string,
+  })
 }
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 

@@ -1,4 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
+import { isEthereumAddress } from '@polkadot/util-crypto'
 
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
@@ -63,7 +64,7 @@ export type FollowRequest = {
 }
 
 export const toSubstrateAddress = (address: string) =>
-  formatAddress(address, 42)
+  isEthereumAddress(address) ? address : formatAddress(address, 42)
 
 const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),

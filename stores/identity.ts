@@ -89,7 +89,7 @@ export const useIdentityStore = defineStore('identity', {
         '1': '0',
         '5': '0',
       },
-      address: localStorage.getItem('kodaauth') || '',
+      address: useWalletStore().selected?.address || '',
     },
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
     multiBalanceNetwork: 'main-network',
