@@ -121,9 +121,14 @@ const eventsAddresses = computed(() => {
 })
 
 const { data: profiles } = useQuery<Profile[] | null>({
-  queryKey: ['profiles', `${eventsAddresses.value.sort().join(',')}`],
-  queryFn: () => fetchProfilesByIds(eventsAddresses.value),
-  enabled: !!eventsAddresses.value.length,
+  queryKey: [
+    'profiles',
+    computed(() => `${eventsAddresses.value.sort().join(',')}`),
+  ],
+  queryFn: () =>
+    eventsAddresses.value.length
+      ? fetchProfilesByIds(eventsAddresses.value)
+      : null,
   staleTime: 1000 * 60 * 5,
 })
 
