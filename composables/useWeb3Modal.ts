@@ -3,7 +3,7 @@ import {
   defaultWagmiConfig,
   useWeb3Modal,
 } from '@web3modal/wagmi/vue'
-import { base, mainnet } from 'viem/chains'
+import { base, mainnet, zkSync } from 'viem/chains'
 import { reconnect } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
 
@@ -17,7 +17,7 @@ const buildWagmiConfig = () => {
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
   }
 
-  const chains = [mainnet, base]
+  const chains = [mainnet, base, zkSync]
 
   return defaultWagmiConfig({
     chains,

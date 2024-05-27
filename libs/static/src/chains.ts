@@ -5,8 +5,8 @@ export const toChainProperty = (
   ss58Format: number,
   tokenDecimals: number,
   tokenSymbol: string,
-  blockExplorer?: string,
-  vm: ChainVM = 'SUB'
+  blockExplorer: string,
+  vm: ChainVM
 ): ChainProperties => {
   return {
     ss58Format,
@@ -21,20 +21,26 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
   2,
   12,
   'KSM',
-  'https://kusama.subscan.io/'
+  'https://kusama.subscan.io/',
+  'SUB'
 )
 
 export const CHAINS: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
-  ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
-  dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
-  ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
-  imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/'), // ss58Format is not available
-  base: toChainProperty(42, 18, 'ETH', 'https://basescan.org'), // ss58Format is not available
+  ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/', 'SUB'),
+  dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/', 'SUB'),
+  ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/', 'SUB'),
+  imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/', 'EVM'), // ss58Format is not available
+  base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'), // ss58Format is not available
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
+}
+
+export const DEFAULT_VM_CHAIN: Record<ChainVM, Prefix> = {
+  SUB: 'ahp',
+  EVM: 'base',
 }
 
 export const DEFAULT_PREFIX: Prefix = 'ahp'
