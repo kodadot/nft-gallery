@@ -46,18 +46,6 @@ export type DropMintedStatus = {
   hash: string
 }
 
-export type AllocateCollectionRequest = {
-  address: string
-  email: string
-  metadata?: string
-  hash: string
-  image?: string
-}
-
-type AllocateCollectionResponse = {
-  result: AllocatedNFT
-}
-
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
@@ -74,40 +62,6 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
     method: 'GET',
   })
-}
-
-export const allocateCollection = async (
-  body: AllocateCollectionRequest,
-  id: string,
-) => {
-  try {
-    const response = await api<AllocateCollectionResponse>(
-      `/drops/allocate/${id}`,
-      {
-        method: 'POST',
-        body,
-      },
-    )
-
-    return response
-  } catch (error) {
-    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
-  }
-}
-
-export const allocateClaim = async (body, id) => {
-  try {
-    const response = await api<{ result: DoResult }>(`/drops/do/${id}`, {
-      method: 'post',
-      body,
-    })
-
-    return response
-  } catch (error) {
-    throw new Error(
-      `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
-    )
-  }
 }
 
 export const setMetadataUrl = ({ chain, collection, hash }) => {
