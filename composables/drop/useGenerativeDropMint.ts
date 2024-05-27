@@ -7,6 +7,7 @@ import useDropMassMint, {
   MassMintNFT,
 } from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import { useQuery } from '@tanstack/vue-query'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -15,7 +16,7 @@ export type DropMintedNft = DoResult & {
   max: number
 }
 
-export type UnlockableCollectionById = {
+export type DropCollectionById = {
   collectionEntity: {
     meta: { description: string }
     name: string
@@ -26,40 +27,31 @@ export type UnlockableCollectionById = {
   nftEntitiesConnection: { totalCount: number }
 }
 
-function useCollectionData(collectionKey, client, collectionId, drop) {
+function useCollectionData(collectionId, client) {
   const { accountId } = useAuth()
-  return useAsyncData<UnlockableCollectionById>(
-    'collectionEntity' + collectionKey.value,
-    () =>
-      useAsyncQuery<UnlockableCollectionById>({
-        clientId: client.value,
-        query: unlockableCollectionById,
-        variables: {
-          id: collectionKey.value,
-          search: { issuer_eq: accountId.value },
-        },
-      }).then((res) => res.data.value),
-    {
-      watch: collectionId
-        ? [accountId]
-        : [() => drop.value?.collection, accountId],
-    },
-  )
+  return useQuery<DropCollectionById | null>({
+    queryKey: ['collection-drop-data', client, collectionId, accountId],
+    queryFn: () =>
+      collectionId.value
+        ? useAsyncQuery<DropCollectionById | null>({
+            clientId: client.value,
+            query: unlockableCollectionById,
+            variables: {
+              id: collectionId.value,
+              search: { issuer_eq: accountId.value },
+            },
+          }).then((res) => res.data.value)
+        : null,
+  })
 }
 
-export function useCollectionEntity(collectionId?: string) {
+export function useCollectionEntity() {
   const { drop } = useDrop()
   const { client } = usePrefix()
-
-  const collectionKey = computed(() => collectionId ?? drop.value?.collection)
-
   const { data: collectionData } = useCollectionData(
-    collectionKey,
+    computed(() => drop.value?.collection),
     client,
-    collectionId,
-    drop,
   )
-
   const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
   const mintedAmountForCurrentUser = computed(
     () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
