@@ -19,15 +19,6 @@
         </div>
       </section>
 
-      <!-- email signup banner -->
-      <transition name="slide">
-        <section v-if="showSignupBanner" class="py-5 instance">
-          <div class="container is-fluid">
-            <LandingSignupBanner class="my-4" />
-          </div>
-        </section>
-      </transition>
-
       <section class="py-8 instance">
         <div class="container is-fluid">
           <!-- latest sales -->
@@ -49,17 +40,12 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot', 'imx']
 
 const { urlPrefix } = usePrefix()
-const preferencesStore = usePreferencesStore()
 
-const showSignupBanner = computed(
-  () => !preferencesStore.getNewsletterSubscription.subscribed,
-)
 // currently only supported on rmrk
 const showCarousel = computed(
   () => !hiddenCarrouselPrefixes.includes(urlPrefix.value),

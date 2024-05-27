@@ -107,7 +107,7 @@ const fullscreenRef = ref<HTMLElement | null>(null)
 
 const { toggle: toggleFullscreen, isFullscreen } = useFullscreen(fullscreenRef)
 
-const emit = defineEmits(['reload'])
+const emit = defineEmits(['reload', 'hash:update'])
 const variationOptions = config.varaitionsOptions
 
 const hash = ref('')
@@ -159,7 +159,12 @@ const exportAsPNG = async () => {
   count.value++
 }
 
+const emitHashUpdate = () => {
+  emit('hash:update', hash.value)
+}
+
 watch(() => props.reloadTrigger, replay)
+watch(hash, emitHashUpdate)
 </script>
 <style scoped lang="scss">
 :deep(.o-drop__menu) {
