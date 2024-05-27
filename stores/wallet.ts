@@ -8,14 +8,13 @@ type Wallet = {
   address: string
   vm: ChainVM
   name?: string
-  extension: string | 'web3modal'
+  extension?: string
 }
 
 type WalletHistory = { [key: string]: Date }
 
 interface State {
   selected: Wallet | undefined
-  wallets: Wallet[] | undefined
   history: WalletHistory | undefined
 }
 
@@ -29,7 +28,6 @@ export const walletHistory = useLocalStorage<WalletHistory>(
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     selected: undefined,
-    wallets: undefined,
     history: { ...walletHistory.value },
   }),
   getters: {
@@ -60,7 +58,9 @@ export const useWalletStore = defineStore('wallet', {
   actions: {
     setWallet(wallet: Wallet) {
       this.selected = wallet
-      this.setRecentWallet(wallet.extension)
+      if (wallet.extension) {
+        this.setRecentWallet(wallet.extension)
+      }
     },
     setRecentWallet(extensionName: string) {
       // saving only last connected wallet
@@ -68,22 +68,24 @@ export const useWalletStore = defineStore('wallet', {
       this.history = history
       walletHistory.value = history
     },
+    clear() {
+      this.selected = undefined
+    },
     setCorrectAddressFormat(urlPrefix: Prefix) {
-      const walletStore = useWalletStore()
-      const wallet = walletStore.selected
+      const wallet = this.selected
 
       if (!wallet) {
         return
       }
 
-      if (walletStore.getIsSubstrate) {
+      if (this.getIsSubstrate) {
         const address = formatAddress(wallet.address, ss58Of(urlPrefix))
 
         if (address === wallet.address) {
           return
         }
 
-        walletStore.setWallet({ ...wallet, address: address })
+        this.setWallet({ ...wallet, address: address })
       }
     },
   },

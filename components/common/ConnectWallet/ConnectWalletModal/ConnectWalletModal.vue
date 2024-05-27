@@ -119,7 +119,7 @@
         </div>
       </template>
       <div v-else class="!px-7">
-        <ConnectWalletModalEvm />
+        <ConnectWalletModalEvm @set-account="setAccount" />
       </div>
     </template>
   </div>
@@ -147,7 +147,7 @@ const { toast } = useToast()
 const walletTab = ref<ChainVM>('SUB')
 const walletTabs: { label: string; value: ChainVM }[] = [
   {
-    label: 'Substrate',
+    label: 'Polkadot',
     value: 'SUB',
   },
   {
@@ -181,7 +181,6 @@ const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)
   emit('connect', account)
-
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }

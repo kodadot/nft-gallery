@@ -11,17 +11,18 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 
-const { openModal, account } = useWeb3Modal()
+const emits = defineEmits(['setAccount'])
+
+const { openModal, address } = useWeb3Modal()
 const walletStore = useWalletStore()
 
-watch(account, (account) => {
-  if (account.address) {
+watch(address, (address) => {
+  if (address) {
     walletStore.setWallet({
-      address: account.address as string,
+      address: address as string,
       vm: 'EVM',
-      name: 'test',
-      extension: 'web3modal',
     })
+    emits('setAccount', { address })
   }
 })
 </script>
