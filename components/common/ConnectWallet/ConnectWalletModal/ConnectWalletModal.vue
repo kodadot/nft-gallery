@@ -31,11 +31,11 @@ import { ModalCloseType } from '@/components/navbar/types'
 import ConnectWalletModalEvm from './Evm.vue'
 import ConnectWalletModalSubstrate from './Substrate.vue'
 import WalletTabs from './WalletTabs.vue'
-import { ChainVM } from '@kodadot1/static'
+import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 
 const emit = defineEmits(['close', 'connect'])
 
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { selected: account } = storeToRefs(useWalletStore())
 const identityStore = useIdentityStore()
 
@@ -45,6 +45,15 @@ const showAccount = computed(() => Boolean(account.value))
 
 const setAccount = (account: Auth) => {
   identityStore.setAuth(account)
+
+  if (
+    !getAvailableChainsByVM(selectedTab.value)
+      .map(({ value }) => value)
+      .includes(urlPrefix.value)
+  ) {
+    setUrlPrefix(DEFAULT_VM_PREFIX[selectedTab.value])
+  }
+
   emit('connect', account)
 }
 

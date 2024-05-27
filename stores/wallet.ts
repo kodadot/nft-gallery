@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { isDateWithinLastDays } from '@/utils/datetime'
-import { ChainVM, Prefix } from '@kodadot1/static'
+import type { ChainVM, Prefix } from '@kodadot1/static'
 import { ss58Of } from '@/utils/config/chain.config'
 
 type Wallet = {
