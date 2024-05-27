@@ -1,5 +1,3 @@
-import type { Profile } from '@/services/profile'
-
 export enum Socials {
   Twitter = 'Twitter',
   Website = 'Website',
@@ -7,32 +5,15 @@ export enum Socials {
 }
 
 export default function useUserProfile() {
-  const userProfileData = ref<Profile>()
-  const hasProfile = ref(false)
-  const { params, name } = useRoute()
+  const { params } = useRoute()
 
   const { profile, refetch: fetchProfile } = useFetchProfile(
     params?.id as string,
   )
 
-  watch(profile, (newProfile) => {
-    hasProfile.value = !!newProfile
-    userProfileData.value = newProfile ? newProfile : undefined
-  })
-
-  watch(
-    [() => name, () => params],
-    () => {
-      if (name === 'prefix-u-id') {
-        fetchProfile()
-      }
-    },
-    { immediate: true },
-  )
-
   return {
-    hasProfile,
-    userProfile: computed(() => userProfileData.value),
+    hasProfile: computed(() => !!profile.value),
+    userProfile: profile,
     fetchProfile,
   }
 }
