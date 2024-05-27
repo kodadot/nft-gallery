@@ -1,31 +1,24 @@
 import { EntityWithId } from '@/components/rmrk/service/scheme'
 import { getValue } from '@/services/keywise'
 import { Ref } from 'vue'
-
+import { useQuery } from '@tanstack/vue-query'
 export function useUnlockable(
   entity: Ref<Pick<EntityWithId, 'id'> | undefined>,
 ) {
   const { urlPrefix } = usePrefix()
   const unlockLink = ref('')
 
-  const fetchUnlockLink = async () => {
-    const id = entity.value?.id
-    if (id) {
-      const url = await getValue(urlPrefix.value, id)
-      unlockLink.value = url
-    }
+  const fetchUnlockLink = async (id) => {
+    const url = await getValue(urlPrefix.value, id)
+    unlockLink.value = url
   }
 
-  onMounted(() => {
-    fetchUnlockLink()
+  useQuery({
+    queryKey: ['unlockable-link', urlPrefix, computed(() => entity.value?.id)],
+    queryFn: () =>
+      entity.value?.id ? fetchUnlockLink(entity.value?.id) : null,
+    staleTime: 1000 * 60 * 5,
   })
-
-  watch(
-    () => entity.value?.id,
-    () => {
-      fetchUnlockLink()
-    },
-  )
 
   const isUnlockable = computed(() => Boolean(unlockLink.value))
 
