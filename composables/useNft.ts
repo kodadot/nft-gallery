@@ -6,6 +6,7 @@ import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
 import type { Ref } from 'vue'
 import { getMetadata } from '@/services/imageWorker'
+import { DYNAMIC_METADATA } from '@/services/fxart'
 
 export type NftResources = {
   id: string
@@ -197,7 +198,10 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   prefix: string,
   unify = false,
 ) {
-  if (unify) {
+  const checkMetadata = (nft.metadata || nft.meta?.id)?.includes(
+    DYNAMIC_METADATA,
+  )
+  if (unify && !checkMetadata) {
     return await getMetadata(sanitizeIpfsUrl(nft.metadata || nft.meta.id))
   }
 

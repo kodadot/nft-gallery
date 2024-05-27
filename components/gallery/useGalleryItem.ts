@@ -6,6 +6,7 @@ import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import type { Ref } from 'vue'
+import { getMimeType } from '@/utils/gallery/media'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -100,10 +101,17 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftResources.value = resources
 
     nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
-    nftMimeType.value = metadata.imageMimeType || metadata.type || ''
+    nftMimeType.value =
+      metadata.imageMimeType ||
+      metadata.type ||
+      (await getMimeType(nftImage.value)) ||
+      ''
     nftAnimation.value =
       sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
-    nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
+    nftAnimationMimeType.value =
+      metadata.animationUrlMimeType ||
+      (await getMimeType(nftAnimation.value)) ||
+      ''
 
     // use cf-video & replace the video thumbnail
     if (
