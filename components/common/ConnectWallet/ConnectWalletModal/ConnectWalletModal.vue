@@ -74,10 +74,6 @@ const setAccount = (account: Auth) => {
   emit('connect', account)
 }
 
-watch(account, (account) => {
-  setAccount({ address: account })
-})
-
 watch([urlPrefix], () => {
   emit('close', ModalCloseType.NAVIGATION)
 })
