@@ -29,20 +29,23 @@ export type DropCollectionById = {
 
 function useCollectionData(collectionId, client) {
   const { accountId } = useAuth()
-  return useQuery<DropCollectionById | null>({
-    queryKey: ['collection-drop-data', client, collectionId, accountId],
-    queryFn: () =>
-      collectionId.value
-        ? useAsyncQuery<DropCollectionById | null>({
-            clientId: client.value,
-            query: unlockableCollectionById,
-            variables: {
-              id: collectionId.value,
-              search: { issuer_eq: accountId.value },
-            },
-          }).then((res) => res.data.value)
-        : null,
-  })
+  const { vueApp } = useNuxtApp()
+  return vueApp.runWithContext(() =>
+    useQuery<DropCollectionById | null>({
+      queryKey: ['collection-drop-data', client, collectionId, accountId],
+      queryFn: () =>
+        collectionId.value
+          ? useAsyncQuery<DropCollectionById | null>({
+              clientId: client.value,
+              query: unlockableCollectionById,
+              variables: {
+                id: collectionId.value,
+                search: { issuer_eq: accountId.value },
+              },
+            }).then((res) => res.data.value)
+          : null,
+    }),
+  )
 }
 
 export function useCollectionEntity() {
