@@ -46,18 +46,6 @@ export type DropMintedStatus = {
   hash: string
 }
 
-export type AllocateCollectionRequest = {
-  address: string
-  email: string
-  metadata?: string
-  hash: string
-  image?: string
-}
-
-type AllocateCollectionResponse = {
-  result: AllocatedNFT
-}
-
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
@@ -76,40 +64,6 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const allocateCollection = async (
-  body: AllocateCollectionRequest,
-  id: string,
-) => {
-  try {
-    const response = await api<AllocateCollectionResponse>(
-      `/drops/allocate/${id}`,
-      {
-        method: 'POST',
-        body,
-      },
-    )
-
-    return response
-  } catch (error) {
-    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
-  }
-}
-
-export const allocateClaim = async (body, id) => {
-  try {
-    const response = await api<{ result: DoResult }>(`/drops/do/${id}`, {
-      method: 'post',
-      body,
-    })
-
-    return response
-  } catch (error) {
-    throw new Error(
-      `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
-    )
-  }
-}
-
 export const setMetadataUrl = ({ chain, collection, hash }) => {
   const metadataUrl = new URL(
     'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
@@ -121,7 +75,7 @@ export const setMetadataUrl = ({ chain, collection, hash }) => {
   return metadataUrl.toString()
 }
 
-export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
+export const updateMetadata = async ({ chain, collection, nft, sn }) => {
   try {
     const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
@@ -130,7 +84,6 @@ export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
         collection,
         nft,
         sn,
-        hash,
       },
     })
 
