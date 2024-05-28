@@ -1,8 +1,6 @@
-import { MassMintNFT } from './useDropMassMint'
 import useGenerativeIframeData, {
   ImageDataPayload,
 } from '../useGenerativeIframeData'
-import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { useCollectionEntity } from '../useGenerativeDropMint'
 import useDropMassMintState from './useDropMassMintState'
 import { setMetadataUrl } from '@/services/fxart'
@@ -15,14 +13,9 @@ export default () => {
   const { toMintNFTs, drop, mintingSession } = storeToRefs(dropStore)
   const { isRendering, renderingNFTsCount, toRenderNFTsCount } =
     useDropMassMintState()
-  const { description, collectionName } = useCollectionEntity()
-
-  const payloads = ref(new Map<string, ImageDataPayload>())
+  const { collectionName } = useCollectionEntity()
 
   const onMessage = (payload: ImageDataPayload) => {
-    // always keep track of incomming payloads
-    payloads.value.set(payload.hash, payload)
-
     const mintHasntStarted = !toMintNFTs.value.length
     const mintHasEnded = mintingSession.value.items.length
 
@@ -71,27 +64,6 @@ export default () => {
     })
   }
 
-  const pinMetadata = (item: MassMintNFT): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const image = item.image
-      tryCapture({
-        image,
-        data: item.imageDataPayload as ImageDataPayload,
-      })
-        .then((imageCid) =>
-          createUnlockableMetadata(
-            imageCid,
-            description.value || '',
-            (collectionName.value || drop.value.name) ?? '',
-            'text/html',
-            image,
-          ),
-        )
-        .then(resolve)
-        .catch(reject)
-    })
-  }
-
   const getPreviewItemsToMintedNfts = (
     previewItems: GenerativePreviewItem[],
   ) => {
@@ -104,6 +76,7 @@ export default () => {
         hash: item.hash,
         entropyRange: item.entropyRange,
         canRender: false,
+        image: '',
         metadata: setMetadataUrl({
           chain: drop.value.chain,
           collection: drop.value.collection,
@@ -145,7 +118,5 @@ export default () => {
 
   return {
     getPreviewItemsToMintedNfts,
-    payloads,
-    pinMetadata,
   }
 }
