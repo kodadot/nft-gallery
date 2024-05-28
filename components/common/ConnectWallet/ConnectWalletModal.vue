@@ -57,16 +57,17 @@ const selectedTab = ref<ChainVM>('SUB')
 
 const showAccount = computed(() => Boolean(account.value))
 
+const isCurrentPrefixAvailableForVm = (vm: ChainVM) =>
+  getAvailableChainsByVM(vm)
+    .map(({ value }) => value)
+    .includes(urlPrefix.value)
+
 const setAccount = (account: WalletAccount) => {
   walletStore.setWallet(account)
   identityStore.setAuth({ address: account.address })
 
-  if (
-    !getAvailableChainsByVM(account.vm)
-      .map(({ value }) => value)
-      .includes(urlPrefix.value)
-  ) {
-    const newChain = DEFAULT_VM_PREFIX[selectedTab.value]
+  if (!isCurrentPrefixAvailableForVm(account.vm)) {
+    const newChain = DEFAULT_VM_PREFIX[account.vm]
     setUrlPrefix(newChain)
     redirectAfterChainChange(newChain)
   }
