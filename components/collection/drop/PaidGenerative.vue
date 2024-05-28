@@ -6,8 +6,8 @@
     :action="action"
     :status="status"
     :is-error="isError"
-    @confirm="handleConfirmPaidMint"
-    @close="handleMintModalClose"
+    @confirm="mintNft"
+    @close="closeMintModal"
     @list="handleList" />
 </template>
 
@@ -100,21 +100,13 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  openMintModal()
-  await massGenerate()
-}
-
-const openMintModal = () => {
   isMintModalActive.value = true
-}
-
-const handleMintModalClose = () => {
-  closeMintModal()
-  clearMassMint()
+  await massGenerate()
 }
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const submitMints = async () => {
@@ -134,10 +126,6 @@ const handleList = () => {
   closeMintModal()
   listMintedNFTs()
   openListingCartModal()
-}
-
-const handleConfirmPaidMint = () => {
-  mintNft()
 }
 
 const stopMint = () => {
