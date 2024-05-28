@@ -29,9 +29,6 @@ export const useWalletStore = defineStore('wallet', {
   getters: {
     getIsSubstrate: (state) => state.selected?.vm === 'SUB',
     getIsEvm: (state) => state.selected?.vm === 'EVM',
-    getHasWalletSelected: (state) => Boolean(state.selected),
-    getSelectedWalletAddrress: (state) => state.selected?.address,
-    getWalletName: (state) => state.selected?.name,
     getRecentWallet: (state) => {
       let recent: undefined | { key: string; date: Date }
       let maxDate = new Date(0)
