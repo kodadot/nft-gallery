@@ -13,10 +13,14 @@ export default function (prefix: ComputedRef<Prefix>) {
   )
 
   const isBase = computed(() => 'base' === prefix.value)
+  const isImx = computed(() => 'imx' === prefix.value)
+
+  const isEvm = computed(() => isBase.value || isImx.value)
 
   return {
     isRemark,
     isAssetHub,
+    isEvm,
     isRmrk,
     isBase,
   }
