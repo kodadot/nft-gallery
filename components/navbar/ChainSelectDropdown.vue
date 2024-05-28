@@ -26,15 +26,10 @@ import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { getChainNameByPrefix } from '@/utils/chain'
 
-const { availableChains, availableChainsByVm } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const prefrencesStore = usePreferencesStore()
-const { accountId } = useAuth()
-
-const options = computed(() =>
-  accountId.value ? availableChainsByVm.value : availableChains.value,
-)
+const options = useAvailableChainsOptions()
 
 const selected = computed({
   get: () => urlPrefix.value,
