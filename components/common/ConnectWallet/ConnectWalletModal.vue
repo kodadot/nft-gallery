@@ -25,14 +25,12 @@
       <template v-else>
         <WalletTabs v-model="selectedTab" />
 
-        <ConnectWalletModalSubstrate
-          v-if="selectedTab === 'SUB'"
-          @select="setAccount" />
+        <ConnectSubstrate v-if="selectedTab === 'SUB'" @select="setAccount" />
 
-        <ConnectWalletModalEvm v-else class="!px-7" @select="setAccount" />
+        <ConnectEvm v-else class="!px-7" @select="setAccount" />
       </template>
 
-      <ConnectWalletModalMnemonicNotice />
+      <MnemonicNotice />
     </template>
   </div>
 </template>
@@ -41,9 +39,9 @@
 import { NeoModalHead } from '@kodadot1/brick'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
-import ConnectWalletModalEvm from './Evm.vue'
-import ConnectWalletModalSubstrate from './Substrate.vue'
-import ConnectWalletModalMnemonicNotice from './MnemonicNotice.vue'
+import ConnectEvm from './ConnectEvm.vue'
+import ConnectSubstrate from './ConnectSubstrate.vue'
+import MnemonicNotice from './MnemonicNotice.vue'
 import WalletTabs from './WalletTabs.vue'
 import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 
@@ -51,7 +49,8 @@ const emit = defineEmits(['close', 'connect'])
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
-const { selected: account, disconnecting } = storeToRefs(useWalletStore())
+const walletStore = useWalletStore()
+const { selected: account, disconnecting } = storeToRefs(walletStore)
 const identityStore = useIdentityStore()
 
 const selectedTab = ref<ChainVM>('SUB')
@@ -73,6 +72,8 @@ const setAccount = (account: Auth) => {
 
   emit('connect', account)
 }
+
+onMounted(() => walletStore.setDisconnecting(false))
 
 watch([urlPrefix], () => {
   emit('close', ModalCloseType.NAVIGATION)
