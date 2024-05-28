@@ -3,7 +3,7 @@ import { isDateWithinLastDays } from '@/utils/datetime'
 import type { ChainVM, Prefix } from '@kodadot1/static'
 import { ss58Of } from '@/utils/config/chain.config'
 
-type Wallet = {
+export type WalletAccount = {
   address: string
   vm: ChainVM
   name?: string
@@ -13,7 +13,7 @@ type Wallet = {
 type WalletHistory = { [key: string]: Date }
 
 interface State {
-  selected: Wallet | undefined
+  selected: WalletAccount | undefined
   history: WalletHistory | undefined
   disconnecting: boolean
 }
@@ -52,10 +52,10 @@ export const useWalletStore = defineStore('wallet', {
     setDisconnecting(value: boolean) {
       this.disconnecting = value
     },
-    setWallet(wallet: Wallet) {
-      this.selected = wallet
-      if (wallet.extension) {
-        this.setRecentWallet(wallet.extension)
+    setWallet(account: WalletAccount) {
+      this.selected = account
+      if (account.extension) {
+        this.setRecentWallet(account.extension)
       }
     },
     setRecentWallet(extensionName: string) {
@@ -66,20 +66,20 @@ export const useWalletStore = defineStore('wallet', {
       this.selected = undefined
     },
     setCorrectAddressFormat(prefix: Prefix) {
-      const wallet = this.selected
+      const account = this.selected
 
-      if (!wallet) {
+      if (!account) {
         return
       }
 
       if (this.getIsSubstrate) {
-        const address = formatAddress(wallet.address, ss58Of(prefix))
+        const address = formatAddress(account.address, ss58Of(prefix))
 
-        if (address === wallet.address) {
+        if (address === account.address) {
           return
         }
 
-        this.setWallet({ ...wallet, address: address })
+        this.setWallet({ ...account, address: address })
       }
     },
     switchChain(prefix: Prefix) {

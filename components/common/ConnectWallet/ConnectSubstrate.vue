@@ -75,6 +75,7 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import { SupportedWallets } from '@/utils/config/wallets'
+import { WalletAccount as SubstrateWalletAccount } from '@/utils/config/wallets'
 
 const emits = defineEmits(['select'])
 
@@ -93,11 +94,11 @@ const installedWallet = computed(() => {
   return wallets.value.filter((wallet) => wallet.installed)
 })
 
-const setAccount = (account: Auth) => {
+const setAccount = (account: SubstrateWalletAccount) => {
   forceWalletSelect.value = false
   emits('select', {
     address: account.address,
-    source: account.source,
+    extension: account.source,
     name: account.name,
     vm: 'SUB',
   } as WalletAccount)
