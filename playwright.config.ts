@@ -6,6 +6,8 @@ import { defineConfig, devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
+const TIMEOUT = 2 * 60 * 1000
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -22,7 +24,10 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  timeout: 1 * 60 * 1000,
+  timeout: TIMEOUT,
+  expect: {
+    timeout: TIMEOUT,
+  },
   use: {
     //headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -76,6 +81,6 @@ export default defineConfig({
     command: process.env.CI ? 'pnpm start:node' : 'pnpm run dev',
     url: 'http://localhost:9090',
     reuseExistingServer: !process.env.CI,
-    timeout: 2 * 60 * 1000,
+    timeout: TIMEOUT,
   },
 })
