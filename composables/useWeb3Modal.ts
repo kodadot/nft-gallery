@@ -6,6 +6,7 @@ import {
 import { base, mainnet, zkSync } from 'viem/chains'
 import { reconnect } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
+import { DisconnectMutateAsync } from 'use-wagmi/query'
 
 const projectId = useRuntimeConfig().public.walletConnectProjectId
 
@@ -41,8 +42,10 @@ export default () => {
     modal.value = useWeb3Modal()
   }
 
-  const { isConnected, address } = useAccount({ config })
-  const { disconnect } = useDisconnect({ config })
+  const { isConnected, address, isConnecting } = useAccount({ config })
+  const disconnect = useNuxtApp().runWithContext(
+    () => useDisconnect({ config }).disconnectAsync,
+  ) as Promise<DisconnectMutateAsync>
 
   const openModal = () => {
     modal.value.open()
@@ -51,6 +54,7 @@ export default () => {
   return {
     openModal,
     isConnected,
+    isConnecting,
     address,
     disconnect,
     config,
