@@ -13,13 +13,24 @@
     </section>
 
     <template v-else>
-      <WalletTabs v-model="selectedTab" />
+      <div
+        v-if="disconnecting"
+        class="flex items-start justify-center pt-10 h-full">
+        <span class="text-k-grey inline-flex gap-1">
+          {{ $t('disconnecting') }}
+          <div class="dots w-2" />
+        </span>
+      </div>
 
-      <ConnectWalletModalSubstrate
-        v-if="selectedTab === 'SUB'"
-        @select="setAccount" />
+      <template v-else>
+        <WalletTabs v-model="selectedTab" />
 
-      <ConnectWalletModalEvm v-else class="!px-7" @select="setAccount" />
+        <ConnectWalletModalSubstrate
+          v-if="selectedTab === 'SUB'"
+          @select="setAccount" />
+
+        <ConnectWalletModalEvm v-else class="!px-7" @select="setAccount" />
+      </template>
 
       <ConnectWalletModalMnemonicNotice />
     </template>
@@ -39,7 +50,8 @@ import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 const emit = defineEmits(['close', 'connect'])
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { selected: account } = storeToRefs(useWalletStore())
+const { redirectAfterChainChange } = useChainRedirect()
+const { selected: account, disconnecting } = storeToRefs(useWalletStore())
 const identityStore = useIdentityStore()
 
 const selectedTab = ref<ChainVM>('SUB')
@@ -54,7 +66,9 @@ const setAccount = (account: Auth) => {
       .map(({ value }) => value)
       .includes(urlPrefix.value)
   ) {
-    setUrlPrefix(DEFAULT_VM_PREFIX[selectedTab.value])
+    const newChain = DEFAULT_VM_PREFIX[selectedTab.value]
+    setUrlPrefix(newChain)
+    redirectAfterChainChange(newChain)
   }
 
   emit('connect', account)

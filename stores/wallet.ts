@@ -15,6 +15,7 @@ type WalletHistory = { [key: string]: Date }
 interface State {
   selected: Wallet | undefined
   history: WalletHistory | undefined
+  disconnecting: boolean
 }
 
 const RECENT_WALLET_DAYS_PERIOD = 30
@@ -28,6 +29,7 @@ export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     selected: undefined,
     history: { ...walletHistory.value },
+    disconnecting: false,
   }),
   getters: {
     getIsSubstrate: (state) => state.selected?.vm === 'SUB',
@@ -55,6 +57,9 @@ export const useWalletStore = defineStore('wallet', {
     },
   },
   actions: {
+    setDisconnecting(value: boolean) {
+      this.disconnecting = value
+    },
     setWallet(wallet: Wallet) {
       this.selected = wallet
       if (wallet.extension) {

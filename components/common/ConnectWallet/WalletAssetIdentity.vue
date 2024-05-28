@@ -64,8 +64,14 @@ const logout = async () => {
   sessionStorage.clear()
   localStorage.clear()
   shoppingCartStore.clear()
+
+  const isEvm = walletStore.getIsEvm
+  walletStore.setDisconnecting(true)
   walletStore.clear()
-  await disconnectWeb3Modal()
+  if (isEvm) {
+    await disconnectWeb3Modal()
+  }
+  walletStore.setDisconnecting(false)
 
   walletHistory.value = walletStore.history
 }

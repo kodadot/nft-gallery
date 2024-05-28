@@ -42,7 +42,9 @@ export default () => {
     modal.value = useWeb3Modal()
   }
 
-  const { isConnected, address, isConnecting } = useAccount({ config })
+  const { isConnected, address, isConnecting } = useAccount({
+    config,
+  })
   const disconnect = useNuxtApp().runWithContext(
     () => useDisconnect({ config }).disconnectAsync,
   ) as Promise<DisconnectMutateAsync>
