@@ -11,7 +11,7 @@ export const getInjectedExtensions = async () => {
 
 export const getAddress = async (address: string) => {
   try {
-    const walletName = localStorage.getItem('wallet')
+    const walletName = useWalletStore().selected?.extension
     const wallet = getWalletBySource(walletName)
     await wallet?.enable()
     if (wallet?.extension) {

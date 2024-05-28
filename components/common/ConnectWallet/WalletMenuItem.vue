@@ -136,7 +136,6 @@ const setWallet = async (wallet: BaseDotsamaWallet) => {
   try {
     const data = await wallet.getAccounts()
     walletAccounts.value = data ? data.map(formatAccount) : []
-    localStorage.setItem('wallet', wallet.extensionName)
   } catch (e) {
     isAuth.value = false
     $consola.error('init account error', e)
