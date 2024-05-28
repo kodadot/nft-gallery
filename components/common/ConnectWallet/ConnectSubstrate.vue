@@ -74,8 +74,10 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { SupportedWallets } from '@/utils/config/wallets'
-import { WalletAccount as SubstrateWalletAccount } from '@/utils/config/wallets'
+import {
+  WalletAccount as SubstrateWalletAccount,
+  SupportedWallets,
+} from '@/utils/config/wallets'
 
 const emits = defineEmits(['select'])
 
