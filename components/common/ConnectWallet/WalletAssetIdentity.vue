@@ -57,7 +57,7 @@ const { display, shortenedAddress } = useIdentity({
 
 const closeModal = () => neoModal.closeAll()
 
-const { disconnect: disconnectWeb3Modal } = useWeb3Modal()
+const { disconnect: disconnectWeb3Modal } = useWagmi()
 
 const logout = async () => {
   identityStore.resetAuth()

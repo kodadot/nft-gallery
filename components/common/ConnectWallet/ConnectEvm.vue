@@ -8,7 +8,7 @@
       loading-with-label
       size="large"
       class="w-full"
-      @click="openModal">
+      @click="modal?.open()">
       <div class="inline-flex gap-3">
         <span>
           {{ isConnecting ? 'Connecting' : 'Connect with Web3Modal' }}
@@ -23,8 +23,9 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const emits = defineEmits(['select'])
 
-const { openModal, address, isConnected, isConnecting } = useWeb3Modal()
 const walletStore = useWalletStore()
+const { address, isConnected, isConnecting } = useWagmi()
+const { modal } = useWeb3Modal()
 
 watch([address, isConnected], ([address, isConnected]) => {
   if (address && isConnected) {
