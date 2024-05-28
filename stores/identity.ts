@@ -3,7 +3,6 @@ import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
-import { formatAddress } from '@/utils/account'
 import type { Prefix } from '@kodadot1/static'
 
 const DEFAULT_BALANCE_STATE = {
@@ -154,7 +153,6 @@ export const useIdentityStore = defineStore('identity', {
         tokens: emptyObject<BalanceMap>(),
       }
       this.resetMultipleBalances()
-      localStorage.removeItem('kodaauth')
     },
     resetMultipleBalances() {
       this.multiBalances.address = ''
@@ -169,7 +167,6 @@ export const useIdentityStore = defineStore('identity', {
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
       await this.fetchBalance({ address: authRequest.address })
-      localStorage.setItem('kodaauth', authRequest.address || '')
     },
     setBalance(prefix: string, balance: string) {
       if (this.auth.balance) {
@@ -184,13 +181,6 @@ export const useIdentityStore = defineStore('identity', {
     },
     setTokenListBalance(request: BalanceMap) {
       this.auth.tokens = request
-    },
-    setCorrectAddressFormat(ss58Prefix: number) {
-      if (this.auth.address) {
-        const address = formatAddress(this.auth.address, ss58Prefix)
-        this.auth.address = address
-        localStorage.setItem('kodaauth', address)
-      }
     },
     async setCorrectAddressBalance(apiUrl: string) {
       if (this.auth.address) {
