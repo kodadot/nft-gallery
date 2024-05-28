@@ -68,7 +68,7 @@ export const useWalletStore = defineStore('wallet', {
     clear() {
       this.selected = undefined
     },
-    setCorrectAddressFormat(urlPrefix: Prefix) {
+    setCorrectAddressFormat(prefix: Prefix) {
       const wallet = this.selected
 
       if (!wallet) {
@@ -76,7 +76,7 @@ export const useWalletStore = defineStore('wallet', {
       }
 
       if (this.getIsSubstrate) {
-        const address = formatAddress(wallet.address, ss58Of(urlPrefix))
+        const address = formatAddress(wallet.address, ss58Of(prefix))
 
         if (address === wallet.address) {
           return
@@ -84,6 +84,9 @@ export const useWalletStore = defineStore('wallet', {
 
         this.setWallet({ ...wallet, address: address })
       }
+    },
+    switchChain(prefix: Prefix) {
+      this.setCorrectAddressFormat(prefix)
     },
   },
   persist: true,

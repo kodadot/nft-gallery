@@ -47,7 +47,7 @@ export default defineNuxtRouteMiddleware((route) => {
   }
 
   try {
-    walletStore.setCorrectAddressFormat(urlPrefix.value)
+    walletStore.switchChain(urlPrefix.value)
   } catch {
     consola.warn('Invalid chain prefix')
   }

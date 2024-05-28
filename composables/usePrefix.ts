@@ -28,7 +28,7 @@ export default function () {
   const handlePrefixChange = (value: Prefix) => {
     sharedPrefix.value = value
     storage.value = { selected: value }
-    walletStore.setCorrectAddressFormat(value)
+    walletStore.switchChain(value)
   }
 
   watch(
