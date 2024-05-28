@@ -95,7 +95,12 @@ const installedWallet = computed(() => {
 
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
-  emits('select', account)
+  emits('select', {
+    address: account.address,
+    source: account.source,
+    name: account.name,
+    vm: 'SUB',
+  } as WalletAccount)
 }
 
 const refreshWallets = () => {

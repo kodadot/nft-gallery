@@ -13,7 +13,7 @@
         <span>
           {{ isConnecting ? 'Connecting' : 'Connect with Web3Modal' }}
         </span>
-        <NeoIcon icon="arrow-right" />
+        <NeoIcon v-if="!isConnecting" icon="arrow-right" />
       </div>
     </NeoButton>
   </div>
@@ -23,17 +23,15 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const emits = defineEmits(['select'])
 
-const walletStore = useWalletStore()
 const { address, isConnected, isConnecting } = useWagmi()
 const { modal } = useWeb3Modal()
 
 watch([address, isConnected], ([address, isConnected]) => {
   if (address && isConnected) {
-    walletStore.setWallet({
+    emits('select', {
       address: address as string,
       vm: 'EVM',
     })
-    emits('select', { address })
   }
 })
 </script>

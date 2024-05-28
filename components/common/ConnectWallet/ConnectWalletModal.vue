@@ -57,8 +57,9 @@ const selectedTab = ref<ChainVM>('SUB')
 
 const showAccount = computed(() => Boolean(account.value))
 
-const setAccount = (account: Auth) => {
-  identityStore.setAuth(account)
+const setAccount = (account: WalletAccount) => {
+  walletStore.setWallet(account)
+  identityStore.setAuth({ address: account.address })
 
   if (
     !getAvailableChainsByVM(selectedTab.value)
