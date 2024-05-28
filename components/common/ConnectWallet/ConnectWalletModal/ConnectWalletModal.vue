@@ -20,6 +20,8 @@
         @select="setAccount" />
 
       <ConnectWalletModalEvm v-else class="!px-7" @select="setAccount" />
+
+      <ConnectWalletModalMnemonicNotice />
     </template>
   </div>
 </template>
@@ -30,6 +32,7 @@ import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
 import ConnectWalletModalEvm from './Evm.vue'
 import ConnectWalletModalSubstrate from './Substrate.vue'
+import ConnectWalletModalMnemonicNotice from './MnemonicNotice.vue'
 import WalletTabs from './WalletTabs.vue'
 import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 
