@@ -62,7 +62,7 @@ const setAccount = (account: WalletAccount) => {
   identityStore.setAuth({ address: account.address })
 
   if (
-    !getAvailableChainsByVM(selectedTab.value)
+    !getAvailableChainsByVM(account.vm)
       .map(({ value }) => value)
       .includes(urlPrefix.value)
   ) {
