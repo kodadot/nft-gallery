@@ -20,15 +20,10 @@ interface State {
 
 const RECENT_WALLET_DAYS_PERIOD = 30
 
-export const walletHistory = useLocalStorage<WalletHistory>(
-  'wallet-history',
-  {},
-)
-
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     selected: undefined,
-    history: { ...walletHistory.value },
+    history: undefined,
     disconnecting: false,
   }),
   getters: {
@@ -68,9 +63,7 @@ export const useWalletStore = defineStore('wallet', {
     },
     setRecentWallet(extensionName: string) {
       // saving only last connected wallet
-      const history = { [extensionName]: new Date() }
-      this.history = history
-      walletHistory.value = history
+      this.history = { [extensionName]: new Date() }
     },
     clear() {
       this.selected = undefined

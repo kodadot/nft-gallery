@@ -38,7 +38,7 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
-import { useWalletStore, walletHistory } from '@/stores/wallet'
+import { useWalletStore } from '@/stores/wallet'
 
 const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -72,7 +72,5 @@ const logout = async () => {
     await disconnectWeb3Modal()
   }
   walletStore.setDisconnecting(false)
-
-  walletHistory.value = walletStore.history
 }
 </script>
