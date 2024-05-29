@@ -188,7 +188,8 @@
           v-if="userProfile?.description"
           class="max-w-lg whitespace-break-spaces text-sm">
           <Markdown
-            :source="getDescriptionWithSocialLinks(userProfile.description)"
+            :source="getDescriptionWithLinks(userProfile.description)"
+            html
             data-testid="profile-description" />
         </div>
         <!-- Followers -->
@@ -374,7 +375,7 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-import { getDescriptionWithSocialLinks } from './utils'
+import { getDescriptionWithLinks } from './utils'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 
 const NuxtImg = resolveComponent('NuxtImg')

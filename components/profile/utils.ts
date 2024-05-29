@@ -1,4 +1,4 @@
-type LinkableSocialMedia = {
+type LinkableBlock = {
   regex: RegExp
   template: (match: string) => string
 }
@@ -6,7 +6,7 @@ type LinkableSocialMedia = {
 const createLink = (content: string, url: string) =>
   `<a href="${url}" target="_blank" rel="nofollow noopener noreferrer">${content}</a>`
 
-const LINKABLE_SOCIAL_MEDIAS: LinkableSocialMedia[] = [
+const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
     regex: /\/\S+/,
     template: (match: string) => `https://warpcast.com/~/channel${match}`,
@@ -18,8 +18,8 @@ const LINKABLE_SOCIAL_MEDIAS: LinkableSocialMedia[] = [
   },
 ]
 
-export const getDescriptionWithSocialLinks = (description: string) => {
-  return LINKABLE_SOCIAL_MEDIAS.reduce(
+export const getDescriptionWithLinks = (description: string) => {
+  return LINKABLE_BLOCKS.reduce(
     (reducer, { regex, template }) =>
       reducer.replace(new RegExp(regex, 'g'), (match: string) =>
         createLink(match, template(match)),

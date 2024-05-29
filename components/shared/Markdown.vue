@@ -6,8 +6,17 @@
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
 
+const props = withDefaults(
+  defineProps<{
+    source: string
+    html?: boolean
+  }>(),
+  { html: false },
+)
+
 const markdown = new MarkdownIt({
   breaks: true,
+  html: props.html,
   highlight: (code: string, lang: string) => {
     if (lang && Prism.languages[lang]) {
       return `<pre class="language-${lang}"><code>${Prism.highlight(
@@ -22,10 +31,6 @@ const markdown = new MarkdownIt({
     )}</code></pre>`
   },
 })
-
-defineProps<{
-  source: string
-}>()
 
 // useRedirectModal(markdown)
 </script>
