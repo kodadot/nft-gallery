@@ -11,6 +11,7 @@ export function useUnlockable(
   const fetchUnlockLink = async (id) => {
     const url = await getValue(urlPrefix.value, id)
     unlockLink.value = url
+    return url ?? null
   }
 
   useQuery({
