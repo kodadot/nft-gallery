@@ -29,9 +29,12 @@
         </div>
       </div>
     </div>
+
     <div
       class="pt-6 pb-7 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
-      <div class="flex flex-col gap-6">
+      <ProfileSkeleton v-if="isFetchingProfile" />
+
+      <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
@@ -418,7 +421,8 @@ const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
-const { hasProfile, userProfile, fetchProfile } = useProfile()
+const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
+  useProfile()
 
 provide('userProfile', { hasProfile, userProfile })
 
