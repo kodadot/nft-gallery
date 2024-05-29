@@ -12,7 +12,7 @@
       <div class="flex justify-between items-center mb-6 md:!mb-4">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
-          class="no-shadow is-text text-left p-0"
+          class="no-shadow is-text underline text-left p-0"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
           data-testid="drops-text-description-button"
           @click="toggleSeeAllDescription" />

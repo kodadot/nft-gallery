@@ -28,20 +28,23 @@ export type DropCollectionById = {
 
 function useCollectionData(collectionId, client) {
   const { accountId } = useAuth()
-  return useQuery<DropCollectionById | null>({
-    queryKey: ['collection-drop-data', client, collectionId, accountId],
-    queryFn: () =>
-      collectionId.value
-        ? useAsyncQuery<DropCollectionById | null>({
-            clientId: client.value,
-            query: unlockableCollectionById,
-            variables: {
-              id: collectionId.value,
-              search: { issuer_eq: accountId.value },
-            },
-          }).then((res) => res.data.value)
-        : null,
-  })
+  const { vueApp } = useNuxtApp()
+  return vueApp.runWithContext(() =>
+    useQuery<DropCollectionById | null>({
+      queryKey: ['collection-drop-data', client, collectionId, accountId],
+      queryFn: () =>
+        collectionId.value
+          ? useAsyncQuery<DropCollectionById | null>({
+              clientId: client.value,
+              query: unlockableCollectionById,
+              variables: {
+                id: collectionId.value,
+                search: { issuer_eq: accountId.value },
+              },
+            }).then((res) => res.data.value)
+          : null,
+    }),
+  )
 }
 
 export function useCollectionEntity() {
@@ -122,14 +125,14 @@ export const useUpdateMetadata = async () => {
 
       if (checkIndex.size === amountToMint.value) {
         status.value = 'update'
-        await updateMetadata()
+        await submitMetadata()
       }
     },
   })
 
   // 2. update metadata
   const mintedNfts: Ref<MintedNFT[]> = ref([])
-  const updateMetadata = async () => {
+  const submitMetadata = async () => {
     const response = await Promise.all(mintNFTs.value.map(submitMint))
 
     for (const [index, res] of response.entries()) {
