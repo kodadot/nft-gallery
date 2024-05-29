@@ -19,8 +19,13 @@
         class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
+          <NeoSkeleton
+            v-if="isFetchingProfile"
+            item-class="!h-[124px] !w-[124px] !rounded-full m-0"
+            no-margin />
+
           <BaseMediaItem
-            v-if="userProfile?.image"
+            v-else-if="userProfile?.image"
             :src="userProfile.image"
             :image-component="NuxtImg"
             :title="'User Avatar'"
@@ -349,6 +354,7 @@ import {
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
+  NeoSkeleton,
 } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
