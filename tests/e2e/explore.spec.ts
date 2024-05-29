@@ -32,9 +32,7 @@ test('Explore collections', async ({ page, Commands }) => {
 
   //Results
   await test.step('Verify if explore results have loaded accordingly', async () => {
-    await expect(page.getByTestId('collection-index-0').first()).toBeVisible({
-      timeout: 10000,
-    })
+    await expect(page.getByTestId('collection-index-0').first()).toBeVisible()
     expect(
       page.locator('[class="collection-detail__name"]').first().innerText,
     ).not.toContain('')
@@ -74,13 +72,9 @@ test('Explore Items', async ({ page, Commands }) => {
   //mitigate lazy loading
   await test.step('Scroll down, verify first card and filter tag existance', async () => {
     await Commands.scrollDownAndStop()
-    await expect(page.getByTestId('card-money').first()).toBeVisible({
-      timeout: 10000,
-    })
+    await expect(page.getByTestId('card-money').first()).toBeVisible()
     await expect(page.getByTestId('neo-tag-component').nth(0)).toBeVisible()
-    await expect(page.getByTestId('neo-tag-component').nth(1)).toBeVisible({
-      timeout: 10000,
-    })
+    await expect(page.getByTestId('neo-tag-component').nth(1)).toBeVisible()
   })
 
   //Listing price
