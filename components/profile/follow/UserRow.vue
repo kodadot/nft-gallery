@@ -52,6 +52,8 @@ import {
 } from '@/services/profile'
 import { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
+import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
@@ -91,11 +93,15 @@ const followConfig: ButtonConfig = {
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
+    }).catch(() => {
+      openProfileCreateModal()
     })
     showFollowing.value = true
     refresh()
   },
-  disabled: props.user.address === toSubstrateAddress(accountId.value),
+  disabled:
+    !accountId.value ||
+    props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
