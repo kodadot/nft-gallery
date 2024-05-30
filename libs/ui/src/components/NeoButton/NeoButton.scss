@@ -66,6 +66,19 @@
       }
     }
 
+    &--secondary {
+      @apply bg-background-color text-text-color border border-text-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      &__active,
+      &.active {
+        @apply border-2;
+      }
+    }
+
     &--k-blue {
       @apply bg-k-blue text-black;
 
@@ -160,14 +173,6 @@
 
       &:hover {
         @apply bg-k-accent-hover;
-      }
-    }
-
-    &--secondary {
-      @apply h-[22px] text-xs/none w-min rounded shadow-none border border-k-shade bg-background-color;
-
-      &:hover {
-        @apply bg-background-color border border-text-color text-text-color;
       }
     }
 
