@@ -9,6 +9,7 @@
     }"
     :size="size"
     :icon-right="icon"
+    :icon-left="iconLeft"
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
@@ -35,6 +36,7 @@ withDefaults(
     disabled?: boolean
     expanded?: boolean
     icon?: string
+    iconLeft?: string
     iconPack?: string
     label?: string
     active?: boolean
