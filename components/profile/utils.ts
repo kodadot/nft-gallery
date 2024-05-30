@@ -8,7 +8,7 @@ const createLink = (content: string, url: string) =>
 
 const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
-    regex: /\/[^\/<>\s]+(?![^<>]*>)/,
+    regex: /\/\w+(?![^<>]*>)/,
     template: (match: string) => `https://warpcast.com/~/channel${match}`,
   },
   {
