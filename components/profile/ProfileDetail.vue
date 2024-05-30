@@ -460,7 +460,7 @@ const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
   onClick: () => (isModalActive.value = true),
-  variant: 'k-accent',
+  variant: 'primary',
 }
 
 const followConfig: ButtonConfig = {

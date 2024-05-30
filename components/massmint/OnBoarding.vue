@@ -156,7 +156,7 @@ const btn = computed(() =>
   currentSlide.value === 2
     ? {
         label: $i18n.t('massmint.onboarding.done'),
-        variant: 'k-accent' as NeoButtonVariant,
+        variant: 'primary' as NeoButtonVariant,
         onClick: toMassMint,
       }
     : {
