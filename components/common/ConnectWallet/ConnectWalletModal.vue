@@ -39,10 +39,6 @@
 import { NeoModalHead } from '@kodadot1/brick'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
-import ConnectEvm from './ConnectEvm.vue'
-import ConnectSubstrate from './ConnectSubstrate.vue'
-import MnemonicNotice from './MnemonicNotice.vue'
-import WalletTabs from './WalletTabs.vue'
 import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 
 const emit = defineEmits(['close', 'connect'])
