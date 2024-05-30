@@ -8,7 +8,26 @@
       :followers-count="followersCount"
       :following-count="followingCount"
       @close="refresh" />
+
+    <div v-if="isFetchingProfile" class="relative !h-[360px] border-b">
+      <NeoSkeleton
+        class="h-full absolute"
+        item-class="!h-full w-full m-0"
+        no-margin />
+
+      <div
+        class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
+        <div
+          class="!rounded-full overflow-hidden p-2.5 bg-background-color border z-[10]">
+          <NeoSkeleton
+            item-class="!h-[124px] !w-[124px] !rounded-full m-0"
+            no-margin />
+        </div>
+      </div>
+    </div>
+
     <div
+      v-else
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
         backgroundImage: userProfile?.banner
@@ -19,13 +38,8 @@
         class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
-          <NeoSkeleton
-            v-if="isFetchingProfile"
-            item-class="!h-[124px] !w-[124px] !rounded-full m-0"
-            no-margin />
-
           <BaseMediaItem
-            v-else-if="userProfile?.image"
+            v-if="userProfile?.image"
             :src="userProfile.image"
             :image-component="NuxtImg"
             :title="'User Avatar'"
