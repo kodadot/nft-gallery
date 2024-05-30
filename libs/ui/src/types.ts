@@ -1,6 +1,5 @@
 export type NeoButtonVariant =
   | 'primary'
-  | 'k-accent'
   | 'k-blue'
   | 'k-pink'
   | 'connect'

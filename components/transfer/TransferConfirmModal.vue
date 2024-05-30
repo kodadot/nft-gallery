@@ -116,7 +116,7 @@
 
       <NeoButton
         :label="$t('teleport.send')"
-        variant="k-accent"
+        variant="primary"
         no-shadow
         class="fixed-button-height flex flex-1"
         @click="confirmTransfer" />

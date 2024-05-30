@@ -62,7 +62,7 @@
         <div class="flex justify-between mt-4">
           <NeoButton
             :label="$t('autoTeleport.welcome.submit')"
-            variant="k-accent"
+            variant="primary"
             no-shadow
             class="flex flex-grow btn-height"
             @click="onClose" />
