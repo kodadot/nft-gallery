@@ -4,7 +4,7 @@
 
 .o-btn {
   &.is-neo {
-    @apply  h-10 min-w-10 rounded-none font-inherit py-2;
+    @apply h-10 min-w-10 rounded-none font-inherit py-2;
 
     &.o-btn--large {
       @apply text-base h-13;
@@ -28,7 +28,6 @@
       @apply bg-background-color-inverse text-text-color-inverse;
     }
 
-
     &.active {
       @apply bg-background-color-inverse text-text-color-inverse;
     }
@@ -36,7 +35,7 @@
 
   &.o-btn {
     &--text {
-      @apply p-0 h-fit text-text-color bg-inherit border-none;
+      @apply p-0 h-fit text-text-color bg-inherit border-none shadow-none;
 
       &:hover {
         @apply text-link-hover bg-inherit;
@@ -86,7 +85,7 @@
     }
 
     &--icon {
-      @apply border-none p-0 h-min;
+      @apply border-none p-0 h-min shadow-none;
 
       &:hover {
         @apply bg-transparent text-link-hover;
@@ -204,7 +203,6 @@
       }
     }
 
-
     &--secondary-rounded {
       @apply rounded-[2rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-text-color;
 
@@ -229,7 +227,6 @@
     &:hover {
       @apply text-text-color bg-transparent;
     }
-
   }
 
   &.no-shadow {
