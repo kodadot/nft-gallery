@@ -20,8 +20,8 @@
       @apply bg-k-accent-hover text-text-color;
     }
 
-    &:focus {
-      @apply outline-1 outline bg-k-accent-hover text-text-color;
+    &:focus:not(.active):not(:active) {
+      @apply border-2 border-border-color bg-k-accent-hover text-text-color;
     }
 
     &:active,
@@ -42,7 +42,7 @@
     &--primary {
       @apply bg-k-primary;
 
-      &:not(:hover):not(:disabled) {
+      &:not(:hover):not(:disabled):not(.active):not(:active) {
         @apply text-black #{!important};
       }
 
@@ -65,15 +65,6 @@
 
     &--secondary {
       @apply bg-background-color text-text-color border border-text-color;
-
-      &:not(.dropdown.active):hover {
-        @apply bg-k-accent-hover;
-      }
-
-      &__active,
-      &.active {
-        @apply border-2;
-      }
     }
 
     &--k-blue {
