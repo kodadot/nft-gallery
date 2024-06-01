@@ -1293,7 +1293,8 @@
     "dark": "Dark",
     "language": "Language",
     "disconnect": "Disconnect",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "configureCookies": "Configure Cookies"
   },
   "priceChart": {
     "days": "{0} Days",
