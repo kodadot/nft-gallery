@@ -986,6 +986,7 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyToClipboard": "Copied to clipboard",
+    "copyAddressToClipboard": "Account address copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "generativeActivity": "Generative",
