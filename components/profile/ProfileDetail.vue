@@ -94,7 +94,7 @@
                       data-testid="profile-wallet-links-button-copy"
                       :icon-pack="'fas'"
                       class="ml-2.5"
-                      @click="toast('Copied to clipboard')" />
+                      @click="toast($t('general.copyAddressToClipboard'))" />
                   </div>
                   <!-- View on Subscan and SubID -->
                   <div class="flex items-center">
