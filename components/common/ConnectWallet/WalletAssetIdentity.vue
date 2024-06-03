@@ -7,7 +7,6 @@
       <IdentityItem
         :account="account"
         :label="display || shortenedAddress"
-        show-profile-info
         :prefix="urlPrefix">
         <template #default="{ label }">
           <div class="pl-3">

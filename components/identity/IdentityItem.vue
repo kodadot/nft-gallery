@@ -1,7 +1,6 @@
 <template>
   <div class="flex items-center">
-    <ProfileAvatar v-if="showProfileInfo" :address="account" :size="48" />
-    <Avatar v-else :size="48" :value="account" />
+    <ProfileAvatar :address="account" :size="48" />
     <slot :label="label">
       <div class="identity-container">
         <div class="text-k-grey text-base">
@@ -21,7 +20,6 @@
 </template>
 
 <script lang="ts" setup>
-import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { resolveComponent } from 'vue'
 
@@ -34,12 +32,10 @@ withDefaults(
     prefix: string
     hideIdentityPopover?: boolean
     disableIdentityLink?: boolean
-    showProfileInfo?: boolean
   }>(),
   {
     hideIdentityPopover: false,
     disableIdentityLink: false,
-    showProfileInfo: false,
   },
 )
 </script>
