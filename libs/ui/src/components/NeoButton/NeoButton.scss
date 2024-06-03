@@ -20,8 +20,8 @@
       @apply bg-k-accent-hover text-text-color;
     }
 
-    &:active,
-    &.active {
+    &:not(.pressing):active,
+    &:not(.pressing).active {
       @apply bg-background-color-inverse text-text-color-inverse;
     }
   }
