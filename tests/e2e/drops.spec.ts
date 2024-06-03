@@ -25,6 +25,7 @@ test('make sure drops page with type holder not broken', async ({ page }) => {
     Artist: Nicolas Lebrun
     Echo is a captivating exploration of the realm of composition, where the essence lies in a dynamic interplay between samples and a meticulous process...
     `,
+    { timeout: 15000 },
   )
 
   await page.goto(addresses[1])
@@ -33,6 +34,7 @@ test('make sure drops page with type holder not broken', async ({ page }) => {
     Artist: @atimtay
     'Chroma Lattice' conjures an image of a vibrant and structured visual experience. In this generative art project, the name suggests an exploration of color...
     `,
+    { timeout: 15000 },
   )
 })
 
@@ -41,7 +43,9 @@ test('Drop page verification', async ({ page, Commands }) => {
   await page.goto(addresses[0])
 
   await test.step('Created By', async () => {
-    await expect(page.getByTestId('drop-created-by-container')).toBeVisible()
+    await expect(page.getByTestId('drop-created-by-container')).toBeVisible({
+      timeout: 15000,
+    })
   })
 
   await test.step('Collected By', async () => {

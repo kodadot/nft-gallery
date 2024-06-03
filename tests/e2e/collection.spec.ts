@@ -108,7 +108,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(
       page.getByTestId('collection-nft-holder').first(),
     ).toBeVisible()
-    await page.getByTestId('collection-nft-holder-address').first().hover()
+    await page.getByTestId('collection-nft-holder-identity').nth(1).hover()
     await expect(page.getByTestId('identity-popover-container')).toBeVisible()
   })
 

@@ -121,13 +121,6 @@
             :chain="urlPrefix"
             @select="showMobileNavbar" />
 
-          <!-- commenting as part of #5889-->
-          <!-- <StatsDropdown
-          class="navbar-stats custom-navbar-item"
-          data-testid="stats"
-          :is-mobile="isMobile"
-          :chain="urlPrefix" /> -->
-
           <MobileExpandableSection
             v-slot="{ onCloseMobileSubMenu }"
             class="lg:!hidden"

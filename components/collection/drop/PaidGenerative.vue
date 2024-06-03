@@ -6,8 +6,8 @@
     :action="action"
     :status="status"
     :is-error="isError"
-    @confirm="handleConfirmPaidMint"
-    @close="handleMintModalClose"
+    @confirm="mintNft"
+    @close="closeMintModal"
     @list="handleList" />
 </template>
 
@@ -19,6 +19,7 @@ import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
@@ -40,6 +41,8 @@ const {
   allocatedNFTs,
   isCapturingImage,
 } = storeToRefs(useDropStore())
+
+const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
 const {
   transaction,
@@ -103,21 +106,13 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  openMintModal()
-  await massGenerate()
-}
-
-const openMintModal = () => {
   isMintModalActive.value = true
-}
-
-const handleMintModalClose = () => {
-  closeMintModal()
-  clearMassMint()
+  await massGenerate()
 }
 
 const closeMintModal = () => {
   isMintModalActive.value = false
+  clearMassMint()
 }
 
 const submitMints = async () => {
@@ -134,16 +129,16 @@ const submitMints = async () => {
 }
 
 const handleList = () => {
-  closeMintModal()
+  isMintModalActive.value = false
   listMintedNFTs()
   openListingCartModal()
 }
 
-const handleConfirmPaidMint = () => {
-  mintNft()
-}
-
 const stopMint = () => {
+  if (isAutoTeleportModalOpen.value) {
+    return
+  }
+
   isMintModalActive.value = false
   loading.value = false
   clearMassMint()

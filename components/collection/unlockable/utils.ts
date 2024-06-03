@@ -1,6 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
-import { preheatFileFromIPFS } from '@/utils/ipfs'
-import { pinJson } from '@/services/nftStorage'
+import { createMetadata } from '@kodadot1/minimark/utils'
 
 export const UNLOCKABLE_CAMPAIGN = 'bbw2023'
 export const UNLOCKABLE_NAME = 'Berlin (Blockchain) Waifus'
@@ -32,27 +30,6 @@ export const makeUnlockableMetadata = (
     'kodadot.xyz',
     mimeType,
   )
-
-export async function createUnlockableMetadata(
-  imageHash: string,
-  description: string,
-  name: string,
-  mimeType: string = 'image/png',
-  animationUrl?: string,
-) {
-  const meta = makeUnlockableMetadata(
-    name,
-    description,
-    imageHash,
-    animationUrl,
-    mimeType,
-  )
-
-  const metaHash = await pinJson(meta, 'claimable')
-
-  preheatFileFromIPFS(metaHash)
-  return unSanitizeIpfsUrl(metaHash)
-}
 
 export function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)

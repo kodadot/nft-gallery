@@ -6,7 +6,7 @@
     <a
       v-if="showClipboard"
       v-clipboard:copy="address"
-      @click="toast('Copied to clipboard')">
+      @click="toast($t('general.copyAddressToClipboard'))">
       <svg
         width="13"
         height="13"

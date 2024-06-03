@@ -1,5 +1,6 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
+import { Prefix } from '@kodadot1/static'
 
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
@@ -46,18 +47,6 @@ export type DropMintedStatus = {
   hash: string
 }
 
-export type AllocateCollectionRequest = {
-  address: string
-  email: string
-  metadata?: string
-  hash: string
-  image?: string
-}
-
-type AllocateCollectionResponse = {
-  result: AllocatedNFT
-}
-
 export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
@@ -76,40 +65,6 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const allocateCollection = async (
-  body: AllocateCollectionRequest,
-  id: string,
-) => {
-  try {
-    const response = await api<AllocateCollectionResponse>(
-      `/drops/allocate/${id}`,
-      {
-        method: 'POST',
-        body,
-      },
-    )
-
-    return response
-  } catch (error) {
-    throw new Error(`[FXART::ALLOCATE] ERROR: ${(error as FetchError).data}`)
-  }
-}
-
-export const allocateClaim = async (body, id) => {
-  try {
-    const response = await api<{ result: DoResult }>(`/drops/do/${id}`, {
-      method: 'post',
-      body,
-    })
-
-    return response
-  } catch (error) {
-    throw new Error(
-      `[FXART::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
-    )
-  }
-}
-
 export const setMetadataUrl = ({ chain, collection, hash }) => {
   const metadataUrl = new URL(
     'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
@@ -121,7 +76,7 @@ export const setMetadataUrl = ({ chain, collection, hash }) => {
   return metadataUrl.toString()
 }
 
-export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
+export const updateMetadata = async ({ chain, collection, nft, sn }) => {
   try {
     const response = await api<DoResult>('/metadata/v2/update', {
       method: 'post',
@@ -130,7 +85,6 @@ export const updateMetadata = async ({ chain, collection, nft, sn, hash }) => {
         collection,
         nft,
         sn,
-        hash,
       },
     })
 
@@ -157,14 +111,21 @@ export type DropCalendar = {
   holder_of: string | null
   location: string | null
   items: CalendarItem[]
+  alias: string | null
+  chain: Prefix | null
 }
 
 export type CalendarItem = {
   image: string
 }
 
-export const getDropCalendar = async () => {
+type GetCalendarsQuery = {
+  chain?: Prefix[]
+}
+
+export const getDropCalendar = async (query: GetCalendarsQuery = {}) => {
   return await api<DropCalendar[]>('/calendars', {
     method: 'GET',
+    query: query,
   })
 }

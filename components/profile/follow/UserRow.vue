@@ -1,6 +1,8 @@
 <template>
   <div class="flex items-center justify-between">
-    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${user.address}`">
+    <NuxtLink
+      class="flex"
+      :to="`/${urlPrefix}/u/${getss58AddressByPrefix(user.address, urlPrefix)}`">
       <NuxtImg
         :src="user.image"
         placholder
@@ -49,7 +51,7 @@ import {
   unfollow,
 } from '@/services/profile'
 import { ButtonConfig } from '@/components/profile/types'
-
+import { getss58AddressByPrefix } from '@/utils/account'
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
@@ -63,9 +65,13 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
+
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
-  () => fetchFollowersOf(props.user.address, 0).then((res) => res.totalCount),
+  () =>
+    fetchFollowersOf(props.user.address, { limit: 0 }).then(
+      (res) => res.totalCount,
+    ),
 )
 
 const { data: isFollowed, refresh: refreshFollowStatus } = useAsyncData(

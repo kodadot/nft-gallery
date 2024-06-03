@@ -64,6 +64,7 @@
   "name": "Name",
   "simple": "Simple",
   "confirmed": "Confirmed",
+  "finalazing": "Finalizing",
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
   "viewNft": "View NFT | View NFTs",
@@ -985,6 +986,7 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyToClipboard": "Copied to clipboard",
+    "copyAddressToClipboard": "Account address copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "generativeActivity": "Generative",
@@ -1179,7 +1181,7 @@
     "newToKoda": "New to Koda?",
     "startConnect": "Start trading NFTs by connecting a digital wallet.",
     "quickSteps": "Quick Steps to Begin:",
-    "chooseWallet":"Choose a Wallet: ",
+    "chooseWallet": "Choose a Wallet: ",
     "chooseBelow": "Choose from trusted providers below.",
     "downloadAndConnect": "Download and Connect: ",
     "setUpConnect": "Set up your wallet, then return to connect.",
@@ -1307,10 +1309,6 @@
     "privacyPolicy": "Privacy Policy"
   },
   "signupBanner": {
-    "title": "Stay in the loop and Get",
-    "subtitle": "Sign up and receive a $20 voucher, along with the latest updates from us.",
-    "claimVoucher": "Claim Voucher!",
-    "subscribed": "Successfully subscribed!",
     "failed": "Something went wrong subscribing you to the newsletter"
   },
   "share": {
@@ -1541,6 +1539,7 @@
   "drops": {
     "title": "Generative Art Drops",
     "drops": "Drops",
+    "goToDropPage": "Go To Drop Page",
     "dropInformation": "Drop Information",
     "dropCalendar": "Drop Calendar",
     "pastArtDrops": "Past Art Drops",
@@ -1601,7 +1600,7 @@
     "proceedToSigning": "Proceed to signing",
     "signTransaction": "Sign Transaction",
     "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions.",
-    "createNewVariation": "Create your new variation",
+    "createNewVariation": "Preview Variations",
     "holderOfCollection": "Holder of NFT from {name} collection",
     "mintForFree": "Mint For Free Now",
     "mintForPaid": "Mint For {0}",
@@ -1888,7 +1887,15 @@
     "replayAnimation": "Replay Animation",
     "exportVariations": "Export Variations",
     "resolveIssue": "Resolve Issue",
-    "copyCode": "Copy Code"
+    "copyCode": "Copy Code",
+    "testOutPerformance": "Test out performance",
+    "testOutCapture": "Test out capture service",
+    "uploadingFile": "Uploading File...",
+    "timePerVariation": "Time per variation",
+    "numberOfInputs": "Number Of Inputs",
+    "retryTest": "Retry test",
+    "failedUploadingIndex": "Failed uploading html file",
+    "confidentialCode": "Rest assured, your code remains confidential with us. It is solely used for internal evaluation purposes and will not be distributed, shared, or sold in any form."
   },
   "collectionCreatedModal": {
     "title": "Collection Created Successfully"
@@ -2084,6 +2091,18 @@
       "subtitle": "See and join other collectors browsing the drop in real time.",
       "decline": "Opt Out",
       "accept": "Dive In!"
+    }
+  },
+  "profiles": {
+    "errors": {
+      "unconfrimedFarcasterAuth": {
+        "title": "Confirm Connection",
+        "message": "Please complete the confirmation in Farcaster, then return here"
+      },
+      "unsuccessfulFarcasterAuth": {
+        "title": "Unsuccessful Connection",
+        "message": "Somehting went wrong linking with your farcaster account, please try again."
+      }
     }
   }
 }

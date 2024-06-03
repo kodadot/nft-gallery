@@ -18,9 +18,10 @@
       </a>
     </NeoTooltip>
     <NeoTooltip :label="$t('newTab')" position="top">
-      <a no-shadow @click="handleNewTab">
+      <a v-if="disableNewTab" no-shadow @click="handleNewTab">
         <NeoIcon icon="arrow-up-right" size="medium" />
       </a>
+      <NeoIcon v-else icon="arrow-up-right" size="medium" class="text-k-grey" />
     </NeoTooltip>
   </div>
 </template>
@@ -118,4 +119,12 @@ const handleNewTab = () => {
     window.open(nftAnimation.value || image.value, '_blank')
   }
 }
+
+const disableNewTab = computed(() => {
+  if (nftAnimation.value && nftAnimationMimeType.value) {
+    return true
+  }
+
+  return nftImage.value && nftMimeType.value
+})
 </script>
