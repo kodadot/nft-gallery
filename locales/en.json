@@ -1539,6 +1539,7 @@
   "drops": {
     "title": "Generative Art Drops",
     "drops": "Drops",
+    "goToDropPage": "Go To Drop Page",
     "dropInformation": "Drop Information",
     "dropCalendar": "Drop Calendar",
     "pastArtDrops": "Past Art Drops",

@@ -21,10 +21,23 @@
             @click="emit('close')" />
         </header>
 
-        <div v-if="dropCalendar.dropStartTime" class="!mt-6">
-          <NeoButton no-shadow rounded @click="isCreateEventModalActive = true">
+        <div class="!mt-6 flex flex-wrap gap-6">
+          <NeoButton
+            v-if="dropCalendar.dropStartTime"
+            no-shadow
+            rounded
+            @click="isCreateEventModalActive = true">
             {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span
             >{{ formattedDate }}
+          </NeoButton>
+
+          <NeoButton
+            v-if="dropCalendar.alias"
+            variant="secondary-rounded"
+            icon-left="sparkles"
+            :tag="NuxtLink"
+            :to="`/${chain}/drops/${dropCalendar.alias}`">
+            {{ $t('drops.goToDropPage') }}
           </NeoButton>
         </div>
 
@@ -124,9 +137,11 @@
 <script lang="ts" setup>
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { format } from 'date-fns'
-import { useCollectionMinimal } from '~/components/collection/utils/useCollectionDetails'
+import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import type { InternalDropCalendar } from './DropsCalendar.vue'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const placeholder = 'TBA'
 const MOBILE_BREAKPOINT = 768
 
@@ -134,13 +149,15 @@ const emit = defineEmits(['close'])
 const props = defineProps<{ dropCalendar?: InternalDropCalendar }>()
 
 const { $i18n } = useNuxtApp()
-const { decimalsOf } = useChain()
 const { width } = useWindowSize()
+const { urlPrefix } = usePrefix()
+
+const chain = computed(() => props.dropCalendar?.chain ?? urlPrefix.value)
 
 const { formatted: formattedPrice } = useAmount(
   computed(() => props.dropCalendar?.price || ''),
-  computed(() => decimalsOf('ahp')), // drops page only shows ahp drops
-  computed(() => 'DOT'),
+  computed(() => chainPropListOf(chain.value)?.tokenDecimals),
+  computed(() => chainPropListOf(chain.value)?.tokenSymbol),
 )
 
 const { collection } = useCollectionMinimal({
