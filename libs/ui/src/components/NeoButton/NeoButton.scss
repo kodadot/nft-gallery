@@ -20,10 +20,6 @@
       @apply bg-k-accent-hover text-text-color;
     }
 
-    &:focus:not(.active):not(:active) {
-      @apply bg-k-accent-hover text-text-color;
-    }
-
     &:active,
     &.active {
       @apply bg-background-color-inverse text-text-color-inverse;
