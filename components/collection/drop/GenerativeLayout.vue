@@ -52,20 +52,20 @@
 
       <CollectionUnlockableItemInfo :collection-id="drop?.collection" />
 
-      <hr class="my-20" />
+      <hr ref="divider" class="my-20" />
 
-      <LazyCollectionDropItemsGrid
-        v-if="drop?.collection"
+      <CollectionDropItemsGrid
+        v-if="drop?.collection && dividerIsVisible"
         class="mb-14"
         :collection-id="drop?.collection" />
     </div>
   </div>
 
-  <CollectionDropCursorParty
+  <LazyCollectionDropCursorParty
     :drop-alias="drop.alias"
     :user-minted-count="mintedAmountForCurrentUser" />
 
-  <CollectionDropPartyModal />
+  <LazyCollectionDropPartyModal />
 </template>
 
 <script setup lang="ts">
@@ -82,18 +82,23 @@ import { useWindowSize } from '@vueuse/core'
 import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { DropItem } from '@/params/types'
 
+const mdBreakpoint = 768
+
+const emit = defineEmits(['mint'])
+
 const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
-const mdBreakpoint = 768
+
+const divider = ref<HTMLHtmlElement>()
+const dividerIsVisible = useOnceIsVisible(divider)
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => drop.value?.collection ?? ''),
 })
 
-const emit = defineEmits(['mint'])
 const address = computed(() => collectionInfo.value?.currentOwner)
 
 const { owners } = useCollectionActivity({

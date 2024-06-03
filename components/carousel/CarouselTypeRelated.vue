@@ -17,13 +17,6 @@ const props = defineProps<{
 
 const { nfts } = await useCarouselRelated({ collectionId: props.collectionId })
 
-const target = ref(null)
-const targetIsVisible = ref(false)
-
-useIntersectionObserver(target, ([{ isIntersecting }]) => {
-  // set visible only once
-  if (!targetIsVisible.value && isIntersecting) {
-    targetIsVisible.value = isIntersecting
-  }
-})
+const target = ref<HTMLHtmlElement>()
+const targetIsVisible = useOnceIsVisible(target)
 </script>
