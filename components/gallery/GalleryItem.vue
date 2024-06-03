@@ -49,7 +49,7 @@
             class="gallery-item-media relative"
             :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
-            :mime-type="nftAnimationMimeType || nftMimeType"
+            :mime-type="(nftAnimation && nftAnimationMimeType) || nftMimeType"
             :title="nftMetadata?.name"
             :is-fullscreen="isFullscreen"
             is-detail
