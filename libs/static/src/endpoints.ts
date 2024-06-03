@@ -13,6 +13,7 @@ const KUSAMA_ENDPOINTS: WS_URL[] = [
 ]
 
 const POLKADOT_ENDPOINTS: WS_URL[] = [
+  'wss://polkadot-asset-hub-rpc.polkadot.io',
   'wss://rpc.dotters.network/polkadot',
   'wss://polkadot.public.curie.radiumblock.co/ws',
   'wss://rpc.ibp.network/polkadot',
