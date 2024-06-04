@@ -167,6 +167,7 @@
                   " />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
+              <NavbarCookiesButton @select="showMobileNavbar" />
             </template>
             <div
               v-else
