@@ -52,12 +52,12 @@
 
       <CollectionUnlockableItemInfo :collection-id="drop?.collection" />
 
-      <hr ref="divider" class="my-20" />
-
-      <CollectionDropItemsGrid
-        v-if="drop?.collection && dividerIsVisible"
-        class="mb-14"
-        :collection-id="drop?.collection" />
+      <LoadLazly target-is="hr" target-class="my-20">
+        <CollectionDropItemsGrid
+          v-if="drop?.collection"
+          class="mb-14"
+          :collection-id="drop?.collection" />
+      </LoadLazly>
     </div>
   </div>
 
@@ -90,9 +90,6 @@ const { drop } = useDrop()
 const { previewItem } = storeToRefs(useDropStore())
 const { mintedAmountForCurrentUser, description } = useCollectionEntity()
 const { width } = useWindowSize()
-
-const divider = ref<HTMLHtmlElement>()
-const dividerIsVisible = useOnceIsVisible(divider)
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
 const { collection: collectionInfo } = useCollectionMinimal({
