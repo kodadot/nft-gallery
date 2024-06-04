@@ -15,7 +15,7 @@
           icon="copy"
           class="text-k-blue hover:text-k-blue-hover cursor-pointer"
           data-testid="identity-clipboard"
-          @click="toast('Copied to clipboard')" />
+          @click="toast($t('general.copyAddressToClipboard'))" />
       </div>
       <a
         v-if="identity?.twitter"
