@@ -44,7 +44,6 @@ type NewsletterSubscription = {
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
-  notificationBoxCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
@@ -81,7 +80,6 @@ export const usePreferencesStore = defineStore('preferences', {
   state: (): State => ({
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
-    notificationBoxCollapseOpen: false,
     listingCartModalOpen: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {
@@ -116,7 +114,6 @@ export const usePreferencesStore = defineStore('preferences', {
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
     getMobileFilterCollapse: (state) => state.mobileFilterCollapseOpen,
-    getNotificationBoxCollapse: (state) => state.notificationBoxCollapseOpen,
     getShoppingCartCollapse: (state) => state.shoppingCartCollapseOpen,
     getCompletePurchaseModal: (state) => state.completePurchaseModal,
     getTriggerBuySuccess: (state) => state.triggerBuySuccess,
@@ -151,9 +148,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setMobileFilterCollapse(payload) {
       this.mobileFilterCollapseOpen = payload
-    },
-    setNotificationBoxCollapse(payload) {
-      this.notificationBoxCollapseOpen = payload
     },
     setShoppingCartCollapse(payload) {
       this.shoppingCartCollapseOpen = payload
