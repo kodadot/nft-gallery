@@ -52,7 +52,9 @@
 
       <CollectionUnlockableItemInfo :collection-id="drop?.collection" />
 
-      <LoadLazly target-is="hr" target-class="my-20">
+      <hr ref="divider" class="my-20" />
+
+      <LoadLazly :target="divider">
         <CollectionDropItemsGrid
           v-if="drop?.collection"
           class="mb-14"
@@ -95,6 +97,8 @@ const { emitEvent, completeLastEvent } = useCursorDropEvents()
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => drop.value?.collection ?? ''),
 })
+
+const divider = ref()
 
 const address = computed(() => collectionInfo.value?.currentOwner)
 

@@ -1,22 +1,22 @@
 <template>
-  <component :is="targetIs" ref="target" :class="targetClass" />
+  <div ref="target" />
 
   <template v-if="targetIsVisible">
     <slot />
   </template>
 </template>
 <script lang="ts" setup>
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    targetIs?: string
-    targetClass?: string
+    target?: HTMLHtmlElement
   }>(),
   {
-    targetIs: 'div',
-    targetClass: '',
+    target: undefined,
   },
 )
 
 const target = ref<HTMLHtmlElement>()
-const targetIsVisible = useOnceIsVisible(target)
+const targetIsVisible = useOnceIsVisible(
+  computed(() => props.target || target.value),
+)
 </script>
