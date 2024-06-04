@@ -79,7 +79,7 @@ export function useDrops(query?: GetDropsQuery) {
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
 
-  let count = drop.minted
+  let count = drop.minted ?? collection.nftCount
   if (!count) {
     count = await fetchDropMintedCount(drop)
   }

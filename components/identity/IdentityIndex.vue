@@ -1,27 +1,22 @@
 <template>
   <div
-    v-if="
-      ((showTwitter && twitter) || !showTwitter) &&
-      ((showDiscord && discord) || !showDiscord)
-    "
+    v-if="(showTwitter && twitter) || !showTwitter"
     class="flex-wrap flex-grow">
     <IdentitySocial
-      v-if="(showTwitter && twitter) || (showDiscord && discord)"
+      v-if="showTwitter && twitter"
       :twitter="twitter"
-      :show-twitter="showTwitter"
-      :discord="discord"
-      :show-discord="showDiscord" />
+      :show-twitter="showTwitter" />
     <IdentityChain
       v-else
       :show-onchain-identity="showOnchainIdentity"
       :hide-identity-popover="hideIdentityPopover"
       :is-fetching-identity="isFetchingIdentity"
-      :identity="identity"
       :address="address"
       :show-clipboard="showClipboard"
       :show-badge="showIdentityBadge"
       :shortened-address="shortenedAddress"
       :hide-display-name="hideDisplayName"
+      :display="display"
       :name="name" />
   </div>
 </template>
@@ -52,12 +47,12 @@ const props = defineProps<{
 }>()
 
 const {
-  identity,
   isFetchingIdentity,
   shortenedAddress,
   twitter,
-  discord,
   name,
+  display,
+  identity,
   hasIdentity,
 } = useIdentity({
   address: computed(() => props.address),

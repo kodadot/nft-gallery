@@ -30,5 +30,5 @@ const props = withDefaults(
   },
 )
 
-const { profile } = useFetchProfile(computed(() => props.address))
+const { profile } = useFetchProfile(props.address)
 </script>

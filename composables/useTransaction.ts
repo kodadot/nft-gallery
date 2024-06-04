@@ -42,6 +42,7 @@ import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { execMintDrop } from './transaction/transactionMintDrop'
+import { HowAboutToExecuteOnResultParam } from './useMetaTransaction'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -129,10 +130,23 @@ const useExecuteTransaction = (options: TransactionOptions) => {
       warningMessage(message)
     }
 
+    const resultCb = (param: HowAboutToExecuteOnResultParam) => {
+      txHash.value = param.txHash || undefined
+    }
+
     howAboutToExecute(accountId.value, cb, arg, {
       onSuccess: successCb,
       onError: errorCb,
+      onResult: resultCb,
     })
+  }
+
+  const clear = () => {
+    status.value = TransactionStatus.Unknown
+    isError.value = false
+    blockNumber.value = undefined
+    txHash.value = undefined
+    isLoading.value = false
   }
 
   return {
@@ -143,6 +157,7 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     blockNumber,
     txHash,
     isError,
+    clear,
   }
 }
 
@@ -237,6 +252,7 @@ export const useTransaction = (
     blockNumber,
     txHash,
     isError,
+    clear,
   } = useExecuteTransaction(options)
 
   const transaction = async (item: Actions, prefix = '') => {
@@ -261,5 +277,6 @@ export const useTransaction = (
     blockNumber,
     txHash,
     isError,
+    clear,
   }
 }

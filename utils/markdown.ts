@@ -6,7 +6,11 @@ const isMarkdownString = (text: string): boolean => {
   )
 }
 
-export const convertMarkdownToText = (text = ''): string => {
+export const convertMarkdownToText = (
+  inputText: string | null | undefined,
+): string => {
+  let text = inputText ?? ''
+
   if (isMarkdownString(text)) {
     text = text.replaceAll('**', '')
     text = text.replaceAll('__', '')

@@ -1,6 +1,3 @@
-import { fetchProfileByAddress } from '@/services/profile'
-import type { Profile } from '@/services/profile'
-
 export enum Socials {
   Twitter = 'Twitter',
   Website = 'Website',
@@ -8,39 +5,18 @@ export enum Socials {
 }
 
 export default function useUserProfile() {
-  const userProfileData = ref<Profile>()
-  const hasProfile = ref(false)
-  const { params, name } = useRoute()
+  const { params } = useRoute()
 
-  const fetchProfile = async () => {
-    const account = params?.id as string
-    if (!account) {
-      return
-    }
-    try {
-      const response = await fetchProfileByAddress(account)
-      console.log('Profile fetch response:', response)
-
-      userProfileData.value = response
-      hasProfile.value = true
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error)
-    }
-  }
-
-  watch(
-    [() => name, () => params],
-    () => {
-      if (name === 'prefix-u-id') {
-        fetchProfile()
-      }
-    },
-    { immediate: true },
-  )
+  const {
+    profile,
+    refetch: fetchProfile,
+    isLoading,
+  } = useFetchProfile(params?.id as string)
 
   return {
-    hasProfile,
-    userProfile: computed(() => userProfileData.value),
+    hasProfile: computed(() => !!profile.value),
+    userProfile: profile,
     fetchProfile,
+    isFetchingProfile: isLoading,
   }
 }

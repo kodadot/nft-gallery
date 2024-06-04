@@ -1,8 +1,10 @@
 import { getVolume } from '@/utils/math'
-import { NFT } from '@/components/rmrk/service/scheme'
+import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { Stats } from './types'
-
+import { processSingleMetadata } from '@/utils/cachingStrategy'
+import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
+import { useQuery } from '@tanstack/vue-query'
 export const useCollectionDetails = ({
   collectionId,
 }: {
@@ -57,9 +59,8 @@ export const useCollectionDetails = ({
 }
 
 export const useBuyEvents = ({ collectionId }) => {
-  const { data } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'collectionBuyEventStatsById',
+  const { data } = useAsyncQuery({
+    query: collectionBuyEventStatsById,
     variables: {
       id: collectionId,
     },
@@ -111,20 +112,37 @@ export const useCollectionMinimal = ({
     id: collectionId.value,
   }))
 
-  const { data, refetch } = useGraphql({
-    queryName: isAssetHub.value
-      ? 'collectionByIdMinimalWithRoyalty'
-      : 'collectionByIdMinimal',
-    variables: variables.value,
+  const { data } = useQuery({
+    queryKey: ['collection-minimal', isAssetHub, collectionId],
+    queryFn: () =>
+      collectionId.value
+        ? useGraphql({
+            queryName: isAssetHub.value
+              ? 'collectionByIdMinimalWithRoyalty'
+              : 'collectionByIdMinimal',
+            variables: variables.value,
+          })
+        : null,
   })
 
-  watch(data, (result) => {
-    if (result?.collectionEntityById) {
-      collection.value = result.collectionEntityById
+  watch(
+    computed(() => data.value?.data),
+    (result) => {
+      if (result?.collectionEntityById) {
+        collection.value = toRaw(result.collectionEntityById)
+      }
+    },
+  )
+
+  watchEffect(async () => {
+    const metadata = collection.value?.metadata
+    if (metadata && !collection.value?.meta) {
+      const meta = (await processSingleMetadata(metadata)) as NFTMetadata
+      if (meta) {
+        collection.value.meta = meta
+      }
     }
   })
-
-  watch(variables, () => refetch(variables.value))
 
   return { collection }
 }
