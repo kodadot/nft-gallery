@@ -129,7 +129,7 @@ const submitMints = async () => {
 }
 
 const handleList = () => {
-  closeMintModal()
+  isMintModalActive.value = false
   listMintedNFTs()
   openListingCartModal()
 }

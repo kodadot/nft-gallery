@@ -88,7 +88,7 @@
               v-clipboard:copy="accountId"
               class="ml-2"
               data-testid="transfer-copy-sender-address"
-              @click="toast($t('general.copyToClipboard'))">
+              @click="toast($t('general.copyAddressToClipboard'))">
               <NeoIcon icon="copy" />
             </a>
           </div>

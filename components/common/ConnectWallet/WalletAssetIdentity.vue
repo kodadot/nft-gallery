@@ -23,7 +23,9 @@
     </NuxtLink>
 
     <div class="flex flex-row gap-2 pl-2">
-      <a v-clipboard:copy="account" @click="toast('Copied to clipboard')">
+      <a
+        v-clipboard:copy="account"
+        @click="toast($t('general.copyAddressToClipboard'))">
         <NeoIcon icon="copy" />
       </a>
       <a @click="logout">

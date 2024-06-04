@@ -8,7 +8,11 @@
       :followers-count="followersCount"
       :following-count="followingCount"
       @close="refresh" />
+
+    <ProfileBannerSkeleton v-if="isFetchingProfile" />
+
     <div
+      v-else
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
         backgroundImage: userProfile?.banner
@@ -29,9 +33,12 @@
         </div>
       </div>
     </div>
+
     <div
       class="pt-6 pb-7 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
-      <div class="flex flex-col gap-6">
+      <ProfileSkeleton v-if="isFetchingProfile" />
+
+      <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
@@ -95,7 +102,7 @@
                       data-testid="profile-wallet-links-button-copy"
                       :icon-pack="'fas'"
                       class="ml-2.5"
-                      @click="toast('Copied to clipboard')" />
+                      @click="toast($t('general.copyAddressToClipboard'))" />
                   </div>
                   <!-- View on Subscan and SubID -->
                   <div class="flex items-center">
@@ -420,7 +427,8 @@ const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
-const { hasProfile, userProfile, fetchProfile } = useProfile()
+const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
+  useProfile()
 
 provide('userProfile', { hasProfile, userProfile })
 
