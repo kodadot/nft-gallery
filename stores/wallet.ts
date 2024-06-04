@@ -18,20 +18,15 @@ interface State {
   disconnecting: boolean
 }
 
-const getOldWallet = (): WalletAccount | undefined => {
-  if (!localStorage.getItem('kodaauth')) {
-    return undefined
-  }
-
-  const wallet = {
-    vm: 'SUB',
-    address: localStorage.getItem('kodaauth') as string,
-    name: localStorage.getItem('walletname') as string,
-    extension: localStorage.getItem('wallet') as string,
-  } as WalletAccount
-
-  return wallet
-}
+const getOldWallet = (): WalletAccount | undefined =>
+  localStorage.getItem('kodaauth')
+    ? ({
+        vm: 'SUB',
+        address: localStorage.getItem('kodaauth') as string,
+        name: localStorage.getItem('walletname') as string,
+        extension: localStorage.getItem('wallet') as string,
+      } as WalletAccount)
+    : undefined
 
 const RECENT_WALLET_DAYS_PERIOD = 30
 
