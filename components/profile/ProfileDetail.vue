@@ -315,7 +315,7 @@
             :loading-other-network="loadingOtherNetwork"
             :reset-search-query-params="['sort']">
             <template
-              v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
+              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold"
               #empty-result>
               <ProfileEmptyResult
                 :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
@@ -327,7 +327,7 @@
           :id="id"
           :loading-other-network="loadingOtherNetwork"
           class="pt-7">
-          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
+          <template v-if="hasAssetPrefixMap[activeTab]?.length" #empty-result>
             <ProfileEmptyResult
               :prefix-list-with-asset="
                 hasAssetPrefixMap[ProfileTab.COLLECTIONS]
@@ -415,7 +415,7 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark } = useIsChain(urlPrefix)
+const { isRemark, isEvm } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
 const { hasProfile, userProfile, fetchProfile } = useProfile()
@@ -704,6 +704,10 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 }
 
 useAsyncData('tabs-empty-result', async () => {
+  if (isEvm.value) {
+    return
+  }
+
   hasAssetPrefixMap.value = {
     [ProfileTab.OWNED]: [],
     [ProfileTab.CREATED]: [],
