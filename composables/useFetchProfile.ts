@@ -6,6 +6,7 @@ export default function useFetchProfile(address?: string) {
   const {
     data: profile,
     isPending,
+    isLoading,
     refetch,
   } = useQuery<Profile | null>({
     queryKey: [
@@ -20,5 +21,6 @@ export default function useFetchProfile(address?: string) {
     profile,
     isPending,
     refetch,
+    isLoading,
   }
 }

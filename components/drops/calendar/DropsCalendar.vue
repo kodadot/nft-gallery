@@ -81,14 +81,19 @@ defineProps<{
   defaultSkeletonCount: number
 }>()
 
-const { data, pending } = useAsyncData(() => getDropCalendar(), {
-  transform: (items) => {
-    return items.map((item) => ({
-      ...item,
-      dropStartTime: getDropStartTime(item),
-    })) as InternalDropCalendar[]
+const { urlPrefix } = usePrefix()
+
+const { data, pending } = useAsyncData(
+  () => getDropCalendar({ chain: !isProduction ? [urlPrefix.value] : ['ahp'] }),
+  {
+    transform: (items) => {
+      return items.map((item) => ({
+        ...item,
+        dropStartTime: getDropStartTime(item),
+      })) as InternalDropCalendar[]
+    },
   },
-})
+)
 
 const previewDropCalendar = ref<InternalDropCalendar>()
 const body = ref(document.body)
