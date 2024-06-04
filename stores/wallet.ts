@@ -30,10 +30,6 @@ const getOldWallet = (): WalletAccount | undefined => {
     extension: localStorage.getItem('wallet') as string,
   } as WalletAccount
 
-  localStorage.removeItem('kodaauth')
-  localStorage.removeItem('walletname')
-  localStorage.removeItem('wallet')
-
   return wallet
 }
 
