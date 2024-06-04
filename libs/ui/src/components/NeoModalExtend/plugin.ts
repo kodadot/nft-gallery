@@ -42,6 +42,13 @@ const ModalProgrammatic = {
     const vnode = createVNode(Modal, propsData, defaultSlot)
     vnode.appContext = app._context
     render(vnode, document.createElement('div'))
+    if (vnode.component?.props && newParams.innerProps) {
+      vnode.component.props.props = {
+        ...(vnode.component.props.props || {}),
+        ...newParams.innerProps,
+      }
+    }
+
     return vnode.component?.proxy as InstanceType<typeof Modal>
   },
   closeAll() {
