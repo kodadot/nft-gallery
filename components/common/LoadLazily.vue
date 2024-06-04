@@ -1,5 +1,5 @@
 <template>
-  <div ref="target" />
+  <div v-if="!props.target" ref="target" />
 
   <template v-if="targetIsVisible">
     <slot />

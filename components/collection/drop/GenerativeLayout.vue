@@ -54,12 +54,12 @@
 
       <hr ref="divider" class="my-20" />
 
-      <LoadLazly :target="divider">
+      <LoadLazily :target="divider">
         <CollectionDropItemsGrid
           v-if="drop?.collection"
           class="mb-14"
           :collection-id="drop?.collection" />
-      </LoadLazly>
+      </LoadLazily>
     </div>
   </div>
 
