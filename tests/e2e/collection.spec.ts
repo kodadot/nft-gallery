@@ -75,9 +75,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(
       page.locator('[class="infinite-scroll-item"]').first(),
     ).toBeVisible()
-    await expect(page.getByTestId('nft-name').nth(0)).toHaveText(
-      'Pare1d0scope #34',
-    )
+    await expect(page.getByTestId('nft-name')).toHaveText('Pare1d0scope #34')
   })
 
   //art view
