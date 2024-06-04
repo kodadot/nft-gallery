@@ -82,6 +82,7 @@ export default function () {
     withDecimals,
     withoutDecimals,
     unit,
+    vm,
     offersDisabled,
     chainProperties,
     availableChains,
