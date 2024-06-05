@@ -367,7 +367,8 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals, withDecimals, withoutDecimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
+const { isBase } = useIsChain(urlPrefix)
 const identityStore = useIdentityStore()
 const { isLogIn, accountId } = useAuth()
 const { getBalance } = useBalance()
@@ -962,7 +963,13 @@ watch(
   { immediate: true },
 )
 
-watch(urlPrefix, updateAuthBalance)
+watch(urlPrefix, () => {
+  if (isBase.value) {
+    setUrlPrefix('ahp')
+    return
+  }
+  updateAuthBalance()
+})
 
 onMounted(() => {
   calculateTransactionFee()
