@@ -1,6 +1,9 @@
 <template>
   <div class="max-md:gap-6 grid grid-cols-1 md:grid-cols-3">
-    <NeoButton variant="outlined-rounded" icon-left="arrow-left">
+    <NeoButton
+      variant="outlined-rounded"
+      icon-left="arrow-left"
+      @click="$router.back()">
       {{ $t('go back') }}
     </NeoButton>
 
