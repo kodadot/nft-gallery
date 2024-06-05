@@ -2,16 +2,17 @@
   <Identicon
     :data-key="value"
     :size="size"
-    theme="polkadot"
+    :theme="theme"
     :value="value"
     data-testid="avatar-identity-icon"
     class="border border-border-color rounded-full" />
 </template>
 
 <script lang="ts" setup>
+import { isEthereumAddress } from '@polkadot/util-crypto'
 import Identicon from '@polkadot/vue-identicon'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     value: string
     size?: number
@@ -20,5 +21,9 @@ withDefaults(
     value: '',
     size: 64,
   },
+)
+
+const theme = computed(() =>
+  props.value && isEthereumAddress(props.value) ? 'jdenticon' : 'polkadot',
 )
 </script>
