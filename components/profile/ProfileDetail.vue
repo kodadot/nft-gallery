@@ -381,7 +381,7 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-
+import { ChainVM } from '@kodadot1/static'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
@@ -423,8 +423,9 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark, isEvm } = useIsChain(urlPrefix)
+const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
+const { vm } = useChain()
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
   useProfile()
@@ -675,11 +676,17 @@ useAsyncData('tabs-count', async () => {
 
 const fetchTabsCountByNetwork = async (chain: Prefix) => {
   const account = id.value.toString()
-  const publicKey = decodeAddress(account)
-  const prefixAddress = encodeAddress(publicKey, CHAINS[chain].ss58Format)
-  const searchParams = {
-    currentOwner_eq: prefixAddress,
+  let address = account
+
+  if (isSub.value) {
+    const publicKey = decodeAddress(account)
+    address = encodeAddress(publicKey, CHAINS[chain].ss58Format)
   }
+
+  const searchParams = {
+    currentOwner_eq: address,
+  }
+
   const { isRemark } = useIsChain(computed(() => chain))
 
   if (!isRemark.value) {
@@ -690,7 +697,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     query: profileTabsCount,
     clientId: chain,
     variables: {
-      id: prefixAddress,
+      id: address,
       interactionIn: [],
       denyList: getDenyList(urlPrefix.value),
       search: [searchParams],
@@ -715,17 +722,21 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 }
 
 useAsyncData('tabs-empty-result', async () => {
-  if (isEvm.value) {
-    return
-  }
+  const chains = (
+    {
+      SUB: ['ahp', 'ahk', 'ksm', 'rmrk'],
+      EVM: ['base', 'imx'],
+    } as Record<ChainVM, Prefix[]>
+  )[vm.value]
 
   hasAssetPrefixMap.value = {
     [ProfileTab.OWNED]: [],
     [ProfileTab.CREATED]: [],
     [ProfileTab.COLLECTIONS]: [],
   }
+
   loadingOtherNetwork.value = true
-  for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
+  for (const chain of chains) {
     await fetchTabsCountByNetwork(chain as Prefix)
   }
   loadingOtherNetwork.value = false
