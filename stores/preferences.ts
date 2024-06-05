@@ -64,8 +64,6 @@ interface State {
   exploreTabOrder: string
   historyItemsPerPage: number
   replaceBuyNowWithYolo: boolean
-  enableAllArtwork: boolean
-  enableGyroEffect: boolean
   firstTimeAutoTeleport: boolean
   // Minting
   hasSupport: boolean
@@ -104,8 +102,6 @@ export const usePreferencesStore = defineStore('preferences', {
     replaceBuyNowWithYolo: false,
     hasSupport: true,
     hasCarbonOffset: false,
-    enableAllArtwork: true,
-    enableGyroEffect: false,
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
@@ -134,8 +130,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
     getHasSupport: (state) => state.hasSupport,
     getHasCarbonOffset: (state) => state.hasCarbonOffset,
-    getLoadAllArtwork: (state) => state.enableAllArtwork,
-    getEnableGyroEffect: (state) => state.enableGyroEffect,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getUserLocale: (state) => state.userLocale,
@@ -218,12 +212,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setHasCarbonOffset(payload) {
       this.hasCarbonOffset = payload
-    },
-    setAllArtworkVisible(payload) {
-      this.enableAllArtwork = payload
-    },
-    setEnableGyroEffect(payload) {
-      this.enableGyroEffect = payload
     },
     setGridSize(payload) {
       this.gridSize = payload
