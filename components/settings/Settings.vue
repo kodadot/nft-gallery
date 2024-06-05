@@ -7,11 +7,11 @@
     <div>
       <h1 class="text-3xl font-bold">{{ $t('settings') }}</h1>
 
-      <hr class="my-8" />
+      <hr class="!my-8" />
 
       <div class="flex flex-col gap-14">
         <div>
-          <p class="font-bold mb-6">{{ $t('party.partykit') }}</p>
+          <p class="font-bold !mb-6">{{ $t('party.partykit') }}</p>
           <div class="flex items-center">
             <NeoSwitch v-model="partyMode" size="is-medium">
               {{ $t('party.partyMode') }}
@@ -23,7 +23,7 @@
         </div>
 
         <div>
-          <p class="font-bold mb-6">{{ $t('mintingSettings') }}</p>
+          <p class="font-bold !mb-6">{{ $t('mintingSettings') }}</p>
           <div class="flex items-center">
             <NeoSwitch v-model="hasSupport" size="is-medium">
               {{ $t('preferences.helpCoverCosts') }}
@@ -35,7 +35,7 @@
         </div>
 
         <div>
-          <p class="font-bold mb-6">{{ $t('preferences.userData') }}</p>
+          <p class="font-bold !mb-6">{{ $t('preferences.userData') }}</p>
           <NeoButton no-shadow icon="wrench" @click="openModal">{{
             $t('profileMenu.configureCookies')
           }}</NeoButton>
