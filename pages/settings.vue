@@ -13,6 +13,9 @@
       <NeoTabItem label="Keyboard shortcuts" value="keyboardShortcuts">
         <SettingsKeyboardShortcuts />
       </NeoTabItem>
+      <NeoTabItem label="User Data" value="userData">
+        <SettingsUserData />
+      </NeoTabItem>
     </NeoTabs>
   </section>
 </template>
