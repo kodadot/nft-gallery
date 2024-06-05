@@ -55,6 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
+              v-if="!isBase"
               ref="buttonRef"
               rounded
               no-shadow
@@ -423,7 +424,7 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark } = useIsChain(urlPrefix)
+const { isRemark, isBase } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
@@ -481,6 +482,9 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
     }).catch(() => {
+      if (isBase.value) {
+        return
+      }
       openProfileCreateModal()
     })
     refresh()
