@@ -19,9 +19,8 @@ export default ({
 }: UseDynamicGridParams) => {
   const containerWidth = ref(0)
 
-  const isMobileVariant = computed(
-    () => mobileVariant && containerWidth.value <= 768,
-  )
+  const isMobile = computed(() => containerWidth.value <= 768)
+  const isMobileVariant = computed(() => mobileVariant && isMobile.value)
 
   const getColsFilledByAllRows = (cols: number): number => {
     if (!fillRows?.value || cols === 1) {
@@ -43,7 +42,12 @@ export default ({
       return mobileCols
     }
 
-    return fillRows ? getColsFilledByAllRows(getCols) : getCols
+    if (fillRows) {
+      const filledCols = getColsFilledByAllRows(getCols)
+      return filledCols === 1 && !isMobile.value ? getCols : filledCols
+    }
+
+    return getCols
   })
 
   const isReady = computed(() => Boolean(containerWidth.value))
