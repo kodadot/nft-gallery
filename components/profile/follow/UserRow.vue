@@ -55,7 +55,7 @@ import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
 const { accountId } = useAuth()
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
 
 const props = defineProps<{
   user: Follower
@@ -96,6 +96,9 @@ const followConfig: ButtonConfig = {
       targetAddress: props.user.address,
     }).catch(() => {
       if (isBase.value) {
+        $consola.warn(
+          '[ProfileDetail.vue] Profiles on base are not enabled yet',
+        )
         return
       }
       openProfileCreateModal()

@@ -418,7 +418,7 @@ const tabs = [
 ]
 
 const route = useRoute()
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
@@ -483,6 +483,9 @@ const followConfig: ButtonConfig = {
       targetAddress: id.value as string,
     }).catch(() => {
       if (isBase.value) {
+        $consola.warn(
+          '[ProfileDetail.vue] Profiles on base are not enabled yet',
+        )
         return
       }
       openProfileCreateModal()
