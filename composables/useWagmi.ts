@@ -1,5 +1,5 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
-import { base, mainnet, zkSync } from 'viem/chains'
+import { base, immutableZkEvm } from 'viem/chains'
 import { reconnect } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
 import { DisconnectMutateAsync } from 'use-wagmi/query'
@@ -12,7 +12,7 @@ const buildWagmiConfig = () => {
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
   }
 
-  const chains = [mainnet, base, zkSync]
+  const chains = [base, immutableZkEvm]
 
   return defaultWagmiConfig({
     chains,
