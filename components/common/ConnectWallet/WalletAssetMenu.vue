@@ -61,27 +61,29 @@ import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 
 const { urlPrefix } = usePrefix()
-// const { isAssetHub } = useIsChain(urlPrefix)
+const { isBase } = useIsChain(urlPrefix)
 const { neoModal } = useProgrammatic()
 
-const menus = ref([
-  {
-    label: 'Transfer',
-    to: `/${urlPrefix.value}/transfer`,
-  },
-  {
-    label: 'Teleport Bridge',
-    to: `/${urlPrefix.value}/teleport`,
-  },
-  {
-    label: 'Onchain Identity',
-    to: '/identity',
-  },
-  {
-    label: 'Migrate',
-    to: '/migrate',
-  },
-])
+const menus = computed(() =>
+  [
+    {
+      label: 'Transfer',
+      to: `/${urlPrefix.value}/transfer`,
+    },
+    {
+      label: 'Teleport Bridge',
+      to: `/${urlPrefix.value}/teleport`,
+    },
+    {
+      label: 'Onchain Identity',
+      to: '/identity',
+    },
+    {
+      label: 'Migrate',
+      to: '/migrate',
+    },
+  ].filter((menu) => !isBase.value || menu.label !== 'Transfer'),
+)
 
 // TODO: enable when asset hub offers are ready
 // watchEffect(() => {
