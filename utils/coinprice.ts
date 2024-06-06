@@ -64,6 +64,7 @@ export const getPrice = async (id: string): Promise<GetPrice> => {
 const tokenMap = {
   KSM: 'kusama',
   DOT: 'polkadot',
+  ETH: 'ethereum',
 }
 
 export const getApproximatePriceOf = async (id: string): Promise<number> => {
