@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div ref="target"></div>
-    <CarouselIndex
-      v-if="nfts && targetIsVisible"
-      :title="`${$t('nft.related')}`"
-      :nfts="nfts" />
+    <LoadLazily>
+      <CarouselIndex v-if="nfts" :title="`${$t('nft.related')}`" :nfts="nfts" />
+    </LoadLazily>
   </div>
 </template>
 
@@ -16,14 +14,4 @@ const props = defineProps<{
 }>()
 
 const { nfts } = await useCarouselRelated({ collectionId: props.collectionId })
-
-const target = ref(null)
-const targetIsVisible = ref(false)
-
-useIntersectionObserver(target, ([{ isIntersecting }]) => {
-  // set visible only once
-  if (!targetIsVisible.value && isIntersecting) {
-    targetIsVisible.value = isIntersecting
-  }
-})
 </script>

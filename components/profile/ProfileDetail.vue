@@ -383,6 +383,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
 
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
+import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -474,11 +475,13 @@ const createProfileConfig: ButtonConfig = {
 const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !hasProfile.value,
+  disabled: !accountId.value,
   onClick: async () => {
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
+    }).catch(() => {
+      openProfileCreateModal()
     })
     refresh()
     showFollowing.value = isFollowingThisAccount.value || false
