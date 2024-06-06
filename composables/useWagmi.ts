@@ -26,7 +26,7 @@ const config = buildWagmiConfig() as any
 export default () => {
   reconnect(config)
 
-  const { isConnected, address, isConnecting } = useAccount({
+  const { isConnected, address, isConnecting, chainId } = useAccount({
     config,
   })
 
@@ -34,5 +34,5 @@ export default () => {
     () => useDisconnect({ config }).disconnectAsync,
   ) as Promise<DisconnectMutateAsync>
 
-  return { config, isConnected, isConnecting, address, disconnect }
+  return { config, isConnected, isConnecting, address, disconnect, chainId }
 }
