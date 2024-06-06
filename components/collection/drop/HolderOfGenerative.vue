@@ -92,13 +92,8 @@ const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
-const {
-  mintingSession,
-  allocatedNFTs,
-  loading,
-  walletConnecting,
-  isCapturingImage,
-} = storeToRefs(dropStore)
+const { mintingSession, loading, walletConnecting, isCapturingImage } =
+  storeToRefs(dropStore)
 
 useCursorDropEvents([isTransactionLoading, loading])
 
@@ -127,7 +122,6 @@ const mintNft = async () => {
     transaction({
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
-      nfts: allocatedNFTs.value,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
     })

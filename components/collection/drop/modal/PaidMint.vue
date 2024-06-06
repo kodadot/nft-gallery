@@ -69,7 +69,7 @@ const props = defineProps<{
   isError: boolean
 }>()
 
-const { canMint, canList, isRendering } = useDropMassMintState()
+const { canMint, canList } = useDropMassMintState()
 const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
@@ -95,14 +95,6 @@ const estimedTime = computed(() =>
 )
 
 const mintButton = computed(() => {
-  if (isRendering.value) {
-    return {
-      label: `${$i18n.t('drops.generatingVariations')} ~ 5s`,
-      disabled: true,
-      loading: true,
-    }
-  }
-
   if (!canMint.value) {
     return {
       label: $i18n.t('drops.mintDropError'),
@@ -137,8 +129,7 @@ const moveSuccessfulDrop = computed<boolean>(
   () =>
     imagePreloadingCompleted.value &&
     Boolean(mintingSession.value.items.length) &&
-    Boolean(mintingSession.value.txHash) &&
-    props.action.details.status === TransactionStatus.Finalized,
+    Boolean(mintingSession.value.txHash),
 )
 
 const transactionStatus = computed(() => {
