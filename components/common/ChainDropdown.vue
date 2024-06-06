@@ -46,7 +46,7 @@ const props = withDefaults(
 
 const route = useRoute()
 const { setUrlPrefix, urlPrefix } = usePrefix()
-const { availableChains: allChains } = useChain()
+const allChains = useAvailableChainsOptions()
 const { redirectAfterChainChange } = useChainRedirect()
 const { isMobile } = useViewport()
 

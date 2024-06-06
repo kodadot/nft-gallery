@@ -1,14 +1,16 @@
 <template>
   <div class="flex flex-col wallet-asset">
-    <WalletAssetSetIdentity v-if="!display" />
+    <WalletAssetSetIdentity v-if="!display && getIsSubstrate" />
 
     <div class="flex flex-col wallet-asset-container my-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
 
-      <hr class="my-4" />
+      <template v-if="getIsSubstrate">
+        <hr class="my-4" />
 
-      <MultipleBalances />
+        <MultipleBalances />
+      </template>
     </div>
 
     <WalletAssetMenu />
@@ -28,6 +30,7 @@ const MultipleBalances = defineAsyncComponent(
 
 const identityStore = useIdentityStore()
 const { $consola } = useNuxtApp()
+const { getIsSubstrate } = storeToRefs(useWalletStore())
 
 const account = computed(() => identityStore.getAuthAddress)
 
@@ -36,7 +39,7 @@ const { display } = useIdentity({
 })
 
 onMounted(async () => {
-  if (identityStore.getAuthAddress) {
+  if (identityStore.getAuthAddress && getIsSubstrate.value) {
     $consola.log('fetching balance...')
     await identityStore.fetchBalance({
       address: identityStore.getAuthAddress,
