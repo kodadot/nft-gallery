@@ -986,6 +986,7 @@
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
     "copyToClipboard": "Copied to clipboard",
+    "copyAddressToClipboard": "Account address copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "generativeActivity": "Generative",
@@ -1293,7 +1294,8 @@
     "dark": "Dark",
     "language": "Language",
     "disconnect": "Disconnect",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "configureCookies": "Configure Cookies"
   },
   "priceChart": {
     "days": "{0} Days",
@@ -1538,6 +1540,7 @@
   "drops": {
     "title": "Generative Art Drops",
     "drops": "Drops",
+    "goToDropPage": "Go To Drop Page",
     "dropInformation": "Drop Information",
     "dropCalendar": "Drop Calendar",
     "pastArtDrops": "Past Art Drops",

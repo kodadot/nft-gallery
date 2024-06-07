@@ -31,6 +31,9 @@
         <NeoDropdownItem aria-role="menuitem">
           <ColorModeButton />
         </NeoDropdownItem>
+        <NeoDropdownItem aria-role="menuitem">
+          <NavbarCookiesButton />
+        </NeoDropdownItem>
       </NeoDropdown>
 
       <div v-if="!account">
