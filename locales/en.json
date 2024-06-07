@@ -1617,7 +1617,7 @@
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
-    "connectedWith": "Connected with",
+    "connectedWith": "Connected as",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
     "youWillPay": "You Will Pay",
