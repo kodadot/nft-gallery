@@ -195,7 +195,7 @@
           v-if="userProfile?.description"
           class="max-w-lg whitespace-break-spaces text-sm">
           <Markdown
-            :source="getDescriptionWithLinks(userProfile.description)"
+            :source="userProfile.description"
             html
             data-testid="profile-description" />
         </div>
@@ -382,7 +382,6 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-import { getDescriptionWithLinks } from './utils'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 

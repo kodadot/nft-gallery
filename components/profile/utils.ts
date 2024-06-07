@@ -18,7 +18,7 @@ const LINKABLE_BLOCKS: LinkableBlock[] = [
   },
 ]
 
-export const getDescriptionWithLinks = (description: string) => {
+export const getBioWithLinks = (description: string) => {
   return LINKABLE_BLOCKS.reduce(
     (reducer, { regex, template }) =>
       reducer.replace(new RegExp(regex, 'g'), (match: string) =>
