@@ -7,10 +7,10 @@ export type IdentityFields = Record<string, string>
 
 export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
-  const { isBase } = useIsChain(computed(() => urlPrefix.value))
+  const { isEvm } = useIsChain(computed(() => urlPrefix.value))
 
   const getIdentityId = (address: string) => {
-    if (isBase.value) {
+    if (isEvm.value) {
       return address
     } else if (isDotAddress.value) {
       return accountToPublicKey(address)
