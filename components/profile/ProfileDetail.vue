@@ -55,6 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
+              v-if="isSub"
               ref="buttonRef"
               rounded
               no-shadow
@@ -417,12 +418,13 @@ const tabs = [
 ]
 
 const route = useRoute()
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
+
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
@@ -482,6 +484,12 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
     }).catch(() => {
+      if (!isSub.value) {
+        $consola.warn(
+          '[ProfileDetail.vue] Profiles on base are not enabled yet',
+        )
+        return
+      }
       openProfileCreateModal()
     })
     refresh()
