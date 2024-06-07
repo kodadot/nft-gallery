@@ -1,17 +1,20 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { ChainProperties } from '@/utils/api/Query'
 import {
   availablePrefixWithIcon,
   availablePrefixes,
   getChainName,
 } from '@/utils/chain'
-import type { Prefix } from '@kodadot1/static'
+import {
+  type ChainProperties,
+  type ChainVM,
+  type Prefix,
+  existentialDeposit as chainsExistentialDeposit,
+} from '@kodadot1/static'
 export type WithoutDecimalsParams = {
   value: number
   digits?: number
   prefix?: Prefix
 }
-import { existentialDeposit as chainsExistentialDeposit } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix } = usePrefix()
@@ -59,11 +62,14 @@ export default function () {
     return chainProperties.value.tokenSymbol
   })
 
+  const vm = computed<ChainVM>(() => chainPropListOf(urlPrefix.value).vm)
+
   // TODO: offers will be enabled in the future (with atomic swaps)
   const offersDisabled = computed(() => true)
 
   const availableChains = computed(availablePrefixes)
   const availableChainsWithIcon = computed(availablePrefixWithIcon)
+  const availableChainsByVm = computed(() => getAvailableChainsByVM(vm.value))
 
   const chainSymbol = computed(() => unit.value)
 
@@ -76,9 +82,11 @@ export default function () {
     withDecimals,
     withoutDecimals,
     unit,
+    vm,
     offersDisabled,
     chainProperties,
     availableChains,
+    availableChainsByVm,
     availableChainsWithIcon,
     chainSymbol,
     blockExplorer,

@@ -1,11 +1,12 @@
 <template>
   <div class="h-full flex flex-col justify-end">
     <div
-      class="wallet-asset-container border-t flex flex-col"
+      :class="{ 'border-t': filteredMenus.length }"
+      class="wallet-asset-container flex flex-col"
       data-testid="sidebar-wallet-container">
       <div>
         <a
-          v-for="menu in menus"
+          v-for="menu in filteredMenus"
           :key="menu.label"
           v-safe-href="menu.to"
           class="wallet-asset-menu">
@@ -59,27 +60,33 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
+import { ChainVM } from '@kodadot1/static'
 
 const { urlPrefix } = usePrefix()
+const { vm } = useChain()
 // const { isAssetHub } = useIsChain(urlPrefix)
 const { neoModal } = useProgrammatic()
 
-const menus = ref([
+const menus = ref<{ label: string; to: string; vm: ChainVM[] }[]>([
   {
     label: 'Transfer',
     to: `/${urlPrefix.value}/transfer`,
+    vm: ['SUB'],
   },
   {
     label: 'Teleport Bridge',
     to: `/${urlPrefix.value}/teleport`,
+    vm: ['SUB'],
   },
   {
     label: 'Onchain Identity',
     to: '/identity',
+    vm: ['SUB'],
   },
   {
     label: 'Migrate',
     to: '/migrate',
+    vm: ['SUB'],
   },
 ])
 
@@ -97,6 +104,10 @@ const menus = ref([
 //     })
 //   }
 // })
+
+const filteredMenus = computed(() =>
+  menus.value.filter((menu) => menu.vm.includes(vm.value)),
+)
 
 const closeModal = () => {
   neoModal.closeAll()

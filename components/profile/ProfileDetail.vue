@@ -55,7 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
-              v-if="!isBase"
+              v-if="!isSub"
               ref="buttonRef"
               rounded
               no-shadow
@@ -323,7 +323,7 @@
             :loading-other-network="loadingOtherNetwork"
             :reset-search-query-params="['sort']">
             <template
-              v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
+              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold"
               #empty-result>
               <ProfileEmptyResult
                 :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
@@ -335,7 +335,7 @@
           :id="id"
           :loading-other-network="loadingOtherNetwork"
           class="pt-7">
-          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
+          <template v-if="hasAssetPrefixMap[activeTab]?.length" #empty-result>
             <ProfileEmptyResult
               :prefix-list-with-asset="
                 hasAssetPrefixMap[ProfileTab.COLLECTIONS]
@@ -382,7 +382,7 @@ import {
 } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-
+import { ChainVM } from '@kodadot1/static'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
@@ -424,8 +424,10 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark, isBase } = useIsChain(urlPrefix)
+
+const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
+const { vm } = useChain()
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
   useProfile()
@@ -482,7 +484,7 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
     }).catch(() => {
-      if (isBase.value) {
+      if (isSub.value) {
         $consola.warn(
           '[ProfileDetail.vue] Profiles on base are not enabled yet',
         )
@@ -682,11 +684,17 @@ useAsyncData('tabs-count', async () => {
 
 const fetchTabsCountByNetwork = async (chain: Prefix) => {
   const account = id.value.toString()
-  const publicKey = decodeAddress(account)
-  const prefixAddress = encodeAddress(publicKey, CHAINS[chain].ss58Format)
-  const searchParams = {
-    currentOwner_eq: prefixAddress,
+  let address = account
+
+  if (isSub.value) {
+    const publicKey = decodeAddress(account)
+    address = encodeAddress(publicKey, CHAINS[chain].ss58Format)
   }
+
+  const searchParams = {
+    currentOwner_eq: address,
+  }
+
   const { isRemark } = useIsChain(computed(() => chain))
 
   if (!isRemark.value) {
@@ -697,7 +705,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     query: profileTabsCount,
     clientId: chain,
     variables: {
-      id: prefixAddress,
+      id: address,
       interactionIn: [],
       denyList: getDenyList(urlPrefix.value),
       search: [searchParams],
@@ -722,13 +730,21 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 }
 
 useAsyncData('tabs-empty-result', async () => {
+  const chains = (
+    {
+      SUB: ['ahp', 'ahk', 'ksm', 'rmrk'],
+      EVM: ['base', 'imx'],
+    } as Record<ChainVM, Prefix[]>
+  )[vm.value]
+
   hasAssetPrefixMap.value = {
     [ProfileTab.OWNED]: [],
     [ProfileTab.CREATED]: [],
     [ProfileTab.COLLECTIONS]: [],
   }
+
   loadingOtherNetwork.value = true
-  for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
+  for (const chain of chains) {
     await fetchTabsCountByNetwork(chain as Prefix)
   }
   loadingOtherNetwork.value = false

@@ -9,7 +9,7 @@
     </template>
 
     <NeoDropdownItem
-      v-for="option in availableChains"
+      v-for="option in options"
       :key="option.value"
       class="text-center"
       aria-role="listitem"
@@ -23,18 +23,15 @@
 
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { usePreferencesStore } from '@/stores/preferences'
 import { getChainNameByPrefix } from '@/utils/chain'
 
-const { availableChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const prefrencesStore = usePreferencesStore()
+const options = useAvailableChainsOptions()
 
 const selected = computed({
   get: () => urlPrefix.value,
   set: (newChain) => {
-    prefrencesStore.setNotificationBoxCollapse(false)
     setUrlPrefix(newChain)
     redirectAfterChainChange(newChain)
   },
