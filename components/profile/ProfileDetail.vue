@@ -55,7 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
-              v-if="!isSub"
+              v-if="isSub"
               ref="buttonRef"
               rounded
               no-shadow
@@ -484,7 +484,7 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
     }).catch(() => {
-      if (isSub.value) {
+      if (!isSub.value) {
         $consola.warn(
           '[ProfileDetail.vue] Profiles on base are not enabled yet',
         )

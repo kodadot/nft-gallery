@@ -67,7 +67,7 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
-const { isBase } = useIsChain(urlPrefix)
+const { isSub } = useIsChain(urlPrefix)
 
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
@@ -95,7 +95,7 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
     }).catch(() => {
-      if (isBase.value) {
+      if (!isSub.value) {
         $consola.warn(
           '[ProfileDetail.vue] Profiles on base are not enabled yet',
         )
