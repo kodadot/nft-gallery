@@ -100,6 +100,7 @@
     "gql.tada": "^1.6.3",
     "graphql": "^16.8.1",
     "graphql-ws": "^5.16.0",
+    "jdenticon": "3.2.0",
     "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",

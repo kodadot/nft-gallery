@@ -1,16 +1,28 @@
 <template>
+  <div
+    v-if="isEVMAddress"
+    :class="`${WRAPPER_CLASS}`"
+    :style="{
+      width: `${size}px`,
+      height: `${size}px`,
+    }"
+    v-html="evmAvatarSvg" />
   <Identicon
+    v-else
     :data-key="value"
     :size="size"
-    :theme="theme"
+    theme="polkadot"
     :value="value"
     data-testid="avatar-identity-icon"
-    class="border border-border-color rounded-full" />
+    :class="WRAPPER_CLASS" />
 </template>
 
 <script lang="ts" setup>
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import Identicon from '@polkadot/vue-identicon'
+import { toSvg } from 'jdenticon'
+
+const WRAPPER_CLASS = 'border border-border-color rounded-full overflow-hidden'
 
 const props = withDefaults(
   defineProps<{
@@ -23,7 +35,13 @@ const props = withDefaults(
   },
 )
 
-const theme = computed(() =>
-  props.value && isEthereumAddress(props.value) ? 'jdenticon' : 'polkadot',
+const evmAvatarSvg = computed(() =>
+  toSvg(props.value, props.size - 2, {
+    padding: 0.1,
+  }),
+)
+
+const isEVMAddress = computed(
+  () => props.value && isEthereumAddress(props.value),
 )
 </script>
