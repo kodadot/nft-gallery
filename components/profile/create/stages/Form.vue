@@ -106,7 +106,6 @@ import SelectImageField from '../SelectImageField.vue'
 import { Profile } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
 import { StatusAPIResponse } from '@farcaster/auth-client'
-import { getBioWithLinks } from '../../utils'
 
 const { accountId } = useAuth()
 
@@ -200,7 +199,7 @@ watchEffect(async () => {
     ? farcasterProfile.displayName ?? ''
     : profile?.name ?? ''
   form.description = useFarcasterData
-    ? getBioWithLinks(farcasterProfile.bio ?? '')
+    ? farcasterProfile.bio ?? ''
     : profile?.description ?? ''
   form.imagePreview = useFarcasterData
     ? farcasterProfile.pfpUrl

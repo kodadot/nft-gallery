@@ -8,11 +8,13 @@ const createLink = (content: string, url: string) =>
 
 const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
-    regex: /\/\w+(?![^<>]*>)/,
+    regex:
+      /(?<!\[[^\]]*)(?<!\([^\)]*)(?<!<a[^>]*>)\/\w+(?![^<>]*<\/a>)(?![^<>]*>)(?![^\[]*\])(?![^\(]*\))/,
     template: (match: string) => `https://warpcast.com/~/channel${match}`,
   },
   {
-    regex: /@(\w{1,15})\b/,
+    regex:
+      /(?<!\[[^\]]*)(?<!\([^\)]*)(?<!<a[^>]*>)@(\w{1,15})\b(?!<\/a>)(?![^\[]*\])(?![^\(]*\))/,
     template: (match: string) =>
       `https://warpcast.com/${match.slice(1, match.length)}`,
   },
