@@ -45,7 +45,10 @@
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
           </p>
-          <SelectImageField v-model="form.image" :preview="form.imagePreview" />
+          <SelectImageField
+            v-model="form.image"
+            :preview="form.imagePreview"
+            @clear="form.imagePreview = undefined" />
         </div>
       </NeoField>
 
@@ -60,7 +63,8 @@
           </p>
           <SelectImageField
             v-model="form.banner"
-            :preview="form.bannerPreview" />
+            :preview="form.bannerPreview"
+            @clear="form.bannerPreview = undefined" />
         </div>
       </NeoField>
 

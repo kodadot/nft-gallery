@@ -44,7 +44,7 @@ export type CreateProfileRequest = {
   name: string
   description: string
   image: string
-  banner: string
+  banner: string | undefined
   socials: SocialLink[]
 }
 
@@ -53,7 +53,7 @@ export type UpdateProfileRequest = {
   name?: string
   description?: string
   image?: string
-  banner?: string
+  banner: string | null
   socials: SocialLink[]
 }
 

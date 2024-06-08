@@ -109,7 +109,7 @@ const processProfile = async (profileData: ProfileFormData) => {
     name: profileData.name,
     description: profileData.description,
     image: imageUrl,
-    banner: bannerUrl,
+    banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
     socials: constructSocials(profileData),
   }
 
