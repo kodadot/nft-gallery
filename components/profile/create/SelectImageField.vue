@@ -35,7 +35,7 @@ import { NeoButton, NeoIcon, NeoUpload } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const emits = defineEmits(['clear'])
+const emit = defineEmits(['clear'])
 const props = defineProps<{
   modelValue: File | null
   preview?: string
@@ -49,7 +49,7 @@ const selectedFilePreview = computed(() =>
 
 const clear = () => {
   vSelectedFile.value = null
-  emits('clear')
+  emit('clear')
 }
 
 const fileSelected = (file: File | null) => {
