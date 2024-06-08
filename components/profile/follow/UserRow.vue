@@ -1,17 +1,11 @@
 <template>
   <div class="flex items-center justify-between">
-    <NuxtLink
-      class="flex"
-      :to="`/${urlPrefix}/u/${getss58AddressByPrefix(user.address, urlPrefix)}`">
-      <NuxtImg
-        :src="user.image"
-        placholder
-        alt="follower avatar"
-        class="w-12 h-12 rounded-full border object-cover mr-4" />
+    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${userAddressWithPrefix}`">
+      <ProfileAvatar class="mr-4" :address="user.address" :size="48" />
       <div class="flex flex-col gap-[6px]">
         <span
           class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
-          >{{ user.name }}</span
+          >{{ user.name || shortAddress(userAddressWithPrefix) }}</span
         >
         <p class="text-sm">
           {{ followersCount }}
@@ -53,6 +47,7 @@ import {
 import { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import shortAddress from '@/utils/shortAddress'
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
@@ -67,6 +62,10 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
+
+const userAddressWithPrefix = computed(() =>
+  getss58AddressByPrefix(props.user.address, urlPrefix.value),
+)
 
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
