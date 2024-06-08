@@ -9,6 +9,12 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
+const PUBLIC_R2_BUCKET_URL = isProduction
+  ? 'https://playground-r2.koda.art'
+  : 'https://pub-adc77a8fecb9405b9573442870905a67.r2.dev'
+
+export const getObjectUrl = (key: string) => `${PUBLIC_R2_BUCKET_URL}/${key}`
+
 // Types for API request and response objects
 export type Profile = {
   address: string
@@ -32,10 +38,10 @@ export type SocialLink = {
   link: string
 }
 
-export type ProfileResponse = {
+export type ProfileResponse<T = Profile> = {
   success: boolean
   message: string
-  data?: Profile
+  data?: T
   profileId?: string
 }
 
@@ -55,6 +61,14 @@ export type UpdateProfileRequest = {
   image?: string
   banner: string | null
   socials: SocialLink[]
+}
+
+export type ProfileImageType = 'image' | 'banner'
+
+export type UploadProfileImageRequest = {
+  address: string
+  file: File
+  type: ProfileImageType
 }
 
 export type FollowRequest = {
@@ -152,6 +166,27 @@ export const deleteProfile = async (address: string) => {
     throw new Error(
       `[PROFILE::DELETE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
+  }
+}
+
+export const uploadProfileImage = async (
+  uploadProfileImage: UploadProfileImageRequest,
+) => {
+  const form = new FormData()
+  form.append('file', uploadProfileImage.file)
+  form.append('type', uploadProfileImage.type)
+
+  try {
+    const response = await api<ProfileResponse<{ key: string }>>(
+      `/profiles/${uploadProfileImage.address}/image`,
+      {
+        method: 'POST',
+        body: form,
+      },
+    )
+    return response
+  } catch (error) {
+    throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
   }
 }
 

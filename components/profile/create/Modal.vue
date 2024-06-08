@@ -34,13 +34,15 @@ import {
 } from './stages/index'
 import {
   CreateProfileRequest,
+  ProfileImageType,
   SocialLink,
   UpdateProfileRequest,
   createProfile,
   deleteProfile,
+  getObjectUrl,
   updateProfile,
+  uploadProfileImage,
 } from '@/services/profile'
-import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
@@ -70,11 +72,19 @@ const close = () => {
   emit('close')
 }
 
-const uploadImage = async (
-  imageFile: File | null,
-): Promise<string | undefined> =>
-  imageFile
-    ? sanitizeIpfsUrl(await rateLimitedPinFileToIPFS(imageFile))
+const uploadImage = async ({
+  file,
+  type,
+  address,
+}: {
+  file: File | null
+  type: ProfileImageType
+  address: string
+}): Promise<string | undefined> =>
+  file
+    ? await uploadProfileImage({ file, address, type }).then((response) =>
+        getObjectUrl(response.data?.key as string),
+      )
     : undefined
 
 const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
@@ -99,11 +109,19 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 
 const processProfile = async (profileData: ProfileFormData) => {
   const imageUrl = profileData.image
-    ? await uploadImage(profileData.image)
+    ? await uploadImage({
+        file: profileData.image,
+        address: profileData.address,
+        type: 'image',
+      })
     : profileData.imagePreview
 
   const bannerUrl = profileData.banner
-    ? await uploadImage(profileData.banner)
+    ? await uploadImage({
+        file: profileData.banner,
+        address: profileData.address,
+        type: 'banner',
+      })
     : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
