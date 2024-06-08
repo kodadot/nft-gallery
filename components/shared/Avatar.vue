@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isEVMAddress"
-    :class="`${WRAPPER_CLASS}`"
+    :class="WRAPPER_CLASS"
     :style="{
       width: `${size}px`,
       height: `${size}px`,
