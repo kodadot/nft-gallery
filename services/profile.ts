@@ -1,5 +1,6 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
+
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
     ? 'https://profile.kodadot.workers.dev/'

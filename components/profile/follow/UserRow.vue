@@ -50,7 +50,7 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 import shortAddress from '@/utils/shortAddress'
 
 const { accountId } = useAuth()
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
 
 const props = defineProps<{
   user: Follower
@@ -62,6 +62,7 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
+const { isSub } = useIsChain(urlPrefix)
 
 const userAddressWithPrefix = computed(() =>
   getss58AddressByPrefix(props.user.address, urlPrefix.value),
@@ -93,6 +94,12 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
     }).catch(() => {
+      if (!isSub.value) {
+        $consola.warn(
+          '[ProfileDetail.vue] Profiles on base are not enabled yet',
+        )
+        return
+      }
       openProfileCreateModal()
     })
     showFollowing.value = true
