@@ -16,7 +16,7 @@ export default (
   const { drop } = useDrop()
   const { mintingSession, toMintNFTs } = storeToRefs(useDropStore())
   const { claimedNft } = useGenerativeDropMint()
-  const { canPin, canMint } = useDropMassMintState()
+  const { canMint } = useDropMassMintState()
   const { sendMessage } = useParty({
     room: computed(() => drop.value?.alias ?? ''),
     disabled: computed(() => !usePreferencesStore().getIsPartyMode),
@@ -65,12 +65,6 @@ export default (
         }
       },
     )
-
-    watch(canPin, (value) => {
-      if (randomGeneration.value && value) {
-        completeLastEvent(DropEventType.DROP_GENERATING)
-      }
-    })
   }
 
   if (mintingWatch) {
