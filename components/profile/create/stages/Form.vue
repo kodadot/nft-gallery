@@ -91,14 +91,34 @@
         </div>
       </div>
     </form>
-    <NeoButton
-      :disabled="submitDisabled"
-      variant="k-accent"
-      label="Finish Customization"
-      size="large"
-      no-shadow
-      data-testid="create-profile-submit-button"
-      @click="emit('submit', form)" />
+    <div class="flex flex-col gap-6">
+      <NeoButton
+        :disabled="submitDisabled"
+        variant="k-accent"
+        label="Finish Customization"
+        size="large"
+        no-shadow
+        data-testid="create-profile-submit-button"
+        @click="emit('submit', form)" />
+
+      <NeoButton
+        v-if="userProfile"
+        variant="text"
+        no-shadow
+        :class="[deleteConfirm ? '!text-k-red' : '!text-k-grey', 'capitalize']"
+        @click="deleteProfile">
+        <div class="flex gap-3 justify-center">
+          <span
+            >{{
+              !deleteConfirm
+                ? $t('profiles.delete')
+                : $t('profiles.deleteConfirm')
+            }}
+          </span>
+          <NeoIcon v-if="!deleteConfirm" icon="rotate-left" />
+        </div>
+      </NeoButton>
+    </div>
   </div>
 </template>
 
@@ -111,61 +131,9 @@ import { Profile } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 
-const { accountId } = useAuth()
-
-const props = defineProps<{
-  farcasterUserData?: StatusAPIResponse
-  useFarcaster: boolean
-}>()
-
-const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
-  'userProfile',
-)
-const userProfile = computed(() => profile?.userProfile.value)
-const substrateAddress = computed(() => formatAddress(accountId.value, 42))
-
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
-
-const missingImage = computed(() => (form.imagePreview ? false : !form.image))
-
-const submitDisabled = computed(
-  () => !form.name || !form.description || missingImage.value,
-)
-
-const emit = defineEmits<{
-  (e: 'submit', value: ProfileFormData): void
-}>()
-
-const validatingFormInput = (model: string) => {
-  switch (model) {
-    case 'farcasterHandle':
-      if (form.farcasterHandle?.startsWith('/')) {
-        form.farcasterHandle = form.farcasterHandle.slice(1)
-      }
-      break
-    case 'website':
-      if (form.website && !/^https?:\/\//i.test(form.website)) {
-        form.website = addHttpToUrl(form.website)
-      }
-      break
-  }
-}
-
-// form state
-const form = reactive<ProfileFormData>({
-  address: substrateAddress.value,
-  name: '',
-  description: '',
-  image: null,
-  imagePreview: undefined,
-  banner: null,
-  bannerPreview: undefined,
-  farcasterHandle: undefined,
-  twitterHandle: undefined,
-  website: undefined,
-})
 
 const socialLinks = [
   {
@@ -190,6 +158,64 @@ const socialLinks = [
     testId: 'create-profile-input-twitter-handle',
   },
 ]
+
+const emit = defineEmits<{
+  (e: 'submit', value: ProfileFormData): void
+  (e: 'delete', address: string): void
+}>()
+const props = defineProps<{
+  farcasterUserData?: StatusAPIResponse
+  useFarcaster: boolean
+}>()
+
+const deleteConfirm = ref(false)
+
+const { accountId } = useAuth()
+const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
+  'userProfile',
+)
+
+const substrateAddress = computed(() => formatAddress(accountId.value, 42))
+const form = reactive<ProfileFormData>({
+  address: substrateAddress.value,
+  name: '',
+  description: '',
+  image: null,
+  imagePreview: undefined,
+  banner: null,
+  bannerPreview: undefined,
+  farcasterHandle: undefined,
+  twitterHandle: undefined,
+  website: undefined,
+})
+const userProfile = computed(() => profile?.userProfile.value)
+const missingImage = computed(() => (form.imagePreview ? false : !form.image))
+const submitDisabled = computed(
+  () => !form.name || !form.description || missingImage.value,
+)
+
+const validatingFormInput = (model: string) => {
+  switch (model) {
+    case 'farcasterHandle':
+      if (form.farcasterHandle?.startsWith('/')) {
+        form.farcasterHandle = form.farcasterHandle.slice(1)
+      }
+      break
+    case 'website':
+      if (form.website && !/^https?:\/\//i.test(form.website)) {
+        form.website = addHttpToUrl(form.website)
+      }
+      break
+  }
+}
+
+const deleteProfile = () => {
+  if (deleteConfirm.value) {
+    emit('delete', substrateAddress.value)
+  } else {
+    deleteConfirm.value = true
+  }
+}
 
 watchEffect(async () => {
   const profile = userProfile.value

@@ -14,7 +14,8 @@
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
-        @submit="handleFormSubmition" />
+        @submit="handleFormSubmition"
+        @delete="handleProfileDelete" />
       <Loading v-if="stage === 4" />
       <Success v-if="stage === 5" @close="close" />
     </ModalBody>
@@ -36,6 +37,7 @@ import {
   SocialLink,
   UpdateProfileRequest,
   createProfile,
+  deleteProfile,
   updateProfile,
 } from '@/services/profile'
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
@@ -56,7 +58,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
-const emit = defineEmits(['close', 'success'])
+const emit = defineEmits(['close', 'success', 'deleted'])
 
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
@@ -116,6 +118,17 @@ const processProfile = async (profileData: ProfileFormData) => {
   return hasProfile.value
     ? updateProfile(profileBody as UpdateProfileRequest)
     : createProfile(profileBody as CreateProfileRequest)
+}
+
+const handleProfileDelete = async (address: string) => {
+  try {
+    await deleteProfile(address)
+    emit('deleted')
+    close()
+  } catch (error) {
+    warningMessage(error!.toString())
+    console.error(error)
+  }
 }
 
 const handleFormSubmition = async (profileData: ProfileFormData) => {

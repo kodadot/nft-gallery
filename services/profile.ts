@@ -142,6 +142,19 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
   }
 }
 
+export const deleteProfile = async (address: string) => {
+  try {
+    const response = await api<ProfileResponse>(`/profiles/${address}`, {
+      method: 'DELETE',
+    })
+    return response
+  } catch (error) {
+    throw new Error(
+      `[PROFILE::DELETE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
+    )
+  }
+}
+
 export const follow = async (followRequest: FollowRequest) => {
   try {
     const response = await api<ProfileResponse>('/follow', {

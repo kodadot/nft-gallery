@@ -2104,6 +2104,8 @@
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
-    }
+    },
+    "delete": "Reset all Fields - start over",
+    "deleteConfirm": "You sure? - click again"
   }
 }
