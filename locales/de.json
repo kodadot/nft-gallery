@@ -41,8 +41,6 @@
   "Instance_tooltip": "Eine Instance ist der Identifikator eines NFTs, wie ein Ticker auf dem Markt. Es ist ein \"kurzer computer-freundlicher name\"",
   "Minting Settings": "Einstellungen fürs Minten",
   "user interface mode": "Benutzeroberflächenmodus",
-  "advanced user interface": "Erweiterte Benutzeroberfläche",
-  "basic user interface": "Standard Benutzeroberfläche",
   "Layout Options": "Anzeigeoptionen",
   "Gallery Items Per Page": "Gallerieeinträge pro Seite",
   "Collections Per Page": "Sammlungen pro Seite",
@@ -707,19 +705,8 @@
     "donationSentTo": "Deine Spende wird gesendet an:"
   },
   "preferences": {
-    "basic": "Standard Benutzeroberfläche",
-    "advanced": "Erweiterte Benutzeroberfläche",
-    "theater": "Bühnenansicht als Standard einstellen",
-    "fold": {
-      "history": "Geschichte und Preistabelle in der NFT-Ansicht standardmäßig einklappen",
-      "description": "Beschreibung in Sammlungsansicht standardmäßig einklappen"
-    },
-    "yolo": "Ersetze JETZT KAUFEN mit YOLO",
-    "priceVisible": "Den Preis in der Gallerie und Sammlung standardmäßig anzeigen",
-    "mintTimeVisible": "DenZeitpunkt des Mintens in der Sammlung standardmäßig anzeigen",
-    "loadAllArtworks": "Sämtliche Kunstwerke standardmäßig laden (videos, etc.)",
-    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
-    "exploreTabOrder": "Standard Tab im Explorer"
+    "helpCoverCosts": "Helfen Sie mit, die Kosten zu decken",
+    "userData": "Benutzerdaten"
   },
   "navbar": {
     "teleport": "Teleportieren"
