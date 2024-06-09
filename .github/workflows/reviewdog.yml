@@ -2,14 +2,14 @@ name: Reviewdog
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/evm/v0]
 
 jobs:
   eslint:
     name: runner / eslint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
