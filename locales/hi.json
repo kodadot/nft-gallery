@@ -109,7 +109,6 @@
     "unique": "अद्वितीय",
     "volume": "मात्रा"
   },
-  "advanced user interface": "उन्नत उपयोगकर्ता इंटरफेस",
   "advancedFilters": "उन्नत फ़िल्टर",
   "ambassador program": "एम्बेसडर प्रोग्राम",
   "artist ambassador": "कलाकार एम्बेसडर",
@@ -213,7 +212,6 @@
     },
     "welcomeToAutoTeleport": "ऑटो TELEPORT में आपका स्वागत है!"
   },
-  "basic user interface": "मूल उपयोगकर्ता इंटरफेस",
   "beta": "बीटा",
   "blog": "ब्लॉग",
   "buyModal": {
@@ -1157,7 +1155,7 @@
       "yourVariation": "आपका विशेष रूप"
     }
   },
-  "Minting Settings": "Minting Settings",
+  "mintingSettings": "Minting Settings",
   "moreActions": {
     "customize": "कस्टमाइज़ करें",
     "deleteCollection": "कलेक्शन हटाएं",
@@ -1225,19 +1223,8 @@
   "ok": "ठीक है",
   "passion": "पैशन फीड",
   "preferences": {
-    "advanced": "उन्नत उपयोगकर्ता इंटरफ़ेस",
-    "basic": "मौलिक उपयोगकर्ता इंटरफ़ेस",
-    "enableGyroEffect": "गैलरी में 3D NFTs के लिए जायरोस्कोपिक प्रभाव को सक्षम करें",
-    "exploreTabOrder": "एक्सप्लोर में Default टैब",
-    "fold": {
-      "description": "Default पर संग्रह दृश्य में विवरण को फ़ोल्ड करें",
-      "history": "Default पर NFT दृश्य में इतिहास और मूल्य चार्ट को फ़ोल्ड करें"
-    },
-    "loadAllArtworks": "गैलरी में सभी कला को Default में लोड करें (वीडियो, आदि)",
-    "mintTimeVisible": "संग्रह दृश्य में Mint समय को हमेशा दिखाएं (Default में)",
-    "priceVisible": "गैलरी और संग्रह दृश्य में मूल्य को हमेशा दिखाएं (Default में)",
-    "theater": "Default पर थिएटर दृश्य सक्षम करें",
-    "yolo": "Default पर YOLO को BUY NOW से बदलें"
+    "helpCoverCosts": "लागत कवर करने में सहायता करें",
+    "userData": "उपयोगकर्ता का डेटा"
   },
   "press kit": "प्रेस किट",
   "price": "मूल्य",
