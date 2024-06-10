@@ -105,6 +105,7 @@
         v-if="userProfile"
         variant="text"
         no-shadow
+        :disabled="isDeleteConfirmDisabled"
         :class="[deleteConfirm ? '!text-k-red' : '!text-k-grey', 'capitalize']"
         @click="deleteProfile">
         <div class="flex gap-3 justify-center">
@@ -168,13 +169,19 @@ const props = defineProps<{
   useFarcaster: boolean
 }>()
 
-const deleteConfirm = ref(false)
+const deleteConfirm = ref<Date>()
 
+const now = useNow()
 const { accountId } = useAuth()
 const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 
+const isDeleteConfirmDisabled = computed(() =>
+  deleteConfirm.value
+    ? now.value.getTime() - deleteConfirm.value.getTime() < 3000
+    : false,
+)
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 const form = reactive<ProfileFormData>({
   address: substrateAddress.value,
@@ -213,7 +220,7 @@ const deleteProfile = () => {
   if (deleteConfirm.value) {
     emit('delete', substrateAddress.value)
   } else {
-    deleteConfirm.value = true
+    deleteConfirm.value = new Date()
   }
 }
 
