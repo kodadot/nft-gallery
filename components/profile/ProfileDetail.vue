@@ -22,7 +22,7 @@
       <div
         class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
-          class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
+          class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
             v-if="userProfile?.image"
             :src="userProfile.image"
