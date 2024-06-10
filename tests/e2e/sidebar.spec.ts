@@ -19,7 +19,7 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
   })
   await test.step('Check if sidebar closes when clicking navbar links', async () => {
     await page.getByTestId('navbar-profile-dropdown').click()
-    await page.getByTestId('classic').click()
+    await page.getByTestId('drops').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeHidden()
   })
   await test.step('Check if Add funds modal opens', async () => {
