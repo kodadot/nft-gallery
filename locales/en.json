@@ -1294,7 +1294,8 @@
     "subscribeLabel": "Subscribe",
     "toc": "Terms of Use",
     "guide": "Tutorials & Guides",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "create": "Create"
   },
   "signupBanner": {
     "failed": "Something went wrong subscribing you to the newsletter"
