@@ -33,7 +33,8 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install",
+    "generate": "cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build"
   },
   "husky": {
     "hooks": {
