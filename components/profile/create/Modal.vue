@@ -34,7 +34,6 @@ import {
 } from './stages/index'
 import {
   CreateProfileRequest,
-  ProfileImageType,
   SocialLink,
   UpdateProfileRequest,
   createProfile,
@@ -74,15 +73,13 @@ const close = () => {
 
 const uploadImage = async ({
   file,
-  type,
   address,
 }: {
   file: File | null
-  type: ProfileImageType
   address: string
 }): Promise<string | undefined> =>
   file
-    ? await uploadProfileImage({ file, address, type }).then((response) =>
+    ? await uploadProfileImage({ file, address }).then((response) =>
         getObjectUrl(response.key),
       )
     : undefined
@@ -112,7 +109,6 @@ const processProfile = async (profileData: ProfileFormData) => {
     ? await uploadImage({
         file: profileData.image,
         address: profileData.address,
-        type: 'image',
       })
     : profileData.imagePreview
 
@@ -120,7 +116,6 @@ const processProfile = async (profileData: ProfileFormData) => {
     ? await uploadImage({
         file: profileData.banner,
         address: profileData.address,
-        type: 'banner',
       })
     : profileData.bannerPreview
 

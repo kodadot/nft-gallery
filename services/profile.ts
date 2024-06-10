@@ -66,12 +66,9 @@ export type UpdateProfileRequest = {
   socials: SocialLink[]
 }
 
-export type ProfileImageType = 'image' | 'banner'
-
 export type UploadProfileImageRequest = {
   address: string
   file: File
-  type: ProfileImageType
 }
 
 export type UploadProfileImageResponse = {
@@ -181,7 +178,6 @@ export const uploadProfileImage = async (
 ) => {
   const form = new FormData()
   form.append('file', uploadProfileImage.file)
-  form.append('type', uploadProfileImage.type)
 
   try {
     const response = await api<UploadProfileImageResponse>(
