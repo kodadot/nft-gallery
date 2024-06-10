@@ -42,16 +42,29 @@ interface Props {
 const props = defineProps<Props>()
 const image = ref('')
 
+const getImageFromMetadata = async (collectionMetadata: string) => {
+  isLoadingMeta.value = true
+
+  const metadata = (await processSingleMetadata(
+    collectionMetadata,
+  )) as TokenMetadata
+
+  image.value = sanitizeIpfsUrl(getCollectionImage(metadata) || '')
+  isLoadingMeta.value = false
+}
+
 onMounted(async () => {
   if (props.isLoading || !props.collection) {
     return
   }
 
-  isLoadingMeta.value = true
-  const metadata = (await processSingleMetadata(
-    props.collection.metadata,
-  )) as TokenMetadata
-  image.value = sanitizeIpfsUrl(getCollectionImage(metadata) || '')
-  isLoadingMeta.value = false
+  const meta = props.collection.meta
+  const metaImage = meta ? getCollectionImage(meta) : undefined
+
+  if (metaImage) {
+    image.value = sanitizeIpfsUrl(metaImage)
+  } else {
+    getImageFromMetadata(props.collection.metadata)
+  }
 })
 </script>
