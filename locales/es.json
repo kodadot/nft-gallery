@@ -37,10 +37,8 @@
   "price": "precio",
   "royalty": "derechos de autor (royalty)",
   "Instance_tooltip": "La instancia es como el identificador de un NFT, como un ticker de mercado. Es un \"nombre corto compatible con computadora\"",
-  "Minting Settings": "Ajustes de mint",
+  "mintingSettings": "Ajustes de mint",
   "user interface mode": "Modo de interfaz de usuario",
-  "advanced user interface": "Interfaz de usuario avanzada",
-  "basic user interface": "Interfaz de usuario básica",
   "Layout Options": "Opciones de layout",
   "Gallery Items Per Page": "Elementos de la galería por página",
   "Collections Per Page": "Colecciones por página",
@@ -688,19 +686,8 @@
     "route": "Teletransportando {0} de {1} a {2}"
   },
   "preferences": {
-    "basic": "Interfaz de usuario básica",
-    "advanced": "Interfaz de usuario avanzada",
-    "theater": "Habilitar vista de auditorio para estándar",
-    "fold": {
-      "history": "Historial de curvas y gráfico de precios en vista NFT para estándar",
-      "description": "Descripción de la curva en la vista de colección para estándar"
-    },
-    "yolo": "Reemplace COMPRAR AHORA con YOLO",
-    "priceVisible": "Mostrar siempre el precio en la galería y la vista de colección en modo estándar",
-    "mintTimeVisible": "Mostrar siempre el tiempo de mint en la vista de colección en modo estándar",
-    "loadAllArtworks": "Cargue todas las obras de arte en la galería en modo estándar (videos, etc.)",
-    "enableGyroEffect": "Habilite el efecto giroscópico en la galería para NFTs 3d",
-    "exploreTabOrder": "Pestaña estándar en el explore"
+    "helpCoverCosts": "Ayuda a cubrir los costos",
+    "userData": "Datos del usuario"
   },
   "navbar": {
     "teleport": "Teletransportar"
