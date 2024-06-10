@@ -3,6 +3,7 @@
     class="wallet-modal-container flex flex-col"
     data-testid="wallet-connect-sidebar-modal">
     <NeoModalHead
+      data-testid="kkkkkkkkkkkk"
       :title="
         showAccount
           ? $i18n.t('profile.page')

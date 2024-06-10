@@ -1,7 +1,7 @@
 <template>
   <header
     class="flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color">
-    <span class="text-base font-bold">
+    <span class="text-base font-bold" data-testid="head-modal-title-common">
       {{ title }}
     </span>
     <NeoButton
