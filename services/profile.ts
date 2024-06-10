@@ -38,12 +38,15 @@ export type SocialLink = {
   link: string
 }
 
-export type ProfileResponse<T = Profile> = {
+type ProfileBaseResponse = {
   success: boolean
   message: string
-  data?: T
-  profileId?: string
 }
+
+export type ProfileResponse = {
+  data?: Profile
+  profileId?: string
+} & ProfileBaseResponse
 
 export type CreateProfileRequest = {
   address: string
@@ -70,6 +73,10 @@ export type UploadProfileImageRequest = {
   file: File
   type: ProfileImageType
 }
+
+export type UploadProfileImageResponse = {
+  key: string
+} & ProfileBaseResponse
 
 export type FollowRequest = {
   initiatorAddress: string
@@ -177,7 +184,7 @@ export const uploadProfileImage = async (
   form.append('type', uploadProfileImage.type)
 
   try {
-    const response = await api<ProfileResponse<{ key: string }>>(
+    const response = await api<UploadProfileImageResponse>(
       `/profiles/${uploadProfileImage.address}/image`,
       {
         method: 'POST',

@@ -83,7 +83,7 @@ const uploadImage = async ({
 }): Promise<string | undefined> =>
   file
     ? await uploadProfileImage({ file, address, type }).then((response) =>
-        getObjectUrl(response.data?.key as string),
+        getObjectUrl(response.key),
       )
     : undefined
 
