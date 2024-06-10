@@ -40,3 +40,21 @@ export async function getMetadata(url: string) {
 
   return metadata as unknown as NFTWithMetadata
 }
+
+export const uploadImage = async (file: File) => {
+  try {
+    const form = new FormData()
+    form.append('file', file)
+
+    workerUrl.pathname = '/image/upload'
+
+    const response = await $fetch<{ url: string }>(workerUrl.toString(), {
+      method: 'POST',
+      body: form,
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(`[IMAGE::UPLOAD] ERROR: ${error?.data}`)
+  }
+}

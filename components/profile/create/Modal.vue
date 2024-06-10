@@ -38,10 +38,9 @@ import {
   UpdateProfileRequest,
   createProfile,
   deleteProfile,
-  getObjectUrl,
   updateProfile,
-  uploadProfileImage,
 } from '@/services/profile'
+import { uploadImage } from '@/services/imageWorker'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
@@ -71,18 +70,10 @@ const close = () => {
   emit('close')
 }
 
-const uploadImage = async ({
-  file,
-  address,
-}: {
-  file: File | null
-  address: string
-}): Promise<string | undefined> =>
-  file
-    ? await uploadProfileImage({ file, address }).then((response) =>
-        getObjectUrl(response.key),
-      )
-    : undefined
+const uploadProfileImage = async (
+  file: File | null,
+): Promise<string | undefined> =>
+  file ? await uploadImage(file).then((response) => response.url) : undefined
 
 const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   return [
@@ -106,17 +97,11 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 
 const processProfile = async (profileData: ProfileFormData) => {
   const imageUrl = profileData.image
-    ? await uploadImage({
-        file: profileData.image,
-        address: profileData.address,
-      })
+    ? await uploadProfileImage(profileData.image)
     : profileData.imagePreview
 
   const bannerUrl = profileData.banner
-    ? await uploadImage({
-        file: profileData.banner,
-        address: profileData.address,
-      })
+    ? await uploadProfileImage(profileData.banner)
     : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
