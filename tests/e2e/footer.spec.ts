@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures'
 
-const pageWithFooter = '/settings'
+const pageWithFooter = '/'
 
 const footerLinks = [
   {
@@ -45,7 +45,7 @@ const footerLinks = [
   },
   {
     linkName: 'MerchShop',
-    linkAddress: 'https://shop.kodadot.xyz/',
+    linkAddress: 'https://shop.koda.art/',
   },
 ]
 
