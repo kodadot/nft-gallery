@@ -33,6 +33,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.runs-on }}
           path: playwright-report/
           retention-days: 30
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: playwright-report
+          pattern: playwright-report-*
+          merge-multiple: true
+      - run: ls -R playwright-report
