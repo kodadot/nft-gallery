@@ -137,6 +137,7 @@ const SUFFIX = 'Media'
 const hasNormalTag = computed(() => {
   return (
     props.enableNormalTag &&
+    !props.animationSrc &&
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
     !props.isDetail
   )
