@@ -33,13 +33,16 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.runs-on }}
+          name: playwright-report-${{ matrix.shardIndex }}
           path: playwright-report/
           retention-days: 30
-      - name: Download All Artifacts
-        uses: actions/download-artifact@v4
+  
+  merge:
+    runs-on: ubuntu-latest
+    needs: shard
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
         with:
-          path: playwright-report
+          name: all-files
           pattern: playwright-report-*
-          merge-multiple: true
-      - run: ls -R playwright-report
