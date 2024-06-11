@@ -40,8 +40,8 @@ importers:
         specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
-        specifier: 0.3.1-rc.0
-        version: 0.3.1-rc.0
+        specifier: 0.3.2-rc.0
+        version: 0.3.2-rc.0
       '@nuxt/image':
         specifier: ^1.7.0
         version: 1.7.0(rollup@4.14.0)
@@ -3360,12 +3360,12 @@ packages:
     resolution: {integrity: sha512-TKPnkXtdnkC/KL2j0DXDT+zPtje2sAQ7wToPD+1gmm6ObmIi41ArUNaEWotXFRP4FqYPIz80omo3SOmfYyyPxg==}
     dev: false
 
-  /@kodadot1/sub-api@0.3.1-rc.0:
-    resolution: {integrity: sha512-wri1d8rB8JjrUti4cidCyw8HKF/zAdqKqUY3AfWMdstiuYWXTa1pj0EbOJ150TSk4YaAUzXuBjBuh5h0C6wb0Q==}
+  /@kodadot1/sub-api@0.3.2-rc.0:
+    resolution: {integrity: sha512-ypiSypUJ7vnUpYPhgkV7OHirgeYFvcTujCHMt+laTyXg1GNelmgd2OWdQUFmOjrWQgARyya/yxkDGqylU2Yr5Q==}
     dependencies:
       '@kodadot1/static': 0.0.5
-      '@polkadot/api': 10.13.1
-      '@polkadot/types-codec': 10.13.1
+      '@polkadot/api': 11.2.1
+      '@polkadot/types-codec': 11.2.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
