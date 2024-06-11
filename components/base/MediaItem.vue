@@ -30,9 +30,9 @@
       <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
     </div>
     <div
-      v-if="isInteractive"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-full absolute right-3 top-3 image is-24x24">
-      <NeoIcon icon="code" pack="far" class="text-xs font-medium" />
+      v-if="hasNormalTag"
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24">
+      <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
     </div>
     <NeoButton
       v-if="isLewd"
@@ -132,8 +132,8 @@ watch(shouldLoadModelComponent, (shouldLoad) => {
 const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 
-const isInteractive = computed(() => {
-  return resolveMedia(mimeType.value) === MediaType.IFRAME && !props.isDetail
+const hasNormalTag = computed(() => {
+  return resolveMedia(mimeType.value) !== MediaType.IFRAME && !props.isDetail
 })
 const type = ref('')
 
