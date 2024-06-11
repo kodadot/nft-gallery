@@ -58,7 +58,7 @@ const fiatStore = useFiatStore()
 const { urlPrefix } = usePrefix()
 const { isBase } = useIsChain(urlPrefix)
 
-const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'Month' })
+const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
 
 const timeRanges: TimeRangeOption[] = [
   { value: 'Week', label: 'week' },
