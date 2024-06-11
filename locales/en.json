@@ -1856,6 +1856,8 @@
     "automaticResizeMeans": "Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
     "correctHTMLName": "Correct HTML Name",
     "correctHTMLNameMeans": "An issue in this category means that the html should have a title tag and the title should be different from kodaHash. Like this:",
+    "kodaHashCalledOnce": "Kodahash Render Called Once",
+    "kodaHashCalledOnceMeans": "Kodahash Render is being called multiple times, check for infinite loops.",
     "usingKodaHash": "Using Kodahash Render",
     "usingKodaHashMeans": "Once the rendering of art is done, a message needs to be sent signaling the end of the render. This message is necessary for art to work properly on KodaDot. More details can be found in the {link}. This message should look like this:",
     "usingParamHash": "Param Hash From Url For Rendering",
