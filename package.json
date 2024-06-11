@@ -26,6 +26,7 @@
     "locales:check": "node ./script/checkLocale.mjs",
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
+    "generate": "cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build",
     "lint": "eslint --cache --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --cache --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --cache --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
@@ -33,8 +34,7 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install",
-    "generate": "cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install"
   },
   "husky": {
     "hooks": {
