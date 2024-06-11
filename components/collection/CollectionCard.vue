@@ -6,6 +6,7 @@
       <BasicImage
         :src="image"
         :alt="collection.name"
+        sizes="300px md:350px"
         custom-class="collection-card__image-wrapper" />
 
       <CollectionDetail
