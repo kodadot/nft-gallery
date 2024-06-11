@@ -7,16 +7,17 @@
       @click="$router.back()">
       {{ $t('go back') }}</NeoButton
     >
-    <div class="min-h-screen flex flex-col items-center bg-white">
+    <div class="min-h-screen flex flex-col items-center">
       <div class="w-full max-w-lg">
         <h1 class="text-3xl font-bold mb-4">
           Welcome To KodaDot Generative Art!
         </h1>
-        <p class="text-gray-600 mb-4">
+        <hr class="border-t-2 border-gray-400 my-6" />
+        <p class="mb-4">
           We're Now Focusing On Generative Art And No Longer Support NFT
           Creation.
         </p>
-        <p class="text-gray-600 mb-4">
+        <p class="mb-4">
           Interested In Launching Your Generative Collection With KodaDot?
           <a
             href="https://form.kodadot.xyz/drop-interest"
@@ -25,7 +26,7 @@
           >
           To Learn More And Join Our Successful Drops.
         </p>
-        <p class="text-gray-600">
+        <p class="">
           For Code Structure Guidelines, Refer To Our
           <a
             href="https://hello.kodadot.xyz/generative/generative-art"
