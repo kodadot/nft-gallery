@@ -115,8 +115,7 @@
     "vue-chartjs": "^5.3.1",
     "vue-dompurify-html": "^4.1.4",
     "vue-tippy": "^6.4.1",
-    "wavesurfer.js": "^7.7.14",
-    "workbox-window": "^6.6.0"
+    "wavesurfer.js": "^7.7.14"
   },
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.2",
