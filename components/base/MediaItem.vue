@@ -82,6 +82,7 @@ const props = withDefaults(
     preview?: boolean
     autoplay?: boolean
     // props for image component
+    enableNormalTag?: boolean
     sizes?: string
     imageComponent?:
       | string
@@ -101,6 +102,7 @@ const props = withDefaults(
     audioPlayerCover: '',
     isFullscreen: false,
     imageComponent: 'img',
+    enableNormalTag: false,
   },
 )
 
@@ -133,7 +135,11 @@ const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 
 const hasNormalTag = computed(() => {
-  return resolveMedia(mimeType.value) !== MediaType.IFRAME && !props.isDetail
+  return (
+    props.enableNormalTag &&
+    resolveMedia(mimeType.value) !== MediaType.IFRAME &&
+    !props.isDetail
+  )
 })
 const type = ref('')
 
