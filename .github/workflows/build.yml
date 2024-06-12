@@ -5,7 +5,7 @@ on:
     push:
       branches: [main]
   pull_request:
-    branches: [main, beta, production, feat/evm/v0]
+    branches: [main, beta, production]
 
 jobs:
   test:
