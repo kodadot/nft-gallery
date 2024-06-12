@@ -2,7 +2,7 @@ name: Reviewdog
 
 on:
   pull_request:
-    branches: [main, feat/evm/v0]
+    branches: [main]
 
 jobs:
   eslint:
