@@ -105,7 +105,9 @@ const followConfig: ButtonConfig = {
       },
     })
   },
-  disabled: props.user.address === toSubstrateAddress(accountId.value),
+  disabled:
+    Boolean(accountId.value) &&
+    props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
