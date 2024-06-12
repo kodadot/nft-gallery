@@ -68,7 +68,7 @@
         <NeoButton
           class="w-full"
           :label="$t('massmint.save')"
-          variant="k-accent"
+          variant="primary"
           :disabled="!name"
           @click="save" />
       </div>

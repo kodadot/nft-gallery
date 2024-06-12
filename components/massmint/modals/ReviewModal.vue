@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean
@@ -65,11 +65,11 @@ const props = defineProps<{
   numMissingPrices: number
 }>()
 
-const mintBtnVariant = computed(() =>
-  props.numMissingDescriptions ? 'primary' : 'k-accent',
+const mintBtnVariant = computed<NeoButtonVariant>(() =>
+  props.numMissingDescriptions ? 'secondary' : 'primary',
 )
-const cancelBtnVariant = computed(() =>
-  props.numMissingDescriptions ? 'k-accent' : 'primary',
+const cancelBtnVariant = computed<NeoButtonVariant>(() =>
+  props.numMissingDescriptions ? 'primary' : 'secondary',
 )
 
 const isModalActive = useVModel(props, 'modelValue')

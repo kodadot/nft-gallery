@@ -223,7 +223,7 @@
 
     <NeoButton
       :label="checkBalances.label"
-      variant="k-accent"
+      variant="primary"
       :disabled="checkBalances.disabled"
       class="mt-4 h-14 capitalize"
       expanded

@@ -1,6 +1,6 @@
 <template>
   <div class="border border-card-border-color bg-background-color h-min">
-    <div class="aspect-video">
+    <div class="aspect-square">
       <NeoSkeleton no-margin :rounded="false" height="100%" class="h-full" />
     </div>
 
