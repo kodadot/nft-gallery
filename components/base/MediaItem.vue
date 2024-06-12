@@ -31,7 +31,7 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24">
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[99]">
       <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
     </div>
     <NeoButton
@@ -133,6 +133,7 @@ watch(shouldLoadModelComponent, (shouldLoad) => {
 
 const PREFIX = 'Neo'
 const SUFFIX = 'Media'
+const type = ref('')
 
 const hasNormalTag = computed(() => {
   return (
@@ -142,8 +143,6 @@ const hasNormalTag = computed(() => {
     !props.isDetail
   )
 })
-const type = ref('')
-
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   NeoImageMedia,
