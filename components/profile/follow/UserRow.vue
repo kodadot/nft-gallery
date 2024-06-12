@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between">
     <NuxtLink class="flex" :to="`/${urlPrefix}/u/${prefixUserAddress}`">
-      <ProfileAvatar class="mr-4" :address="user.address" :size="48" />
+      <ProfileAvatar class="!mr-4" :address="user.address" :size="48" />
       <div class="flex flex-col gap-[6px]">
         <span
           class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
