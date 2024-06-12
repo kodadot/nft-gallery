@@ -137,6 +137,7 @@ const SUFFIX = 'Media'
 const hasNormalTag = computed(() => {
   return (
     props.enableNormalTag &&
+    (props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
     !props.isDetail
   )
