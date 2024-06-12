@@ -425,6 +425,8 @@ const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
+const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
   useProfile()
@@ -475,16 +477,19 @@ const createProfileConfig: ButtonConfig = {
 const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !accountId.value,
   onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: id.value as string,
-    }).catch(() => {
-      openProfileCreateModal()
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: id.value as string,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
+        refresh()
+        showFollowing.value = isFollowingThisAccount.value || false
+      },
     })
-    refresh()
-    showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
 }))

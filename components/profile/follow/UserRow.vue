@@ -56,6 +56,8 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 
 const props = defineProps<{
   user: Follower
@@ -89,19 +91,21 @@ const refresh = () => {
 const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: props.user.address,
-    }).catch(() => {
-      openProfileCreateModal()
+  onClick: () => {
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.user.address,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
+        showFollowing.value = true
+        refresh()
+      },
     })
-    showFollowing.value = true
-    refresh()
   },
-  disabled:
-    !accountId.value ||
-    props.user.address === toSubstrateAddress(accountId.value),
+  disabled: props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
