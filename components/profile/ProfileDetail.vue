@@ -443,7 +443,6 @@ const { data: followers, refresh: refreshFollowers } = useAsyncData(
   () =>
     fetchFollowersOf(route.params.id as string, {
       limit: 3,
-      exclude: [accountId.value],
     }),
 )
 
