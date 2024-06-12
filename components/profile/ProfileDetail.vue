@@ -493,7 +493,7 @@ const followingConfig: ButtonConfig = {
   label: $i18n.t('profile.following'),
 }
 
-const unfollowConfig: ComputedRef<ButtonConfig> = computed(() => ({
+const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
     unfollow({
