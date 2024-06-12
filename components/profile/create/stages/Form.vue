@@ -101,24 +101,28 @@
         data-testid="create-profile-submit-button"
         @click="emit('submit', form)" />
 
-      <NeoButton
-        v-if="userProfile"
-        variant="text"
-        no-shadow
-        :disabled="isDeleteConfirmDisabled"
-        :class="[deleteConfirm ? '!text-k-red' : '!text-k-grey', 'capitalize']"
-        @click="deleteProfile">
-        <div class="flex gap-3 justify-center">
-          <span
-            >{{
-              !deleteConfirm
-                ? $t('profiles.delete')
-                : $t('profiles.deleteConfirm')
-            }}
-          </span>
-          <NeoIcon v-if="!deleteConfirm" icon="rotate-left" />
-        </div>
-      </NeoButton>
+      <template v-if="userProfile">
+        <span
+          v-if="isDeleteConfirmSafetyDelay"
+          class="capitalize text-k-red text-center"
+          >{{ deleteConfirmSafetyDelayText }}
+        </span>
+
+        <NeoButton
+          v-else
+          variant="text"
+          no-shadow
+          :class="[
+            deleteConfirm ? '!text-k-red' : '!text-k-grey',
+            'capitalize',
+          ]"
+          @click="deleteProfile">
+          <div class="flex gap-3 justify-center">
+            <span>{{ deleteConfirmText }} </span>
+            <NeoIcon v-if="!deleteConfirm" icon="rotate-left" />
+          </div>
+        </NeoButton>
+      </template>
     </div>
   </div>
 </template>
@@ -160,6 +164,8 @@ const socialLinks = [
   },
 ]
 
+const DELETE_CONFIRM_SAFETY_DELAY = 3000
+
 const emit = defineEmits<{
   (e: 'submit', value: ProfileFormData): void
   (e: 'delete', address: string): void
@@ -172,16 +178,38 @@ const props = defineProps<{
 const deleteConfirm = ref<Date>()
 
 const now = useNow()
+const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 
-const isDeleteConfirmDisabled = computed(() =>
+const isDeleteConfirmSafetyDelay = computed(() =>
   deleteConfirm.value
-    ? now.value.getTime() - deleteConfirm.value.getTime() < 3000
+    ? now.value.getTime() - deleteConfirm.value.getTime() <
+      DELETE_CONFIRM_SAFETY_DELAY
     : false,
 )
+
+const deleteConfirmSafetyDelayText = computed(() => {
+  if (isDeleteConfirmSafetyDelay.value && deleteConfirm.value) {
+    return $i18n.t('profiles.waitSeconds', [
+      Math.ceil(
+        (deleteConfirm.value.getTime() +
+          DELETE_CONFIRM_SAFETY_DELAY -
+          now.value.getTime()) /
+          1000,
+      ),
+    ])
+  }
+})
+
+const deleteConfirmText = computed(() =>
+  !deleteConfirm.value
+    ? $i18n.t('profiles.delete')
+    : $i18n.t('profiles.deleteConfirm'),
+)
+
 const substrateAddress = computed(() => formatAddress(accountId.value, 42))
 const form = reactive<ProfileFormData>({
   address: substrateAddress.value,
