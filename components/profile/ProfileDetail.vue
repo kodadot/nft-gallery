@@ -472,7 +472,7 @@ const createProfileConfig: ButtonConfig = {
   variant: 'k-accent',
 }
 
-const followConfig: ComputedRef<ButtonConfig> = computed(() => ({
+const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   disabled: !accountId.value,
