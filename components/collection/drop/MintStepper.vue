@@ -4,6 +4,7 @@
     v-model="amountToMint"
     data-testid="drop-stepper-container"
     :max="max"
+    :min="1"
     class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]" />
 </template>
 <script lang="ts" setup>
