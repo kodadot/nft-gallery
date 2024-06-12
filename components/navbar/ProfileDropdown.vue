@@ -39,7 +39,7 @@
       <div v-if="!account">
         <ConnectWalletButton
           class="button-connect-wallet px-4"
-          variant="k-accent"
+          variant="primary"
           no-shadow
           @toggleConnectModal="toggleWalletConnectModal" />
       </div>

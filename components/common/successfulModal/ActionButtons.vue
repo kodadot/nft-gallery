@@ -14,7 +14,7 @@
       class="hover-button w-full"
       :disabled="primary.disabled"
       :loading="primary.disabled"
-      variant="k-accent"
+      variant="primary"
       rounded
       no-shadow
       loading-with-label

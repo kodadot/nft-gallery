@@ -77,7 +77,7 @@
           <NeoButton
             :disabled="isDisabled"
             :label="transferItemLabel"
-            variant="k-accent"
+            variant="primary"
             no-shadow
             class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer" />

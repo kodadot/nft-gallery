@@ -1,7 +1,7 @@
 <template>
   <NeoButton
     ref="root"
-    variant="k-accent"
+    variant="primary"
     expanded
     no-shadow
     size="large"
