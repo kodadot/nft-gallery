@@ -10,28 +10,27 @@
     <div class="min-h-screen flex flex-col items-center">
       <div class="w-full max-w-lg">
         <h1 class="text-3xl font-bold mb-4">
-          Welcome To KodaDot Generative Art!
+          {{ $t('createPlaceholder.welcome') }}
         </h1>
         <hr class="border-t-2 border-gray-400 my-6" />
         <p class="mb-4">
-          We're Now Focusing On Generative Art And No Longer Support NFT
-          Creation.
+          {{ $t('createPlaceholder.desc') }}
         </p>
         <p class="mb-4">
-          Interested In Launching Your Generative Collection With KodaDot?
+          {{ $t('createPlaceholder.launchOwn') }}
           <a
             href="https://form.kodadot.xyz/drop-interest"
-            class="text-blue-500 underline"
-            >Fill Out This Form</a
+            class="text-blue-500 underline">
+            {{ $t('createPlaceholder.fill') }}</a
           >
-          To Learn More And Join Our Successful Drops.
+          {{ $t('createPlaceholder.learnMore') }}
         </p>
         <p class="">
-          For Code Structure Guidelines, Refer To Our
+          {{ $t('createPlaceholder.codeStruct') }}
           <a
             href="https://hello.kodadot.xyz/generative/generative-art"
-            class="text-blue-500 underline"
-            >Documentation</a
+            class="text-blue-500 underline">
+            {{ $t('createPlaceholder.documentation') }}</a
           >.
         </p>
       </div>
@@ -42,7 +41,3 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 </script>
-
-<style scoped>
-/* Additional custom styles if needed */
-</style>

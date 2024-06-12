@@ -2095,5 +2095,14 @@
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
     }
+  },
+  "createPlaceholder": {
+    "welcome": " Welcome To KodaDot Generative Art!",
+    "desc": "  We're Now Focusing On Generative Art And No Longer Support NFT Creation.",
+    "launchOwn": "Interested In Launching Your Generative Collection With KodaDot?",
+    "fill": "Fill Out This Form",
+    "learnMore": "To Learn More And Join Our Successful Drops.",
+    "codeStruct": "For Code Structure Guidelines, Refer To Our",
+    "documentation": "Documentation"
   }
 }
