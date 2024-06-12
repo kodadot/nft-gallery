@@ -108,7 +108,9 @@ const processProfile = async (profileData: ProfileFormData) => {
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,
     name: profileData.name,
-    description: getBioWithLinks(profileData.description),
+    description: useFarcaster.value
+      ? getBioWithLinks(profileData.description)
+      : profileData.description,
     image: imageUrl,
     banner: bannerUrl,
     socials: constructSocials(profileData),
