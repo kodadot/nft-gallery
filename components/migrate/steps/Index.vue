@@ -47,7 +47,7 @@
         <div v-else>
           <div class="flex items-center">
             <p class="mr-4">{{ $t('migrate.connect') }}</p>
-            <ConnectWalletButton no-shadow variant="k-accent" />
+            <ConnectWalletButton no-shadow variant="primary" />
           </div>
           <hr />
         </div>

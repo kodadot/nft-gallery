@@ -7,7 +7,7 @@
             :label="label"
             size="large"
             class="button-height w-full"
-            variant="k-accent"
+            variant="primary"
             data-testid="item-buy"
             :disabled="isRemark"
             @click="onClick" />

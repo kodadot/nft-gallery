@@ -1,14 +1,18 @@
 <template>
   <o-button
+    ref="button"
     :class="{
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
       shiny: shiny,
+      dropdown: dropdown,
+      pressing: pressing,
     }"
     :size="size"
     :icon-right="icon"
+    :icon-left="iconLeft"
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
@@ -28,16 +32,19 @@
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import type { NeoButtonVariant } from '../../types'
 import { OButton } from '@oruga-ui/oruga-next'
+import { useMousePressed } from '@vueuse/core'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     size?: 'small' | 'medium' | 'large'
     disabled?: boolean
     expanded?: boolean
     icon?: string
+    iconLeft?: string
     iconPack?: string
     label?: string
     active?: boolean
+    dropdown?: boolean
     fixedWidth?: boolean
     noShadow?: boolean
     variant?: NeoButtonVariant
@@ -54,6 +61,15 @@ withDefaults(
     shiny: false,
   },
 )
+
+const button = ref(null)
+const pressing = ref(false)
+
+const { pressed } = useMousePressed({ target: button })
+
+watch(pressed, (pressed) => {
+  pressing.value = !pressed ? false : pressed && !props.active
+})
 </script>
 
 <style lang="scss">

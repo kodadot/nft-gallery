@@ -13,7 +13,7 @@
       <NeoButton :label="label" size="large" />
     </Variant>
     <Variant title="accent neo button">
-      <NeoButton :label="label" variant="k-accent" />
+      <NeoButton :label="label" variant="primary" />
     </Variant>
   </Story>
 </template>
