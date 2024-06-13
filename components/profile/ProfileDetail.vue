@@ -196,7 +196,6 @@
           class="max-w-lg whitespace-break-spaces text-sm">
           <Markdown
             :source="userProfile.description"
-            html
             data-testid="profile-description" />
         </div>
         <!-- Followers -->
