@@ -14,7 +14,7 @@
         <div class="flex w-full justify-center pt-6 px-7">
           <NeoButton
             :label="$t('massmint.done')"
-            variant="k-accent"
+            variant="primary"
             no-shadow
             class="flex flex-grow h-[3.25rem]"
             @click="emit('close')" />

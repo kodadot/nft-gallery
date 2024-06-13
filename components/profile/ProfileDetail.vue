@@ -78,6 +78,7 @@
                   variant="outlined-rounded"
                   data-testid="profile-wallet-links-button"
                   :active="active"
+                  dropdown
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   {{ $t('profile.walletAndLinks') }}
                 </NeoButton>
@@ -161,6 +162,7 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
+                dropdown
                 :active="active">
               </NeoButton>
             </template>
@@ -468,10 +470,10 @@ const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
   onClick: () => (isModalActive.value = true),
-  variant: 'k-accent',
+  variant: 'primary',
 }
 
-const followConfig: ButtonConfig = {
+const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   disabled: !accountId.value,
@@ -486,13 +488,13 @@ const followConfig: ButtonConfig = {
     showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
-}
+}))
 
 const followingConfig: ButtonConfig = {
   label: $i18n.t('profile.following'),
 }
 
-const unfollowConfig: ButtonConfig = {
+const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
     unfollow({
@@ -501,7 +503,7 @@ const unfollowConfig: ButtonConfig = {
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',
-}
+}))
 
 const buttonRef = ref(null)
 const showFollowing = ref(false)
@@ -555,7 +557,9 @@ const buttonConfig = computed((): ButtonConfig => {
   ) {
     return { ...followingConfig, active: isHovered.value }
   }
-  return isFollowingThisAccount.value ? unfollowConfig : followConfig
+  return isFollowingThisAccount.value
+    ? unfollowConfig.value
+    : followConfig.value
 })
 
 const switchToTab = (tab: ProfileTab) => {

@@ -37,10 +37,8 @@
   "price": "preço",
   "royalty": "direitos sobre pagamentos(royalty)",
   "Instance_tooltip": "A instância é como o identificador de um NFT, como um ticker de mercado. É um \"nome curto compatível com o computador\"",
-  "Minting Settings": "Configurações de mint",
+  "mintingSettings": "Configurações de mint",
   "user interface mode": "Modo de interface do usuário",
-  "advanced user interface": "Interface de usuário avançada",
-  "basic user interface": "Interface de usuário básica",
   "Layout Options": "Opções de Layout",
   "Gallery Items Per Page": "Itens por página na galeria",
   "Collections Per Page": "Coleções por página",
@@ -664,19 +662,8 @@
     "route": "Teleportando {0} de {1} para {2}"
   },
   "preferences": {
-    "basic": "Interface básica de usuário",
-    "advanced": "Interface avançada de usuário",
-    "theater": "Ativar visualização de auditório para padrão",
-    "fold": {
-      "history": "Histórico de dobras e gráfico de preços na visualização NFT para padrão",
-      "description": "Descrição da dobra na exibição de coleção para padrão"
-    },
-    "yolo": "Substitua COMPRAR AGORA por YOLO",
-    "priceVisible": "Sempre mostrar o preço na galeria e na visualização da coleção para padrão",
-    "mintTimeVisible": "Sempre mostre o tempo de hortelã na exibição de coleção para padrão",
-    "loadAllArtworks": "Carregue todas as obras de arte na galeria para padrão (vídeos, etc.)",
-    "enableGyroEffect": "Ative o efeito giroscópico na galeria para NFTs 3d",
-    "exploreTabOrder": "Aba padrão no explore"
+    "helpCoverCosts": "Ajude a cobrir custos",
+    "userData": "Dados do usuário"
   },
   "navbar": {
     "teleport": "Teleporte"

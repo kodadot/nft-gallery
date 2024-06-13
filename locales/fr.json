@@ -36,10 +36,8 @@
   "view": "vue",
   "price": "prix",
   "Instance_tooltip": "L'Instance est comme l'identifiant d'un NFT, comme un ticker de marché. C'est un \"nom court ou convivial d'instance\"",
-  "Minting Settings": "Minting Settings",
+  "mintingSettings": "Minting Settings",
   "user interface mode": "Mode d'interface utilisateur",
-  "advanced user interface": "Interface utilisateur avancée",
-  "basic user interface": "Interface utilisateur de base",
   "Layout Options": "Options de mise en page",
   "Gallery Items Per Page": "Éléments de la galerie par page",
   "Collections Per Page": "Collections par page",
@@ -361,18 +359,7 @@
     "route": "Téléportation de {0} de {1} à {2}"
   },
   "preferences": {
-    "basic": "Interface utilisateur de base",
-    "advanced": "Interface utilisateur avancée",
-    "theater": "Activer la vue de théâtre par défaut",
-    "fold": {
-      "history": "Fermer l'historique et le graphique des prix dans la vue NFT par défaut",
-      "description": "Fermer la description dans la vue de la collection par défaut"
-    },
-    "yolo": "Remplacer BUY NOW with YOLO",
-    "priceVisible": "Toujours afficher le prix dans les vues galerie et collection par défaut",
-    "mintTimeVisible": "Toujours afficher l'heure du mint dans la vue de la collection par défaut",
-    "loadAllArtworks": "Chargement par défaut de toutes les œuvres de la galerie (vidéos, etc.)",
-    "enableGyroEffect": "Permettre l'effet gyroscopique en galerie pour les NFTs 3d",
-    "exploreTabOrder": "Onglet par défaut dans l'explorateur"
+    "helpCoverCosts": "Aidez à couvrir les coûts",
+    "userData": "Données d'utilisateur"
   }
 }

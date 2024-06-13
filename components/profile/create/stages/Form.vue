@@ -89,7 +89,7 @@
     </form>
     <NeoButton
       :disabled="submitDisabled"
-      variant="k-accent"
+      variant="primary"
       label="Finish Customization"
       size="large"
       no-shadow
