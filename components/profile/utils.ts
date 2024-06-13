@@ -3,8 +3,7 @@ type LinkableBlock = {
   template: (match: string) => string
 }
 
-const createLink = (content: string, url: string) =>
-  `<a href="${url}" target="_blank" rel="nofollow noopener noreferrer">${content}</a>`
+const createLink = (content: string, url: string) => `[${content}](${url})`
 
 const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
