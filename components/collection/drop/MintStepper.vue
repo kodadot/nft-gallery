@@ -34,4 +34,8 @@ const max = computed(() => {
 
   return dropMax
 })
+
+watch(amountToMint, (amount) => {
+  amountToMint.value = (amount as number | '') === '' ? 1 : Math.ceil(amount)
+})
 </script>
