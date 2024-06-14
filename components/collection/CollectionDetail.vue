@@ -6,6 +6,7 @@
           v-if="!isLoading"
           :src="image"
           :alt="name"
+          :lazy="lazy"
           sizes="70px"
           custom-class="collection-card__image-wrapper-sub p-1" />
         <div
@@ -67,6 +68,7 @@ const props = defineProps<{
   nfts: NFT[]
   name: string
   image?: string
+  lazy?: boolean
 }>()
 
 const saleEvents = computed((): Interaction[] => {

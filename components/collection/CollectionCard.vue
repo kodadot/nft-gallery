@@ -6,13 +6,15 @@
       <BasicImage
         :src="image"
         :alt="collection.name"
+        :lazy="lazy"
         sizes="300px md:350px"
         custom-class="collection-card__image-wrapper" />
 
       <CollectionDetail
         :nfts="collection.nfts || []"
         :name="collection.name || ''"
-        :image="image" />
+        :image="image"
+        :lazy="lazy" />
     </nuxt-link>
 
     <template v-else>
@@ -25,23 +27,22 @@
 <script setup lang="ts">
 import { NeoSkeleton } from '@kodadot1/brick'
 import { CollectionWithMeta } from '@/components/rmrk/service/scheme'
+import type { TokenMetadata } from '@kodadot1/hyperdata'
+import CollectionDetail from './CollectionDetail.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import CollectionDetail from './CollectionDetail.vue'
 
-import type { TokenMetadata } from '@kodadot1/hyperdata'
-
-const { urlPrefix } = usePrefix()
-const isLoadingMeta = ref(false)
-
-interface Props {
+const props = defineProps<{
   isLoading?: boolean
   collection?: CollectionWithMeta
-}
+  lazy?: boolean
+}>()
 
-const props = defineProps<Props>()
+const isLoadingMeta = ref(false)
 const image = ref('')
+
+const { urlPrefix } = usePrefix()
 
 const getImageFromMetadata = async (collectionMetadata: string) => {
   isLoadingMeta.value = true

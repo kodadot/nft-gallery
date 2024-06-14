@@ -7,6 +7,7 @@
         :alt="alt"
         :class="['has-ratio', { 'rounded-full': rounded }]"
         :sizes="sizes"
+        :loading="loading"
         @load="onImageLoad"
         @error="onImageError" />
     </transition>
@@ -28,12 +29,14 @@ const props = withDefaults(
     customClass?: string
     rounded?: boolean
     sizes?: string
+    lazy?: boolean
   }>(),
   {
     src: '',
     alt: '',
     customClass: '',
     sizes: '',
+    lazy: false,
   },
 )
 
@@ -42,6 +45,10 @@ const { placeholder } = useTheme()
 
 const imageSrc = ref(props.src)
 const loaded = ref(false)
+
+const loading = computed<'eager' | 'lazy'>(() =>
+  props.lazy ? 'lazy' : 'eager',
+)
 
 const onImageLoad = () => {
   loaded.value = true
