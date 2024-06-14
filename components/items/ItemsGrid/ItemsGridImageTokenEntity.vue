@@ -21,6 +21,7 @@
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     :media-static-video="hideVideoControls"
+    :lazy-loading="lazyLoading"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
       <div v-if="!isOwner && isAvailableToBuy" class="flex">
@@ -107,6 +108,7 @@ const props = defineProps<{
   hideAction?: boolean
   hideVideoControls?: boolean
   displayNameWithSn?: boolean
+  lazyLoading?: boolean
 }>()
 
 const {

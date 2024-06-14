@@ -19,7 +19,8 @@
       :parent-hovering="isMediaItemHovering"
       :image-component="imageComponent"
       :preview="preview"
-      :autoplay="autoplay" />
+      :autoplay="autoplay"
+      :lazy-loading="lazyLoading" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur flex capitalize items-center justify-center flex-col">
@@ -82,6 +83,7 @@ const props = withDefaults(
     preview?: boolean
     autoplay?: boolean
     // props for image component
+    lazyLoading?: boolean
     sizes?: string
     imageComponent?:
       | string
@@ -101,6 +103,7 @@ const props = withDefaults(
     audioPlayerCover: '',
     isFullscreen: false,
     imageComponent: 'img',
+    lazyLoading: false,
   },
 )
 
