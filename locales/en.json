@@ -2094,6 +2094,8 @@
     },
     "delete": "Reset all Fields - start over",
     "deleteConfirm": "You sure? - click again",
-    "waitSeconds": "Wait {0} Seconds"
+    "waitSeconds": "Wait {0} Seconds",
+    "profileReset": "Profile Reset",
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
   }
 }

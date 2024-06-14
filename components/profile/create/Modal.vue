@@ -121,6 +121,9 @@ const processProfile = async (profileData: ProfileFormData) => {
 const handleProfileDelete = async (address: string) => {
   try {
     await deleteProfile(address)
+    infoMessage($i18n.t('profiles.profileHasBeenCleared'), {
+      title: $i18n.t('profiles.profileReset'),
+    })
     emit('deleted')
     close()
   } catch (error) {
