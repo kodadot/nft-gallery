@@ -17,7 +17,9 @@
         :data-testid="`collection-index-${index}`">
         <CollectionCard
           :collection="collection"
-          :lazy="shouldLazyLoad({ index, cols, limit: first, skipRows: 3 })" />
+          :lazy-loading="
+            shouldLazyLoad({ index, cols, limit: first, skipRows: 3 })
+          " />
       </div>
     </DynamicGrid>
 

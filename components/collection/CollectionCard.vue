@@ -6,7 +6,7 @@
       <BasicImage
         :src="image"
         :alt="collection.name"
-        :lazy="lazy"
+        :lazy="lazyLoading"
         sizes="300px md:350px"
         custom-class="collection-card__image-wrapper" />
 
@@ -14,7 +14,7 @@
         :nfts="collection.nfts || []"
         :name="collection.name || ''"
         :image="image"
-        :lazy="lazy" />
+        :lazy-loading="lazyLoading" />
     </nuxt-link>
 
     <template v-else>
@@ -36,7 +36,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 const props = defineProps<{
   isLoading?: boolean
   collection?: CollectionWithMeta
-  lazy?: boolean
+  lazyLoading?: boolean
 }>()
 
 const isLoadingMeta = ref(false)
