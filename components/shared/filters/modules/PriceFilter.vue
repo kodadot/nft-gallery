@@ -59,7 +59,7 @@
           data-testid="apply"
           :disabled="!isValidFilter(range.min, range.max)"
           no-shadow
-          variant="k-accent"
+          variant="primary"
           expanded
           @click="apply">
           {{ $t('general.apply') }}

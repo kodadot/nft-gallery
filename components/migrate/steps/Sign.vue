@@ -26,7 +26,7 @@
 
     <NeoButton
       label="Sign all required transactions"
-      variant="k-accent"
+      variant="primary"
       class="mt-4 h-14 capitalize"
       expanded
       :disabled="steps !== 'init'"

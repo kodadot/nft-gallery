@@ -5,7 +5,7 @@
     :style="{
       width: `${size}px`,
       height: `${size}px`,
-      padding: `${size / 16}px`,
+      padding: `${Math.round(size / 16)}px`,
     }">
     <BaseMediaItem
       :src="profile?.image"

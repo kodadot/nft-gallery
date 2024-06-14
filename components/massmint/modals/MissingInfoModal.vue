@@ -43,7 +43,7 @@
       <div class="flex justify-center pt-5 px-8">
         <NeoButton
           :label="$t('massmint.goBack')"
-          variant="k-accent"
+          variant="primary"
           no-shadow
           class="flex flex-grow h-[3.25rem]"
           @click="emit('close')" />
