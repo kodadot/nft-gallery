@@ -27,7 +27,7 @@
       <NeoButton
         label="Create Profile"
         no-shadow
-        variant="k-accent"
+        variant="primary"
         class="w-48 !h-12"
         @click="emit('next')" />
     </div>

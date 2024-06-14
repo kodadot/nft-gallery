@@ -45,7 +45,7 @@
             class="w-full"
             no-shadow
             size="large"
-            variant="k-accent"
+            variant="primary"
             @click="onCompletePurchase" />
         </div>
       </div>
@@ -78,7 +78,7 @@
             class="w-full"
             size="large"
             no-shadow
-            variant="k-accent" />
+            variant="primary" />
         </div>
       </div>
     </div>

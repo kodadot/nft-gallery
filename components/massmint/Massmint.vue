@@ -38,7 +38,7 @@
     <div class="mt-6 flex justify-center w-full">
       <NeoButton
         class="flex flex-grow limit-width"
-        variant="k-accent"
+        variant="primary"
         size="large"
         :disabled="!mediaLoaded"
         @click="openReviewModal">

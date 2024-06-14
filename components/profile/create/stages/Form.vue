@@ -94,7 +94,7 @@
     <div class="flex flex-col gap-6">
       <NeoButton
         :disabled="submitDisabled"
-        variant="k-accent"
+        variant="primary"
         label="Finish Customization"
         size="large"
         no-shadow
