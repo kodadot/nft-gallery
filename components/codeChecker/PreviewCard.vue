@@ -42,7 +42,7 @@
         :disabled="!codeShareLink"
         class="border-k-grey px-4 hover:!bg-transparent"
         icon="arrow-up-right"
-        @click="openIframInNewTab" />
+        @click="openInNewTab" />
       <NeoButton
         rounded
         no-shadow
@@ -133,7 +133,7 @@ useMediaFullscreen({
   isFullscreen,
 })
 
-const openIframInNewTab = () => window.open(codeShareLink.value, '_blank')
+const openInNewTab = () => window.open(codeShareLink.value, '_blank')
 
 const newHash = () => {
   hash.value = generateRandomHash()
