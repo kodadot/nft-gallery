@@ -1,42 +1,38 @@
 <template>
-  <div class="pb-2 border-b border-k-grey">
-    <h6 class="text-xs text-k-grey">{{ $t('user') }}</h6>
-    <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between">
+      <ProfileAvatar :size="68" :address="address" />
+
+      <NeoButton icon-left="plus" variant="outlined-rounded"
+        >{{ $t('profile.follow') }}
+      </NeoButton>
+    </div>
+
+    <div class="gap-2 flex flex-col">
+      <p class="font-bold text-xl">{{ identity?.display || shortAddress }}</p>
+
       <div class="flex items-center">
         <nuxt-link
-          class="text-base break-words mr-2 text-k-blue hover:text-k-blue-hover"
+          class="text-base break-words mr-2 text-neutral-7 hover:text-text-color"
           :to="`/${urlPrefix}/u/${address}`">
-          <span data-testid="identity-display">
-            {{ identity?.display || shortenedAddress }}</span
-          >
+          <span data-testid="identity-display"> {{ shortenedAddress }}</span>
         </nuxt-link>
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          class="text-k-blue hover:text-k-blue-hover cursor-pointer"
+          class="hover:text-k-blue-hover cursor-pointer text-neutral-7 hover:text-text-color"
           data-testid="identity-clipboard"
           @click="toast($t('general.copyAddressToClipboard'))" />
       </div>
-      <a
-        v-if="identity?.twitter"
-        v-safe-href="`https://twitter.com/${identity?.twitter}`"
-        target="_blank"
-        rel="nofollow noopener noreferrer"
-        data-testid="identity-twitter">
-        <NeoIcon
-          pack="fab"
-          icon="x-twitter"
-          class="text-k-blue hover:text-k-blue-hover" />
-      </a>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
-const address = inject('address')
-const shortenedAddress = inject('shortenedAddress')
+const address = inject('address') as string
+const shortenedAddress = inject('shortenedAddress') as string
 
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()

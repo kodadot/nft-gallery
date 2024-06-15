@@ -1,82 +1,65 @@
 <template>
-  <div class="popover-stats-container flex flex-col pt-2">
-    <div class="pb-2">
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.collected') }}</span>
-
-        <p class="text-base" data-testid="identity-collected">
-          {{ totalCollected }}
-        </p>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.created') }}</span>
-
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between">
+      <div class="flex flex-row gap-1 items-center">
         <p class="text-base" data-testid="identity-created">
           {{ totalCreated }}
         </p>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.sold') }}</span>
 
-        <p class="text-base" data-testid="identity-sold">
-          {{ totalSold }}
+        <span class="text-base text-neutral-7">{{
+          $t('profile.creations')
+        }}</span>
+      </div>
+
+      <div class="flex flex-row gap-1 items-center">
+        <p class="text-base" data-testid="identity-followers">
+          {{ followers }}
         </p>
+
+        <span class="text-base text-neutral-7">{{
+          $t('activity.followers')
+        }}</span>
       </div>
     </div>
-    <div v-if="soldItems.length" class="sales-container pt-2">
-      <h6 class="popover-user-heading pb-2">
-        {{ $t('profile.highestSales') }}
-      </h6>
-      <div class="flex sold-items">
-        <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
-          <GalleryCard
-            :id="nft.id"
-            hide-name
-            :metadata="nft.metadata"
-            :current-owner="nft.currentOwner"
-            :route="`/${urlPrefix}/gallery`"
-            :data-testid="soldItems.indexOf(nft)" />
-        </div>
+
+    <div v-if="soldItems.length" class="grid grid-cols-2 gap-5">
+      <div v-for="nft in soldItems" :key="nft.id">
+        <GalleryCard
+          :id="nft.id"
+          hide-name
+          :metadata="nft.metadata"
+          :current-owner="nft.currentOwner"
+          :route="`/${urlPrefix}/gallery`"
+          :data-testid="soldItems.indexOf(nft)" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { fetchFollowersOf } from '@/services/profile'
 import useIdentityStats from '../utils/useIdentityStats'
-
 import type { NFT } from '@/components/rmrk/service/scheme'
-
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),
 )
 
-const address = inject('address')
-const { urlPrefix } = usePrefix()
-const { totalCollected, totalCreated, totalSold } = useIdentityStats({
-  address,
-})
-
 defineProps<{
   soldItems: NFT[]
 }>()
+
+const address = inject('address') as string
+const { urlPrefix } = usePrefix()
+const { totalCreated } = useIdentityStats({
+  address,
+})
+
+const { data } = useAsyncData(() => fetchFollowersOf(address))
+const followers = computed(() => data.value?.totalCount || 0)
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.sold-items {
-  gap: 10px;
-
-  .sold-item {
-    width: 76px;
-    height: 76px;
-  }
-}
-
-.sales-container {
-  @apply border-t border-k-grey;
-}
 
 .popover-user-heading {
   font-size: 12px;

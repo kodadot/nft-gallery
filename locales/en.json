@@ -818,8 +818,7 @@
   "profile": {
     "page": "Profile",
     "user": "User",
-    "created": "Created",
-    "collected": "Collected",
+    "creations": "Creations",
     "sold": "Sold",
     "holdings": "Holdings",
     "gains": "Gains",
