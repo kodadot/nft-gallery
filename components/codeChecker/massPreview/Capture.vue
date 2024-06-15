@@ -40,6 +40,7 @@ import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
 
+const emit = defineEmits(['upload'])
 const props = withDefaults(
   defineProps<{
     assets: Array<AssetMessage>
@@ -100,6 +101,7 @@ const uploadIndex = async () => {
       prefix: 'codeChecker',
     })
     indexKey.value = key
+    emit('upload', getObjectUrl(key))
   } catch (error) {
     dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)
   } finally {

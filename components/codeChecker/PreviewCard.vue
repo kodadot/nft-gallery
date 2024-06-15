@@ -30,18 +30,26 @@
       <NeoButton
         rounded
         no-shadow
-        class="flex-1 border-k-grey hover:!bg-transparent"
+        class="border-k-grey hover:!bg-transparent !w-28"
         :disabled="!selectedFile"
         @click="replay"
-        >{{ $t('codeChecker.replayAnimation') }}</NeoButton
+        >{{ $t('codeChecker.replay') }}</NeoButton
       >
+      <NeoButton
+        rounded
+        no-shadow
+        :loading="!iframeShareLink && selectedFile"
+        :disabled="!iframeShareLink"
+        class="border-k-grey px-4 hover:!bg-transparent"
+        icon="arrow-up-right"
+        @click="openIframInNewTab" />
       <NeoButton
         rounded
         no-shadow
         :disabled="!render"
         class="border-k-grey px-4 hover:!bg-transparent"
         icon="arrow-up-right-and-arrow-down-left-from-center"
-        @click="toggleFullscreen"></NeoButton>
+        @click="toggleFullscreen" />
     </div>
     <div>
       <span>{{ $t('codeChecker.currentHash') }}</span>
@@ -101,6 +109,7 @@ const props = defineProps<{
   render: boolean
   kodaRendererUsed: Passed
   reloadTrigger: number
+  indexUrl: string
 }>()
 
 const fullscreenRef = ref<HTMLElement | null>(null)
@@ -115,10 +124,16 @@ const count = ref(0)
 const variationCounter = ref(0)
 const selectedVariation = ref(variationOptions[0])
 
+const iframeShareLink = computed<string | null>(() =>
+  !props.indexUrl ? null : `${props.indexUrl}?hash=${hash.value}`,
+)
+
 useMediaFullscreen({
   ref: fullscreenRef,
   isFullscreen,
 })
+
+const openIframInNewTab = () => window.open(iframeShareLink.value, '_blank')
 
 const newHash = () => {
   hash.value = generateRandomHash()
