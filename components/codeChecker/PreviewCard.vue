@@ -38,8 +38,8 @@
       <NeoButton
         rounded
         no-shadow
-        :loading="!iframeShareLink && selectedFile"
-        :disabled="!iframeShareLink"
+        :loading="!codeShareLink && selectedFile"
+        :disabled="!codeShareLink"
         class="border-k-grey px-4 hover:!bg-transparent"
         icon="arrow-up-right"
         @click="openIframInNewTab" />
@@ -124,8 +124,8 @@ const count = ref(0)
 const variationCounter = ref(0)
 const selectedVariation = ref(variationOptions[0])
 
-const iframeShareLink = computed<string | null>(() =>
-  !props.indexUrl ? null : `${props.indexUrl}?hash=${hash.value}`,
+const codeShareLink = computed<string | null>(() =>
+  props.indexUrl ? `${props.indexUrl}?hash=${hash.value}` : null,
 )
 
 useMediaFullscreen({
@@ -133,7 +133,7 @@ useMediaFullscreen({
   isFullscreen,
 })
 
-const openIframInNewTab = () => window.open(iframeShareLink.value, '_blank')
+const openIframInNewTab = () => window.open(codeShareLink.value, '_blank')
 
 const newHash = () => {
   hash.value = generateRandomHash()
