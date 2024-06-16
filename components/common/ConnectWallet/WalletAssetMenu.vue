@@ -74,10 +74,6 @@ const menus = ref([
     to: `/${urlPrefix.value}/teleport`,
   },
   {
-    label: 'Onchain Identity',
-    to: '/identity',
-  },
-  {
     label: 'Migrate',
     to: '/migrate',
   },
