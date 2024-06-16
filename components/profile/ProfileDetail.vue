@@ -78,6 +78,7 @@
                   variant="outlined-rounded"
                   data-testid="profile-wallet-links-button"
                   :active="active"
+                  dropdown
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   {{ $t('profile.walletAndLinks') }}
                 </NeoButton>
@@ -161,6 +162,7 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
+                dropdown
                 :active="active">
               </NeoButton>
             </template>
@@ -383,6 +385,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
 
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
+import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -468,29 +471,31 @@ const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
   onClick: () => (isModalActive.value = true),
-  variant: 'k-accent',
+  variant: 'primary',
 }
 
-const followConfig: ButtonConfig = {
+const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !hasProfile.value,
+  disabled: !accountId.value,
   onClick: async () => {
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
+    }).catch(() => {
+      openProfileCreateModal()
     })
     refresh()
     showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
-}
+}))
 
 const followingConfig: ButtonConfig = {
   label: $i18n.t('profile.following'),
 }
 
-const unfollowConfig: ButtonConfig = {
+const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
     unfollow({
@@ -499,7 +504,7 @@ const unfollowConfig: ButtonConfig = {
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',
-}
+}))
 
 const buttonRef = ref(null)
 const showFollowing = ref(false)
@@ -553,7 +558,9 @@ const buttonConfig = computed((): ButtonConfig => {
   ) {
     return { ...followingConfig, active: isHovered.value }
   }
-  return isFollowingThisAccount.value ? unfollowConfig : followConfig
+  return isFollowingThisAccount.value
+    ? unfollowConfig.value
+    : followConfig.value
 })
 
 const switchToTab = (tab: ProfileTab) => {

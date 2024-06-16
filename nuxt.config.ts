@@ -320,6 +320,7 @@ export default defineNuxtConfig({
 
   cookieControl: {
     isAcceptNecessaryButtonEnabled: false,
+    isControlButtonEnabled: false,
 
     barPosition: 'bottom-full',
 

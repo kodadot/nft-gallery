@@ -89,10 +89,8 @@
   "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
-  "Minting Settings": "Minting Settings",
+  "mintingSettings": "Minting Settings",
   "user interface mode": "User Interface Mode",
-  "advanced user interface": "Advanced User Interface",
-  "basic user interface": "Basic User Interface",
   "Layout Options": "Layout Options",
   "Gallery Items Per Page": "Gallery Items Per Page",
   "Collections Per Page": "Collections Per Page",
@@ -1003,7 +1001,6 @@
     "floor": "floor",
     "popularCollectionsHeading": "Popular Collections",
     "popularCollectionsDesc": "Discover the most popular collections on Kusama",
-    "featuredArticlesHeading": "Featured Articles",
     "from": "from",
     "to": "to",
     "tx": {
@@ -1063,23 +1060,6 @@
     "random": "Use random",
     "distributionCount": "Percent which will be distributed",
     "sendToMyself": "Send to myself"
-  },
-  "identity": {
-    "page": "Identity",
-    "set": "Create On-Chain identity",
-    "setOn": "Create On-Chain identity on {0}",
-    "click": "Click to create identity",
-    "clear": "Clear (burn)",
-    "existing": "Existing Onchain Identity",
-    "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
-    "handleRequired": "Your handle is required",
-    "deposit": "Deposit",
-    "fundsReserve": "{0} will be reserved. These funds are returned when the identity is cleared.",
-    "onChainPlaceholder": "My On-Chain Name",
-    "namePlaceholder": "Full Legal Name",
-    "socialsDescription": "Socials will appear on your profile page so that people can easily connect with you.",
-    "create": "Create Identity",
-    "clearing": "Clearing Identity"
   },
   "collapse": {
     "collection": {
@@ -1143,19 +1123,8 @@
     "bridging": "Bridging {0} {1}"
   },
   "preferences": {
-    "basic": "basic user interface",
-    "advanced": "advanced user interface",
-    "theater": "Enable Theatre View on default",
-    "fold": {
-      "history": "Fold history and price chart in NFT view on default",
-      "description": "Fold description in collection view on default"
-    },
-    "yolo": "Replace BUY NOW with YOLO",
-    "priceVisible": "Always show price in gallery and collection view by default",
-    "mintTimeVisible": "Always show mint time in collection view by default",
-    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
-    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
-    "exploreTabOrder": "Default tab in explore"
+    "helpCoverCosts": "Help Cover Costs",
+    "userData": "User Data"
   },
   "navbar": {
     "teleport": "Teleport",
@@ -1294,7 +1263,8 @@
     "dark": "Dark",
     "language": "Language",
     "disconnect": "Disconnect",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "configureCookies": "Configure Cookies"
   },
   "priceChart": {
     "days": "{0} Days",
@@ -1616,7 +1586,7 @@
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
-    "connectedWith": "Connected with",
+    "connectedWith": "Connected as",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
     "youWillPay": "You Will Pay",
@@ -1868,6 +1838,8 @@
     "automaticResizeMeans": "Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
     "correctHTMLName": "Correct HTML Name",
     "correctHTMLNameMeans": "An issue in this category means that the html should have a title tag and the title should be different from kodaHash. Like this:",
+    "kodaHashCalledOnce": "Kodahash Render Called Once",
+    "kodaHashCalledOnceMeans": "Kodahash Render is being called multiple times, check for infinite loops.",
     "usingKodaHash": "Using Kodahash Render",
     "usingKodaHashMeans": "Once the rendering of art is done, a message needs to be sent signaling the end of the render. This message is necessary for art to work properly on KodaDot. More details can be found in the {link}. This message should look like this:",
     "usingParamHash": "Param Hash From Url For Rendering",

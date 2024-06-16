@@ -66,9 +66,7 @@
   "Feedback? We\\'d be happy to discuss it.": "Masukan? Kami akan dengan senang hati mendiskusikannya.",
   "Read our story, how we started.": "Baca cerita kami, bagaimana kamu memulai.",
   "User Interface Mode": "Mode Antarmuka Pengguna",
-  "Minting Settings": "Pengaturan Minting",
-  "Advanced User Interface": "Antarmuka Pengguna Tingkat Lanjut",
-  "Basic User Interface": "Antarmuka Pengguna Dasar",
+  "mintingSettings": "Pengaturan Minting",
   "Enable Theatre View on default": "Aktifkan Tampilan Teater secara default",
   "Fold history and price chart in NFT view on default": "Riwayat dan grafik harga dalam tampian NFT secara default",
   "Fold description in collection view on default": "Deskripsi dalam tampilan koleksi secara default",
@@ -447,15 +445,7 @@
     "route": "Teleportasi {0} dari {1} ke {2}"
   },
   "preferences": {
-    "basic": "Antarmuka pengguna dasar",
-    "advanced": "Antarmuka pengguna tingkat lanjut",
-    "theater": "Aktifkan Tampilan Teater secara default",
-    "fold": {
-      "history": "Fold riwayat dan grafik harga dalam tampilan NFT secara default",
-      "description": "Fold deskripsi dalam tampilan koleksi secara default"
-    },
-    "yolo": "Ganti BELI SEKARANG dengan YOLO",
-    "priceVisible": "Selalu tampilkan harga di galeri dan tampilan koleksi secara default",
-    "loadAllArtworks": "Muat semua karya seni di galeri secara default (video, dll.)"
+    "helpCoverCosts": "Membantu Menutupi Biaya",
+    "userData": "Data pengguna"
   }
 }

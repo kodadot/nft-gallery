@@ -15,14 +15,13 @@ export function execMintDrop({
       return {
         chain: drop.value.chain,
         collection: drop.value.collection,
-        sn: nft.sn,
         metadata: nft.metadata,
       }
     })
   })
 
-  const args = item.nfts.map((allocatedNft, index) =>
-    api.tx.nfts.mint(item.collectionId, allocatedNft.id, accountId.value, {
+  const args = toMintNFTs.value.map((allocatedNft, index) =>
+    api.tx.nfts.mint(item.collectionId, allocatedNft.nft, accountId.value, {
       ownedItem: (item.availableSerialNumbers || [])[index] || null,
       mintPrice: item.price || null,
     }),

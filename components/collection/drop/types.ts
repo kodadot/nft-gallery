@@ -24,7 +24,6 @@ export type HolderOfCollection = {
 export type ToMintNft = {
   name: string
   collectionName: string
-  image: string
   price: string
   priceUSD: string
 }

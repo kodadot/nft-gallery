@@ -174,7 +174,6 @@ export interface ActionMintToken {
 
 export interface ActionMintDrop {
   interaction: NFTs.MINT_DROP
-  nfts: { id: number }[]
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
