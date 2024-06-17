@@ -7,7 +7,9 @@
     </div>
 
     <div class="gap-2 flex flex-col">
-      <p class="font-bold text-xl">{{ identity?.display || shortAddress }}</p>
+      <p class="font-bold text-xl">
+        {{ identity?.display || shortenedAddress }}
+      </p>
 
       <div class="flex items-center">
         <nuxt-link
