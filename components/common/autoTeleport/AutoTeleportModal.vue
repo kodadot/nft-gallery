@@ -57,7 +57,7 @@
         <div class="flex justify-between pt-5">
           <NeoButton
             :label="btnLabel"
-            variant="k-accent"
+            variant="primary"
             no-shadow
             :disabled="btnDisabled"
             class="flex flex-grow btn-height"
