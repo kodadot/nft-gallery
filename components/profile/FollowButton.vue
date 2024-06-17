@@ -68,6 +68,14 @@ const followingConfig: ButtonConfig = {
 }
 
 const buttonConfig = computed<ButtonConfig>(() => {
+  if (loading.value) {
+    return {
+      label: isFollowingThisAccount.value
+        ? $i18n.t('profile.unfollowing')
+        : $i18n.t('profile.following'),
+    }
+  }
+
   if (
     showFollowing.value ||
     (!isHovered.value && isFollowingThisAccount.value)
