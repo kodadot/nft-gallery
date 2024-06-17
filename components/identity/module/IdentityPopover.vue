@@ -14,7 +14,7 @@
         class="popover-content-container p-5"
         data-testid="identity-popover-container">
         <IdentityPopoverHeader @refresh="refresh" />
-        <hr class="!my-4" />
+        <hr class="!my-4 !bg-neutral-3 dark:!bg-neutral-11" />
         <IdentityPopoverFooter ref="footer" />
       </div>
     </template>
