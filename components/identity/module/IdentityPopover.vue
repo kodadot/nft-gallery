@@ -15,14 +15,13 @@
         data-testid="identity-popover-container">
         <IdentityPopoverHeader />
         <hr class="!my-4" />
-        <IdentityPopoverFooter :sold-items="nftEntities" />
+        <IdentityPopoverFooter />
       </div>
     </template>
   </tippy>
 </template>
 
 <script lang="ts" setup>
-import { useIdentitySoldData } from '../utils/useIdentity'
 import IdentityPopoverHeader from './IdentityPopoverHeader.vue'
 import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
 
@@ -35,12 +34,7 @@ const props = withDefaults(
   },
 )
 
-const address = inject('address') as string
 const body = ref(document.body)
-const { nftEntities } = useIdentitySoldData({
-  address,
-})
-
 const showContent = ref(false)
 </script>
 

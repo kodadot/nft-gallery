@@ -3,9 +3,7 @@
     <div class="flex justify-between">
       <ProfileAvatar :size="68" :address="address" />
 
-      <NeoButton icon-left="plus" variant="outlined-rounded"
-        >{{ $t('profile.follow') }}
-      </NeoButton>
+      <ProfileFollowButton :target="address" />
     </div>
 
     <div class="gap-2 flex flex-col">
@@ -29,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 
 const address = inject('address') as string
 const shortenedAddress = inject('shortenedAddress') as string

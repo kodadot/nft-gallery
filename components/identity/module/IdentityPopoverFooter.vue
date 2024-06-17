@@ -22,15 +22,15 @@
       </div>
     </div>
 
-    <div v-if="soldItems.length" class="grid grid-cols-2 gap-5">
-      <div v-for="nft in soldItems" :key="nft.id">
+    <div v-if="nftEntities.length" class="grid grid-cols-2 gap-5">
+      <div v-for="nft in nftEntities" :key="nft.id">
         <GalleryCard
           :id="nft.id"
           hide-name
           :metadata="nft.metadata"
           :current-owner="nft.currentOwner"
           :route="`/${urlPrefix}/gallery`"
-          :data-testid="soldItems.indexOf(nft)" />
+          :data-testid="nftEntities.indexOf(nft)" />
       </div>
     </div>
   </div>
@@ -44,18 +44,36 @@ const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),
 )
 
-defineProps<{
-  soldItems: NFT[]
-}>()
-
 const address = inject('address') as string
+
 const { urlPrefix } = usePrefix()
 const { totalCreated } = useIdentityStats({
   address,
 })
 
-const { data } = useAsyncData(() => fetchFollowersOf(address))
-const followers = computed(() => data.value?.totalCount || 0)
+const { data: followersData } = useAsyncData(() => fetchFollowersOf(address))
+const followers = computed(() => followersData.value?.totalCount || 0)
+
+const { data } = useSearchNfts({
+  search: [
+    {
+      burned_eq: false,
+      OR: [
+        {
+          issuer_eq: address,
+        },
+        {
+          issuer_not_eq: address,
+          currentOwner_eq: address,
+        },
+      ],
+    },
+  ],
+  first: 2,
+  orderBy: 'updatedAt_DESC',
+})
+
+const nftEntities = computed<NFT[]>(() => data.value?.nFTEntities ?? [])
 </script>
 
 <style lang="scss" scoped>
