@@ -4,6 +4,7 @@
       <ProfileAvatar :size="68" :address="address" />
 
       <ProfileFollowButton
+        v-if="address !== accountId"
         :target="address"
         @follow:success="$emit('refresh')"
         @unfollow:success="$emit('refresh')" />
@@ -42,4 +43,5 @@ const shortenedAddress = inject('shortenedAddress') as string
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
+const { accountId } = useAuth()
 </script>
