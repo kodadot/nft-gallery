@@ -79,11 +79,6 @@ const menus = ref<{ label: string; to: string; vm: ChainVM[] }[]>([
     vm: ['SUB'],
   },
   {
-    label: 'Onchain Identity',
-    to: '/identity',
-    vm: ['SUB'],
-  },
-  {
     label: 'Migrate',
     to: '/migrate',
     vm: ['SUB'],

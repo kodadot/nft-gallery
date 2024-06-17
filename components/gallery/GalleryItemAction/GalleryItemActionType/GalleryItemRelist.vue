@@ -8,7 +8,7 @@
           "
           size="large"
           fixed-width
-          :variant="isListed ? undefined : 'k-accent'"
+          :variant="isListed ? undefined : 'primary'"
           @click="openListCartModal" />
       </div>
     </GalleryItemPriceSection>

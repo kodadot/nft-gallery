@@ -21,7 +21,7 @@
       <NeoButton
         no-shadow
         :label="props.i18n.t('redirect.stay')"
-        variant="k-accent"
+        variant="primary"
         @click="emit('close')" />
     </div>
   </div>

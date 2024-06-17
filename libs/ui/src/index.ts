@@ -1,4 +1,3 @@
-export { default as CardArticle } from './components/CardArticle/CardArticle.vue'
 export { default as NeoButton } from './components/NeoButton/NeoButton.vue'
 export { default as NeoSecondaryButton } from './components/NeoSecondaryButton/NeoSecondaryButton.vue'
 export { default as NeoDropdown } from './components/NeoDropdown/NeoDropdown.vue'
