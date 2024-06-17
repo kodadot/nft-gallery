@@ -64,20 +64,35 @@ const { totalCreated } = useIdentityStats({
   address,
 })
 
-const { data: followersData } = useAsyncData(() => fetchFollowersOf(address))
-const followers = computed(() => followersData.value?.totalCount || 0)
+const {
+  data: followersData,
+  refresh,
+  pending: loading,
+} = useAsyncData(() => fetchFollowersOf(address))
+
+const followers = computed(() =>
+  loading.value ? 0 : followersData.value?.totalCount || 0,
+)
 
 const { data } = useSearchNfts({
   search: [
     {
-      burned_eq: false,
-      OR: [
+      AND: [
         {
-          issuer_eq: address,
+          OR: [
+            {
+              // created
+              issuer_eq: address,
+            },
+            {
+              // bought
+              issuer_not_eq: address,
+              currentOwner_eq: address,
+            },
+          ],
         },
         {
-          issuer_not_eq: address,
-          currentOwner_eq: address,
+          burned_eq: false,
         },
       ],
     },
@@ -87,6 +102,8 @@ const { data } = useSearchNfts({
 })
 
 const nftEntities = computed<NFT[]>(() => data.value?.nFTEntities ?? [])
+
+defineExpose({ refresh })
 </script>
 
 <style lang="scss" scoped>

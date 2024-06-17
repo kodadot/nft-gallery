@@ -3,7 +3,10 @@
     <div class="flex justify-between">
       <ProfileAvatar :size="68" :address="address" />
 
-      <ProfileFollowButton :target="address" />
+      <ProfileFollowButton
+        :target="address"
+        @follow:success="$emit('refresh')"
+        @unfollow:success="$emit('refresh')" />
     </div>
 
     <div class="gap-2 flex flex-col">
@@ -30,6 +33,8 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
+
+defineEmits(['refresh'])
 
 const address = inject('address') as string
 const shortenedAddress = inject('shortenedAddress') as string

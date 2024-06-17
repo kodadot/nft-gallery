@@ -13,9 +13,9 @@
         v-if="showContent"
         class="popover-content-container p-5"
         data-testid="identity-popover-container">
-        <IdentityPopoverHeader />
+        <IdentityPopoverHeader @refresh="refresh" />
         <hr class="!my-4" />
-        <IdentityPopoverFooter />
+        <IdentityPopoverFooter ref="footer" />
       </div>
     </template>
   </tippy>
@@ -34,8 +34,11 @@ const props = withDefaults(
   },
 )
 
+const footer = ref()
 const body = ref(document.body)
 const showContent = ref(false)
+
+const refresh = () => footer.value?.refresh()
 </script>
 
 <style lang="scss" scoped>
