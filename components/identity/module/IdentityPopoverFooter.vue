@@ -105,15 +105,3 @@ const nftEntities = computed<NFT[]>(() => data.value?.nFTEntities ?? [])
 
 defineExpose({ refresh })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.popover-user-heading {
-  font-size: 12px;
-
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
-</style>
