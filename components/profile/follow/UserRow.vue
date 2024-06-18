@@ -53,7 +53,7 @@ import {
 import { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
-
+import { SIGNATURE_MESSAGE } from '@/utils/constants'
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -101,6 +101,7 @@ const followConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
       signature,
+      message: SIGNATURE_MESSAGE,
     }).catch(() => {
       openProfileCreateModal()
     })
@@ -129,6 +130,7 @@ const unfollowConfig: ButtonConfig = {
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
       signature,
+      message: SIGNATURE_MESSAGE,
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',

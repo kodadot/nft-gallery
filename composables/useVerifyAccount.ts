@@ -1,7 +1,6 @@
 import { toSubstrateAddress } from '@/services/profile'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-
-const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'
+import { SIGNATURE_MESSAGE } from '@/utils/constants'
 
 const signMessage = async (address, message) => {
   const injector = await getAddress(toDefaultAddress(address))

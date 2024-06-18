@@ -1,6 +1,6 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-
+import { SIGNATURE_MESSAGE } from '@/utils/constants'
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
     ? 'https://profile.kodadot.workers.dev/'
@@ -42,6 +42,7 @@ export type ProfileResponse = {
 
 export type CreateProfileRequest = {
   signature: string
+  message: string
   address: string
   name: string
   description: string
@@ -52,6 +53,7 @@ export type CreateProfileRequest = {
 
 export type UpdateProfileRequest = {
   signature: string
+  message: string
   address: string
   name?: string
   description?: string
@@ -64,6 +66,7 @@ export type FollowRequest = {
   initiatorAddress: string
   targetAddress: string
   signature: string
+  message: string
 }
 
 const invalidSignatureErrorHandler = (error: FetchError) => {
@@ -80,6 +83,7 @@ const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
   targetAddress: toSubstrateAddress(body.targetAddress),
   signature: body.signature,
+  message: SIGNATURE_MESSAGE,
 })
 
 // API methods

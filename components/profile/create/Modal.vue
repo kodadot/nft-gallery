@@ -42,6 +42,7 @@ import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
+import { SIGNATURE_MESSAGE } from '@/utils/constants'
 
 const props = defineProps<{
   modelValue: boolean
@@ -115,6 +116,7 @@ const processProfile = async (
     banner: bannerUrl,
     socials: constructSocials(profileData),
     signature,
+    message: SIGNATURE_MESSAGE,
   }
 
   return hasProfile.value
