@@ -28,7 +28,11 @@
             <template #content>
               <div class="bg-background-color border py-2 px-4 text-xs">
                 Recipient Address:
+                <div v-if="recipient.startsWith('0x')" class="break-all">
+                  {{ recipient }}
+                </div>
                 <nuxt-link
+                  v-else
                   :to="`/${urlPrefix}/u/${recipient}`"
                   class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
@@ -42,7 +46,9 @@
           <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
-          <span class="capitalize text-neutral-7">{{ $t('created') }}</span
+          <span class="capitalize text-neutral-7">{{
+            $t('profile.created')
+          }}</span
           >&nbsp;{{ new Date(createdAt).toLocaleDateString() }}
           <span class="text-neutral-5 mx-2">•</span>
         </span>
