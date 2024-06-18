@@ -57,7 +57,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
 const emit = defineEmits(['close', 'success'])
-
+const { getSignedMessage } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
@@ -95,7 +95,10 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   ].filter((social) => Boolean(social.handle))
 }
 
-const processProfile = async (profileData: ProfileFormData) => {
+const processProfile = async (
+  profileData: ProfileFormData,
+  signature: string,
+) => {
   const imageUrl = profileData.image
     ? await uploadImage(profileData.image)
     : profileData.imagePreview
@@ -111,6 +114,7 @@ const processProfile = async (profileData: ProfileFormData) => {
     image: imageUrl,
     banner: bannerUrl,
     socials: constructSocials(profileData),
+    signature,
   }
 
   return hasProfile.value
@@ -121,7 +125,9 @@ const processProfile = async (profileData: ProfileFormData) => {
 const handleFormSubmition = async (profileData: ProfileFormData) => {
   stage.value = 4 // Go to loading stage
   try {
-    await processProfile(profileData)
+    const signature = await getSignedMessage()
+
+    await processProfile(profileData, signature as string)
     emit('success')
     stage.value = 5 // Go to success stage
   } catch (error) {

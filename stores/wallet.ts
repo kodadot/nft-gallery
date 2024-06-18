@@ -8,6 +8,7 @@ export type WalletAccount = {
   vm: ChainVM
   name?: string
   extension?: string
+  signedMessage?: string
 }
 
 type WalletHistory = { [key: string]: Date }
@@ -39,6 +40,7 @@ export const useWalletStore = defineStore('wallet', {
   getters: {
     getIsSubstrate: (state) => state.selected?.vm === 'SUB',
     getIsEvm: (state) => state.selected?.vm === 'EVM',
+    getSignedMessage: (state) => state.selected?.signedMessage,
     getRecentWallet: (state) => {
       let recent: undefined | { key: string; date: Date }
       let maxDate = new Date(0)
@@ -67,6 +69,12 @@ export const useWalletStore = defineStore('wallet', {
       if (account.extension) {
         this.setRecentWallet(account.extension)
       }
+    },
+    setSignedMessage(message: string) {
+      if (!this.selected) {
+        return
+      }
+      this.selected = { ...this.selected, signedMessage: message }
     },
     setRecentWallet(extensionName: string) {
       // saving only last connected wallet

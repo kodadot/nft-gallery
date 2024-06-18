@@ -56,6 +56,8 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const { toast } = useToast()
+const { getSignedMessage } = useVerifyAccount()
 
 const props = defineProps<{
   user: Follower
@@ -90,9 +92,15 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: async () => {
+    const signature: string = await getSignedMessage().catch((e) => {
+      toast(e.message)
+      return
+    })
+
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
+      signature,
     }).catch(() => {
       openProfileCreateModal()
     })
@@ -111,10 +119,16 @@ const followingConfig: ButtonConfig = {
 
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
-  onClick: () => {
+  onClick: async () => {
+    const signature: string = await getSignedMessage().catch((e) => {
+      toast(e.message)
+      return
+    })
+
     unfollow({
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
+      signature,
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',
