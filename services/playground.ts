@@ -38,3 +38,14 @@ export const uploadFile = async ({
     body: form,
   })
 }
+
+type UploadAvailableResponse = { key: string }
+
+export const getUpload = async (key: string) => {
+  return await api<UploadAvailableResponse>('/upload', {
+    method: 'GET',
+    params: {
+      key,
+    },
+  })
+}
