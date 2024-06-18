@@ -133,7 +133,7 @@ const validateHtmlContent = (
     titlePresent,
     correctTitle,
     title,
-    externalResourcesNotUsed: externalResourcesNotUsed,
+    externalResourcesNotUsed,
   }
 }
 
