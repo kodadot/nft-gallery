@@ -20,6 +20,7 @@ export type Validity = {
   kodaRendererUsed: Passed
   kodaRendererCalledOnce: Passed
   resizerUsed: Passed
+  externalResourcesNotUsed: Passed
   usesHashParam: Passed
   validTitle: Passed
   renderDurationValid: Passed
