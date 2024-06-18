@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex justify-between">
-      <ProfileAvatar :size="68" :address="address" />
+      <nuxt-link :to="`/${urlPrefix}/u/${address}`">
+        <ProfileAvatar :size="68" :address="address" />
+      </nuxt-link>
 
       <ProfileFollowButton
         v-if="address !== accountId"
@@ -11,16 +13,16 @@
     </div>
 
     <div class="gap-2 flex flex-col">
-      <p class="font-bold text-xl">
+      <nuxt-link
+        class="break-words mr-2 font-bold text-xl"
+        :to="`/${urlPrefix}/u/${address}`">
         {{ identity?.display || shortenedAddress }}
-      </p>
+      </nuxt-link>
 
-      <div class="flex items-center">
-        <nuxt-link
-          class="text-base break-words mr-2 text-neutral-7 hover:text-text-color"
-          :to="`/${urlPrefix}/u/${address}`">
-          <span data-testid="identity-display"> {{ shortenedAddress }}</span>
-        </nuxt-link>
+      <div class="flex items-center gap-2">
+        <span data-testid="identity-display" class="text-neutral-7">
+          {{ shortenedAddress }}</span
+        >
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
