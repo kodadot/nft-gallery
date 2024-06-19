@@ -72,7 +72,7 @@
               {{ buttonConfig.label }}
             </NeoButton>
             <!-- Wallet And Links Dropdown -->
-            <NeoDropdown position="bottom-left">
+            <NeoDropdown position="bottom-auto">
               <template #trigger="{ active }">
                 <NeoButton
                   variant="outlined-rounded"
