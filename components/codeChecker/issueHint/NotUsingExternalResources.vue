@@ -12,6 +12,6 @@ const code = `
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/p5.js" />
 
   <!-- DO ✅-->
-  <script src="p5.js" />
+  <script src="./p5.min.js" />
   `
 </script>
