@@ -105,6 +105,13 @@
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
+          :passed="fileValidity.externalResourcesNotUsed"
+          :description="$t('codeChecker.notUsingExternalResources')">
+          <template #modalContent>
+            <CodeCheckerIssueHintNotUsingExternalResources />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
           :description="$t('codeChecker.usingParamHash')">
           <template #modalContent>
@@ -216,6 +223,7 @@ const validtyDefault: Validity = {
   title: '-',
   validKodaRenderPayload: 'loading',
   consistent: 'loading',
+  externalResourcesNotUsed: 'unknown',
 }
 
 const selectedFile = ref<File | null>(null)
