@@ -1856,7 +1856,7 @@
     "consistentArtMeans": "Same hash produced different images. To Resolve this issue, you need to make sure that the same hash produces the same image.",
     "newHash": "New Hash",
     "currentHash": "Current Hash",
-    "replayAnimation": "Replay Animation",
+    "replay": "Replay",
     "exportVariations": "Export Variations",
     "resolveIssue": "Resolve Issue",
     "copyCode": "Copy Code",
