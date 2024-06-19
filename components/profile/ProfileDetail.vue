@@ -425,7 +425,7 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { getSignedMessage } = useVerifyAccount()
+const { getSignaturePair } = useVerifyAccount()
 
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
@@ -481,14 +481,15 @@ const followConfig = computed<ButtonConfig>(() => ({
   icon: 'plus',
   disabled: !accountId.value,
   onClick: async () => {
-    const signature: string = await getSignedMessage().catch((e) => {
+    const signaturePair = await getSignaturePair().catch((e) => {
       toast(e.message)
       return
     })
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
-      signature,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     }).catch(() => {
       openProfileCreateModal()
     })
@@ -505,14 +506,15 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
-    const signature: string = await getSignedMessage().catch((e) => {
+    const signaturePair = await getSignaturePair().catch((e) => {
       toast(e.message)
       return
     })
     unfollow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
-      signature,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     })
       .then(refresh)
       .catch((e) => {

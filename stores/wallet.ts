@@ -70,7 +70,7 @@ export const useWalletStore = defineStore('wallet', {
         this.setRecentWallet(account.extension)
       }
     },
-    setSignedMessage(message: string) {
+    setSignedMessage(message: string | undefined) {
       if (!this.selected) {
         return
       }

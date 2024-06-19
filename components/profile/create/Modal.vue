@@ -42,7 +42,6 @@ import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
-import { SIGNATURE_MESSAGE } from '@/utils/constants'
 
 const props = defineProps<{
   modelValue: boolean
@@ -58,7 +57,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
 const emit = defineEmits(['close', 'success'])
-const { getSignedMessage } = useVerifyAccount()
+const { getSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
@@ -96,10 +95,9 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   ].filter((social) => Boolean(social.handle))
 }
 
-const processProfile = async (
-  profileData: ProfileFormData,
-  signature: string,
-) => {
+const processProfile = async (profileData: ProfileFormData) => {
+  const { signature, message } = await getSignaturePair()
+
   const imageUrl = profileData.image
     ? await uploadImage(profileData.image)
     : profileData.imagePreview
@@ -116,7 +114,7 @@ const processProfile = async (
     banner: bannerUrl,
     socials: constructSocials(profileData),
     signature,
-    message: SIGNATURE_MESSAGE,
+    message,
   }
 
   return hasProfile.value
@@ -127,9 +125,7 @@ const processProfile = async (
 const handleFormSubmition = async (profileData: ProfileFormData) => {
   stage.value = 4 // Go to loading stage
   try {
-    const signature = await getSignedMessage()
-
-    await processProfile(profileData, signature as string)
+    await processProfile(profileData)
     emit('success')
     stage.value = 5 // Go to success stage
   } catch (error) {

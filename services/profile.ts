@@ -1,6 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-import { SIGNATURE_MESSAGE } from '@/utils/constants'
 const BASE_URL =
   window.location.host === 'kodadot.xyz'
     ? 'https://profile.kodadot.workers.dev/'
@@ -71,7 +70,7 @@ export type FollowRequest = {
 
 const invalidSignatureErrorHandler = (error: FetchError) => {
   if (error.status === 401) {
-    useWalletStore().setSignedMessage('')
+    useWalletStore().setSignedMessage(undefined)
     throw new Error(error?.data?.message)
   }
 }
@@ -83,7 +82,7 @@ const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
   targetAddress: toSubstrateAddress(body.targetAddress),
   signature: body.signature,
-  message: SIGNATURE_MESSAGE,
+  message: body.message,
 })
 
 // API methods

@@ -108,5 +108,3 @@ export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
 export const MIN_OFFER_PRICE = 0.01
 
 export const EXTERNAL_LINK_WHITELIST = ['*.kodadot.xyz']
-
-export const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'

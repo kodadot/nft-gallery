@@ -1,6 +1,5 @@
 import { toSubstrateAddress } from '@/services/profile'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-import { SIGNATURE_MESSAGE } from '@/utils/constants'
 
 const signMessage = async (address, message) => {
   const injector = await getAddress(toDefaultAddress(address))
@@ -12,6 +11,8 @@ const signMessage = async (address, message) => {
   console.log('Signed message:', { message, address, signedMessage })
   return signedMessage.signature
 }
+
+export const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'
 
 export default function useVerifyAccount() {
   const walletStore = useWalletStore()
@@ -40,7 +41,15 @@ export default function useVerifyAccount() {
     throw new Error('You have not completed address verification')
   }
 
+  const getSignaturePair = async () => {
+    const signature = await getSignedMessage()
+    return {
+      signature,
+      message: SIGNATURE_MESSAGE,
+    }
+  }
+
   return {
-    getSignedMessage,
+    getSignaturePair,
   }
 }
