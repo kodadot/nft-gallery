@@ -27,4 +27,4 @@ jobs:
             Thank you for your contributions!
           close-issue-message: >
             This issue has been automatically closed because it has not had any further
-            activity in the last 30 days. Thank you for your contributions!
+            activity in the last 90 days. Thank you for your contributions!
