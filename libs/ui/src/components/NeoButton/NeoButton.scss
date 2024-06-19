@@ -4,7 +4,7 @@
 
 .o-btn {
   &.is-neo {
-    @apply  h-10 min-w-10 rounded-none font-inherit py-2;
+    @apply h-10 min-w-10 rounded-none font-inherit py-2;
 
     &.o-btn--large {
       @apply text-base h-13;
@@ -20,33 +20,25 @@
       @apply bg-k-accent-hover text-text-color;
     }
 
-    &:focus {
-      @apply outline-1 outline bg-k-accent-hover text-text-color;
-    }
-
-    &:active {
-      @apply bg-background-color-inverse text-text-color-inverse;
-    }
-
-
-    &.active {
+    &:not(.pressing):active,
+    &:not(.pressing).active {
       @apply bg-background-color-inverse text-text-color-inverse;
     }
   }
 
   &.o-btn {
     &--text {
-      @apply p-0 h-fit text-text-color bg-inherit border-none;
+      @apply p-0 h-fit text-text-color bg-inherit border-none shadow-none;
 
       &:hover {
         @apply text-link-hover bg-inherit;
       }
     }
 
-    &--k-accent {
+    &--primary {
       @apply bg-k-primary;
 
-      &:not(:hover):not(:disabled) {
+      &:not(:hover):not(:disabled):not(.active):not(:active) {
         @apply text-black #{!important};
       }
 
@@ -54,7 +46,7 @@
         @apply border-border-color #{!important};
       }
 
-      &:hover {
+      &:not(.dropdown.active):hover {
         @apply bg-background-color text-text-color;
       }
 
@@ -65,6 +57,10 @@
       &.shiny:not(:hover):not(:disabled) {
         @include shineEffect(var(--k-accent-light-3), lightgrey, false);
       }
+    }
+
+    &--secondary {
+      @apply bg-background-color text-text-color border border-text-color;
     }
 
     &--k-blue {
@@ -86,7 +82,7 @@
     }
 
     &--icon {
-      @apply border-none p-0 h-min;
+      @apply border-none p-0 h-min shadow-none;
 
       &:hover {
         @apply bg-transparent text-link-hover;
@@ -120,7 +116,7 @@
     &--outlined-rounded {
       @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
 
-      &:hover {
+      &:not(.dropdown.active):hover {
         @apply bg-background-color border border-text-color text-text-color;
       }
 
@@ -135,7 +131,7 @@
     &--primary-rounded {
       @apply h-[40px] w-min rounded-3xl shadow-none border border-border-color bg-k-primary text-black;
 
-      &:hover {
+      &:not(.dropdown.active):hover {
         @apply bg-background-color border border-text-color text-text-color;
       }
 
@@ -161,14 +157,6 @@
 
       &:hover {
         @apply bg-k-accent-hover;
-      }
-    }
-
-    &--secondary {
-      @apply h-[22px] text-xs/none w-min rounded shadow-none border border-k-shade bg-background-color;
-
-      &:hover {
-        @apply bg-background-color border border-text-color text-text-color;
       }
     }
 
@@ -204,7 +192,6 @@
       }
     }
 
-
     &--secondary-rounded {
       @apply rounded-[2rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-text-color;
 
@@ -229,7 +216,6 @@
     &:hover {
       @apply text-text-color bg-transparent;
     }
-
   }
 
   &.no-shadow {

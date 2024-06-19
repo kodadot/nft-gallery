@@ -10,7 +10,7 @@
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
-          class="control flex-1 p-0 min-w-[70px] max-md:w-full md:min-w-[98px] px-4 mobile-padding"
+          class="control flex-1 p-0 !min-w-[70px] max-md:w-full md:!min-w-[98px] px-4 mobile-padding"
           :active="state.timeRange === value"
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
@@ -58,7 +58,7 @@ const fiatStore = useFiatStore()
 const { urlPrefix } = usePrefix()
 const { isBase } = useIsChain(urlPrefix)
 
-const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'Month' })
+const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
 
 const timeRanges: TimeRangeOption[] = [
   { value: 'Week', label: 'week' },

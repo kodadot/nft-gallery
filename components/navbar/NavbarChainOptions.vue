@@ -13,17 +13,13 @@
 </template>
 
 <script lang="ts" setup>
-import { usePreferencesStore } from '@/stores/preferences'
-
 const { availableChains } = useChain()
 const { setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
-const preferencesStore = usePreferencesStore()
 
 const emits = defineEmits(['select'])
 
 const changeChain = (newChain) => {
-  preferencesStore.setNotificationBoxCollapse(false)
   setUrlPrefix(newChain)
   redirectAfterChainChange(newChain)
   emits('select')

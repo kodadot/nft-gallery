@@ -121,7 +121,7 @@
       :loading="isLoading"
       :disabled="isDisabledButton"
       native-type="submit"
-      variant="k-accent" />
+      variant="primary" />
 
     <div>
       {{

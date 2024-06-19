@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3">
       <span>Setting your profile for</span>
-      <CollectionDropCreatedBy :address="substrateAddress" />
+      <CollectionDropCreatedBy :address="accountId" />
     </div>
     <form class="flex flex-col gap-10" @submit.prevent>
       <!-- name -->
@@ -89,7 +89,7 @@
     </form>
     <NeoButton
       :disabled="submitDisabled"
-      variant="k-accent"
+      variant="primary"
       label="Finish Customization"
       size="large"
       no-shadow

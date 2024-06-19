@@ -8,7 +8,11 @@
       :followers-count="followersCount"
       :following-count="followingCount"
       @close="refresh" />
+
+    <ProfileBannerSkeleton v-if="isFetchingProfile" />
+
     <div
+      v-else
       class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
         backgroundImage: userProfile?.banner
@@ -29,9 +33,12 @@
         </div>
       </div>
     </div>
+
     <div
       class="pt-6 pb-7 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
-      <div class="flex flex-col gap-6">
+      <ProfileSkeleton v-if="isFetchingProfile" />
+
+      <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
         <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
@@ -71,6 +78,7 @@
                   variant="outlined-rounded"
                   data-testid="profile-wallet-links-button"
                   :active="active"
+                  dropdown
                   :icon-right="active ? 'chevron-up' : 'chevron-down'">
                   {{ $t('profile.walletAndLinks') }}
                 </NeoButton>
@@ -94,7 +102,7 @@
                       data-testid="profile-wallet-links-button-copy"
                       :icon-pack="'fas'"
                       class="ml-2.5"
-                      @click="toast('Copied to clipboard')" />
+                      @click="toast($t('general.copyAddressToClipboard'))" />
                   </div>
                   <!-- View on Subscan and SubID -->
                   <div class="flex items-center">
@@ -154,6 +162,7 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
+                dropdown
                 :active="active">
               </NeoButton>
             </template>
@@ -376,6 +385,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
 
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
+import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -418,7 +428,8 @@ const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
-const { hasProfile, userProfile, fetchProfile } = useProfile()
+const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
+  useProfile()
 
 provide('userProfile', { hasProfile, userProfile })
 
@@ -460,29 +471,31 @@ const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
   onClick: () => (isModalActive.value = true),
-  variant: 'k-accent',
+  variant: 'primary',
 }
 
-const followConfig: ButtonConfig = {
+const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !hasProfile.value,
+  disabled: !accountId.value,
   onClick: async () => {
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
+    }).catch(() => {
+      openProfileCreateModal()
     })
     refresh()
     showFollowing.value = isFollowingThisAccount.value || false
   },
   classes: 'hover:!bg-transparent',
-}
+}))
 
 const followingConfig: ButtonConfig = {
   label: $i18n.t('profile.following'),
 }
 
-const unfollowConfig: ButtonConfig = {
+const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: () => {
     unfollow({
@@ -491,7 +504,7 @@ const unfollowConfig: ButtonConfig = {
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',
-}
+}))
 
 const buttonRef = ref(null)
 const showFollowing = ref(false)
@@ -545,7 +558,9 @@ const buttonConfig = computed((): ButtonConfig => {
   ) {
     return { ...followingConfig, active: isHovered.value }
   }
-  return isFollowingThisAccount.value ? unfollowConfig : followConfig
+  return isFollowingThisAccount.value
+    ? unfollowConfig.value
+    : followConfig.value
 })
 
 const switchToTab = (tab: ProfileTab) => {

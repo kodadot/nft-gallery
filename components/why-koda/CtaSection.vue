@@ -16,7 +16,7 @@
           target="_blank"
           no-shadow
           icon-left="arrow-right"
-          variant="k-accent"
+          variant="primary"
           class="!mt-10">
           {{ $t('whyKoda.cta.getInTouch') }}
         </NeoButton>

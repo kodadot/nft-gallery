@@ -88,7 +88,7 @@
               v-clipboard:copy="accountId"
               class="ml-2"
               data-testid="transfer-copy-sender-address"
-              @click="toast($t('general.copyToClipboard'))">
+              @click="toast($t('general.copyAddressToClipboard'))">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -290,7 +290,7 @@
       <div class="flex">
         <NeoButton
           class="flex flex-1 fixed-height is-shadowless"
-          variant="k-accent"
+          variant="primary"
           :disabled="disabled"
           @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton

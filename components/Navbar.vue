@@ -139,12 +139,6 @@
             class="navbar-chain custom-navbar-item max-lg:!hidden"
             data-testid="chain-select" />
 
-          <NotificationBoxButton
-            v-if="account"
-            data-testid="navbar-button-notification"
-            :show-label="isTouch"
-            @closeBurgerMenu="showMobileNavbar" />
-
           <ShoppingCartButton
             data-testid="navbar-button-cart"
             :show-label="isTouch"
@@ -167,6 +161,7 @@
                   " />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
+              <NavbarCookiesButton @select="showMobileNavbar" />
             </template>
             <div
               v-else
@@ -215,7 +210,6 @@ import MobileExpandableSection from '@/components/navbar/MobileExpandableSection
 import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
-import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 

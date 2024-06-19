@@ -1,7 +1,7 @@
 <template>
   <div
     data-partykit="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min lg:max-w-[490px] relative">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"

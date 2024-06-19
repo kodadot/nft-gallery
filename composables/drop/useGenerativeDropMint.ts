@@ -1,5 +1,5 @@
 import { type MintedNFT } from '@/components/collection/drop/types'
-import { DoResult } from '@/services/fxart'
+import { DoResult, setMetadataUrl } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
@@ -106,19 +106,22 @@ export const useUpdateMetadata = async () => {
       for (const mintNFT of toMintNFTs.value) {
         const index =
           nfts.findIndex(
-            (nft) => nft.id === `${drop.value.collection}-${mintNFT.sn}`,
+            (nft) => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
           ) + 1
 
         if (index > 0) {
           checkIndex.add(index)
-          const metadata = new URL(mintNFT.metadata || '')
-          metadata.searchParams.set('sn', index.toString())
+          const metadata = setMetadataUrl({
+            chain: drop.value.chain,
+            collection: drop.value.collection,
+            sn: index.toString(),
+          })
 
           mintNFTs.value.push({
             ...mintNFT,
             name: `${mintNFT.name} #${index}`,
             metadata: metadata.toString(),
-            index,
+            sn: index,
           })
         }
       }
@@ -136,10 +139,7 @@ export const useUpdateMetadata = async () => {
     const response = await Promise.all(mintNFTs.value.map(submitMint))
 
     for (const [index, res] of response.entries()) {
-      let metadata = {
-        image: mintNFTs.value[index].image,
-        name: mintNFTs.value[index].name,
-      }
+      let metadata = { name: '', image: '' }
 
       try {
         metadata = await $fetch(res.metadata || '')
@@ -149,7 +149,7 @@ export const useUpdateMetadata = async () => {
 
       mintedNfts.value.push({
         id: `${drop.value.collection}-${res.nft}`,
-        index: mintNFTs.value[index].index as number,
+        index: mintNFTs.value[index].sn as number,
         chain: res.chain,
         name: metadata.name,
         image: metadata.image,

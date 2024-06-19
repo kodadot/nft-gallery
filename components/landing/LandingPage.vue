@@ -29,12 +29,6 @@
         </div>
       </section>
     </template>
-
-    <section class="py-8 instance instance-accent">
-      <div class="container is-fluid footer-landing-container">
-        <LazyLandingFeaturedArticles />
-      </div>
-    </section>
   </div>
 </template>
 

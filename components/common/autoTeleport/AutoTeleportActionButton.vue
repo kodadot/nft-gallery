@@ -45,7 +45,7 @@
 
       <NeoButton
         :label="autoTeleportLabel"
-        variant="k-accent"
+        variant="primary"
         no-shadow
         :shiny="shiny"
         :disabled="isDisabled"

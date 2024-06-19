@@ -2,48 +2,14 @@
   <ModalIdentityItem class="mb-5" />
 
   <div class="pt-2 pb-5">
-    <div class="flex gap-4 flex-col">
-      <ConfirmPurchaseItemRow
-        v-for="toMintNft in toMintNfts"
-        :key="toMintNft.hash"
-        :name="toMintNft.name"
-        :collection-name="toMintNft.collectionName"
-        :price="toMintNft.price"
-        :hide-collection="true">
-        <template #image>
-          <div class="relative">
-            <NeoSkeleton
-              v-if="!toMintNft.imageDataPayload"
-              class="border border-border-color overflow-hidden"
-              :class="{ absolute: toMintNft.canRender }"
-              :width="46"
-              :height="46"
-              :rounded="false"
-              no-margin />
-
-            <BaseMediaItem
-              v-if="toMintNft.canRender"
-              :src="
-                toMintNft.imageDataPayload
-                  ? toMintNft.imageDataPayload.image
-                  : sanitizeIpfsUrl(toMintNft.animationUrl)
-              "
-              :alt="toMintNft.name"
-              :mime-type="!toMintNft.imageDataPayload ? 'text/html' : undefined"
-              preview
-              is-detail
-              :class="{ 'opacity-0': !toMintNft.imageDataPayload }"
-              class="border image is-48x48" />
-          </div>
-        </template>
-      </ConfirmPurchaseItemRow>
-    </div>
-
-    <hr class="my-4" />
-
-    <div class="flex justify-between items-center">
-      <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
-      <CommonTokenMoney :value="minimumFunds" />
+    <div class="flex gap-4 justify-between">
+      <div class="font-bold">
+        {{ toMintNfts[0]?.collectionName }}
+      </div>
+      <div>
+        {{ toMintNfts.length }} x
+        <CommonTokenMoney :value="toMintNfts[0]?.price" />
+      </div>
     </div>
 
     <hr class="my-4" />
@@ -51,7 +17,7 @@
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex items-center">
-        <CommonTokenMoney :value="minimumFunds" class="text-k-grey text-xs" />
+        <CommonTokenMoney :value="minimumFunds" class="text-k-grey" />
         <span class="font-bold ml-2">
           {{ priceUSD }}
         </span>
@@ -79,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoSkeleton } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'

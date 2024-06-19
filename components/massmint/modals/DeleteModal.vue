@@ -13,7 +13,7 @@
         <NeoButton
           class="mr-3 flex flex-grow flex-1 h-[3.25rem]"
           no-shadow
-          variant="k-accent"
+          variant="primary"
           :label="$t('massmint.yesDelete')"
           @click="deleteNFT(nft)" />
         <NeoButton
