@@ -1,11 +1,11 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 import { Prefix } from '@kodadot1/static'
+import { isProduction } from '@/utils/env'
 
-const BASE_URL =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://fxart.kodadot.workers.dev/'
-    : 'https://fxart-beta.kodadot.workers.dev/'
+const BASE_URL = isProduction
+  ? 'https://fxart.kodadot.workers.dev/'
+  : 'https://fxart-beta.kodadot.workers.dev/'
 
 export const DYNAMIC_METADATA = 'fxart-beta.kodadot.workers.dev/metadata/'
 

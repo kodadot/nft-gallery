@@ -65,7 +65,7 @@
 
   <LazyCollectionDropCursorParty
     :drop-alias="drop.alias"
-    :user-minted-count="mintedAmountForCurrentUser" />
+    :user-minted-count="userMintsCount" />
 
   <LazyCollectionDropPartyModal />
 </template>
@@ -89,8 +89,8 @@ const mdBreakpoint = 768
 const emit = defineEmits(['mint'])
 
 const { drop } = useDrop()
-const { previewItem } = storeToRefs(useDropStore())
-const { mintedAmountForCurrentUser, description } = useCollectionEntity()
+const { previewItem, userMintsCount } = storeToRefs(useDropStore())
+const { description } = useCollectionEntity()
 const { width } = useWindowSize()
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
