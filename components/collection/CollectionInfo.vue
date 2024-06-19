@@ -28,11 +28,8 @@
             <template #content>
               <div class="bg-background-color border py-2 px-4 text-xs">
                 Recipient Address:
-                <div v-if="recipient.startsWith('0x')" class="break-all">
-                  {{ recipient }}
-                </div>
                 <nuxt-link
-                  v-else
+                  v-if="isValidAddress(recipient)"
                   :to="`/${urlPrefix}/u/${recipient}`"
                   class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
@@ -40,15 +37,16 @@
                     :address="recipient"
                     show-clipboard />
                 </nuxt-link>
+                <div v-else class="break-all">
+                  {{ recipient }}
+                </div>
               </div>
             </template>
           </tippy>
           <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
-          <span class="capitalize text-neutral-7">{{
-            $t('profile.created')
-          }}</span
+          <span class="capitalize text-neutral-7">{{ $t('created') }}</span
           >&nbsp;{{ new Date(createdAt).toLocaleDateString() }}
           <span class="text-neutral-5 mx-2">•</span>
         </span>
@@ -111,6 +109,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { isValidAddress } from '@/utils/account'
 import {
   DESCRIPTION_MAX_LENGTH,
   generatePreviewDescription,
