@@ -1,6 +1,7 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 import { Prefix } from '@kodadot1/static'
+import { isProduction } from '@/utils/env'
 
 const BASE_URL = isProduction
   ? 'https://fxart.kodadot.workers.dev/'

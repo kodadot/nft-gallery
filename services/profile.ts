@@ -1,5 +1,6 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
+import { isProduction } from '@/utils/env'
 
 const BASE_URL = isProduction
   ? 'https://profile.kodadot.workers.dev/'
