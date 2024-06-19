@@ -55,6 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
+              v-if="isSub"
               ref="buttonRef"
               rounded
               no-shadow
@@ -425,6 +426,7 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
+const { getSignaturePair } = useVerifyAccount()
 
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
@@ -478,11 +480,17 @@ const createProfileConfig: ButtonConfig = {
 const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !accountId.value,
+  disabled: !accountId.value || !isSub.value,
   onClick: async () => {
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+      return
+    })
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     }).catch(() => {
       openProfileCreateModal()
     })
@@ -497,12 +505,23 @@ const followingConfig: ButtonConfig = {
 }
 
 const unfollowConfig = computed<ButtonConfig>(() => ({
+  disabled: !isSub.value,
   label: $i18n.t('profile.unfollow'),
-  onClick: () => {
+  onClick: async () => {
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+      return
+    })
     unfollow({
       initiatorAddress: accountId.value,
       targetAddress: id.value as string,
-    }).then(refresh)
+      signature: signaturePair.signature,
+      message: signaturePair.message,
+    })
+      .then(refresh)
+      .catch((e) => {
+        e && toast(e.message)
+      })
   },
   classes: 'hover:!border-k-red',
 }))
