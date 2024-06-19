@@ -55,6 +55,7 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <NeoButton
+              v-if="isSub"
               ref="buttonRef"
               rounded
               no-shadow
@@ -479,7 +480,7 @@ const createProfileConfig: ButtonConfig = {
 const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !accountId.value,
+  disabled: !accountId.value || !isSub.value,
   onClick: async () => {
     const signaturePair = await getSignaturePair().catch((e) => {
       toast(e.message)
@@ -504,6 +505,7 @@ const followingConfig: ButtonConfig = {
 }
 
 const unfollowConfig = computed<ButtonConfig>(() => ({
+  disabled: !isSub.value,
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
     const signaturePair = await getSignaturePair().catch((e) => {
