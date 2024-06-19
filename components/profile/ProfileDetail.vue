@@ -372,7 +372,6 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 

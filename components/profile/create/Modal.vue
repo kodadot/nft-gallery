@@ -42,6 +42,7 @@ import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
+import { getBioWithLinks } from '../utils'
 
 const props = defineProps<{
   modelValue: boolean
@@ -107,7 +108,9 @@ const processProfile = async (profileData: ProfileFormData) => {
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,
     name: profileData.name,
-    description: profileData.description,
+    description: useFarcaster.value
+      ? getBioWithLinks(profileData.description)
+      : profileData.description,
     image: imageUrl,
     banner: bannerUrl,
     socials: constructSocials(profileData),
