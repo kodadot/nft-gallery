@@ -13,16 +13,15 @@
         v-if="showContent"
         class="popover-content-container p-5"
         data-testid="identity-popover-container">
-        <IdentityPopoverHeader />
-        <IdentityPopoverFooter :sold-items="nftEntities" />
+        <IdentityPopoverHeader @refresh="refresh" />
+        <hr class="!my-4 !bg-neutral-3 dark:!bg-neutral-11" />
+        <IdentityPopoverFooter ref="footer" />
       </div>
     </template>
   </tippy>
 </template>
 
 <script lang="ts" setup>
-import { useIdentitySoldData } from '../utils/useIdentity'
-
 import IdentityPopoverHeader from './IdentityPopoverHeader.vue'
 import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
 
@@ -35,13 +34,11 @@ const props = withDefaults(
   },
 )
 
-const address = inject('address')
+const footer = ref()
 const body = ref(document.body)
-const { nftEntities } = useIdentitySoldData({
-  address,
-})
-
 const showContent = ref(false)
+
+const refresh = () => footer.value?.refresh()
 </script>
 
 <style lang="scss" scoped>

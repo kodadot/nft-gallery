@@ -818,8 +818,7 @@
   "profile": {
     "page": "Profile",
     "user": "User",
-    "created": "Created",
-    "collected": "Collected",
+    "creations": "Creations",
     "sold": "Sold",
     "holdings": "Holdings",
     "gains": "Gains",
@@ -836,6 +835,7 @@
     "followedBy": "Followed by",
     "follow": "Follow",
     "unfollow": "Unfollow",
+    "unfollowing": "Unfollowing",
     "following": "Following",
     "editProfile": "Edit Existing Profile",
     "startFresh": "Start Fresh",
