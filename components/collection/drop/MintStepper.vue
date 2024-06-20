@@ -4,6 +4,7 @@
     v-model="amountToMint"
     data-testid="drop-stepper-container"
     :max="max"
+    :min="min"
     class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]" />
 </template>
 <script lang="ts" setup>
@@ -14,17 +15,21 @@ const { availableNfts } = useHolderOfCollection()
 const { amountToMint, drop } = storeToRefs(useDropStore())
 
 const show = computed(() => drop.value.type !== 'free')
+const isHolder = computed(() => drop.value.type === 'holder')
+const availableNftsAmount = computed(() => availableNfts.serialNumbers.length)
+
+const min = computed(() =>
+  isHolder.value ? Math.min(1, availableNftsAmount.value) : 1,
+)
 
 const max = computed(() => {
-  const holderMax =
-    drop.value.type === 'holder'
-      ? availableNfts.serialNumbers.length
-      : undefined
   // tmp remove when uploading to IPFS step can be skipped @see https://github.com/kodadot/nft-gallery/issues/10001#issuecomment-2041533819
   const dropMax = DROP_MASSMINT_LIMIT[drop.value.alias] ?? undefined
 
-  if (holderMax) {
-    return dropMax ? Math.min(dropMax, holderMax) : holderMax
+  if (isHolder.value) {
+    return dropMax
+      ? Math.min(dropMax, availableNftsAmount.value)
+      : availableNftsAmount.value
   }
 
   return dropMax

@@ -21,8 +21,6 @@ const { drop, fetchDrop } = useDrop()
 
 const dropType = computed(() => drop.value.type)
 
-onMounted(() => fetchDrop().then(fixPrefix))
-
 onBeforeUnmount(reset)
 
 const fixPrefix = () => {
@@ -35,4 +33,6 @@ const fixPrefix = () => {
     redirectAfterChainChange(drop.value?.chain)
   }
 }
+
+fetchDrop().then(fixPrefix)
 </script>

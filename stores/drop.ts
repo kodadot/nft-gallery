@@ -3,7 +3,6 @@ import { DropItem } from '@/params/types'
 import { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 import { MintingSession } from '@/components/collection/drop/types'
-import { AllocatedNFT } from '@/services/fxart'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
@@ -29,7 +28,6 @@ interface State {
   // massmint
   amountToMint: number
   toMintNFTs: MassMintNFT[] // used to render each NFT and track their data, after a successfully preview generation the metadata is uplaoded
-  allocatedNFTs: AllocatedNFT[] // once all toMintNFTs have metadata they are allocated
   mintedNFTs: NFTWithMetadata[] // once all allocated NFTs are claimed, we retrieve 'NFTWithMetadata' to be able to list them
   mintingSession: MintingSession // used to show the final success modal with the minted NFTs and txHash if provided
 }
@@ -49,7 +47,6 @@ export const useDropStore = defineStore('drop', {
       toMintNFTs: [],
       previewItem: undefined,
       mintingSession: { txHash: undefined, items: [] },
-      allocatedNFTs: [],
       mintedNFTs: [],
     }
   },
@@ -93,12 +90,10 @@ export const useDropStore = defineStore('drop', {
       this.mintedNFTs = []
       this.toMintNFTs = []
       this.mintingSession = { txHash: undefined, items: [] }
-      this.allocatedNFTs = []
     },
     resetMassmint() {
       this.loading = false
       this.toMintNFTs = []
-      this.allocatedNFTs = []
       this.mintedNFTs = []
       this.mintingSession = { txHash: undefined, items: [] }
     },

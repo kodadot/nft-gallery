@@ -43,7 +43,12 @@ export default ({
       return mobileCols
     }
 
-    return fillRows ? getColsFilledByAllRows(getCols) : getCols
+    if (fillRows) {
+      const filledCols = getColsFilledByAllRows(getCols)
+      return filledCols === 1 && !isMobileVariant.value ? getCols : filledCols
+    }
+
+    return getCols
   })
 
   const isReady = computed(() => Boolean(containerWidth.value))

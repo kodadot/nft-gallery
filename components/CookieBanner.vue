@@ -14,30 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-const cookieControl = useCookieControl()
-const { grantConsent, revokeConsent } = useGtag()
-
-const cookieConsentGiven = computed(() =>
-  cookieControl.cookiesEnabledIds.value?.includes('ga'),
-)
-
-watch(
-  () => cookieControl.cookiesEnabledIds.value,
-  () => {
-    if (!cookieConsentGiven.value) {
-      window.location.reload()
-    }
-  },
-  { deep: true },
-)
-
-onMounted(() => {
-  if (cookieConsentGiven.value || cookieConsentGiven.value === undefined) {
-    grantConsent()
-  } else {
-    revokeConsent()
-  }
-})
+useCookies()
 </script>
 
 <style lang="scss">
