@@ -55,11 +55,11 @@
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
             <ProfileButtonConfig
-              v-if="isOwner"
+              v-if="isOwner && isSub"
               :button="buttonConfig"
               test-id="profile-button-multi-action" />
             <ProfileFollowButton
-              v-else
+              v-else-if="isSub"
               ref="followButton"
               :target="id as string"
               @follow:success="handleFollowRefresh"

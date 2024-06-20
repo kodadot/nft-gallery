@@ -15,8 +15,9 @@ const buttonRef = ref()
 
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-
+const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
+const { toast } = useToast()
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
 const props = defineProps<{
@@ -34,9 +35,16 @@ const followConfig = computed<ButtonConfig>(() => ({
   disabled: !accountId.value,
   onClick: async () => {
     loading.value = true
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+      loading.value = false
+      return
+    })
     await follow({
       initiatorAddress: accountId.value,
       targetAddress: props.target,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     }).catch(() => {
       emit('follow:fail')
     })
@@ -52,9 +60,16 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
     loading.value = true
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+      loading.value = false
+      return
+    })
     await unfollow({
       initiatorAddress: accountId.value,
       targetAddress: props.target,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     })
     await refreshFollowingStatus()
     loading.value = false
