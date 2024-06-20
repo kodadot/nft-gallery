@@ -105,6 +105,13 @@
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
+          :passed="fileValidity.externalResourcesNotUsed"
+          :description="$t('codeChecker.notUsingExternalResources')">
+          <template #modalContent>
+            <CodeCheckerIssueHintNotUsingExternalResources />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
           :description="$t('codeChecker.usingParamHash')">
           <template #modalContent>
@@ -156,6 +163,7 @@
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
+        :index-url="indexUrl"
         @reload="startClock"
         @hash:update="(hash) => (previewHash = hash)" />
 
@@ -163,7 +171,8 @@
         v-if="selectedFile && indexContent"
         class="!mt-11"
         :assets="assets"
-        :index-content="indexContent" />
+        :index-content="indexContent"
+        @upload="(value) => (indexUrl = value)" />
 
       <div class="max-w-[490px] mt-11">
         <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
@@ -214,11 +223,13 @@ const validtyDefault: Validity = {
   title: '-',
   validKodaRenderPayload: 'loading',
   consistent: 'loading',
+  externalResourcesNotUsed: 'unknown',
 }
 
 const selectedFile = ref<File | null>(null)
 const assets = ref<AssetMessage[]>([])
 const indexContent = ref<string>()
+const indexUrl = ref<string>()
 const fileName = computed(() => selectedFile.value?.name)
 const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
@@ -266,6 +277,8 @@ const clear = () => {
   errorMessage.value = ''
   reloadTrigger.value = 0
   renderCount.value = 0
+  indexUrl.value = undefined
+  indexContent.value = undefined
   Object.assign(fileValidity, validtyDefault)
 }
 

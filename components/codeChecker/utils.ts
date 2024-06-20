@@ -167,3 +167,8 @@ export const createSandboxAssets = async (
   }
   return assets
 }
+
+export const getDocumentFromString = (html: string): Document => {
+  const parser = new DOMParser()
+  return parser.parseFromString(html, 'text/html')
+}

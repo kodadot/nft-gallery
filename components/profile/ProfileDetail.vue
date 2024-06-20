@@ -54,25 +54,20 @@
         <!-- Buttons and Dropdowns -->
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
-            <NeoButton
-              ref="buttonRef"
-              rounded
-              no-shadow
-              class="min-w-28"
-              data-testid="profile-button-multi-action"
-              :class="buttonConfig.classes"
-              :variant="buttonConfig.variant"
-              :active="buttonConfig.active"
-              :disabled="buttonConfig.disabled"
-              @click="buttonConfig.onClick">
-              <NeoIcon
-                v-if="buttonConfig.icon"
-                :icon="buttonConfig.icon"
-                class="mr-1" />
-              {{ buttonConfig.label }}
-            </NeoButton>
+            <ProfileButtonConfig
+              v-if="isOwner"
+              :button="buttonConfig"
+              test-id="profile-button-multi-action" />
+            <ProfileFollowButton
+              v-else
+              ref="followButton"
+              :target="id as string"
+              @follow:success="handleFollowRefresh"
+              @follow:fail="openProfileCreateModal"
+              @unfollow:success="handleFollowRefresh" />
+
             <!-- Wallet And Links Dropdown -->
-            <NeoDropdown position="bottom-left">
+            <NeoDropdown position="bottom-auto">
               <template #trigger="{ active }">
                 <NeoButton
                   variant="outlined-rounded"
@@ -374,16 +369,9 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import {
-  fetchFollowersOf,
-  fetchFollowing,
-  follow,
-  isFollowing,
-  unfollow,
-} from '@/services/profile'
+import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
@@ -433,11 +421,6 @@ const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
 
 provide('userProfile', { hasProfile, userProfile })
 
-const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
-  useAsyncData(`${accountId.value}/isFollowing/${route.params?.id}`, () =>
-    isFollowing(accountId.value, route.params?.id as string),
-  )
-
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
   () =>
@@ -452,10 +435,10 @@ const { data: following, refresh: refreshFollowing } = useAsyncData(
   () => fetchFollowing(route.params.id as string, { limit: 1 }),
 )
 
-const refresh = () => {
+const refresh = ({ fetchFollowing = true } = {}) => {
   refreshFollowers()
   refreshFollowing()
-  refreshFollowingStatus()
+  fetchFollowing && followButton.value?.refresh()
 }
 const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
@@ -474,40 +457,11 @@ const createProfileConfig: ButtonConfig = {
   variant: 'primary',
 }
 
-const followConfig = computed<ButtonConfig>(() => ({
-  label: $i18n.t('profile.follow'),
-  icon: 'plus',
-  disabled: !accountId.value,
-  onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: id.value as string,
-    }).catch(() => {
-      openProfileCreateModal()
-    })
-    refresh()
-    showFollowing.value = isFollowingThisAccount.value || false
-  },
-  classes: 'hover:!bg-transparent',
-}))
-
-const followingConfig: ButtonConfig = {
-  label: $i18n.t('profile.following'),
+const handleFollowRefresh = () => {
+  refresh({ fetchFollowing: false })
 }
 
-const unfollowConfig = computed<ButtonConfig>(() => ({
-  label: $i18n.t('profile.unfollow'),
-  onClick: () => {
-    unfollow({
-      initiatorAddress: accountId.value,
-      targetAddress: id.value as string,
-    }).then(refresh)
-  },
-  classes: 'hover:!border-k-red',
-}))
-
-const buttonRef = ref(null)
-const showFollowing = ref(false)
+const followButton = ref()
 const counts = ref({})
 const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
 const loadingOtherNetwork = ref(false)
@@ -525,7 +479,6 @@ const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
 
-const isHovered = useElementHover(buttonRef)
 const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
 const socialDropdownItems = computed(() => {
@@ -548,20 +501,9 @@ const socialDropdownItems = computed(() => {
 
 const isOwner = computed(() => route.params.id === accountId.value)
 
-const buttonConfig = computed((): ButtonConfig => {
-  if (isOwner.value) {
-    return hasProfile.value ? editProfileConfig : createProfileConfig
-  }
-  if (
-    showFollowing.value ||
-    (!isHovered.value && isFollowingThisAccount.value)
-  ) {
-    return { ...followingConfig, active: isHovered.value }
-  }
-  return isFollowingThisAccount.value
-    ? unfollowConfig.value
-    : followConfig.value
-})
+const buttonConfig = computed<ButtonConfig>(() =>
+  hasProfile.value ? editProfileConfig : createProfileConfig,
+)
 
 const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
@@ -740,13 +682,6 @@ const updateEmptyResultTab = (
     hasAssetPrefixMap.value[tab]!.push(prefix)
   }
 }
-
-watch(isHovered, (newHover, oldHover) => {
-  const curserExited = newHover === false && oldHover === true
-  if (curserExited) {
-    showFollowing.value = false
-  }
-})
 
 watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
