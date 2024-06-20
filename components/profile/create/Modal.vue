@@ -44,6 +44,7 @@ import { uploadImage } from '@/services/imageWorker'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
+import { getBioWithLinks } from '../utils'
 
 const props = defineProps<{
   modelValue: boolean
@@ -107,7 +108,9 @@ const processProfile = async (profileData: ProfileFormData) => {
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,
     name: profileData.name,
-    description: profileData.description,
+    description: useFarcaster.value
+      ? getBioWithLinks(profileData.description)
+      : profileData.description,
     image: imageUrl,
     banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
     socials: constructSocials(profileData),
@@ -205,12 +208,13 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
-watch(
-  () => props.modelValue,
-  () => {
+useModalIsOpenTracker({
+  isOpen: computed(() => props.modelValue),
+  onChange: () => {
     stage.value = initialStep.value
   },
-)
+})
+
 watch(documentVisibility, (current, previous) => {
   if (
     current === 'visible' &&

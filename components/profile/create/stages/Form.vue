@@ -255,32 +255,29 @@ const deleteProfile = () => {
 watchEffect(async () => {
   const profile = userProfile.value
   const farcasterProfile = props.farcasterUserData
+  const useFarcasterData = props.useFarcaster && farcasterProfile
+  const getProfileSocial = (platform: string) =>
+    profile?.socials.find((s) => s.platform === platform)
 
   // Use Farcaster data if useFarcaster is true and data is available, otherwise fallback to profile data
-  form.name =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.displayName ?? ''
-      : profile?.name ?? ''
-  form.description =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.bio ?? ''
-      : profile?.description ?? ''
-  form.imagePreview =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.pfpUrl
-      : profile?.image
+  form.name = useFarcasterData
+    ? farcasterProfile.displayName ?? ''
+    : profile?.name ?? ''
+  form.description = useFarcasterData
+    ? farcasterProfile.bio ?? ''
+    : profile?.description ?? ''
+  form.imagePreview = useFarcasterData
+    ? farcasterProfile.pfpUrl
+    : profile?.image
   form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
 
   // Conditional for Farcaster handle based on the useFarcaster prop
-  form.farcasterHandle =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.username
-      : profile?.socials.find((s) => s.platform === 'Farcaster')?.handle
+  form.farcasterHandle = useFarcasterData
+    ? farcasterProfile.username
+    : getProfileSocial('Farcaster')?.handle
 
   // Social handles are fetched from profile regardless of the Farcaster usage
-  form.twitterHandle = profile?.socials.find(
-    (s) => s.platform === 'Twitter',
-  )?.handle
-  form.website = profile?.socials.find((s) => s.platform === 'Website')?.handle
+  form.twitterHandle = getProfileSocial('Twitter')?.handle
+  form.website = getProfileSocial('Website')?.handle
 })
 </script>

@@ -8,7 +8,6 @@
 <script lang="ts" setup>
 import { useDrop } from '@/components/drops/useDrops'
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
-import { isProduction } from '@/utils/chain'
 
 definePageMeta({
   layout: 'unlockable-mint-layout',

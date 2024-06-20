@@ -4,12 +4,14 @@
 
     <CodeCheckerMassPreviewCapture
       :assets="assets"
-      :index-content="indexContent" />
+      :index-content="indexContent"
+      @upload="(v) => $emit('upload', v)" />
   </div>
 </template>
 <script lang="ts" setup>
 import { AssetMessage } from '../types'
 
+defineEmits(['upload'])
 defineProps<{
   assets: Array<AssetMessage>
   indexContent: string
