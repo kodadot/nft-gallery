@@ -35,8 +35,7 @@ export default function useVerifyAccount() {
     const isEvmAddress = isEthereumAddress(accountId.value)
 
     if (!accountId.value) {
-      // TODO: handle EVM address verification
-      throw new Error('This address is not currently supported')
+      throw new Error('Please connect your wallet first')
     }
     if (signedMessage.value) {
       return signedMessage.value
