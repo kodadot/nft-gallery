@@ -72,7 +72,7 @@ export type FollowRequest = {
 const invalidSignatureErrorHandler = (error: FetchError) => {
   if (error.status === 401) {
     useWalletStore().setSignedMessage(undefined)
-    throw new Error(error?.data?.message)
+    throw new Error((error as FetchError)?.data?.message)
   }
 }
 
