@@ -35,18 +35,28 @@ import { NeoButton, NeoIcon, NeoUpload } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
+const ONE_MB = 1024 * 1024
+
 const props = defineProps<{
   modelValue: File | null
   preview?: string
+  maxSizeInMb?: number
 }>()
 
 const vSelectedFile = useVModel(props, 'modelValue')
-
+const { toast } = useToast()
 const selectedFilePreview = computed(() =>
   vSelectedFile.value ? URL.createObjectURL(vSelectedFile.value as File) : '',
 )
 
 const fileSelected = (file: File | null) => {
+  if (file && props.maxSizeInMb && file.size > props.maxSizeInMb * ONE_MB) {
+    vSelectedFile.value = null
+    toast(
+      'The uploaded image exceeds the size limit. Please upload a smaller image.',
+    )
+    return
+  }
   vSelectedFile.value = file
 }
 </script>
