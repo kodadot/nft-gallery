@@ -2,14 +2,14 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    @close="onClose">
+    @close="close">
     <ModalBody
       :title="title"
       :scrollable="false"
       :loading="loading"
       :custom-skeleton-title="preStepTitle"
       :estimated-time="estimedTime"
-      @close="onClose">
+      @close="close">
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
@@ -156,13 +156,6 @@ const title = computed(() => {
 
 const close = () => emit('close')
 
-const onClose = () => {
-  close()
-  if (isSuccessfulDropStep.value) {
-    window.location.reload()
-  }
-}
-
 const handleModalClose = (completed: boolean) => {
   if (completed) {
     autoteleportCompleted.value = true
@@ -199,13 +192,9 @@ watchEffect(() => {
   }
 })
 
-watchDebounced(
-  [() => props.modelValue, isAutoTeleportModalOpen],
-  ([isOpen]) => {
-    if (!isOpen && !isAutoTeleportModalOpen.value) {
-      reset()
-    }
-  },
-  { debounce: 500 }, // wait for the modal closing animation to finish
-)
+useModalIsOpenTracker({
+  isOpen: computed(() => props.modelValue),
+  onChange: reset,
+  and: [computed(() => !isAutoTeleportModalOpen.value)],
+})
 </script>

@@ -1,10 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
+import { isProduction } from '@/utils/env'
 
-const BASE_URL =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://profile.kodadot.workers.dev/'
-    : 'https://profile-beta.kodadot.workers.dev/'
+const BASE_URL = isProduction
+  ? 'https://profile.kodadot.workers.dev/'
+  : 'https://profile-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,

@@ -19,9 +19,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
@@ -42,8 +40,7 @@ const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
 const now = useNow()
 const { mintCountAvailable, maxCount } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
-const { amountToMint, previewItem } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
@@ -140,7 +137,7 @@ const enabled = computed(() => {
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return maxCount.value > mintedAmountForCurrentUser.value
+      return maxCount.value > userMintsCount.value
     default:
       return false
   }

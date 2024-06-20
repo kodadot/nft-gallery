@@ -1,88 +1,107 @@
 <template>
-  <div class="popover-stats-container flex flex-col pt-2">
-    <div class="pb-2">
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.collected') }}</span>
-
-        <p class="text-base" data-testid="identity-collected">
-          {{ totalCollected }}
-        </p>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.created') }}</span>
-
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between">
+      <div class="flex flex-row gap-1 items-center">
         <p class="text-base" data-testid="identity-created">
           {{ totalCreated }}
         </p>
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-base">{{ $t('profile.sold') }}</span>
 
-        <p class="text-base" data-testid="identity-sold">
-          {{ totalSold }}
+        <span class="text-base text-neutral-7">{{
+          $t('profile.creations')
+        }}</span>
+      </div>
+
+      <div class="flex flex-row gap-1 items-center">
+        <p class="text-base" data-testid="identity-followers">
+          {{ followers }}
         </p>
+
+        <span class="text-base text-neutral-7">{{
+          $t('activity.followers')
+        }}</span>
       </div>
     </div>
-    <div v-if="soldItems.length" class="sales-container pt-2">
-      <h6 class="popover-user-heading pb-2">
-        {{ $t('profile.highestSales') }}
-      </h6>
-      <div class="flex sold-items">
-        <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
+
+    <div class="grid grid-cols-2 gap-5">
+      <template v-if="!nftEntities.length">
+        <div
+          v-for="skeleton in NFT_AMOUNT"
+          :key="skeleton"
+          class="aspect-square relative border border-border-color">
+          <NeoSkeleton :rounded="false" no-margin full-size />
+        </div>
+      </template>
+      <template v-else>
+        <div v-for="nft in nftEntities" :key="nft.id">
           <GalleryCard
             :id="nft.id"
             hide-name
             :metadata="nft.metadata"
             :current-owner="nft.currentOwner"
             :route="`/${urlPrefix}/gallery`"
-            :data-testid="soldItems.indexOf(nft)" />
+            :data-testid="nftEntities.indexOf(nft)" />
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { NeoSkeleton } from '@kodadot1/brick'
+import { fetchFollowersOf } from '@/services/profile'
 import useIdentityStats from '../utils/useIdentityStats'
-
 import type { NFT } from '@/components/rmrk/service/scheme'
-
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),
 )
 
-const address = inject('address')
+const NFT_AMOUNT = 2
+
+const address = inject('address') as string
+
 const { urlPrefix } = usePrefix()
-const { totalCollected, totalCreated, totalSold } = useIdentityStats({
+const { totalCreated } = useIdentityStats({
   address,
 })
 
-defineProps<{
-  soldItems: NFT[]
-}>()
+const {
+  data: followersData,
+  refresh,
+  pending: loading,
+} = useAsyncData(() => fetchFollowersOf(address))
+
+const followers = computed(() =>
+  loading.value ? 0 : followersData.value?.totalCount || 0,
+)
+
+const { data } = useSearchNfts({
+  search: [
+    {
+      AND: [
+        {
+          OR: [
+            {
+              // created
+              issuer_eq: address,
+            },
+            {
+              // bought
+              issuer_not_eq: address,
+              currentOwner_eq: address,
+            },
+          ],
+        },
+        {
+          burned_eq: false,
+        },
+      ],
+    },
+  ],
+  first: NFT_AMOUNT,
+  orderBy: 'updatedAt_DESC',
+})
+
+const nftEntities = computed<NFT[]>(() => data.value?.nFTEntities ?? [])
+
+defineExpose({ refresh })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.sold-items {
-  gap: 10px;
-
-  .sold-item {
-    width: 76px;
-    height: 76px;
-  }
-}
-
-.sales-container {
-  @apply border-t border-k-grey;
-}
-
-.popover-user-heading {
-  font-size: 12px;
-
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
-</style>

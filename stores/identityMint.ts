@@ -4,12 +4,6 @@ export interface MintInfo {
   created: {
     totalCount: number
   }
-  collected: {
-    totalCount: number
-  }
-  sold: {
-    totalCount: number
-  }
   firstMintDate: Date
   updatedAt: number
   lastBoughtDate?: Date

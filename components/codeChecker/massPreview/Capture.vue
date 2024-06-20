@@ -34,12 +34,14 @@
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
 import { makeScreenshot } from '@/services/capture'
-import { getObjectUrl, uploadFile } from '@/services/playground'
+import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
 import { AssetMessage } from '../types'
 import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
+import { getDocumentFromString } from '../utils'
 
+const emit = defineEmits(['upload'])
 const props = withDefaults(
   defineProps<{
     assets: Array<AssetMessage>
@@ -78,8 +80,7 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
 }
 
 const buildIndexFile = async (): Promise<Blob> => {
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(props.indexContent, 'text/html')
+  const doc = getDocumentFromString(props.indexContent)
 
   await Promise.all(
     props.assets.map((asset) => replaceAssetContent(doc, asset)),
@@ -99,7 +100,9 @@ const uploadIndex = async () => {
       fileName: 'index.html',
       prefix: 'codeChecker',
     })
+    await exponentialBackoff(() => getUpload(key)).catch(console.log)
     indexKey.value = key
+    emit('upload', getObjectUrl(key))
   } catch (error) {
     dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)
   } finally {
