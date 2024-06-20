@@ -52,6 +52,7 @@ const props = defineProps<{
 
 const documentVisibility = useDocumentVisibility()
 const { $i18n } = useNuxtApp()
+const { accountId } = useAuth()
 
 const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
@@ -73,8 +74,13 @@ const close = () => {
 
 const uploadProfileImage = async (
   file: File | null,
+  type: 'image' | 'banner',
 ): Promise<string | undefined> =>
-  file ? await uploadImage(file).then((response) => response.url) : undefined
+  file
+    ? await uploadImage({ file, type, address: accountId.value }).then(
+        (response) => response.url,
+      )
+    : undefined
 
 const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   return [
@@ -98,11 +104,11 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 
 const processProfile = async (profileData: ProfileFormData) => {
   const imageUrl = profileData.image
-    ? await uploadProfileImage(profileData.image)
+    ? await uploadProfileImage(profileData.image, 'image')
     : profileData.imagePreview
 
   const bannerUrl = profileData.banner
-    ? await uploadProfileImage(profileData.banner)
+    ? await uploadProfileImage(profileData.banner, 'banner')
     : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {

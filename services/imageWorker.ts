@@ -41,10 +41,18 @@ export async function getMetadata(url: string) {
   return metadata as unknown as NFTWithMetadata
 }
 
-export const uploadImage = async (file: File) => {
+type UploadImage = {
+  file: File
+  type: string
+  address: string
+}
+
+export const uploadImage = async ({ file, type, address }: UploadImage) => {
   try {
     const form = new FormData()
     form.append('file', file)
+    form.append('address', address)
+    form.append('type', type)
 
     workerUrl.pathname = '/image/upload'
 
