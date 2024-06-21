@@ -186,6 +186,7 @@
             :src="parent?.nftImage.value"
             :animation-src="parent?.nftAnimation.value"
             :title="parent?.nftMetadata?.value?.name"
+            enable-normal-tag
             is-detail />
           <p class="gallery-parent-item__name">
             {{ parent?.nftMetadata?.value?.name }}
