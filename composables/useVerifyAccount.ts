@@ -1,8 +1,8 @@
 import { toSubstrateAddress } from '@/services/profile'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-import { signMessage as _signMessageEvm } from '@wagmi/core'
+import { signMessage as signMessageEvm } from '@wagmi/core'
 
-const signMessagePolkadot = async (address, message) => {
+const signMessagePolkadot = async (address: string, message: string) => {
   const injector = await getAddress(toDefaultAddress(address))
   const signedMessage = await injector.signer.signRaw({
     address: address,
@@ -21,9 +21,9 @@ export default function useVerifyAccount() {
   const signedMessage = computed(() => walletStore.getSignedMessage)
   const { config: wagmiConfig } = useWagmi()
 
-  const signMessageEvm = async (address, message) => {
-    const signedMessage = await _signMessageEvm(wagmiConfig, {
-      account: address,
+  const signMessageEthereum = async (address: string, message: string) => {
+    const signedMessage = await signMessageEvm(wagmiConfig, {
+      account: address as `0x${string}`,
       message: message,
     })
 
@@ -32,8 +32,6 @@ export default function useVerifyAccount() {
   }
 
   const getSignedMessage = async () => {
-    const isEvmAddress = isEthereumAddress(accountId.value)
-
     if (!accountId.value) {
       throw new Error('Please connect your wallet first')
     }
@@ -41,8 +39,8 @@ export default function useVerifyAccount() {
       return signedMessage.value
     }
 
-    const signature = isEvmAddress
-      ? await signMessageEvm(accountId.value, SIGNATURE_MESSAGE)
+    const signature = isEthereumAddress(accountId.value)
+      ? await signMessageEthereum(accountId.value, SIGNATURE_MESSAGE)
       : await signMessagePolkadot(
           toSubstrateAddress(accountId.value),
           SIGNATURE_MESSAGE,
