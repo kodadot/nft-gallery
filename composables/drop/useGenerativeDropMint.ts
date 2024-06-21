@@ -24,7 +24,6 @@ export type DropCollectionById = {
     nftCount: number
     nfts: { sn: string }[]
   }
-  nftEntitiesConnection: { totalCount: number }
 }
 
 function useCollectionData(collectionId, client) {
@@ -56,9 +55,6 @@ export function useCollectionEntity() {
     client,
   )
   const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
-  const mintedAmountForCurrentUser = computed(
-    () => collectionData.value?.nftEntitiesConnection?.totalCount ?? 0,
-  )
   const description = computed(
     () => collectionData.value?.collectionEntity?.meta?.description ?? '',
   )
@@ -71,7 +67,6 @@ export function useCollectionEntity() {
 
   return {
     maxCount,
-    mintedAmountForCurrentUser,
     description,
     collectionName,
     nftCount,

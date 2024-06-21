@@ -1,10 +1,13 @@
 import { Result, Validity } from './types'
+import { getDocumentFromString } from './utils'
+import { AssetElementMap } from './massPreview/utils'
 
 type HtmlContentValidationResult = {
   localP5jsUsed: boolean
   titlePresent: boolean
   correctTitle: boolean
   title: string
+  externalResourcesNotUsed: boolean
 }
 
 type InnerValidity = Pick<
@@ -16,6 +19,7 @@ type InnerValidity = Pick<
   | 'resizerUsed'
   | 'usesHashParam'
   | 'title'
+  | 'externalResourcesNotUsed'
 >
 
 const constants = {
@@ -97,6 +101,21 @@ const validateURLParamsUsage = (
     : validateURLSearchParamsUsage(sketchFileContent)
 }
 
+const doesNotUseExternalResources = (htmlFileContent: string): boolean => {
+  const doc = getDocumentFromString(htmlFileContent)
+  const extenal: boolean[] = []
+
+  Object.keys(AssetElementMap).forEach((asset) => {
+    doc.querySelectorAll(AssetElementMap[asset].tag).forEach((tag) => {
+      extenal.push(
+        !tag[AssetElementMap[asset].src].includes(window.location.hostname),
+      )
+    })
+  })
+
+  return !extenal.some(Boolean)
+}
+
 const validateHtmlContent = (
   htmlFileContent: string,
 ): HtmlContentValidationResult => {
@@ -107,7 +126,15 @@ const validateHtmlContent = (
   const title = titleTagMatch ? titleTagMatch[1].trim() : '-'
   const correctTitle = title !== '-' && title !== constants.disallowedTitle
 
-  return { localP5jsUsed, titlePresent, correctTitle, title }
+  const externalResourcesNotUsed = doesNotUseExternalResources(htmlFileContent)
+
+  return {
+    localP5jsUsed,
+    titlePresent,
+    correctTitle,
+    title,
+    externalResourcesNotUsed,
+  }
 }
 
 const validateSketchContent = (
@@ -160,6 +187,7 @@ export const validate = (
     validTitle:
       htmlValidationResult.titlePresent && htmlValidationResult.correctTitle,
     title: htmlValidationResult.title,
+    externalResourcesNotUsed: htmlValidationResult.externalResourcesNotUsed,
   }
 
   return { isSuccess: true, value: validity }

@@ -99,11 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import { formatAddress } from '@/utils/account'
 import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
-import { Profile } from '@/services/profile'
+import { Profile, toSubstrateAddress } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 
@@ -118,7 +117,7 @@ const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 const userProfile = computed(() => profile?.userProfile.value)
-const substrateAddress = computed(() => formatAddress(accountId.value, 42))
+const substrateAddress = computed(() => toSubstrateAddress(accountId.value))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
@@ -190,32 +189,29 @@ const socialLinks = [
 watchEffect(async () => {
   const profile = userProfile.value
   const farcasterProfile = props.farcasterUserData
+  const useFarcasterData = props.useFarcaster && farcasterProfile
+  const getProfileSocial = (platform: string) =>
+    profile?.socials.find((s) => s.platform === platform)
 
   // Use Farcaster data if useFarcaster is true and data is available, otherwise fallback to profile data
-  form.name =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.displayName ?? ''
-      : profile?.name ?? ''
-  form.description =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.bio ?? ''
-      : profile?.description ?? ''
-  form.imagePreview =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.pfpUrl
-      : profile?.image
+  form.name = useFarcasterData
+    ? farcasterProfile.displayName ?? ''
+    : profile?.name ?? ''
+  form.description = useFarcasterData
+    ? farcasterProfile.bio ?? ''
+    : profile?.description ?? ''
+  form.imagePreview = useFarcasterData
+    ? farcasterProfile.pfpUrl
+    : profile?.image
   form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
 
   // Conditional for Farcaster handle based on the useFarcaster prop
-  form.farcasterHandle =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.username
-      : profile?.socials.find((s) => s.platform === 'Farcaster')?.handle
+  form.farcasterHandle = useFarcasterData
+    ? farcasterProfile.username
+    : getProfileSocial('Farcaster')?.handle
 
   // Social handles are fetched from profile regardless of the Farcaster usage
-  form.twitterHandle = profile?.socials.find(
-    (s) => s.platform === 'Twitter',
-  )?.handle
-  form.website = profile?.socials.find((s) => s.platform === 'Website')?.handle
+  form.twitterHandle = getProfileSocial('Twitter')?.handle
+  form.website = getProfileSocial('Website')?.handle
 })
 </script>

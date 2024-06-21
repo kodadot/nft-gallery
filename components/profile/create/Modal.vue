@@ -42,6 +42,7 @@ import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
+import { getBioWithLinks } from '../utils'
 
 const props = defineProps<{
   modelValue: boolean
@@ -57,7 +58,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
 const emit = defineEmits(['close', 'success'])
-
+const { getSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
@@ -96,6 +97,8 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 }
 
 const processProfile = async (profileData: ProfileFormData) => {
+  const { signature, message } = await getSignaturePair()
+
   const imageUrl = profileData.image
     ? await uploadImage(profileData.image)
     : profileData.imagePreview
@@ -107,10 +110,14 @@ const processProfile = async (profileData: ProfileFormData) => {
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,
     name: profileData.name,
-    description: profileData.description,
+    description: useFarcaster.value
+      ? getBioWithLinks(profileData.description)
+      : profileData.description,
     image: imageUrl,
     banner: bannerUrl,
     socials: constructSocials(profileData),
+    signature,
+    message,
   }
 
   return hasProfile.value
@@ -191,12 +198,13 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
-watch(
-  () => props.modelValue,
-  () => {
+useModalIsOpenTracker({
+  isOpen: computed(() => props.modelValue),
+  onChange: () => {
     stage.value = initialStep.value
   },
-)
+})
+
 watch(documentVisibility, (current, previous) => {
   if (
     current === 'visible' &&

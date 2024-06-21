@@ -1,9 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
-const BASE_URL =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://profile.kodadot.workers.dev/'
-    : 'https://profile-beta.kodadot.workers.dev/'
+import { isProduction } from '@/utils/env'
+
+const BASE_URL = isProduction
+  ? 'https://profile.kodadot.workers.dev/'
+  : 'https://profile-beta.kodadot.workers.dev/'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -40,6 +41,8 @@ export type ProfileResponse = {
 }
 
 export type CreateProfileRequest = {
+  signature: string
+  message: string
   address: string
   name: string
   description: string
@@ -49,6 +52,8 @@ export type CreateProfileRequest = {
 }
 
 export type UpdateProfileRequest = {
+  signature: string
+  message: string
   address: string
   name?: string
   description?: string
@@ -60,14 +65,29 @@ export type UpdateProfileRequest = {
 export type FollowRequest = {
   initiatorAddress: string
   targetAddress: string
+  signature: string
+  message: string
+}
+
+const invalidSignatureErrorHandler = (error: FetchError) => {
+  if (error.status === 401) {
+    useWalletStore().setSignedMessage(undefined)
+    throw new Error((error as FetchError)?.data?.message)
+  }
 }
 
 export const toSubstrateAddress = (address: string) =>
-  isEthereumAddress(address) ? address : formatAddress(address, 42)
+  !address
+    ? ''
+    : isEthereumAddress(address)
+      ? address
+      : formatAddress(address, 42)
 
 const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
   targetAddress: toSubstrateAddress(body.targetAddress),
+  signature: body.signature,
+  message: body.message,
 })
 
 // API methods
@@ -119,6 +139,7 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::CREATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
@@ -136,6 +157,7 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
     )
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::UPDATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
@@ -150,6 +172,8 @@ export const follow = async (followRequest: FollowRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
+
     throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
   }
 }
@@ -162,6 +186,8 @@ export const unfollow = async (unFollowRequest: FollowRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
+
     throw new Error(`[PROFILE::UNFOLLOW] ERROR: ${(error as FetchError).data}`)
   }
 }

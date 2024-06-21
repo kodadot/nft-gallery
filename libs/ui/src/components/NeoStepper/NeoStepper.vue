@@ -51,6 +51,8 @@ watchEffect(() => {
       input.value = props.min
     } else if (input.value > props.max) {
       input.value = props.max
+    } else {
+      input.value = Math.ceil(input.value)
     }
   }
 })

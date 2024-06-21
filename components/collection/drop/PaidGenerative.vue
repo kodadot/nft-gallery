@@ -7,7 +7,7 @@
     :status="status"
     :is-error="isError"
     @confirm="mintNft"
-    @close="closeMintModal"
+    @close="handleMintModalClose"
     @list="handleList" />
 </template>
 
@@ -104,9 +104,13 @@ const handleSubmitMint = async () => {
   await massGenerate()
 }
 
+const handleMintModalClose = () => {
+  closeMintModal()
+  setTimeout(clearMassMint, NEO_MODAL_ANIMATION_DURATION)
+}
+
 const closeMintModal = () => {
   isMintModalActive.value = false
-  clearMassMint()
 }
 
 const submitMints = async () => {
