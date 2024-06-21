@@ -1,4 +1,4 @@
-import { type QueryValue, encodeQueryItem, joinURL } from 'ufo'
+import { type QueryValue, encodeQueryItem } from 'ufo'
 import type { ProviderGetImage } from '@nuxt/image'
 import { createOperationsGenerator } from '#image'
 
@@ -33,25 +33,21 @@ const operationsGenerator = createOperationsGenerator({
 
 const defaultModifiers = {}
 
-export const getImage: ProviderGetImage = (
-  src,
-  { modifiers = {}, baseURL = 'https://kodadot.xyz' } = {},
-) => {
+export const getImage: ProviderGetImage = (src, { modifiers = {} } = {}) => {
   const mergeModifiers = { ...defaultModifiers, ...modifiers }
   const operations = operationsGenerator(mergeModifiers as any)
 
   const match = src.match(/\/ipfs\/(.+)/)
   const cid = match ? encodeURI(match[1]) : null
 
-  if (!cid) {
+  if (!cid || !operations) {
     return { url: src }
   }
 
-  const cf = 'cdn-cgi/imagedelivery/jk5b6spi_m_-9qC4VTnjpg'
-
-  const url = operations ? joinURL(baseURL, cf, cid, operations) : src
+  const url = new URL(src)
+  url.search = operations
 
   return {
-    url,
+    url: url.toString(),
   }
 }
