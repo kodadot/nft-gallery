@@ -22,6 +22,7 @@
         <CodeCheckerMassPreviewGrid :items="previewItems.map((p) => p.loading)">
           <template #default="{ index }">
             <iframe
+              title="preview"
               :src="previewItems[index].image"
               class="w-full h-full border border-black border-solid"></iframe>
           </template>
