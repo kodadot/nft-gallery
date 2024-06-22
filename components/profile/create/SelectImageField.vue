@@ -44,7 +44,8 @@ const props = defineProps<{
 }>()
 
 const vSelectedFile = useVModel(props, 'modelValue')
-const { toast } = useToast()
+const { $i18n } = useNuxtApp()
+
 const selectedFilePreview = computed(() =>
   vSelectedFile.value ? URL.createObjectURL(vSelectedFile.value as File) : '',
 )
@@ -52,9 +53,7 @@ const selectedFilePreview = computed(() =>
 const fileSelected = (file: File | null) => {
   if (file && props.maxSizeInMb && file.size > props.maxSizeInMb * ONE_MB) {
     vSelectedFile.value = null
-    toast(
-      'The uploaded image exceeds the size limit. Please upload a smaller image.',
-    )
+    dangerMessage($i18n.t('toast.uploadFileSizeLimit', [props.maxSizeInMb]))
     return
   }
   vSelectedFile.value = file
