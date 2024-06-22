@@ -68,9 +68,8 @@ function removeDuplicateSortKeys(options: string[]) {
   }
 
   options.forEach((option) => {
-    const opt = option.split('_')
-    const identifier = opt[0]
-    const sort = opt[1]
+    const [identifier, ...rest] = option.split('_')
+    const sort = rest.join('_')
 
     uniqueOptions[identifier] = sort
   })
