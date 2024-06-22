@@ -18,8 +18,7 @@ const { accountId } = useAuth()
 const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
 const { toast } = useToast()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
 const props = defineProps<{
@@ -43,15 +42,19 @@ const followConfig = computed<ButtonConfig>(() => ({
           loading.value = false
           return
         })
-        signaturePair &&
-          (await follow({
-            initiatorAddress: accountId.value,
-            targetAddress: props.target,
-            signature: signaturePair.signature,
-            message: signaturePair.message,
-          }).catch(() => {
-            emit('follow:fail')
-          }))
+
+        if (!signaturePair) {
+          loading.value = false
+          return
+        }
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.target,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          emit('follow:fail')
+        })
         await refreshFollowingStatus()
         loading.value = false
         showFollowing.value = isFollowingThisAccount.value || false
@@ -71,13 +74,18 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
       loading.value = false
       return
     })
-    signaturePair &&
-      (await unfollow({
-        initiatorAddress: accountId.value,
-        targetAddress: props.target,
-        signature: signaturePair.signature,
-        message: signaturePair.message,
-      }))
+
+    if (!signaturePair) {
+      loading.value = false
+      return
+    }
+
+    await unfollow({
+      initiatorAddress: accountId.value,
+      targetAddress: props.target,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
+    })
     await refreshFollowingStatus()
     loading.value = false
     emit('unfollow:success')

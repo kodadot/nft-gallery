@@ -55,8 +55,7 @@ import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { toast } = useToast()
 const { getSignaturePair } = useVerifyAccount()
 
@@ -98,18 +97,20 @@ const followConfig: ButtonConfig = {
       onLoginSuccess: async () => {
         const signaturePair = await getSignaturePair().catch((e) => {
           toast(e.message)
-          return
         })
 
-        signaturePair &&
-          (await follow({
-            initiatorAddress: accountId.value,
-            targetAddress: props.user.address,
-            signature: signaturePair.signature,
-            message: signaturePair.message,
-          }).catch(() => {
-            openProfileCreateModal()
-          }))
+        if (!signaturePair) {
+          return
+        }
+
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.user.address,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
         showFollowing.value = true
         refresh()
       },
@@ -129,16 +130,18 @@ const unfollowConfig: ButtonConfig = {
   onClick: async () => {
     const signaturePair = await getSignaturePair().catch((e) => {
       toast(e.message)
-      return
     })
 
-    signaturePair &&
-      unfollow({
-        initiatorAddress: accountId.value,
-        targetAddress: props.user.address,
-        signature: signaturePair.signature,
-        message: signaturePair.message,
-      }).then(refresh)
+    if (!signaturePair) {
+      return
+    }
+
+    unfollow({
+      initiatorAddress: accountId.value,
+      targetAddress: props.user.address,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
+    }).then(refresh)
   },
   classes: 'hover:!border-k-red',
   disabled: !isSub.value,
