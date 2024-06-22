@@ -1,4 +1,3 @@
-import { toSubstrateAddress } from '@/services/profile'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { signMessage as signMessageEvm } from '@wagmi/core'
 
@@ -39,12 +38,10 @@ export default function useVerifyAccount() {
       return signedMessage.value
     }
 
-    const signature = isEthereumAddress(accountId.value)
-      ? await signMessageEthereum(accountId.value, SIGNATURE_MESSAGE)
-      : await signMessagePolkadot(
-          toSubstrateAddress(accountId.value),
-          SIGNATURE_MESSAGE,
-        )
+    const signMessageFn = isEthereumAddress(accountId.value)
+      ? signMessageEthereum
+      : signMessagePolkadot
+    const signature = await signMessageFn(accountId.value, SIGNATURE_MESSAGE)
 
     if (signature) {
       walletStore.setSignedMessage(signature)
