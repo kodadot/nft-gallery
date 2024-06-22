@@ -15,16 +15,15 @@
       <div v-if="active" class="flex flex-col gap-4 !mt-6">
         <CodeCheckerMassPreviewControls
           v-model="previewAmount"
-          :previews="previews"
+          :previews="previewItems"
+          hide-average
           @retry="generateMassPreview" />
 
-        <CodeCheckerMassPreviewGrid :items="previews.map((p) => p.loading)">
+        <CodeCheckerMassPreviewGrid :items="previewItems.map((p) => p.loading)">
           <template #default="{ index }">
-            <BaseMediaItem
-              v-if="previews[index].image"
-              :key="previews[index].hash"
-              :src="previews[index].image"
-              class="border" />
+            <iframe
+              :src="previewItems[index].image"
+              class="w-full h-full border border-black border-solid"></iframe>
           </template>
         </CodeCheckerMassPreviewGrid>
       </div>
@@ -33,7 +32,6 @@
 </template>
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
-import { makeScreenshot } from '@/services/capture'
 import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
 import { AssetMessage } from '../types'
 import { CapturePreviewItem } from './types'
@@ -55,7 +53,7 @@ const props = withDefaults(
 
 const { $i18n } = useNuxtApp()
 
-const previews = ref<CapturePreviewItem[]>([])
+const previewItems = ref<CapturePreviewItem[]>([])
 const previewAmount = ref(props.previews)
 const active = ref(false)
 const uploading = ref(false)
@@ -110,12 +108,8 @@ const uploadIndex = async () => {
   }
 }
 
-const initCapture = async () => {
-  initScreenshot()
-}
-
 const updatePreview = (preview: CapturePreviewItem) => {
-  previews.value = previews.value.map((p) =>
+  previewItems.value = previewItems.value.map((p) =>
     p.hash === preview.hash ? preview : p,
   )
 }
@@ -125,20 +119,16 @@ const initScreenshot = () => {
     return
   }
 
-  previews.value.forEach(async (preview) => {
+  previewItems.value.forEach(async (preview) => {
     try {
       let url = getObjectUrl(indexKey.value!)
-
       url += `?hash=${preview.hash}`
 
-      preview = { ...preview, startedAt: performance.now() }
-
-      const response = await makeScreenshot(url)
+      const response = `https://iframe-to-blob.pages.dev/iframe?url=${url}`
 
       preview = {
         ...preview,
-        image: URL.createObjectURL(response),
-        renderedAt: performance.now(),
+        image: response,
       }
     } catch (error) {
     } finally {
@@ -150,12 +140,12 @@ const initScreenshot = () => {
 }
 
 const generateMassPreview = async () => {
-  previews.value = Array.from({ length: previewAmount.value }).map(() => ({
+  previewItems.value = Array.from({ length: previewAmount.value }).map(() => ({
     hash: generateRandomHash(),
     loading: true,
   }))
 
-  await initCapture()
+  initScreenshot()
 }
 
 watch(

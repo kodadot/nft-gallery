@@ -5,7 +5,7 @@
         {{ $t('codeChecker.numberOfInputs') }}
       </p>
 
-      <div class="text-k-grey text-xs flex gap-3">
+      <div v-if="!hideAverage" class="text-k-grey text-xs flex gap-3">
         <p class="capitalize">
           {{ $t('codeChecker.timePerVariation') }}
         </p>
@@ -35,6 +35,7 @@ defineEmits(['retry'])
 const props = defineProps<{
   modelValue: number
   previews: CapturePreviewItem[] | CanvasPreviewItem[]
+  hideAverage?: boolean
 }>()
 
 const amount = useVModel(props, 'modelValue')
