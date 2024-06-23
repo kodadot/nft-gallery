@@ -38,6 +38,7 @@
                   :image-component="NuxtImg"
                   :is-fullscreen="isFullscreen"
                   :sizes="sizes"
+                  enable-normal-tag
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -57,6 +58,7 @@
             :placeholder="placeholder"
             :image-component="NuxtImg"
             :sizes="sizes"
+            enable-normal-tag
             :audio-player-cover="image" />
         </div>
         <GalleryItemToolBar @toggle="toggleFullscreen" />
