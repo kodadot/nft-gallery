@@ -69,7 +69,6 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
-const { isSub } = useIsChain(urlPrefix)
 
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
@@ -116,8 +115,7 @@ const followConfig: ButtonConfig = {
       },
     })
   },
-  disabled:
-    !isSub.value || props.user.address === toSubstrateAddress(accountId.value),
+  disabled: props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
@@ -144,7 +142,6 @@ const unfollowConfig: ButtonConfig = {
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',
-  disabled: !isSub.value,
 }
 
 const buttonConfig = computed((): ButtonConfig => {

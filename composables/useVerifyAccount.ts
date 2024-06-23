@@ -1,14 +1,14 @@
-import { toSubstrateAddress } from '@/services/profile'
 import { isEthereumAddress } from '@polkadot/util-crypto'
+import { signMessage as signMessageEvm } from '@wagmi/core'
 
-const signMessage = async (address, message) => {
+const signMessagePolkadot = async (address: string, message: string) => {
   const injector = await getAddress(toDefaultAddress(address))
   const signedMessage = await injector.signer.signRaw({
     address: address,
     data: message,
     type: 'bytes',
   })
-  console.log('Signed message:', { message, address, signedMessage })
+  console.log('Signed polkadot message:', { message, address, signedMessage })
   return signedMessage.signature
 }
 
@@ -18,20 +18,30 @@ export default function useVerifyAccount() {
   const walletStore = useWalletStore()
   const { accountId } = useAuth()
   const signedMessage = computed(() => walletStore.getSignedMessage)
+  const { config: wagmiConfig } = useWagmi()
+
+  const signMessageEthereum = async (address: string, message: string) => {
+    const signedMessage = await signMessageEvm(wagmiConfig, {
+      account: address as `0x${string}`,
+      message: message,
+    })
+
+    console.log('Signed evm message:', { message, address, signedMessage })
+    return signedMessage
+  }
 
   const getSignedMessage = async () => {
-    if (!accountId.value || isEthereumAddress(accountId.value)) {
-      // TODO: handle EVM address verification
-      throw new Error('This address is not currently supported')
+    if (!accountId.value) {
+      throw new Error('Please connect your wallet first')
     }
     if (signedMessage.value) {
       return signedMessage.value
     }
 
-    const signature = await signMessage(
-      toSubstrateAddress(accountId.value),
-      SIGNATURE_MESSAGE,
-    )
+    const signMessageFn = isEthereumAddress(accountId.value)
+      ? signMessageEthereum
+      : signMessagePolkadot
+    const signature = await signMessageFn(accountId.value, SIGNATURE_MESSAGE)
 
     if (signature) {
       walletStore.setSignedMessage(signature)
