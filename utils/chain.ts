@@ -1,5 +1,6 @@
-import type { Option, Prefix } from '@kodadot1/static'
+import type { ChainVM, Option, Prefix } from '@kodadot1/static'
 import { ENDPOINT_MAP, NAMES, chainList } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 export const getChainEndpointByPrefix = (prefix: string) => {
   const endpoint: string | undefined = ENDPOINT_MAP[prefix]
@@ -33,6 +34,11 @@ export const availablePrefixes = (): Option[] => {
 
   return chains.filter((chain) => !disableChains.includes(String(chain.value)))
 }
+
+export const getAvailableChainsByVM = (vm: ChainVM) =>
+  availablePrefixes().filter(
+    ({ value: prefix }) => vm === chainPropListOf(prefix as Prefix).vm,
+  )
 
 export const getAvailablePrefix = (prefix: string): string => {
   return availablePrefixes().some((chain) => chain.value === prefix)

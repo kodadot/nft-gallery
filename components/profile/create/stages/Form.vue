@@ -99,11 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import { formatAddress } from '@/utils/account'
 import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
 import { ProfileFormData } from '.'
 import SelectImageField from '../SelectImageField.vue'
-import { Profile } from '@/services/profile'
+import { Profile, toSubstrateAddress } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 
@@ -118,7 +117,7 @@ const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 const userProfile = computed(() => profile?.userProfile.value)
-const substrateAddress = computed(() => formatAddress(accountId.value, 42))
+const substrateAddress = computed(() => toSubstrateAddress(accountId.value))
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),

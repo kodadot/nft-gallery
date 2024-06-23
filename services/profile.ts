@@ -41,6 +41,8 @@ export type ProfileResponse = {
 }
 
 export type CreateProfileRequest = {
+  signature: string
+  message: string
   address: string
   name: string
   description: string
@@ -50,6 +52,8 @@ export type CreateProfileRequest = {
 }
 
 export type UpdateProfileRequest = {
+  signature: string
+  message: string
   address: string
   name?: string
   description?: string
@@ -61,6 +65,15 @@ export type UpdateProfileRequest = {
 export type FollowRequest = {
   initiatorAddress: string
   targetAddress: string
+  signature: string
+  message: string
+}
+
+const invalidSignatureErrorHandler = (error: FetchError) => {
+  if (error.status === 401) {
+    useWalletStore().setSignedMessage(undefined)
+    throw new Error((error as FetchError)?.data?.message)
+  }
 }
 
 export const toSubstrateAddress = (address: string) =>
@@ -69,6 +82,8 @@ export const toSubstrateAddress = (address: string) =>
 const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
   targetAddress: toSubstrateAddress(body.targetAddress),
+  signature: body.signature,
+  message: body.message,
 })
 
 // API methods
@@ -120,6 +135,7 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::CREATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
@@ -137,6 +153,7 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
     )
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::UPDATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
@@ -151,6 +168,8 @@ export const follow = async (followRequest: FollowRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
+
     throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
   }
 }
@@ -163,6 +182,8 @@ export const unfollow = async (unFollowRequest: FollowRequest) => {
     })
     return response
   } catch (error) {
+    invalidSignatureErrorHandler(error as FetchError)
+
     throw new Error(`[PROFILE::UNFOLLOW] ERROR: ${(error as FetchError).data}`)
   }
 }

@@ -6,6 +6,7 @@ import {
   addressToEvm,
   decodeAddress,
   encodeAddress,
+  isEthereumAddress,
 } from '@polkadot/util-crypto'
 import { u8aToHex } from '@polkadot/util'
 
@@ -90,6 +91,9 @@ export const accountToEvm = (account: KeyringAccount | string): string => {
 }
 
 export const getss58AddressByPrefix = (address: string, prefix: string) => {
+  if (isEthereumAddress(address)) {
+    return address
+  }
   const ss58Format = ss58Of(prefix)
   const decodedAddress = decodeAddress(address)
   return encodeAddress(decodedAddress, ss58Format)
