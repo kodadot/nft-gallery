@@ -19,13 +19,14 @@ const props = withDefaults(
   },
 )
 
-const { shortenedAddress } = useIdentity({
+const { shortenedAddress, identity } = useIdentity({
   address: computed(() => props.address),
 })
 
-provide('address', props.address)
 provide(
-  'shortenedAddress',
-  computed(() => shortenedAddress.value),
+  'address',
+  computed(() => props.address),
 )
+provide('shortenedAddress', shortenedAddress)
+provide('identity', identity)
 </script>
