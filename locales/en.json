@@ -1252,6 +1252,7 @@
     "paymentLinkCopy": "Payment link copied to clipboard",
     "downloadError": "Unable to download image",
     "unsupportedOperation": "Unsupported action",
+    "uploadFileSizeLimit": "The uploaded file exceeds the {0}MB size limit.",
     "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds."
   },
   "profileMenu": {
