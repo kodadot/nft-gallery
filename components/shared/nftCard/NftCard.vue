@@ -26,6 +26,7 @@
           :preview="mediaStaticVideo"
           :autoplay="autoplay"
           disable-operation
+          enable-normal-tag
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay"
           :lazy-loading="lazyLoading" />
