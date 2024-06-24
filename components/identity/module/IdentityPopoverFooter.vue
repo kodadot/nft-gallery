@@ -57,7 +57,7 @@ const GalleryCard = defineAsyncComponent(
 
 const NFT_AMOUNT = 2
 
-const address = inject('address') as string
+const address = inject('address') as ComputedRef<string>
 
 const { urlPrefix } = usePrefix()
 const { totalCreated } = useIdentityStats({
@@ -68,7 +68,7 @@ const {
   data: followersData,
   refresh,
   pending: loading,
-} = useAsyncData(() => fetchFollowersOf(address))
+} = useAsyncData(() => fetchFollowersOf(address.value))
 
 const followers = computed(() =>
   loading.value ? 0 : followersData.value?.totalCount || 0,
@@ -82,12 +82,12 @@ const { data } = useSearchNfts({
           OR: [
             {
               // created
-              issuer_eq: address,
+              issuer_eq: address.value,
             },
             {
               // bought
-              issuer_not_eq: address,
-              currentOwner_eq: address,
+              issuer_not_eq: address.value,
+              currentOwner_eq: address.value,
             },
           ],
         },
