@@ -82,6 +82,7 @@ export const useCollectionActivity = ({
         flippers.value = flippersTemp
       }
     },
+    { immediate: true },
   )
   return {
     events,

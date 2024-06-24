@@ -15,6 +15,7 @@
         :title="item.name"
         :image-component="NuxtImg"
         disable-operation
+        enable-normal-tag
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
     </div>
