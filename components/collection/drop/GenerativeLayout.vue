@@ -100,7 +100,9 @@ const { collection: collectionInfo } = useCollectionMinimal({
 
 const divider = ref()
 
-const address = computed(() => collectionInfo.value?.currentOwner)
+const address = computed(
+  () => drop.value?.artist_address || collectionInfo.value?.currentOwner,
+)
 
 const { owners } = useCollectionActivity({
   collectionId: computed(() => drop.value?.collection),
