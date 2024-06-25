@@ -39,6 +39,7 @@ import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
 import { getDocumentFromString } from '../utils'
+import { IFRAME_BLOB_URI } from '@/services/capture'
 
 const emit = defineEmits(['upload'])
 const props = withDefaults(
@@ -122,14 +123,15 @@ const initScreenshot = () => {
 
   previewItems.value.forEach(async (preview) => {
     try {
-      let url = getObjectUrl(indexKey.value!)
-      url += `?hash=${preview.hash}`
+      let previewUrl = getObjectUrl(indexKey.value!)
+      previewUrl += `?hash=${preview.hash}`
 
-      const response = `https://iframe-to-blob.pages.dev/iframe?url=${url}`
+      const iframeUrl = new URL(IFRAME_BLOB_URI)
+      iframeUrl.searchParams.set('url', previewUrl)
 
       preview = {
         ...preview,
-        image: response,
+        image: iframeUrl.toString(),
       }
     } catch (error) {
     } finally {
