@@ -2,19 +2,12 @@
   <section class="border-b relative max-md:flex max-md:flex-col-reverse">
     <div class="!container mx-auto max-md:px-4">
       <div class="max-md:py-16 md:py-[96px] md:w-min lg:w-auto">
-        <h1 class="flex items-center gap-6 flex-wrap items-center">
+        <h1 class="flex flex-wrap items-center gap-6">
           <span class="text-7xl font-bold text-center capitalize md:inline">
             {{ $t('why') }}
           </span>
           <div class="h-[calc(100%-13px)] flex items-center">
-            <img
-              src="/Koda_logo.svg"
-              alt="koda logo"
-              class="h-full dark:hidden" />
-            <img
-              src="/Koda_logo_dark.svg"
-              alt="koda logo dark mode"
-              class="h-full hidden dark:block" />
+            <img :src="logoSrc" alt="koda logo" class="h-full" />
           </div>
         </h1>
 
@@ -75,6 +68,8 @@ defineProps<{
 const NFTS_PER_STRIP = 7
 const AMOUNT_OF_STRIPS = 2
 
+const { isDarkMode } = useTheme()
+
 const { data: collections } = await useAsyncData(
   () =>
     getDrops({
@@ -115,4 +110,7 @@ const { data: items } = await useAsyncData(
 )
 
 const nftsByStrip = computed(() => chunk(items?.value ?? [], NFTS_PER_STRIP))
+const logoSrc = computed(
+  () => `/Koda_logo${isDarkMode.value ? '_dark' : ''}.svg`,
+)
 </script>
