@@ -436,7 +436,7 @@
     "sn_ASC": "Serial (Low→High)",
     "sn_DESC": "Serial (High→Low)",
     "instance_ASC": "Sequence",
-    "listed": "Buy now",
+    "listed": "Listed for sale",
     "listed_RMRK": "Listed",
     "own": "Own",
     "clearAll": "Clear All",
@@ -453,7 +453,6 @@
       "sn_DESC": "Serial (High→Low)",
       "volume_DESC": "Volume",
       "highestSale_DESC": "Highest Sale",
-      "listed": "Buy now",
       "sortBy": "Sort By"
     }
   },
