@@ -7,7 +7,7 @@
     :image="image"
     :show-time-tag="Boolean(drop.dropStartTime || ended)"
     :owner-addresses="ownerAddresses"
-    :artist-address="drop.artist_address"
+    :drop-creator="drop.creator"
     :drop-start-time="drop.dropStartTime"
     :drop-status="drop.status"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"

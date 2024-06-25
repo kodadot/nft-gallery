@@ -25,7 +25,7 @@ export interface Drop {
   status: DropStatus
   image?: string
   banner?: string
-  artist_address?: string
+  creator?: string
 }
 
 export enum DropStatus {

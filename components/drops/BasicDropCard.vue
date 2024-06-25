@@ -33,9 +33,9 @@
               </div>
             </div>
 
-            <div v-if="artistAddress" class="flex gap-2 items-center">
-              <ProfileAvatar :size="22" :address="artistAddress" />
-              <IdentityIndex :address="artistAddress" hide-identity-popover />
+            <div v-if="dropCreator" class="flex gap-2 items-center">
+              <ProfileAvatar :size="22" :address="dropCreator" />
+              <IdentityIndex :address="dropCreator" hide-identity-popover />
             </div>
           </div>
           <div
@@ -84,7 +84,7 @@ const props = withDefaults(
     dropMax?: number
     minted?: number
     ownerAddresses?: string[]
-    artistAddress?: string | null
+    dropCreator?: string | null
   }>(),
   {
     loading: false,
@@ -95,7 +95,7 @@ const props = withDefaults(
     minted: 0,
     dropMax: 0,
     timeTagWithTime: false,
-    artistAddress: undefined,
+    dropCreator: undefined,
     ownerAddresses: () => [],
   },
 )

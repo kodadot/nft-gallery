@@ -22,7 +22,7 @@ export const useIcon = () => {
     isDarkMode.value ? '/unlockable-dark.svg' : '/unlockable.svg',
   )
 
-  const getChainIcon = (prefix: Prefix): string | null => {
+  const getChainIcon = (prefix: Prefix | null): string | null => {
     switch (prefix) {
       case 'ahp':
         return '/chain/ahp.svg'

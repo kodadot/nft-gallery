@@ -107,7 +107,7 @@ export type DropCalendar = {
   items: CalendarItem[]
   alias: string | null
   chain: Prefix | null
-  artist_address: string | null
+  creator: string | null
 }
 
 export type CalendarItem = {
