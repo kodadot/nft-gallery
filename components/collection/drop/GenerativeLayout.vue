@@ -5,11 +5,11 @@
       <div class="columns is-variable is-4-tablet">
         <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
           <div class="flex justify-between flex-wrap max-w-[504px]">
-            <div class="mt-7 mr-2">
+            <div v-if="address" class="mt-7 mr-2">
               <div class="font-bold is-size-5 mb-4 capitalize">
                 {{ $t('tooltip.created') }}
               </div>
-              <CollectionDropCreatedBy v-if="address" :address="address" />
+              <CollectionDropCreatedBy :address="address" />
             </div>
             <div v-if="ownerAddresses.length" class="mt-7">
               <div class="font-bold is-size-5 mb-4 capitalize">
@@ -100,9 +100,7 @@ const { collection: collectionInfo } = useCollectionMinimal({
 
 const divider = ref()
 
-const address = computed(
-  () => drop.value?.artist_address || collectionInfo.value?.currentOwner,
-)
+const address = computed(() => drop.value?.artist_address)
 
 const { owners } = useCollectionActivity({
   collectionId: computed(() => drop.value?.collection),
