@@ -1,3 +1,5 @@
+import { Prefix } from '@kodadot1/static'
+
 const getTokenIconBySymbol = (token: string) => {
   switch (token.toLowerCase()) {
     case 'dot':
@@ -20,5 +22,23 @@ export const useIcon = () => {
     isDarkMode.value ? '/unlockable-dark.svg' : '/unlockable.svg',
   )
 
-  return { getTokenIconBySymbol, signUpVoucherIcon, unlockableIcon }
+  const getChainIcon = (prefix: Prefix): string | null => {
+    switch (prefix) {
+      case 'ahp':
+        return '/chain/ahp.svg'
+      case 'ahk':
+        return '/token/kusama_asset_hub.svg'
+      case 'base':
+        return '/chain/base.svg'
+      default:
+        return null
+    }
+  }
+
+  return {
+    getTokenIconBySymbol,
+    signUpVoucherIcon,
+    unlockableIcon,
+    getChainIcon,
+  }
 }

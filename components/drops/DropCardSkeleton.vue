@@ -6,8 +6,13 @@
 
     <div
       class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4">
-      <div class="w-52">
-        <NeoSkeleton no-margin class="w-full" :rounded="false" height="28" />
+      <div class="flex flex-col gap-2 min-h-[60px]">
+        <div class="w-52">
+          <NeoSkeleton no-margin class="w-full" :rounded="false" height="28" />
+        </div>
+        <div class="w-24 !h-6">
+          <NeoSkeleton no-margin class="w-full" :rounded="false" height="24" />
+        </div>
       </div>
 
       <div

@@ -45,6 +45,8 @@
               :drop-status="DropStatus.SCHEDULED"
               :drop-max="item.supply as number"
               :time-tag-with-time="calendarHasTime(item)"
+              :drop-prefix="item.chain"
+              :artist-address="item.artist_address"
               @click="() => handleClick(item)">
               <template v-if="item.supply === null" #supply>
                 <span class="text-k-grey">
