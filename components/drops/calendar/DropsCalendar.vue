@@ -67,6 +67,7 @@
 <script lang="ts" setup>
 import { DropStatus } from '@/components/drops/useDrops'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { Prefix } from '@kodadot1/static'
 import { addMonths, format } from 'date-fns'
 import DropPreviewModal from './DropPreviewModal.vue'
 import { DropCalendar, getDropCalendar } from '@/services/fxart'
@@ -85,8 +86,15 @@ defineProps<{
 
 const { urlPrefix } = usePrefix()
 
+const dropCalendarChains: Prefix[] = ['ahp', 'base']
+
 const { data, pending } = useAsyncData(
-  () => getDropCalendar({ chain: !isProduction ? [urlPrefix.value] : ['ahp'] }),
+  () =>
+    getDropCalendar({
+      chain: !isProduction
+        ? [...new Set([urlPrefix.value, ...dropCalendarChains])]
+        : dropCalendarChains,
+    }),
   {
     transform: (items) => {
       return items.map((item) => ({
