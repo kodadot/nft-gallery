@@ -36,8 +36,10 @@ import {
   SocialLink,
   UpdateProfileRequest,
   createProfile,
+  fetchProfileByAddress,
   updateProfile,
 } from '@/services/profile'
+import { generateSignatureMessageWithProfileVersion } from '@/composables/useVerifyAccount'
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
@@ -58,7 +60,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
 const emit = defineEmits(['close', 'success'])
-const { getSignaturePair } = useVerifyAccount()
+const { getCustomSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
@@ -97,7 +99,12 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 }
 
 const processProfile = async (profileData: ProfileFormData) => {
-  const { signature, message } = await getSignaturePair()
+  const profile = await fetchProfileByAddress(profileData.address)
+  const { signature, message } = await getCustomSignaturePair(
+    generateSignatureMessageWithProfileVersion(
+      profile?.version ? profile.version + 1 : 1,
+    ),
+  )
 
   const imageUrl = profileData.image
     ? await uploadImage(profileData.image)

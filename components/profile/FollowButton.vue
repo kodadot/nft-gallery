@@ -15,7 +15,7 @@ const buttonRef = ref()
 
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-const { getSignaturePair } = useVerifyAccount()
+const { getCommonSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
 const { toast } = useToast()
 
@@ -35,7 +35,7 @@ const followConfig = computed<ButtonConfig>(() => ({
   disabled: !accountId.value,
   onClick: async () => {
     loading.value = true
-    const signaturePair = await getSignaturePair().catch((e) => {
+    const signaturePair = await getCommonSignaturePair().catch((e) => {
       toast(e.message)
       loading.value = false
       return
@@ -60,7 +60,7 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
     loading.value = true
-    const signaturePair = await getSignaturePair().catch((e) => {
+    const signaturePair = await getCommonSignaturePair().catch((e) => {
       toast(e.message)
       loading.value = false
       return

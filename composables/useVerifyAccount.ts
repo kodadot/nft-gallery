@@ -12,7 +12,10 @@ const signMessagePolkadot = async (address: string, message: string) => {
   return signedMessage.signature
 }
 
-export const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'
+const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'
+
+export const generateSignatureMessageWithProfileVersion = (version: number) =>
+  `${SIGNATURE_MESSAGE} - ${version}`
 
 export default function useVerifyAccount() {
   const walletStore = useWalletStore()
@@ -30,29 +33,42 @@ export default function useVerifyAccount() {
     return signedMessage
   }
 
-  const getSignedMessage = async () => {
+  const getSignedMessage = async (message) => {
     if (!accountId.value) {
       throw new Error('Please connect your wallet first')
-    }
-    if (signedMessage.value) {
-      return signedMessage.value
     }
 
     const signMessageFn = isEthereumAddress(accountId.value)
       ? signMessageEthereum
       : signMessagePolkadot
-    const signature = await signMessageFn(accountId.value, SIGNATURE_MESSAGE)
+    const signature = await signMessageFn(accountId.value, message)
 
     if (signature) {
-      walletStore.setSignedMessage(signature)
       return signature
     }
 
     throw new Error('You have not completed address verification')
   }
 
-  const getSignaturePair = async () => {
-    const signature = await getSignedMessage()
+  const getCustomSignaturePair = async (message) => {
+    const signature = await getSignedMessage(message)
+    return {
+      signature,
+      message,
+    }
+  }
+
+  const getCommonSignaturePair = async () => {
+    if (signedMessage.value) {
+      return {
+        signature: signedMessage.value,
+        message: SIGNATURE_MESSAGE,
+      }
+    }
+    const signature = await getSignedMessage(SIGNATURE_MESSAGE)
+    if (signature) {
+      walletStore.setSignedMessage(signature)
+    }
     return {
       signature,
       message: SIGNATURE_MESSAGE,
@@ -60,6 +76,7 @@ export default function useVerifyAccount() {
   }
 
   return {
-    getSignaturePair,
+    getCommonSignaturePair,
+    getCustomSignaturePair,
   }
 }
