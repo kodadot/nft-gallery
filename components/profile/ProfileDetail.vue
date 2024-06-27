@@ -208,13 +208,17 @@
             </span>
             <NeoButton variant="text" no-shadow @click="onFollowersClick">
               <div class="flex -space-x-3">
-                <NuxtImg
+                <div
                   v-for="(follower, index) in followers?.followers"
                   :key="index"
-                  :src="follower.image"
-                  alt="follower avatar"
-                  class="w-8 h-8 rounded-full border object-cover"
-                  :style="{ zIndex: 3 - index }" />
+                  :style="{ zIndex: 3 - index }"
+                  class="w-8 h-8 flex-shrink-0 rounded-full border">
+                  <BasicImage
+                    :src="follower.image"
+                    custom-class="object-cover"
+                    alt="follower avatar"
+                    rounded />
+                </div>
               </div>
             </NeoButton>
 
