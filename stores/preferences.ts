@@ -66,7 +66,6 @@ interface State {
   firstTimeAutoTeleport: boolean
   // Minting
   hasSupport: boolean
-  hasCarbonOffset: boolean
   userLocale: string
   newsletterSubscription: NewsletterSubscription
   partyMode: boolean | undefined
@@ -97,7 +96,6 @@ export const usePreferencesStore = defineStore('preferences', {
     historyItemsPerPage: 12,
     replaceBuyNowWithYolo: false,
     hasSupport: true,
-    hasCarbonOffset: false,
     gridSize: 'small',
     firstTimeAutoTeleport: true,
     userLocale: 'en',
@@ -123,7 +121,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getHistoryItemsPerPage: (state) => state.historyItemsPerPage,
     getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
     getHasSupport: (state) => state.hasSupport,
-    getHasCarbonOffset: (state) => state.hasCarbonOffset,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getUserLocale: (state) => state.userLocale,
     getNewsletterSubscription: (state) => state.newsletterSubscription,
@@ -199,9 +196,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setHasSupport(payload) {
       this.hasSupport = payload
-    },
-    setHasCarbonOffset(payload) {
-      this.hasCarbonOffset = payload
     },
     setGridSize(payload) {
       this.gridSize = payload
