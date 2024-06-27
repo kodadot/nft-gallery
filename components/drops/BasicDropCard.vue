@@ -26,7 +26,7 @@
             </div>
 
             <div v-if="dropCreator" class="flex gap-2 items-center">
-              <ProfileAvatar :size="22" :address="dropCreator" />
+              <ProfileAvatar :size="24" :address="dropCreator" />
               <IdentityIndex :address="dropCreator" hide-identity-popover />
             </div>
           </div>
