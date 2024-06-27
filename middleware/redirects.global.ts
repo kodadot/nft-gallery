@@ -40,7 +40,7 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     {
       cond: (val) =>
-        val.startsWith(`/${urlPrefix.value}` && val.endsWith('/massmint')) ||
+        (val.startsWith(`/${urlPrefix.value}`) && val.endsWith('/massmint')) ||
         val.endsWith('/massmint/onboarding'),
       replaceValue: () => createRoute,
     },
