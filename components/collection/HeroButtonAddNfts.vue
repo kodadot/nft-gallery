@@ -7,11 +7,9 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 
-const { urlPrefix } = usePrefix()
-
 const addNfts = () => {
   navigateTo({
-    path: `/${urlPrefix.value}/create`,
+    path: '/create',
   })
 }
 </script>

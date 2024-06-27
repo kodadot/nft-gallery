@@ -3,6 +3,8 @@ export default defineNuxtRouteMiddleware((route) => {
 
   let redirectValue
 
+  const createRoute = '/create'
+
   const paths = [
     {
       cond: (val) => val === '/drops',
@@ -12,6 +14,21 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: (val) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
+    },
+    {
+      cond: (val) =>
+        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('create'),
+      replaceValue: () => createRoute,
+    },
+    {
+      cond: (val) =>
+        (val.startsWith('/create') && val.endsWith('nft')) ||
+        val.endsWith('collection'),
+      replaceValue: () => createRoute,
+    },
+    {
+      cond: (val) => val === '/ahk/waifu',
+      replaceValue: () => createRoute,
     },
     {
       cond: (val) =>

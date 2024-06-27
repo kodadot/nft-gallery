@@ -127,7 +127,6 @@ interface Menu {
 }
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 
 const menuIncentives: Menu[] = [
   {
@@ -210,7 +209,7 @@ const menuKodadot: Menu[] = [
   },
   {
     name: $i18n.t('footer.create'),
-    url: `/${urlPrefix.value}/create`,
+    url: '/create',
     external: false,
   },
 ]
