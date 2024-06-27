@@ -5,6 +5,7 @@
   "exploreItems": "इस पर ITEM अन्वेषण करें",
   "exploreCollections": "इस पर संग्रह अन्वेषण करें",
   "credit": "क्रेडिट",
+  "status": "स्थिति",
   "img": "छवि",
   "gallery": "गैलरी",
   "collection": "संग्रह",
@@ -660,9 +661,11 @@
     "usd": "यूएसडी",
     "using": "का उपयोग करते हुए"
   },
-  "go back": "पीछे जाएं",
+  "goBack": "पीछे जाएं",
   "helper": {
     "builtOn": "पर बनाया गया",
+    "yesDelete": "हाँ, हटाएं",
+    "continueAnyway": "फिर भी जारी रखें",
     "clickToCreate": "संग्रह बनाने के लिए यहाँ Click करें",
     "indexerReadOnly": "ऐप निर्धारित मोड में है, ऐप को फिर से लोड करें या डिस्कॉर्ड पर जाएं",
     "learnMore": "और अधिक जानें",
@@ -772,81 +775,6 @@
     "uploading": "({0}/{1}) IPFS में डेटा Upload कर रहे हैं"
   },
   "lowestPrice": "न्यूनतम मूल्य",
-  "massmint": {
-    "areYouSureDelete": "क्या आप सुनिश्चित हैं कि आप हटाना चाहते हैं",
-    "backToOnbaording": "ऑनबोर्डिंग पर वापस जाएं",
-    "cancel": "रद्द करें",
-    "cantMintNote": "नोट: आप आवश्यक जानकारी भरें या अधूरी Fileें हटाएं तक Mint नहीं कर सकते हैं।",
-    "chooseCollection": "चुनें एक संग्रह जिसमें आपको Mint करना है",
-    "continueToCollectionPage": "आपको कुछ क्षणों में संग्रह पृष्ठ पर जाएँगे...",
-    "createNewCollection": "नया संग्रह बनाएं",
-    "description": "विवरण",
-    "descriptionMissing": "विवरण अनुपस्थित",
-    "done": "सम्पन्न",
-    "edit": "संपादित करें",
-    "goBack": "पिछला वापस जाएं",
-    "image": "तस्वीर",
-    "incompleteNfts": "अधूरा: {count} NFTs",
-    "mintDone": "आपके सभी NFTs को सफलतापूर्वक Mint किया गया था।",
-    "mintingYourNFTs": "आपके NFTs को Mint किया जा रहा है...",
-    "mintNFTs": "NFTs Mint करें",
-    "missingDescription": "विवरण अनुपस्थित: {count} NFTs",
-    "missingPrice": "मूल्य अनुपस्थित: {count} NFTs",
-    "missingRequiredInfo": "कुछ छवियों में आवश्यक जानकारी अनुपस्थित है",
-    "mobileDisclaimer": {
-      "content1": "हमारी मासMINT सुविधा डेस्कटॉप उपयोग के लिए फाइन-ट्यून है ताकि सर्वोत्तम Minting अनुभव हो सके",
-      "content2": "मोबाइल डिवाइस पर, आपको सीमित कार्यक्षमता या लेआउट समस्याएं आ सकती हैं।",
-      "continueAnyway": "फिर भी जारी रखें",
-      "leave": "छोड़ें",
-      "title": "अनुकूलन सूचना"
-    },
-    "name": "नाम",
-    "nameRequired": "नाम आवश्यक है",
-    "noCollection": "कोई संग्रह नहीं",
-    "note": "नोट",
-    "onboarding": {
-      "cards": {
-        "0": {
-          "content": "अपने सभी कला Fileों को **.ZIP फ़ॉर Upload** में संक्षेपित करके अपनी मास MINTिंग शुरू करें। आपकी कला के अलावा, प्रत्येक NFT को एक नाम, विवरण, और मूल्य की आवश्यकता है। \n\nइस प्रक्रिया को सुगम बनाने के लिए इन विवरणों को पहले से एक अलग File में तैयार करें। इससे प्रत्येक NFT के लिए जानकारी को मैन्युअली दर्ज करने से बचा जा सकता है। इस File को स्वरूपित करने के लिए आगे कदमों में मार्गदर्शन मिलेगा।",
-          "title": "अपनी सभी Fileें तैयार करें"
-        },
-        "1": {
-          "codeStructure": "कोड संरचना",
-          "instructions": "कृपया सुनिश्चित करें कि File क्षेत्र छवि File नाम के साथ संबंधित है (उदाहरण के लिए, यदि छवि का नाम \"img1.jpg\" है, तो \"file\": img1.jpg को File क्षेत्र में सेट करें)।",
-          "subtitle": "निर्देश",
-          "title": "अपने NFTs को कैसे नामकिन करें"
-        },
-        "2": {
-          "content": "मास MINT सुविधा का उपयोग करने के लिए आपको एक NFT **संग्रह बनाया हुआ** होना चाहिए जिसमें आप अपने सभी NFTs को Mint करेंगे। यदि आपने अब तक एक संग्रह बनाया नहीं है, तो आप एक मास MINT में एक बना सकते हैं।\n\nसंग्रह नहीं है?&emsp;[एक बनाएं](/create/collection)",
-          "title": "आपके पास एक संग्रह होना चाहिए"
-        }
-      },
-      "done": "किया हुआ",
-      "downloadTemplate": "File टेम्प्लेट डाउनलोड करें",
-      "next": "आगे",
-      "pageTitle": "मास MINT ऑनबोर्डिंग",
-      "skip": "छोड़ें"
-    },
-    "operation": "कार्रवाई",
-    "optional": "ऐच्छिक",
-    "overviewTable": "अवलोकन तालिका",
-    "price": "मूल्य",
-    "priceMissing": "मूल्य अनुपस्थित है",
-    "reallyProcceed": "क्या आप सचमुच आगे बढ़ना चाहते हैं?",
-    "required": "आवश्यक",
-    "reviewTtile": "अंतिम मास Mint अवलोकन",
-    "save": "सहेजें",
-    "selectCollection": "संग्रह का चयन करें",
-    "status": "स्थिति",
-    "supportedFormats": "समर्थित प्रारूप:",
-    "uploadDesc": "विवरण File Upload करें (ऐच्छिक)",
-    "uploadDescriptionTip": "अपनी विवरण File Upload करें।",
-    "uploadPics": "तस्वीरें Upload करें",
-    "uploadzipTip": "अपनी कला Fileें एक .ZIP File में संपीड़ित करें।",
-    "willBeMinted": "Mint होगा",
-    "yesDelete": "हाँ, हटाएं",
-    "yesMint": "हाँ, NFTS Mint करें"
-  },
   "merchshop": "मर्चशॉप",
   "migrate": {
     "agreement": "मुझे समझाया गया है कि एक बार हो गया तो यह क्रिया पूर्वप्रतिस्थापन नहीं हो सकती।",

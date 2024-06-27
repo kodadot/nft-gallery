@@ -6,6 +6,8 @@
   "supply": "Supply",
   "artist": "Artist",
   "why": "Why",
+  "goBack": "Go Back",
+  "status": "Status",
   "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
@@ -99,7 +101,6 @@
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
   "beta": "Beta",
-  "go back": "Go Back",
   "showMore": "Show More",
   "ok": "OK",
   "incomplete": "Incomplete",
@@ -944,6 +945,8 @@
   "helper": {
     "viewAll": "View All",
     "tryAgain": "Try again",
+    "yesDelete": "Yes, Delete",
+    "continueAnyway": "Continue Anyway",
     "viewTx": "View Tx",
     "supplyNotSet": "Supply Not Set",
     "seeMore": "See More",
@@ -1295,81 +1298,6 @@
     "unlist": {
       "success": "Item successfully unlisted",
       "error": "Item unlisting failed"
-    }
-  },
-  "massmint": {
-    "overviewTable": "Overview Table",
-    "backToOnbaording": "Back To Onboarding",
-    "chooseCollection": "Choose a collection to which you want to mint",
-    "selectCollection": "Select Collection",
-    "createNewCollection": "Create New Collection",
-    "noCollection": "No Collection",
-    "continueToCollectionPage": "You will go to collection page in a moment...",
-    "onboarding": {
-      "pageTitle": "Mass Mint Onboarding",
-      "skip": "Skip",
-      "next": "Next",
-      "done": "Done",
-      "downloadTemplate": "Download file template",
-      "cards": {
-        "0": {
-          "title": "Prepare all your files",
-          "content": "Start your mass minting by compressing all your art files into a **.ZIP for upload**. Aside from your artwork, each NFT requires a name, description, and price. \n\nTo streamline the process, prepare these details in advance in a separate file. This avoids manually entering information for each NFT. Further guidance on formatting this file will follow in the next step."
-        },
-        "1": {
-          "title": "How to Name your NFTs",
-          "subtitle": "Instructions",
-          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
-          "codeStructure": "Code Structure"
-        },
-        "2": {
-          "title": "You need to have A collection",
-          "content": "In order to use the Mass Mint feature you need to have an NFT **collection created** to which you will mint all of your NFTs. If you do not have a collection created yet, you can create one in Mass Mint.\n\nDon't have a collection?&emsp;[Create One](/create/collection)"
-        }
-      }
-    },
-    "uploadPics": "Upload Pictures",
-    "uploadzipTip": "Compress your Art files into a .ZIP file.",
-    "uploadDescriptionTip": "Upload your Description file.",
-    "supportedFormats": "Supported formats:",
-    "uploadDesc": "Upload Description File (Optional)",
-    "mintNFTs": "Mint NFTs",
-    "image": "Image",
-    "name": "Name",
-    "description": "Description",
-    "price": "Price",
-    "optional": "Optional",
-    "status": "Status",
-    "operation": "Operation",
-    "descriptionMissing": "Description Missing",
-    "missingDescription": "Missing Description: {count} NFTs",
-    "missingPrice": "Missing Price: {count} NFTs",
-    "nameRequired": "Name Required",
-    "priceMissing": "Price Missing",
-    "edit": "Edit",
-    "save": "Save",
-    "note": "Note",
-    "required": "Required",
-    "areYouSureDelete": "Are you sure you want to delete",
-    "yesDelete": "Yes, Delete",
-    "cancel": "Cancel",
-    "goBack": "Go Back",
-    "missingRequiredInfo": "Some Images are missing required information",
-    "incompleteNfts": "Incomplete: {count} NFTs",
-    "cantMintNote": "NOTE: You cannot mint unless you fill in the required information or delete incomplete files.",
-    "reviewTtile": "Final Mass Mint Overview",
-    "willBeMinted": "Will Be Minted",
-    "reallyProcceed": "Do You Really Want To Proceed?",
-    "yesMint": "Yes, Mint NFTS",
-    "mintingYourNFTs": "Minting Your NFTs...",
-    "mintDone": "All of your NFTs were successfully minted.",
-    "done": "Done",
-    "mobileDisclaimer": {
-      "title": "Optimization Notice",
-      "content1": "Our Massmint feature is fine-tuned for desktop use to ensure the best minting experience",
-      "content2": "On mobile devices, you may encounter limited functionality or layout issues.",
-      "continueAnyway": "Continue Anyway",
-      "leave": "Leave"
     }
   },
   "filters": {

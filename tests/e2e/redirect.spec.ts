@@ -55,4 +55,14 @@ test('Redirections', async ({ page }) => {
     await page.goto('/ahk/waifu')
     await expect(page).toHaveURL('/create')
   })
+
+  await test.step('Expect create massmint nfts redirect to placeholder create', async () => {
+    await page.goto('/ahp/massmint')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect massmint onboarding redirect to placeholder create', async () => {
+    await page.goto('/ahp/massmint/onboarding')
+    await expect(page).toHaveURL('/create')
+  })
 })

@@ -4,7 +4,7 @@
       variant="outlined-rounded"
       icon-left="arrow-left"
       @click="$router.back()">
-      {{ $t('go back') }}
+      {{ $t('goBack') }}
     </NeoButton>
 
     <div>

@@ -17,21 +17,6 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     {
       cond: (val) =>
-        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('create'),
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) =>
-        (val.startsWith('/create') && val.endsWith('nft')) ||
-        val.endsWith('collection'),
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) => val === '/ahk/waifu',
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
       replaceValue: () => `/${urlPrefix.value}/explore/items`,
     },
@@ -47,6 +32,25 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: (val) => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
+    },
+    // create
+    {
+      cond: (val) => `/${urlPrefix.value}/create` === val,
+      replaceValue: () => createRoute,
+    },
+    {
+      cond: (val) =>
+        val.startsWith(`/${urlPrefix.value}` && val.endsWith('/massmint')) ||
+        val.endsWith('/massmint/onboarding'),
+      replaceValue: () => createRoute,
+    },
+    {
+      cond: (val) => '/create/nft' === val || '/create/collection' === val,
+      replaceValue: () => createRoute,
+    },
+    {
+      cond: (val) => val === '/ahk/waifu',
+      replaceValue: () => createRoute,
     },
   ]
 
