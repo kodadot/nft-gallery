@@ -19,9 +19,6 @@ export const getChainName = (prefix: Prefix) => {
   return NAMES[prefix].replace(' [Beta]', '')
 }
 
-export const isProduction = window.location.hostname === 'kodadot.xyz'
-export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
-
 export const disableChains = ['dot']
 export const disableChainListOnBetaEnv = ['dot'] // 'ahr'
 

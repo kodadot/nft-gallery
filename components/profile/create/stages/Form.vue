@@ -45,7 +45,10 @@
           <p class="text-k-grey text-sm mb-5">
             Recommended: 400x400px, up to 2MB (JPG, PNG)
           </p>
-          <SelectImageField v-model="form.image" :preview="form.imagePreview" />
+          <SelectImageField
+            v-model="form.image"
+            :preview="form.imagePreview"
+            :max-size-in-mb="2" />
         </div>
       </NeoField>
 
@@ -56,10 +59,11 @@
         label-class="!text-xl">
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
-            Recommended: 1440x360px (4:1 aspect ratio), up to 10MB (JPG, PNG)
+            Recommended: 1440x360px (4:1 aspect ratio), up to 5MB (JPG, PNG)
           </p>
           <SelectImageField
             v-model="form.banner"
+            :max-size-in-mb="5"
             :preview="form.bannerPreview" />
         </div>
       </NeoField>
@@ -190,32 +194,29 @@ const socialLinks = [
 watchEffect(async () => {
   const profile = userProfile.value
   const farcasterProfile = props.farcasterUserData
+  const useFarcasterData = props.useFarcaster && farcasterProfile
+  const getProfileSocial = (platform: string) =>
+    profile?.socials.find((s) => s.platform === platform)
 
   // Use Farcaster data if useFarcaster is true and data is available, otherwise fallback to profile data
-  form.name =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.displayName ?? ''
-      : profile?.name ?? ''
-  form.description =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.bio ?? ''
-      : profile?.description ?? ''
-  form.imagePreview =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.pfpUrl
-      : profile?.image
+  form.name = useFarcasterData
+    ? farcasterProfile.displayName ?? ''
+    : profile?.name ?? ''
+  form.description = useFarcasterData
+    ? farcasterProfile.bio ?? ''
+    : profile?.description ?? ''
+  form.imagePreview = useFarcasterData
+    ? farcasterProfile.pfpUrl
+    : profile?.image
   form.bannerPreview = profile?.banner ?? undefined // Banner preview assumed to always come from the profile
 
   // Conditional for Farcaster handle based on the useFarcaster prop
-  form.farcasterHandle =
-    props.useFarcaster && farcasterProfile
-      ? farcasterProfile.username
-      : profile?.socials.find((s) => s.platform === 'Farcaster')?.handle
+  form.farcasterHandle = useFarcasterData
+    ? farcasterProfile.username
+    : getProfileSocial('Farcaster')?.handle
 
   // Social handles are fetched from profile regardless of the Farcaster usage
-  form.twitterHandle = profile?.socials.find(
-    (s) => s.platform === 'Twitter',
-  )?.handle
-  form.website = profile?.socials.find((s) => s.platform === 'Website')?.handle
+  form.twitterHandle = getProfileSocial('Twitter')?.handle
+  form.website = getProfileSocial('Website')?.handle
 })
 </script>

@@ -1,10 +1,11 @@
 import { AssetType } from '../types'
 
-export const AssetElementMap: Record<AssetType, { src: string; tag: string }> =
-  {
-    style: { src: 'href', tag: 'link' },
-    script: { src: 'src', tag: 'script' },
-  }
+export type AssetElement = { src: string; tag: string }
+
+export const AssetElementMap: Record<AssetType, AssetElement> = {
+  style: { src: 'href', tag: 'link' },
+  script: { src: 'src', tag: 'script' },
+}
 
 export const AssetReplaceElement: Record<
   AssetType,
