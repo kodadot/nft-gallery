@@ -2,7 +2,8 @@ name: 'Close stale issues'
 on:
   schedule:
     # run at 12:00 every day
-    - cron: '00 12 * * *'
+    - cron: '0 0 * * SAT'
+
 
 permissions:
   issues: write
@@ -16,15 +17,18 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           # start from the oldest issues when performing stale operations
           ascending: true
-          days-before-issue-stale: 90
-          days-before-issue-close: 90
+          days-before-issue-stale: 720
+          days-before-issue-close: 120
+
           stale-issue-label: stale
-          exempt-issue-labels: no stalebot,type/epic
+          exempt-issue-labels: chief
           stale-issue-message: >
             This issue has been automatically marked as stale because it has not had
-            activity in last 90 days. It will be closed in 90 days if no further activity occurs. Please
+            activity in last 720 days. It will be closed in 120 days if no further activity occurs. Please @kodadot/internal 
+
             feel free to leave a comment if you believe the issue is still relevant.
             Thank you for your contributions!
           close-issue-message: >
             This issue has been automatically closed because it has not had any further
-            activity in the last 90 days. Thank you for your contributions!
+            activity in the last 120 days. Thank you for your contributions!
+
