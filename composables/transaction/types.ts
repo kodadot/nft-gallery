@@ -169,8 +169,6 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawOffer
-  | ActionMintToken
-  | ActionMintCollection
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
   | ActionSetCollectionMaxSupply
