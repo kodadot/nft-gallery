@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="isEVMAddress"
+    v-dompurify-html:svg="evmAvatarSvg"
     :class="WRAPPER_CLASS"
     :style="{
       width: `${size}px`,
       height: `${size}px`,
-    }"
-    v-html="evmAvatarSvg" />
+    }" />
   <Identicon
     v-else
     :data-key="value"
