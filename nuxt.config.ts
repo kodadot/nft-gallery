@@ -185,7 +185,7 @@ export default defineNuxtConfig({
           crossorigin: 'anonymous',
           async: true,
         },
-        process.env.NODE_ENV === 'production'
+        process.env.NODE_ENV !== 'development'
           ? {
               // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
               innerHTML: `(function(c,l,a,r,i,t,y){
