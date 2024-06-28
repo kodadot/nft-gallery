@@ -68,7 +68,6 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
-import { isValidSubstrateAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
