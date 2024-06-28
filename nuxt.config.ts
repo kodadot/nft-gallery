@@ -275,7 +275,7 @@ export default defineNuxtConfig({
     format: ['avif', 'webp'],
     providers: {
       customCloudflare: {
-        provider: '~/providers/cloudflare.ts',
+        provider: '~/providers/cdn-worker.ts',
       },
     },
     provider: 'customCloudflare',

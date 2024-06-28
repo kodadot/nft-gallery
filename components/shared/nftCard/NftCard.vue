@@ -28,7 +28,8 @@
           disable-operation
           enable-normal-tag
           :audio-player-cover="mediaPlayerCover"
-          :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
+          :audio-hover-on-cover-play="mediaHoverOnCoverPlay"
+          :lazy-loading="lazyLoading" />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
           class="w-full flex justify-center action-container">
@@ -116,6 +117,7 @@ const props = withDefaults(
     hideMediaInfo?: boolean
     linkTo?: string
     displayNameWithSn?: boolean
+    lazyLoading?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -128,6 +130,7 @@ const props = withDefaults(
     mediaPlayerCover: undefined,
     hideMediaInfo: false,
     linkTo: undefined,
+    lazyLoading: false,
   },
 )
 

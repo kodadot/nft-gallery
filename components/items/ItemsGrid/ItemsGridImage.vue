@@ -10,6 +10,7 @@
     :display-name-with-sn="displayNameWithSn"
     :show-timestamp="showTimestamp"
     :collection-popover-hide="collectionPopoverHide"
+    :lazy-loading="lazyLoading"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -97,6 +98,7 @@ const props = defineProps<{
   displayNameWithSn?: boolean
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
+  lazyLoading?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

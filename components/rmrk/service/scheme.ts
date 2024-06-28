@@ -7,6 +7,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { ItemResources } from '@/composables/useNft'
 import { Attribute } from '@kodadot1/minimark/common'
 import type { Prefix } from '@kodadot1/static'
+import type { TokenMetadata } from '@kodadot1/hyperdata'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -63,6 +64,7 @@ export interface Metadata {
   thumbnailUri?: string
   mediaUri?: string
   chain?: Prefix
+  meta?: TokenMetadata
 }
 
 export interface NFTMetadata extends Metadata, ItemResources {
