@@ -1,7 +1,7 @@
 <template>
   <div class="!mt-6 h-full">
     <NeoButton
-      variant="k-accent"
+      variant="primary"
       no-shadow
       :loading="isConnecting"
       :disabled="isConnecting"
