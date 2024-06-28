@@ -31,7 +31,7 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24">
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]">
       <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
     </div>
     <NeoButton
