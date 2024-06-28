@@ -68,7 +68,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
-import { isValidAddress } from '@/utils/account'
+import { isValidSubstrateAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -147,7 +147,7 @@ const getAddressCheck = (value: string): AddressCheck => {
     }
   }
 
-  const isValid = isValidAddress(value)
+  const isValid = isValidSubstrateAddress(value)
 
   if (isValid) {
     return {
