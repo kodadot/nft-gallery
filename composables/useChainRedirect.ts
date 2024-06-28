@@ -1,6 +1,5 @@
 import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { createVisible } from '@/utils/config/permission.config'
 import { RawLocation } from 'vue-router/types/router'
 
 const NO_REDIRECT_ROUTE_NAMES = [
@@ -109,8 +108,6 @@ export default function () {
       return
     }
 
-    const isSimpleCreate = routeName.includes('-create')
-
     let redirectLocation: RawLocation = { path: `/${newChain}` }
 
     if (route.params.prefix) {
@@ -119,8 +116,6 @@ export default function () {
         chain: newChain,
         route,
       })
-    } else if (isSimpleCreate && createVisible(newChain)) {
-      redirectLocation = { path: `/${newChain}/create` }
     }
 
     router.push(redirectLocation)
