@@ -15,8 +15,15 @@
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
-        @reset="close"
-        @submit="handleFormSubmition" />
+        @reset="
+          () => {
+            close()
+            infoMessage('Your profile form reset successfully. Start over!', {
+              title: 'Profile Reset!',
+            })
+          }
+        "
+        @submit="handleFormSubmission" />
       <Loading v-if="stage === 4" />
       <Success v-if="stage === 5" @close="close" />
     </ModalBody>
@@ -123,10 +130,13 @@ const processProfile = async (profileData: ProfileFormData) => {
     : createProfile(profileBody as CreateProfileRequest)
 }
 
-const handleFormSubmition = async (profileData: ProfileFormData) => {
+const handleFormSubmission = async (profileData: ProfileFormData) => {
   stage.value = 4 // Go to loading stage
   try {
     await processProfile(profileData)
+    successMessage({
+      title: 'Your profile has been updated successfully!',
+    })
     emit('success')
     stage.value = 5 // Go to success stage
   } catch (error) {
