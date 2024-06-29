@@ -1,6 +1,6 @@
 export default () => {
   const cookieControl = useCookieControl()
-  const { grantConsent, revokeConsent } = useGtag()
+  const { enableAnalytics, disableAnalytics } = useGtag()
 
   const cookieConsentGiven = computed(() =>
     cookieControl.cookiesEnabledIds.value?.includes('ga'),
@@ -22,9 +22,9 @@ export default () => {
     cookieConsentGiven,
     (cookieConsentGiven) => {
       if (cookieConsentGiven || cookieConsentGiven === undefined) {
-        grantConsent()
+        enableAnalytics()
       } else {
-        revokeConsent()
+        disableAnalytics()
       }
     },
     { immediate: true },

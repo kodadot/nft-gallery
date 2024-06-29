@@ -357,7 +357,7 @@ export default defineNuxtConfig({
 
   gtag: {
     id: process.env.GOOGLE_ANALYTICS_ID,
-    initialConsent: false,
+    enabled: false,
   },
 
   site: {
