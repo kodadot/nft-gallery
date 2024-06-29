@@ -5,6 +5,7 @@ export type NeoButtonVariant =
   | 'secondary-rounded'
   | 'outlined-rounded'
   | 'rounded'
+  | 'text-danger'
   | 'k-blue'
   | 'k-pink'
   | 'connect'

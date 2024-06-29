@@ -2,6 +2,7 @@
   <NeoModal :value="vOpen" @close="close">
     <ModalBody
       :title="'Profile Creation'"
+      data-testid="profile-creation-modal"
       :content-class="stage === 1 ? 'p-0' : undefined"
       @close="close">
       <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
@@ -14,6 +15,7 @@
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
+        @reset="close"
         @submit="handleFormSubmition" />
       <Loading v-if="stage === 4" />
       <Success v-if="stage === 5" @close="close" />

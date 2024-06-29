@@ -3,6 +3,7 @@
     <NuxtLink
       :to="`/${urlPrefix}/u/${account}`"
       class="w-full"
+      data-testid="view-profile-button"
       @click="closeModal">
       <IdentityItem
         :account="account"

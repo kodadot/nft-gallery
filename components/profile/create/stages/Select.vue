@@ -23,6 +23,7 @@
     <span class="my-4 text-k-grey">- Or -</span>
     <NeoButton
       expanded
+      data-testid="start-fresh-profile"
       no-shadow
       size="large"
       :label="hasProfile ? $t('profile.editProfile') : $t('profile.startFresh')"

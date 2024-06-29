@@ -35,6 +35,10 @@
       }
     }
 
+    &--text-danger {
+      @apply p-0 h-fit disabled:text-inherit text-k-red opacity-70 hover:text-k-red hover:opacity-85 hover:bg-inherit bg-inherit border-none shadow-none;
+    }
+
     &--primary {
       @apply bg-k-primary;
 

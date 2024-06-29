@@ -13,7 +13,7 @@
         label-class="!text-xl">
         <NeoInput
           v-model="form.name"
-          data-testid="create-profile-input-name"
+          data-testid="profile-name"
           required
           :placeholder="'Enter Your Name'" />
       </NeoField>
@@ -26,7 +26,7 @@
         label-class="!text-xl">
         <NeoInput
           v-model="form.description"
-          data-testid="create-profile-input-bio"
+          data-testid="profile-bio"
           required
           type="textarea"
           :maxlength="200"
@@ -48,6 +48,7 @@
           <SelectImageField
             v-model="form.image"
             :preview="form.imagePreview"
+            data-testid="upload-profile-image"
             :max-size-in-mb="2" />
         </div>
       </NeoField>
@@ -91,14 +92,26 @@
         </div>
       </div>
     </form>
-    <NeoButton
-      :disabled="submitDisabled"
-      variant="primary"
-      label="Finish Customization"
-      size="large"
-      no-shadow
-      data-testid="create-profile-submit-button"
-      @click="emit('submit', form)" />
+    <div class="flex flex-col space-y-4 items-center">
+      <NeoButton
+        :disabled="submitDisabled"
+        variant="primary"
+        label="Finish Customization"
+        size="large"
+        class="w-full"
+        no-shadow
+        data-testid="create-profile-submit-button"
+        @click="emit('submit', form)" />
+      <NeoButton
+        v-show="!submitDisabled"
+        :disabled="resetButtonState.isDisabled"
+        :variant="resetButtonState.variant"
+        icon="arrow-rotate-left"
+        :label="resetButtonState.label"
+        no-shadow
+        data-testid="reset-profile-form"
+        @click="handleResetClick" />
+    </div>
   </div>
 </template>
 
@@ -136,6 +149,7 @@ const submitDisabled = computed(
 
 const emit = defineEmits<{
   (e: 'submit', value: ProfileFormData): void
+  (e: 'reset'): void
 }>()
 
 const validatingFormInput = (model: string) => {
@@ -166,6 +180,53 @@ const form = reactive<ProfileFormData>({
   twitterHandle: undefined,
   website: undefined,
 })
+
+// reset logic
+const resetButtonState = reactive({
+  label: 'Reset All fields - Start Over',
+  variant: 'text' as 'text' | 'text-danger',
+  isDisabled: false,
+  isConfirmationMode: false,
+})
+
+const handleResetClick = () => {
+  if (!resetButtonState.isConfirmationMode) {
+    enterResetConfirmationMode()
+  } else {
+    performReset()
+  }
+}
+
+const enterResetConfirmationMode = () => {
+  resetButtonState.isConfirmationMode = true
+  resetButtonState.variant = 'text-danger'
+  resetButtonState.label = 'You sure? - Click Again'
+  resetButtonState.isDisabled = true
+
+  setTimeout(() => {
+    resetButtonState.isDisabled = false
+  }, 1500) // 1.5 seconds delay
+}
+
+const performReset = () => {
+  Object.assign(form, {
+    name: '',
+    description: '',
+    image: null,
+    imagePreview: undefined,
+    banner: null,
+    bannerPreview: undefined,
+    farcasterHandle: undefined,
+    twitterHandle: undefined,
+    website: undefined,
+  })
+
+  resetButtonState.label = 'Reset All fields - Start Over'
+  resetButtonState.variant = 'text'
+  resetButtonState.isConfirmationMode = false
+
+  emit('reset')
+}
 
 const socialLinks = [
   {

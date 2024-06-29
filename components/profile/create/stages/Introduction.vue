@@ -26,6 +26,7 @@
         @click="emit('close')" />
       <NeoButton
         label="Create Profile"
+        data-testid="create-profile-button"
         no-shadow
         variant="primary"
         class="w-48 !h-12"
