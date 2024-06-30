@@ -393,6 +393,9 @@ export default defineNuxtConfig({
       rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
+      walletConnectProjectId:
+        process.env.WALLET_CONNECT_PROJECT_ID ||
+        '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
   // In case of using ssr
