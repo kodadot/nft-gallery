@@ -165,10 +165,25 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
   }
 }
 
-export const deleteProfile = async (address: string) => {
+type DeleteProfile = {
+  message: string
+  signature: string
+  address: string
+}
+
+export const deleteProfile = async ({
+  address,
+  message,
+  signature,
+}: DeleteProfile) => {
   try {
     const response = await api<ProfileResponse>(`/profiles/${address}`, {
       method: 'DELETE',
+      body: {
+        message,
+        signature,
+        address,
+      },
     })
     return response
   } catch (error) {
