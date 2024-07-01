@@ -21,5 +21,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       ],
       ALLOWED_ATTR: ['href', 'target', 'class'],
     },
+    namedConfigurations: {
+      svg: {
+        USE_PROFILES: { svg: true },
+      },
+    },
   })
 })

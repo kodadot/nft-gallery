@@ -46,6 +46,7 @@ import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
 import { getBioWithLinks } from '../utils'
 
+const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -60,8 +61,7 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
-const emit = defineEmits(['close', 'success', 'deleted'])
-
+const { getSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
@@ -103,6 +103,8 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 }
 
 const processProfile = async (profileData: ProfileFormData) => {
+  const { signature, message } = await getSignaturePair()
+
   const imageUrl = profileData.image
     ? await uploadProfileImage(profileData.image, 'image')
     : profileData.imagePreview
@@ -120,6 +122,8 @@ const processProfile = async (profileData: ProfileFormData) => {
     image: imageUrl,
     banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
     socials: constructSocials(profileData),
+    signature,
+    message,
   }
 
   return hasProfile.value
