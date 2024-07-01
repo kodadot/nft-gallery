@@ -39,8 +39,8 @@ import {
   createProfile,
   deleteProfile,
   updateProfile,
+  uploadImage,
 } from '@/services/profile'
-import { uploadImage } from '@/services/imageWorker'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
@@ -75,12 +75,23 @@ const close = () => {
 const uploadProfileImage = async (
   file: File | null,
   type: 'image' | 'banner',
-): Promise<string | undefined> =>
-  file
-    ? await uploadImage({ file, type, address: accountId.value }).then(
-        (response) => response.url,
-      )
-    : undefined
+): Promise<string | undefined> => {
+  if (!file) {
+    return undefined
+  }
+
+  const { signature, message } = await getSignaturePair()
+
+  const response = await uploadImage({
+    file,
+    type,
+    address: accountId.value,
+    signature,
+    message,
+  })
+
+  return response.url
+}
 
 const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   return [

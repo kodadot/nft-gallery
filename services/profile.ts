@@ -224,3 +224,41 @@ export const isFollowing = async (
     )
   }
 }
+
+type UploadImage = {
+  file: File
+  type: string
+  address: string
+  signature: string
+  message: string
+}
+
+export const uploadImage = async ({
+  file,
+  type,
+  address,
+  signature,
+  message,
+}: UploadImage) => {
+  try {
+    address = toSubstrateAddress(address)
+
+    const form = new FormData()
+    form.append('file', file)
+    form.append('address', address)
+    form.append('type', type)
+    form.append('signature', signature)
+    form.append('message', message)
+
+    const response = await api<{ url: string }>(`/profiles/${address}/image`, {
+      method: 'POST',
+      body: form,
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[PROFILE::UPLOAD_IMAGe] ERROR: ${(error as FetchError).data}`,
+    )
+  }
+}
