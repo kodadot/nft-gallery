@@ -22,7 +22,7 @@
       <div
         class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
-          class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
+          class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
             v-if="userProfile?.image"
             :src="userProfile.image"
@@ -208,13 +208,17 @@
             </span>
             <NeoButton variant="text" no-shadow @click="onFollowersClick">
               <div class="flex -space-x-3">
-                <NuxtImg
+                <div
                   v-for="(follower, index) in followers?.followers"
                   :key="index"
-                  :src="follower.image"
-                  alt="follower avatar"
-                  class="w-8 h-8 rounded-full border object-cover"
-                  :style="{ zIndex: 3 - index }" />
+                  :style="{ zIndex: 3 - index }"
+                  class="w-8 h-8 flex-shrink-0 rounded-full border">
+                  <BasicImage
+                    :src="follower.image"
+                    custom-class="object-cover"
+                    alt="follower avatar"
+                    rounded />
+                </div>
               </div>
             </NeoButton>
 
@@ -319,7 +323,7 @@
             :loading-other-network="loadingOtherNetwork"
             :reset-search-query-params="['sort']">
             <template
-              v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
+              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold"
               #empty-result>
               <ProfileEmptyResult
                 :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
@@ -331,7 +335,7 @@
           :id="id"
           :loading-other-network="loadingOtherNetwork"
           class="pt-7">
-          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
+          <template v-if="hasAssetPrefixMap[activeTab]?.length" #empty-result>
             <ProfileEmptyResult
               :prefix-list-with-asset="
                 hasAssetPrefixMap[ProfileTab.COLLECTIONS]
@@ -372,6 +376,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
+import { ChainVM } from '@kodadot1/static'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
@@ -413,8 +418,10 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark } = useIsChain(urlPrefix)
+
+const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
+const { vm } = useChain()
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
   useProfile()
@@ -426,7 +433,6 @@ const { data: followers, refresh: refreshFollowers } = useAsyncData(
   () =>
     fetchFollowersOf(route.params.id as string, {
       limit: 3,
-      exclude: [accountId.value],
     }),
 )
 
@@ -621,11 +627,17 @@ useAsyncData('tabs-count', async () => {
 
 const fetchTabsCountByNetwork = async (chain: Prefix) => {
   const account = id.value.toString()
-  const publicKey = decodeAddress(account)
-  const prefixAddress = encodeAddress(publicKey, CHAINS[chain].ss58Format)
-  const searchParams = {
-    currentOwner_eq: prefixAddress,
+  let address = account
+
+  if (isSub.value) {
+    const publicKey = decodeAddress(account)
+    address = encodeAddress(publicKey, CHAINS[chain].ss58Format)
   }
+
+  const searchParams = {
+    currentOwner_eq: address,
+  }
+
   const { isRemark } = useIsChain(computed(() => chain))
 
   if (!isRemark.value) {
@@ -636,7 +648,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     query: profileTabsCount,
     clientId: chain,
     variables: {
-      id: prefixAddress,
+      id: address,
       interactionIn: [],
       denyList: getDenyList(urlPrefix.value),
       search: [searchParams],
@@ -661,13 +673,21 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 }
 
 useAsyncData('tabs-empty-result', async () => {
+  const chains = (
+    {
+      SUB: ['ahp', 'ahk', 'ksm', 'rmrk'],
+      EVM: ['base', 'imx'],
+    } as Record<ChainVM, Prefix[]>
+  )[vm.value]
+
   hasAssetPrefixMap.value = {
     [ProfileTab.OWNED]: [],
     [ProfileTab.CREATED]: [],
     [ProfileTab.COLLECTIONS]: [],
   }
+
   loadingOtherNetwork.value = true
-  for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
+  for (const chain of chains) {
     await fetchTabsCountByNetwork(chain as Prefix)
   }
   loadingOtherNetwork.value = false

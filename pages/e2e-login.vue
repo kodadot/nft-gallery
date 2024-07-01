@@ -14,6 +14,7 @@ export default {
   name: 'MockAddressPage',
   setup() {
     const identityStore = useIdentityStore()
+    const walletStore = useWalletStore()
     const { urlPrefix } = usePrefix()
     const mockAddress = ref(false)
 
@@ -28,7 +29,8 @@ export default {
       keyring.addPair(pair, '')
       const account = pair.address
 
-      localStorage.setItem('kodaauth', account)
+      walletStore.setWallet({ address: account, vm: 'SUB' })
+
       identityStore
         .setAuth({
           address: account,
