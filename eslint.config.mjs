@@ -117,6 +117,8 @@ export default [
       'vue-scoped-css/require-v-deep-argument': 'error',
       'vue-scoped-css/no-unused-selector': 'off',
       'vue-scoped-css/enforce-style-type': 'off',
+      'vue/no-dupe-keys': 'warn',
+      'vue/require-toggle-inside-transition': 'warn',
     },
   },
   {
