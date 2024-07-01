@@ -39,6 +39,7 @@ import { AssetMessage } from '../types'
 import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
+import { getDocumentFromString } from '../utils'
 
 const emit = defineEmits(['upload'])
 const props = withDefaults(
@@ -79,8 +80,7 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
 }
 
 const buildIndexFile = async (): Promise<Blob> => {
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(props.indexContent, 'text/html')
+  const doc = getDocumentFromString(props.indexContent)
 
   await Promise.all(
     props.assets.map((asset) => replaceAssetContent(doc, asset)),
