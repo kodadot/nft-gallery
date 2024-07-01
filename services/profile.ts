@@ -273,7 +273,7 @@ export const uploadImage = async ({
     return response
   } catch (error) {
     throw new Error(
-      `[PROFILE::UPLOAD_IMAGe] ERROR: ${(error as FetchError).data}`,
+      `[PROFILE::UPLOAD_IMAGE] ERROR: ${(error as FetchError).data}`,
     )
   }
 }
