@@ -1,4 +1,4 @@
-import transakSDK from '@transak/transak-sdk'
+import { Transak } from '@transak/transak-sdk'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { CHAINS } from '@kodadot1/static'
 
@@ -16,7 +16,7 @@ export default function useTransak() {
   const config = useRuntimeConfig()
 
   const init = ({ address, onSuccess }: InitParams) => {
-    const transak = new transakSDK({
+    const transak = new Transak({
       apiKey: config.public.transakApiKey,
       environment: config.public.transakEnvironment,
       widgetHeight: '100%',
@@ -26,7 +26,7 @@ export default function useTransak() {
 
     transak.init()
 
-    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
       if (onSuccess) {
         onSuccess(orderData)
       }
