@@ -21,12 +21,12 @@
         vSelectedFile?.name ?? 'Click To Select A File'
       }}</span>
       <NeoButton
-        v-if="vSelectedFile"
+        v-if="vSelectedFile || preview"
         class="absolute right-3 top-3"
         variant="icon"
         no-shadow
         icon="xmark"
-        @click="vSelectedFile = null" />
+        @click="clear" />
     </div>
   </NeoUpload>
 </template>
@@ -34,9 +34,9 @@
 import { NeoButton, NeoIcon, NeoUpload } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
-
 const ONE_MB = 1024 * 1024
 
+const emit = defineEmits(['clear'])
 const props = defineProps<{
   modelValue: File | null
   preview?: string
@@ -49,6 +49,11 @@ const { $i18n } = useNuxtApp()
 const selectedFilePreview = computed(() =>
   vSelectedFile.value ? URL.createObjectURL(vSelectedFile.value as File) : '',
 )
+
+const clear = () => {
+  vSelectedFile.value = null
+  emit('clear')
+}
 
 const fileSelected = (file: File | null) => {
   if (file && props.maxSizeInMb && file.size > props.maxSizeInMb * ONE_MB) {
