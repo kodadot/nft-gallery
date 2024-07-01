@@ -290,7 +290,7 @@
       <div class="flex">
         <NeoButton
           class="flex flex-1 fixed-height is-shadowless"
-          variant="k-accent"
+          variant="primary"
           :disabled="disabled"
           @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton

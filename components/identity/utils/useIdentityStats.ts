@@ -43,16 +43,10 @@ const whichData = ({ data, type }) => {
   return totalCount[type] || 0
 }
 
-const cacheTotalCount = ({ data, totalCreated, totalCollected, totalSold }) => {
+const cacheTotalCount = ({ data, totalCreated }) => {
   const cacheData = {
     created: {
       totalCount: totalCreated,
-    },
-    collected: {
-      totalCount: totalCollected,
-    },
-    sold: {
-      totalCount: totalSold,
     },
     firstMintDate: data.value?.firstMint[0]?.createdAt || new Date(),
     updatedAt: Date.now(),
@@ -64,9 +58,7 @@ const cacheTotalCount = ({ data, totalCreated, totalCollected, totalSold }) => {
 export default function useIdentityStats({ address }) {
   const identityMintStore = useIdentityMintStore()
 
-  const totalCollected = ref(0)
   const totalCreated = ref(0)
-  const totalSold = ref(0)
   const firstMintDate = ref(new Date())
 
   const { lastBoughtDate } = useLastBought({ address })
@@ -82,8 +74,6 @@ export default function useIdentityStats({ address }) {
 
   const handleNFTStats = ({ data, type }) => {
     totalCreated.value = whichData({ data, type: 'created' })
-    totalCollected.value = whichData({ data, type: 'collected' })
-    totalSold.value = whichData({ data, type: 'sold' })
 
     if (type === 'cache') {
       firstMintDate.value = data.firstMintDate
@@ -93,8 +83,6 @@ export default function useIdentityStats({ address }) {
     const cacheData = cacheTotalCount({
       data,
       totalCreated: totalCreated.value,
-      totalCollected: totalCollected.value,
-      totalSold: totalSold.value,
     })
 
     firstMintDate.value = cacheData.firstMintDate
@@ -118,9 +106,7 @@ export default function useIdentityStats({ address }) {
   watch(stats, fetchNFTStats)
 
   return {
-    totalCollected,
     totalCreated,
-    totalSold,
     lastBought,
     startedMinting,
   }

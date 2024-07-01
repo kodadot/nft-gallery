@@ -2,7 +2,8 @@
   <transition name="slide">
     <div v-if="listingCartStore.count" class="listing-container">
       <div class="inline-flex items-center">
-        <div class="k-shadow bg-background-color border flex items-center h-13 px-6">
+        <div
+          class="k-shadow bg-background-color border flex items-center h-13 px-6">
           <div class="inline-flex items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>
@@ -29,7 +30,7 @@
         </div>
         <NeoButton
           class="border-l-0 px-7"
-          :variant="'k-accent'"
+          variant="primary"
           size="large"
           @click="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem', listingCartStore.count) }}

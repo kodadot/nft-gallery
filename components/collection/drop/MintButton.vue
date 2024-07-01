@@ -1,7 +1,7 @@
 <template>
   <NeoButton
     ref="root"
-    variant="k-accent"
+    variant="primary"
     expanded
     no-shadow
     size="large"
@@ -19,9 +19,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
@@ -29,6 +27,7 @@ import {
   formatAmountWithRound,
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
+import { parseCETDate } from '@/components/drops/utils'
 
 const emit = defineEmits(['mint'])
 
@@ -39,9 +38,9 @@ const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
+const now = useNow()
 const { mintCountAvailable, maxCount } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
-const { amountToMint, previewItem } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
@@ -108,6 +107,11 @@ const label = computed(() => {
   }
 })
 
+const isMintNotLive = computed(() => {
+  const startAt = drop.value.start_at
+  return startAt ? parseCETDate(startAt) > now.value : false
+})
+
 const enabled = computed(() => {
   if (!isLogIn.value) {
     return true
@@ -118,6 +122,7 @@ const enabled = computed(() => {
   if (
     !amountToMint.value || // number of drop to be mint is 0
     Boolean(drop.value.disabled) || // drop is disabled
+    isMintNotLive.value || // drop start time is greater than now
     !previewItem.value || // no image
     isCheckingMintRequirements.value || // still checking requirements
     loading.value || // still loading
@@ -132,7 +137,7 @@ const enabled = computed(() => {
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return maxCount.value > mintedAmountForCurrentUser.value
+      return maxCount.value > userMintsCount.value
     default:
       return false
   }

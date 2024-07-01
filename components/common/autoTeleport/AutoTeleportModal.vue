@@ -5,21 +5,9 @@
     class="z-[1000]"
     @close="onClose">
     <div class="sm:w-[25rem]">
-      <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
-        <span class="modal-card-title text-base font-bold">
-          {{ $t('autoTeleport.signTransactions') }}
-        </span>
-
-        <NeoButton
-          class="py-1 px-2"
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          @click="onClose" />
-      </header>
-
-      <div class="px-6 pt-4 pb-5 limit-height">
+      <ModalBody
+        :title="$i18n.t('autoTeleport.signTransactions')"
+        @click="onClose">
         <ModalIdentityItem />
 
         <p class="py-2 capitalize">
@@ -57,13 +45,13 @@
         <div class="flex justify-between pt-5">
           <NeoButton
             :label="btnLabel"
-            variant="k-accent"
+            variant="primary"
             no-shadow
             :disabled="btnDisabled"
             class="flex flex-grow btn-height"
             @click="submit" />
         </div>
-      </div>
+      </ModalBody>
     </div>
   </NeoModal>
 </template>

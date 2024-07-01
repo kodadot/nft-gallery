@@ -18,7 +18,9 @@ export type Validity = {
   webGlUsed: boolean
   localP5jsUsed: boolean
   kodaRendererUsed: Passed
+  kodaRendererCalledOnce: Passed
   resizerUsed: Passed
+  externalResourcesNotUsed: Passed
   usesHashParam: Passed
   validTitle: Passed
   renderDurationValid: Passed

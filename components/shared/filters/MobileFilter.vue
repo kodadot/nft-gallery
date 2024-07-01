@@ -35,7 +35,7 @@
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
-          variant="k-accent"
+          variant="primary"
           no-shadow
           class="flex-grow min-w-36 h-14"
           @click="applyFilters">

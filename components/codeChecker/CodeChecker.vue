@@ -98,6 +98,20 @@
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
+          :passed="fileValidity.kodaRendererCalledOnce"
+          :description="$t('codeChecker.kodaHashCalledOnce')">
+          <template #modalContent>
+            <CodeCheckerIssueHintKodaHashCalledOnce />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.externalResourcesNotUsed"
+          :description="$t('codeChecker.notUsingExternalResources')">
+          <template #modalContent>
+            <CodeCheckerIssueHintNotUsingExternalResources />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
           :description="$t('codeChecker.usingParamHash')">
           <template #modalContent>
@@ -149,6 +163,7 @@
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
+        :index-url="indexUrl"
         @reload="startClock"
         @hash:update="(hash) => (previewHash = hash)" />
 
@@ -156,7 +171,8 @@
         v-if="selectedFile && indexContent"
         class="!mt-11"
         :assets="assets"
-        :index-content="indexContent" />
+        :index-content="indexContent"
+        @upload="(value) => (indexUrl = value)" />
 
       <div class="max-w-[490px] mt-11">
         <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
@@ -199,6 +215,7 @@ const validtyDefault: Validity = {
   webGlUsed: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
+  kodaRendererCalledOnce: 'unknown',
   resizerUsed: 'unknown',
   usesHashParam: 'unknown',
   validTitle: 'unknown',
@@ -206,16 +223,19 @@ const validtyDefault: Validity = {
   title: '-',
   validKodaRenderPayload: 'loading',
   consistent: 'loading',
+  externalResourcesNotUsed: 'unknown',
 }
 
 const selectedFile = ref<File | null>(null)
 const assets = ref<AssetMessage[]>([])
 const indexContent = ref<string>()
+const indexUrl = ref<string>()
 const fileName = computed(() => selectedFile.value?.name)
 const fileValidity = reactive<Validity>({ ...validtyDefault })
 const errorMessage = ref('')
 const renderStartTime = ref(0)
 const renderEndTime = ref(0)
+const renderCount = ref(0)
 const reloadTrigger = ref(0)
 const firstImage = ref<string>()
 const previewHash = ref()
@@ -256,10 +276,14 @@ const clear = () => {
   assets.value = []
   errorMessage.value = ''
   reloadTrigger.value = 0
+  renderCount.value = 0
+  indexUrl.value = undefined
+  indexContent.value = undefined
   Object.assign(fileValidity, validtyDefault)
 }
 
 const startClock = () => {
+  renderCount.value = 0
   renderStartTime.value = performance.now()
   fileValidity.renderDurationValid = 'loading'
 }
@@ -273,11 +297,15 @@ const consistencyField = (payload) => {
   const version: number = parseFloat(payload?.version ?? '0')
   return version >= 1.0 ? payload.base64Details : payload.image
 }
+
 useEventListener(window, 'message', async (res) => {
   if (
     res.data?.type === 'kodahash/render/completed' &&
     previewHash.value === res.data.payload.hash
   ) {
+    renderCount.value++
+    fileValidity.kodaRendererCalledOnce = renderCount.value === 1
+
     const payload = res.data?.payload
     renderEndTime.value = performance.now()
     const duration = renderEndTime.value - renderStartTime.value
