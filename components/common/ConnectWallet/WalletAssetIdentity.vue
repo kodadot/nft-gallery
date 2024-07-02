@@ -39,7 +39,7 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
-import { useWalletStore, walletHistory } from '@/stores/wallet'
+import { useWalletStore } from '@/stores/wallet'
 
 const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -58,12 +58,20 @@ const { display, shortenedAddress } = useIdentity({
 
 const closeModal = () => neoModal.closeAll()
 
-const logout = () => {
+const { disconnect: disconnectWeb3Modal } = useWagmi()
+
+const logout = async () => {
   identityStore.resetAuth()
   sessionStorage.clear()
   localStorage.clear()
   shoppingCartStore.clear()
 
-  walletHistory.value = walletStore.history
+  const isEvm = walletStore.getIsEvm
+  walletStore.setDisconnecting(true)
+  walletStore.clear()
+  if (isEvm) {
+    await disconnectWeb3Modal()
+  }
+  walletStore.setDisconnecting(false)
 }
 </script>

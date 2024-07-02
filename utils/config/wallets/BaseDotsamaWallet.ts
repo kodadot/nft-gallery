@@ -131,8 +131,12 @@ export class BaseDotsamaWallet implements Wallet {
 
     return this.accountMap(accounts)
   }
+
+  getSubstrateAccounts = (accounts: InjectedAccount[]) =>
+    accounts.filter((account) => isValidSubstrateAddress(account.address))
+
   accountMap = (accounts: InjectedAccount[]) =>
-    accounts.map((account) => {
+    this.getSubstrateAccounts(accounts).map((account) => {
       account.address = formatAccount(account.address)
       return {
         ...account,
