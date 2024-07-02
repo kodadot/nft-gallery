@@ -27,23 +27,20 @@ const { address, isConnected, isConnecting, chainId } = useWagmi()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { modal } = useWeb3Modal()
 
-watch(
-  [address, isConnected, chainId],
-  async ([address, isConnected, chainId]) => {
-    const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId ?? '']
+watch([address, isConnected, chainId], ([address, isConnected, chainId]) => {
+  const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId ?? '']
 
-    if (address && isConnected && chainId && chainPrefix) {
-      const isCorrectChainConnected = chainPrefix === urlPrefix.value
+  if (address && isConnected && chainId && chainPrefix) {
+    const isCorrectChainConnected = chainPrefix === urlPrefix.value
 
-      if (!isCorrectChainConnected) {
-        setUrlPrefix(chainPrefix)
-      }
-
-      emits('select', {
-        address: address as string,
-        vm: 'EVM',
-      })
+    if (!isCorrectChainConnected) {
+      setUrlPrefix(chainPrefix)
     }
-  },
-)
+
+    emits('select', {
+      address: address as string,
+      vm: 'EVM',
+    })
+  }
+})
 </script>
