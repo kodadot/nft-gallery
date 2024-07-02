@@ -1,5 +1,4 @@
-import { CHAINS } from '@kodadot1/static'
-import { ChainProperties } from '../api/Query'
+import { CHAINS, ChainProperties } from '@kodadot1/static'
 
 import type { Prefix } from '@kodadot1/static'
 
