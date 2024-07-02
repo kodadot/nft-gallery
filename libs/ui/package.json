@@ -12,7 +12,7 @@
   "devDependencies": {
     "@histoire/plugin-vue": "0.17.6",
     "@oruga-ui/oruga-next": "0.7.0",
-    "@vitejs/plugin-vue": "^4.6.2",
+    "@vitejs/plugin-vue": "^5.0.5",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^8.7.1",
@@ -24,9 +24,9 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@google/model-viewer": "^3.5.0",
-    "@vueuse/core": "^9.13.0",
+    "@vueuse/core": "^10.11.0",
     "bulma": "0.9.4",
-    "three": "^0.165.0",
+    "three": "^0.166.1",
     "vue": "^3.4.29"
   }
 }
