@@ -63,15 +63,12 @@ const showIdentityBadge = computed(() =>
   Boolean(props.showBadge && hasIdentity.value),
 )
 
-provide('address', props.address)
 provide(
-  'shortenedAddress',
-  computed(() => shortenedAddress.value),
+  'address',
+  computed(() => props.address),
 )
-provide(
-  'identity',
-  computed(() => identity.value),
-)
+provide('shortenedAddress', shortenedAddress)
+provide('identity', identity)
 
 const emit = defineEmits(['change'])
 

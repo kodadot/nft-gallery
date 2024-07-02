@@ -16,10 +16,20 @@
 
         <div
           class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
-          <span
-            class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
-            >{{ name }}</span
-          >
+          <div class="flex flex-col gap-2 min-h-[60px]">
+            <div class="flex justify-between items-center">
+              <span
+                class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
+                >{{ name }}</span
+              >
+              <DropsChainPill :prefix="dropPrefix" />
+            </div>
+
+            <div v-if="dropCreator" class="flex gap-2 items-center">
+              <ProfileAvatar :size="24" :address="dropCreator" />
+              <IdentityIndex :address="dropCreator" hide-identity-popover />
+            </div>
+          </div>
           <div
             class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
             <slot name="supply">
@@ -58,7 +68,7 @@ withDefaults(
     name: string
     dropStartTime?: Date | null
     dropStatus: DropStatus
-    dropPrefix?: Prefix
+    dropPrefix?: Prefix | null
     loading?: boolean
     cardIs?: string | object
     to?: string
@@ -66,6 +76,7 @@ withDefaults(
     dropMax?: number
     minted?: number
     ownerAddresses?: string[]
+    dropCreator?: string | null
   }>(),
   {
     loading: false,
@@ -76,6 +87,7 @@ withDefaults(
     minted: 0,
     dropMax: 0,
     timeTagWithTime: false,
+    dropCreator: undefined,
     ownerAddresses: () => [],
   },
 )
