@@ -8,3 +8,4 @@ types
 *.log*
 *.conf*
 *.env*
+!eslint.config.mjs

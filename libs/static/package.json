@@ -22,21 +22,26 @@
   "scripts": {
     "build": "unbuild",
     "dev": "vitest dev",
-    "lint": "eslint --cache --ext .ts,.js,.mjs,.cjs . && prettier -c src test",
-    "lint:fix": "eslint --cache --ext .ts,.js,.mjs,.cjs . --fix && prettier -c src test -w",
+    "lint": "eslint --cache . && prettier -c src test",
+    "lint:fix": "eslint --cache . --fix && prettier -c src test -w",
     "prepack": "pnpm run build",
     "release": "pnpm test && changelogen --release && npm publish && git push --follow-tags",
     "test": "vitest run"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@vitest/coverage-c8": "^0.33.0",
     "changelogen": "^0.5.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.6.0",
     "eslint-config-unjs": "^0.3.2",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-unicorn": "^54.0.0",
     "prettier": "^3.3.2",
     "typescript": "^5.4.5",
     "unbuild": "^2.0.0",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "vue-eslint-parser": "^9.4.3"
   }
 }
