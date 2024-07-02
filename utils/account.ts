@@ -104,7 +104,7 @@ export function accountToPublicKey(account: string): `0x${string}` {
   return u8aToHex(decoded)
 }
 
-export const isValidAddress = (address: string): boolean => {
+export const isValidSubstrateAddress = (address: string): boolean => {
   try {
     encodeAddress(decodeAddress(address))
     return true

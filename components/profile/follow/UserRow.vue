@@ -55,6 +55,7 @@ import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { toast } = useToast()
 const { getCommonSignaturePair } = useVerifyAccount()
 
@@ -91,26 +92,30 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: async () => {
-    const signaturePair = await getCommonSignaturePair().catch((e) => {
-      toast(e.message)
-      return
-    })
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        const signaturePair = await getCommonSignaturePair().catch((e) => {
+          toast(e.message)
+        })
 
-    signaturePair &&
-      (await follow({
-        initiatorAddress: accountId.value,
-        targetAddress: props.user.address,
-        signature: signaturePair.signature,
-        message: signaturePair.message,
-      }).catch(() => {
-        openProfileCreateModal()
-      }))
-    showFollowing.value = true
-    refresh()
+        if (!signaturePair) {
+          return
+        }
+
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.user.address,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
+        showFollowing.value = true
+        refresh()
+      },
+    })
   },
-  disabled:
-    !accountId.value ||
-    props.user.address === toSubstrateAddress(accountId.value),
+  disabled: props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
@@ -123,16 +128,18 @@ const unfollowConfig: ButtonConfig = {
   onClick: async () => {
     const signaturePair = await getCommonSignaturePair().catch((e) => {
       toast(e.message)
-      return
     })
 
-    signaturePair &&
-      unfollow({
-        initiatorAddress: accountId.value,
-        targetAddress: props.user.address,
-        signature: signaturePair.signature,
-        message: signaturePair.message,
-      }).then(refresh)
+    if (!signaturePair) {
+      return
+    }
+
+    unfollow({
+      initiatorAddress: accountId.value,
+      targetAddress: props.user.address,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
+    }).then(refresh)
   },
   classes: 'hover:!border-k-red',
 }

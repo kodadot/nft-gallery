@@ -77,8 +77,13 @@ const invalidSignatureErrorHandler = (error: FetchError) => {
   }
 }
 
-export const toSubstrateAddress = (address: string) =>
-  isEthereumAddress(address) ? address : formatAddress(address, 42)
+export const toSubstrateAddress = (address: string) => {
+  if (!address) {
+    return ''
+  }
+
+  return isEthereumAddress(address) ? address : formatAddress(address, 42)
+}
 
 const convertToSubstrateAddress = (body: FollowRequest): FollowRequest => ({
   initiatorAddress: toSubstrateAddress(body.initiatorAddress),
