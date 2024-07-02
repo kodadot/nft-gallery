@@ -1,6 +1,6 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 import { base, immutableZkEvm } from 'viem/chains'
-import { reconnect } from '@wagmi/core'
+import { reconnect as reconnectWagmi } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
 import { DisconnectMutateAsync } from 'use-wagmi/query'
 
@@ -23,8 +23,12 @@ const buildWagmiConfig = () => {
 
 const config = buildWagmiConfig() as any
 
-export default () => {
-  reconnect(config)
+export default (
+  { reconnect }: { reconnect: boolean } = { reconnect: false },
+) => {
+  if (reconnect) {
+    reconnectWagmi(config)
+  }
 
   const { isConnected, address, isConnecting, chainId } = useAccount({
     config,
@@ -34,5 +38,12 @@ export default () => {
     () => useDisconnect({ config }).disconnectAsync,
   ) as Promise<DisconnectMutateAsync>
 
-  return { config, isConnected, isConnecting, address, disconnect, chainId }
+  return {
+    config,
+    isConnected,
+    isConnecting,
+    address,
+    disconnect,
+    chainId,
+  }
 }
