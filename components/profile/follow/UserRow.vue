@@ -53,9 +53,11 @@ import {
 import { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
-
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { toast } = useToast()
+const { getSignaturePair } = useVerifyAccount()
 
 const props = defineProps<{
   user: Follower
@@ -90,18 +92,30 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: props.user.address,
-    }).catch(() => {
-      openProfileCreateModal()
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        const signaturePair = await getSignaturePair().catch((e) => {
+          toast(e.message)
+        })
+
+        if (!signaturePair) {
+          return
+        }
+
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.user.address,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
+        showFollowing.value = true
+        refresh()
+      },
     })
-    showFollowing.value = true
-    refresh()
   },
-  disabled:
-    !accountId.value ||
-    props.user.address === toSubstrateAddress(accountId.value),
+  disabled: props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
@@ -111,10 +125,20 @@ const followingConfig: ButtonConfig = {
 
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
-  onClick: () => {
+  onClick: async () => {
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+    })
+
+    if (!signaturePair) {
+      return
+    }
+
     unfollow({
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',

@@ -15,8 +15,10 @@ const buttonRef = ref()
 
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-
+const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
+const { toast } = useToast()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
 const props = defineProps<{
@@ -31,19 +33,34 @@ const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
 const followConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.follow'),
   icon: 'plus',
-  disabled: !accountId.value,
   onClick: async () => {
-    loading.value = true
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: props.target,
-    }).catch(() => {
-      emit('follow:fail')
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        loading.value = true
+        const signaturePair = await getSignaturePair().catch((e) => {
+          toast(e.message)
+          loading.value = false
+          return
+        })
+
+        if (!signaturePair) {
+          loading.value = false
+          return
+        }
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.target,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          emit('follow:fail')
+        })
+        await refreshFollowingStatus()
+        loading.value = false
+        showFollowing.value = isFollowingThisAccount.value || false
+        emit('follow:success')
+      },
     })
-    await refreshFollowingStatus()
-    loading.value = false
-    showFollowing.value = isFollowingThisAccount.value || false
-    emit('follow:success')
   },
   classes: 'hover:!bg-transparent',
 }))
@@ -52,9 +69,22 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
     loading.value = true
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+      loading.value = false
+      return
+    })
+
+    if (!signaturePair) {
+      loading.value = false
+      return
+    }
+
     await unfollow({
       initiatorAddress: accountId.value,
       targetAddress: props.target,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     })
     await refreshFollowingStatus()
     loading.value = false

@@ -104,13 +104,13 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
     nftAnimationMimeType.value =
       metadata.animationUrlMimeType ||
-      (await getMimeType(nftAnimation.value)) ||
+      (nftAnimation.value && (await getMimeType(nftAnimation.value))) ||
       ''
     nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
     nftMimeType.value =
       metadata.imageMimeType ||
       metadata.type ||
-      (await getMimeType(nftImage.value)) ||
+      (nftImage.value && (await getMimeType(nftImage.value))) ||
       ''
 
     // use cf-video & replace the video thumbnail
