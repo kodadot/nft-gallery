@@ -1,5 +1,5 @@
 <template>
-  <div class="relative !h-[360px] border-b">
+  <div class="relative md:!h-[360px] !h-40 border-b">
     <NeoSkeleton
       class="h-full absolute"
       item-class="!h-full w-full m-0"
