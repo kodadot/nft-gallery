@@ -29,6 +29,7 @@
               <div class="bg-background-color border py-2 px-4 text-xs">
                 Recipient Address:
                 <nuxt-link
+                  v-if="isValidAddress(recipient)"
                   :to="`/${urlPrefix}/u/${recipient}`"
                   class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
@@ -36,6 +37,9 @@
                     :address="recipient"
                     show-clipboard />
                 </nuxt-link>
+                <div v-else class="break-all">
+                  {{ recipient }}
+                </div>
               </div>
             </template>
           </tippy>
@@ -105,6 +109,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { isValidAddress } from '@/utils/account'
 import {
   DESCRIPTION_MAX_LENGTH,
   generatePreviewDescription,
