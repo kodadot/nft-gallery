@@ -249,6 +249,12 @@
         @click-followers="onFollowersClick"
         @click-following="onFollowingClick" />
     </div>
+
+    <div
+      class="pt-6 pb-7 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
+      <ProfileCuratedDrops />
+    </div>
+
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
         <div class="flex is-hidden-touch is-hidden-desktop-only">
