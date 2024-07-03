@@ -33,7 +33,7 @@ export default function useVerifyAccount() {
     return signedMessage
   }
 
-  const getSignedMessage = async (message) => {
+  const getSignedMessage = async (message: string): Promise<string> => {
     if (!accountId.value) {
       throw new Error('Please connect your wallet first')
     }
@@ -50,7 +50,7 @@ export default function useVerifyAccount() {
     throw new Error('You have not completed address verification')
   }
 
-  const getCustomSignaturePair = async (message) => {
+  const getCustomSignaturePair = async (message: string) => {
     const signature = await getSignedMessage(message)
     return {
       signature,
