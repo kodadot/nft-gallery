@@ -9,7 +9,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import { u8aToHex } from '@polkadot/util'
-
+import { Prefix as urlPrefix } from '@kodadot1/static'
 import { Prefix } from '@polkadot/util-crypto/address/types'
 import { ss58Of } from './config/chain.config'
 import { useChainStore } from '@/stores/chain'
@@ -90,7 +90,7 @@ export const accountToEvm = (account: KeyringAccount | string): string => {
   return addressToEvm(address)?.toString()
 }
 
-export const getss58AddressByPrefix = (address: string, prefix: string) => {
+export const getss58AddressByPrefix = (address: string, prefix: urlPrefix) => {
   if (isEthereumAddress(address)) {
     return address
   }
@@ -107,6 +107,15 @@ export function accountToPublicKey(account: string): `0x${string}` {
 export const isValidSubstrateAddress = (address: string): boolean => {
   try {
     encodeAddress(decodeAddress(address))
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+export const isValidAddress = (address: string, prefix: urlPrefix): boolean => {
+  try {
+    encodeAddress(decodeAddress(address), ss58Of(prefix))
     return true
   } catch (error) {
     return false
