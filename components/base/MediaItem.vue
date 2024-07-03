@@ -30,9 +30,9 @@
       <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
     </div>
     <div
-      v-if="isInteractive"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-full absolute right-3 top-3 image is-24x24">
-      <NeoIcon icon="code" pack="far" class="text-xs font-medium" />
+      v-if="hasNormalTag"
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]">
+      <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
     </div>
     <NeoButton
       v-if="isLewd"
@@ -82,6 +82,7 @@ const props = withDefaults(
     preview?: boolean
     autoplay?: boolean
     // props for image component
+    enableNormalTag?: boolean
     sizes?: string
     imageComponent?:
       | string
@@ -101,6 +102,7 @@ const props = withDefaults(
     audioPlayerCover: '',
     isFullscreen: false,
     imageComponent: 'img',
+    enableNormalTag: false,
   },
 )
 
@@ -131,12 +133,16 @@ watch(shouldLoadModelComponent, (shouldLoad) => {
 
 const PREFIX = 'Neo'
 const SUFFIX = 'Media'
-
-const isInteractive = computed(() => {
-  return resolveMedia(mimeType.value) === MediaType.IFRAME && !props.isDetail
-})
 const type = ref('')
 
+const hasNormalTag = computed(() => {
+  return (
+    props.enableNormalTag &&
+    (props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
+    resolveMedia(mimeType.value) !== MediaType.IFRAME &&
+    !props.isDetail
+  )
+})
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   NeoImageMedia,

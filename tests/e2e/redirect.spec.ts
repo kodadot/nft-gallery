@@ -34,4 +34,35 @@ test('Redirections', async ({ page }) => {
     await page.goto('/transfer')
     await expect(page).toHaveURL('/ksm/transfer')
   })
+
+  // Create
+  await test.step('Expect create prefix redirect to placeholder create', async () => {
+    await page.goto('/ahp/create')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect create nft redirect to placeholder create', async () => {
+    await page.goto('/create/nft')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect create collection redirect to placeholder create', async () => {
+    await page.goto('/create/collection')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect create waifu redirect to placeholder create', async () => {
+    await page.goto('/ahk/waifu')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect create massmint nfts redirect to placeholder create', async () => {
+    await page.goto('/ahp/massmint')
+    await expect(page).toHaveURL('/create')
+  })
+
+  await test.step('Expect massmint onboarding redirect to placeholder create', async () => {
+    await page.goto('/ahp/massmint/onboarding')
+    await expect(page).toHaveURL('/create')
+  })
 })

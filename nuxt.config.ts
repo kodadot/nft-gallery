@@ -185,14 +185,16 @@ export default defineNuxtConfig({
           crossorigin: 'anonymous',
           async: true,
         },
-        {
-          // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
-          innerHTML: `(function(c,l,a,r,i,t,y){
+        process.env.NODE_ENV !== 'development'
+          ? {
+              // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
+              innerHTML: `(function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "kksold2jal");`,
-          type: 'text/javascript',
-        },
+              type: 'text/javascript',
+            }
+          : undefined,
       ],
     },
   },
@@ -391,6 +393,9 @@ export default defineNuxtConfig({
       rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
+      walletConnectProjectId:
+        process.env.WALLET_CONNECT_PROJECT_ID ||
+        '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
   // In case of using ssr
