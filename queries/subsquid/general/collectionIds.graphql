@@ -1,5 +1,0 @@
-query collectionIds($search: CollectionEntityWhereInput) {
-  collectionEntities(where: $search, orderBy: updatedAt_DESC) {
-    id
-  }
-}

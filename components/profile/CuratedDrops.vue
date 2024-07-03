@@ -1,9 +1,40 @@
 <template>
-  <div class="flex flex-col gap-8 w-full">
-    <div class="flex gap-2 items-center">
-      <p class="text-xl font-bold">Curated Generative Drops</p>
+  <div
+    v-if="!(loaded && !curatedDrops.length)"
+    class="flex flex-col gap-8 w-full">
+    <div
+      v-if="loaded"
+      class="flex flex-wrap items-center max-md:gap-2 justify-between">
+      <div class="flex gap-2 items-center">
+        <p class="text-xl font-bold">
+          {{ $t('profiles.curatedGenerativDrops.title') }}
+        </p>
 
-      <NeoIcon icon="badge-check" pack="fass" class="text-k-accent" />
+        <NeoIcon icon="badge-check" pack="fass" class="text-k-accent" />
+      </div>
+
+      <NeoTooltip
+        :label="$t('profiles.curatedGenerativDrops.explainHowThisWorks')"
+        multiline
+        multiline-width="256px">
+        <p class="text-neutral-7 text-sm capitalize">
+          {{ $t('profiles.curatedGenerativDrops.howThisWorks') }}
+        </p>
+      </NeoTooltip>
+    </div>
+
+    <div v-else class="flex justify-between items-center">
+      <div class="flex gap-2">
+        <div class="w-[255] h-[24]">
+          <NeoSkeleton width="255" height="24" :rounded="false" no-margin />
+        </div>
+        <div class="!w-4">
+          <NeoSkeleton width="16" rounded circle no-margin />
+        </div>
+      </div>
+      <div>
+        <NeoSkeleton width="120" height="14" :rounded="false" no-margin />
+      </div>
     </div>
 
     <DropsGrid
@@ -14,12 +45,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
 import { useDrops } from '@/components/drops/useDrops'
-import collectionIds from '@/queries/subsquid/general/collectionIds.graphql'
 
-const { urlPrefix, client } = usePrefix()
-const { accountId } = useAuth()
+const props = defineProps<{
+  id: string
+}>()
+
+const { urlPrefix } = usePrefix()
 
 const { drops, loaded } = useDrops({
   active: [true, false],
@@ -27,42 +60,7 @@ const { drops, loaded } = useDrops({
   limit: 100,
 })
 
-const dropCollectionIds = computed(
-  () => drops.value?.map((drop) => drop.collection.collection) || [],
-)
-
-const { data: ownedCollectionDrops } = useAsyncData(
-  'drop-collection-ids',
-  async () => {
-    if (!loaded.value) {
-      return []
-    }
-
-    const { data } = await useAsyncQuery({
-      query: collectionIds,
-      variables: {
-        search: {
-          id_in: dropCollectionIds.value,
-          nfts_some: {
-            currentOwner_eq: accountId.value,
-            burned_eq: false,
-          },
-        },
-      },
-      clientId: client.value,
-    })
-
-    return data.value?.collectionEntities ?? []
-  },
-  {
-    watch: [dropCollectionIds, urlPrefix],
-    transform: (data) => data.map((collection) => collection.id),
-  },
-)
-
 const curatedDrops = computed(() =>
-  drops.value.filter((drop) =>
-    ownedCollectionDrops.value.includes(drop.collection.collection),
-  ),
+  drops.value.filter((drop) => drop.creator === props.id),
 )
 </script>
