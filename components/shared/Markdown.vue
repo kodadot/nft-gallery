@@ -6,6 +6,10 @@
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
 
+defineProps<{
+  source: string
+}>()
+
 const markdown = new MarkdownIt({
   breaks: true,
   highlight: (code: string, lang: string) => {
@@ -22,10 +26,6 @@ const markdown = new MarkdownIt({
     )}</code></pre>`
   },
 })
-
-defineProps<{
-  source: string
-}>()
 
 // useRedirectModal(markdown)
 </script>

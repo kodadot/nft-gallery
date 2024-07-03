@@ -1,5 +1,5 @@
 import { SERVICES } from '@kodadot1/static'
-
+import { isProduction } from '@/utils/env'
 const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 export const CF_IMAGE_URL = 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/'
 
