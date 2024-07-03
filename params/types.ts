@@ -80,5 +80,4 @@ export type DropItem = {
   userLocation?: string
   userAccess?: boolean
   start_at?: string
-  creator?: string
 }
