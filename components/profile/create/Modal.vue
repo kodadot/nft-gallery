@@ -39,7 +39,7 @@ import {
   fetchProfileByAddress,
   updateProfile,
 } from '@/services/profile'
-import { generateSignatureMessageWithProfileVersion } from '@/composables/useVerifyAccount'
+import { generateVersionedSignatureMessage } from '@/composables/useVerifyAccount'
 import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
@@ -101,7 +101,7 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
 const processProfile = async (profileData: ProfileFormData) => {
   const profile = await fetchProfileByAddress(profileData.address)
   const { signature, message } = await getCustomSignaturePair(
-    generateSignatureMessageWithProfileVersion(
+    generateVersionedSignatureMessage(
       profile?.version ? profile.version + 1 : 1,
     ),
   )

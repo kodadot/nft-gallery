@@ -14,7 +14,7 @@ const signMessagePolkadot = async (address: string, message: string) => {
 
 const SIGNATURE_MESSAGE = 'Verify ownership of this account on Koda'
 
-export const generateSignatureMessageWithProfileVersion = (version: number) =>
+export const generateVersionedSignatureMessage = (version: number) =>
   `${SIGNATURE_MESSAGE} - ${version}`
 
 export default function useVerifyAccount() {
@@ -66,9 +66,8 @@ export default function useVerifyAccount() {
       }
     }
     const signature = await getSignedMessage(SIGNATURE_MESSAGE)
-    if (signature) {
-      walletStore.setSignedMessage(signature)
-    }
+    walletStore.setSignedMessage(signature)
+
     return {
       signature,
       message: SIGNATURE_MESSAGE,
