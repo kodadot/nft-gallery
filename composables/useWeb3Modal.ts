@@ -9,7 +9,7 @@ export default () => {
   createWeb3Modal({
     wagmiConfig: config,
     projectId: useRuntimeConfig().public.walletConnectProjectId,
-    defaultChain: PREFIX_TO_CHAIN[urlPrefix.value] ?? undefined,
+    defaultChain: PREFIX_TO_CHAIN[urlPrefix.value],
   })
 
   if (!modal.value) {
