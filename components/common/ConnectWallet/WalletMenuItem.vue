@@ -100,15 +100,8 @@ const isRecent = (wallet: BaseDotsamaWallet) =>
 
 const emitAccountChange = (account): void => {
   emit('setAccount', account)
-  const wallet = walletAccounts.value.find(
-    (wallet) => wallet.address === account.address,
-  )
-
-  const walletName = wallet?.name ?? ''
-  const source = wallet?.source ?? ''
-
-  walletStore.setWallet({ name: walletName, extension: source })
 }
+
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
 watch(walletAccounts, (newValue) => {
@@ -143,7 +136,6 @@ const setWallet = async (wallet: BaseDotsamaWallet) => {
   try {
     const data = await wallet.getAccounts()
     walletAccounts.value = data ? data.map(formatAccount) : []
-    localStorage.setItem('wallet', wallet.extensionName)
   } catch (e) {
     isAuth.value = false
     $consola.error('init account error', e)

@@ -16,6 +16,7 @@
           :animation-src="animatedUrl"
           :mime-type="mimeType"
           :audio-player-cover="image"
+          enable-normal-tag
           audio-hover-on-cover-play />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
