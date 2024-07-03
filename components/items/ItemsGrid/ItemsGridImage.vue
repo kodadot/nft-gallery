@@ -31,14 +31,14 @@
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="flex-grow btn-height"
+          class="flex-grow"
           loading-with-label
           @click.prevent="onClickBuy">
         </NeoButton>
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
-          class="fixed-width p-1 border-l-0 btn-height override-wrapper-width"
+          class="p-1 !border-l-0"
           @click.prevent="onClickShoppingCart">
           <NeoIcon
             class="w-4 h-4"
@@ -55,7 +55,7 @@
           :label="listLabel"
           data-testid="item-buy"
           no-shadow
-          class="flex-grow btn-height"
+          class="flex-grow"
           @click.prevent="onClickListingCart">
         </NeoButton>
       </div>
@@ -170,11 +170,6 @@ const onClickListingCart = () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-:deep(.override-wrapper-width) {
-  .o-btn__wrapper {
-    width: unset !important;
-  }
-}
 .in-cart-border {
   @include ktheme() {
     outline: 2px solid theme('k-blue') !important;
@@ -182,14 +177,6 @@ const onClickListingCart = () => {
     border-color: transparent !important;
     background-color: theme('blue-light-cards');
   }
-}
-
-.fixed-width {
-  min-width: 35px;
-}
-
-.btn-height {
-  height: 35px;
 }
 
 .hover-color {

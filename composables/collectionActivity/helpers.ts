@@ -9,7 +9,7 @@ import {
 } from './types'
 import type { Prefix } from '@kodadot1/static'
 
-export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp'] // 'ahr'
+export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp', 'base'] // 'ahr'
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()

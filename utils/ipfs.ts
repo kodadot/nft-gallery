@@ -13,7 +13,6 @@ import {
   getIPFSProvider,
   kodaImage,
 } from './config/ipfs'
-import { DYNAMIC_METADATA } from '@/services/fxart'
 
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
@@ -114,10 +113,6 @@ export const sanitizeIpfsUrl = (
 ): string => {
   if (!ipfsUrl) {
     return ''
-  }
-
-  if (ipfsUrl.includes(DYNAMIC_METADATA)) {
-    return ipfsUrl
   }
 
   if (ipfsUrl.includes(kodaImage)) {
