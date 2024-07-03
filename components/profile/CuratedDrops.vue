@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="!(loaded && !curatedDrops.length)"
-    class="flex flex-col gap-8 w-full">
+  <div v-if="!(loaded && !drops.length)" class="flex flex-col gap-8 w-full">
     <div
       v-if="loaded"
       class="flex flex-wrap items-center max-md:gap-2 justify-between">
@@ -38,7 +36,7 @@
     </div>
 
     <DropsGrid
-      :drops="curatedDrops"
+      :drops="drops"
       :loaded="loaded"
       :default-skeleton-count="4"
       skeleton-key="curated-drops-skeleton" />
@@ -57,10 +55,6 @@ const { urlPrefix } = usePrefix()
 const { drops, loaded } = useDrops({
   active: [true, false],
   chain: [urlPrefix.value],
-  limit: 100,
+  creator: props.id,
 })
-
-const curatedDrops = computed(() =>
-  drops.value.filter((drop) => drop.creator === props.id),
-)
 </script>
