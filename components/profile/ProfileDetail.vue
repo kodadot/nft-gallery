@@ -240,10 +240,7 @@
         @click-following="onFollowingClick" />
     </div>
 
-    <div
-      class="pt-6 pb-7 md:!pb-16 max-sm:mx-5 mx-12 2xl:mx-auto flex justify-between border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]">
-      <ProfileCuratedDrops :id="$route.params.id" />
-    </div>
+    <ProfileCuratedDrops :id="$route.params.id" />
 
     <div
       class="visible md:invisible py-7 md:!py-0 md:h-0 border-b border-neutral-5 dark:border-neutral-9 max-sm:mx-5 mx-12">
