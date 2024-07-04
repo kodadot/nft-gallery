@@ -16,6 +16,7 @@
 
         <NeoTooltip
           :label="$t('profiles.curatedGenerativDrops.explainHowThisWorks')"
+          position="auto"
           multiline
           multiline-width="256px">
           <p class="text-neutral-7 text-sm capitalize">
