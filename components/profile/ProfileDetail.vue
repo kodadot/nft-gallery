@@ -232,7 +232,7 @@
       <!-- Mobile Profile Activity -->
       <ProfileActivity
         :profile-data="userProfile"
-        class="pt-4 invisible md:visible w-60"
+        class="pt-4 max-md:hidden w-60"
         :followers-count="followersCount"
         :following-count="followingCount"
         @click-followers="onFollowersClick"
