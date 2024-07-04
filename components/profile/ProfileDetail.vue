@@ -29,7 +29,10 @@
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full" />
-          <Avatar v-else :value="id" :size="124" class="mb-[-7px]" />
+          <Avatar
+            v-else
+            :value="id"
+            class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] mb-[-7px]" />
         </div>
       </div>
     </div>
