@@ -124,7 +124,8 @@
     "landingTitle2": "Generative Art",
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
-    "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
+    "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name",
+    "profileNotFound": "Our search agents have not found anyone with \"{0}\" in user name"
   },
   "transfers": {
     "recipient": "Recipient",

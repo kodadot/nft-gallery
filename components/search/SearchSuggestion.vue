@@ -165,15 +165,10 @@
         </nuxt-link>
       </NeoTabItem>
       <NeoTabItem
-        disabled
         value="User"
+        label="User"
         item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
-        <template #header>
-          {{ $t('user') }}
-          <span class="small-soon-text">
-            {{ $t('soon') }}
-          </span>
-        </template>
+        <SearchProfiles :name="name" @close="$emit('close')" />
       </NeoTabItem>
     </NeoTabs>
     <div v-if="!name" class="search-history pt-5">
