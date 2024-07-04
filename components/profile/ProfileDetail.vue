@@ -52,105 +52,104 @@
         </h1>
 
         <!-- Buttons and Dropdowns -->
-        <div class="flex gap-3 max-sm:flex-wrap">
-          <div class="flex gap-3 flex-wrap xs:flex-nowrap">
-            <ProfileButtonConfig
-              v-if="isOwner"
-              :button="buttonConfig"
-              test-id="profile-button-multi-action" />
-            <ProfileFollowButton
-              v-else
-              ref="followButton"
-              :target="id"
-              @follow:success="handleFollowRefresh"
-              @follow:fail="openProfileCreateModal"
-              @unfollow:success="handleFollowRefresh" />
+        <div class="flex gap-3 flex-wrap">
+          <ProfileButtonConfig
+            v-if="isOwner"
+            :button="buttonConfig"
+            test-id="profile-button-multi-action" />
+          <ProfileFollowButton
+            v-else
+            ref="followButton"
+            :target="id"
+            @follow:success="handleFollowRefresh"
+            @follow:fail="openProfileCreateModal"
+            @unfollow:success="handleFollowRefresh" />
 
-            <!-- Wallet And Links Dropdown -->
-            <NeoDropdown position="bottom-auto">
-              <template #trigger="{ active }">
+          <!-- Wallet And Links Dropdown -->
+          <NeoDropdown position="bottom-auto">
+            <template #trigger="{ active }">
+              <NeoButton
+                variant="outlined-rounded"
+                data-testid="profile-wallet-links-button"
+                :active="active"
+                dropdown
+                :icon-right="active ? 'chevron-up' : 'chevron-down'">
+                {{ $t('profile.walletAndLinks') }}
+              </NeoButton>
+            </template>
+            <NeoDropdownItem
+              class="hover:!bg-transparent hover:!cursor-default">
+              <div class="flex flex-col gap-4 py-2.5">
+                <!-- Copy Address -->
+                <div class="flex items-center">
+                  <Identity
+                    hide-identity-popover
+                    hide-display-name
+                    :address="id"
+                    show-onchain-identity
+                    class="bg-neutral-3 dark:bg-neutral-9 text-base rounded-2xl text-center px-2" />
+                  <NeoButton
+                    v-clipboard:copy="id"
+                    variant="text"
+                    no-shadow
+                    icon="copy"
+                    data-testid="profile-wallet-links-button-copy"
+                    :icon-pack="'fas'"
+                    class="ml-2.5"
+                    @click="toast($t('general.copyAddressToClipboard'))" />
+                </div>
+                <!-- View on Subscan and SubID -->
+                <div class="flex items-center">
+                  <NeoButton
+                    v-safe-href="`https://subscan.io/account/${id}`"
+                    no-shadow
+                    variant="text"
+                    class="text-xs"
+                    :label="$t('profile.subscan')"
+                    tag="a"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer" />
+                  <span class="w-px h-1.5 bg-k-shade mx-2"></span>
+                  <NeoButton
+                    v-safe-href="`https://sub.id/#/${id}`"
+                    no-shadow
+                    variant="text"
+                    class="text-xs"
+                    :label="$t('profile.subId')"
+                    tag="a"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer" />
+                </div>
+                <!-- Transfer Button -->
                 <NeoButton
                   variant="outlined-rounded"
-                  data-testid="profile-wallet-links-button"
-                  :active="active"
-                  dropdown
-                  :icon-right="active ? 'chevron-up' : 'chevron-down'">
-                  {{ $t('profile.walletAndLinks') }}
+                  class="!w-full text-xs"
+                  data-testid="profile-wallet-links-button-transfer"
+                  :label="`${$t('transfer')} $`"
+                  :tag="NuxtLink"
+                  :to="`/${urlPrefix}/transfer?target=${id}`">
                 </NeoButton>
-              </template>
-              <NeoDropdownItem
-                class="hover:!bg-transparent hover:!cursor-default">
-                <div class="flex flex-col gap-4 py-2.5">
-                  <!-- Copy Address -->
-                  <div class="flex items-center">
-                    <Identity
-                      hide-identity-popover
-                      hide-display-name
-                      :address="id"
-                      show-onchain-identity
-                      class="bg-neutral-3 dark:bg-neutral-9 text-base rounded-2xl text-center px-2" />
-                    <NeoButton
-                      v-clipboard:copy="id"
-                      variant="text"
-                      no-shadow
-                      icon="copy"
-                      data-testid="profile-wallet-links-button-copy"
-                      :icon-pack="'fas'"
-                      class="ml-2.5"
-                      @click="toast($t('general.copyAddressToClipboard'))" />
-                  </div>
-                  <!-- View on Subscan and SubID -->
-                  <div class="flex items-center">
-                    <NeoButton
-                      v-safe-href="`https://subscan.io/account/${id}`"
-                      no-shadow
-                      variant="text"
-                      class="text-xs"
-                      :label="$t('profile.subscan')"
-                      tag="a"
-                      target="_blank"
-                      rel="nofollow noopener noreferrer" />
-                    <span class="w-px h-1.5 bg-k-shade mx-2"></span>
-                    <NeoButton
-                      v-safe-href="`https://sub.id/#/${id}`"
-                      no-shadow
-                      variant="text"
-                      class="text-xs"
-                      :label="$t('profile.subId')"
-                      tag="a"
-                      target="_blank"
-                      rel="nofollow noopener noreferrer" />
-                  </div>
-                  <!-- Transfer Button -->
-                  <NeoButton
-                    variant="outlined-rounded"
-                    class="!w-full text-xs"
-                    data-testid="profile-wallet-links-button-transfer"
-                    :label="`${$t('transfer')} $`"
-                    :tag="NuxtLink"
-                    :to="`/${urlPrefix}/transfer?target=${id}`">
-                  </NeoButton>
-                </div>
-              </NeoDropdownItem>
-              <NeoDropdownItem
-                v-for="(item, index) in socialDropdownItems"
-                :key="index">
-                <a
-                  v-safe-href="item?.url"
-                  target="_blank"
-                  class="flex items-center w-full text-left hover:!text-text-color"
-                  rel="noopener noreferrer">
-                  <NeoIcon
-                    v-if="typeof item?.icon === 'string'"
-                    :class="'mr-2.5'"
-                    :icon="item?.icon"
-                    :pack="item?.iconPack" />
-                  <component :is="item?.icon" v-else class="mr-2.5" />
-                  <span>{{ item?.label }}</span>
-                </a>
-              </NeoDropdownItem>
-            </NeoDropdown>
-          </div>
+              </div>
+            </NeoDropdownItem>
+            <NeoDropdownItem
+              v-for="(item, index) in socialDropdownItems"
+              :key="index">
+              <a
+                v-safe-href="item?.url"
+                target="_blank"
+                class="flex items-center w-full text-left hover:!text-text-color"
+                rel="noopener noreferrer">
+                <NeoIcon
+                  v-if="typeof item?.icon === 'string'"
+                  :class="'mr-2.5'"
+                  :icon="item?.icon"
+                  :pack="item?.iconPack" />
+                <component :is="item?.icon" v-else class="mr-2.5" />
+                <span>{{ item?.label }}</span>
+              </a>
+            </NeoDropdownItem>
+          </NeoDropdown>
+
           <!-- Share Dropdown -->
           <NeoDropdown>
             <template #trigger="{ active }">
