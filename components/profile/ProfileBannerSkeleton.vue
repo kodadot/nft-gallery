@@ -10,7 +10,7 @@
       <div
         class="!rounded-full overflow-hidden p-2.5 bg-background-color border z-[10]">
         <NeoSkeleton
-          item-class="!h-[124px] !w-[124px] !rounded-full m-0"
+          item-class="md:!w-[124px] md:!h-[124px] !h-[78px] !w-[78px] !rounded-full m-0"
           no-margin />
       </div>
     </div>
