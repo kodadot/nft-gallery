@@ -58,16 +58,12 @@
             <td class="align-middle break-words">
               <div v-if="drop[0] === 'metadata'">
                 :
-                <a
+                <NuxtLink
                   class="border-b"
                   :href="sanitizeIpfsUrl(drop[1]?.toString())"
-                  target="_blank"
-                  >🔗 {{ sanitizeIpfsUrl(drop[1]?.toString()) }}</a
-                >
-              </div>
-              <div v-else-if="drop[0] === 'meta'">
-                :
-                <pre>{{ JSON.stringify(drop[1], null, 2) }}</pre>
+                  target="_blank">
+                  🔗 {{ sanitizeIpfsUrl(drop[1]?.toString()) }}
+                </NuxtLink>
               </div>
               <div v-else>: {{ drop[1] }}</div>
             </td>
@@ -84,12 +80,12 @@
               </div>
               <div v-else-if="meta[0] === 'id'">
                 :
-                <a
+                <NuxtLink
                   :href="sanitizeIpfsUrl(meta[1]?.toString())"
                   target="_blank"
-                  class="border-b"
-                  >🔗 {{ sanitizeIpfsUrl(meta[1]?.toString()) }}</a
-                >
+                  class="border-b">
+                  🔗 {{ sanitizeIpfsUrl(meta[1]?.toString()) }}
+                </NuxtLink>
               </div>
               <div v-else>: {{ meta[1] }}</div>
             </td>
@@ -100,14 +96,14 @@
     <hr />
     <div class="grid grid-cols-8 gap-6">
       <div v-for="n in drops.max" :key="n">
-        <a
+        <NuxtLink
           :href="`${sanitizeIpfsUrl(drops.content)}?hash=${hexOf(n.toString())}`"
           class="block"
           target="_blank">
           <img
             :src="`https://screenshots-r2.koda.art/${extractCid(drops.content)}/${hexOf(n.toString())}.png`"
             width="100%" />
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>
