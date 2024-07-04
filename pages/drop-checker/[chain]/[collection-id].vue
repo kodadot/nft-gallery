@@ -26,6 +26,10 @@
       <div>
         <p>Data from database:</p>
         <table v-if="drops" class="table-auto">
+          <tr>
+            <th class="text-black">Key</th>
+            <th class="text-black">Value</th>
+          </tr>
           <tr v-for="drop in Object.entries(drops)" :key="drop[0]">
             <td class="align-middle">{{ drop[0] }}</td>
             <td class="align-middle">
@@ -35,7 +39,8 @@
               <div v-else-if="drop[0] === 'content'">
                 <iframe
                   :src="sanitizeIpfsUrl(drop[1].toString())"
-                  frameborder="0"></iframe>
+                  frameborder="0"
+                  title="genart"></iframe>
               </div>
               <div v-else-if="drop[0] === 'price'">
                 : {{ formatAmountWithRound(drop[1].toString(), decimals) }}
@@ -50,6 +55,10 @@
       <div>
         <p>Data from indexer:</p>
         <table v-if="collection && collection.meta" class="table-fixed w-full">
+          <tr>
+            <th class="text-black">Key</th>
+            <th class="text-black">Value</th>
+          </tr>
           <tr
             v-for="drop in Object.entries(collection)"
             :key="drop[0]"
