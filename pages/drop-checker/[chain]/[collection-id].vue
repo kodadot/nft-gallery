@@ -60,7 +60,7 @@
                 :
                 <NuxtLink
                   class="border-b"
-                  :href="sanitizeIpfsUrl(drop[1]?.toString())"
+                  :to="sanitizeIpfsUrl(drop[1]?.toString())"
                   target="_blank">
                   🔗 {{ sanitizeIpfsUrl(drop[1]?.toString()) }}
                 </NuxtLink>
@@ -81,7 +81,7 @@
               <div v-else-if="meta[0] === 'id'">
                 :
                 <NuxtLink
-                  :href="sanitizeIpfsUrl(meta[1]?.toString())"
+                  :to="sanitizeIpfsUrl(meta[1]?.toString())"
                   target="_blank"
                   class="border-b">
                   🔗 {{ sanitizeIpfsUrl(meta[1]?.toString()) }}
@@ -97,7 +97,7 @@
     <div class="grid grid-cols-8 gap-6">
       <div v-for="n in drops.max" :key="n">
         <NuxtLink
-          :href="`${sanitizeIpfsUrl(drops.content)}?hash=${hexOf(n.toString())}`"
+          :to="`${sanitizeIpfsUrl(drops.content)}?hash=${hexOf(n.toString())}`"
           class="block"
           target="_blank">
           <img
