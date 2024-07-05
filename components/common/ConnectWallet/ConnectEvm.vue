@@ -28,8 +28,9 @@ const { urlPrefix, setUrlPrefix } = usePrefix()
 const { modal } = useWeb3Modal()
 
 watch([address, isConnected, chainId], ([address, isConnected, chainId]) => {
-  if (address && isConnected && chainId) {
-    const chainPrefix = CHAIN_ID_TO_PREFIX[chainId]
+  const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId ?? '']
+
+  if (address && isConnected && chainId && chainPrefix) {
     const isCorrectChainConnected = chainPrefix === urlPrefix.value
 
     if (!isCorrectChainConnected) {

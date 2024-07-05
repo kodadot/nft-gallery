@@ -10,7 +10,7 @@
         {{ $t(item.label) }}
       </span>
       <div
-        class="text-lg font-bold"
+        class="text-md md:text-lg font-bold"
         :class="{ 'group-hover:underline underline-offset-4': item.onClick }">
         <component
           :is="item.component"

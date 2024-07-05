@@ -2,12 +2,19 @@
   <div
     data-partykit="generative-preview-card"
     class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
-    <BaseMediaItem
-      :src="sanitizeIpfsUrl(displayUrl)"
-      :mime-type="generativeImageUrl ? 'text/html' : ''"
-      preview
-      is-detail
-      class="border" />
+    <div class="relative">
+      <BaseMediaItem
+        :src="sanitizeIpfsUrl(displayUrl)"
+        :mime-type="generativeImageUrl ? 'text/html' : ''"
+        :class="{ 'opacity-0': !imageDataLoaded }"
+        class="border"
+        preview
+        is-detail />
+      <SkeletonLoader
+        v-if="!imageDataLoaded"
+        :title="$t('drops.loadingGenerativeArt')"
+        class="!absolute w-full top-0" />
+    </div>
 
     <NeoButton
       v-if="dropStore.isCapturingImage"
