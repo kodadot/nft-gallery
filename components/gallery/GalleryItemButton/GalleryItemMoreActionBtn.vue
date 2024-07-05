@@ -9,7 +9,7 @@
     <NeoDropdown position="bottom-left" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
-          class="icon-action"
+          class="w-10 h-10"
           icon="ellipsis-vertical"
           :active="active" />
       </template>
