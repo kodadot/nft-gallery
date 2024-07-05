@@ -1420,7 +1420,8 @@
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"
-    }
+    },
+    "loadingGenerativeArt": "Loading Generative Art"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
