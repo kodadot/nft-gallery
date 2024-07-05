@@ -53,7 +53,7 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { toast } = useToast()
-const { getSignaturePair } = useVerifyAccount()
+const { getCommonSignaturePair } = useVerifyAccount()
 
 const props = defineProps<{
   user: Follower
@@ -94,7 +94,7 @@ const followConfig: ButtonConfig = {
   onClick: async () => {
     doAfterLogin({
       onLoginSuccess: async () => {
-        const signaturePair = await getSignaturePair().catch((e) => {
+        const signaturePair = await getCommonSignaturePair().catch((e) => {
           toast(e.message)
         })
 
@@ -126,7 +126,7 @@ const followingConfig: ButtonConfig = {
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
   onClick: async () => {
-    const signaturePair = await getSignaturePair().catch((e) => {
+    const signaturePair = await getCommonSignaturePair().catch((e) => {
       toast(e.message)
     })
 
