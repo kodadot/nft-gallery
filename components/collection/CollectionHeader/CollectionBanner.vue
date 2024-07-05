@@ -1,12 +1,12 @@
 <template>
   <div
-    class="collection-banner relative md:h-[560px] h-60 bg-no-repeat bg-cover bg-center border-b"
+    class="collection-banner relative md:h-[560px] h-72 bg-no-repeat bg-cover bg-center border-b"
     :style="{ backgroundImage: `url(${bannerImageUrl})` }">
     <div class="collection-banner-shadow absolute inset-0"></div>
 
     <section class="h-full py-8">
       <div
-        class="container is-fluid collection-banner-content flex items-start md:items-end md:justify-between h-full">
+        class="container is-fluid collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full">
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
             <div class="collection-banner-avatar p-2.5 mb-4 md:mb-6">
@@ -17,7 +17,7 @@
                 class="w-[5.5rem] h-[5.5rem] border" />
             </div>
             <h1
-              class="collection-banner-name font-bold title is-4 md:is-3"
+              class="collection-banner-name font-bold text-2xl md:text-4xl"
               data-testid="collection-banner-name">
               {{ collectionName }}
             </h1>
