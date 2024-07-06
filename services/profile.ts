@@ -105,7 +105,7 @@ export const fetchProfileByAddress = (address: string) =>
   })
 
 export const searchProfiles = (query: string, limit = 5, offset = 0) =>
-  api<{ data: Profile[] }>('/profiles/search?q=query)}', {
+  api<{ data: Profile[] }>('/profiles/search', {
     method: 'GET',
     query: { q: query, limit, offset },
   })
