@@ -1,5 +1,8 @@
 <template>
-  <div ref="mediaItem" class="media-object h-fit">
+  <div
+    ref="mediaItem"
+    class="media-object h-fit"
+    :class="{ relative: hasNormalTag }">
     <component
       :is="resolveComponent"
       ref="mediaRef"
