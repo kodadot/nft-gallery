@@ -214,13 +214,13 @@
                 <div
                   v-for="(follower, index) in followers?.followers"
                   :key="index"
-                  :style="{ zIndex: 3 - index }"
-                  class="w-8 h-8 flex-shrink-0 rounded-full border">
-                  <BasicImage
-                    :src="follower.image"
-                    custom-class="object-cover"
-                    alt="follower avatar"
-                    rounded />
+                  class="flex"
+                  :style="{ zIndex: 3 - index }">
+                  <ProfileAvatar
+                    class="border"
+                    :profile-image="follower.image"
+                    :address="follower.address"
+                    :size="30" />
                 </div>
               </div>
             </NeoButton>
