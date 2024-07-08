@@ -44,7 +44,7 @@
       <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
         <h1
-          class="text-2xl md:text-4xl mb-0"
+          class="font-bold text-2xl md:text-4xl mb-0"
           data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity
