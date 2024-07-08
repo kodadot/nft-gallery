@@ -20,6 +20,7 @@
 
       <!-- bio -->
       <NeoField
+        ref="bioField"
         :label="`Short Bio`"
         required
         :error="!form.description"
@@ -33,6 +34,19 @@
           has-counter
           counter-class="mt-3"
           :placeholder="'introduce yourself in a few words'" />
+        <template #message>
+          <div>
+            <p
+              v-if="bioMessage"
+              class="o-field__message o-field__message-danger">
+              {{ bioMessage }}
+            </p>
+            <div class="flex gap-2 items-center capitalize text-k-grey !pt-2">
+              <NeoIcon icon="markdown" pack="fab" />
+              <span>{{ $t('markdownSupported') }} </span>
+            </div>
+          </div>
+        </template>
       </NeoField>
 
       <!-- profile picture -->
@@ -178,6 +192,7 @@ const props = defineProps<{
 }>()
 
 const deleteConfirm = ref<Date>()
+const bioField = ref()
 
 const now = useNow()
 const { $i18n } = useNuxtApp()
@@ -186,6 +201,7 @@ const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
 
+const bioMessage = computed(() => bioField.value?.$data?.newMessage)
 const isDeleteConfirmSafetyDelay = computed(() =>
   deleteConfirm.value
     ? now.value.getTime() - deleteConfirm.value.getTime() <
