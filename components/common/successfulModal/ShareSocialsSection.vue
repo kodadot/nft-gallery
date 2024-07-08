@@ -63,7 +63,7 @@ const { toast } = useToast()
 const { shareOnX, shareOnTelegram, shareOnFarcaster } = useSocialShare()
 
 const handleShareOnX = () => {
-  shareOnX(props.text, props.url)
+  shareOnX(props.text, props.url, '')
 }
 
 const handleShareOnTelegram = () => {
