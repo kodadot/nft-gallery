@@ -200,6 +200,7 @@ const loginWithFarcaster = async () => {
 
 useModalIsOpenTracker({
   isOpen: computed(() => props.modelValue),
+  onClose: false,
   onChange: () => {
     stage.value = initialStep.value
   },

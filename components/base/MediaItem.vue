@@ -1,5 +1,8 @@
 <template>
-  <div ref="mediaItem" class="media-object h-fit">
+  <div
+    ref="mediaItem"
+    class="media-object h-fit"
+    :class="{ relative: hasNormalTag }">
     <component
       :is="resolveComponent"
       ref="mediaRef"
@@ -135,10 +138,10 @@ const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 const type = ref('')
 
-const hasNormalTag = computed(() => {
+const hasNormalTag = computed<boolean>(() => {
   return (
     props.enableNormalTag &&
-    (props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
+    Boolean(props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
     !props.isDetail
   )

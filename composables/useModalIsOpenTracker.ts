@@ -1,25 +1,21 @@
+import { debounce } from 'lodash'
+
 export const NEO_MODAL_ANIMATION_DURATION = 200
 
 export default ({
   onChange,
   isOpen,
   and = [],
-  onAnimationEnded = true,
   onClose = true,
 }: {
   onChange: () => void
   isOpen: Ref<boolean>
   and?: Ref<boolean>[]
-  onAnimationEnded?: boolean
   onClose?: boolean
 }) => {
-  watchDebounced(
-    [isOpen, () => and],
-    ([isOpen, and]) => {
-      if (!isOpen === onClose && and.every(Boolean)) {
-        onChange()
-      }
-    },
-    { debounce: onAnimationEnded ? NEO_MODAL_ANIMATION_DURATION : 0 },
-  )
+  watch([isOpen, () => and], ([isOpen, and]) => {
+    if (!isOpen === onClose && and.every(Boolean)) {
+      ;(onClose ? debounce(onChange, NEO_MODAL_ANIMATION_DURATION) : onChange)()
+    }
+  })
 }
