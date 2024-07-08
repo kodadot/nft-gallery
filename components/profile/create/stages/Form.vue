@@ -20,6 +20,7 @@
 
       <!-- bio -->
       <NeoField
+        ref="bioField"
         :label="`Short Bio`"
         required
         :error="!form.description"
@@ -35,6 +36,11 @@
           :placeholder="'introduce yourself in a few words'" />
         <template #message>
           <div>
+            <p
+              v-if="bioMessage"
+              class="o-field__message o-field__message-danger">
+              {{ bioMessage }}
+            </p>
             <div class="flex gap-2 items-center capitalize text-k-grey !pt-2">
               <NeoIcon icon="markdown" pack="fab" />
               <span>{{ $t('markdownSupported') }} </span>
@@ -128,6 +134,10 @@ const props = defineProps<{
 const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
   'userProfile',
 )
+
+const bioField = ref()
+const bioMessage = computed(() => bioField.value?.$data?.newMessage)
+
 const userProfile = computed(() => profile?.userProfile.value)
 const substrateAddress = computed(() => toSubstrateAddress(accountId.value))
 
