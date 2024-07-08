@@ -33,6 +33,14 @@
           has-counter
           counter-class="mt-3"
           :placeholder="'introduce yourself in a few words'" />
+        <template #message>
+          <div>
+            <div class="flex gap-2 items-center capitalize text-k-grey !pt-2">
+              <NeoIcon icon="markdown" pack="fab" />
+              <span>{{ $t('markdownSupported') }} </span>
+            </div>
+          </div>
+        </template>
       </NeoField>
 
       <!-- profile picture -->
