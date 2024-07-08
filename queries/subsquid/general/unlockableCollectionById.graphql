@@ -35,11 +35,4 @@ query unlockableCollectionById(
       ...subsquidNft
     }
   }
-
-  nftEntitiesConnection(
-    orderBy: id_ASC
-    where: { burned_eq: false, collection: { id_eq: $id }, AND: $search }
-  ) {
-    totalCount
-  }
 }

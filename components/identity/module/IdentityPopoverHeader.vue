@@ -1,33 +1,35 @@
 <template>
-  <div class="pb-2 border-b border-k-grey">
-    <h6 class="text-xs text-k-grey">{{ $t('user') }}</h6>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <nuxt-link
-          class="text-base break-words mr-2 text-k-blue hover:text-k-blue-hover"
-          :to="`/${urlPrefix}/u/${address}`">
-          <span data-testid="identity-display">
-            {{ identity?.display || shortenedAddress }}</span
-          >
-        </nuxt-link>
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between">
+      <nuxt-link :to="`/${urlPrefix}/u/${address}`">
+        <ProfileAvatar :size="68" :address="address" />
+      </nuxt-link>
+
+      <ProfileFollowButton
+        v-if="address !== accountId"
+        :target="address"
+        @follow:success="$emit('refresh')"
+        @unfollow:success="$emit('refresh')" />
+    </div>
+
+    <div class="gap-2 flex flex-col">
+      <nuxt-link
+        class="break-words mr-2 font-bold text-xl"
+        :to="`/${urlPrefix}/u/${address}`">
+        {{ identity?.display || shortenedAddress }}
+      </nuxt-link>
+
+      <div class="flex items-center gap-2">
+        <span data-testid="identity-display" class="text-neutral-7">
+          {{ shortenedAddress }}</span
+        >
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          class="text-k-blue hover:text-k-blue-hover cursor-pointer"
+          class="hover:text-k-blue-hover cursor-pointer text-neutral-7 hover:text-text-color"
           data-testid="identity-clipboard"
           @click="toast($t('general.copyAddressToClipboard'))" />
       </div>
-      <a
-        v-if="identity?.twitter"
-        v-safe-href="`https://twitter.com/${identity?.twitter}`"
-        target="_blank"
-        rel="nofollow noopener noreferrer"
-        data-testid="identity-twitter">
-        <NeoIcon
-          pack="fab"
-          icon="x-twitter"
-          class="text-k-blue hover:text-k-blue-hover" />
-      </a>
     </div>
   </div>
 </template>
@@ -35,10 +37,13 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
-const address = inject('address')
-const shortenedAddress = inject('shortenedAddress')
+defineEmits(['refresh'])
+
+const address = inject('address') as string
+const shortenedAddress = inject('shortenedAddress') as string
 
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
+const { accountId } = useAuth()
 </script>

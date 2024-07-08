@@ -18,7 +18,7 @@
             class="back-button z-20"
             @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
-            {{ $t('go back') }}
+            {{ $t('goBack') }}
           </NeoButton>
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">
@@ -38,6 +38,7 @@
                   :image-component="NuxtImg"
                   :is-fullscreen="isFullscreen"
                   :sizes="sizes"
+                  enable-normal-tag
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -57,6 +58,7 @@
             :placeholder="placeholder"
             :image-component="NuxtImg"
             :sizes="sizes"
+            enable-normal-tag
             :audio-player-cover="image" />
         </div>
         <GalleryItemToolBar @toggle="toggleFullscreen" />

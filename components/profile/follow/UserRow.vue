@@ -1,17 +1,11 @@
 <template>
   <div class="flex items-center justify-between">
-    <NuxtLink
-      class="flex"
-      :to="`/${urlPrefix}/u/${getss58AddressByPrefix(user.address, urlPrefix)}`">
-      <NuxtImg
-        :src="user.image"
-        placholder
-        alt="follower avatar"
-        class="w-12 h-12 rounded-full border object-cover mr-4" />
+    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${prefixUserAddress}`">
+      <ProfileAvatar class="!mr-4" :address="user.address" :size="48" />
       <div class="flex flex-col gap-[6px]">
         <span
           class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
-          >{{ user.name }}</span
+          >{{ user.name || shortAddress(prefixUserAddress) }}</span
         >
         <p class="text-sm">
           {{ followersCount }}
@@ -53,9 +47,13 @@ import {
 import { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import shortAddress from '@/utils/shortAddress'
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { toast } = useToast()
+const { getSignaturePair } = useVerifyAccount()
 
 const props = defineProps<{
   user: Follower
@@ -67,6 +65,10 @@ const isHovered = useElementHover(buttonRef)
 const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
+
+const prefixUserAddress = computed(() =>
+  getss58AddressByPrefix(props.user.address, urlPrefix.value),
+)
 
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
@@ -90,18 +92,30 @@ const followConfig: ButtonConfig = {
   label: $i18n.t('profile.follow'),
   icon: 'plus',
   onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: props.user.address,
-    }).catch(() => {
-      openProfileCreateModal()
+    doAfterLogin({
+      onLoginSuccess: async () => {
+        const signaturePair = await getSignaturePair().catch((e) => {
+          toast(e.message)
+        })
+
+        if (!signaturePair) {
+          return
+        }
+
+        await follow({
+          initiatorAddress: accountId.value,
+          targetAddress: props.user.address,
+          signature: signaturePair.signature,
+          message: signaturePair.message,
+        }).catch(() => {
+          openProfileCreateModal()
+        })
+        showFollowing.value = true
+        refresh()
+      },
     })
-    showFollowing.value = true
-    refresh()
   },
-  disabled:
-    !accountId.value ||
-    props.user.address === toSubstrateAddress(accountId.value),
+  disabled: props.user.address === toSubstrateAddress(accountId.value),
   classes: 'hover:!bg-transparent',
 }
 
@@ -111,10 +125,20 @@ const followingConfig: ButtonConfig = {
 
 const unfollowConfig: ButtonConfig = {
   label: $i18n.t('profile.unfollow'),
-  onClick: () => {
+  onClick: async () => {
+    const signaturePair = await getSignaturePair().catch((e) => {
+      toast(e.message)
+    })
+
+    if (!signaturePair) {
+      return
+    }
+
     unfollow({
       initiatorAddress: accountId.value,
       targetAddress: props.user.address,
+      signature: signaturePair.signature,
+      message: signaturePair.message,
     }).then(refresh)
   },
   classes: 'hover:!border-k-red',

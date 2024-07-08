@@ -13,22 +13,22 @@
 
     <div
       v-else
-      class="bg-no-repeat bg-cover bg-center h-[360px] border-b bg-neutral-3 dark:bg-neutral-11"
+      class="bg-no-repeat bg-cover bg-center md:h-[360px] h-40 border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
         backgroundImage: userProfile?.banner
           ? `url(${userProfile.banner})`
           : undefined,
       }">
       <div
-        class="collection-banner-content flex items-end h-full pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
+        class="collection-banner-content flex md:items-end items-center h-full md:pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
-          class="!rounded-full overflow-hidden p-2.5 bg-background-color border">
+          class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
             v-if="userProfile?.image"
             :src="userProfile.image"
             :image-component="NuxtImg"
             :title="'User Avatar'"
-            class="w-[124px] h-[124px] object-cover rounded-full" />
+            class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full" />
           <Avatar v-else :value="id" :size="124" class="mb-[-7px]" />
         </div>
       </div>
@@ -40,7 +40,7 @@
 
       <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
-        <h1 class="title is-3 mb-0" data-testid="profile-user-identity">
+        <h1 class="title is-4 md:is-3 mb-0" data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity
             v-else
@@ -54,25 +54,20 @@
         <!-- Buttons and Dropdowns -->
         <div class="flex gap-3 max-sm:flex-wrap">
           <div class="flex gap-3 flex-wrap xs:flex-nowrap">
-            <NeoButton
-              ref="buttonRef"
-              rounded
-              no-shadow
-              class="min-w-28"
-              data-testid="profile-button-multi-action"
-              :class="buttonConfig.classes"
-              :variant="buttonConfig.variant"
-              :active="buttonConfig.active"
-              :disabled="buttonConfig.disabled"
-              @click="buttonConfig.onClick">
-              <NeoIcon
-                v-if="buttonConfig.icon"
-                :icon="buttonConfig.icon"
-                class="mr-1" />
-              {{ buttonConfig.label }}
-            </NeoButton>
+            <ProfileButtonConfig
+              v-if="isOwner"
+              :button="buttonConfig"
+              test-id="profile-button-multi-action" />
+            <ProfileFollowButton
+              v-else
+              ref="followButton"
+              :target="id"
+              @follow:success="handleFollowRefresh"
+              @follow:fail="openProfileCreateModal"
+              @unfollow:success="handleFollowRefresh" />
+
             <!-- Wallet And Links Dropdown -->
-            <NeoDropdown position="bottom-left">
+            <NeoDropdown position="bottom-auto">
               <template #trigger="{ active }">
                 <NeoButton
                   variant="outlined-rounded"
@@ -213,13 +208,17 @@
             </span>
             <NeoButton variant="text" no-shadow @click="onFollowersClick">
               <div class="flex -space-x-3">
-                <NuxtImg
+                <div
                   v-for="(follower, index) in followers?.followers"
                   :key="index"
-                  :src="follower.image"
-                  alt="follower avatar"
-                  class="w-8 h-8 rounded-full border object-cover"
-                  :style="{ zIndex: 3 - index }" />
+                  class="flex"
+                  :style="{ zIndex: 3 - index }">
+                  <ProfileAvatar
+                    class="border"
+                    :profile-image="follower.image"
+                    :address="follower.address"
+                    :size="30" />
+                </div>
               </div>
             </NeoButton>
 
@@ -324,7 +323,7 @@
             :loading-other-network="loadingOtherNetwork"
             :reset-search-query-params="['sort']">
             <template
-              v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
+              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold"
               #empty-result>
               <ProfileEmptyResult
                 :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
@@ -336,7 +335,7 @@
           :id="id"
           :loading-other-network="loadingOtherNetwork"
           class="pt-7">
-          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
+          <template v-if="hasAssetPrefixMap[activeTab]?.length" #empty-result>
             <ProfileEmptyResult
               :prefix-list-with-asset="
                 hasAssetPrefixMap[ProfileTab.COLLECTIONS]
@@ -374,16 +373,10 @@ import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import {
-  fetchFollowersOf,
-  fetchFollowing,
-  follow,
-  isFollowing,
-  unfollow,
-} from '@/services/profile'
+import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import { ButtonConfig, ProfileTab } from './types'
-
+import { ChainVM } from '@kodadot1/static'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 
@@ -425,25 +418,21 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { isRemark } = useIsChain(urlPrefix)
+
+const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
+const { vm } = useChain()
 
 const { hasProfile, userProfile, fetchProfile, isFetchingProfile } =
   useProfile()
 
 provide('userProfile', { hasProfile, userProfile })
 
-const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
-  useAsyncData(`${accountId.value}/isFollowing/${route.params?.id}`, () =>
-    isFollowing(accountId.value, route.params?.id as string),
-  )
-
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
   () =>
     fetchFollowersOf(route.params.id as string, {
       limit: 3,
-      exclude: [accountId.value],
     }),
 )
 
@@ -452,10 +441,10 @@ const { data: following, refresh: refreshFollowing } = useAsyncData(
   () => fetchFollowing(route.params.id as string, { limit: 1 }),
 )
 
-const refresh = () => {
+const refresh = ({ fetchFollowing = true } = {}) => {
   refreshFollowers()
   refreshFollowing()
-  refreshFollowingStatus()
+  fetchFollowing && followButton.value?.refresh()
 }
 const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
@@ -474,44 +463,15 @@ const createProfileConfig: ButtonConfig = {
   variant: 'primary',
 }
 
-const followConfig = computed<ButtonConfig>(() => ({
-  label: $i18n.t('profile.follow'),
-  icon: 'plus',
-  disabled: !accountId.value,
-  onClick: async () => {
-    await follow({
-      initiatorAddress: accountId.value,
-      targetAddress: id.value as string,
-    }).catch(() => {
-      openProfileCreateModal()
-    })
-    refresh()
-    showFollowing.value = isFollowingThisAccount.value || false
-  },
-  classes: 'hover:!bg-transparent',
-}))
-
-const followingConfig: ButtonConfig = {
-  label: $i18n.t('profile.following'),
+const handleFollowRefresh = () => {
+  refresh({ fetchFollowing: false })
 }
 
-const unfollowConfig = computed<ButtonConfig>(() => ({
-  label: $i18n.t('profile.unfollow'),
-  onClick: () => {
-    unfollow({
-      initiatorAddress: accountId.value,
-      targetAddress: id.value as string,
-    }).then(refresh)
-  },
-  classes: 'hover:!border-k-red',
-}))
-
-const buttonRef = ref(null)
-const showFollowing = ref(false)
+const followButton = ref()
 const counts = ref({})
 const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
 const loadingOtherNetwork = ref(false)
-const id = computed(() => route.params.id || '')
+const id = computed(() => route.params.id.toString() || '')
 const email = ref('')
 const twitter = ref('')
 const displayName = ref('')
@@ -525,7 +485,6 @@ const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
 
-const isHovered = useElementHover(buttonRef)
 const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
 const socialDropdownItems = computed(() => {
@@ -548,20 +507,9 @@ const socialDropdownItems = computed(() => {
 
 const isOwner = computed(() => route.params.id === accountId.value)
 
-const buttonConfig = computed((): ButtonConfig => {
-  if (isOwner.value) {
-    return hasProfile.value ? editProfileConfig : createProfileConfig
-  }
-  if (
-    showFollowing.value ||
-    (!isHovered.value && isFollowingThisAccount.value)
-  ) {
-    return { ...followingConfig, active: isHovered.value }
-  }
-  return isFollowingThisAccount.value
-    ? unfollowConfig.value
-    : followConfig.value
-})
+const buttonConfig = computed<ButtonConfig>(() =>
+  hasProfile.value ? editProfileConfig : createProfileConfig,
+)
 
 const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
@@ -679,11 +627,17 @@ useAsyncData('tabs-count', async () => {
 
 const fetchTabsCountByNetwork = async (chain: Prefix) => {
   const account = id.value.toString()
-  const publicKey = decodeAddress(account)
-  const prefixAddress = encodeAddress(publicKey, CHAINS[chain].ss58Format)
-  const searchParams = {
-    currentOwner_eq: prefixAddress,
+  let address = account
+
+  if (isSub.value) {
+    const publicKey = decodeAddress(account)
+    address = encodeAddress(publicKey, CHAINS[chain].ss58Format)
   }
+
+  const searchParams = {
+    currentOwner_eq: address,
+  }
+
   const { isRemark } = useIsChain(computed(() => chain))
 
   if (!isRemark.value) {
@@ -694,7 +648,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     query: profileTabsCount,
     clientId: chain,
     variables: {
-      id: prefixAddress,
+      id: address,
       interactionIn: [],
       denyList: getDenyList(urlPrefix.value),
       search: [searchParams],
@@ -719,13 +673,21 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 }
 
 useAsyncData('tabs-empty-result', async () => {
+  const chains = (
+    {
+      SUB: ['ahp', 'ahk', 'ksm', 'rmrk'],
+      EVM: ['base', 'imx'],
+    } as Record<ChainVM, Prefix[]>
+  )[vm.value]
+
   hasAssetPrefixMap.value = {
     [ProfileTab.OWNED]: [],
     [ProfileTab.CREATED]: [],
     [ProfileTab.COLLECTIONS]: [],
   }
+
   loadingOtherNetwork.value = true
-  for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
+  for (const chain of chains) {
     await fetchTabsCountByNetwork(chain as Prefix)
   }
   loadingOtherNetwork.value = false
@@ -740,13 +702,6 @@ const updateEmptyResultTab = (
     hasAssetPrefixMap.value[tab]!.push(prefix)
   }
 }
-
-watch(isHovered, (newHover, oldHover) => {
-  const curserExited = newHover === false && oldHover === true
-  if (curserExited) {
-    showFollowing.value = false
-  }
-})
 
 watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {

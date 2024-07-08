@@ -15,16 +15,16 @@
       <div v-if="active" class="flex flex-col gap-4 !mt-6">
         <CodeCheckerMassPreviewControls
           v-model="previewAmount"
-          :previews="previews"
+          :previews="previewItems"
+          hide-average
           @retry="generateMassPreview" />
 
-        <CodeCheckerMassPreviewGrid :items="previews.map((p) => p.loading)">
+        <CodeCheckerMassPreviewGrid :items="previewItems.map((p) => p.loading)">
           <template #default="{ index }">
-            <BaseMediaItem
-              v-if="previews[index].image"
-              :key="previews[index].hash"
-              :src="previews[index].image"
-              class="border" />
+            <iframe
+              title="preview"
+              :src="previewItems[index].image"
+              class="w-full h-full border border-black border-solid"></iframe>
           </template>
         </CodeCheckerMassPreviewGrid>
       </div>
@@ -33,13 +33,15 @@
 </template>
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
-import { makeScreenshot } from '@/services/capture'
-import { getObjectUrl, uploadFile } from '@/services/playground'
+import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
 import { AssetMessage } from '../types'
 import { CapturePreviewItem } from './types'
 import { generateRandomHash } from '../utils'
 import { AssetElementMap, AssetReplaceElement } from './utils'
+import { getDocumentFromString } from '../utils'
+import { IFRAME_BLOB_URI } from '@/services/capture'
 
+const emit = defineEmits(['upload'])
 const props = withDefaults(
   defineProps<{
     assets: Array<AssetMessage>
@@ -53,7 +55,7 @@ const props = withDefaults(
 
 const { $i18n } = useNuxtApp()
 
-const previews = ref<CapturePreviewItem[]>([])
+const previewItems = ref<CapturePreviewItem[]>([])
 const previewAmount = ref(props.previews)
 const active = ref(false)
 const uploading = ref(false)
@@ -78,8 +80,7 @@ const replaceAssetContent = async (doc: Document, asset: AssetMessage) => {
 }
 
 const buildIndexFile = async (): Promise<Blob> => {
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(props.indexContent, 'text/html')
+  const doc = getDocumentFromString(props.indexContent)
 
   await Promise.all(
     props.assets.map((asset) => replaceAssetContent(doc, asset)),
@@ -99,7 +100,9 @@ const uploadIndex = async () => {
       fileName: 'index.html',
       prefix: 'codeChecker',
     })
+    await exponentialBackoff(() => getUpload(key)).catch(console.log)
     indexKey.value = key
+    emit('upload', getObjectUrl(key))
   } catch (error) {
     dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)
   } finally {
@@ -107,12 +110,8 @@ const uploadIndex = async () => {
   }
 }
 
-const initCapture = async () => {
-  initScreenshot()
-}
-
 const updatePreview = (preview: CapturePreviewItem) => {
-  previews.value = previews.value.map((p) =>
+  previewItems.value = previewItems.value.map((p) =>
     p.hash === preview.hash ? preview : p,
   )
 }
@@ -122,20 +121,17 @@ const initScreenshot = () => {
     return
   }
 
-  previews.value.forEach(async (preview) => {
+  previewItems.value.forEach(async (preview) => {
     try {
-      let url = getObjectUrl(indexKey.value!)
+      let previewUrl = getObjectUrl(indexKey.value!)
+      previewUrl += `?hash=${preview.hash}`
 
-      url += `?hash=${preview.hash}`
-
-      preview = { ...preview, startedAt: performance.now() }
-
-      const response = await makeScreenshot(url)
+      const iframeUrl = new URL(IFRAME_BLOB_URI)
+      iframeUrl.searchParams.set('url', previewUrl)
 
       preview = {
         ...preview,
-        image: URL.createObjectURL(response),
-        renderedAt: performance.now(),
+        image: iframeUrl.toString(),
       }
     } catch (error) {
     } finally {
@@ -147,12 +143,12 @@ const initScreenshot = () => {
 }
 
 const generateMassPreview = async () => {
-  previews.value = Array.from({ length: previewAmount.value }).map(() => ({
+  previewItems.value = Array.from({ length: previewAmount.value }).map(() => ({
     hash: generateRandomHash(),
     loading: true,
   }))
 
-  await initCapture()
+  initScreenshot()
 }
 
 watch(

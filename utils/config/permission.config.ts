@@ -16,10 +16,6 @@ const hasSales: PartialConfig = {
   ahp: false,
 }
 
-const hasMassmintCreate: PartialConfig = {
-  dot: false,
-}
-
 const hasExplorer: PartialConfig = {
   dot: false,
 }
@@ -30,10 +26,6 @@ export const createVisible = (prefix: Prefix | string): boolean => {
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix] ?? true
-}
-
-export const massmintCreateVisible = (prefix: Prefix | string) => {
-  return hasMassmintCreate[prefix] ?? true
 }
 
 export const salesVisible = (prefix: Prefix | string) => {

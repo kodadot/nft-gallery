@@ -2,12 +2,19 @@
   <div
     data-partykit="generative-preview-card"
     class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
-    <BaseMediaItem
-      :src="sanitizeIpfsUrl(displayUrl)"
-      :mime-type="generativeImageUrl ? 'text/html' : ''"
-      preview
-      is-detail
-      class="border" />
+    <div class="relative">
+      <BaseMediaItem
+        :src="sanitizeIpfsUrl(displayUrl)"
+        :mime-type="generativeImageUrl ? 'text/html' : ''"
+        :class="{ 'opacity-0': !imageDataLoaded }"
+        class="border"
+        preview
+        is-detail />
+      <SkeletonLoader
+        v-if="!imageDataLoaded"
+        :title="$t('drops.loadingGenerativeArt')"
+        class="!absolute w-full top-0" />
+    </div>
 
     <NeoButton
       v-if="dropStore.isCapturingImage"
@@ -77,16 +84,14 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 import { useDrop } from '@/components/drops/useDrops'
-import useGenerativeDropMint, {
-  useCollectionEntity,
-} from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const { drop } = useDrop()
 const dropStore = useDropStore()
+const { userMintsCount, mintsCount } = storeToRefs(dropStore)
 const { maxCount } = useGenerativeDropMint()
-const { mintedAmountForCurrentUser } = useCollectionEntity()
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
@@ -111,7 +116,7 @@ const mintedPercent = computed(() => {
   if (!maxCount.value) {
     return 0
   }
-  return Math.round((dropStore.mintsCount / maxCount.value) * 100)
+  return Math.round((mintsCount.value / maxCount.value) * 100)
 })
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
@@ -124,7 +129,7 @@ const generateNft = () => {
   startTimer()
 
   const previewItem = generatePreviewItem({
-    entropyRange: getEntropyRange(mintedAmountForCurrentUser.value),
+    entropyRange: getEntropyRange(userMintsCount.value),
     accountId: accountId.value,
     content: drop.value.content,
   })
@@ -142,10 +147,7 @@ watch(imageDataLoaded, () => {
   }
 })
 
-watch(
-  [accountId, () => drop.value.content, mintedAmountForCurrentUser],
-  generateNft,
-)
+watch([accountId, () => drop.value.content, userMintsCount], generateNft)
 
 onMounted(() => {
   setTimeout(generateNft, 500)
