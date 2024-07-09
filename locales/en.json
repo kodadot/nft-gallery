@@ -1090,7 +1090,8 @@
       "touch": "touch"
     },
     "connectFarcaster": "Connect with Koda on Farcaster",
-    "farcasterMintLive": "Mint is live!"
+    "farcasterMintLive": "Mint is live!",
+    "becoming": "is becoming"
   },
   "whyKoda": {
     "title": "Why Koda?",
