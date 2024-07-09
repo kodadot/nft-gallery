@@ -1,6 +1,9 @@
 <template>
   <div>
-    <ProfileCreateModal v-model="isModalActive" @success="fetchProfile" />
+    <ProfileCreateModal
+      v-model="isModalActive"
+      @success="fetchProfile"
+      @deleted="fetchProfile" />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"

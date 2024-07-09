@@ -47,7 +47,7 @@ export type CreateProfileRequest = {
   name: string
   description: string
   image: string
-  banner: string
+  banner: string | undefined
   socials: SocialLink[]
 }
 
@@ -58,7 +58,7 @@ export type UpdateProfileRequest = {
   name?: string
   description?: string
   image?: string
-  banner?: string
+  banner: string | null
   socials: SocialLink[]
 }
 
@@ -165,6 +165,34 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
   }
 }
 
+type DeleteProfile = {
+  message: string
+  signature: string
+  address: string
+}
+
+export const deleteProfile = async ({
+  address,
+  message,
+  signature,
+}: DeleteProfile) => {
+  try {
+    const response = await api<ProfileResponse>(`/profiles/${address}`, {
+      method: 'DELETE',
+      body: {
+        message,
+        signature,
+        address,
+      },
+    })
+    return response
+  } catch (error) {
+    throw new Error(
+      `[PROFILE::DELETE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
+    )
+  }
+}
+
 export const follow = async (followRequest: FollowRequest) => {
   try {
     const response = await api<ProfileResponse>('/follow', {
@@ -208,6 +236,44 @@ export const isFollowing = async (
   } catch (error) {
     throw new Error(
       `[PROFILE::IS_FOLLOWING] ERROR: ${(error as FetchError).data}`,
+    )
+  }
+}
+
+type UploadImage = {
+  file: File
+  type: string
+  address: string
+  signature: string
+  message: string
+}
+
+export const uploadImage = async ({
+  file,
+  type,
+  address,
+  signature,
+  message,
+}: UploadImage) => {
+  try {
+    address = toSubstrateAddress(address)
+
+    const form = new FormData()
+    form.append('file', file)
+    form.append('address', address)
+    form.append('type', type)
+    form.append('signature', signature)
+    form.append('message', message)
+
+    const response = await api<{ url: string }>(`/profiles/${address}/image`, {
+      method: 'POST',
+      body: form,
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[PROFILE::UPLOAD_IMAGE] ERROR: ${(error as FetchError).data}`,
     )
   }
 }
