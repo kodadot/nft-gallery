@@ -2,14 +2,13 @@
   <div v-if="isLoading">
     <SearchResultItem v-for="item in 5" :key="item" is-loading />
   </div>
-  <div v-else-if="!profileSuggestion.length" class="mx-6 mt-4">
+  <div v-else-if="!profileSuggestions?.length" class="mx-6 mt-4">
     {{ $t('search.profileNotFound', [name]) }}
   </div>
   <div v-else>
     <div
-      v-for="item in profileSuggestion"
+      v-for="item in profileSuggestions"
       :key="item.address"
-      :value="item"
       class="link-item"
       @click="openProfilePage(item.address)">
       <SearchResultItem :image="item.image">
@@ -38,6 +37,7 @@ import type { Profile } from '@/services/profile'
 import { useQuery } from '@tanstack/vue-query'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 
+const emit = defineEmits(['close'])
 const props = defineProps({
   name: {
     type: String,
@@ -49,14 +49,11 @@ const router = useRouter()
 const { urlPrefix } = usePrefix()
 const { isEvm } = useIsChain(urlPrefix)
 
-const emit = defineEmits(['close'])
-
-const { data: result, isLoading } = useQuery<{ data: Profile[] } | null>({
+const { data: profileSuggestions, isLoading } = useQuery<Profile[]>({
   queryKey: ['search-profiles', computed(() => props.name)],
-  queryFn: () => (props.name ? searchProfiles(props.name, 10) : null),
+  queryFn: () =>
+    props.name ? searchProfiles(props.name, 10).then((res) => res?.data) : [],
 })
-
-const profileSuggestion = computed(() => result.value?.data || [])
 
 const openProfilePage = (address: string) => {
   if (isEthereumAddress(address)) {
