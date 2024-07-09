@@ -5,6 +5,7 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "markdownSupported": "Markdown supported",
   "why": "Why",
   "goBack": "Go Back",
   "status": "Status",
@@ -1912,7 +1913,12 @@
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
-    }
+    },
+    "delete": "Reset all Fields - start over",
+    "deleteConfirm": "You sure? - click again",
+    "waitSeconds": "Wait {0} Seconds",
+    "profileReset": "Profile Reset",
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
   },
   "createPlaceholder": {
     "welcome": "Welcome to KodaDot Generative Art!",

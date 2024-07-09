@@ -9,7 +9,6 @@
         :to="`/${urlPrefix}/gallery/${nft?.id}`">
         <BaseMediaItem
           :src="sanitizeIpfsUrl(nft?.meta.image)"
-          enable-normal-tag
           :mime-type="nft?.type" />
       </NuxtLink>
     </div>

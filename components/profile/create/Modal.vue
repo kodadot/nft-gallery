@@ -14,7 +14,8 @@
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
-        @submit="handleFormSubmition" />
+        @submit="handleFormSubmition"
+        @delete="handleProfileDelete" />
       <Loading v-if="stage === 4" />
       <Success v-if="stage === 5" @close="close" />
     </ModalBody>
@@ -36,20 +37,23 @@ import {
   SocialLink,
   UpdateProfileRequest,
   createProfile,
+  deleteProfile,
   updateProfile,
+  uploadImage,
 } from '@/services/profile'
-import { rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { appClient, createChannel } from '@/services/farcaster'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
 import { getBioWithLinks } from '../utils'
 
+const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
   modelValue: boolean
 }>()
 
 const documentVisibility = useDocumentVisibility()
 const { $i18n } = useNuxtApp()
+const { accountId } = useAuth()
 
 const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
@@ -57,7 +61,6 @@ const hasProfile = computed(() => profile?.hasProfile.value)
 
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 
-const emit = defineEmits(['close', 'success'])
 const { getSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
@@ -69,12 +72,26 @@ const close = () => {
   emit('close')
 }
 
-const uploadImage = async (
-  imageFile: File | null,
-): Promise<string | undefined> =>
-  imageFile
-    ? sanitizeIpfsUrl(await rateLimitedPinFileToIPFS(imageFile))
-    : undefined
+const uploadProfileImage = async (
+  file: File | null,
+  type: 'image' | 'banner',
+): Promise<string | undefined> => {
+  if (!file) {
+    return undefined
+  }
+
+  const { signature, message } = await getSignaturePair()
+
+  const response = await uploadImage({
+    file,
+    type,
+    address: accountId.value,
+    signature,
+    message,
+  })
+
+  return response.url
+}
 
 const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   return [
@@ -100,11 +117,11 @@ const processProfile = async (profileData: ProfileFormData) => {
   const { signature, message } = await getSignaturePair()
 
   const imageUrl = profileData.image
-    ? await uploadImage(profileData.image)
+    ? await uploadProfileImage(profileData.image, 'image')
     : profileData.imagePreview
 
   const bannerUrl = profileData.banner
-    ? await uploadImage(profileData.banner)
+    ? await uploadProfileImage(profileData.banner, 'banner')
     : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
@@ -114,7 +131,7 @@ const processProfile = async (profileData: ProfileFormData) => {
       ? getBioWithLinks(profileData.description)
       : profileData.description,
     image: imageUrl,
-    banner: bannerUrl,
+    banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
     socials: constructSocials(profileData),
     signature,
     message,
@@ -123,6 +140,21 @@ const processProfile = async (profileData: ProfileFormData) => {
   return hasProfile.value
     ? updateProfile(profileBody as UpdateProfileRequest)
     : createProfile(profileBody as CreateProfileRequest)
+}
+
+const handleProfileDelete = async (address: string) => {
+  try {
+    const { signature, message } = await getSignaturePair()
+    await deleteProfile({ address, message, signature })
+    infoMessage($i18n.t('profiles.profileHasBeenCleared'), {
+      title: $i18n.t('profiles.profileReset'),
+    })
+    emit('deleted')
+    close()
+  } catch (error) {
+    warningMessage(error!.toString())
+    console.error(error)
+  }
 }
 
 const handleFormSubmition = async (profileData: ProfileFormData) => {
@@ -200,6 +232,7 @@ const loginWithFarcaster = async () => {
 
 useModalIsOpenTracker({
   isOpen: computed(() => props.modelValue),
+  onClose: false,
   onChange: () => {
     stage.value = initialStep.value
   },
