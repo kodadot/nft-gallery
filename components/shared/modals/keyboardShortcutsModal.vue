@@ -44,6 +44,7 @@ interface DifferentTypeShortCuts {
   navigation: { text: string; shortcut: string }[]
   item_detail: { text: string; shortcut: string }[]
   filters: { text: string; shortcut: string }[]
+  drops: { text: string; shortcut: string }[]
 }
 
 interface DifferentTypeName {
@@ -146,6 +147,20 @@ const data = ref<DifferentTypeShortCuts>({
       shortcut: 'f+o',
     },
   ],
+  drops: [
+    {
+      text: 'New variation',
+      shortcut: 'v+n',
+    },
+    {
+      text: 'Mint +1',
+      shortcut: 'v+-',
+    },
+    {
+      text: 'Mint -1',
+      shortcut: 'v++',
+    },
+  ],
 })
 
 const labels = ref<DifferentTypeName>({
@@ -157,11 +172,12 @@ const labels = ref<DifferentTypeName>({
 const types = ref(Object.keys(data))
 
 const addShortcuts = (shortcuts): DifferentTypeShortCuts => {
-  const { navigation, item_detail, filters } = data.value
+  const { navigation, item_detail, filters, drops } = data.value
 
   return {
     navigation,
     item_detail,
+    drops,
     filters: [...filters, ...shortcuts],
   }
 }

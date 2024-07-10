@@ -34,4 +34,17 @@ const max = computed(() => {
 
   return dropMax
 })
+
+function bindDropsEvents(event: KeyboardEvent) {
+  switch (event.key) {
+    case '-':
+      amountToMint.value--
+      break
+    case '+':
+      amountToMint.value++
+      break
+  }
+}
+
+useKeyboardEvents({ v: bindDropsEvents })
 </script>
