@@ -31,6 +31,7 @@ const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { getCollectionFrameUrl } = useSocialShare()
+const { toMintNFTs } = storeToRefs(useDropStore())
 
 const cantList = computed(() => !props.canListNfts)
 const txHash = computed(() => props.mintingSession.txHash ?? '')
@@ -52,11 +53,15 @@ for (const item of props.mintingSession.items) {
   })
 }
 
-// get serial number synchronously
+// update serial number in nft.name synchronously
 watchEffect(async () => {
   for (const [index, item] of items.value.entries()) {
     const metadata: { name: string } = await $fetch(item.metadata)
-    items.value[index].name = metadata.name
+
+    if (metadata.name) {
+      items.value[index].name = metadata.name
+      toMintNFTs.value[index].name = metadata.name
+    }
   }
 })
 
