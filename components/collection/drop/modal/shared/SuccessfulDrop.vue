@@ -39,19 +39,30 @@ const mintedNft = computed<MintedNFT | undefined>(
   () => props.mintingSession.items[0],
 )
 
-const items = computed<ItemMedia[]>(() =>
-  props.mintingSession.items.map((item) => ({
+const items = ref<ItemMedia[]>([])
+for (const item of props.mintingSession.items) {
+  items.value.push({
     id: item.id,
     name: item.name,
     image: item.image,
     collection: item.collection.id,
     collectionName: item.collection.name,
     mimeType: item.mimeType,
-  })),
-)
+    metadata: item.metadata,
+  })
+}
+
+// get serial number synchronously
+watchEffect(async () => {
+  for (const [index, item] of items.value.entries()) {
+    const metadata: { name: string } = await $fetch(item.metadata)
+    items.value[index].name = metadata.name
+  }
+})
 
 const nftPath = computed(
-  () => `/${mintedNft.value?.chain}/gallery/${mintedNft.value?.id}`,
+  () =>
+    `/${mintedNft.value?.chain}/gallery/${mintedNft.value?.collection.id}-${mintedNft.value?.id}`,
 )
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
 const userProfilePath = computed(
@@ -60,9 +71,9 @@ const userProfilePath = computed(
 
 const sharingTxt = computed(() =>
   singleMint.value
-    ? $i18n.t('sharing.dropNft', [`#${mintedNft.value?.index}`])
+    ? $i18n.t('sharing.dropNft', [`#${items.value[0].name.split('#')[1]}`])
     : $i18n.t('sharing.dropNfts', [
-        props.mintingSession.items.map((item) => `#${item.index}`).join(', '),
+        items.value.map((item) => `#${item.name.split('#')[1]}`).join(', '),
       ]),
 )
 

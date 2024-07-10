@@ -113,10 +113,9 @@ const closeMintModal = () => {
   isMintModalActive.value = false
 }
 
-const submitMints = async () => {
+const submitMints = () => {
   try {
-    await useUpdateMetadata()
-
+    useUpdateMetadata()
     loading.value = false
   } catch (error) {
     toast($i18n.t('drops.mintDropError', [error?.toString()]))

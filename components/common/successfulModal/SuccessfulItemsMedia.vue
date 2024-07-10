@@ -24,6 +24,7 @@ export type ItemMedia = {
   collectionName: string
   price?: string
   mimeType?: string
+  metadata: string
 }
 
 const props = defineProps<{

@@ -1,11 +1,7 @@
-import { type MintedNFT } from '@/components/collection/drop/types'
-import { DoResult, setMetadataUrl } from '@/services/fxart'
+import { type DoResult, updateMetadata } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
-import useDropMassMint, {
-  MassMintNFT,
-} from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useQuery } from '@tanstack/vue-query'
 
@@ -73,97 +69,37 @@ export function useCollectionEntity() {
   }
 }
 
-export const useUpdateMetadata = async () => {
+export const useUpdateMetadata = () => {
   const { drop } = useDrop()
-  const { toMintNFTs, amountToMint, mintingSession } =
-    storeToRefs(useDropStore())
-  const { submitMint } = useDropMassMint()
+  const { toMintNFTs, mintingSession } = storeToRefs(useDropStore())
   const { subscribeForNftsWithMetadata } = useDropMassMintListing()
-  const { collectionName, maxCount } = useCollectionEntity()
-  const { $consola } = useNuxtApp()
 
-  const status = ref<'index' | 'update'>('index')
+  mintingSession.value.items = toMintNFTs.value.map((item) => {
+    // trigger update metadata
+    updateMetadata({
+      chain: drop.value.chain,
+      collection: drop.value.collection,
+      nft: item.nft,
+    })
 
-  // 1. get nft index
-  const mintNFTs: Ref<MassMintNFT[]> = ref([])
-  useSubscriptionGraphql({
-    query: `
-      nfts: nftEntities(
-        where: {collection: {id_eq: "${drop.value.collection}"}},
-        orderBy: [createdAt_ASC, sn_ASC]
-      ) {
-        id
-      }
-    `,
-    onChange: async ({ data: { nfts } }) => {
-      mintNFTs.value = []
-
-      if (status.value === 'update') {
-        return
-      }
-
-      const checkIndex = new Set() // check duplicate index
-      for (const mintNFT of toMintNFTs.value) {
-        const index =
-          nfts.findIndex(
-            (nft) => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
-          ) + 1
-
-        if (index > 0) {
-          checkIndex.add(index)
-          const metadata = setMetadataUrl({
-            chain: drop.value.chain,
-            collection: drop.value.collection,
-            sn: index.toString(),
-          })
-
-          mintNFTs.value.push({
-            ...mintNFT,
-            name: `${mintNFT.name} #${index}`,
-            metadata: metadata.toString(),
-            sn: index,
-          })
-        }
-      }
-
-      if (checkIndex.size === amountToMint.value) {
-        status.value = 'update'
-        await submitMetadata()
-      }
-    },
-  })
-
-  // 2. update metadata
-  const mintedNfts: Ref<MintedNFT[]> = ref([])
-  const submitMetadata = async () => {
-    const response = await Promise.all(mintNFTs.value.map(submitMint))
-
-    for (const [index, res] of response.entries()) {
-      let metadata = { name: '', image: '' }
-
-      try {
-        metadata = await $fetch(res.metadata || '')
-      } catch (error) {
-        $consola.warn(error)
-      }
-
-      mintedNfts.value.push({
-        id: `${drop.value.collection}-${res.nft}`,
-        index: mintNFTs.value[index].sn as number,
-        chain: res.chain,
-        name: metadata.name,
-        image: metadata.image,
-        collection: {
-          id: res.collection,
-          name: collectionName.value,
-          max: maxCount.value ?? drop.value.max ?? FALLBACK_DROP_COLLECTION_MAX,
-        },
-      })
+    return {
+      id: item.nft.toString(),
+      chain: drop.value.chain,
+      name: item.name,
+      image: item.image,
+      metadata: item.metadata,
+      collection: {
+        id: drop.value.collection,
+        name: item.collectionName,
+        max: drop.value.max,
+      },
     }
-
-    mintingSession.value.items = mintedNfts.value
-    subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
-  }
+  })
+  subscribeForNftsWithMetadata(
+    toMintNFTs.value.map(
+      (item) => `${drop.value.collection}-${item.nft.toString()}`,
+    ),
+  )
 }
 
 export default () => {

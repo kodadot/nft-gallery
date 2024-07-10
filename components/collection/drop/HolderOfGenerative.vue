@@ -168,10 +168,9 @@ const mint = async () => {
   await mintNft()
 }
 
-const submitMints = async () => {
+const submitMints = () => {
   try {
-    await useUpdateMetadata()
-
+    useUpdateMetadata()
     loading.value = false
     isSuccessModalActive.value = true
 
