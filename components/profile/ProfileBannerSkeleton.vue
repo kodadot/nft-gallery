@@ -6,7 +6,7 @@
       no-margin />
 
     <div
-      class="collection-banner-content flex md:items-end items-center h-full md:pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
+      class="collection-banner-content flex md:items-end items-center h-full md:pb-10 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
       <div
         class="!rounded-full overflow-hidden p-2.5 bg-background-color border z-[10]">
         <NeoSkeleton

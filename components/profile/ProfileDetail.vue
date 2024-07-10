@@ -23,7 +23,7 @@
           : undefined,
       }">
       <div
-        class="collection-banner-content flex md:items-end items-center h-full md:pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
+        class="collection-banner-content flex md:items-end items-center h-full md:pb-10 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
@@ -47,7 +47,7 @@
       <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
         <h1
-          class="font-bold text-2xl md:text-4xl mb-0"
+          class="font-bold text-2xl md:text-[31px] mb-0"
           data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity

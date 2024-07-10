@@ -17,7 +17,7 @@
                 class="w-[5.5rem] h-[5.5rem] border" />
             </div>
             <h1
-              class="collection-banner-name font-bold text-2xl md:text-4xl"
+              class="collection-banner-name font-bold text-2xl md:text-[31px]"
               data-testid="collection-banner-name">
               {{ collectionName }}
             </h1>
