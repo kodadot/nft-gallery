@@ -61,17 +61,14 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
 
 export const updateMetadata = async ({ chain, collection, nft }) => {
   try {
-    const response = await $fetch(
-      'http://localhost:8787/metadata/v1/dyndata/update',
-      {
-        method: 'post',
-        body: {
-          chain,
-          collection,
-          nft,
-        },
+    const response = await api('/metadata/v1/dyndata/update', {
+      method: 'post',
+      body: {
+        chain,
+        collection,
+        nft,
       },
-    )
+    })
 
     return response
   } catch (error) {
