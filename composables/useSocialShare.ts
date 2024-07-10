@@ -13,12 +13,12 @@ export default function () {
   const shareOnX = (
     text: string,
     url: string = fullPathShare.value,
-    via: string = 'KodaDot',
+    via: string | null = 'KodaDot',
   ) => {
     const shareUrl = new URL('https://twitter.com/intent/tweet')
-    shareUrl.searchParams.set('text', text)
-    shareUrl.searchParams.set('via', via)
-    shareUrl.searchParams.set('url', url)
+    text && shareUrl.searchParams.set('text', text)
+    via && shareUrl.searchParams.set('via', via)
+    url && shareUrl.searchParams.set('url', url)
     open(shareUrl.toString())
   }
 
