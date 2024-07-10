@@ -29,7 +29,7 @@
               <div class="bg-background-color border py-2 px-4 text-xs">
                 Recipient Address:
                 <nuxt-link
-                  v-if="isValidAddress(recipient)"
+                  v-if="isValidAddress(recipient, urlPrefix)"
                   :to="`/${urlPrefix}/u/${recipient}`"
                   class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
