@@ -5,6 +5,7 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "markdownSupported": "Markdown supported",
   "why": "Why",
   "goBack": "Go Back",
   "status": "Status",
@@ -124,7 +125,8 @@
     "landingTitle2": "Generative Art",
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
-    "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
+    "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name",
+    "profileNotFound": "Our search agents have not found anyone with \"{0}\" in user name"
   },
   "transfers": {
     "recipient": "Recipient",
@@ -1912,7 +1914,12 @@
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
-    }
+    },
+    "delete": "Reset all Fields - start over",
+    "deleteConfirm": "You sure? - click again",
+    "waitSeconds": "Wait {0} Seconds",
+    "profileReset": "Profile Reset",
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
   },
   "createPlaceholder": {
     "welcome": "Welcome to KodaDot Generative Art!",
