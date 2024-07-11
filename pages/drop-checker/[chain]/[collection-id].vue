@@ -75,7 +75,8 @@
           <iframe
             v-if="metadata?.generative_uri"
             :src="sanitizeIpfsUrl(metadata?.generative_uri)"
-            frameborder="0"></iframe>
+            frameborder="0"
+            :title="metadata?.name"></iframe>
           <neo-icon v-else icon="xmark" class="text-k-red" />
         </td>
       </tr>
