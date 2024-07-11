@@ -16,9 +16,9 @@ export default function () {
     via: string | null = 'KodaDot',
   ) => {
     const shareUrl = new URL('https://twitter.com/intent/tweet')
-    text && shareUrl.searchParams.set('text', text)
+    shareUrl.searchParams.set('text', text)
     via && shareUrl.searchParams.set('via', via)
-    url && shareUrl.searchParams.set('url', url)
+    shareUrl.searchParams.set('url', url)
     open(shareUrl.toString())
   }
 
