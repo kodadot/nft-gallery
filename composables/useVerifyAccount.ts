@@ -1,6 +1,8 @@
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { signMessage as signMessageEvm } from '@wagmi/core'
 
+export type SignaturePair = { signature: string; message: string }
+
 const signMessagePolkadot = async (address: string, message: string) => {
   const injector = await getAddress(toDefaultAddress(address))
   const signedMessage = await injector.signer.signRaw({
@@ -51,7 +53,7 @@ export default function useVerifyAccount() {
     throw new Error('You have not completed address verification')
   }
 
-  const getSignaturePair = async () => {
+  const getSignaturePair = async (): Promise<SignaturePair> => {
     const signature = await getSignedMessage()
     return {
       signature,

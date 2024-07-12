@@ -1,6 +1,14 @@
 .message {
   @apply bg-[whitesmoke] rounded-none text-base;
 
+  &__success {
+    @apply bg-k-green-light text-k-green;
+
+    .message-progress {
+        @apply bg-k-green;
+    }
+  }
+
 
   &__danger {
     @apply bg-k-red-accent-2 text-k-red;

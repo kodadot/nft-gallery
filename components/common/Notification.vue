@@ -25,12 +25,22 @@ import { NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
 
 type NotificationAction = { label: string; url: string }
 
+const NotificationStateToVariantMap: Record<
+  LoadingNotificationState,
+  NeoMessageVariant
+> = {
+  succeeded: 'success',
+  loading: 'info',
+  failed: 'danger',
+}
+
 const emit = defineEmits(['close'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    title: string
-    message: string
+    title: MaybeRef<string>
+    message: MaybeRef<string>
     duration?: number
+    state?: Ref<LoadingNotificationState>
     variant?: NeoMessageVariant
     action?: NotificationAction
   }>(),
@@ -38,6 +48,15 @@ withDefaults(
     variant: 'success',
     duration: 10000,
     action: undefined,
+    state: undefined,
   },
+)
+
+const title = computed(() => unref(props.title))
+const message = computed(() => unref(props.message))
+const variant = computed(() =>
+  props.state
+    ? NotificationStateToVariantMap[props.state.value]
+    : props.variant,
 )
 </script>

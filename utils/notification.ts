@@ -31,15 +31,19 @@ export const notificationTypes: Record<string, Params> = {
   },
 }
 
+export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
+
 export const showNotification = ({
   title,
   message,
   action,
+  state,
   params = notificationTypes.info,
   duration = 10000,
 }: {
-  title: string
-  message: string | null
+  title?: MaybeRef<string>
+  message?: MaybeRef<string> | null
+  state?: Ref<LoadingNotificationState>
   params?: Params
   duration?: number
   action?: NotificationAction
@@ -52,8 +56,9 @@ export const showNotification = ({
 
   const componentParams = {
     component: h(Notification, {
-      title: title,
-      message: message!,
+      title: title ? toRef(title) : title,
+      message: message ? toRef(message!) : message,
+      state: state,
       variant: params.variant,
       duration: duration,
       action: action,
@@ -62,15 +67,7 @@ export const showNotification = ({
     duration: 50000, // child component will trigger close when the real duration is ended
   }
 
-  Notif.open(
-    params.variant === 'success'
-      ? {
-          message,
-          duration: duration,
-          closable: true,
-        }
-      : componentParams,
-  )
+  Notif.open(componentParams)
 }
 
 export const showLargeNotification = ({
@@ -150,3 +147,33 @@ export const dangerMessage = (
     params: notificationTypes.danger,
     action: reportable ? getReportIssueAction(message) : undefined,
   })
+
+export const loadingMessage = ({
+  title,
+  state,
+}: {
+  title: MaybeRef<string>
+  state: Ref<LoadingNotificationState>
+}) => {
+  const { $i18n } = useNuxtApp()
+  const message = ref(`${$i18n.t('mint.progress')}...`)
+
+  watch(
+    state,
+    (state) => {
+      message.value =
+        state === 'succeeded'
+          ? $i18n.t('transactionLoader.completed')
+          : $i18n.t('transactionLoader.failed')
+    },
+    {
+      once: true,
+    },
+  )
+
+  showNotification({
+    title,
+    message,
+    state,
+  })
+}

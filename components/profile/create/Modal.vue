@@ -14,24 +14,16 @@
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
+        :signing-message="signingMessage"
         @submit="handleFormSubmition"
         @delete="handleProfileDelete" />
-      <Loading v-if="stage === 4" />
-      <Success v-if="stage === 5" @close="close" />
     </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import {
-  Form,
-  Introduction,
-  Loading,
-  ProfileFormData,
-  Select,
-  Success,
-} from './stages/index'
+import { Form, Introduction, ProfileFormData, Select } from './stages/index'
 import {
   CreateProfileRequest,
   SocialLink,
@@ -64,6 +56,7 @@ const initialStep = computed(() => (hasProfile.value ? 2 : 1))
 const { getSignaturePair } = useVerifyAccount()
 const vOpen = useVModel(props, 'modelValue')
 const stage = ref(initialStep.value)
+const signingMessage = ref(false)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
@@ -113,9 +106,10 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
   ].filter((social) => Boolean(social.handle))
 }
 
-const processProfile = async (profileData: ProfileFormData) => {
-  const { signature, message } = await getSignaturePair()
-
+const processProfile = async (
+  profileData: ProfileFormData,
+  { signature, message }: SignaturePair,
+) => {
   const imageUrl = profileData.image
     ? await uploadProfileImage(profileData.image, 'image')
     : profileData.imagePreview
@@ -158,12 +152,21 @@ const handleProfileDelete = async (address: string) => {
 }
 
 const handleFormSubmition = async (profileData: ProfileFormData) => {
-  stage.value = 4 // Go to loading stage
   try {
-    await processProfile(profileData)
+    signingMessage.value = true
+    const signaturePair = await getSignaturePair()
+    signingMessage.value = false
+
+    close()
+    onModalAnimation(() => {
+      stage.value = 4 // Go to loading stage
+    })
+
+    await processProfile(profileData, signaturePair)
     emit('success')
     stage.value = 5 // Go to success stage
   } catch (error) {
+    signingMessage.value = false
     stage.value = 3 // Back to form stage
     warningMessage(error!.toString())
     console.error(error)
@@ -247,6 +250,20 @@ watch(documentVisibility, (current, previous) => {
     infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
       title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),
     })
+  }
+})
+
+const dynamicNotificationState = ref<LoadingNotificationState>('loading')
+
+watch(stage, (stage) => {
+  if (stage === 4) {
+    dynamicNotificationState.value = 'loading'
+    loadingMessage({
+      title: $i18n.t('profiles.created'),
+      state: dynamicNotificationState,
+    })
+  } else if (stage === 5) {
+    dynamicNotificationState.value = 'succeeded'
   }
 })
 </script>
