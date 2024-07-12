@@ -9,6 +9,9 @@
     }
   }
 
+  &__neutral {
+    @apply bg-background-color text-k-grey;
+  }
 
   &__danger {
     @apply bg-k-red-accent-2 text-k-red;

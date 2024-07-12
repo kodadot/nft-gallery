@@ -3,6 +3,8 @@
     :duration="duration"
     :title="title"
     :variant="variant"
+    :icon="isLoadingState ? { icon: 'spinner-third', spin: true } : undefined"
+    :hold-timer="isLoadingState"
     auto-close
     show-progress-bar
     @close="emit('close')">
@@ -30,7 +32,7 @@ const NotificationStateToVariantMap: Record<
   NeoMessageVariant
 > = {
   succeeded: 'success',
-  loading: 'info',
+  loading: 'neutral',
   failed: 'danger',
 }
 
@@ -59,4 +61,5 @@ const variant = computed(() =>
     ? NotificationStateToVariantMap[props.state.value]
     : props.variant,
 )
+const isLoadingState = computed(() => props.state?.value === 'loading')
 </script>

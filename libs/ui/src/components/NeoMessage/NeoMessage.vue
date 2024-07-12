@@ -3,11 +3,11 @@
     <article
       v-show="isActive"
       ref="wrapper"
-      class="message !px-6 !py-4 shadow-primary border border-border-color relative"
+      class="message !px-6 !py-4 shadow-primary border border-border-color relative md:min-w-[350px]"
       :class="[`message__${variant}`]">
       <div class="flex gap-4">
         <div v-if="computedIcon">
-          <NeoIcon :icon="computedIcon" size="large" />
+          <NeoIcon :icon="iconName" size="large" :spin="iconSpin" />
         </div>
 
         <div class="w-full flex justify-between">
@@ -49,11 +49,15 @@ import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
 import { NeoMessageVariant } from '../../types'
 
-const iconVariant: Record<NeoMessageVariant, string> = {
+type CustomIconVariant = { icon: string; spin: boolean }
+type IconVariant = string | CustomIconVariant
+
+const iconVariant: Record<NeoMessageVariant, IconVariant> = {
   info: 'circle-info',
-  success: 'check-circle',
+  success: 'check',
   warning: 'circle-exclamation',
   danger: 'circle-exclamation',
+  neutral: 'circle-info',
 }
 
 const emit = defineEmits(['close', 'update:active', 'click'])
@@ -66,6 +70,8 @@ const props = withDefaults(
     autoClose: boolean
     duration: number
     showProgressBar: boolean
+    icon?: IconVariant
+    holdTimer?: boolean
   }>(),
   {
     active: true,
@@ -75,6 +81,8 @@ const props = withDefaults(
     showProgressBar: false,
     variant: 'success',
     title: '',
+    icon: undefined,
+    holdTimer: false,
   },
 )
 
@@ -85,7 +93,13 @@ const timer = ref()
 const isActive = ref(props.active)
 const remainingTime = ref(props.duration)
 
-const computedIcon = computed(() => iconVariant[props.variant] ?? null)
+const computedIcon = computed(
+  () => props.icon ?? iconVariant[props.variant] ?? null,
+)
+const iconName = computed(
+  () => (computedIcon.value as CustomIconVariant)?.icon ?? computedIcon.value,
+)
+const iconSpin = computed(() => (computedIcon.value as CustomIconVariant).spin)
 
 const percent = computed(() => {
   return (remainingTime.value / props.duration) * 100
@@ -98,8 +112,8 @@ const close = () => {
   emit('update:active', false)
 }
 
-watch(isActive, (active) => {
-  if (active) {
+watch([isActive, () => props.holdTimer], ([active, holdTimer]) => {
+  if (active && !holdTimer) {
     startTimer()
   } else if (timer.value) {
     clearTimeout(timer.value)
