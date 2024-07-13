@@ -25,11 +25,11 @@ export const useIcon = () => {
   const getChainIcon = (prefix: Prefix | null): string | null => {
     switch (prefix) {
       case 'ahp':
-        return '/chain/ahp.svg'
+        return isDarkMode.value ? '/chain/ahp_dark.svg' : '/chain/ahp.svg'
       case 'ahk':
         return '/token/kusama_asset_hub.svg'
       case 'base':
-        return '/chain/base.svg'
+        return isDarkMode.value ? '/chain/base_dark.svg' : '/chain/base.svg'
       default:
         return null
     }
