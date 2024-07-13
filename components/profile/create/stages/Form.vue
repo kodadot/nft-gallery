@@ -62,7 +62,8 @@
           <SelectImageField
             v-model="form.image"
             :preview="form.imagePreview"
-            :max-size-in-mb="2" />
+            :max-size-in-mb="2"
+            @clear="form.imagePreview = undefined" />
         </div>
       </NeoField>
 
@@ -77,8 +78,9 @@
           </p>
           <SelectImageField
             v-model="form.banner"
+            :preview="form.bannerPreview"
             :max-size-in-mb="5"
-            :preview="form.bannerPreview" />
+            @clear="form.bannerPreview = undefined" />
         </div>
       </NeoField>
 
@@ -105,14 +107,39 @@
         </div>
       </div>
     </form>
-    <NeoButton
-      :disabled="submitDisabled"
-      variant="primary"
-      label="Finish Customization"
-      size="large"
-      no-shadow
-      data-testid="create-profile-submit-button"
-      @click="emit('submit', form)" />
+    <div class="flex flex-col gap-6">
+      <NeoButton
+        :disabled="submitDisabled"
+        variant="primary"
+        label="Finish Customization"
+        size="large"
+        no-shadow
+        data-testid="create-profile-submit-button"
+        @click="emit('submit', form)" />
+
+      <template v-if="userProfile">
+        <span
+          v-if="isDeleteConfirmSafetyDelay"
+          class="capitalize text-k-red text-center"
+          >{{ deleteConfirmSafetyDelayText }}
+        </span>
+
+        <NeoButton
+          v-else
+          variant="text"
+          no-shadow
+          :class="[
+            deleteConfirm ? '!text-k-red' : '!text-k-grey',
+            'capitalize',
+          ]"
+          @click="deleteProfile">
+          <div class="flex gap-3 justify-center">
+            <span>{{ deleteConfirmText }} </span>
+            <NeoIcon v-if="!deleteConfirm" icon="rotate-left" />
+          </div>
+        </NeoButton>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -124,65 +151,9 @@ import { Profile, toSubstrateAddress } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
 import { StatusAPIResponse } from '@farcaster/auth-client'
 
-const { accountId } = useAuth()
-
-const props = defineProps<{
-  farcasterUserData?: StatusAPIResponse
-  useFarcaster: boolean
-}>()
-
-const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
-  'userProfile',
-)
-
-const bioField = ref()
-const bioMessage = computed(() => bioField.value?.$data?.newMessage)
-
-const userProfile = computed(() => profile?.userProfile.value)
-const substrateAddress = computed(() => toSubstrateAddress(accountId.value))
-
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
 )
-
-const missingImage = computed(() => (form.imagePreview ? false : !form.image))
-
-const submitDisabled = computed(
-  () => !form.name || !form.description || missingImage.value,
-)
-
-const emit = defineEmits<{
-  (e: 'submit', value: ProfileFormData): void
-}>()
-
-const validatingFormInput = (model: string) => {
-  switch (model) {
-    case 'farcasterHandle':
-      if (form.farcasterHandle?.startsWith('/')) {
-        form.farcasterHandle = form.farcasterHandle.slice(1)
-      }
-      break
-    case 'website':
-      if (form.website && !/^https?:\/\//i.test(form.website)) {
-        form.website = addHttpToUrl(form.website)
-      }
-      break
-  }
-}
-
-// form state
-const form = reactive<ProfileFormData>({
-  address: substrateAddress.value,
-  name: '',
-  description: '',
-  image: null,
-  imagePreview: undefined,
-  banner: null,
-  bannerPreview: undefined,
-  farcasterHandle: undefined,
-  twitterHandle: undefined,
-  website: undefined,
-})
 
 const socialLinks = [
   {
@@ -207,6 +178,97 @@ const socialLinks = [
     testId: 'create-profile-input-twitter-handle',
   },
 ]
+
+const DELETE_CONFIRM_SAFETY_DELAY = 3000
+
+const emit = defineEmits<{
+  (e: 'submit', value: ProfileFormData): void
+  (e: 'delete', address: string): void
+}>()
+
+const props = defineProps<{
+  farcasterUserData?: StatusAPIResponse
+  useFarcaster: boolean
+}>()
+
+const deleteConfirm = ref<Date>()
+const bioField = ref()
+
+const now = useNow()
+const { $i18n } = useNuxtApp()
+const { accountId } = useAuth()
+const profile = inject<{ userProfile: Ref<Profile>; hasProfile: Ref<boolean> }>(
+  'userProfile',
+)
+
+const bioMessage = computed(() => bioField.value?.$data?.newMessage)
+const isDeleteConfirmSafetyDelay = computed(() =>
+  deleteConfirm.value
+    ? now.value.getTime() - deleteConfirm.value.getTime() <
+      DELETE_CONFIRM_SAFETY_DELAY
+    : false,
+)
+
+const deleteConfirmSafetyDelayText = computed(() => {
+  if (isDeleteConfirmSafetyDelay.value && deleteConfirm.value) {
+    return $i18n.t('profiles.waitSeconds', [
+      Math.ceil(
+        (deleteConfirm.value.getTime() +
+          DELETE_CONFIRM_SAFETY_DELAY -
+          now.value.getTime()) /
+          1000,
+      ),
+    ])
+  }
+})
+
+const deleteConfirmText = computed(() =>
+  !deleteConfirm.value
+    ? $i18n.t('profiles.delete')
+    : $i18n.t('profiles.deleteConfirm'),
+)
+
+const substrateAddress = computed(() => toSubstrateAddress(accountId.value))
+const form = reactive<ProfileFormData>({
+  address: substrateAddress.value,
+  name: '',
+  description: '',
+  image: null,
+  imagePreview: undefined,
+  banner: null,
+  bannerPreview: undefined,
+  farcasterHandle: undefined,
+  twitterHandle: undefined,
+  website: undefined,
+})
+const userProfile = computed(() => profile?.userProfile.value)
+const missingImage = computed(() => (form.imagePreview ? false : !form.image))
+const submitDisabled = computed(
+  () => !form.name || !form.description || missingImage.value,
+)
+
+const validatingFormInput = (model: string) => {
+  switch (model) {
+    case 'farcasterHandle':
+      if (form.farcasterHandle?.startsWith('/')) {
+        form.farcasterHandle = form.farcasterHandle.slice(1)
+      }
+      break
+    case 'website':
+      if (form.website && !/^https?:\/\//i.test(form.website)) {
+        form.website = addHttpToUrl(form.website)
+      }
+      break
+  }
+}
+
+const deleteProfile = () => {
+  if (deleteConfirm.value) {
+    emit('delete', substrateAddress.value)
+  } else {
+    deleteConfirm.value = new Date()
+  }
+}
 
 watchEffect(async () => {
   const profile = userProfile.value
