@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col gap-6">
-    <NeoSkeleton :width="180" :height="36" no-margin />
+    <NeoSkeleton :width="330" :height="36" no-margin />
 
     <div class="flex flex-wrap gap-3">
       <NeoSkeleton
-        :width="150"
+        :width="110"
         :height="40"
         no-margin
         border-radius="3rem"
