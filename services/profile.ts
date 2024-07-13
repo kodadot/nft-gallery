@@ -104,6 +104,12 @@ export const fetchProfileByAddress = (address: string) =>
     method: 'GET',
   })
 
+export const searchProfiles = (query: string, limit = 5, offset = 0) =>
+  api<{ data: Profile[] }>('/profiles/search', {
+    method: 'GET',
+    query: { q: query, limit, offset },
+  })
+
 export const fetchFollowersOf = (
   address: string,
   options?: { limit?: number; offset?: number; exclude?: string[] },
