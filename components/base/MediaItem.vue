@@ -11,7 +11,7 @@
       :mime-type="mimeType"
       :animation-src="animationSrc"
       :alt="title"
-      :placeholder="placeholder"
+      :placeholder="themedPlaceholder"
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
@@ -100,7 +100,7 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: '/Koda.svg',
+    placeholder: IMG_PLACEHOLDER_LIGHT,
     disableOperation: undefined,
     audioPlayerCover: '',
     isFullscreen: false,
@@ -120,6 +120,8 @@ useMediaFullscreen({
 })
 
 const targetIsVisible = useElementVisibility(mediaItem)
+const { placeholder: themedPlaceholder } = useTheme()
+
 const modelComponent = ref<Component>()
 const isModelComponentLoaded = ref(false)
 const shouldLoadModelComponent = computed(() => {
@@ -168,7 +170,12 @@ const resolveComponent = computed(() => {
     ? modelComponent.value
     : components[PREFIX + mediaType + SUFFIX]
 })
-const properSrc = computed(() => props.src || props.placeholder)
+const placeholder = computed(() =>
+  props.placeholder === IMG_PLACEHOLDER_LIGHT
+    ? themedPlaceholder.value
+    : props.placeholder,
+)
+const properSrc = computed(() => props.src || placeholder.value)
 
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
