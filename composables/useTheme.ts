@@ -1,6 +1,6 @@
 type COLOR_MODE = 'system' | 'light' | 'dark'
 
-export const IMG_PLACEHOLDER_LIGHT = '/Klight.webp'
+const IMG_PLACEHOLDER_LIGHT = '/Klight.webp'
 const IMG_PLACEHOLDER_DARK = '/Kdark.webp'
 export const IMG_PLACEHOLDERS = [IMG_PLACEHOLDER_LIGHT, IMG_PLACEHOLDER_DARK]
 

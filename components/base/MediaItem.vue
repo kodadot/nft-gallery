@@ -11,7 +11,7 @@
       :mime-type="mimeType"
       :animation-src="animationSrc"
       :alt="title"
-      :placeholder="themedPlaceholder"
+      :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
@@ -100,7 +100,7 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: IMG_PLACEHOLDER_LIGHT,
+    placeholder: undefined,
     disableOperation: undefined,
     audioPlayerCover: '',
     isFullscreen: false,
@@ -145,7 +145,8 @@ const hasNormalTag = computed<boolean>(() => {
     props.enableNormalTag &&
     Boolean(props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
-    !props.isDetail
+    !props.isDetail &&
+    !IMG_PLACEHOLDERS.includes(props.src)
   )
 })
 const isLewdBlurredLayer = ref(props.isLewd)
@@ -171,9 +172,7 @@ const resolveComponent = computed(() => {
     : components[PREFIX + mediaType + SUFFIX]
 })
 const placeholder = computed(() =>
-  props.placeholder === IMG_PLACEHOLDER_LIGHT
-    ? themedPlaceholder.value
-    : props.placeholder,
+  !props.placeholder ? themedPlaceholder.value : props.placeholder,
 )
 const properSrc = computed(() => props.src || placeholder.value)
 
