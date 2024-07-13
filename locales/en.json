@@ -1005,7 +1005,7 @@
     "dropNft": "I've minted {0} generative art piece on Koda!",
     "dropNfts": "I've minted {0} generative art pieces on Koda!",
     "pack": "Check out this awesome Pack on KodaDot",
-    "profile": "Check out this awesome Profile on KodaDot"
+    "profile": "I just created my profile on Koda. Create yours and follow on Koda."
   },
   "warning": {
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
@@ -1091,7 +1091,8 @@
       "touch": "touch"
     },
     "connectFarcaster": "Connect with Koda on Farcaster",
-    "farcasterMintLive": "Mint is live!"
+    "farcasterMintLive": "Mint is live!",
+    "becoming": "is becoming"
   },
   "whyKoda": {
     "title": "Why Koda?",
