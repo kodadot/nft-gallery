@@ -1,5 +1,8 @@
 <template>
-  <div ref="mediaItem" class="media-object h-fit">
+  <div
+    ref="mediaItem"
+    class="media-object h-fit"
+    :class="{ relative: hasNormalTag }">
     <component
       :is="resolveComponent"
       ref="mediaRef"
@@ -31,7 +34,7 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[99]">
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]">
       <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
     </div>
     <NeoButton
@@ -135,10 +138,10 @@ const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 const type = ref('')
 
-const hasNormalTag = computed(() => {
+const hasNormalTag = computed<boolean>(() => {
   return (
     props.enableNormalTag &&
-    (props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
+    Boolean(props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
     !props.isDetail
   )

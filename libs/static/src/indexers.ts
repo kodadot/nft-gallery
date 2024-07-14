@@ -34,6 +34,7 @@ const reducer = (
 
 export const APOLLO_ENDPOINTS: Config<ApolloEndpoint> = Object.entries(
   INDEXERS
+  // eslint-disable-next-line unicorn/no-array-reduce
 ).reduce(
   (accumulator, element) => reducer(accumulator, element),
   {} as Config<ApolloEndpoint>

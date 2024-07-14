@@ -1,0 +1,4 @@
+{
+  "extends": ["plugin:vue/vue3-recommended", "prettier"],
+  "rules": {}
+}
