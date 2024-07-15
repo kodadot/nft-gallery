@@ -3,9 +3,9 @@
     <p>Chain: {{ chain }}</p>
     <table class="table-fixed">
       <tr>
-        <th class="text-black w-60">Key</th>
+        <th class="text-k-primary w-60">Key</th>
         <th></th>
-        <th class="text-black">Value</th>
+        <th class="text-k-primary">Value</th>
       </tr>
 
       <tr>
@@ -138,13 +138,13 @@
       <template #trigger>
         <neo-button label="debug mode" variant="primary" />
       </template>
-      <div class="grid grid-cols-2 gap-6 notification mt-6">
+      <div class="grid grid-cols-2 gap-6 mt-6">
         <div>
           <p>Data from database:</p>
           <table v-if="drops" class="table-auto">
             <tr>
-              <th class="text-black">Key</th>
-              <th class="text-black">Value</th>
+              <th class="text-k-primary">Key</th>
+              <th class="text-k-primary">Value</th>
             </tr>
             <tr v-for="drop in Object.entries(drops)" :key="drop[0]">
               <td class="align-middle">{{ drop[0] }}</td>
@@ -174,8 +174,8 @@
             v-if="collection && collection.meta"
             class="table-fixed w-full">
             <tr>
-              <th class="text-black">Key</th>
-              <th class="text-black">Value</th>
+              <th class="text-k-primary">Key</th>
+              <th class="text-k-primary">Value</th>
             </tr>
             <tr
               v-for="drop in Object.entries(collection)"
