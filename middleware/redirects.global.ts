@@ -1,3 +1,5 @@
+import { createVisible } from '@/utils/config/permission.config'
+
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
 
@@ -30,6 +32,15 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: (val) => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
+    },
+    {
+      cond: (val) =>
+        val === `/${urlPrefix.value}/create` || val.startsWith('/create'),
+      replaceValue: () => {
+        if (!createVisible(urlPrefix.value)) {
+          return '/'
+        }
+      },
     },
   ]
 
