@@ -291,7 +291,6 @@
       "feesPaidIn": "Vous payez des frais en {0}"
     },
     "searchPlaceholder": "Recherche par collection ou NFT",
-    "tagsAdd": "Tapez et appuyez sur la touche Entrée pour ajouter votre propre tag",
     "chooseWallet": "Choisissez votre",
     "noAssets": "Il n'y a pas d'actifs dans ce portefeuille."
   },
