@@ -1,7 +1,7 @@
-import { pwa } from './utils/config/pwa'
-import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
+import { pwa } from './utils/config/pwa'
+import { URLS, apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -14,8 +14,8 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       'tailwindcss/nesting': {},
-      tailwindcss: {},
-      autoprefixer: {},
+      'tailwindcss': {},
+      'autoprefixer': {},
     },
   },
 
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   vue: {
     compilerOptions: {
       // model-viewer from ModelMedia throw warning
-      isCustomElement: (tag) => tag.includes('model-viewer'),
+      isCustomElement: tag => tag.includes('model-viewer'),
     },
   },
 
@@ -274,8 +274,8 @@ export default defineNuxtConfig({
 
   eslint: {
     config: {
-      stylistic: true
-    }
+      stylistic: true,
+    },
   },
 
   image: {
@@ -377,8 +377,8 @@ export default defineNuxtConfig({
     urls: () => {
       const posts = fs.readdirSync('content/blog')
       return posts
-        .map((post) => post.split('.')[0])
-        .map((page) => ({
+        .map(post => post.split('.')[0])
+        .map(page => ({
           loc: `/blog/${page}`,
           changefreq: 'weekly',
           priority: 0.8,
@@ -401,8 +401,8 @@ export default defineNuxtConfig({
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
       walletConnectProjectId:
-        process.env.WALLET_CONNECT_PROJECT_ID ||
-        '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
+        process.env.WALLET_CONNECT_PROJECT_ID
+        || '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
 
