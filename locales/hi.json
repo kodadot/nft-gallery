@@ -5,7 +5,6 @@
   "exploreItems": "इस पर ITEM अन्वेषण करें",
   "exploreCollections": "इस पर संग्रह अन्वेषण करें",
   "credit": "क्रेडिट",
-  "status": "स्थिति",
   "img": "छवि",
   "gallery": "गैलरी",
   "collection": "संग्रह",
@@ -252,6 +251,7 @@
   "confirmPurchase": {
     "action": "खरीदी की पुष्टि करें",
     "connectedWith": "के साथ कनेक्ट किया गया है",
+    "notEnoughFuns": "पर्याप्त धन नहीं है",
     "priceForNFTs": "NFT(s) के लिए मूल्य",
     "royalties": "Royalty",
     "youWillPay": "आपको भुगतान करना होगा"
@@ -261,6 +261,13 @@
     "accept": "स्वीकार करें",
     "decline": "अस्वीकार करें",
     "notice": "हम बेहतर सेवा के लिए कुकीज़ का उपयोग करते हैं"
+  },
+  "createDropdown": {
+    "aiPowered": "AI संचालित प्रक्रिया के साथ अपने NFT बनाएं",
+    "massmint": "अपने संग्रह के लिए मल्टीपल NFT बनाने के लिए सरल प्रक्रिया",
+    "simplifiedNft": "अपने NFT बनाने के लिए एक स्टेप में सरल प्रक्रिया",
+    "start": "अपना संग्रह बनाना शुरू करें और उसमें NFT जोड़ें",
+    "waifu": "AI का उपयोग करके अपनी एनीमे वाइफु बनाएं"
   },
   "createNftExplainer": "यदि आपका संग्रह हाल ही Mint किया गया है और यह यहां नहीं दिखाई दे रहा है, तो कृपया प्रतीक्षा करें, यह शीघ्र ही नीचे चयनकर्ता में दिखाई दिखाएगा",
   "description": "विवरण",
@@ -661,11 +668,9 @@
     "usd": "यूएसडी",
     "using": "का उपयोग करते हुए"
   },
-  "goBack": "पीछे जाएं",
+  "go back": "पीछे जाएं",
   "helper": {
     "builtOn": "पर बनाया गया",
-    "yesDelete": "हाँ, हटाएं",
-    "continueAnyway": "फिर भी जारी रखें",
     "clickToCreate": "संग्रह बनाने के लिए यहाँ Click करें",
     "indexerReadOnly": "ऐप निर्धारित मोड में है, ऐप को फिर से लोड करें या डिस्कॉर्ड पर जाएं",
     "learnMore": "और अधिक जानें",
@@ -775,6 +780,81 @@
     "uploading": "({0}/{1}) IPFS में डेटा Upload कर रहे हैं"
   },
   "lowestPrice": "न्यूनतम मूल्य",
+  "massmint": {
+    "areYouSureDelete": "क्या आप सुनिश्चित हैं कि आप हटाना चाहते हैं",
+    "backToOnbaording": "ऑनबोर्डिंग पर वापस जाएं",
+    "cancel": "रद्द करें",
+    "cantMintNote": "नोट: आप आवश्यक जानकारी भरें या अधूरी Fileें हटाएं तक Mint नहीं कर सकते हैं।",
+    "chooseCollection": "चुनें एक संग्रह जिसमें आपको Mint करना है",
+    "continueToCollectionPage": "आपको कुछ क्षणों में संग्रह पृष्ठ पर जाएँगे...",
+    "createNewCollection": "नया संग्रह बनाएं",
+    "description": "विवरण",
+    "descriptionMissing": "विवरण अनुपस्थित",
+    "done": "सम्पन्न",
+    "edit": "संपादित करें",
+    "goBack": "पिछला वापस जाएं",
+    "image": "तस्वीर",
+    "incompleteNfts": "अधूरा: {count} NFTs",
+    "mintDone": "आपके सभी NFTs को सफलतापूर्वक Mint किया गया था।",
+    "mintingYourNFTs": "आपके NFTs को Mint किया जा रहा है...",
+    "mintNFTs": "NFTs Mint करें",
+    "missingDescription": "विवरण अनुपस्थित: {count} NFTs",
+    "missingPrice": "मूल्य अनुपस्थित: {count} NFTs",
+    "missingRequiredInfo": "कुछ छवियों में आवश्यक जानकारी अनुपस्थित है",
+    "mobileDisclaimer": {
+      "content1": "हमारी मासMINT सुविधा डेस्कटॉप उपयोग के लिए फाइन-ट्यून है ताकि सर्वोत्तम Minting अनुभव हो सके",
+      "content2": "मोबाइल डिवाइस पर, आपको सीमित कार्यक्षमता या लेआउट समस्याएं आ सकती हैं।",
+      "continueAnyway": "फिर भी जारी रखें",
+      "leave": "छोड़ें",
+      "title": "अनुकूलन सूचना"
+    },
+    "name": "नाम",
+    "nameRequired": "नाम आवश्यक है",
+    "noCollection": "कोई संग्रह नहीं",
+    "note": "नोट",
+    "onboarding": {
+      "cards": {
+        "0": {
+          "content": "अपने सभी कला Fileों को **.ZIP फ़ॉर Upload** में संक्षेपित करके अपनी मास MINTिंग शुरू करें। आपकी कला के अलावा, प्रत्येक NFT को एक नाम, विवरण, और मूल्य की आवश्यकता है। \n\nइस प्रक्रिया को सुगम बनाने के लिए इन विवरणों को पहले से एक अलग File में तैयार करें। इससे प्रत्येक NFT के लिए जानकारी को मैन्युअली दर्ज करने से बचा जा सकता है। इस File को स्वरूपित करने के लिए आगे कदमों में मार्गदर्शन मिलेगा।",
+          "title": "अपनी सभी Fileें तैयार करें"
+        },
+        "1": {
+          "codeStructure": "कोड संरचना",
+          "instructions": "कृपया सुनिश्चित करें कि File क्षेत्र छवि File नाम के साथ संबंधित है (उदाहरण के लिए, यदि छवि का नाम \"img1.jpg\" है, तो \"file\": img1.jpg को File क्षेत्र में सेट करें)।",
+          "subtitle": "निर्देश",
+          "title": "अपने NFTs को कैसे नामकिन करें"
+        },
+        "2": {
+          "content": "मास MINT सुविधा का उपयोग करने के लिए आपको एक NFT **संग्रह बनाया हुआ** होना चाहिए जिसमें आप अपने सभी NFTs को Mint करेंगे। यदि आपने अब तक एक संग्रह बनाया नहीं है, तो आप एक मास MINT में एक बना सकते हैं।\n\nसंग्रह नहीं है?&emsp;[एक बनाएं](/create/collection)",
+          "title": "आपके पास एक संग्रह होना चाहिए"
+        }
+      },
+      "done": "किया हुआ",
+      "downloadTemplate": "File टेम्प्लेट डाउनलोड करें",
+      "next": "आगे",
+      "pageTitle": "मास MINT ऑनबोर्डिंग",
+      "skip": "छोड़ें"
+    },
+    "operation": "कार्रवाई",
+    "optional": "ऐच्छिक",
+    "overviewTable": "अवलोकन तालिका",
+    "price": "मूल्य",
+    "priceMissing": "मूल्य अनुपस्थित है",
+    "reallyProcceed": "क्या आप सचमुच आगे बढ़ना चाहते हैं?",
+    "required": "आवश्यक",
+    "reviewTtile": "अंतिम मास Mint अवलोकन",
+    "save": "सहेजें",
+    "selectCollection": "संग्रह का चयन करें",
+    "status": "स्थिति",
+    "supportedFormats": "समर्थित प्रारूप:",
+    "uploadDesc": "विवरण File Upload करें (ऐच्छिक)",
+    "uploadDescriptionTip": "अपनी विवरण File Upload करें।",
+    "uploadPics": "तस्वीरें Upload करें",
+    "uploadzipTip": "अपनी कला Fileें एक .ZIP File में संपीड़ित करें।",
+    "willBeMinted": "Mint होगा",
+    "yesDelete": "हाँ, हटाएं",
+    "yesMint": "हाँ, NFTS Mint करें"
+  },
   "merchshop": "मर्चशॉप",
   "migrate": {
     "agreement": "मुझे समझाया गया है कि एक बार हो गया तो यह क्रिया पूर्वप्रतिस्थापन नहीं हो सकती।",
@@ -862,14 +942,36 @@
     }
   },
   "mint": {
+    "blockchain": {
+      "label": "ब्लॉकचेन चयन करें",
+      "message": "Default रूप से कौनसी ब्लॉकचेन पर NFT MINT किए जाएंगे, उसे चयन करें।"
+    },
     "collection": {
       "banner": {
         "label": "collection बैनर",
         "message": "आपके collection का नाम। यह गैलरी में दिखाई जाएगा"
       },
+      "create": "नया collection बनाएं",
+      "description": {
+        "label": "collection विवरण",
+        "message": "आपके collection का विवरण। मार्कडाउन समर्थित है",
+        "placeholder": "अपने collection के बारे में और बताएं"
+      },
+      "drop": "collection लोगो यहाँ छोड़ें या Upload करने के लिए Click करें या Clipboard से छवि सीधे Paste करें। हम विभिन्न मीडिया प्रकारों (PNG, JPEG, GIF, SVG) का समर्थन करते हैं",
+      "logo": {
+        "image": "लोगो छवि",
+        "label": "collection लोगो",
+        "message": "यह छवि नेविगेशन के लिए भी उपयोग की जाएगी। आकार 300 x 300 का सुझावित छवि"
+      },
       "modal": {
         "depositTooltip": "collection बनाने के लिए {0} {1} की एक जमा की आवश्यकता है। कृपया ध्यान दें, यह प्रारंभिक जमा वापसी योग्य है।",
-        "existentialDeposit": "collection अस्तित्व जमा"
+        "existentialDeposit": "collection अस्तित्व जमा",
+        "title": "collection MINT करें"
+      },
+      "name": {
+        "label": "collection नाम",
+        "message": "आपके collection का नाम। यह गैलरी में दिखाई जाएगा",
+        "placeholder": "collection नाम दर्ज करें"
       },
       "submit": "collection बनाएं",
       "symbol": {
@@ -880,6 +982,7 @@
     },
     "command": "मास Mint के लिए कमांड की सूची",
     "creatingCollection": "कलेक्शन बना रहा है {name}",
+    "deposit": "जमा करें",
     "errorCreateNewNft": "{name} को Mint करना विफल रहा",
     "estimate": "लेन-देन शुल्क दिखाएं",
     "estimated": "अनुमानित शुल्क",
@@ -905,27 +1008,86 @@
     "mass": "NFT मास Mintर",
     "mintCollectionSuccess": "कलेक्शन {name} सफलता पूर्वक सुरक्षित किया गया है ब्लॉक {block} में",
     "mintNFTSuccess": "NFT {name} सफलता पूर्वक सुरक्षित किया गया है ब्लॉक {block} में",
+    "nfsw": "स्पष्ट सामग्री (NSFW)",
+    "nfswMessage": "अपने कलेक्शन को स्पष्ट और संवेदनशील सामग्री के रूप में सेट करें।",
     "nft": {
+      "art": {
+        "label": "आपकी शानदार कला",
+        "message": "यह चित्र, वीडियो, ऑडियो, 3D मॉडल हो सकता है"
+      },
+      "collection": {
+        "label": "कलेक्शन चयन करें",
+        "message": "चुनें उन कलेक्शन में से जिसमें आप अपने NFT को Mint करना चाहते हैं।"
+      },
+      "connect": "कृपया अपना wallet कनेक्ट करें",
+      "copies": {
+        "label": "कॉपीज़ की संख्या",
+        "message": "उसी NFT टोकन की मात्रा जो बनाई जाएगी।"
+      },
+      "cover": "आपके NFT को गैलरी में देखने के लिए एक पोस्टर/कवर की आवश्यकता है। कृपया छवि Upload करें (jpg/ png/ gif)",
+      "create": "नया NFT बनाएं",
+      "creative": {
+        "heading": "रचनात्मक Minting"
+      },
       "creativeDrop": "यहाँ अपना NFT छोड़ें, Upload करने के लिए Click करें या Clipboard से छवि Paste करें। Creative Minting के लिए हमारा समर्थन केवल JPEG, PNG, GIF या BMP छवि Files के लिए है। File का आकार 4MB से कम होना चाहिए, और छवि के आयाम 50x50 पिक्सेल से अधिक होने चाहिए। वास्तविक फ़ोटोग्राफ़ के साथ सबसे अच्छे परिणाम मिलेंगे।",
       "creativeFailDesc": "शीर्षक और विवरण उत्पन्न करना असफल रहा है। कृपया जाँचें कि Upload की गई File Creative Minting के सीमाओं में है: JPEG, PNG, GIF या BMP जिसका आकार 4MB से कम है और आयाम 50x50 पिक्सेल से अधिक है।",
+      "description": {
+        "label": "NFT विवरण",
+        "message": "आपके NFT का विवरण। मार्कडाउन समर्थित है",
+        "placeholder": "NFT विवरण दर्ज करें"
+      },
       "drop": "यहाँ अपना NFT छोड़ें या Upload करने के लिए Click करें या Clipboard से छवि सीधे Paste करें। हम विभिन्न मीडिया प्रकारों का समर्थन करते हैं (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)",
+      "edition": {
+        "label": "कॉपीज़",
+        "message": "Mint किए जाने वाले NFT की संख्या",
+        "placeholder": "न्यूनतम 1 है"
+      },
       "email": {
         "label": "ईमेल",
         "message": "अपनी अनुरोध की पूर्णता पर सूचना प्राप्त करने के लिए अपना ईमेल दर्ज करें",
         "placeholder": "अपना ईमेल दर्ज करें"
       },
       "modal": {
+        "action": "MINT की पुष्टि करें",
         "addFunds": "Fund जोड़ें",
+        "carbonless": "कार्बनलेस",
         "conjunction": "या उपयोग करें",
         "depositTooltip": "एक ITEM बनाने के लिए {0} {1} का जमा किया जाना चाहिए। कृपया ध्यान दें, यह प्रारंभिक जमा वापसी के योग्य है।",
         "existentialDeposit": "NFT अस्तित्वी संरक्षण जमा",
+        "intoCollection": "संग्रह में",
         "kodadotFee": "KodaDot शुल्क",
         "kodadotTooltip": "इस विकल्प को सक्रिय रखकर आप अपने JPEG कोडाओं को धारित करने के लिए Kodadot द्वारा उठाए गए प्रारंभिक खर्चों में सहायक हो रहे हैं। आप अपनी पसंद को Settings में कभी भी बदल सकते हैं।",
+        "login": "साइनिंग जारी रखें",
+        "network": "Network",
         "networkFee": "Network शुल्क",
         "notEnoughFund": "{1} पर {0} पर पर्याप्त नहीं है",
+        "price": "मूल्य",
+        "process": "MINTिंग के साथ जारी रखें",
         "serviceFee": "सेवा का कमीशन",
-        "teleport": "TELEPORT"
+        "teleport": "TELEPORT",
+        "title": "NFT को MINT करें",
+        "totalFee": "कुल शुल्क"
+      },
+      "name": {
+        "label": "नाम",
+        "message": "आपके NFT का नाम। इसे गैलरी में दिखाया जाएगा",
+        "placeholder": "NFT का नाम दर्ज करें"
+      },
+      "preview": {
+        "noCollection": "कोई कलेक्शन नहीं",
+        "title": "पूर्वावलोकन",
+        "uploadArt": "यहां अपने NFT के पूर्वावलोकन के लिए अपनी कला Upload करें"
+      },
+      "sale": {
+        "label": "बाजार पर बिक्री के लिए सूचीबद्ध करें",
+        "message": "लोग आपके NFT को खरीद सकेंगे।"
       }
+    },
+    "requiredDeposit": "NFT बनाने के लिए <strong>{0}</strong> का जमा किया जाना चाहिए। कृपया ध्यान दें, यह प्रारंभिक जमा वापसीय है।",
+    "royalty": {
+      "mine": "निर्माता खाते को Royalty दें",
+      "rate": "Royalty दर (%)",
+      "receiver": "Royalty के लिए गंतव्य खाता"
     },
     "shareWithFriends": "अपने दोस्तों के साथ {0} साझा करें",
     "submit": "NFT(s) बनाने के लिए Click करें",
@@ -934,6 +1096,7 @@
     "successNewNfts": "आपने सफलता पूर्वक इस NFT को खरीदा है",
     "successPurchasedNfts": "आपने {0} को सफलता पूर्वक खरीदा है",
     "transform": "NFT में कमांड ट्रांसफ़ॉर्म करें",
+    "unlimited": "आपके कलेक्शन में असीमित ITEM्स",
     "unlockable": {
       "addFundsModal": {
         "howToAddFunds": "Fund जोड़ने का तरीका",

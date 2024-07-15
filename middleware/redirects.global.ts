@@ -3,8 +3,6 @@ export default defineNuxtRouteMiddleware((route) => {
 
   let redirectValue
 
-  const createRoute = '/create'
-
   const paths = [
     {
       cond: (val) => val === '/drops',
@@ -32,25 +30,6 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: (val) => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
-    },
-    // create
-    {
-      cond: (val) => `/${urlPrefix.value}/create` === val,
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) =>
-        (val.startsWith(`/${urlPrefix.value}`) && val.endsWith('/massmint')) ||
-        val.endsWith('/massmint/onboarding'),
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) => '/create/nft' === val || '/create/collection' === val,
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) => val === '/ahk/waifu',
-      replaceValue: () => createRoute,
     },
   ]
 

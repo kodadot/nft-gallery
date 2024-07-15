@@ -69,6 +69,7 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
+            <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonCustomizeCollection

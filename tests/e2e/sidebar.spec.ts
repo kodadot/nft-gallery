@@ -12,13 +12,14 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
     //cart
     await page.getByTestId('navbar-button-cart').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeHidden()
+
     //profile
     await page.getByTestId('navbar-profile-dropdown').click()
     await expect(page.getByTestId('notification-modal-container')).toBeHidden()
   })
   await test.step('Check if sidebar closes when clicking navbar links', async () => {
     await page.getByTestId('navbar-profile-dropdown').click()
-    await page.getByTestId('drops').click()
+    await page.getByTestId('classic').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeHidden()
   })
   await test.step('Check if Add funds modal opens', async () => {
