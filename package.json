@@ -152,6 +152,7 @@
     "vitest": "^0.34.6"
   },
   "resolutions": {
-    "@apollo/federation": "0.38.1"
+    "@apollo/federation": "0.38.1",
+    "vue": "3.4.8"
   }
 }
