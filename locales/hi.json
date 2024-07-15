@@ -1164,11 +1164,6 @@
     "reportCollection": "कलेक्शन की सूचना दें"
   },
   "navbar": {
-    "create": {
-      "generateWaifu": "वाइफु उत्पन्न करें",
-      "timeLimit": "समय सीमित अभियांत्रिकी",
-      "waifu": "वाइफु"
-    },
     "teleport": "टेलीपोर्ट",
     "teleportBridge": "टेलीपोर्ट ब्रिज"
   },

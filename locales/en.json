@@ -1130,12 +1130,7 @@
   },
   "navbar": {
     "teleport": "Teleport",
-    "teleportBridge": "Teleport Bridge",
-    "create": {
-      "waifu": "Waifu",
-      "generateWaifu": "Generate Waifu",
-      "timeLimit": "Time Limited Campaign"
-    }
+    "teleportBridge": "Teleport Bridge"
   },
   "walletConnect": {
     "confirm": "Confirm",

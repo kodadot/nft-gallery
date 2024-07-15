@@ -25,37 +25,6 @@
             </div>
           </div>
         </button>
-        <nuxt-link
-          v-if="urlPrefix === 'ahk'"
-          :class="{ 'pack-box-waifu p-0 relative': !isMobile }"
-          class="pack-box flex items-center justify-center"
-          :to="`/${urlPrefix}/waifu`">
-          <div
-            :class="{
-              'flex h-full pack-content-waifu text-center flex-col': !isMobile,
-              'pack-content': isMobile,
-            }">
-            <img
-              v-if="!isMobile"
-              :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
-              class="svg-one"
-              alt="Create Waifu NFT" />
-            <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
-
-            <div class="px-3 flex h-full flex-col justify-center">
-              <p class="text-2xl font-bold">
-                {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
-              </p>
-              <p>{{ $t('createDropdown.waifu') }}</p>
-            </div>
-          </div>
-
-          <div
-            v-if="!isMobile"
-            class="time-limit absolute rounded-[6rem] top-4 px-2 py-1gi">
-            <span class="text-xs">{{ $t('navbar.create.timeLimit') }}</span>
-          </div>
-        </nuxt-link>
       </div>
 
       <div v-else class="pack">
@@ -101,8 +70,6 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
-const { isDarkMode } = useTheme()
-const { isMobile } = useViewport()
 
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({
