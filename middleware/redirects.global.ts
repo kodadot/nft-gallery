@@ -35,7 +35,9 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     {
       cond: (val) =>
-        val === `/${urlPrefix.value}/create` || val.startsWith('/create'),
+        val === `/${urlPrefix.value}/create` ||
+        val === `/${urlPrefix.value}/massmint` ||
+        val.startsWith('/create'),
       replaceValue: () => {
         if (!createVisible(urlPrefix.value)) {
           return '/'
