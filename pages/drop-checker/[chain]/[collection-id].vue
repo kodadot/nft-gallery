@@ -31,25 +31,36 @@
         <td>{{ metadata?.description }}</td>
       </tr>
       <tr>
-        <td>Collection supply</td>
+        <td>
+          <neo-icon
+            v-if="collectionConfig?.maxSupply === drops.max?.toString()"
+            icon="check"
+            class="text-k-green" />
+          <neo-icon v-else icon="xmark" class="text-k-red" />
+          Collection supply
+        </td>
         <td>:&nbsp;</td>
         <td>
-          <p>
-            on-chain: {{ collectionConfig?.maxSupply?.replaceAll(',', '') }}
-          </p>
+          <p>on-chain: {{ collectionConfig?.maxSupply }}</p>
           <p>database: {{ drops.max }}</p>
         </td>
       </tr>
       <tr>
-        <td>Collection price</td>
+        <td>
+          <neo-icon
+            v-if="collectionConfig?.mintSettings.price === drops.price"
+            icon="check"
+            class="text-k-green" />
+          <neo-icon v-else icon="xmark" class="text-k-red" />
+          Collection price
+        </td>
         <td>:&nbsp;</td>
         <td>
           <p>
             on-chain:
             {{
               formatAmountWithRound(
-                collectionConfig?.mintSettings?.price?.replaceAll(',', '') ||
-                  '',
+                collectionConfig?.mintSettings?.price || '',
                 decimals,
               )
             }}
@@ -107,7 +118,7 @@
     <div class="grid grid-cols-8 gap-6">
       <div
         v-for="n in client === 'ahp'
-          ? parseInt(collectionConfig?.maxSupply?.replaceAll(',', '') || '32')
+          ? parseInt(collectionConfig?.maxSupply || '32')
           : 32"
         :key="n">
         <NuxtLink
@@ -289,5 +300,9 @@ watchEffect(async () => {
   const api = await apiInstance.value
   const config = await api.query.nfts.collectionConfigOf(collectionId)
   collectionConfig.value = config.toHuman() as Config
+  collectionConfig.value.maxSupply =
+    collectionConfig.value.maxSupply?.replaceAll(',', '')
+  collectionConfig.value.mintSettings.price =
+    collectionConfig.value.mintSettings.price?.replaceAll(',', '')
 })
 </script>
