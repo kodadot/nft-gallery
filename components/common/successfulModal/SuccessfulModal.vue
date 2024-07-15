@@ -1,8 +1,5 @@
 <template>
-  <NeoModal
-    :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
-    @close="onClose">
+  <NeoModal :value="isModalActive" @close="onClose">
     <ModalBody :title="$t('success')" @close="onClose">
       <SuccessfulModalBody
         :tx-hash="txHash"
