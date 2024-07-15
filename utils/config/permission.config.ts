@@ -4,6 +4,8 @@ const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
   rmrk: false,
+  base: false,
+  imx: false,
 }
 
 const hasInsight: PartialConfig = {
