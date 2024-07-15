@@ -15,7 +15,7 @@
     "@vitejs/plugin-vue": "^4.6.2",
     "autoprefixer": "^10.4.19",
     "histoire": "0.17.6",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4"
   },
   "dependencies": {
@@ -24,7 +24,7 @@
     "@google/model-viewer": "^3.5.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.165.0",
-    "vue": "^3.4.29"
+    "three": "^0.166.1",
+    "vue": "^3.4.31"
   }
 }
