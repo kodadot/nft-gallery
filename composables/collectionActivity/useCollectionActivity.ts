@@ -1,9 +1,8 @@
-import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
+import { useQuery } from '@tanstack/vue-query'
+import type { Prefix } from '@kodadot1/static'
+import type { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
 import { nameWithIndex } from '@/utils/nft'
-import { useQuery } from '@tanstack/vue-query'
-
-import type { Prefix } from '@kodadot1/static'
 
 export const useCollectionActivity = ({
   collectionId,
@@ -32,11 +31,11 @@ export const useCollectionActivity = ({
     queryFn: () =>
       collectionId.value
         ? useGraphql({
-            queryPrefix,
-            queryName: 'collectionActivityEvents',
-            variables: variables.value,
-            clientName: prefix,
-          })
+          queryPrefix,
+          queryName: 'collectionActivityEvents',
+          variables: variables.value,
+          clientName: prefix,
+        })
         : null,
     staleTime: 1000 * 10,
   })
@@ -45,15 +44,15 @@ export const useCollectionActivity = ({
     computed(() => queryData.value?.data),
     (result) => {
       if (result) {
-        const nfts =
-          result.collection?.nfts.map((nft) => ({
+        const nfts
+          = result.collection?.nfts.map(nft => ({
             ...nft,
             name: nameWithIndex(nft?.name, nft?.sn),
           })) ?? []
         // flat events for chart
         const interactions: InteractionWithNFT[] = nfts
-          .map((nft) =>
-            nft.events.map((e) => ({
+          .map(nft =>
+            nft.events.map(e => ({
               ...e,
               timestamp: new Date(e.timestamp).getTime(),
               nft: {

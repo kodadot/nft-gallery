@@ -2,42 +2,47 @@
   <div>
     <div
       v-if="!loading"
-      class="border border-card-border-color hover:border-border-color bg-background-color group">
+      class="border border-card-border-color hover:border-border-color bg-background-color group"
+    >
       <component
         :is="cardIs"
         class="flex flex-col hover:text-text-color"
         rel="nofollow noopener noreferrer"
         :to="to"
-        @click="emit('click')">
+        @click="emit('click')"
+      >
         <img
           :src="image || placeholder"
           :alt="name"
-          class="group-hover:opacity-[0.85] aspect-square object-cover w-full" />
+          class="group-hover:opacity-[0.85] aspect-square object-cover w-full"
+        >
 
         <div
-          class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color">
+          class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color"
+        >
           <span
             class="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-xl"
-            >{{ name }}</span
-          >
+          >{{ name }}</span>
           <div
-            class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2">
+            class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2"
+          >
             <slot name="supply">
               <div>
-                <span>{{ minted }}</span
-                ><span class="text-k-grey">/{{ dropMax }}</span>
+                <span>{{ minted }}</span><span class="text-k-grey">/{{ dropMax }}</span>
               </div>
             </slot>
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
               :max-address-count="3"
-              size="small" />
+              size="small"
+            />
             <DropsTimeTag
               v-else-if="dropStartTime"
               :drop-start-time="dropStartTime"
               :with-time="timeTagWithTime"
-              :drop-status="dropStatus" />
+              :drop-status="dropStatus"
+            />
           </div>
         </div>
       </component>
@@ -49,7 +54,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { DropStatus } from '@/components/drops/useDrops'
+import type { DropStatus } from '@/components/drops/useDrops'
 
 const emit = defineEmits(['click'])
 withDefaults(
@@ -82,6 +87,7 @@ withDefaults(
 
 const { placeholder } = useTheme()
 </script>
+
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .is-ellipsis {

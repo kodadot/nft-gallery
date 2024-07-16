@@ -2,13 +2,17 @@
   <div>
     <WhyKodaHeroSection :sections="sections" />
 
-    <div v-for="(chunckedSection, i) in chunckedSections" :key="`${i}-section`">
+    <div
+      v-for="(chunckedSection, i) in chunckedSections"
+      :key="`${i}-section`"
+    >
       <WhyKodaSections :sections="chunckedSection" />
     </div>
 
     <WhyKodaCtaSection />
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { Section } from '@/components/why-koda/types'
 

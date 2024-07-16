@@ -1,5 +1,9 @@
 <template>
-  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading
+    v-model:active="isLoading"
+    is-full-page
+    :can-cancel="canCancel"
+  >
     <div class="loading-container py-2">
       <NeoButton
         class="close-icon py-1 px-2"
@@ -7,17 +11,19 @@
         no-shadow
         icon="xmark"
         size="medium"
-        @click="closeLoading" />
-      <img src="/unlockable-loader.svg" />
+        @click="closeLoading"
+      />
+      <img src="/unlockable-loader.svg">
       <div class="flex flex-col items-center px-5 text-center capitalize">
-        <div class="font-bold mb-2">{{ $t('mint.success') }}</div>
+        <div class="font-bold mb-2">
+          {{ $t('mint.success') }}
+        </div>
         <div>
           {{ $t('mint.unlockable.loader.viewNFT1') }}
           <span v-if="minted">
             {{ $t('mint.unlockable.loader.viewNFTNow2') }}
             <span class="font-bold">
-              {{ $t('mint.unlockable.loader.viewNFTNow3') }}</span
-            >
+              {{ $t('mint.unlockable.loader.viewNFTNow3') }}</span>
           </span>
           <span v-else>
             {{ $t('mint.unlockable.loader.viewNFTLater2') }}
@@ -32,7 +38,7 @@
             v-safe-href="postTwitterUrl"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
-            >{{ $t('mint.unlockable.loader.onTwitter') }}
+          >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>
         <nuxt-link :to="`/${urlPrefix}/gallery/${minted}`">
@@ -41,7 +47,8 @@
             variant="secondary"
             tag="span"
             :disabled="!minted"
-            :label="buttonLabel" />
+            :label="buttonLabel"
+          />
         </nuxt-link>
       </div>
     </div>

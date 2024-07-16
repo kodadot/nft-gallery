@@ -5,12 +5,14 @@
       size="large"
       variant="k-pink"
       fixed-width
-      @click="sendItem" />
+      @click="sendItem"
+    />
 
     <ItemTransferModal
       :value="isModalActive"
       :nft="nft"
-      @close="isModalActive = false" />
+      @close="isModalActive = false"
+    />
   </div>
 </template>
 
@@ -18,7 +20,7 @@
 import { NeoButton } from '@kodadot1/brick'
 
 import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
-import { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/components/rmrk/service/scheme'
 
 defineProps<{
   nft: NFT

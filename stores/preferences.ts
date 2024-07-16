@@ -12,11 +12,11 @@ export enum GridSection {
 
 export const DEFAULT_GRID_SECTION = GridSection.EXPLORE_GALLERY
 export type GridSize = 'small' | 'medium' | 'large'
-type GridConfig = { section: GridSection; class: string; size: GridSize }
+type GridConfig = { section: GridSection, class: string, size: GridSize }
 
 export const smallGridLayout = 'is-half-desktop is-half-tablet is-half-mobile'
-export const largeGridLayout =
-  'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
+export const largeGridLayout
+  = 'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
 
 const defaultGridConfigs: GridConfig[] = [
   { section: DEFAULT_GRID_SECTION, class: smallGridLayout, size: 'small' },
@@ -103,28 +103,28 @@ export const usePreferencesStore = defineStore('preferences', {
     partyMode: undefined,
   }),
   getters: {
-    getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
-    getMobileFilterCollapse: (state) => state.mobileFilterCollapseOpen,
-    getShoppingCartCollapse: (state) => state.shoppingCartCollapseOpen,
-    getCompletePurchaseModal: (state) => state.completePurchaseModal,
-    getTriggerBuySuccess: (state) => state.triggerBuySuccess,
-    getLayoutClass: (state) => state.layoutClass,
-    getGridConfigBySection: (state) => (section: GridSection) =>
-      state.gridConfigs.find((grid) => grid.section === section),
-    getTheatreView: (state) => state.theatreView,
-    getCompactCollection: (state) => state.compactCollection,
-    getShowPriceValue: (state) => state.showPriceGallery,
-    getShowMintTime: (state) => state.showMintTimeCollection,
-    getGalleryItemsPerPage: (state) => state.galleryItemsPerPage,
-    getCollectionsPerPage: (state) => state.collectionsPerPage,
-    getExploreTabOrder: (state) => state.exploreTabOrder,
-    getHistoryItemsPerPage: (state) => state.historyItemsPerPage,
-    getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
-    getHasSupport: (state) => state.hasSupport,
-    getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
-    getUserLocale: (state) => state.userLocale,
-    getNewsletterSubscription: (state) => state.newsletterSubscription,
-    getHasUserNotSetPartyMode: (state) => state.partyMode === undefined,
+    getsidebarFilterCollapse: state => state.sidebarFilterCollapseOpen,
+    getMobileFilterCollapse: state => state.mobileFilterCollapseOpen,
+    getShoppingCartCollapse: state => state.shoppingCartCollapseOpen,
+    getCompletePurchaseModal: state => state.completePurchaseModal,
+    getTriggerBuySuccess: state => state.triggerBuySuccess,
+    getLayoutClass: state => state.layoutClass,
+    getGridConfigBySection: state => (section: GridSection) =>
+      state.gridConfigs.find(grid => grid.section === section),
+    getTheatreView: state => state.theatreView,
+    getCompactCollection: state => state.compactCollection,
+    getShowPriceValue: state => state.showPriceGallery,
+    getShowMintTime: state => state.showMintTimeCollection,
+    getGalleryItemsPerPage: state => state.galleryItemsPerPage,
+    getCollectionsPerPage: state => state.collectionsPerPage,
+    getExploreTabOrder: state => state.exploreTabOrder,
+    getHistoryItemsPerPage: state => state.historyItemsPerPage,
+    getReplaceBuyNowWithYolo: state => state.replaceBuyNowWithYolo,
+    getHasSupport: state => state.hasSupport,
+    getFirstTimeAutoTeleport: state => state.firstTimeAutoTeleport,
+    getUserLocale: state => state.userLocale,
+    getNewsletterSubscription: state => state.newsletterSubscription,
+    getHasUserNotSetPartyMode: state => state.partyMode === undefined,
     getIsPartyMode(): boolean {
       return this.getHasUserNotSetPartyMode ? true : this.partyMode!
     },

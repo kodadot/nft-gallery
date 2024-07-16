@@ -9,21 +9,38 @@
     :on-cancel="onClose"
     class="z-[1000] absolute"
     content-class="!bg-background-color"
-    overlay-class="!bg-background-color opacity-[0.86]">
+    overlay-class="!bg-background-color opacity-[0.86]"
+  >
     <div class="flex flex-col h-full">
       <div class="flex-grow">
-        <NeoCommonHead :title="$t('general.filters')" @close="onClose" />
+        <NeoCommonHead
+          :title="$t('general.filters')"
+          @close="onClose"
+        />
         <EventTypeFilter
           v-if="isCollectionActivityTab"
           data-model="store"
-          expanded />
-        <StatusFilter v-else data-model="store" expanded />
+          expanded
+        />
+        <StatusFilter
+          v-else
+          data-model="store"
+          expanded
+        />
         <PriceFilter
           v-if="!isCollectionActivityTab"
           data-model="store"
-          expanded />
-        <PopularCollections v-if="isExploreItems" data-model="store" expanded />
-        <AdvancedFilter v-if="!isCollectionActivityTab" data-model="store" />
+          expanded
+        />
+        <PopularCollections
+          v-if="isExploreItems"
+          data-model="store"
+          expanded
+        />
+        <AdvancedFilter
+          v-if="!isCollectionActivityTab"
+          data-model="store"
+        />
       </div>
 
       <div class="buttons-container px-4 py-3 border-t bg-background-color">
@@ -31,14 +48,16 @@
           label="Reset All"
           variant="text"
           class="flex-grow min-w-36 !h-14 is-shadowless"
-          @click="resetFilters">
+          @click="resetFilters"
+        >
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="primary"
           no-shadow
           class="flex-grow min-w-36 h-14"
-          @click="applyFilters">
+          @click="applyFilters"
+        >
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
@@ -112,7 +131,8 @@ const syncFromUrl = () => {
   if (isCollectionActivityTab.value) {
     syncFromUrlOnActivityTab()
     activityFiltersStore.setPriceRange({ min, max })
-  } else {
+  }
+  else {
     syncFromUrlOnGrid()
     exploreFiltersStore.setPriceRange({ min, max })
   }
@@ -142,7 +162,8 @@ const resetFilterOnAcivityTab = () => {
 const resetFilters = () => {
   if (isCollectionActivityTab.value) {
     resetFilterOnAcivityTab()
-  } else {
+  }
+  else {
     const statusDefaults = {
       listed: false,
       owned: false,
@@ -181,7 +202,8 @@ const applyFilters = () => {
   // apply to URL
   if (isCollectionActivityTab.value) {
     replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
-  } else {
+  }
+  else {
     replaceUrl({ art_view: artView, ...restStatusFilters, ...priceRangeFilter })
   }
   emit('resetPage')

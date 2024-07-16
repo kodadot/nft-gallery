@@ -1,5 +1,8 @@
 <template>
-  <div ref="wrapper" class="relative w-full h-full aspect-square">
+  <div
+    ref="wrapper"
+    class="relative w-full h-full aspect-square"
+  >
     <iframe
       :id="iframeId"
       ref="iframe"
@@ -9,7 +12,8 @@
       :alt="alt"
       :sandbox="sandbox"
       :allow="allow"
-      @load="emit('load')" />
+      @load="emit('load')"
+    />
   </div>
 </template>
 
@@ -79,10 +83,10 @@ watchEffect(() => {
     const ySpace = windowHeight.value - IFRAME_BASE_SIZE * scale
 
     iframe.value.style.transform = `scale(${scale})`
-    iframe.value.style.left =
-      isFullscreenMode && xSpace > 0 ? `${Math.ceil(xSpace / 2)}px` : ''
-    iframe.value.style.top =
-      isFullscreenMode && ySpace > 0 ? `${Math.ceil(ySpace / 2)}px` : ''
+    iframe.value.style.left
+      = isFullscreenMode && xSpace > 0 ? `${Math.ceil(xSpace / 2)}px` : ''
+    iframe.value.style.top
+      = isFullscreenMode && ySpace > 0 ? `${Math.ceil(ySpace / 2)}px` : ''
   }
 })
 </script>

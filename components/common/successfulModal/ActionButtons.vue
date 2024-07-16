@@ -7,8 +7,9 @@
       rounded
       no-shadow
       @click="$emit('secondary')"
-      >{{ secondary.label }}</NeoButton
     >
+      {{ secondary.label }}
+    </NeoButton>
 
     <NeoButton
       class="hover-button w-full"
@@ -19,8 +20,9 @@
       no-shadow
       loading-with-label
       @click="$emit('primary')"
-      >{{ primary.disabled ? $t('loading') : primary.label }}</NeoButton
     >
+      {{ primary.disabled ? $t('loading') : primary.label }}
+    </NeoButton>
   </div>
 </template>
 

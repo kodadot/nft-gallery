@@ -23,8 +23,8 @@ export const dotHubDenyList = [
   '1HzwKkNGv4gdWq4ds1C5k63u8hvmjC6ULneAaZbwUBZEauF', // Dead collection
 ]
 
-export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
+export const IPFS_KODADOT_IMAGE_PLACEHOLDER
+  = 'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 

@@ -1,5 +1,10 @@
 <template>
-  <component :is="tag" class="label text-xs/normal">{{ $t(value) }}</component>
+  <component
+    :is="tag"
+    class="label text-xs/normal"
+  >
+    {{ $t(value) }}
+  </component>
 </template>
 
 <script lang="ts" setup>

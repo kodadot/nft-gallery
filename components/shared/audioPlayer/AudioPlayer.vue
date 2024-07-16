@@ -1,6 +1,9 @@
 <template>
   <div ref="player">
-    <audio ref="audio" :src="src" />
+    <audio
+      ref="audio"
+      :src="src"
+    />
 
     <div class="px-6 py-5 flex justify-items-center items-center">
       <div>
@@ -11,19 +14,22 @@
           no-shadow
           rounded
           variant="border-icon"
-          @click="togglePlay">
+          @click="togglePlay"
+        >
           <NeoIcon
             v-if="!playDisabled"
             :icon="playing ? 'pause' : 'play'"
             custom-size="fa-solid"
-            pack="fass" />
+            pack="fass"
+          />
         </NeoButton>
       </div>
 
       <div
         class="ml-4 duration"
         :class="{ 'cursor-pointer': canStartPlaying }"
-        @click="goToEnd">
+        @click="goToEnd"
+      >
         {{ formattedDuration }}
       </div>
 
@@ -31,7 +37,8 @@
         class="ml-4 w-full"
         :class="{
           'flex items-center justify-items-center': !isWaveformReady,
-        }">
+        }"
+      >
         <Waveform
           v-show="isWaveformReady"
           :class="{
@@ -39,8 +46,14 @@
           }"
           :get-media="() => $refs.audio"
           @play="play"
-          @ready="isWaveformReady = true" />
-        <NeoSkeleton v-if="!isWaveformReady" no-margin rounded height="100%" />
+          @ready="isWaveformReady = true"
+        />
+        <NeoSkeleton
+          v-if="!isWaveformReady"
+          no-margin
+          rounded
+          height="100%"
+        />
       </div>
 
       <div class="ml-4">
@@ -49,8 +62,12 @@
           no-shadow
           rounded
           variant="border-icon"
-          @click="toggleMute">
-          <NeoIcon :icon="muted ? 'volume-slash' : 'volume'" pack="fass" />
+          @click="toggleMute"
+        >
+          <NeoIcon
+            :icon="muted ? 'volume-slash' : 'volume'"
+            pack="fass"
+          />
         </NeoButton>
       </div>
     </div>
@@ -61,15 +78,15 @@
 import { computed, ref } from 'vue'
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
-import { getRandomValues } from '@/components/unique/utils'
 import Waveform from './Waveform.vue'
+import { getRandomValues } from '@/components/unique/utils'
 
 defineProps<{
   src?: string
 }>()
 
-const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
-  usePlayerEventBus()
+const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus }
+  = usePlayerEventBus()
 
 const audio = ref()
 const player = ref()
@@ -80,7 +97,7 @@ const isWaveformReady = ref(false)
 const id = ref(getRandomValues(1)[0])
 
 const actionStack = ref<
-  { promise: Promise<void>; reject: (reason?: any) => void }[]
+  { promise: Promise<void>, reject: (reason?: any) => void }[]
 >([])
 
 const { playing, currentTime, duration, muted } = useMediaControls(audio)
@@ -97,16 +114,18 @@ const formattedDuration = computed(() => {
 const togglePlay = async () => {
   if (playing.value) {
     await pause()
-  } else {
+  }
+  else {
     await play()
   }
 }
 
 const flushPreviouseActions = async () => {
   try {
-    await Promise.allSettled(actionStack.value.map((action) => action.reject()))
+    await Promise.allSettled(actionStack.value.map(action => action.reject()))
     actionStack.value = []
-  } catch (error) {}
+  }
+  catch (error) {}
 }
 
 const pushToActionStack = ({ promise, reject }) => {
@@ -119,7 +138,7 @@ const pushToActionStack = ({ promise, reject }) => {
 const play = (time?: number) => {
   return new Promise((resolve, reject) => {
     if (!canPlay.value) {
-      return reject(new Error("Player: Can't play")) // eslint-disable-line quotes
+      return reject(new Error('Player: Can\'t play'))
     }
     flushPreviouseActions()
       .then(() => {
@@ -150,7 +169,7 @@ const play = (time?: number) => {
 const pause = async () => {
   return new Promise((resolve, reject) => {
     if (!canPause.value) {
-      return reject(new Error("Player: Can't pause")) // eslint-disable-line quotes
+      return reject(new Error('Player: Can\'t pause'))
     }
 
     flushPreviouseActions()

@@ -4,17 +4,26 @@
     type="toggle"
     expanded
     data-testid="gallery-item-tabs"
-    content-class="o-tabs__content--fixed gallery-item-tab-panel">
+    content-class="o-tabs__content--fixed gallery-item-tab-panel"
+  >
     <!-- activity -->
     <NeoTabItem
       value="1"
       :label="$t('tabs.activity')"
-      data-testid="offer-activity">
-      <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
+      data-testid="offer-activity"
+    >
+      <GalleryItemActivity
+        v-if="nft?.id"
+        :nft-id="nft?.id"
+      />
     </NeoTabItem>
 
     <!-- chart -->
-    <NeoTabItem value="2" :label="$t('tabs.chart')" class="p-5">
+    <NeoTabItem
+      value="2"
+      :label="$t('tabs.chart')"
+      class="p-5"
+    >
       <GalleryItemChart :nft-events="nft?.events" />
     </NeoTabItem>
   </NeoTabs>
@@ -23,7 +32,7 @@
 <script setup lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-import { GalleryItem } from '../useGalleryItem'
+import type { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 

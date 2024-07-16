@@ -2,18 +2,21 @@
   <div class="collections">
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
-      @click="reachTopHandler" />
+      @click="reachTopHandler"
+    />
 
     <DynamicGrid
       v-if="!isLoading && total"
       :id="scrollContainerId"
       grid-size="medium"
-      :default-width="GRID_DEFAULT_WIDTH">
+      :default-width="GRID_DEFAULT_WIDTH"
+    >
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
         :class="scrollItemClassName"
-        :data-testid="`collection-index-${index}`">
+        :data-testid="`collection-index-${index}`"
+      >
         <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>
@@ -22,12 +25,20 @@
       v-else-if="isLoading || loadingOtherNetwork"
       :id="scrollContainerId"
       grid-size="medium"
-      :default-width="GRID_DEFAULT_WIDTH">
-      <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
+      :default-width="GRID_DEFAULT_WIDTH"
+    >
+      <CollectionCard
+        v-for="n in skeletonCount"
+        :key="n"
+        is-loading
+      />
     </DynamicGrid>
 
     <template v-else>
-      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <slot
+        v-if="slots['empty-result']"
+        name="empty-result"
+      />
       <EmptyResult v-else />
     </template>
 
@@ -36,12 +47,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Collection } from '@/components/rmrk/service/scheme'
-import { SearchQuery } from '@/components/search/types'
+import isEqual from 'lodash/isEqual'
+import type { Collection } from '@/components/rmrk/service/scheme'
+import type { SearchQuery } from '@/components/search/types'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import collectionListWithSearchProfile from '@/queries/subsquid/general/collectionListWithSearchProfile.graphql'
 import { getDenyList } from '@/utils/prefix'
-import isEqual from 'lodash/isEqual'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -184,7 +195,7 @@ const handleResult = (
     loadDirection = 'down',
     page,
     variables,
-  }: { loadDirection?: string; page: number; variables: object },
+  }: { loadDirection?: string, page: number, variables: object },
 ) => {
   total.value = data.stats.totalCount
 
@@ -200,7 +211,8 @@ const handleResult = (
 
   if (loadDirection === 'up') {
     collections.value = newCollections.concat(collections.value)
-  } else {
+  }
+  else {
     collections.value = collections.value.concat(newCollections)
   }
 
@@ -208,8 +220,8 @@ const handleResult = (
   isLoading.value = false
 }
 
-watch(total, (val) => emit('total', val))
-watch(isLoading, (val) => emit('isLoading', val))
+watch(total, val => emit('total', val))
+watch(isLoading, val => emit('isLoading', val))
 
 watch(
   () => route.query.search,

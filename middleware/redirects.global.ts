@@ -7,57 +7,57 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const paths = [
     {
-      cond: (val) => val === '/drops',
+      cond: val => val === '/drops',
       replaceValue: '/ahp/drops',
     },
     {
-      cond: (val) =>
+      cond: val =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
     },
     {
-      cond: (val) =>
+      cond: val =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
       replaceValue: () => `/${urlPrefix.value}/explore/items`,
     },
     {
-      cond: (val) => val.includes('/stmn/'),
+      cond: val => val.includes('/stmn/'),
       replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
     {
-      cond: (val) => val.includes('/rmrk2/'),
+      cond: val => val.includes('/rmrk2/'),
       replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
     },
     {
-      cond: (val) => val.startsWith('/transfer'),
+      cond: val => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
     // create
     {
-      cond: (val) => `/${urlPrefix.value}/create` === val,
+      cond: val => `/${urlPrefix.value}/create` === val,
       replaceValue: () => createRoute,
     },
     {
-      cond: (val) =>
-        (val.startsWith(`/${urlPrefix.value}`) && val.endsWith('/massmint')) ||
-        val.endsWith('/massmint/onboarding'),
+      cond: val =>
+        (val.startsWith(`/${urlPrefix.value}`) && val.endsWith('/massmint'))
+        || val.endsWith('/massmint/onboarding'),
       replaceValue: () => createRoute,
     },
     {
-      cond: (val) => '/create/nft' === val || '/create/collection' === val,
+      cond: val => '/create/nft' === val || '/create/collection' === val,
       replaceValue: () => createRoute,
     },
     {
-      cond: (val) => val === '/ahk/waifu',
+      cond: val => val === '/ahk/waifu',
       replaceValue: () => createRoute,
     },
   ]
 
   for (const path of paths) {
     if (path.cond(route.path)) {
-      redirectValue =
-        typeof path.replaceValue === 'function'
+      redirectValue
+        = typeof path.replaceValue === 'function'
           ? path.replaceValue()
           : path.replaceValue
       break

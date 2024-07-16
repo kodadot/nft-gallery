@@ -1,7 +1,7 @@
 <template>
   <div>
     <NeoField :class="searchColumnClass">
-      <slot name="next-filter"></slot>
+      <slot name="next-filter" />
       <SearchBar
         v-if="!hideSearchInput"
         ref="searchRef"
@@ -10,9 +10,13 @@
         data-testid="search-bar"
         @redirect="redirectToGalleryPageIfNeed"
         @enter="nativeSearch"
-        @blur="onBlur" />
+        @blur="onBlur"
+      />
       <div v-if="!isVisible && hideSearchInput">
-        <div v-if="priceRangeDirty" class="text-xs">
+        <div
+          v-if="priceRangeDirty"
+          class="text-xs"
+        >
           <PriceRange inline />
         </div>
       </div>
@@ -21,9 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { exist, existArray } from '@/utils/exist'
-import { SearchQuery } from './types'
 import { NeoField } from '@kodadot1/brick'
+import type { SearchQuery } from './types'
+import { exist, existArray } from '@/utils/exist'
 import PriceRange from '@/components/shared/format/PriceRange.vue'
 import SearchBar from '@/components/search/SearchBar.vue'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
@@ -84,7 +88,7 @@ const query = reactive<SearchQuery>({
 const urlSearchQuery = computed(() => route.query.search)
 const routePathList = computed(() =>
   searchPageRoutePathList.map(
-    (route) => `/${urlPrefix.value}/explore/${route}`,
+    route => `/${urlPrefix.value}/explore/${route}`,
   ),
 )
 const searchQuery = computed({
@@ -97,7 +101,7 @@ const searchQuery = computed({
 })
 const isExplorePage = computed(() => routePathList.value.includes(route.path))
 
-type Listed = boolean | { listed: boolean; min?: string; max?: string }
+type Listed = boolean | { listed: boolean, min?: string, max?: string }
 const vListed = computed({
   get() {
     query.listed = props.listed
@@ -113,7 +117,8 @@ const updateListed = useDebounceFn((value: string | Listed): boolean => {
   if (typeof value === 'string' || typeof value === 'boolean') {
     v = String(value)
     replaceUrl({ listed: v })
-  } else {
+  }
+  else {
     const { listed, max, min } = value
     v = String(listed)
     replaceUrl({
@@ -135,7 +140,7 @@ const replaceUrl = useDebounceFn(
     if (pathName && pathName !== route.path) {
       return
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { page, ...restQuery } = route.query
     router
       .replace({
@@ -153,11 +158,11 @@ const replaceUrl = useDebounceFn(
 )
 
 const updateSortBy = useDebounceFn((value: string[] | string) => {
-  const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
+  const final = (Array.isArray(value) ? value : [value]).filter(condition =>
     sortByOptions.value.includes(condition),
   )
   const listed = final.some(
-    (condition) => condition.toLowerCase().indexOf('price') > -1,
+    condition => condition.toLowerCase().indexOf('price') > -1,
   )
   if (listed && !vListed.value) {
     vListed.value = true
@@ -212,7 +217,8 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
   if (minValue) {
     priceRange.value = [min, priceRange.value[1]]
     priceRangeChangeMin(min * 10 ** decimals.value)
-  } else {
+  }
+  else {
     priceRange.value = [priceRange.value[0], max]
     priceRangeChangeMax(max * 10 ** decimals.value)
   }
@@ -271,8 +277,8 @@ onMounted(() => {
   }
 
   exist(route.query.search, updateSearch)
-  exist(route.query.min, (v) => updatePriceRangeByQuery(v))
-  exist(route.query.max, (v) => updatePriceRangeByQuery(undefined, v))
+  exist(route.query.min, v => updatePriceRangeByQuery(v))
+  exist(route.query.max, v => updatePriceRangeByQuery(undefined, v))
   existArray(route.query.sort as string[], updateSortBy)
   exist(route.query.listed, updateListed)
 })

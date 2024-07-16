@@ -4,11 +4,13 @@
     :can-cancel="['outside', 'escape']"
     class="z-[1000]"
     content-class="!w-[unset]"
-    @close="onClose">
+    @close="onClose"
+  >
     <ModalBody
       :title="$t('confirmPurchase.action')"
       :loading="loading"
-      @close="onClose">
+      @close="onClose"
+    >
       <div>
         <ModalIdentityItem />
       </div>
@@ -17,10 +19,11 @@
         <ConfirmNftPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
-          :nft="nft" />
+          :nft="nft"
+        />
       </div>
 
-      <hr class="my-4" />
+      <hr class="my-4">
 
       <div>
         <div class="flex justify-between items-center mb-2">
@@ -36,7 +39,8 @@
               position="top"
               multiline-width="14rem"
               :label="$t('tooltip.supportFee')"
-              multiline>
+              multiline
+            >
               <NeoIcon icon="circle-question" />
             </NeoTooltip>
           </div>
@@ -48,12 +52,15 @@
         </div>
       </div>
 
-      <hr class="my-4" />
+      <hr class="my-4">
 
       <div class="flex justify-between pb-4">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="flex">
-          <CommonTokenMoney :value="total" class="text-k-grey" />
+          <CommonTokenMoney
+            :value="total"
+            class="text-k-grey"
+          />
           <span class="font-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
@@ -69,7 +76,8 @@
           auto-close-modal
           :auto-close-modal-delay-modal="0"
           @confirm="confirm"
-          @actions:completed="$emit('completed')" />
+          @actions:completed="$emit('completed')"
+        />
       </div>
     </ModalBody>
   </NeoModal>
@@ -77,12 +85,12 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
+import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
@@ -120,7 +128,7 @@ const isModalActive = computed(
 )
 
 const totalNFTsPrice = computed(() =>
-  sum(items.value.map((nft) => Number(nft.price))),
+  sum(items.value.map(nft => Number(nft.price))),
 )
 const totalRoyalties = computed(() =>
   sum(

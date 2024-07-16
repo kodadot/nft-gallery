@@ -2,7 +2,8 @@
   <div
     ref="mediaItem"
     class="media-object h-fit"
-    :class="{ relative: hasNormalTag }">
+    :class="{ relative: hasNormalTag }"
+  >
     <component
       :is="resolveComponent"
       ref="mediaRef"
@@ -22,11 +23,16 @@
       :parent-hovering="isMediaItemHovering"
       :image-component="imageComponent"
       :preview="preview"
-      :autoplay="autoplay" />
+      :autoplay="autoplay"
+    />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur flex capitalize items-center justify-center flex-col">
-      <NeoIcon icon="eye-slash" class="mb-3" />
+      class="nsfw-blur flex capitalize items-center justify-center flex-col"
+    >
+      <NeoIcon
+        icon="eye-slash"
+        class="mb-3"
+      />
       <span class="font-bold">
         {{ $t('lewd.explicit') }}
       </span>
@@ -34,8 +40,13 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]">
-      <NeoIcon icon="image" pack="far" class="text-sm font-medium" />
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]"
+    >
+      <NeoIcon
+        icon="image"
+        pack="far"
+        class="text-sm font-medium"
+      />
     </div>
     <NeoButton
       v-if="isLewd"
@@ -46,7 +57,8 @@
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
-      @click="toggleContent" />
+      @click="toggleContent"
+    />
   </div>
 </template>
 
@@ -140,10 +152,10 @@ const type = ref('')
 
 const hasNormalTag = computed<boolean>(() => {
   return (
-    props.enableNormalTag &&
-    Boolean(props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
-    resolveMedia(mimeType.value) !== MediaType.IFRAME &&
-    !props.isDetail
+    props.enableNormalTag
+    && Boolean(props.mimeType || type.value || !props.animationSrc) // avoid showing normal tag before type has updated
+    && resolveMedia(mimeType.value) !== MediaType.IFRAME
+    && !props.isDetail
   )
 })
 const isLewdBlurredLayer = ref(props.isLewd)

@@ -1,12 +1,16 @@
 <template>
   <div class="arguments-wrapper">
-    <NeoField :label="$t(labelInput)" class="balance">
+    <NeoField
+      :label="$t(labelInput)"
+      class="balance"
+    >
       <NeoInput
         v-model="inputValue"
         type="number"
         step="0.001"
         min="0"
-        @input="handleInput" />
+        @input="handleInput"
+      />
       <div class="option">
         {{ label }}
       </div>
@@ -15,9 +19,9 @@
 </template>
 
 <script lang="ts" setup>
-import { units as defaultUnits } from '@/params/constants'
-import { Unit } from '@/params/types'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import { units as defaultUnits } from '@/params/constants'
+import type { Unit } from '@/params/types'
 
 const props = defineProps({
   value: { type: [Number, String], default: 0 },
@@ -36,7 +40,7 @@ const handleInput = (value) => {
 
 const inputValue = computed({
   get: () => props.value,
-  set: (value) => handleInput(value),
+  set: value => handleInput(value),
 })
 
 const mapper = (newunit: Unit) => {

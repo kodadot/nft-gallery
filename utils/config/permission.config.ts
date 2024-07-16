@@ -1,4 +1,4 @@
-import { PartialConfig, Prefix } from './types'
+import type { PartialConfig, Prefix } from './types'
 
 const hasCreate: PartialConfig = {
   dot: false,

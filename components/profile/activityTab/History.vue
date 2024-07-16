@@ -1,14 +1,21 @@
 <template>
-  <div ref="container" class="block">
+  <div
+    ref="container"
+    class="block"
+  >
     <slot
       name="header"
       :current-page="currentPage"
       :total="total"
       :per-page="itemsPerPage"
       :desktop="desktop"
-      :update-current-page="updateCurrentPage" />
+      :update-current-page="updateCurrentPage"
+    />
 
-    <div v-if="!desktop" class="flex justify-end my-5">
+    <div
+      v-if="!desktop"
+      class="flex justify-end my-5"
+    >
       <Pagination
         :value="currentPage"
         :total="total"
@@ -17,18 +24,21 @@
         :range-after="2"
         replace
         enable-listen-keyboard-event
-        preserve-scroll />
+        preserve-scroll
+      />
     </div>
 
     <div
       :class="{
         'mt-4': desktop,
-      }">
+      }"
+    >
       <ResponsiveTable
         :no-results-main="$t('activity.noResults')"
         :no-results-sub="$t('activity.noResultsSub')"
         :items="showList"
-        :show-no-results="!showList.length">
+        :show-no-results="!showList.length"
+      >
         <template #columns>
           <div class="flex-1">
             <span>{{ $t('activity.event.item') }}</span>
@@ -42,7 +52,10 @@
           <div class="flex-1">
             <span>{{ $t('activity.event.from') }}</span>
           </div>
-          <div v-if="isToColumnVisible" class="flex-1">
+          <div
+            v-if="isToColumnVisible"
+            class="flex-1"
+          >
             <span>{{ $t('activity.event.to') }}</span>
           </div>
           <div class="flex-1">
@@ -57,7 +70,8 @@
             data-testid="history-item-row"
             :event="item"
             :variant="variant"
-            :with-to-column="isToColumnVisible" />
+            :with-to-column="isToColumnVisible"
+          />
         </template>
       </ResponsiveTable>
     </div>
@@ -68,16 +82,16 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
+import HistoryRow from './HistoryRow.vue'
 import { exist } from '@/utils/exist'
 import { usePreferencesStore } from '@/stores/preferences'
 
 import { HistoryEventType, InteractionBsxOnly } from '@/utils/historyEvent'
 import { parseDate } from '@/utils/datetime'
 
-import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
+import type { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
-import HistoryRow from './HistoryRow.vue'
 import { emptyObject } from '@/utils/empty'
 
 const prop = withDefaults(
@@ -133,10 +147,10 @@ const isToColumnVisible = computed(() => {
 })
 
 const updateDataByEvent = () => {
-  data.value =
-    event.value === HistoryEventType.ALL
+  data.value
+    = event.value === HistoryEventType.ALL
       ? copyTableData.value
-      : [...new Set(copyTableData.value.filter((v) => v.Type === event))]
+      : [...new Set(copyTableData.value.filter(v => v.Type === event.value))]
 }
 
 export interface Event {
@@ -193,11 +207,12 @@ const createTable = (): void => {
         event['To'] = newEvent['caller']
         event['Amount'] = newEvent['meta']
         if (previousPriceMap[nftId]) {
-          event['Percentage'] =
-            ((parseInt(newEvent['meta']) - previousPriceMap[nftId]) /
-              previousPriceMap[nftId]) *
-            100
-        } else {
+          event['Percentage']
+            = ((parseInt(newEvent['meta']) - previousPriceMap[nftId])
+            / previousPriceMap[nftId])
+            * 100
+        }
+        else {
           event['Percentage'] = 100
         }
         previousPriceMap[nftId] = parseInt(newEvent['meta'])

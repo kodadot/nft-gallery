@@ -1,7 +1,11 @@
 <template>
   <header
-    class="flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color">
-    <span class="text-base font-bold" data-testid="commonhead-modal-title">
+    class="flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color"
+  >
+    <span
+      class="text-base font-bold"
+      data-testid="commonhead-modal-title"
+    >
       {{ title }}
     </span>
     <NeoButton
@@ -11,7 +15,8 @@
       icon="xmark"
       size="medium"
       data-testid="modal-close-button"
-      @click="emit('close')" />
+      @click="emit('close')"
+    />
   </header>
 </template>
 

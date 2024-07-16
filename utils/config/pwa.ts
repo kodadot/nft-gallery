@@ -1,3 +1,5 @@
+import type { ModuleOptions } from '@vite-pwa/nuxt'
+
 export const manifestIcons = [
   {
     src: '/icons/64x64.62fa86b5.png',
@@ -84,8 +86,6 @@ export const manifestIcons = [
     purpose: 'maskable',
   },
 ]
-
-import type { ModuleOptions } from '@vite-pwa/nuxt'
 
 const scope = '/'
 

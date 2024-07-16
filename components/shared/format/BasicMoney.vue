@@ -8,8 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
-import formatBalance from '@/utils/format/balance'
+import formatBalance, { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{

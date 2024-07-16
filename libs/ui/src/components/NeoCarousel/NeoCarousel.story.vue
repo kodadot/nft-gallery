@@ -1,8 +1,14 @@
 <template>
-  <Story title="NeoCarousel" :layout="{ type: 'grid', width: '600px' }">
+  <Story
+    title="NeoCarousel"
+    :layout="{ type: 'grid', width: '600px' }"
+  >
     <Variant title="NeoCarousel">
       <NeoCarousel>
-        <NeoCarouselItem v-for="(carousel, i) in carousels" :key="i">
+        <NeoCarouselItem
+          v-for="(carousel, i) in carousels"
+          :key="i"
+        >
           <section :style="{ 'background-color': carousel.color }">
             <h1>{{ carousel.text }}</h1>
           </section>

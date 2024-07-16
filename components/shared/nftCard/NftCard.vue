@@ -1,16 +1,23 @@
 <template>
   <div
     class="nft-card"
-    :class="{ loading: isLoading, 'nft-card__stacked': isStacked }">
-    <component :is="link" v-if="!isLoading && nft" :[bindKey]="href">
+    :class="{ 'loading': isLoading, 'nft-card__stacked': isStacked }"
+  >
+    <component
+      :is="link"
+      v-if="!isLoading && nft"
+      :[bindKey]="href"
+    >
       <img
         v-if="cardIcon && cardIconSrc"
         class="card-icon"
         :src="cardIconSrc"
-        alt="Card Icon" />
+        alt="Card Icon"
+      >
       <div
         class="relative"
-        :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }">
+        :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }"
+      >
         <MediaItem
           :key="nft.image"
           class="nft-media"
@@ -28,10 +35,12 @@
           disable-operation
           enable-normal-tag
           :audio-player-cover="mediaPlayerCover"
-          :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
+          :audio-hover-on-cover-play="mediaHoverOnCoverPlay"
+        />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
-          class="w-full flex justify-center action-container">
+          class="w-full flex justify-center action-container"
+        >
           <slot name="action" />
         </div>
       </div>
@@ -39,7 +48,8 @@
         v-if="isStacked && !hideMediaInfo"
         :token="nft"
         :variant="variant"
-        :prefix="prefix" />
+        :prefix="prefix"
+      />
       <NftMediaInfo
         v-else-if="!hideMediaInfo"
         :nft="nft"
@@ -49,13 +59,18 @@
         :show-price="showPrice"
         :show-timestamp="showTimestamp"
         :collection-popover-hide="collectionPopoverHide"
-        :collection-popover-show-delay="collectionPopoverShowDelay" />
+        :collection-popover-show-delay="collectionPopoverShowDelay"
+      />
     </component>
 
     <template v-else>
       <div class="media-object nft-media">
         <div class="is-square image">
-          <NeoSkeleton :rounded="false" full-size no-margin />
+          <NeoSkeleton
+            :rounded="false"
+            full-size
+            no-margin
+          />
         </div>
       </div>
       <div
@@ -63,17 +78,29 @@
         :class="[
           `nft-media-info__${variant}`,
           { 'nft-media-info__slim': hideMediaInfo },
-        ]">
-        <NeoSkeleton size="medium" no-margin />
-        <div v-if="!isMinimal" class="flex mt-2">
+        ]"
+      >
+        <NeoSkeleton
+          size="medium"
+          no-margin
+        />
+        <div
+          v-if="!isMinimal"
+          class="flex mt-2"
+        >
           <NeoSkeleton
             size="small"
             position="centered"
             no-margin
-            width="150px" />
+            width="150px"
+          />
         </div>
         <div class="flex mt-4">
-          <NeoSkeleton size="small" no-margin width="100px" />
+          <NeoSkeleton
+            size="small"
+            no-margin
+            width="100px"
+          />
         </div>
       </div>
     </template>
@@ -85,11 +112,10 @@ import { computed } from 'vue'
 import { NeoSkeleton } from '@kodadot1/brick'
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 
-import MediaItem from '@/components/base/MediaItem.vue'
-
 import NftMediaInfoStacked from './NftMediaInfoStacked.vue'
 import NftMediaInfo from './NftMediaInfo.vue'
 import type { NeoNFT, NftCardVariant } from './types'
+import MediaItem from '@/components/base/MediaItem.vue'
 
 const props = withDefaults(
   defineProps<{

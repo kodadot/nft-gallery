@@ -6,31 +6,39 @@
       :is-loading="isLoading"
       :status="status"
       close-in-block
-      @try-again="submitListing" />
+      @try-again="submitListing"
+    />
 
     <NeoModal
       :value="isSuccessModalOpen"
       append-to-body
-      @close="handleSuccessModalClose">
-      <ModalBody :title="$t('success')" @close="handleSuccessModalClose">
+      @close="handleSuccessModalClose"
+    >
+      <ModalBody
+        :title="$t('success')"
+        @close="handleSuccessModalClose"
+      >
         <SuccessfulListingBody
           :tx-hash="txHash"
           :items="items"
-          :status="status" />
+          :status="status"
+        />
       </ModalBody>
     </NeoModal>
 
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       append-to-body
-      @close="onClose">
+      @close="onClose"
+    >
       <ModalBody
         modal-max-height="100vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
         :loading="!autoTeleportLoaded"
-        @close="onClose">
+        @close="onClose"
+      >
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
@@ -38,28 +46,29 @@
             v-if="listingCartStore.count === 1"
             v-model:fixedPrice="fixedPrice"
             v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
-            @setFixedPrice="setFixedPrice" />
+            @set-fixed-price="setFixedPrice"
+          />
 
           <ListingCartMultipleItemsCart
             v-else
             v-model:fixedPrice="fixedPrice"
             v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
-            @setFixedPrice="setFixedPrice" />
+            @set-fixed-price="setFixedPrice"
+          />
         </div>
 
         <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
             <div class="flex">
-              <span class="ml-2 text-k-grey"
-                >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
-              >
+              <span class="ml-2 text-k-grey">{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span>
               <span class="font-bold ml-2"> ${{ priceUSD }} </span>
             </div>
           </div>
 
           <div
-            class="flex justify-between text-k-grey pb-4 mt-3 border-b-k-shade">
+            class="flex justify-between text-k-grey pb-4 mt-3 border-b-k-shade"
+          >
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>
@@ -75,7 +84,8 @@
             early-success
             auto-close-modal
             :auto-close-modal-delay-modal="0"
-            @confirm="confirm" />
+            @confirm="confirm"
+          />
         </div>
       </ModalBody>
     </NeoModal>
@@ -84,12 +94,15 @@
 
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
-import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { NeoModal } from '@kodadot1/brick'
+import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
+import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { TokenToList } from '@/composables/transaction/types'
-import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
+import type { TokenToList, Actions } from '@/composables/transaction/types'
+import type { ListCartItem } from '@/stores/listingCart'
+import { useListingCartStore } from '@/stores/listingCart'
 import format, { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
@@ -99,9 +112,6 @@ import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import AutoTeleportActionButton, {
   type AutoTeleportActionButtonConfirmEvent,
 } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
-import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
-import type { Actions } from '@/composables/transaction/types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 
@@ -181,21 +191,21 @@ const priceUSD = computed(() =>
 const totalNFTsPrice = computed(() =>
   Number(
     sum(
-      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice || 0)),
+      listingCartStore.itemsInChain.map(nft => Number(nft.listPrice || 0)),
     ).toFixed(4),
   ),
 )
 
 const cartHasNFTsWithPrice = computed(() =>
-  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean),
+  listingCartStore.itemsInChain.map(nft => Number(nft.price)).some(Boolean),
 )
 const showChangePriceModal = computed(
   () => cartHasNFTsWithPrice.value && listingCartStore.count === 1,
 )
 
 const title = computed(() => {
-  const items =
-    listingCartStore.count === 1
+  const items
+    = listingCartStore.count === 1
       ? 'NFT'
       : `${listingCartStore.count} ${$i18n.t('items')}`
 
@@ -206,9 +216,9 @@ const title = computed(() => {
 
 const confirmButtonDisabled = computed(
   () =>
-    hasOperationsDisabled(urlPrefix.value) ||
-    Boolean(listingCartStore.incompleteListPrices) ||
-    !autoteleportButton.value?.isReady,
+    hasOperationsDisabled(urlPrefix.value)
+    || Boolean(listingCartStore.incompleteListPrices)
+    || !autoteleportButton.value?.isReady,
 )
 
 const confirmListingLabel = computed(() => {
@@ -240,7 +250,7 @@ const getAction = (items: ListCartItem[]): Actions => {
     .filter((item): item is ListCartItem & { listPrice: number } =>
       Boolean(item.listPrice),
     )
-    .map((item) => ({
+    .map(item => ({
       price: String(calculateBalance(item.listPrice, decimals.value)),
       nftId: item.id,
     })) as TokenToList[]
@@ -273,7 +283,8 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     listingCartStore.clearListedItems()
     closeListingCartModal()
     resetCartToDefaults()
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error)
   }
 }

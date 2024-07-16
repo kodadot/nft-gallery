@@ -17,7 +17,7 @@ argArr.forEach((arg) => {
     args.locales = arg
       .substring(arg.indexOf('=') + 1)
       .split(',')
-      .map((x) => x.toLocaleLowerCase())
+      .map(x => x.toLocaleLowerCase())
   }
   if (arg.indexOf('baseLocale') > -1) {
     args.baseLocale = arg.substring(arg.indexOf('=') + 1).toLocaleLowerCase()
@@ -34,7 +34,8 @@ async function readJson(filePath) {
   try {
     const content = await fs.readFile(filePath, { encoding: 'utf8' })
     return JSON.parse(content)
-  } catch (err) {
+  }
+  catch (err) {
     throw new Error(err.message)
   }
 }
@@ -49,10 +50,11 @@ async function getLocales() {
   if (CONSTANTS.LOCALES === 'all') {
     // get json file like en.json, fr.json in locale directory
     dirs = (await fs.readdir(path.join(CONSTANTS.LOCALE_DIR))).filter(
-      (fileName) => /^[a-z]{2}\.json/.test(fileName)
+      fileName => /^[a-z]{2}\.json/.test(fileName),
     )
-  } else if (Array.isArray(CONSTANTS.LOCALES)) {
-    dirs = CONSTANTS.LOCALES.map((lang) => `${lang}.json`)
+  }
+  else if (Array.isArray(CONSTANTS.LOCALES)) {
+    dirs = CONSTANTS.LOCALES.map(lang => `${lang}.json`)
   }
   for (let key of dirs) {
     locales[key] = await readJson(path.join(CONSTANTS.LOCALE_DIR, key))
@@ -68,7 +70,8 @@ function sortJson(json) {
     .forEach((key) => {
       if (typeof json[key] === 'object') {
         sorted[key] = sortJson(json[key])
-      } else {
+      }
+      else {
         sorted[key] = json[key]
       }
     })
@@ -80,9 +83,10 @@ function compareLocale(baseLocale, locale, prefix = '') {
   Object.keys(baseLocale).forEach((key) => {
     if (locale[key] === undefined) {
       res.push(`${prefix}${key}`)
-    } else if (typeof baseLocale[key] === 'object') {
+    }
+    else if (typeof baseLocale[key] === 'object') {
       res = res.concat(
-        compareLocale(baseLocale[key], locale[key], `${prefix}${key}.`)
+        compareLocale(baseLocale[key], locale[key], `${prefix}${key}.`),
       )
     }
   })
@@ -100,7 +104,7 @@ async function resortJson() {
 async function checkLocale() {
   const res = {}
   const baseLocale = await readJson(
-    path.join(CONSTANTS.LOCALE_DIR, `${CONSTANTS.BASE_LOCALE}.json`)
+    path.join(CONSTANTS.LOCALE_DIR, `${CONSTANTS.BASE_LOCALE}.json`),
   )
   const allLocales = await getLocales()
 
@@ -126,8 +130,9 @@ if (Object.keys(checkResult).length > 0) {
   console.table(table)
   await writeJson('locale-check.log.json', checkResult)
   throw new Error(
-    '❌ Missing translations, please check locale-check.log.json for detail.'
+    '❌ Missing translations, please check locale-check.log.json for detail.',
   )
-} else {
+}
+else {
   console.log('🚀 Translation check passed!')
 }

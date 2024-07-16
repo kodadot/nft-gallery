@@ -1,11 +1,13 @@
 <template>
   <div
     v-if="(showTwitter && twitter) || !showTwitter"
-    class="flex-wrap flex-grow">
+    class="flex-wrap flex-grow"
+  >
     <IdentitySocial
       v-if="showTwitter && twitter"
       :twitter="twitter"
-      :show-twitter="showTwitter" />
+      :show-twitter="showTwitter"
+    />
     <IdentityChain
       v-else
       :show-onchain-identity="showOnchainIdentity"
@@ -17,12 +19,13 @@
       :shortened-address="shortenedAddress"
       :hide-display-name="hideDisplayName"
       :display="display"
-      :name="name" />
+      :name="name"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import type { GenericAccountId } from '@polkadot/types/generic/AccountId'
 
 type Address = string | GenericAccountId | undefined
 

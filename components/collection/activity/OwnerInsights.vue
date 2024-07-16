@@ -1,22 +1,36 @@
 <template>
   <div class="h-[350px] border">
-    <div class="py-4 px-5 flex border-b" aria-label="controls">
+    <div
+      class="py-4 px-5 flex border-b"
+      aria-label="controls"
+    >
       <div
         class="mr-4 cursor-pointer"
         :class="{ 'font-bold': activeTab === Tabs.holders }"
-        @click="changeTab(Tabs.holders)">
+        @click="changeTab(Tabs.holders)"
+      >
         {{ $t('holders') }}
       </div>
       <div
         class="cursor-pointer"
         :class="{ 'font-bold': activeTab === Tabs.flippers }"
-        @click="changeTab(Tabs.flippers)">
+        @click="changeTab(Tabs.flippers)"
+      >
         {{ $t('flippers') }}
       </div>
     </div>
-    <div ref="container" class="py-4 max-h-[290px] overflow-y-auto">
-      <HoldersTab v-if="activeTab === Tabs.holders" :owners="owners" />
-      <FlippersTab v-if="activeTab === Tabs.flippers" :flippers="flippers" />
+    <div
+      ref="container"
+      class="py-4 max-h-[290px] overflow-y-auto"
+    >
+      <HoldersTab
+        v-if="activeTab === Tabs.holders"
+        :owners="owners"
+      />
+      <FlippersTab
+        v-if="activeTab === Tabs.flippers"
+        :flippers="flippers"
+      />
     </div>
   </div>
 </template>
@@ -24,7 +38,7 @@
 <script setup lang="ts">
 import HoldersTab from './ownerInsightsTabs/HolderTab.vue'
 import FlippersTab from './ownerInsightsTabs/FlipperTab.vue'
-import { Flippers, Owners } from '@/composables/collectionActivity/types'
+import type { Flippers, Owners } from '@/composables/collectionActivity/types'
 
 enum Tabs {
   holders,

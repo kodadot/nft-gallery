@@ -1,12 +1,12 @@
+import { web3Enable } from '@polkadot/extension-dapp'
+import type { SubmittableResult } from '@polkadot/api'
 import {
   Chain,
   allowedTransitions,
   chainToPrefixMap,
   prefixToChainMap,
 } from '@/utils/teleport'
-import { web3Enable } from '@polkadot/extension-dapp'
 import { getss58AddressByPrefix } from '@/utils/account'
-import { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
 
 export type TeleportParams = {
@@ -22,8 +22,8 @@ export default function (fetchBalancePeriodically: boolean = false) {
   const isError = ref<boolean>(false)
   const txId = ref<string | null>(null)
 
-  const { isLoading, status, initTransactionLoader, stopLoader } =
-    useTransactionStatus()
+  const { isLoading, status, initTransactionLoader, stopLoader }
+    = useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
   const { $i18n } = useNuxtApp()
@@ -127,8 +127,8 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
   const getAddressByChain = (chain: Chain) => {
     return (
-      accountId.value &&
-      getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
+      accountId.value
+      && getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
     )
   }
 
@@ -145,7 +145,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
   }
 
   const fetchChainsBalances = (chains: Chain[]) => {
-    const chainPrefixes = chains.map((chain) => chainToPrefixMap[chain])
+    const chainPrefixes = chains.map(chain => chainToPrefixMap[chain])
     return fetchMultipleBalance(chainPrefixes)
   }
 

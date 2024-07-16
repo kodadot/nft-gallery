@@ -1,5 +1,8 @@
 <template>
-  <figure class="image-wrapper image is-1by1" :class="customClass">
+  <figure
+    class="image-wrapper image is-1by1"
+    :class="customClass"
+  >
     <transition name="fade">
       <img
         v-if="imageSrc"
@@ -7,11 +10,19 @@
         :alt="alt"
         :class="['has-ratio', { 'rounded-full': rounded }]"
         @load="onImageLoad"
-        @error="onImageError" />
+        @error="onImageError"
+      >
     </transition>
     <transition name="fade">
-      <slot v-if="!loaded" name="placeholder">
-        <NeoSkeleton full-size no-margin :circle="rounded" />
+      <slot
+        v-if="!loaded"
+        name="placeholder"
+      >
+        <NeoSkeleton
+          full-size
+          no-margin
+          :circle="rounded"
+        />
       </slot>
     </transition>
   </figure>

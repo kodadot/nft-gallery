@@ -1,5 +1,8 @@
 <template>
-  <NeoTooltip :label="parsedDate" position="top">
+  <NeoTooltip
+    :label="parsedDate"
+    position="top"
+  >
     <span :class="customClass">{{ timeAgoStr }}</span>
   </NeoTooltip>
 </template>

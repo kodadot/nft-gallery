@@ -1,12 +1,14 @@
 <template>
   <div
     class="wallet-modal-container flex flex-col"
-    data-testid="wallet-connect-sidebar-modal">
+    data-testid="wallet-connect-sidebar-modal"
+  >
     <NeoModalHead
       :title="
         showAccount ? $t('profile.page') : $t('walletConnect.walletHeading')
       "
-      @close="emit('close', ModalCloseType.BACK)" />
+      @close="emit('close', ModalCloseType.BACK)"
+    />
 
     <section v-if="showAccount">
       <WalletAsset />
@@ -15,7 +17,8 @@
     <template v-else>
       <div
         v-if="disconnecting"
-        class="flex items-start justify-center pt-10 h-full">
+        class="flex items-start justify-center pt-10 h-full"
+      >
         <span class="text-k-grey inline-flex gap-1">
           {{ $t('disconnecting') }}
           <div class="dots w-2" />
@@ -25,9 +28,16 @@
       <template v-else>
         <WalletTabs v-model="selectedTab" />
 
-        <ConnectSubstrate v-if="selectedTab === 'SUB'" @select="setAccount" />
+        <ConnectSubstrate
+          v-if="selectedTab === 'SUB'"
+          @select="setAccount"
+        />
 
-        <ConnectEvm v-else class="!px-7" @select="setAccount" />
+        <ConnectEvm
+          v-else
+          class="!px-7"
+          @select="setAccount"
+        />
       </template>
 
       <MnemonicNotice />
@@ -37,9 +47,9 @@
 
 <script setup lang="ts">
 import { NeoModalHead } from '@kodadot1/brick'
+import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
-import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
 
 const emit = defineEmits(['close', 'connect'])
 

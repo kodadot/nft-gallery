@@ -12,12 +12,15 @@
       </div>
     </div>
 
-    <hr class="my-4" />
+    <hr class="my-4">
 
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex items-center">
-        <CommonTokenMoney :value="minimumFunds" class="text-k-grey" />
+        <CommonTokenMoney
+          :value="minimumFunds"
+          class="text-k-grey"
+        />
         <span class="font-bold ml-2">
           {{ priceUSD }}
         </span>
@@ -40,7 +43,8 @@
       auto-close-modal
       :auto-close-modal-delay-modal="0"
       @confirm="(e) => $emit('confirm', e)"
-      @modal:close="(e) => $emit('close', e)" />
+      @modal:close="(e) => $emit('close', e)"
+    />
   </div>
 </template>
 
@@ -58,7 +62,7 @@ const props = defineProps<{
   toMintNfts: MassMintNFT[]
   action: AutoTeleportAction
   minimumFunds: number
-  mintButton: { label: string; disabled: boolean; loading?: boolean }
+  mintButton: { label: string, disabled: boolean, loading?: boolean }
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
 }>()

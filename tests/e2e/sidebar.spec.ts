@@ -6,13 +6,13 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
   await Commands.e2elogin()
   await page.goto(LANDING_PATH)
   await test.step('Switches trough sidebars and check if they overlap each other', async () => {
-    //profile
+    // profile
     await page.getByTestId('navbar-profile-dropdown').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeVisible()
-    //cart
+    // cart
     await page.getByTestId('navbar-button-cart').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeHidden()
-    //profile
+    // profile
     await page.getByTestId('navbar-profile-dropdown').click()
     await expect(page.getByTestId('notification-modal-container')).toBeHidden()
   })
@@ -23,7 +23,7 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
   })
   await test.step('Check if Add funds modal opens', async () => {
     await page.getByTestId('navbar-profile-dropdown').click()
-    //wait for balances to load
+    // wait for balances to load
     await expect(page.getByTestId('button-add-funds-empty')).toBeVisible({
       timeout: 10000,
     })

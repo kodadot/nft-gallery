@@ -13,7 +13,8 @@
       :src="animationSrc || src"
       controlslist="nodownload"
       data-testid="type-video"
-      :title="alt" />
+      :title="alt"
+    />
   </div>
 </template>
 

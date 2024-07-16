@@ -3,32 +3,40 @@
     <MessageNotify
       v-if="congratsNewNft"
       :title="$t('mint.success')"
-      :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
+      :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])"
+    />
     <div class="flex flex-col lg:flex-row">
       <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
           id="nft-img-container"
           ref="imgref"
           :class="{
-            relative: !isFullscreen,
+            'relative': !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
-          }">
+          }"
+        >
           <NeoButton
             v-if="isFullscreen"
             class="back-button z-20"
-            @click="toggleFullscreen">
+            @click="toggleFullscreen"
+          >
             <NeoIcon icon="chevron-left" />
             {{ $t('goBack') }}
           </NeoButton>
           <!-- media item -->
-          <div v-if="hasResources" class="gallery-item-carousel">
+          <div
+            v-if="hasResources"
+            class="gallery-item-carousel"
+          >
             <NeoCarousel
               v-model="activeCarousel"
               indicators-class="mt-4"
-              indicator-item-class="mx-1">
+              indicator-item-class="mx-1"
+            >
               <NeoCarouselItem
                 v-for="resource in nftResources"
-                :key="resource.id">
+                :key="resource.id"
+              >
                 <BaseMediaItem
                   :key="resource.src"
                   :src="getMediaSrc(resource.src)"
@@ -39,7 +47,8 @@
                   :is-fullscreen="isFullscreen"
                   :sizes="sizes"
                   enable-normal-tag
-                  is-detail />
+                  is-detail
+                />
               </NeoCarouselItem>
             </NeoCarousel>
           </div>
@@ -59,7 +68,8 @@
             :image-component="NuxtImg"
             :sizes="sizes"
             enable-normal-tag
-            :audio-player-cover="image" />
+            :audio-player-cover="image"
+          />
         </div>
         <GalleryItemToolBar @toggle="toggleFullscreen" />
       </div>
@@ -70,20 +80,31 @@
           <div class="pb-2">
             <div class="flex justify-between">
               <div class="name-container">
-                <h1 class="title" data-testid="item-title">
+                <h1
+                  class="title"
+                  data-testid="item-title"
+                >
                   {{ title }}
-                  <span v-if="nft?.burned" class="text-k-red">「🔥」</span>
+                  <span
+                    v-if="nft?.burned"
+                    class="text-k-red"
+                  >「🔥」</span>
                 </h1>
-                <h2 class="subtitle" data-testid="item-collection">
+                <h2
+                  class="subtitle"
+                  data-testid="item-collection"
+                >
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
                     :collection="collection"
-                    :nft="nft">
+                    :nft="nft"
+                  >
                     <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="text-k-blue hover:text-k-blue-hover"
-                        data-testid="gallery-item-collection-link">
+                        data-testid="gallery-item-collection-link"
+                      >
                         {{ collection?.name || collection?.id }}
                       </nuxt-link>
                     </template>
@@ -92,13 +113,19 @@
               </div>
               <GalleryItemButton
                 v-if="!nft?.burned"
-                :gallery-item="galleryItem" />
+                :gallery-item="galleryItem"
+              />
             </div>
 
             <div
               class="text-neutral-7 flex items-center"
-              :class="isMobile ? 'my-4' : 'my-6'">
-              <NeoIcon pack="fasl" icon="eye" class="mr-1" />
+              :class="isMobile ? 'my-4' : 'my-6'"
+            >
+              <NeoIcon
+                pack="fasl"
+                icon="eye"
+                class="mr-1"
+              />
               <span v-if="pageViewCount === null">--</span>
               <span v-else>{{ formatNumber(pageViewCount) }}</span>
             </div>
@@ -111,34 +138,41 @@
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
-                data-testid="item-creator" />
+                data-testid="item-creator"
+              />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
                 :label="$t('owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
-                data-testid="item-owner" />
+                data-testid="item-owner"
+              />
             </div>
           </div>
 
           <!-- LINE DIVIDER -->
-          <hr />
+          <hr>
           <template v-if="!nft?.burned">
             <UnlockableTag
               v-if="isUnlockable && isMobile"
               :nft="nft"
               :link="unlockLink"
-              class="mt-4" />
+              class="mt-4"
+            />
 
             <!-- price section -->
-            <GalleryItemHolderOf v-if="nft && isAssetHub" :nft="nft" />
+            <GalleryItemHolderOf
+              v-if="nft && isAssetHub"
+              :nft="nft"
+            />
             <GalleryItemAction :nft="nft" />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
               :nft="nft"
-              class="mt-7" />
+              class="mt-7"
+            />
           </template>
         </div>
       </div>
@@ -148,13 +182,15 @@
       <div class="w-full lg:w-2/5 lg:pr-4">
         <GalleryItemDescription
           ref="galleryDescriptionRef"
-          :gallery-item="galleryItem" />
+          :gallery-item="galleryItem"
+        />
       </div>
 
       <div class="w-full lg:w-3/5 gallery-item-tabs-panel-wrapper">
         <GalleryItemTabsPanel
           :active-tab="activeTab"
-          :gallery-item="galleryItem" />
+          :gallery-item="galleryItem"
+        />
       </div>
     </div>
 
@@ -162,7 +198,8 @@
       v-if="nft?.collection.id"
       class="mt-10"
       :collection-id="nft?.collection.id"
-      data-testid="carousel-related" />
+      data-testid="carousel-related"
+    />
 
     <CarouselTypeVisited class="mt-10" />
   </section>
@@ -179,20 +216,20 @@ import { useFullscreen, useWindowSize } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
 
-import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
-import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
-import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
-
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import UnlockableTag from './UnlockableTag.vue'
+import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
+import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
+import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
+
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
-import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
@@ -329,7 +366,8 @@ function toggleFullscreen() {
   const mediaType = resolveMedia(nftAnimationMimeType.value)
   if ([MediaType.VIDEO].includes(mediaType)) {
     mediaItemRef.value?.toggleFullscreen()
-  } else {
+  }
+  else {
     toggleMediaFullscreen()
   }
 }
@@ -368,6 +406,7 @@ function toggleFallback() {
   }
 }
 </style>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;

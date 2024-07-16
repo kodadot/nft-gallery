@@ -6,8 +6,12 @@
       :disabled="disabled"
       :class="labelColor"
       :type="type"
-      data-testid="buy-now">
-      <component :is="componentName" :label="message">
+      data-testid="buy-now"
+    >
+      <component
+        :is="componentName"
+        :label="message"
+      >
         {{ properLabel }}
       </component>
     </NeoSwitch>

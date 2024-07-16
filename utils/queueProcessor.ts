@@ -14,7 +14,7 @@ export const processQueue = async (
   isProcessing = true
 
   const currentBatch = taskQueue.splice(0, batchSize)
-  await Promise.all(currentBatch.map((task) => task()))
+  await Promise.all(currentBatch.map(task => task()))
 
   setTimeout(() => {
     isProcessing = false

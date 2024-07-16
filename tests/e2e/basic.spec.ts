@@ -4,7 +4,7 @@ const chains = [
   'chain-dropdown-ksm',
   'chain-dropdown-ahp',
   'chain-dropdown-ahk',
-  'chain-dropdown-rmrk',
+  // 'chain-dropdown-rmrk', // deprecated
 ]
 
 test('Landing Elements', async ({ page }) => {

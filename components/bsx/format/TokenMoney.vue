@@ -3,7 +3,8 @@
     :value="value"
     :inline="inline"
     :hide-unit="hideUnit"
-    :round="round" />
+    :round="round"
+  />
 </template>
 
 <script lang="ts" setup>

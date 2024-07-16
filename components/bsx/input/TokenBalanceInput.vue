@@ -4,11 +4,13 @@
     v-model="vValue"
     :decimals="decimals"
     :unit="unit"
-    expanded />
+    expanded
+  />
 </template>
 
 <script setup lang="ts">
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
+
 const balanceInputComponent = ref<BasicBalanceInput>()
 const emit = defineEmits(['input'])
 

@@ -1,7 +1,11 @@
-import { warningMessage } from '@/utils/notification'
-import { tokenIdToRoute } from '@/components/unique/utils'
-
+import { Interaction } from '@kodadot1/minimark/v1'
+import consola from 'consola'
+import { type Prefix } from '@kodadot1/static'
 import {
+  Collections,
+  NFTs,
+} from '../transaction/types'
+import type {
   ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
@@ -12,14 +16,9 @@ import {
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
-  Actions,
-  Collections,
-  NFTs,
-} from '../transaction/types'
-
-import { Interaction } from '@kodadot1/minimark/v1'
-import consola from 'consola'
-import { type Prefix } from '@kodadot1/static'
+  Actions } from '../transaction/types'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { warningMessage } from '@/utils/notification'
 import { getPercentSupportFee } from '@/utils/support'
 
 export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
@@ -32,7 +31,8 @@ export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
         cb,
         arg: args,
       })
-    } catch (error) {
+    }
+    catch (error) {
       warningMessage(error)
     }
   }
@@ -40,7 +40,7 @@ export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
 
 export const verifyRoyalty = (
   royalty?: Royalty,
-): { isValid: boolean; normalizedRoyalty: Royalty } => {
+): { isValid: boolean, normalizedRoyalty: Royalty } => {
   const normalizedRoyalty = {
     amount: Number(royalty?.amount ?? 0),
     address: royalty?.address ?? '',

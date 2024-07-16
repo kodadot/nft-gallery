@@ -1,6 +1,9 @@
 <template>
   <Story>
-    <NeoSelect :placeholder="placeholder" :options="options" />
+    <NeoSelect
+      :placeholder="placeholder"
+      :options="options"
+    />
   </Story>
 </template>
 

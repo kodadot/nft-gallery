@@ -34,7 +34,7 @@ export function usePlayerEventBus() {
         const playPlayerEventPayload = payload as PayloadWithId
         audios.value.forEach((player: { pause: Pause }, id) => {
           if (playPlayerEventPayload.id !== id) {
-            player.pause().catch((error) => error)
+            player.pause().catch(error => error)
           }
         })
         break

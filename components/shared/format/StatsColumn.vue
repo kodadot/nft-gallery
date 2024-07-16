@@ -1,7 +1,9 @@
 <template>
   <div class="level-item text-center">
     <div>
-      <p class="title">{{ value }}</p>
+      <p class="title">
+        {{ value }}
+      </p>
       <p class="text-xs text-k-grey">
         {{ $t(header) }}
       </p>

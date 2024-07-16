@@ -5,26 +5,30 @@
         v-if="isLoading"
         icon="spinner-third"
         class="spinner text-k-grey"
-        :size="iconSize" />
+        :size="iconSize"
+      />
 
       <NeoIcon
         v-else-if="isCompleted"
         class="text-k-green"
         icon="check"
-        :size="iconSize" />
+        :size="iconSize"
+      />
 
       <NeoIcon
         v-else-if="isWaiting"
         class="text-k-grey opacity-20"
         icon="circle"
         pack="fass"
-        :size="iconSize" />
+        :size="iconSize"
+      />
 
       <NeoIcon
         v-else-if="isFailed"
         class="text-k-red"
         icon="xmark"
-        :size="iconSize" />
+        :size="iconSize"
+      />
     </div>
 
     <div class="flex items-center">
@@ -33,27 +37,38 @@
           v-if="step.tooltip"
           position="top"
           multiline
-          class="max-w-fit">
+          class="max-w-fit"
+        >
           <p class="capitalize font-bold">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
               pack="fa-regular"
-              class="ml-2 text-k-grey" />
+              class="ml-2 text-k-grey"
+            />
           </p>
 
           <template #content>
-            <span v-dompurify-html="step.tooltip" class="capitalize" />
+            <span
+              v-dompurify-html="step.tooltip"
+              class="capitalize"
+            />
           </template>
         </NeoTooltip>
-        <p v-else class="capitalize font-bold">
+        <p
+          v-else
+          class="capitalize font-bold"
+        >
           {{ step.title }}
         </p>
         <div class="flex items-center">
           <p class="capitalize text-k-grey">
             {{ step.subtitle }}
 
-            <span v-if="showDots" class="dots" />
+            <span
+              v-if="showDots"
+              class="dots"
+            />
           </p>
 
           <NeoButton
@@ -61,7 +76,8 @@
             class="ml-4"
             variant="outlined-rounded"
             size="small"
-            @click="tryAgain">
+            @click="tryAgain"
+          >
             {{ $t('helper.tryAgain') }}
           </NeoButton>
 
@@ -70,7 +86,8 @@
             v-safe-href="txUrl"
             class="text-k-blue hover:text-k-blue-hover ml-4 text-xs"
             target="_blank"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             {{ $t('helper.viewTx') }}
             <NeoIcon icon="arrow-up-right" />
           </a>
@@ -82,8 +99,8 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import { TransactionStepStatus } from './utils'
 import { type Prefix } from '@kodadot1/static'
+import type { TransactionStepStatus } from './utils'
 
 export type TransactionStepItem = {
   txId: string | null

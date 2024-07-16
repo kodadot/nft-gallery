@@ -5,9 +5,13 @@
       :route="route"
       :link="link"
       :param="id"
-      tag="a">
+      tag="a"
+    >
       <div class="card-image border border-k-grey">
-        <span v-if="emoteCount" class="card-image__emotes">
+        <span
+          v-if="emoteCount"
+          class="card-image__emotes"
+        >
           <NeoIcon icon="heart" />
           <span class="align-text-bottom">{{ emoteCount }}</span>
         </span>
@@ -17,21 +21,31 @@
           :mime-type="mimeType"
           :audio-player-cover="image"
           enable-normal-tag
-          audio-hover-on-cover-play />
+          audio-hover-on-cover-play
+        />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
-          class="card-image__price">
-          <CommonTokenMoney :value="price" inline />
+          class="card-image__price"
+        >
+          <CommonTokenMoney
+            :value="price"
+            inline
+          />
         </span>
       </div>
 
-      <div v-if="!hideName" class="card-content rounded-none">
+      <div
+        v-if="!hideName"
+        class="card-content rounded-none"
+      >
         <span
           class="text-center text-k-primary"
           :class="{ 'title is-4': largeDisplay }"
-          :title="name">
+          :title="name"
+        >
           <div
-            class="overflow-hidden whitespace-nowrap text-ellipsis text-white">
+            class="overflow-hidden whitespace-nowrap text-ellipsis text-white"
+          >
             {{ nftName }}
           </div>
         </span>
@@ -46,7 +60,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const props = withDefaults(

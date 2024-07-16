@@ -3,20 +3,24 @@
     <NeoButton
       variant="outlined-rounded"
       icon-left="arrow-left"
-      @click="$router.back()">
+      @click="$router.back()"
+    >
       {{ $t('goBack') }}
     </NeoButton>
 
     <div>
-      <h1 class="text-3xl font-bold">{{ title }}</h1>
+      <h1 class="text-3xl font-bold">
+        {{ title }}
+      </h1>
 
-      <hr class="!my-8" />
+      <hr class="!my-8">
 
       <slot />
     </div>
     <div />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 

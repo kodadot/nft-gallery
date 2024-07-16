@@ -1,5 +1,8 @@
 <template>
-  <footer class="footer-container px-6 py-12" data-testid="footer-container">
+  <footer
+    class="footer-container px-6 py-12"
+    data-testid="footer-container"
+  >
     <div class="footer-container-inner flex items-start justify-between">
       <section class="footer-container-subs flex flex-col">
         <h2 class="subtitle is-5">
@@ -11,23 +14,33 @@
       </section>
       <div class="footer-container-links">
         <section class="footer-container-info flex flex-col">
-          <h2 class="subtitle is-5">Incentives</h2>
+          <h2 class="subtitle is-5">
+            Incentives
+          </h2>
           <div>
             <ul class="footer-container-list">
               <li
                 v-for="item in menuIncentives"
                 :key="item.url"
-                class="footer-container-info-list-item">
+                class="footer-container-info-list-item"
+              >
                 <a
                   v-if="item.external"
                   v-safe-href="item.url"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  class="flex items-center">
+                  class="flex items-center"
+                >
                   {{ item.name }}
-                  <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+                  <NeoIcon
+                    icon="arrow-up-right"
+                    class="ml-1 text-k-grey"
+                  />
                 </a>
-                <nuxt-link v-else :to="item.url">
+                <nuxt-link
+                  v-else
+                  :to="item.url"
+                >
                   {{ item.name }}
                 </nuxt-link>
               </li>
@@ -35,23 +48,33 @@
           </div>
         </section>
         <section class="footer-container-info flex flex-col">
-          <h2 class="subtitle is-5">Marketplace</h2>
+          <h2 class="subtitle is-5">
+            Marketplace
+          </h2>
           <div>
             <ul class="footer-container-list">
               <li
                 v-for="item in menuMarketplace"
                 :key="item.url"
-                class="footer-container-info-list-item">
+                class="footer-container-info-list-item"
+              >
                 <a
                   v-if="item.external"
                   v-safe-href="item.url"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  class="flex items-center">
+                  class="flex items-center"
+                >
                   {{ item.name }}
-                  <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+                  <NeoIcon
+                    icon="arrow-up-right"
+                    class="ml-1 text-k-grey"
+                  />
                 </a>
-                <nuxt-link v-else :to="item.url">
+                <nuxt-link
+                  v-else
+                  :to="item.url"
+                >
                   {{ item.name }}
                 </nuxt-link>
               </li>
@@ -60,48 +83,70 @@
         </section>
       </div>
       <section class="footer-container-info flex flex-col">
-        <h2 class="subtitle is-5">KodaDot</h2>
+        <h2 class="subtitle is-5">
+          KodaDot
+        </h2>
         <div>
           <ul class="footer-container-list">
             <li
               v-for="item in menuKodadot"
               :key="item.url"
-              class="footer-container-info-list-item">
+              class="footer-container-info-list-item"
+            >
               <a
                 v-if="item.external"
                 v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                class="flex items-center">
+                class="flex items-center"
+              >
                 {{ item.name }}
-                <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+                <NeoIcon
+                  icon="arrow-up-right"
+                  class="ml-1 text-k-grey"
+                />
               </a>
-              <nuxt-link v-else :to="item.url" class="flex items-center">
+              <nuxt-link
+                v-else
+                :to="item.url"
+                class="flex items-center"
+              >
                 {{ item.name }}
                 <NeoIcon
                   v-if="item.highlight"
                   icon="sparkle"
                   pack="fasr"
-                  class="text-k-primary text-xl ml-1" />
+                  class="text-k-primary text-xl ml-1"
+                />
               </nuxt-link>
             </li>
           </ul>
         </div>
       </section>
       <section class="footer-container-info flex flex-col">
-        <h2 class="subtitle is-5">{{ $t('footer.join') }}</h2>
+        <h2 class="subtitle is-5">
+          {{ $t('footer.join') }}
+        </h2>
         <ul
           class="footer-container-list columns-1"
-          data-testid="footer-social-list">
-          <li v-for="item in socials" :key="item.url">
+          data-testid="footer-social-list"
+        >
+          <li
+            v-for="item in socials"
+            :key="item.url"
+          >
             <a
               v-if="item.url"
               v-safe-href="item.url"
               target="_blank"
               rel="nofollow noopener noreferrer"
-              class="flex items-center">
+              class="flex items-center"
+            >
               {{ item.name }}
-              <NeoIcon icon="arrow-up-right" class="ml-1 text-k-grey" />
+              <NeoIcon
+                icon="arrow-up-right"
+                class="ml-1 text-k-grey"
+              />
             </a>
           </li>
         </ul>
@@ -112,7 +157,8 @@
       class="left-blurred-image"
       width="1500"
       height="1400"
-      alt="" />
+      alt=""
+    >
   </footer>
 </template>
 

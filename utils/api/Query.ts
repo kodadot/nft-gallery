@@ -1,5 +1,5 @@
 import type { ApiPromise } from '@polkadot/api'
-import BN from 'bn.js'
+import type BN from 'bn.js'
 import correctFormat from '../ss58Format'
 
 export type ChainProperties = {
