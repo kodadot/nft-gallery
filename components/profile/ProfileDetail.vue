@@ -23,7 +23,7 @@
           : undefined,
       }">
       <div
-        class="collection-banner-content flex md:items-end items-center h-full md:pb-7 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
+        class="collection-banner-content flex md:items-end items-center h-full md:pb-10 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]">
         <div
           class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
@@ -32,7 +32,10 @@
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full" />
-          <Avatar v-else :value="id" :size="124" class="mb-[-7px]" />
+          <Avatar
+            v-else
+            :value="id"
+            class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] mb-[-7px]" />
         </div>
       </div>
     </div>
@@ -43,7 +46,9 @@
 
       <div v-else class="flex flex-col gap-6">
         <!-- Identity Link -->
-        <h1 class="title is-4 md:is-3 mb-0" data-testid="profile-user-identity">
+        <h1
+          class="font-bold text-2xl md:text-[31px] mb-0"
+          data-testid="profile-user-identity">
           <span v-if="userProfile?.name">{{ userProfile.name }}</span>
           <Identity
             v-else

@@ -20,8 +20,10 @@
         </div>
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
+        <LandingDomainChangeNotificationBanner
+          v-if="!isLatestProductionDomain" />
         <LandingFarcasterMintNotificationBanner
-          v-if="farcasterLiveMint"
+          v-else-if="farcasterLiveMint"
           :config="farcasterLiveMint" />
         <LandingFarcasterBanner v-else />
       </div>
