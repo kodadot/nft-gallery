@@ -245,7 +245,7 @@ const { chainSymbol, decimals } = useChain()
 // get data from database
 const data = await getDrops({
   chain: [chain],
-  limit: 10,
+  limit: 100,
 })
 const drops = data.filter((drop) => drop.collection === collectionId)[0]
 
