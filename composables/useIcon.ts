@@ -27,7 +27,7 @@ export const useIcon = () => {
       case 'ahp':
         return isDarkMode.value ? '/chain/ahp_dark.svg' : '/chain/ahp.svg'
       case 'ahk':
-        return '/token/kusama_asset_hub.svg'
+        return isDarkMode.value ? '/chain/ahk_dark.svg' : '/chain/ahk.svg'
       case 'base':
         return isDarkMode.value ? '/chain/base_dark.svg' : '/chain/base.svg'
       default:
