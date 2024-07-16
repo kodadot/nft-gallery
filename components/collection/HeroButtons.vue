@@ -81,14 +81,10 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
-      <div class="card" data-testid="hero-share-qrcode-modal">
-        <header class="card-header">
-          <p class="card-header-title">{{ collection?.name }}</p>
-        </header>
-        <div class="card-content">
-          <QRCode :text="currentCollectionUrl" />
-        </div>
+    <NeoModal :value="QRModalActive" header="" @close="QRModalActive = false">
+      <NeoModalHead :title="collection?.name" @close="QRModalActive = false" />
+      <div class="card-content" data-testid="hero-share-qrcode-modal">
+        <QRCode :text="currentCollectionUrl" />
       </div>
     </NeoModal>
   </div>
@@ -101,6 +97,7 @@ import {
   NeoDropdownItem,
   NeoIcon,
   NeoModal,
+  NeoModalHead,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { hasOperationsDisabled } from '@/utils/prefix'

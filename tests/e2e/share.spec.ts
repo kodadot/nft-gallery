@@ -49,7 +49,10 @@ test('Share Button on Collection', async ({ page, Commands, baseURL }) => {
     await shareBtn.click()
     await page.getByTestId('hero-share-QR-dropdown').first().click()
     await expect(page.getByTestId('hero-share-qrcode-modal')).toBeVisible()
-    await page.keyboard.press('Escape')
+    await page
+      .getByTestId('modal-close-button')
+      .and(page.locator(':visible'))
+      .click()
   })
   //Twitter
   await test.step('Clicks on twitter and verify URL', async () => {

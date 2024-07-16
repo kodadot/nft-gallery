@@ -29,7 +29,10 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
     })
     await page.getByTestId('button-add-funds-empty').click()
     await expect(page.getByTestId('on-ramp-modal')).toBeVisible()
-    await page.keyboard.press('Escape')
+    await page
+      .getByTestId('modal-close-button')
+      .and(page.locator(':visible'))
+      .click()
     await expect(page.getByTestId('on-ramp-modal')).not.toBeVisible()
   })
 })
