@@ -413,5 +413,5 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  compatibilityDate: '2024-07-10',
+  compatibilityDate: '2024-07-11',
 })
