@@ -58,6 +58,7 @@ interface DifferentTypeName {
   navigation: string
   item_detail: string
   filters: string
+  drops: string
 }
 
 const { $i18n } = useNuxtApp()
@@ -174,6 +175,7 @@ const labels = ref<DifferentTypeName>({
   navigation: 'Navigation',
   item_detail: 'Item Detail',
   filters: 'Filters',
+  drops: 'Drops',
 })
 
 const types = ref(Object.keys(data.value))
