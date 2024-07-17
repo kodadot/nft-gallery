@@ -4,13 +4,13 @@ import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
 import buyEventByProfile from '@/queries/subsquid/general/buyEventByProfile.query'
 
-const useLastBought = ({ address }) => {
+const useLastBought = ({ address }: { address: Ref<string> }) => {
   const lastBoughtDate = ref(new Date())
 
   const { data } = useAsyncQuery({
     query: buyEventByProfile,
     variables: {
-      id: address,
+      id: address.value,
     },
   })
 
@@ -55,7 +55,11 @@ const cacheTotalCount = ({ data, totalCreated }) => {
   return cacheData
 }
 
-export default function useIdentityStats({ address }) {
+export default function useIdentityStats({
+  address,
+}: {
+  address: Ref<string>
+}) {
   const identityMintStore = useIdentityMintStore()
 
   const totalCreated = ref(0)
@@ -65,7 +69,7 @@ export default function useIdentityStats({ address }) {
   const { data: stats } = useGraphql({
     queryName: 'userStatsByAccount',
     variables: {
-      account: address,
+      account: address.value,
     },
   })
 
@@ -88,14 +92,14 @@ export default function useIdentityStats({ address }) {
     firstMintDate.value = cacheData.firstMintDate
 
     identityMintStore.setIdentity({
-      address,
+      address: address.value,
       cacheData,
     })
   }
 
   const fetchNFTStats = () => {
     // if cache exist and within 12h
-    const data = identityMintStore.getIdentityMintFor(address)
+    const data = identityMintStore.getIdentityMintFor(address.value)
     if (data?.updatedAt && isAfter(data.updatedAt, subHours(Date.now(), 12))) {
       return handleNFTStats({ data, type: 'cache' })
     }
