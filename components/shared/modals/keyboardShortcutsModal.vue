@@ -1,6 +1,6 @@
 <template>
   <ModalWrapper
-    :id="'keyboardShortcutsModal'"
+    id="keyboardShortcutsModal"
     icon=""
     :title="title"
     :is-button-hidden="true">
@@ -169,7 +169,7 @@ const labels = ref<DifferentTypeName>({
   filters: 'Filters',
 })
 
-const types = ref(Object.keys(data))
+const types = ref(Object.keys(data.value))
 
 const addShortcuts = (shortcuts): DifferentTypeShortCuts => {
   const { navigation, item_detail, filters, drops } = data.value
