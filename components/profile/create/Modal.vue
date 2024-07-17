@@ -47,7 +47,7 @@ const signingMessage = ref(false)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
-const profileCreationNotificationStatae =
+const profileCreationNotificationState =
   ref<LoadingNotificationState>('loading')
 
 const hasProfile = computed(() => Boolean(profile?.hasProfile.value))
@@ -109,7 +109,7 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
 const profileCreated = () => {
   emit('success')
   stage.value = 5 // Go to success stage
-  profileCreationNotificationStatae.value = 'succeeded'
+  profileCreationNotificationState.value = 'succeeded'
 }
 
 const reset = () => {
@@ -119,8 +119,7 @@ const reset = () => {
 const profileCreationFailed = (error) => {
   reset()
   console.error(error)
-  profileCreationNotificationStatae.value = 'failed'
-  // TODO update notification with error
+  profileCreationNotificationState.value = 'failed'
 }
 
 const onSelectFarcaster = () => {
@@ -205,10 +204,19 @@ watch(documentVisibility, (current, previous) => {
 
 profileStore.$onAction(({ name, after, onError }) => {
   if (name === 'processProfile') {
-    profileCreationNotificationStatae.value = 'loading'
+    profileCreationNotificationState.value = 'loading'
     loadingMessage({
-      title: $i18n.t('profiles.created'),
-      state: profileCreationNotificationStatae,
+      title: computed(() =>
+        profileCreationNotificationState.value === 'failed'
+          ? $i18n.t('profiles.errors.setupFailed.title')
+          : $i18n.t('profiles.created'),
+      ),
+      message: computed(() =>
+        profileCreationNotificationState.value === 'failed'
+          ? $i18n.t('profiles.errors.setupFailed.message')
+          : undefined,
+      ),
+      state: profileCreationNotificationState,
     })
     after(() => profileCreated())
     onError((error) => profileCreationFailed(error))

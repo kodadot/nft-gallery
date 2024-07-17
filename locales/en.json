@@ -1914,6 +1914,10 @@
       "unsuccessfulFarcasterAuth": {
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
+      },
+      "setupFailed": {
+        "title": "Profile Setup Failed",
+        "message": "Error occurred. Try again later or report issue."
       }
     },
     "delete": "Reset all Fields - start over",

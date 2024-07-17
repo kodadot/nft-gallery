@@ -148,23 +148,37 @@ export const dangerMessage = (
     action: reportable ? getReportIssueAction(message) : undefined,
   })
 
+const ifIsRef = <T>(value: MaybeRef<T | undefined>, otherwise: T): T =>
+  Boolean(value) && isRef(value) && unref(value)
+    ? (value.value as T)
+    : otherwise
+
 export const loadingMessage = ({
   title,
+  message,
   state,
 }: {
   title: MaybeRef<string>
+  message?: MaybeRef<string | undefined>
   state: Ref<LoadingNotificationState>
 }) => {
   const { $i18n } = useNuxtApp()
-  const message = ref(`${$i18n.t('mint.progress')}...`)
+  const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
 
   watch(
-    state,
-    (state) => {
-      message.value =
-        state === 'succeeded'
-          ? $i18n.t('transactionLoader.completed')
-          : $i18n.t('transactionLoader.failed')
+    [state],
+    ([state]) => {
+      if (state === 'succeeded') {
+        stateMessage.value = ifIsRef(
+          title,
+          $i18n.t('transactionLoader.completed'),
+        )
+      } else if (state === 'failed') {
+        stateMessage.value = ifIsRef(
+          message,
+          $i18n.t('transactionLoader.completed'),
+        )
+      }
     },
     {
       once: true,
@@ -173,7 +187,7 @@ export const loadingMessage = ({
 
   showNotification({
     title,
-    message,
+    message: stateMessage,
     state,
   })
 }
