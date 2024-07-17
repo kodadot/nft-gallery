@@ -8,17 +8,24 @@
       <div class="flex justify-between">
         <NeoTable v-for="ktype in types" :key="ktype" :data="updateData[ktype]">
           <NeoTableColumn v-slot="props" field="text" :label="labels[ktype]">
-            {{ props.row.text }}
+            <div class="text-left">
+              {{ props.row.text }}
+            </div>
           </NeoTableColumn>
           <NeoTableColumn v-slot="props" field="shortcut">
-            <div>
+            <div class="flex flex-grow">
               <span
-                v-for="(shortcut, index) in props.row.shortcut.split('+')"
-                :key="shortcut">
+                v-for="(shortcut, index) in props.row.shortcut.split('+', 2)"
+                :key="shortcut"
+                class="inline-flex">
                 <kbd class="keyboard-shortcut-kbd">
-                  {{ shortcut }}
+                  {{ shortcut || '+' }}
                 </kbd>
-                <span v-if="index < props.row.shortcut.split('+').length - 1">
+                <span
+                  v-if="
+                    index < props.row.shortcut.split('+', 2).length - 1 &&
+                    props.row.shortcut.split('+')[1] !== '+'
+                  ">
                   +
                 </span>
               </span>
@@ -139,11 +146,11 @@ const data = ref<DifferentTypeShortCuts>({
       shortcut: 'f+b',
     },
     {
-      text: $i18n.t('sort.BLOCK_NUMBER_DESC'),
+      text: $i18n.t('sort.blockNumber_DESC'),
       shortcut: 'f+n',
     },
     {
-      text: $i18n.t('sort.BLOCK_NUMBER_ASC'),
+      text: $i18n.t('sort.blockNumber_ASC'),
       shortcut: 'f+o',
     },
   ],
@@ -154,11 +161,11 @@ const data = ref<DifferentTypeShortCuts>({
     },
     {
       text: 'Mint +1',
-      shortcut: 'v+-',
+      shortcut: 'v++',
     },
     {
       text: 'Mint -1',
-      shortcut: 'v++',
+      shortcut: 'v+-',
     },
   ],
 })
