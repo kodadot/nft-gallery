@@ -1,10 +1,10 @@
 <template>
-  <CreateLanding />
+  <CreateCollection />
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'no-footer',
+  layout: 'background-layout',
 })
 
 useSeoMeta({
@@ -14,6 +14,6 @@ useSeoMeta({
   ogDescription: 'Create carbonless NFTs with low on-chain fees',
   ogImage: '/k_card.png',
   twitterCard: 'summary_large_image',
-  ogUrl: '/create',
+  ogUrl: '/create/collection',
 })
 </script>

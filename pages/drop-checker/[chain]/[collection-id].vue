@@ -243,11 +243,12 @@ const collectionId = params['collectionid'].toString()
 const { chainSymbol, decimals } = useChain()
 
 // get data from database
-const data = await getDrops({
-  chain: [chain],
-  limit: 100,
-})
-const drops = data.filter((drop) => drop.collection === collectionId)[0]
+const drops = (
+  await getDrops({
+    chain: [chain],
+    collection: collectionId,
+  })
+)[0]
 
 // get data from indexer
 const { client, setUrlPrefix } = usePrefix()
