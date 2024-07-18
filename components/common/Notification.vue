@@ -3,8 +3,8 @@
     :duration="duration"
     :title="title"
     :variant="variant"
-    :icon="isLoadingState ? { icon: 'spinner-third', spin: true } : undefined"
-    :hold-timer="isLoadingState"
+    :icon="icon"
+    :hold-timer="holdTimer"
     auto-close
     show-progress-bar
     @close="emit('close')">
@@ -28,18 +28,14 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
+import {
+  NeoIcon,
+  NeoMessage,
+  NeoMessageIconVariant,
+  NeoMessageVariant,
+} from '@kodadot1/brick'
 
 type NotificationAction = { label: string; url: string; icon?: string }
-
-const NotificationStateToVariantMap: Record<
-  LoadingNotificationState,
-  NeoMessageVariant
-> = {
-  succeeded: 'success',
-  loading: 'neutral',
-  failed: 'danger',
-}
 
 const emit = defineEmits(['close'])
 const props = withDefaults(
@@ -48,24 +44,25 @@ const props = withDefaults(
     message: MaybeRef<string>
     duration?: number
     state?: Ref<LoadingNotificationState>
-    variant?: NeoMessageVariant
+    variant?: MaybeRef<NeoMessageVariant>
     action?: MaybeRef<NotificationAction | undefined>
+    holdTimer?: Ref<boolean>
+    icon?: Ref<NeoMessageIconVariant | undefined>
   }>(),
   {
     variant: 'success',
     duration: 10000,
     action: undefined,
     state: undefined,
+    holdTimer: undefined,
+    icon: undefined,
   },
 )
 
 const title = computed(() => unref(props.title))
 const message = computed(() => unref(props.message))
 const action = computed(() => unref(props.action))
-const variant = computed(() =>
-  props.state
-    ? NotificationStateToVariantMap[props.state.value]
-    : props.variant,
-)
-const isLoadingState = computed(() => props.state?.value === 'loading')
+const holdTimer = computed(() => unref(props.holdTimer))
+const icon = computed(() => unref(props.icon))
+const variant = computed(() => unref(props.variant))
 </script>

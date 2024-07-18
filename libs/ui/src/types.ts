@@ -21,3 +21,6 @@ export type NeoMessageVariant =
   | 'danger'
   | 'info'
   | 'neutral'
+
+export type NeoMessageCustomIconVariant = { icon: string; spin: boolean }
+export type NeoMessageIconVariant = string | NeoMessageCustomIconVariant

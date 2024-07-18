@@ -47,12 +47,13 @@
 import { useElementHover } from '@vueuse/core'
 import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
-import { NeoMessageVariant } from '../../types'
+import {
+  NeoMessageCustomIconVariant,
+  NeoMessageIconVariant,
+  NeoMessageVariant,
+} from '../../types'
 
-type CustomIconVariant = { icon: string; spin: boolean }
-type IconVariant = string | CustomIconVariant
-
-const iconVariant: Record<NeoMessageVariant, IconVariant> = {
+const iconVariant: Record<NeoMessageVariant, NeoMessageIconVariant> = {
   info: 'circle-info',
   success: 'check',
   warning: 'circle-exclamation',
@@ -70,7 +71,7 @@ const props = withDefaults(
     autoClose: boolean
     duration: number
     showProgressBar: boolean
-    icon?: IconVariant
+    icon?: NeoMessageIconVariant
     holdTimer?: boolean
   }>(),
   {
@@ -97,9 +98,13 @@ const computedIcon = computed(
   () => props.icon ?? iconVariant[props.variant] ?? null,
 )
 const iconName = computed(
-  () => (computedIcon.value as CustomIconVariant)?.icon ?? computedIcon.value,
+  () =>
+    (computedIcon.value as NeoMessageCustomIconVariant)?.icon ??
+    computedIcon.value,
 )
-const iconSpin = computed(() => (computedIcon.value as CustomIconVariant).spin)
+const iconSpin = computed(
+  () => (computedIcon.value as NeoMessageCustomIconVariant).spin,
+)
 
 const percent = computed(() => {
   return (remainingTime.value / props.duration) * 100

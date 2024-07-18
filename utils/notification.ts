@@ -2,6 +2,7 @@ import MessageNotify from '@/components/MessageNotify.vue'
 import Notification from '@/components/common/Notification.vue'
 
 import {
+  type NeoMessageIconVariant,
   type NeoMessageVariant,
   NeoNotificationProgrammatic as Notif,
 } from '@kodadot1/brick'
@@ -37,16 +38,20 @@ export const showNotification = ({
   title,
   message,
   action,
-  state,
+  variant,
+  holdTimer,
+  icon,
   params = notificationTypes.info,
   duration = 10000,
 }: {
   title?: MaybeRef<string>
   message?: MaybeRef<string> | null
-  state?: Ref<LoadingNotificationState>
+  variant?: Ref<NeoMessageVariant>
   params?: Params
   duration?: number
   action?: MaybeRef<NotificationAction | undefined>
+  holdTimer?: Ref<boolean>
+  icon?: Ref<NeoMessageIconVariant | undefined>
 }): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -58,10 +63,11 @@ export const showNotification = ({
     component: h(Notification, {
       title: title ? toRef(title) : title,
       message: message ? toRef(message!) : message,
-      state: state,
-      variant: params.variant,
+      variant: variant ?? params.variant,
       duration: duration,
       action: action,
+      holdTimer: holdTimer,
+      icon: icon,
     }),
     variant: 'component',
     duration: 50000, // child component will trigger close when the real duration is ended
@@ -153,6 +159,15 @@ const ifIsRef = <T>(value: MaybeRef<T | undefined>, otherwise: T): T =>
     ? (value.value as T)
     : otherwise
 
+const NotificationStateToVariantMap: Record<
+  LoadingNotificationState,
+  NeoMessageVariant
+> = {
+  succeeded: 'success',
+  loading: 'neutral',
+  failed: 'danger',
+}
+
 export const loadingMessage = ({
   title,
   message,
@@ -184,10 +199,16 @@ export const loadingMessage = ({
     },
   )
 
+  const isLoadingState = computed(() => state.value === 'loading')
+
   showNotification({
     title,
     message: stateMessage,
-    state: state,
+    variant: computed(() => NotificationStateToVariantMap[state.value]),
     action: action,
+    holdTimer: isLoadingState,
+    icon: computed(() =>
+      isLoadingState.value ? { icon: 'spinner-third', spin: true } : undefined,
+    ),
   })
 }
