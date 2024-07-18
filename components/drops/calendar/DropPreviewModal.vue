@@ -95,6 +95,14 @@
                 )
               }}</span>
             </div>
+
+            <div class="flex gap-3 items-center">
+              <span class="text-k-grey">{{ $t('chain') }}:</span>
+              <DropsChainPill
+                v-if="dropCalendar?.chain"
+                :prefix="dropCalendar?.chain" />
+              <span v-else>{{ placeholder }}</span>
+            </div>
           </div>
         </div>
 

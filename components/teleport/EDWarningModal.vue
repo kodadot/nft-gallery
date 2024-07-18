@@ -41,7 +41,7 @@
           :disabled="!checked"
           class="mr-4"
           no-shadow
-          :label="$t('helper.continueAnyway')"
+          :label="$t('massmint.mobileDisclaimer.continueAnyway')"
           @click="emit('continue')" />
         <NeoButton
           variant="pill"

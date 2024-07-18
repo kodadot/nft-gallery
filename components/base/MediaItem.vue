@@ -22,7 +22,8 @@
       :parent-hovering="isMediaItemHovering"
       :image-component="imageComponent"
       :preview="preview"
-      :autoplay="autoplay" />
+      :autoplay="autoplay"
+      :lazy-loading="lazyLoading" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur flex capitalize items-center justify-center flex-col">
@@ -85,6 +86,7 @@ const props = withDefaults(
     preview?: boolean
     autoplay?: boolean
     // props for image component
+    lazyLoading?: boolean
     enableNormalTag?: boolean
     sizes?: string
     imageComponent?:
@@ -100,11 +102,12 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: '/Koda.svg',
+    placeholder: undefined,
     disableOperation: undefined,
     audioPlayerCover: '',
     isFullscreen: false,
     imageComponent: 'img',
+    lazyLoading: false,
     enableNormalTag: false,
   },
 )
@@ -120,6 +123,8 @@ useMediaFullscreen({
 })
 
 const targetIsVisible = useElementVisibility(mediaItem)
+const { placeholder: themedPlaceholder } = useTheme()
+
 const modelComponent = ref<Component>()
 const isModelComponentLoaded = ref(false)
 const shouldLoadModelComponent = computed(() => {
@@ -143,7 +148,8 @@ const hasNormalTag = computed<boolean>(() => {
     props.enableNormalTag &&
     Boolean(props.mimeType || type.value || !props.animationSrc) && // avoid showing normal tag before type has updated
     resolveMedia(mimeType.value) !== MediaType.IFRAME &&
-    !props.isDetail
+    !props.isDetail &&
+    !IMG_PLACEHOLDERS.includes(props.src)
   )
 })
 const isLewdBlurredLayer = ref(props.isLewd)
@@ -168,7 +174,10 @@ const resolveComponent = computed(() => {
     ? modelComponent.value
     : components[PREFIX + mediaType + SUFFIX]
 })
-const properSrc = computed(() => props.src || props.placeholder)
+const placeholder = computed(() =>
+  !props.placeholder ? themedPlaceholder.value : props.placeholder,
+)
+const properSrc = computed(() => props.src || placeholder.value)
 
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {

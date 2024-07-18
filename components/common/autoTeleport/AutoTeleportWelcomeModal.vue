@@ -1,9 +1,5 @@
 <template>
-  <NeoModal
-    :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
-    class="z-[1000]"
-    @close="onClose">
+  <NeoModal :value="isModalActive" class="z-[1000]" @close="onClose">
     <div class="sm:w-[40rem]">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
         <span class="capitalize text-[1.6rem] font-bold">
