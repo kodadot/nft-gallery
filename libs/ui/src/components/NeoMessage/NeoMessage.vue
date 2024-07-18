@@ -143,7 +143,7 @@ watch(
   (active) => (isActive.value = active),
 )
 
-onMounted(startTimer)
+onMounted(() => !props.holdTimer && startTimer())
 onUnmounted(() => clearTimeout(timer.value))
 </script>
 
