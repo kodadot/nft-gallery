@@ -114,6 +114,12 @@
             data-testid="learn">
             {{ $t('learn') }}
           </a>
+          <CreateDropdown
+            v-show="isCreateVisible"
+            class="navbar-create custom-navbar-item ml-0"
+            data-testid="create"
+            :chain="urlPrefix"
+            @select="showMobileNavbar" />
 
           <MobileExpandableSection
             v-slot="{ onCloseMobileSubMenu }"
@@ -199,6 +205,7 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
+import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
@@ -208,6 +215,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { neoModal } = useProgrammatic()
@@ -224,6 +232,8 @@ const updateAuthBalanceTimer = ref()
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
+
+const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 
 const logoSrc = computed(() => {
   const variant = isTouch ? 'Koda' : 'Koda_Beta'

@@ -29,6 +29,7 @@ export type GetDropsQuery = {
   limit?: number
   active?: boolean[]
   chain?: string[]
+  collection?: string
 }
 
 export type DropMintedStatus = {
@@ -107,6 +108,7 @@ export type DropCalendar = {
   items: CalendarItem[]
   alias: string | null
   chain: Prefix | null
+  creator: string | null
 }
 
 export type CalendarItem = {

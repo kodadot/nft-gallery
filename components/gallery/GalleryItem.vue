@@ -18,7 +18,7 @@
             class="back-button z-20"
             @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
-            {{ $t('goBack') }}
+            {{ $t('go back') }}
           </NeoButton>
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">

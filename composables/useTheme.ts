@@ -1,5 +1,9 @@
 type COLOR_MODE = 'system' | 'light' | 'dark'
 
+const IMG_PLACEHOLDER_LIGHT = '/Klight.webp'
+const IMG_PLACEHOLDER_DARK = '/Kdark.webp'
+export const IMG_PLACEHOLDERS = [IMG_PLACEHOLDER_LIGHT, IMG_PLACEHOLDER_DARK]
+
 export default function () {
   const colorMode = useColorMode()
   const { $i18n } = useNuxtApp()
@@ -59,7 +63,7 @@ export default function () {
   const preference = computed(() => colorMode.preference)
 
   const placeholder = computed(() => {
-    return isDarkMode.value ? '/Kdark.webp' : '/Klight.webp'
+    return isDarkMode.value ? IMG_PLACEHOLDER_DARK : IMG_PLACEHOLDER_LIGHT
   })
 
   const setColorMode = (mode: 'light' | 'dark' | 'system') => {

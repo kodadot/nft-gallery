@@ -207,11 +207,6 @@ const menuKodadot: Menu[] = [
     url: '/terms-of-use',
     external: false,
   },
-  {
-    name: $i18n.t('footer.create'),
-    url: '/create',
-    external: false,
-  },
 ]
 
 const socials = [
