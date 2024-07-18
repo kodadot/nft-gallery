@@ -32,8 +32,6 @@ export const notificationTypes: Record<string, Params> = {
   },
 }
 
-export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
-
 export const showNotification = ({
   title,
   message,
@@ -167,6 +165,8 @@ const NotificationStateToVariantMap: Record<
   loading: 'neutral',
   failed: 'danger',
 }
+
+export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
 
 export const loadingMessage = ({
   title,
