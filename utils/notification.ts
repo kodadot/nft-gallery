@@ -172,14 +172,11 @@ export const loadingMessage = ({
     ([state]) => {
       if (state === 'succeeded') {
         stateMessage.value = ifIsRef(
-          title,
-          $i18n.t('transactionLoader.completed'),
-        )
-      } else if (state === 'failed') {
-        stateMessage.value = ifIsRef(
           message,
           $i18n.t('transactionLoader.completed'),
         )
+      } else if (state === 'failed') {
+        stateMessage.value = ifIsRef(message, '')
       }
     },
     {
