@@ -1,7 +1,6 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
     class="z-[1000]"
     content-class="!w-[unset]"
     @close="onClose">
