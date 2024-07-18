@@ -48,7 +48,7 @@ const cacheTotalCount = ({ data, totalCreated }) => {
     created: {
       totalCount: totalCreated,
     },
-    firstMintDate: data.value?.firstMint[0]?.createdAt || new Date(),
+    firstMintDate: data?.value?.firstMint[0]?.createdAt || new Date(),
     updatedAt: Date.now(),
   }
 

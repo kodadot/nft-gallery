@@ -11,6 +11,7 @@
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
+  "chain": "Chain",
   "benefits": "Benefits",
   "img": "Img",
   "gallery": "Gallery",
@@ -1580,8 +1581,7 @@
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"
-    },
-    "loadingGenerativeArt": "Loading Generative Art"
+    }
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
