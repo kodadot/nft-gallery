@@ -1,8 +1,5 @@
 <template>
-  <NeoModal
-    :value="modelValue"
-    :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    @close="close">
+  <NeoModal :value="modelValue" @close="close">
     <ModalBody
       :title="title"
       :scrollable="false"

@@ -7,7 +7,9 @@ import {
   ActionConsume,
   ActionDeleteCollection,
   ActionList,
+  ActionMintCollection,
   ActionMintDrop,
+  ActionMintToken,
   ActionOffer,
   ActionSend,
   ActionSetCollectionMaxSupply,
@@ -59,12 +61,16 @@ export function isActionValid(action: Actions): boolean {
   const validityMap: Record<string, (action) => boolean> = {
     [Interaction.BUY]: (action: ActionBuy) => hasContent(action.nfts),
     [Interaction.LIST]: (action: ActionList) => hasContent(action.token),
+    [Interaction.MINTNFT]: (action: ActionMintToken) =>
+      hasContent(action.token),
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nftId),
     [Interaction.CONSUME]: (action: ActionConsume) => Boolean(action.nftId),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       Boolean(action.tokenId),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
       Boolean(action.nftId),
+    [Interaction.MINT]: (action: ActionMintCollection) =>
+      Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
       Boolean(action.collectionId),
     [Collections.SET_MAX_SUPPLY]: (action: ActionSetCollectionMaxSupply) =>

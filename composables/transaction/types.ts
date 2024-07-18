@@ -1,6 +1,8 @@
+import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { Extrinsic } from '@/utils/transactionExecutor'
+import { Attribute } from '@kodadot1/minimark/common'
 import { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import { Ref } from 'vue'
@@ -31,6 +33,10 @@ type BaseMintParams<T> = {
   status: Ref<string>
 }
 
+export type MintTokenParams = BaseMintParams<ActionMintToken>
+
+export type MintCollectionParams = BaseMintParams<ActionMintCollection>
+
 export type MintDropParams = BaseMintParams<ActionMintDrop>
 
 export type NftCountType = {
@@ -41,6 +47,46 @@ export type Max = { max: number }
 
 export type SymbolType = {
   symbol: string
+}
+
+export type BaseCollectionType = {
+  name: string
+  file: File | null
+  description: string
+  royalty?: Royalty
+  hasRoyalty?: boolean
+}
+
+export type CollectionToMintKusama = BaseCollectionType &
+  NftCountType &
+  SymbolType
+
+export type CollectionToMintStatmine = BaseCollectionType & NftCountType
+
+export type CollectionToMintBasilisk = BaseCollectionType & {
+  tags: Attribute[]
+}
+
+export type MintedCollection = {
+  id: string
+  alreadyMinted: number
+  metadata: string
+  name?: string
+  lastIndexUsed: number
+  totalCount: number
+}
+
+export type MintedCollectionKusama = MintedCollection & Max & SymbolType
+
+export type TokenToMint = BaseTokenType<
+  MintedCollection | MintedCollectionKusama
+> & {
+  tags: Attribute[]
+  nsfw: boolean
+  postfix: boolean
+  price?: string | number
+  royalty?: Royalty
+  hasRoyalty?: boolean
 }
 
 export type ActionConsume = {
@@ -118,11 +164,30 @@ export type ActionAcceptOffer = {
   errorMessage?: string
 }
 
+export interface ActionMintToken {
+  interaction: Interaction.MINTNFT
+  urlPrefix: string
+  token: TokenToMint | TokenToMint[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
 export interface ActionMintDrop {
   interaction: NFTs.MINT_DROP
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
+}
+
+export interface ActionMintCollection {
+  interaction: Interaction.MINT
+  urlPrefix: string
+  collection:
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
 }
 
 export enum Collections {
@@ -169,6 +234,8 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawOffer
+  | ActionMintToken
+  | ActionMintCollection
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
   | ActionSetCollectionMaxSupply

@@ -398,10 +398,13 @@ export default defineNuxtConfig({
         '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
+
   // In case of using ssr
   // privateRuntimeConfig: {}
 
   devtools: {
     enabled: true,
   },
+
+  compatibilityDate: '2024-07-11',
 })

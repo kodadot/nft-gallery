@@ -66,6 +66,9 @@ interface State {
   firstTimeAutoTeleport: boolean
   // Minting
   hasSupport: boolean
+  hasCarbonOffset: boolean
+  // Mass Mint
+  visitedOnboarding: boolean
   userLocale: string
   newsletterSubscription: NewsletterSubscription
   partyMode: boolean | undefined
@@ -96,7 +99,9 @@ export const usePreferencesStore = defineStore('preferences', {
     historyItemsPerPage: 12,
     replaceBuyNowWithYolo: false,
     hasSupport: true,
+    hasCarbonOffset: false,
     gridSize: 'small',
+    visitedOnboarding: false,
     firstTimeAutoTeleport: true,
     userLocale: 'en',
     newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
@@ -121,6 +126,8 @@ export const usePreferencesStore = defineStore('preferences', {
     getHistoryItemsPerPage: (state) => state.historyItemsPerPage,
     getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
     getHasSupport: (state) => state.hasSupport,
+    getHasCarbonOffset: (state) => state.hasCarbonOffset,
+    getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getUserLocale: (state) => state.userLocale,
     getNewsletterSubscription: (state) => state.newsletterSubscription,
@@ -197,6 +204,9 @@ export const usePreferencesStore = defineStore('preferences', {
     setHasSupport(payload) {
       this.hasSupport = payload
     },
+    setHasCarbonOffset(payload) {
+      this.hasCarbonOffset = payload
+    },
     setGridSize(payload) {
       this.gridSize = payload
     },
@@ -209,6 +219,9 @@ export const usePreferencesStore = defineStore('preferences', {
         gridConfig.size = size
         gridConfig.class = layoutClass
       }
+    },
+    setVisitedOnboarding(payload: boolean) {
+      this.visitedOnboarding = payload
     },
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime

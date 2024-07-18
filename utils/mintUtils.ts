@@ -13,6 +13,14 @@ export function nsfwAttribute(nsfw: boolean): Attribute[] {
   return [{ trait_type: 'NSFW', value: Number(nsfw) }]
 }
 
+export function offsetAttribute(hasCarbonOffset: boolean): Attribute[] {
+  if (!hasCarbonOffset) {
+    return []
+  }
+
+  return [{ trait_type: 'KodaForest', value: 'Carbonless' }]
+}
+
 export function secondaryFileVisible(file?: Blob): boolean {
   const fileType = resolveMedia(file?.type)
   return isFileWithoutType(file, fileType) || isSecondFileVisible(fileType)

@@ -63,7 +63,10 @@ const showIdentityBadge = computed(() =>
   Boolean(props.showBadge && hasIdentity.value),
 )
 
-provide('address', props.address)
+provide(
+  'address',
+  computed(() => props.address),
+)
 provide(
   'shortenedAddress',
   computed(() => shortenedAddress.value),
