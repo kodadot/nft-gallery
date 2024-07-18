@@ -35,6 +35,8 @@ const props = defineProps<{
 }>()
 const vOpen = useVModel(props, 'modelValue')
 
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
 const profileStore = useProfileStore()
@@ -47,8 +49,13 @@ const signingMessage = ref(false)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
-const profileCreationNotificationState =
-  ref<LoadingNotificationState>('loading')
+
+const profileCreationNotificationState = ref<{
+  state: LoadingNotificationState
+  error?: Error
+}>({
+  state: 'loading',
+})
 
 const hasProfile = computed(() => Boolean(profile?.hasProfile.value))
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
@@ -109,7 +116,7 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
 const profileCreated = () => {
   emit('success')
   stage.value = 5 // Go to success stage
-  profileCreationNotificationState.value = 'succeeded'
+  profileCreationNotificationState.value.state = 'succeeded'
 }
 
 const reset = () => {
@@ -119,7 +126,8 @@ const reset = () => {
 const profileCreationFailed = (error) => {
   reset()
   console.error(error)
-  profileCreationNotificationState.value = 'failed'
+  profileCreationNotificationState.value.state = 'failed'
+  profileCreationNotificationState.value.error = error as Error
 }
 
 const onSelectFarcaster = () => {
@@ -182,6 +190,9 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
+const isProfileCreationState = (state: LoadingNotificationState) =>
+  profileCreationNotificationState.value.state === state
+
 useModalIsOpenTracker({
   isOpen: computed(() => props.modelValue),
   onClose: false,
@@ -204,19 +215,34 @@ watch(documentVisibility, (current, previous) => {
 
 profileStore.$onAction(({ name, after, onError }) => {
   if (name === 'processProfile') {
-    profileCreationNotificationState.value = 'loading'
+    profileCreationNotificationState.value.state = 'loading'
     loadingMessage({
       title: computed(() =>
-        profileCreationNotificationState.value === 'failed'
+        isProfileCreationState('failed')
           ? $i18n.t('profiles.errors.setupFailed.title')
           : $i18n.t('profiles.created'),
       ),
       message: computed(() =>
-        profileCreationNotificationState.value === 'failed'
+        isProfileCreationState('failed')
           ? $i18n.t('profiles.errors.setupFailed.message')
           : undefined,
       ),
-      state: profileCreationNotificationState,
+      state: computed(() => profileCreationNotificationState.value.state),
+      action: computed<NotificationAction | undefined>(() => {
+        if (isProfileCreationState('failed')) {
+          return getReportIssueAction(
+            profileCreationNotificationState.value?.error?.toString() as string,
+          )
+        }
+
+        if (isProfileCreationState('succeeded')) {
+          return {
+            label: $i18n.t('viewProfile'),
+            icon: 'arrow-up-right',
+            url: `/${urlPrefix.value}/u/${accountId.value}`,
+          }
+        }
+      }),
     })
     after(() => profileCreated())
     onError((error) => profileCreationFailed(error))

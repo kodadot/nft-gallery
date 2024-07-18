@@ -8,24 +8,29 @@
     auto-close
     show-progress-bar
     @close="emit('close')">
-    <div class="flex gap-2 flex-col">
+    <div class="flex gap-2" :class="{ 'flex-col': variant !== 'success' }">
       <p class="text-k-grey text-sm break-all">{{ message }}</p>
 
       <a
         v-if="action"
         v-safe-href="action.url"
-        class="text-[16px] !text-text-color"
+        :class="[
+          variant === 'success'
+            ? '!text-k-blue hover:!text-k-blue-hover !no-underline text-sm'
+            : '!text-text-color text-[16px] ',
+        ]"
         target="_blank">
         {{ action.label }}
+        <NeoIcon :icon="action.icon" />
       </a>
     </div>
   </NeoMessage>
 </template>
 
 <script lang="ts" setup>
-import { NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
+import { NeoIcon, NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
 
-type NotificationAction = { label: string; url: string }
+type NotificationAction = { label: string; url: string; icon?: string }
 
 const NotificationStateToVariantMap: Record<
   LoadingNotificationState,
@@ -44,7 +49,7 @@ const props = withDefaults(
     duration?: number
     state?: Ref<LoadingNotificationState>
     variant?: NeoMessageVariant
-    action?: NotificationAction
+    action?: MaybeRef<NotificationAction | undefined>
   }>(),
   {
     variant: 'success',
@@ -56,6 +61,7 @@ const props = withDefaults(
 
 const title = computed(() => unref(props.title))
 const message = computed(() => unref(props.message))
+const action = computed(() => unref(props.action))
 const variant = computed(() =>
   props.state
     ? NotificationStateToVariantMap[props.state.value]

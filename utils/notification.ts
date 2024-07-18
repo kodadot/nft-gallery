@@ -8,7 +8,7 @@ import {
 import consola from 'consola'
 import { h } from 'vue'
 
-type NotificationAction = { label: string; url: string }
+export type NotificationAction = { label: string; url: string }
 
 type Params = {
   variant: NeoMessageVariant
@@ -46,7 +46,7 @@ export const showNotification = ({
   state?: Ref<LoadingNotificationState>
   params?: Params
   duration?: number
-  action?: NotificationAction
+  action?: MaybeRef<NotificationAction | undefined>
 }): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -157,10 +157,12 @@ export const loadingMessage = ({
   title,
   message,
   state,
+  action,
 }: {
   title: MaybeRef<string>
   message?: MaybeRef<string | undefined>
   state: Ref<LoadingNotificationState>
+  action?: Ref<NotificationAction | undefined>
 }) => {
   const { $i18n } = useNuxtApp()
   const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
@@ -188,6 +190,7 @@ export const loadingMessage = ({
   showNotification({
     title,
     message: stateMessage,
-    state,
+    state: state,
+    action: action,
   })
 }
