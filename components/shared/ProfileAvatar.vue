@@ -10,6 +10,7 @@
     <BaseMediaItem
       :src="profileImageUrl"
       :image-component="NuxtImg"
+      :sizes="`${size}px`"
       title="User Avatar"
       class="object-cover overflow-hidden rounded-full h-full w-full !shadow-none" />
   </div>

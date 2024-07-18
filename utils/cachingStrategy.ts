@@ -50,18 +50,3 @@ export const getProperImageLink =
       imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
     )
   }
-
-export const clearSession = () => {
-  try {
-    setTimeout(() => {
-      window.sessionStorage.clear()
-      window.localStorage.clear()
-    }, 100)
-  } catch (error) {
-    console.error(error)
-  } finally {
-    setTimeout(() => {
-      window.location.reload()
-    }, 200)
-  }
-}

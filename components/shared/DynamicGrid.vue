@@ -1,6 +1,6 @@
 <template>
   <div ref="container" :style="gridCols">
-    <slot :is-mobile-variant="isMobileVariant" :grid="grid" />
+    <slot :is-mobile-variant="isMobileVariant" :grid="grid" :cols="cols" />
   </div>
 </template>
 

@@ -279,11 +279,11 @@ watchEffect(async () => {
 
   // Use Farcaster data if useFarcaster is true and data is available, otherwise fallback to profile data
   form.name = useFarcasterData
-    ? farcasterProfile.displayName ?? ''
-    : profile?.name ?? ''
+    ? (farcasterProfile.displayName ?? '')
+    : (profile?.name ?? '')
   form.description = useFarcasterData
-    ? farcasterProfile.bio ?? ''
-    : profile?.description ?? ''
+    ? (farcasterProfile.bio ?? '')
+    : (profile?.description ?? '')
   form.imagePreview = useFarcasterData
     ? farcasterProfile.pfpUrl
     : profile?.image
