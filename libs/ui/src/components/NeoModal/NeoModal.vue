@@ -45,7 +45,7 @@ const props = withDefaults(
   }>(),
   {
     destroyOnHide: true,
-    canCancel: true,
+    canCancel: false,
     fullScreen: false,
     contentClass: '',
     rootClass: '',
