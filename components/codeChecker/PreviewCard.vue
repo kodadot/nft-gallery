@@ -7,7 +7,7 @@
         class="fixed top-[3rem] left-[3rem] z-[1]"
         icon-left="chevron-left"
         @click="toggleFullscreen">
-        <div class="mr-2">{{ $t('goBack') }}</div>
+        <div class="mr-2">{{ $t('massmint.goBack') }}</div>
       </NeoButton>
 
       <CodeCheckerSandboxIFrame

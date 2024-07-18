@@ -68,7 +68,9 @@ const {
   data: followersData,
   refresh,
   pending: loading,
-} = useAsyncData(() => fetchFollowersOf(address.value))
+} = useAsyncData(`followers-${address.value}`, () =>
+  fetchFollowersOf(address.value),
+)
 
 const followers = computed(() =>
   loading.value ? 0 : followersData.value?.totalCount || 0,

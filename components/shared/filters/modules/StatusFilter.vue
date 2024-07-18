@@ -7,7 +7,7 @@
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title font-normal">
-          {{ $t('status') }}
+          {{ $t('massmint.status') }}
         </p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />

@@ -29,6 +29,7 @@ export type GetDropsQuery = {
   limit?: number
   active?: boolean[]
   chain?: string[]
+  collection?: string
 }
 
 export type DropMintedStatus = {

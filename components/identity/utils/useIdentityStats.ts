@@ -10,7 +10,7 @@ const useLastBought = ({ address }: { address: Ref<string> }) => {
   const { data } = useAsyncQuery({
     query: buyEventByProfile,
     variables: {
-      id: address,
+      id: address.value,
     },
   })
 
