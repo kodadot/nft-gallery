@@ -26,7 +26,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
     useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
-  const { $i18n } = useNuxtApp()
+  const { $i18n, $consola } = useNuxtApp()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
   const { fetchMultipleBalance, chainBalances } = useMultipleBalance(
@@ -64,7 +64,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
     const transactionHandler = txCb(
       ({ blockHash }) => {
-        successMessage(`Transaction finalized at blockHash ${blockHash}`)
+        $consola.log(`Transaction finalized at blockHash ${blockHash}`)
         status.value = TransactionStatus.Finalized
         isLoading.value = false
 
@@ -85,7 +85,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
         const { txHash } = submittableResult
 
         if (isFirstStatus) {
-          infoMessage(`Transaction hash is ${txHash.toHex()}`)
+          $consola.log(`Transaction hash is ${txHash.toHex()}`)
           txId.value = txHash.toHex()
           status.value = TransactionStatus.Block
           isFirstStatus = false
