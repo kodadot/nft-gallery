@@ -29,6 +29,7 @@ export type GetDropsQuery = {
   limit?: number
   active?: boolean[]
   chain?: string[]
+  creator?: string
   collection?: string
 }
 

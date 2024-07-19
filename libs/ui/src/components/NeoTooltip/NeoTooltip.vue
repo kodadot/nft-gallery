@@ -39,7 +39,7 @@ import { OTooltip } from '@oruga-ui/oruga-next'
 
 export interface Props {
   label?: string
-  position?: 'top' | 'bottom' | 'left' | 'right'
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
   active?: boolean
   multiline?: boolean
   appendToBody?: boolean
