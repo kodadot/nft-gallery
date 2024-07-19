@@ -131,7 +131,7 @@ const processProfile = async (profileData: ProfileFormData) => {
       ? getBioWithLinks(profileData.description)
       : profileData.description,
     image: imageUrl,
-    banner: hasProfile.value ? (bannerUrl ?? null) : bannerUrl!,
+    banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
     socials: constructSocials(profileData),
     signature,
     message,
