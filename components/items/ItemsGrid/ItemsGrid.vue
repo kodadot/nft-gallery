@@ -25,6 +25,14 @@
           :display-name-with-sn="displayNameWithSn"
           :show-timestamp="showTimestamp"
           :collection-popover-hide="collectionPopoverHide"
+          :lazy-loading="
+            shouldLazyLoad({
+              cols: slotProps.cols,
+              index,
+              limit: first,
+              skipRows: EAGERLY_LOADED_ROWS,
+            })
+          "
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -38,6 +46,14 @@
           :hide-action="hideNFTHoverAction"
           :display-name-with-sn="displayNameWithSn"
           hide-video-controls
+          :lazy-loading="
+            shouldLazyLoad({
+              cols: slotProps.cols,
+              index,
+              limit: first,
+              skipRows: EAGERLY_LOADED_ROWS,
+            })
+          "
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -96,6 +112,8 @@ import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { GridSection } from '@/stores/preferences'
 const slots = useSlots()
+
+const EAGERLY_LOADED_ROWS = 2
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()

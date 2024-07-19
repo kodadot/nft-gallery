@@ -1,9 +1,9 @@
+import { createVisible } from '@/utils/config/permission.config'
+
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
 
   let redirectValue
-
-  const createRoute = '/create'
 
   const paths = [
     {
@@ -33,24 +33,16 @@ export default defineNuxtRouteMiddleware((route) => {
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
-    // create
-    {
-      cond: (val) => `/${urlPrefix.value}/create` === val,
-      replaceValue: () => createRoute,
-    },
     {
       cond: (val) =>
-        (val.startsWith(`/${urlPrefix.value}`) && val.endsWith('/massmint')) ||
-        val.endsWith('/massmint/onboarding'),
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) => '/create/nft' === val || '/create/collection' === val,
-      replaceValue: () => createRoute,
-    },
-    {
-      cond: (val) => val === '/ahk/waifu',
-      replaceValue: () => createRoute,
+        val === `/${urlPrefix.value}/create` ||
+        val === `/${urlPrefix.value}/massmint` ||
+        val.startsWith('/create'),
+      replaceValue: () => {
+        if (!createVisible(urlPrefix.value)) {
+          return '/'
+        }
+      },
     },
   ]
 

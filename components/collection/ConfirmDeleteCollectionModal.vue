@@ -14,7 +14,7 @@
           no-shadow
           @click="emit('delete')">
           <span class="text-k-red">
-            {{ $i18n.t('helper.yesDelete') }}
+            {{ $i18n.t('massmint.yesDelete') }}
           </span>
         </NeoButton>
         <NeoButton

@@ -7,6 +7,7 @@
     <DynamicGrid
       v-if="!isLoading && total"
       :id="scrollContainerId"
+      v-slot="{ cols }"
       grid-size="medium"
       :default-width="GRID_DEFAULT_WIDTH">
       <div
@@ -14,7 +15,11 @@
         :key="collection.id"
         :class="scrollItemClassName"
         :data-testid="`collection-index-${index}`">
-        <CollectionCard :collection="collection" />
+        <CollectionCard
+          :collection="collection"
+          :lazy-loading="
+            shouldLazyLoad({ index, cols, limit: first, skipRows: 3 })
+          " />
       </div>
     </DynamicGrid>
 

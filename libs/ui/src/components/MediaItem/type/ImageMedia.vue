@@ -11,6 +11,7 @@
       :image-component-props="imageComponentProps"
       :src="src"
       :alt="alt"
+      :loading="loading"
       :class="className"
       data-testid="type-image"
       @error.once="() => onError('error-1')" />
@@ -21,6 +22,7 @@
       :src="src"
       :alt="alt"
       :class="className"
+      :loading="loading"
       data-testid="type-image"
       @error.once="() => onError('error-2')" />
     <!-- else, load placeholder -->
@@ -53,6 +55,7 @@ const props = withDefaults(
     original: boolean
     placeholder: string
     isFullscreen?: boolean
+    lazyLoading?: boolean
   }>(),
   {
     imageComponent: 'img',
@@ -61,12 +64,17 @@ const props = withDefaults(
     src: '',
     alt: '',
     isFullscreen: false,
+    lazyLoading: false,
   },
 )
 
 type Status = 'ok' | 'error-1' | 'error-2'
 const status = ref<Status>('ok')
 const isGif = computed(() => props.mimeType === 'image/gif')
+
+const loading = computed<'eager' | 'lazy'>(() =>
+  props.lazyLoading ? 'lazy' : 'eager',
+)
 
 const className = computed(() =>
   !props.original && !props.isFullscreen

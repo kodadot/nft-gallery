@@ -6,10 +6,12 @@
     :name="drop.collection.name"
     :image="image"
     :show-time-tag="Boolean(drop.dropStartTime || ended)"
+    :owner-addresses="ownerAddresses"
+    :drop-creator="drop.creator"
     :drop-start-time="drop.dropStartTime"
     :drop-status="drop.status"
-    :owner-addresses="ownerAddresses"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"
+    :drop-prefix="drop.chain"
     :minted="drop.minted" />
 </template>
 

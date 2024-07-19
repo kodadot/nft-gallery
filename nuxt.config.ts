@@ -275,7 +275,7 @@ export default defineNuxtConfig({
     format: ['avif', 'webp'],
     providers: {
       customCloudflare: {
-        provider: '~/providers/cloudflare.ts',
+        provider: '~/providers/cdn-worker.ts',
       },
     },
     provider: 'customCloudflare',
@@ -398,10 +398,13 @@ export default defineNuxtConfig({
         '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
+
   // In case of using ssr
   // privateRuntimeConfig: {}
 
   devtools: {
     enabled: true,
   },
+
+  compatibilityDate: '2024-07-11',
 })

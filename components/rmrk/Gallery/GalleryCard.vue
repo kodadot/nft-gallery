@@ -72,7 +72,8 @@ const props = withDefaults(
   },
 )
 
-const image = ref('/placeholder.webp')
+const { placeholder } = useTheme()
+const image = ref(placeholder.value)
 const title = ref('')
 const animatedUrl = ref('')
 const mimeType = ref('')
