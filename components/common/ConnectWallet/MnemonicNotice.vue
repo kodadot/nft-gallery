@@ -1,7 +1,6 @@
 <template>
   <div class="bg-k-grey-light p-4 flex items-center mx-6">
-    <NeoIcon class="ml-1" icon="circle-info" variant="k-grey" />
-    <div class="text-xs text-neutral-7 ml-3">
+    <div class="text-xs text-neutral-7 mx-4">
       {{ $t('walletConnect.authText') }}
     </div>
   </div>
