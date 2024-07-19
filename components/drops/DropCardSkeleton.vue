@@ -6,8 +6,44 @@
 
     <div
       class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4">
-      <div class="w-52">
-        <NeoSkeleton no-margin class="w-full" :rounded="false" height="28" />
+      <div class="flex justify-between min-h-[60px]">
+        <div class="flex flex-col gap-2">
+          <div class="w-40">
+            <NeoSkeleton
+              no-margin
+              class="w-full"
+              :rounded="false"
+              height="28" />
+          </div>
+          <div class="w-32 !h-6 flex gap-2">
+            <div class="w-[22px] flex-shrink-0">
+              <NeoSkeleton
+                no-margin
+                class="w-full"
+                circle
+                height="24"
+                width="24" />
+            </div>
+
+            <div class="w-full">
+              <NeoSkeleton
+                no-margin
+                class="w-full"
+                height="24"
+                :rounded="false" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="w-[58px] relative">
+            <NeoSkeleton
+              no-margin
+              class="w-full"
+              border-radius="5rem"
+              full-size
+              height="22" />
+          </div>
+        </div>
       </div>
 
       <div

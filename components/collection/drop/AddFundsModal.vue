@@ -1,7 +1,6 @@
 <template>
   <NeoModal
     :value="modelValue"
-    :can-cancel="['outside', 'escape']"
     content-class="add-funds-modal !w-[unset]"
     @close="onClose">
     <ModalBody
