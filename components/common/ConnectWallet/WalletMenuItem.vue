@@ -44,26 +44,42 @@
       </span>
     </div>
 
-    <div v-if="walletAccounts.length && showAccountList" class="account-list">
+    <div
+      v-if="walletAccountsWithProfile.length && showAccountList"
+      class="account-list">
       <div
-        v-for="option in walletAccounts"
+        v-for="option in walletAccountsWithProfile"
         :key="option.address"
         class="account-item">
         <a
-          class="pl-5 flex items-center"
+          class="pl-5 flex items-center justify-between"
           :value="option.address"
           @click="emitAccountChange(option)">
-          <Avatar
-            :size="33"
-            :value="option.address"
-            class="mr-2 image-outline" />
-          <div class="flex flex-col">
-            <span class="text-k-grey text-xs account-name">{{
-              option.name
-            }}</span>
-            <div class="account-address">
-              {{ shortAddress(option.address, 6, -3) }}
+          <div class="flex items-center">
+            <Avatar
+              :size="33"
+              :value="option.address"
+              class="mr-2 image-outline" />
+            <div class="flex flex-col">
+              <span class="text-k-grey text-xs account-name">{{
+                option.name
+              }}</span>
+              <div class="account-address">
+                {{ shortAddress(option.address, 6, -3) }}
+              </div>
             </div>
+          </div>
+          <div
+            v-if="option.profile"
+            class="flex items-center rounded-full bg-neutral-3 dark:bg-neutral-11 px-[6px] py-[3px] h-[22px] gap-[0.375rem] mr-1">
+            <ProfileAvatar
+              :size="12.5"
+              :address="option.address"
+              :profile-image="option.profile?.image" />
+            <span
+              class="text-sm max-w-[80px] text-ellipsis whitespace-nowrap overflow-hidden"
+              >{{ option.profile?.name }}</span
+            >
           </div>
         </a>
       </div>
@@ -81,6 +97,9 @@ import { useWalletStore } from '@/stores/wallet'
 import { NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
+import { useQuery } from '@tanstack/vue-query'
+import type { Profile } from '@/services/profile'
 
 defineProps<{
   wallet: BaseDotsamaWallet
@@ -104,10 +123,32 @@ const emitAccountChange = (account): void => {
 
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
+const walletAccountsWithProfile = computed(() => {
+  return walletAccounts.value.map((account) => {
+    return {
+      ...account,
+      profile: existingProfiles.value?.find(
+        (p) => p.address === toSubstrateAddress(account.address),
+      ),
+    }
+  })
+})
+
 watch(walletAccounts, (newValue) => {
   if (shouldUpdate(newValue, walletAccounts.value)) {
     walletAccounts.value = newValue
   }
+})
+
+const { data: existingProfiles } = useQuery<Profile[]>({
+  queryKey: [
+    'account-profiles',
+    computed(() => `${walletAccounts.value.sort().join(',')}`),
+  ],
+  queryFn: () =>
+    walletAccounts.value.length
+      ? fetchProfilesByIds(walletAccounts.value.map((a) => a.address))
+      : [],
 })
 
 const formatAccount = (account: WalletAccount): WalletAccount => {
