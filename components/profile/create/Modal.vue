@@ -47,8 +47,7 @@ const { getSignaturePair } = useVerifyAccount()
 const profileStore = useProfileStore()
 const { stage } = storeToRefs(profileStore)
 const documentVisibility = useDocumentVisibility()
-const { generate: generateSession, get: getSession } =
-  useIdMap<Ref<SessionState>>()
+const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
 
 const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
 
