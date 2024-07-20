@@ -1542,7 +1542,7 @@
     "claimingDrop": "Claiming drop",
     "stayTuned": "Stay tuned — Your unique NFT is finalizing!",
     "preparingYourNft": "Preparing Your NFT",
-    "youSuccessfullyClaimedNft": "You successfully claimed {0} NFT",
+    "youSuccessfullyClaimedNft": "You successfully minted {0} NFT",
     "artBy": "{0} By",
     "viewNft": "View NFT",
     "listNft": "List NFT",
@@ -1784,7 +1784,7 @@
         "confirm": "Teleport required amount"
       },
       "paid_drop": {
-        "confirm": "Teleport and claim NFT",
+        "confirm": "Teleport and Mint NFT",
         "title": "Minting NFT"
       },
       "mintnft": {
@@ -2080,6 +2080,12 @@
         "title": "Profile Setup Failed",
         "message": "Error occurred. Try again later or report issue."
       }
+    },
+
+    "curatedGenerativDrops": {
+      "title": "Curated Generative Drops",
+      "howThisWorks": "How this works?",
+      "explainHowThisWorks": "Discover generative art collections owned by this artist. Each curated drop is created using algorithms, resulting in unique and dynamic artworks that blend creativity with computational precision."
     },
     "delete": "Reset all Fields - start over",
     "deleteConfirm": "You sure? - click again",
