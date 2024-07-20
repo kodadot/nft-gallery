@@ -118,8 +118,8 @@ export const infoMessage = (
 
 export const successMessage = (message) =>
   showNotification({
-    title: 'Succes',
-    message: `[SUCCESS] ${message}`,
+    title: 'Success',
+    message: message,
     params: notificationTypes.success,
   })
 
