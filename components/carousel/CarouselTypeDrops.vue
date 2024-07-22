@@ -6,13 +6,15 @@
         :key="dropsAlias.join('-')"
         v-slot="{ item }"
         :items="drops"
-        :config="config">
+        :config="config"
+      >
         <DropsDropCard :drop="item" />
       </CarouselModuleCarouselAgnostic>
       <CarouselModuleCarouselAgnostic
         v-else
         :items="Array(skeletonCount).fill({ id: 'drop-skeleton' })"
-        :config="config">
+        :config="config"
+      >
         <DropsDropCardSkeleton />
       </CarouselModuleCarouselAgnostic>
     </template>
@@ -23,7 +25,7 @@
 import { useDrops } from '@/components/drops/useDrops'
 
 let queries = {
-  limit: 12,
+  limit: 14,
   active: [true],
   chain: ['ahp'],
 }
@@ -50,6 +52,6 @@ const skeletonCount = computed(() =>
   Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
 )
 
-const { drops, loaded: isReady } = useDrops(queries)
-const dropsAlias = computed(() => drops.value.map((drop) => drop.alias))
+const { drops, loaded: isReady } = useDrops(queries, { filterOutMinted: true })
+const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
 </script>
