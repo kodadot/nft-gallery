@@ -1,6 +1,6 @@
 import { $fetch } from 'ofetch'
-import { URLS } from '~/utils/constants'
 import consola from 'consola'
+import { URLS } from '~/utils/constants'
 
 const SEARCH_BASE_URL = URLS.koda.search
 
@@ -11,11 +11,12 @@ const api = $fetch.create({
   },
   credentials: 'omit',
 })
-export async function fetchCollectionSuggestion(key: string, limit?: number) {
+export async function fetchCollectionSuggestion(key: string, limit?: number, chain?: string) {
   const object = {
     search: key,
     table: 'collections',
     limit,
+    chain,
   }
 
   try {
@@ -27,7 +28,8 @@ export async function fetchCollectionSuggestion(key: string, limit?: number) {
       return data
     }
     return []
-  } catch (e) {
+  }
+  catch (e) {
     consola.log('fetchCollectionSuggestion Error', e)
     return []
   }
