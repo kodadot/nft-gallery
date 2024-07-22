@@ -70,14 +70,8 @@ provide(
   'address',
   computed(() => props.address),
 )
-provide(
-  'shortenedAddress',
-  computed(() => shortenedAddress.value),
-)
-provide(
-  'identity',
-  computed(() => identity.value),
-)
+provide('shortenedAddress', shortenedAddress)
+provide('identity', identity)
 
 const emitChange = defineEmits(['change'])
 

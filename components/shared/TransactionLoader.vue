@@ -102,7 +102,7 @@ const props = withDefaults(
     isMobile?: boolean
   }>(),
   {
-    canCancel: true,
+    canCancel: false,
     isMobile: false,
   },
 )

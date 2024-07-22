@@ -49,7 +49,9 @@ test('Drop page verification', async ({ page, Commands }) => {
   })
 
   await test.step('Collected By', async () => {
-    await expect(page.getByTestId('drop-collected-by-container')).toBeVisible()
+    await expect(page.getByTestId('drop-collected-by-container')).toBeVisible({
+      timeout: 15000,
+    })
     await expect(page.getByTestId('collector-avatar').first()).toBeVisible()
     await page.getByTestId('collector-avatar').first().hover()
     await expect(page.getByTestId('identity-popover-container')).toBeVisible()

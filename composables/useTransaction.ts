@@ -16,6 +16,8 @@ import {
 } from './transaction/transactionBurn'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
+import { execMintToken } from './transaction/transactionMintToken'
+import { execMintCollection } from './transaction/transactionMintCollection'
 import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
 import {
   ActionAcceptOffer,
@@ -24,7 +26,9 @@ import {
   ActionConsume,
   ActionDeleteCollection,
   ActionList,
+  ActionMintCollection,
   ActionMintDrop,
+  ActionMintToken,
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
@@ -183,6 +187,22 @@ export const executeAction = ({
       execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>
       execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
+    [ShoppingActions.MINTNFT]: () =>
+      execMintToken({
+        item: item as ActionMintToken,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
+    [ShoppingActions.MINT]: () =>
+      execMintCollection({
+        item: item as ActionMintCollection,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [Collections.DELETE]: () =>
       execBurnCollection(
         item as ActionDeleteCollection,
