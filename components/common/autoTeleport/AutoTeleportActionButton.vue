@@ -140,7 +140,7 @@ const amount = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
-  isReady,
+  isReady: isAutoTeleportReady,
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
@@ -160,6 +160,10 @@ const showFirstTimeTeleport = computed(
     preferencesStore.firstTimeAutoTeleport &&
     autoTeleport.value &&
     !props.disabled,
+)
+
+const isReady = computed(() =>
+  isAutoTeleportAvailable.value ? isAutoTeleportReady.value : true,
 )
 
 const isTelportIconActive = computed(() => {
@@ -320,7 +324,11 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ isReady, optimalTransition, canAutoTeleport })
+defineExpose({
+  isReady,
+  optimalTransition,
+  canAutoTeleport,
+})
 </script>
 
 <style lang="scss" scoped>
