@@ -27,7 +27,12 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-export type ChainType = 'polkadot' | 'kusama' | 'kusamaHub' | 'polkadotHub'
+export type ChainType =
+  | 'polkadot'
+  | 'kusama'
+  | 'kusamaHub'
+  | 'polkadotHub'
+  | 'base'
 // | 'rococoHub'
 
 type ChainDetail = {
@@ -97,6 +102,7 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
+      { chain: 'base', token: 'ETH' },
     ],
     multiBalanceAssetsTestnet: [
       // { chain: 'rococoHub', token: 'ROC' },

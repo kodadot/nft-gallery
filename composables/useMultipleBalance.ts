@@ -6,25 +6,28 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { toDefaultAddress } from '@/utils/account'
 
 import { storeToRefs } from 'pinia'
-import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
+import { CHAINS, ChainProperties, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
 import { getNativeBalance } from '@/utils/balance'
 import { useIntervalFn } from '@vueuse/core'
-import { useIdentityStore } from '@/stores/identity'
+import { ChainType, useIdentityStore } from '@/stores/identity'
+import { Address } from 'viem'
 
-const networkToPrefix = {
+const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
   polkadot: 'dot',
   kusama: 'ksm',
   kusamaHub: 'ahk',
   polkadotHub: 'ahp',
+  base: 'base',
   // rococoHub: 'ahr',
 }
 
-export const prefixToNetwork = {
+export const prefixToNetwork: Partial<Record<Prefix, ChainType>> = {
   dot: 'polkadot',
   rmrk: 'kusama',
   ksm: 'kusama',
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',
+  base: 'base',
   // ahr: 'rococoHub',
 }
 
@@ -47,7 +50,7 @@ export default function (refetchPeriodically: boolean = false) {
   const { isTestnet, urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
   const fiatStore = useFiatStore()
-  const { existentialDeposit } = useChain()
+  const { existentialDeposit, availableChainsByVm } = useChain()
 
   const {
     multiBalances,
@@ -83,13 +86,18 @@ export default function (refetchPeriodically: boolean = false) {
     () => currentChainBalance.value !== undefined,
   )
 
-  async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
-    const currentAddress = accountId.value
-    const prefix = networkToPrefix[chainName]
-    const chain = CHAINS[prefix]
-
-    const defaultAddress = toDefaultAddress(currentAddress)
-    const publicKey = decodeAddress(currentAddress)
+  async function getSubstrateBalance({
+    chain,
+    address,
+    prefix,
+    tokenId,
+  }: {
+    chain: ChainProperties
+    address: string
+    prefix: Prefix
+    tokenId: number
+  }) {
+    const publicKey = decodeAddress(address)
     const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
     const wsProvider = new WsProvider(ENDPOINT_MAP[prefix])
 
@@ -97,14 +105,53 @@ export default function (refetchPeriodically: boolean = false) {
       provider: wsProvider,
     })
 
-    const nativeBalance = await getNativeBalance({
+    const balance = await getNativeBalance({
       address: prefixAddress,
       api: api,
       tokenId,
     })
 
-    const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
+    await wsProvider.disconnect()
 
+    return { balance, prefixAddress }
+  }
+
+  async function getEvmBalance({
+    address,
+    prefix,
+  }: {
+    address: Address
+    prefix: Prefix
+  }) {
+    const balance = await viemClient(prefix).getBalance({
+      address,
+    })
+
+    return { balance: Number(balance), prefixAddress: address as string }
+  }
+
+  async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
+    const currentAddress = accountId.value
+    const defaultAddress = execByVm({
+      SUB: () => toDefaultAddress(currentAddress),
+      EVM: () => currentAddress,
+    })
+
+    const prefix = networkToPrefix[chainName]
+    const chain = CHAINS[prefix]
+
+    const { balance: nativeBalance, prefixAddress } = await execByVm({
+      SUB: () =>
+        getSubstrateBalance({
+          address: currentAddress,
+          prefix,
+          chain,
+          tokenId,
+        }),
+      EVM: () => getEvmBalance({ address: currentAddress as Address, prefix }),
+    })
+
+    const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
     const selectedTokenId = String(tokenId)
 
     const usd = calculateUsd(
@@ -129,10 +176,9 @@ export default function (refetchPeriodically: boolean = false) {
     })
 
     identityStore.setBalance(prefix, currentBalance)
-
     identityStore.multiBalanceNetwork = currentNetwork.value
 
-    return wsProvider.disconnect()
+    return Promise.resolve()
   }
 
   const fetchFiatPrice = async (force) => {
@@ -157,7 +203,14 @@ export default function (refetchPeriodically: boolean = false) {
       ? assets.filter((item) => chainNetworks.includes(item.chain))
       : assets
 
-    const promisses = assetsToFetch.map((item) =>
+    // allow multiple vm balance fetch once multiple accounts are supported
+    const vmAssetsToFetch = assetsToFetch.filter((asset) =>
+      availableChainsByVm.value
+        .map((chain) => chain.value)
+        .includes(networkToPrefix[asset.chain] as ChainType),
+    )
+
+    const promisses = vmAssetsToFetch.map((item) =>
       getBalance(item.chain, item.token, Number(item.tokenId)),
     )
 
