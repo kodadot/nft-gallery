@@ -258,7 +258,6 @@ export const getChainCurrency = (chain: Chain): Currency => {
 
 export const chainToPrecisionMap: Record<Chain, number> = {
   [Chain.KUSAMA]: 4,
-  [Chain.BASILISK]: 4,
   [Chain.ASSETHUBKUSAMA]: 6,
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.POLKADOT]: 4,
