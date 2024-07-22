@@ -70,7 +70,10 @@
             </div>
           </div>
           <div
-            v-if="option.profile"
+            v-if="isProfilesLoading"
+            class="w-[75px] rounded-full bg-neutral-3 dark:bg-neutral-11 h-[22px] mr-1"></div>
+          <div
+            v-else-if="option.profile"
             class="flex items-center rounded-full bg-neutral-3 dark:bg-neutral-11 px-[6px] py-[3px] h-[22px] gap-[0.375rem] mr-1">
             <ProfileAvatar
               :size="12.5"
@@ -140,7 +143,9 @@ watch(walletAccounts, (newValue) => {
   }
 })
 
-const { data: existingProfiles } = useQuery<Profile[]>({
+const { data: existingProfiles, isLoading: isProfilesLoading } = useQuery<
+  Profile[]
+>({
   queryKey: [
     'account-profiles',
     computed(() => `${walletAccounts.value.sort().join(',')}`),
