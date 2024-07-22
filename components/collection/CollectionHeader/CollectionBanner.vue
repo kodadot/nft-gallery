@@ -1,12 +1,14 @@
 <template>
   <div
     class="collection-banner relative md:h-[560px] h-72 bg-no-repeat bg-cover bg-center border-b"
-    :style="{ backgroundImage: `url(${bannerImageUrl})` }">
-    <div class="collection-banner-shadow absolute inset-0"></div>
+    :style="{ backgroundImage: `url(${bannerImageUrl})` }"
+  >
+    <div class="collection-banner-shadow absolute inset-0" />
 
     <section class="h-full py-8">
       <div
-        class="container is-fluid collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full">
+        class="container is-fluid collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full"
+      >
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
             <div class="collection-banner-avatar p-2.5 mb-4 md:mb-6">
@@ -14,11 +16,13 @@
                 :src="collectionAvatar"
                 :image-component="NuxtImg"
                 :title="collectionName"
-                class="w-[5.5rem] h-[5.5rem] border" />
+                class="w-[5.5rem] h-[5.5rem] border"
+              />
             </div>
             <h1
               class="collection-banner-name font-bold text-2xl md:text-[31px]"
-              data-testid="collection-banner-name">
+              data-testid="collection-banner-name"
+            >
               {{ collectionName }}
             </h1>
           </div>
@@ -41,6 +45,7 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import collectionById from '@/queries/subsquid/general/collectionById.query'
+
 const NuxtImg = resolveComponent('NuxtImg')
 
 const collectionId = computed(() => route.params.id as string)
@@ -76,7 +81,8 @@ watchEffect(async () => {
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
     collectionName.value = name
-  } else {
+  }
+  else {
     const meta = (await processSingleMetadata(
       metadata as string,
     )) as NFTMetadata

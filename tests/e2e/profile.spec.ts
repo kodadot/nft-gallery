@@ -4,24 +4,25 @@ const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
 const DOT_TEST_ADDRESS = '1vQCgtkdWs4r9RAWvdmUyr1kJgR9pmka2dUVFfrFxPYo1CP'
 
 test('Profile Interactions', async ({ page, Commands, baseURL }) => {
+  await Commands.e2elogin()
   await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=activity`)
   await Commands.scrollDownSlow()
 
-  //Activity
+  // Activity
   await test.step('Activity Tab', async () => {
     await expect(page.getByTestId('profile-tabs').last()).toBeVisible()
     await page.getByTestId('profile-tabs').last().click()
-    //usually sale and buy are active when you enter the page
-    //SALE
+    // usually sale and buy are active when you enter the page
+    // SALE
     await page.getByTestId('profile-activity-button-filter').nth(1).click()
-    //checks if sale tag exists
+    // checks if sale tag exists
     await expect(page.getByTestId('history-item-row').first()).toBeVisible()
     await expect(
       page.getByTestId('history-item-row').first().filter({ hasText: 'Sale' }),
     ).toBeVisible()
     await page.getByTestId('identity-tippy-link').first().hover()
     await expect(page.getByTestId('identity-popover-container')).toBeVisible()
-    //BUY
+    // BUY
     await page.getByTestId('profile-activity-button-filter').nth(0).click()
     await page.getByTestId('profile-activity-button-filter').nth(1).click()
     await page.getByTestId('identity-tippy-link').last().hover()
@@ -29,7 +30,7 @@ test('Profile Interactions', async ({ page, Commands, baseURL }) => {
     await expect(
       page.getByTestId('history-item-row').first().filter({ hasText: 'Buy' }),
     ).toBeVisible()
-    //TRANSFER
+    // TRANSFER
     await page.getByTestId('profile-activity-button-filter').nth(1).click()
     await page.getByTestId('profile-activity-button-filter').nth(3).click()
     await expect(
@@ -38,26 +39,26 @@ test('Profile Interactions', async ({ page, Commands, baseURL }) => {
         .first()
         .filter({ hasText: 'Transfer' }),
     ).toBeVisible()
-    //LIST
+    // LIST
     await page.getByTestId('profile-activity-button-filter').nth(3).click()
     await page.getByTestId('profile-activity-button-filter').nth(4).click()
     await expect(
       page.getByTestId('history-item-row').first().filter({ hasText: 'List' }),
     ).toBeVisible()
-    //ALL
+    // ALL
     await page.getByTestId('profile-activity-button-all').click()
   })
 
-  //PROFILE LINKS
+  // PROFILE LINKS
   await test.step('Profile Links', async () => {
     await expect(page.getByTestId('profile-button-multi-action')).toContainText(
       'Follow',
     )
-    //copy address
+    // copy address
     await page.getByTestId('profile-wallet-links-button').click()
     await page.getByTestId('profile-wallet-links-button-copy').click()
     await Commands.copyText(KSM_TEST_ADDRESS)
-    //Transfer
+    // Transfer
     await page.getByTestId('profile-wallet-links-button').click()
     await page.getByTestId('profile-wallet-links-button-transfer').click()
     await page.waitForURL(`${baseURL}/ahk/transfer**`)
@@ -82,7 +83,7 @@ test('Profile - is Buy now working?', async ({ page, Commands }) => {
   await page.goto(
     `ahk/u/${KSM_TEST_ADDRESS}?buy_now=true&tab=owned&buy=true&sale=true&collections=334`,
   )
-  //test step - will check if buy now has items that are not listed
+  // test step - will check if buy now has items that are not listed
   await test.step('Buy Now', async () => {
     await Commands.acceptCookies()
     await Commands.scrollDownSlow()
