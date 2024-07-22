@@ -2077,6 +2077,12 @@
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
     },
+
+    "curatedGenerativDrops": {
+      "title": "Curated Generative Drops",
+      "howThisWorks": "How this works?",
+      "explainHowThisWorks": "Discover generative art collections owned by this artist. Each curated drop is created using algorithms, resulting in unique and dynamic artworks that blend creativity with computational precision."
+    },
     "delete": "Reset all Fields - start over",
     "deleteConfirm": "You sure? - click again",
     "waitSeconds": "Wait {0} Seconds",
