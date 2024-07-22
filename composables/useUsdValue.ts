@@ -5,8 +5,6 @@ export default function useUsdValue() {
   const getTokenUsdValue = (token) => {
     const tokenMap = {
       ahk: fiatStore.getCurrentKSMValue,
-      ksm: fiatStore.getCurrentKSMValue,
-      rmrk: fiatStore.getCurrentKSMValue,
       ahp: fiatStore.getCurrentDOTValue,
       dot: fiatStore.getCurrentDOTValue,
       ahr: fiatStore.getCurrentROCValue,

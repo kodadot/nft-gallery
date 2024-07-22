@@ -35,10 +35,6 @@ export const listActions: [Interaction] = [ShoppingActions.LIST]
 export const buyActions: [Interaction] = [ShoppingActions.BUY]
 export const makeOfferActions: [BasiliskActions] = [ShoppingActions.MAKE_OFFER]
 
-export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
-  return getActionList('rmrk', isOwner, isAvailableToBuy)
-}
-
 export const getMarketplaceActions = (
   prefix: string,
   isOwner: boolean,

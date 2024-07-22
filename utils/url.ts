@@ -9,33 +9,6 @@ export const findUrlsFromText = (text: string) => {
   return matches
 }
 
-export const convertSingularCollectionUrlToKodadotUrl = (url: string) => {
-  try {
-    const urlObj = new URL(url)
-    const pathname = urlObj.pathname
-    if (
-      urlObj.hostname === 'singular.app' &&
-      pathname.startsWith('/collections/')
-    ) {
-      const regex = new RegExp('/collections/(kusama/)?', 'g')
-      const collectionId = pathname.replace(regex, '')
-      return `${location.origin}/ksm/collection/${collectionId}`
-    }
-  } catch (e) {
-    // ignore invalid url error
-  }
-
-  return url
-}
-
-export const replaceSingularCollectionUrlByText = (text: string) => {
-  const urls = findUrlsFromText(text)
-  urls.forEach((url) => {
-    text = text.replaceAll(url, convertSingularCollectionUrlToKodadotUrl(url))
-  })
-  return text
-}
-
 export function isExternal(url: string) {
   return !url.startsWith(window.location.origin)
 }

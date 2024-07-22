@@ -16,8 +16,6 @@ import { toDefaultAddress } from '@/utils/account'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
-// import { KUSAMA_GENESIS } from '@polkadot/apps-config';
-
 const KUSAMA_GENESIS = ''
 // 4 * BaseXcmWeight on Kusama
 const KUSAMA_WEIGHT = 4 * 1_000_000_000
@@ -29,7 +27,6 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 }
 
 export enum Chain {
-  KUSAMA = 'Kusama',
   ASSETHUBKUSAMA = 'AssetHubKusama',
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
@@ -52,22 +49,17 @@ export type TeleportTransition = {
 }
 
 export const allowedTransitions = {
-  [Chain.KUSAMA]: [Chain.ASSETHUBKUSAMA],
-  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
   [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
   [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
-  [Chain.KUSAMA]: 'rmrk',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
-  rmrk: Chain.KUSAMA,
-  ksm: Chain.KUSAMA,
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
@@ -87,13 +79,12 @@ export const whichTeleportType = ({
   to: Chain
 }): TeleprtType => {
   switch (from) {
-    case Chain.KUSAMA:
     case Chain.POLKADOT:
       return TeleprtType.RelayToPara
 
     case Chain.ASSETHUBKUSAMA:
     case Chain.ASSETHUBPOLKADOT:
-      return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
+      return [Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
 
@@ -247,7 +238,6 @@ export type Currency = 'KSM' | 'DOT'
 
 export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
-    case Chain.KUSAMA:
     case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
@@ -257,8 +247,6 @@ export const getChainCurrency = (chain: Chain): Currency => {
 }
 
 export const chainToPrecisionMap: Record<Chain, number> = {
-  [Chain.KUSAMA]: 4,
-  [Chain.BASILISK]: 4,
   [Chain.ASSETHUBKUSAMA]: 6,
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.POLKADOT]: 4,

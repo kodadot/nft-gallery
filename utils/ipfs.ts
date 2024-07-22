@@ -1,7 +1,6 @@
 import { emptyObject } from '@/utils/empty'
-import { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
-import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
 import { IPFS_REGEX, isCID, isHTTP } from '@kodadot1/minipfs'
 
@@ -159,10 +158,6 @@ export const fetchNFTMetadata = (
   rmrk: NFT | SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl,
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
-
-export const fetchCollectionMetadata = (
-  rmrk: Collection | SomethingWithMeta,
-): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(`${ipfsUrlPrefix}${ipfsUrl}`)

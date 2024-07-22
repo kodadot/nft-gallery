@@ -86,12 +86,7 @@ import { formatNumber } from '@/utils/format/balance'
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
 
-const displayChainOrder: ChainType[] = [
-  'polkadot',
-  'polkadotHub',
-  'kusama',
-  'kusamaHub',
-]
+const displayChainOrder: ChainType[] = ['polkadot', 'polkadotHub', 'kusamaHub']
 const identityStore = useIdentityStore()
 const rampActive = ref(false)
 

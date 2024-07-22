@@ -430,7 +430,7 @@ const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 
-const { isRemark, isSub } = useIsChain(urlPrefix)
+const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 
@@ -609,9 +609,7 @@ useAsyncData('tabs-count', async () => {
     Object.assign(searchParams, { nftCount_not_eq: 0 })
   }
 
-  if (!isRemark.value) {
-    searchParams['burned_eq'] = false
-  }
+  searchParams['burned_eq'] = false
 
   const { data } = await useAsyncQuery({
     query: profileTabsCount,
@@ -649,11 +647,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
     currentOwner_eq: address,
   }
 
-  const { isRemark } = useIsChain(computed(() => chain))
-
-  if (!isRemark.value) {
-    searchParams['burned_eq'] = false
-  }
+  searchParams['burned_eq'] = false
 
   const { data } = await useAsyncQuery({
     query: profileTabsCount,
@@ -686,7 +680,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
 useAsyncData('tabs-empty-result', async () => {
   const chains = (
     {
-      SUB: ['ahp', 'ahk', 'ksm', 'rmrk'],
+      SUB: ['ahp', 'ahk'],
       EVM: ['base', 'imx'],
     } as Record<ChainVM, Prefix[]>
   )[vm.value]

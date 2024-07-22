@@ -38,8 +38,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
 
   const queryPath = {
-    rmrk: 'chain-rmrk',
-    ksm: 'chain-ksm',
     ahk: 'chain-ahk',
   }
 

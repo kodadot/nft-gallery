@@ -154,10 +154,7 @@ const confirmTransfer = () => {
 }
 const { accountId } = useAuth()
 
-const network = computed(
-  // naming: rmrk2 -> kusama
-  () => NAMES[urlPrefix.value === 'ksm' ? 'rmrk' : urlPrefix.value],
-)
+const network = computed(() => NAMES[urlPrefix.value])
 const isExpandList = ref(false)
 
 const onClose = () => {

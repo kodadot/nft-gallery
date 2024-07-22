@@ -83,10 +83,6 @@
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
-      <div v-if="version" class="flex justify-between">
-        <p>{{ $t('tabs.tabDetails.version') }}</p>
-        <p>{{ version }}</p>
-      </div>
       <!-- <div class="flex justify-between">
         <p>Token Standard</p>
         <p>--</p>
@@ -214,7 +210,6 @@ import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
-import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
 
@@ -232,13 +227,11 @@ const nftAnimation = getValue('nftAnimation')
 const nftAnimationMimeType = getValue('nftAnimationMimeType')
 
 const activeTab = ref('0')
-const { version } = useRmrkVersion()
 
 const descSource = computed(() => {
-  return replaceSingularCollectionUrlByText(
-    nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
-  )
+  return nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
 })
+
 const parent = computed(() => {
   if (nft.value?.parent?.id) {
     return useGalleryItem(nft.value?.parent?.id)

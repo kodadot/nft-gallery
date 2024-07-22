@@ -15,7 +15,7 @@ export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
     } else if (isDotAddress.value) {
       return accountToPublicKey(address)
     } else {
-      return getss58AddressByPrefix(address, 'rmrk')
+      return getss58AddressByPrefix(address, 'ahk')
     }
   }
 

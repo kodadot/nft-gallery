@@ -2,20 +2,6 @@ import { expect, test } from './fixtures'
 
 test('Redirections', async ({ page }) => {
   //Gallery
-  await test.step('Expect gallery Item url to be properly redirected', async () => {
-    await page.goto(
-      '/rmrk2/gallery/17842583-22708b368d163c8007-CITY-LOWER_ART_DISTRICT-00000006',
-    )
-    await expect(page).toHaveURL(
-      '/ksm/gallery/17842583-22708b368d163c8007-CITY-LOWER_ART_DISTRICT-00000006',
-    )
-  })
-
-  //Explore Collections
-  await test.step('Expect Explore url to be properly redirected', async () => {
-    await page.goto('/ksm/explore/collections')
-    await expect(page).toHaveURL('/ksm/explore/collectibles')
-  })
 
   //Collection
   await test.step('Expect collection url to be properly redirected', async () => {
@@ -32,6 +18,6 @@ test('Redirections', async ({ page }) => {
   //Transfer
   await test.step('Expect collection that has /transfer', async () => {
     await page.goto('/transfer')
-    await expect(page).toHaveURL('/ksm/transfer')
+    await expect(page).toHaveURL('/ahp/transfer')
   })
 })

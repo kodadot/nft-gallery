@@ -37,8 +37,6 @@ const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const { accountId } = useAuth()
 const { replaceUrl: replaceURL } = useReplaceUrl()
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 type DataModel = 'query' | 'store'
 
@@ -55,9 +53,7 @@ const props = withDefaults(
   },
 )
 
-const ListedOrBuynow = computed(() =>
-  isRemark.value ? 'sort.listed_RMRK' : 'sort.listed',
-)
+const ListedOrBuynow = computed(() => 'sort.listed')
 
 const emit = defineEmits(['resetPage'])
 

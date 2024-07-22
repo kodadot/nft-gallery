@@ -1,10 +1,7 @@
 import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
 import VueI18n from 'vue-i18n/types'
-import {
-  convertSingularCollectionUrlToKodadotUrl,
-  isExternal,
-} from '@/utils/url'
+import { isExternal } from '@/utils/url'
 import { useEventListener } from '@vueuse/core'
 import type { Ref } from 'vue/types'
 
@@ -48,7 +45,7 @@ export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
     ele = (ele.closest('a') as unknown as HTMLLinkElement) ?? ele
     event.stopPropagation()
     event.preventDefault()
-    const href = convertSingularCollectionUrlToKodadotUrl(ele.href)
+    const href = ele.href
 
     if (href && isExternal(href) && !isWhiteList(href)) {
       showModal(href, $i18n, neoModal)

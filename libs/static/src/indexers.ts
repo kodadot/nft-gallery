@@ -8,8 +8,6 @@ type SquidEndpoint =
   | `https://${Prefix}.gql.api.kodadot.xyz/`
 
 export const INDEXERS: Config<SquidEndpoint> = {
-  rmrk: 'https://squid.subsquid.io/rubick/graphql',
-  ksm: 'https://ksm.gql.api.kodadot.xyz/',
   ahk: 'https://ahk.gql.api.kodadot.xyz/',
   ahp: 'https://ahp.gql.api.kodadot.xyz/',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available

@@ -1,4 +1,4 @@
-import { MediaType, RMRK } from './types'
+import { MediaType } from './types'
 import { Interaction as EventInteraction } from './service/scheme'
 import { NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
@@ -22,18 +22,6 @@ export const zip = <T1, T2, T3>(
 
 export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
   return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
-}
-
-export const isEmpty = (rmrk: RMRK): boolean => {
-  return !rmrk.event
-}
-
-export const equals = (first: RMRK, second: RMRK): boolean => {
-  if (first.event !== second.event) {
-    return false
-  }
-
-  return true
 }
 
 export const resolveMedia = (mimeType?: string): MediaType => {

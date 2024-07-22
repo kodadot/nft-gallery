@@ -33,7 +33,7 @@ export const chainAssetOf = (prefix: Prefix): AssetItem => {
 }
 
 export const defultTokenChain: Record<string, Prefix> = {
-  KSM: 'ksm',
+  KSM: 'ahk',
   DOT: 'dot',
   // GLMR: 'glmr',
   // MOVR: 'movr',

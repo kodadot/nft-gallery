@@ -36,11 +36,10 @@
 import type { Prefix } from '@kodadot1/static'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
-const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot', 'imx']
+const forbiddenPrefixesForTopCollections: Prefix[] = ['dot', 'imx']
 
 const { urlPrefix } = usePrefix()
 
-// currently only supported on rmrk
 const showCarousel = computed(
   () => !hiddenCarrouselPrefixes.includes(urlPrefix.value),
 )

@@ -9,10 +9,6 @@ export const getChainEndpointByPrefix = (prefix: string) => {
 }
 
 export const getChainNameByPrefix = (prefix: string) => {
-  if (prefix === 'ksm') {
-    return 'rmrk2'
-  }
-
   return prefix
 }
 
@@ -49,8 +45,6 @@ export const getAvailablePrefix = (prefix: string): string => {
 export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',
-  ksm: '/token/ksm.svg',
-  rmrk: '/token/ksm.svg',
   dot: '/token/dot.svg',
   // ahr: '/token/kusama_asset_hub.svg',
 }
@@ -64,4 +58,4 @@ export const availablePrefixWithIcon = () => {
   })
 }
 
-export const popularChains = ['ksm', 'ahk', 'ahp']
+export const popularChains = ['ahk', 'ahp']

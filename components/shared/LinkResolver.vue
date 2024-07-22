@@ -27,8 +27,8 @@ const props = withDefaults(
     param?: string
   }>(),
   {
-    route: '/rmrk/gallery',
-    link: 'rmrk/gallery',
+    route: '/ahp/gallery',
+    link: 'ahp/gallery',
     param: '',
   },
 )

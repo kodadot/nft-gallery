@@ -12,17 +12,12 @@ export const useCollectionActivity = ({
   collectionId: ComputedRef<string>
   prefix?: Prefix
 }) => {
-  const { urlPrefix } = usePrefix()
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
   const flippers = ref<Flippers>()
   const offers = ref<Offer[]>([])
 
-  const queryPrefixMap = {
-    ksm: 'chain-ksm',
-  }
-
-  const queryPrefix = queryPrefixMap[prefix ?? urlPrefix.value] || 'subsquid'
+  const queryPrefix = 'subsquid'
   const variables = computed(() => ({
     id: collectionId.value,
   }))

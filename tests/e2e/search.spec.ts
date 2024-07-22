@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures'
 
-const LANDING_PATH = '/ksm'
+const LANDING_PATH = '/ahp'
 
 test('Check if search provide results', async ({ page }) => {
   await page.goto(LANDING_PATH)

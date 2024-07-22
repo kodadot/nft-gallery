@@ -1,71 +1,11 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
-
+import { Interaction } from '@kodadot1/minimark/v1'
 import {
   assetHubParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
-import { warningMessage } from '@/utils/notification'
 
 import { isLegacy } from '@/components/unique/utils'
 import type { ActionList, TokenToList } from './types'
-
-function isListTxValid(item: TokenToList) {
-  const meta = Number(item.price)
-
-  if (Math.sign(meta) === -1) {
-    warningMessage('Price is not valid')
-    return false
-  }
-
-  return true
-}
-
-const createKusamaInteraction = (item: ActionList) => {
-  const isSingle = !Array.isArray(item.token)
-
-  const createSingleInteraction = (token: TokenToList, urlPrefix) => {
-    if (!isListTxValid(token)) {
-      return undefined
-    }
-    const interaction =
-      urlPrefix === 'rmrk'
-        ? createInteraction(Interaction.LIST, token.nftId, token.price)
-        : createNewInteraction({
-            action: NewInteraction.LIST,
-            payload: { id: token.nftId, price: token.price },
-          })
-
-    return interaction
-  }
-
-  if (isSingle) {
-    return createSingleInteraction(item.token as TokenToList, item.urlPrefix)
-  }
-  return (item.token as TokenToList[])
-    .map((token) => createSingleInteraction(token, item.urlPrefix))
-    .filter((interaction): interaction is string => interaction !== undefined)
-}
-
-const execKsm = (isSingle: boolean, item: ActionList, api) => {
-  const interaction = createKusamaInteraction(item)
-  if (!interaction) {
-    return
-  }
-  const args = isSingle
-    ? interaction
-    : (interaction as string[]).map((interaction) =>
-        api.tx.system.remark(interaction),
-      )
-  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-  return {
-    cb,
-    arg: [args],
-  }
-}
 
 const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
   const getParams = (token: TokenToList) => {
@@ -97,8 +37,6 @@ export function execListTx(item: ActionList, api, executeTransaction) {
   const isSingle = !Array.isArray(item.token)
 
   const fnMap = {
-    rmrk: execKsm,
-    ksm: execKsm,
     ahk: execAhkOrAhp,
     ahp: execAhkOrAhp,
     // ahr: execAhkOrAhp,

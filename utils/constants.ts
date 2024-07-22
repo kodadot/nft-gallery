@@ -72,7 +72,6 @@ export const URLS = {
 export const apolloClientConfig = {
   ...defineApolloConfig(),
   subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
-  rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),
   polkassembly: toApolloEndpoint(URLS.koda.polkassembly),

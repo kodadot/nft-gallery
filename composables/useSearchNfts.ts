@@ -9,13 +9,8 @@ export default function useSearchNfts({
 }) {
   const { client } = usePrefix()
   const chainPrefix = prefix || client.value
-  const queryPrefix = {
-    ksm: 'chain-ksm',
-    rmrk: 'chain-rmrk',
-  }
-
   const { data, refetch, loading } = useGraphql({
-    queryPrefix: queryPrefix[chainPrefix] || client.value,
+    queryPrefix: client.value,
     clientName: chainPrefix,
     queryName: 'nftListWithSearch',
     variables: {

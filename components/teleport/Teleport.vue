@@ -339,16 +339,6 @@ const isDisabled = (chain: Chain) => {
 
 const fromNetworks = [
   {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('ahk'),
-    value: Chain.ASSETHUBKUSAMA,
-    icon: chainIcons.ahk,
-  },
-  {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
     icon: chainIcons.dot,
@@ -360,12 +350,6 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
-  {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    disabled: computed(() => isDisabled(Chain.KUSAMA)),
-    icon: chainIcons.rmrk,
-  },
   {
     label: getChainName('ahk'),
     value: Chain.ASSETHUBKUSAMA,

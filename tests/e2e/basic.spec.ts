@@ -1,11 +1,6 @@
 import { expect, test } from './fixtures'
 
-const chains = [
-  'chain-dropdown-ksm',
-  'chain-dropdown-ahp',
-  'chain-dropdown-ahk',
-  'chain-dropdown-rmrk',
-]
+const chains = ['chain-dropdown-ahp', 'chain-dropdown-ahk']
 
 test('Landing Elements', async ({ page }) => {
   await page.goto('')

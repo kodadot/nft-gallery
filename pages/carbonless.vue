@@ -112,12 +112,7 @@
       <b>to add carbonless minting for creators</b> and start showing which NFTs
       are carbonless by showing 🌱 next to them. To top-up our carbon credits
       buffer,
-      <b
-        ><a
-          href="https://kodadot.xyz/rmrk/gallery/7369221-0E76E3AC15B4C1FA1E-VCU-KODADOT_CARBON_CREDITS-0000000000000001"
-          >we've already bought KodaDot Carbon Credits</a
-        ></b
-      >
+      <b><a href="#">we've already bought KodaDot Carbon Credits</a></b>
       and plan to automatize offset them in the future more in sustainabile
       way.<br />
       <b

@@ -6,8 +6,6 @@ import { emptyObject } from '@/utils/empty'
 import type { Prefix } from '@kodadot1/static'
 
 const DEFAULT_BALANCE_STATE = {
-  ksm: '0',
-  rmrk: '0',
   ahk: '0',
   dot: '0',
   ahp: '0',
@@ -93,7 +91,6 @@ export const useIdentityStore = defineStore('identity', {
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
     multiBalanceNetwork: 'main-network',
     multiBalanceAssets: [
-      { chain: 'kusama' },
       { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },

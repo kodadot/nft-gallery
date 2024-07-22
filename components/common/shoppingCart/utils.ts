@@ -8,8 +8,6 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { nameWithIndex } from '@/utils/nft'
 
 export const prefixToToken = {
-  ksm: 'KSM',
-  rmrk: 'KSM',
   ahk: 'KSM',
   ahp: 'DOT',
   dot: 'DOT',

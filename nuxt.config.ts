@@ -386,7 +386,7 @@ export default defineNuxtConfig({
   // https://nuxt.com/docs/api/nuxt-config#runtimeconfig
   runtimeConfig: {
     public: {
-      prefix: process.env.URL_PREFIX || 'rmrk',
+      prefix: process.env.URL_PREFIX || 'ahp',
       baseUrl: process.env.BASE_URL || 'http://localhost:9090',
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
       dev: process.env.NODE_ENV === 'development',

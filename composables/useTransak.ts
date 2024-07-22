@@ -9,7 +9,7 @@ interface InitParams {
 
 const getKsmAddress = (address: string) => {
   const publicKey = decodeAddress(address)
-  return encodeAddress(publicKey, CHAINS['ksm'].ss58Format)
+  return encodeAddress(publicKey, CHAINS['ahk'].ss58Format)
 }
 
 export default function useTransak() {

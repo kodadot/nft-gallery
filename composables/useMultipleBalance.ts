@@ -13,7 +13,6 @@ import { useIdentityStore } from '@/stores/identity'
 
 const networkToPrefix = {
   polkadot: 'dot',
-  kusama: 'ksm',
   kusamaHub: 'ahk',
   polkadotHub: 'ahp',
   // rococoHub: 'ahr',
@@ -21,8 +20,6 @@ const networkToPrefix = {
 
 export const prefixToNetwork = {
   dot: 'polkadot',
-  rmrk: 'kusama',
-  ksm: 'kusama',
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',
   // ahr: 'rococoHub',
@@ -67,7 +64,6 @@ export default function (refetchPeriodically: boolean = false) {
   )
 
   const chainBalances = computed(() => ({
-    [Chain.KUSAMA]: multiBalances.value.chains.kusama?.ksm?.nativeBalance,
     [Chain.ASSETHUBKUSAMA]:
       multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
     [Chain.POLKADOT]: multiBalances.value.chains.polkadot?.dot?.nativeBalance,

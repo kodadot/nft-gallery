@@ -36,10 +36,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { NeoField, NeoIcon, NeoRadioButton, NeoTooltip } from '@kodadot1/brick'
 
 defineProps({
-  type: { type: String, default: 'nftDetail' },
-  link: { type: String, default: 'rmrk/detail' },
   disabled: { type: Boolean, default: false },
-  items: { type: Array, default: () => [] },
 })
 const emit = defineEmits(['change'])
 const preferencesStore = usePreferencesStore()

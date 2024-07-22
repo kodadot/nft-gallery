@@ -1,8 +1,5 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
+
 import type { ApiPromise } from '@polkadot/api'
 import type {
   ActionDeleteCollection,
@@ -20,29 +17,6 @@ import {
 import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
-  if (item.urlPrefix === 'rmrk') {
-    executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [createInteraction(Interaction.CONSUME, item.nftId, '')],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
-  if (item.urlPrefix === 'ksm') {
-    executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [
-        createNewInteraction({
-          action: NewInteraction.BURN,
-          payload: { id: item.nftId },
-        }),
-      ],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const legacy = isLegacy(item.nftId)
@@ -68,38 +42,6 @@ export function execBurnMultiple(
 ) {
   const cb = api.tx.utility.batch
 
-  if (item.urlPrefix === 'rmrk') {
-    const arg = item.nftIds.map((nftId) => {
-      return api.tx.system.remark(
-        createInteraction(Interaction.CONSUME, nftId, ''),
-      )
-    })
-
-    executeTransaction({
-      cb,
-      arg: [arg],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
-  if (item.urlPrefix === 'ksm') {
-    const arg = item.nftIds.map((nftId) => {
-      return api.tx.system.remark(
-        createNewInteraction({
-          action: NewInteraction.BURN,
-          payload: { id: nftId },
-        }),
-      )
-    })
-
-    executeTransaction({
-      cb,
-      arg: [arg],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const arg = item.nftIds.map((nftId) => {
@@ -139,25 +81,6 @@ export async function execBurnCollection(
   const collectionId = params.collectionId.toString()
 
   try {
-    if (params.urlPrefix === 'rmrk') {
-      executeTransaction({
-        cb: api.tx.system.remark,
-        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
-      })
-    }
-
-    if (params.urlPrefix === 'ksm') {
-      executeTransaction({
-        cb: api.tx.system.remark,
-        arg: [
-          createNewInteraction({
-            action: NewInteraction.DESTROY,
-            payload: { id: collectionId },
-          }),
-        ],
-      })
-    }
-
     // item.urlPrefix === 'ahr'
     if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
       const witness = (

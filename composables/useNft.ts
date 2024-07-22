@@ -161,19 +161,6 @@ export async function useNftMimeType<
   }
 }
 
-async function getRmrk2Resources<T extends NFTWithMetadata>(nft: T) {
-  const thumb = nft.resources?.[0]?.thumb
-  const src = nft.resources?.[0]?.src
-  const image = sanitizeIpfsUrl(thumb || src || '')
-  const type = await getMimeType(image)
-
-  return {
-    ...(await getGeneralMetadata(nft)),
-    image,
-    type,
-  }
-}
-
 async function getProcessMetadata<T extends NFTWithMetadata>(nft: T) {
   const metadata = await processSingleMetadata<NFTMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(
@@ -208,11 +195,6 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
     return await getGeneralMetadata(nft)
-  }
-
-  // if it's rmrk2, we need to check `resources` field
-  if (prefix === 'ksm' && nft.resources?.length) {
-    return await getRmrk2Resources(nft)
   }
 
   return await getProcessMetadata(nft)
