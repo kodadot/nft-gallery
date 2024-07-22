@@ -21,13 +21,17 @@ test('Explore collections', async ({ page, Commands }) => {
     await page.keyboard.press('Escape')
   })
 
-  //Lazy loading mitigation
+  //Lazy loading
   await test.step('Scroll down and wait for images to load', async () => {
     await Commands.scrollDownAndStop()
-    await page.waitForFunction(() => {
-      const images = Array.from(document.querySelectorAll('img'))
-      return images.every((img) => img.complete)
-    })
+
+    const loading = await page.$$eval(
+      '[data-testid="dynamic-grid"] img',
+      (imgs) => imgs.map((img) => img.getAttribute('loading')),
+    )
+
+    expect(loading.includes('lazy')).toBe(true)
+    expect(loading.includes('eager')).toBe(true)
   })
 
   //Results

@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" :style="gridCols">
+  <div ref="container" :style="gridCols" data-testid="dynamic-grid">
     <slot :is-mobile-variant="isMobileVariant" :grid="grid" :cols="cols" />
   </div>
 </template>
