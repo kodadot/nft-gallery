@@ -69,9 +69,12 @@
               </div>
             </div>
           </div>
-          <div
+          <NeoSkeleton
             v-if="isProfilesLoading"
-            class="w-[75px] rounded-full bg-neutral-3 dark:bg-neutral-11 h-[22px] mr-1"></div>
+            class="!w-[73px] !h-[22px] mr-1"
+            width="100%"
+            height="100%"
+            no-margin />
           <div
             v-else-if="option.profile"
             class="flex items-center rounded-full bg-neutral-3 dark:bg-neutral-11 px-[6px] py-[3px] h-[22px] gap-[0.375rem] mr-1">
@@ -97,7 +100,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
