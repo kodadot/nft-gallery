@@ -97,7 +97,8 @@
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { formatNumber } from '@/utils/format/balance'
 
-import type { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
+import type { ChainToken, ChainType } from '@/stores/identity'
+import { useIdentityStore } from '@/stores/identity'
 
 const displayChainOrder: ChainType[] = [
   'polkadot',
