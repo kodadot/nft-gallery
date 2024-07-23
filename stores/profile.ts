@@ -12,14 +12,10 @@ import {
   uploadProfileImage,
 } from '@/components/profile/create/utils'
 
-interface State {
-  stage: number
-}
+interface State {}
 
 export const useProfileStore = defineStore('profile', {
-  state: (): State => ({
-    stage: 1,
-  }),
+  state: (): State => ({}),
   actions: {
     async processProfile({
       profileData,
@@ -47,7 +43,7 @@ export const useProfileStore = defineStore('profile', {
           ? getBioWithLinks(profileData.description)
           : profileData.description,
         image: imageUrl,
-        banner: hasProfile ? bannerUrl ?? null : bannerUrl!,
+        banner: hasProfile ? (bannerUrl ?? null) : bannerUrl!,
         socials: constructSocials(profileData),
         signature,
         message,

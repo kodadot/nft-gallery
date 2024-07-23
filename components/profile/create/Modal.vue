@@ -45,7 +45,6 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
 const profileStore = useProfileStore()
-const { stage } = storeToRefs(profileStore)
 const documentVisibility = useDocumentVisibility()
 const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
 
@@ -58,8 +57,7 @@ const farcasterSignInIsInProgress = ref(false)
 
 const hasProfile = computed(() => Boolean(profile?.hasProfile.value))
 const initialStep = computed(() => (hasProfile.value ? 2 : 1))
-
-stage.value = initialStep.value
+const stage = ref(initialStep.value)
 
 const close = () => {
   vOpen.value = false
