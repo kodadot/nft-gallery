@@ -1,18 +1,20 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { storeToRefs } from 'pinia'
+import type { Prefix } from '@kodadot1/static'
+import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
+import { useIntervalFn } from '@vueuse/core'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { toDefaultAddress } from '@/utils/account'
 
-import { storeToRefs } from 'pinia'
-import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
 import { getNativeBalance } from '@/utils/balance'
-import { useIntervalFn } from '@vueuse/core'
 import { useIdentityStore } from '@/stores/identity'
 
 const networkToPrefix = {
   polkadot: 'dot',
+  kusama: 'ksm',
   kusamaHub: 'ahk',
   polkadotHub: 'ahp',
   // rococoHub: 'ahr',
@@ -20,6 +22,8 @@ const networkToPrefix = {
 
 export const prefixToNetwork = {
   dot: 'polkadot',
+  rmrk: 'kusama',
+  ksm: 'kusama',
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',
   // ahr: 'rococoHub',
@@ -64,6 +68,7 @@ export default function (refetchPeriodically: boolean = false) {
   )
 
   const chainBalances = computed(() => ({
+    [Chain.KUSAMA]: multiBalances.value.chains.kusama?.ksm?.nativeBalance,
     [Chain.ASSETHUBKUSAMA]:
       multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
     [Chain.POLKADOT]: multiBalances.value.chains.polkadot?.dot?.nativeBalance,
@@ -150,10 +155,10 @@ export default function (refetchPeriodically: boolean = false) {
     const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 
     const assetsToFetch = onlyPrefixes.length
-      ? assets.filter((item) => chainNetworks.includes(item.chain))
+      ? assets.filter(item => chainNetworks.includes(item.chain))
       : assets
 
-    const promisses = assetsToFetch.map((item) =>
+    const promisses = assetsToFetch.map(item =>
       getBalance(item.chain, item.token, Number(item.tokenId)),
     )
 
@@ -162,8 +167,8 @@ export default function (refetchPeriodically: boolean = false) {
 
   onMounted(async () => {
     if (
-      currentNetwork.value !== multiBalanceNetwork.value &&
-      refetchPeriodically
+      currentNetwork.value !== multiBalanceNetwork.value
+      && refetchPeriodically
     ) {
       identityStore.resetMultipleBalances()
     }

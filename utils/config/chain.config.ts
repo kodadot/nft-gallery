@@ -1,6 +1,6 @@
-import { CHAINS, ChainProperties } from '@kodadot1/static'
+import { CHAINS } from '@kodadot1/static'
 
-import type { Prefix } from '@kodadot1/static'
+import type { Prefix, ChainProperties } from '@kodadot1/static'
 
 export const chainPropListOf = (prefix: Prefix): ChainProperties => {
   return CHAINS[prefix]
@@ -22,8 +22,8 @@ type AssetItem = {
 }
 
 export const chainAssetOf = (prefix: Prefix): AssetItem => {
-  const { tokenDecimals: decimals, tokenSymbol: symbol } =
-    chainPropListOf(prefix)
+  const { tokenDecimals: decimals, tokenSymbol: symbol }
+    = chainPropListOf(prefix)
   return {
     id: '0',
     name: symbol,
@@ -33,7 +33,7 @@ export const chainAssetOf = (prefix: Prefix): AssetItem => {
 }
 
 export const defultTokenChain: Record<string, Prefix> = {
-  KSM: 'ahk',
+  KSM: 'ksm',
   DOT: 'dot',
   // GLMR: 'glmr',
   // MOVR: 'movr',

@@ -16,19 +16,19 @@ export const getChainName = (prefix: Prefix) => {
   return NAMES[prefix].replace(' [Beta]', '')
 }
 
-export const disableChains = ['dot']
-export const disableChainListOnBetaEnv = ['dot'] // 'ahr'
+export const disableChains = ['dot', 'ksm', 'rmrk']
+export const disableChainListOnBetaEnv = ['dot', 'ksm', 'rmrk'] // 'ahr'
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
 
   if (isProduction || isBeta) {
     return chains.filter(
-      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value)),
+      chain => !disableChainListOnBetaEnv.includes(String(chain.value)),
     )
   }
 
-  return chains.filter((chain) => !disableChains.includes(String(chain.value)))
+  return chains.filter(chain => !disableChains.includes(String(chain.value)))
 }
 
 export const getAvailableChainsByVM = (vm: ChainVM) =>
@@ -37,7 +37,7 @@ export const getAvailableChainsByVM = (vm: ChainVM) =>
   )
 
 export const getAvailablePrefix = (prefix: string): string => {
-  return availablePrefixes().some((chain) => chain.value === prefix)
+  return availablePrefixes().some(chain => chain.value === prefix)
     ? prefix
     : ''
 }
@@ -45,6 +45,8 @@ export const getAvailablePrefix = (prefix: string): string => {
 export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',
+  ksm: '/token/ksm.svg',
+  rmrk: '/token/ksm.svg',
   dot: '/token/dot.svg',
   // ahr: '/token/kusama_asset_hub.svg',
 }

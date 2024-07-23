@@ -1,16 +1,17 @@
 // Copyright 2017-2021 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
-import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
-import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
-import { AnyTuple } from '@polkadot/types/types'
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types'
+import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
+import type { AnyTuple } from '@polkadot/types/types'
 import { isFunction } from '@polkadot/util'
 import * as paraspell from '@paraspell/sdk'
 import { ApiFactory } from '@kodadot1/sub-api'
+// import { KUSAMA_GENESIS } from '@polkadot/apps-config'
 import { getChainEndpointByPrefix } from '@/utils/chain'
-import { TeleportParams } from '@/composables/useTeleport'
+import type { TeleportParams } from '@/composables/useTeleport'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 
@@ -27,6 +28,7 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 }
 
 export enum Chain {
+  KUSAMA = 'Kusama',
   ASSETHUBKUSAMA = 'AssetHubKusama',
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
@@ -49,17 +51,22 @@ export type TeleportTransition = {
 }
 
 export const allowedTransitions = {
+  [Chain.KUSAMA]: [Chain.ASSETHUBKUSAMA],
+  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
   [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
   [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
+  [Chain.KUSAMA]: 'rmrk',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
+  rmrk: Chain.KUSAMA,
+  ksm: Chain.KUSAMA,
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
@@ -79,12 +86,13 @@ export const whichTeleportType = ({
   to: Chain
 }): TeleprtType => {
   switch (from) {
+    case Chain.KUSAMA:
     case Chain.POLKADOT:
       return TeleprtType.RelayToPara
 
     case Chain.ASSETHUBKUSAMA:
     case Chain.ASSETHUBPOLKADOT:
-      return [Chain.POLKADOT].includes(to)
+      return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
 
@@ -99,9 +107,9 @@ export function getTeleportWeight(api: ApiPromise): number {
 
 export function findCall(api: ApiPromise): Extrisic {
   const m = XCM_LOC.filter(
-    (x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f])),
+    x => api.tx[x] && XCM_FNS.some(f => isFunction(api.tx[x][f])),
   )[0]
-  const f = XCM_FNS.filter((f) => isFunction(api.tx[m][f]))[0]
+  const f = XCM_FNS.filter(f => isFunction(api.tx[m][f]))[0]
 
   return api.tx[m][f]
 }
@@ -132,20 +140,17 @@ export function getApiParams(
     },
   }
   const ass = isParaTeleport
-    ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
-    : // forgo id - 'Here' for 9100, 'Null' for 9110 (both is the default enum value)
-      [{ ConcreteFungible: { amount } }]
+    ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }] // forgo id - 'Here' for 9100, 'Null' for 9110 (both is the default enum value)
+    : [{ ConcreteFungible: { amount } }]
 
   const destWeight = getTeleportWeight(api)
 
   return isCurrent
-    ? call.meta.args.length === 5
-      ? // with weight
-        call.method === 'limitedTeleportAssets'
+    ? call.meta.args.length === 5 // with weight
+      ? call.method === 'limitedTeleportAssets'
         ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, { Unlimited: null }]
-        : [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
-      : // without weight
-        [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
+        : [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight] // without weight
+      : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
     : [dst, acc, ass, destWeight]
 }
 
@@ -238,6 +243,7 @@ export type Currency = 'KSM' | 'DOT'
 
 export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
+    case Chain.KUSAMA:
     case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
@@ -247,6 +253,7 @@ export const getChainCurrency = (chain: Chain): Currency => {
 }
 
 export const chainToPrecisionMap: Record<Chain, number> = {
+  [Chain.KUSAMA]: 4,
   [Chain.ASSETHUBKUSAMA]: 6,
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.POLKADOT]: 4,

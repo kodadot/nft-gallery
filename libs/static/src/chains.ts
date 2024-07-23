@@ -6,7 +6,7 @@ export const toChainProperty = (
   tokenDecimals: number,
   tokenSymbol: string,
   blockExplorer: string,
-  vm: ChainVM
+  vm: ChainVM,
 ): ChainProperties => {
   return {
     ss58Format,
@@ -16,7 +16,18 @@ export const toChainProperty = (
     vm,
   }
 }
+
+const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
+  2,
+  12,
+  'KSM',
+  'https://kusama.subscan.io/',
+  'SUB',
+)
+
 export const CHAINS: Config<ChainProperties> = {
+  rmrk: DEFAULT_CHAIN_PROPERTIES,
+  ksm: DEFAULT_CHAIN_PROPERTIES,
   ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/', 'SUB'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/', 'SUB'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/', 'SUB'),
@@ -37,6 +48,8 @@ export const DEFAULT_PREFIX: Prefix = 'ahp'
 export const chainPrefixes: Prefix[] = [
   'ahp',
   'ahk',
+  'rmrk',
+  'ksm',
   'dot',
   'imx',
   'base',
@@ -49,10 +62,12 @@ export const chainPrefixesMap = chainPrefixes.reduce(
     ...acc,
     [prefix]: prefix,
   }),
-  {}
+  {},
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
+  rmrk: 'kusama',
+  ksm: 'rmrk',
   ahk: 'statemine',
   dot: 'polkadot',
   ahp: 'statemint',
@@ -64,6 +79,8 @@ export const chainInfo: Record<Prefix, string> = {
 }
 
 export const chainNames: Record<Prefix, string> = {
+  rmrk: 'Kusama',
+  ksm: 'Kusama',
   ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
   ahp: 'Polkadot AssetHub',
@@ -75,7 +92,7 @@ export const chainNames: Record<Prefix, string> = {
 }
 
 export const chainList = (): Option[] => {
-  return chainPrefixes.map((prefix) => ({
+  return chainPrefixes.map(prefix => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
     value: prefix,
@@ -84,6 +101,8 @@ export const chainList = (): Option[] => {
 
 // DEV: note that ED is different from the on-chain ED to prevent weird edge cases of XCM
 export const teleportExistentialDeposit: Record<Prefix, number> = {
+  ksm: 666666666,
+  rmrk: 666666666,
   ahk: 666666666,
   dot: 15000000000,
   ahp: 5000000000,
@@ -92,6 +111,8 @@ export const teleportExistentialDeposit: Record<Prefix, number> = {
 }
 
 export const existentialDeposit: Record<Prefix, number> = {
+  ksm: 333333333,
+  rmrk: 333333333,
   ahk: 333333333,
   dot: 1e10,
   ahp: 1e8,

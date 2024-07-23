@@ -1,12 +1,14 @@
 <template>
   <form
     class="mx-auto teleport-container"
-    @submit.prevent="checkEDBeforeTeleport">
+    @submit.prevent="checkEDBeforeTeleport"
+  >
     <SigningModal
       :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
       :is-loading="isLoading"
       :status="status"
-      @try-again="teleport" />
+      @try-again="teleport"
+    />
 
     <h1 class="text-3xl font-bold">
       {{ $t('teleport.page') }}
@@ -16,53 +18,78 @@
     <a
       class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
-      >{{ $t('teleport.howItWorks') }}
+    >{{ $t('teleport.howItWorks') }}
     </a>
 
-    <hr class="my-5" />
+    <hr class="my-5">
 
     <div class="flex items-center justify-between networks">
       <div class="w-full relative">
-        <div class="network-title">{{ $t('teleport.source') }}</div>
+        <div class="network-title">
+          {{ $t('teleport.source') }}
+        </div>
         <NetworkDropdown
           :options="fromNetworks"
           :value="fromChain"
-          @select="onChainChange" />
+          @select="onChainChange"
+        />
       </div>
 
       <div
         class="network-arrow text-text-color hover:text-link-hover flex cursor-pointer py-2"
-        @click="switchChains">
-        <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
-          <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
+        @click="switchChains"
+      >
+        <svg
+          viewBox="0 0 39 17"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            y1="5.5"
+            x2="35"
+            y2="5.5"
+            stroke="currentColor"
+          />
+          <line
+            y1="11.5"
+            x2="35"
+            y2="11.5"
+            stroke="currentColor"
+          />
           <line
             x1="30.3536"
             y1="1.14645"
             x2="38.3536"
             y2="9.14645"
-            stroke="currentColor" />
+            stroke="currentColor"
+          />
           <line
             x1="38.3293"
             y1="8.87629"
             x2="30.3293"
             y2="15.8763"
-            stroke="currentColor" />
+            stroke="currentColor"
+          />
         </svg>
       </div>
 
       <div class="w-full relative">
-        <div class="network-title">{{ $t('teleport.destination') }}</div>
+        <div class="network-title">
+          {{ $t('teleport.destination') }}
+        </div>
         <NetworkDropdown
           :options="toNetworks"
           :value="toChain"
-          @select="(chain) => onChainChange(chain, false)" />
+          @select="(chain) => onChainChange(chain, false)"
+        />
       </div>
     </div>
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="font-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">
+          {{ $t('teleport.amount') }}
+        </div>
       </template>
 
       <div class="relative w-full">
@@ -74,11 +101,13 @@
           step="0.00001"
           type="number"
           icon-right-class="!hidden"
-          placeholder="Enter Amount" />
+          placeholder="Enter Amount"
+        />
         <div class="absolute right-8 top-3">
-          <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
-            >~{{ totalFiatValue }} usd</span
-          >
+          <span
+            v-if="totalFiatValue"
+            class="token-value text-xs text-k-grey"
+          >~{{ totalFiatValue }} usd</span>
           {{ currency }}
         </div>
       </div>
@@ -86,16 +115,17 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="text-xs flex justify-content align-items flex-direction">
+      class="text-xs flex justify-content align-items flex-direction"
+    >
       <TeleportFundsAtRiskWarning
         v-if="showEDWarning && !isDisabledButton"
         :target-existential-deposit="targetExistentialDeposit.displayValue"
         :source-existential-deposit="sourceExistentialDeposit.displayValue"
-        :reason="warningReason" />
+        :reason="warningReason"
+      />
       <div class="flex">
         <span class="flex items-center">
-          <span class="mr-2">{{ $t('general.balance') }}:</span
-          >{{
+          <span class="mr-2">{{ $t('general.balance') }}:</span>{{
             withoutDecimals({
               value: myBalance,
               prefix: chainToPrefixMap[fromChain],
@@ -121,7 +151,8 @@
       :loading="isLoading"
       :disabled="isDisabledButton"
       native-type="submit"
-      variant="primary" />
+      variant="primary"
+    />
 
     <div>
       {{
@@ -135,7 +166,8 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="!text-k-blue hover:!text-k-blue-hover">
+        class="!text-k-blue hover:!text-k-blue-hover"
+      >
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}
@@ -153,11 +185,18 @@
         teleport()
       }
     "
-    @close="insufficientEDModalOpen = false" />
+    @close="insufficientEDModalOpen = false"
+  />
 </template>
 
 <script setup lang="ts">
 import '@polkadot/api-augment'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import {
+  existentialDeposit,
+  teleportExistentialDeposit,
+} from '@kodadot1/static'
+import NetworkDropdown from './NetworkDropdown.vue'
 import {
   Chain,
   allowedTransitions,
@@ -169,14 +208,8 @@ import {
 import formatBalance from '@/utils/format/balance'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
-import NetworkDropdown from './NetworkDropdown.vue'
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { useFiatStore } from '@/stores/fiat'
-import {
-  existentialDeposit,
-  teleportExistentialDeposit,
-} from '@kodadot1/static'
 
 type ValuePair = {
   value: number
@@ -196,9 +229,9 @@ const {
 const { $i18n } = useNuxtApp()
 const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
-const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
-const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
-const amount = ref(0) //Required amount to be transferred is stored here
+const fromChain = ref(Chain.POLKADOT) // Selected origin parachain
+const toChain = ref(Chain.ASSETHUBPOLKADOT) // Selected destination parachain
+const amount = ref(0) // Required amount to be transferred is stored here
 const { urlPrefix } = usePrefix()
 
 const displayAmount = computed({
@@ -270,9 +303,9 @@ const insufficientExistentialDepositOnTargetChain = computed(() => {
     return false
   }
   return Boolean(
-    targetExistentialDeposit.value &&
-      amountAfterFees.value &&
-      targetExistentialDeposit.value > amountAfterFees.value,
+    targetExistentialDeposit.value
+    && amountAfterFees.value
+    && targetExistentialDeposit.value > amountAfterFees.value,
   )
 })
 const insufficientExistentialDepositOnSourceChain = computed(() => {
@@ -289,8 +322,8 @@ const insufficientBalance = computed(() => amount.value > myBalance.value)
 
 const showEDWarning = computed(
   () =>
-    insufficientExistentialDepositOnTargetChain.value ||
-    insufficientExistentialDepositOnSourceChain.value,
+    insufficientExistentialDepositOnTargetChain.value
+    || insufficientExistentialDepositOnSourceChain.value,
 )
 
 const teleportLabel = computed(() => {
@@ -339,6 +372,16 @@ const isDisabled = (chain: Chain) => {
 
 const fromNetworks = [
   {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    icon: chainIcons.rmrk,
+  },
+  {
+    label: getChainName('ahk'),
+    value: Chain.ASSETHUBKUSAMA,
+    icon: chainIcons.ahk,
+  },
+  {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
     icon: chainIcons.dot,
@@ -350,6 +393,12 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
+  {
+    label: getChainName('rmrk'),
+    value: Chain.KUSAMA,
+    disabled: computed(() => isDisabled(Chain.KUSAMA)),
+    icon: chainIcons.rmrk,
+  },
   {
     label: getChainName('ahk'),
     value: Chain.ASSETHUBKUSAMA,
@@ -396,7 +445,8 @@ const onChainChange = (selectedChain, setFrom = true) => {
   if (setFrom) {
     fromChain.value = selectedChain
     toChain.value = getFirstAllowedDestination(selectedChain)
-  } else {
+  }
+  else {
     toChain.value = selectedChain
     fromChain.value = getFirstAllowedDestination(selectedChain)
   }
@@ -426,10 +476,10 @@ const totalFiatValue = computed(() =>
 
 const isDisabledButton = computed(() => {
   return (
-    !amount.value ||
-    amount.value <= 0 ||
-    insufficientBalance.value ||
-    insufficientAmountAfterFees.value
+    !amount.value
+    || amount.value <= 0
+    || insufficientBalance.value
+    || insufficientAmountAfterFees.value
   )
 })
 
@@ -440,7 +490,8 @@ const isDisabledButton = computed(() => {
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {
     insufficientEDModalOpen.value = true
-  } else {
+  }
+  else {
     teleport()
   }
 }
@@ -477,6 +528,7 @@ onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
 })
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 $xs-breakpoint: 400px;
