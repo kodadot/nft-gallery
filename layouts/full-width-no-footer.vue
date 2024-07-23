@@ -10,6 +10,7 @@
       <NuxtPage v-else />
     </main>
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
   </div>
 </template>
