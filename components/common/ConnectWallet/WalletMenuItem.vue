@@ -112,7 +112,6 @@
 
 <script lang="ts" setup>
 import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
-import { useQuery } from '@tanstack/vue-query'
 import type { WalletAccount } from '@/utils/config/wallets'
 import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -121,8 +120,7 @@ import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import Avatar from '@/components/shared/Avatar.vue'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
-import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
-import type { Profile } from '@/services/profile'
+import { toSubstrateAddress } from '@/services/profile'
 
 defineProps<{
   wallet: BaseDotsamaWallet

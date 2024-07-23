@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { useQuery } from '@tanstack/vue-query'
 import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import EventRow from './EventRow.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
@@ -58,8 +57,7 @@ import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
-import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
-import type { Profile } from '@/services/profile'
+import { toSubstrateAddress } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
