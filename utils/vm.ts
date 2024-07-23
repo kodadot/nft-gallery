@@ -1,17 +1,15 @@
 import type { ChainVM, Prefix } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
-export const execByVm = <T>(
-  map: Record<ChainVM, () => T>,
-  {
-    key,
-    vm,
-    prefix,
-  }: {
-    key?: string
-    vm?: ChainVM
-    prefix?: Prefix
-  } = {},
+type PickByVmOptions = {
+  key?: string
+  vm?: ChainVM
+  prefix?: Prefix
+}
+
+export const pickByVm = <T>(
+  map: Record<ChainVM, T>,
+  { key, vm, prefix }: PickByVmOptions = {},
 ) => {
   const { vm: currentVm } = useChain()
   let targetVm = vm ?? currentVm.value
@@ -21,5 +19,12 @@ export const execByVm = <T>(
   }
 
   const vmMap = map[targetVm]
-  return key ? vmMap?.[key]?.() : vmMap?.()
+  return key ? vmMap?.[key] : vmMap
+}
+
+export const execByVm = <T>(
+  map: Record<ChainVM, () => T>,
+  { key, vm, prefix }: PickByVmOptions = {},
+) => {
+  return pickByVm(map, { key, vm, prefix })?.()
 }

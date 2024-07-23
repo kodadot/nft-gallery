@@ -25,13 +25,13 @@ import { useDrops } from '@/components/drops/useDrops'
 let queries = {
   limit: 12,
   active: [true],
-  chain: ['ahp'],
+  chain: pickByVm({ SUB: ['ahp'], EVM: ['base'] }),
 }
 
 if (!isProduction) {
   queries = {
     ...queries,
-    chain: ['ahp', 'ahk'],
+    chain: pickByVm({ SUB: ['ahp', 'ahk'], EVM: ['base'] }),
   }
 }
 
