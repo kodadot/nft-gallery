@@ -4,7 +4,8 @@
     :no-results-main="$t('activity.noResults')"
     :no-results-sub="$t('activity.noResultsSub')"
     :show-no-results="events.length > 0 && !displayedEvents.length"
-    data-testid="nfts-event-table">
+    data-testid="nfts-event-table"
+  >
     <template #columns>
       <div class="flex-1 mb-2">
         <span>{{ $t('activity.event.item') }}</span>
@@ -31,30 +32,33 @@
         v-for="event in displayedEvents.slice(0, displayedEvents.length - 1)"
         :key="event.id"
         :variant="variant"
-        :event="event" />
+        :event="event"
+      />
       <div ref="sentinel" />
       <EventRow
         :variant="variant"
-        :event="displayedEvents[displayedEvents.length - 1]" />
+        :event="displayedEvents[displayedEvents.length - 1]"
+      />
     </template>
   </ResponsiveTable>
 </template>
 
 <script setup lang="ts">
-import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { useQuery } from '@tanstack/vue-query'
 import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
+import EventRow from './EventRow.vue'
+import { blank, getFromAddress, getToAddress } from './eventRow/common'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
-import {
+import type {
   InteractionWithNFT,
-  Offer,
+  Offer } from '@/composables/collectionActivity/types'
+import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
-import { blank, getFromAddress, getToAddress } from './eventRow/common'
 import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
-import { useQuery } from '@tanstack/vue-query'
 import type { Profile } from '@/services/profile'
 
 const props = withDefaults(
@@ -90,15 +94,15 @@ const filteredEvents = computed(() => {
     [OfferInteraction]: is(query?.offer as string),
   }
 
-  const identityIds = profiles.value?.map((profile) => profile?.address) || []
+  const identityIds = profiles.value?.map(profile => profile?.address) || []
 
   const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
 
   return props.events.filter((event) => {
     const isActiveEvent = filterByVerifiedIdentity
       ? getEventAddresses(event)
-          .map(toSubstrateAddress)
-          .some((x) => identityIds.includes(x))
+        .map(toSubstrateAddress)
+        .some(x => identityIds.includes(x))
       : true
 
     if (!isAnyEventTypeFilterActive()) {
@@ -111,7 +115,7 @@ const filteredEvents = computed(() => {
 
 const getEventAddresses = (event): string[] => {
   return [getFromAddress(event), getToAddress(event)].filter(
-    (address) => address !== blank,
+    address => address !== blank,
   )
 }
 
@@ -120,17 +124,7 @@ const eventsAddresses = computed(() => {
   return [...new Set([...addresses])]
 })
 
-const { data: profiles } = useQuery<Profile[] | null>({
-  queryKey: [
-    'profiles',
-    computed(() => `${eventsAddresses.value.sort().join(',')}`),
-  ],
-  queryFn: () =>
-    eventsAddresses.value.length
-      ? fetchProfilesByIds(eventsAddresses.value)
-      : null,
-  staleTime: 1000 * 60 * 5,
-})
+const { data: profiles } = useProfiles('profiles', eventsAddresses, { staleTime: 1000 * 60 * 5 })
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
@@ -149,8 +143,8 @@ watch(
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   const target = entries[0]
   if (
-    target.isIntersecting &&
-    displayedEvents.value.length < filteredEvents.value.length
+    target.isIntersecting
+    && displayedEvents.value.length < filteredEvents.value.length
   ) {
     displayMoreEvents()
   }
