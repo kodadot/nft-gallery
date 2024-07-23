@@ -12,8 +12,8 @@ export default ({
   watchDebounced(
     [status, isError],
     () => {
-      isTransactionSuccessful.value =
-        TransactionStatus.Block === status.value
+      isTransactionSuccessful.value
+        = TransactionStatus.Block === status.value
           ? !isError.value
           : TransactionStatus.Finalized === status.value
     },

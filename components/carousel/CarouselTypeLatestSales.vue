@@ -4,7 +4,8 @@
     :title="$t('general.latestSales')"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"
     :nfts="nfts.value"
-    action-type="pagination" />
+    action-type="pagination"
+  />
 </template>
 
 <script lang="ts" setup>

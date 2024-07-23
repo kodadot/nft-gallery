@@ -5,38 +5,49 @@
     </h2>
 
     <div class="flex flex-col gap-14">
-      <div v-for="(grouppedDrop, label) in grouppedDropCalendars" :key="label">
+      <div
+        v-for="(grouppedDrop, label) in grouppedDropCalendars"
+        :key="label"
+      >
         <div class="mb-6 flex items-center">
-          <NeoButton variant="secondary-rounded" no-shadow
-            >{{ label }}
+          <NeoButton
+            variant="secondary-rounded"
+            no-shadow
+          >
+            {{ label }}
 
             <tippy
               v-if="
                 unscheduledDropCalendars?.length && label === unScheduledLabel
               "
               placement="right"
-              :append-to="body">
+              :append-to="body"
+            >
               <NeoIcon
                 icon="fa-info-circle"
                 pack="fa-regular"
-                class="text-k-grey" />
+                class="text-k-grey"
+              />
 
               <template #content>
                 <div class="w-[16rem] bg-background-color text-xs border p-4">
-                  <p class="font-bold !mb-2">{{ $t('drops.comingSoon') }}</p>
+                  <p class="font-bold !mb-2">
+                    {{ $t('drops.comingSoon') }}
+                  </p>
                   <p>{{ $t('drops.calendarMoreDrops') }}</p>
                 </div>
               </template>
             </tippy>
           </NeoButton>
-          <hr class="w-full" />
+          <hr class="w-full">
         </div>
 
         <DropsGrid
           :drops="grouppedDrop"
           :loaded="!pending"
           :default-skeleton-count="defaultSkeletonCount"
-          skeleton-key="current-drops-skeleton">
+          skeleton-key="current-drops-skeleton"
+        >
           <template #card="{ item }: { item: InternalDropCalendar }">
             <DropsBasicDropCard
               :name="item.name"
@@ -47,8 +58,12 @@
               :time-tag-with-time="calendarHasTime(item)"
               :drop-prefix="item.chain"
               :drop-creator="item.creator"
-              @click="() => handleClick(item)">
-              <template v-if="item.supply === null" #supply>
+              @click="() => handleClick(item)"
+            >
+              <template
+                v-if="item.supply === null"
+                #supply
+              >
                 <span class="text-k-grey">
                   {{ $t('helper.supplyNotSet') }}
                 </span>
@@ -61,17 +76,20 @@
 
     <DropPreviewModal
       :drop-calendar="previewDropCalendar"
-      @close="previewDropCalendar = undefined" />
+      @close="previewDropCalendar = undefined"
+    />
   </div>
 </template>
+
 <script lang="ts" setup>
-import { DropStatus } from '@/components/drops/useDrops'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import { addMonths, format } from 'date-fns'
-import DropPreviewModal from './DropPreviewModal.vue'
-import { DropCalendar, getDropCalendar } from '@/services/fxart'
 import groupBy from 'lodash/groupBy'
+import DropPreviewModal from './DropPreviewModal.vue'
+import type { DropCalendar } from '@/services/fxart'
+import { getDropCalendar } from '@/services/fxart'
+import { DropStatus } from '@/components/drops/useDrops'
 import {
   dateHasTime,
   formatCETDate,
@@ -97,7 +115,7 @@ const { data, pending } = useAsyncData(
     }),
   {
     transform: (items) => {
-      return items.map((item) => ({
+      return items.map(item => ({
         ...item,
         dropStartTime: getDropStartTime(item),
       })) as InternalDropCalendar[]
@@ -110,16 +128,16 @@ const body = ref(document.body)
 
 const scheduledDropCalendars = computed(() =>
   data.value
-    ?.filter((item) => item.date && new Date(item.date).getTime() > Date.now())
+    ?.filter(item => item.date && new Date(item.date).getTime() > Date.now())
     .sort(
       (a, b) =>
-        new Date(a.date as string).getTime() -
-        new Date(b.date as string).getTime(),
+        new Date(a.date as string).getTime()
+          - new Date(b.date as string).getTime(),
     ),
 )
 
 const unscheduledDropCalendars = computed(() =>
-  data.value?.filter((item) => !item.date),
+  data.value?.filter(item => !item.date),
 )
 
 const lastMonthDate = computed(() =>
@@ -135,7 +153,7 @@ const unScheduledLabel = computed(() =>
 )
 
 const grouppedDropCalendars = computed(() => {
-  const groupped = groupBy(scheduledDropCalendars.value, (x) =>
+  const groupped = groupBy(scheduledDropCalendars.value, x =>
     formatDate(x.date!),
   )
 

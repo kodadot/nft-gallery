@@ -3,9 +3,14 @@
     :open="expanded"
     animation="slide"
     class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }">
+    :class="{ 'fluid-padding-left': fluidPadding }"
+  >
     <template #trigger="{ open }">
-      <div class="flex" role="button" :aria-expanded="open">
+      <div
+        class="flex"
+        role="button"
+        :aria-expanded="open"
+      >
         <p class="card-header-title font-normal">
           {{ $t('tabs.tabActivity.price') }}
         </p>
@@ -14,10 +19,14 @@
         </a>
       </div>
     </template>
-    <form class="p-4" @submit.prevent="apply">
+    <form
+      class="p-4"
+      @submit.prevent="apply"
+    >
       <div
         class="flex input-container mb-4"
-        :class="[inputFocused ? 'input-focused' : '']">
+        :class="[inputFocused ? 'input-focused' : '']"
+      >
         <NeoInput
           v-model="range.min"
           class="input-sidebar"
@@ -27,17 +36,20 @@
           placeholder="MIN"
           data-testid="input-min"
           @focus="toggleInputFocused"
-          @blur="toggleInputFocused" />
+          @blur="toggleInputFocused"
+        />
         <div class="flex items-center">
           <svg
             width="28"
             height="8"
             viewBox="0 0 28 8"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
-              fill="currentColor" />
+              fill="currentColor"
+            />
           </svg>
         </div>
         <NeoInput
@@ -49,7 +61,8 @@
           placeholder="MAX"
           data-testid="input-max"
           @focus="toggleInputFocused"
-          @blur="toggleInputFocused" />
+          @blur="toggleInputFocused"
+        />
       </div>
       <div class="flex">
         <div class="unit mr-2 flex items-center py-1 px-3">
@@ -61,7 +74,8 @@
           no-shadow
           variant="primary"
           expanded
-          @click="apply">
+          @click="apply"
+        >
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
@@ -94,18 +108,18 @@ const props = withDefaults(
 const route = useRoute()
 const { decimals, unit } = useChain()
 
-const range =
-  props.dataModel === 'query'
+const range
+  = props.dataModel === 'query'
     ? ref({
-        min:
+      min:
           fromDecimals(Number(route.query?.min), decimals.value) || undefined,
-        max:
+      max:
           fromDecimals(Number(route.query?.max), decimals.value) || undefined,
-      })
+    })
     : ref({
-        min: fromDecimals(Number(exploreFiltersStore.min), decimals.value),
-        max: fromDecimals(Number(exploreFiltersStore.max), decimals.value),
-      })
+      min: fromDecimals(Number(exploreFiltersStore.min), decimals.value),
+      max: fromDecimals(Number(exploreFiltersStore.max), decimals.value),
+    })
 
 const emit = defineEmits(['resetPage'])
 const apply = () => {
@@ -145,8 +159,8 @@ const isValidFilter = (
 ): boolean => {
   const minValue = typeof min === 'string' ? min.trim() : min
   const maxValue = typeof max === 'string' ? max.trim() : max
-  return ((minValue || maxValue) &&
-    (!minValue || !maxValue || Number(maxValue) > Number(minValue))) as boolean
+  return ((minValue || maxValue)
+    && (!minValue || !maxValue || Number(maxValue) > Number(minValue))) as boolean
 }
 
 const inputFocused = ref(false)

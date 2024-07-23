@@ -4,12 +4,14 @@
       icon="triangle-exclamation"
       pack="fasr"
       class="mr-3"
-      size="medium" />
+      size="medium"
+    />
     <span>{{ $t('teleport.fundsAtRisk') }} -&nbsp;</span>
     <NeoTooltip
       multiline
       :multiline-width="256"
-      :auto-close="['outside', 'inside']">
+      :auto-close="['outside', 'inside']"
+    >
       <u>{{ $t('teleport.why') }}</u>
       <template #content>
         <div class="text-left py-2 flex flex-col">
@@ -17,11 +19,11 @@
             {{
               reason === 'source'
                 ? $t('teleport.sourceExistentialDepositWarning', [
-                    sourceExistentialDeposit,
-                  ])
+                  sourceExistentialDeposit,
+                ])
                 : $t('teleport.targetExistentialDepositWarning', [
-                    targetExistentialDeposit,
-                  ])
+                  targetExistentialDeposit,
+                ])
             }}
             <b>{{ $t('teleport.lossOfFunds') }}</b>
           </span>
@@ -30,7 +32,8 @@
               'https://hello.kodadot.xyz/multi-chain/existential-deposit'
             "
             target="_blank"
-            class="text-k-blue hover:text-k-blue-hover">
+            class="text-k-blue hover:text-k-blue-hover"
+          >
             {{ $t('teleport.whatIsExistentialDeposit') }}
           </a>
         </div>
@@ -41,6 +44,7 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+
 defineProps<{
   targetExistentialDeposit: number | string
   sourceExistentialDeposit: number | string

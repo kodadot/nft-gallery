@@ -1,7 +1,8 @@
 <template>
   <NeoDropdownItem
     :disabled="max"
-    @click="customizeCollectionModalActive = true">
+    @click="customizeCollectionModalActive = true"
+  >
     {{ $i18n.t('moreActions.customize') }}
   </NeoDropdownItem>
 
@@ -9,7 +10,8 @@
     v-model="customizeCollectionModalActive"
     :min="min"
     :max="max"
-    @customize="closeModal" />
+    @customize="closeModal"
+  />
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,8 @@
   <div class="wallet-menu-item">
     <button
       class="button my-0 !px-8 py-2.5 flex justify-between items-center"
-      @click="onClickWallet(wallet)">
+      @click="onClickWallet(wallet)"
+    >
       <span>
         <div class="flex justify-between items-center">
           <span class="flex items-center">
@@ -10,53 +11,69 @@
               :src="wallet.img"
               :alt="wallet.extensionName"
               width="32"
-              style="vertical-align: middle" />
+              style="vertical-align: middle"
+            >
             <span class="text-base ml-2 capitalize">{{ wallet.name }}</span>
 
             <NeoTag
               v-if="isRecent(wallet)"
               class="capitalize ml-2"
               variant="transparent"
-              size="small">
+              size="small"
+            >
               {{ $t('recent') }}
             </NeoTag>
           </span>
 
           <div
             v-if="!wallet.installed"
-            class="text-xs capitalize text-neutral-7">
+            class="text-xs capitalize text-neutral-7"
+          >
             {{ $t('moreActions.download') }}
             <NeoIcon icon="download" />
           </div>
 
-          <NeoIcon v-else-if="showAccountList" icon="chevron-down" />
+          <NeoIcon
+            v-else-if="showAccountList"
+            icon="chevron-down"
+          />
 
-          <NeoIcon v-else icon="chevron-right" />
+          <NeoIcon
+            v-else
+            icon="chevron-right"
+          />
         </div>
       </span>
     </button>
     <div
       v-if="isAuth && walletAccounts.length === 0"
-      class="pl-5 pt-2 pb-2 flex items-center auth-tip">
+      class="pl-5 pt-2 pb-2 flex items-center auth-tip"
+    >
       <NeoIcon icon="spinner-third" />
       <span class="text-k-grey text-xs pl-4">
         {{ $t('walletConnect.authTip') }}
       </span>
     </div>
 
-    <div v-if="walletAccounts.length && showAccountList" class="account-list">
+    <div
+      v-if="walletAccounts.length && showAccountList"
+      class="account-list"
+    >
       <div
         v-for="option in walletAccounts"
         :key="option.address"
-        class="account-item">
+        class="account-item"
+      >
         <a
           class="pl-5 flex items-center"
           :value="option.address"
-          @click="emitAccountChange(option)">
+          @click="emitAccountChange(option)"
+        >
           <Avatar
             :size="33"
             :value="option.address"
-            class="mr-2 image-outline" />
+            class="mr-2 image-outline"
+          />
           <div class="flex flex-col">
             <span class="text-k-grey text-xs account-name">{{
               option.name
@@ -72,13 +89,13 @@
 </template>
 
 <script lang="ts" setup>
-import { WalletAccount } from '@/utils/config/wallets'
-import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import { NeoIcon } from '@kodadot1/brick'
+import type { WalletAccount } from '@/utils/config/wallets'
+import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
-import { NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
@@ -121,7 +138,8 @@ const onClickWallet = (wallet: BaseDotsamaWallet): void => {
   if (wallet.installed) {
     setWallet(wallet)
     showAccountList.value = !showAccountList.value
-  } else {
+  }
+  else {
     window.open(wallet.walletUrl, '_blank')
   }
 }
@@ -136,7 +154,8 @@ const setWallet = async (wallet: BaseDotsamaWallet) => {
   try {
     const data = await wallet.getAccounts()
     walletAccounts.value = data ? data.map(formatAccount) : []
-  } catch (e) {
+  }
+  catch (e) {
     isAuth.value = false
     $consola.error('init account error', e)
   }

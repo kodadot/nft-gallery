@@ -1,5 +1,8 @@
 <template>
-  <div v-if="total > perPage" class="self-end flex justify-end">
+  <div
+    v-if="total > perPage"
+    class="self-end flex justify-end"
+  >
     <NeoPagination
       v-model:current="current"
       :total="total"
@@ -12,22 +15,26 @@
       aria-previous-label="Previous page"
       aria-page-label="Page"
       aria-current-label="Current page"
-      @change="onPageChange" />
-    <NeoTooltip :label="$t('tooltip.random') + ' (g+r)'" position="left">
+      @change="onPageChange"
+    />
+    <NeoTooltip
+      :label="$t('tooltip.random') + ' (g+r)'"
+      position="left"
+    >
       <NeoButton
         v-if="hasMagicBtn"
         class="ml-2 no-shadow"
         :title="$t('tooltip.random')"
         icon-left="dice"
-        @click="goToRandomPage">
-      </NeoButton>
+        @click="goToRandomPage"
+      />
     </NeoTooltip>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getRandomIntInRange } from '../utils'
 import { NeoButton, NeoPagination, NeoTooltip } from '@kodadot1/brick'
+import { getRandomIntInRange } from '../utils'
 
 const props = withDefaults(
   defineProps<{
@@ -76,7 +83,7 @@ const onPageChange = () => {
 const goToRandomPage = () => {
   onPageChange()
   const pageSize = Math.ceil(props.total / props.perPage)
-  let randomNumber = getRandomIntInRange(1, pageSize)
+  const randomNumber = getRandomIntInRange(1, pageSize)
   current.value = randomNumber
 }
 
@@ -90,7 +97,7 @@ const replaceUrl = (value: string, key = 'page') => {
         path: String(route.path),
         query: { ...route.query, [key]: value },
       })
-      .catch($consola.warn /*Navigation Duplicate err fix later */)
+      .catch($consola.warn /* Navigation Duplicate err fix later */)
   }
 }
 </script>

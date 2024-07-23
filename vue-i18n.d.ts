@@ -1,4 +1,5 @@
-import VueI18n, { Locale, Path, Values } from 'vue-i18n/types'
+import type { Locale, Path, Values } from 'vue-i18n/types'
+import VueI18n from 'vue-i18n/types'
 
 /**
  * Overloads VueI18n interface to avoid needing to cast return value to string.

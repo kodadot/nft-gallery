@@ -1,19 +1,30 @@
 <template>
-  <div id="Error" class="container text-center p-2 sm:px-6 sm:py-12">
-    <h1 class="title">{{ errorTitle }}</h1>
-    <p class="subtitle">{{ errorSubtitle }}</p>
-    <img v-if="hasImg" :src="imgSrc" alt="Internal error cat" />
+  <div
+    id="Error"
+    class="container text-center p-2 sm:px-6 sm:py-12"
+  >
+    <h1 class="title">
+      {{ errorTitle }}
+    </h1>
+    <p class="subtitle">
+      {{ errorSubtitle }}
+    </p>
+    <img
+      v-if="hasImg"
+      :src="imgSrc"
+      alt="Internal error cat"
+    >
     <p class="subtitle">
       If you think this should't happen, report us by
       <a
         target="_blank"
         rel="nofollow noopener noreferrer"
         href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title="
-        >creating bug issue with steps to reproduce and screenshot.</a
-      >
+      >creating bug issue with steps to reproduce and screenshot.</a>
     </p>
   </div>
 </template>
+
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{

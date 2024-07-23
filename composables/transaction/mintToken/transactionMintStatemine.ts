@@ -1,17 +1,18 @@
-import type { ActionMintToken, MintedCollection } from '../types'
-import { TokenToMint } from '../types'
+import type { ApiPromise } from '@polkadot/api'
+import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
+import type {
+  Id } from './utils'
 import {
-  Id,
   assignIds,
   calculateFees,
   expandCopies,
   lastIndexUsed,
   transactionFactory,
 } from './utils'
-import { SupportTokens, canSupport } from '@/utils/support'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
-import { ApiPromise } from '@polkadot/api'
+import type { SupportTokens } from '@/utils/support'
+import { canSupport } from '@/utils/support'
 import { usePreferencesStore } from '@/stores/preferences'
 
 interface BuildTokenTxsParams {
@@ -32,8 +33,8 @@ const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
   )
   const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
-  const list =
-    Number(price) > 0
+  const list
+    = Number(price) > 0
       ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
       : []
   const txs = [create, meta, ...list]
@@ -63,7 +64,7 @@ async function handleSingleToken(item: ActionMintToken, api: ApiPromise) {
 
   const tokens = await expandCopiesWithsIds(item, api)
   const metadataList = await Promise.all(
-    tokens.map((token) => constructMeta(token, { enableCarbonOffset })),
+    tokens.map(token => constructMeta(token, { enableCarbonOffset })),
   )
   return tokens.map((token, index) => ({
     token,

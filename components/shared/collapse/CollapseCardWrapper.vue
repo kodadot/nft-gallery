@@ -4,12 +4,14 @@
       class="card bordered"
       animation="slide"
       aria-id="contentIdForHistory"
-      :open="isOpen">
+      :open="isOpen"
+    >
       <template #trigger="props">
         <div
           class="card-header"
           role="button"
-          aria-controls="contentIdForHistory">
+          aria-controls="contentIdForHistory"
+        >
           <p class="card-header-title">
             {{ $t(label) }}
           </p>
@@ -20,7 +22,7 @@
       </template>
       <div class="card-content">
         <div class="content">
-          <slot></slot>
+          <slot />
         </div>
       </div>
     </NeoCollapse>

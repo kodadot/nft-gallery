@@ -4,7 +4,8 @@
     :size="size"
     :level="level"
     :background="bgColor"
-    :foreground="color" />
+    :foreground="color"
+  />
 </template>
 
 <script setup lang="ts">

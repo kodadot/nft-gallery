@@ -1,17 +1,19 @@
 <template>
   <div class="popover-content-container p-5 ms-dos-shadow">
     <div class="popover-header pb-2">
-      <h6 class="popover-user-heading">{{ $t('collection') }}</h6>
+      <h6 class="popover-user-heading">
+        {{ $t('collection') }}
+      </h6>
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <nuxt-link
             class="text-base break-word mr-2 text-k-blue hover:text-k-blue-hover"
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
-            }`">
+            }`"
+          >
             <span data-testid="identity-display">
-              {{ nft?.collection?.name || nft?.collectionName || '--' }}</span
-            >
+              {{ nft?.collection?.name || nft?.collectionName || '--' }}</span>
           </nuxt-link>
         </div>
       </div>
@@ -22,47 +24,74 @@
         <div class="flex items-center justify-between">
           <span class="text-base">{{ $t('statsOverview.uniqueOwners') }}</span>
 
-          <p class="text-base" data-testid="identity-collected">
+          <p
+            class="text-base"
+            data-testid="identity-collected"
+          >
             {{ stats.uniqueOwnersPercent }}
           </p>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-base">{{ $t('statsOverview.highestSale') }}</span>
 
-          <p class="text-base" data-testid="identity-collected">
-            <CommonTokenMoney :value="highestBuyPrice" inline />
+          <p
+            class="text-base"
+            data-testid="identity-collected"
+          >
+            <CommonTokenMoney
+              :value="highestBuyPrice"
+              inline
+            />
           </p>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-base">{{ $t('statsOverview.floorPrice') }}</span>
 
-          <p class="text-base" data-testid="identity-collected">
-            <CommonTokenMoney :value="stats.collectionFloorPrice" inline />
+          <p
+            class="text-base"
+            data-testid="identity-collected"
+          >
+            <CommonTokenMoney
+              :value="stats.collectionFloorPrice"
+              inline
+            />
           </p>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-base">{{ $t('statsOverview.totalVolume') }}</span>
 
-          <p class="text-base" data-testid="identity-collected">
+          <p
+            class="text-base"
+            data-testid="identity-collected"
+          >
             <CommonTokenMoney
               :value="stats.collectionTradedVolumeNumber"
-              inline />
+              inline
+            />
           </p>
         </div>
       </div>
-      <div v-if="soldItems.length" class="sales-container pt-2">
+      <div
+        v-if="soldItems.length"
+        class="sales-container pt-2"
+      >
         <h6 class="popover-user-heading pb-2">
           {{ $t('profile.highestSales') }}
         </h6>
         <div class="flex sold-items">
-          <div v-for="nftItem in soldItems" :key="nftItem.id" class="sold-item">
+          <div
+            v-for="nftItem in soldItems"
+            :key="nftItem.id"
+            class="sold-item"
+          >
             <GalleryCard
               :id="nftItem.id"
               hide-name
               :metadata="nftItem.metadata"
               :current-owner="nftItem.currentOwner"
               :route="`/${urlPrefix}/gallery`"
-              :data-testid="soldItems.indexOf(nftItem)" />
+              :data-testid="soldItems.indexOf(nftItem)"
+            />
           </div>
         </div>
       </div>

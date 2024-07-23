@@ -1,4 +1,4 @@
-import { ExtrinsicStatus } from '@polkadot/types/interfaces'
+import type { ExtrinsicStatus } from '@polkadot/types/interfaces'
 
 export enum TransactionStatus {
   Broadcast = 'loader.broadcast',

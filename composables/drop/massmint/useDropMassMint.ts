@@ -1,6 +1,7 @@
-import { ToMintNft } from '@/components/collection/drop/types'
-import { DoResult, updateMetadata } from '@/services/fxart'
 import { useCollectionEntity } from '../useGenerativeDropMint'
+import type { ToMintNft } from '@/components/collection/drop/types'
+import type { DoResult } from '@/services/fxart'
+import { updateMetadata } from '@/services/fxart'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   metadata?: string
@@ -32,7 +33,8 @@ export default () => {
       })
 
       console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
-    } catch (error) {
+    }
+    catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
       loading.value = false
     }
@@ -46,8 +48,9 @@ export default () => {
           collection: drop.value.collection,
           nft: nft.nft,
           sn: nft.sn,
-        }).then((result) => resolve(result))
-      } catch (e) {
+        }).then(result => resolve(result))
+      }
+      catch (e) {
         reject(e)
       }
     })

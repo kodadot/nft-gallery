@@ -1,7 +1,9 @@
 import { ref } from 'vue'
-import { ZipEntry, unzip } from 'unzipit'
-import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
+import type { ZipEntry } from 'unzipit'
+import { unzip } from 'unzipit'
 import { mimeTypes } from '@kodadot1/static'
+import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
+
 export interface FileObject {
   imageUrl: string
   file: File

@@ -3,7 +3,8 @@
     :title="$t('confirmDeleteCollection.deletingCollection')"
     :is-loading="isLoading"
     :status="status"
-    @try-again="deleteCollection" />
+    @try-again="deleteCollection"
+  />
 
   <NeoDropdownItem @click="confirmDeleteModalActive = true">
     {{ $i18n.t('moreActions.deleteCollection') }}
@@ -11,13 +12,14 @@
 
   <ConfirmDeleteCollectionModal
     v-model="confirmDeleteModalActive"
-    @delete="closeAndDelete" />
+    @delete="closeAndDelete"
+  />
 </template>
 
 <script setup lang="ts">
-import { Collections } from '@/composables/transaction/types'
 import { NeoDropdownItem } from '@kodadot1/brick'
 import ConfirmDeleteCollectionModal from './ConfirmDeleteCollectionModal.vue'
+import { Collections } from '@/composables/transaction/types'
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()

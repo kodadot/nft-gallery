@@ -8,7 +8,8 @@
       :mobile-modal="false"
       aria-role="list"
       position="bottom-auto"
-      @change="onChange">
+      @change="onChange"
+    >
       <template #trigger="{ active }">
         <NeoButton
           :active="active"
@@ -18,11 +19,15 @@
           :rounded="rounded"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
-          data-testid="explore-sort">
+          data-testid="explore-sort"
+        >
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
 
-        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
+        <ActiveCount
+          v-if="selectedSort.length"
+          :count="selectedSort.length"
+        />
       </template>
 
       <NeoDropdownItem
@@ -31,7 +36,8 @@
         aria-role="listitem"
         class="flex"
         :data-testid="option"
-        :value="option">
+        :value="option"
+      >
         <span>
           {{
             $i18n.t(
@@ -44,16 +50,18 @@
         <NeoIcon
           v-if="selectedSort.includes(option)"
           class="ml-2"
-          icon="check" />
+          icon="check"
+        />
       </NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
 
 <script setup lang="ts">
+import type {
+  NeoButtonVariant } from '@kodadot1/brick'
 import {
   NeoButton,
-  NeoButtonVariant,
   NeoDropdown,
   NeoDropdownItem,
   NeoIcon,
@@ -115,11 +123,10 @@ function removeDuplicateSortKeys(options: string[]) {
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
+  set: value => (sortOptions.value = removeDuplicateSortKeys(value)),
 })
 
 function onChange(selected) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { page, ...restQuery } = route.query
   router.push({
     path: route.fullPath,
@@ -147,7 +154,8 @@ onMounted(() => {
   if (sort?.length) {
     if (Array.isArray(sort)) {
       selectedSort.value = sort as string[]
-    } else {
+    }
+    else {
       selectedSort.value = [sort] as string[]
     }
   }

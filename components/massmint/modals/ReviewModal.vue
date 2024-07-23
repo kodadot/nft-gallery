@@ -1,5 +1,8 @@
 <template>
-  <NeoModal :value="isModalActive" @close="emit('close')">
+  <NeoModal
+    :value="isModalActive"
+    @close="emit('close')"
+  >
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="border-b border-k-shade">
         <p class="flex justify-center pb-4 text-xl">
@@ -13,9 +16,13 @@
 
           <div
             v-if="numMissingDescriptions || numMissingPrices"
-            class="text-k-red mt-4">
+            class="text-k-red mt-4"
+          >
             <div>{{ $t('massmint.note') }}</div>
-            <div v-if="numMissingDescriptions" class="pl-3">
+            <div
+              v-if="numMissingDescriptions"
+              class="pl-3"
+            >
               •
               {{
                 $t('massmint.missingDescription', {
@@ -23,7 +30,10 @@
                 })
               }}
             </div>
-            <div v-if="numMissingPrices" class="pl-3">
+            <div
+              v-if="numMissingPrices"
+              class="pl-3"
+            >
               •
               {{
                 $t('massmint.missingPrice', {
@@ -42,13 +52,15 @@
             :variant="mintBtnVariant"
             no-shadow
             class="min-w-[10rem] h-[3.25rem] flex flex-1"
-            @click="emit('mint')" />
+            @click="emit('mint')"
+          />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
             no-shadow
             class="min-w-[10rem] ml-5 h-[3.25rem] flex flex-1"
-            @click="emit('close')" />
+            @click="emit('close')"
+          />
         </div>
       </div>
     </div>
@@ -56,7 +68,8 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoButtonVariant, NeoModal } from '@kodadot1/brick'
+import type { NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean

@@ -4,12 +4,13 @@
     :name="nft.name"
     :sn="nft.sn"
     :collection-name="nft.collection?.name || nft.collection.id"
-    :price="nft.price" />
+    :price="nft.price"
+  />
 </template>
 
 <script setup lang="ts">
+import type { ShoppingCartItem } from '../shoppingCart/types'
 import { parseNftAvatar } from '@/utils/nft'
-import { ShoppingCartItem } from '../shoppingCart/types'
 
 const avatar = ref<string>()
 

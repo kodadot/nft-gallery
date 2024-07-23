@@ -3,8 +3,7 @@
     <span
       v-if="isInLessThan24Hours && !isMintingLive"
       class="mr-2 capitalize"
-      >{{ $t('opensIn') }}</span
-    >
+    >{{ $t('opensIn') }}</span>
     <span>{{ displayText }}</span>
   </div>
 </template>
@@ -22,8 +21,8 @@ const props = defineProps<{
 
 const isMintingLive = computed(
   () =>
-    props.dropStatus === DropStatus.MINTING_LIVE ||
-    props.dropStatus === DropStatus.COMING_SOON,
+    props.dropStatus === DropStatus.MINTING_LIVE
+    || props.dropStatus === DropStatus.COMING_SOON,
 )
 const isInLessThan24Hours = computed(
   () => props.dropStatus === DropStatus.SCHEDULED_SOON,

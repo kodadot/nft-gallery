@@ -1,7 +1,13 @@
 <template>
   <div>
-    <NeoButton variant="pill" @click="promptModal()">
-      <NeoIcon icon="arrow-left" class="mr-2" />
+    <NeoButton
+      variant="pill"
+      @click="promptModal()"
+    >
+      <NeoIcon
+        icon="arrow-left"
+        class="mr-2"
+      />
       {{ $t('migrate.homeButton') }}
     </NeoButton>
 
@@ -11,7 +17,8 @@
           <span
             :class="{
               'font-bold': section === 'review',
-            }">
+            }"
+          >
             {{ $t('migrate.review') }}
           </span>
           <NeoIcon
@@ -20,21 +27,24 @@
             :class="{
               'text-k-grey': section === 'review',
               'text-text-color': section === 'sign',
-            }" />
+            }"
+          />
           <span
             :class="{
               'text-k-grey': section === 'review',
               'font-bold': section === 'sign',
-            }">
+            }"
+          >
             {{ $t('migrate.sign') }}
           </span>
         </h1>
 
-        <hr />
+        <hr>
 
         <div
           v-if="accountId"
-          class="rounded-full border border-k-shade flex justify-start flex-grow pl-3">
+          class="rounded-full border border-k-shade flex justify-start flex-grow pl-3"
+        >
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -42,14 +52,20 @@
             :prefix="urlPrefix"
             :account="accountId"
             class="identity-name-font-weight-regular"
-            data-testid="item-creator" />
+            data-testid="item-creator"
+          />
         </div>
         <div v-else>
           <div class="flex items-center">
-            <p class="mr-4">{{ $t('migrate.connect') }}</p>
-            <ConnectWalletButton no-shadow variant="primary" />
+            <p class="mr-4">
+              {{ $t('migrate.connect') }}
+            </p>
+            <ConnectWalletButton
+              no-shadow
+              variant="primary"
+            />
           </div>
-          <hr />
+          <hr>
         </div>
 
         <MigrateStepsReview v-if="section === 'review'" />
@@ -88,9 +104,9 @@ const promptModal = async () => {
 
 onBeforeMount(() => {
   if (
-    !route.query.collectionId ||
-    !route.query.source ||
-    !route.query.destination
+    !route.query.collectionId
+    || !route.query.source
+    || !route.query.destination
   ) {
     navigateTo('/migrate')
   }

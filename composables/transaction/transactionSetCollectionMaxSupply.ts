@@ -1,4 +1,4 @@
-import { ActionSetCollectionMaxSupply, ExecuteTransactionParams } from './types'
+import type { ActionSetCollectionMaxSupply, ExecuteTransactionParams } from './types'
 
 export function execSetCollectionMaxSupply(
   params: ActionSetCollectionMaxSupply,
@@ -21,7 +21,8 @@ export function execSetCollectionMaxSupply(
         arg: [collectionId, maxSupply],
       })
     }
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error)
   }
 }

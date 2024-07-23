@@ -3,7 +3,7 @@
     <h2 class="title text-3xl">
       {{ $t(label) }}
     </h2>
-    <slot name="header"></slot>
+    <slot name="header" />
     <NeoField>
       <Auth />
     </NeoField>
@@ -15,7 +15,8 @@
       :label="$t('mint.collection.drop')"
       expanded
       preview
-      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
+      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
+    />
 
     <BasicInput
       ref="collectionName"
@@ -26,9 +27,10 @@
       expanded
       required
       spellcheck="true"
-      maxlength="60" />
+      maxlength="60"
+    />
 
-    <slot name="main"></slot>
+    <slot name="main" />
 
     <BasicInput
       v-model="vDescription"
@@ -37,18 +39,19 @@
       spellcheck="true"
       :label="$t('mint.collection.description.label')"
       :message="$t('mint.collection.description.message')"
-      :placeholder="$t('mint.collection.description.placeholder')" />
+      :placeholder="$t('mint.collection.description.placeholder')"
+    />
 
-    <slot name="footer"></slot>
+    <slot name="footer" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoField } from '@kodadot1/brick'
+import { useVModel } from '@vueuse/core'
 import Auth from '@/components/shared/Auth.vue'
 import MetadataUpload from '@/components/shared/DropUpload.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
-import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   label: {
@@ -73,8 +76,8 @@ const collectionImage = ref<InstanceType<typeof MetadataUpload>>()
 
 const checkValidity = () => {
   return (
-    collectionImage.value?.checkValidity() &&
-    collectionName.value?.checkValidity()
+    collectionImage.value?.checkValidity()
+    && collectionName.value?.checkValidity()
   )
 }
 

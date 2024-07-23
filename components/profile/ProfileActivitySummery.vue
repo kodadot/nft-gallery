@@ -1,22 +1,28 @@
 <template>
-  <div v-if="stats" class="flex flex-col items-center gap-2.5">
+  <div
+    v-if="stats"
+    class="flex flex-col items-center gap-2.5"
+  >
     <div
       v-for="(item, index) in statsRows"
       :key="index"
       class="flex justify-between w-full items-center group"
       :class="{ 'cursor-pointer': item.onClick }"
-      @click="item.onClick">
+      @click="item.onClick"
+    >
       <span class="text-sm text-k-grey">
         {{ $t(item.label) }}
       </span>
       <div
         class="text-md md:text-lg font-bold"
-        :class="{ 'group-hover:underline underline-offset-4': item.onClick }">
+        :class="{ 'group-hover:underline underline-offset-4': item.onClick }"
+      >
         <component
           :is="item.component"
           v-if="item.component"
           :value="item.value"
-          inline />
+          inline
+        />
         <span v-else>{{ item.value }}</span>
       </div>
     </div>
@@ -27,7 +33,7 @@
 import { getSumOfObjectField } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getDenyList } from '@/utils/prefix'
-import { Profile } from '@/services/profile'
+import type { Profile } from '@/services/profile'
 import profileStatsByIdRefined from '@/queries/subsquid/general/profileStatsByIdRefined'
 
 type Stats = {
@@ -103,8 +109,8 @@ useLazyAsyncData('stats', async () => {
   }
 
   const listEvents = data.value.listed
-    .filter((nft) => nft.events.length > 0)
-    .map((nft) => nft.events[0])
+    .filter(nft => nft.events.length > 0)
+    .map(nft => nft.events[0])
 
   stats.value = {
     listedCount: listEvents.length,

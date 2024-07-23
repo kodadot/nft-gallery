@@ -1,6 +1,9 @@
 <template>
   <div class="flex items-center">
-    <ProfileAvatar :address="account" :size="48" />
+    <ProfileAvatar
+      :address="account"
+      :size="48"
+    />
     <slot :label="label">
       <div class="identity-container">
         <div class="text-k-grey text-base">
@@ -9,10 +12,12 @@
         <component
           :is="disableIdentityLink ? 'div' : NuxtLink"
           class="identity-name font-bold"
-          :to="`/${prefix}/u/${account}`">
+          :to="`/${prefix}/u/${account}`"
+        >
           <Identity
             :address="account"
-            :hide-identity-popover="hideIdentityPopover" />
+            :hide-identity-popover="hideIdentityPopover"
+          />
         </component>
       </div>
     </slot>
@@ -20,8 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-import Identity from '@/components/identity/IdentityIndex.vue'
 import { resolveComponent } from 'vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 

@@ -1,5 +1,5 @@
-import { TranslateResult } from 'vue-i18n'
-import { Interaction } from '../rmrk/service/scheme'
+import type { TranslateResult } from 'vue-i18n'
+import type { Interaction } from '../rmrk/service/scheme'
 
 export type TimeRange = 'All' | 'Quarter' | 'Month' | 'Week'
 

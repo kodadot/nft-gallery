@@ -12,12 +12,12 @@ export enum NFTAction {
 }
 
 export const actionResolver: Record<NFTAction, [string, string]> = {
-  SEND: ['uniques', 'transfer'],
-  CONSUME: ['uniques', 'burn'],
-  DELEGATE: ['uniques', 'approveTransfer'],
-  FREEZE: ['uniques', 'freeze'],
-  THAW: ['uniques', 'thaw'],
-  REVOKE: ['uniques', 'cancelApproval'],
+  'SEND': ['uniques', 'transfer'],
+  'CONSUME': ['uniques', 'burn'],
+  'DELEGATE': ['uniques', 'approveTransfer'],
+  'FREEZE': ['uniques', 'freeze'],
+  'THAW': ['uniques', 'thaw'],
+  'REVOKE': ['uniques', 'cancelApproval'],
   '': ['', ''],
 }
 

@@ -5,26 +5,30 @@
         :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
         class="md:text-[2.5rem]/normal text-3xl/normal flex flex-grow justify-center font-bold"
         target="_blank"
-        rel="nofollow noopener noreferrer">
+        rel="nofollow noopener noreferrer"
+      >
         {{ $t('massmint.onboarding.pageTitle') }}
       </nuxt-link>
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
-        @click="toMassMint" />
+        @click="toMassMint"
+      />
     </div>
     <div class="relative mb-6">
       <div
         ref="carouselRef"
         class="carousel flex flex-nowrap"
-        :class="`slide-${currentSlide}`">
+        :class="`slide-${currentSlide}`"
+      >
         <OnBoardingCard
           v-for="(card, index) in cards"
           :key="index"
           :title="card.title"
           :count="`${index + 1}/${cards.length}`"
           :content="card.content"
-          :active="index === currentSlide">
+          :active="index === currentSlide"
+        >
           <div v-if="index === 1">
             <p class="text-base font-bold mb-3">
               {{ $t('massmint.onboarding.cards.1.subtitle') }}:
@@ -45,14 +49,16 @@
                   :label="tab.label"
                   :active="activeDescriptionTab === tab.label"
                   class="filter-tag"
-                  @click="activeDescriptionTab = tab.label" />
+                  @click="activeDescriptionTab = tab.label"
+                />
               </div>
             </div>
             <Markdown
               :source="
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
-              class="fixed-height white-space-break-spaces-mobile code" />
+              class="fixed-height white-space-break-spaces-mobile code"
+            />
             <div class="flex justify-end mt-2">
               <NeoButton
                 v-safe-href="
@@ -62,7 +68,8 @@
                 class="text-k-blue hover:text-k-blue-hover"
                 no-shadow
                 tag="a"
-                download>
+                download
+              >
                 {{ $t('massmint.onboarding.downloadTemplate') }}
                 <NeoIcon icon="arrow-up-right" />
               </NeoButton>
@@ -74,13 +81,15 @@
         <div
           v-if="currentSlide > 0"
           class="arrow arrow-left"
-          @click="prevSlide" />
+          @click="prevSlide"
+        />
       </Transition>
       <Transition name="fade">
         <div
           v-if="currentSlide < numOfCards - 1"
           class="arrow arrow-right"
-          @click="nextSlide" />
+          @click="nextSlide"
+        />
       </Transition>
     </div>
 
@@ -89,17 +98,19 @@
         :label="btn.label"
         class="flex-grow limit-width h-auto py-3"
         :variant="btn.variant"
-        @click="btn.onClick" />
+        @click="btn.onClick"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoButtonVariant, NeoIcon } from '@kodadot1/brick'
-import OnBoardingCard from './OnBoardingCard.vue'
-import { usePreferencesStore } from '@/stores/preferences'
-import { descriptionTabs } from './descriptionTabs'
+import type { NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
+import OnBoardingCard from './OnBoardingCard.vue'
+import { descriptionTabs } from './descriptionTabs'
+import { usePreferencesStore } from '@/stores/preferences'
 import Markdown from '@/components/shared/Markdown.vue'
 
 const router = useRouter()
@@ -119,7 +130,8 @@ useSwipe(carouselRef, {
   onSwipeEnd: (_, direction) => {
     if (direction === SwipeDirection.LEFT) {
       nextSlide()
-    } else if (direction === SwipeDirection.RIGHT) {
+    }
+    else if (direction === SwipeDirection.RIGHT) {
       prevSlide()
     }
   },

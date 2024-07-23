@@ -1,10 +1,10 @@
-import {
+import type {
   CollectionFloorPrice,
   EntityWithId,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
 
-import { Royalty } from '@/utils/royalty'
+import type { Royalty } from '@/utils/royalty'
 
 export type ShoppingCartItem = {
   urlPrefix: string

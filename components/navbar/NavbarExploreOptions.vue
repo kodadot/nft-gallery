@@ -4,13 +4,15 @@
       :to="`/${urlPrefix}/explore/items`"
       class="menu-item mr-6"
       data-testid="explore-items"
-      @click="emitSelect">
+      @click="emitSelect"
+    >
       {{ $t('items') }}
     </nuxt-link>
     <nuxt-link
       :to="`/${urlPrefix}/explore/collectibles`"
       class="menu-item mr-6"
-      @click="emitSelect">
+      @click="emitSelect"
+    >
       {{ $t('collections') }}
     </nuxt-link>
     <span class="menu-item is-disabled text-k-shade text-nowrap">

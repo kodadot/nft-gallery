@@ -1,50 +1,78 @@
 <template>
   <div class="my-3">
-    <div v-if="url && isModelMedia" class="p-2 mx-auto">
+    <div
+      v-if="url && isModelMedia"
+      class="p-2 mx-auto"
+    >
       <BaseMediaItem
         :src="url"
         :mime-type="mimeType"
         :preview="false"
-        @error="hasError = true" />
+        @error="hasError = true"
+      />
     </div>
     <div class="field">
-      <NeoField class="file is-primary" :addons="false">
+      <NeoField
+        class="file is-primary"
+        :addons="false"
+      >
         <NeoUpload
           ref="upload"
           v-model="file"
           :required="required"
           drag-drop
           :expanded="expanded"
-          :accept="accept">
+          :accept="accept"
+        >
           <section class="px-6 py-12">
             <div class="content text-center">
-              <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
-              <div v-if="url && !isModelMedia" @click.prevent>
+              <NeoIcon
+                v-if="!file && !url"
+                :icon="icon"
+                custom-size="fa-2x"
+              />
+              <div
+                v-if="url && !isModelMedia"
+                @click.prevent
+              >
                 <BaseMediaItem
                   :src="url"
                   :mime-type="mimeType"
                   :preview="false"
-                  @error="hasError = true" />
+                  @error="hasError = true"
+                />
               </div>
-              <NeoIcon v-if="hasError" icon="eye-slash" custom-size="fa-2x" />
+              <NeoIcon
+                v-if="hasError"
+                icon="eye-slash"
+                custom-size="fa-2x"
+              />
               <p v-if="!file">
                 {{ label }}
               </p>
-              <p v-else class="mt-2">
-                Awesome your file is <b>{{ file.name }}</b
-                >. Click or drop to change
+              <p
+                v-else
+                class="mt-2"
+              >
+                Awesome your file is <b>{{ file.name }}</b>. Click or drop to change
               </p>
             </div>
           </section>
         </NeoUpload>
       </NeoField>
       <transition name="fade">
-        <div v-if="fileSizeFailed" class="help is-danger">
+        <div
+          v-if="fileSizeFailed"
+          class="help is-danger"
+        >
           {{ $t('tooltip.failedMaxSize') }}
         </div>
       </transition>
       <transition name="fade">
-        <div v-if="checkFailed" class="help is-danger">
+        <div
+          v-if="checkFailed"
+          class="help is-danger"
+        >
           {{ $t('tooltip.needToUploadNFTFile') }}
         </div>
       </transition>
@@ -53,9 +81,9 @@
 </template>
 
 <script lang="ts" setup>
-import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
+import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 
 const props = defineProps({
   label: {
@@ -87,7 +115,7 @@ const mimeType = computed(() => {
   if (file.value?.type) {
     return file.value.type
   }
-  //workaround for model media in chrome
+  // workaround for model media in chrome
   const fileExtension = file.value?.name.split('.').pop() || ''
   const extensionToMimeType = {
     glb: 'model/gltf-binary',
