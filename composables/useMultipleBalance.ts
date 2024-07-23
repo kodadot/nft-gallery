@@ -12,7 +12,7 @@ import { useIntervalFn } from '@vueuse/core'
 import { ChainType, useIdentityStore } from '@/stores/identity'
 import { Address } from 'viem'
 
-const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
+export const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
   polkadot: 'dot',
   kusama: 'ksm',
   kusamaHub: 'ahk',
@@ -54,9 +54,8 @@ export default function (refetchPeriodically: boolean = false) {
 
   const {
     multiBalances,
-    multiBalanceAssets,
-    multiBalanceAssetsTestnet,
     multiBalanceNetwork,
+    getVmAssets: assets,
   } = storeToRefs(identityStore)
 
   const currentNetwork = computed(() =>
@@ -181,7 +180,7 @@ export default function (refetchPeriodically: boolean = false) {
     return Promise.resolve()
   }
 
-  const fetchFiatPrice = async (force) => {
+  const fetchFiatPrice = async (force: boolean) => {
     if (!force && fiatStore.incompleteFiatValues) {
       await fiatStore.fetchFiatPrice()
     }
@@ -193,15 +192,11 @@ export default function (refetchPeriodically: boolean = false) {
   ) => {
     await fetchFiatPrice(forceFiat)
 
-    const assets = isTestnet
-      ? multiBalanceAssetsTestnet.value
-      : multiBalanceAssets.value
-
     const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 
     const assetsToFetch = onlyPrefixes.length
-      ? assets.filter((item) => chainNetworks.includes(item.chain))
-      : assets
+      ? assets.value.filter((item) => chainNetworks.includes(item.chain))
+      : assets.value
 
     // allow multiple vm balance fetch once multiple accounts are supported
     const vmAssetsToFetch = assetsToFetch.filter((asset) =>

@@ -11,6 +11,7 @@ const DEFAULT_BALANCE_STATE = {
   ahk: '0',
   dot: '0',
   ahp: '0',
+  eth: '0',
   // ahr: '0',
   // glmr: '0',
   // movr: '0',
@@ -133,22 +134,32 @@ export const useIdentityStore = defineStore('identity', {
 
       return 0
     },
-    getStatusMultiBalances: (state) => {
-      let totalAssets = 0
+    getVmAssets: (): any[] => {
+      const { isTestnet } = usePrefix()
+      const { multiBalanceAssets, multiBalanceAssetsTestnet } =
+        storeToRefs(useIdentityStore())
+      const { availableChainsByVm } = useChain()
+
+      const assets = isTestnet
+        ? multiBalanceAssetsTestnet.value
+        : multiBalanceAssets.value
+
+      return assets.filter((asset) =>
+        availableChainsByVm.value
+          .map((chain) => chain.value)
+          .includes(networkToPrefix[asset.chain] as ChainType),
+      )
+    },
+    getStatusMultiBalances(state): string {
+      let loadedAssets = 0
       for (const key in state.multiBalances.chains) {
         if (
           Object.prototype.hasOwnProperty.call(state.multiBalances.chains, key)
         ) {
-          totalAssets += Object.keys(state.multiBalances.chains[key]).length
+          loadedAssets += Object.keys(state.multiBalances.chains[key]).length
         }
       }
-
-      const { isTestnet } = usePrefix()
-      const assets = isTestnet
-        ? state.multiBalanceAssetsTestnet
-        : state.multiBalanceAssets
-
-      return totalAssets < assets.length ? 'loading' : 'done'
+      return loadedAssets < this.getVmAssets.length ? 'loading' : 'done'
     },
   },
   actions: {
