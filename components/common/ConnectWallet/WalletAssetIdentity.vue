@@ -70,8 +70,11 @@ const logout = async () => {
   walletStore.setDisconnecting(true)
   walletStore.clear()
   if (isEvm) {
-    await disconnectWeb3Modal()
+    await disconnectWeb3Modal().catch((error) => {
+      console.warn('[WEB3MODAL::CONNECTION] Failed disconnecting', error)
+    })
   }
+
   walletStore.setDisconnecting(false)
 }
 </script>

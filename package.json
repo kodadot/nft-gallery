@@ -34,17 +34,13 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install"
+    "prepare": "pnpm -F static build && nuxi prepare"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*.{js,ts,vue}": [
-      "eslint --fix"
-    ]
+    "*": "eslint --fix"
   },
   "engines": {
     "npm": "please-use-pnpm",
@@ -139,13 +135,13 @@
     "consola": "^3.2.3",
     "cross-env": "^7.0.3",
     "glob": "^8.1.0",
-    "husky": "^7.0.4",
     "jsdom": "^19.0.0",
-    "lint-staged": "^12.5.0",
+    "lint-staged": "^15.2.7",
     "nuxt": "^3.12.3",
     "nuxt-gtag": "^1.2.1",
     "postcss": "^8.4.39",
     "sass": "^1.77.8",
+    "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.5",
     "vite-svg-loader": "^5.1.0",
     "vitest": "^0.34.6"
