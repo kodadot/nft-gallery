@@ -15,20 +15,20 @@
       >
         <CodeCheckerMassPreviewControls
           v-model="amount"
-          :previews="previews"
+          :previews="canvasPreviews"
           @retry="generateMassPreview"
         />
 
         <CodeCheckerMassPreviewGrid
-          :items="previews.map((p) => p.loading)"
+          :items="canvasPreviews.map((p) => p.loading)"
           class="!mt-4"
         >
           <template #default="{ index }">
             <CodeCheckerSandboxIFrame
-              :hash="previews[index].hash"
+              :hash="canvasPreviews[index].hash"
               :assets="assets"
               :count="1"
-              :iframe-id="previews[index].hash"
+              :iframe-id="canvasPreviews[index].hash"
               class="border"
             />
           </template>
@@ -56,10 +56,10 @@ const props = withDefaults(
 
 const active = ref(false)
 const amount = ref(props.previews)
-const previews = ref<CanvasPreviewItem[]>([])
+const canvasPreviews = ref<CanvasPreviewItem[]>([])
 
 const generateMassPreview = () => {
-  previews.value = Array.from({ length: amount.value }).map(() => ({
+  canvasPreviews.value = Array.from({ length: amount.value }).map(() => ({
     hash: generateRandomHash(),
     startedAt: performance.now(),
     loading: true,
@@ -70,9 +70,9 @@ useEventListener(window, 'message', async (res) => {
   const hash = res.data.payload.hash
   if (
     res.data?.type === 'kodahash/render/completed'
-    && previews.value.map(p => p.hash).includes(hash)
+    && canvasPreviews.value.map(p => p.hash).includes(hash)
   ) {
-    previews.value = previews.value.map(preview =>
+    canvasPreviews.value = canvasPreviews.value.map(preview =>
       preview.hash === hash
         ? { ...preview, renderedAt: performance.now(), loading: false }
         : preview,

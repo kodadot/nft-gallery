@@ -387,6 +387,8 @@ const imagePreview = computed(() => {
   if (form.file) {
     return URL?.createObjectURL(form.file)
   }
+
+  return null
 })
 
 // select available blockchain

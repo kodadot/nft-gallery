@@ -246,6 +246,8 @@ const deleteConfirmSafetyDelayText = computed(() => {
       ),
     ])
   }
+
+  return ''
 })
 
 const deleteConfirmText = computed(() =>

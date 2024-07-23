@@ -42,7 +42,7 @@ export type AutoTeleportActionHandlerParams = { isRetry: boolean }
 
 export type AutoTeleportAction = {
   transaction?: (item: Actions, prefix: string) => Promise<any>
-  handler?: (params: AutoTeleportActionHandlerParams) => Promise<any | void>
+  handler?: (params: AutoTeleportActionHandlerParams) => Promise<any>
 } & AutoTeleportBaseAction
 
 export type AutoTeleportFeeParams = {

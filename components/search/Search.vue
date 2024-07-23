@@ -58,8 +58,7 @@ const emit = defineEmits<{
   (e: 'update:sortByMultiple', value: string[]): void
   (e: 'update:listed', listed: boolean): void
   (e: 'resetPage'): void
-  (e: 'update:priceMin', value?: number): void
-  (e: 'update:priceMax', value?: number): void
+  (e: 'update:priceMin' | 'update:priceMax', value?: number): void
 }>()
 
 const { neoModal } = useProgrammatic()
@@ -104,6 +103,7 @@ const isExplorePage = computed(() => routePathList.value.includes(route.path))
 type Listed = boolean | { listed: boolean, min?: string, max?: string }
 const vListed = computed({
   get() {
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
     query.listed = props.listed
     return props.listed
   },

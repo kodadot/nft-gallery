@@ -125,7 +125,9 @@ const flushPreviouseActions = async () => {
     await Promise.allSettled(actionStack.value.map(action => action.reject()))
     actionStack.value = []
   }
-  catch (error) {}
+  catch (error) {
+    console.error(error)
+  }
 }
 
 const pushToActionStack = ({ promise, reject }) => {

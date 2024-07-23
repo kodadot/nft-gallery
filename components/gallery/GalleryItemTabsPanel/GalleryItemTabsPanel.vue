@@ -1,6 +1,6 @@
 <template>
   <NeoTabs
-    v-model="activeTab"
+    v-model="active"
     type="toggle"
     expanded
     data-testid="gallery-item-tabs"
@@ -48,12 +48,12 @@ const props = withDefaults(
 
 const nft = computed(() => props.galleryItem.nft.value)
 
-const activeTab = ref('1')
+const active = ref('1')
 const collectionId = ref('')
 
 watchEffect(() => {
   if (props.activeTab) {
-    activeTab.value = props.activeTab
+    active.value = props.activeTab
   }
 
   collectionId.value = nft.value?.collection.id || ''

@@ -154,7 +154,7 @@ const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 const { isModalOpen } = useAutoTeleportModal()
 
-const amount = ref()
+const amounts = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
@@ -167,7 +167,7 @@ const {
   clear,
 } = useAutoTeleport(
   computed<AutoTeleportAction[]>(() => props.actions),
-  computed(() => amount.value),
+  computed(() => amounts.value),
   props.fees,
 )
 
@@ -337,7 +337,7 @@ watch(allowAutoTeleport, (allow) => {
 
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
-    amount.value = props.amount
+    amounts.value = props.amount
   }
 })
 

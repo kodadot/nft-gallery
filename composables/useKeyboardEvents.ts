@@ -22,6 +22,7 @@ export function useKeyboardEvents(primaryKeyEvents) {
   }
 
   const onKeyUp = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete keysPressed.value[event.key]
   }
 

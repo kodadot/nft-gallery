@@ -87,7 +87,6 @@
 </template>
 
 <script lang="ts" setup>
-import { getChartDataByTimeRange } from '@/utils/chart'
 import {
   NeoButton,
   NeoCheckbox,
@@ -115,6 +114,7 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { format } from 'date-fns'
 import { Line } from 'vue-chartjs'
+import { getChartDataByTimeRange } from '@/utils/chart'
 
 ChartJS.register(
   zoomPlugin,

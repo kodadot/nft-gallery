@@ -40,6 +40,7 @@ const omit = <T extends object, K extends keyof T>(
 ): Omit<T, K> => {
   const clone = { ...obj } as const
 
+  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   keys.forEach(key => delete clone[key])
   return clone
 }
