@@ -35,7 +35,7 @@ export default function () {
   ) => {
     const url = new URL('https://warpcast.com/~/compose')
     url.searchParams.set('text', text)
-    embeds.forEach((embed) => url.searchParams.append('embeds[]', embed))
+    embeds.forEach(embed => url.searchParams.append('embeds[]', embed))
     open(url.toString())
   }
 
