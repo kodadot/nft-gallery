@@ -44,7 +44,6 @@ const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
-const profileStore = useProfileStore()
 const documentVisibility = useDocumentVisibility()
 const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
 
@@ -101,12 +100,63 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
     return
   }
 
-  // profileStore.$onAction handles flow
-  await profileStore.processProfile({
-    profileData,
-    signaturePair,
-    hasProfile: hasProfile.value,
-    useFarcaster: useFarcaster.value,
+  const sessionId = generateSession(
+    ref({
+      state: 'loading',
+    }),
+  )
+
+  const session = getSession(sessionId)
+  if (!session) {
+    return
+  }
+
+  // using a seperate try catch to show errors using the profile creation notification
+  try {
+    showProfileCreationNotification(session)
+
+    await useUpdateProfile({
+      profileData,
+      signaturePair,
+      hasProfile: hasProfile.value,
+      useFarcaster: useFarcaster.value,
+    })
+
+    profileCreated(sessionId)
+  } catch (error) {
+    profileCreationFailed(sessionId, error as Error)
+  }
+}
+
+const showProfileCreationNotification = (session: Ref<SessionState>) => {
+  const isSessionState = (state: LoadingNotificationState) =>
+    session.value?.state === state
+
+  loadingMessage({
+    title: computed(() =>
+      isSessionState('failed')
+        ? $i18n.t('profiles.errors.setupFailed.title')
+        : $i18n.t('profiles.created'),
+    ),
+    message: computed(() =>
+      isSessionState('failed')
+        ? $i18n.t('profiles.errors.setupFailed.message')
+        : undefined,
+    ),
+    state: computed(() => session?.value.state as LoadingNotificationState),
+    action: computed<NotificationAction | undefined>(() => {
+      if (isSessionState('failed')) {
+        return getReportIssueAction(session?.value?.error?.toString() as string)
+      }
+
+      if (isSessionState('succeeded')) {
+        return {
+          label: $i18n.t('viewProfile'),
+          icon: 'arrow-up-right',
+          url: `/${urlPrefix.value}/u/${accountId.value}`,
+        }
+      }
+    }),
   })
 }
 
@@ -186,6 +236,16 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
+const updateSession = (id: string, newSession: SessionState) => {
+  const session = getSession(id)
+
+  if (!session) {
+    return
+  }
+
+  session.value = newSession
+}
+
 useModalIsOpenTracker({
   isOpen: computed(() => props.modelValue),
   onClose: false,
@@ -203,68 +263,6 @@ watch(documentVisibility, (current, previous) => {
     infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
       title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),
     })
-  }
-})
-
-const updateSession = (id: string, newSession: SessionState) => {
-  const session = getSession(id)
-
-  if (!session) {
-    return
-  }
-
-  session.value = newSession
-}
-
-profileStore.$onAction(({ name, after, onError }) => {
-  if (name === 'processProfile') {
-    const sessionId = generateSession(
-      ref({
-        state: 'loading',
-      }),
-    )
-
-    const session = getSession(sessionId)
-
-    if (!session) {
-      return
-    }
-
-    const isSessionState = (state: LoadingNotificationState) =>
-      session.value?.state === state
-
-    updateSession(sessionId, { state: 'loading' })
-
-    loadingMessage({
-      title: computed(() =>
-        isSessionState('failed')
-          ? $i18n.t('profiles.errors.setupFailed.title')
-          : $i18n.t('profiles.created'),
-      ),
-      message: computed(() =>
-        isSessionState('failed')
-          ? $i18n.t('profiles.errors.setupFailed.message')
-          : undefined,
-      ),
-      state: computed(() => session?.value.state as LoadingNotificationState),
-      action: computed<NotificationAction | undefined>(() => {
-        if (isSessionState('failed')) {
-          return getReportIssueAction(
-            session?.value?.error?.toString() as string,
-          )
-        }
-
-        if (isSessionState('succeeded')) {
-          return {
-            label: $i18n.t('viewProfile'),
-            icon: 'arrow-up-right',
-            url: `/${urlPrefix.value}/u/${accountId.value}`,
-          }
-        }
-      }),
-    })
-    after(() => profileCreated(sessionId))
-    onError((error) => profileCreationFailed(sessionId, error as Error))
   }
 })
 </script>

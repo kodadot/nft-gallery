@@ -23,18 +23,20 @@ export const constructSocials = (
   ].filter((social) => Boolean(social.handle))
 }
 
-export const uploadProfileImage = async (
-  file: File | null,
-  type: 'image' | 'banner',
-): Promise<string | undefined> => {
+export const uploadProfileImage = async ({
+  file,
+  type,
+  signaturePair: { signature, message },
+}: {
+  file: File | null
+  type: 'image' | 'banner'
+  signaturePair: SignaturePair
+}): Promise<string | undefined> => {
   if (!file) {
     return undefined
   }
 
-  const { getSignaturePair } = useVerifyAccount()
   const { accountId } = useAuth()
-
-  const { signature, message } = await getSignaturePair()
 
   const response = await uploadImage({
     file,
