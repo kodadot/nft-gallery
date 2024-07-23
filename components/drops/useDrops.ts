@@ -59,15 +59,9 @@ export function useDrops(query?: GetDropsQuery, config?: { filterOutMinted?: boo
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    const formattedDrops = await Promise.all(
+    drops.value = await Promise.all(
       dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-    )
-
-    drops.value = formattedDrops
-
-    if (filterOutMinted) {
-      drops.value = drops.value.filter(drop => !drop.isMintedOut)
-    }
+    ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
 
     loaded.value = true
   })
