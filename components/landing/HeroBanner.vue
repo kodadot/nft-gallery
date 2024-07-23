@@ -4,15 +4,18 @@
       <img
         src="~/assets/svg/landing-blur.svg"
         alt="Hero banner background blur"
-        class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none" />
+        class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none"
+      >
 
       <h1
-        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col md:flex-row md:gap-5 flex-wrap justify-center items-center mb-0">
+        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col md:flex-row md:gap-5 flex-wrap justify-center items-center mb-0"
+      >
         <div>
           {{ $t('search.landingTitle1') }}
         </div>
         <span
-          class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize md:inline">
+          class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize md:inline"
+        >
           {{ $t('search.landingTitle2') }}
         </span>
         <div>
@@ -21,10 +24,12 @@
       </h1>
       <div class="container is-fluid flex justify-center mt-[2rem]">
         <LandingDomainChangeNotificationBanner
-          v-if="!isLatestProductionDomain" />
+          v-if="!isLatestProductionDomain"
+        />
         <LandingFarcasterMintNotificationBanner
           v-else-if="farcasterLiveMint"
-          :config="farcasterLiveMint" />
+          :config="farcasterLiveMint"
+        />
         <LandingFarcasterBanner v-else />
       </div>
 
@@ -59,10 +64,12 @@ const fetchFarcasterLiveMint = async () => {
       if (config) {
         farcasterLiveMint.value = config
       }
-    } catch (error) {
+    }
+    catch (error) {
       // no live mint
     }
-  } else {
+  }
+  else {
     farcasterLiveMint.value = farcasterLiveMintConfig
   }
 }
