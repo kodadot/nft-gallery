@@ -1,7 +1,8 @@
 <template>
   <div>
     <div
-      class="flex max-md:flex-col items-start max-md:gap-8 md:items-center md:justify-between mb-14">
+      class="flex max-md:flex-col items-start max-md:gap-8 md:items-center md:justify-between mb-14"
+    >
       <h3 class="text-[2rem] font-bold leading-[1.125]">
         {{ $t('drops.latestMints') }}
       </h3>
@@ -11,12 +12,14 @@
           no-shadow
           rounded
           :preselect="defaultSort"
-          variant="outlined-rounded" />
+          variant="outlined-rounded"
+        />
         <ProfileFilterButton
           :label="$t('sort.listed')"
           url-param="listed"
           variant="outlined-rounded"
-          data-testid="drop-filter-button-buynow" />
+          data-testid="drop-filter-button-buynow"
+        />
       </div>
     </div>
 
@@ -26,7 +29,8 @@
       display-name-with-sn
       collection-popover-hide
       show-timestamp
-      :reset-search-query-params="['sort']" />
+      :reset-search-query-params="['sort']"
+    />
   </div>
 </template>
 

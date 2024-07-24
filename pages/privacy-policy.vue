@@ -1,6 +1,8 @@
 <template>
   <section class="mb-5">
-    <h1 class="heading heading-is-4 font-bold uppercase">PRIVACY POLICY</h1>
+    <h1 class="heading heading-is-4 font-bold uppercase">
+      PRIVACY POLICY
+    </h1>
 
     <time class="mb-6">Last updated September 01, 2023</time>
 
@@ -20,7 +22,9 @@
     <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Visit our website at
-        <nuxt-link to="/"> https://kodadot.xyz </nuxt-link>
+        <nuxt-link to="/">
+          https://kodadot.xyz
+        </nuxt-link>
         , or any website of ours that links to this privacy notice
       </li>
       <li class="mb-2">
@@ -36,7 +40,9 @@
       please contact us at
       <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h2 class="heading heading-is-2">SUMMARY OF KEY POINTS</h2>
+    <h2 class="heading heading-is-2">
+      SUMMARY OF KEY POINTS
+    </h2>
     <p class="mb-4">
       <strong>
         <em>
@@ -79,7 +85,9 @@
       comply with law. We may also process your information for other purposes
       with your consent. We process your information only when we have a valid
       legal reason to do so. Learn more about
-      <nuxt-link to="#infouse"> how we process your information </nuxt-link>
+      <nuxt-link to="#infouse">
+        how we process your information
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -103,7 +111,9 @@
       cybercriminals, or other unauthorized third parties will not be able to
       defeat our security and improperly collect, access, steal, or modify your
       information. Learn more about
-      <nuxt-link to="#infosafe"> how we keep your information safe </nuxt-link>
+      <nuxt-link to="#infosafe">
+        how we keep your information safe
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -111,7 +121,9 @@
       Depending on where you are located geographically, the applicable privacy
       law may mean you have certain rights regarding your personal information.
       Learn more about
-      <nuxt-link to="#privacyrights"> your privacy rights </nuxt-link>
+      <nuxt-link to="#privacyrights">
+        your privacy rights
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -123,14 +135,20 @@
     </p>
     <p class="mb-4">
       Want to learn more about what we do with any information we collect?
-      <nuxt-link to="#toc"> Review the privacy notice in full </nuxt-link>
+      <nuxt-link to="#toc">
+        Review the privacy notice in full
+      </nuxt-link>
       .
     </p>
-    <h2 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h2>
+    <h2
+      id="toc"
+      class="heading heading-is-2"
+    >
+      TABLE OF CONTENTS
+    </h2>
     <ol class="list-inside">
       <li class="mb-4">
-        <nuxt-link to="#infocollect"
-          >WHAT INFORMATION DO WE COLLECT?
+        <nuxt-link to="#infocollect">WHAT INFORMATION DO WE COLLECT?
         </nuxt-link>
       </li>
       <li class="mb-4">
@@ -179,7 +197,9 @@
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link to="#DNT"> CONTROLS FOR DO-NOT-TRACK FEATURES </nuxt-link>
+        <nuxt-link to="#DNT">
+          CONTROLS FOR DO-NOT-TRACK FEATURES
+        </nuxt-link>
       </li>
       <li class="mb-4">
         <nuxt-link to="#caresidents">
@@ -192,7 +212,9 @@
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link to="#update"> DO WE MAKE UPDATES TO THIS NOTICE? </nuxt-link>
+        <nuxt-link to="#update">
+          DO WE MAKE UPDATES TO THIS NOTICE?
+        </nuxt-link>
       </li>
       <li class="mb-4">
         <nuxt-link to="#contact">
@@ -206,7 +228,10 @@
       </li>
     </ol>
 
-    <h2 id="infocollect" class="heading heading-is-2">
+    <h2
+      id="infocollect"
+      class="heading heading-is-2"
+    >
       1. WHAT INFORMATION DO WE COLLECT?
     </h2>
 
@@ -237,8 +262,12 @@
     </p>
 
     <ul class="list-disc list-inside mb-4">
-      <li class="mb-2">usernames</li>
-      <li class="mb-2">email addresses</li>
+      <li class="mb-2">
+        usernames
+      </li>
+      <li class="mb-2">
+        email addresses
+      </li>
     </ul>
 
     <p class="mb-4">
@@ -312,7 +341,9 @@
       </nuxt-link>
       .
     </p>
-    <p class="mb-4">The information we collect includes:</p>
+    <p class="mb-4">
+      The information we collect includes:
+    </p>
     <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         <em> Log and Usage Data. </em>
@@ -328,7 +359,10 @@
         hardware settings).
       </li>
     </ul>
-    <h2 id="infouse" class="heading heading-is-2">
+    <h2
+      id="infouse"
+      class="heading heading-is-2"
+    >
       2. HOW DO WE PROCESS YOUR INFORMATION?
     </h2>
     <p class="mb-4">
@@ -404,7 +438,10 @@
         individual’s vital interest, such as to prevent harm.
       </li>
     </ul>
-    <h2 id="legalbases" class="heading heading-is-2">
+    <h2
+      id="legalbases"
+      class="heading heading-is-2"
+    >
       3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR INFORMATION?
     </h2>
     <p class="mb-4">
@@ -438,7 +475,9 @@
         We may process your information if you have given us permission (i.e.,
         consent) to use your personal information for a specific purpose. You
         can withdraw your consent at any time. Learn more about
-        <nuxt-link to="#withdrawconsent"> withdrawing your consent </nuxt-link>
+        <nuxt-link to="#withdrawconsent">
+          withdrawing your consent
+        </nuxt-link>
         .
       </li>
       <li class="mb-2">
@@ -458,7 +497,9 @@
         Analyze how our Services are used so we can improve them to engage and
         retain users
       </li>
-      <li class="mb-2">Support our marketing activities</li>
+      <li class="mb-2">
+        Support our marketing activities
+      </li>
       <li class="mb-2">
         Diagnose problems and/or prevent fraudulent activities
       </li>
@@ -494,7 +535,9 @@
       (i.e., express consent) to use your personal information for a specific
       purpose, or in situations where your permission can be inferred (i.e.,
       implied consent). You can
-      <nuxt-link to="#withdrawconsent"> withdraw your consent </nuxt-link>
+      <nuxt-link to="#withdrawconsent">
+        withdraw your consent
+      </nuxt-link>
       at any time.
     </p>
     <p class="mb-4">
@@ -549,7 +592,10 @@
         regulations
       </li>
     </ul>
-    <h2 id="whoshare" class="heading heading-is-2">
+    <h2
+      id="whoshare"
+      class="heading heading-is-2"
+    >
       4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
     </h2>
     <p class="mb-4">
@@ -573,7 +619,10 @@
         acquisition of all or a portion of our business to another company.
       </li>
     </ul>
-    <h2 id="cookies" class="heading heading-is-2">
+    <h2
+      id="cookies"
+      class="heading heading-is-2"
+    >
       5. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
     </h2>
     <p class="mb-4">
@@ -595,7 +644,10 @@
       </nuxt-link>
       .
     </p>
-    <h2 id="sociallogins" class="heading heading-is-2">
+    <h2
+      id="sociallogins"
+      class="heading heading-is-2"
+    >
       6. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
     </h2>
     <p class="mb-4">
@@ -627,7 +679,10 @@
       personal information, and how you can set your privacy preferences on
       their sites and apps.
     </p>
-    <h2 id="inforetain" class="heading heading-is-2">
+    <h2
+      id="inforetain"
+      class="heading heading-is-2"
+    >
       7. HOW LONG DO WE KEEP YOUR INFORMATION?
     </h2>
     <p class="mb-4">
@@ -656,7 +711,10 @@
       information and isolate it from any further processing until deletion is
       possible.
     </p>
-    <h2 id="infosafe" class="heading heading-is-2">
+    <h2
+      id="infosafe"
+      class="heading heading-is-2"
+    >
       8. HOW DO WE KEEP YOUR INFORMATION SAFE?
     </h2>
     <p class="mb-4">
@@ -681,7 +739,10 @@
       transmission of personal information to and from our Services is at your
       own risk. You should only access the Services within a secure environment.
     </p>
-    <h2 id="infominors" class="heading heading-is-2">
+    <h2
+      id="infominors"
+      class="heading heading-is-2"
+    >
       9. DO WE COLLECT INFORMATION FROM MINORS?
     </h2>
     <p class="mb-4">
@@ -704,7 +765,10 @@
       have collected from children under age 18, please contact us at
       <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h2 id="privacyrights" class="heading heading-is-2">
+    <h2
+      id="privacyrights"
+      class="heading heading-is-2"
+    >
       10. WHAT ARE YOUR PRIVACY RIGHTS?
     </h2>
     <p class="mb-4">
@@ -742,12 +806,14 @@
       processing your personal information, you also have the right to complain
       to your
       <a
-        href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm">
+        href="https://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm"
+      >
         Member State data protection authority
       </a>
       or
       <a
-        href="https://ico.org.uk/make-a-complaint/data-protection-complaints/data-protection-complaints/">
+        href="https://ico.org.uk/make-a-complaint/data-protection-complaints/data-protection-complaints/"
+      >
         UK data protection authority
       </a>
       .
@@ -829,7 +895,10 @@
       If you have questions or comments about your privacy rights, you may email
       us at <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h2 id="DNT" class="heading heading-is-2">
+    <h2
+      id="DNT"
+      class="heading heading-is-2"
+    >
       11. CONTROLS FOR DO-NOT-TRACK FEATURES
     </h2>
     <p class="mb-4">
@@ -844,7 +913,10 @@
       that we must follow in the future, we will inform you about that practice
       in a revised version of this privacy notice.
     </p>
-    <h2 id="caresidents" class="heading heading-is-2">
+    <h2
+      id="caresidents"
+      class="heading heading-is-2"
+    >
       12. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
     </h2>
     <p class="mb-4">
@@ -892,7 +964,9 @@
       (2) every individual who is domiciled in the State of California who is
       outside the State of California for a temporary or transitory purpose
     </p>
-    <p class="mb-4">All other individuals are defined as "non-residents."</p>
+    <p class="mb-4">
+      All other individuals are defined as "non-residents."
+    </p>
     <p class="mb-4">
       If this definition of "resident" applies to you, we must adhere to certain
       rights and obligations regarding your personal information.
@@ -904,7 +978,10 @@
       We have collected the following categories of personal information in the
       past twelve (12) months:
     </p>
-    <table class="mb-4" aria-describedby="personal information collected">
+    <table
+      class="mb-4"
+      aria-describedby="personal information collected"
+    >
       <thead>
         <tr>
           <th>Category</th>
@@ -1005,7 +1082,7 @@
         </tr>
         <tr>
           <td>L. Sensitive Personal Information</td>
-          <td></td>
+          <td />
           <td>NO</td>
         </tr>
       </tbody>
@@ -1019,7 +1096,9 @@
       <li class="mb-2">
         Receiving help through our customer support channels;
       </li>
-      <li class="mb-2">Participation in customer surveys or contests; and</li>
+      <li class="mb-2">
+        Participation in customer surveys or contests; and
+      </li>
       <li class="mb-2">
         Facilitation in the delivery of our Services and to respond to your
         inquiries.
@@ -1083,7 +1162,9 @@
       from a legal obligation, or any processing that may be required to protect
       against illegal activities.
     </p>
-    <p class="mb-4">Right to be informed — Request to know</p>
+    <p class="mb-4">
+      Right to be informed — Request to know
+    </p>
     <p class="mb-4">
       Depending on the circumstances, you have a right to know:
     </p>
@@ -1135,7 +1216,9 @@
     <p class="mb-4">
       We do not process consumer's sensitive personal information.
     </p>
-    <p class="mb-4">Verification process</p>
+    <p class="mb-4">
+      Verification process
+    </p>
     <p class="mb-4">
       Upon receiving your request, we will need to verify your identity to
       determine you are the same person about whom we have the information in
@@ -1158,7 +1241,9 @@
       security or fraud-prevention purposes. We will delete such additionally
       provided information as soon as we finish verifying you.
     </p>
-    <p class="mb-4">Other privacy rights</p>
+    <p class="mb-4">
+      Other privacy rights
+    </p>
     <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         You may object to the processing of your personal information.
@@ -1231,7 +1316,10 @@
       <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>, or by referring to
       the contact details at the bottom of this document.
     </p>
-    <h2 id="virginia" class="heading heading-is-2">
+    <h2
+      id="virginia"
+      class="heading heading-is-2"
+    >
       13. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
     </h2>
     <p class="mb-4">
@@ -1244,7 +1332,9 @@
     <p class="mb-4">
       <strong> Virginia CDPA Privacy Notice </strong>
     </p>
-    <p class="mb-4">Under the Virginia Consumer Data Protection Act (CDPA):</p>
+    <p class="mb-4">
+      Under the Virginia Consumer Data Protection Act (CDPA):
+    </p>
     <p class="mb-4">
       "Consumer" means a natural person who is a resident of the Commonwealth
       acting only in an individual or household context. It does not include a
@@ -1271,11 +1361,15 @@
     <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         •
-        <nuxt-link to="#infocollect"> Personal data we collect </nuxt-link>
+        <nuxt-link to="#infocollect">
+          Personal data we collect
+        </nuxt-link>
       </li>
       <li class="mb-2">
         •
-        <nuxt-link to="#infouse"> How we use your personal data </nuxt-link>
+        <nuxt-link to="#infouse">
+          How we use your personal data
+        </nuxt-link>
       </li>
       <li class="mb-2">
         •
@@ -1284,14 +1378,22 @@
         </nuxt-link>
       </li>
     </ul>
-    <p class="mb-4">Your rights with respect to your personal data</p>
+    <p class="mb-4">
+      Your rights with respect to your personal data
+    </p>
     <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Right to be informed whether or not we are processing your personal data
       </li>
-      <li class="mb-2">Right to access your personal data</li>
-      <li class="mb-2">Right to correct inaccuracies in your personal data</li>
-      <li class="mb-2">Right to request deletion of your personal data</li>
+      <li class="mb-2">
+        Right to access your personal data
+      </li>
+      <li class="mb-2">
+        Right to correct inaccuracies in your personal data
+      </li>
+      <li class="mb-2">
+        Right to request deletion of your personal data
+      </li>
       <li class="mb-2">
         Right to obtain a copy of the personal data you previously shared with
         us
@@ -1308,7 +1410,9 @@
       commercial purposes. We will not sell personal data in the future
       belonging to website visitors, users, and other consumers.
     </p>
-    <p class="mb-4">Exercise your rights provided under the Virginia CDPA</p>
+    <p class="mb-4">
+      Exercise your rights provided under the Virginia CDPA
+    </p>
     <p class="mb-4">
       More information about our data collection and sharing practices can be
       found in this privacy notice and our Cookie Notice:
@@ -1328,7 +1432,9 @@
       a request if the authorized agent does not submit proof that they have
       been validly authorized to act on your behalf.
     </p>
-    <p class="mb-4">Verification process</p>
+    <p class="mb-4">
+      Verification process
+    </p>
     <p class="mb-4">
       We may request that you provide additional information reasonably
       necessary to verify you and your consumer's request. If you submit the
@@ -1342,7 +1448,9 @@
       necessary. We will inform you of any such extension within the initial
       45-day response period, together with the reason for the extension.
     </p>
-    <p class="mb-4">Right to appeal</p>
+    <p class="mb-4">
+      Right to appeal
+    </p>
     <p class="mb-4">
       If we decline to take action regarding your request, we will inform you of
       our decision and reasoning behind it. If you wish to appeal our decision,
@@ -1352,12 +1460,16 @@
       including a written explanation of the reasons for the decisions. If your
       appeal if denied, you may contact the
       <a
-        href="https://www.oag.state.va.us/consumer-protection/index.php/file-a-complaint">
+        href="https://www.oag.state.va.us/consumer-protection/index.php/file-a-complaint"
+      >
         Attorney General to submit a complaint
       </a>
       .
     </p>
-    <h2 id="update" class="heading heading-is-2">
+    <h2
+      id="update"
+      class="heading heading-is-2"
+    >
       14. DO WE MAKE UPDATES TO THIS NOTICE?
     </h2>
     <p class="mb-4">
@@ -1376,7 +1488,10 @@
       encourage you to review this privacy notice frequently to be informed of
       how we are protecting your information.
     </p>
-    <h2 id="contact" class="heading heading-is-2">
+    <h2
+      id="contact"
+      class="heading heading-is-2"
+    >
       15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
     </h2>
     <p class="mb-4">
@@ -1385,12 +1500,15 @@
       post at:
     </p>
     <p class="mb-4">
-      GenArt, Matej Nemček s.p. <br />
-      Proletarska cesta 4 <br />
-      Ljubljana 1000 <br />
+      GenArt, Matej Nemček s.p. <br>
+      Proletarska cesta 4 <br>
+      Ljubljana 1000 <br>
       Slovenia
     </p>
-    <h2 id="data" class="heading heading-is-2">
+    <h2
+      id="data"
+      class="heading heading-is-2"
+    >
       16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
     </h2>
     <p class="mb-4">

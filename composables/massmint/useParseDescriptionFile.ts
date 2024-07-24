@@ -1,4 +1,4 @@
-import { Entry } from './parsers/common'
+import type { Entry } from './parsers/common'
 import { parseCsv } from './parsers/parseCsv'
 import { parseJson } from './parsers/parseJson'
 import { parseTxt } from './parsers/parseTxt'
@@ -9,7 +9,8 @@ const readTextFile = (file: File): Promise<string> => {
     reader.onload = () => {
       if (typeof reader.result === 'string') {
         resolve(reader.result)
-      } else {
+      }
+      else {
         reject(new Error('Unable to read file'))
       }
     }

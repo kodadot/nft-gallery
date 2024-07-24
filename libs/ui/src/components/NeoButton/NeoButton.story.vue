@@ -1,19 +1,34 @@
 <template>
-  <Story title="NeoButton" :layout="{ type: 'grid', width: '200px' }">
+  <Story
+    title="NeoButton"
+    :layout="{ type: 'grid', width: '200px' }"
+  >
     <Variant title="small neo button">
-      <NeoButton :label="label" size="small" />
+      <NeoButton
+        :label="label"
+        size="small"
+      />
     </Variant>
     <Variant title="default neo button">
       <NeoButton :label="label" />
     </Variant>
     <Variant title="medium neo button">
-      <NeoButton :label="label" size="medium" />
+      <NeoButton
+        :label="label"
+        size="medium"
+      />
     </Variant>
     <Variant title="large neo button">
-      <NeoButton :label="label" size="large" />
+      <NeoButton
+        :label="label"
+        size="large"
+      />
     </Variant>
     <Variant title="accent neo button">
-      <NeoButton :label="label" variant="primary" />
+      <NeoButton
+        :label="label"
+        variant="primary"
+      />
     </Variant>
   </Story>
 </template>

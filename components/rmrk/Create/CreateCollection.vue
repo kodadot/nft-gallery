@@ -1,7 +1,14 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm ref="collectionForm" v-model="base" protective-margin>
+    <Loader
+      v-model="isLoading"
+      :status="status"
+    />
+    <BaseCollectionForm
+      ref="collectionForm"
+      v-model="base"
+      protective-margin
+    >
       <template #header>
         <NeoField>
           <div>
@@ -10,16 +17,21 @@
         </NeoField>
       </template>
       <template #main>
-        <BasicSwitch v-model="unlimited" label="mint.unlimited" />
+        <BasicSwitch
+          v-model="unlimited"
+          label="mint.unlimited"
+        />
         <NeoField
           v-if="!unlimited"
           class="mt-1"
-          :label="$t('Maximum NFTs in collection')">
+          :label="$t('Maximum NFTs in collection')"
+        >
           <NeoInput
             v-model="max"
             type="number"
             placeholder="1 is the minimum"
-            :min="1" />
+            :min="1"
+          />
         </NeoField>
         <BasicInput
           ref="symbolInput"
@@ -31,19 +43,22 @@
           maxlength="10"
           required
           expanded
-          @keydown.space.prevent />
+          @keydown.space.prevent
+        />
       </template>
 
       <template #footer>
         <NeoField
           v-if="isLogIn"
           variant="danger"
-          :message="balanceNotEnoughMessage">
+          :message="balanceNotEnoughMessage"
+        >
           <SubmitButton
             expanded
             label="create collection"
             :loading="isLoading"
-            @click="submit" />
+            @click="submit"
+          />
         </NeoField>
       </template>
     </BaseCollectionForm>
@@ -51,15 +66,15 @@
 </template>
 
 <script lang="ts" setup>
-import { generateId } from '@/components/rmrk/service/Consolidator'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { NeoField, NeoInput } from '@kodadot1/brick'
+import { generateId } from '@/components/rmrk/service/Consolidator'
 import Loader from '@/components/shared/Loader.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
 import BaseCollectionForm from '@/components/base/BaseCollectionForm.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
-import { NeoField, NeoInput } from '@kodadot1/brick'
-import { BaseCollectionType } from '@/composables/transaction/types'
+import type { BaseCollectionType } from '@/composables/transaction/types'
 import useLoader from '@/composables/useLoader'
 
 interface ComponentWithCheckValidity extends Vue {
@@ -116,7 +131,7 @@ const submit = async () => {
 
   watch([txIsLoading, txStatus], () => {
     isLoading.value = txIsLoading.value
-    if (Boolean(txStatus.value)) {
+    if (txStatus.value) {
       status.value = txStatus.value
     }
   })
@@ -137,7 +152,8 @@ const submit = async () => {
         symbol: symbol.value,
       },
     })
-  } catch (e) {
+  }
+  catch (e) {
     warningMessage(`${e}`)
     console.error(e)
     isLoading.value = false

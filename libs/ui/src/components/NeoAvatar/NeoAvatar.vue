@@ -14,7 +14,8 @@
     :width="size"
     :height="size"
     :style="customStyle"
-    :original="true" />
+    :original="true"
+  />
   <img
     v-else
     :src="placeholder"
@@ -22,7 +23,8 @@
     :width="size"
     :height="size"
     :style="customStyle"
-    :class="className" />
+    :class="className"
+  >
 </template>
 
 <script setup lang="ts">

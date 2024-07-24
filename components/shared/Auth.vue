@@ -1,13 +1,22 @@
 <template>
   <div v-if="account">
     <div class="auth-avatar">
-      <Avatar :value="account" :size="size" />
+      <Avatar
+        :value="account"
+        :size="size"
+      />
       <span class="subtitle font-bold auth-avatar-title">
-        <Identity :address="account" hide-identity-popover />
+        <Identity
+          :address="account"
+          hide-identity-popover
+        />
       </span>
     </div>
   </div>
-  <ConnectWalletButton v-else label="general.connect_wallet" />
+  <ConnectWalletButton
+    v-else
+    label="general.connect_wallet"
+  />
 </template>
 
 <script lang="ts" setup>

@@ -1,11 +1,29 @@
 <template>
   <div class="svg-icons relative">
-    <img src="/drops/create_drop1.svg" class="svg-one absolute" />
-    <img src="/drops/create_drop2.svg" class="svg-two absolute z-10" />
-    <img src="/drops/BlueShade.svg" class="ellipse absolute" />
-    <img src="/drops/create_drop3.svg" class="svg-three absolute" />
-    <img src="/drops/PinkShade.svg" class="vector absolute" />
-    <img src="/drops/create_drop4.svg" class="svg-four absolute" />
+    <img
+      src="/drops/create_drop1.svg"
+      class="svg-one absolute"
+    >
+    <img
+      src="/drops/create_drop2.svg"
+      class="svg-two absolute z-10"
+    >
+    <img
+      src="/drops/BlueShade.svg"
+      class="ellipse absolute"
+    >
+    <img
+      src="/drops/create_drop3.svg"
+      class="svg-three absolute"
+    >
+    <img
+      src="/drops/PinkShade.svg"
+      class="vector absolute"
+    >
+    <img
+      src="/drops/create_drop4.svg"
+      class="svg-four absolute"
+    >
   </div>
 </template>
 

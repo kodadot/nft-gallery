@@ -1,7 +1,11 @@
 <template>
   <div>
     <LoadLazily>
-      <CarouselIndex v-if="nfts" :title="`${$t('nft.related')}`" :nfts="nfts" />
+      <CarouselIndex
+        v-if="nfts"
+        :title="`${$t('nft.related')}`"
+        :nfts="nfts"
+      />
     </LoadLazily>
   </div>
 </template>

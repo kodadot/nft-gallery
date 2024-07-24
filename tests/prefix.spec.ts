@@ -6,8 +6,8 @@ describe('PREFIX TEST', (): void => {
   let prefixes: RegExp[]
   const prefixMatcher = (routeName: string, prefix = 'rmrk'): string => {
     if (
-      !RegExp(`^${prefix}`).test(routeName) &&
-      prefixes.some((x) => x.test(routeName))
+      !RegExp(`^${prefix}`).test(routeName)
+      && prefixes.some(x => x.test(routeName))
     ) {
       return routeName.split(withPrefix)[0]
     }
@@ -18,7 +18,7 @@ describe('PREFIX TEST', (): void => {
   beforeAll(async () => {
     prefixes = chainPrefixes.map(
       // skipcq allowRegExp
-      (value) => RegExp(`^${value}`),
+      value => RegExp(`^${value}`),
     )
   })
 

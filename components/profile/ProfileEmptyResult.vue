@@ -1,9 +1,15 @@
 <template>
   <section class="px-6 py-12 text-center">
-    <div class="title is-4" data-testid="profile-no-assets-container">
+    <div
+      class="title is-4"
+      data-testid="profile-no-assets-container"
+    >
       {{ $t('profile.searchNoResultsTitle') }}
     </div>
-    <div v-if="totalChainsLength" class="subtitle is-6">
+    <div
+      v-if="totalChainsLength"
+      class="subtitle is-6"
+    >
       {{ $t('profile.searchNoResultsText', [totalChainsLength]) }}
     </div>
     <NeoButton
@@ -11,7 +17,8 @@
       variant="primary-rounded"
       data-testid="profile-no-assets-button"
       :label="$t('profile.searchNoResultsButton', [chainNames[nextPrefix]])"
-      @click="switchToPrefix(nextPrefix)" />
+      @click="switchToPrefix(nextPrefix)"
+    />
   </section>
 </template>
 

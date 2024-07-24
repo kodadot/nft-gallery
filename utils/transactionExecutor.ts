@@ -1,15 +1,15 @@
 import keyring from '@polkadot/ui-keyring'
-import { KeyringAccount } from '@/utils/types/types'
-import { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/types'
-import { Callback, ISubmittableResult } from '@polkadot/types/types'
+import type { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/types'
+import type { Callback, ISubmittableResult } from '@polkadot/types/types'
+import type { DispatchError, Hash } from '@polkadot/types/interfaces'
+import type { ApiPromise } from '@polkadot/api'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { calculateBalance } from './format/balance'
+import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
-import { DispatchError, Hash } from '@polkadot/types/interfaces'
 import { KODADOT_DAO } from '@/utils/support'
-import { calculateBalance } from './format/balance'
 import type { Actions } from '@/composables/transaction/types'
-import { ApiPromise } from '@polkadot/api'
-import { Interaction } from '@kodadot1/minimark/v1'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -36,7 +36,7 @@ const exec = async (
     const injector = await getAddress(toDefaultAddress(address))
 
     if (!injector) {
-      throw new Error("Oops! We can't find your wallet, please log in again.")
+      throw new Error('Oops! We can\'t find your wallet, please log in again.')
     }
 
     const hasCallback = typeof statusCb === 'function'
@@ -51,7 +51,8 @@ const exec = async (
     return typeof hash === 'function'
       ? constructCallback(hash, tx.hash.toHex())
       : hash.toHex()
-  } catch (err) {
+  }
+  catch (err) {
     console.warn(err)
     throw err
   }
@@ -77,27 +78,27 @@ const constructCallback = (cb: () => void, result: string) => {
   }
 }
 
-export type TxCbOnSuccessParams = { blockHash: Hash; txHash: Hash }
+export type TxCbOnSuccessParams = { blockHash: Hash, txHash: Hash }
 
-export const txCb =
-  (
+export const txCb
+  = (
     onSuccess: (prams: TxCbOnSuccessParams) => void,
     onError: (err: DispatchError) => void,
     onResult: (result: ISubmittableResult) => void = console.log,
   ) =>
-  (result: ISubmittableResult): void => {
-    onResult(result)
-    if (result.dispatchError) {
-      console.warn('[EXEC] dispatchError', result)
-      onError(result.dispatchError)
-    }
+    (result: ISubmittableResult): void => {
+      onResult(result)
+      if (result.dispatchError) {
+        console.warn('[EXEC] dispatchError', result)
+        onError(result.dispatchError)
+      }
 
-    if (result.status.isFinalized) {
-      console.log('[EXEC] Finalized', result)
-      console.log(`[EXEC] blockHash ${result.status.asFinalized}`)
-      onSuccess({ blockHash: result.status.asFinalized, txHash: result.txHash })
+      if (result.status.isFinalized) {
+        console.log('[EXEC] Finalized', result)
+        console.log(`[EXEC] blockHash ${result.status.asFinalized}`)
+        onSuccess({ blockHash: result.status.asFinalized, txHash: result.txHash })
+      }
     }
-  }
 
 export const estimate = async (
   account: KeyringAccount | string,
@@ -105,8 +106,8 @@ export const estimate = async (
   params: any[],
 ): Promise<string> => {
   const transfer = await callback(...params)
-  const address =
-    typeof account === 'string' ? account ?? KODADOT_DAO : account.address
+  const address
+    = typeof account === 'string' ? account ?? KODADOT_DAO : account.address
   // if user have not connect wallet, we provide a mock address to estimate fee
   const injector = await getAddress(toDefaultAddress(address))
 
@@ -140,7 +141,8 @@ export const getActionTransactionFee = ({
         try {
           const fee = await estimate(address, cb, arg)
           resolve(fee)
-        } catch (error) {
+        }
+        catch (error) {
           reject(error)
         }
       },

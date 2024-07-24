@@ -1,13 +1,30 @@
 <template>
-  <div v-if="!isOpened" class="navbar-item" @click.stop="isOpened = !isOpened">
+  <div
+    v-if="!isOpened"
+    class="navbar-item"
+    @click.stop="isOpened = !isOpened"
+  >
     <span>
       {{ title }}
-      <NeoIcon v-if="icon" :icon="icon" :pack="iconFamily" />
+      <NeoIcon
+        v-if="icon"
+        :icon="icon"
+        :pack="iconFamily"
+      />
     </span>
-    <NeoIcon class="icon--right" icon="chevron-right" />
+    <NeoIcon
+      class="icon--right"
+      icon="chevron-right"
+    />
   </div>
-  <div v-else class="navbar-item--fullpage">
-    <div class="navbar-item navbar-item--reverse" @click.stop="close">
+  <div
+    v-else
+    class="navbar-item--fullpage"
+  >
+    <div
+      class="navbar-item navbar-item--reverse"
+      @click.stop="close"
+    >
       <NeoIcon icon="chevron-left" />
       {{ title }}
     </div>
@@ -16,7 +33,8 @@
         'navbar-item': !noPadding,
         'navbar-item-body--no-padding': noPadding,
       }"
-      class="navbar-item-body">
+      class="navbar-item-body"
+    >
       <slot @closeMobileSubMenu="close" />
     </div>
   </div>

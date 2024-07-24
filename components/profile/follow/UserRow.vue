@@ -1,12 +1,18 @@
 <template>
   <div class="flex items-center justify-between">
-    <NuxtLink class="flex" :to="`/${urlPrefix}/u/${prefixUserAddress}`">
-      <ProfileAvatar class="!mr-4" :address="user.address" :size="48" />
+    <NuxtLink
+      class="flex"
+      :to="`/${urlPrefix}/u/${prefixUserAddress}`"
+    >
+      <ProfileAvatar
+        class="!mr-4"
+        :address="user.address"
+        :size="48"
+      />
       <div class="flex flex-col gap-[6px]">
         <span
           class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
-          >{{ user.name || shortAddress(prefixUserAddress) }}</span
-        >
+        >{{ user.name || shortAddress(prefixUserAddress) }}</span>
         <p class="text-sm">
           {{ followersCount }}
           <span class="text-k-grey">{{
@@ -24,11 +30,13 @@
       :variant="buttonConfig.variant"
       :active="buttonConfig.active"
       :disabled="buttonConfig.disabled"
-      @click="buttonConfig.onClick">
+      @click="buttonConfig.onClick"
+    >
       <NeoIcon
         v-if="buttonConfig.icon"
         :icon="buttonConfig.icon"
-        class="mr-1" />
+        class="mr-1"
+      />
       {{ buttonConfig.label }}
     </NeoButton>
   </div>
@@ -36,15 +44,16 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
+import type {
+  Follower } from '@/services/profile'
 import {
-  Follower,
   fetchFollowersOf,
   follow,
   isFollowing,
   toSubstrateAddress,
   unfollow,
 } from '@/services/profile'
-import { ButtonConfig } from '@/components/profile/types'
+import type { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import shortAddress from '@/utils/shortAddress'
@@ -74,7 +83,7 @@ const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
   () =>
     fetchFollowersOf(props.user.address, { limit: 0 }).then(
-      (res) => res.totalCount,
+      res => res.totalCount,
     ),
 )
 

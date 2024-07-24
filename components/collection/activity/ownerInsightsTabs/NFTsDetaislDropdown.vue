@@ -1,17 +1,23 @@
 <template>
   <div>
-    <Holder v-if="variant === 'Holders'" :nfts="holderNfts" />
-    <Flipper v-else :flips="flips" />
+    <Holder
+      v-if="variant === 'Holders'"
+      :nfts="holderNfts"
+    />
+    <Flipper
+      v-else
+      :flips="flips"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import {
+import Flipper from './NFTSDetailsDropdown/Flipper.vue'
+import Holder from './NFTSDetailsDropdown/Holder.vue'
+import type {
   FlipEvent,
   NFTExcludingEvents,
 } from '@/composables/collectionActivity/types'
-import Flipper from './NFTSDetailsDropdown/Flipper.vue'
-import Holder from './NFTSDetailsDropdown/Holder.vue'
 
 withDefaults(
   defineProps<{

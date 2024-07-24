@@ -3,7 +3,11 @@
     {{ $t('codeChecker.automaticResizeMeans') }}
   </p>
 
-  <CodeCheckerIssueHintCodeBlock class="mt-5" :code="code" lang="javascript" />
+  <CodeCheckerIssueHintCodeBlock
+    class="mt-5"
+    :code="code"
+    lang="javascript"
+  />
 </template>
 
 <script setup lang="ts">

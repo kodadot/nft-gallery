@@ -10,9 +10,9 @@ export default () => {
 
   const isAutoTeleportModalOpen = computed(
     () =>
-      modals.value.size &&
-      Array.from(modals.value.values())
-        .map((modal) => modal.isOpen)
+      modals.value.size
+      && Array.from(modals.value.values())
+        .map(modal => modal.isOpen)
         .some(Boolean),
   )
 

@@ -18,8 +18,8 @@
     :count="count"
     :position="position"
     :rounded="rounded"
-    :size="size">
-  </o-skeleton>
+    :size="size"
+  />
 </template>
 
 <script lang="ts" setup>

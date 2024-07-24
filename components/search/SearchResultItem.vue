@@ -1,28 +1,48 @@
 <template>
-  <div class="search-result-item" :class="{ 'loading-item': isLoading }">
+  <div
+    class="search-result-item"
+    :class="{ 'loading-item': isLoading }"
+  >
     <div class="media">
-      <div class="media-left" :class="{ border: !isLoading }">
-        <NeoSkeleton v-if="isLoading" width="64px" height="64px" />
-        <BasicImage v-else custom-class="is-64x64" :src="image" />
+      <div
+        class="media-left"
+        :class="{ border: !isLoading }"
+      >
+        <NeoSkeleton
+          v-if="isLoading"
+          width="64px"
+          height="64px"
+        />
+        <BasicImage
+          v-else
+          custom-class="is-64x64"
+          :src="image"
+        />
       </div>
       <div
         v-if="isLoading"
-        class="media-content flex flex-col justify-center pt-2">
+        class="media-content flex flex-col justify-center pt-2"
+      >
         <NeoSkeleton
           :count="1"
           :width="240"
           :height="22"
           size="medium"
-          active />
+          active
+        />
         <NeoSkeleton
           :count="1"
           :width="150"
           :height="22"
           size="medium"
-          active />
+          active
+        />
       </div>
-      <div v-else class="media-content">
-        <slot name="content"></slot>
+      <div
+        v-else
+        class="media-content"
+      >
+        <slot name="content" />
       </div>
     </div>
   </div>

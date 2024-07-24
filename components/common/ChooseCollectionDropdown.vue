@@ -8,25 +8,29 @@
       },
     ]"
     :no-shadow="noShadow"
-    :disabled="!isLogIn || isRemark">
+    :disabled="!isLogIn || isRemark"
+  >
     <template #trigger="{ active }">
       <NeoButton
         v-if="!selectedCollection"
         class="dropdown-width"
         :no-shadow="noShadow"
         :label="$t('massmint.selectCollection')"
-        :icon="active ? 'chevron-up' : 'chevron-down'" />
+        :icon="active ? 'chevron-up' : 'chevron-down'"
+      />
       <NeoButton
         v-else
         class="dropdown-width"
         :no-shadow="noShadow"
-        :icon="active ? 'chevron-up' : 'chevron-down'">
+        :icon="active ? 'chevron-up' : 'chevron-down'"
+      >
         {{ selectedCollection.name || selectedCollection.id }}
         <NeoIcon
           v-if="selectedCollection"
           icon="circle-check"
           variant="success"
-          class="ml-3" />
+          class="ml-3"
+        />
       </NeoButton>
     </template>
 
@@ -35,26 +39,42 @@
         v-for="collection in collectionsEntites"
         :key="collection.id"
         class="dropdown-width"
-        @click="selectCollection(collection)">
+        @click="selectCollection(collection)"
+      >
         {{ collection.name || collection.id }} - ({{ collection.totalCount }})
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link to="/create/collection" class="w-full">
+        <nuxt-link
+          to="/create/collection"
+          class="w-full"
+        >
           <div class="w-full">
-            <NeoIcon icon="plus" class="mr-1" />
+            <NeoIcon
+              icon="plus"
+              class="mr-1"
+            />
             {{ $t('massmint.createNewCollection') }}
           </div>
         </nuxt-link>
       </NeoDropdownItem>
     </template>
     <template v-else>
-      <NeoDropdownItem disabled class="dropdown-width">
+      <NeoDropdownItem
+        disabled
+        class="dropdown-width"
+      >
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link to="/create/collection" class="w-full">
+        <nuxt-link
+          to="/create/collection"
+          class="w-full"
+        >
           <div class="w-full">
-            <NeoIcon icon="plus" class="mr-1" />
+            <NeoIcon
+              icon="plus"
+              class="mr-1"
+            />
             {{ $t('massmint.createNewCollection') }}
           </div>
         </nuxt-link>
@@ -70,7 +90,7 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { MintedCollection } from '@/composables/transaction/types'
+import type { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
 const props = defineProps({
@@ -107,7 +127,7 @@ const handleCollectionsChange = (
   const collection = [collections]
     .filter(Boolean)
     .flat()
-    .find((collection) => collection?.id === props.preselected)
+    .find(collection => collection?.id === props.preselected)
 
   if (collection) {
     selectCollection(collection)
@@ -116,6 +136,7 @@ const handleCollectionsChange = (
 
 watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 

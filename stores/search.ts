@@ -9,7 +9,7 @@ export const useSearchStore = defineStore('search', {
     isCollectionSearch: true,
   }),
   getters: {
-    isCollectionSearchMode: (state) => state.isCollectionSearch,
+    isCollectionSearchMode: state => state.isCollectionSearch,
   },
   actions: {
     setCollectionSearchMode(payload) {

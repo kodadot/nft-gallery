@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div v-if="showCurrentFloorPrice" class="pt-4">
+    <div
+      v-if="showCurrentFloorPrice"
+      class="pt-4"
+    >
       {{ $t('listingCart.collectionFloorPrice') }}
-      <span v-if="floorPricePercentAdjustment !== 1" class="text-k-grey"
-        >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
-      >
+      <span
+        v-if="floorPricePercentAdjustment !== 1"
+        class="text-k-grey"
+      >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span>
     </div>
     <div class="py-2 flex justify-start flex-grow">
       <NeoButton
@@ -14,22 +18,25 @@
         :disabled="isDisabled"
         no-shadow
         @click="
-          floorPricePercentAdjustment > 0.05 &&
-            (floorPricePercentAdjustment -= 0.05)
-        " />
+          floorPricePercentAdjustment > 0.05
+            && (floorPricePercentAdjustment -= 0.05)
+        "
+      />
       <NeoButton
         class="mr-2"
         :label="$t('statsOverview.floorPrice')"
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click="floorPricePercentAdjustment = 1" />
+        @click="floorPricePercentAdjustment = 1"
+      />
       <NeoButton
         label="+5%"
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click="floorPricePercentAdjustment += 0.05" />
+        @click="floorPricePercentAdjustment += 0.05"
+      />
     </div>
   </div>
 </template>
@@ -58,7 +65,7 @@ const floorPricePercentAdjustment = useVModel(props, 'modelValue')
 const isDisabled = computed(
   () =>
     !listingCartStore.itemsInChain
-      .map((item) => item.collection.floor || 0)
+      .map(item => item.collection.floor || 0)
       .some(Boolean),
 )
 </script>

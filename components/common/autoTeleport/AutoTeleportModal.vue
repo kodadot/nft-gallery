@@ -1,9 +1,14 @@
 <template>
-  <NeoModal :value="isModalActive" class="z-[1000]" @close="onClose">
+  <NeoModal
+    :value="isModalActive"
+    class="z-[1000]"
+    @close="onClose"
+  >
     <div class="sm:w-[25rem]">
       <ModalBody
         :title="$i18n.t('autoTeleport.signTransactions')"
-        @click="onClose">
+        @click="onClose"
+      >
         <ModalIdentityItem />
 
         <p class="py-2 capitalize">
@@ -20,13 +25,18 @@
           {{ $t('autoTeleport.dontExit') }}
         </p>
 
-        <hr class="my-4" />
+        <hr class="my-4">
 
         <div class="flex items-start">
-          <NeoIcon icon="lightbulb" size="small" class="mr-2 block" />
+          <NeoIcon
+            icon="lightbulb"
+            size="small"
+            class="mr-2 block"
+          />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
-            class="text-xs capitalize" />
+            class="text-xs capitalize"
+          />
         </div>
 
         <p class="capitalize text-base mt-4 mb-5">
@@ -36,7 +46,8 @@
         <TransactionSteps
           :steps="steps"
           class="mt-4"
-          @active="handleActiveStep" />
+          @active="handleActiveStep"
+        />
 
         <div class="flex justify-between pt-5">
           <NeoButton
@@ -45,7 +56,8 @@
             no-shadow
             :disabled="btnDisabled"
             class="flex flex-grow btn-height"
-            @click="submit" />
+            @click="submit"
+          />
         </div>
       </ModalBody>
     </div>
@@ -54,14 +66,16 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
-import { TeleportTransition } from '@/utils/teleport'
-import TransactionSteps, {
+import type { AutoTeleportInteractions } from './utils'
+import { getActionDetails } from './utils'
+import type { TeleportTransition } from '@/utils/teleport'
+import type {
   TransactionStep,
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
+import TransactionSteps from '@/components/shared/TransactionSteps/TransactionSteps.vue'
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/types'
-import { AutoTeleportInteractions, getActionDetails } from './utils'
-import { ActionsInteractions } from '@/composables/transaction/types'
+import type { ActionsInteractions } from '@/composables/transaction/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 export type ActionDetails = {
@@ -125,9 +139,9 @@ const actionsStatus = computed<Map<ActionsInteractions, TransactionStatus>>(
       let status = TransactionStatus.Unknown
 
       if (hasCompletedActionPreSteps.value) {
-        status =
-          props.earlySuccess &&
-          earlyCompletedActions.value.get(action.interaction)
+        status
+          = props.earlySuccess
+          && earlyCompletedActions.value.get(action.interaction)
             ? TransactionStatus.Finalized
             : action.status.value
       }
@@ -184,10 +198,10 @@ const btnDisabled = computed(() => {
 
 const actionsFinalized = computed(
   () =>
-    hasActions.value &&
-    props.transactions.actions
-      .map((action) => actionsStatus.value.get(action.interaction))
-      .every((status) => status === TransactionStatus.Finalized),
+    hasActions.value
+    && props.transactions.actions
+      .map(action => actionsStatus.value.get(action.interaction))
+      .every(status => status === TransactionStatus.Finalized),
 )
 
 const hasActions = computed(() => Boolean(props.transactions.actions.length))
@@ -217,9 +231,9 @@ const btnLabel = computed<string>(() => {
   }
 
   if (
-    !hasActions.value ||
-    !isBalanceCheckCompleted.value ||
-    !activeStepInteraction.value
+    !hasActions.value
+    || !isBalanceCheckCompleted.value
+    || !activeStepInteraction.value
   ) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }

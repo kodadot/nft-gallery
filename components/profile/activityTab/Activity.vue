@@ -1,8 +1,13 @@
 <template>
   <div>
-    <History :id="id" :events="filteredEvents" display-item>
+    <History
+      :id="id"
+      :events="filteredEvents"
+      display-item
+    >
       <template
-        #header="{ currentPage, total, perPage, desktop, updateCurrentPage }">
+        #header="{ currentPage, total, perPage, desktop, updateCurrentPage }"
+      >
         <div class="flex justify-between pb-4 pt-5 content-center">
           <div class="flex gap-4 items-center flex-wrap">
             <NeoButton
@@ -11,7 +16,8 @@
               data-testid="profile-activity-button-all"
               label="All"
               variant="text"
-              @click="activateAllFilter" />
+              @click="activateAllFilter"
+            />
             <FilterButton
               v-for="param in filters"
               :key="param"
@@ -19,7 +25,8 @@
               variant="outlined-rounded"
               data-testid="profile-activity-button-filter"
               class="capitalize"
-              :url-param="param" />
+              :url-param="param"
+            />
           </div>
           <div v-if="desktop">
             <Pagination
@@ -31,20 +38,21 @@
               replace
               enable-listen-keyboard-event
               preserve-scroll
-              @input="updateCurrentPage" />
+              @input="updateCurrentPage"
+            />
           </div>
         </div>
-        <hr class="my-0" />
+        <hr class="my-0">
       </template>
     </History>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { sortedEventByDate } from '@/utils/sorting'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 import { NeoButton } from '@kodadot1/brick'
 import History from './History.vue'
+import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from '@/components/profile/FilterButton.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 
@@ -69,7 +77,7 @@ const activateAllFilter = () => {
 }
 
 const activeFilters = computed(() =>
-  filters.filter((queryParam) => route.query[queryParam] === 'true'),
+  filters.filter(queryParam => route.query[queryParam] === 'true'),
 )
 
 const { urlPrefix } = usePrefix()

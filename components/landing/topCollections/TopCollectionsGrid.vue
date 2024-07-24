@@ -3,29 +3,33 @@
     grid-size="medium"
     :default-width="GRID_DEFAULT_WIDTH"
     persist
-    :fill-rows="collections.length || skeletonCount">
+    :fill-rows="collections.length || skeletonCount"
+  >
     <template v-if="loading">
       <LandingTopCollectionsCard
         v-for="skeleton in skeletonCount"
-        :key="`top-collection-skeleton-card-${skeleton}`" />
+        :key="`top-collection-skeleton-card-${skeleton}`"
+      />
     </template>
 
     <template v-else>
       <div
         v-for="(collection, index) in collections"
         :key="collection.id"
-        :data-testid="`top-collection-index-${index}`">
+        :data-testid="`top-collection-index-${index}`"
+      >
         <LandingTopCollectionsCard
           :collection="collection"
-          :time-range="timeRange" />
+          :time-range="timeRange"
+        />
       </div>
     </template>
   </DynamicGrid>
 </template>
 
 <script setup lang="ts">
-import { TimeRange } from '@/components/series/types'
-import { CollectionEntityWithVolumes } from './utils/types'
+import type { CollectionEntityWithVolumes } from './utils/types'
+import type { TimeRange } from '@/components/series/types'
 
 const GRID_DEFAULT_WIDTH = {
   small: 0,

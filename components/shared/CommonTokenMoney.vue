@@ -1,5 +1,10 @@
 <template>
-  <Money :value="value" :data-testid="dataCy" inline :round="round" />
+  <Money
+    :value="value"
+    :data-testid="dataCy"
+    inline
+    :round="round"
+  />
 </template>
 
 <script lang="ts" setup>

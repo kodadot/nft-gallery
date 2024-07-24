@@ -1,5 +1,9 @@
 <template>
-  <ModalWrapper icon="qrcode" :title="title" :type="type">
+  <ModalWrapper
+    icon="qrcode"
+    :title="title"
+    :type="type"
+  >
     <template #default>
       <QRCode :text="qrCodePath" />
     </template>

@@ -1,5 +1,8 @@
 <template>
-  <Story title="NeoIcon" :layout="{ type: 'grid', width: '200px' }">
+  <Story
+    title="NeoIcon"
+    :layout="{ type: 'grid', width: '200px' }"
+  >
     <Variant title="icon">
       <NeoIcon icon="check" />
     </Variant>

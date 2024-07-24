@@ -1,6 +1,6 @@
-import { AssetType } from '../types'
+import type { AssetType } from '../types'
 
-export type AssetElement = { src: string; tag: string }
+export type AssetElement = { src: string, tag: string }
 
 export const AssetElementMap: Record<AssetType, AssetElement> = {
   style: { src: 'href', tag: 'link' },
@@ -9,7 +9,7 @@ export const AssetElementMap: Record<AssetType, AssetElement> = {
 
 export const AssetReplaceElement: Record<
   AssetType,
-  (params: { content: string; doc: Document; element: Element }) => void
+  (params: { content: string, doc: Document, element: Element }) => void
 > = {
   style: ({ doc, content, element }) => {
     const head = doc.querySelector('head')

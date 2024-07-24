@@ -1,27 +1,31 @@
 <template>
   <div>
-    <template v-for="connection in connections" :key="connection.id">
+    <template
+      v-for="connection in connections"
+      :key="connection.id"
+    >
       <Cursor
         v-if="cursorConnections.get(connection.id)"
         :connection="connection"
         :cursor-details="
           cursorConnections.get(connection.id) as CursorDetails
-        " />
+        "
+      />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { DropEventMintingSession, UserDetails } from '@/composables/party/types'
 import isEqual from 'lodash/isEqual'
 import Cursor from './Cusor.vue'
+import type { DropEventMintingSession, UserDetails } from '@/composables/party/types'
 
 export type CursorLabel =
   | {
-      loading?: boolean
-      label?: string
-      mintingSession?: DropEventMintingSession
-    }
+    loading?: boolean
+    label?: string
+    mintingSession?: DropEventMintingSession
+  }
   | undefined
 
 export type CursorDetails = {
@@ -79,10 +83,10 @@ const getRandomColor = () => {
 
 const areRectanglesIntersecting = (rect1: DOMRect, rect2: DOMRect) => {
   return !(
-    rect2.left > rect1.right ||
-    rect2.right < rect1.left ||
-    rect2.top > rect1.bottom ||
-    rect2.bottom < rect1.top
+    rect2.left > rect1.right
+    || rect2.right < rect1.left
+    || rect2.top > rect1.bottom
+    || rect2.bottom < rect1.top
   )
 }
 
@@ -124,14 +128,14 @@ watch(
     connections.forEach((connection) => {
       const isNew = !cursorConnections.value.has(connection.id)
       const prevConnection = prevConnections?.find(
-        (prevConnection) => connection.id === prevConnection.id,
+        prevConnection => connection.id === prevConnection.id,
       )
 
       const newSpent = prevConnection?.spent !== connection.spent
-      const updateLabel =
-        !isEqual(prevConnection?.lastEvent, connection.lastEvent) ||
-        (prevConnection?.lastEvent &&
-          Date.now() - prevConnection.lastEvent.timestamp > 1000)
+      const updateLabel
+        = !isEqual(prevConnection?.lastEvent, connection.lastEvent)
+        || (prevConnection?.lastEvent
+        && Date.now() - prevConnection.lastEvent.timestamp > 1000)
 
       if (isNew || newSpent || updateLabel) {
         const cursorConnection = cursorConnections.value.get(connection.id)

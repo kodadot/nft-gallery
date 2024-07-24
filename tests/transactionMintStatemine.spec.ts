@@ -1,16 +1,16 @@
 import { expandCopiesWithsIds } from '@/composables/transaction/mintToken/transactionMintStatemine'
-import { TokenToMint } from '@/composables/transaction/types'
+import type { TokenToMint } from '@/composables/transaction/types'
 import {
   assignIds,
   copiesToMint,
   expandCopies,
 } from '@/composables/transaction/mintToken/utils'
 
-const MOCK_API = (desiredLastIndexUsed) => ({
+const MOCK_API = desiredLastIndexUsed => ({
   query: {
     nfts: {
       item: {
-        entries: (collectionId) =>
+        entries: collectionId =>
           Promise.resolve(
             Array.from({ length: desiredLastIndexUsed }, (_, index) => [
               { args: [collectionId, { toNumber: () => index + 1 }] },
@@ -38,7 +38,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }))
 
       const result = assignIds(tokens, 2)
-      const ids = result.map((token) => token.id)
+      const ids = result.map(token => token.id)
       expect(ids).toEqual([3, 4, 5])
     })
   })
@@ -253,7 +253,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const result = await expandCopiesWithsIds(item, MOCK_API(4))
-      const resultIds = result.map((token) => token.id)
+      const resultIds = result.map(token => token.id)
 
       expect(resultIds).toEqual([5])
     })
@@ -271,7 +271,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const result = await expandCopiesWithsIds(item, MOCK_API(4))
-      const resultIds = result.map((token) => token.id)
+      const resultIds = result.map(token => token.id)
 
       expect(resultIds).toEqual([5, 6, 7])
     })
@@ -302,7 +302,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const result = await expandCopiesWithsIds(item, MOCK_API(3))
-      const resultIds = result.map((token) => token.id)
+      const resultIds = result.map(token => token.id)
 
       expect(resultIds).toEqual([4, 5, 6])
     })
@@ -337,7 +337,7 @@ describe('transactionMintStatemine.ts functions', () => {
       }
 
       const result = await expandCopiesWithsIds(item, MOCK_API(7))
-      const resultIds = result.map((token) => token.id)
+      const resultIds = result.map(token => token.id)
 
       expect(resultIds).toEqual([8, 9, 10, 11, 12, 13])
     })

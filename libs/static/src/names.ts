@@ -1,4 +1,4 @@
-import { Prefix } from './types'
+import type { Prefix } from './types'
 
 export const NAMES: Record<Prefix, string> = {
   rmrk: 'Kusama',

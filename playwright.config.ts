@@ -24,7 +24,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 1 * 60 * 1000,
   use: {
-    //headless: true,
+    // headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:9090',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -41,10 +41,10 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    //{
+    // {
     //  name: 'firefox',
     //  use: { ...devices['Desktop Firefox'] },
-    //},
+    // },
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },

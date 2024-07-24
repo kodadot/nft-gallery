@@ -1,4 +1,4 @@
-import { CollectionEntityMinimal } from '@/components/collection/utils/types'
+import type { CollectionEntityMinimal } from '@/components/collection/utils/types'
 
 type CollectionData = {
   value: {
@@ -7,10 +7,10 @@ type CollectionData = {
 }
 
 function handleResult(collections: Collection[], chain: string): Collection[] {
-  const newCollections =
-    collections?.map((item) => ({
+  const newCollections
+    = collections?.map(item => ({
       ...item,
-      owners: new Set(item.nfts.map((nft) => nft.currentOwner)).size,
+      owners: new Set(item.nfts.map(nft => nft.currentOwner)).size,
       chain,
     })) || []
   return newCollections.sort((a, b) => a.meta.name?.localeCompare(b.meta.name))

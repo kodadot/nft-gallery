@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/vue-query'
 import { fetchProfileByAddress, toSubstrateAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
-import { useQuery } from '@tanstack/vue-query'
 
 export default function useFetchProfile(address?: string) {
   const {

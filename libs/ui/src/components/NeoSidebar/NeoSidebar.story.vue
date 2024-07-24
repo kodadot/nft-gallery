@@ -3,7 +3,8 @@
     <NeoSidebar
       :mobile="mobile"
       :expand-on-hover="expandOnHover"
-      :reduce="reduce">
+      :reduce="reduce"
+    >
       <div>test</div>
     </NeoSidebar>
   </Story>

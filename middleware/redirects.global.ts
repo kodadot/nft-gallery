@@ -7,37 +7,37 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const paths = [
     {
-      cond: (val) => val === '/drops',
+      cond: val => val === '/drops',
       replaceValue: '/ahp/drops',
     },
     {
-      cond: (val) =>
+      cond: val =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
     },
     {
-      cond: (val) =>
+      cond: val =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
       replaceValue: () => `/${urlPrefix.value}/explore/items`,
     },
     {
-      cond: (val) => val.includes('/stmn/'),
+      cond: val => val.includes('/stmn/'),
       replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
     {
-      cond: (val) => val.includes('/rmrk2/'),
+      cond: val => val.includes('/rmrk2/'),
       replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
     },
     {
-      cond: (val) => val.startsWith('/transfer'),
+      cond: val => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
     {
-      cond: (val) =>
-        val === `/${urlPrefix.value}/create` ||
-        val === `/${urlPrefix.value}/massmint` ||
-        val.startsWith('/create'),
+      cond: val =>
+        val === `/${urlPrefix.value}/create`
+        || val === `/${urlPrefix.value}/massmint`
+        || val.startsWith('/create'),
       replaceValue: () => {
         if (!createVisible(urlPrefix.value)) {
           return '/'
@@ -48,8 +48,8 @@ export default defineNuxtRouteMiddleware((route) => {
 
   for (const path of paths) {
     if (path.cond(route.path)) {
-      redirectValue =
-        typeof path.replaceValue === 'function'
+      redirectValue
+        = typeof path.replaceValue === 'function'
           ? path.replaceValue()
           : path.replaceValue
       break

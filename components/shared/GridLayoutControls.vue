@@ -1,28 +1,33 @@
 <template>
-  <NeoField addons-class="mb-0" class="mb-0">
+  <NeoField
+    addons-class="mb-0"
+    class="mb-0"
+  >
     <template v-for="grid in grids">
       <NeoButton
         v-if="sizes.includes(grid.size)"
         :key="grid.size"
         :icon-left="grid.icon"
         :active="gridSize === grid.size"
-        @click="changeGridLayout(grid.class, grid.size)" />
+        @click="changeGridLayout(grid.class, grid.size)"
+      />
     </template>
   </NeoField>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoField } from '@kodadot1/brick'
+import type {
+  GridSection,
+  GridSize } from '@/stores/preferences'
 import {
   DEFAULT_GRID_SECTION,
-  GridSection,
-  type GridSize,
   largeGridLayout,
   smallGridLayout,
   usePreferencesStore,
 } from '@/stores/preferences'
 
-type Grid = { icon: string; size: GridSize; class: string }
+type Grid = { icon: string, size: GridSize, class: string }
 
 const props = withDefaults(
   defineProps<{

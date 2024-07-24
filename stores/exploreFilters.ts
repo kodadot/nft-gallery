@@ -21,13 +21,13 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     collections: undefined,
   }),
   getters: {
-    getStatusFilters: (state) => ({
+    getStatusFilters: state => ({
       listed: state.listed,
       owned: state.owned,
       artView: state.artView,
       collections: state.collections?.toString(),
     }),
-    getPriceRange: (state) => ({ min: state.min, max: state.max }),
+    getPriceRange: state => ({ min: state.min, max: state.max }),
   },
   actions: {
     setListed(payload) {

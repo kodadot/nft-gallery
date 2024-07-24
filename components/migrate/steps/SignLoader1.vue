@@ -1,8 +1,15 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5" :class="whichIcon().textColor">
+  <div
+    v-if="!collectionOwner"
+    class="mb-5"
+    :class="whichIcon().textColor"
+  >
     <div class="flex items-center mb-4">
       <div class="mr-5">
-        <NeoIcon v-bind="whichIcon()" class="fa-2x" />
+        <NeoIcon
+          v-bind="whichIcon()"
+          class="fa-2x"
+        />
       </div>
       <div>
         <p class="font-bold text-xl text-text-color">
@@ -14,16 +21,18 @@
       </div>
     </div>
     <div class="flex">
-      <div class="v-border"></div>
+      <div class="v-border" />
       <div class="mb-4 text-text-color">
         <p v-if="step1Iterations">
           {{ step1Iterations }}/2 {{ $t('migrate.signStep.left') }}
         </p>
-        <p v-else>{{ $t('migrate.signStep.done') }}</p>
+        <p v-else>
+          {{ $t('migrate.signStep.done') }}
+        </p>
       </div>
     </div>
     <div class="flex">
-      <div class="v-border"></div>
+      <div class="v-border" />
       <div class="mb-4 w-full flex">
         <div class="mr-4">
           <NeoIcon v-bind="whichIcon()" />
@@ -34,24 +43,27 @@
             v-if="step1Iterations === 0"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
-            :to="`/${client}/collection/${nextId}`">
+            :to="`/${client}/collection/${nextId}`"
+          >
             {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>
         </div>
         <div
           v-if="isError || status === TransactionStatus.Cancelled"
-          class="flex-1 text-right">
+          class="flex-1 text-right"
+        >
           <NeoButton
             variant="outlined-rounded"
             size="small"
-            @click="tryAgain()">
+            @click="tryAgain()"
+          >
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>
       </div>
     </div>
     <div class="flex">
-      <div class="v-border"></div>
+      <div class="v-border" />
       <div class="mb-4 flex">
         <div class="mr-4">
           <NeoIcon v-bind="whichIcon()" />
@@ -111,7 +123,7 @@ const step1Iterations = ref(ITERATIONS)
 
 const { collections } = await useCollectionReady(from, fromAccountId)
 const fromCollection = collections.value.find(
-  (collection) => collection.id === route.query.collectionId,
+  collection => collection.id === route.query.collectionId,
 )
 
 const startStep1 = async () => {
@@ -177,7 +189,8 @@ const validationStep1 = async () => {
     })
 
     updateSteps('step2')
-  } catch (error) {
+  }
+  catch (error) {
     $consola.error(error)
   }
 }
@@ -220,8 +233,8 @@ watchEffect(async () => {
 
   // make sure collection exist before to validationStep1()
   if (
-    steps.value === 'step1-check-id' &&
-    status.value === TransactionStatus.Finalized
+    steps.value === 'step1-check-id'
+    && status.value === TransactionStatus.Finalized
   ) {
     await checkCollection()
   }

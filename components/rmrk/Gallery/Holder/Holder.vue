@@ -5,12 +5,14 @@
       class="card"
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
       animation="slide"
-      aria-id="contentIdForHistory">
+      aria-id="contentIdForHistory"
+    >
       <template #trigger="props">
         <div
           class="card-header"
           role="button"
-          aria-controls="contentIdForHistory">
+          aria-controls="contentIdForHistory"
+        >
           <p class="card-header-title">
             {{ collapseTitleOption || $t('holders') }}
           </p>
@@ -20,14 +22,20 @@
         </div>
       </template>
       <div class="flex justify-between box-container">
-        <NeoField grouped group-multiline>
+        <NeoField
+          grouped
+          group-multiline
+        >
           <div class="control">
-            <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>
+            <NeoCheckbox v-model="showDetailIcon">
+              NFT Details
+            </NeoCheckbox>
           </div>
           <div
             v-for="(column, index) in columnsVisible"
             :key="index"
-            class="control">
+            class="control"
+          >
             <NeoCheckbox v-model="column.display">
               {{ column.title }}
             </NeoCheckbox>
@@ -50,26 +58,31 @@
         aria-previous-label="Previous page"
         aria-page-label="Page"
         aria-current-label="Current page"
-        :default-sort="[defaultSortOption, 'desc']">
+        :default-sort="[defaultSortOption, 'desc']"
+      >
         <NeoTableColumn
           v-slot="props"
           :visible="columnsVisible['Name'].display"
           :field="groupKey"
           cell-class="md:w-1/5"
-          :label="nameHeaderLabel">
+          :label="nameHeaderLabel"
+        >
           <nuxt-link
             v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
             :to="`/${urlPrefix}/u/${props.row[groupKey]}?tab=${
               groupKey === 'Holder' ? 'holdings' : 'gains'
-            }`">
+            }`"
+          >
             <Identity :address="props.row[groupKey]" />
           </nuxt-link>
           <nuxt-link
             v-else
-            :to="`/${urlPrefix}/collection/${props.row.CollectionId}`">
+            :to="`/${urlPrefix}/collection/${props.row.CollectionId}`"
+          >
             <Identity
               :address="props.row.Item.collection.issuer"
-              :custom-name-option="props.row.Item.collection.name" />
+              :custom-name-option="props.row.Item.collection.name"
+            />
           </nuxt-link>
         </NeoTableColumn>
         <NeoTableColumn
@@ -78,7 +91,8 @@
           numeric
           field="Amount"
           label="Amount"
-          sortable>
+          sortable
+        >
           {{ props.row.Amount }}
         </NeoTableColumn>
         <NeoTableColumn
@@ -86,7 +100,8 @@
           :visible="columnsVisible['Bought'].display"
           field="Bought"
           label="Bought"
-          sortable>
+          sortable
+        >
           {{ props.row.BoughtFormatted }}
         </NeoTableColumn>
         <NeoTableColumn
@@ -94,7 +109,8 @@
           :visible="columnsVisible['Sale'].display"
           field="Sale"
           :label="saleHeaderLabel"
-          sortable>
+          sortable
+        >
           {{ props.row.SaleFormatted }}
         </NeoTableColumn>
         <NeoTableColumn
@@ -103,7 +119,8 @@
           :visible="columnsVisible['Percentage'].display"
           field="Percentage"
           label="Percentage"
-          sortable>
+          sortable
+        >
           <span :class="percentageTextClassName(props.row.Percentage)">
             {{ toPercent(props.row.Percentage, '-') }}
           </span>
@@ -113,22 +130,36 @@
           :visible="columnsVisible['Date'].display"
           field="Timestamp"
           :label="dateHeaderLabel"
-          sortable>
-          <NeoTooltip :label="props.row.Date" position="left">
+          sortable
+        >
+          <NeoTooltip
+            :label="props.row.Date"
+            position="left"
+          >
             <BlockExplorerLink
               :text="props.row.Time"
-              :block-id="props.row.Block" />
+              :block-id="props.row.Block"
+            />
           </NeoTooltip>
         </NeoTableColumn>
         <template #detail="props">
-          <tr v-for="item in props.row.Items" :key="item.Item.id">
-            <td v-if="showDetailIcon"></td>
-            <td v-show="columnsVisible['Name'].display" class="md:w-1/5">
+          <tr
+            v-for="item in props.row.Items"
+            :key="item.Item.id"
+          >
+            <td v-if="showDetailIcon" />
+            <td
+              v-show="columnsVisible['Name'].display"
+              class="md:w-1/5"
+            >
               <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
                 {{ item.Item.name || item.Item.id }}
               </nuxt-link>
             </td>
-            <td v-show="columnsVisible['Amount'].display" class="text-right">
+            <td
+              v-show="columnsVisible['Amount'].display"
+              class="text-right"
+            >
               {{ item.Amount }}
             </td>
             <td v-show="columnsVisible['Bought'].display">
@@ -140,12 +171,19 @@
             <td
               v-if="displayPercentage"
               v-show="columnsVisible['Percentage'].display"
-              :class="percentageTextClassName(item.Percentage)">
+              :class="percentageTextClassName(item.Percentage)"
+            >
               {{ toPercent(item.Percentage, '-') }}
             </td>
             <td v-show="columnsVisible['Date'].display">
-              <NeoTooltip :label="item.Date" position="left">
-                <BlockExplorerLink :text="item.Time" :block-id="item.Block" />
+              <NeoTooltip
+                :label="item.Date"
+                position="left"
+              >
+                <BlockExplorerLink
+                  :text="item.Time"
+                  :block-id="item.Block"
+                />
               </NeoTooltip>
             </td>
           </tr>
@@ -158,11 +196,6 @@
 <script lang="ts" setup>
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
-import { toPercent } from '@/utils/filters'
-import { parsePriceForItem } from './helper'
-import { parseDate } from '@/utils/datetime'
-import { Interaction as EventInteraction } from '../../service/scheme'
-import { usePreferencesStore } from '@/stores/preferences'
 import {
   NeoCheckbox,
   NeoCollapse,
@@ -172,6 +205,11 @@ import {
   NeoTableColumn,
   NeoTooltip,
 } from '@kodadot1/brick'
+import type { Interaction as EventInteraction } from '../../service/scheme'
+import { parsePriceForItem } from './helper'
+import { toPercent } from '@/utils/filters'
+import { parseDate } from '@/utils/datetime'
+import { usePreferencesStore } from '@/stores/preferences'
 
 import Identity from '@/components/identity/IdentityIndex.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
@@ -269,7 +307,8 @@ const groupKey = computed(() => prop.groupKeyOption || 'Holder')
 const percentageTextClassName = (percentage: number) => {
   if (percentage > 0) {
     return 'text-k-green'
-  } else if (percentage < 0) {
+  }
+  else if (percentage < 0) {
     return 'text-k-red'
   }
   return ''
@@ -314,13 +353,15 @@ const generateNFTList = (): TableRow[] => {
           ...commonInfo,
         }
       }
-    } else if (newEvent['interaction'] === Interaction.LIST) {
+    }
+    else if (newEvent['interaction'] === Interaction.LIST) {
       const listPrice = parseInt(newEvent['meta'])
       if (itemRowMap[nftId]) {
         if (!('Sale' in itemRowMap[nftId])) {
           itemRowMap[nftId]['Sale'] = listPrice
         }
-      } else {
+      }
+      else {
         itemRowMap[nftId] = {
           Item: newEvent['nft'],
           Holder: newEvent['caller'],
@@ -328,13 +369,15 @@ const generateNFTList = (): TableRow[] => {
           ...commonInfo,
         }
       }
-    } else if (newEvent['interaction'] === Interaction.SEND) {
+    }
+    else if (newEvent['interaction'] === Interaction.SEND) {
       if (itemRowMap[nftId]) {
         if (!('Bought' in itemRowMap[nftId])) {
           itemRowMap[nftId]['Bought'] = 0
           itemRowMap[nftId]['SortKey'] = timestamp
         }
-      } else {
+      }
+      else {
         itemRowMap[nftId] = {
           Item: newEvent['nft'],
           Holder: newEvent['meta'],
@@ -344,7 +387,8 @@ const generateNFTList = (): TableRow[] => {
           ...commonInfo,
         }
       }
-    } else if (newEvent['interaction'] === Interaction.CONSUME) {
+    }
+    else if (newEvent['interaction'] === Interaction.CONSUME) {
       if (!itemRowMap[nftId]) {
         itemRowMap[nftId] = {
           Item: newEvent['nft'],
@@ -354,14 +398,16 @@ const generateNFTList = (): TableRow[] => {
           ...commonInfo,
         }
       }
-    } else if (newEvent['interaction'] === Interaction.BUY) {
+    }
+    else if (newEvent['interaction'] === Interaction.BUY) {
       const bought = parseInt(newEvent['meta'])
       if (itemRowMap[nftId]) {
         if (!('Bought' in itemRowMap[nftId])) {
           itemRowMap[nftId]['Bought'] = bought
           itemRowMap[nftId]['SortKey'] = timestamp
         }
-      } else {
+      }
+      else {
         itemRowMap[nftId] = {
           Item: newEvent['nft'],
           Holder: newEvent['caller'],
@@ -395,12 +441,12 @@ const getGroupNameFromRow = (item: TableRow): string => {
 const getCustomRowFilter = (): ((item: TableRow) => boolean) => {
   switch (groupKey.value) {
     case 'Holder':
-      return (item) => item.Holder !== '-'
+      return item => item.Holder !== '-'
     case 'CollectionId':
       if (prop.isFlipper) {
-        return (item) => item.Flipper === route.params.id
+        return item => item.Flipper === route.params.id
       }
-      return (item) => item.Holder === route.params.id
+      return item => item.Holder === route.params.id
     default:
       return () => true
   }
@@ -431,11 +477,12 @@ const generateCustomGroups = (itemRowList: TableRow[]): TableRow[] => {
     const groupName = getGroupNameFromRow(item)
     if (customGroups[groupName]) {
       customGroups[groupName].Items?.push(item)
-      customGroups[groupName].Bought =
-        (customGroups[groupName]['Bought'] ?? 0) + (item['Bought'] ?? 0)
-      customGroups[groupName]['Sale'] =
-        (customGroups[groupName]['Sale'] ?? 0) + (item['Sale'] ?? 0)
-    } else {
+      customGroups[groupName].Bought
+        = (customGroups[groupName]['Bought'] ?? 0) + (item['Bought'] ?? 0)
+      customGroups[groupName]['Sale']
+        = (customGroups[groupName]['Sale'] ?? 0) + (item['Sale'] ?? 0)
+    }
+    else {
       customGroups[groupName] = {
         ...item,
         Id: getCustomId(item),
@@ -451,7 +498,7 @@ const generateCustomGroups = (itemRowList: TableRow[]): TableRow[] => {
     if (!group['Items']) {
       return
     }
-    let groupItems: TableRow[] = group['Items']
+    const groupItems: TableRow[] = group['Items']
     group['Amount'] = groupItems.length
     groupItems.forEach((item) => {
       parsePriceForItem(item, decimals.value, unit.value)
@@ -468,5 +515,5 @@ watch(() => prop.events, createTable)
 
 watch(() => prop.tableRowsOption, createTableByTableRow)
 
-watch(currentPage, (val) => replaceUrl({ page: String(val) }))
+watch(currentPage, val => replaceUrl({ page: String(val) }))
 </script>

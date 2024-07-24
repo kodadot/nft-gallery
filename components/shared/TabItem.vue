@@ -1,14 +1,21 @@
 <template>
-  <p class="control" :class="{ 'full-width': fullWidth }">
+  <p
+    class="control"
+    :class="{ 'full-width': fullWidth }"
+  >
     <NeoButton
       class="explore-tabs-button"
       :tag="NuxtLink || tag"
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="icon">
+      :icon="icon"
+    >
       <span> {{ text }}</span>
-      <span v-if="count" class="ml-2 text-k-grey-fix">{{
+      <span
+        v-if="count"
+        class="ml-2 text-k-grey-fix"
+      >{{
         formatNumber(count)
       }}</span>
     </NeoButton>
@@ -17,8 +24,8 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { formatNumber } from '@/utils/format/balance'
 import { resolveComponent } from 'vue'
+import { formatNumber } from '@/utils/format/balance'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
