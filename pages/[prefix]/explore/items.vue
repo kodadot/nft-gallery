@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="container is-fluid"
-    :class="{ 'sidebar-padding-left': isSidebarOpen }">
+  <div class="container is-fluid" :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>
 </template>
@@ -46,7 +44,10 @@ definePageMeta({
   middleware: [
     function (to) {
       if (to.query.listed === undefined) {
-        return navigateTo({ path: to.path, query: { listed: true } })
+        return navigateTo({
+          path: to.path,
+          query: { ...to.query, listed: true },
+        });
       }
     },
   ],

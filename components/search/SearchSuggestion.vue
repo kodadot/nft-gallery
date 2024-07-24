@@ -1,71 +1,37 @@
 <template>
-  <div
-    class="search-suggestion-container max-sm:pb-4"
-    data-testid="search-suggestion-container"
-    @click="resetSelectedIndex"
-    @keydown="onKeyDown">
-    <NeoTabs
-      v-show="name"
-      v-model="activeSearchTab"
-      expanded
-      class="touch-mt-20"
-      nav-tabs-class="pt-6 pl-6 pr-6"
+  <div class="search-suggestion-container max-sm:pb-4" data-testid="search-suggestion-container"
+    @click="resetSelectedIndex" @keydown="onKeyDown">
+    <NeoTabs v-show="name" v-model="activeSearchTab" expanded class="touch-mt-20" nav-tabs-class="pt-6 pl-6 pr-6"
       @input="resetSelectedIndex">
-      <NeoTabItem
-        label="Collections"
-        value="Collections"
-        data-testid="collection-tab"
+      <NeoTabItem label="Collections" value="Collections" data-testid="collection-tab"
         item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
-          <SearchResultItem
-            v-for="item in searchSuggestionEachTypeMaxNum"
-            :key="item"
-            is-loading />
+          <SearchResultItem v-for="item in searchSuggestionEachTypeMaxNum" :key="item" is-loading />
         </div>
         <div v-else-if="!collectionSuggestion.length" class="mx-6 mt-4">
           {{ $t('search.collectionNotFound', [name]) }}
         </div>
         <div v-else>
-          <div
-            v-for="(item, idx) in collectionSuggestion"
-            :key="item.id"
-            :value="item"
-            :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
-            @click="gotoCollectionItem(item)">
+          <div v-for="(item, idx) in collectionSuggestion" :key="item.id" :value="item"
+            :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`" @click="gotoCollectionItem(item)">
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span
-                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
-                    >{{ item.name }}</span
-                  >
+                  <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
+                    }}</span>
                   <span class="text-k-grey">
                     {{ item.chain }}
                   </span>
                 </div>
                 <div class="flex justify-between pr-2">
-                  <NeoSkeleton
-                    v-if="item.floorPrice === undefined"
-                    :count="1"
-                    :width="100"
-                    :height="22"
-                    size="medium"
+                  <NeoSkeleton v-if="item.floorPrice === undefined" :count="1" :width="100" :height="22" size="medium"
                     active />
                   <span v-else>
                     {{ $t('activity.floor') }}:
                     <span v-if="item.floorPrice === 0"> -- </span>
-                    <Money
-                      v-else
-                      :value="item.floorPrice"
-                      :prefix="item.chain"
-                      inline />
+                    <Money v-else :value="item.floorPrice" :prefix="item.chain" inline />
                   </span>
-                  <NeoSkeleton
-                    v-if="item.totalCount === undefined"
-                    :count="1"
-                    :width="100"
-                    :height="22"
-                    size="medium"
+                  <NeoSkeleton v-if="item.totalCount === undefined" :count="1" :width="100" :height="22" size="medium"
                     active />
                   <span v-else class="text-k-grey">
                     {{ $t('search.units') }}:
@@ -76,63 +42,38 @@
             </SearchResultItem>
           </div>
         </div>
-        <nuxt-link
-          class="search-footer-link"
-          :to="{
-            path: `/${urlPrefix}/explore/collectibles`,
-            query: { ...$route.query },
-          }">
-          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
+        <div class="search-footer-link">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler('/ahp/explore/collectibles')">
             {{ $t('search.seeAll') }}
-            <svg
-              class="ml-1"
-              width="28"
-              height="8"
-              viewBox="0 0 28 8"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+            <svg class="ml-1" width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
                 fill="currentColor" />
             </svg>
           </div>
-        </nuxt-link>
+        </div>
       </NeoTabItem>
-      <NeoTabItem
-        label="NFTs"
-        value="NFTs"
-        item-header-class="text-left block mb-0 pb-4 px-0 pt-0"
+      <NeoTabItem label="NFTs" value="NFTs" item-header-class="text-left block mb-0 pb-4 px-0 pt-0"
         data-testid="nft-tab">
         <div v-if="isNFTResultLoading">
-          <SearchResultItem
-            v-for="item in searchSuggestionEachTypeMaxNum"
-            :key="item"
-            is-loading />
+          <SearchResultItem v-for="item in searchSuggestionEachTypeMaxNum" :key="item" is-loading />
         </div>
         <div v-else-if="!nftSuggestion.length" class="mx-6 mt-4">
           {{ $t('search.nftNotFound', [name]) }}
         </div>
         <div v-else>
-          <div
-            v-for="(item, idx) in nftSuggestion"
-            :key="item.id"
-            :value="item"
-            :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
-            @click="gotoGalleryItem(item)">
+          <div v-for="(item, idx) in nftSuggestion" :key="item.id" :value="item"
+            :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`" @click="gotoGalleryItem(item)">
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span
-                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
-                    >{{ item.name }}</span
-                  >
+                  <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
+                    }}</span>
                   <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
-                  <span
-                    class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
-                    >{{ item.collection?.name }}</span
-                  >
+                  <span class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.collection?.name
+                    }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('price') }}:
                     <Money :value="item.price" :prefix="item.chain" inline />
@@ -142,54 +83,30 @@
             </SearchResultItem>
           </div>
         </div>
-        <nuxt-link
-          class="search-footer-link"
-          :to="{
-            path: `/${urlPrefix}/explore/items`,
-            query: { ...$route.query },
-          }">
-          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler">
+        <div class="search-footer-link">
+          <div :class="loadMoreItemClassName" @click="seeAllButtonHandler('/ahp/explore/items')">
             {{ $t('search.seeAll') }}
-            <svg
-              class="ml-1"
-              width="28"
-              height="8"
-              viewBox="0 0 28 8"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+            <svg class="ml-1" width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
                 fill="currentColor" />
             </svg>
           </div>
-        </nuxt-link>
+        </div>
       </NeoTabItem>
-      <NeoTabItem
-        value="User"
-        label="User"
-        item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
+      <NeoTabItem value="User" label="User" item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
         <SearchProfiles :name="name" @close="$emit('close')" />
       </NeoTabItem>
     </NeoTabs>
     <div v-if="!name" class="search-history pt-5">
-      <div
-        v-for="item in filterSearch"
-        :key="item.id"
-        class="flex items-center justify-between mb-1 search-history-item"
-        @click="goToExploreResults(item)">
+      <div v-for="item in filterSearch" :key="item.id"
+        class="flex items-center justify-between mb-1 search-history-item" @click="goToExploreResults(item)">
         <div class="flex items-center">
           <NeoIcon icon="history" />
           <div class="ml-3 history-label">{{ item.name }}</div>
         </div>
-        <div
-          class="remove-search-history flex items-center"
-          @click.stop.prevent="removeSearchHistory(item.name)">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 8 9"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+        <div class="remove-search-history flex items-center" @click.stop.prevent="removeSearchHistory(item.name)">
+          <svg width="12" height="12" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M6.66644 8.0672L3.75229 5.14842L0.838143 8.0672L0.1875 7.41654L3.10623 4.50235L0.1875 1.58815L0.838143 0.9375L3.75229 3.85628L6.66644 0.942082L7.3125 1.58815L4.39835 4.50235L7.3125 7.41654L6.66644 8.0672Z"
               fill="currentColor" />
@@ -197,54 +114,29 @@
         </div>
       </div>
     </div>
-    <NeoTabs
-      v-show="!name"
-      v-model="activeTrendingTab"
-      expanded
-      nav-tabs-class="pt-2 px-6"
-      content-class="px-0 py-4">
-      <NeoTabItem
-        label="Trending"
-        value="Trending"
-        item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
-        <div
-          v-for="(item, idx) in defaultCollectionSuggestions"
-          :key="item.id"
-          :value="item"
-          :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`"
-          @click="gotoCollectionItem(item)">
+    <NeoTabs v-show="!name" v-model="activeTrendingTab" expanded nav-tabs-class="pt-2 px-6" content-class="px-0 py-4">
+      <NeoTabItem label="Trending" value="Trending" item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
+        <div v-for="(item, idx) in defaultCollectionSuggestions" :key="item.id" :value="item"
+          :class="`link-item ${idx === selectedIndex ? 'selected-item' : ''}`" @click="gotoCollectionItem(item)">
           <SearchResultItem :image="item.image">
             <template #content>
               <div class="pr-2 pt-2">
-                <span
-                  class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
-                  >{{ item.name }}</span
-                >
+                <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
+                  }}</span>
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
-                <span v-if="item.nftCount"
-                  >{{ $t('search.units') }}: {{ item.nftCount }}</span
-                >
+                <span v-if="item.nftCount">{{ $t('search.units') }}: {{ item.nftCount }}</span>
                 <span>{{ $t('search.owners') }}: {{ item.owners }}</span>
                 <span class="capitalize">{{ urlPrefix }}</span>
               </div>
             </template>
           </SearchResultItem>
         </div>
-        <nuxt-link
-          v-show="urlPrefix === 'rmrk'"
-          class="search-footer-link"
-          :to="{ name: 'series-insight' }"
+        <nuxt-link v-show="urlPrefix === 'rmrk'" class="search-footer-link" :to="{ name: 'series-insight' }"
           @click="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.rankings') }}
-            <svg
-              class="ml-1"
-              width="28"
-              height="8"
-              viewBox="0 0 28 8"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+            <svg class="ml-1" width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0V4.5Z"
                 fill="currentColor" />
@@ -341,10 +233,9 @@ const nftSuggestion = computed(() =>
 
 const loadMoreItemClassName = computed(
   () =>
-    `link-item${
-      selectedIndex.value === totalItemsAtCurrentTab.value
-        ? ' selected-item'
-        : ''
+    `link-item${selectedIndex.value === totalItemsAtCurrentTab.value
+      ? ' selected-item'
+      : ''
     }`,
 )
 
@@ -370,25 +261,25 @@ const router = useRouter()
 const route = useRoute()
 const { $consola } = useNuxtApp()
 
-const updateSearchUrl = () => {
+const updateSearchUrl = (path: string) => {
   const { name } = props
   if (name) {
     router
-      .replace({
-        path: String(route.path),
+      .push({
+        path: `${path}`,
         query: {
           search: name,
         },
       })
-      .catch($consola.warn)
+      .catch(console.warn)
   }
 }
 
 const emit = defineEmits(['close', 'gotoGallery'])
 
-const seeAllButtonHandler = () => {
+const seeAllButtonHandler = (path: string) => {
   emit('close')
-  updateSearchUrl()
+  updateSearchUrl(path)
 }
 
 const nativeSearch = () => {
