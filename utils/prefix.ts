@@ -1,10 +1,7 @@
-import { denyList, dotHubDenyList, ksmHubDenyList } from '@/utils/constants'
+import { dotHubDenyList, ksmHubDenyList } from '@/utils/constants'
 
 export function getDenyList(prefix: string): string[] | undefined {
   switch (prefix) {
-    case 'rmrk':
-    case 'ksm':
-      return denyList
     case 'ahk':
       return ksmHubDenyList
     case 'ahp':
@@ -14,12 +11,7 @@ export function getDenyList(prefix: string): string[] | undefined {
   }
 }
 
-export function isRemark(prefix: string): boolean {
-  return prefix === 'rmrk'
-}
-
 export const hasMarketplace = (prefix: string): boolean =>
-  ['rmrk', 'ksm', 'ahp', 'ahk'].includes(prefix)
+  ['ahp', 'ahk'].includes(prefix)
 
-export const hasOperationsDisabled = (prefix: string): boolean =>
-  ['rmrk', 'ksm'].includes(prefix)
+export const hasOperationsDisabled = (_: string): boolean => false

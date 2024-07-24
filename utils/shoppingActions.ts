@@ -1,7 +1,6 @@
 // TODO: REMOVE!!!
 
 import { Interaction } from '@kodadot1/minimark/v1'
-import { hasMarketplace } from './prefix'
 
 enum BasiliskActions {
   MAKE_OFFER = 'MAKE_OFFER',
@@ -35,52 +34,6 @@ export const listActions: [Interaction] = [ShoppingActions.LIST]
 export const buyActions: [Interaction] = [ShoppingActions.BUY]
 export const makeOfferActions: [BasiliskActions] = [ShoppingActions.MAKE_OFFER]
 
-export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
-  return getActionList('rmrk', isOwner, isAvailableToBuy)
-}
-
-export const getMarketplaceActions = (
-  prefix: string,
-  isOwner: boolean,
-  hasPrice: boolean,
-): [Interaction] | [] => {
-  const isMarketAvailable = hasMarketplace(prefix)
-
-  if (!isMarketAvailable) {
-    return []
-  }
-
-  if (isOwner) {
-    return listActions
-  }
-
-  if (hasPrice) {
-    return buyActions
-  }
-
-  return []
-}
-
-export const getActionList = (
-  prefix: string,
-  isOwner: boolean,
-  hasPrice: boolean,
-): ShoppingActions[] => {
-  let baseActions: ShoppingActions[] = isOwner ? ownerActions : []
-  baseActions = [
-    ...baseActions,
-    ...getMarketplaceActions(prefix, isOwner, hasPrice),
-  ]
-  const specific = getChainSpecificActions(prefix, isOwner)
-
-  baseActions = [...baseActions, ...specific]
-  return [...new Set(baseActions)]
-}
-
-export const getChainSpecificActions = (_prefix: string, _isOwner: boolean) => {
-  return []
-}
-
 export const actionComponent: Record<string, string> = {
   SEND: 'AddressInput',
   DELEGATE: 'AddressInput',
@@ -98,32 +51,4 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
   [ShoppingActions.MAKE_OFFER]: ['is-orange'],
-}
-
-export const getActionButtonColor = (action: ShoppingActions): string => {
-  const [color] = iconResolver[action]
-  return color
-}
-
-export const getActionButtonLabelKey = (
-  action: ShoppingActions,
-  price: string,
-): string => {
-  if (action === ShoppingActions.LIST && Number(price) > 0) {
-    return 'nft.event.RELIST'
-  }
-  return `nft.event.${action}`
-}
-
-export const getActionButtonIcon = (
-  action: ShoppingActions,
-): string | undefined => {
-  const [, icon] = iconResolver[action]
-  return icon
-}
-
-export const getActionComponent = (
-  action: ShoppingActions,
-): string | undefined => {
-  return actionComponent[action]
 }

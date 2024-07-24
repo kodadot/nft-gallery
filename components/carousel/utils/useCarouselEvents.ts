@@ -7,7 +7,6 @@ import { AHK_GENERATIVE_DROPS } from '@/utils/drop'
 import { getDrops } from '@/services/fxart'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
-import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
 
 interface Types {
   type: 'latestSales' | 'newestList'
@@ -19,7 +18,7 @@ const nftEventVariables = {
 }
 
 const fetchLatestEvents = (chain, type, where = {}, limit = 20) => {
-  const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
+  const query = latestEvents
 
   return useQuery(
     query,
@@ -158,10 +157,8 @@ const sortNfts = (data) => {
 }
 
 const CAROUSEL_LIMIT: Partial<Record<Prefix, number>> = {
-  ahp: 11,
-  ahk: 11,
-  rmrk: 4,
-  ksm: 4,
+  ahp: 15,
+  ahk: 15,
 }
 
 export const useCarouselNftEvents = ({ type }: Types) => {

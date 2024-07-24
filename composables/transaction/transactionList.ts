@@ -1,4 +1,4 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
@@ -27,44 +27,25 @@ function isListTxValid(item: TokenToList) {
 const createKusamaInteraction = (item: ActionList) => {
   const isSingle = !Array.isArray(item.token)
 
-  const createSingleInteraction = (token: TokenToList, urlPrefix) => {
+  const createSingleInteraction = (token: TokenToList) => {
     if (!isListTxValid(token)) {
       return undefined
     }
     const interaction
-      = urlPrefix === 'rmrk'
-        ? createInteraction(Interaction.LIST, token.nftId, token.price)
-        : createNewInteraction({
-          action: NewInteraction.LIST,
-          payload: { id: token.nftId, price: token.price },
-        })
+      = createNewInteraction({
+        action: NewInteraction.LIST,
+        payload: { id: token.nftId, price: token.price },
+      })
 
     return interaction
   }
 
   if (isSingle) {
-    return createSingleInteraction(item.token as TokenToList, item.urlPrefix)
+    return createSingleInteraction(item.token as TokenToList)
   }
   return (item.token as TokenToList[])
-    .map(token => createSingleInteraction(token, item.urlPrefix))
+    .map(token => createSingleInteraction(token))
     .filter((interaction): interaction is string => interaction !== undefined)
-}
-
-const execKsm = (isSingle: boolean, item: ActionList, api) => {
-  const interaction = createKusamaInteraction(item)
-  if (!interaction) {
-    return
-  }
-  const args = isSingle
-    ? interaction
-    : (interaction as string[]).map(interaction =>
-        api.tx.system.remark(interaction),
-      )
-  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-  return {
-    cb,
-    arg: [args],
-  }
 }
 
 const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
@@ -98,8 +79,6 @@ export function execListTx(item: ActionList, api, executeTransaction) {
   const isSingle = !Array.isArray(item.token)
 
   const fnMap = {
-    rmrk: execKsm,
-    ksm: execKsm,
     ahk: execAhkOrAhp,
     ahp: execAhkOrAhp,
     // ahr: execAhkOrAhp,

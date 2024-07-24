@@ -40,17 +40,13 @@ export const useCollectionForMint = () => {
   const { $consola } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
   const { client, urlPrefix } = usePrefix()
-  const queryPath = {
-    rmrk: 'chain-rmrk',
-    ksm: 'chain-rmrk',
-  }
 
   const doFetch = async () => {
     if (!isLogIn.value) {
       return
     }
 
-    const prefix = queryPath[urlPrefix.value] || urlPrefix.value
+    const prefix = urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
     const { data } = await useAsyncQuery({
       query: query.default,
@@ -110,7 +106,6 @@ export const useMassMint = (
     = useTransaction()
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
-  const { isRemark } = useIsChain(urlPrefix)
 
   const tokens = createTokensToMint(nfts, collection)
 
@@ -126,23 +121,8 @@ export const useMassMint = (
     })
   }
 
-  const willItList = tokens.some(
-    token => token.price && Number(token.price) > 0,
-  )
+  simpleMint()
 
-  if (willItList && isRemark.value) {
-    const mintAndListResults = kusamaMintAndList(tokens)
-    watchEffect(() => {
-      collectionUpdated.value = mintAndListResults.collectionUpdated.value
-      isLoading.value = mintAndListResults.isLoading.value
-      status.value = mintAndListResults.status.value
-      blockNumber.value = mintAndListResults.blockNumber.value
-      isError.value = mintAndListResults.isError.value
-    })
-  }
-  else {
-    simpleMint()
-  }
   return {
     blockNumber,
     isLoading,

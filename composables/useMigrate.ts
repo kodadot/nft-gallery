@@ -1,5 +1,5 @@
 import type { Prefix } from '@kodadot1/static'
-import { availablePrefixWithIcon } from '@/utils/chain'
+import { allPrefixWithIcon } from '@/utils/chain'
 import format from '@/utils/format/balance'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
@@ -201,21 +201,21 @@ export function useMigrateDeposit(
   }
 }
 
-const source = availablePrefixWithIcon().filter(
+const source = allPrefixWithIcon().filter(
   item => item.value === 'ksm' || item.value === 'rmrk',
 )
-const destination = availablePrefixWithIcon().filter(
+const destination = allPrefixWithIcon().filter(
   item => item.value === 'ahp' || item.value === 'ahk',
 )
 
 // set shared state here
 const useSourceSelected = () =>
   useState('sourceSelected', () =>
-    availablePrefixWithIcon().find(item => item.value === 'ksm'),
+    allPrefixWithIcon().find(item => item.value === 'ksm'),
   )
 const useDestinationSelected = () =>
   useState('destinationSelected', () =>
-    availablePrefixWithIcon().find(item => item.value === 'ahp'),
+    allPrefixWithIcon().find(item => item.value === 'ahp'),
   )
 
 export const toReview = ({

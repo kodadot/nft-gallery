@@ -25,10 +25,6 @@ export default defineNuxtRouteMiddleware((route) => {
       replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
     {
-      cond: val => val.includes('/rmrk2/'),
-      replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
-    },
-    {
       cond: val => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
