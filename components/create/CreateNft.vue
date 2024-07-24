@@ -517,10 +517,7 @@ const createNft = async () => {
 const autoTeleport = ref(false)
 const {
   transaction: listTransaction,
-  isLoading: listIsLoading,
-  isError: listIsError,
   status: listStatus,
-  blockNumber: listBlockNumber,
 } = useTransaction()
 
 const autoTeleportActions = computed<AutoTeleportAction[]>(() => {

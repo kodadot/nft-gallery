@@ -68,7 +68,6 @@ const shoppingCartStore = useShoppingCartStore()
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const showRampModal = ref(false)
-const { urlPrefix } = usePrefix()
 
 enum BuyStatus {
   BUY,

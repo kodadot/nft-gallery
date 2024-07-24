@@ -1,7 +1,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import {
   createTokensToMint,
-  kusamaMintAndList,
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
 import { unwrapSafe } from '@/utils/uniquery'

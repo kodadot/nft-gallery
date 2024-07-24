@@ -1,11 +1,4 @@
-import { createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
-
 import { existentialDeposit } from '@kodadot1/static'
-import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 import { encodeAddress } from '@polkadot/util-crypto'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'

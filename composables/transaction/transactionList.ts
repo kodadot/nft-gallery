@@ -1,52 +1,11 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
-
 import type { ActionList, TokenToList } from './types'
 import {
   assetHubParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
-import { warningMessage } from '@/utils/notification'
 
 import { isLegacy } from '@/components/unique/utils'
-
-function isListTxValid(item: TokenToList) {
-  const meta = Number(item.price)
-
-  if (Math.sign(meta) === -1) {
-    warningMessage('Price is not valid')
-    return false
-  }
-
-  return true
-}
-
-const createKusamaInteraction = (item: ActionList) => {
-  const isSingle = !Array.isArray(item.token)
-
-  const createSingleInteraction = (token: TokenToList) => {
-    if (!isListTxValid(token)) {
-      return undefined
-    }
-    const interaction
-      = createNewInteraction({
-        action: NewInteraction.LIST,
-        payload: { id: token.nftId, price: token.price },
-      })
-
-    return interaction
-  }
-
-  if (isSingle) {
-    return createSingleInteraction(item.token as TokenToList)
-  }
-  return (item.token as TokenToList[])
-    .map(token => createSingleInteraction(token))
-    .filter((interaction): interaction is string => interaction !== undefined)
-}
 
 const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
   const getParams = (token: TokenToList) => {
