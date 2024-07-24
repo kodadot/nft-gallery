@@ -302,11 +302,7 @@ const descSource = computed(() => {
     nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
   )
 })
-const parent = computed(() => {
-  if (nft.value?.parent?.id) {
-    return useGalleryItem(nft.value?.parent?.id)
-  }
-})
+const parent = computed(() => nft.value?.parent?.id ? useGalleryItem(nft.value?.parent?.id) : undefined)
 const isLewd = computed(() => {
   return Boolean(
     properties.value?.find((item) => {
@@ -324,6 +320,8 @@ const recipient = computed(() => {
       return nft.value?.recipient
     }
   }
+
+  return undefined
 })
 
 defineExpose({ isLewd })
@@ -334,6 +332,8 @@ const parentNftUrl = computed(() => {
 
     return `/${urlPrefix.value}/${url}/${parent.value?.nft.value?.id}`
   }
+
+  return ''
 })
 
 const properties = computed(() => {

@@ -84,6 +84,7 @@ const withOffers = computed(() => [...filteredEvents.value, ...offers.value])
 
 // newest events first (bigger timestamp first)
 const sortedEventsWithOffersDesc = computed(() =>
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   withOffers.value.sort((a, b) => b.timestamp - a.timestamp),
 )
 

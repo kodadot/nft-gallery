@@ -18,12 +18,14 @@
     </div>
     <template v-if="imageList.length > 1">
       <Transition name="fade">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <div
           class="arrow arrow-left arrow-small-size"
           @click="slider?.prev()"
         />
       </Transition>
       <Transition name="fade">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <div
           class="arrow arrow-right arrow-small-size"
           @click="slider?.next()"

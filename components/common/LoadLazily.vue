@@ -19,8 +19,8 @@ const props = withDefaults(
   },
 )
 
-const target = ref<HTMLHtmlElement>()
+const targetRef = ref<HTMLHtmlElement>()
 const targetIsVisible = useOnceIsVisible(
-  computed(() => props.target || target.value),
+  computed(() => props.target || targetRef.value),
 )
 </script>

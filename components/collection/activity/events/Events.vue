@@ -127,6 +127,7 @@ const eventsAddresses = computed(() => {
 const { data: profiles } = useQuery<Profile[] | null>({
   queryKey: [
     'profiles',
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
     computed(() => `${eventsAddresses.value.sort().join(',')}`),
   ],
   queryFn: () =>

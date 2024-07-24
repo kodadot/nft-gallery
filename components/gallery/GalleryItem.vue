@@ -329,6 +329,8 @@ const seoCard = computed(() => {
       nftMimeType.value,
     )
   }
+
+  return ''
 })
 
 useSeoMeta({

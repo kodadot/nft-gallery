@@ -147,6 +147,7 @@ const initScreenshot = () => {
       }
     }
     catch (error) {
+      console.error(error)
     }
     finally {
       preview = { ...preview, loading: false }

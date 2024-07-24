@@ -146,6 +146,7 @@ const clearAllItems = () => {
 }
 
 const sortedItems = computed(() =>
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   items.value.sort((a, b) => b.addedAt - a.addedAt),
 )
 
