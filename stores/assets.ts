@@ -10,13 +10,13 @@ export type TokenProperty = {
 type TokenMap = Record<string, TokenProperty>
 
 export const useAssetsStore = defineStore('assets', {
-  state: (): { tokenMap: TokenMap; localPrefix: Prefix | null } => ({
+  state: (): { tokenMap: TokenMap, localPrefix: Prefix | null } => ({
     tokenMap: {},
     localPrefix: null,
   }),
   getters: {
-    getAssetList: (state) => state.tokenMap,
-    getAssetById: (state) => (id: string) =>
+    getAssetList: state => state.tokenMap,
+    getAssetById: state => (id: string) =>
       state.tokenMap[id] || { id, decimals: 12, symbol: 'Unit' },
   },
   actions: {

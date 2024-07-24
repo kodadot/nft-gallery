@@ -1,7 +1,14 @@
 <template>
   <div data-testid="item-section-buy">
-    <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
-      <div v-if="Number(nft.price)" class="flex desktop-full-w">
+    <GalleryItemPriceSection
+      v-if="nft.price"
+      title="Price"
+      :price="nft.price"
+    >
+      <div
+        v-if="Number(nft.price)"
+        class="flex desktop-full-w"
+      >
         <div class="flex buy-button-width">
           <NeoButton
             :label="label"
@@ -10,14 +17,16 @@
             variant="primary"
             data-testid="item-buy"
             :disabled="isRemark"
-            @click="onClick" />
+            @click="onClick"
+          />
         </div>
 
         <NeoButton
           v-if="!isRemark"
           class="button-height square-button-width border-l-0"
           data-testid="item-add-to-cart"
-          @click="onClickShoppingCart">
+          @click="onClickShoppingCart"
+        >
           <NeoIcon
             size="medium"
             class="w-4 h-4"
@@ -26,14 +35,20 @@
                 ? 'fa-striked-out-cart-shopping'
                 : 'fa-shopping-cart-outline-sharp'
             "
-            pack="fa-kit" />
+            pack="fa-kit"
+          />
         </NeoButton>
       </div>
 
-      <div v-else>{{ $t('nft.notListed') }}</div>
+      <div v-else>
+        {{ $t('nft.notListed') }}
+      </div>
     </GalleryItemPriceSection>
 
-    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
+    <OnRampModal
+      v-model="showRampModal"
+      @close="showRampModal = false"
+    />
   </div>
 </template>
 
@@ -87,7 +102,8 @@ const openCompletePurcahseModal = () => {
 function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
     openShoppingCart()
-  } else {
+  }
+  else {
     doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }
 }
@@ -95,11 +111,13 @@ function onClick() {
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
-  } else {
+  }
+  else {
     shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 

@@ -1,5 +1,8 @@
 <template>
-  <div class="teleport-tabs field has-addons flex" data-testid="tabs">
+  <div
+    class="teleport-tabs field has-addons flex"
+    data-testid="tabs"
+  >
     <p class="control">
       <NeoButton
         v-for="tab in tabs"
@@ -10,9 +13,13 @@
         :variant="tab.disabled?.value ? 'disabled-secondary' : undefined"
         :active="value === tab.value"
         to=""
-        @click="emit('select', tab.value)">
+        @click="emit('select', tab.value)"
+      >
         <span> {{ tab.label }}</span>
-        <img v-if="value === tab.value" src="/checkmark.svg" />
+        <img
+          v-if="value === tab.value"
+          src="/checkmark.svg"
+        >
       </NeoButton>
     </p>
   </div>
@@ -20,8 +27,8 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { Chain } from '@/utils/teleport'
 import { resolveComponent } from 'vue'
+import type { Chain } from '@/utils/teleport'
 
 const NuxtLink = resolveComponent('NuxtLink')
 type Tab = {

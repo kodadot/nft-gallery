@@ -1,4 +1,4 @@
-import { MintedCollection } from '@/composables/transaction/types'
+import type { MintedCollection } from '@/composables/transaction/types'
 
 export default () => {
   const route = useRoute()

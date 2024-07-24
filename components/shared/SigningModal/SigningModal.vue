@@ -1,16 +1,25 @@
 <template>
-  <NeoModal :value="isModalActive" :can-cancel="false" @close="onClose">
-    <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
+  <NeoModal
+    :value="isModalActive"
+    :can-cancel="false"
+    @close="onClose"
+  >
+    <ModalBody
+      :title="$t('drops.signTransaction')"
+      @close="onClose"
+    >
       <SigningModalBody
         :title="title"
         :subtitle="subtitle"
         :failed="isFailed"
         :show-subtitle-dots="isLoading"
         :status="status"
-        @try-again="() => $emit('tryAgain')" />
+        @try-again="() => $emit('tryAgain')"
+      />
     </ModalBody>
   </NeoModal>
 </template>
+
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
@@ -59,8 +68,8 @@ const subtitle = computed(() =>
   isLoading.value
     ? $i18n.t('transactionSteps.loading')
     : $i18n.t(
-        statusTransalationsKeys[props.status] || 'transactionSteps.waiting',
-      ),
+      statusTransalationsKeys[props.status] || 'transactionSteps.waiting',
+    ),
 )
 
 const onClose = () => {
@@ -74,8 +83,8 @@ watch(
     isCancelled.value = status === TransactionStatus.Cancelled
 
     if (
-      (props.closeInBlock && succeded) ||
-      status === TransactionStatus.Finalized
+      (props.closeInBlock && succeded)
+      || status === TransactionStatus.Finalized
     ) {
       isModalActive.value = false
       return

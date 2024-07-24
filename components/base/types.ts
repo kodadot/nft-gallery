@@ -1,5 +1,5 @@
-import { ItemResources } from '@/composables/useNft'
 import type { Prefix } from '@kodadot1/static'
+import type { ItemResources } from '@/composables/useNft'
 
 export type BaseMintedCollection = {
   id: string

@@ -1,16 +1,29 @@
 <template>
-  <tippy :placement="position" :append-to="body">
-    <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2 text-k-grey" />
+  <tippy
+    :placement="position"
+    :append-to="body"
+  >
+    <NeoIcon
+      icon="fa-info-circle"
+      pack="fa-regular"
+      class="ml-2 text-k-grey"
+    />
 
     <template #content>
       <div class="w-[16rem] bg-background-color text-sm border p-4">
         <div class="flex text-base mb-3">
-          <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
+          <NeoIcon
+            icon="fa-info-circle"
+            pack="fa-regular"
+            class="mr-2"
+          />
 
           <span class="font-bold">{{ $t('autoTeleport.autoTeleport') }}</span>
         </div>
 
-        <p class="text-left mb-2">{{ $t('autoTeleport.tooltip.first') }}</p>
+        <p class="text-left mb-2">
+          {{ $t('autoTeleport.tooltip.first') }}
+        </p>
         <p class="text-left mb-3">
           {{ $t('autoTeleport.tooltip.second') }}
         </p>
@@ -19,7 +32,10 @@
           {{ $t('autoTeleport.tooltip.optimalTransferPath') }}
         </p>
 
-        <div v-if="transition.source" class="w-full">
+        <div
+          v-if="transition.source"
+          class="w-full"
+        >
           <div class="flex justify-between mb-2">
             <span>{{ transition.source.name }}</span>
 
@@ -34,10 +50,8 @@
           <div class="flex justify-between">
             <span class="text-k-grey">{{ $t('amount') }}</span>
 
-            <span
-              >{{ transition.amountFormatted }} ~
-              {{ transition.amountUsd }}</span
-            >
+            <span>{{ transition.amountFormatted }} ~
+              {{ transition.amountUsd }}</span>
           </div>
         </div>
         <div v-else>
@@ -52,8 +66,7 @@
             class="text-k-blue hover:text-k-blue-hover text-sm"
             target="_blank"
             rel="nofollow noopener noreferrer"
-            >{{ $t('helper.learnMore') }}</a
-          >
+          >{{ $t('helper.learnMore') }}</a>
         </div>
       </div>
     </template>

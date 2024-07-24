@@ -8,7 +8,8 @@
     ]"
     :src="src"
     alt="Some Image"
-    @click="handleClick" />
+    @click="handleClick"
+  />
 </template>
 
 <script setup lang="ts">
@@ -25,7 +26,7 @@ const emit = defineEmits(['click', 'remove'])
 
 const handleClick = () => {
   selected.value = !selected.value
-  emit(selected ? 'click' : 'remove', props.index)
+  emit(selected.value ? 'click' : 'remove', props.index)
 }
 </script>
 

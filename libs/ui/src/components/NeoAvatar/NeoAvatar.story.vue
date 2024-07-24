@@ -5,7 +5,8 @@
         :avatar="image"
         :placeholder="image"
         :name="name"
-        :size="size" />
+        :size="size"
+      />
     </Variant>
   </Story>
 </template>
@@ -13,8 +14,8 @@
 <script lang="ts" setup>
 import NeoAvatar from './NeoAvatar.vue'
 
-const image =
-  'https://image-beta.w.kodadot.xyz/ipfs/bafybeigdh3ecetqmzplrjrovs5po23vwpikh2vgtfjai4vky5qzitjzaq4'
+const image
+  = 'https://image-beta.w.kodadot.xyz/ipfs/bafybeigdh3ecetqmzplrjrovs5po23vwpikh2vgtfjai4vky5qzitjzaq4'
 
 const name = 'NFT Avatar'
 const size = 70

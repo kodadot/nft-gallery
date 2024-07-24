@@ -4,27 +4,37 @@
     expanded
     content-class="o-tabs__content--fixed"
     type="toggle"
-    data-testid="gallery-item-description-neotabs">
+    data-testid="gallery-item-description-neotabs"
+  >
     <!-- description tab -->
     <NeoTabItem
       value="0"
       :label="$t('tabs.description')"
       class="p-5"
-      data-testid="gallery-item-description-tab-content">
-      <div class="mb-3 flex" data-testid="gallery-item-description-tab">
+      data-testid="gallery-item-description-tab-content"
+    >
+      <div
+        class="mb-3 flex"
+        data-testid="gallery-item-description-tab"
+      >
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
-          class="text-k-blue hover:text-k-blue-hover">
-          <Identity ref="identity" :address="nft?.issuer" />
+          class="text-k-blue hover:text-k-blue-hover"
+        >
+          <Identity
+            ref="identity"
+            :address="nft?.issuer"
+          />
         </nuxt-link>
       </div>
 
       <Markdown
         v-if="nftMetadata"
         :source="descSource"
-        class="gallery-item-desc-markdown" />
+        class="gallery-item-desc-markdown"
+      />
     </NeoTabItem>
 
     <!-- properties tab -->
@@ -32,13 +42,15 @@
       value="1"
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
-      class="p-5">
+      class="p-5"
+    >
       <template #header>
         <NeoTooltip
           v-if="propertiesTabDisabled"
           :label="$t('tabs.noPropertiesForNFT')"
           stop-events
-          append-to-body>
+          append-to-body
+        >
           {{ $t('tabs.properties') }}
         </NeoTooltip>
         <div v-else>
@@ -46,18 +58,27 @@
         </div>
       </template>
 
-      <NeoTable v-if="properties?.length" :data="properties" hoverable>
+      <NeoTable
+        v-if="properties?.length"
+        :data="properties"
+        hoverable
+      >
         <NeoTableColumn
           v-slot="props"
           field="trait_type"
-          :label="$t('tabs.tabProperties.section')">
+          :label="$t('tabs.tabProperties.section')"
+        >
           {{ props.row.trait_type }}
         </NeoTableColumn>
-        <NeoTableColumn v-slot="props" field="value" label="Trait">
+        <NeoTableColumn
+          v-slot="props"
+          field="value"
+          label="Trait"
+        >
           {{ props.row.value }}
         </NeoTableColumn>
       </NeoTable>
-      <div v-else></div>
+      <div v-else />
     </NeoTabItem>
 
     <!-- details tab -->
@@ -65,7 +86,8 @@
       value="2"
       :label="$t('tabs.details')"
       class="p-5"
-      data-testid="gallery-item-details-tab-content">
+      data-testid="gallery-item-details-tab-content"
+    >
       <!-- <div class="flex justify-between">
         <p>Contract Address</p>
         <p>--</p>
@@ -75,15 +97,25 @@
         <nuxt-link
           v-if="nft?.issuer"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
-          class="text-k-blue hover:text-k-blue-hover">
-          <Identity ref="identity" :address="nft?.issuer" />
+          class="text-k-blue hover:text-k-blue-hover"
+        >
+          <Identity
+            ref="identity"
+            :address="nft?.issuer"
+          />
         </nuxt-link>
       </div>
-      <div class="flex justify-between" data-testid="item-details-chain">
+      <div
+        class="flex justify-between"
+        data-testid="item-details-chain"
+      >
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
-      <div v-if="version" class="flex justify-between">
+      <div
+        v-if="version"
+        class="flex justify-between"
+      >
         <p>{{ $t('tabs.tabDetails.version') }}</p>
         <p>{{ version }}</p>
       </div>
@@ -94,7 +126,8 @@
       <div
         v-if="nft?.royalty"
         class="flex justify-between"
-        data-testid="item-details-royalty">
+        data-testid="item-details-royalty"
+      >
         <p>{{ $t('tabs.tabDetails.royalties') }}</p>
         <p>{{ nft?.royalty }}%</p>
       </div>
@@ -102,39 +135,60 @@
       <div
         v-if="recipient"
         class="recipient flex justify-between capitalize"
-        data-testid="item-details-royalty-recipient">
+        data-testid="item-details-royalty-recipient"
+      >
         <p>{{ $t('transfers.recipients') }}</p>
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
           <ol>
-            <li v-for="[addr, percentile] in recipient" :key="addr" class="">
+            <li
+              v-for="[addr, percentile] in recipient"
+              :key="addr"
+              class=""
+            >
               <nuxt-link
                 :to="`/${urlPrefix}/u/${addr}`"
-                class="text-k-blue hover:text-k-blue-hover inline-block">
-                <Identity ref="identity" :address="addr" />
+                class="text-k-blue hover:text-k-blue-hover inline-block"
+              >
+                <Identity
+                  ref="identity"
+                  :address="addr"
+                />
               </nuxt-link>
               <span className="text-xs">({{ percentile }}%)</span>
             </li>
           </ol>
         </template>
         <template
-          v-else-if="Array.isArray(recipient) && recipient.length === 1">
+          v-else-if="Array.isArray(recipient) && recipient.length === 1"
+        >
           <nuxt-link
             :to="`/${urlPrefix}/u/${recipient[0][0]}`"
-            class="text-k-blue hover:text-k-blue-hover">
-            <Identity ref="identity" :address="recipient[0][0]" />
+            class="text-k-blue hover:text-k-blue-hover"
+          >
+            <Identity
+              ref="identity"
+              :address="recipient[0][0]"
+            />
           </nuxt-link>
         </template>
         <template v-else>
           <nuxt-link
             :to="`/${urlPrefix}/u/${recipient}`"
-            class="text-k-blue hover:text-k-blue-hover">
-            <Identity ref="identity" :address="recipient" />
+            class="text-k-blue hover:text-k-blue-hover"
+          >
+            <Identity
+              ref="identity"
+              :address="recipient"
+            />
           </nuxt-link>
         </template>
       </div>
 
-      <hr class="my-2" />
-      <div v-if="mediaUrl" class="flex justify-between">
+      <hr class="my-2">
+      <div
+        v-if="mediaUrl"
+        class="flex justify-between"
+      >
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div>
           <a
@@ -142,19 +196,24 @@
             class="text-k-blue hover:text-k-blue-hover"
             data-testid="media-link"
             target="_blank"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             {{ nftMimeType }}
           </a>
         </div>
       </div>
-      <div v-if="animatedMediaUrl" class="flex justify-between">
+      <div
+        v-if="animatedMediaUrl"
+        class="flex justify-between"
+      >
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
         <div>
           <a
             v-safe-href="animatedMediaUrl"
             class="text-k-blue hover:text-k-blue-hover"
             target="_blank"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             {{ nftAnimationMimeType }}
           </a>
         </div>
@@ -167,14 +226,17 @@
           target="_blank"
           rel="nofollow noopener noreferrer"
           data-testid="metadata-link"
-          >{{ metadataMimeType }}</a
-        >
+        >{{ metadataMimeType }}</a>
       </div>
     </NeoTabItem>
 
     <!-- parent tab -->
     <div v-if="parent">
-      <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
+      <NeoTabItem
+        value="3"
+        :label="$t('tabs.parent')"
+        class="p-5"
+      >
         <nuxt-link :to="parentNftUrl">
           <BaseMediaItem
             :key="parent?.nftImage"
@@ -187,7 +249,8 @@
             :animation-src="parent?.nftAnimation.value"
             :title="parent?.nftMetadata?.value?.name"
             enable-normal-tag
-            is-detail />
+            is-detail
+          />
           <p class="gallery-parent-item__name">
             {{ parent?.nftMetadata?.value?.name }}
           </p>
@@ -205,12 +268,12 @@ import {
   NeoTabs,
   NeoTooltip,
 } from '@kodadot1/brick'
+import type { GalleryItem } from './useGalleryItem'
+import { useGalleryItem } from './useGalleryItem'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
-import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
@@ -222,7 +285,7 @@ const props = defineProps<{
   galleryItem: GalleryItem
 }>()
 
-const getValue = (prop) => computed(() => props.galleryItem[prop].value)
+const getValue = prop => computed(() => props.galleryItem[prop].value)
 
 const nft = getValue('nft')
 const nftMetadata = getValue('nftMetadata')
@@ -256,7 +319,8 @@ const recipient = computed(() => {
   if (nft.value?.recipient) {
     try {
       return JSON.parse(nft.value?.recipient)
-    } catch (e) {
+    }
+    catch (e) {
       return nft.value?.recipient
     }
   }
@@ -273,9 +337,9 @@ const parentNftUrl = computed(() => {
 })
 
 const properties = computed(() => {
-  const attributes = (nftMetadata.value?.attributes ||
-    nftMetadata.value?.meta?.attributes ||
-    []) as Array<{
+  const attributes = (nftMetadata.value?.attributes
+    || nftMetadata.value?.meta?.attributes
+    || []) as Array<{
     trait?: string
     trait_type: string
     value: string

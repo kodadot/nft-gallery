@@ -1,4 +1,4 @@
-import { Config } from './types'
+import type { Config } from './types'
 
 type WS_URL = `wss://${string}` | `ws://${string}`
 type HTTP_URL = `https://${string}` | `http://${string}`

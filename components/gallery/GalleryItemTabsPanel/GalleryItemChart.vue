@@ -2,11 +2,12 @@
   <PriceChart
     class="mt-4"
     :price-chart-data="priceChartData"
-    :chart-height="chartHeight" />
+    :chart-height="chartHeight"
+  />
 </template>
 
 <script lang="ts" setup>
-import { Interaction } from '@/components/rmrk/service/scheme'
+import type { Interaction } from '@/components/rmrk/service/scheme'
 import PriceChart from '@/components/chart/PriceChart.vue'
 import { parseChartAmount } from '@/utils/historyEvent'
 
@@ -27,11 +28,11 @@ function toEventItem(event: Interaction) {
 const priceChartData = computed(() => {
   const nftEvents = props.nftEvents || []
   const buyEvents = nftEvents
-    .filter((event) => event.interaction === 'BUY')
+    .filter(event => event.interaction === 'BUY')
     .map(toEventItem)
 
   const listEvents = nftEvents
-    .filter((event) => event.interaction === 'LIST')
+    .filter(event => event.interaction === 'LIST')
     .map(toEventItem)
 
   return [buyEvents, listEvents]

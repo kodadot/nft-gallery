@@ -8,8 +8,8 @@ import type {
 export const getAutoTeleportActionInteraction = (
   autoTeleportAction: AutoTeleportAction,
 ): AutoteleportInteraction =>
-  (autoTeleportAction.action?.interaction ||
-    autoTeleportAction.interaction) as AutoteleportInteraction
+  (autoTeleportAction.action?.interaction
+  || autoTeleportAction.interaction) as AutoteleportInteraction
 
 export default function ({
   actions,
@@ -27,8 +27,8 @@ export default function ({
       return {
         isError: computed(
           () =>
-            action.details.isError ||
-            action.details.status === TransactionStatus.Cancelled,
+            action.details.isError
+            || action.details.status === TransactionStatus.Cancelled,
         ),
         blockNumber: toRef(() => action.details.blockNumber),
         status: computed(

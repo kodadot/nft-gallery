@@ -4,6 +4,7 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
+import type { ActionList, TokenToList } from './types'
 import {
   assetHubParamResolver,
   getApiCall,
@@ -11,7 +12,6 @@ import {
 import { warningMessage } from '@/utils/notification'
 
 import { isLegacy } from '@/components/unique/utils'
-import type { ActionList, TokenToList } from './types'
 
 function isListTxValid(item: TokenToList) {
   const meta = Number(item.price)
@@ -31,13 +31,13 @@ const createKusamaInteraction = (item: ActionList) => {
     if (!isListTxValid(token)) {
       return undefined
     }
-    const interaction =
-      urlPrefix === 'rmrk'
+    const interaction
+      = urlPrefix === 'rmrk'
         ? createInteraction(Interaction.LIST, token.nftId, token.price)
         : createNewInteraction({
-            action: NewInteraction.LIST,
-            payload: { id: token.nftId, price: token.price },
-          })
+          action: NewInteraction.LIST,
+          payload: { id: token.nftId, price: token.price },
+        })
 
     return interaction
   }
@@ -46,7 +46,7 @@ const createKusamaInteraction = (item: ActionList) => {
     return createSingleInteraction(item.token as TokenToList, item.urlPrefix)
   }
   return (item.token as TokenToList[])
-    .map((token) => createSingleInteraction(token, item.urlPrefix))
+    .map(token => createSingleInteraction(token, item.urlPrefix))
     .filter((interaction): interaction is string => interaction !== undefined)
 }
 
@@ -57,7 +57,7 @@ const execKsm = (isSingle: boolean, item: ActionList, api) => {
   }
   const args = isSingle
     ? interaction
-    : (interaction as string[]).map((interaction) =>
+    : (interaction as string[]).map(interaction =>
         api.tx.system.remark(interaction),
       )
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
@@ -81,7 +81,8 @@ const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
       cb: getApiCall(api, item.urlPrefix, Interaction.LIST, legacy),
       arg: paramResolver(token.nftId, Interaction.LIST, token.price),
     }
-  } else {
+  }
+  else {
     const tokens = item.token as TokenToList[]
     const args = tokens.map((token) => {
       const { legacy, paramResolver } = getParams(token)
@@ -104,8 +105,8 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     // ahr: execAhkOrAhp,
   }
 
-  const { cb, arg } =
-    fnMap[item.urlPrefix]?.call(null, isSingle, item, api) || {}
+  const { cb, arg }
+    = fnMap[item.urlPrefix]?.call(null, isSingle, item, api) || {}
   if (cb && arg) {
     const { successMessage, errorMessage } = item
     executeTransaction({ cb, arg, successMessage, errorMessage })

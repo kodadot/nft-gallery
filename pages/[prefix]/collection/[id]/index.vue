@@ -1,13 +1,15 @@
 <template>
   <div
     class="container is-fluid"
-    :class="{ 'sidebar-padding-left': isSidebarOpen }">
+    :class="{ 'sidebar-padding-left': isSidebarOpen }"
+  >
     <Items :key="collectionid" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
+
 const route = useRoute()
 definePageMeta({
   layout: 'explore-layout',

@@ -1,7 +1,8 @@
-import IVueI18n from 'vue-i18n'
+import type IVueI18n from 'vue-i18n'
 
 declare module '*.vue' {
   import Vue from 'vue'
+
   export default Vue
 }
 

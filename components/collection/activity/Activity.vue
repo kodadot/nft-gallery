@@ -1,43 +1,59 @@
 <template>
   <div class="flex">
     <SidebarFilter />
-    <div ref="wrapper" class="w-full mt-4">
+    <div
+      ref="wrapper"
+      class="w-full mt-4"
+    >
       <div v-if="tablet">
         <div class="flex gap-4">
           <div class="w-2/3 pr-2">
-            <ActivityChart :events="events" class="mt-2" />
+            <ActivityChart
+              :events="events"
+              class="mt-2"
+            />
           </div>
           <div class="flex-1">
-            <OwnerInsights :owners="owners" :flippers="flippers" />
+            <OwnerInsights
+              :owners="owners"
+              :flippers="flippers"
+            />
           </div>
         </div>
         <BreadcrumbsFilter />
       </div>
       <div v-else>
         <div class="flex flex-col gap">
-          <OwnerInsights :owners="owners" :flippers="flippers" />
+          <OwnerInsights
+            :owners="owners"
+            :flippers="flippers"
+          />
           <div class="max-width">
             <ActivityChart :events="events" />
           </div>
         </div>
       </div>
-      <hr class="mb-7" :class="{ 'my-7': !isBreadCrumbsShowing }" />
+      <hr
+        class="mb-7"
+        :class="{ 'my-7': !isBreadCrumbsShowing }"
+      >
       <Events :events="sortedEventsWithOffersDesc" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Interaction } from '@kodadot1/minimark/v1'
+import { useResizeObserver } from '@vueuse/core'
 import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
-import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
-import { Interaction } from '@kodadot1/minimark/v1'
-import { useResizeObserver } from '@vueuse/core'
-import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import { isAnyActivityFilterActive } from './utils'
+import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
+import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
+
 const mobileBreakpoint = 800
 const route = useRoute()
 const tablet = ref(true)
@@ -60,7 +76,7 @@ const InteractionIncluded = [
 ]
 
 const filteredEvents = computed(() =>
-  events.value.filter((event) =>
+  events.value.filter(event =>
     InteractionIncluded.includes(event.interaction as Interaction),
   ),
 )
@@ -74,7 +90,8 @@ const sortedEventsWithOffersDesc = computed(() =>
 useResizeObserver(wrapper, (entry) => {
   if (entry[0].contentRect.width >= mobileBreakpoint) {
     tablet.value = true
-  } else {
+  }
+  else {
     tablet.value = false
   }
 })

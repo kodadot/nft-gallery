@@ -1,6 +1,6 @@
 import { useIntervalFn } from '@vueuse/core'
 import { type Prefix } from '@kodadot1/static'
-import { AutoTeleportTransactions } from './types'
+import type { AutoTeleportTransactions } from './types'
 
 export default function ({
   optimalTransition,
@@ -34,8 +34,8 @@ export default function ({
     () => transactions.value.teleport.status.value,
     (teleportStatus, prevStatus) => {
       if (
-        teleportStatus === TransactionStatus.Finalized &&
-        prevStatus !== TransactionStatus.Finalized
+        teleportStatus === TransactionStatus.Finalized
+        && prevStatus !== TransactionStatus.Finalized
       ) {
         resume()
       }

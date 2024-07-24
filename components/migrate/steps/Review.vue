@@ -1,34 +1,41 @@
 <template>
   <div>
     <div v-if="collectionOwner">
-      <div class="my-4 font-bold">Migrate Items</div>
+      <div class="my-4 font-bold">
+        Migrate Items
+      </div>
       <div class="max-h-40 overflow-auto">
         <div
           v-for="nft in collectionAnother?.nfts"
           :key="nft.id"
           class="flex items-center gap-4 mb-2"
-          :class="{ hidden: nft.currentOwner !== accountId }">
+          :class="{ hidden: nft.currentOwner !== accountId }"
+        >
           <NuxtImg
             :src="sanitizeIpfsUrl(nft.meta?.image)"
             :alt="nft.name"
             width="32"
             height="32"
-            class="border" />
+            class="border"
+          />
           <p>{{ nft.name }}</p>
         </div>
       </div>
-      <hr />
+      <hr>
     </div>
     <div v-else>
       <div class="mt-5">
-        <p class="font-bold">{{ $t('migrate.collection') }}</p>
+        <p class="font-bold">
+          {{ $t('migrate.collection') }}
+        </p>
         <div class="flex mt-4">
           <img
             class="border mr-4"
             :src="collectionMetadata?.image"
             :alt="collection?.name"
             width="48"
-            height="48" />
+            height="48"
+          >
           <div>
             <p>{{ collection?.name }}</p>
             <p class="text-k-grey text-xs">
@@ -38,63 +45,81 @@
         </div>
       </div>
 
-      <hr />
+      <hr>
 
       <div
         v-if="collection?.nftsOwned && collection?.nfts"
-        class="flex justify-between mb-5">
+        class="flex justify-between mb-5"
+      >
         <p>{{ $t('migrate.ready.status') }}</p>
         <p>{{ collection.nftsOwned.length }}/{{ collection.nfts.length }}</p>
       </div>
 
       <div class="border border-k-shade p-2 flex text-xs text-k-grey">
-        <NeoIcon icon="circle-info" class="mr-2" />
+        <NeoIcon
+          icon="circle-info"
+          class="mr-2"
+        />
         <p>{{ $t('migrate.reviewNotes') }}</p>
       </div>
     </div>
 
     <div>
-      <p class="font-bold mt-5">{{ $t('migrate.route') }}:</p>
+      <p class="font-bold mt-5">
+        {{ $t('migrate.route') }}:
+      </p>
       <NeoButton
         rounded
         variant="pill"
-        class="mt-2 hover:bg-transparent cursor-default">
+        class="mt-2 hover:bg-transparent cursor-default"
+      >
         <div class="flex items-center">
           <img
             width="20"
             :src="source?.icon"
             :alt="source?.text"
-            class="mr-2" />
+            class="mr-2"
+          >
           {{ source?.text }}
         </div>
-        <NeoIcon icon="chevron-right" class="mx-4" />
+        <NeoIcon
+          icon="chevron-right"
+          class="mx-4"
+        />
         <div class="flex items-center">
           <img
             width="20"
             :src="destination?.icon"
             :alt="destination?.text"
-            class="mr-2" />
+            class="mr-2"
+          >
           {{ destination?.text }}
         </div>
       </NeoButton>
     </div>
 
-    <hr />
+    <hr>
 
     <div>
-      <div class="font-bold mt-5">{{ $t('migrate.costs') }}</div>
+      <div class="font-bold mt-5">
+        {{ $t('migrate.costs') }}
+      </div>
 
       <div class="text-xs">
         <p
           class="my-4 text-k-grey cursor-pointer"
-          @click="toggleFee = !toggleFee">
+          @click="toggleFee = !toggleFee"
+        >
           {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
         </p>
 
         <div v-show="toggleFee">
           <!-- paid on source chain -->
-          <p v-if="source?.value" class="mb-2 capitalize">
+          <p
+            v-if="source?.value"
+            class="mb-2 capitalize"
+          >
             <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
           </p>
           <div class="flex justify-between mb-5">
@@ -102,11 +127,19 @@
             <p v-if="sourceNetworkFee >= 0">
               {{ sourceNetworkFee }} {{ sourceSymbol }}
             </p>
-            <div v-else><NeoSkeleton width="100" size="small" /></div>
+            <div v-else>
+              <NeoSkeleton
+                width="100"
+                size="small"
+              />
+            </div>
           </div>
 
           <!-- paid on destination chain -->
-          <p v-if="destination?.value" class="mb-2 capitalize">
+          <p
+            v-if="destination?.value"
+            class="mb-2 capitalize"
+          >
             <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
           </p>
           <div class="flex justify-between mt-1">
@@ -114,13 +147,19 @@
             <p v-if="destinationSymbol && destinationNetworkFee >= 0">
               {{ destinationNetworkFee }} {{ destinationSymbol }}
             </p>
-            <div v-else><NeoSkeleton width="100" size="small" /></div>
+            <div v-else>
+              <NeoSkeleton
+                width="100"
+                size="small"
+              />
+            </div>
           </div>
 
           <!-- collection existential deposit -->
           <div
             v-if="!collectionOwner"
-            class="text-k-grey flex mt-1 items-center justify-between">
+            class="text-k-grey flex mt-1 items-center justify-between"
+          >
             <div>
               {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
@@ -133,14 +172,20 @@
                     totalCollectionDeposit,
                     destinationSymbol,
                   ])
-                ">
+                "
+              >
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol">
               {{ totalCollectionDeposit }} {{ destinationSymbol }}
             </p>
-            <div v-else><NeoSkeleton width="100" size="small" /></div>
+            <div v-else>
+              <NeoSkeleton
+                width="100"
+                size="small"
+              />
+            </div>
           </div>
 
           <!-- nft existential deposit -->
@@ -157,14 +202,20 @@
                     destinationItemDeposit,
                     destinationSymbol,
                   ])
-                ">
+                "
+              >
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol && destinationItemDeposit >= 0">
               {{ destinationItemDeposit }} {{ destinationSymbol }}
             </p>
-            <div v-else><NeoSkeleton width="100" size="small" /></div>
+            <div v-else>
+              <NeoSkeleton
+                width="100"
+                size="small"
+              />
+            </div>
           </div>
 
           <!-- kodadot fee -->
@@ -176,49 +227,81 @@
                 position="top"
                 multiline-width="14rem"
                 :label="$t('mint.nft.modal.kodadotTooltip')"
-                multiline>
+                multiline
+              >
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
             <div v-if="destinationSymbol">
               {{ kodadotFee }} {{ destinationSymbol }}
             </div>
-            <div v-else><NeoSkeleton width="100" size="small" /></div>
+            <div v-else>
+              <NeoSkeleton
+                width="100"
+                size="small"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <hr />
+    <hr>
 
-    <p class="mb-1">{{ $t('mint.estimated') }}</p>
+    <p class="mb-1">
+      {{ $t('mint.estimated') }}
+    </p>
     <div class="mb-1 flex justify-between">
-      <div v-if="source?.value" class="text-k-grey capitalize">
+      <div
+        v-if="source?.value"
+        class="text-k-grey capitalize"
+      >
         On {{ prefixToNetwork[source.value] }}
       </div>
       <div
         v-if="sourceSymbol && sourceNetworkFee >= 0"
-        class="flex items-center">
-        <div class="text-k-grey text-xs mr-2">${{ sourceTotalUsd }}</div>
+        class="flex items-center"
+      >
+        <div class="text-k-grey text-xs mr-2">
+          ${{ sourceTotalUsd }}
+        </div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
-      <div v-else><NeoSkeleton width="100" size="small" /></div>
+      <div v-else>
+        <NeoSkeleton
+          width="100"
+          size="small"
+        />
+      </div>
     </div>
     <div class="pb-7 flex justify-between">
-      <div v-if="destination?.value" class="text-k-grey capitalize">
+      <div
+        v-if="destination?.value"
+        class="text-k-grey capitalize"
+      >
         On {{ prefixToNetwork[destination.value] }}
       </div>
       <div
         v-if="destinationSymbol && parseFloat(totalDestination.toString())"
-        class="flex items-center">
-        <div class="text-k-grey text-xs mr-2">${{ totalDestinationUsd }}</div>
+        class="flex items-center"
+      >
+        <div class="text-k-grey text-xs mr-2">
+          ${{ totalDestinationUsd }}
+        </div>
         <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
-      <div v-else><NeoSkeleton width="100" size="small" /></div>
+      <div v-else>
+        <NeoSkeleton
+          width="100"
+          size="small"
+        />
+      </div>
     </div>
 
     <NeoField>
-      <NeoCheckbox v-model="agree">{{ $t('migrate.agreement') }}</NeoCheckbox>
+      <NeoCheckbox v-model="agree">
+        {{ $t('migrate.agreement') }}
+      </NeoCheckbox>
     </NeoField>
 
     <NeoButton
@@ -227,7 +310,8 @@
       :disabled="checkBalances.disabled"
       class="mt-4 h-14 capitalize"
       expanded
-      @click="toSign()" />
+      @click="toSign()"
+    />
   </div>
 </template>
 
@@ -252,10 +336,10 @@ const { accountId } = useAuth()
 
 const route = useRoute()
 const source = availablePrefixWithIcon().find(
-  (item) => item.value === route.query.source,
+  item => item.value === route.query.source,
 )
 const destination = availablePrefixWithIcon().find(
-  (item) => item.value === route.query.destination,
+  item => item.value === route.query.destination,
 )
 const itemCount = parseInt(route.query.itemCount?.toString() || '0')
 const fromAccountId = route.query.accountId?.toString()
@@ -265,7 +349,7 @@ const collectionId = route.query.collectionId
 // a collection where the owner is myself
 const { collections } = await useCollectionReady()
 const collection = computed(() =>
-  collections.value.find((item) => item.id === collectionId),
+  collections.value.find(item => item.id === collectionId),
 )
 
 // a collection where the owner is someone else
@@ -274,7 +358,7 @@ const { collections: collectionsAnother } = await useCollectionReady(
   collectionOwner,
 )
 const collectionAnother = computed(() =>
-  collectionsAnother.value.find((item) => item.id === collectionId),
+  collectionsAnother.value.find(item => item.id === collectionId),
 )
 
 // source balance and deposit

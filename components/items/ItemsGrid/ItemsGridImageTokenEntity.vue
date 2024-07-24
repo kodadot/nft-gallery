@@ -11,8 +11,8 @@
     :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
-        shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
-        listingCartStore.isItemInCart(entity.id),
+        shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+        || listingCartStore.isItemInCart(entity.id),
     }"
     :card-icon="showCardIcon"
     :card-icon-src="cardIcon"
@@ -22,9 +22,16 @@
     :media-player-cover="mediaPlayerCover"
     :media-static-video="hideVideoControls"
     :lazy-loading="lazyLoading"
-    media-hover-on-cover-play>
-    <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && isAvailableToBuy" class="flex">
+    media-hover-on-cover-play
+  >
+    <template
+      v-if="!hideAction"
+      #action
+    >
+      <div
+        v-if="!isOwner && isAvailableToBuy"
+        class="flex"
+      >
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -32,13 +39,14 @@
           :loading="showActionSection"
           class="flex-grow"
           loading-with-label
-          @click.prevent="onClickBuy">
-        </NeoButton>
+          @click.prevent="onClickBuy"
+        />
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
           class="p-1 !border-l-0"
-          @click.prevent="onClickShoppingCart">
+          @click.prevent="onClickShoppingCart"
+        >
           <NeoIcon
             class="w-4 h-4"
             :icon="
@@ -46,10 +54,14 @@
                 ? 'fa-striked-out-cart-shopping'
                 : 'fa-shopping-cart-outline-sharp'
             "
-            pack="fa-kit" />
+            pack="fa-kit"
+          />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="flex">
+      <div
+        v-else-if="isOwner"
+        class="flex"
+      >
         <template v-if="isStack">
           <NeoButton
             v-if="isThereAnythingToList !== undefined"
@@ -57,8 +69,8 @@
             data-testid="item-buy"
             no-shadow
             class="flex-grow"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
+            @click.prevent="onClickListingCart"
+          />
         </template>
 
         <template v-else>
@@ -67,8 +79,8 @@
             data-testid="item-buy"
             no-shadow
             class="flex-grow"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
+            @click.prevent="onClickListingCart"
+          />
         </template>
       </div>
     </template>
@@ -79,6 +91,7 @@
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { getTokensNfts, useNftActions } from './useNftActions'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -90,7 +103,7 @@ import {
 } from '@/components/common/shoppingCart/utils'
 
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
-import { getTokensNfts, useNftActions } from './useNftActions'
+
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
@@ -141,9 +154,9 @@ const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
-    !isLogIn.value &&
-    shoppingCartStore.getItemToBuy?.id !== undefined &&
-    shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
+    !isLogIn.value
+    && shoppingCartStore.getItemToBuy?.id !== undefined
+    && shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
   )
 })
 
@@ -159,8 +172,8 @@ const buyLabel = computed(function () {
 
 const listLabel = computed(() => {
   const isPriceAvailable = Number(nftForShoppingCart.value?.price)
-  const shouldListForSale =
-    (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
+  const shouldListForSale
+    = (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
   const isInCart = listingCartStore.isItemInCart(props.entity.id)
 
   const label = shouldListForSale
@@ -197,7 +210,8 @@ const onClickBuy = async () => {
 const onClickShoppingCart = async () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)
-  } else {
+  }
+  else {
     const nft = await getNFTForBuying()
     shoppingCartStore.setItem(nftToShoppingCartItem(nft))
   }
@@ -211,7 +225,8 @@ const onClickListingCart = async () => {
   for (const nft of nftsToProcess) {
     if (listingCartStore.isItemInCart(nft.id)) {
       listingCartStore.removeItem(nft.id)
-    } else {
+    }
+    else {
       listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
     }
   }

@@ -1,23 +1,32 @@
 <template>
-  <Story title="NeoSwitch" :layout="{ type: 'grid', width: '600px' }">
+  <Story
+    title="NeoSwitch"
+    :layout="{ type: 'grid', width: '600px' }"
+  >
     <Variant title="NeoSwitch">
       <NeoSwitch>Default</NeoSwitch>
 
-      <br />
+      <br>
 
       <NeoSwitch v-model="isSwitched">
         {{ isSwitched }}
       </NeoSwitch>
 
-      <br />
+      <br>
 
-      <NeoSwitch v-model="isSwitchedCustom" true-value="Yes" false-value="No">
+      <NeoSwitch
+        v-model="isSwitchedCustom"
+        true-value="Yes"
+        false-value="No"
+      >
         {{ isSwitchedCustom }}
       </NeoSwitch>
 
-      <br />
+      <br>
 
-      <NeoSwitch disabled>Disabled</NeoSwitch>
+      <NeoSwitch disabled>
+        Disabled
+      </NeoSwitch>
     </Variant>
   </Story>
 </template>

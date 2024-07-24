@@ -1,4 +1,4 @@
-export default function <T>(key: string, defaultValue: T) {
+export default function<T>(key: string, defaultValue: T) {
   return customRef((track, trigger) => ({
     get: (): T => {
       track()
@@ -8,7 +8,8 @@ export default function <T>(key: string, defaultValue: T) {
     set: (value: T) => {
       if (value === null) {
         localStorage.removeItem(key)
-      } else {
+      }
+      else {
         localStorage.setItem(key, JSON.stringify(value))
       }
       trigger()

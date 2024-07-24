@@ -1,7 +1,8 @@
-import { Entry, isValidEntry, removeQuotes, validFileExtension } from './common'
+import type { Entry } from './common'
+import { isValidEntry, removeQuotes, validFileExtension } from './common'
 
 function processCsvLine(line: string, csvHeaders: string[]): Partial<Entry> {
-  const values = line.split(',').map((value) => removeQuotes(value.trim()))
+  const values = line.split(',').map(value => removeQuotes(value.trim()))
   const entry: Partial<Entry> = {
     file: undefined,
     name: undefined,
@@ -13,7 +14,8 @@ function processCsvLine(line: string, csvHeaders: string[]): Partial<Entry> {
     const value = values[j]?.trim()
     if (header === 'price') {
       entry.price = parseFloat(value) || undefined
-    } else {
+    }
+    else {
       entry[header] = value || undefined
     }
   }
@@ -39,8 +41,8 @@ function parseCsvWithoutHeaders(lines): Record<string, Entry> {
 
   for (const line_ of lines) {
     const line = line_.trim()
-    const values = line.split(',').map((value) => removeQuotes(value.trim()))
-    const [file, name, description, price] = values.map((v) => v.trim())
+    const values = line.split(',').map(value => removeQuotes(value.trim()))
+    const [file, name, description, price] = values.map(v => v.trim())
 
     const entry = {
       file,
@@ -69,10 +71,10 @@ export function parseCsv(csvData: string): Record<string, Entry> {
   if (hasHeader) {
     const csvHeaders = lines[0]
       .split(',')
-      .map((header) => header.trim().toLowerCase())
+      .map(header => header.trim().toLowerCase())
 
     // Check that header contains expected fields
-    if (!csvHeaders.every((header) => expectedHeaders.includes(header))) {
+    if (!csvHeaders.every(header => expectedHeaders.includes(header))) {
       $consola.error('CSV file has incorrect header fields.', csvHeaders)
     }
 

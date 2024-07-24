@@ -27,7 +27,7 @@ export const determineElementType = (animationType, imageType) =>
     : imageType
 
 export function isImageVisible(type: MediaType) {
-  return mediaWithoutImage.every((media) => media !== type)
+  return mediaWithoutImage.every(media => media !== type)
 }
 
 export async function getMimeType(mediaUrl: string) {
@@ -36,7 +36,8 @@ export async function getMimeType(mediaUrl: string) {
       method: mediaUrl.includes('w.kodadot.xyz') ? 'GET' : 'HEAD',
     })
     return headers.get('content-type') || ''
-  } catch (error) {
+  }
+  catch (error) {
     return ''
   }
 }

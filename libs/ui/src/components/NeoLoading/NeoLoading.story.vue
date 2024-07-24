@@ -1,5 +1,8 @@
 <template>
-  <Story title="NeoLoading" :layout="{ type: 'grid', width: '200px' }">
+  <Story
+    title="NeoLoading"
+    :layout="{ type: 'grid', width: '200px' }"
+  >
     <Variant title="Loading">
       <NeoLoading :active="true" />
     </Variant>

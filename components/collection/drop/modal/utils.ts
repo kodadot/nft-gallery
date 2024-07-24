@@ -8,7 +8,7 @@ export const usePreloadImages = (mintedNFTs: Ref<PreloadableImage[]>) => {
 
   watch(mintedNFTs, (items) => {
     if (items?.length) {
-      items.forEach((item) =>
+      items.forEach(item =>
         tryItem({
           id: item.id,
           promise: () => preloadImage(sanitizeIpfsUrl(item.image)),

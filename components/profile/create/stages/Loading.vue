@@ -4,7 +4,8 @@
       :title="'setting your profile'"
       :subtitle="'please wait'"
       :with-dots="true"
-      solid>
+      solid
+    >
       <template #footer>
         <SkeletonLoaderFooterPill>
           No signature needed

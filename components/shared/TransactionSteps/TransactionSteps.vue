@@ -6,17 +6,18 @@
       class="mb-5"
       :step="getStepItem(step)"
       with-action
-      @try-again="tryAgain(step)" />
+      @try-again="tryAgain(step)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { type Prefix } from '@kodadot1/static'
 import TransactionStepsItem, {
   type TransactionStepItem,
 } from './TransactionStepsItem.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { TransactionStepStatus, getTransactionStepDetails } from './utils'
-import { type Prefix } from '@kodadot1/static'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 export type TransactionStep = {
   txId?: string | null
@@ -45,10 +46,10 @@ const { $i18n } = useNuxtApp()
 const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
   props.steps.map((step, index, array) => {
     const prevStep = array[index - 1]
-    const isStepStatusCompleted =
-      prevStep && prevStep.stepStatus === TransactionStepStatus.COMPLETED
-    const isStatusFinalized =
-      prevStep && prevStep.status === TransactionStatus.Finalized
+    const isStepStatusCompleted
+      = prevStep && prevStep.stepStatus === TransactionStepStatus.COMPLETED
+    const isStatusFinalized
+      = prevStep && prevStep.status === TransactionStatus.Finalized
 
     return {
       ...step,
@@ -60,7 +61,7 @@ const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
 watch(
   stepsWithActive,
   () => {
-    const index = stepsWithActive.value.findLastIndex((step) => step.isActive)
+    const index = stepsWithActive.value.findLastIndex(step => step.isActive)
     emit('active', index)
   },
   { immediate: true },
@@ -84,8 +85,8 @@ const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
 
   let { status, text } = getTransactionStepDetails(step, $i18n.t)
 
-  const withCustomSubtitle =
-    step.stepStatusTextOverride?.hasOwnProperty(status) || false
+  const withCustomSubtitle
+    = step.stepStatusTextOverride?.hasOwnProperty(status) || false
 
   if (withCustomSubtitle) {
     text = step.stepStatusTextOverride?.[status] || ''

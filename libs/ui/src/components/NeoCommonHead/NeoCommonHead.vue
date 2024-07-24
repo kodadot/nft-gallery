@@ -1,6 +1,7 @@
 <template>
   <header
-    class="flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color">
+    class="flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color"
+  >
     <span class="text-base font-bold">
       {{ title }}
     </span>
@@ -11,7 +12,8 @@
       icon="xmark"
       size="medium"
       data-testid="modal-close-button"
-      @click="emit('close')" />
+      @click="emit('close')"
+    />
   </header>
 </template>
 

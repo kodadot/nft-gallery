@@ -1,5 +1,8 @@
 <template>
-  <component :is="imageComponent" v-bind="attrs" />
+  <component
+    :is="imageComponent"
+    v-bind="attrs"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +40,7 @@ const omit = <T extends object, K extends keyof T>(
 ): Omit<T, K> => {
   const clone = { ...obj } as const
 
-  keys.forEach((key) => delete clone[key])
+  keys.forEach(key => delete clone[key])
   return clone
 }
 

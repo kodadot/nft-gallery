@@ -14,10 +14,10 @@ export const useLangStore = defineStore('lang', {
     },
   }),
   getters: {
-    getUserLang: (state) => state.language.userLang || 'en',
-    getUserFlag: (state) =>
-      langsFlags.find((lang) => lang.value === state.language.userLang)?.flag ||
-      langsFlags[0].flag,
+    getUserLang: state => state.language.userLang || 'en',
+    getUserFlag: state =>
+      langsFlags.find(lang => lang.value === state.language.userLang)?.flag
+      || langsFlags[0].flag,
   },
   actions: {
     setLanguage({ userLang }) {

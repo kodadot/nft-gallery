@@ -1,16 +1,15 @@
 import { hexToString, isHex } from '@polkadot/util'
+import slugify from 'slugify'
+import { upperTrim } from '@kodadot1/minimark/utils'
+import type { UpdateFunction } from '@kodadot1/minimark/common'
 import { generateId } from '../service/Consolidator'
-import {
+import type {
   Collection,
   NFT,
   NFTWithMeta,
   RmrkCreatedNft,
   SimpleNFT,
-} from './scheme'
-import slugify from 'slugify'
-import { RmrkWithMetaType } from './scheme'
-import { upperTrim } from '@kodadot1/minimark/utils'
-import { UpdateFunction } from '@kodadot1/minimark/common'
+  RmrkWithMetaType } from './scheme'
 
 export type MintType = {
   collection: Collection
@@ -84,15 +83,15 @@ class NFTUtils {
     max = 1,
     version = '1.0.0',
   ): {
-    id: string
-    _id: string
-    symbol: string
-    issuer: string
-    version: string
-    name: string
-    max: number
-    metadata: string
-  } {
+      id: string
+      _id: string
+      symbol: string
+      issuer: string
+      version: string
+      name: string
+      max: number
+      metadata: string
+    } {
     const trimmedSymbol = slugify(symbol.trim().toUpperCase(), '_')
     return {
       id: generateId(caller, trimmedSymbol),
@@ -198,7 +197,7 @@ class NFTUtils {
     if (encode) {
       return [
         NFTUtils.encodeCollection(collection, version),
-        ...nfts.map((nft) => NFTUtils.encodeNFT(nft, version)),
+        ...nfts.map(nft => NFTUtils.encodeNFT(nft, version)),
       ]
     }
 

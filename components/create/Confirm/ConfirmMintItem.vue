@@ -6,15 +6,18 @@
           <BasicImage
             :src="avatar"
             :alt="nft.name"
-            class="border image is-48x48" />
+            class="border image is-48x48"
+          />
         </div>
         <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
           <div
-            class="text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis">
+            class="text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis"
+          >
             {{ nft.name }}
           </div>
           <div
-            class="leading-none whitespace-nowrap text-k-grey is-clipped text-ellipsis">
+            class="leading-none whitespace-nowrap text-k-grey is-clipped text-ellipsis"
+          >
             {{ label }}:
           </div>
         </div>
@@ -24,27 +27,35 @@
           <template v-if="showPrice">
             <CommonTokenMoney :value="price" />
           </template>
-          <template v-else> Not Listed </template>
+          <template v-else>
+            Not Listed
+          </template>
         </template>
         <template v-else>
           {{ blockchain.text }}
         </template>
       </div>
     </div>
-    <div v-if="isNFT" class="flex mt-4 items-center">
+    <div
+      v-if="isNFT"
+      class="flex mt-4 items-center"
+    >
       <div class="text-k-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>
-      <NeoIcon icon="arrow-right-long" class="text-k-grey mr-4" />
+      <NeoIcon
+        icon="arrow-right-long"
+        class="text-k-grey mr-4"
+      />
       <div>{{ nft.selectedCollection?.name }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { ExtendedInformation } from './MintConfirmModal.vue'
 import { NeoIcon } from '@kodadot1/brick'
+import type { ExtendedInformation } from './MintConfirmModal.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { CreateComponent } from '@/composables/useCreate'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 

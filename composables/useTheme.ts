@@ -14,17 +14,17 @@ export default function () {
   )
 
   const themeOptions = computed<
-    { value: COLOR_MODE; icon: string; label: string }[]
+    { value: COLOR_MODE, icon: string, label: string }[]
   >(() => [
     {
       value: 'system',
       icon: 'computer-classic',
       label: isSystemMode.value
         ? $i18n.t('profileMenu.systemMode', [
-            isDarkMode.value
-              ? $i18n.t('profileMenu.dark')
-              : $i18n.t('profileMenu.light'),
-          ])
+          isDarkMode.value
+            ? $i18n.t('profileMenu.dark')
+            : $i18n.t('profileMenu.light'),
+        ])
         : $i18n.t('profileMenu.system'),
     },
     {
@@ -40,7 +40,7 @@ export default function () {
   ])
 
   const currentModeIndex = computed(() =>
-    themeOptions.value.findIndex((option) => option.value === preference.value),
+    themeOptions.value.findIndex(option => option.value === preference.value),
   )
 
   const currentMode = computed(
@@ -55,7 +55,8 @@ export default function () {
   const toggleColorMode = (): void => {
     if (colorMode.value === 'dark') {
       colorMode.preference = 'light'
-    } else {
+    }
+    else {
       colorMode.preference = 'dark'
     }
   }

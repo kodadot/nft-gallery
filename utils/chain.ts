@@ -28,11 +28,11 @@ export const availablePrefixes = (): Option[] => {
 
   if (isProduction || isBeta) {
     return chains.filter(
-      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value)),
+      chain => !disableChainListOnBetaEnv.includes(String(chain.value)),
     )
   }
 
-  return chains.filter((chain) => !disableChains.includes(String(chain.value)))
+  return chains.filter(chain => !disableChains.includes(String(chain.value)))
 }
 
 export const getAvailableChainsByVM = (vm: ChainVM) =>
@@ -41,7 +41,7 @@ export const getAvailableChainsByVM = (vm: ChainVM) =>
   )
 
 export const getAvailablePrefix = (prefix: string): string => {
-  return availablePrefixes().some((chain) => chain.value === prefix)
+  return availablePrefixes().some(chain => chain.value === prefix)
     ? prefix
     : ''
 }

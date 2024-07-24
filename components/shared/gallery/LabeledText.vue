@@ -4,8 +4,10 @@
       {{ $t(label) }}
     </p>
     <p class="subtitle text-base">
-      <slot v-if="!isLoading">~</slot>
-      <NeoSkeleton :active="isLoading"></NeoSkeleton>
+      <slot v-if="!isLoading">
+        ~
+      </slot>
+      <NeoSkeleton :active="isLoading" />
     </p>
   </div>
 </template>

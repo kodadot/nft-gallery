@@ -9,18 +9,27 @@
       aria-role="list"
       position="bottom-auto"
       data-testid="explore-sort-dropdown"
-      @change="onChange">
+      @change="onChange"
+    >
       <template #trigger="{ active }">
         <NeoButton
           :active="active"
           type="button"
           :icon="active ? 'chevron-up' : 'chevron-down'"
-          class="text-left is-hidden-mobile">
+          class="text-left is-hidden-mobile"
+        >
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
-        <NeoButton type="button" icon="filter" class="is-hidden-tablet" />
+        <NeoButton
+          type="button"
+          icon="filter"
+          class="is-hidden-tablet"
+        />
 
-        <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
+        <ActiveCount
+          v-if="selectedSort.length"
+          :count="selectedSort.length"
+        />
       </template>
 
       <NeoDropdownItem
@@ -29,7 +38,8 @@
         aria-role="listitem"
         class="flex"
         :data-testid="option"
-        :value="option">
+        :value="option"
+      >
         <span>
           {{
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
@@ -38,7 +48,8 @@
         <NeoIcon
           v-if="selectedSort.includes(option)"
           class="ml-2"
-          icon="check" />
+          icon="check"
+        />
       </NeoDropdownItem>
     </NeoDropdown>
   </div>
@@ -83,11 +94,10 @@ function removeDuplicateSortKeys(options: string[]) {
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,
-  set: (value) => (sortOptions.value = removeDuplicateSortKeys(value)),
+  set: value => (sortOptions.value = removeDuplicateSortKeys(value)),
 })
 
 function onChange(selected) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { page, ...restQuery } = route.query
   router.push({
     path: route.fullPath,
@@ -103,7 +113,8 @@ watch(
   (sort) => {
     if (sort?.length) {
       selectedSort.value = parseQueryParamToArray(sort)
-    } else if (selectedSort.value.length) {
+    }
+    else if (selectedSort.value.length) {
       selectedSort.value = []
     }
   },

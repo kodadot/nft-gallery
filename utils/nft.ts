@@ -1,5 +1,5 @@
-import { NFTWithMetadata } from '@/composables/useNft'
-import { EntityWithMeta } from './ipfs'
+import type { EntityWithMeta } from './ipfs'
+import type { NFTWithMetadata } from '@/composables/useNft'
 
 export const parseNftAvatar = async (
   entity: EntityWithMeta,

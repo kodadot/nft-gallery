@@ -1,6 +1,9 @@
 <template>
   <div>
-    <GalleryItemPriceSection title="Price" :price="nftPrice">
+    <GalleryItemPriceSection
+      title="Price"
+      :price="nftPrice"
+    >
       <div class="flex gallery-item-relist">
         <NeoButton
           :label="
@@ -9,7 +12,8 @@
           size="large"
           fixed-width
           :variant="isListed ? undefined : 'primary'"
-          @click="openListCartModal" />
+          @click="openListCartModal"
+        />
       </div>
     </GalleryItemPriceSection>
 
@@ -19,13 +23,13 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { NFT } from '@/components/rmrk/service/scheme'
+import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
+import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useListingCartStore } from '@/stores/listingCart'
-import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 
 const props = defineProps<{
   nft: NFT

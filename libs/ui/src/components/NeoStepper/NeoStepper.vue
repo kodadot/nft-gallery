@@ -12,12 +12,14 @@
       :max="max"
       :disabled="disabled"
       @icon-click="handleLeftClick"
-      @icon-right-click="handleRightClick" />
+      @icon-right-click="handleRightClick"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import NeoInput from '../NeoInput/NeoInput.vue'
+
 const props = withDefaults(
   defineProps<{
     modelValue: number | ''
@@ -49,9 +51,11 @@ watchEffect(() => {
   if (input.value !== '') {
     if (input.value < props.min) {
       input.value = props.min
-    } else if (input.value > props.max) {
+    }
+    else if (input.value > props.max) {
       input.value = props.max
-    } else {
+    }
+    else {
       input.value = Math.ceil(input.value)
     }
   }

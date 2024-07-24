@@ -1,7 +1,8 @@
 <template>
   <div
     class="container is-fluid"
-    :class="{ 'sidebar-padding-left': isSidebarOpen }">
+    :class="{ 'sidebar-padding-left': isSidebarOpen }"
+  >
     <CollectionActivity />
   </div>
 </template>

@@ -1,7 +1,10 @@
 <template>
   <Story title="NeoModal">
     <Variant title="Modal">
-      <NeoModal :value="modalActive" @close="modalActive = false">
+      <NeoModal
+        :value="modalActive"
+        @close="modalActive = false"
+      >
         Modal Content
       </NeoModal>
     </Variant>

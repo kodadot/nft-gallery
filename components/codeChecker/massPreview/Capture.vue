@@ -5,40 +5,50 @@
         {{ $t('codeChecker.testOutCapture') }}
       </p>
 
-      <span v-if="uploading" class="text-sm text-k-grey capitalize">
-        {{ $t('codeChecker.uploadingFile') }}</span
+      <span
+        v-if="uploading"
+        class="text-sm text-k-grey capitalize"
       >
-      <NeoSwitch v-else-if="indexKey" v-model="active" />
+        {{ $t('codeChecker.uploadingFile') }}</span>
+      <NeoSwitch
+        v-else-if="indexKey"
+        v-model="active"
+      />
     </div>
 
     <transition name="slide">
-      <div v-if="active" class="flex flex-col gap-4 !mt-6">
+      <div
+        v-if="active"
+        class="flex flex-col gap-4 !mt-6"
+      >
         <CodeCheckerMassPreviewControls
           v-model="previewAmount"
           :previews="previewItems"
           hide-average
-          @retry="generateMassPreview" />
+          @retry="generateMassPreview"
+        />
 
         <CodeCheckerMassPreviewGrid :items="previewItems.map((p) => p.loading)">
           <template #default="{ index }">
             <iframe
               title="preview"
               :src="previewItems[index].image"
-              class="w-full h-full border border-black border-solid"></iframe>
+              class="w-full h-full border border-black border-solid"
+            />
           </template>
         </CodeCheckerMassPreviewGrid>
       </div>
     </transition>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
-import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
-import { AssetMessage } from '../types'
-import { CapturePreviewItem } from './types'
-import { generateRandomHash } from '../utils'
+import type { AssetMessage } from '../types'
+import { generateRandomHash, getDocumentFromString } from '../utils'
+import type { CapturePreviewItem } from './types'
 import { AssetElementMap, AssetReplaceElement } from './utils'
-import { getDocumentFromString } from '../utils'
+import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
 import { IFRAME_BLOB_URI } from '@/services/capture'
 
 const emit = defineEmits(['upload'])
@@ -83,7 +93,7 @@ const buildIndexFile = async (): Promise<Blob> => {
   const doc = getDocumentFromString(props.indexContent)
 
   await Promise.all(
-    props.assets.map((asset) => replaceAssetContent(doc, asset)),
+    props.assets.map(asset => replaceAssetContent(doc, asset)),
   )
 
   return new Blob([doc.documentElement.outerHTML], {
@@ -103,15 +113,17 @@ const uploadIndex = async () => {
     await exponentialBackoff(() => getUpload(key)).catch(console.log)
     indexKey.value = key
     emit('upload', getObjectUrl(key))
-  } catch (error) {
+  }
+  catch (error) {
     dangerMessage(`${$i18n.t('codeChecker.failedUploadingIndex')}: ${error}`)
-  } finally {
+  }
+  finally {
     uploading.value = false
   }
 }
 
 const updatePreview = (preview: CapturePreviewItem) => {
-  previewItems.value = previewItems.value.map((p) =>
+  previewItems.value = previewItems.value.map(p =>
     p.hash === preview.hash ? preview : p,
   )
 }
@@ -133,8 +145,10 @@ const initScreenshot = () => {
         ...preview,
         image: iframeUrl.toString(),
       }
-    } catch (error) {
-    } finally {
+    }
+    catch (error) {
+    }
+    finally {
       preview = { ...preview, loading: false }
     }
 

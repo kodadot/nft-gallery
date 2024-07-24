@@ -1,6 +1,6 @@
-import { NFT } from './scheme'
 import { u8aToHex } from '@polkadot/util'
 import { decodeAddress } from '@polkadot/keyring'
+import type { NFT } from './scheme'
 
 export default class Consolidator {
   public static isPermitedInteraction(): boolean {
@@ -55,10 +55,10 @@ export function generateId(caller: string, symbol: string): string {
 
   const pubkey = caller.startsWith('0x') ? caller : accountIdToPubKey(caller)
   return (
-    pubkey?.substr(2, 10) +
-    pubkey?.substring(pubkey.length - 8) +
-    '-' +
-    (symbol || '')
+    pubkey?.substr(2, 10)
+    + pubkey?.substring(pubkey.length - 8)
+    + '-'
+    + (symbol || '')
   ).toUpperCase()
 }
 

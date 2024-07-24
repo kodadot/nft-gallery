@@ -9,33 +9,40 @@
     </div>
 
     <transition name="slide">
-      <div v-if="active" class="!mt-6">
+      <div
+        v-if="active"
+        class="!mt-6"
+      >
         <CodeCheckerMassPreviewControls
           v-model="amount"
           :previews="previews"
-          @retry="generateMassPreview" />
+          @retry="generateMassPreview"
+        />
 
         <CodeCheckerMassPreviewGrid
           :items="previews.map((p) => p.loading)"
-          class="!mt-4">
+          class="!mt-4"
+        >
           <template #default="{ index }">
             <CodeCheckerSandboxIFrame
               :hash="previews[index].hash"
               :assets="assets"
               :count="1"
               :iframe-id="previews[index].hash"
-              class="border" />
+              class="border"
+            />
           </template>
         </CodeCheckerMassPreviewGrid>
       </div>
     </transition>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { NeoSwitch } from '@kodadot1/brick'
-import { AssetMessage } from '../types'
-import { CanvasPreviewItem } from './types'
+import type { AssetMessage } from '../types'
 import { generateRandomHash } from '../utils'
+import type { CanvasPreviewItem } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -62,10 +69,10 @@ const generateMassPreview = () => {
 useEventListener(window, 'message', async (res) => {
   const hash = res.data.payload.hash
   if (
-    res.data?.type === 'kodahash/render/completed' &&
-    previews.value.map((p) => p.hash).includes(hash)
+    res.data?.type === 'kodahash/render/completed'
+    && previews.value.map(p => p.hash).includes(hash)
   ) {
-    previews.value = previews.value.map((preview) =>
+    previews.value = previews.value.map(preview =>
       preview.hash === hash
         ? { ...preview, renderedAt: performance.now(), loading: false }
         : preview,

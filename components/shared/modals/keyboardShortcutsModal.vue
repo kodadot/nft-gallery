@@ -3,18 +3,31 @@
     :id="'keyboardShortcutsModal'"
     icon=""
     :title="title"
-    :is-button-hidden="true">
+    :is-button-hidden="true"
+  >
     <template #default>
       <div class="flex justify-between">
-        <NeoTable v-for="ktype in types" :key="ktype" :data="updateData[ktype]">
-          <NeoTableColumn v-slot="props" field="text" :label="labels[ktype]">
+        <NeoTable
+          v-for="ktype in types"
+          :key="ktype"
+          :data="updateData[ktype]"
+        >
+          <NeoTableColumn
+            v-slot="props"
+            field="text"
+            :label="labels[ktype]"
+          >
             {{ props.row.text }}
           </NeoTableColumn>
-          <NeoTableColumn v-slot="props" field="shortcut">
+          <NeoTableColumn
+            v-slot="props"
+            field="shortcut"
+          >
             <div>
               <span
                 v-for="(shortcut, index) in props.row.shortcut.split('+')"
-                :key="shortcut">
+                :key="shortcut"
+              >
                 <kbd class="keyboard-shortcut-kbd">
                   {{ shortcut }}
                 </kbd>
@@ -29,7 +42,10 @@
     </template>
     <template #hint>
       <p class="box text-right text-xs">
-        press <kbd type="is-primary" rounded>?</kbd> to open shortcuts menu
+        press <kbd
+          type="is-primary"
+          rounded
+        >?</kbd> to open shortcuts menu
       </p>
     </template>
   </ModalWrapper>
@@ -41,9 +57,9 @@ import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import ModalWrapper from './ModalWrapper.vue'
 
 interface DifferentTypeShortCuts {
-  navigation: { text: string; shortcut: string }[]
-  item_detail: { text: string; shortcut: string }[]
-  filters: { text: string; shortcut: string }[]
+  navigation: { text: string, shortcut: string }[]
+  item_detail: { text: string, shortcut: string }[]
+  filters: { text: string, shortcut: string }[]
 }
 
 interface DifferentTypeName {

@@ -1,15 +1,16 @@
-import { chainPropListOf } from '@/utils/config/chain.config'
-import {
-  availablePrefixWithIcon,
-  availablePrefixes,
-  getChainName,
-} from '@/utils/chain'
 import {
   type ChainProperties,
   type ChainVM,
   type Prefix,
   existentialDeposit as chainsExistentialDeposit,
 } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
+import {
+  availablePrefixWithIcon,
+  availablePrefixes,
+  getChainName,
+} from '@/utils/chain'
+
 export type WithoutDecimalsParams = {
   value: number
   digits?: number

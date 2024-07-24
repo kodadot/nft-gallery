@@ -6,7 +6,8 @@
     :has-navigation="hasNavigation"
     :style="{
       '--step-size': computedStepSize,
-    }">
+    }"
+  >
     <slot />
   </o-steps>
 </template>

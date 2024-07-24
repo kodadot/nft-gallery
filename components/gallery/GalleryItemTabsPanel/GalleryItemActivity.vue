@@ -1,11 +1,15 @@
 <template>
   <div class="gallery-activity-events-wrapper flex flex-col">
     <div class="events py-5 px-6 flex flex-col">
-      <div class="events-filter flex flex-wrap" data-testid="events-filter">
+      <div
+        class="events-filter flex flex-wrap"
+        data-testid="events-filter"
+      >
         <a
           class="capitalize flex items-center"
           data-testid="gallery-item-activity-filter-all"
-          @click="checkAll">
+          @click="checkAll"
+        >
           {{ $t('tabs.tabActivity.all') }}
         </a>
 
@@ -14,13 +18,15 @@
           :key="name"
           class="cursor-pointer capitalize events-checkbox-container"
           :data-testid="name"
-          :class="cssActive(value)">
+          :class="cssActive(value)"
+        >
           <input
             :id="name"
             v-model="interactions"
             type="checkbox"
             :value="value"
-            class="is-hidden" />
+            class="is-hidden"
+          >
           <span :for="name">
             {{ $t(`tabs.tabActivity.${value}`) }}
           </span>
@@ -31,7 +37,8 @@
     <GalleryItemActivityTable
       :key="interactions.join('')"
       :nft-id="nftId"
-      :interactions="interactions" />
+      :interactions="interactions"
+    />
   </div>
 </template>
 
@@ -62,7 +69,7 @@ const checkAll = () => {
 const cssActive = (value) => {
   return {
     'events-checkbox-active': interactions.value.find(
-      (interaction) => interaction === value,
+      interaction => interaction === value,
     ),
   }
 }

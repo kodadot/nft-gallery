@@ -2,7 +2,7 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 import { base, immutableZkEvm } from 'viem/chains'
 import { reconnect as reconnectWagmi } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
-import { DisconnectMutateAsync } from 'use-wagmi/query'
+import type { DisconnectMutateAsync } from 'use-wagmi/query'
 
 const buildWagmiConfig = () => {
   const metadata = {

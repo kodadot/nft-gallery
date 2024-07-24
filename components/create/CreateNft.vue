@@ -1,22 +1,26 @@
 <template>
   <div
-    class="lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light">
+    class="lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light"
+  >
     <SigningModal
       v-if="!autoTeleport"
       :is-loading="isLoading"
       :title="$t('mint.nft.minting')"
       :status="status"
-      @try-again="createNft" />
+      @try-again="createNft"
+    />
 
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
       :nft-information="nftInformation"
-      @confirm="confirm" />
+      @confirm="confirm"
+    />
 
     <form
       class="px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
-      @submit.prevent="submitHandler">
+      @submit.prevent="submitHandler"
+    >
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -24,14 +28,18 @@
         :symbol="chainSymbol"
         :chain="currentChain"
         :image="imagePreview"
-        data-testid="create-nft-preview-box" />
+        data-testid="create-nft-preview-box"
+      />
 
       <h1 class="title text-3xl mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
       <!-- nft art -->
-      <NeoField :label="`${$t('mint.nft.art.label')} *`" :addons="false">
+      <NeoField
+        :label="`${$t('mint.nft.art.label')} *`"
+        :addons="false"
+      >
         <div>
           <p>{{ $t('mint.nft.art.message') }}</p>
           <DropUpload
@@ -39,7 +47,8 @@
             required
             expanded
             preview
-            :label="$t('mint.nft.drop')" />
+            :label="$t('mint.nft.drop')"
+          />
         </div>
       </NeoField>
 
@@ -47,12 +56,14 @@
       <NeoField
         :label="`${$t('mint.nft.name.label')} *`"
         required
-        :error="!form.name">
+        :error="!form.name"
+      >
         <NeoInput
           v-model="form.name"
           data-testid="create-nft-input-name"
           required
-          :placeholder="$t('mint.nft.name.placeholder')" />
+          :placeholder="$t('mint.nft.name.placeholder')"
+        />
       </NeoField>
 
       <!-- nft description -->
@@ -64,7 +75,8 @@
           has-counter
           maxlength="1000"
           height="10rem"
-          :placeholder="$t('mint.nft.description.placeholder')" />
+          :placeholder="$t('mint.nft.description.placeholder')"
+        />
       </NeoField>
 
       <!-- select blockchain -->
@@ -76,19 +88,25 @@
             class="mt-3"
             data-testid="create-nft-dropdown-select"
             expanded
-            required>
+            required
+          >
             <option
               v-for="menu in menus"
               :key="menu.value"
               :value="menu.value"
-              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`"
+            >
               {{ menu.text }}
             </option>
           </NeoSelect>
         </div>
       </NeoField>
 
-      <InfoBox v-if="isRemark" variant="warning" class="mb-5">
+      <InfoBox
+        v-if="isRemark"
+        variant="warning"
+        class="mb-5"
+      >
         <div>{{ $t('mint.disabledRmrk') }}</div>
       </InfoBox>
 
@@ -98,22 +116,30 @@
         :label="$t('mint.nft.sale.label')"
         required
         class="sale"
-        :class="{ 'sale-on': form.sale }">
-        <span aria-hidden="true" class="hidden-sale-label">{{
+        :class="{ 'sale-on': form.sale }"
+      >
+        <span
+          aria-hidden="true"
+          class="hidden-sale-label"
+        >{{
           $t('mint.nft.sale.label')
         }}</span>
 
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
-        <NeoSwitch v-model="form.sale" data-testid="create-nft-sale-switch" />
+        <NeoSwitch
+          v-model="form.sale"
+          data-testid="create-nft-sale-switch"
+        />
       </NeoField>
       <!-- list for sale price -->
       <NeoField
         v-if="form.sale"
         required
         :error="!form.salePrice"
-        :label="`${$t('price')} *`">
+        :label="`${$t('price')} *`"
+      >
         <div class="w-full">
           <div class="flex justify-between items-center relative">
             <NeoInput
@@ -124,7 +150,8 @@
               min="0.01"
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
-              expanded />
+              expanded
+            />
             <div class="position-absolute-right text-xs text-k-grey">
               ~{{ salePriceUsd }} usd
             </div>
@@ -141,12 +168,14 @@
         :key="`collection-${currentChain}`"
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
-        @click="startSelectedCollection = true">
+        @click="startSelectedCollection = true"
+      >
         <div class="w-full">
           <p
             :class="{
               'text-k-red': startSelectedCollection && !selectedCollection,
-            }">
+            }"
+          >
             {{ $t('mint.nft.collection.message') }}
           </p>
           <ChooseCollectionDropdown
@@ -154,7 +183,8 @@
             no-shadow
             class="mt-3"
             :preselected="preselectedCollectionId"
-            @selected-collection="onCollectionSelected" />
+            @selected-collection="onCollectionSelected"
+          />
         </div>
       </NeoField>
 
@@ -169,13 +199,15 @@
             type="number"
             placeholder="e.g 10"
             min="1"
-            expanded />
+            expanded
+          />
           <BasicSwitch
             v-if="form.copies > 1"
             v-model="form.postfix"
             data-testid="create-nft-input-copies-switch"
             class="mt-3"
-            label="mint.expert.postfix" />
+            label="mint.expert.postfix"
+          />
         </div>
       </NeoField>
 
@@ -184,7 +216,8 @@
         <CustomAttributeInput
           v-model="form.tags"
           :max="10"
-          data-testid="create-nft-properties" />
+          data-testid="create-nft-properties"
+        />
       </NeoField>
 
       <!-- royalty -->
@@ -192,7 +225,8 @@
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
           v-model:address="form.royalty.address"
-          data-testid="create-nft-royalty" />
+          data-testid="create-nft-royalty"
+        />
       </NeoField>
 
       <!-- explicit content -->
@@ -200,10 +234,13 @@
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
-        <NeoSwitch v-model="form.nsfw" data-testid="create-nft-nsfw-switch" />
+        <NeoSwitch
+          v-model="form.nsfw"
+          data-testid="create-nft-nsfw-switch"
+        />
       </NeoField>
 
-      <hr class="my-6" />
+      <hr class="my-6">
 
       <!-- deposit and balance -->
       <div>
@@ -215,7 +252,8 @@
             </span>
             <span
               class="text-xs text-k-grey ml-2"
-              data-testid="create-nft-deposit-amount-usd">
+              data-testid="create-nft-deposit-amount-usd"
+            >
               {{ depositUsd }} usd
             </span>
           </div>
@@ -229,7 +267,7 @@
         </div>
       </div>
 
-      <hr class="my-6" />
+      <hr class="my-6">
 
       <!-- create nft button -->
       <NeoButton
@@ -240,20 +278,27 @@
         class="text-base"
         native-type="submit"
         size="medium"
-        :loading="isLoading" />
+        :loading="isLoading"
+      />
       <div class="p-4 flex">
-        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <NeoIcon
+          icon="circle-info"
+          size="medium"
+          class="mr-4"
+        />
         <p class="text-xs">
           <span
             v-dompurify-html="
               $t('mint.requiredDeposit', [`${deposit} ${chainSymbol}`, 'NFT'])
-            " />
+            "
+          />
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             {{ $t('helper.learnMore') }}
           </a>
         </p>
@@ -265,8 +310,6 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
-import type { Actions, TokenToList } from '@/composables/transaction/types'
-import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
@@ -275,28 +318,31 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
+import type { CreatedNFT } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/minimark/v1'
+import CreateNftPreview from './CreateNftPreview.vue'
+import type { Actions, TokenToList } from '@/composables/transaction/types'
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
-import CreateNftPreview from './CreateNftPreview.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
-import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
 import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 
 // composables
 const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const { transaction, status, isLoading, blockNumber, isError } =
-  useTransaction()
+const { transaction, status, isLoading, blockNumber, isError }
+  = useTransaction()
 const router = useRouter()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
@@ -320,8 +366,8 @@ const form = reactive({
 })
 
 // select collections
-const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
-  useCollectionDropdown()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected }
+  = useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
 
@@ -345,10 +391,10 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
+  menu => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
 const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value),
+  menus.find(menu => menu.value === urlPrefix.value),
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
@@ -370,8 +416,8 @@ watch(currentChain, () => {
 })
 
 // deposit stuff
-const { balance, totalItemDeposit, chainSymbol, chain } =
-  useDeposit(currentChain)
+const { balance, totalItemDeposit, chainSymbol, chain }
+  = useDeposit(currentChain)
 
 const deposit = computed(() =>
   (Number(totalItemDeposit.value) * form.copies).toFixed(4),
@@ -420,7 +466,7 @@ const mintAction = computed<Actions>(() => ({
 }))
 
 const listAction = computed<Actions>(() => {
-  const list: TokenToList[] = createdItems.value?.map((nft) => ({
+  const list: TokenToList[] = createdItems.value?.map(nft => ({
     price: balanceFrom(form.salePrice, decimals.value),
     nftId: toNFTId(nft, String(blockNumber.value)),
   }))
@@ -437,7 +483,8 @@ const submitHandler = () => {
   startSelectedCollection.value = true
   if (selectedCollection.value) {
     toggleConfirm()
-  } else {
+  }
+  else {
     ;(chooseCollectionRef.value?.$el as HTMLElement)?.scrollIntoView({
       block: 'center',
     })
@@ -476,10 +523,12 @@ const createNft = async () => {
     if (needsListing.value) {
       createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
-    } else {
+    }
+    else {
       transactionStatus.value = 'mint'
     }
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(`${error}`)
     $consola.error(error)
   }
@@ -538,7 +587,8 @@ const listNft = async () => {
     await listTransaction(listAction.value, currentChain.value)
 
     transactionStatus.value = 'checkListed'
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(`${error}`)
     $consola.error(error)
   }
@@ -546,9 +596,9 @@ const listNft = async () => {
 
 watchEffect(async () => {
   if (
-    blockNumber.value &&
-    createdItems.value &&
-    transactionStatus.value === 'list'
+    blockNumber.value
+    && createdItems.value
+    && transactionStatus.value === 'list'
   ) {
     await listNft()
   }
@@ -560,10 +610,10 @@ watchEffect(() => {
 
   // prepare nft blockNumber for redirect to detail page
   if (
-    (transactionStatus.value === 'mint' ||
-      transactionStatus.value === 'list') &&
-    mintStatusFinalized &&
-    blockNumber.value
+    (transactionStatus.value === 'mint'
+    || transactionStatus.value === 'list')
+    && mintStatusFinalized
+    && blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
     if (!needsListing.value) {
@@ -602,9 +652,9 @@ async function getNftId() {
 
 watchEffect(async () => {
   if (
-    mintedBlockNumber.value &&
-    retry.value &&
-    transactionStatus.value === 'done'
+    mintedBlockNumber.value
+    && retry.value
+    && transactionStatus.value === 'done'
   ) {
     infoMessage(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
@@ -619,7 +669,8 @@ watchEffect(async () => {
         path: `/${urlPrefix.value}/gallery/${nftId}`,
         query: { congratsNft: form.name },
       })
-    } else {
+    }
+    else {
       retry.value -= 1
     }
   }
