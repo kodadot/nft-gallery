@@ -108,8 +108,8 @@ const displayChainOrder: ChainType[] = [
   'kusamaHub',
 ]
 const identityStore = useIdentityStore()
-const {urlPrefix} = usePrefix()
-const {isSub} = useIsChain(urlPrefix)
+const { urlPrefix } = usePrefix()
+const { isSub } = useIsChain(urlPrefix)
 
 const rampActive = ref(false)
 
