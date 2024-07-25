@@ -1,7 +1,8 @@
-import { CHAINS, Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
+import { CHAINS } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import type { RawLocation } from 'vue-router/types/router'
 import { createVisible } from '@/utils/config/permission.config'
-import { RawLocation } from 'vue-router/types/router'
 
 const NO_REDIRECT_ROUTE_NAMES = [
   'hot',
@@ -25,7 +26,7 @@ const getAddress = (chain: string, accountId: string) => {
 
 const clearInstanceSortFromQuery = (query) => {
   if (Array.isArray(query.sort)) {
-    query.sort = query.sort.filter((value) => !value.startsWith('instance_'))
+    query.sort = query.sort.filter(value => !value.startsWith('instance_'))
     return query
   }
 
@@ -78,8 +79,8 @@ function getRedirectPathForPrefix({
     const { isRemark } = useIsChain(computed(() => chain))
 
     // https://github.com/kodadot/nft-gallery/pull/7742#issuecomment-1771105341
-    const finalQuery =
-      !isRemark.value && restOfQuery.sort
+    const finalQuery
+      = !isRemark.value && restOfQuery.sort
         ? clearInstanceSortFromQuery(restOfQuery)
         : restOfQuery
     return {
@@ -119,7 +120,8 @@ export default function () {
         chain: newChain,
         route,
       })
-    } else if (isSimpleCreate && createVisible(newChain)) {
+    }
+    else if (isSimpleCreate && createVisible(newChain)) {
       redirectLocation = { path: `/${newChain}/create` }
     }
 

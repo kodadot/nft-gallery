@@ -1,17 +1,26 @@
 <template>
-  <i18n-t tag="p" class="text-base" keypath="codeChecker.usingKodaHashMeans">
+  <i18n-t
+    tag="p"
+    class="text-base"
+    keypath="codeChecker.usingKodaHashMeans"
+  >
     <template #link>
       <a
         href="https://github.com/vikiival/kodahash"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-k-blue hover:text-k-blue-hover">
+        class="text-k-blue hover:text-k-blue-hover"
+      >
         {{ $t('codeChecker.kodahashTemplate') }}
       </a>
     </template>
   </i18n-t>
 
-  <CodeCheckerIssueHintCodeBlock class="mt-5" :code="code" lang="javascript" />
+  <CodeCheckerIssueHintCodeBlock
+    class="mt-5"
+    :code="code"
+    lang="javascript"
+  />
 </template>
 
 <script setup lang="ts">

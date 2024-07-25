@@ -20,22 +20,27 @@
       @focus="onInputFocus"
       @keydown.delete="exitCollectionSearch"
       @keydown.backSpace="exitCollectionSearch"
-      @keydown.enter="onEnter">
-      <template v-if="!isCollectionSearchMode" #header>
+      @keydown.enter="onEnter"
+    >
+      <template
+        v-if="!isCollectionSearchMode"
+        #header
+      >
         <SearchSuggestion
           ref="searchSuggestionRef"
           :name="name"
           :show-default-suggestions="showDefaultSuggestions"
           :query="query"
           @goto-gallery="$emit('redirect', $event)"
-          @close="closeDropDown">
-        </SearchSuggestion>
+          @close="closeDropDown"
+        />
       </template>
     </NeoAutocomplete>
-    <div class="search-bar-bg"></div>
+    <div class="search-bar-bg" />
     <div
       v-if="isCollectionSearchMode"
-      class="search-bar-collection-search flex items-center">
+      class="search-bar-collection-search flex items-center"
+    >
       <span class="flex items-center">{{
         $i18n.t('search.searchCollection')
       }}</span>
@@ -44,10 +49,12 @@
         height="14"
         viewBox="0 0 7 14"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           d="M6.544 0.32L1.648 13.12H0.448L5.344 0.32H6.544Z"
-          fill="#999999" />
+          fill="#999999"
+        />
       </svg>
     </div>
     <img
@@ -55,22 +62,24 @@
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': name || inputFocused }"
       src="~/assets/svg/search-k-keyboard.svg"
-      alt="press k to focus search input" />
+      alt="press k to focus search input"
+    >
     <img
       v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': !name && !inputFocused }"
       src="~/assets/svg/k-search-enter.svg"
-      alt="press enter to start search" />
+      alt="press enter to start search"
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoAutocomplete } from '@kodadot1/brick'
+import type { PropType } from 'vue'
+import type { SearchQuery } from './types'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
-import { SearchQuery } from './types'
-import type { PropType } from 'vue'
 
 const isTouchDevice = 'ontouchstart' in document.documentElement
 
@@ -96,8 +105,8 @@ const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
 const { isAssetHub, isRmrk } = useIsChain(urlPrefix)
 
-const { isCollectionSearchMode, setCollectionSearchMode } =
-  useCollectionSearch()
+const { isCollectionSearchMode, setCollectionSearchMode }
+  = useCollectionSearch()
 useKeyboardEvents({ k: bindSearchEvents })
 
 const placeholderContent = computed(() =>
@@ -148,8 +157,8 @@ function onInputBlur() {
 function bindSearchEvents(event: KeyboardEvent) {
   event.preventDefault()
   if (
-    event.key === 'k' &&
-    searchRef.value?.$el?.getBoundingClientRect()?.top > 0
+    event.key === 'k'
+    && searchRef.value?.$el?.getBoundingClientRect()?.top > 0
   ) {
     focusInput()
   }

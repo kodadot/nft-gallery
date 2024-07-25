@@ -2,7 +2,8 @@
   <div class="flex">
     <div
       class="flex focus-within:!border-border-color border border-k-shade h-10"
-      :class="{ 'price-input__fullwidth': fullWidth }">
+      :class="{ 'price-input__fullwidth': fullWidth }"
+    >
       <input
         v-model="model"
         type="number"
@@ -10,8 +11,11 @@
         min="0.001"
         pattern="[0-9]+([\.,][0-9]+)?"
         class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color"
-        :placeholder="$t('price')" />
-      <div class="px-3 flex items-center">{{ chainSymbol }}</div>
+        :placeholder="$t('price')"
+      >
+      <div class="px-3 flex items-center">
+        {{ chainSymbol }}
+      </div>
     </div>
     <NeoButton
       v-if="check"
@@ -19,7 +23,8 @@
       class="border-k-shade hover:!border-border-color ml-2 h-10"
       icon-pack="fas"
       icon="check"
-      @click="emit('confirm')" />
+      @click="emit('confirm')"
+    />
   </div>
 </template>
 

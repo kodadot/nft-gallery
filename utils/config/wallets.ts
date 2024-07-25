@@ -1,7 +1,7 @@
+import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 import { isMobileDevice } from '~/utils/extension'
 
 // wallet logo
-import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 
 export interface WalletConfig {
   img: string
@@ -150,7 +150,7 @@ const createWalletInstance = (
 const createWalletInstanceList = (
   walletList: SupportWalletExtension[],
 ): BaseDotsamaWallet[] => {
-  return walletList.map((walletExtension) =>
+  return walletList.map(walletExtension =>
     createWalletInstance(walletExtension),
   )
 }
@@ -160,11 +160,11 @@ export const SupportedWallets = () => {
     return createWalletInstanceList(MobileWalletExtensionList)
   }
   const allWallets = createWalletInstanceList(PCWalletExtensionList)
-  const wallets = allWallets.filter((wallet) => wallet.installed)
-  const sourceIds = new Set(wallets.map((d) => d.source))
+  const wallets = allWallets.filter(wallet => wallet.installed)
+  const sourceIds = new Set(wallets.map(d => d.source))
   const allWalletsUpdates = [
     ...wallets,
-    ...allWallets.filter((d) => !sourceIds.has(d.source)),
+    ...allWallets.filter(d => !sourceIds.has(d.source)),
   ]
   return allWalletsUpdates
 }
@@ -228,6 +228,6 @@ interface Connector {
 
 export interface Wallet
   extends WalletData,
-    WalletExtension,
-    Connector,
-    Signer {}
+  WalletExtension,
+  Connector,
+  Signer {}

@@ -2,7 +2,8 @@
   <NeoButton
     :variant="variant"
     :no-shadow="noShadow"
-    @click="toggleWalletConnectModal">
+    @click="toggleWalletConnectModal"
+  >
     <slot>
       {{ $t(`${label || 'general.connect'}`) }}
     </slot>
@@ -10,7 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import type { NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { ConnectWalletModalConfig } from '../common/ConnectWallet/useConnectWallet'
 import { ModalCloseType } from '../navbar/types'
 
@@ -22,15 +24,16 @@ defineProps<{
 
 const { neoModal } = useProgrammatic()
 
-const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
+const modal = ref<{ close: () => void, isActive?: boolean } | null>(null)
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
 
 const toggleWalletConnectModal = () => {
-  if (isMobile) {
+  if (isMobile.value) {
     emit('closeBurgerMenu')
-  } else {
+  }
+  else {
     emit('toggleConnectModal')
   }
 
@@ -41,11 +44,11 @@ const toggleWalletConnectModal = () => {
     return
   }
 
-  let modalInstance = neoModal.open({
+  const modalInstance = neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
     onClose: (type: ModalCloseType) => {
-      if (isMobile && type === ModalCloseType.BACK) {
+      if (isMobile.value && type === ModalCloseType.BACK) {
         emit('closeBurgerMenu')
       }
     },

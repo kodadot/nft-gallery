@@ -1,6 +1,9 @@
 <template>
   <div class="border-t border-k-shade py-5">
-    <ListingCartItemDetails :nft="nft" :discarded="nft.discarded">
+    <ListingCartItemDetails
+      :nft="nft"
+      :discarded="nft.discarded"
+    >
       <template #right>
         <NeoButton
           class="text-k-grey pt-4"
@@ -13,9 +16,13 @@
               id: nft.id,
               discarded: !nft.discarded,
             })
-          " />
+          "
+        />
       </template>
-      <template v-if="!nft.discarded" #footer>
+      <template
+        v-if="!nft.discarded"
+        #footer
+      >
         <div class="mt-4 flex justify-between items-start">
           <div class="flex flex-col">
             <div class="text-k-grey text-xs">
@@ -34,11 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import formatBalance from '@/utils/format/balance'
+import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
+import type { ListCartItem } from '@/stores/listingCart'
+import { useListingCartStore } from '@/stores/listingCart'
+import formatBalance from '@/utils/format/balance'
+
 const { decimals, chainSymbol } = useChain()
 
 const listingCartStore = useListingCartStore()
@@ -53,6 +62,6 @@ const floor = computed(() =>
 
 const listingCartItem = computed({
   get: () => listingCartStore.getItem(props.nft.id)?.listPrice,
-  set: (price) => listingCartStore.setItemPrice({ id: props.nft.id, price }),
+  set: price => listingCartStore.setItemPrice({ id: props.nft.id, price }),
 })
 </script>

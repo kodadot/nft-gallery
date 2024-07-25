@@ -1,6 +1,6 @@
 <template>
   <!-- empty template, to remove warning "[Vue warn]: Failed to mount component: template or render function not defined." -->
-  <div></div>
+  <div />
 </template>
 
 <script lang="ts" setup>

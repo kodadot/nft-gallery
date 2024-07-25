@@ -4,7 +4,8 @@
     :unit="chainSymbol"
     :decimals="decimals"
     :inline="inline"
-    :hide-unit="hideUnit" />
+    :hide-unit="hideUnit"
+  />
 </template>
 
 <script setup lang="ts">

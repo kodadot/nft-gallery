@@ -5,13 +5,15 @@
       :tx-hash="txHash"
       :share="share"
       :status="status"
-      :action-buttons="actionButtons">
+      :action-buttons="actionButtons"
+    >
       <SuccessfulItemsMedia
         :header="{
           single: $t('buyModal.purchaseSuccessful'),
           multiple: $t('buyModal.amountPurchaseSuccessfully', [items.length]),
         }"
-        :items="items" />
+        :items="items"
+      />
     </SuccessfulModal>
   </div>
 </template>
@@ -19,7 +21,7 @@
 <script setup lang="ts">
 import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['modelValue'])
 const props = defineProps<{
@@ -48,7 +50,7 @@ const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
 
 const items = computed<ItemMedia[]>(() =>
-  props.items.map((item) => ({
+  props.items.map(item => ({
     id: item.id,
     name: item.name,
     image: item.meta?.image as string,
@@ -62,7 +64,7 @@ const shareText = computed(() => {
     return $i18n.t('sharing.boughtNft')
   }
 
-  const someNfts = props.items.slice(0, 3).map((item) => item.name)
+  const someNfts = props.items.slice(0, 3).map(item => item.name)
 
   return $i18n.t('sharing.boughtNfts', [someNfts.join(', ')])
 })
@@ -111,7 +113,7 @@ const handleViewNft = () => {
 }
 
 const watchCurrentOwners = () => {
-  const ids = props.items.map((item) => item.id)
+  const ids = props.items.map(item => item.id)
   nftSubscription.value = useSubscriptionGraphql({
     query: `nftEntities(where: {
         id_in: ${JSON.stringify(ids)}
@@ -119,9 +121,9 @@ const watchCurrentOwners = () => {
       currentOwner
     }`,
     onChange: ({ data: { nftEntities } }) => {
-      const currentOwners: string[] = nftEntities.map((nft) => nft.currentOwner)
+      const currentOwners: string[] = nftEntities.map(nft => nft.currentOwner)
       canListItems.value = currentOwners.every(
-        (currentOwner) => currentOwner === accountId.value,
+        currentOwner => currentOwner === accountId.value,
       )
     },
   })
@@ -136,7 +138,8 @@ watch(
   (isOpen: boolean) => {
     if (isOpen) {
       watchCurrentOwners()
-    } else {
+    }
+    else {
       unsubscribeSubscription()
     }
   },

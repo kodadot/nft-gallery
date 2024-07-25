@@ -10,10 +10,14 @@
       :min="min"
       :max="max"
       @blur="hasFocus = false"
-      @focus="hasFocus = true" />
+      @focus="hasFocus = true"
+    />
     <template #message>
       <transition name="fade">
-        <span v-show="hasFocus && message" class="text-k-primary italic">{{
+        <span
+          v-show="hasFocus && message"
+          class="text-k-primary italic"
+        >{{
           message
         }}</span>
       </transition>

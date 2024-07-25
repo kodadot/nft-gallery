@@ -7,14 +7,23 @@
       <template #content>
         <div class="max-h-[30rem] overflow-y-auto">
           <div
-            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey">
-            <div class="column text-k-grey is-1">#</div>
-            <div class="column text-k-grey">{{ $t('massmint.image') }}</div>
-            <div class="column text-k-grey">{{ $t('massmint.name') }}</div>
+            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey"
+          >
+            <div class="column text-k-grey is-1">
+              #
+            </div>
+            <div class="column text-k-grey">
+              {{ $t('massmint.image') }}
+            </div>
+            <div class="column text-k-grey">
+              {{ $t('massmint.name') }}
+            </div>
             <div class="column is-3 text-k-grey">
               {{ $t('massmint.description') }}
             </div>
-            <div class="column text-k-grey">{{ $t('massmint.price') }}</div>
+            <div class="column text-k-grey">
+              {{ $t('massmint.price') }}
+            </div>
             <div class="column text-k-grey flex justify-center">
               <span class="pl-2">{{ $t('massmint.status') }}</span>
             </div>
@@ -25,7 +34,8 @@
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns is-variable is-1 is-mobile border-b border-k-shade m-0 py-1 px-4">
+            class="columns is-variable is-1 is-mobile border-b border-k-shade m-0 py-1 px-4"
+          >
             <div class="column flex items-center is-1">
               {{ nft.id }}
             </div>
@@ -35,7 +45,8 @@
                 :avatar="nft.imageUrl"
                 :name="nft.name || `${nft.id}`"
                 :size="48"
-                :placeholder="placeholder" />
+                :placeholder="placeholder"
+              />
             </div>
             <div class="column flex items-center">
               <div
@@ -43,7 +54,8 @@
                 :class="{
                   'text-k-red': !nft.name,
                 }"
-                @click="openSideBarWith(nft)">
+                @click="openSideBarWith(nft)"
+              >
                 {{ nft.name || '*' + $t('massmint.nameRequired') }}
               </div>
             </div>
@@ -53,16 +65,24 @@
                 :class="{
                   'text-k-orange': !nft.description,
                 }"
-                @click="openSideBarWith(nft)">
+                @click="openSideBarWith(nft)"
+              >
                 {{ nft.description || $t('massmint.descriptionMissing') }}
               </div>
             </div>
             <div class="column flex items-center">
-              <div class="cursor-pointer" @click="openSideBarWith(nft)">
+              <div
+                class="cursor-pointer"
+                @click="openSideBarWith(nft)"
+              >
                 <CommonTokenMoney
                   v-if="nft.price"
-                  :value="getNativeNftPrice(nft)" />
-                <div v-else class="text-k-orange">
+                  :value="getNativeNftPrice(nft)"
+                />
+                <div
+                  v-else
+                  class="text-k-orange"
+                >
                   {{ $t('massmint.priceMissing') }}
                 </div>
               </div>
@@ -71,7 +91,8 @@
               <div class="flex items-center pl-2">
                 <div
                   class="border text-xs justify-center py-2 flex items-center w-[100px]"
-                  :class="statusClass(nft.status)">
+                  :class="statusClass(nft.status)"
+                >
                   {{ statusTranslation(nft.status) }}
                 </div>
               </div>
@@ -82,7 +103,8 @@
                 size="large"
                 variant="icon"
                 no-shadow
-                @click="openSideBarWith(nft)" />
+                @click="openSideBarWith(nft)"
+              />
 
               <NeoButton
                 icon="trash"
@@ -90,7 +112,8 @@
                 class="ml-3"
                 variant="icon"
                 no-shadow
-                @click="deleteNFT(nft)" />
+                @click="deleteNFT(nft)"
+              />
             </div>
           </div>
           <div ref="sentinel" />
@@ -103,7 +126,8 @@
 <script setup lang="ts">
 import { NeoAvatar, NeoButton, NeoCollapsible } from '@kodadot1/brick'
 import { useIntersectionObserver } from '@vueuse/core'
-import { NFT, NFTS, Status } from './types'
+import type { NFT, NFTS } from './types'
+import { Status } from './types'
 import {
   statusClass,
   statusTranslation,

@@ -33,11 +33,11 @@ const binSizeToMillis = (binSize: BinSize): number => {
   const millisInDay = 24 * millisInHour
   const millisInWeek = 7 * millisInDay
 
-  const millis =
-    (binSize.weeks ?? 0) * millisInWeek +
-    (binSize.days ?? 0) * millisInDay +
-    (binSize.hours ?? 0) * millisInHour +
-    (binSize.minutes ?? 0) * millisInMinute
+  const millis
+    = (binSize.weeks ?? 0) * millisInWeek
+    + (binSize.days ?? 0) * millisInDay
+    + (binSize.hours ?? 0) * millisInHour
+    + (binSize.minutes ?? 0) * millisInMinute
 
   return millis || millisInDay // Default bin size is one day
 }
@@ -100,11 +100,11 @@ export const isAnyEventTypeFilterActive = (): boolean => {
   const query = useRoute().query
 
   return (
-    readParam(query?.sale) ||
-    readParam(query?.listing) ||
-    readParam(query?.mint) ||
-    readParam(query?.transfer) ||
-    readParam(query?.offer)
+    readParam(query?.sale)
+    || readParam(query?.listing)
+    || readParam(query?.mint)
+    || readParam(query?.transfer)
+    || readParam(query?.offer)
   )
 }
 
@@ -131,13 +131,13 @@ export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
     const binStart = firstTimestamp + index * binSizeMillis
     const binEnd = binStart + binSizeMillis
     const binData = data.filter(
-      (dataPoint) =>
+      dataPoint =>
         dataPoint.timestamp >= binStart && dataPoint.timestamp < binEnd,
     )
     return { timestamp: binStart + binSizeMillis / 2, value: mean(binData) }
   })
 
-  return bins.filter((bin) => !isNaN(bin.value))
+  return bins.filter(bin => !isNaN(bin.value))
 }
 
 export const format = (number: number) => {
@@ -149,7 +149,7 @@ export const removeOutliers = (
   data: DataPoint[],
   outlierThresholdScale = 0.75,
 ): DataPoint[] => {
-  const values = data.map((d) => d.value)
+  const values = data.map(d => d.value)
   const med = median(values)
   const medianAbsDev = mediaAbsoluteDeviation(values)
   const THRESHOLD = med + outlierThresholdScale * medianAbsDev

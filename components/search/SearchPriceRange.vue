@@ -8,7 +8,8 @@
         step="any"
         class="w-1/6"
         :placeholder="$t('query.priceRange.minPrice')"
-        data-testid="input-min" />
+        data-testid="input-min"
+      />
       <NeoInput
         v-model="vrange[1]"
         min="0"
@@ -16,18 +17,23 @@
         type="number"
         class="w-1/6"
         :placeholder="$t('query.priceRange.maxPrice')"
-        data-testid="input-max" />
+        data-testid="input-max"
+      />
       <div class="w-1/12">
         <NeoButton
           variant="primary"
           :disabled="applyDisabled"
           data-testid="apply"
-          @click="rangeChange">
+          @click="rangeChange"
+        >
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
     </NeoField>
-    <p v-if="applyDisabled" class="help is-danger">
+    <p
+      v-if="applyDisabled"
+      class="help is-danger"
+    >
       {{ $t('query.priceRange.priceValidation') }}
     </p>
   </div>

@@ -5,20 +5,23 @@
       :tx-hash="txHash"
       :share="share"
       :status="status"
-      :action-buttons="actionButtons">
+      :action-buttons="actionButtons"
+    >
       <div>
         <div
           class="relative bg-cover bg-center w-full h-28 border border-k-grey-fix"
           :style="{
             backgroundImage: `url(${collection?.image})`,
-          }">
+          }"
+        >
           <div class="flex justify-center items-center h-full">
             <div class="bg-background-color p-2 border border-k-grey-fix">
               <BaseMediaItem
                 :src="collection?.image"
                 :image-component="NuxtImg"
                 :title="collection?.name"
-                class="w-16 h-16 border border-k-grey-fix" />
+                class="w-16 h-16 border border-k-grey-fix"
+              />
             </div>
           </div>
         </div>
@@ -37,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { MintedCollectionInfo } from '../CreateCollection.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import type { MintedCollectionInfo } from '../CreateCollection.vue'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const NuxtImg = resolveComponent('NuxtImg')
 defineEmits(['modelValue'])

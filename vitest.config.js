@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import graphql from '@rollup/plugin-graphql'
 

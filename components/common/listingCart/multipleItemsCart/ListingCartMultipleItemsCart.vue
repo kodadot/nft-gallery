@@ -6,39 +6,46 @@
 
     <ListingCartFloorPrice
       v-model="floorPricePercentAdjustment"
-      show-current-floor-price />
+      show-current-floor-price
+    />
 
-    <div class="pt-3 text-k-grey">-Or-</div>
-    <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
+    <div class="pt-3 text-k-grey">
+      -Or-
+    </div>
+    <div class="pt-3">
+      {{ $t('listingCart.fixedPrice') }}
+    </div>
 
     <ListingCartPriceInput
       v-model.number="fixedPrice"
       class="pt-2"
       check
-      @confirm="setFixedPrice" />
+      @confirm="setFixedPrice"
+    />
 
     <div class="mt-5">
       <ListingCartItem
         v-for="nft in allItemsInChain"
         :key="nft.id"
-        :nft="nft" />
+        :nft="nft"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useListingCartStore } from '@/stores/listingCart'
-import ListingCartItem from './ListingCartItem.vue'
+import sortBy from 'lodash/sortBy'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
-import sortBy from 'lodash/sortBy'
+import ListingCartItem from './ListingCartItem.vue'
+import { useListingCartStore } from '@/stores/listingCart'
 
 const emit = defineEmits(['update:fixedPrice', 'setFixedPrice'])
 
 const listingCartStore = useListingCartStore()
 
 const allItemsInChain = computed(() =>
-  sortBy(listingCartStore.allItemsInChain, (item) => (item.discarded ? 0 : 1)),
+  sortBy(listingCartStore.allItemsInChain, item => (item.discarded ? 0 : 1)),
 )
 
 const props = defineProps<{

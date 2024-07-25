@@ -1,5 +1,5 @@
-import { ActionMintCollection } from '../types'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import type { ActionMintCollection } from '../types'
 import { pinJson } from '@/services/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'

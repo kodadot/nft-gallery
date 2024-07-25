@@ -1,4 +1,4 @@
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import { base, immutableZkEvm } from 'viem/chains'
 import { type Chain, createPublicClient, http } from 'viem'
 

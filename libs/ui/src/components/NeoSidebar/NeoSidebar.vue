@@ -10,7 +10,8 @@
     :right="right"
     :overlay="overlay"
     :can-cancel="canCancel"
-    :on-cancel="onCancel">
+    :on-cancel="onCancel"
+  >
     <slot />
   </o-sidebar>
 </template>

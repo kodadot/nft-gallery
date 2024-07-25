@@ -9,9 +9,9 @@ export const useCollectionSearch = () => {
   const searchStore = useSearchStore()
   const isCollectionSearchMode = computed(() => {
     return (
-      route.name === 'prefix-collection-id' &&
-      searchStore.isCollectionSearchMode &&
-      !isMobile.value
+      route.name === 'prefix-collection-id'
+      && searchStore.isCollectionSearchMode
+      && !isMobile.value
     )
   })
 

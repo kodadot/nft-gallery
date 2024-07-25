@@ -6,16 +6,21 @@
     class="py-0"
     :mobile-modal="true"
     :close-on-click="false"
-    multiple>
+    multiple
+  >
     <template #trigger="{ active }">
       <NeoButton
         :active="active"
         no-shadow
         rounded
         label="Collections"
-        :icon="active ? 'chevron-up' : 'chevron-down'" />
+        :icon="active ? 'chevron-up' : 'chevron-down'"
+      />
 
-      <ActiveCount :count="checked.length" position="top-right" />
+      <ActiveCount
+        :count="checked.length"
+        position="top-right"
+      />
     </template>
 
     <div class="py-5 dropdown-width">
@@ -24,15 +29,18 @@
         :key="collection.id"
         class="!flex border-none items-center"
         aria-role="listitem"
-        :value="collection.id">
+        :value="collection.id"
+      >
         <NeoCheckbox
           :model-value="isSelected(collection)"
-          class="pointer-events-none" />
+          class="pointer-events-none"
+        />
         <div class="flex items-center filter-container grow min-w-0">
           <img
             :src="sanitizeIpfsUrl(collection.meta?.image)"
             class="image is-32x32 is-flex-shrink-0 border mr-2"
-            :alt="collection.name || collection.id" />
+            :alt="collection.name || collection.id"
+          >
           <div class="flex flex-col grow min-w-0">
             <div class="is-ellipsis">
               {{ collection.name || collection.id }}
@@ -59,11 +67,11 @@ import {
   NeoDropdown,
   NeoDropdownItem,
 } from '@kodadot1/brick'
-import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
-import ActiveCount from '../explore/ActiveCount.vue'
-import { CollectionEntityMinimal } from '@/components/collection/utils/types'
-import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
+import ActiveCount from '../explore/ActiveCount.vue'
+import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
+import type { CollectionEntityMinimal } from '@/components/collection/utils/types'
+import { getDenyList } from '@/utils/prefix'
 
 type Collection = CollectionEntityMinimal & {
   owners: number
@@ -124,7 +132,7 @@ const getProfileCollections = async () => {
 
 const formatCollections = (collectionEntities) => {
   return collectionEntities.map((collection) => {
-    const currentOwners = collection.nfts.map((nft) => nft.currentOwner)
+    const currentOwners = collection.nfts.map(nft => nft.currentOwner)
 
     return {
       ...collection,
@@ -142,8 +150,8 @@ const isSelected = (collection: Collection) => {
 
 const syncCheckedCollections = () => {
   const filteredChecked = collections.value
-    .map((c) => c.id)
-    .filter((id) => checked.value.includes(id))
+    .map(c => c.id)
+    .filter(id => checked.value.includes(id))
 
   if (isEqual(checked.value, filteredChecked)) {
     return

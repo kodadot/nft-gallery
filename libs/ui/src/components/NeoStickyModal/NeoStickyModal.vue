@@ -5,19 +5,22 @@
     max-height="90vh"
     scroll="clip"
     @close="closeModal"
-    @update:active="updateActive">
+    @update:active="updateActive"
+  >
     <div class="flex flex-col justify-between pb-tw-8 md:w-[28rem] md:pb-0">
       <header
         :class="{
           'flex justify-center items-center relative px-6 py-3': !isBoxedHeader,
           'py-5 px-6 flex justify-between items-center border-b border-b-border-color':
             isBoxedHeader,
-        }">
+        }"
+      >
         <div
           :class="{
             'modal-card-title text-base font-bold': isBoxedHeader,
             'text-xl/normal font-bold': !isBoxedHeader,
-          }">
+          }"
+        >
           <slot name="header" />
         </div>
 
@@ -29,7 +32,8 @@
           no-shadow
           icon="xmark"
           :size="isBoxedHeader ? undefined : 'medium'"
-          @click="closeModal" />
+          @click="closeModal"
+        />
       </header>
 
       <div>
@@ -37,13 +41,15 @@
           :class="[
             { 'border-t border-t-k-shade h-[60vh] md:h-[50vh]': isExpanded },
             'px-6 overflow-auto',
-          ]">
+          ]"
+        >
           <slot name="body" />
         </div>
       </div>
 
       <div
-        class="flex flex-col px-6 py-5 pb-tw-8 md:pb-0 border-t border-t-k-shade">
+        class="flex flex-col px-6 py-5 pb-tw-8 md:pb-0 border-t border-t-k-shade"
+      >
         <slot name="footer" />
       </div>
     </div>

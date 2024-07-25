@@ -1,4 +1,4 @@
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 
 const getTokenIconBySymbol = (token: string) => {
   switch (token.toLowerCase()) {

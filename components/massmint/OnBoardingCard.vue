@@ -1,7 +1,8 @@
 <template>
   <div
     class="carousel-card p-7 mobile-padding"
-    :class="{ 'not-active': !active }">
+    :class="{ 'not-active': !active }"
+  >
     <div class="card__content">
       <div class="flex justify-between">
         <p class="title text-xl sm:text-3xl capitalize">
@@ -17,6 +18,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 defineProps<{
   title: string

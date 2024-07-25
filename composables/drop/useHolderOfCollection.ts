@@ -1,5 +1,5 @@
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
-import { HolderOfCollection } from '@/components/collection/drop/types'
+import type { HolderOfCollection } from '@/components/collection/drop/types'
 import { useHolderOfCollectionDrop } from '@/components/drops/useDrops'
 
 export default function useHolderOfCollection() {

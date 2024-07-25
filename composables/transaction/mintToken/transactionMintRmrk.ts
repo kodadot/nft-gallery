@@ -1,13 +1,14 @@
-import { canSupport } from '@/utils/support'
+import type {
+  CreatedNFT } from '@kodadot1/minimark/v1'
 import {
-  CreatedNFT,
   Interaction,
   createMintInteraction,
   createMultipleNFT,
 } from '@kodadot1/minimark/v1'
-import {
+import type {
   IProperties,
-  CreatedNFT as NewCreatedNFT,
+  CreatedNFT as NewCreatedNFT } from '@kodadot1/minimark/v2'
+import {
   Interaction as NewInteraction,
   convertAttributesToProperties,
   createInteraction,
@@ -16,24 +17,26 @@ import {
   mergeProperties,
 } from '@kodadot1/minimark/v2'
 
-import { basicUpdateFunction } from '@/components/unique/NftUtils'
-import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
-import {
+import type { Extrinsic } from '@kodadot1/minimark/common'
+import { asSystemRemark } from '@kodadot1/minimark/common'
+import type {
   ActionMintToken,
   MintedCollectionKusama,
   SubstrateMintTokenParams,
   TokenToMint,
 } from '../types'
 import { constructMeta } from './constructMeta'
-import { isRoyaltyValid } from '@/utils/royalty'
 import { calculateFees, copiesToMint, getNameInNotifications } from './utils'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
+import { isRoyaltyValid } from '@/utils/royalty'
+import { basicUpdateFunction } from '@/components/unique/NftUtils'
+import { canSupport } from '@/utils/support'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
-  const addRoyalty =
-    royalty !== undefined && isRoyaltyValid(royalty) && hasRoyalty
+  const addRoyalty
+    = royalty !== undefined && isRoyaltyValid(royalty) && hasRoyalty
       ? makeRoyalty({ receiver: royalty.address, percent: royalty.amount })
       : undefined
 
@@ -80,14 +83,14 @@ const createMintInteractionObject = (
   const { isV2 } = useRmrkVersion()
 
   if (isV2.value) {
-    return mint.map((nft) =>
+    return mint.map(nft =>
       createInteraction({
         action: NewInteraction.MINT,
         payload: { value: { ...nft, properties: onChainProperties } },
       }),
     )
   }
-  return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
+  return mint.map(nft => createMintInteraction(Interaction.MINTNFT, nft))
 }
 
 const processTokens = async (
@@ -95,7 +98,7 @@ const processTokens = async (
   metadata: string | string[],
   api,
 ): Promise<
-  Array<{ arg: Extrinsic[]; createdNFTs: CreatedNFT[] | NewCreatedNFT[] }>
+  Array<{ arg: Extrinsic[], createdNFTs: CreatedNFT[] | NewCreatedNFT[] }>
 > => {
   return tokens.map((token, index) => {
     const tokenMetadata = Array.isArray(metadata) ? metadata[index] : metadata
@@ -103,7 +106,7 @@ const processTokens = async (
     const mint = createMintObject(token, tokenMetadata, getUpdateNameFn(token))
     const mintInteraction = createMintInteractionObject(mint, onChainProperties)
 
-    const arg = [...mintInteraction.map((nft) => asSystemRemark(api, nft))]
+    const arg = [...mintInteraction.map(nft => asSystemRemark(api, nft))]
 
     return {
       arg,
@@ -124,8 +127,8 @@ const getArgs = async (item: ActionMintToken, api) => {
     ) as TokenToMint[]
     const metadata = isMultipleTokens
       ? await constructDirectoryMeta(tokens, {
-          enableCarbonOffset,
-        })
+        enableCarbonOffset,
+      })
       : await constructMeta(tokens[0], { enableCarbonOffset })
 
     const results = await processTokens(tokens, metadata, api)
@@ -151,7 +154,8 @@ const getArgs = async (item: ActionMintToken, api) => {
       args,
       createdNFTs,
     }
-  } catch (e) {
+  }
+  catch (e) {
     $consola.error('Error:', e)
     throw e
   }
@@ -179,15 +183,15 @@ export async function execMintRmrk({
     cb,
     arg,
     successMessage:
-      item.successMessage ??
-      ((blockNumber) =>
+      item.successMessage
+      ?? (blockNumber =>
         $i18n.t('mint.mintNFTSuccess', {
           name: nameInNotifications,
           block: blockNumber,
         })),
     errorMessage:
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
+      item.errorMessage
+      || $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
   })
   return {
     createdNFTs,

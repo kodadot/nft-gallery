@@ -4,7 +4,8 @@
       ref="label"
       :class="labelClass"
       :disabled="disabledNull"
-      @click="focus">
+      @click="focus"
+    >
       <slot />
       <input
         ref="input"
@@ -17,7 +18,8 @@
         :value="nativeValue"
         @click.stop
         @focus="isFocused = true"
-        @blur="isFocused = false" />
+        @blur="isFocused = false"
+      >
     </label>
   </div>
 </template>

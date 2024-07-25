@@ -1,10 +1,12 @@
 <template>
   <a
     :class="['flex items-center', { 'navbar-item': isMobileDevice }]"
-    @click="onClick">
+    @click="onClick"
+  >
     {{ $t('profileMenu.configureCookies') }}
   </a>
 </template>
+
 <script lang="ts" setup>
 import { isMobileDevice } from '@/utils/extension'
 

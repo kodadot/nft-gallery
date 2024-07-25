@@ -33,7 +33,7 @@ export const useAcivityFiltersStore = defineStore('activityFilters', {
       mint,
       transfer,
     }),
-    getPriceRange: (state) => ({ min: state.min, max: state.max }),
+    getPriceRange: state => ({ min: state.min, max: state.max }),
   },
   actions: {
     setSale(payload) {

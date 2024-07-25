@@ -8,13 +8,15 @@
         height="35"
         no-margin
         border-radius="4rem"
-        variant="k-grey-light" />
+        variant="k-grey-light"
+      />
 
       <transition name="fade">
         <slot name="header">
           <div
             v-if="!loading"
-            class="modal-card-title text-base font-bold line-height">
+            class="modal-card-title text-base font-bold line-height"
+          >
             {{ title }}
           </div>
         </slot>
@@ -25,7 +27,8 @@
         no-shadow
         icon="xmark"
         size="medium"
-        @click="onClose" />
+        @click="onClose"
+      />
     </header>
 
     <div
@@ -36,10 +39,17 @@
           'limit-height__loading': loading,
         },
         contentClass,
-      ]">
+      ]"
+    >
       <div v-if="loading">
-        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton">
-          <template v-if="estimatedTime" #footer>
+        <SkeletonLoader
+          :title="skeletonTitle"
+          class="modal-skeleton"
+        >
+          <template
+            v-if="estimatedTime"
+            #footer
+          >
             <SkeletonLoaderFooterPill>
               {{ formattedEstimatedTime }}
             </SkeletonLoaderFooterPill>
@@ -52,7 +62,8 @@
         class="slot"
         :class="{
           slot__loading: loading,
-        }">
+        }"
+      >
         <slot />
       </div>
     </div>
@@ -86,8 +97,8 @@ const props = withDefaults(
 )
 
 const { $i18n } = useNuxtApp()
-const { estimatedTime: formattedEstimatedTime, start: startEstimatedTime } =
-  useEstimatedTime()
+const { estimatedTime: formattedEstimatedTime, start: startEstimatedTime }
+  = useEstimatedTime()
 
 const titles = [
   $i18n.t('general.doingSomeMagic'),
@@ -107,9 +118,9 @@ const titleRange = computed(() =>
 )
 const skeletonTitle = computed(
   () =>
-    props.customSkeletonTitle ||
-    titles[titleRange.value] ||
-    titles[titles.length - 1],
+    props.customSkeletonTitle
+    || titles[titleRange.value]
+    || titles[titles.length - 1],
 )
 
 const onClose = () => emits('close')
@@ -130,7 +141,8 @@ watch(
     if (loading && !customTitle) {
       titleSeconds.value = 0
       start()
-    } else {
+    }
+    else {
       pause()
     }
   },

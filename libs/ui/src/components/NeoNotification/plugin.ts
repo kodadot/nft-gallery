@@ -1,10 +1,9 @@
-import NotificationNotice from './NeoNotificationNotice.vue'
-
 import { getOptions } from '@oruga-ui/oruga-next/src/utils/config'
 import { getValueByPath, merge } from '@oruga-ui/oruga-next/src/utils/helpers'
 import InstanceRegistry from '@oruga-ui/oruga-next/src/utils/InstanceRegistry'
 
 import { createVNode, render } from 'vue'
+import NotificationNotice from './NeoNotificationNotice.vue'
 
 const instances = new InstanceRegistry()
 
@@ -18,7 +17,8 @@ const NotificationProgrammatic = {
       newParams = {
         message: params,
       }
-    } else {
+    }
+    else {
       newParams = params
     }
 
@@ -30,8 +30,8 @@ const NotificationProgrammatic = {
         'top-right',
       ),
       closable:
-        params.closable ||
-        getValueByPath(getOptions(), 'notification.closable', false),
+        params.closable
+        || getValueByPath(getOptions(), 'notification.closable', false),
       iconPack: 'fasr',
     }
     let slot

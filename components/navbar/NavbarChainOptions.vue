@@ -4,7 +4,8 @@
       v-for="chain in availableChains"
       :key="chain.value"
       class="navbar-item"
-      @click="changeChain(chain.value)">
+      @click="changeChain(chain.value)"
+    >
       <p class="menu-item mr-2">
         {{ chain.text }}
       </p>

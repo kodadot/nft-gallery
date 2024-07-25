@@ -1,14 +1,13 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { storeToRefs } from 'pinia'
+import { CHAINS, ChainProperties, ENDPOINT_MAP, Prefix  } from '@kodadot1/static'
+import { useIntervalFn } from '@vueuse/core'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { toDefaultAddress } from '@/utils/account'
-
-import { storeToRefs } from 'pinia'
-import { CHAINS, ChainProperties, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
 import { getNativeBalance } from '@/utils/balance'
-import { useIntervalFn } from '@vueuse/core'
 import { ChainType, useIdentityStore } from '@/stores/identity'
 import { Address } from 'viem'
 
@@ -214,8 +213,8 @@ export default function (refetchPeriodically: boolean = false) {
 
   onMounted(async () => {
     if (
-      currentNetwork.value !== multiBalanceNetwork.value &&
-      refetchPeriodically
+      currentNetwork.value !== multiBalanceNetwork.value
+      && refetchPeriodically
     ) {
       identityStore.resetMultipleBalances()
     }

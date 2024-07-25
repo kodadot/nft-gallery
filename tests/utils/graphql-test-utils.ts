@@ -2,8 +2,8 @@
 export const hasOperationName = (req, operationName) => {
   const { body } = req
   return (
-    Object.prototype.hasOwnProperty.call(body, 'operationName') &&
-    body.operationName === operationName
+    Object.prototype.hasOwnProperty.call(body, 'operationName')
+    && body.operationName === operationName
   )
 }
 

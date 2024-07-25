@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useIdentityStore } from '@/stores/identity'
 import WalletAssetIdentity from './WalletAssetIdentity.vue'
 import WalletAssetNfts from './WalletAssetNfts.vue'
 import WalletAssetMenu from './WalletAssetMenu.vue'
+import { useIdentityStore } from '@/stores/identity'
 
 const MultipleBalances = defineAsyncComponent(
   () => import('@/components/balance/MultipleBalances.vue'),

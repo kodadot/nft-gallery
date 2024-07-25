@@ -1,8 +1,8 @@
-import { MediaType, RMRK } from './types'
-import { Interaction as EventInteraction } from './service/scheme'
-import { NFT, NFTWithMeta } from './service/scheme'
-import { before } from '@/utils/math'
 import { Interaction } from '@kodadot1/minimark/v1'
+import type { RMRK } from './types'
+import { MediaType } from './types'
+import type { Interaction as EventInteraction, NFT, NFTWithMeta } from './service/scheme'
+import { before } from '@/utils/math'
 
 export type PriceDataType = [date: Date, value: number]
 
@@ -21,7 +21,7 @@ export const zip = <T1, T2, T3>(
 }
 
 export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
-  return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
+  return instances.map(i => ({ ...i, price: Number(i.price || 0) }))
 }
 
 export const isEmpty = (rmrk: RMRK): boolean => {
@@ -80,34 +80,34 @@ export const resolveMedia = (mimeType?: string): MediaType => {
 export const onlyEvents = (nft: NFT): EventInteraction[] => nft.events
 export const onlyPriceEvents = (e: { interaction: string }): boolean =>
   e.interaction !== 'MINTNFT'
-export const eventsBeforeTime =
-  (time: string) =>
-  (evts: EventInteraction[]): EventInteraction[] => {
-    const res = evts.filter(before(new Date(time)))
-    return res.length && res[res.length - 1].interaction === 'LIST'
-      ? [res[res.length - 1]]
-      : []
-  }
-export const collectionFloorPriceList =
-  (priceEvents: EventInteraction[][], decimals: number) =>
-  (time: string): PriceDataType => {
-    const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
-    const priceEvent = listEventsBeforeTime
-      .map((e: EventInteraction) => Number(e.meta) / 10 ** decimals)
-      .filter((price: number) => price > 0)
+export const eventsBeforeTime
+  = (time: string) =>
+    (evts: EventInteraction[]): EventInteraction[] => {
+      const res = evts.filter(before(new Date(time)))
+      return res.length && res[res.length - 1].interaction === 'LIST'
+        ? [res[res.length - 1]]
+        : []
+    }
+export const collectionFloorPriceList
+  = (priceEvents: EventInteraction[][], decimals: number) =>
+    (time: string): PriceDataType => {
+      const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
+      const priceEvent = listEventsBeforeTime
+        .map((e: EventInteraction) => Number(e.meta) / 10 ** decimals)
+        .filter((price: number) => price > 0)
 
-    const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
-    return [new Date(time), floorPrice]
-  }
+      const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
+      return [new Date(time), floorPrice]
+    }
 export const onlyBuyEvents = (
   nftEvents: EventInteraction[],
 ): EventInteraction[] => {
   const buyEvents: EventInteraction[] = []
   nftEvents?.forEach((e: EventInteraction, index: number) => {
     if (
-      e.interaction === Interaction.BUY &&
-      index >= 1 &&
-      nftEvents[index - 1].interaction === Interaction.LIST
+      e.interaction === Interaction.BUY
+      && index >= 1
+      && nftEvents[index - 1].interaction === Interaction.LIST
     ) {
       buyEvents.push({ ...e, meta: nftEvents[index - 1].meta })
     }
