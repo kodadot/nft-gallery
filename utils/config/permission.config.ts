@@ -54,7 +54,7 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk' || prefix === 'ahp'
+  return prefix === 'ahk' || prefix === 'ahp' || prefix === 'base'
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {

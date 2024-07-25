@@ -97,7 +97,7 @@
         <!-- NAV END -->
         <div class="navbar-end">
           <nuxt-link
-            to="/ahp/drops"
+            :to="dropsPath"
             rel="nofollow"
           >
             <div
@@ -285,6 +285,14 @@ const logoSrc = computed(() => {
   const variant = isTouch ? 'Koda' : 'Koda_Beta'
   const color = isDarkMode.value ? '_dark' : ''
   return `/${variant}${color}.svg`
+})
+
+const dropsPath = computed(() => {
+  const prefix = pickByVm({
+    SUB: 'ahp',
+    EVM: 'base'
+  })
+  return `/${prefix}/drops`
 })
 
 const handleMobileChainSelect = () => {
