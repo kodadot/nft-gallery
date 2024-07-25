@@ -1,9 +1,8 @@
-import { balanceOf } from '@kodadot1/sub-api'
-import type { Registration } from '@polkadot/types/interfaces/identity/types'
+import { type Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
-import consola from 'consola'
 import type { Prefix } from '@kodadot1/static'
 import { emptyObject } from '@/utils/empty'
+import { networkToPrefix } from '@/composables/useMultipleBalance'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
@@ -206,17 +205,8 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
     async fetchBalance({ address }: ChangeAddressRequest) {
-      const { apiInstance } = useApi()
-      try {
-        const api = await apiInstance.value
-        const balance = await balanceOf(api, address)
-        if (balance) {
-          this.setPrefixBalance(balance)
-        }
-      }
-      catch (e) {
-        consola.error('[FETCH BALANCE] Unable to get user balance', e)
-      }
+      const { fetchBalance } = useBalance()
+      await fetchBalance(address)
     },
     setMultiBalances({ address, chains, chainName }) {
       this.multiBalances = {
