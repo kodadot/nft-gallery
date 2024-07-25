@@ -2,8 +2,8 @@ import { usePreferencesStore } from '@/stores/preferences'
 import {
   ActionMintToken,
   Max,
-  MintTokenParams,
   MintedCollection,
+  SubstrateMintTokenParams,
   TokenToMint,
 } from '../types'
 import { chainAssetOf } from '@/utils/config/chain.config'
@@ -41,7 +41,7 @@ export const getNameInNotifications = (item: ActionMintToken) => {
 }
 
 export const transactionFactory = (getArgs) => {
-  return async (mintTokenParams: MintTokenParams) => {
+  return async (mintTokenParams: SubstrateMintTokenParams) => {
     const { item, api, executeTransaction, isLoading, status } = mintTokenParams
     const { $i18n } = useNuxtApp()
 

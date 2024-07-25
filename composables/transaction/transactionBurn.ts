@@ -6,7 +6,7 @@ import {
 import type { ApiPromise } from '@polkadot/api'
 import type {
   ActionDeleteCollection,
-  ExecuteTransactionParams,
+  ExecuteSubstrateTransactionParams,
 } from '@/composables/transaction/types'
 import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 
@@ -64,7 +64,7 @@ export function execBurnMultiple(
     arg: [arg],
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const cb = api.tx.utility.batch
 
@@ -134,7 +134,7 @@ export async function execBurnCollection(
     arg,
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const collectionId = params.collectionId.toString()
 

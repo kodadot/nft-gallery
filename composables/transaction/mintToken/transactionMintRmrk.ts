@@ -20,8 +20,8 @@ import { basicUpdateFunction } from '@/components/unique/NftUtils'
 import { Extrinsic, asSystemRemark } from '@kodadot1/minimark/common'
 import {
   ActionMintToken,
-  MintTokenParams,
   MintedCollectionKusama,
+  SubstrateMintTokenParams,
   TokenToMint,
 } from '../types'
 import { constructMeta } from './constructMeta'
@@ -163,7 +163,7 @@ export async function execMintRmrk({
   executeTransaction,
   isLoading,
   status,
-}: MintTokenParams) {
+}: SubstrateMintTokenParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'

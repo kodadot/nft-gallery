@@ -6,6 +6,7 @@ import { Attribute } from '@kodadot1/minimark/common'
 import { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import { Ref } from 'vue'
+import { Prefix } from '@kodadot1/static'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
 export type ObjectMessage = {
@@ -204,6 +205,7 @@ export interface ActionMintDrop {
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
+  prefix: Prefix
 }
 
 export interface ActionMintCollection {
