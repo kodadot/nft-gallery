@@ -105,14 +105,14 @@ const props = defineProps<{
   withAction?: boolean
 }>()
 
-const { getExtrinsicUrl, getBlockUrl } = useExplorer()
+const { getTransactionUrl, getBlockUrl } = useExplorer()
 const txUrl = computed(() => {
   if (!props.step.prefix) {
     return '#'
   }
 
   if (props.step.txId) {
-    return getExtrinsicUrl(props.step.txId, props.step.prefix)
+    return getTransactionUrl(props.step.txId, props.step.prefix)
   }
 
   if (props.step.blockNumber) {

@@ -53,12 +53,12 @@ const props = defineProps<{
 }>()
 
 const { toast } = useToast()
-const { getExtrinsicUrl } = useExplorer()
+const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
 
 const isFinalized = computed(() => props.status == TransactionStatus.Finalized)
 
 const txUrl = computed(() =>
-  getExtrinsicUrl(props.txHash || '', urlPrefix.value),
+  getTransactionUrl(props.txHash || '', urlPrefix.value),
 )
 </script>
