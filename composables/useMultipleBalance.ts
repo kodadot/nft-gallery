@@ -55,6 +55,7 @@ export default function (refetchPeriodically: boolean = false) {
   const identityStore = useIdentityStore()
   const fiatStore = useFiatStore()
   const { existentialDeposit } = useChain()
+  const { getEvmBalance: fetchEvmBalance } = useBalance()
 
   const {
     multiBalances,
@@ -116,7 +117,7 @@ export default function (refetchPeriodically: boolean = false) {
 
     await wsProvider.disconnect()
 
-    return { balance, prefixAddress }
+    return { balance: balance.toString(), prefixAddress }
   }
 
   async function getEvmBalance({
@@ -126,14 +127,10 @@ export default function (refetchPeriodically: boolean = false) {
     address: Address
     prefix: Prefix
   }) {
-    const { publicClient } = useViem(prefix)
-
-    const balance = await publicClient.getBalance({
-      address,
-    })
+    const balance = await fetchEvmBalance(address, prefix)
 
     return {
-      balance: balance.toString(),
+      balance: balance ?? '',
       prefixAddress: address as string,
     }
   }
