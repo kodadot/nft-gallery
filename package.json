@@ -27,25 +27,35 @@
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
     "generate": "nuxi build",
-    "lint": "eslint .",
-    "lint:quiet": "eslint . --quiet",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint --cache --ignore-path .gitignore --ext .js,.ts,.vue .",
+    "lint:quiet": "eslint --cache --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
+    "lint:fix": "eslint --cache --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "vitest run --reporter verbose --allowOnly",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install"
   },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*.{js,ts,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "engines": {
     "npm": "please-use-pnpm",
     "pnpm": "9",
     "node": "^20"
+  },
+  "prettier": {
+    "semi": false,
+    "bracketSameLine": true,
+    "singleQuote": true
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
@@ -91,9 +101,11 @@
     "graphql": "^16.9.0",
     "graphql-ws": "^5.16.0",
     "jdenticon": "3.2.0",
+    "keccak": "^3.0.4",
     "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",
+    "nuxt-speedkit": "3.0.0-next.27",
     "ofetch": "^1.3.4",
     "partysocket": "^0.0.25",
     "pinia": "^2.1.7",
@@ -114,10 +126,9 @@
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.11",
     "@dargmuesli/nuxt-cookie-control": "^7.5.1",
-    "@nuxt/content": "^2.12.1",
-    "@nuxt/eslint": "^0.3.13",
-    "@nuxt/types": "^2.17.4",
-    "@nuxtjs/color-mode": "^3.4.1",
+    "@nuxt/content": "^2.13.1",
+    "@nuxt/types": "^2.18.1",
+    "@nuxtjs/color-mode": "^3.4.2",
     "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/i18n": "^8.3.1",
@@ -127,26 +138,37 @@
     "@types/lodash": "^4.17.7",
     "@types/markdown-it": "^13.0.8",
     "@types/prismjs": "^1.26.4",
-    "@vite-pwa/nuxt": "^0.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vite-pwa/nuxt": "^0.9.1",
     "@vitest/coverage-istanbul": "^0.34.6",
     "@vueuse/core": "^9.13.0",
     "@vueuse/nuxt": "^9.13.0",
     "autoprefixer": "^10.4.19",
     "consola": "^3.2.3",
     "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-unicorn": "^48.0.1",
+    "eslint-plugin-vue": "^8.7.1",
+    "eslint-plugin-vue-scoped-css": "^2.8.1",
     "glob": "^8.1.0",
+    "husky": "^7.0.4",
     "jsdom": "^19.0.0",
-    "lint-staged": "^15.2.7",
+    "lint-staged": "^12.5.0",
     "nuxt": "^3.12.3",
     "nuxt-gtag": "^1.2.1",
     "postcss": "^8.4.39",
+    "prettier": "^3.3.3",
     "sass": "^1.77.8",
-    "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.5",
     "vite-svg-loader": "^5.1.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "vue-eslint-parser": "^9.4.3"
   },
   "resolutions": {
-    "@apollo/federation": "0.38.1"
+    "@apollo/federation": "0.38.1",
+    "vue": "3.4.8"
   }
 }
