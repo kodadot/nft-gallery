@@ -89,6 +89,10 @@ export const useUpdateMetadata = async ({
   const { $consola } = useNuxtApp()
   const { accountId } = useAuth()
 
+  const collectionMax = computed(() => maxCount.value ??
+    drop.value.max ??
+    FALLBACK_DROP_COLLECTION_MAX)
+
   const updateSubstrateMetdata = () => {
     const status = ref<'index' | 'update'>('index')
 
@@ -164,14 +168,13 @@ export const useUpdateMetadata = async ({
           collection: {
             id: res.collection,
             name: collectionName.value,
-            max:
-              maxCount.value ?? drop.value.max ?? FALLBACK_DROP_COLLECTION_MAX,
+            max: collectionMax.value,
           },
         })
       }
 
       mintingSession.value.items = mintedNfts.value
-      subscribeForNftsWithMetadata(mintedNfts.value.map((item) => item.id))
+      subscribeForNftsWithMetadata(mintedNfts.value.map(item => item.id))
     }
   }
 
@@ -213,10 +216,7 @@ export const useUpdateMetadata = async ({
             collection: {
               id: drop.value.collection,
               name: collectionName.value,
-              max:
-                maxCount.value ??
-                drop.value.max ??
-                FALLBACK_DROP_COLLECTION_MAX,
+              max: collectionMax.value
             },
           })
         }
