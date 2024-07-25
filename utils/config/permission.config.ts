@@ -8,6 +8,11 @@ const hasCreate: PartialConfig = {
   imx: false,
 }
 
+const hasList: PartialConfig = {
+  base: false,
+  imx: false
+}
+
 const hasInsight: PartialConfig = {
   ahk: false,
   ahp: false,
@@ -30,6 +35,10 @@ const hasExplorer: PartialConfig = {
 
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix] ?? true
+}
+
+export const listVisible = (prefix: Prefix | string): boolean => {
+  return hasList[prefix] ?? true
 }
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
