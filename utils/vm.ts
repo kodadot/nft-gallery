@@ -8,9 +8,9 @@ type PickByVmOptions = {
 }
 
 export const pickByVm = <T>(
-  map: Record<ChainVM, T>,
+  map: Partial<Record<ChainVM, T>>,
   { key, vm, prefix }: PickByVmOptions = {},
-) => {
+): T | undefined => {
   const { vm: currentVm } = useChain()
   let targetVm = vm ?? currentVm.value
 
@@ -19,12 +19,17 @@ export const pickByVm = <T>(
   }
 
   const vmMap = map[targetVm]
-  return key ? vmMap?.[key] : vmMap
+  if (!vmMap) {
+    return undefined
+  }
+
+  return key ? (vmMap as any)[key] : vmMap
 }
 
 export const execByVm = <T>(
-  map: Record<ChainVM, () => T>,
-  { key, vm, prefix }: PickByVmOptions = {},
-) => {
-  return pickByVm(map, { key, vm, prefix })?.()
+  map: Partial<Record<ChainVM, () => T>>,
+  options: PickByVmOptions = {},
+): T | undefined => {
+  const func = pickByVm<() => T>(map, options)
+  return func ? func() : undefined
 }
