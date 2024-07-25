@@ -11,12 +11,11 @@ const api = $fetch.create({
   },
   credentials: 'omit',
 })
-export async function fetchCollectionSuggestion(key: string, limit?: number, chain?: string) {
+export async function fetchCollectionSuggestion(key: string, limit?: number) {
   const object = {
     search: key,
     table: 'collections',
     limit,
-    chain,
   }
 
   try {

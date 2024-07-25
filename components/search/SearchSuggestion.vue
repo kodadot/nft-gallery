@@ -631,7 +631,6 @@ const updateCollectionSuggestion = async (value: string) => {
     const collections = await fetchCollectionSuggestion(
       value,
       searchSuggestionEachTypeMaxNum,
-      urlPrefix.value,
     )
     const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
     const collectionWithImagesList = ref<CollectionWithMeta[]>([])
