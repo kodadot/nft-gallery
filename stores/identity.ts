@@ -143,9 +143,9 @@ export const useIdentityStore = defineStore('identity', {
         ? multiBalanceAssetsTestnet.value
         : multiBalanceAssets.value
 
-      return assets.filter((asset) =>
+      return assets.filter(asset =>
         availableChainsByVm.value
-          .map((chain) => chain.value)
+          .map(chain => chain.value)
           .includes(networkToPrefix[asset.chain] as ChainType),
       )
     },
