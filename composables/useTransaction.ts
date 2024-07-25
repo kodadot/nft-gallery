@@ -43,6 +43,10 @@ import { isActionValid } from './transaction/utils'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { execMintDrop } from './transaction/transactionMintDrop'
 import { HowAboutToExecuteOnResultParam } from './useMetaTransaction'
+import useEvmMetaTransaction, {
+  EvmHowAboutToExecuteParam,
+} from '@/composables/transaction/evm/useMetaTransaction'
+import { Address } from 'viem'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -81,21 +85,28 @@ export const resolveSuccessMessage = (
 const useExecuteTransaction = (options: TransactionOptions) => {
   const { accountId } = useAuth()
   const error = ref(false)
+
   const {
     howAboutToExecute,
     isLoading,
     status,
     initTransactionLoader,
     isError,
-  } = useMetaTransaction()
+  } = execByVm({
+    SUB: () => useMetaTransaction(),
+    EVM: () => useEvmMetaTransaction(),
+  }) as
+    | ReturnType<typeof useMetaTransaction>
+    | ReturnType<typeof useEvmMetaTransaction>
+
   const blockNumber = ref<string>()
   const txHash = ref<string>()
 
   const executeTransaction = ({
-    cb,
     arg,
     successMessage,
     errorMessage,
+    ...params
   }: ExecuteTransactionParams) => {
     initTransactionLoader()
 
@@ -134,10 +145,25 @@ const useExecuteTransaction = (options: TransactionOptions) => {
       txHash.value = param.txHash || undefined
     }
 
-    howAboutToExecute(accountId.value, cb, arg, {
-      onSuccess: successCb,
-      onError: errorCb,
-      onResult: resultCb,
+    execByVm({
+      SUB: () => {
+        howAboutToExecute(accountId.value, params?.cb, arg, {
+          onSuccess: successCb,
+          onError: errorCb,
+          onResult: resultCb,
+        })
+      },
+      EVM: () => {
+        howAboutToExecute({
+          account: accountId.value as Address,
+          address: params.address,
+          abi: params.abi,
+          args: arg,
+          functionName: params.functionName,
+          onSuccess: successCb,
+          onError: errorCb,
+        } as EvmHowAboutToExecuteParam)
+      },
     })
   }
 
@@ -169,7 +195,7 @@ export const executeAction = ({
   status,
 }: {
   item: Actions
-  api: ApiPromise
+  api?: ApiPromise
   isLoading: Ref<boolean>
   status: Ref<string>
   executeTransaction
@@ -206,7 +232,7 @@ export const executeAction = ({
     [Collections.DELETE]: () =>
       execBurnCollection(
         item as ActionDeleteCollection,
-        api,
+        api as ApiPromise,
         executeTransaction,
       ),
     [Collections.SET_MAX_SUPPLY]: () =>
@@ -216,7 +242,11 @@ export const executeAction = ({
         executeTransaction,
       ),
     [NFTs.BURN_MULTIPLE]: () =>
-      execBurnMultiple(item as ActionBurnMultipleNFTs, api, executeTransaction),
+      execBurnMultiple(
+        item as ActionBurnMultipleNFTs,
+        api as ApiPromise,
+        executeTransaction,
+      ),
     [NFTs.MINT_DROP]: () =>
       execMintDrop({
         item: item as ActionMintDrop,
@@ -256,16 +286,20 @@ export const useTransaction = (
   } = useExecuteTransaction(options)
 
   const transaction = async (item: Actions, prefix = '') => {
-    let api = await apiInstance.value
-
     if (hasOperationsDisabled(prefix || urlPrefix.value)) {
       warningMessage($i18n.t('toast.unsupportedOperation'))
       return
     }
 
-    if (prefix) {
-      api = await apiInstanceByPrefix(prefix)
-    }
+    const api = await execByVm({
+      SUB: async () => {
+        let api = await apiInstance.value
+        if (prefix) {
+          api = await apiInstanceByPrefix(prefix)
+        }
+        return api
+      },
+    })
 
     return executeAction({ item, executeTransaction, api, isLoading, status })
   }

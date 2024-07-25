@@ -75,6 +75,7 @@ const {
   status,
   isError: isTransactionError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -124,6 +125,7 @@ const mintNft = async () => {
       collectionId: drop.value?.collection,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   } catch (e) {
     warningMessage(`${e}`)
@@ -170,7 +172,7 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    await useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
 
     loading.value = false
     isSuccessModalActive.value = true

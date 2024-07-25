@@ -18,26 +18,53 @@ export type ExecuteTransactionSuccessMessage =
   | SuccessFunctionMessage
   | ObjectMessage
 
-export type ExecuteTransactionParams = {
-  cb: (...params: any[]) => Extrinsic
+type BaseExecuteTransactionParams = {
   arg: any[]
   successMessage?: ExecuteTransactionSuccessMessage
   errorMessage?: string | (() => string)
 }
 
-type BaseMintParams<T> = {
+export type ExecuteSubstrateTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+} & BaseExecuteTransactionParams
+
+type Abi = any[]
+
+export type ExecuteEvmTransactionParams = {
+  address: string
+  functionName: string
+  abi: Abi
+} & BaseExecuteTransactionParams
+
+export type ExecuteTransactionParams =
+  | ExecuteSubstrateTransactionParams
+  | ExecuteEvmTransactionParams
+
+type BaseUnionMintParams<T> = {
   item: T
-  api: ApiPromise
-  executeTransaction: (p: ExecuteTransactionParams) => void
   isLoading: Ref<boolean>
   status: Ref<string>
+  executeTransaction: (p: ExecuteTransactionParams) => void
 }
 
+export type BaseSubstrateMintParams<T> = {
+  api: ApiPromise
+} & BaseUnionMintParams<T>
+
+export type BaseEvmMintParams<T> = BaseUnionMintParams<T>
+
+export type BaseMintParams<T> =
+  | BaseSubstrateMintParams<T>
+  | BaseEvmMintParams<T>
+
 export type MintTokenParams = BaseMintParams<ActionMintToken>
+export type SubstrateMintTokenParams = BaseSubstrateMintParams<ActionMintToken>
 
 export type MintCollectionParams = BaseMintParams<ActionMintCollection>
 
 export type MintDropParams = BaseMintParams<ActionMintDrop>
+export type SubstrateMintDropParams = BaseSubstrateMintParams<ActionMintDrop>
+export type EvmMintDropParams = BaseEvmMintParams<ActionMintDrop>
 
 export type NftCountType = {
   nftCount: number
