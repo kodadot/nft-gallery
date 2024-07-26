@@ -1,5 +1,5 @@
+import { type Address, TransactionExecutionError } from 'viem'
 import useTransactionStatus from '@/composables/useTransactionStatus'
-import { Address, TransactionExecutionError } from 'viem'
 
 type EvmHowAboutToExecuteEvents = {
   onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void
