@@ -1,4 +1,4 @@
-export const GENERATIVE_DROP_ABI = [
+export const GENSOL_ABI = [
   {
     type: 'constructor',
     inputs: [

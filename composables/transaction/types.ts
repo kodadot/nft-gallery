@@ -41,11 +41,13 @@ export type ExecuteTransactionParams =
   | ExecuteSubstrateTransactionParams
   | ExecuteEvmTransactionParams
 
+export type ExecuteTransaction = (p: ExecuteTransactionParams) => void
+
 type BaseUnionMintParams<T> = {
   item: T
   isLoading: Ref<boolean>
   status: Ref<string>
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: ExecuteTransaction
 }
 
 export type BaseSubstrateMintParams<T> = {
@@ -161,6 +163,8 @@ export type ActionSend = {
   tokenId: string
   address: string
   nftId: string
+  nftSn: string
+  collectionId: string
   successMessage?: string
   errorMessage?: string
 }

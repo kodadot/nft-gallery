@@ -120,6 +120,18 @@ const checkAddressByss58Format = (value: string, ss58: number) => {
 }
 
 const getAddressCheck = (value: string): AddressCheck => {
+  return execByVm({
+    SUB: () => getSubstrateAddressCheck(value),
+    EVM: () => getEvmAddressCheck(value),
+  })
+}
+
+const getEvmAddressCheck = (value: string): AddressCheck => {
+  const valid = isEthereumAddress(value)
+  return { valid, type: !valid ? AddressType.UNKNOWN : undefined }
+}
+
+const getSubstrateAddressCheck = (value: string): AddressCheck => {
   if (isEthereumAddress(value)) {
     return { valid: false, type: AddressType.ETHEREUM }
   }

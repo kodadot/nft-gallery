@@ -4,7 +4,7 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
-import type { ActionSend } from './types'
+import type { ActionSend, ExecuteTransaction } from './types'
 import {
   assetHubParamResolver,
   getApiCall,
@@ -14,6 +14,7 @@ import { isLegacy } from '@/components/unique/utils'
 import { ss58Of } from '@/utils/config/chain.config'
 import { warningMessage } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
+import { GENSOL_ABI } from './evm/utils'
 
 function checkTsxSend(item: ActionSend) {
   const [, err] = checkAddress(
@@ -65,7 +66,26 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
   })
 }
 
-export function execSendTx(item: ActionSend, api, executeTransaction) {
+function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
+  const { accountId } = useAuth()
+
+  executeTransaction({
+    address: item.collectionId,
+    abi: GENSOL_ABI,
+    functionName: 'safeTransferFrom',
+    arg: [accountId.value, item.address, item.nftSn],
+  })
+}
+
+export function execSendTx(
+  item: ActionSend,
+  api,
+  executeTransaction: ExecuteTransaction,
+) {
+  if (item.urlPrefix === 'base') {
+    return execSendEvm(item, executeTransaction)
+  }
+
   if (!checkTsxSend(item)) {
     return
   }

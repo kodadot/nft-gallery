@@ -15,7 +15,7 @@ export type EvmHowAboutToExecuteParam = {
 } & EvmHowAboutToExecuteEvents
 
 export type EvmHowAboutToExecute = (
-  params: EvmHowAboutToExecuteParam
+  params: EvmHowAboutToExecuteParam,
 ) => Promise<void>
 
 export type EvmHowAboutToExecuteOnSuccessParam = {
@@ -96,7 +96,7 @@ export default function useEvmMetaTransaction() {
         }
       } else {
         isError.value = true
-        dangerMessage(error.toString())
+        warningMessage(error.toString())
         if (onError) {
           onError()
         }

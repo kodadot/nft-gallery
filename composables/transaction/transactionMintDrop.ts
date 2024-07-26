@@ -1,4 +1,4 @@
-import { GENERATIVE_DROP_ABI } from './evm/utils'
+import { GENSOL_ABI } from './evm/utils'
 import type {
   EvmMintDropParams,
   MintDropParams,
@@ -46,7 +46,7 @@ async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
 
   executeTransaction({
     address: drop.value.collection,
-    abi: GENERATIVE_DROP_ABI,
+    abi: GENSOL_ABI,
     arg: [accountId.value],
     functionName: 'safeMint',
   })

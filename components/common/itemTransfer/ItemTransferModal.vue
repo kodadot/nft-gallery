@@ -150,6 +150,8 @@ const action = computed<Actions>(() => ({
   address: address.value,
   tokenId: route.params.id.toString(),
   nftId: props.nft.id,
+  nftSn: props.nft.sn,
+  collectionId: props.nft.collection.id,
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 }))
