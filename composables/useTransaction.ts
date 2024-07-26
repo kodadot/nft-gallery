@@ -1,6 +1,7 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-
 import type { ApiPromise } from '@polkadot/api'
+import type { Address } from 'viem'
+
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
@@ -28,19 +29,23 @@ import type {
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   Actions,
+  ExecuteEvmTransactionParams,
+  ExecuteSubstrateTransactionParams,
   ExecuteTransactionParams,
-  ObjectMessage } from './transaction/types'
-import {
-  Collections,
-  NFTs,
+  ObjectMessage,
 } from './transaction/types'
+import { Collections, NFTs } from './transaction/types'
 import { isActionValid } from './transaction/utils'
 import { execMintDrop } from './transaction/transactionMintDrop'
+import type {
+  HowAboutToExecuteOnResultParam,
+  HowAboutToExecute as SubstrateHowAboutToExecute,
+} from './useMetaTransaction'
 import useEvmMetaTransaction, {
-  EvmHowAboutToExecuteParam,
+  type EvmHowAboutToExecute,
+  type EvmHowAboutToExecuteParam,
 } from '@/composables/transaction/evm/useMetaTransaction'
-import { Address } from 'viem'
-import type { HowAboutToExecuteOnResultParam } from './useMetaTransaction'
+
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import {
@@ -148,19 +153,25 @@ const useExecuteTransaction = (options: TransactionOptions) => {
 
     execByVm({
       SUB: () => {
-        howAboutToExecute(accountId.value, params?.cb, arg, {
-          onSuccess: successCb,
-          onError: errorCb,
-          onResult: resultCb,
-        })
+        ;(howAboutToExecute as SubstrateHowAboutToExecute)(
+          accountId.value,
+          (params as ExecuteSubstrateTransactionParams).cb,
+          arg,
+          {
+            onSuccess: successCb,
+            onError: errorCb,
+            onResult: resultCb,
+          },
+        )
       },
       EVM: () => {
-        howAboutToExecute({
+        const evmParams = params as ExecuteEvmTransactionParams
+        ;(howAboutToExecute as EvmHowAboutToExecute)({
           account: accountId.value as Address,
-          address: params.address,
-          abi: params.abi,
+          address: evmParams.address,
+          abi: evmParams.abi,
           args: arg,
-          functionName: params.functionName,
+          functionName: evmParams.functionName,
           onSuccess: successCb,
           onError: errorCb,
         } as EvmHowAboutToExecuteParam)

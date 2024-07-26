@@ -14,6 +14,10 @@ export type EvmHowAboutToExecuteParam = {
   args: any[]
 } & EvmHowAboutToExecuteEvents
 
+export type EvmHowAboutToExecute = (
+  params: EvmHowAboutToExecuteParam
+) => Promise<void>
+
 export type EvmHowAboutToExecuteOnSuccessParam = {
   txHash: string
   blockNumber: string
@@ -33,7 +37,7 @@ export default function useEvmMetaTransaction() {
 
   const { walletClient, publicClient } = useViem(urlPrefix.value)
 
-  const howAboutToExecute = async ({
+  const howAboutToExecute: EvmHowAboutToExecute = async ({
     account,
     functionName,
     address,
