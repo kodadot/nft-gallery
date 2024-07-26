@@ -10,7 +10,7 @@ type GetFeeParams = {
 export default function () {
   const { accountId } = useAuth()
 
-  const getSubstrateFee = async ({ action }: GetFeeParams): Promise<number> => {
+  const getSubstrateTransactionFee = async ({ action }: GetFeeParams): Promise<number> => {
     const { apiInstance } = useApi()
     const api = await apiInstance.value
     const fee = await getActionTransactionFee({
@@ -21,7 +21,8 @@ export default function () {
     return Number(fee)
   }
 
-  const getEvmFee = async ({ prefix }: GetFeeParams): Promise<number> => {
+  // TODO support getActionTransactionFee on evm
+  const getEvmTransactionFee = async ({ prefix }: GetFeeParams): Promise<number> => {
     const { publicClient } = useViem(prefix)
 
     const estimatedGas = await publicClient.estimateGas({
@@ -38,8 +39,8 @@ export default function () {
   const getTransactionFee = async (params: GetFeeParams): Promise<number> => {
     try {
       return execByVm({
-        SUB: () => getSubstrateFee(params),
-        EVM: () => getEvmFee(params),
+        SUB: () => getSubstrateTransactionFee(params),
+        EVM: () => getEvmTransactionFee(params),
       }) as Promise<number>
     } catch (error) {
       return 0
