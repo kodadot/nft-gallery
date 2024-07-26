@@ -136,7 +136,7 @@ const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol, chainProperties } = useChain()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const { accountId } = useAuth()
-const { apiInstance } = useApi()
+const { getTransactionFee } = useFees()
 
 const txFee = ref<number>(0)
 const isModalActive = useVModel(props, 'value')
@@ -218,13 +218,7 @@ const getChainAddress = (value: string) => {
 }
 
 const getTransferFee = async () => {
-  const api = await apiInstance.value
-  const fee = await getActionTransactionFee({
-    action: { ...action.value, address: accountId.value } as Actions,
-    address: accountId.value,
-    api,
-  })
-  txFee.value = Number(fee)
+  txFee.value = await getTransactionFee({ action: action.value, prefix: urlPrefix.value })
 }
 
 const transfer = () => {
