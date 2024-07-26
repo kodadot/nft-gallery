@@ -113,7 +113,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -133,8 +133,7 @@ const { $i18n } = useNuxtApp()
 const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { decimals, chainSymbol, chainProperties } = useChain()
-const ss58Format = computed(() => chainProperties.value?.ss58Format)
+const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
 const { getTransactionFee } = useFees()
 
@@ -209,8 +208,7 @@ const handleAddressCheck = (isValid: boolean) => {
 
 const getChainAddress = (value: string) => {
   try {
-    const publicKey = decodeAddress(value)
-    return encodeAddress(publicKey, ss58Format.value)
+    return toSubstrateAddress(value)
   }
   catch (error) {
     return null
