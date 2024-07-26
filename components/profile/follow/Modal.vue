@@ -28,13 +28,11 @@
         <ProfileFollowTab
           v-if="activeTab === 'followers'"
           type="followers"
-          :user-list="followersList"
           :total-count="followersCount"
         />
         <ProfileFollowTab
           v-else
           type="following"
-          :user-list="followingList"
           :total-count="followingCount"
         />
       </tamplate>
@@ -62,9 +60,6 @@ const counts = {
   followers: props.followersCount,
   following: props.followingCount,
 }
-
-const followersList = ref<Follower[]>([])
-const followingList = ref<Follower[]>([])
 
 const activeTab = ref<Tab>('followers')
 
