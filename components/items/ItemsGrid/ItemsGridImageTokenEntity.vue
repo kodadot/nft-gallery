@@ -73,7 +73,7 @@
           />
         </template>
 
-        <template v-else>
+        <template v-else-if="listVisible(urlPrefix)">
           <NeoButton
             :label="listLabel"
             data-testid="item-buy"
@@ -97,6 +97,7 @@ import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { listVisible } from '@/utils/config/permission.config'
 import {
   nftToListingCartItem,
   nftToShoppingCartItem,

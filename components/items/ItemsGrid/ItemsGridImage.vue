@@ -60,7 +60,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner"
+        v-else-if="isOwner && listVisible(urlPrefix)"
         class="flex"
       >
         <NeoButton
@@ -79,6 +79,7 @@
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { listVisible } from '@/utils/config/permission.config'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
