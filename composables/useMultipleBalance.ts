@@ -154,7 +154,7 @@ export default function (refetchPeriodically: boolean = false) {
           tokenId,
         }),
       EVM: () => getEvmBalance({ address: currentAddress as Address, prefix }),
-    })) as { balance: string; prefixAddress: string }
+    })) as { balance: string, prefixAddress: string }
 
     const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
     const selectedTokenId = String(tokenId)
@@ -201,10 +201,10 @@ export default function (refetchPeriodically: boolean = false) {
     const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 
     const assetsToFetch = onlyPrefixes.length
-      ? assets.value.filter((item) => chainNetworks.includes(item.chain))
+      ? assets.value.filter(item => chainNetworks.includes(item.chain))
       : assets.value
 
-    const promisses = assetsToFetch.map((item) =>
+    const promisses = assetsToFetch.map(item =>
       getBalance(item.chain, item.token, Number(item.tokenId)),
     )
 
@@ -213,8 +213,8 @@ export default function (refetchPeriodically: boolean = false) {
 
   onMounted(async () => {
     if (
-      currentNetwork.value !== multiBalanceNetwork.value &&
-      refetchPeriodically
+      currentNetwork.value !== multiBalanceNetwork.value
+      && refetchPeriodically
     ) {
       identityStore.resetMultipleBalances()
     }

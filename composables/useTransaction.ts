@@ -102,8 +102,8 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     SUB: () => useMetaTransaction(),
     EVM: () => useEvmMetaTransaction(),
   }) as
-    | ReturnType<typeof useMetaTransaction>
-    | ReturnType<typeof useEvmMetaTransaction>
+  | ReturnType<typeof useMetaTransaction>
+  | ReturnType<typeof useEvmMetaTransaction>
 
   const blockNumber = ref<string>()
   const txHash = ref<string>()

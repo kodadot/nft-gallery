@@ -1,5 +1,5 @@
 import { createPublicClient, createWalletClient, custom, http } from 'viem'
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 
 export default function (prefix: Prefix) {
   const publicClient = createPublicClient({

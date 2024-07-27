@@ -135,8 +135,8 @@ export const useIdentityStore = defineStore('identity', {
     },
     getVmAssets: (): any[] => {
       const { isTestnet } = usePrefix()
-      const { multiBalanceAssets, multiBalanceAssetsTestnet } =
-        storeToRefs(useIdentityStore())
+      const { multiBalanceAssets, multiBalanceAssetsTestnet }
+        = storeToRefs(useIdentityStore())
       const { availableChainsByVm } = useChain()
 
       const assets = isTestnet

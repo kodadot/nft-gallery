@@ -33,7 +33,7 @@
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
             addressChain: addressCheck,
             selectedChain: currentChainName,
-            ecosystem: ecosystem
+            ecosystem: ecosystem,
           })
         "
       />

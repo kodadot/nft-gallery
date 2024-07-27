@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { TokenName } from '~/utils/coinprice'
+import type { TokenName } from '~/utils/coinprice'
 
 type FiatPrice = string | number | null
 
@@ -41,19 +41,19 @@ export const useFiatStore = defineStore('fiat', {
     getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
     getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
-      (state) =>
-      (token: string): FiatPrice => {
-        switch (token) {
-          case 'KSM':
-            return state.fiatPrice.kusama.usd
-          case 'DOT':
-            return state.fiatPrice.polkadot.usd
-          case 'ETH':
-            return state.fiatPrice.ethereum.usd
-          default:
-            return 0
-        }
-      },
+      state =>
+        (token: string): FiatPrice => {
+          switch (token) {
+            case 'KSM':
+              return state.fiatPrice.kusama.usd
+            case 'DOT':
+              return state.fiatPrice.polkadot.usd
+            case 'ETH':
+              return state.fiatPrice.ethereum.usd
+            default:
+              return 0
+          }
+        },
   },
   actions: {
     async fetchFiatPrice() {

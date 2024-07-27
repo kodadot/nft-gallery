@@ -21,7 +21,8 @@ export default function () {
     try {
       const api = await apiInstance.value
       return await balanceOf(api, address)
-    } catch (e) {
+    }
+    catch (e) {
       return null
     }
   }
@@ -32,7 +33,8 @@ export default function () {
         address: address as Address,
       })
       return response.toString()
-    } catch (error) {
+    }
+    catch (error) {
       return null
     }
   }

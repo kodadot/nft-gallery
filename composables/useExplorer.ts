@@ -1,5 +1,5 @@
-import { blockExplorerOf, chainPropListOf } from '@/utils/config/chain.config'
 import { type Prefix } from '@kodadot1/static'
+import { blockExplorerOf, chainPropListOf } from '@/utils/config/chain.config'
 
 export default function () {
   const getSubstrateExplorerUrl = (

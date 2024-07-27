@@ -29,8 +29,8 @@ export type EvmHowAboutToExecuteOnSuccessParam = {
 */
 export default function useEvmMetaTransaction() {
   const { $i18n } = useNuxtApp()
-  const { isLoading, initTransactionLoader, status, stopLoader } =
-    useTransactionStatus()
+  const { isLoading, initTransactionLoader, status, stopLoader }
+    = useTransactionStatus()
   const { urlPrefix } = usePrefix()
   const tx = ref<ExecResult>()
   const isError = ref(false)
@@ -59,51 +59,53 @@ export default function useEvmMetaTransaction() {
       console.log('[EXEC] Executed', txHash)
 
       successCb(onSuccess)({ txHash })
-    } catch (e) {
+    }
+    catch (e) {
       errorCb(onError)({ error: e })
     }
   }
 
-  const successCb =
-    (onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void) =>
-    async ({ txHash }) => {
-      const transaciton = await publicClient.waitForTransactionReceipt({
-        hash: txHash,
-      })
-      const blockNumber = transaciton.blockNumber.toString()
+  const successCb
+    = (onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void) =>
+      async ({ txHash }) => {
+        const transaciton = await publicClient.waitForTransactionReceipt({
+          hash: txHash,
+        })
+        const blockNumber = transaciton.blockNumber.toString()
 
-      console.log('[EXEC] Completed', transaciton)
+        console.log('[EXEC] Completed', transaciton)
 
-      if (onSuccess) {
-        onSuccess({ txHash: txHash, blockNumber: blockNumber })
+        if (onSuccess) {
+          onSuccess({ txHash: txHash, blockNumber: blockNumber })
+        }
+
+        status.value = TransactionStatus.Finalized
+        isLoading.value = false
+        tx.value = undefined
       }
 
-      status.value = TransactionStatus.Finalized
-      isLoading.value = false
-      tx.value = undefined
-    }
+  const errorCb
+    = (onError?: () => void) =>
+      ({ error }) => {
+        if (error instanceof TransactionExecutionError) {
+          const isCancelled = error.message.includes('User rejected the request.')
+          isError.value = !isCancelled
 
-  const errorCb =
-    (onError?: () => void) =>
-    ({ error }) => {
-      if (error instanceof TransactionExecutionError) {
-        const isCancelled = error.message.includes('User rejected the request.')
-        isError.value = !isCancelled
-
-        if (isCancelled) {
-          warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
-          status.value = TransactionStatus.Cancelled
+          if (isCancelled) {
+            warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
+            status.value = TransactionStatus.Cancelled
+          }
         }
-      } else {
-        isError.value = true
-        warningMessage(error.toString())
-        if (onError) {
-          onError()
+        else {
+          isError.value = true
+          warningMessage(error.toString())
+          if (onError) {
+            onError()
+          }
         }
+        isLoading.value = false
+        tx.value = undefined
       }
-      isLoading.value = false
-      tx.value = undefined
-    }
 
   return {
     howAboutToExecute,

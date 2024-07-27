@@ -5,6 +5,7 @@ import {
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import type { ActionSend, ExecuteTransaction } from './types'
+import { GENSOL_ABI } from './evm/utils'
 import {
   assetHubParamResolver,
   getApiCall,
@@ -14,7 +15,6 @@ import { isLegacy } from '@/components/unique/utils'
 import { ss58Of } from '@/utils/config/chain.config'
 import { warningMessage } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
-import { GENSOL_ABI } from './evm/utils'
 
 function checkTsxSend(item: ActionSend) {
   const [, err] = checkAddress(

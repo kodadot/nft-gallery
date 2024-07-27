@@ -42,12 +42,13 @@ export default function () {
         SUB: () => getSubstrateTransactionFee(params),
         EVM: () => getEvmTransactionFee(params),
       }) as Promise<number>
-    } catch (error) {
+    }
+    catch (error) {
       return 0
     }
   }
 
   return {
-    getTransactionFee
+    getTransactionFee,
   }
 }

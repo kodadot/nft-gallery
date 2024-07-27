@@ -89,9 +89,9 @@ export const useUpdateMetadata = async ({
   const { $consola } = useNuxtApp()
   const { accountId } = useAuth()
 
-  const collectionMax = computed(() => maxCount.value ??
-    drop.value.max ??
-    FALLBACK_DROP_COLLECTION_MAX)
+  const collectionMax = computed(() => maxCount.value
+    ?? drop.value.max
+    ?? FALLBACK_DROP_COLLECTION_MAX)
 
   const updateSubstrateMetdata = () => {
     const status = ref<'index' | 'update'>('index')
@@ -116,9 +116,9 @@ export const useUpdateMetadata = async ({
 
         const checkIndex = new Set() // check duplicate index
         for (const mintNFT of toMintNFTs.value) {
-          const index =
-            nfts.findIndex(
-              (nft) => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
+          const index
+            = nfts.findIndex(
+              nft => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
             ) + 1
 
           if (index > 0) {
@@ -155,7 +155,8 @@ export const useUpdateMetadata = async ({
 
         try {
           metadata = await $fetch(res.metadata || '')
-        } catch (error) {
+        }
+        catch (error) {
           $consola.warn(error)
         }
 
@@ -203,7 +204,8 @@ export const useUpdateMetadata = async ({
         for (const nft of nfts) {
           try {
             metadata = await $fetch(nft.metadata || '')
-          } catch (error) {
+          }
+          catch (error) {
             $consola.warn(error)
           }
 
@@ -216,7 +218,7 @@ export const useUpdateMetadata = async ({
             collection: {
               id: drop.value.collection,
               name: collectionName.value,
-              max: collectionMax.value
+              max: collectionMax.value,
             },
           })
         }

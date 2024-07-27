@@ -3,7 +3,7 @@
     <div class="flex flex-col wallet-asset-container my-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
-      <hr class="my-4" />
+      <hr class="my-4">
       <MultipleBalances />
     </div>
 

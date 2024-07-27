@@ -10,7 +10,7 @@ const hasCreate: PartialConfig = {
 
 const hasList: PartialConfig = {
   base: false,
-  imx: false
+  imx: false,
 }
 
 const hasInsight: PartialConfig = {
