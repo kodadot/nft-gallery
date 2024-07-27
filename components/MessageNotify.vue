@@ -6,21 +6,27 @@
     }"
     :duration="realDuration"
     :auto-close="autoClose"
-    @close="$emit('close')">
+    @close="$emit('close')"
+  >
     <img
       src="~/assets/svg/congrats-message-header.svg"
-      class="congrats-message" />
+      class="congrats-message"
+    >
     <div class="flex flex-col">
       <div class="title is-3 mb-4">
         {{ title }}
       </div>
-      <hr class="my-2" />
+      <hr class="my-2">
       <div class="flex items-center justify-between">
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
 
-        <ShareDropdown no-shadow mobile-modal :link="shareLink" />
+        <ShareDropdown
+          no-shadow
+          mobile-modal
+          :link="shareLink"
+        />
       </div>
     </div>
   </NeoMessage>

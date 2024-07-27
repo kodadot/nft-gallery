@@ -5,20 +5,28 @@
     :no-shadow="isMobile"
     :content-class="[isMobile ? 'mobile-modal' : '']"
     @close="emit('close')"
-    @update:active="updateActive">
+    @update:active="updateActive"
+  >
     <div :class="{ 'desktop-width': !isMobile }">
-      <div v-if="isFinalStep" class="flex py-5 px-6 items-center">
-        <div class="flex-grow text-center">{{ $t('success') }}</div>
+      <div
+        v-if="isFinalStep"
+        class="flex py-5 px-6 items-center"
+      >
+        <div class="flex-grow text-center">
+          {{ $t('success') }}
+        </div>
         <NeoButton
           variant="text"
           no-shadow
           icon="xmark"
           size="medium"
-          @click="emit('close')" />
+          @click="emit('close')"
+        />
       </div>
       <div
         v-else
-        class="flex justify-between items-center py-5 px-6 border-b border-k-shade">
+        class="flex justify-between items-center py-5 px-6 border-b border-k-shade"
+      >
         <span>Tx:</span>
         <div class="flex">
           <slot name="action-title">
@@ -34,33 +42,45 @@
           no-shadow
           icon="xmark"
           size="medium"
-          @click="emit('close')" />
+          @click="emit('close')"
+        />
       </div>
       <figure class="px-6 pb-4">
         <img
           class="px-6"
           :class="{ 'py-6': isFinalStep }"
           :src="isFinalStep ? congrats : loading"
-          alt="loading" />
+          alt="loading"
+        >
       </figure>
       <div class="pb-4">
-        <NeoSteps v-model="activeStep" step-size="0.5rem">
+        <NeoSteps
+          v-model="activeStep"
+          step-size="0.5rem"
+        >
           <NeoStepItem
             v-for="i in 3"
             :key="i"
             :icon="checkIconForStep(i)"
             :clickable="false"
             :label="steps[i - 1].label"
-            :variant="i == 3 ? 'last' : undefined">
+            :variant="i == 3 ? 'last' : undefined"
+          >
             <div class="px-4 text-center">
               {{ steps[i - 1].tip }}
             </div>
           </NeoStepItem>
         </NeoSteps>
-        <div v-if="activeStep === 2" class="text-center text-k-grey">
+        <div
+          v-if="activeStep === 2"
+          class="text-center text-k-grey"
+        >
           {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
-        <div v-if="isFinalStep" class="flex justify-center mb-4">
+        <div
+          v-if="isFinalStep"
+          class="flex justify-center mb-4"
+        >
           <NeoButton
             v-safe-href="explorerLink"
             tag="a"
@@ -68,7 +88,8 @@
             class="px-4"
             no-shadow
             rounded
-            :label="$i18n.t('transactionLoader.showTransaction')" />
+            :label="$i18n.t('transactionLoader.showTransaction')"
+          />
 
           <NeoButton
             v-clipboard:copy="explorerLink"
@@ -76,7 +97,8 @@
             class="ml-4 px-4"
             rounded
             no-shadow
-            @click="toast($i18n.t('transactionLoader.copyTransactionLink'))" />
+            @click="toast($i18n.t('transactionLoader.copyTransactionLink'))"
+          />
         </div>
       </div>
     </div>

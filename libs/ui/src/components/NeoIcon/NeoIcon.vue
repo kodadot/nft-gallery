@@ -5,7 +5,8 @@
     :size="size || 'default'"
     :custom-size="customSize"
     :variant="variant"
-    :spin="spin" />
+    :spin="spin"
+  />
 </template>
 
 <script lang="ts" setup>

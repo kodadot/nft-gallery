@@ -1,5 +1,5 @@
+import type { MintDropParams } from './types'
 import { useDrop } from '@/components/drops/useDrops'
-import { MintDropParams } from './types'
 
 export function execMintDrop({
   item,

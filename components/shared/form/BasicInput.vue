@@ -1,6 +1,9 @@
 <template>
   <NeoField :label="$i18n.t(label)">
-    <template v-if="message" #label>
+    <template
+      v-if="message"
+      #label
+    >
       <div>{{ $i18n.t(label) }}</div>
       <div class="font-light text-xs mb-3">
         {{ message }}
@@ -19,7 +22,8 @@
       :pattern="!vValue && required ? `^\\S+` : '.*'"
       @blur="hasFocus = false"
       @focus="hasFocus = true"
-      @input="handleInput" />
+      @input="handleInput"
+    />
   </NeoField>
 </template>
 

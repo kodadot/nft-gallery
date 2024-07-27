@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { isDateWithinLastDays } from '@/utils/datetime'
 import type { ChainVM, Prefix } from '@kodadot1/static'
+import { isDateWithinLastDays } from '@/utils/datetime'
 import { ss58Of } from '@/utils/config/chain.config'
 
 export type WalletAccount = {
@@ -38,11 +38,11 @@ export const useWalletStore = defineStore('wallet', {
     disconnecting: false,
   }),
   getters: {
-    getIsSubstrate: (state) => state.selected?.vm === 'SUB',
-    getIsEvm: (state) => state.selected?.vm === 'EVM',
-    getSignedMessage: (state) => state.selected?.signedMessage,
+    getIsSubstrate: state => state.selected?.vm === 'SUB',
+    getIsEvm: state => state.selected?.vm === 'EVM',
+    getSignedMessage: state => state.selected?.signedMessage,
     getRecentWallet: (state) => {
-      let recent: undefined | { key: string; date: Date }
+      let recent: undefined | { key: string, date: Date }
       let maxDate = new Date(0)
 
       Object.entries(state.history || {}).forEach(([key, isoString]) => {
@@ -54,8 +54,8 @@ export const useWalletStore = defineStore('wallet', {
         }
       })
 
-      return recent &&
-        isDateWithinLastDays(recent.date, RECENT_WALLET_DAYS_PERIOD)
+      return recent
+        && isDateWithinLastDays(recent.date, RECENT_WALLET_DAYS_PERIOD)
         ? recent.key
         : null
     },

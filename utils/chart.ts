@@ -1,4 +1,4 @@
-import { Point } from 'chart.js'
+import type { Point } from 'chart.js'
 
 type ChartData = [Date, number][]
 
@@ -20,7 +20,7 @@ type MedianDetails = {
   median: number
   medianIndex: null | number
 }
-type RenderedChartData<T = bigint | number> = { x: Date; y: T }[]
+type RenderedChartData<T = bigint | number> = { x: Date, y: T }[]
 
 interface HSpread {
   min: number
@@ -39,14 +39,15 @@ const getMedianDetails = (dataset: number[]): MedianDetails => {
       median: (dataset[length / 2] + dataset[length / 2 - 1]) / 2,
       medianIndex,
     }
-  } else {
+  }
+  else {
     const median = dataset[Math.floor(length / 2)]
     return { median, medianIndex: Math.floor(length / 2) }
   }
 }
 
 export const getChartPoints = (data: ChartData = []): Point[] =>
-  data.map((item) => ({
+  data.map(item => ({
     x: item[0].getTime(),
     y: item[1],
   }))
@@ -57,10 +58,11 @@ export const getChartDataByTimeRange = (data: ChartData, timeRange: number) => {
   }
   if (timeRange === 0) {
     return data
-  } else {
+  }
+  else {
     const now = new Date()
     now.setDate(now.getDate() - timeRange)
-    return data.filter((item) => item[0] >= now)
+    return data.filter(item => item[0] >= now)
   }
 }
 
@@ -68,7 +70,7 @@ export const getCollectionChartData = (
   data: CollectionChartData[] = [],
   mapper = defaultMapper,
 ): RenderedChartData =>
-  data.map((item) => ({
+  data.map(item => ({
     x: item.date,
     y: mapper(item),
     count: item.count,
@@ -76,7 +78,7 @@ export const getCollectionChartData = (
 
 export const getCollectionMedian = (data: CollectionChartData[] = []) => {
   const dataset = data
-    .map((item) => item.value)
+    .map(item => item.value)
     .map(Number)
     .sort((a, b) => b - a)
   const { median } = getMedianDetails(dataset)
@@ -84,7 +86,7 @@ export const getCollectionMedian = (data: CollectionChartData[] = []) => {
 }
 
 export const getMedianPoint = (data: ChartData = []): number => {
-  const dataset = data.map((item) => item[1]).sort((a, b) => b - a)
+  const dataset = data.map(item => item[1]).sort((a, b) => b - a)
   const { median } = getMedianDetails(dataset)
   return median
 }
@@ -94,7 +96,6 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   const movingAverageArray: number[] = []
   const average = 3
 
-  // eslint-disable-next-line no-restricted-syntax
   for (let i = 0; i < dataset.length - 2; i++) {
     const datapoints = dataset.slice(i, average + i)
     const movingAverage = datapoints.reduce((total, num) => total + num, 0) / 3

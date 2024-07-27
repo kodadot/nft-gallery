@@ -1,4 +1,5 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import consola from 'consola'
 import { URLS } from '../utils/constants'
 

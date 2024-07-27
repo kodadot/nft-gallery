@@ -1,5 +1,8 @@
 <template>
-  <img :src="placeholder" alt="placeholder" />
+  <img
+    :src="placeholder"
+    alt="placeholder"
+  >
 </template>
 
 <script lang="ts" setup>

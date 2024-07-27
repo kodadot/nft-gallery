@@ -4,7 +4,7 @@ const CREATE_NFT_PATH = '/ahk/create'
 
 test('Create NFT', async ({ page, Commands }) => {
   const numOfCopies = 5
-  //Login and navigation
+  // Login and navigation
   await test.step('Login and navigate trough create single nft menus', async () => {
     await Commands.e2elogin()
     await page.goto(CREATE_NFT_PATH)
@@ -14,7 +14,7 @@ test('Create NFT', async ({ page, Commands }) => {
     await page.getByTestId('create-landing-single-nft-button').click()
   })
 
-  //image upload
+  // image upload
   await test.step('Upload image into dropupload', async () => {
     await page.setInputFiles(
       'input[type="file"]',
@@ -22,7 +22,7 @@ test('Create NFT', async ({ page, Commands }) => {
     )
   })
 
-  //Fill fields
+  // Fill fields
   await test.step('Fill name, description and select Ahk on chain dropdown', async () => {
     await page
       .getByTestId('create-nft-input-name')
@@ -36,13 +36,13 @@ test('Create NFT', async ({ page, Commands }) => {
     await expect(page.getByTestId('chain')).toHaveText('ahk')
   })
 
-  //List for sale
+  // List for sale
   await test.step('Activates list for sale switch and set a price on the input ', async () => {
     await page.getByTestId('create-nft-sale-switch').click()
     await page.getByTestId('create-nft-input-list-value').fill('5.5')
   })
 
-  //Copies
+  // Copies
   await test.step('Set number of copies and verifies if hashtag switch is present and click it', async () => {
     await page
       .getByTestId('create-nft-input-copies')
@@ -53,23 +53,23 @@ test('Create NFT', async ({ page, Commands }) => {
     await page.getByTestId('create-nft-input-copies-switch').click()
   })
 
-  //NFT attributes
+  // NFT attributes
   await test.step('Create, fill and delete NFT attributes', async () => {
-    //open NFT attribute section
+    // open NFT attribute section
     await page.getByTestId('create-nft-properties').click()
-    //add new attribute
+    // add new attribute
     await page.getByTestId('button-add-attribute').click()
-    //fill section
+    // fill section
     await page
       .getByTestId('attr-0')
       .getByTestId('attribute-input-section')
       .fill('BG')
-    //fill value
+    // fill value
     await page
       .getByTestId('attr-0')
       .getByTestId('attribute-input-value')
       .fill('Red')
-    //add new attribute
+    // add new attribute
     await page.getByTestId('button-add-attribute').click()
     await page
       .getByTestId('attr-1')
@@ -79,18 +79,18 @@ test('Create NFT', async ({ page, Commands }) => {
       .getByTestId('attr-1')
       .getByTestId('attribute-input-value')
       .fill('Blue')
-    //remove last attribute
+    // remove last attribute
     await page.getByTestId('attribute-button-remove').last().click()
     await expect(page.getByTestId('attr-1')).not.toBeVisible()
   })
 
-  //Royalty
+  // Royalty
   await test.step('Sets a royalty percentage, activate the custom royalty switch and verifies its existance', async () => {
     const royaltyFields = page
       .getByTestId('royalty-form-input-percentage')
       .locator('input')
     await royaltyFields.fill('5')
-    //royalty switch
+    // royalty switch
     await page.getByTestId('royalty-form-switch').click()
     const royaltyCustom = page
       .getByTestId('royalty-form-custom-address')
@@ -98,12 +98,12 @@ test('Create NFT', async ({ page, Commands }) => {
     await expect(royaltyCustom).toBeVisible()
   })
 
-  //NSFW switch
+  // NSFW switch
   await test.step('Activates NSFW switch', async () => {
     await page.getByTestId('create-nft-nsfw-switch').click()
   })
 
-  //Deposit
+  // Deposit
   await test.step('Check if deposits are loaded and properly calculated', async () => {
     const expectedDeposit = `${Number(0.0008 * numOfCopies).toFixed(4)} KSM`
     await expect(
@@ -111,7 +111,7 @@ test('Create NFT', async ({ page, Commands }) => {
     ).toHaveText(expectedDeposit, { timeout: 30000 })
   })
 
-  //preview box
+  // preview box
   await test.step('Verifies if contents of the preview box match fields from form', async () => {
     await expect(page.getByTestId('create-nft-preview-box')).toBeVisible()
     expect(
@@ -122,7 +122,7 @@ test('Create NFT', async ({ page, Commands }) => {
     ).toContain('5.5')
   })
 
-  //learn more link
+  // learn more link
   await test.step('Click on the Learn More link and check if new tab has proper URL', async () => {
     await expect(page.getByTestId('create-nft-learn-more-link')).toBeVisible()
     await Commands.checkNewTab(

@@ -1,33 +1,44 @@
 <template>
-  <NeoModal :value="vOpen" @close="close">
+  <NeoModal
+    :value="vOpen"
+    @close="close"
+  >
     <ModalBody
       :title="'Profile Creation'"
       :content-class="stage === 1 ? 'p-0' : undefined"
-      @close="close">
-      <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
+      @close="close"
+    >
+      <Introduction
+        v-if="stage === 1"
+        @next="stage = 2"
+        @close="close"
+      />
       <Select
         v-if="stage === 2"
         :loading="farcasterSignInIsInProgress"
         @start-new="OnSelectStartNew"
-        @import-farcaster="onSelectFarcaster" />
+        @import-farcaster="onSelectFarcaster"
+      />
       <Form
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
         :signing-message="signingMessage"
         @submit="handleFormSubmition"
-        @delete="handleProfileDelete" />
+        @delete="handleProfileDelete"
+      />
     </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import { Form, Introduction, ProfileFormData, Select } from './stages/index'
+import type { StatusAPIResponse } from '@farcaster/auth-client'
+import { useDocumentVisibility } from '@vueuse/core'
+import type { ProfileFormData } from './stages/index'
+import { Form, Introduction, Select } from './stages/index'
 import { deleteProfile } from '@/services/profile'
 import { appClient, createChannel } from '@/services/farcaster'
-import { StatusAPIResponse } from '@farcaster/auth-client'
-import { useDocumentVisibility } from '@vueuse/core'
 
 type SessionState = {
   state: LoadingNotificationState
@@ -72,7 +83,8 @@ const handleProfileDelete = async (address: string) => {
     })
     emit('deleted')
     close()
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error!.toString())
     console.error(error)
   }
@@ -89,7 +101,8 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
     onModalAnimation(() => {
       stage.value = 4 // Go to loading stage
     })
-  } catch (error) {
+  }
+  catch (error) {
     stage.value = 3 // Back to form stage
     reset()
     warningMessage(error!.toString())
@@ -123,7 +136,8 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
     })
 
     profileCreated(sessionId)
-  } catch (error) {
+  }
+  catch (error) {
     profileCreationFailed(sessionId, error as Error)
   }
 }
@@ -156,6 +170,8 @@ const showProfileCreationNotification = (session: Ref<SessionState>) => {
           url: `/${urlPrefix.value}/u/${accountId.value}`,
         }
       }
+
+      return undefined
     }),
   })
 }
@@ -180,7 +196,8 @@ const onSelectFarcaster = () => {
   if (farcasterUserData.value) {
     stage.value = 3
     useFarcaster.value = true
-  } else {
+  }
+  else {
     farcasterSignInIsInProgress.value = true
     loginWithFarcaster()
       .then(() => {
@@ -256,9 +273,9 @@ useModalIsOpenTracker({
 
 watch(documentVisibility, (current, previous) => {
   if (
-    current === 'visible' &&
-    previous === 'hidden' &&
-    farcasterSignInIsInProgress.value
+    current === 'visible'
+    && previous === 'hidden'
+    && farcasterSignInIsInProgress.value
   ) {
     infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
       title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),

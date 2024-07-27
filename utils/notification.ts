@@ -1,6 +1,3 @@
-import MessageNotify from '@/components/MessageNotify.vue'
-import Notification from '@/components/common/Notification.vue'
-
 import {
   type NeoMessageIconVariant,
   type NeoMessageVariant,
@@ -8,8 +5,10 @@ import {
 } from '@kodadot1/brick'
 import consola from 'consola'
 import { h } from 'vue'
+import Notification from '@/components/common/Notification.vue'
+import MessageNotify from '@/components/MessageNotify.vue'
 
-export type NotificationAction = { label: string; url: string }
+export type NotificationAction = { label: string, url: string }
 
 type Params = {
   variant: NeoMessageVariant
@@ -104,7 +103,7 @@ export const infoMessage = (
     url,
     duration,
     title = 'Information',
-  }: { url?: string; duration?: number; title?: string } = {},
+  }: { url?: string, duration?: number, title?: string } = {},
 ) => {
   const { $i18n } = useNuxtApp()
   showNotification({
@@ -116,7 +115,7 @@ export const infoMessage = (
   })
 }
 
-export const successMessage = (message) =>
+export const successMessage = message =>
   showNotification({
     title: 'Success',
     message: message,
@@ -143,7 +142,7 @@ export const dangerMessage = (
   {
     title = 'Critical Error',
     reportable = true,
-  }: { title?: string; reportable?: boolean } = {},
+  }: { title?: string, reportable?: boolean } = {},
 ) =>
   showNotification({
     title,
@@ -190,7 +189,8 @@ export const loadingMessage = ({
           message,
           $i18n.t('transactionLoader.completed'),
         )
-      } else if (state === 'failed') {
+      }
+      else if (state === 'failed') {
         stateMessage.value = ifIsRef(message, '')
       }
     },

@@ -1,5 +1,8 @@
 <template>
-  <NeoModal :value="value" @close="value = false">
+  <NeoModal
+    :value="value"
+    @close="value = false"
+  >
     <div class="py-4 px-5 limit-width">
       <div class="flex mb-3 text-base">
         {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
@@ -12,7 +15,8 @@
           class="font-bold mr-4"
           variant="text"
           no-shadow
-          @click="emit('delete')">
+          @click="emit('delete')"
+        >
           <span class="text-k-red">
             {{ $i18n.t('massmint.yesDelete') }}
           </span>
@@ -22,7 +26,8 @@
           variant="text"
           no-shadow
           :label="$i18n.t('cancel')"
-          @click="value = false" />
+          @click="value = false"
+        />
       </div>
     </div>
   </NeoModal>

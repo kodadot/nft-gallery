@@ -1,6 +1,7 @@
-import { PinningKey, getKey as getPinningKey } from '@/services/nftStorage'
-import { emptyObject, isEmpty } from '@/utils/empty'
 import { defineStore } from 'pinia'
+import type { PinningKey } from '@/services/nftStorage'
+import { getKey as getPinningKey } from '@/services/nftStorage'
+import { emptyObject, isEmpty } from '@/utils/empty'
 
 const isFromEstuary = (pinningKey: PinningKey) =>
   pinningKey.token.startsWith('EST')
@@ -23,17 +24,17 @@ export const usePinningStore = defineStore('pinning', {
     pinningKey: emptyObject<PinningKey>(),
   }),
   getters: {
-    getPinningKey: (state) => state.pinningKey?.token,
-    isKeyValid: (state) =>
-      Boolean(state.pinningKey?.expiry) &&
-      new Date(state.pinningKey.expiry).getTime() < Date.now(),
+    getPinningKey: state => state.pinningKey?.token,
+    isKeyValid: state =>
+      Boolean(state.pinningKey?.expiry)
+      && new Date(state.pinningKey.expiry).getTime() < Date.now(),
   },
   actions: {
     async fetchPinningKey(address: string): Promise<PinningKey> {
       if (
-        isEmpty(this.pinningKey) ||
-        isExpired(this.pinningKey) ||
-        isFromEstuary(this.pinningKey)
+        isEmpty(this.pinningKey)
+        || isExpired(this.pinningKey)
+        || isFromEstuary(this.pinningKey)
       ) {
         const pinningKey = await getPinningKey(address)
         this.pinningKey = Object.assign({}, pinningKey)

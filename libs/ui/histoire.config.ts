@@ -1,7 +1,7 @@
+import { resolve } from 'path'
 import { defineConfig } from 'histoire'
 import { HstVue } from '@histoire/plugin-vue'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
 import { searchForWorkspaceRoot } from 'vite'
 
 export default defineConfig({

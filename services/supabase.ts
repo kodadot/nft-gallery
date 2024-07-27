@@ -1,9 +1,10 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 // import consola from 'consola'
 
 const SUPABASE_BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
-const ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10d2ZqZnVpa25nbGhmb3ptb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyMDIwMTcsImV4cCI6MTk4Mzc3ODAxN30.XCLXzu-TCPLo5nHgOWMHzb5quWE8npMolw9IgESsliQ'
+const ANON_KEY
+  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10d2ZqZnVpa25nbGhmb3ptb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyMDIwMTcsImV4cCI6MTk4Mzc3ODAxN30.XCLXzu-TCPLo5nHgOWMHzb5quWE8npMolw9IgESsliQ'
 
 type Option<T> = T | null
 

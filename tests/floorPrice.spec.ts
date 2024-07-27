@@ -1,10 +1,10 @@
-import { Interaction, NFT } from '@/components/rmrk/service/scheme'
+import { fullCollection } from './sample2'
+import type { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import {
   collectionFloorPriceList,
   onlyEvents,
   onlyPriceEvents,
 } from '@/components/rmrk/utils'
-import { fullCollection } from './sample2'
 
 describe('FLOOR PRICE TEST', (): void => {
   let nfts: NFT[] = []
@@ -24,7 +24,7 @@ describe('FLOOR PRICE TEST', (): void => {
 
     const priceEvents: Interaction[][] = nfts
       .map(onlyEvents)
-      .map((evts) => evts.filter(onlyPriceEvents))
+      .map(evts => evts.filter(onlyPriceEvents))
 
     const floorPriceListFn = collectionFloorPriceList(priceEvents, 12)
     const floorPriceFromEvents = floorPriceListFn(now)

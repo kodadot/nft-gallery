@@ -7,9 +7,13 @@
       expanded
       class="hover-color"
       :accept="accept"
-      @update:modelValue="onFileSelected">
+      @update:model-value="onFileSelected"
+    >
       <div class="text-center flex justify-center p-5">
-        <div v-if="!selectedFile" class="flex flex-col limit-width">
+        <div
+          v-if="!selectedFile"
+          class="flex flex-col limit-width"
+        >
           <slot name="title">
             <span class="mb-4 text-left">{{ title }}</span>
           </slot>
@@ -17,15 +21,26 @@
             :icon="icon"
             class="icon-size text-k-grey py-3"
             custom-size="fa-2x"
-            pack="fass" />
+            pack="fass"
+          />
           <p class="text-k-grey mt-8">
             {{ subtitle }}
           </p>
         </div>
-        <img v-else-if="loading" src="~/assets/svg/preloader.svg" width="200" />
-        <div v-else class="flex items-center">
+        <img
+          v-else-if="loading"
+          src="~/assets/svg/preloader.svg"
+          width="200"
+        >
+        <div
+          v-else
+          class="flex items-center"
+        >
           <div class="flex flex-col justify-between">
-            <NeoIcon icon="circle-check" class="check-icon text-k-green" />
+            <NeoIcon
+              icon="circle-check"
+              class="check-icon text-k-green"
+            />
             <div class="flex items-center mt-6 flex-col">
               <span class="text-k-grey mr-5 mb-4">
                 {{ selectedFile?.name }} {{ $t('uploaded') }}
@@ -81,6 +96,7 @@ const onFileSelected = (file: File) => {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 

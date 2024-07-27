@@ -5,7 +5,7 @@ const LANDING_PATH = '/ksm'
 test('Check if search provide results', async ({ page }) => {
   await page.goto(LANDING_PATH)
 
-  //Search term
+  // Search term
   await test.step('Search for the term Waifu and hover over results', async () => {
     await expect(
       page.locator('[data-testid="search-bar"] >> visible = true'),
@@ -18,7 +18,7 @@ test('Check if search provide results', async ({ page }) => {
       .hover()
   })
 
-  //check contents of Collection Tab
+  // check contents of Collection Tab
   await test.step('Switches to Collection tab and wait for results to load', async () => {
     const tabCollection = page.getByTestId('collection-tab').last()
     await expect(
@@ -32,7 +32,7 @@ test('Check if search provide results', async ({ page }) => {
     })
   })
 
-  //Switchs to NFT tab
+  // Switchs to NFT tab
   await test.step('Switches to NFT tab and wait for results to load', async () => {
     await page.locator('div[aria-controls="NFTs-content"]').last().click()
     const tabNft = page.getByTestId('nft-tab')

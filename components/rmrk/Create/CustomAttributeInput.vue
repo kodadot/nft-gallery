@@ -1,15 +1,20 @@
 <template>
-  <CollapseWrapper :visible="visible" :hidden="hidden">
+  <CollapseWrapper
+    :visible="visible"
+    :hidden="hidden"
+  >
     <div
       v-for="(attribute, index) in attributes"
       :key="index"
       :data-testid="`attr-${index}`"
-      class="custom-attribute-input my-4">
+      class="custom-attribute-input my-4"
+    >
       <AttributeInput
         v-model:trait_type="attributes[index].trait_type"
         v-model:value="attributes[index].value"
         :index="index"
-        @remove="removeAttribute" />
+        @remove="removeAttribute"
+      />
     </div>
     <NeoButton
       no-shadow
@@ -17,14 +22,15 @@
       :disabled="disabled"
       icon-left="plus"
       data-testid="button-add-attribute"
-      @click="addAttribute">
+      @click="addAttribute"
+    >
       Add Attribute
     </NeoButton>
   </CollapseWrapper>
 </template>
 
 <script lang="ts" setup>
-import { Attribute } from '@kodadot1/minimark/common'
+import type { Attribute } from '@kodadot1/minimark/common'
 import { NeoButton } from '@kodadot1/brick'
 import AttributeInput from './AttributeInput.vue'
 

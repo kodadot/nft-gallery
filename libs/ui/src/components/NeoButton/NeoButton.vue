@@ -2,13 +2,13 @@
   <o-button
     ref="button"
     :class="{
-      active: active,
+      'active': active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
-      shiny: shiny,
-      dropdown: dropdown,
-      pressing: pressing,
+      'shiny': shiny,
+      'dropdown': dropdown,
+      'pressing': pressing,
     }"
     :size="size"
     :icon-right="icon"
@@ -21,8 +21,12 @@
     class="is-neo"
     :rounded="rounded"
     :tag="tag"
-    v-bind="$props">
-    <template v-if="$slots.default" #default>
+    v-bind="$props"
+  >
+    <template
+      v-if="$slots.default"
+      #default
+    >
       <slot />
     </template>
   </o-button>
@@ -30,9 +34,9 @@
 
 <script lang="ts" setup>
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
-import type { NeoButtonVariant } from '../../types'
 import { OButton } from '@oruga-ui/oruga-next'
 import { useMousePressed } from '@vueuse/core'
+import type { NeoButtonVariant } from '../../types'
 
 const props = withDefaults(
   defineProps<{

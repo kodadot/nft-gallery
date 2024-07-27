@@ -30,6 +30,7 @@ import Unknown from './Unknown.vue'
 import Vector from './Vector.vue'
 import Vote from './Vote.vue'
 import VoteThreshold from './VoteThreshold.vue'
+
 const components = [
   {
     c: Account,
@@ -138,16 +139,19 @@ export default function findComponent(def, overrides = {}) {
       Component = findOne(getType(raw))
       if (Component) {
         return Component
-      } else if (instance instanceof BN) {
+      }
+      else if (instance instanceof BN) {
         return Amount
-      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+      }
+      else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
         return findComponent(raw, overrides)
       }
-    } catch (error) {
+    }
+    catch (error) {
       // console.error(error.message);
     }
     console.warn(`Cannot find Component for ${type}, defaulting to Unknown`)
   }
   return Component || Unknown
 }
-//# sourceMappingURL=findComponent.js.map
+// # sourceMappingURL=findComponent.js.map

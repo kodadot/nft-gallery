@@ -6,7 +6,8 @@
     :style="{
       width: `${size}px`,
       height: `${size}px`,
-    }" />
+    }"
+  />
   <Identicon
     v-else
     :data-key="value"
@@ -14,7 +15,8 @@
     theme="polkadot"
     :value="value"
     data-testid="avatar-identity-icon"
-    :class="WRAPPER_CLASS" />
+    :class="WRAPPER_CLASS"
+  />
 </template>
 
 <script lang="ts" setup>

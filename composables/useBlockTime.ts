@@ -1,10 +1,10 @@
-import { PartialConfig } from '@/utils/config/types'
+import type { PartialConfig } from '@/utils/config/types'
 
 export default function () {
   const { urlPrefix } = usePrefix()
 
-  const paraChainBlockTime = 12 //seconds
-  const relayChainBlockTime = 6 //seconds
+  const paraChainBlockTime = 12 // seconds
+  const relayChainBlockTime = 6 // seconds
 
   const chainBlockTimes: PartialConfig<number> = {
     ksm: relayChainBlockTime,

@@ -4,10 +4,15 @@
       v-show="isActive"
       ref="wrapper"
       class="message !px-6 !py-4 shadow-primary border border-border-color relative md:min-w-[350px]"
-      :class="[`message__${variant}`]">
+      :class="[`message__${variant}`]"
+    >
       <div class="flex gap-4">
         <div v-if="computedIcon">
-          <NeoIcon :icon="iconName" size="large" :spin="iconSpin" />
+          <NeoIcon
+            :icon="iconName"
+            size="large"
+            :spin="iconSpin"
+          />
         </div>
 
         <div class="w-full flex justify-between">
@@ -31,14 +36,16 @@
             icon="xmark"
             no-shadow
             class="!bg-[unset] text-[16px] p-1"
-            @click="close" />
+            @click="close"
+          />
         </div>
       </div>
 
       <div
         v-if="showProgressBar"
         class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
-        :style="{ width: `${percent}%` }" />
+        :style="{ width: `${percent}%` }"
+      />
     </article>
   </transition>
 </template>
@@ -47,7 +54,7 @@
 import { useElementHover } from '@vueuse/core'
 import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
-import {
+import type {
   NeoMessageCustomIconVariant,
   NeoMessageIconVariant,
   NeoMessageVariant,
@@ -99,8 +106,8 @@ const computedIcon = computed(
 )
 const iconName = computed(
   () =>
-    (computedIcon.value as NeoMessageCustomIconVariant)?.icon ??
-    computedIcon.value,
+    (computedIcon.value as NeoMessageCustomIconVariant)?.icon
+    ?? computedIcon.value,
 )
 const iconSpin = computed(
   () => (computedIcon.value as NeoMessageCustomIconVariant).spin,
@@ -120,7 +127,8 @@ const close = () => {
 watch([isActive, () => props.holdTimer], ([active, holdTimer]) => {
   if (active && !holdTimer) {
     startTimer()
-  } else if (timer.value) {
+  }
+  else if (timer.value) {
     clearTimeout(timer.value)
   }
 })
@@ -145,7 +153,7 @@ watch(remainingTime, (time) => {
 
 watch(
   () => props.active,
-  (active) => (isActive.value = active),
+  active => (isActive.value = active),
 )
 
 onMounted(() => !props.holdTimer && startTimer())

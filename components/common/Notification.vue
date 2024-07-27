@@ -7,9 +7,15 @@
     :hold-timer="holdTimer"
     auto-close
     show-progress-bar
-    @close="emit('close')">
-    <div class="flex gap-2" :class="{ 'flex-col': variant !== 'success' }">
-      <p class="text-k-grey text-sm break-all">{{ message }}</p>
+    @close="emit('close')"
+  >
+    <div
+      class="flex gap-2"
+      :class="{ 'flex-col': variant !== 'success' }"
+    >
+      <p class="text-k-grey text-sm break-all">
+        {{ message }}
+      </p>
 
       <a
         v-if="action"
@@ -19,7 +25,8 @@
             ? '!text-k-blue hover:!text-k-blue-hover !no-underline text-sm'
             : '!text-text-color text-[16px] ',
         ]"
-        target="_blank">
+        target="_blank"
+      >
         {{ action.label }}
         <NeoIcon :icon="action.icon" />
       </a>
@@ -28,14 +35,15 @@
 </template>
 
 <script lang="ts" setup>
+import type {
+  NeoMessageIconVariant,
+  NeoMessageVariant } from '@kodadot1/brick'
 import {
   NeoIcon,
   NeoMessage,
-  NeoMessageIconVariant,
-  NeoMessageVariant,
 } from '@kodadot1/brick'
 
-type NotificationAction = { label: string; url: string; icon?: string }
+type NotificationAction = { label: string, url: string, icon?: string }
 
 const emit = defineEmits(['close'])
 const props = withDefaults(

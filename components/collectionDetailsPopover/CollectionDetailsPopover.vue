@@ -8,26 +8,31 @@
     ]"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
-    @show="triggered = true">
+    @show="triggered = true"
+  >
     <slot name="content" />
 
     <template #content>
       <div class="popover-container">
-        <CollectionDetailsPopoverContent v-if="triggered" :nft="nft" />
+        <CollectionDetailsPopoverContent
+          v-if="triggered"
+          :nft="nft"
+        />
       </div>
     </template>
   </tippy>
 
   <nuxt-link
     :to="`/${urlPrefix}/collection/${collection?.id}`"
-    class="has-text-link inline-block md:hidden">
+    class="has-text-link inline-block md:hidden"
+  >
     {{ collection?.name || collection?.id }}
   </nuxt-link>
 </template>
 
 <script lang="ts" setup>
 import type { CarouselNFT } from '../base/types'
-import { Collection } from '../unique/types'
+import type { Collection } from '../unique/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
 const body = ref(document.body)

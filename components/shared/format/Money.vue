@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { Prefix } from '@kodadot1/static'
 import { formatAmountWithRound } from '@/utils/format/balance'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import type { Prefix } from '@kodadot1/static'
 
 const props = withDefaults(
   defineProps<{
@@ -38,8 +38,8 @@ const tokenDecimals = computed(() =>
 )
 const displayUnit = computed(
   () =>
-    props.unitSymbol ||
-    (props.prefix ? chainPropListOf(props.prefix).tokenSymbol : unit.value),
+    props.unitSymbol
+    || (props.prefix ? chainPropListOf(props.prefix).tokenSymbol : unit.value),
 )
 const finalValue = computed(() =>
   formatAmountWithRound(props.value, tokenDecimals.value, props.round),

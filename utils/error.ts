@@ -1,11 +1,11 @@
-import { NeoMessageVariant } from '@kodadot1/brick'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { notificationTypes, showNotification } from '@/utils/notification'
+import type { NeoMessageVariant } from '@kodadot1/brick'
+import type { DispatchError } from '@polkadot/types/interfaces'
 import camelCase from 'lodash/camelCase'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 export const MODULE_ERRORS_CONFIG: Record<
   string,
-  { level: NeoMessageVariant; reportable: boolean }
+  { level: NeoMessageVariant, reportable: boolean }
 > = {
   NoPermission: {
     level: 'danger',
@@ -217,8 +217,8 @@ export const notifyDispatchError = async (
   const { name, description, key } = await extractErrorMetadata(dispatchError)
 
   const config = MODULE_ERRORS_CONFIG[name] ?? undefined
-  const action =
-    !config || config.reportable
+  const action
+    = !config || config.reportable
       ? getReportIssueAction(`${key}: ${description}`)
       : undefined
 
