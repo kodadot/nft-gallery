@@ -1,5 +1,6 @@
-import { SocialLink, uploadImage } from '@/services/profile'
-import { ProfileFormData } from './stages'
+import type { ProfileFormData } from './stages'
+import type { SocialLink } from '@/services/profile'
+import { uploadImage } from '@/services/profile'
 
 export const constructSocials = (
   profileData: ProfileFormData,
@@ -20,7 +21,7 @@ export const constructSocials = (
       platform: 'Website',
       link: profileData.website || '',
     },
-  ].filter((social) => Boolean(social.handle))
+  ].filter(social => Boolean(social.handle))
 }
 
 export const uploadProfileImage = async ({

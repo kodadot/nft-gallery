@@ -1,4 +1,4 @@
-export default function <T>() {
+export default function<T>() {
   const map = ref(new Map<string, T>())
 
   const add = (initialValue: T) => {

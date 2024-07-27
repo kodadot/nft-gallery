@@ -1,6 +1,7 @@
-import {
+import type {
   CreateProfileRequest,
-  UpdateProfileRequest,
+  UpdateProfileRequest } from '@/services/profile'
+import {
   createProfile,
   updateProfile,
 } from '@/services/profile'
@@ -9,7 +10,7 @@ import {
   constructSocials,
   uploadProfileImage,
 } from '@/components/profile/create/utils'
-import { ProfileFormData } from '@/components/profile/create/stages'
+import type { ProfileFormData } from '@/components/profile/create/stages'
 
 export default async ({
   profileData,
@@ -24,18 +25,18 @@ export default async ({
 }) => {
   const imageUrl = profileData.image
     ? await uploadProfileImage({
-        file: profileData.image,
-        type: 'image',
-        signaturePair,
-      })
+      file: profileData.image,
+      type: 'image',
+      signaturePair,
+    })
     : profileData.imagePreview
 
   const bannerUrl = profileData.banner
     ? await uploadProfileImage({
-        file: profileData.banner,
-        type: 'banner',
-        signaturePair,
-      })
+      file: profileData.banner,
+      type: 'banner',
+      signaturePair,
+    })
     : profileData.bannerPreview
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {

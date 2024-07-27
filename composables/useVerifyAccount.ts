@@ -1,7 +1,7 @@
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { signMessage as signMessageEvm } from '@wagmi/core'
 
-export type SignaturePair = { signature: string; message: string }
+export type SignaturePair = { signature: string, message: string }
 
 const signMessagePolkadot = async (address: string, message: string) => {
   const injector = await getAddress(toDefaultAddress(address))

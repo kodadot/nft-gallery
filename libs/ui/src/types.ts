@@ -22,5 +22,5 @@ export type NeoMessageVariant =
   | 'info'
   | 'neutral'
 
-export type NeoMessageCustomIconVariant = { icon: string; spin: boolean }
+export type NeoMessageCustomIconVariant = { icon: string, spin: boolean }
 export type NeoMessageIconVariant = string | NeoMessageCustomIconVariant

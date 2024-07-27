@@ -2,7 +2,7 @@ import { debounce } from 'lodash'
 
 export const NEO_MODAL_ANIMATION_DURATION = 200
 
-export const onModalAnimation = (onChange) =>
+export const onModalAnimation = onChange =>
   debounce(onChange, NEO_MODAL_ANIMATION_DURATION)()
 
 export default ({

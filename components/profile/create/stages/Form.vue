@@ -278,10 +278,10 @@ const userProfile = computed(() => profile?.userProfile.value)
 const missingImage = computed(() => (form.imagePreview ? false : !form.image))
 const submitDisabled = computed(
   () =>
-    !form.name ||
-    !form.description ||
-    missingImage.value ||
-    props.signingMessage,
+    !form.name
+    || !form.description
+    || missingImage.value
+    || props.signingMessage,
 )
 
 const validatingFormInput = (model: string) => {
