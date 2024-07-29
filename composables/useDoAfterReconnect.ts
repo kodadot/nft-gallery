@@ -30,7 +30,6 @@ export default function () {
             onCancel()
           }
         },
-        logout: closeModal,
         connect: (account: string) => {
           if (onConnect) {
             onConnect(account)

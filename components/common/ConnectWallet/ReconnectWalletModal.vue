@@ -43,6 +43,7 @@
           :label="$t('reconnect.switch')"
           variant="primary"
           no-shadow
+          :loading="loading"
           :disabled="loading"
           class="flex flex-grow !h-[3.5rem]"
           @click="switchWallet"
@@ -74,7 +75,7 @@ const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName: strin
   },
 }
 
-const emit = defineEmits(['close', 'connect', 'logout'])
+const emit = defineEmits(['close', 'connect'])
 
 const { logout } = useWallet()
 const instance = getCurrentInstance()
@@ -93,19 +94,15 @@ const switchWallet = async () => {
   loading.value = true
 
   await logout()
-  emit('logout')
 
   doAfterLogin({
     onLoginSuccess: () => emit('connect'),
-    onCancel: () => emit('close'),
+    onCancel: () => {
+      loading.value = false
+    },
     componentProps: {
       preselected: targetVm.value,
     },
-    modalConfig: {
-      rootClass: 'connect-wallet-modal !z-[1000] sm:!z-[999]',
-    },
   })
-
-  loading.value = false
 }
 </script>
