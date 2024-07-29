@@ -409,7 +409,7 @@ const updateSearchUrl = (path: string) => {
   const { name } = props
   if (name) {
     router
-      .push({
+      .replace({
         path: `${path}`,
         query: {
           search: name,
