@@ -2,18 +2,23 @@
   <div>
     <div class="hero-buttons flex justify-start items-end px-2">
       <div class="flex">
-        <NeoDropdown position="bottom-left" :mobile-modal="false">
+        <NeoDropdown
+          position="bottom-left"
+          :mobile-modal="false"
+        >
           <template #trigger="{ active }">
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
               data-testid="share-button"
-              :active="active" />
+              :active="active"
+            />
           </template>
 
           <NeoDropdownItem
             v-clipboard:copy="currentUrl"
-            @click="toast(`${$t('toast.urlCopy')}`)">
+            @click="toast(`${$t('toast.urlCopy')}`)"
+          >
             {{ $t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -25,7 +30,10 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
+    <NeoModal
+      :value="QRModalActive"
+      @close="QRModalActive = false"
+    >
       <div class="card">
         <div class="card-content">
           <QRCode :text="currentUrl" />

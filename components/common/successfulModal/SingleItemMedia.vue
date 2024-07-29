@@ -6,22 +6,30 @@
       :animation-src="src"
       :mime-type="mediaMimeType"
       preview
-      is-detail />
+      is-detail
+    />
 
     <div class="mt-5 border-b-k-shade">
       <p class="text-base capitalize font-bold text-center">
         {{ header }}
       </p>
-      <p v-if="showPrice" class="capitalize text-center mt-2">
+      <p
+        v-if="showPrice"
+        class="capitalize text-center mt-2"
+      >
         {{ formatted }} ~ {{ usd }}
       </p>
-      <p v-else class="capitalize text-xs text-center mt-2">
+      <p
+        v-else
+        class="capitalize text-xs text-center mt-2"
+      >
         {{ $t('drops.artBy', [nftName]) }}
         <nuxt-link
           :to="`/${urlPrefix}/collection/${collectionId}`"
           class="has-text-link"
           target="_blank"
-          rel="nofollow noopener noreferrer">
+          rel="nofollow noopener noreferrer"
+        >
           {{ collectionName }}
         </nuxt-link>
       </p>

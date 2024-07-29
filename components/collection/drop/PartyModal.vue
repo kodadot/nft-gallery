@@ -2,12 +2,14 @@
   <transition name="fade">
     <div
       v-if="isPartyModalOpen"
-      class="fixed top-20 md:top-24 left-4 z-[1000] w-[calc(100%-32px)] md:w-[31.25rem] h-fit shadow-primary bg-background-color !p-6 gap-6 flex border items-center">
+      class="fixed top-20 md:top-24 left-4 z-[1000] w-[calc(100%-32px)] md:w-[31.25rem] h-fit shadow-primary bg-background-color !p-6 gap-6 flex border items-center"
+    >
       <div class="max-md:hidden relative h-full w-fit flex-shrink-0">
         <img
           src="/party-mode-experience.svg"
           alt="drop party cursors"
-          class="h-[116px]" />
+          class="h-[116px]"
+        >
       </div>
 
       <div class="w-full flex flex-col gap-3">
@@ -24,7 +26,7 @@
                 class="text-k-blue"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                >{{ $t('helper.learnMore') }}
+              >{{ $t('helper.learnMore') }}
               </a>
             </p>
           </div>
@@ -35,7 +37,8 @@
               size="large"
               no-shadow
               class="!h-fit"
-              @click="isPartyModalOpen = false" />
+              @click="isPartyModalOpen = false"
+            />
           </div>
         </div>
 
@@ -44,13 +47,15 @@
             variant="text"
             no-shadow
             class="!text-k-grey"
-            @click="partyMode = false">
+            @click="partyMode = false"
+          >
             {{ $t('party.modal.decline') }}
           </NeoButton>
           <NeoButton
             variant="outlined-rounded"
             no-shadow
-            @click="partyMode = true">
+            @click="partyMode = true"
+          >
             {{ $t('party.modal.accept') }}
           </NeoButton>
         </div>
@@ -58,6 +63,7 @@
     </div>
   </transition>
 </template>
+
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'

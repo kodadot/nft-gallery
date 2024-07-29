@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="isLogIn"
-    class="rounded-[10rem] border border-k-shade flex justify-start flex-grow pl-3">
+    class="rounded-[10rem] border border-k-shade flex justify-start flex-grow pl-3"
+  >
     <IdentityItem
       :label="$t('confirmPurchase.connectedWith')"
       hide-identity-popover
@@ -9,7 +10,8 @@
       :prefix="urlPrefix"
       :account="accountId"
       class="identity-name-font-weight-regular"
-      data-testid="item-creator" />
+      data-testid="item-creator"
+    />
   </div>
 </template>
 

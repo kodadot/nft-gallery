@@ -1,5 +1,5 @@
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
-import { TokenToMint } from '../types'
+import type { TokenToMint } from '../types'
 import { pinDirectory } from '@/services/nftStorage'
 
 export const constructDirectoryMeta = async (
@@ -8,14 +8,14 @@ export const constructDirectoryMeta = async (
     enableCarbonOffset?: boolean
   },
 ): Promise<string[]> => {
-  if (tokensToMint.map(({ file }) => file).some((file) => !file)) {
+  if (tokensToMint.map(({ file }) => file).some(file => !file)) {
     throw new ReferenceError('No file found for token')
   }
-  const tokens = tokensToMint.filter((token) => Boolean(token.file))
-  const tokensMedia = tokens.map((token) => token.file) as File[]
+  const tokens = tokensToMint.filter(token => Boolean(token.file))
+  const tokensMedia = tokens.map(token => token.file) as File[]
   const { enableCarbonOffset = false } = options ?? {}
 
-  return await uploadMediaAndMetadataDirectories(tokensMedia, (imageHashes) =>
+  return await uploadMediaAndMetadataDirectories(tokensMedia, imageHashes =>
     tokens.map((token, index) =>
       createTokenMetadata(token, imageHashes[index], enableCarbonOffset, index),
     ),
@@ -66,7 +66,8 @@ const batchFiles = (files: File[], maxBatchSize: number): File[][] => {
     if (currentBatchSize + file.size > maxBatchSize) {
       batches.push(currentBatch)
       startNewBatch(file)
-    } else {
+    }
+    else {
       currentBatch.push(file)
       currentBatchSize += file.size
     }

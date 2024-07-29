@@ -1,10 +1,11 @@
-import { SupportTokens, canSupport } from '@/utils/support'
-import { SubmittableExtrinsic } from '@polkadot/api-base/types'
-import { ISubmittableResult } from '@polkadot/types/types'
+import type { SubmittableExtrinsic } from '@polkadot/api-base/types'
+import type { ISubmittableResult } from '@polkadot/types/types'
 import type { CollectionToMintStatmine, MintCollectionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import { useStatemineNewCollectionId } from './useNewCollectionId'
 import { calculateFees, createArgsForNftPallet } from './utils'
+import { canSupport } from '@/utils/support'
+import type { SupportTokens } from '@/utils/support'
 
 export async function execMintCollectionStatemine({
   item,
@@ -19,8 +20,8 @@ export async function execMintCollectionStatemine({
   status.value = 'loader.ipfs'
 
   const metadata = await constructMeta(item)
-  const { nftCount, royalty, hasRoyalty } =
-    item.collection as CollectionToMintStatmine
+  const { nftCount, royalty, hasRoyalty }
+    = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
 
   const cb = api.tx.utility.batchAll
@@ -40,8 +41,8 @@ export async function execMintCollectionStatemine({
 
   const errorCb = () => {
     return (
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })
+      item.errorMessage
+      || $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })
     )
   }
 

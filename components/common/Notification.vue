@@ -5,15 +5,19 @@
     :variant="variant"
     auto-close
     show-progress-bar
-    @close="emit('close')">
+    @close="emit('close')"
+  >
     <div class="flex gap-2 flex-col">
-      <p class="text-k-grey text-sm break-all">{{ message }}</p>
+      <p class="text-k-grey text-sm break-all">
+        {{ message }}
+      </p>
 
       <a
         v-if="action"
         v-safe-href="action.url"
         class="text-[16px] !text-text-color"
-        target="_blank">
+        target="_blank"
+      >
         {{ action.label }}
       </a>
     </div>
@@ -21,9 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoMessage, NeoMessageVariant } from '@kodadot1/brick'
+import type { NeoMessageVariant } from '@kodadot1/brick'
+import { NeoMessage } from '@kodadot1/brick'
 
-type NotificationAction = { label: string; url: string }
+type NotificationAction = { label: string, url: string }
 
 const emit = defineEmits(['close'])
 withDefaults(

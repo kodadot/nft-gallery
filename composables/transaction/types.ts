@@ -1,11 +1,11 @@
-import { BaseTokenType } from '@/components/base/types'
-import { Royalty } from '@/utils/royalty'
-import { ShoppingActions } from '@/utils/shoppingActions'
-import { Extrinsic } from '@/utils/transactionExecutor'
-import { Attribute } from '@kodadot1/minimark/common'
-import { Interaction } from '@kodadot1/minimark/v1'
+import type { Attribute } from '@kodadot1/minimark/common'
+import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
+import type { BaseTokenType } from '@/components/base/types'
+import type { Royalty } from '@/utils/royalty'
+import type { ShoppingActions } from '@/utils/shoppingActions'
+import type { Extrinsic } from '@/utils/transactionExecutor'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
 export type ObjectMessage = {

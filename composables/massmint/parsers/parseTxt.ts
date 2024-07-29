@@ -1,4 +1,5 @@
-import { Entry, isValidEntry } from './common'
+import type { Entry } from './common'
+import { isValidEntry } from './common'
 
 /**
  * Parses a single line of text and extracts the field name and its value.
@@ -14,7 +15,7 @@ import { Entry, isValidEntry } from './common'
  */
 function parseField(
   line: string,
-): { fieldName: string; fieldValue: string } | null {
+): { fieldName: string, fieldValue: string } | null {
   const colon = '\\s*:\\s*'
   const fieldNameRegex = new RegExp(
     `^(?<fieldName>file|name|description|price)${colon}`,
@@ -42,8 +43,8 @@ function parsePriceAndCurrency(fieldValue: string): {
   price: number | undefined
   currency: string | undefined
 } {
-  const priceRegex =
-    /^(?<price>\d{1,3}(?:[.,]\d{3})*(?:\.\d+)?)(?:\s*(?<currency>.+))?$/
+  const priceRegex
+    = /^(?<price>\d{1,3}(?:[.,]\d{3})*(?:\.\d+)?)(?:\s*(?<currency>.+))?$/
   const priceMatch = priceRegex.exec(fieldValue)
 
   if (priceMatch) {
@@ -67,7 +68,8 @@ const updateEntry = (entry, line) => {
     const { price, currency } = parsePriceAndCurrency(fieldValue)
     entry.price = price
     entry.currency = currency
-  } else {
+  }
+  else {
     entry[fieldName] = fieldValue
   }
 }
@@ -76,7 +78,7 @@ function processBlock(block: string): Partial<Entry> {
   const lines = block.split(/\r?\n/)
   const entry: Partial<Entry> = {}
 
-  lines.forEach((line) => updateEntry(entry, line))
+  lines.forEach(line => updateEntry(entry, line))
   return entry
 }
 
@@ -93,7 +95,8 @@ const updateEntries = (entries, block) => {
       currency: entry.currency,
       valid: isValidEntry(entry),
     }
-  } else {
+  }
+  else {
     $consola.error('Unable to extract file name from invalid block')
   }
 }
@@ -107,7 +110,7 @@ export function parseTxt(
 
   const entries: Record<string, Entry> = {}
 
-  blocks.forEach((block) => updateEntries(entries, block))
+  blocks.forEach(block => updateEntries(entries, block))
 
   if (Object.keys(entries).length === 0) {
     $consola.error('Invalid TXT file structure')

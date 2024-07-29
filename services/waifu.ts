@@ -1,4 +1,6 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
+
 const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const api = $fetch.create({
@@ -12,7 +14,7 @@ type Response<T> = {
 
 export const getLatestWaifuImages = async () => {
   const value = await api<{
-    result: { id: string; output: string; image: string }[]
+    result: { id: string, output: string, image: string }[]
   }>('latest', {
     method: 'GET',
   }).catch((error: FetchError) => {

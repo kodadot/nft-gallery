@@ -5,11 +5,13 @@
     <CodeCheckerMassPreviewCapture
       :assets="assets"
       :index-content="indexContent"
-      @upload="(v) => $emit('upload', v)" />
+      @upload="(v) => $emit('upload', v)"
+    />
   </div>
 </template>
+
 <script lang="ts" setup>
-import { AssetMessage } from '../types'
+import type { AssetMessage } from '../types'
 
 defineEmits(['upload'])
 defineProps<{

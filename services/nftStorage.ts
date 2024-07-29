@@ -1,7 +1,8 @@
-import { $fetch, FetchError } from 'ofetch'
-import { URLS } from '../utils/constants'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import consola from 'consola'
-import { Metadata } from '@kodadot1/minimark/common'
+import type { Metadata } from '@kodadot1/minimark/common'
+import { URLS } from '../utils/constants'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
 import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
@@ -87,7 +88,7 @@ export const pinFileToIPFS = async (file: Blob): Promise<string> => {
 
 export const pinDirectory = async (files: File[]): Promise<string> => {
   const formData = new FormData()
-  files.forEach((file) => formData.append('file', file, file.name))
+  files.forEach(file => formData.append('file', file, file.name))
 
   const response = await nftStorageApi('/pinFile', {
     method: 'POST',

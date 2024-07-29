@@ -1,13 +1,19 @@
 <template>
   <div
     v-if="isUnlockable"
-    class="unlockable-container rounded-[2rem] flex border py-2 px-6 justify-between">
+    class="unlockable-container rounded-[2rem] flex border py-2 px-6 justify-between"
+  >
     <NeoTooltip
       :label="$t('unlockable.tooltip')"
       multiline
-      multiline-width="15rem">
+      multiline-width="15rem"
+    >
       <div class="flex items-center">
-        <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
+        <img
+          class="mr-2"
+          :src="unlockableIcon"
+          alt="Unlockable Icon"
+        >
         <span class="text-k-grey text-xs">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>

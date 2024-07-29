@@ -1,15 +1,19 @@
 <template>
-  <NeoNotification v-bind="propsNotification" ref="notification" @close="close">
+  <NeoNotification
+    v-bind="propsNotification"
+    ref="notification"
+    @close="close"
+  >
     <slot />
   </NeoNotification>
 </template>
 
 <script>
 // extend https://github.com/oruga-ui/oruga/blob/ef46040e7cea02595afd198257d2eb5a4b49d11d/packages/oruga-next/src/components/notification/NotificationNotice.vue implementation
-/* eslint-disable vue/require-default-prop */
-import NeoNotification from './NeoNotification.vue'
+
 import NoticeMixin from '@oruga-ui/oruga-next/src/utils/NoticeMixin'
 import BaseComponentMixin from '@oruga-ui/oruga-next/src/utils/BaseComponentMixin'
+import NeoNotification from './NeoNotification.vue'
 
 /**
  * @displayName Notification Notice

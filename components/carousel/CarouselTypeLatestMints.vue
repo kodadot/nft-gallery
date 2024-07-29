@@ -1,15 +1,23 @@
 <template>
   <div>
-    <h3 class="title is-3">{{ $t('drops.recentMints') }}</h3>
+    <h3 class="title is-3">
+      {{ $t('drops.recentMints') }}
+    </h3>
 
-    <CarouselList v-if="showCarousel" :nfts="nfts" :step="3">
+    <CarouselList
+      v-if="showCarousel"
+      :nfts="nfts"
+      :step="3"
+    >
       <template #card-info="{ item }">
         <div
-          class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col">
+          class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col"
+        >
           <nuxt-link
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
-            class="font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full">
+            class="font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full"
+          >
             <span class="is-ellipsis">{{ item.name || '--' }}</span>
           </nuxt-link>
 
@@ -20,14 +28,18 @@
               </p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"
-                class="text-k-blue hover:text-k-blue-hover ml-2">
+                class="text-k-blue hover:text-k-blue-hover ml-2"
+              >
                 <IdentityIndex
                   ref="identity"
                   :address="item.currentOwner"
-                  show-clipboard />
+                  show-clipboard
+                />
               </nuxt-link>
             </div>
-            <p class="text-xs text-k-grey">{{ item.timestamp }}</p>
+            <p class="text-xs text-k-grey">
+              {{ item.timestamp }}
+            </p>
           </div>
         </div>
       </template>
@@ -38,6 +50,7 @@
 <script lang="ts" setup>
 import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
+
 const CarouselList = defineAsyncComponent(
   () => import('./module/NftCarousel.vue'),
 )

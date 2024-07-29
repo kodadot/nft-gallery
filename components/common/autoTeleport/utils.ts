@@ -22,7 +22,7 @@ type AutoTeleportStepDetails = {
 }
 
 const interactionMap: {
-  [key in AutoTeleportInteractions]?: { action: string; item: string }
+  [key in AutoTeleportInteractions]?: { action: string, item: string }
 } = {
   [Interaction.BUY]: { action: 'purchase', item: 'general.nft' },
   [Interaction.LIST]: { action: 'list', item: 'general.nfts' },
@@ -43,7 +43,7 @@ const interactionMap: {
 
 const getTransalationKey = (
   interaction: AutoTeleportInteractions,
-): { item: string; action: string } => {
+): { item: string, action: string } => {
   const { action, item } = interactionMap[interaction] || {
     action: '',
     item: '',

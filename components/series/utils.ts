@@ -1,9 +1,9 @@
-import { RowSeries, SimpleSeriesNFT, SortType } from './types'
+import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
+import type { Interaction } from '../rmrk/service/scheme'
+import type { RowSeries, SimpleSeriesNFT, SortType } from './types'
 // import formatBalance from '@/utils/format/balance'
 // import * as store from '~/store'
 import { after, between, getVolume, pairListBuyEvent } from '@/utils/math'
-import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
-import { Interaction } from '../rmrk/service/scheme'
 
 export const today = new Date()
 export const yesterdayDate: Date = subDays(today, 1)

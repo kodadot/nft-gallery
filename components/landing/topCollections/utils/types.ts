@@ -1,4 +1,4 @@
-import { Interaction } from '~~/components/rmrk/service/scheme'
+import type { Interaction } from '~~/components/rmrk/service/scheme'
 
 export type CollectionEntity = {
   id: string

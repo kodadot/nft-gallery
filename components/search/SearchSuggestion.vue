@@ -43,8 +43,14 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
+<<<<<<< HEAD
                   <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
                   }}</span>
+=======
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >{{ item.name }}</span>
+>>>>>>> main
                   <span class="text-k-grey">
                     {{ item.chain }}
                   </span>
@@ -88,10 +94,23 @@
             </SearchResultItem>
           </div>
         </div>
+<<<<<<< HEAD
         <div class="search-footer-link">
           <div
             :class="loadMoreItemClassName"
             @click="seeAllButtonHandler(`/${urlPrefix}/explore/collectibles`)"
+=======
+        <nuxt-link
+          class="search-footer-link"
+          :to="{
+            path: `/${urlPrefix}/explore/collectibles`,
+            query: { ...$route.query },
+          }"
+        >
+          <div
+            :class="loadMoreItemClassName"
+            @click="seeAllButtonHandler"
+>>>>>>> main
           >
             {{ $t('search.seeAll') }}
             <svg
@@ -140,6 +159,7 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
+<<<<<<< HEAD
                   <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
                   }}</span>
                   <span class="capitalize">{{ urlPrefix }}</span>
@@ -147,6 +167,17 @@
                 <div class="flex flex-row justify-between pr-2">
                   <span class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.collection?.name
                   }}</span>
+=======
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >{{ item.name }}</span>
+                  <span class="capitalize">{{ urlPrefix }}</span>
+                </div>
+                <div class="flex flex-row justify-between pr-2">
+                  <span
+                    class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >{{ item.collection?.name }}</span>
+>>>>>>> main
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('price') }}:
                     <Money
@@ -160,10 +191,23 @@
             </SearchResultItem>
           </div>
         </div>
+<<<<<<< HEAD
         <div class="search-footer-link">
           <div
             :class="loadMoreItemClassName"
             @click="seeAllButtonHandler(`/${urlPrefix}/explore/items`)"
+=======
+        <nuxt-link
+          class="search-footer-link"
+          :to="{
+            path: `/${urlPrefix}/explore/items`,
+            query: { ...$route.query },
+          }"
+        >
+          <div
+            :class="loadMoreItemClassName"
+            @click="seeAllButtonHandler"
+>>>>>>> main
           >
             {{ $t('search.seeAll') }}
             <svg
@@ -250,8 +294,14 @@
           <SearchResultItem :image="item.image">
             <template #content>
               <div class="pr-2 pt-2">
+<<<<<<< HEAD
                 <span class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name
                 }}</span>
+=======
+                <span
+                  class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                >{{ item.name }}</span>
+>>>>>>> main
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
                 <span v-if="item.nftCount">{{ $t('search.units') }}: {{ item.nftCount }}</span>

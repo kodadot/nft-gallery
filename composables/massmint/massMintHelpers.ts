@@ -1,19 +1,21 @@
-import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
-import {
+import type { CreatedNFT } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/minimark/v1'
+import type {
   MintedCollection,
   TokenToList,
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { EntityWithId, getNftId } from '@/components/rmrk/service/scheme'
-import { NFTToMint } from '@/components/massmint/types'
+import type { EntityWithId } from '@/components/rmrk/service/scheme'
+import { getNftId } from '@/components/rmrk/service/scheme'
+import type { NFTToMint } from '@/components/massmint/types'
 
 export const createTokensToMint = (
   nfts: NFTToMint[],
   collection: MintedCollection,
 ): TokenToMint[] => {
   const { decimals } = useChain()
-  return nfts.map((nft) => ({
+  return nfts.map(nft => ({
     file: nft.file,
     name: nft.name,
     description: nft.description || '',
@@ -101,9 +103,9 @@ export const getListForSellItems = (
   return createdNFTs
     .map((nft: CreatedNFT) => {
       const matchingToken = tokens.find(
-        (token) =>
-          token.name === nft?.name &&
-          token.selectedCollection?.id === nft.collection,
+        token =>
+          token.name === nft?.name
+          && token.selectedCollection?.id === nft.collection,
       )
 
       if (matchingToken === undefined) {
@@ -133,8 +135,8 @@ export const getListForSellItems = (
 }
 
 export const mintKusama = (tokens) => {
-  const { blockNumber, transaction, isLoading, status, isError } =
-    useTransaction()
+  const { blockNumber, transaction, isLoading, status, isError }
+    = useTransaction()
   const { urlPrefix } = usePrefix()
   const createdNFTs = ref<CreatedNFT[]>()
   transaction({

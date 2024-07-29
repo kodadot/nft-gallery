@@ -5,16 +5,18 @@
     boundary="viewport"
     :delay="0"
     data-testid="identity-tippy-link"
-    :on-show="() => (showContent = props.showPopover)">
+    :on-show="() => (showContent = props.showPopover)"
+  >
     <slot name="content" />
 
     <template #content>
       <div
         v-if="showContent"
         class="popover-content-container p-5"
-        data-testid="identity-popover-container">
+        data-testid="identity-popover-container"
+      >
         <IdentityPopoverHeader @refresh="refresh" />
-        <hr class="!my-4 !bg-neutral-3 dark:!bg-neutral-11" />
+        <hr class="!my-4 !bg-neutral-3 dark:!bg-neutral-11">
         <IdentityPopoverFooter ref="footer" />
       </div>
     </template>

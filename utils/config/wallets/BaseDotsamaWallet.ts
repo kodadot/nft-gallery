@@ -1,12 +1,12 @@
-import {
+import type {
   InjectedAccount,
   InjectedExtension,
   InjectedMetadata,
   InjectedProvider,
   InjectedWindow,
 } from '@polkadot/extension-inject/types'
-import { SubscriptionFn, Wallet, WalletConfig } from '@/utils/config/wallets'
 import type { Signer as InjectedSigner } from '@polkadot/api/types'
+import type { SubscriptionFn, Wallet, WalletConfig } from '@/utils/config/wallets'
 import { formatAccount } from '@/utils/account'
 import { logError } from '@/utils/mappers'
 
@@ -93,8 +93,9 @@ export class BaseDotsamaWallet implements Wallet {
       this._signer = extension.signer
       this._metadata = extension.metadata
       this._provider = extension.provider
-    } catch (err) {
-      logError(err, (msg) => console.warn('[ENABLE] Unable to enable :)', msg))
+    }
+    catch (err) {
+      logError(err, msg => console.warn('[ENABLE] Unable to enable :)', msg))
     }
   }
 
@@ -118,6 +119,7 @@ export class BaseDotsamaWallet implements Wallet {
     )
     return unsubscribe
   }
+
   getAccounts = async () => {
     if (!this._extension) {
       await this.enable()
@@ -133,7 +135,7 @@ export class BaseDotsamaWallet implements Wallet {
   }
 
   getSubstrateAccounts = (accounts: InjectedAccount[]) =>
-    accounts.filter((account) => isValidSubstrateAddress(account.address))
+    accounts.filter(account => isValidSubstrateAddress(account.address))
 
   accountMap = (accounts: InjectedAccount[]) =>
     this.getSubstrateAccounts(accounts).map((account) => {

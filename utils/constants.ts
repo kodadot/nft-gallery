@@ -22,8 +22,8 @@ export const dotHubDenyList = [
   '16aWyT5Xa2wogTARQxk8LnQqi5nquy3Xrc4YcgJrmjEWrduq', // Market Manipulation
 ]
 
-export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
+export const IPFS_KODADOT_IMAGE_PLACEHOLDER
+  = 'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 

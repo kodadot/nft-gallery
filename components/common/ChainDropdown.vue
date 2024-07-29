@@ -10,14 +10,16 @@
               : `Network: ${selected?.text}`
           "
           :icon="active ? 'chevron-up' : 'chevron-down'"
-          :active="active" />
+          :active="active"
+        />
       </template>
 
       <NeoDropdownItem
         v-for="chain in availableChains"
         :key="chain.value"
         :active="prefix === chain.value"
-        @click="onSwitchChain(chain.value)">
+        @click="onSwitchChain(chain.value)"
+      >
         {{ chain.text }}
       </NeoDropdownItem>
     </NeoDropdown>
@@ -53,12 +55,12 @@ const { isMobile } = useViewport()
 const prefix = computed(() => route.params.prefix || urlPrefix.value)
 
 const selected = computed(() =>
-  allChains.value.find((chain) => chain.value === prefix.value),
+  allChains.value.find(chain => chain.value === prefix.value),
 )
 
 const availableChains = computed(() =>
   allChains.value.filter(
-    (chain) => !props.exclude.includes(chain.value as Prefix),
+    chain => !props.exclude.includes(chain.value as Prefix),
   ),
 )
 

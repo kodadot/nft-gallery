@@ -5,7 +5,7 @@ type Item = {
 
 export default (retryCount: number = 3) => {
   const states = ref(
-    new Map<string, { tries: number; fulfilled: boolean; response?: any }>(),
+    new Map<string, { tries: number, fulfilled: boolean, response?: any }>(),
   )
 
   const stateValues = computed(() =>
@@ -14,20 +14,20 @@ export default (retryCount: number = 3) => {
 
   const triedAll = computed<boolean>(
     () =>
-      Boolean(stateValues.value.length) &&
-      stateValues.value.every((item) => item.tries === 0),
+      Boolean(stateValues.value.length)
+      && stateValues.value.every(item => item.tries === 0),
   )
 
   const fulfilledAll = computed<boolean>(
     () =>
-      Boolean(stateValues.value.length) &&
-      stateValues.value.every((item) => item.fulfilled),
+      Boolean(stateValues.value.length)
+      && stateValues.value.every(item => item.fulfilled),
   )
 
   const completed = computed<boolean>(
     () =>
-      Boolean(stateValues.value.length) &&
-      stateValues.value.every((item) => item.fulfilled || item.tries === 0),
+      Boolean(stateValues.value.length)
+      && stateValues.value.every(item => item.fulfilled || item.tries === 0),
   )
 
   const getDefaultState = () => ({
@@ -46,7 +46,8 @@ export default (retryCount: number = 3) => {
           fulfilled: true,
           response,
         })
-      } catch (error) {
+      }
+      catch (error) {
         states.value.set(item.id, {
           tries: currentState.tries - 1,
           fulfilled: false,

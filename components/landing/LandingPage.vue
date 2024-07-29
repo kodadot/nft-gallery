@@ -6,7 +6,10 @@
 
     <template v-if="showCarousel">
       <!-- top collections -->
-      <section v-if="showTopCollections" class="py-8 instance">
+      <section
+        v-if="showTopCollections"
+        class="py-8 instance"
+      >
         <div class="container is-fluid">
           <LandingTopCollections class="my-5" />
         </div>

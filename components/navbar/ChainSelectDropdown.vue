@@ -3,9 +3,15 @@
     v-model="selected"
     aria-role="list"
     :triggers="['click']"
-    position="bottom-left">
+    position="bottom-left"
+  >
     <template #trigger>
-      <div class="navbar-item" data-testid="chain">{{ chainName }}</div>
+      <div
+        class="navbar-item"
+        data-testid="chain"
+      >
+        {{ chainName }}
+      </div>
     </template>
 
     <NeoDropdownItem
@@ -15,7 +21,8 @@
       aria-role="listitem"
       :value="option.value"
       :class="{ 'is-active': selected === option.value }"
-      :data-testid="`chain-dropdown-${option.value}`">
+      :data-testid="`chain-dropdown-${option.value}`"
+    >
       {{ option.text }}
     </NeoDropdownItem>
   </NeoDropdown>

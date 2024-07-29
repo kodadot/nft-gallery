@@ -1,20 +1,43 @@
 <template>
-  <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
-    <NeoSidebar :reduce="false" :open="open" fullheight>
+  <div
+    :class="{ 'bordered sticky': open }"
+    class="is-hidden-mobile"
+  >
+    <NeoSidebar
+      :reduce="false"
+      :open="open"
+      fullheight
+    >
       <template v-if="isCollectionActivityTab">
-        <EventTypeFilter expanded fluid-padding />
-        <IdentityVerficationFilter expanded fluid-padding />
+        <EventTypeFilter
+          expanded
+          fluid-padding
+        />
+        <IdentityVerficationFilter
+          expanded
+          fluid-padding
+        />
       </template>
-      <StatusFilter v-else expanded fluid-padding />
+      <StatusFilter
+        v-else
+        expanded
+        fluid-padding
+      />
       <PriceFilter
         v-if="!isCollectionActivityTab"
         fluid-padding
-        data-testid="sidebar-price-filter" />
-      <PopularCollections v-if="isExploreItems" expanded fluid-padding />
+        data-testid="sidebar-price-filter"
+      />
+      <PopularCollections
+        v-if="isExploreItems"
+        expanded
+        fluid-padding
+      />
       <AdvancedFilter
         v-if="!isCollectionActivityTab"
         fluid-padding
-        data-testid="sidebar-advanced-filter" />
+        data-testid="sidebar-advanced-filter"
+      />
     </NeoSidebar>
   </div>
 </template>

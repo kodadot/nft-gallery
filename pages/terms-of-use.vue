@@ -1,29 +1,36 @@
 <template>
   <section class="terms mb-5">
-    <h1 class="title is-1 mb-4">TERMS OF SERVICE</h1>
+    <h1 class="title is-1 mb-4">
+      TERMS OF SERVICE
+    </h1>
 
-    <p class="font-bold mb-4">Last updated September 01, 2023</p>
+    <p class="font-bold mb-4">
+      Last updated September 01, 2023
+    </p>
 
-    <h2 class="title is-4 mb-4">AGREEMENT TO OUR LEGAL TERMS</h2>
+    <h2 class="title is-4 mb-4">
+      AGREEMENT TO OUR LEGAL TERMS
+    </h2>
 
     <p class="mb-4">
-      We are GenArt, Matej Nemček s.p. ("<span class="font-bold">Company</span
-      >," "<span class="font-bold">we</span>," "<span class="font-bold">us</span
-      >," "<span class="font-bold">our</span>"), a company registered in
+      We are GenArt, Matej Nemček s.p. ("<span class="font-bold">Company</span>," "<span class="font-bold">we</span>," "<span class="font-bold">us</span>," "<span class="font-bold">our</span>"), a company registered in
       Slovenia at Proletarska cesta 4, Ljubljana 1000. Our VAT number is
       SI83616110.
     </p>
 
     <p class="mb-4">
-      We operate the website <nuxt-link to="/">kodadot.xyz</nuxt-link> (the
+      We operate the website <nuxt-link to="/">
+        kodadot.xyz
+      </nuxt-link> (the
       "<span class="font-bold">Site</span>"), as well as any other related
       products and services that refer or link to these legal terms (the "<span
         class="font-bold"
-        >Legal Terms</span
-      >") (collectively, the "<span class="font-bold">Services</span>").
+      >Legal Terms</span>") (collectively, the "<span class="font-bold">Services</span>").
     </p>
 
-    <p class="mb-4">KodaDot - Creators Marketplace</p>
+    <p class="mb-4">
+      KodaDot - Creators Marketplace
+    </p>
 
     <p class="mb-4">
       You can contact us by email at
@@ -33,9 +40,7 @@
 
     <p class="mb-4">
       These Legal Terms constitute a legally binding agreement made between you,
-      whether personally or on behalf of an entity ("<span class="font-bold"
-        >you</span
-      >"), and GenArt, Matej Nemček s.p., concerning your access to and use of
+      whether personally or on behalf of an entity ("<span class="font-bold">you</span>"), and GenArt, Matej Nemček s.p., concerning your access to and use of
       the Services. You agree that by accessing the Services, you have read,
       understood, and agreed to be bound by all of these Legal Terms. IF YOU DO
       NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED
@@ -65,91 +70,160 @@
       We recommend that you print a copy of these Legal Terms for your records.
     </p>
 
-    <h2 class="title is-4 mb-4">TABLE OF CONTENTS</h2>
+    <h2 class="title is-4 mb-4">
+      TABLE OF CONTENTS
+    </h2>
 
     <ol class="mb-4">
       <li class="mb-4 is-4">
-        <nuxt-link to="#services">OUR SERVICE</nuxt-link>
+        <nuxt-link to="#services">
+          OUR SERVICE
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ip">INTELLECTUAL PROPERTY RIGHTS</nuxt-link>
+        <nuxt-link to="#ip">
+          INTELLECTUAL PROPERTY RIGHTS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#userreps">USER REPRESENTATIONS</nuxt-link>
+        <nuxt-link to="#userreps">
+          USER REPRESENTATIONS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#userreg">USER REGISTRATION</nuxt-link>
-      </li>
-      <li class="mb-4 is-4"><nuxt-link to="#products">PRODUCTS</nuxt-link></li>
-      <li class="mb-4 is-4">
-        <nuxt-link to="#purchases">PURCHASES AND PAYMENT</nuxt-link>
+        <nuxt-link to="#userreg">
+          USER REGISTRATION
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#returnno">REFUNDS POLICY</nuxt-link>
+        <nuxt-link to="#products">
+          PRODUCTS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>
+        <nuxt-link to="#purchases">
+          PURCHASES AND PAYMENT
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ugc">USER GENERATED CONTRIBUTIONS</nuxt-link>
+        <nuxt-link to="#returnno">
+          REFUNDS POLICY
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#license">CONTRIBUTION LICENSE</nuxt-link>
+        <nuxt-link to="#prohibited">
+          PROHIBITED ACTIVITIES
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#socialmedia">SOCIAL MEDIA</nuxt-link>
+        <nuxt-link to="#ugc">
+          USER GENERATED CONTRIBUTIONS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#thirdparty">THIRD-PARTY WEBSITES AND CONTENT</nuxt-link>
+        <nuxt-link to="#license">
+          CONTRIBUTION LICENSE
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#sitemanage">SERVICES MANAGEMENT</nuxt-link>
+        <nuxt-link to="#socialmedia">
+          SOCIAL MEDIA
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ppyes">PRIVACY POLICY</nuxt-link>
+        <nuxt-link to="#thirdparty">
+          THIRD-PARTY WEBSITES AND CONTENT
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>
+        <nuxt-link to="#sitemanage">
+          SERVICES MANAGEMENT
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#terms">TERM AND TERMINATION</nuxt-link>
+        <nuxt-link to="#ppyes">
+          PRIVACY POLICY
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#modifications"
-          >MODIFICATIONS AND INTERRUPTIONS</nuxt-link
-        >
-      </li>
-      <li class="mb-4 is-4"><nuxt-link to="#law">GOVERNING LAW</nuxt-link></li>
-      <li class="mb-4 is-4">
-        <nuxt-link to="#disputes">DISPUTE RESOLUTION</nuxt-link>
+        <nuxt-link to="#copyrightyes">
+          COPYRIGHT INFRINGEMENTS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#corrections">CORRECTIONS</nuxt-link>
+        <nuxt-link to="#terms">
+          TERM AND TERMINATION
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#disclaimer">DISCLAIMER</nuxt-link>
+        <nuxt-link to="#modifications">
+          MODIFICATIONS AND INTERRUPTIONS
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#liability">LIMITATIONS OF LIABILITY</nuxt-link>
+        <nuxt-link to="#law">
+          GOVERNING LAW
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#indemnification">INDEMNIFICATION</nuxt-link>
-      </li>
-      <li class="mb-4 is-4"><nuxt-link to="#userdata">USER DATA</nuxt-link></li>
-      <li class="mb-4 is-4">
-        <nuxt-link to="#eletronic"
-          >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</nuxt-link
-        >
+        <nuxt-link to="#disputes">
+          DISPUTE RESOLUTION
+        </nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#california">CALIFORNIA USERS AND RESIDENTS</nuxt-link>
+        <nuxt-link to="#corrections">
+          CORRECTIONS
+        </nuxt-link>
       </li>
-      <li class="mb-4 is-4"><nuxt-link to="#misc">MISCELLANEOUS</nuxt-link></li>
-      <li class="mb-4 is-4"><nuxt-link to="#contact">CONTACT US</nuxt-link></li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#disclaimer">
+          DISCLAIMER
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#liability">
+          LIMITATIONS OF LIABILITY
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#indemnification">
+          INDEMNIFICATION
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#userdata">
+          USER DATA
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#eletronic">
+          ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#california">
+          CALIFORNIA USERS AND RESIDENTS
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#misc">
+          MISCELLANEOUS
+        </nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#contact">
+          CONTACT US
+        </nuxt-link>
+      </li>
     </ol>
 
-    <div id="services" class="mb-2">
-      <h2 class="title is-4 mb-4">1. OUR SERVICES</h2>
+    <div
+      id="services"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        1. OUR SERVICES
+      </h2>
       <p class="mb-4">
         The information provided when using the Services is not intended for
         distribution to or use by any person or entity in any jurisdiction or
@@ -171,9 +245,16 @@
       </p>
     </div>
 
-    <div id="ip" class="mb-2">
-      <h2 class="title is-4 mb-4">2. INTELLECTUAL PROPERTY RIGHTS</h2>
-      <p class="font-bold mb-4">Our intellectual property</p>
+    <div
+      id="ip"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        2. INTELLECTUAL PROPERTY RIGHTS
+      </h2>
+      <p class="font-bold mb-4">
+        Our intellectual property
+      </p>
 
       <p class="mb-4">
         We are the owner or the licensee of all intellectual property rights in
@@ -194,24 +275,32 @@
         for your personal, non-commercial use only.
       </p>
 
-      <p class="font-bold mb-4">Your use of our Services</p>
+      <p class="font-bold mb-4">
+        Your use of our Services
+      </p>
 
       <p class="mb-4">
         Subject to your compliance with these Legal Terms, including the
-        "<nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>" section
+        "<nuxt-link to="#prohibited">
+          PROHIBITED ACTIVITIES
+        </nuxt-link>" section
         below, we grant you a non-exclusive, non-transferable, revocable license
         to:
       </p>
 
       <ul class="mb-4">
-        <li class="mb-2">access the Services; and</li>
+        <li class="mb-2">
+          access the Services; and
+        </li>
         <li class="mb-2">
           download or print a copy of any portion of the Content to which you
           have properly gained access.
         </li>
       </ul>
 
-      <p class="mb-4">solely for your personal, non-commercial use.</p>
+      <p class="mb-4">
+        solely for your personal, non-commercial use.
+      </p>
 
       <p class="mb-4">
         Except as set out in this section or elsewhere in our Legal Terms, no
@@ -245,12 +334,14 @@
         will terminate immediately.
       </p>
 
-      <p class="font-bold mb-4">Your submissions and contributions</p>
+      <p class="font-bold mb-4">
+        Your submissions and contributions
+      </p>
 
       <p class="mb-4">
-        Please review this section and the "<nuxt-link to="#prohibited"
-          >PROHIBITED ACTIVITIES</nuxt-link
-        >" section carefully prior to using our Services to understand the (a)
+        Please review this section and the "<nuxt-link to="#prohibited">
+          PROHIBITED ACTIVITIES
+        </nuxt-link>" section carefully prior to using our Services to understand the (a)
         rights you give us and (b) obligations you have when you post or upload
         any content through the Services.
       </p>
@@ -283,10 +374,8 @@
       </p>
 
       <p class="mb-4">
-        <span class="font-bold"
-          >When you post Contributions, you grant us a license (including use of
-          your name, trademarks, and logos):</span
-        >
+        <span class="font-bold">When you post Contributions, you grant us a license (including use of
+          your name, trademarks, and logos):</span>
         By posting any Contributions, you grant us an unrestricted, unlimited,
         irrevocable, perpetual, non-exclusive, transferable, royalty-free,
         fully-paid, worldwide right, and license to: use, copy, reproduce,
@@ -307,9 +396,7 @@
       </p>
 
       <p class="mb-4">
-        <span class="font-bold"
-          >You are responsible for what you post or upload:</span
-        >
+        <span class="font-bold">You are responsible for what you post or upload:</span>
         By sending us Submissions and/or posting Contributions through any part
         of the Services or making Contributions accessible through the Services
         by linking your account through the Services to any of your social
@@ -320,8 +407,7 @@
         <li class="mb-2">
           confirm that you have read and agree with our "<nuxt-link
             to="#prohibited"
-            >PROHIBITED ACTIVITIES</nuxt-link
-          >" and will not post, send, publish, upload, or transmit through the
+          >PROHIBITED ACTIVITIES</nuxt-link>" and will not post, send, publish, upload, or transmit through the
           Services any Submission nor post any Contribution that is illegal,
           harassing, hateful, harmful, defamatory, obscene, bullying, abusive,
           discriminatory, threatening to any person or group, sexually explicit,
@@ -361,19 +447,28 @@
         you to the authorities.
       </p>
 
-      <p class="font-bold mb-4">Copyright infringement</p>
+      <p class="font-bold mb-4">
+        Copyright infringement
+      </p>
 
       <p class="mb-4">
         We respect the intellectual property rights of others. If you believe
         that any material available on or through the Services infringes upon
         any copyright you own or control, please immediately refer to the
-        "<nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>"
+        "<nuxt-link to="#copyrightyes">
+          COPYRIGHT INFRINGEMENTS
+        </nuxt-link>"
         section below.
       </p>
     </div>
 
-    <div id="userreps" class="mb-2">
-      <h2 class="title is-4 mb-4">3. USER REPRESENTATIONS</h2>
+    <div
+      id="userreps"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        3. USER REPRESENTATIONS
+      </h2>
       <p class="mb-4">
         By using the Services, you represent and warrant that: (1) all
         registration information you submit will be true, accurate, current, and
@@ -395,8 +490,13 @@
       </p>
     </div>
 
-    <div id="userreg" class="mb-2">
-      <h2 class="title is-4 mb-4">4. USER REGISTRATION</h2>
+    <div
+      id="userreg"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        4. USER REGISTRATION
+      </h2>
       <p class="mb-4">
         You may be required to register to use the Services. You agree to keep
         your password confidential and will be responsible for all use of your
@@ -406,8 +506,13 @@
       </p>
     </div>
 
-    <div id="products" class="mb-2">
-      <h2 class="title is-4 mb-4">5. PRODUCTS</h2>
+    <div
+      id="products"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        5. PRODUCTS
+      </h2>
       <p class="mb-4">
         All products are subject to availability. We reserve the right to
         discontinue any products at any time for any reason. Prices for all
@@ -415,13 +520,24 @@
       </p>
     </div>
 
-    <div id="purchases" class="mb-2">
-      <h2 class="title is-4 mb-4">6. PURCHASES AND PAYMENT</h2>
-      <p class="mb-4">We accept the following forms of payment:</p>
+    <div
+      id="purchases"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        6. PURCHASES AND PAYMENT
+      </h2>
+      <p class="mb-4">
+        We accept the following forms of payment:
+      </p>
 
       <ul class="mb-4">
-        <li class="mb-2">Visa</li>
-        <li class="mb-2">Mastercard</li>
+        <li class="mb-2">
+          Visa
+        </li>
+        <li class="mb-2">
+          Mastercard
+        </li>
       </ul>
 
       <p class="mb-4">
@@ -453,13 +569,25 @@
       </p>
     </div>
 
-    <div id="returnno" class="mb-2">
-      <h2 class="title is-4 mb-4">7. REFUNDS POLICY</h2>
-      <p class="mb-4">All sales are final and no refund will be issued.</p>
+    <div
+      id="returnno"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        7. REFUNDS POLICY
+      </h2>
+      <p class="mb-4">
+        All sales are final and no refund will be issued.
+      </p>
     </div>
 
-    <div id="prohibited" class="mb-2">
-      <h2 class="title is-4 mb-4">8. PROHIBITED ACTIVITIES</h2>
+    <div
+      id="prohibited"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        8. PROHIBITED ACTIVITIES
+      </h2>
       <p class="mb-4">
         You may not access or use the Services for any purpose other than that
         for which we make the Services available. The Services may not be used
@@ -468,7 +596,9 @@
         agree not to:
       </p>
 
-      <p class="mb-4">As a user of the Services, you agree not to:</p>
+      <p class="mb-4">
+        As a user of the Services, you agree not to:
+      </p>
 
       <ul class="mb-4">
         <li class="mb-2">
@@ -581,8 +711,13 @@
       </ul>
     </div>
 
-    <div id="ugc" class="mb-2">
-      <h2 class="title is-4 mb-4">9. USER GENERATED CONTRIBUTIONS</h2>
+    <div
+      id="ugc"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        9. USER GENERATED CONTRIBUTIONS
+      </h2>
       <p class="mb-4">
         The Services may invite you to chat, contribute to, or participate in
         blogs, message boards, online forums, and other functionality, and may
@@ -673,8 +808,13 @@
       </p>
     </div>
 
-    <div id="license" class="mb-2">
-      <h2 class="title is-4 mb-4">10. CONTRIBUTION LICENSE</h2>
+    <div
+      id="license"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        10. CONTRIBUTION LICENSE
+      </h2>
       <p class="mb-4">
         By posting your Contributions to any part of the Services or making
         Contributions accessible to the Services by linking your account from
@@ -724,8 +864,13 @@
       </p>
     </div>
 
-    <div id="socialmedia" class="mb-2">
-      <h2 class="title is-4 mb-4">11. SOCIAL MEDIA</h2>
+    <div
+      id="socialmedia"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        11. SOCIAL MEDIA
+      </h2>
       <p class="mb-4">
         As part of the functionality of the Services, you may link your account
         with online accounts you have with third-party service providers (each
@@ -775,8 +920,13 @@
       </p>
     </div>
 
-    <div id="thirdparty" class="mb-2">
-      <h2 class="title is-4 mb-4">12. THIRD-PARTY WEBSITES AND CONTENT</h2>
+    <div
+      id="thirdparty"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        12. THIRD-PARTY WEBSITES AND CONTENT
+      </h2>
       <p class="mb-4">
         The Services may contain (or you may be sent via the Site) links to
         other websites ("Third-Party Websites") as well as articles,
@@ -812,8 +962,13 @@
       </p>
     </div>
 
-    <div id="sitemanage" class="mb-2">
-      <h2 class="title is-4 mb-4">13. SERVICES MANAGEMENT</h2>
+    <div
+      id="sitemanage"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        13. SERVICES MANAGEMENT
+      </h2>
       <p class="mb-4">
         We reserve the right, but not the obligation, to: (1) monitor the
         Services for violations of these Legal Terms; (2) take appropriate legal
@@ -831,12 +986,19 @@
       </p>
     </div>
 
-    <div id="ppyes" class="mb-2">
-      <h2 class="title is-4 mb-4">14. PRIVACY POLICY</h2>
+    <div
+      id="ppyes"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        14. PRIVACY POLICY
+      </h2>
       <p class="mb-4">
         We care about data privacy and security. Please review our Privacy
         Policy:
-        <nuxt-link to="/privacy-notice">kodadot.xyz/privacy-notice</nuxt-link>.
+        <nuxt-link to="/privacy-notice">
+          kodadot.xyz/privacy-notice
+        </nuxt-link>.
         By using the Services, you agree to be bound by our Privacy Policy,
         which is incorporated into these Legal Terms. Please be advised the
         Services are hosted in Germany. If you access the Services from any
@@ -848,8 +1010,13 @@
       </p>
     </div>
 
-    <div id="copyrightyes" class="mb-2">
-      <h2 class="title is-4 mb-4">15. COPYRIGHT INFRINGEMENTS</h2>
+    <div
+      id="copyrightyes"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        15. COPYRIGHT INFRINGEMENTS
+      </h2>
       <p class="mb-4">
         We respect the intellectual property rights of others. If you believe
         that any material available on or through the Services infringes upon
@@ -864,8 +1031,13 @@
       </p>
     </div>
 
-    <div id="terms" class="mb-2">
-      <h2 class="title is-4 mb-4">16. TERM AND TERMINATION</h2>
+    <div
+      id="terms"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        16. TERM AND TERMINATION
+      </h2>
       <p class="mb-4">
         These Legal Terms shall remain in full force and effect while you use
         the Services. WITHOUT LIMITING ANY OTHER PROVISION OF THESE LEGAL TERMS,
@@ -890,8 +1062,13 @@
       </p>
     </div>
 
-    <div id="modifications" class="mb-2">
-      <h2 class="title is-4 mb-4">17. MODIFICATIONS AND INTERRUPTIONS</h2>
+    <div
+      id="modifications"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        17. MODIFICATIONS AND INTERRUPTIONS
+      </h2>
       <p class="mb-4">
         We reserve the right to change, modify, or remove the contents of the
         Services at any time or for any reason at our sole discretion without
@@ -917,8 +1094,13 @@
       </p>
     </div>
 
-    <div id="law" class="mb-2">
-      <h2 class="title is-4 mb-4">18. GOVERNING LAW</h2>
+    <div
+      id="law"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        18. GOVERNING LAW
+      </h2>
       <p class="mb-4">
         These Legal Terms are governed by and interpreted following the laws of
         Slovenia, and the use of the United Nations Convention of Contracts for
@@ -933,9 +1115,16 @@
       </p>
     </div>
 
-    <div id="disputes" class="mb-2">
-      <h2 class="title is-4 mb-4">19. DISPUTE RESOLUTION</h2>
-      <p class="font-bold mb-4">Informal Negotiations</p>
+    <div
+      id="disputes"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        19. DISPUTE RESOLUTION
+      </h2>
+      <p class="font-bold mb-4">
+        Informal Negotiations
+      </p>
       <p class="mb-4">
         To expedite resolution and control the cost of any dispute, controversy,
         or claim related to these Legal Terms (each a "Dispute" and
@@ -947,7 +1136,9 @@
         notice from one Party to the other Party.
       </p>
 
-      <p class="font-bold mb-4">Binding Arbitration</p>
+      <p class="font-bold mb-4">
+        Binding Arbitration
+      </p>
       <p class="mb-4">
         Any dispute arising from the relationships between the Parties to these
         Legal Terms shall be determined by one arbitrator who will be chosen in
@@ -960,7 +1151,9 @@
         Applicable rules of substantive law shall be the law of Liechtenstein.
       </p>
 
-      <p class="font-bold mb-4">Restrictions</p>
+      <p class="font-bold mb-4">
+        Restrictions
+      </p>
       <p class="mb-4">
         The Parties agree that any arbitration shall be limited to the Dispute
         between the Parties individually. To the full extent by law, (a) no
@@ -990,8 +1183,13 @@
       </p>
     </div>
 
-    <div id="corrections" class="mb-2">
-      <h2 class="title is-4 mb-4">20. CORRECTIONS</h2>
+    <div
+      id="corrections"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        20. CORRECTIONS
+      </h2>
       <p class="mb-4">
         There may be information on the Services that contains typographical
         errors, inaccuracies, or omissions, including descriptions, pricing,
@@ -1001,8 +1199,13 @@
       </p>
     </div>
 
-    <div id="disclaimer" class="mb-2">
-      <h2 class="title is-4 mb-4">21. DISCLAIMER</h2>
+    <div
+      id="disclaimer"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        21. DISCLAIMER
+      </h2>
       <p class="mb-4">
         THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE
         THAT YOUR USE OF THE SERVICES WILL BE AT YOUR SOLE RISK. TO THE FULLEST
@@ -1035,8 +1238,13 @@
       </p>
     </div>
 
-    <div id="liability" class="mb-2">
-      <h2 class="title is-4 mb-4">22. LIMITATIONS OF LIABILITY</h2>
+    <div
+      id="liability"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        22. LIMITATIONS OF LIABILITY
+      </h2>
       <p class="mb-4">
         IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE TO
         YOU OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL,
@@ -1055,8 +1263,13 @@
       </p>
     </div>
 
-    <div id="indemnification" class="mb-2">
-      <h2 class="title is-4 mb-4">23. INDEMNIFICATION</h2>
+    <div
+      id="indemnification"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        23. INDEMNIFICATION
+      </h2>
       <p class="mb-4">
         You agree to defend, indemnify, and hold us harmless, including our
         subsidiaries, affiliates, and all of our respective officers, agents,
@@ -1078,8 +1291,13 @@
       </p>
     </div>
 
-    <div id="userdata" class="mb-2">
-      <h2 class="title is-4 mb-4">24. USER DATA</h2>
+    <div
+      id="userdata"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        24. USER DATA
+      </h2>
       <p class="mb-4">
         We will maintain certain data that you transmit to the Services for the
         purpose of managing the performance of the Services, as well as data
@@ -1092,7 +1310,10 @@
       </p>
     </div>
 
-    <div id="eletronic" class="mb-2">
+    <div
+      id="eletronic"
+      class="mb-2"
+    >
       <h2 class="title is-4 mb-4">
         25. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES
       </h2>
@@ -1113,8 +1334,13 @@
       </p>
     </div>
 
-    <div id="california" class="mb-2">
-      <h2 class="title is-4 mb-4">26. CALIFORNIA USERS AND RESIDENTS</h2>
+    <div
+      id="california"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        26. CALIFORNIA USERS AND RESIDENTS
+      </h2>
       <p class="mb-4">
         If any complaint with us is not satisfactorily resolved, you can contact
         the Complaint Assistance Unit of the Division of Consumer Services of
@@ -1124,8 +1350,13 @@
       </p>
     </div>
 
-    <div id="misc" class="mb-2">
-      <h2 class="title is-4 mb-4">27. MISCELLANEOUS</h2>
+    <div
+      id="misc"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        27. MISCELLANEOUS
+      </h2>
       <p class="mb-4">
         These Legal Terms and any policies or operating rules posted by us on
         the Services or in respect to the Services constitute the entire
@@ -1149,17 +1380,30 @@
       </p>
     </div>
 
-    <div id="contact" class="mb-2">
-      <h2 class="title is-4 mb-4">28. CONTACT US</h2>
+    <div
+      id="contact"
+      class="mb-2"
+    >
+      <h2 class="title is-4 mb-4">
+        28. CONTACT US
+      </h2>
       <p class="mb-4">
         In order to resolve a complaint regarding the Services or to receive
         further information regarding use of the Services, please contact us at:
       </p>
 
-      <p class="font-bold mb-4">GenArt, Matej Nemček s.p.</p>
-      <p class="font-bold mb-4">Proletarska cesta 4</p>
-      <p class="font-bold mb-4">Ljubljana 1000</p>
-      <p class="font-bold mb-4">Slovenia</p>
+      <p class="font-bold mb-4">
+        GenArt, Matej Nemček s.p.
+      </p>
+      <p class="font-bold mb-4">
+        Proletarska cesta 4
+      </p>
+      <p class="font-bold mb-4">
+        Ljubljana 1000
+      </p>
+      <p class="font-bold mb-4">
+        Slovenia
+      </p>
     </div>
   </section>
 </template>

@@ -1,5 +1,8 @@
 <template>
-  <NeoModal :value="isModalActive" @close="emit('close')">
+  <NeoModal
+    :value="isModalActive"
+    @close="emit('close')"
+  >
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="border-b border-k-shade">
         <p class="font-bold pb-4 text-xl flex justify-center px-0">
@@ -16,10 +19,14 @@
         </div>
         <div
           v-if="numMissingDescriptions || numMissingPrices"
-          class="text-k-red mt-3">
+          class="text-k-red mt-3"
+        >
           <div>{{ $t('massmint.optional') }}</div>
 
-          <div v-if="numMissingDescriptions" class="pl-3">
+          <div
+            v-if="numMissingDescriptions"
+            class="pl-3"
+          >
             •
             {{
               $t('massmint.missingDescription', {
@@ -27,7 +34,10 @@
               })
             }}
           </div>
-          <div v-if="numMissingNames" class="pl-3">
+          <div
+            v-if="numMissingNames"
+            class="pl-3"
+          >
             •
             {{
               $t('massmint.missingPrice', {
@@ -46,7 +56,8 @@
           variant="primary"
           no-shadow
           class="flex flex-grow h-[3.25rem]"
-          @click="emit('close')" />
+          @click="emit('close')"
+        />
       </div>
     </div>
   </NeoModal>

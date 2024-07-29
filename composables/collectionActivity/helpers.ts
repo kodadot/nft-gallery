@@ -1,13 +1,13 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import { sum } from '@/utils/math'
-import {
+import type { Prefix } from '@kodadot1/static'
+import type {
   Flippers,
   InteractionWithNFT,
   NFTHistoryState,
   NFTMap,
   Owners,
 } from './types'
-import type { Prefix } from '@kodadot1/static'
+import { sum } from '@/utils/math'
 
 export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp', 'base'] // 'ahr'
 
@@ -52,8 +52,8 @@ const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
     }
 
     if (
-      event.interaction === Interaction.SEND ||
-      event.interaction === Interaction.BUY
+      event.interaction === Interaction.SEND
+      || event.interaction === Interaction.BUY
     ) {
       changeHandsInteractions.push(event)
     }
@@ -65,10 +65,10 @@ const preProccessForFindingFlippers = (interactions: InteractionWithNFT[]) => {
 const summerizeFlips = (flips) => {
   return {
     owned: flips.length,
-    totalBought: sum(flips.map((flip) => flip.boughtPrice)),
-    totalsold: sum(flips.map((flip) => flip.soldPrice)),
-    bestFlip: Math.max(...flips.map((flip) => flip.profit)),
-    latestflipTimestamp: Math.max(...flips.map((flip) => flip.sellTimeStamp)),
+    totalBought: sum(flips.map(flip => flip.boughtPrice)),
+    totalsold: sum(flips.map(flip => flip.soldPrice)),
+    bestFlip: Math.max(...flips.map(flip => flip.profit)),
+    latestflipTimestamp: Math.max(...flips.map(flip => flip.sellTimeStamp)),
     flips,
   }
 }
@@ -89,8 +89,8 @@ const updateOwnerWithNewNft = ({
     owner.totalBought += parseInt(latestEvent.meta)
   }
 
-  owner.lastActivityTimestamp =
-    lastestTimeStamp > owner.lastActivityTimestamp
+  owner.lastActivityTimestamp
+    = lastestTimeStamp > owner.lastActivityTimestamp
       ? lastestTimeStamp
       : owner.lastActivityTimestamp
 
@@ -113,7 +113,7 @@ export const getOwners = (nfts) => {
   const owners: Owners = {}
 
   nfts.forEach((nft) => {
-    const interactions = nft.events.map((e) => e.interaction)
+    const interactions = nft.events.map(e => e.interaction)
     const { events } = nft
     const owner = owners[nft.currentOwner] || newOwnerEntry()
 
@@ -122,14 +122,14 @@ export const getOwners = (nfts) => {
       return
     }
     if (
-      interactions.includes(Interaction.BUY) ||
-      interactions.includes(Interaction.SEND)
+      interactions.includes(Interaction.BUY)
+      || interactions.includes(Interaction.SEND)
     ) {
       // NFT changed hands
       const latestchangeHandsEvent = events.findLast(
-        (event) =>
-          event.interaction === Interaction.BUY ||
-          event.interaction === Interaction.SEND,
+        event =>
+          event.interaction === Interaction.BUY
+          || event.interaction === Interaction.SEND,
       )
       const lastestTimeStamp = new Date(
         latestchangeHandsEvent.timestamp,
@@ -159,8 +159,8 @@ export const getOwners = (nfts) => {
 }
 
 export const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
-  const { NFTS, changeHandsInteractions } =
-    preProccessForFindingFlippers(interactions)
+  const { NFTS, changeHandsInteractions }
+    = preProccessForFindingFlippers(interactions)
 
   // Create an object that will hold all the flipper data
   const flippers: Flippers = {}
@@ -187,8 +187,8 @@ export const getFlippers = (interactions: InteractionWithNFT[]): Flippers => {
         // NFT has been bought, and previous interaction is also a buy => it's a Flip!
         const boughtPrice = getLatestPrice(PreviousNFTState)
         // Calculate profit
-        const profit =
-          boughtPrice > 0 ? (parseInt(interaction.meta) / boughtPrice) * 100 : 0
+        const profit
+          = boughtPrice > 0 ? (parseInt(interaction.meta) / boughtPrice) * 100 : 0
 
         // Create the new FlipEvent object
         const thisFlip = {

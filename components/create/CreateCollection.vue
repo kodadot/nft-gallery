@@ -3,26 +3,30 @@
     :class="{
       'lg:py-[4.5rem] flex flex-col md:flex-row justify-center gap-3 lg:bg-k-primary-light':
         classColumn,
-    }">
+    }"
+  >
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('mint.collection.minting')"
       :is-loading="isLoading"
       :status="status"
       close-in-block
-      @try-again="createCollection" />
+      @try-again="createCollection"
+    />
 
     <MintConfirmModal
       v-model="confirmModal"
       :auto-teleport-actions="actions"
       :nft-information="collectionInformation"
-      @confirm="handleCreateCollectionConfirmation" />
+      @confirm="handleCreateCollectionConfirmation"
+    />
     <form
       :class="{
         'px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
           classColumn,
       }"
-      @submit.prevent="showConfirm">
+      @submit.prevent="showConfirm"
+    >
       <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
@@ -36,7 +40,8 @@
             required
             expanded
             preview
-            :label="$t('mint.collection.drop')" />
+            :label="$t('mint.collection.drop')"
+          />
         </div>
       </NeoField>
 
@@ -45,16 +50,19 @@
         :label="`${$t('mint.collection.name.label')} *`"
         required
         data-testid="collection-name"
-        :error="!name">
+        :error="!name"
+      >
         <NeoInput
           v-model="name"
           required
-          :placeholder="$t('mint.collection.name.placeholder')" />
+          :placeholder="$t('mint.collection.name.placeholder')"
+        />
       </NeoField>
 
       <!-- collection description -->
       <NeoField
-        :label="`${$t('mint.collection.description.label')} (optional)`">
+        :label="`${$t('mint.collection.description.label')} (optional)`"
+      >
         <NeoInput
           v-model="description"
           type="textarea"
@@ -62,18 +70,23 @@
           maxlength="1000"
           height="10rem"
           :placeholder="$t('mint.collection.description.placeholder')"
-          data-testid="collection-desc" />
+          data-testid="collection-desc"
+        />
       </NeoField>
 
       <!-- collection max nfts -->
       <NeoField
         :label="$t('Maximum NFTs in collection')"
         data-testid="collection-maxAmount"
-        required>
+        required
+      >
         <div class="w-full">
           <div class="flex justify-between">
             <p>{{ $t('mint.unlimited') }}</p>
-            <NeoSwitch v-model="unlimited" position="left" />
+            <NeoSwitch
+              v-model="unlimited"
+              position="left"
+            />
           </div>
           <NeoInput
             v-if="!unlimited"
@@ -82,7 +95,8 @@
             type="number"
             data-testid="collection-input-maximum-nfts"
             placeholder="1 is the minimum"
-            :min="1" />
+            :min="1"
+          />
         </div>
       </NeoField>
 
@@ -94,15 +108,23 @@
             v-model="selectBlockchain"
             class="mt-3"
             data-testid="collection-chain"
-            expanded>
-            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+            expanded
+          >
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+            >
               {{ menu.text }}
             </option>
           </NeoSelect>
         </div>
       </NeoField>
 
-      <InfoBox v-if="isRemark" variant="warning">
+      <InfoBox
+        v-if="isRemark"
+        variant="warning"
+      >
         <div>{{ $t('mint.disabledRmrk') }}</div>
       </InfoBox>
 
@@ -111,10 +133,11 @@
         <RoyaltyForm
           v-model:amount="royalty.amount"
           v-model:address="royalty.address"
-          data-testid="create-nft-royalty" />
+          data-testid="create-nft-royalty"
+        />
       </NeoField>
 
-      <hr class="my-6" />
+      <hr class="my-6">
 
       <!-- deposit and balance -->
       <div>
@@ -132,7 +155,7 @@
         </div>
       </div>
 
-      <hr class="my-6" />
+      <hr class="my-6">
 
       <!-- create collection button -->
       <NeoButton
@@ -143,9 +166,14 @@
         native-type="submit"
         size="medium"
         data-testid="collection-create"
-        :loading="isLoading" />
+        :loading="isLoading"
+      />
       <div class="p-4 flex">
-        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <NeoIcon
+          icon="circle-info"
+          size="medium"
+          class="mr-4"
+        />
         <p class="text-xs">
           <span
             v-dompurify-html="
@@ -153,12 +181,14 @@
                 `${totalCollectionDeposit} ${chainSymbol}`,
                 'collection',
               ])
-            " />
+            "
+          />
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             {{ $t('helper.learnMore') }}
           </a>
         </p>
@@ -168,25 +198,13 @@
       v-model="displaySuccessModal"
       :tx-hash="txHash as string"
       :status="status"
-      :collection="mintedCollectionInfo" />
+      :collection="mintedCollectionInfo"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import type {
-  ActionMintCollection,
-  BaseCollectionType,
-  CollectionToMintBasilisk,
-  CollectionToMintKusama,
-  CollectionToMintStatmine,
-} from '@/composables/transaction/types'
 import type { Prefix } from '@kodadot1/static'
-
-import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
-import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { availablePrefixes } from '@/utils/chain'
 import {
   NeoButton,
   NeoField,
@@ -197,6 +215,19 @@ import {
 } from '@kodadot1/brick'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@kodadot1/minimark/v1'
+import type {
+  ActionMintCollection,
+  BaseCollectionType,
+  CollectionToMintBasilisk,
+  CollectionToMintKusama,
+  CollectionToMintStatmine,
+} from '@/composables/transaction/types'
+
+import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { availablePrefixes } from '@/utils/chain'
 
 export type MintedCollectionInfo = {
   id?: string
@@ -214,15 +245,15 @@ withDefaults(
   },
 )
 
-//refs
+// refs
 
 const mintedCollectionInfo = ref<MintedCollectionInfo>()
 const collectionSubscription = ref(() => {})
 const displaySuccessModal = ref(false)
 
 // composables
-const { transaction, status, isLoading, isError, blockNumber, txHash } =
-  useTransaction()
+const { transaction, status, isLoading, isError, blockNumber, txHash }
+  = useTransaction()
 const { isTransactionSuccessful } = useTransactionSuccessful({
   isError: isError,
   status: status,
@@ -246,10 +277,10 @@ const royalty = ref({
 })
 
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'ksm' && menu.value !== 'rmrk',
+  menu => menu.value !== 'ksm' && menu.value !== 'rmrk',
 )
 
-const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
+const chainByPrefix = menus.find(menu => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
 watch(urlPrefix, (value) => {
@@ -269,14 +300,14 @@ const currentChain = computed(() => {
 })
 
 const { isAssetHub, isRemark } = useIsChain(currentChain)
-const { balance, totalCollectionDeposit, chainSymbol, chain } =
-  useDeposit(currentChain)
+const { balance, totalCollectionDeposit, chainSymbol, chain }
+  = useDeposit(currentChain)
 
 // balance state
 const canDeposit = computed(() => {
   return (
-    isLogIn.value &&
-    parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+    isLogIn.value
+    && parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
   )
 })
 
@@ -299,7 +330,7 @@ const showConfirm = () => {
 }
 
 const collection = computed(() => {
-  let collection: BaseCollectionType = {
+  const collection: BaseCollectionType = {
     file: logo.value,
     name: name.value,
     description: description.value,
@@ -323,9 +354,9 @@ const mintCollectionAction = computed<ActionMintCollection>(() => ({
   interaction: Interaction.MINT,
   urlPrefix: currentChain.value,
   collection: collection.value as
-    | CollectionToMintBasilisk
-    | CollectionToMintKusama
-    | CollectionToMintStatmine,
+  | CollectionToMintBasilisk
+  | CollectionToMintKusama
+  | CollectionToMintStatmine,
 }))
 
 const handleCreateCollectionConfirmation = async ({
@@ -349,7 +380,8 @@ const createCollection = async () => {
   try {
     isLoading.value = true
     await transaction(mintCollectionAction.value, currentChain.value)
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(`${error}`)
     $consola.error(error)
   }
@@ -388,9 +420,9 @@ const subscribeToCollectionInfo = () => {
         const collection = data.collectionEntities[0]
 
         if (
-          collection &&
-          collection.blockNumber == blockNumber.value &&
-          collection.name === name.value
+          collection
+          && collection.blockNumber == blockNumber.value
+          && collection.name === name.value
         ) {
           mintedCollectionInfo.value = {
             id: collection.id,

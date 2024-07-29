@@ -1,7 +1,7 @@
 import nftById from '@/queries/subsquid/general/nftById.graphql'
 import listCount from '@/queries/subsquid/general/countOfTokenNftsToList.graphql'
 import nftListWithSearch from '@/queries/subsquid/ahk/nftListWithSearch.graphql'
-import { TokenId } from '@/components/rmrk/service/scheme'
+import type { TokenId } from '@/components/rmrk/service/scheme'
 
 export type NFTWitToken = NFTWithMetadata & TokenId
 export const isStack = (entity: TokenEntity) => entity.supply > 1
@@ -31,7 +31,7 @@ export const prepareListingQuery = (
 ) => {
   const { accountId } = useAuth()
 
-  const tokenSearchTerm = { id_in: entities.map((n) => n.id) }
+  const tokenSearchTerm = { id_in: entities.map(n => n.id) }
 
   const variables = {
     first: 10000, // some large number
@@ -55,14 +55,15 @@ export const prepareListingQuery = (
 
 const getCachedAndMissingEntities = (
   entities: TokenEntity[],
-): { cachedResults: NFTWithMetadata[]; missingEntities: TokenEntity[] } => {
+): { cachedResults: NFTWithMetadata[], missingEntities: TokenEntity[] } => {
   const cachedResults: NFTWithMetadata[] = []
   const missingEntities: TokenEntity[] = []
 
   entities.forEach((entity) => {
     if (tokensNftsCache.has(entity.id)) {
       cachedResults.push(...tokensNftsCache.get(entity.id)!)
-    } else {
+    }
+    else {
       missingEntities.push(entity)
     }
   })
@@ -109,8 +110,8 @@ const groupFetchedResults = (
 export const getTokensNfts = async (
   entities: TokenEntity[],
 ): Promise<NFTWithMetadata[]> => {
-  const { cachedResults, missingEntities } =
-    getCachedAndMissingEntities(entities)
+  const { cachedResults, missingEntities }
+    = getCachedAndMissingEntities(entities)
 
   if (missingEntities.length === 0) {
     return cachedResults
