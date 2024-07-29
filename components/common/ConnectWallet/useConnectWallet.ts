@@ -11,11 +11,13 @@ export interface OpenWalletModalConfig {
   onConnect?: (account: string) => void
   closeAfterConnect?: boolean
   onCancel?: () => void
+  componentProps?: Record<string, any>
+  modalConfig?: Record<string, any>
 }
 
 export const openConnectWalletModal = (
   instance,
-  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {},
+  { onConnect, closeAfterConnect, onCancel, componentProps, modalConfig }: OpenWalletModalConfig = {},
 ) => {
   const { neoModal } = useProgrammatic()
 
@@ -49,5 +51,7 @@ export const openConnectWalletModal = (
       },
     },
     ...ConnectWalletModalConfig,
+    ...modalConfig,
+    innerProps: componentProps,
   })
 }

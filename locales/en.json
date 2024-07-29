@@ -2088,5 +2088,11 @@
     "waitSeconds": "Wait {0} Seconds",
     "profileReset": "Profile Reset",
     "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
+  },
+  "reconnect": {
+    "required": "Reconnect Required",
+    "title": "Reconnect to access page",
+    "toProceed": "To proceed, connect your <strong>{0}</strong> {1} Wallet.",
+    "switch": "Switch Wallet"
   }
 }
