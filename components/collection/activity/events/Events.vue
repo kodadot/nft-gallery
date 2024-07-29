@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { useQuery } from '@tanstack/vue-query'
 import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import EventRow from './EventRow.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
@@ -58,8 +57,7 @@ import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
-import { fetchProfilesByIds, toSubstrateAddress } from '@/services/profile'
-import type { Profile } from '@/services/profile'
+import { toSubstrateAddress } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
@@ -124,18 +122,7 @@ const eventsAddresses = computed(() => {
   return [...new Set([...addresses])]
 })
 
-const { data: profiles } = useQuery<Profile[] | null>({
-  queryKey: [
-    'profiles',
-    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    computed(() => `${eventsAddresses.value.sort().join(',')}`),
-  ],
-  queryFn: () =>
-    eventsAddresses.value.length
-      ? fetchProfilesByIds(eventsAddresses.value)
-      : null,
-  staleTime: 1000 * 60 * 5,
-})
+const { data: profiles } = useProfiles('profiles', eventsAddresses, { staleTime: 1000 * 60 * 5 })
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
