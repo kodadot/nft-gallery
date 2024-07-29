@@ -403,7 +403,6 @@ const selectedItemListMap = computed(() => ({
 }))
 
 const router = useRouter()
-const route = useRoute()
 const { $consola } = useNuxtApp()
 
 const updateSearchUrl = (path: string) => {
