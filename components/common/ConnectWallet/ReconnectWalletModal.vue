@@ -86,7 +86,7 @@ const loading = ref(false)
 const targetVm = computed(() => VM_SWITCH_MAP[vm.value]) // make prop
 const vmDetails = computed(() => ({
   current: VM_DETAILS[vm.value],
-  target: targetVm.value,
+  target: VM_DETAILS[targetVm.value],
 }))
 
 const switchWallet = async () => {
