@@ -83,9 +83,10 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 
 const loading = ref(false)
 
+const targetVm = computed(() => VM_SWITCH_MAP[vm.value]) // make prop
 const vmDetails = computed(() => ({
   current: VM_DETAILS[vm.value],
-  target: VM_DETAILS[VM_SWITCH_MAP[vm.value]],
+  target: targetVm.value,
 }))
 
 const switchWallet = async () => {
@@ -98,7 +99,7 @@ const switchWallet = async () => {
     onLoginSuccess: () => emit('connect'),
     onCancel: () => emit('close'),
     componentProps: {
-      preselected: vm.value,
+      preselected: targetVm.value,
     },
     modalConfig: {
       rootClass: 'connect-wallet-modal !z-[1000] sm:!z-[999]',
