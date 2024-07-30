@@ -55,7 +55,7 @@ for (const item of props.mintingSession.items) {
   })
 }
 
-// update serial number in nft.name synchronously
+// update serial number in nft.name asynchronously
 watchEffect(async () => {
   for (const [index, item] of items.value.entries()) {
     const metadata: { name: string } = await $fetch(item.metadata)
