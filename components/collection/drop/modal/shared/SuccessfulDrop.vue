@@ -42,29 +42,30 @@ const mintedNft = computed<MintedNFT | undefined>(
   () => props.mintingSession.items[0],
 )
 
-const items = ref<ItemMedia[]>([])
-for (const item of props.mintingSession.items) {
-  items.value.push({
-    id: item.id,
-    name: item.name,
-    image: item.image,
-    collection: item.collection.id,
-    collectionName: item.collection.name,
-    mimeType: item.mimeType,
-    metadata: item.metadata,
-  })
-}
+const itemMedias = props.mintingSession.items.map(item => ({
+  id: item.id,
+  name: item.name,
+  image: item.image,
+  collection: item.collection.id,
+  collectionName: item.collection.name,
+  mimeType: item.mimeType,
+  metadata: item.metadata,
+}))
+const items = ref<ItemMedia[]>(itemMedias)
 
 // update serial number in nft.name asynchronously
-watchEffect(async () => {
-  for (const [index, item] of items.value.entries()) {
-    const metadata: { name: string } = await $fetch(item.metadata)
+onMounted(async () => {
+  const metadatas = await Promise.all(
+    items.value.map(item => $fetch<{ name?: string }>(item.metadata)),
+  )
 
+  items.value.forEach((_, index) => {
+    const metadata = metadatas[index]
     if (metadata.name) {
       items.value[index].name = metadata.name
       toMintNFTs.value[index].name = metadata.name
     }
-  }
+  })
 })
 
 const nftPath = computed(
@@ -76,11 +77,13 @@ const userProfilePath = computed(
   () => `/${urlPrefix.value}/u/${accountId.value}`,
 )
 
+const getItemSn = (name: string) => `#${name.split('#')[1]}`
+
 const sharingTxt = computed(() =>
   singleMint.value
-    ? $i18n.t('sharing.dropNft', [`#${items.value[0].name.split('#')[1]}`])
+    ? $i18n.t('sharing.dropNft', [getItemSn(items.value[0].name)])
     : $i18n.t('sharing.dropNfts', [
-      items.value.map(item => `#${item.name.split('#')[1]}`).join(', '),
+      items.value.map(item => getItemSn(item.name)).join(', '),
     ]),
 )
 
