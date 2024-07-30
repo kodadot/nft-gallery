@@ -28,13 +28,11 @@
         <ProfileFollowTab
           v-if="activeTab === 'followers'"
           type="followers"
-          :user-list="followersList"
           :total-count="followersCount"
         />
         <ProfileFollowTab
           v-else
           type="following"
-          :user-list="followingList"
           :total-count="followingCount"
         />
       </tamplate>
@@ -45,7 +43,6 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
-import type { Follower } from '@/services/profile'
 import type { Tab } from '@/components/profile/types'
 
 const emit = defineEmits(['close'])
@@ -62,9 +59,6 @@ const counts = {
   followers: props.followersCount,
   following: props.followingCount,
 }
-
-const followersList = ref<Follower[]>([])
-const followingList = ref<Follower[]>([])
 
 const activeTab = ref<Tab>('followers')
 
