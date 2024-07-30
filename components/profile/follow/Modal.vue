@@ -43,7 +43,6 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
-import type { Follower } from '@/services/profile'
 import type { Tab } from '@/components/profile/types'
 
 const emit = defineEmits(['close'])
