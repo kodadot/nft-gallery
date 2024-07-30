@@ -250,7 +250,7 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
@@ -303,10 +303,7 @@ const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
   closeAllModals()
-  neoModal.open({
-    ...ConnectWalletModalConfig,
-    ...(isMobile ? { animation: 'none' } : {}),
-  })
+  openConnectWalletModal()
 }
 
 const showMobileNavbar = () => {

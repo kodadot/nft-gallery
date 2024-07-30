@@ -100,9 +100,7 @@ const switchWallet = async () => {
     onCancel: () => {
       loading.value = false
     },
-    componentProps: {
-      preselected: targetVm.value,
-    },
+    preselected: targetVm.value,
   })
 }
 </script>

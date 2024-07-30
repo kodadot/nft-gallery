@@ -1,4 +1,11 @@
+import { type ChainVM } from '@kodadot1/static'
 import ConnectWalletModal from './ConnectWalletModal.vue'
+import { ModalCloseType } from '@/components/navbar/types'
+
+const VM_PRESELECTED_ROUTES = [
+  'prefix-drops-id',
+  'prefix-gallery-id'
+]
 
 export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
@@ -10,15 +17,17 @@ export const ConnectWalletModalConfig = {
 export interface OpenWalletModalConfig {
   onConnect?: (account: string) => void
   closeAfterConnect?: boolean
-  onCancel?: () => void
-  componentProps?: Record<string, any>
+  onCancel?: (type: ModalCloseType) => void
+  preselected?: ChainVM
 }
 
 export const openConnectWalletModal = (
-  instance,
-  { onConnect, closeAfterConnect, onCancel, componentProps }: OpenWalletModalConfig = {},
+  { onConnect, closeAfterConnect, onCancel, preselected }: OpenWalletModalConfig = {},
 ) => {
   const { neoModal } = useProgrammatic()
+  const { isMobile } = useDevice()
+  const { vm } = useChain()
+  const route = useRoute()
 
   const modal = ref()
 
@@ -29,15 +38,15 @@ export const openConnectWalletModal = (
   modal.value = neoModal.open({
     onCancel: () => {
       if (onCancel) {
-        onCancel()
+        onCancel(ModalCloseType.BACK)
       }
 
       modal.value = null
     },
     events: {
-      close: () => {
+      close: (type: ModalCloseType) => {
         if (onCancel) {
-          onCancel()
+          onCancel(type)
         }
       },
       connect: (account: string) => {
@@ -50,6 +59,11 @@ export const openConnectWalletModal = (
       },
     },
     ...ConnectWalletModalConfig,
-    innerProps: componentProps,
+    ...(isMobile ? { animation: 'none' } : {}),
+    innerProps: {
+      preselected: preselected ?? (VM_PRESELECTED_ROUTES.includes(route.name as string) ? vm.value : undefined)
+    },
   })
+
+  return modal
 }
