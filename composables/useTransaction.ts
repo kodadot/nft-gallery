@@ -100,7 +100,7 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     isError,
   } = execByVm({
     SUB: () => useMetaTransaction(),
-    EVM: () => useEvmMetaTransaction(),
+    EVM: () => useEvmMetaTransaction() as unknown,
   }) as
   | ReturnType<typeof useMetaTransaction>
   | ReturnType<typeof useEvmMetaTransaction>

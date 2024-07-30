@@ -29,7 +29,7 @@ export type ExecuteSubstrateTransactionParams = {
   cb: (...params: any[]) => Extrinsic
 } & BaseExecuteTransactionParams
 
-type Abi = any[]
+export type Abi = unknown[]
 
 export type ExecuteEvmTransactionParams = {
   address: string

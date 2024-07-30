@@ -1,4 +1,5 @@
-import { type Address, TransactionExecutionError } from 'viem'
+import type { Address, TransactionExecutionError } from 'viem'
+import type { Abi } from '../types'
 import useTransactionStatus from '@/composables/useTransactionStatus'
 
 type EvmHowAboutToExecuteEvents = {
@@ -10,8 +11,8 @@ export type EvmHowAboutToExecuteParam = {
   account: Address
   address: Address
   functionName: string
-  abi: any
-  args: any[]
+  abi: Abi
+  args: unknown[]
 } & EvmHowAboutToExecuteEvents
 
 export type EvmHowAboutToExecute = (

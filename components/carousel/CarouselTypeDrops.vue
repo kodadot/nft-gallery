@@ -66,7 +66,7 @@ const skeletonCount = computed(() =>
 const { drops, loaded: isReady } = useDrops(queries)
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
 
-const onDropClick = ({ path, drop }: { path: stirng, drop: Drop }) => {
+const onDropClick = ({ path, drop }: { path: string, drop: Drop }) => {
   if (vm.value === vmOf(drop.chain) || !accountId.value) {
     router.push(path)
     return

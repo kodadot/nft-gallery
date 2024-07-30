@@ -78,7 +78,7 @@ export function useCollectionEntity() {
 export const useUpdateMetadata = async ({
   blockNumber,
 }: {
-  blockNumber: Ref<string>
+  blockNumber: Ref<string | undefined>
 }) => {
   const { drop } = useDrop()
   const { toMintNFTs, amountToMint, mintingSession }

@@ -125,7 +125,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   return execByVm({
     SUB: () => getSubstrateAddressCheck(value),
     EVM: () => getEvmAddressCheck(value),
-  })
+  }) as AddressCheck
 }
 
 const getEvmAddressCheck = (value: string): AddressCheck => {

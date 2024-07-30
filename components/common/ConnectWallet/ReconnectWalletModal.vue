@@ -63,7 +63,7 @@ const VM_SWITCH_MAP: Record<ChainVM, ChainVM> = {
   SUB: 'EVM',
 }
 
-const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName: string }> = {
+const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName?: string }> = {
   SUB: {
     name: 'Polkadot',
     icon: '/token/dot_branded.svg',
