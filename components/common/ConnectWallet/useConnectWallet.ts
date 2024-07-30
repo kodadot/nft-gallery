@@ -4,7 +4,7 @@ import { ModalCloseType } from '@/components/navbar/types'
 
 const VM_PRESELECTED_ROUTES = [
   'prefix-drops-id',
-  'prefix-gallery-id'
+  'prefix-gallery-id',
 ]
 
 export const ConnectWalletModalConfig = {
@@ -61,7 +61,7 @@ export const openConnectWalletModal = (
     ...ConnectWalletModalConfig,
     ...(isMobile ? { animation: 'none' } : {}),
     innerProps: {
-      preselected: preselected ?? (VM_PRESELECTED_ROUTES.includes(route.name as string) ? vm.value : undefined)
+      preselected: preselected ?? (VM_PRESELECTED_ROUTES.includes(route.name as string) ? vm.value : undefined),
     },
   })
 

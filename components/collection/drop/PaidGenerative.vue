@@ -25,9 +25,8 @@ import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
 const { subscribeDropStatus } = useDropStatus(drop)
-const instance = getCurrentInstance()
 const { urlPrefix } = usePrefix()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { isLogIn } = useAuth()

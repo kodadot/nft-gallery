@@ -108,7 +108,7 @@ import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()

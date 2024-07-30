@@ -78,9 +78,8 @@ const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName?: stri
 const emit = defineEmits(['close', 'connect'])
 
 const { logout } = useWallet()
-const instance = getCurrentInstance()
 const { vm } = useChain()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 
 const loading = ref(false)
 

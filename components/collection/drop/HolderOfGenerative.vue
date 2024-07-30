@@ -73,8 +73,7 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const {
   transaction,
   isLoading: isTransactionLoading,

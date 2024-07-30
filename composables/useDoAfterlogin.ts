@@ -15,7 +15,7 @@ export default function () {
         onConnect: onLoginSuccess,
         onCancel,
         closeAfterConnect: true,
-        preselected
+        preselected,
       })
     }
     else {
