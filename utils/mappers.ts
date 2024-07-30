@@ -1,6 +1,6 @@
-import { SomethingWithMeta } from '@/utils/ipfs'
-import { NFTWithCollectionMeta } from '~/components/unique/graphqlResponseTypes'
 import { fromDecimals, toDecimals } from './math'
+import type { SomethingWithMeta } from '@/utils/ipfs'
+import type { NFTWithCollectionMeta } from '~/components/unique/graphqlResponseTypes'
 
 export const mapOnlyMetadata = (item: SomethingWithMeta): string =>
   item.metadata
@@ -12,8 +12,8 @@ export const mapNFTorCollectionMetadata = ({
 // DEV: to -> value * 10 ** decimals ; from -> value / 10 ** decimals
 export function mapDecimals(decimals: number, to = true): (number) => number {
   return to
-    ? (value) => toDecimals(value, decimals)
-    : (value) => fromDecimals(value, decimals)
+    ? value => toDecimals(value, decimals)
+    : value => fromDecimals(value, decimals)
 }
 
 export const logError = (

@@ -7,8 +7,8 @@ export default () => {
   const secondsLeft = computed<number | undefined>(() =>
     estimatedEndDate.value
       ? Math.round(
-          (estimatedEndDate.value?.getTime() - now.value.getTime()) / 1000,
-        )
+        (estimatedEndDate.value?.getTime() - now.value.getTime()) / 1000,
+      )
       : undefined,
   )
 

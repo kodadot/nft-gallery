@@ -1,9 +1,9 @@
+import type { ShoppingCartItem } from './types'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { ListCartItem, ListCartItemMediaUrl } from '@/stores/listingCart'
-import { ShoppingCartItem } from './types'
+import type { ListCartItem, ListCartItemMediaUrl } from '@/stores/listingCart'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
-import { NFT, TokenId } from '@/components/rmrk/service/scheme'
+import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { nameWithIndex } from '@/utils/nft'
 
@@ -24,19 +24,19 @@ const getTokenDecimal = (item: ShoppingCartItem) => {
 export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   const fiatStore = useFiatStore()
 
-  const nftSPrice = items.map((item) =>
+  const nftSPrice = items.map(item =>
     calculateExactUsdFromToken(
       Number(item.price) * Math.pow(10, -getTokenDecimal(item)),
       Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix])),
     ),
   )
 
-  const royalties = items.map((item) =>
+  const royalties = items.map(item =>
     item.royalty
       ? calculateExactUsdFromToken(
-          Number(item.royalty.amount) * Math.pow(10, -getTokenDecimal(item)),
-          Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix])),
-        )
+        Number(item.royalty.amount) * Math.pow(10, -getTokenDecimal(item)),
+        Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix])),
+      )
       : 0,
   )
 

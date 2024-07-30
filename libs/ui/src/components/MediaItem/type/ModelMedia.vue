@@ -14,7 +14,8 @@
       autoplay
       camera-controls
       :disable-zoom="disableOperation"
-      data-testid="type-3d" />
+      data-testid="type-3d"
+    />
   </div>
 </template>
 

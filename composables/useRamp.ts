@@ -37,7 +37,8 @@ export default function useRamp() {
       })
 
       rampInstant.value.show()
-    } catch (e) {
+    }
+    catch (e) {
       $consola.error('[RAMP SDK] Error initializing RampInstantSDK:', e)
     }
   }

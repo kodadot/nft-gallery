@@ -14,15 +14,20 @@ export const formatSecondsToDuration = (seconds: number) => {
   let format
   if (Number(duration.years) > 0) {
     format = ['years']
-  } else if (Number(duration.months) > 0) {
+  }
+  else if (Number(duration.months) > 0) {
     format = ['months']
-  } else if (Number(duration.days) > 0) {
+  }
+  else if (Number(duration.days) > 0) {
     format = ['days']
-  } else if (Number(duration.hours) > 0) {
+  }
+  else if (Number(duration.hours) > 0) {
     format = ['hours']
-  } else if (Number(duration.minutes) > 0) {
+  }
+  else if (Number(duration.minutes) > 0) {
     format = ['minutes']
-  } else {
+  }
+  else {
     format = ['seconds']
   }
 

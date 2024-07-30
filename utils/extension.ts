@@ -18,11 +18,12 @@ export const getAddress = async (address: string) => {
     }
 
     throw new Error('Wallet not found')
-  } catch (e) {
+  }
+  catch (e) {
     console.warn(`[EXTENSION] No Addr ${address}`)
     return null
   }
 }
 
-export const isMobileDevice =
-  'ontouchstart' in document.documentElement && /Mobi/.test(navigator.userAgent)
+export const isMobileDevice
+  = 'ontouchstart' in document.documentElement && /Mobi/.test(navigator.userAgent)

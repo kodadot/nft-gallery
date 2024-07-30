@@ -4,9 +4,14 @@
       :active="!isOwner"
       :label="$t('unlockable.tooltip')"
       multiline
-      multiline-width="15rem">
+      multiline-width="15rem"
+    >
       <div class="flex items-center">
-        <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
+        <img
+          class="mr-2"
+          :src="unlockableIcon"
+          alt="Unlockable Icon"
+        >
         <span class="text-k-grey text-xs">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>
@@ -16,7 +21,8 @@
         v-safe-href="link"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="text-k-blue hover:text-k-blue-hover">
+        class="text-k-blue hover:text-k-blue-hover"
+      >
         {{
           isMobile
             ? $t('unlockable.claimDrop')
@@ -30,7 +36,7 @@
 
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
-import { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/components/rmrk/service/scheme'
 import { useIcon } from '@/composables/useIcon'
 
 const props = defineProps<{

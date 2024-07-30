@@ -10,7 +10,8 @@
       <a
         v-safe-href="hrefLink"
         target="_blank"
-        rel="nofollow noopener noreferrer">
+        rel="nofollow noopener noreferrer"
+      >
         <slot />
       </a>
     </template>

@@ -4,7 +4,8 @@
       class="mr-4"
       :icon="icon.name"
       :class="icon.class"
-      :spin="icon.spin" />
+      :spin="icon.spin"
+    />
 
     <slot />
   </div>
@@ -25,7 +26,7 @@ const props = withDefaults(
 
 const { accountId } = useAuth()
 
-const icon = computed<{ name: string; class: string; spin?: boolean }>(() => {
+const icon = computed<{ name: string, class: string, spin?: boolean }>(() => {
   if (!accountId.value) {
     return {
       name: 'lock-keyhole',

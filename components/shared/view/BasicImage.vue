@@ -1,5 +1,8 @@
 <template>
-  <figure class="image-wrapper image is-1by1" :class="customClass">
+  <figure
+    class="image-wrapper image is-1by1"
+    :class="customClass"
+  >
     <transition name="fade">
       <NuxtImg
         v-if="imageSrc"
@@ -9,11 +12,19 @@
         :sizes="sizes"
         :loading="loading"
         @load="onImageLoad"
-        @error="onImageError" />
+        @error="onImageError"
+      />
     </transition>
     <transition name="fade">
-      <slot v-if="!loaded" name="placeholder">
-        <NeoSkeleton full-size no-margin :circle="rounded" />
+      <slot
+        v-if="!loaded"
+        name="placeholder"
+      >
+        <NeoSkeleton
+          full-size
+          no-margin
+          :circle="rounded"
+        />
       </slot>
     </transition>
   </figure>

@@ -1,33 +1,39 @@
 <template>
   <div>
-    <TransactionSection v-if="txHash" :tx-hash="txHash" :status="status" />
+    <TransactionSection
+      v-if="txHash"
+      :tx-hash="txHash"
+      :status="status"
+    />
 
     <div class="mt-5">
       <slot />
     </div>
 
-    <hr class="!my-5" />
+    <hr class="!my-5">
 
     <ShareSocialsSection
       :text="share.text"
       :url="share.url"
       :with-copy="share.withCopy"
-      :social="share.social" />
+      :social="share.social"
+    />
 
     <slot name="actions">
       <ActionButtons
         :primary="actionButtons.primary"
         :secondary="actionButtons.secondary"
         @primary="actionButtons.primary.onClick"
-        @secondary="handleSecondaryActionClick" />
+        @secondary="handleSecondaryActionClick"
+      />
     </slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { type ActionButton } from './ActionButtons.vue'
-import { SocialMediaProps } from './ShareSocialsSection.vue'
+import type { SocialMediaProps } from './ShareSocialsSection.vue'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 export type ShareProp = {
   text: string

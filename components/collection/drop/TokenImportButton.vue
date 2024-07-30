@@ -1,16 +1,21 @@
 <template>
-  <Loader v-if="isLoading" v-model="isLoading" />
+  <Loader
+    v-if="isLoading"
+    v-model="isLoading"
+  />
   <NeoButton
     v-else
     ref="root"
     class="mb-2 mt-4 mint-button"
     variant="secondary"
     label="Teleport Token"
-    @click="handleTokenImport">
-    <b
-      >Missing <Money :value="price" inline /> on AssetHub? Click here to
-      teleport them from Relay Chain</b
-    >
+    @click="handleTokenImport"
+  >
+    <b>Missing <Money
+      :value="price"
+      inline
+    /> on AssetHub? Click here to
+      teleport them from Relay Chain</b>
   </NeoButton>
 </template>
 

@@ -7,9 +7,11 @@
     position="fixed"
     :open="open"
     :can-cancel="true"
-    :on-cancel="closePanel">
+    :on-cancel="closePanel"
+  >
     <div
-      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
+      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full"
+    >
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
           <div class="flex justify-center flex-grow">
@@ -21,7 +23,8 @@
             size="medium"
             variant="icon"
             no-shadow
-            @click="closePanel" />
+            @click="closePanel"
+          />
         </div>
         <NeoAvatar
           :image-component="NuxtImg"
@@ -29,26 +32,36 @@
           :name="nft?.name || `${nft?.id}`"
           :size="128"
           :placeholder="placeholder"
-          class="my-5" />
+          class="my-5"
+        />
         <form class="w-full">
           <NeoField
             :label="$t('massmint.name')"
             class="w-full mb-4 placholder-color"
-            :error="!name">
+            :error="!name"
+          >
             <NeoInput
               v-model="name"
               required
-              :placeholder="'*' + $t('massmint.required')" />
+              :placeholder="'*' + $t('massmint.required')"
+            />
           </NeoField>
-          <NeoField :label="$t('massmint.description')" class="w-full mb-4">
+          <NeoField
+            :label="$t('massmint.description')"
+            class="w-full mb-4"
+          >
             <NeoInput
               v-model="description"
               type="textarea"
               has-counter
               maxlength="500"
-              height="10rem" />
+              height="10rem"
+            />
           </NeoField>
-          <NeoField :label="$t('massmint.price')" class="w-full">
+          <NeoField
+            :label="$t('massmint.price')"
+            class="w-full"
+          >
             <div class="relative w-full">
               <NeoInput
                 v-model="price"
@@ -56,7 +69,8 @@
                 type="number"
                 placeholder="0"
                 step="any"
-                min="0" />
+                min="0"
+              />
               <div class="absolute right-2 top-3 text-k-grey">
                 {{ unit }}
               </div>
@@ -70,7 +84,8 @@
           :label="$t('massmint.save')"
           variant="primary"
           :disabled="!name"
-          @click="save" />
+          @click="save"
+        />
       </div>
     </div>
   </NeoSidebar>
@@ -84,7 +99,7 @@ import {
   NeoInput,
   NeoSidebar,
 } from '@kodadot1/brick'
-import { NFT } from './types'
+import type { NFT } from './types'
 
 const props = defineProps<{
   nft?: NFT
@@ -99,7 +114,7 @@ const { unit } = useChain()
 const internalNfT = ref<Partial<NFT>>({})
 const dirty = ref({ name: false, description: false, price: false })
 
-const createField = (fieldName) =>
+const createField = fieldName =>
   computed({
     get: () =>
       dirty.value[fieldName]

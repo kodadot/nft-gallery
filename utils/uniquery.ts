@@ -18,7 +18,8 @@ type OneOf<T> = Something<T> | List<T>
 export function unwrapSafe<T = any>(value: OneOf<T>): List<T> {
   if (Array.isArray(value)) {
     return value
-  } else {
+  }
+  else {
     return value.nodes
   }
 }

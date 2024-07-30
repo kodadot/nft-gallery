@@ -1,13 +1,14 @@
-import { unwrapSafe } from '@/utils/uniquery'
-import resolveQueryPath from '@/utils/queryPathResolver'
-import { NFTToMint, Status } from '@/components/massmint/types'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { MintedCollection } from '@/composables/transaction/types'
 import {
   createTokensToMint,
   kusamaMintAndList,
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
+import { unwrapSafe } from '@/utils/uniquery'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import type { NFTToMint } from '@/components/massmint/types'
+import { Status } from '@/components/massmint/types'
+import type { MintedCollection } from '@/composables/transaction/types'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -62,17 +63,17 @@ export const useCollectionForMint = () => {
     const { collectionEntities } = data.value
 
     collections.value = collectionEntities
-      .map((collection) => ({
+      .map(collection => ({
         ...collection,
         lastIndexUsed: Math.max(
-          ...collection.nfts.map((nft) => Number(nft.index)),
+          ...collection.nfts.map(nft => Number(nft.index)),
         ),
 
         alreadyMinted: collection.nfts?.length,
-        totalCount: collection.nfts?.filter((nft) => !nft.burned).length,
+        totalCount: collection.nfts?.filter(nft => !nft.burned).length,
       }))
       .filter(
-        (collection) =>
+        collection =>
           (collection.max || Infinity) - collection.alreadyMinted > 0,
       )
   }
@@ -105,8 +106,8 @@ export const useMassMint = (
   nfts: NFTToMint[],
   collection: MintedCollection,
 ) => {
-  const { blockNumber, transaction, isLoading, status, isError } =
-    useTransaction()
+  const { blockNumber, transaction, isLoading, status, isError }
+    = useTransaction()
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
   const { isRemark } = useIsChain(urlPrefix)
@@ -126,7 +127,7 @@ export const useMassMint = (
   }
 
   const willItList = tokens.some(
-    (token) => token.price && Number(token.price) > 0,
+    token => token.price && Number(token.price) > 0,
   )
 
   if (willItList && isRemark.value) {
@@ -138,7 +139,8 @@ export const useMassMint = (
       blockNumber.value = mintAndListResults.blockNumber.value
       isError.value = mintAndListResults.isError.value
     })
-  } else {
+  }
+  else {
     simpleMint()
   }
   return {

@@ -1,6 +1,13 @@
 <template>
-  <NeoField :label="label" :expanded="expanded">
-    <NeoInput :value="value" :readonly="readonly" disabled></NeoInput>
+  <NeoField
+    :label="label"
+    :expanded="expanded"
+  >
+    <NeoInput
+      :value="value"
+      :readonly="readonly"
+      disabled
+    />
   </NeoField>
 </template>
 

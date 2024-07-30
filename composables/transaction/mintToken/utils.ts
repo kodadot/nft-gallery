@@ -1,13 +1,13 @@
-import { usePreferencesStore } from '@/stores/preferences'
-import {
+import type {
   ActionMintToken,
   Max,
   MintTokenParams,
   MintedCollection,
   TokenToMint,
 } from '../types'
+import { usePreferencesStore } from '@/stores/preferences'
 import { chainAssetOf } from '@/utils/config/chain.config'
-import { SupportTokens } from '@/utils/support'
+import type { SupportTokens } from '@/utils/support'
 
 export const copiesToMint = <T extends TokenToMint>(token: T): number => {
   const { copies, selectedCollection } = token
@@ -24,19 +24,19 @@ export const calculateFees = () => {
   const { urlPrefix } = usePrefix()
   const { symbol } = chainAssetOf(urlPrefix.value)
 
-  const enabledFees: boolean =
-    preferences.getHasSupport || preferences.getHasCarbonOffset
+  const enabledFees: boolean
+    = preferences.getHasSupport || preferences.getHasCarbonOffset
 
-  const feeMultiplier =
-    Number(preferences.getHasSupport) +
-    2 * Number(preferences.getHasCarbonOffset)
+  const feeMultiplier
+    = Number(preferences.getHasSupport)
+    + 2 * Number(preferences.getHasCarbonOffset)
 
   return { enabledFees, feeMultiplier, token: symbol as SupportTokens }
 }
 
 export const getNameInNotifications = (item: ActionMintToken) => {
   return Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
+    ? item.token.map(t => t.name).join(', ')
     : item.token.name
 }
 
@@ -55,15 +55,15 @@ export const transactionFactory = (getArgs) => {
       cb: api.tx.utility.batchAll,
       arg: args,
       successMessage:
-        item.successMessage ||
-        ((blockNumber) =>
+        item.successMessage
+        || (blockNumber =>
           $i18n.t('mint.mintNFTSuccess', {
             name: nameInNotifications,
             block: blockNumber,
           })),
       errorMessage:
-        item.errorMessage ||
-        $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
+        item.errorMessage
+        || $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
     })
   }
 }

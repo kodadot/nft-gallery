@@ -5,18 +5,21 @@
       :key="tab.value"
       :active="tab.active"
       variant="pill"
-      @click="() => handleTabClick(tab.value)">
+      @click="() => handleTabClick(tab.value)"
+    >
       <img
         v-if="tab.image"
         class="mr-2 image square-20"
         :src="tab.image"
-        alt="tab" />
+        alt="tab"
+      >
 
       <NeoIcon
         v-else-if="tab.icon"
         class="mr-2"
         :icon="tab.icon.name"
-        :pack="tab.icon.pack" />
+        :pack="tab.icon.pack"
+      />
 
       <span>{{ tab.label }}</span>
 
@@ -24,7 +27,8 @@
         v-if="tab.ticked"
         class="ml-2 text-k-green"
         icon="fa-check"
-        pack="fa-solid" />
+        pack="fa-solid"
+      />
     </NeoButton>
   </div>
 </template>

@@ -1,15 +1,15 @@
-import resolveQueryPath from '@/utils/queryPathResolver'
-import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
+import type { Ref } from 'vue'
 import {
   useItemsGridQueryParams,
   useSearchParams,
 } from './utils/useSearchParams'
-import { Ref } from 'vue'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { getDenyList } from '@/utils/prefix'
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
-import { NFT, TokenId } from '@/components/rmrk/service/scheme'
+import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
@@ -48,8 +48,8 @@ export function useFetchSearch({
 
   const useTokens = computed(
     () =>
-      isAssetHub.value &&
-      !EXCLUDED_TOKEN_USE_PAGES.includes(route.name as string),
+      isAssetHub.value
+      && !EXCLUDED_TOKEN_USE_PAGES.includes(route.name as string),
   )
 
   const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
@@ -65,15 +65,15 @@ export function useFetchSearch({
   }
 
   const hasBlockNumberSort = (items: string[]) =>
-    ['blockNumber_DESC', 'blockNumber_ASC'].some((sort) => items.includes(sort))
+    ['blockNumber_DESC', 'blockNumber_ASC'].some(sort => items.includes(sort))
 
   const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
-      currentOwner_eq: (value) => ({ owner: value }),
-      issuer_eq: (value) => ({ issuer: value }),
-      price_gt: (value) => ({ price_gt: Number(value) }),
-      collection: (value) => ({ collections: value.id_in }),
-      name_containsInsensitive: (value) => ({
+      currentOwner_eq: value => ({ owner: value }),
+      issuer_eq: value => ({ issuer: value }),
+      price_gt: value => ({ price_gt: Number(value) }),
+      collection: value => ({ collections: value.id_in }),
+      name_containsInsensitive: value => ({
         name: value,
       }),
     }
@@ -122,7 +122,7 @@ export function useFetchSearch({
       let orderBy = query.length ? query : defaultValue
       if (searchBySn.value && !hasBlockNumberSort(query)) {
         orderBy = [...orderBy, 'blockNumber_ASC'].filter(
-          (o) => o !== 'blockNumber_DESC',
+          o => o !== 'blockNumber_DESC',
         )
       }
       return orderBy
@@ -156,13 +156,13 @@ export function useFetchSearch({
         return false
       }
       const sortArray = Array.isArray(sort) ? sort : [sort]
-      return sortArray.some((sortBy) => (sortBy ?? '').includes('price'))
+      return sortArray.some(sortBy => (sortBy ?? '').includes('price'))
     }
     watch(
       () => route.query.sort,
       (newSort, oldSort) => {
-        const priceSortHasBeenActivated =
-          isPriceSortActive(newSort) && !isPriceSortActive(oldSort)
+        const priceSortHasBeenActivated
+          = isPriceSortActive(newSort) && !isPriceSortActive(oldSort)
         if (priceSortHasBeenActivated && route.query.listed !== 'true') {
           route.query.listed = 'true'
         }
@@ -206,7 +206,8 @@ export function useFetchSearch({
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
         items.value = [...entities, ...items.value]
-      } else {
+      }
+      else {
         items.value = [...items.value, ...entities]
       }
       loadedPages.value.push(page)
@@ -229,7 +230,7 @@ export function useFetchSearch({
 
   const resetSearchQueryParamsValues = computed(() =>
     Object.fromEntries(
-      resetSearchQueryParams.map((key) => [key, route.query[key]]),
+      resetSearchQueryParams.map(key => [key, route.query[key]]),
     ),
   )
 
@@ -256,7 +257,7 @@ export const updatePotentialNftsForListingCart = async (
   const listingCartStore = useListingCartStore()
   const { isCurrentOwner } = useAuth()
   const potentialNfts = nfts
-    .filter((nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner))
+    .filter(nft => !Number(nft.price) && isCurrentOwner(nft.currentOwner))
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
       return nftToListingCartItem(nft, floorPrice)

@@ -1,9 +1,10 @@
-import { ZipEntry, unzip } from 'unzipit'
-import config from './codechecker.config'
-import { AssetMessage } from './types'
+import type { ZipEntry } from 'unzipit'
+import { unzip } from 'unzipit'
 import { blake2AsHex } from '@polkadot/util-crypto'
+import config from './codechecker.config'
+import type { AssetMessage } from './types'
 
-type FileEntry = { path: string; content: string }
+type FileEntry = { path: string, content: string }
 
 const cleanFileName = (path) => {
   const parts = path.split('/')
@@ -24,13 +25,13 @@ const extractAssetAttributes = (
   mimeType: string
   parent: 'head' | 'body'
 } => {
-  const srcOrHref = (element.getAttribute('src') ??
-    element.getAttribute('href')) as string
+  const srcOrHref = (element.getAttribute('src')
+    ?? element.getAttribute('href')) as string
   const isExternal = srcOrHref.startsWith('http')
-  const mimeType =
-    element.tagName.toLowerCase() === 'script' ? 'text/javascript' : 'text/css'
-  const parent =
-    element.parentNode?.nodeName.toLowerCase() === 'head' ? 'head' : 'body'
+  const mimeType
+    = element.tagName.toLowerCase() === 'script' ? 'text/javascript' : 'text/css'
+  const parent
+    = element.parentNode?.nodeName.toLowerCase() === 'head' ? 'head' : 'body'
 
   return { srcOrHref, isExternal, mimeType, parent: parent }
 }
@@ -38,8 +39,8 @@ const extractAssetAttributes = (
 // process and add a single asset to the assets array
 const processAsset = async (element, entries, assets) => {
   const attributes = extractAssetAttributes(element)
-  const assetType =
-    element.tagName.toLowerCase() === 'script' ? 'script' : 'style'
+  const assetType
+    = element.tagName.toLowerCase() === 'script' ? 'script' : 'style'
 
   const asset: AssetMessage = {
     type: assetType,
@@ -54,7 +55,7 @@ const processAsset = async (element, entries, assets) => {
   }
 
   const cleanName = cleanFileName(attributes.srcOrHref)
-  const matchingEntryKey = Object.keys(entries).find((key) =>
+  const matchingEntryKey = Object.keys(entries).find(key =>
     key.endsWith(cleanName),
   )
 
@@ -83,7 +84,7 @@ const calculateCommonPrefix = (filePaths: string[]): string => {
 const categorizeFiles = async (
   entries: { [key: string]: ZipEntry },
   commonPrefix: string,
-): Promise<{ htmlFiles: FileEntry[]; jsFiles: FileEntry[] }> => {
+): Promise<{ htmlFiles: FileEntry[], jsFiles: FileEntry[] }> => {
   const htmlFiles: FileEntry[] = []
   const jsFiles: FileEntry[] = []
 
@@ -93,7 +94,8 @@ const categorizeFiles = async (
 
     if (path.endsWith('index.html')) {
       htmlFiles.push({ path: adjustedPath, content })
-    } else if (path.endsWith('.js') && !path.includes(config.p5)) {
+    }
+    else if (path.endsWith('.js') && !path.includes(config.p5)) {
       jsFiles.push({ path: adjustedPath, content })
     }
   }
@@ -137,7 +139,7 @@ export const extractAssetsFromZip = async (
   const commonPrefix = calculateCommonPrefix(filePaths)
 
   const { htmlFiles, jsFiles } = await categorizeFiles(entries, commonPrefix)
-  const sketchFile = jsFiles.find((file) =>
+  const sketchFile = jsFiles.find(file =>
     file.path.includes(config.sketchFile),
   ) as FileEntry
 

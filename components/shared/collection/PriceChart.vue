@@ -4,7 +4,11 @@
       <p class="label text-xs/normal">
         {{ $t('Chart') }}
       </p>
-      <NeoButton variant="primary" no-shadow @click="emit('resetZoom')">
+      <NeoButton
+        variant="primary"
+        no-shadow
+        @click="emit('resetZoom')"
+      >
         Reset zoom
       </NeoButton>
     </div>
@@ -13,22 +17,17 @@
         ref="lineChart"
         :datasets="datasets"
         :labels="labels"
-        :options="options" />
+        :options="options"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const baseLineOptions = {
-  tension: 0.3,
-  pointBackgroundColor: 'white',
-  pointBorderColor: 'blue',
-  pointRadius: 4,
-  pointHoverRadius: 6,
-}
-
+import type { ChartDataset } from 'chart.js'
+import type {
+  CollectionChartData as ChartData } from '@/utils/chart'
 import {
-  CollectionChartData as ChartData,
   getCollectionChartData,
   getCollectionMedian,
   getLabel,
@@ -37,8 +36,15 @@ import {
 } from '@/utils/chart'
 
 // types
-import type { ChartDataset } from 'chart.js'
 import LineChart from '@/components/shared/chart/LineChart.vue'
+
+const baseLineOptions = {
+  tension: 0.3,
+  pointBackgroundColor: 'white',
+  pointBorderColor: 'blue',
+  pointRadius: 4,
+  pointHoverRadius: 6,
+}
 
 const props = defineProps<{
   priceData: [ChartData[], ChartData[]] // [listings, buys]

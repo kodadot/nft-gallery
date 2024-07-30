@@ -1,8 +1,8 @@
-import type { ActionList, Actions } from '@/composables/transaction/types'
-import { AutoTeleportAction } from './types'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { teleportExistentialDeposit } from '@kodadot1/static'
-import { Chain } from '@/utils/teleport'
+import type { AutoTeleportAction } from './types'
+import type { ActionList, Actions } from '@/composables/transaction/types'
+import type { Chain } from '@/utils/teleport'
 
 export const getChainExistentialDeposit = (
   chain: Chain | undefined | null,

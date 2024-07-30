@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
-import { LastEvent } from '@/utils/types/types'
+import type { LastEvent } from '@/utils/types/types'
 import { nameWithIndex } from '@/utils/nft'
-import { CarouselNFT } from '@/components/base/types'
+import type { CarouselNFT } from '@/components/base/types'
 import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
  * Format the data to fit with CarouselNFT[]
@@ -13,12 +13,12 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
     return []
   }
   const { urlPrefix } = usePrefix()
-  const data = nfts.filter((nft) => Boolean(nft.meta))
+  const data = nfts.filter(nft => Boolean(nft.meta))
 
   return data.map((nft) => {
     const timestamp = nft.updatedAt || nft.timestamp
-    const metaImage =
-      nft.meta.image || nft.resources?.[0]?.thumb || nft.resources?.[0]?.src
+    const metaImage
+      = nft.meta.image || nft.resources?.[0]?.thumb || nft.resources?.[0]?.src
     const metaAnimationUrl = nft.meta.animationUrl
     const name = nft.name || nft.meta.name
 
@@ -26,8 +26,8 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
       ...nft,
       timestamp: timestamp
         ? formatDistanceToNow(new Date(timestamp), {
-            addSuffix: true,
-          })
+          addSuffix: true,
+        })
         : '',
       unixTime: new Date(timestamp).getTime(),
       price: nft.price || 0,

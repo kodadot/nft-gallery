@@ -1,13 +1,18 @@
 <template>
   <div>
-    <NeoField :variant="variant" :message="error" :label="$t(label)">
+    <NeoField
+      :variant="variant"
+      :message="error"
+      :label="$t(label)"
+    >
       <NeoInput
         v-model="inputValue"
         :icon-right="iconRight"
         :placeholder="placeholder"
         data-testid="global-address-input"
         icon-right-clickable
-        @icon-right-click="clearIconClick" />
+        @icon-right-click="clearIconClick"
+      />
     </NeoField>
 
     <AddressChecker
@@ -15,14 +20,15 @@
       :class="{ 'mt-4': !!inputValue }"
       :address="inputValue"
       @check="handleAddressCheck"
-      @change="handleAddressChange" />
+      @change="handleAddressChange"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import correctFormat from '@/utils/ss58Format'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
 
 const emit = defineEmits(['update:modelValue', 'check'])
@@ -59,14 +65,14 @@ const variant = computed(() => {
 
   const isNotEmpty = !!inputValue.value
   const isValidAddress = isAddress(inputValue.value)
-  const isSuccessWithAddressCheck =
-    props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
-  const isSuccesssWithoutAddressCheck =
-    !props.withAddressCheck && isValidAddress
+  const isSuccessWithAddressCheck
+    = props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
+  const isSuccesssWithoutAddressCheck
+    = !props.withAddressCheck && isValidAddress
 
   if (
-    isNotEmpty &&
-    (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
+    isNotEmpty
+    && (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
   ) {
     return 'success'
   }
@@ -82,7 +88,7 @@ const iconRight = computed(() => {
 })
 const inputValue = computed({
   get: () => props.modelValue,
-  set: (value) => handleInput(value),
+  set: value => handleInput(value),
 })
 
 const emitUpdate = (value: string) => {
@@ -104,10 +110,12 @@ const handleInput = (value: string) => {
   if (props.strict) {
     const [, err] = checkAddress(value, correctFormat(ss58Format.value))
     error.value = value ? err : ''
-  } else {
+  }
+  else {
     if (!props.emptyOnError && !value) {
       error.value = ''
-    } else {
+    }
+    else {
       error.value = isAddress(value) ? '' : 'Invalid address'
     }
   }

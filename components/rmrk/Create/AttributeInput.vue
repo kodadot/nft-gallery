@@ -6,21 +6,24 @@
       size="medium"
       icon-left="times"
       data-testid="attribute-button-remove"
-      @click="remove" />
+      @click="remove"
+    />
     <NeoInput
       v-model="vKey"
       placeholder="Section"
       expanded
       data-testid="attribute-input-section"
       :disabled="disabled"
-      spellcheck="true" />
+      spellcheck="true"
+    />
     <NeoInput
       v-model="vValue"
       placeholder="Value"
       expanded
       data-testid="attribute-input-value"
       spellcheck="true"
-      :disabled="disabled" />
+      :disabled="disabled"
+    />
   </NeoField>
 </template>
 

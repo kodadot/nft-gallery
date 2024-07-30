@@ -1,5 +1,5 @@
-import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { type TransactionStepWithActive } from './TransactionSteps.vue'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 export const getTransactionStepDetails = (
   step: TransactionStepWithActive,
@@ -11,8 +11,8 @@ export const getTransactionStepDetails = (
   const { status, isError, isActive } = step
 
   if (
-    status === TransactionStatus.Finalized ||
-    step.stepStatus === TransactionStepStatus.COMPLETED
+    status === TransactionStatus.Finalized
+    || step.stepStatus === TransactionStepStatus.COMPLETED
   ) {
     return {
       status: TransactionStepStatus.COMPLETED,
@@ -35,9 +35,9 @@ export const getTransactionStepDetails = (
   }
 
   if (
-    (status !== TransactionStatus.Unknown &&
-      step.stepStatus !== TransactionStepStatus.WAITING) ||
-    step.stepStatus === TransactionStepStatus.LOADING
+    (status !== TransactionStatus.Unknown
+    && step.stepStatus !== TransactionStepStatus.WAITING)
+    || step.stepStatus === TransactionStepStatus.LOADING
   ) {
     return {
       text: $t('transactionSteps.loading'),

@@ -1,13 +1,20 @@
 <template>
-  <div class="common-price-chart" data-testid="gallery-item-chart">
+  <div
+    class="common-price-chart"
+    data-testid="gallery-item-chart"
+  >
     <span class="chart-y-description text-xs"> Price ({{ chainSymbol }}) </span>
-    <NeoDropdown class="py-0 time-range-dropdown" :mobile-modal="false">
+    <NeoDropdown
+      class="py-0 time-range-dropdown"
+      :mobile-modal="false"
+    >
       <template #trigger="{ active }">
         <NeoButton
           :label="selectedTimeRange.label"
           class="time-range-button"
           no-shadow
-          :active="active" />
+          :active="active"
+        />
       </template>
 
       <NeoDropdownItem
@@ -16,7 +23,8 @@
         class="flex justify-center items-center"
         :active="selectedTimeRange.value === range.value"
         :value="selectedTimeRange"
-        @click="setTimeRange({ value: range.value, label: range.label })">
+        @click="setTimeRange({ value: range.value, label: range.label })"
+      >
         {{ range.label }}
       </NeoDropdownItem>
     </NeoDropdown>
@@ -24,14 +32,19 @@
     <NeoDropdown
       :mobile-modal="false"
       class="chart-setting-icon min-width-fit-content"
-      position="bottom-left">
+      position="bottom-left"
+    >
       <template #trigger="{ active }">
-        <NeoButton no-shadow variant="icon">
+        <NeoButton
+          no-shadow
+          variant="icon"
+        >
           <NeoIcon
             icon="gear"
             pack="fass"
             size="large"
-            :variant="!active ? 'k-grey' : undefined" />
+            :variant="!active ? 'k-grey' : undefined"
+          />
         </NeoButton>
       </template>
 
@@ -40,7 +53,8 @@
           <NeoCheckbox
             v-model="vHideOutliers"
             class="m-0 whitespace-nowrap"
-            root-class="flex-auto px-4 py-3">
+            root-class="flex-auto px-4 py-3"
+          >
             {{ $t('activity.hideOutliers') }}
           </NeoCheckbox>
         </div>
@@ -50,25 +64,29 @@
           <NeoCheckbox
             v-model="vApplySmoothing"
             class="m-0 whitespace-nowrap"
-            root-class="flex-auto px-4 py-3">
+            root-class="flex-auto px-4 py-3"
+          >
             {{ $t('activity.applySmoothing') }}
           </NeoCheckbox>
         </div>
       </NeoDropdownItem>
     </NeoDropdown>
 
-    <div :class="{ content: !chartHeight }" :style="heightStyle">
+    <div
+      :class="{ content: !chartHeight }"
+      :style="heightStyle"
+    >
       <Line
         ref="chart"
         :data="chartData"
         :options="chartOptions"
-        :plugins="chartPlugins" />
+        :plugins="chartPlugins"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { getChartDataByTimeRange } from '@/utils/chart'
 import {
   NeoButton,
   NeoCheckbox,
@@ -77,15 +95,16 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import { useEventListener, useVModel } from '@vueuse/core'
-import {
+import type {
   ChartData,
   ChartDataset,
-  Chart as ChartJS,
   ChartOptions,
+  Point } from 'chart.js'
+import {
+  Chart as ChartJS,
   Legend,
   LineElement,
   LinearScale,
-  Point,
   PointElement,
   TimeScale,
   Title,
@@ -95,6 +114,7 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { format } from 'date-fns'
 import { Line } from 'vue-chartjs'
+import { getChartDataByTimeRange } from '@/utils/chart'
 
 ChartJS.register(
   zoomPlugin,
@@ -140,7 +160,7 @@ const timeRangeList = [
 
 const selectedTimeRange = ref(timeRangeList[0])
 
-const setTimeRange = (value: { value: number; label: string }) => {
+const setTimeRange = (value: { value: number, label: string }) => {
   selectedTimeRange.value = value
 }
 
@@ -169,7 +189,8 @@ const displayChartData = computed(() => {
       getChartDataByTimeRange(props.priceChartData[0], timeRangeValue),
       getChartDataByTimeRange(props.priceChartData[1], timeRangeValue),
     ]
-  } else {
+  }
+  else {
     return []
   }
 })

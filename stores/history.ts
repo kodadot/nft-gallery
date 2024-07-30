@@ -63,40 +63,40 @@ export const useHistoryStore = defineStore('history', {
     },
   }),
   getters: {
-    getVisitedToday: (state) =>
-      state.visitedNFTs.filter((nft) => isToday(new Date(nft.date))),
-    getVisitedYesterday: (state) =>
-      state.visitedNFTs.filter((nft) => isYesterday(new Date(nft.date))),
-    getVisitedPastWeek: (state) =>
+    getVisitedToday: state =>
+      state.visitedNFTs.filter(nft => isToday(new Date(nft.date))),
+    getVisitedYesterday: state =>
+      state.visitedNFTs.filter(nft => isYesterday(new Date(nft.date))),
+    getVisitedPastWeek: state =>
       state.visitedNFTs.filter(
-        (nft) =>
-          isThisWeek(new Date(nft.date)) &&
-          !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date)),
+        nft =>
+          isThisWeek(new Date(nft.date))
+          && !isToday(new Date(nft.date))
+          && !isYesterday(new Date(nft.date)),
       ),
-    getVisitedPastMonth: (state) =>
+    getVisitedPastMonth: state =>
       state.visitedNFTs.filter(
-        (nft) =>
-          isThisMonth(new Date(nft.date)) &&
-          !isThisWeek(new Date(nft.date)) &&
-          !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date)),
+        nft =>
+          isThisMonth(new Date(nft.date))
+          && !isThisWeek(new Date(nft.date))
+          && !isToday(new Date(nft.date))
+          && !isYesterday(new Date(nft.date)),
       ),
-    getVisitedEarlier: (state) =>
+    getVisitedEarlier: state =>
       state.visitedNFTs.filter(
-        (nft) =>
-          !isThisMonth(new Date(nft.date)) &&
-          !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date)),
+        nft =>
+          !isThisMonth(new Date(nft.date))
+          && !isToday(new Date(nft.date))
+          && !isYesterday(new Date(nft.date)),
       ),
-    getCurrentlyViewedItem: (state) => state.currentlyViewedItem,
-    getCurrentlyViewedCollection: (state) => state.currentlyViewedCollection,
+    getCurrentlyViewedItem: state => state.currentlyViewedItem,
+    getCurrentlyViewedCollection: state => state.currentlyViewedCollection,
   },
   actions: {
     addHistoryItem(payload) {
       this.currentlyViewedItem = payload
       const { id } = payload
-      const existingIndex = this.visitedNFTs.findIndex((item) => item.id === id)
+      const existingIndex = this.visitedNFTs.findIndex(item => item.id === id)
 
       // check if nft was visited before -> in that case delete it from history first
       if (existingIndex !== -1) {

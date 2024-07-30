@@ -1,3 +1,4 @@
+import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 import {
   type Chain,
   type TeleportChain,
@@ -6,7 +7,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import useAutoTeleportTransitionDetails from '@/composables/autoTeleport/useAutoTeleportTransitionDetails'
-import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 
 export default function ({
   actions,
@@ -38,8 +38,8 @@ export default function ({
     chainSymbol as ComputedRef<string>,
   )
 
-  const optimalTransition =
-    ref<TeleportTransition>(emptyObject<TeleportTransition>())
+  const optimalTransition
+    = ref<TeleportTransition>(emptyObject<TeleportTransition>())
 
   watchSyncEffect(() => {
     if (autoTeleportStarted.value) {

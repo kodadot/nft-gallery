@@ -3,10 +3,12 @@
     ref="buttonRef"
     :loading="loading"
     :button="buttonConfig"
-    test-id="profile-button-multi-action" />
+    test-id="profile-button-multi-action"
+  />
 </template>
+
 <script lang="ts" setup>
-import { ButtonConfig } from './types'
+import type { ButtonConfig } from './types'
 import { follow, isFollowing, unfollow } from '@/services/profile'
 
 const showFollowing = ref(false)
@@ -25,8 +27,8 @@ const props = defineProps<{
   target: string
 }>()
 
-const { data: isFollowingThisAccount, refresh: refreshFollowingStatus } =
-  useAsyncData(`${accountId.value}/isFollowing/${props.target}`, () =>
+const { data: isFollowingThisAccount, refresh: refreshFollowingStatus }
+  = useAsyncData(`${accountId.value}/isFollowing/${props.target}`, () =>
     isFollowing(accountId.value, props.target),
   )
 
@@ -107,8 +109,8 @@ const buttonConfig = computed<ButtonConfig>(() => {
   }
 
   if (
-    showFollowing.value ||
-    (!isHovered.value && isFollowingThisAccount.value)
+    showFollowing.value
+    || (!isHovered.value && isFollowingThisAccount.value)
   ) {
     return { ...followingConfig, active: isHovered.value }
   }

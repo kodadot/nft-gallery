@@ -53,7 +53,8 @@ export default {
     el.parentElement!.classList.add('orientation')
     if (!binding.value) {
       unRegisterEvents(el)
-    } else {
+    }
+    else {
       registerEvents(el)
     }
   },

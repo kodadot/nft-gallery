@@ -23,27 +23,30 @@ export class Commands {
 
   async scrollDownSlow() {
     await this.page.evaluate(async () => {
-      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-      // eslint-disable-next-line no-restricted-syntax
+      const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
       for (let i = 0; i < document.body.scrollHeight; i += 100) {
         window.scrollTo(0, i)
         await delay(200)
       }
     })
   }
+
   async scrollDownAndStop() {
     await this.page.evaluate(async () => {
-      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-      // eslint-disable-next-line no-restricted-syntax
+      const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
       for (let i = 0; i < document.body.scrollHeight / 2; i += 100) {
         window.scrollTo(0, i)
         await delay(200)
       }
     })
   }
+
   async acceptCookies() {
     await this.page.getByRole('button', { name: 'Accept' }).click()
   }
+
   async checkNewTab(url: string, clickAction) {
     const newTabPromise = this.page.waitForEvent('popup')
     await clickAction

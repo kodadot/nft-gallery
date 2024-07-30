@@ -5,11 +5,13 @@
     class="z-[1000]"
     max-height="calc(100vh - 180px)"
     content-class="!w-[unset]"
-    @close="onClose">
+    @close="onClose"
+  >
     <ModalBody
       :title="$t('mint.nft.modal.action')"
       :loading="loading"
-      @close="onClose">
+      @close="onClose"
+    >
       <ModalIdentityItem />
       <div class="mt-4 font-bold">
         {{ title }}
@@ -17,7 +19,7 @@
       <div class="mt-4">
         <ConfirmMintItem :nft="extendedInformation" />
       </div>
-      <hr class="my-4" />
+      <hr class="my-4">
       <PriceItem :nft="extendedInformation" />
       <div class="pt-5">
         <div class="flex justify-between">
@@ -34,7 +36,8 @@
             auto-close-modal
             :auto-close-modal-delay-modal="0"
             :early-success="!isNFT"
-            @confirm="confirm" />
+            @confirm="confirm"
+          />
         </div>
       </div>
     </ModalBody>
@@ -43,9 +46,11 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import type { ChainProperties, Option } from '@kodadot1/static'
-import { BaseMintedCollection } from '@/components/base/types'
+import ConfirmMintItem from './ConfirmMintItem.vue'
+import PriceItem from './PriceItem.vue'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
+import type { BaseMintedCollection } from '@/components/base/types'
 import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -53,8 +58,6 @@ import { availablePrefixes } from '@/utils/chain'
 import { getTransitionFee } from '@/utils/transactionExecutor'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
-import ConfirmMintItem from './ConfirmMintItem.vue'
-import PriceItem from './PriceItem.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 export type NftInformation = {
@@ -96,8 +99,8 @@ const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
-const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
-  useDeposit(urlPrefix)
+const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit }
+  = useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
@@ -110,7 +113,7 @@ const isNFT = computed(
   () => props.nftInformation.mintType === CreateComponent.NFT,
 )
 const blockchain = computed(() =>
-  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value),
+  availablePrefixes().find(prefix => prefix.value === urlPrefix.value),
 )
 const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol)
 const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
@@ -119,14 +122,14 @@ const tokenPrice = computed(() =>
 )
 const kodadotFee = computed(
   () =>
-    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value) *
-    Math.pow(10, decimals.value),
+    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value)
+    * Math.pow(10, decimals.value),
 )
 const carbonlessFee = computed(
   () =>
-    ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0) /
-      tokenPrice.value) *
-    Math.pow(10, decimals.value),
+    ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0)
+    / tokenPrice.value)
+    * Math.pow(10, decimals.value),
 )
 const totalFee = computed(() => {
   return (
@@ -135,9 +138,9 @@ const totalFee = computed(() => {
 })
 const deposit = computed(
   () =>
-    metadataDeposit.value +
-    existentialDeposit.value +
-    (isNFT.value ? itemDeposit.value : collectionDeposit.value),
+    metadataDeposit.value
+    + existentialDeposit.value
+    + (isNFT.value ? itemDeposit.value : collectionDeposit.value),
 )
 const totalUSDFee = computed(() =>
   calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value),
