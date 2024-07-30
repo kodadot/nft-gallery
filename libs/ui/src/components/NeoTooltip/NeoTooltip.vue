@@ -10,23 +10,27 @@
     :style="{
       '--font-size': fontSize,
       '--multiline-width': multilineWidth,
-      width: fullWidth ? '100%' : '',
+      'width': fullWidth ? '100%' : '',
     }"
     :position="position"
     :label="label"
     :delay="delay"
     :triggers="triggers"
     @open="handleOpen"
-    @click="handleClick">
+    @click="handleClick"
+  >
     <template #content>
-      <slot name="content"></slot>
+      <slot name="content" />
     </template>
 
     <slot>
       <div />
     </slot>
   </o-tooltip>
-  <div v-else class="h-full">
+  <div
+    v-else
+    class="h-full"
+  >
     <slot>
       <div />
     </slot>
@@ -39,7 +43,7 @@ import { OTooltip } from '@oruga-ui/oruga-next'
 
 export interface Props {
   label?: string
-  position?: 'top' | 'bottom' | 'left' | 'right'
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
   active?: boolean
   multiline?: boolean
   appendToBody?: boolean

@@ -6,13 +6,15 @@
       :src="playerCover"
       :placeholder="placeholder"
       :alt="alt"
-      :original="original" />
+      :original="original"
+    />
 
     <AudioPlayer
       v-show="!hoverOnCoverPlay"
       ref="audioPlayer"
       :src="animationSrc"
-      class="w-full border-t border-t-border-color" />
+      class="w-full border-t border-t-border-color"
+    />
   </div>
 </template>
 
@@ -50,11 +52,12 @@ if (props.hoverOnCoverPlay) {
   if (props.parentHovering !== undefined) {
     watchDebounced(
       () => props.parentHovering,
-      (hovering) => handleCoverHover(Boolean(hovering)),
+      hovering => handleCoverHover(Boolean(hovering)),
       { debounce: computed(() => (props.parentHovering ? hoverDelay : 0)) },
     )
-  } else {
-    watch(coverHovering, (hovering) => handleCoverHover(hovering))
+  }
+  else {
+    watch(coverHovering, hovering => handleCoverHover(hovering))
   }
 }
 
@@ -62,9 +65,13 @@ const handleCoverHover = async (hovering: boolean) => {
   try {
     if (hovering) {
       await audioPlayer.value.play()
-    } else {
+    }
+    else {
       await audioPlayer.value.pause()
     }
-  } catch (error) {}
+  }
+  catch (error) {
+    console.error('Error playing audio', error)
+  }
 }
 </script>

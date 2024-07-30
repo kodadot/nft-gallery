@@ -1,14 +1,13 @@
-import MessageNotify from '@/components/MessageNotify.vue'
-import Notification from '@/components/common/Notification.vue'
-
 import {
   type NeoMessageVariant,
   NeoNotificationProgrammatic as Notif,
 } from '@kodadot1/brick'
 import consola from 'consola'
 import { h } from 'vue'
+import Notification from '@/components/common/Notification.vue'
+import MessageNotify from '@/components/MessageNotify.vue'
 
-type NotificationAction = { label: string; url: string }
+type NotificationAction = { label: string, url: string }
 
 type Params = {
   variant: NeoMessageVariant
@@ -103,7 +102,7 @@ export const infoMessage = (
     url,
     duration,
     title = 'Information',
-  }: { url?: string; duration?: number; title?: string } = {},
+  }: { url?: string, duration?: number, title?: string } = {},
 ) => {
   const { $i18n } = useNuxtApp()
   showNotification({
@@ -115,7 +114,7 @@ export const infoMessage = (
   })
 }
 
-export const successMessage = (message) =>
+export const successMessage = message =>
   showNotification({
     title: 'Succes',
     message: `[SUCCESS] ${message}`,
@@ -142,7 +141,7 @@ export const dangerMessage = (
   {
     title = 'Critical Error',
     reportable = true,
-  }: { title?: string; reportable?: boolean } = {},
+  }: { title?: string, reportable?: boolean } = {},
 ) =>
   showNotification({
     title,

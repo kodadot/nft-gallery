@@ -1,7 +1,8 @@
 name: Reviewdog
 
 on:
-  pull_request:
+  pull_request: {}
+  push:
     branches: [main]
 
 jobs:
@@ -20,6 +21,6 @@ jobs:
           level: error
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          eslint_flags: '--quiet --ignore-path .gitignore --ext .js,.ts,.vue .'
+          eslint_flags: '--quiet .'
           fail_on_error: true
           filter_mode: nofilter

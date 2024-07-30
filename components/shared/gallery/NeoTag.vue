@@ -5,14 +5,16 @@
     closable
     class="tag"
     data-testid="neo-tag-component"
-    :class="[`tag--${variant}`, `tag-size--${size}`]">
-    <slot></slot>
+    :class="[`tag--${variant}`, `tag-size--${size}`]"
+  >
+    <slot />
     <NeoIcon
       v-if="closable"
       aria-close-label="clear filter"
       icon="xmark"
       class="ml-2 cursor-pointer cross-icon"
-      @click="onClose" />
+      @click="onClose"
+    />
   </div>
 </template>
 

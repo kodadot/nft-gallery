@@ -7,12 +7,17 @@
           <BreadcrumbsFilter />
           <div class="mt-1 shrink-0">
             <div v-if="isLoading">
-              <NeoSkeleton no-margin :width="80" />
+              <NeoSkeleton
+                no-margin
+                :width="80"
+              />
             </div>
-            <div v-else-if="total">{{ total }} {{ $t('items') }}</div>
+            <div v-else-if="total">
+              {{ total }} {{ $t('items') }}
+            </div>
           </div>
         </div>
-        <hr class="my-0" />
+        <hr class="my-0">
       </div>
       <ItemsGrid
         display-name-with-sn
@@ -21,15 +26,16 @@
           (loading) => {
             isLoading = loading
           }
-        " />
+        "
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
-import ItemsGrid from './ItemsGrid/ItemsGrid.vue'
 import { NeoSkeleton } from '@kodadot1/brick'
+import ItemsGrid from './ItemsGrid/ItemsGrid.vue'
+import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 
 const total = ref(0)

@@ -1,5 +1,5 @@
-import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 import { useEventListener } from '@vueuse/core'
+import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 
 export function useKeyboardEvents(primaryKeyEvents) {
   const keysPressed = ref({})
@@ -22,6 +22,7 @@ export function useKeyboardEvents(primaryKeyEvents) {
   }
 
   const onKeyUp = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete keysPressed.value[event.key]
   }
 

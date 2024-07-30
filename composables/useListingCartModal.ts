@@ -1,10 +1,10 @@
+import type { NFTWithMetadata } from './useNft'
 import {
   nftToListingCartItem,
   shoppingCartItemToListingCartItem,
 } from '@/components/common/shoppingCart/utils'
-import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
-import { NFTWithMetadata } from './useNft'
-import { ListCartItemMediaUrl } from '@/stores/listingCart'
+import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import type { ListCartItemMediaUrl } from '@/stores/listingCart'
 
 export default ({
   clearItemsOnModalClose = false,
@@ -51,7 +51,7 @@ export default ({
     (preferencesStore.listingCartModalOpen = true)
 
   const clearItemsInChain = () => {
-    listingCartStore.itemsInChain.forEach((item) =>
+    listingCartStore.itemsInChain.forEach(item =>
       listingCartStore.removeItem(item.id),
     )
   }

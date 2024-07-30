@@ -3,44 +3,55 @@
     <div class="flex flex-col">
       <div
         v-if="showAutoTeleport && !hideTop"
-        class="flex justify-between w-full mb-4">
+        class="flex justify-between w-full mb-4"
+      >
         <div class="flex">
           <div class="has-accent-blur">
-            <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
+            <img
+              :src="autoTeleportIcon"
+              class="mr-2"
+              alt="teleport arrow"
+            >
             <img
               v-if="isTelportIconActive"
               src="~/assets/svg/accent-blur.svg"
               alt="blur"
-              class="blur autotelport-blur" />
+              class="blur autotelport-blur"
+            >
           </div>
 
           <p
             class="font-bold"
-            :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
+            :class="{ 'text-k-grey': !hasAvailableTeleportTransition }"
+          >
             {{ $t('autoTeleport.autoTeleport') }}
           </p>
 
           <AutoTeleportPopover
             v-if="hasAvailableTeleportTransition"
             position="top"
-            :transition="optimalTransition" />
+            :transition="optimalTransition"
+          />
         </div>
 
         <div
           v-if="!hasAvailableTeleportTransition"
           class="flex items-center"
-          :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
+          :class="{ 'text-k-grey': !hasAvailableTeleportTransition }"
+        >
           <span class="text-xs">{{ $t('autoTeleport.notAvailable') }}</span>
 
           <AutoTeleportPopover
             position="left"
-            :transition="optimalTransition" />
+            :transition="optimalTransition"
+          />
         </div>
 
         <NeoSwitch
           v-else
           v-model="autoTeleport"
-          data-testid="auto-teleport-switch" />
+          data-testid="auto-teleport-switch"
+        />
       </div>
 
       <NeoButton
@@ -52,7 +63,8 @@
         :loading="loading"
         :loading-with-label="loading"
         class="flex flex-grow btn-height capitalize"
-        @click="handleSubmit" />
+        @click="handleSubmit"
+      />
     </div>
 
     <AutoTeleportModal
@@ -68,26 +80,32 @@
       @telport:retry="teleport"
       @action:start="(i) => actionRun(i)"
       @action:retry="(i) => actionRun(i, true)"
-      @completed="$emit('actions:completed')" />
+      @completed="$emit('actions:completed')"
+    />
 
     <AutoTeleportWelcomeModal
       :model-value="showFirstTimeTeleport"
-      @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
+      @close="preferencesStore.setFirstTimeAutoTeleport(false)"
+    />
 
-    <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
+    <OnRampModal
+      v-model="onRampActive"
+      @close="onRampActive = false"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
+import type { ActionlessInteraction } from './utils'
+import { getActionDetails } from './utils'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
-import { ActionlessInteraction, getActionDetails } from './utils'
 import { getAutoTeleportActionInteraction } from '@/composables/autoTeleport/useAutoTeleportTransactionActions'
 
 export type AutoTeleportActionButtonConfirmEvent = {
@@ -136,7 +154,7 @@ const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 const { isModalOpen } = useAutoTeleportModal()
 
-const amount = ref()
+const amounts = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
@@ -149,7 +167,7 @@ const {
   clear,
 } = useAutoTeleport(
   computed<AutoTeleportAction[]>(() => props.actions),
-  computed(() => amount.value),
+  computed(() => amounts.value),
   props.fees,
 )
 
@@ -157,9 +175,9 @@ const onRampActive = ref(false)
 const autoTeleport = ref(false)
 const showFirstTimeTeleport = computed(
   () =>
-    preferencesStore.firstTimeAutoTeleport &&
-    autoTeleport.value &&
-    !props.disabled,
+    preferencesStore.firstTimeAutoTeleport
+    && autoTeleport.value
+    && !props.disabled,
 )
 
 const isTelportIconActive = computed(() => {
@@ -189,10 +207,10 @@ const canAutoTeleport = computed(
 
 const showAutoTeleport = computed(
   () =>
-    !hasEnoughInCurrentChain.value &&
-    isAutoTeleportAvailable.value &&
-    isReady.value &&
-    !props.disabled,
+    !hasEnoughInCurrentChain.value
+    && isAutoTeleportAvailable.value
+    && isReady.value
+    && !props.disabled,
 )
 
 const allowAutoTeleport = computed(
@@ -204,8 +222,8 @@ const hasNoFundsAtAll = computed(
 )
 
 const confirmButtonTitle = computed<string>(() => {
-  const interaction =
-    props.interaction || transactions.value.actions[0].interaction
+  const interaction
+    = props.interaction || transactions.value.actions[0].interaction
 
   return getActionDetails(interaction).confirm
 })
@@ -231,7 +249,8 @@ const autoTeleportLabel = computed(() => {
         chainSymbol.value,
         name.value,
       ])
-    } else {
+    }
+    else {
       return confirmButtonTitle.value
     }
   }
@@ -267,7 +286,7 @@ const openAutoTeleportModal = () => {
 
 const actionRun = async (interaction, isRetry = false) => {
   const autoTeleportAction = props.actions.find(
-    (action) => getAutoTeleportActionInteraction(action) === interaction,
+    action => getAutoTeleportActionInteraction(action) === interaction,
   )
 
   if (!autoTeleportAction) {
@@ -279,7 +298,8 @@ const actionRun = async (interaction, isRetry = false) => {
       autoTeleportAction.action,
       autoTeleportAction.prefix || '',
     )
-  } else if (autoTeleportAction.handler) {
+  }
+  else if (autoTeleportAction.handler) {
     await autoTeleportAction.handler({ isRetry })
   }
 }
@@ -287,7 +307,8 @@ const actionRun = async (interaction, isRetry = false) => {
 const handleSubmit = () => {
   if (showAddFunds.value) {
     onRampActive.value = true
-  } else {
+  }
+  else {
     submit()
   }
 }
@@ -316,7 +337,7 @@ watch(allowAutoTeleport, (allow) => {
 
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
-    amount.value = props.amount
+    amounts.value = props.amount
   }
 })
 

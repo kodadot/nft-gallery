@@ -1,12 +1,20 @@
 <template>
-  <div v-if="ready" class="">
+  <div
+    v-if="ready"
+    class=""
+  >
     <nuxt-link
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       :to="`/${urlPrefix}/gallery/${id}`"
-      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 hoverable-lable-color">
+      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 hoverable-lable-color"
+    >
       <div class="mr-5">
-        <BasicImage :src="avatar" :alt="name" class="border image-size pt-0" />
+        <BasicImage
+          :src="avatar"
+          :alt="name"
+          class="border image-size pt-0"
+        />
       </div>
       <div class="flex flex-col">
         {{ name }}
@@ -14,7 +22,8 @@
           {{ $t('activity.bought') }}
           <TimeAgo
             custom-class="text-xs text-k-grey"
-            :timestamp="new Date(updatedAt).getTime()" />
+            :timestamp="new Date(updatedAt).getTime()"
+          />
         </p>
       </div>
     </nuxt-link>
@@ -25,8 +34,8 @@
 <script setup lang="ts">
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
+import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTExcludingEvents } from '@/composables/collectionActivity/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const { placeholder } = useTheme()
@@ -56,7 +65,8 @@ const processNFTImages = async () => {
       let avatar
       if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
-      } else {
+      }
+      else {
         const meta = (await processSingleMetadata(nft.metadata)) as NFTMetadata
         avatar = sanitizeIpfsUrl(meta?.image)
       }

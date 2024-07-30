@@ -7,7 +7,8 @@
     has-link
     class="navbar-item"
     :class="{ 'is-active': $i18n.locale === lang.value }"
-    @click="setUserLang(lang.value)">
+    @click="setUserLang(lang.value)"
+  >
     <div>{{ lang.flag }} {{ lang.label }}</div>
   </a>
 </template>

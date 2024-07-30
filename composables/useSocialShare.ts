@@ -13,11 +13,11 @@ export default function () {
   const shareOnX = (
     text: string,
     url: string = fullPathShare.value,
-    via: string = 'KodaDot',
+    via: string | null = 'KodaDot',
   ) => {
     const shareUrl = new URL('https://twitter.com/intent/tweet')
     shareUrl.searchParams.set('text', text)
-    shareUrl.searchParams.set('via', via)
+    via && shareUrl.searchParams.set('via', via)
     shareUrl.searchParams.set('url', url)
     open(shareUrl.toString())
   }
@@ -35,7 +35,7 @@ export default function () {
   ) => {
     const url = new URL('https://warpcast.com/~/compose')
     url.searchParams.set('text', text)
-    embeds.forEach((embed) => url.searchParams.append('embeds[]', embed))
+    embeds.forEach(embed => url.searchParams.append('embeds[]', embed))
     open(url.toString())
   }
 

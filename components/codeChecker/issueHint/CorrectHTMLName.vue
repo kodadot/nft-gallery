@@ -3,7 +3,11 @@
     {{ $t('codeChecker.correctHTMLNameMeans') }}
   </p>
 
-  <CodeCheckerIssueHintCodeBlock class="mt-5" :code="code" lang="markup" />
+  <CodeCheckerIssueHintCodeBlock
+    class="mt-5"
+    :code="code"
+    lang="markup"
+  />
 </template>
 
 <script setup lang="ts">

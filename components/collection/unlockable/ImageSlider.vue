@@ -1,30 +1,46 @@
 <template>
   <div class="unlockable-image-slider mt-6">
     <div
-      class="unlockable-image-tip border px-4 py-2 bg-background-color z-10 whitespace-nowrap">
+      class="unlockable-image-tip border px-4 py-2 bg-background-color z-10 whitespace-nowrap"
+    >
       {{ title || $t('mint.unlockable.imageTip') }}
     </div>
-    <div ref="container" class="keen-slider">
+    <div
+      ref="container"
+      class="keen-slider"
+    >
       <img
         v-for="image in imageList"
         :key="image"
         :src="image"
-        class="keen-slider__slide" />
+        class="keen-slider__slide"
+      >
     </div>
     <template v-if="imageList.length > 1">
       <Transition name="fade">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <div
           class="arrow arrow-left arrow-small-size"
-          @click="slider?.prev()" />
+          @click="slider?.prev()"
+        />
       </Transition>
       <Transition name="fade">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <div
           class="arrow arrow-right arrow-small-size"
-          @click="slider?.next()" />
+          @click="slider?.next()"
+        />
       </Transition>
-      <div ref="thumbnail" class="keen-slider thumbnail">
-        <div v-for="image in imageList" :key="image" class="keen-slider__slide">
-          <img :src="image" />
+      <div
+        ref="thumbnail"
+        class="keen-slider thumbnail"
+      >
+        <div
+          v-for="image in imageList"
+          :key="image"
+          class="keen-slider__slide"
+        >
+          <img :src="image">
         </div>
       </div>
     </template>
@@ -34,6 +50,7 @@
 <script setup lang="ts">
 import { useKeenSlider } from 'keen-slider/vue'
 import 'keen-slider/keen-slider.min.css'
+
 const emit = defineEmits(['select'])
 
 const props = defineProps<{

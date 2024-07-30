@@ -3,14 +3,16 @@
     :value="isModalActive"
     :enable-mobile="false"
     content-class="mx-4 "
-    :can-cancel="false">
+    :can-cancel="false"
+  >
     <div class="px-6 py-5 max-w-[350px]">
       <div class="flex mb-4 items-center">
         <NeoIcon
           icon="triangle-exclamation"
           pack="fasr"
           class="mr-3"
-          size="medium" />
+          size="medium"
+        />
         <span class="font-bold">{{ $t('teleport.fundLossRisk') }}</span>
       </div>
       <div class="flex flex-col px-4 bg-k-red-accent-2 border border-k-red">
@@ -18,13 +20,13 @@
           {{
             reason === 'source'
               ? $t('teleport.sourceExistentialDepositWarning', [
-                  sourceExistentialDeposit,
-                  currency,
-                ])
+                sourceExistentialDeposit,
+                currency,
+              ])
               : $t('teleport.targetExistentialDepositWarning', [
-                  targetExistentialDeposit,
-                  currency,
-                ])
+                targetExistentialDeposit,
+                currency,
+              ])
           }}
           <b>{{ $t('teleport.lossOfFunds') }}</b>
         </span>
@@ -32,7 +34,8 @@
           <NeoCheckbox
             v-model="checked"
             class="mr-3 text-xs"
-            :label="$t('teleport.checkboxLabel')" />
+            :label="$t('teleport.checkboxLabel')"
+          />
         </div>
       </div>
       <div class="flex mt-5 items-center justify-between">
@@ -41,12 +44,14 @@
           :disabled="!checked"
           class="mr-4"
           no-shadow
-          :label="$t('helper.continueAnyway')"
-          @click="emit('continue')" />
+          :label="$t('massmint.mobileDisclaimer.continueAnyway')"
+          @click="emit('continue')"
+        />
         <NeoButton
           variant="pill"
           :label="$t('autoTeleport.close')"
-          @click="emit('close')" />
+          @click="emit('close')"
+        />
       </div>
     </div>
   </NeoModal>

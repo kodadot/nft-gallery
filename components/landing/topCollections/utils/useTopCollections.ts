@@ -1,3 +1,10 @@
+import type {
+  CollectionEntity,
+  CollectionEntityWithVolumes,
+  CollectionSales,
+  CollectionsSalesResult,
+  TopCollectionListResult,
+} from './types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import {
   calculateAvgPrice,
@@ -9,13 +16,6 @@ import {
   weeklyVolume,
   weeklyrangeVolume,
 } from '@/components/series/utils'
-import {
-  CollectionEntity,
-  CollectionEntityWithVolumes,
-  CollectionSales,
-  CollectionsSalesResult,
-  TopCollectionListResult,
-} from './types'
 import topCollectionList from '@/queries/subsquid/general/topCollectionList.graphql'
 import topCollectionsListAh from '@/queries/subsquid/general/topCollections.graphql'
 import collectionsSales from '@/queries/subsquid/general/collectionsSales.graphql'
@@ -31,16 +31,16 @@ const proccessData = (
           ({ id }) => id === collection.id,
         ) as CollectionSales
         const saleEvents = thisCollectionSales.sales
-          .map((nft) => nft.events)
+          .map(nft => nft.events)
           .flat()
 
         const image = collection.image
           ? sanitizeIpfsUrl(collection.image)
           : sanitizeIpfsUrl(
-              getCollectionImage(
-                await processSingleMetadata(collection.metadata),
-              ) || '',
-            )
+            getCollectionImage(
+              await processSingleMetadata(collection.metadata),
+            ) || '',
+          )
 
         return {
           ...collection,
@@ -79,8 +79,8 @@ export const useTopCollections = (limit: number, immediate = true) => {
   } = useAsyncData(
     'topCollections',
     async () => {
-      const where =
-        isAssetHub.value || isBase.value
+      const where
+        = isAssetHub.value || isBase.value
           ? {
               issuer_not_in: getDenyList(urlPrefix.value) || [],
               volume_gt: '0',
@@ -109,7 +109,7 @@ export const useTopCollections = (limit: number, immediate = true) => {
 
   watchEffect(async () => {
     if (topCollections.value) {
-      const ids = topCollections.value.collectionEntities.map((c) => c.id)
+      const ids = topCollections.value.collectionEntities.map(c => c.id)
 
       const { result: data } = useQuery(
         collectionsSales,
@@ -121,8 +121,8 @@ export const useTopCollections = (limit: number, immediate = true) => {
       collectionsSalesResults.value = data.value
 
       if (
-        collectionsSalesResults.value &&
-        topCollections.value?.collectionEntities.length
+        collectionsSalesResults.value
+        && topCollections.value?.collectionEntities.length
       ) {
         topCollectionWithVolumeList.value = await proccessData(
           topCollections.value.collectionEntities,

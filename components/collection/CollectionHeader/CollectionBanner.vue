@@ -1,23 +1,28 @@
 <template>
   <div
-    class="collection-banner"
-    :style="{ backgroundImage: `url(${bannerImageUrl})` }">
-    <div class="collection-banner-shadow"></div>
+    class="collection-banner relative md:h-[560px] h-72 bg-no-repeat bg-cover bg-center border-b"
+    :style="{ backgroundImage: `url(${bannerImageUrl})` }"
+  >
+    <div class="collection-banner-shadow absolute inset-0" />
 
     <section class="h-full py-8">
-      <div class="container is-fluid collection-banner-content">
+      <div
+        class="container is-fluid collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full"
+      >
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
-            <div class="collection-banner-avatar">
+            <div class="collection-banner-avatar p-2.5 mb-4 md:mb-6">
               <BaseMediaItem
                 :src="collectionAvatar"
                 :image-component="NuxtImg"
                 :title="collectionName"
-                class="w-[5.5rem] h-[5.5rem] border" />
+                class="w-[5.5rem] h-[5.5rem] border"
+              />
             </div>
             <h1
-              class="collection-banner-name"
-              data-testid="collection-banner-name">
+              class="collection-banner-name font-bold text-2xl md:text-[31px]"
+              data-testid="collection-banner-name"
+            >
               {{ collectionName }}
             </h1>
           </div>
@@ -40,6 +45,7 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import collectionById from '@/queries/subsquid/general/collectionById.query'
+
 const NuxtImg = resolveComponent('NuxtImg')
 
 const collectionId = computed(() => route.params.id as string)
@@ -75,7 +81,8 @@ watchEffect(async () => {
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
     collectionName.value = name
-  } else {
+  }
+  else {
     const meta = (await processSingleMetadata(
       metadata as string,
     )) as NFTMetadata
@@ -119,38 +126,11 @@ useSeoMeta({
 @import '@/assets/styles/abstracts/variables';
 
 .collection-banner {
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 560px;
-  position: relative;
-  background-position: 50% 50%;
-  @apply border-b;
-
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  &-content {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    height: 100%;
-
-    @include mobile {
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-start;
-    }
   }
 
   &-avatar {
-    padding: 0.625rem;
-
     @include ktheme() {
       border: 1px solid theme('border-color');
       background-color: theme('background-color');
@@ -159,10 +139,6 @@ useSeoMeta({
   }
 
   &-name {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-top: 1.5rem;
-
     @include ktheme() {
       color: theme('text-color-inverse');
       text-shadow:

@@ -8,7 +8,8 @@
     :is-error="isError"
     @confirm="mintNft"
     @close="handleMintModalClose"
-    @list="handleList" />
+    @list="handleList"
+  />
 </template>
 
 <script setup lang="ts">
@@ -34,8 +35,8 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 
-const { loading, walletConnecting, mintingSession, isCapturingImage } =
-  storeToRefs(useDropStore())
+const { loading, walletConnecting, mintingSession, isCapturingImage }
+  = storeToRefs(useDropStore())
 
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
@@ -74,7 +75,8 @@ const mintNft = async () => {
       collectionId: drop.value?.collection,
       price: drop.value?.price || null,
     })
-  } catch (e) {
+  }
+  catch (e) {
     warningMessage(`${e}`)
     $consola.error(e)
     isTransactionLoading.value = false
@@ -117,7 +119,8 @@ const submitMints = () => {
   try {
     useUpdateMetadata()
     loading.value = false
-  } catch (error) {
+  }
+  catch (error) {
     toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isCapturingImage.value = false
     closeMintModal()

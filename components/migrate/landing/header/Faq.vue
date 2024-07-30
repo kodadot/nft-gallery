@@ -1,12 +1,22 @@
 <template>
   <div class="slide-faq">
-    <div ref="wrapper" class="keen-slider">
-      <div v-for="faq in 4" :key="faq" class="keen-slider__slide">
+    <div
+      ref="wrapper"
+      class="keen-slider"
+    >
+      <div
+        v-for="faq in 4"
+        :key="faq"
+        class="keen-slider__slide"
+      >
         <div class="faq">
-          <p class="faq-title">{{ $t(`migrate.faq.faq${faq}.title`) }}</p>
+          <p class="faq-title">
+            {{ $t(`migrate.faq.faq${faq}.title`) }}
+          </p>
           <p
             v-dompurify-html="$t(`migrate.faq.faq${faq}.desc`)"
-            class="faq-desc"></p>
+            class="faq-desc"
+          />
         </div>
       </div>
     </div>
@@ -14,14 +24,20 @@
     <NeoIcon
       class="slide-faq-arrow slide-faq-arrow-left"
       icon="chevron-left"
-      @click="slider?.prev()" />
+      @click="slider?.prev()"
+    />
     <NeoIcon
       class="slide-faq-arrow slide-faq-arrow-right"
       icon="chevron-right"
-      @click="slider?.next()" />
+      @click="slider?.next()"
+    />
 
-    <div class="slide-faq-pin">FAQ</div>
-    <div class="slide-faq-number">{{ slide + 1 }} / {{ slideLength }}</div>
+    <div class="slide-faq-pin">
+      FAQ
+    </div>
+    <div class="slide-faq-number">
+      {{ slide + 1 }} / {{ slideLength }}
+    </div>
   </div>
 </template>
 

@@ -1,15 +1,16 @@
-import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
+import orderBy from 'lodash/orderBy'
+import type { Prefix } from '@kodadot1/static'
+import type { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
+import { parseCETDate } from './utils'
+import type { GetDropsQuery } from '@/services/fxart'
+import { getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { DropItem } from '@/params/types'
-import orderBy from 'lodash/orderBy'
-import type { Prefix } from '@kodadot1/static'
+import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-import { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
-import { parseCETDate } from './utils'
 
 export interface Drop {
   collection: DropItem
@@ -25,6 +26,7 @@ export interface Drop {
   status: DropStatus
   image?: string
   banner?: string
+  creator?: string
 }
 
 export enum DropStatus {
@@ -57,7 +59,7 @@ export function useDrops(query?: GetDropsQuery) {
     dropsList.value = await getDrops(query)
 
     const formattedDrops = await Promise.all(
-      dropsList.value.map(async (drop) => getFormattedDropItem(drop, drop)),
+      dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
     )
 
     drops.value = formattedDrops
@@ -68,7 +70,7 @@ export function useDrops(query?: GetDropsQuery) {
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      [drop => DROP_LIST_ORDER.indexOf(drop.status)],
       ['asc'],
     ),
   )
@@ -153,7 +155,7 @@ export function useDrop(alias?: string) {
 
   const drop = computed({
     get: () => dropStore.drop,
-    set: (value) => dropStore.setDrop(value),
+    set: value => dropStore.setDrop(value),
   })
 
   const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
@@ -194,8 +196,8 @@ export const fetchDropMintedCount = async (
 }
 
 const subscribeDropMintedCount = (
-  { drop, account }: { drop: Pick<DropItem, 'collection'>; account: string },
-  onChange: (params: { collection?: number; user?: number }) => void,
+  { drop, account }: { drop: Pick<DropItem, 'collection'>, account: string },
+  onChange: (params: { collection?: number, user?: number }) => void,
 ) => {
   return useSubscriptionGraphql({
     query: `
@@ -216,7 +218,7 @@ const subscribeDropMintedCount = (
 }
 
 export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
+  drop: WritableComputedRef<{ collection: string, chain: Prefix }>,
 ) => {
   const { mintsCount, userMintsCount } = storeToRefs(useDropStore())
   const { accountId } = useAuth()
@@ -226,17 +228,17 @@ export const useDropStatus = (
     account: string | undefined
     unsubscribe: () => void
   }>({
-    account: undefined,
-    collection: undefined,
-    unsubscribe: () => {},
-  })
+        account: undefined,
+        collection: undefined,
+        unsubscribe: () => {},
+      })
 
   const subscribeDropStatus = () => {
     watch([() => drop.value, accountId], ([drop, account]) => {
       if (drop) {
         if (
-          drop.collection !== dropStatusSubscription.value.collection ||
-          account !== dropStatusSubscription.value.account
+          drop.collection !== dropStatusSubscription.value.collection
+          || account !== dropStatusSubscription.value.account
         ) {
           dropStatusSubscription.value.unsubscribe?.()
         }
@@ -269,8 +271,8 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
     chainPropListOf(drop.value?.chain ?? 'ahp'),
   )
   const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance, transferableCurrentChainBalance } =
-    useMultipleBalance()
+  const { fetchMultipleBalance, transferableCurrentChainBalance }
+    = useMultipleBalance()
 
   const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
@@ -279,8 +281,8 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   )
   const hasMinimumFunds = computed(
     () =>
-      !minimumFunds.value ||
-      (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
+      !minimumFunds.value
+      || (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
   )
   const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
   const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
@@ -317,11 +319,13 @@ const convertCollectionIdToMagicId = (id: string) => {
   let constructedNumber
   if (hexId.length === 2) {
     constructedNumber = hexId.padEnd(4, '00')
-  } else if (hexId.length === 3) {
+  }
+  else if (hexId.length === 3) {
     const firstDigit = hexId.substring(0, 1)
-    constructedNumber =
-      hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
-  } else if (hexId.length === 4) {
+    constructedNumber
+      = hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
+  }
+  else if (hexId.length === 4) {
     constructedNumber = hexId.substring(2) + hexId.substring(0, 2)
   }
   return `0x00${constructedNumber}0000`
@@ -359,18 +363,18 @@ export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
 
   const relatedActiveDrop = computed(() =>
     drops.value.find(
-      (drop) =>
-        drop?.collection.collection === collectionId &&
-        !drop.disabled &&
-        drop.status === DropStatus.MINTING_LIVE,
+      drop =>
+        drop?.collection.collection === collectionId
+        && !drop.disabled
+        && drop.status === DropStatus.MINTING_LIVE,
     ),
   )
 
   const relatedEndedDrop = computed(() =>
     drops.value.find(
-      (drop) =>
-        drop?.collection.collection === collectionId &&
-        drop.status === DropStatus.MINTING_ENDED,
+      drop =>
+        drop?.collection.collection === collectionId
+        && drop.status === DropStatus.MINTING_ENDED,
     ),
   )
 

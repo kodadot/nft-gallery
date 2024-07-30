@@ -6,7 +6,7 @@ export const toChainProperty = (
   tokenDecimals: number,
   tokenSymbol: string,
   blockExplorer: string,
-  vm: ChainVM
+  vm: ChainVM,
 ): ChainProperties => {
   return {
     ss58Format,
@@ -22,7 +22,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
   12,
   'KSM',
   'https://kusama.subscan.io/',
-  'SUB'
+  'SUB',
 )
 
 export const CHAINS: Config<ChainProperties> = {
@@ -62,7 +62,7 @@ export const chainPrefixesMap = chainPrefixes.reduce(
     ...acc,
     [prefix]: prefix,
   }),
-  {}
+  {},
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
@@ -92,7 +92,7 @@ export const chainNames: Record<Prefix, string> = {
 }
 
 export const chainList = (): Option[] => {
-  return chainPrefixes.map((prefix) => ({
+  return chainPrefixes.map(prefix => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
     value: prefix,

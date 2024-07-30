@@ -8,13 +8,16 @@
     :collection-name="item.collectionName"
     :media-mime-type="item.mimeType"
     :price="item.price"
-    :show-price="showPrice" />
+    :show-price="showPrice"
+  />
   <MultiItemMedia
     v-else
     :header="header.multiple"
     :items="items"
-    :show-price="showPrice" />
+    :show-price="showPrice"
+  />
 </template>
+
 <script lang="ts" setup>
 export type ItemMedia = {
   id: string
@@ -28,7 +31,7 @@ export type ItemMedia = {
 }
 
 const props = defineProps<{
-  header: { single: string; multiple: string }
+  header: { single: string, multiple: string }
   items: ItemMedia[]
   showPrice?: boolean
 }>()

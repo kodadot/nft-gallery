@@ -4,13 +4,15 @@
       v-if="multipleSelect"
       v-model="selectedAction"
       multiple
-      class="select-dropdown">
+      class="select-dropdown"
+    >
       <template #trigger>
         <NeoButton
           type="primary"
           no-shadow
           icon-right="caret-down"
-          data-testid="gallery-sort-by">
+          data-testid="gallery-sort-by"
+        >
           {{ $t('sort.collection.sortBy') }}
         </NeoButton>
       </template>
@@ -18,7 +20,8 @@
         v-for="action in actions"
         :key="action"
         :value="action"
-        :data-testid="$t('sort.' + action)">
+        :data-testid="$t('sort.' + action)"
+      >
         {{ $t('sort.' + action) }}
       </NeoDropdownItem>
     </NeoDropdown>
@@ -27,8 +30,13 @@
       v-model="selectedAction"
       :placeholder="$t('sort.collection.sortBy')"
       class="select-dropdown"
-      data-testid="collection-sort-by">
-      <option v-for="action in actions" :key="action" :value="action">
+      data-testid="collection-sort-by"
+    >
+      <option
+        v-for="action in actions"
+        :key="action"
+        :value="action"
+      >
         {{
           isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
         }}
@@ -39,16 +47,16 @@
 
 <script setup lang="ts">
 import {
-  NFT_SQUID_SORT_CONDITION_LIST,
-  NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
-} from '@/utils/constants'
-import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
   NeoField,
   NeoSelect,
 } from '@kodadot1/brick'
+import {
+  NFT_SQUID_SORT_CONDITION_LIST,
+  NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
+} from '@/utils/constants'
 
 const emit = defineEmits(['input'])
 const props = defineProps({

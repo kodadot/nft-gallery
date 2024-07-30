@@ -1,8 +1,9 @@
-import useParty from '@/composables/party/useParty'
-import { DropEventMintingSession, DropEventType } from './types'
-import { useDrop } from '@/components/drops/useDrops'
 import useDropMassMintState from '../drop/massmint/useDropMassMintState'
 import useGenerativeDropMint from '../drop/useGenerativeDropMint'
+import type { DropEventMintingSession } from './types'
+import { DropEventType } from './types'
+import useParty from '@/composables/party/useParty'
+import { useDrop } from '@/components/drops/useDrops'
 
 type EventParams = {
   mintingSession?: DropEventMintingSession
@@ -29,7 +30,7 @@ export default (
     completed,
     type,
     id,
-  }: EventParams & { id?: string; type: DropEventType }) => {
+  }: EventParams & { id?: string, type: DropEventType }) => {
     sendMessage({
       event: { id, type, mintingSession, completed },
     })

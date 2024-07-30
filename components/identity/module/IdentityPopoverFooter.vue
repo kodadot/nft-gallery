@@ -2,7 +2,10 @@
   <div class="flex flex-col gap-4">
     <div class="flex justify-between">
       <div class="flex flex-row gap-1 items-center">
-        <p class="text-base" data-testid="identity-created">
+        <p
+          class="text-base"
+          data-testid="identity-created"
+        >
           {{ totalCreated }}
         </p>
 
@@ -12,7 +15,10 @@
       </div>
 
       <div class="flex flex-row gap-1 items-center">
-        <p class="text-base" data-testid="identity-followers">
+        <p
+          class="text-base"
+          data-testid="identity-followers"
+        >
           {{ followers }}
         </p>
 
@@ -27,19 +33,28 @@
         <div
           v-for="skeleton in NFT_AMOUNT"
           :key="skeleton"
-          class="aspect-square relative border border-border-color">
-          <NeoSkeleton :rounded="false" no-margin full-size />
+          class="aspect-square relative border border-border-color"
+        >
+          <NeoSkeleton
+            :rounded="false"
+            no-margin
+            full-size
+          />
         </div>
       </template>
       <template v-else>
-        <div v-for="nft in nftEntities" :key="nft.id">
+        <div
+          v-for="nft in nftEntities"
+          :key="nft.id"
+        >
           <GalleryCard
             :id="nft.id"
             hide-name
             :metadata="nft.metadata"
             :current-owner="nft.currentOwner"
             :route="`/${urlPrefix}/gallery`"
-            :data-testid="nftEntities.indexOf(nft)" />
+            :data-testid="nftEntities.indexOf(nft)"
+          />
         </div>
       </template>
     </div>
@@ -48,16 +63,17 @@
 
 <script lang="ts" setup>
 import { NeoSkeleton } from '@kodadot1/brick'
-import { fetchFollowersOf } from '@/services/profile'
 import useIdentityStats from '../utils/useIdentityStats'
+import { fetchFollowersOf } from '@/services/profile'
 import type { NFT } from '@/components/rmrk/service/scheme'
+
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),
 )
 
 const NFT_AMOUNT = 2
 
-const address = inject('address') as string
+const address = inject('address') as ComputedRef<string>
 
 const { urlPrefix } = usePrefix()
 const { totalCreated } = useIdentityStats({
@@ -68,7 +84,9 @@ const {
   data: followersData,
   refresh,
   pending: loading,
-} = useAsyncData(() => fetchFollowersOf(address))
+} = useAsyncData(`followers-${address.value}`, () =>
+  fetchFollowersOf(address.value),
+)
 
 const followers = computed(() =>
   loading.value ? 0 : followersData.value?.totalCount || 0,
@@ -82,12 +100,12 @@ const { data } = useSearchNfts({
           OR: [
             {
               // created
-              issuer_eq: address,
+              issuer_eq: address.value,
             },
             {
               // bought
-              issuer_not_eq: address,
-              currentOwner_eq: address,
+              issuer_not_eq: address.value,
+              currentOwner_eq: address.value,
             },
           ],
         },

@@ -1,17 +1,17 @@
-import { isLegacy, tokenIdToRoute } from '@/components/unique/utils'
 import { createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 
-import { getApiCall } from '@/utils/gallery/abstractCalls'
-import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
 import { existentialDeposit } from '@kodadot1/static'
 import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 import { encodeAddress } from '@polkadot/util-crypto'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
+import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
+import { getApiCall } from '@/utils/gallery/abstractCalls'
+import { isLegacy, tokenIdToRoute } from '@/components/unique/utils'
 
 const getFallbackAddress = () => {
   const { chainProperties } = useChain()
@@ -52,21 +52,21 @@ async function payRoyaltyAssetHub(
 
   const targetExistentialDeposit = BigInt(existentialDeposit[urlPrefix.value])
 
-  const receiverAddress =
-    accountBalanceWithRoyalty >= targetExistentialDeposit
+  const receiverAddress
+    = accountBalanceWithRoyalty >= targetExistentialDeposit
       ? normalizedRoyalty.address
       : getFallbackAddress()
 
   return legacy
     ? payRoyaltyTx(api, price, normalizedRoyalty)
     : api.tx.nfts.payTips([
-        {
-          collection: collectionId,
-          item: tokenId,
-          receiver: receiverAddress,
-          amount: royaltyAmount,
-        },
-      ])
+      {
+        collection: collectionId,
+        item: tokenId,
+        receiver: receiverAddress,
+        amount: royaltyAmount,
+      },
+    ])
 }
 
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
@@ -78,9 +78,9 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
       const rmrk = isOldRemark
         ? createInteraction(item.interaction, nftId, '')
         : createNewInteraction({
-            action: NewInteraction[item.interaction],
-            payload: { id: nftId },
-          })
+          action: NewInteraction[item.interaction],
+          payload: { id: nftId },
+        })
 
       const arg = [
         api.tx.system.remark(rmrk),

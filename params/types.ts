@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types'
+import type { TypeDef } from '@polkadot/types/types'
 // import { BareProps } from '@polkadot/react-components/types';
 import type { Prefix } from '@kodadot1/static'
 
@@ -80,4 +80,5 @@ export type DropItem = {
   userLocation?: string
   userAccess?: boolean
   start_at?: string
+  creator?: string
 }

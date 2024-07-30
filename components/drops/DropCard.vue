@@ -6,22 +6,27 @@
     :name="drop.collection.name"
     :image="image"
     :show-time-tag="Boolean(drop.dropStartTime || ended)"
+    :owner-addresses="ownerAddresses"
+    :drop-creator="drop.creator"
     :drop-start-time="drop.dropStartTime"
     :drop-status="drop.status"
-    :owner-addresses="ownerAddresses"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"
-    :minted="drop.minted" />
+    :drop-prefix="drop.chain"
+    :minted="drop.minted"
+  />
 </template>
 
 <script setup lang="ts">
+import { resolveComponent } from 'vue'
+import type { Prefix } from '@kodadot1/static'
+import type { Drop } from './useDrops'
+import { DropStatus } from './useDrops'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import type { Metadata } from '@/components/rmrk/service/scheme'
-import { Drop, DropStatus } from './useDrops'
-import { resolveComponent } from 'vue'
-import { Prefix } from '@kodadot1/static'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
+
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{

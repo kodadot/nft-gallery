@@ -7,12 +7,11 @@
   "artist": "Artist",
   "markdownSupported": "Markdown supported",
   "why": "Why",
-  "goBack": "Go Back",
-  "status": "Status",
   "requirements": "Requirements",
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
+  "chain": "Chain",
   "benefits": "Benefits",
   "img": "Img",
   "gallery": "Gallery",
@@ -103,6 +102,7 @@
   "createNftExplainer": "If your collection was minted recently and it doesn't show up here, please wait, it will show up in the selector below shortly",
   "passion": "Passion Feed",
   "beta": "Beta",
+  "go back": "Go Back",
   "showMore": "Show More",
   "ok": "OK",
   "incomplete": "Incomplete",
@@ -482,11 +482,17 @@
     "successCreateNewNft": "You have successfully created {0}",
     "errorCreateNewNft": "Minting {name} failed",
     "shareWithFriends": "Share {0} with your friends",
+    "unlimited": "Unlimited items in your collection",
+    "nfsw": "Explicit content (NSFW)",
+    "nfswMessage": "Set your collection as explicit and sensitive content.",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
+    "deposit": "Deposit",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "disabledRmrk": "Minting on Kusama is no longer supported, please select another chain",
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
@@ -504,43 +510,117 @@
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
+    "royalty": {
+      "rate": "Royalty Rate (%)",
+      "mine": "Pay royalties to the creator account",
+      "receiver": "Destination account for royalty"
+    },
     "collection": {
+      "name": {
+        "label": "Collection Name",
+        "placeholder": "Enter collection name",
+        "message": "Name of your collection. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "Collection Description",
+        "placeholder": "Tell us more about your collection",
+        "message": "Description of your collection. Markdown is supported"
+      },
       "symbol": {
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
+      "logo": {
+        "image": "Logo Image",
+        "label": "Collection logo",
+        "message": "This image will also be used for navigation. Image with size 300 x 300 recommended "
+      },
       "banner": {
         "label": "Collection banner",
         "message": "Name of your collection. It will be visible in the gallery"
       },
+      "create": "Create New Collection",
+      "drop": "Drop collection logo here or click to upload or simple paste the image from the clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
       "submit": "Create Collection",
       "modal": {
         "title": "Mint Collection",
         "existentialDeposit": "Collection Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
-      }
+      },
+      "minting": "Minting Collection"
     },
     "nft": {
+      "art": {
+        "label": "Your Awesome Art",
+        "message": "This can be image, video, audio, 3D model"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter NFT name",
+        "message": "Name of your NFT. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "NFT description",
+        "placeholder": "Enter NFT description",
+        "message": "Description of your NFT. Markdown is supported"
+      },
+      "collection": {
+        "label": "Select Collection",
+        "message": "Choose a collection to which you want to mint your NFT."
+      },
+      "edition": {
+        "label": "Copies",
+        "placeholder": "Minimum is 1",
+        "message": "Number of NFTs to be minted"
+      },
+      "creative": {
+        "heading": "Creative Minting"
+      },
       "email": {
         "label": "email",
         "placeholder": "Enter your email",
         "message": "Enter your email to receive a notification when your request is done"
       },
+      "sale": {
+        "label": "List For Sale On Marketplace",
+        "message": "People will be able to buy your NFT."
+      },
+      "copies": {
+        "label": "Number of Copies",
+        "message": "Amount of the same NFT tokens that will be created."
+      },
+      "preview": {
+        "title": "Preview",
+        "uploadArt": "Upload your art to see a preview of your NFT here",
+        "noCollection": "No Collection"
+      },
+      "create": "Create New NFT",
+      "connect": "Please Connect Your Wallet",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
+      "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
       "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)",
       "modal": {
+        "action": "Confirm Mint",
+        "title": "Mint NFT",
         "addFunds": "Add Funds",
         "teleport": "Teleport",
+        "login": "Continue To Signing",
+        "process": "Continue with Minting",
         "notEnoughFund": "Not Enough {0} on {1}",
         "conjunction": "Or Use",
+        "price": "Price",
+        "network": "Network",
+        "intoCollection": "Into Collection",
         "serviceFee": "Service Commission",
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
         "kodadotFee": "KodaDot Fee",
-        "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. "
+        "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
+        "carbonless": "Carbonless",
+        "totalFee": "Fees Total"
       },
       "minting": "Minting NFT",
       "burning": "Burning NFT",
@@ -609,6 +689,10 @@
       "requirementsNotMet": "Requirements not met",
       "holderOfWarning1": "Each {0} collection NFT allows you to <strong>mint one</strong> new NFT.",
       "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint."
+    },
+    "blockchain": {
+      "label": "Select Blockchain",
+      "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
   "tooltip": {
@@ -927,7 +1011,6 @@
       "feesPaidIn": "You are paying fees in {0}"
     },
     "searchPlaceholder": "Search by Collection or NFT",
-    "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
     "noPopularCollections": "There are no popular collections now.",
@@ -948,8 +1031,6 @@
   "helper": {
     "viewAll": "View All",
     "tryAgain": "Try again",
-    "yesDelete": "Yes, Delete",
-    "continueAnyway": "Continue Anyway",
     "viewTx": "View Tx",
     "supplyNotSet": "Supply Not Set",
     "seeMore": "See More",
@@ -1005,7 +1086,7 @@
     "dropNft": "I've minted {0} generative art piece on Koda!",
     "dropNfts": "I've minted {0} generative art pieces on Koda!",
     "pack": "Check out this awesome Pack on KodaDot",
-    "profile": "Check out this awesome Profile on KodaDot"
+    "profile": "I just created my profile on Koda. Create yours and follow on Koda."
   },
   "warning": {
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
@@ -1049,12 +1130,7 @@
   },
   "navbar": {
     "teleport": "Teleport",
-    "teleportBridge": "Teleport Bridge",
-    "create": {
-      "waifu": "Waifu",
-      "generateWaifu": "Generate Waifu",
-      "timeLimit": "Time Limited Campaign"
-    }
+    "teleportBridge": "Teleport Bridge"
   },
   "walletConnect": {
     "confirm": "Confirm",
@@ -1091,7 +1167,8 @@
       "touch": "touch"
     },
     "connectFarcaster": "Connect with Koda on Farcaster",
-    "farcasterMintLive": "Mint is live!"
+    "farcasterMintLive": "Mint is live!",
+    "becoming": "is becoming"
   },
   "whyKoda": {
     "title": "Why Koda?",
@@ -1198,8 +1275,7 @@
     "subscribeLabel": "Subscribe",
     "toc": "Terms of Use",
     "guide": "Tutorials & Guides",
-    "privacyPolicy": "Privacy Policy",
-    "create": "Create"
+    "privacyPolicy": "Privacy Policy"
   },
   "signupBanner": {
     "failed": "Something went wrong subscribing you to the newsletter"
@@ -1216,6 +1292,7 @@
     "download": "Download",
     "reportCollection": "Report Collection",
     "deleteCollection": "Delete Collection",
+    "addNfts": "Add NFTs",
     "deleteNfts": "Delete NFTs",
     "deletingNfts": "Deleting NFTs",
     "customize": "Customize"
@@ -1302,6 +1379,88 @@
       "error": "Item unlisting failed"
     }
   },
+  "createDropdown": {
+    "start": "Start by creating your collection and add NFTs to it",
+    "simplifiedNft": "Simplified process to create your NFT in a single step",
+    "aiPowered": "AI powered process to create your NFT",
+    "waifu": "Create your anime waifu using AI",
+    "massmint": "Simplified process to create multiple NFT's for your collection"
+  },
+  "massmint": {
+    "overviewTable": "Overview Table",
+    "backToOnbaording": "Back To Onboarding",
+    "chooseCollection": "Choose a collection to which you want to mint",
+    "selectCollection": "Select Collection",
+    "createNewCollection": "Create New Collection",
+    "noCollection": "No Collection",
+    "continueToCollectionPage": "You will go to collection page in a moment...",
+    "onboarding": {
+      "pageTitle": "Mass Mint Onboarding",
+      "skip": "Skip",
+      "next": "Next",
+      "done": "Done",
+      "downloadTemplate": "Download file template",
+      "cards": {
+        "0": {
+          "title": "Prepare all your files",
+          "content": "Start your mass minting by compressing all your art files into a **.ZIP for upload**. Aside from your artwork, each NFT requires a name, description, and price. \n\nTo streamline the process, prepare these details in advance in a separate file. This avoids manually entering information for each NFT. Further guidance on formatting this file will follow in the next step."
+        },
+        "1": {
+          "title": "How to Name your NFTs",
+          "subtitle": "Instructions",
+          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
+          "codeStructure": "Code Structure"
+        },
+        "2": {
+          "title": "You need to have A collection",
+          "content": "In order to use the Mass Mint feature you need to have an NFT **collection created** to which you will mint all of your NFTs. If you do not have a collection created yet, you can create one in Mass Mint.\n\nDon't have a collection?&emsp;[Create One](/create/collection)"
+        }
+      }
+    },
+    "uploadPics": "Upload Pictures",
+    "uploadzipTip": "Compress your Art files into a .ZIP file.",
+    "uploadDescriptionTip": "Upload your Description file.",
+    "supportedFormats": "Supported formats:",
+    "uploadDesc": "Upload Description File (Optional)",
+    "mintNFTs": "Mint NFTs",
+    "image": "Image",
+    "name": "Name",
+    "description": "Description",
+    "price": "Price",
+    "optional": "Optional",
+    "status": "Status",
+    "operation": "Operation",
+    "descriptionMissing": "Description Missing",
+    "missingDescription": "Missing Description: {count} NFTs",
+    "missingPrice": "Missing Price: {count} NFTs",
+    "nameRequired": "Name Required",
+    "priceMissing": "Price Missing",
+    "edit": "Edit",
+    "save": "Save",
+    "note": "Note",
+    "required": "Required",
+    "areYouSureDelete": "Are you sure you want to delete",
+    "yesDelete": "Yes, Delete",
+    "cancel": "Cancel",
+    "goBack": "Go Back",
+    "missingRequiredInfo": "Some Images are missing required information",
+    "incompleteNfts": "Incomplete: {count} NFTs",
+    "cantMintNote": "NOTE: You cannot mint unless you fill in the required information or delete incomplete files.",
+    "reviewTtile": "Final Mass Mint Overview",
+    "willBeMinted": "Will Be Minted",
+    "reallyProcceed": "Do You Really Want To Proceed?",
+    "yesMint": "Yes, Mint NFTS",
+    "mintingYourNFTs": "Minting Your NFTs...",
+    "mintDone": "All of your NFTs were successfully minted.",
+    "done": "Done",
+    "mobileDisclaimer": {
+      "title": "Optimization Notice",
+      "content1": "Our Massmint feature is fine-tuned for desktop use to ensure the best minting experience",
+      "content2": "On mobile devices, you may encounter limited functionality or layout issues.",
+      "continueAnyway": "Continue Anyway",
+      "leave": "Leave"
+    }
+  },
   "filters": {
     "buy": "Buy",
     "sale": "Sale",
@@ -1383,7 +1542,7 @@
     "claimingDrop": "Claiming drop",
     "stayTuned": "Stay tuned — Your unique NFT is finalizing!",
     "preparingYourNft": "Preparing Your NFT",
-    "youSuccessfullyClaimedNft": "You successfully claimed {0} NFT",
+    "youSuccessfullyClaimedNft": "You successfully minted {0} NFT",
     "artBy": "{0} By",
     "viewNft": "View NFT",
     "listNft": "List NFT",
@@ -1422,15 +1581,15 @@
     "phases": {
       "private": "Allowlist",
       "public": "Public Mint"
-    },
-    "loadingGenerativeArt": "Loading Generative Art"
+    }
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
     "connectedWith": "Connected as",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
-    "youWillPay": "You Will Pay"
+    "youWillPay": "You Will Pay",
+    "notEnoughFuns": "Not Enough Funds"
   },
   "shoppingCart": {
     "label": "Shopping Cart",
@@ -1625,7 +1784,7 @@
         "confirm": "Teleport required amount"
       },
       "paid_drop": {
-        "confirm": "Teleport and claim NFT",
+        "confirm": "Teleport and Mint NFT",
         "title": "Minting NFT"
       },
       "mintnft": {
@@ -1710,6 +1869,9 @@
     "retryTest": "Retry test",
     "failedUploadingIndex": "Failed uploading html file",
     "confidentialCode": "Rest assured, your code remains confidential with us. It is solely used for internal evaluation purposes and will not be distributed, shared, or sold in any form."
+  },
+  "collectionCreatedModal": {
+    "title": "Collection Created Successfully"
   },
   "errors": {
     "noPermission": {
@@ -1915,18 +2077,16 @@
         "message": "Somehting went wrong linking with your farcaster account, please try again."
       }
     },
+
+    "curatedGenerativDrops": {
+      "title": "Curated Generative Drops",
+      "howThisWorks": "How this works?",
+      "explainHowThisWorks": "Discover generative art collections owned by this artist. Each curated drop is created using algorithms, resulting in unique and dynamic artworks that blend creativity with computational precision."
+    },
     "delete": "Reset all Fields - start over",
     "deleteConfirm": "You sure? - click again",
     "waitSeconds": "Wait {0} Seconds",
     "profileReset": "Profile Reset",
     "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
-  },
-  "createPlaceholder": {
-    "welcome": "Welcome to KodaDot Generative Art!",
-    "ourFocus": "We're now focusing on generative art and no longer support NFT creation.",
-    "intersted": "Interested in launching your generative collection with KodaDot?",
-    "fillOut": "Fill out this form",
-    "learnMore": "To learn more and join our successful drops.",
-    "codeStructure": "For code structure guidelines, refer to our"
   }
 }

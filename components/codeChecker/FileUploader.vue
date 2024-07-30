@@ -6,14 +6,16 @@
       native
       expanded
       accept=".zip"
-      @update:model-value="handleFileSelected">
+      @update:model-value="handleFileSelected"
+    >
       <template v-if="!selectedFile">
         <div class="flex flex-col items-center limit-width gap-2 py-5">
-          <NeoIcon icon="arrow-down-to-bracket" class="text-xl text-k-grey" />
-          <span
-            >Drag Your <b class="mr-1">.Zip File</b> Here Or Click To
-            Select</span
-          >
+          <NeoIcon
+            icon="arrow-down-to-bracket"
+            class="text-xl text-k-grey"
+          />
+          <span>Drag Your <b class="mr-1">.Zip File</b> Here Or Click To
+            Select</span>
           <span class="text-k-grey">{{
             $t('codeChecker.supportedFormats')
           }}</span>
@@ -24,7 +26,8 @@
           <div class="flex items-center gap-4 overflow-hidden">
             <NeoIcon
               icon="code"
-              class="border py-3 px-[10px] rounded-full text-k-grey" />
+              class="border py-3 px-[10px] rounded-full text-k-grey"
+            />
             <span class="text-ellipsis overflow-hidden">{{
               fileName ?? selectedFile.name
             }}</span>
@@ -35,7 +38,8 @@
             no-shadow
             icon="xmark"
             size="medium"
-            @click="clearSelection" />
+            @click="clearSelection"
+          />
         </div>
       </template>
     </NeoUpload>

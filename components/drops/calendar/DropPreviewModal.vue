@@ -6,7 +6,8 @@
       no-shadow
       content-class="!p-10 h-full !absolute top-0 right-0 !border-y-0 max-md:!border-0 !border-r-0 md:!w-2/3 "
       max-height="100vh"
-      @close="emit('close')">
+      @close="emit('close')"
+    >
       <template v-if="dropCalendar">
         <header class="flex justify-between items-center">
           <span class="text-3xl font-bold">
@@ -18,7 +19,8 @@
             no-shadow
             icon="xmark"
             size="large"
-            @click="emit('close')" />
+            @click="emit('close')"
+          />
         </header>
 
         <div class="!mt-6 flex flex-wrap gap-6">
@@ -26,9 +28,9 @@
             v-if="dropCalendar.dropStartTime"
             no-shadow
             rounded
-            @click="isCreateEventModalActive = true">
-            {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span
-            >{{ formattedDate }}
+            @click="isCreateEventModalActive = true"
+          >
+            {{ $t('scheduled') }}<span class="text-neutral-5 mx-2">•</span>{{ formattedDate }}
           </NeoButton>
 
           <NeoButton
@@ -36,15 +38,15 @@
             variant="secondary-rounded"
             icon-left="sparkles"
             :tag="NuxtLink"
-            :to="`/${chain}/drops/${dropCalendar.alias}`">
+            :to="`/${chain}/drops/${dropCalendar.alias}`"
+          >
             {{ $t('drops.goToDropPage') }}
           </NeoButton>
         </div>
 
         <div class="flex justify-between !mt-6">
           <div>
-            <span :class="{ 'text-k-grey': !dropCalendar.twitter_handle }"
-              >{{ $t('artist') }}:
+            <span :class="{ 'text-k-grey': !dropCalendar.twitter_handle }">{{ $t('artist') }}:
             </span>
             <a
               v-if="dropCalendar.twitter_handle"
@@ -52,8 +54,7 @@
               class="has-text-link"
               target="_blank"
               rel="nofollow noopener noreferrer"
-              >{{ dropCalendar.twitter_handle }}</a
-            >
+            >{{ dropCalendar.twitter_handle }}</a>
             <span v-else> {{ placeholder }}</span>
           </div>
 
@@ -69,16 +70,20 @@
           v-slot="{ item }"
           class="!mt-10"
           :items="dropCalendar.items"
-          :config="config">
+          :config="config"
+        >
           <BaseMediaItem
             class="border border-k-shade"
             :src="sanitizeIpfsUrl(item.image)"
             preview
-            is-detail />
+            is-detail
+          />
         </CarouselModuleCarouselAgnostic>
 
         <div class="!mt-10">
-          <h2 class="text-xl font-bold">{{ $t('drops.dropInformation') }}</h2>
+          <h2 class="text-xl font-bold">
+            {{ $t('drops.dropInformation') }}
+          </h2>
 
           <div class="!mt-6 flex gap-16">
             <div>
@@ -95,31 +100,48 @@
                 )
               }}</span>
             </div>
+
+            <div class="flex gap-3 items-center">
+              <span class="text-k-grey">{{ $t('chain') }}:</span>
+              <DropsChainPill
+                v-if="dropCalendar?.chain"
+                :prefix="dropCalendar?.chain"
+              />
+              <span v-else>{{ placeholder }}</span>
+            </div>
           </div>
         </div>
 
         <div
           v-if="dropCalendar.holder_of || dropCalendar.location"
-          class="!mt-6">
-          <h2 class="text-lg font-bold">{{ $t('requirements') }}</h2>
+          class="!mt-6"
+        >
+          <h2 class="text-lg font-bold">
+            {{ $t('requirements') }}
+          </h2>
 
           <ul class="list-disc !mt-4">
-            <li v-if="dropCalendar.holder_of && collection" class="ml-4">
+            <li
+              v-if="dropCalendar.holder_of && collection"
+              class="ml-4"
+            >
               Holder Of
               <nuxt-link
                 class="has-text-link"
                 :to="`/ahp/collection/${collection.id}`"
-                >{{ collection.name }}</nuxt-link
-              >
+              >{{ collection.name }}</nuxt-link>
               NFT
             </li>
-            <li v-if="dropCalendar.location" class="ml-4">
+            <li
+              v-if="dropCalendar.location"
+              class="ml-4"
+            >
               Geolocation of {{ dropCalendar.location }}
             </li>
           </ul>
         </div>
 
-        <hr class="!my-10" />
+        <hr class="!my-10">
 
         <Markdown :source="dropCalendar.description ?? ''" />
       </template>
@@ -131,14 +153,16 @@
       :title="`Drop: ${dropCalendar.name}`"
       :drop-start-time="dropCalendar.dropStartTime ?? undefined"
       use-time-from-date
-      @close="isCreateEventModalActive = false" />
+      @close="isCreateEventModalActive = false"
+    />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { format } from 'date-fns'
-import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import type { InternalDropCalendar } from './DropsCalendar.vue'
+import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
 const NuxtLink = resolveComponent('NuxtLink')

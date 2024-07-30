@@ -1,6 +1,12 @@
 <template>
-  <NeoModal :value="vOpen" @close="close">
-    <ModalBody content-class="px-6 py-5" @close="close">
+  <NeoModal
+    :value="vOpen"
+    @close="close"
+  >
+    <ModalBody
+      content-class="px-6 py-5"
+      @close="close"
+    >
       <template #header>
         <div class="flex">
           <TabItem
@@ -13,7 +19,8 @@
             class="capitalize !w-36"
             full-width
             no-shadow
-            @click="() => switchToTab(tab)" />
+            @click="() => switchToTab(tab)"
+          />
         </div>
       </template>
 
@@ -22,12 +29,14 @@
           v-if="activeTab === 'followers'"
           type="followers"
           :user-list="followersList"
-          :total-count="followersCount" />
+          :total-count="followersCount"
+        />
         <ProfileFollowTab
           v-else
           type="following"
           :user-list="followingList"
-          :total-count="followingCount" />
+          :total-count="followingCount"
+        />
       </tamplate>
     </ModalBody>
   </NeoModal>
@@ -36,8 +45,8 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
-import { Follower } from '@/services/profile'
-import { Tab } from '@/components/profile/types'
+import type { Follower } from '@/services/profile'
+import type { Tab } from '@/components/profile/types'
 
 const emit = defineEmits(['close'])
 

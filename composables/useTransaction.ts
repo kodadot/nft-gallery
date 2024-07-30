@@ -1,11 +1,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 
-import {
-  showLargeNotification,
-  successMessage as successNotification,
-  warningMessage,
-} from '@/utils/notification'
-import { ShoppingActions } from '@/utils/shoppingActions'
+import type { ApiPromise } from '@polkadot/api'
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
@@ -16,29 +11,39 @@ import {
 } from './transaction/transactionBurn'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
+import { execMintToken } from './transaction/transactionMintToken'
+import { execMintCollection } from './transaction/transactionMintCollection'
 import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
-import {
+import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
   ActionDeleteCollection,
   ActionList,
+  ActionMintCollection,
   ActionMintDrop,
+  ActionMintToken,
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   Actions,
-  Collections,
   ExecuteTransactionParams,
+  ObjectMessage } from './transaction/types'
+import {
+  Collections,
   NFTs,
-  ObjectMessage,
 } from './transaction/types'
-import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-import { hasOperationsDisabled } from '@/utils/prefix'
 import { execMintDrop } from './transaction/transactionMintDrop'
-import { HowAboutToExecuteOnResultParam } from './useMetaTransaction'
+import type { HowAboutToExecuteOnResultParam } from './useMetaTransaction'
+import { hasOperationsDisabled } from '@/utils/prefix'
+import { ShoppingActions } from '@/utils/shoppingActions'
+import {
+  showLargeNotification,
+  successMessage as successNotification,
+  warningMessage,
+} from '@/utils/notification'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
@@ -183,6 +188,22 @@ export const executeAction = ({
       execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>
       execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
+    [ShoppingActions.MINTNFT]: () =>
+      execMintToken({
+        item: item as ActionMintToken,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
+    [ShoppingActions.MINT]: () =>
+      execMintCollection({
+        item: item as ActionMintCollection,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [Collections.DELETE]: () =>
       execBurnCollection(
         item as ActionDeleteCollection,

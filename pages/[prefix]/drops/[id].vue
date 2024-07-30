@@ -2,7 +2,8 @@
   <UnlockableCollectionBanner />
   <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" />
   <CollectionDropPaidGenerative
-    v-else-if="dropType === 'paid' || dropType === 'free'" />
+    v-else-if="dropType === 'paid' || dropType === 'free'"
+  />
 </template>
 
 <script lang="ts" setup>

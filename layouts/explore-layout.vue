@@ -8,7 +8,8 @@
           v-if="$nuxt.isOffline"
           :has-img="false"
           error-subtitle="Please check your network connections"
-          error-title="Offline Detected" />
+          error-title="Offline Detected"
+        />
         <div v-else>
           <!-- new header component for collection here -->
           <div v-if="isCollection">
@@ -16,17 +17,22 @@
             <section class="pt-5">
               <div class="container is-fluid">
                 <CollectionInfo />
-                <hr class="!bg-k-grey mb-0" />
+                <hr class="!bg-k-grey mb-0">
               </div>
             </section>
           </div>
           <section class="py-7 px-0">
             <div class="container is-fluid">
-              <h1 v-if="isExplore" class="title">{{ getExploreTitle }}</h1>
+              <h1
+                v-if="isExplore"
+                class="title"
+              >
+                {{ getExploreTitle }}
+              </h1>
               <ExploreTabsFilterSort />
             </div>
           </section>
-          <hr class="!bg-text-color my-0" />
+          <hr class="!bg-text-color my-0">
           <NuxtPage />
         </div>
       </main>
@@ -37,7 +43,10 @@
       <ListingCartModal />
     </template>
 
-    <Loader v-model="$loader" :can-cancel="false" />
+    <Loader
+      v-model="$loader"
+      :can-cancel="false"
+    />
   </div>
 </template>
 
@@ -72,8 +81,8 @@ const isCollection = computed(() =>
 
 const getExploreTitle = computed(() => {
   if (
-    Object.keys(chainNameSeoMap).includes(urlPrefix.value) &&
-    assetHub.includes(urlPrefix.value)
+    Object.keys(chainNameSeoMap).includes(urlPrefix.value)
+    && assetHub.includes(urlPrefix.value)
   ) {
     if (route.path.includes('/collectibles')) {
       return `${$i18n.t('exploreCollections')} ${getSeoPrefixName(

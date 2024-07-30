@@ -12,7 +12,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    // eslint-disable-next-line vue/require-default-prop
+
     position: {
       type: String,
       validator: (value) => {
@@ -86,7 +86,8 @@ export default {
     if (this.isAutoPosition) {
       this.calcDropdownPosition()
       window.addEventListener('resize', this.calcDropdownPosition)
-    } else {
+    }
+    else {
       this.autoPosition = this.position
     }
   },
@@ -98,8 +99,8 @@ export default {
       // support pass `position` type of `top-auto` or `bottom-auto`
       // calc the dropdown position based on the trigger position
       const ele = this.$refs.trigger
-      const side =
-        ele?.getBoundingClientRect().left < window.innerWidth / 2
+      const side
+        = ele?.getBoundingClientRect().left < window.innerWidth / 2
           ? 'right'
           : 'left'
       this.autoPosition = this.position.replace('auto', side)

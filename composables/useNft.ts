@@ -1,10 +1,10 @@
+import unionBy from 'lodash/unionBy'
+import type { Ref } from 'vue'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
-import unionBy from 'lodash/unionBy'
-import type { Ref } from 'vue'
 import { getMetadata } from '@/services/imageWorker'
 import { DYNAMIC_METADATA } from '@/services/fxart'
 
@@ -70,11 +70,11 @@ export const isTokenEntity = (
   typeof (entity as TokenEntity).supply !== 'undefined'
 
 function getAttributes(nft, metadata) {
-  const hasMetadataAttributes =
-    metadata.attributes && metadata.attributes.length > 0
+  const hasMetadataAttributes
+    = metadata.attributes && metadata.attributes.length > 0
   const attr = unionBy(
     nft?.attributes?.concat(...(nft?.meta?.attributes || [])),
-    (item) => item.trait_type || item.key,
+    item => item.trait_type || item.key,
   )
   const hasEmptyNftAttributes = attr.length === 0
 
@@ -199,7 +199,7 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   unify = false,
 ) {
   const ignoreMetadata = [DYNAMIC_METADATA, 'dyndata']
-  const checkMetadata = ignoreMetadata.some((item) =>
+  const checkMetadata = ignoreMetadata.some(item =>
     (nft.metadata || nft.meta?.id)?.includes(item),
   )
   if (unify && !checkMetadata) {

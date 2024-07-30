@@ -10,7 +10,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   const isRmrk = computed(() => prefix.value === 'rmrk')
 
   const isAssetHub = computed(
-    () => prefix.value === 'ahk' || prefix.value === 'ahp', //|| prefix.value === 'ahr'
+    () => prefix.value === 'ahk' || prefix.value === 'ahp', // || prefix.value === 'ahr'
   )
 
   const isBase = computed(() => 'base' === prefix.value)
