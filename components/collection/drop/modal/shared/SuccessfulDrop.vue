@@ -3,21 +3,23 @@
     :tx-hash="txHash"
     :share="share"
     :status="status"
-    :action-buttons="actionButtons">
+    :action-buttons="actionButtons"
+  >
     <SuccessfulItemsMedia
       :header="{
         single: $t('drops.youSuccessfullyClaimedNft', [1]),
         multiple: $t('drops.amountMintedSuccessfully', [items.length]),
       }"
-      :items="items" />
+      :items="items"
+    />
   </SuccessfulModalBody>
 </template>
 
 <script setup lang="ts">
+import type { MintedNFT, MintingSession } from '../../types'
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
-import { MintedNFT, MintingSession } from '../../types'
-import { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import type { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
@@ -78,8 +80,8 @@ const sharingTxt = computed(() =>
   singleMint.value
     ? $i18n.t('sharing.dropNft', [`#${items.value[0].name.split('#')[1]}`])
     : $i18n.t('sharing.dropNfts', [
-        items.value.map((item) => `#${item.name.split('#')[1]}`).join(', '),
-      ]),
+      items.value.map(item => `#${item.name.split('#')[1]}`).join(', '),
+    ]),
 )
 
 const share = computed<ShareProp>(() => ({

@@ -1,9 +1,9 @@
+import { useQuery } from '@tanstack/vue-query'
 import { type DoResult, updateMetadata } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import { useQuery } from '@tanstack/vue-query'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -31,13 +31,13 @@ function useCollectionData(collectionId, client) {
       queryFn: () =>
         collectionId.value
           ? useAsyncQuery<DropCollectionById | null>({
-              clientId: client.value,
-              query: unlockableCollectionById,
-              variables: {
-                id: collectionId.value,
-                search: { issuer_eq: accountId.value },
-              },
-            }).then((res) => res.data.value)
+            clientId: client.value,
+            query: unlockableCollectionById,
+            variables: {
+              id: collectionId.value,
+              search: { issuer_eq: accountId.value },
+            },
+          }).then(res => res.data.value)
           : null,
     }),
   )
@@ -97,7 +97,7 @@ export const useUpdateMetadata = () => {
   })
   subscribeForNftsWithMetadata(
     toMintNFTs.value.map(
-      (item) => `${drop.value.collection}-${item.nft.toString()}`,
+      item => `${drop.value.collection}-${item.nft.toString()}`,
     ),
   )
 }
@@ -111,14 +111,14 @@ export default () => {
 
   const claimedNft = computed({
     get: () => dropStore.claimedNFT,
-    set: (value) => dropStore.setClaimedNFT(value),
+    set: value => dropStore.setClaimedNFT(value),
   })
 
   const maxCount = computed(
     () =>
-      collectionMaxCount.value ??
-      drop.value?.max ??
-      FALLBACK_DROP_COLLECTION_MAX,
+      collectionMaxCount.value
+      ?? drop.value?.max
+      ?? FALLBACK_DROP_COLLECTION_MAX,
   )
 
   const mintCountAvailable = computed(

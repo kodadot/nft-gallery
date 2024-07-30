@@ -1,5 +1,5 @@
-import type { ToMintNft } from '@/components/collection/drop/types'
 import { useCollectionEntity } from '../useGenerativeDropMint'
+import type { ToMintNft } from '@/components/collection/drop/types'
 import { generateId, setDyndataUrl } from '@/services/dyndata'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
@@ -59,7 +59,8 @@ export default () => {
       )
 
       console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
-    } catch (error) {
+    }
+    catch (error) {
       console.log('[MASSMINT::GENERATE] Failed', error)
       loading.value = false
     }

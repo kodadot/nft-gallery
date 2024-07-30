@@ -1,6 +1,6 @@
 import { $fetch, type FetchError } from 'ofetch'
-import type { DropItem } from '@/params/types'
 import type { Prefix } from '@kodadot1/static'
+import type { DropItem } from '@/params/types'
 import { isProduction } from '@/utils/env'
 
 const BASE_URL = isProduction
@@ -71,7 +71,8 @@ export const updateMetadata = async ({ chain, collection, nft }) => {
     })
 
     return response
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(
       `[FXART::UPDATE_METADATA] ERROR: ${(error as FetchError).data}`,
     )
