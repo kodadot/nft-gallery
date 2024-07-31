@@ -49,7 +49,7 @@ const DROP_LIST_ORDER = [
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 
-export function useDrops(query?: GetDropsQuery) {
+export function useDrops(query?: GetDropsQuery, { async = false }: { async?: boolean } = { }) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
@@ -58,13 +58,27 @@ export function useDrops(query?: GetDropsQuery) {
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    const formattedDrops = await Promise.all(
-      dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-    )
+    if (async) {
+      dropsList.value.forEach((drop) => {
+        getFormattedDropItem(drop, drop).then((drop: Drop) => {
+          drops.value = orderBy(
+            [...drops.value, drop],
+            [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
+          )
+        })
+      })
 
-    drops.value = formattedDrops
+      watch(() => drops.value.length === dropsList.value.length, () => {
+        loaded.value = true
+      }, { once: true })
+    }
+    else {
+      drops.value = await Promise.all(
+        dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
+      )
 
-    loaded.value = true
+      loaded.value = true
+    }
   })
 
   const sortDrops = computed(() =>
