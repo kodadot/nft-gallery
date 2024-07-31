@@ -85,7 +85,7 @@ const { urlPrefix } = usePrefix()
 const { drops, loaded, count } = useDrops({
   active: [true],
   chain: !isProduction ? [urlPrefix.value] : [],
-  limit: 100
+  limit: 100,
 }, { async: true })
 
 const isCreateEventModalActive = ref(false)
