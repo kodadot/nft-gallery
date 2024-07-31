@@ -11,7 +11,7 @@
   <div
     v-else-if="totalCount > 0"
     ref="el"
-    class="flex flex-col gap-5"
+    class="flex flex-col gap-5 max-h-[400px] overflow-y-auto"
   >
     <UserRow
       v-for="user in vList"
@@ -40,11 +40,10 @@ const route = useRoute()
 
 const props = defineProps<{
   totalCount: number
-  userList: Follower[]
   type: Tab
 }>()
 
-const vList = useVModel(props, 'userList')
+const vList = ref<Follower[]>([])
 const offset = computed(() => vList.value.length)
 const limit = 10
 const el = ref<HTMLElement | null>(null)
