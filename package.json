@@ -140,7 +140,7 @@
     "nuxt": "^3.12.3",
     "nuxt-gtag": "^1.2.1",
     "postcss": "^8.4.39",
-    "sass": "^1.77.8",
+    "sass": "1.77.6",
     "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.5",
     "vite-svg-loader": "^5.1.0",
