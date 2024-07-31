@@ -7,13 +7,17 @@ export default function (prefix: Prefix) {
     transport: http(),
   })
 
-  const walletClient = createWalletClient({
-    chain: PREFIX_TO_CHAIN[prefix],
-    transport: custom(window.ethereum),
-  })
+  const getWalletClient = () => {
+    if (window.ethereum) {
+      return createWalletClient({
+        chain: PREFIX_TO_CHAIN[prefix],
+        transport: custom(window.ethereum),
+      })
+    }
+  }
 
   return {
-    walletClient,
     publicClient,
+    getWalletClient,
   }
 }

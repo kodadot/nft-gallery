@@ -1,4 +1,4 @@
-import type { Address, TransactionExecutionError } from 'viem'
+import { type Address, TransactionExecutionError } from 'viem'
 import type { Abi } from '../types'
 import useTransactionStatus from '@/composables/useTransactionStatus'
 
@@ -36,7 +36,7 @@ export default function useEvmMetaTransaction() {
   const tx = ref<ExecResult>()
   const isError = ref(false)
 
-  const { walletClient, publicClient } = useViem(urlPrefix.value)
+  const { publicClient, getWalletClient } = useViem(urlPrefix.value)
 
   const howAboutToExecute: EvmHowAboutToExecute = async ({
     account,
@@ -48,6 +48,13 @@ export default function useEvmMetaTransaction() {
     onError,
   }: EvmHowAboutToExecuteParam): Promise<void> => {
     try {
+      const walletClient = getWalletClient()
+
+      if (!walletClient) {
+        errorCb(onError)({ error: new Error('Wallet client not connected') })
+        return
+      }
+
       const { request } = await publicClient.simulateContract({
         account,
         address,
