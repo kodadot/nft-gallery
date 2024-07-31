@@ -55,22 +55,26 @@ export function useDrops(query?: GetDropsQuery, { async = false }: { async?: boo
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
+  const getDropsAsync = () => {
+    dropsList.value.forEach((drop) => {
+      getFormattedDropItem(drop, drop).then((drop: Drop) => {
+        drops.value = orderBy(
+          [...drops.value, drop],
+          [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
+        )
+      })
+    })
+
+    watch(() => drops.value.length === dropsList.value.length, () => {
+      loaded.value = true
+    }, { once: true })
+  }
+
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
     if (async) {
-      dropsList.value.forEach((drop) => {
-        getFormattedDropItem(drop, drop).then((drop: Drop) => {
-          drops.value = orderBy(
-            [...drops.value, drop],
-            [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
-          )
-        })
-      })
-
-      watch(() => drops.value.length === dropsList.value.length, () => {
-        loaded.value = true
-      }, { once: true })
+      getDropsAsync()
     }
     else {
       drops.value = await Promise.all(
