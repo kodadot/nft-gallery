@@ -379,7 +379,7 @@ const nftSuggestion = computed(() =>
 const loadMoreItemClassName = computed(
   () =>
     `link-item${selectedIndex.value === totalItemsAtCurrentTab.value
-      ? ' selected-item'
+      ? 'selected-item'
       : ''
     }`,
 )
@@ -410,7 +410,7 @@ const updateSearchUrl = (path: string) => {
   if (name) {
     router
       .replace({
-        path: `${path}`,
+        path,
         query: {
           search: name,
         },
