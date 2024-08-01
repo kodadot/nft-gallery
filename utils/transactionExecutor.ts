@@ -4,12 +4,14 @@ import type { Callback, ISubmittableResult } from '@polkadot/types/types'
 import type { DispatchError, Hash } from '@polkadot/types/interfaces'
 import type { ApiPromise } from '@polkadot/api'
 import { Interaction } from '@kodadot1/minimark/v1'
+import type { Prefix } from '@kodadot1/static'
+import type { Address } from 'viem'
 import { calculateBalance } from './format/balance'
 import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { KODADOT_DAO } from '@/utils/support'
-import type { Actions } from '@/composables/transaction/types'
+import type { Actions, ExecuteEvmTransactionParams } from '@/composables/transaction/types'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -118,15 +120,33 @@ export const estimate = async (
   return info.partialFee.toString()
 }
 
+const estimateEvm = async ({ address, arg, abi, functionName, account, prefix }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
+  const { publicClient } = useViem(prefix)
+
+  const estimatedGas = await publicClient.estimateContractGas({
+    account: account as Address,
+    address: address as Address,
+    abi,
+    args: arg,
+    functionName,
+  })
+
+  const gasPrice = await publicClient.getGasPrice()
+
+  return String(estimatedGas * gasPrice)
+}
+
 export const getActionTransactionFee = ({
   action,
-  address,
+  address: account,
   api,
+  prefix,
 }: {
   action: Actions
-  api: ApiPromise
   address: string
-}) => {
+  api?: ApiPromise
+  prefix: Prefix
+}): Promise<string> => {
   return new Promise((resolve, reject) => {
     // Keep in mind atm actions with ipfs file will be uploadeed
     if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
@@ -137,9 +157,13 @@ export const getActionTransactionFee = ({
     executeAction({
       api,
       item: action,
-      executeTransaction: async ({ cb, arg }) => {
+      executeTransaction: async (params) => {
         try {
-          const fee = await estimate(address, cb, arg)
+          const fee = await execByVm({
+            SUB: () => estimate(account, params.cb, params.arg),
+            EVM: () => estimateEvm({ ...params, account, prefix }),
+          }) as string
+
           resolve(fee)
         }
         catch (error) {

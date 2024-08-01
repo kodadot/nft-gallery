@@ -1,5 +1,5 @@
 import sum from 'lodash/sum'
-import { existentialDeposit } from '@kodadot1/static'
+import { existentialDeposit, type Prefix } from '@kodadot1/static'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 import {
   checkIfAutoTeleportActionsNeedRefetch,
@@ -287,6 +287,7 @@ export default function (
               api,
               action: action,
               address,
+              prefix: prefix as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)
