@@ -11,14 +11,13 @@
       >
         <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
           <div class="collection-banner-avatar">
-            <NuxtImg
+            <img
               v-if="image"
-              height="88"
-              densities="2x"
               :src="image"
               alt="avatar"
               class="object-cover"
-            />
+              height="88px"
+            >
           </div>
           <h1
             class="collection-banner-name mt-5 text-3xl md:text-4xl font-bold text-text-color-inverse"
