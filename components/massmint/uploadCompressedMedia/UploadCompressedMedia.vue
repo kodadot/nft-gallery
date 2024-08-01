@@ -7,21 +7,21 @@
           v-if="showCheckmark"
           icon="circle-check"
           variant="success"
-          class="ml-3" />
+          class="ml-3"
+        />
       </div>
       <template #content>
         <DragDrop
           accept=".zip"
           :loading="loading"
-          @fileSelected="onFileSelected">
+          @file-selected="onFileSelected"
+        >
           <template #title>
             <span class="mb-4 text-left">{{
               $t('massmint.uploadzipTip')
             }}</span>
-            <span class="text-left"
-              ><b>{{ $t('massmint.supportedFormats') }}</b>
-              {{ acceptedMediaFormatsString }}</span
-            >
+            <span class="text-left"><b>{{ $t('massmint.supportedFormats') }}</b>
+              {{ acceptedMediaFormatsString }}</span>
           </template>
         </DragDrop>
       </template>
@@ -52,7 +52,7 @@ const loading = ref(false)
 const showCheckmark = ref(false)
 
 const acceptedMediaFormatsString = validFormats
-  .map((format) => format.toUpperCase())
+  .map(format => format.toUpperCase())
   .join(', ')
 
 const emit = defineEmits(['zipLoaded'])
@@ -96,7 +96,8 @@ const onFileSelected = (file) => {
     reader.onerror = () => {
       $consola.error('Error reading zip file.')
     }
-  } else {
+  }
+  else {
     $consola.error('Invalid file type.')
   }
 }

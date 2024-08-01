@@ -1,4 +1,4 @@
-import { Result, Validity } from './types'
+import type { Result, Validity } from './types'
 import { getDocumentFromString } from './utils'
 import { AssetElementMap } from './massPreview/utils'
 
@@ -50,10 +50,10 @@ export const webGlUsed = (content, path) => {
   const graphicsMatches = content.match(constants.graphicsRegex)
 
   const canvasWebGLUsed = canvasMatches
-    ? canvasMatches.some((match) => match.includes('WEBGL'))
+    ? canvasMatches.some(match => match.includes('WEBGL'))
     : false
   const graphicsWebGLUsed = graphicsMatches
-    ? graphicsMatches.some((match) => match.includes('WEBGL'))
+    ? graphicsMatches.some(match => match.includes('WEBGL'))
     : false
 
   if (canvasWebGLUsed || graphicsWebGLUsed) {
@@ -86,7 +86,7 @@ const validateURLSearchParamsUsage = (
       ? { isSuccess: true, value: match }
       : {
           isSuccess: false,
-          error: "URLSearchParams used but 'hash' parameter not accessed.",
+          error: 'URLSearchParams used but \'hash\' parameter not accessed.',
         }
   }
   return { isSuccess: false, error: 'URLSearchParams usage not found.' }
@@ -153,8 +153,8 @@ const validateSketchContent = (
   const height = canvasMatch[2].trim()
   const isNumericWidth = /^\d+$/.test(width)
   const isNumericHeight = /^\d+$/.test(height)
-  const canvasSize =
-    isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
+  const canvasSize
+    = isNumericWidth && isNumericHeight ? `${width} X ${height}` : 'Dynamic'
 
   return {
     canvasSize,

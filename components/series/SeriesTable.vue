@@ -2,12 +2,23 @@
   <div>
     <Loader :model-value="isLoading" />
     <NeoField grouped>
-      <NeoField class="text-right" expanded>
+      <NeoField
+        class="text-right"
+        expanded
+      >
         <NeoSelect v-model="nbRows">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
+          <option value="10">
+            10
+          </option>
+          <option value="20">
+            20
+          </option>
+          <option value="50">
+            50
+          </option>
+          <option value="100">
+            100
+          </option>
         </NeoSelect>
       </NeoField>
     </NeoField>
@@ -19,12 +30,14 @@
       default-sort-direction="desc"
       backend-sorting
       hoverable
-      @sort="onSort">
+      @sort="onSort"
+    >
       <NeoTableColumn
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
-        label="N°">
+        label="N°"
+      >
         {{ data.indexOf(props.row) + 1 }}
       </NeoTableColumn>
 
@@ -33,9 +46,14 @@
         field="image"
         label=""
         header-class="z-10"
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <div class="image is-48x48 mb-2">
-          <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
+          <BasicImage
+            :src="props.row.image"
+            :alt="props.row.name"
+            rounded
+          />
         </div>
       </NeoTableColumn>
 
@@ -43,10 +61,12 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
-        label="Collection">
+        label="Collection"
+      >
         <nuxt-link
           v-if="!isLoading"
-          :to="`/${urlPrefix}/collection/${props.row.id}`">
+          :to="`/${urlPrefix}/collection/${props.row.id}`"
+        >
           {{ props.row.name }}
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
@@ -58,9 +78,14 @@
         :label="$t('series.volume')"
         sortable
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline hide-unit />
+          <Money
+            :value="props.row.volume"
+            inline
+            hide-unit
+          />
         </template>
         <NeoSkeleton :active="isLoading" />
       </NeoTableColumn>
@@ -71,7 +96,8 @@
         label="24h %"
         numeric
         cell-class="is-vcentered"
-        :visible="nbDays === '24'">
+        :visible="nbDays === '24'"
+      >
         <template v-if="!isLoading">
           <div
             :class="
@@ -80,7 +106,8 @@
                 props.row.dailyrangeVolume,
                 true,
               )
-            ">
+            "
+          >
             {{
               displayVolumePercent(
                 props.row.dailyVolume,
@@ -125,7 +152,8 @@
         label="30d %"
         numeric
         cell-class="is-vcentered"
-        :visible="nbDays === '30'">
+        :visible="nbDays === '30'"
+      >
         <template v-if="!isLoading">
           <div
             :class="
@@ -134,7 +162,8 @@
                 props.row.monthlyrangeVolume,
                 true,
               )
-            ">
+            "
+          >
             {{
               displayVolumePercent(
                 props.row.monthlyVolume,
@@ -152,9 +181,14 @@
         :label="$t('series.floorprice')"
         numeric
         cell-class="is-vcentered"
-        sortable>
+        sortable
+      >
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline hide-unit />
+          <Money
+            :value="props.row.floorPrice"
+            inline
+            hide-unit
+          />
         </template>
         <NeoSkeleton :active="isLoading" />
       </NeoTableColumn>
@@ -164,9 +198,14 @@
         field="averagePrice"
         :label="$t('series.averagePrice')"
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
-          <Money :value="props.row.averagePrice" inline hide-unit />
+          <Money
+            :value="props.row.averagePrice"
+            inline
+            hide-unit
+          />
         </template>
         <NeoSkeleton :active="isLoading" />
       </NeoTableColumn>
@@ -177,9 +216,14 @@
         :label="$t('series.highestSale')"
         numeric
         cell-class="is-vcentered"
-        sortable>
+        sortable
+      >
         <template v-if="!isLoading">
-          <Money :value="props.row.highestSale" inline hide-unit />
+          <Money
+            :value="props.row.highestSale"
+            inline
+            hide-unit
+          />
         </template>
         <NeoSkeleton :active="isLoading" />
       </NeoTableColumn>
@@ -190,8 +234,11 @@
         :label="$t('series.buys')"
         numeric
         cell-class="is-vcentered"
-        sortable>
-        <template v-if="!isLoading">{{ props.row.buys }}</template>
+        sortable
+      >
+        <template v-if="!isLoading">
+          {{ props.row.buys }}
+        </template>
         <NeoSkeleton :active="isLoading" />
       </NeoTableColumn>
 
@@ -201,7 +248,8 @@
         :label="$t('series.owners')"
         sortable
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
           {{ props.row.sold }}
         </template>
@@ -214,7 +262,8 @@
         :label="$t('series.assets')"
         sortable
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
           {{ props.row.total }}
         </template>
@@ -226,7 +275,8 @@
         field="rank"
         :label="$t('series.score')"
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
         </template>
@@ -238,7 +288,8 @@
         field="emoteCount"
         :label="$t('series.emoteCount')"
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+      >
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.emoteCount) }}
         </template>
@@ -249,11 +300,13 @@
         v-slot="props"
         cell-class="is-vcentered text-center"
         field="chart"
-        :label="$t('series.chart')">
+        :label="$t('series.chart')"
+      >
         <nuxt-link
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
-          target="_blank">
+          target="_blank"
+        >
           <NeoIcon icon="chart-line" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
@@ -263,11 +316,13 @@
         v-slot="props"
         cell-class="is-vcentered text-center"
         field="history"
-        :label="$t('series.history')">
+        :label="$t('series.history')"
+      >
         <nuxt-link
           v-if="!isLoading"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
-          target="_blank">
+          target="_blank"
+        >
           <NeoIcon icon="list-ul" />
         </nuxt-link>
         <NeoSkeleton :active="isLoading" />
@@ -276,16 +331,24 @@
         v-slot="props"
         cell-class="is-vcentered text-center w-52 h-24"
         field="buyHistory"
-        :label="$t('series.buyHistory')">
-        <NeoSkeleton v-if="isLoading" :active="isLoading" />
+        :label="$t('series.buyHistory')"
+      >
+        <NeoSkeleton
+          v-if="isLoading"
+          :active="isLoading"
+        />
         <PulseChart
           v-else
           :id="props.row.id"
           :labels="props.row.buyHistory.xAxisList"
-          :values="props.row.buyHistory.yAxisList" />
+          :values="props.row.buyHistory.yAxisList"
+        />
       </NeoTableColumn>
       <template #empty>
-        <div v-if="!isLoading" class="w-full text-center">
+        <div
+          v-if="!isLoading"
+          class="w-full text-center"
+        >
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading" />
@@ -295,21 +358,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Collection } from '@/components/rmrk/service/scheme'
-import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-
-import { BuyHistory, RowSeries, SortType } from './types'
-import {
-  calculateAvgPrice,
-  getDateArray,
-  lastmonthDate,
-  onlyDate,
-  toSort,
-  today,
-} from './utils'
 import {
   NeoField,
   NeoIcon,
@@ -318,6 +366,20 @@ import {
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
+import type { BuyHistory, RowSeries, SortType } from './types'
+import {
+  calculateAvgPrice,
+  getDateArray,
+  lastmonthDate,
+  onlyDate,
+  toSort,
+  today,
+} from './utils'
+import type { Collection } from '@/components/rmrk/service/scheme'
+import { exist } from '@/utils/exist'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 
 import Money from '@/components/shared/format/Money.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -361,7 +423,8 @@ const fetchCollectionEvents = async (ids: string[]) => {
       },
     })
     return data.value.events
-  } catch (e) {
+  }
+  catch (e) {
     $consola.error(e)
     return []
   }
@@ -396,7 +459,7 @@ const fetchCollectionsSeries = async (
   const ids = collectionEntities.map((c: Collection) => c.id)
 
   const buyEvents = (await fetchCollectionEvents(ids))
-    .map((e) => ({
+    .map(e => ({
       ...e.nft.collection,
       timestamp: onlyDate(new Date(e.timestamp)),
     }))
@@ -440,7 +503,7 @@ onBeforeMount(async () => {
 })
 
 const onSort = (field: string, order: string) => {
-  let sort: SortType = {
+  const sort: SortType = {
     field: field,
     value: order === 'desc' ? 'DESC' : 'ASC',
   }
@@ -452,7 +515,7 @@ const onSort = (field: string, order: string) => {
         sort: (order === 'desc' ? '-' : '+') + field,
       },
     })
-    .catch((e) => $consola.warn(e))
+    .catch(e => $consola.warn(e))
   fetchCollectionsSeries(Number(nbRows.value), toSort(sort))
 }
 
@@ -489,7 +552,7 @@ watch(nbRows, (value: string) => {
       path: String(route.path),
       query: { ...route.query, rows: value },
     })
-    .catch((e) => $consola.warn(e))
+    .catch(e => $consola.warn(e))
   fetchCollectionsSeries(Number(value))
 })
 
@@ -499,6 +562,6 @@ watch(nbDays, (value: string) => {
       path: String(route.path),
       query: { ...route.query, period: value },
     })
-    .catch((e) => $consola.warn(e))
+    .catch(e => $consola.warn(e))
 })
 </script>

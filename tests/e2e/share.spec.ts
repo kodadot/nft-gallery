@@ -7,7 +7,7 @@ test('Share Button on Gallery Item', async ({ page, Commands }) => {
   await page.goto(ITEM_ADDRESS_PATH)
   const shareBtn = page.getByTestId('gallery-item-share-button')
 
-  //Copy Link
+  // Copy Link
   await test.step('Clicks on copy link and verifies clipboard', async () => {
     await shareBtn.click()
     await shareBtn.getByText('Copy Link').click()
@@ -15,7 +15,7 @@ test('Share Button on Gallery Item', async ({ page, Commands }) => {
     expect(clipboardText1).toContain('/ahk/gallery/6-10')
   })
 
-  //Twitter
+  // Twitter
   await test.step('Clicks on twitter and verify URL', async () => {
     await shareBtn.click()
     await Commands.checkNewTab(
@@ -24,7 +24,7 @@ test('Share Button on Gallery Item', async ({ page, Commands }) => {
     )
   })
 
-  //QR Code
+  // QR Code
   await test.step('Clicks on QR code and verify its existance', async () => {
     await shareBtn.click()
     await shareBtn.getByText('QR Code').click()
@@ -39,12 +39,12 @@ test('Share Button on Collection', async ({ page, Commands, baseURL }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
   const shareBtn = page.getByTestId('share-button').first()
   await test.step('Share button functionality', async () => {
-    //Copy
+    // Copy
     await shareBtn.click()
     await page.getByTestId('hero-copy-link-dropdown').first().click()
     await Commands.copyText(`${baseURL}/ahp/collection/38`)
   })
-  //QR
+  // QR
   await test.step('Clicks on QR code and verify its existance', async () => {
     await shareBtn.click()
     await page.getByTestId('hero-share-QR-dropdown').first().click()
@@ -54,7 +54,7 @@ test('Share Button on Collection', async ({ page, Commands, baseURL }) => {
       .and(page.locator(':visible'))
       .click()
   })
-  //Twitter
+  // Twitter
   await test.step('Clicks on twitter and verify URL', async () => {
     await shareBtn.click()
     await Commands.checkNewTab(

@@ -1,5 +1,8 @@
 <template>
-  <NeoModal :value="value" @close="value = false">
+  <NeoModal
+    :value="value"
+    @close="value = false"
+  >
     <div class="py-4 px-5 limit-width">
       <div class="flex mb-3 text-base font-bold">
         {{ 'Customize Collection' }}
@@ -11,13 +14,15 @@
       <NeoField
         :label="$t('Maximum NFTs in collection')"
         data-testid="collection-maxAmount"
-        required>
+        required
+      >
         <div class="w-full">
           <NeoInput
             v-model="max"
             type="number"
             :placeholder="`${min} is the minimum`"
-            :min="min" />
+            :min="min"
+          />
         </div>
       </NeoField>
       <div class="flex justify-end">
@@ -25,7 +30,8 @@
           class="font-bold mr-4"
           variant="text"
           no-shadow
-          @click="customizeCollection">
+          @click="customizeCollection"
+        >
           <span class="text-k-green">
             {{ $t('Update') }}
           </span>
@@ -35,7 +41,8 @@
           variant="text"
           no-shadow
           :label="$t('cancel')"
-          @click="value = false" />
+          @click="value = false"
+        />
       </div>
     </div>
   </NeoModal>

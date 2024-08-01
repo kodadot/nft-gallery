@@ -2,16 +2,25 @@
   <div>
     <div>
       <section class="flex controls">
-        <NeoButton class="left" @click="toOnborading">
-          <NeoIcon icon="arrow-left" class="mr-1" />
+        <NeoButton
+          class="left"
+          @click="toOnborading"
+        >
+          <NeoIcon
+            icon="arrow-left"
+            class="mr-1"
+          />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
         <div class="dropdown-container">
           <div>
-            <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
+            <p class="mb-4">
+              {{ $t('massmint.chooseCollection') }}
+            </p>
             <ChooseCollectionDropdown
               :preselected="preselectedCollectionId"
-              @selectedCollection="onCollectionSelected" />
+              @selected-collection="onCollectionSelected"
+            />
           </div>
         </div>
       </section>
@@ -19,32 +28,39 @@
       <section class="border k-shadow mt-7">
         <UploadMediaZip
           :disabled="!selectedCollection"
-          @zipLoaded="onMediaZipLoaded" />
+          @zip-loaded="onMediaZipLoaded"
+        />
         <UploadDescription
           :disabled="!mediaLoaded"
-          @fileLoaded="onDescriptionLoaded" />
+          @file-loaded="onDescriptionLoaded"
+        />
         <OverviewTable
           :disabled="!mediaLoaded"
           :nfts="NFTS"
-          @openSideBarWith="openSideBarWith"
-          @delete="openDeleteModalWith" />
+          @open-side-bar-with="openSideBarWith"
+          @delete="openDeleteModalWith"
+        />
       </section>
     </div>
     <EditPanel
       :nft="nftBeingEdited"
       :open="sideBarOpen"
       @close="sideBarOpen = false"
-      @save="updateNFT" />
+      @save="updateNFT"
+    />
     <div class="mt-6 flex justify-center w-full">
       <NeoButton
         class="flex flex-grow limit-width"
         variant="primary"
         size="large"
         :disabled="!mediaLoaded"
-        @click="openReviewModal">
-        <span class="text-xl"
-          >{{ $t('massmint.mintNFTs') }}
-          <span v-if="numOfValidNFTs" class="font-bold">
+        @click="openReviewModal"
+      >
+        <span class="text-xl">{{ $t('massmint.mintNFTs') }}
+          <span
+            v-if="numOfValidNFTs"
+            class="font-bold"
+          >
             ({{ numOfValidNFTs }})
           </span>
         </span>
@@ -55,42 +71,43 @@
       v-model="deleteModalOpen"
       :nft="nftInDeleteModal"
       @close="closeDeleteModal"
-      @delete="deleteNFT" />
+      @delete="deleteNFT"
+    />
     <MissingInfoModal
       v-model="missingInfoModalOpen"
       :num-missing-names="numberOfMissingNames"
       :num-missing-descriptions="numberOfMissingDescriptions"
       :num-missing-prices="numberOfMissingPrices"
-      @close="missingInfoModalOpen = false" />
+      @close="missingInfoModalOpen = false"
+    />
     <ReviewModal
       v-model="overViewModalOpen"
       :num-missing-descriptions="numberOfMissingDescriptions"
       :num-missing-prices="numberOfMissingPrices"
       :num-nfts="Object.keys(NFTS).length"
       @close="overViewModalOpen = false"
-      @mint="startMint" />
+      @mint="startMint"
+    />
     <MintingModal
       v-model="mintModalOpen"
       :loading="isMinting"
-      @close="mintModalOpen = false" />
+      @close="mintModalOpen = false"
+    />
     <MobileDisclaimerModal
       v-model="MobileDisclaimerModalOpen"
       @continue="MobileDisclaimerModalOpen = false"
-      @leave="back" />
+      @leave="back"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { usePreferencesStore } from '@/stores/preferences'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
 import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
-import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
-import { NFT, NFTToMint } from './types'
-const { width } = useWindowSize()
-const { back } = useRouter()
+import type { NFT, NFTToMint } from './types'
 
 import {
   DeleteModal,
@@ -99,17 +116,22 @@ import {
   MobileDisclaimerModal,
   ReviewModal,
 } from './modals'
-import { MintedCollection } from '@/composables/transaction/types'
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
+import { usePreferencesStore } from '@/stores/preferences'
+import type { MintedCollection } from '@/composables/transaction/types'
 import { useMassMint } from '@/composables/massmint/useMassMint'
-import { Entry } from '@/composables/massmint/parsers/common'
-import { FileObject } from '@/composables/massmint/useZipValidator'
+import type { Entry } from '@/composables/massmint/parsers/common'
+import type { FileObject } from '@/composables/massmint/useZipValidator'
+
+const { width } = useWindowSize()
+const { back } = useRouter()
 
 const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
-const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
-  useCollectionDropdown()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected }
+  = useCollectionDropdown()
 
 const NFTS = ref<{ [nftId: string]: NFT }>({})
 const mediaLoaded = ref(false)
@@ -128,18 +150,18 @@ const isMinting = ref(false)
 const mintStatus = ref('')
 
 const numberOfMissingNames = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.name).length,
+  () => Object.values(NFTS.value).filter(nft => !nft.name).length,
 )
 
 const numOfValidNFTs = computed(
   () => Object.values(NFTS.value).length - numberOfMissingNames.value,
 )
 const numberOfMissingDescriptions = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.description).length,
+  () => Object.values(NFTS.value).filter(nft => !nft.description).length,
 )
 
 const numberOfMissingPrices = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.price).length,
+  () => Object.values(NFTS.value).filter(nft => !nft.price).length,
 )
 
 const openSideBarWith = (nft: NFT) => {
@@ -186,7 +208,7 @@ const startMint = () => {
         }
       }
 
-      //redirect to collection page when collection is updated
+      // redirect to collection page when collection is updated
       if (collectionUpdated.value) {
         navigateTo(
           `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`,
@@ -205,7 +227,7 @@ const deleteNFT = (nft?: NFT) => {
     return
   }
   NFTS.value = Object.values(NFTS.value)
-    .filter((n) => n.id !== nft.id)
+    .filter(n => n.id !== nft.id)
     .map((nft, i) => ({ ...nft, id: i + 1 }))
     .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
 
@@ -241,7 +263,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     if (!nftId) {
       return
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { file: _, ...restOfEntry } = entry
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],
@@ -254,6 +276,7 @@ onMounted(() => {
   MobileDisclaimerModalOpen.value = smallerThenDesktop.value
 })
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
 

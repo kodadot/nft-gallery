@@ -33,8 +33,8 @@ export default function (prefix: ComputedRef<Prefix>) {
       const chain = CHAINS[prefix.value]
 
       // set deposit amount
-      existentialDeposit.value =
-        api.consts.balances.existentialDeposit.toNumber()
+      existentialDeposit.value
+        = api.consts.balances.existentialDeposit.toNumber()
 
       if (isAssetHub.value) {
         collectionDeposit.value = api.consts.nfts.collectionDeposit.toNumber()
@@ -43,9 +43,9 @@ export default function (prefix: ComputedRef<Prefix>) {
       }
 
       totalCollectionDeposit.value = format(
-        metadataDeposit.value +
-          collectionDeposit.value +
-          existentialDeposit.value,
+        metadataDeposit.value
+        + collectionDeposit.value
+        + existentialDeposit.value,
         chain.tokenDecimals,
         false,
       )

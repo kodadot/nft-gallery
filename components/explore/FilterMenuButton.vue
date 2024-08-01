@@ -1,15 +1,27 @@
 <template>
-  <div class="has-addons flex items-center" data-testid="tabs">
+  <div
+    class="has-addons flex items-center"
+    data-testid="tabs"
+  >
     <a
       :class="[{ disabled: disabled }, 'is-hidden-mobile flex items-center']"
-      @click="toggleSidebarFilters">
+      @click="toggleSidebarFilters"
+    >
       <NeoIcon
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
-        size="medium" />
+        size="medium"
+      />
     </a>
     <div class="is-hidden-tablet relative">
-      <NeoButton :disabled="disabled" icon="bars" @click="openMobileFilters" />
-      <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />
+      <NeoButton
+        :disabled="disabled"
+        icon="bars"
+        @click="openMobileFilters"
+      />
+      <ActiveCount
+        v-if="numOfActiveFilters"
+        :count="numOfActiveFilters"
+      />
     </div>
   </div>
 </template>

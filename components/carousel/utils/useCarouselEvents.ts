@@ -1,13 +1,13 @@
+import type { Prefix } from '@kodadot1/static'
+import unionBy from 'lodash/unionBy'
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import type { Prefix } from '@kodadot1/static'
 import { formatNFT } from '@/utils/carousel'
 import { AHK_GENERATIVE_DROPS } from '@/utils/drop'
 import { getDrops } from '@/services/fxart'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
-import unionBy from 'lodash/unionBy'
 
 interface Types {
   type: 'latestSales' | 'newestList'
@@ -62,7 +62,7 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
     })[]
   >([])
 
-  const excludeNfts = computed(() => items.value.map((nft) => nft.id))
+  const excludeNfts = computed(() => items.value.map(nft => nft.id))
   const excludeCollections = computed(() =>
     Object.entries(collections)
       .filter(([_, count]) => count === LIMIT_PER_COLLECTION)
@@ -70,7 +70,7 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
   )
 
   const duplicate = (nft) => {
-    return items.value.some((item) => item.id === nft.id)
+    return items.value.some(item => item.id === nft.id)
   }
 
   const where = createEventQuery(
@@ -84,7 +84,7 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
   const constructNfts = async () => {
     const events = (
       data.value as {
-        events: { meta: string; nft: NFTWithMetadata; timestamp: string }[]
+        events: { meta: string, nft: NFTWithMetadata, timestamp: string }[]
       }
     ).events
 
@@ -102,14 +102,15 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
       if (nft.collection?.id) {
         if (collections[nft.collection?.id]) {
           if (
-            collections[nft.collection?.id] < LIMIT_PER_COLLECTION &&
-            items.value.length < limit &&
-            !duplicate(nft)
+            collections[nft.collection?.id] < LIMIT_PER_COLLECTION
+            && items.value.length < limit
+            && !duplicate(nft)
           ) {
             collections[nft.collection?.id] += 1
             items.value.push(nft)
           }
-        } else {
+        }
+        else {
           collections[nft.collection?.id] = 1
           items.value.push(nft)
         }
@@ -144,7 +145,7 @@ export const flattenNFT = (data, chain) => {
   return formatNFT(flatNfts, chain)
 }
 
-const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
+const sortNftByTime = data => data.sort((a, b) => b.unixTime - a.unixTime)
 
 const sortNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
@@ -152,7 +153,7 @@ const sortNfts = (data) => {
 
   return {
     nfts,
-    ids: computed(() => nfts.value.map((nft) => nft.id).join()),
+    ids: computed(() => nfts.value.map(nft => nft.id).join()),
   }
 }
 
@@ -173,14 +174,14 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   })
 
   watchEffect(() => {
-    nfts.value = eventsDataRefs.flatMap((dataRef) => dataRef.value)
+    nfts.value = eventsDataRefs.flatMap(dataRef => dataRef.value)
   })
 
   return computed(() => items.value.nfts)
 }
 
 const GENERATIVE_CONFIG: Partial<
-  Record<Prefix, { limit: number; collections: string[] }>
+  Record<Prefix, { limit: number, collections: string[] }>
 > = {
   ahp: {
     limit: 12,
@@ -212,7 +213,7 @@ export const useCarouselGenerativeNftEvents = () => {
       }
 
       if (chain === 'ahp' && dropsAhp.value?.length) {
-        collections = dropsAhp.value.map((drop) => drop.collection)
+        collections = dropsAhp.value.map(drop => drop.collection)
       }
 
       return eventType.map((eventName) => {
@@ -228,7 +229,7 @@ export const useCarouselGenerativeNftEvents = () => {
   })
 
   watchEffect(() => {
-    nfts.value = eventsDataRefs.value.flat().flatMap((dataRef) => dataRef.value)
+    nfts.value = eventsDataRefs.value.flat().flatMap(dataRef => dataRef.value)
   })
 
   return computed(() => sortNfts(unionBy(nfts.value, 'id')).nfts)

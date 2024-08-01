@@ -1,18 +1,21 @@
 <template>
   <div
     class="gallery-item-activity-table flex flex-col"
-    data-testid="gallery-item-activity-table">
+    data-testid="gallery-item-activity-table"
+  >
     <NeoTable
       v-if="events.length"
       :data="events"
       hoverable
-      class="py-5 padding-top-mobile">
+      class="py-5 padding-top-mobile"
+    >
       <!-- event name -->
       <NeoTableColumn
         v-slot="props"
         width="20%"
         field="interaction"
-        :label="$t('tabs.tabActivity.event')">
+        :label="$t('tabs.tabActivity.event')"
+      >
         {{ props.row.interaction.toLowerCase() }}
       </NeoTableColumn>
 
@@ -21,12 +24,12 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
+        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`"
+      >
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta)[0] }}
           <span class="text-k-grey">
-            ${{ formatPrice(props.row.meta)[1] }}</span
-          >
+            ${{ formatPrice(props.row.meta)[1] }}</span>
         </p>
       </NeoTableColumn>
 
@@ -35,17 +38,20 @@
         v-slot="props"
         width="20%"
         field="caller"
-        :label="$t('tabs.tabActivity.from')">
+        :label="$t('tabs.tabActivity.from')"
+      >
         <nuxt-link
           v-if="props.row.interaction === 'BUY'"
           :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-          class="text-k-blue hover:text-k-blue-hover">
+          class="text-k-blue hover:text-k-blue-hover"
+        >
           <Identity :address="props.row.currentOwner" />
         </nuxt-link>
         <nuxt-link
           v-else
           :to="`/${urlPrefix}/u/${props.row.caller}`"
-          class="text-k-blue hover:text-k-blue-hover">
+          class="text-k-blue hover:text-k-blue-hover"
+        >
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </NeoTableColumn>
@@ -55,25 +61,29 @@
         v-slot="props"
         width="20%"
         field="currentOwner"
-        :label="$t('tabs.tabActivity.to')">
+        :label="$t('tabs.tabActivity.to')"
+      >
         <div v-if="props.row.caller !== props.row.currentOwner">
           <nuxt-link
             v-if="props.row.interaction === 'BUY'"
             :to="`/${urlPrefix}/u/${props.row.caller}`"
-            class="text-k-blue hover:text-k-blue-hover">
+            class="text-k-blue hover:text-k-blue-hover"
+          >
             <Identity :address="props.row.caller" />
           </nuxt-link>
           <nuxt-link
             v-else
             :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-            class="text-k-blue hover:text-k-blue-hover">
+            class="text-k-blue hover:text-k-blue-hover"
+          >
             <Identity :address="props.row.currentOwner" />
           </nuxt-link>
         </div>
         <nuxt-link
           v-else-if="props.row.interaction === 'SEND'"
           :to="`/${urlPrefix}/u/${props.row.meta}`"
-          class="text-k-blue hover:text-k-blue-hover">
+          class="text-k-blue hover:text-k-blue-hover"
+        >
           <Identity :address="props.row.meta" />
         </nuxt-link>
       </NeoTableColumn>
@@ -83,31 +93,47 @@
         v-slot="props"
         width="20%"
         field="timestamp"
-        :label="$t('tabs.tabActivity.date')">
-        <NeoTooltip :label="parseDate(props.row.timestamp)" position="left">
+        :label="$t('tabs.tabActivity.date')"
+      >
+        <NeoTooltip
+          :label="parseDate(props.row.timestamp)"
+          position="left"
+        >
           <span class="whitespace-nowrap">{{
             formatToNow(props.row.timestamp)
           }}</span>
         </NeoTooltip>
       </NeoTableColumn>
     </NeoTable>
-    <div v-else-if="loading" class="p-5">
-      <NeoSkeleton animated size="large" :count="3"></NeoSkeleton>
+    <div
+      v-else-if="loading"
+      class="p-5"
+    >
+      <NeoSkeleton
+        animated
+        size="large"
+        :count="3"
+      />
     </div>
-    <div v-else class="p-5">{{ $t('tabs.tabActivity.empty') }}</div>
+    <div
+      v-else
+      class="p-5"
+    >
+      {{ $t('tabs.tabActivity.empty') }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import itemEvents from '@/queries/subsquid/general/itemEvents.graphql'
-
-import Identity from '@/components/identity/IdentityIndex.vue'
 import {
   NeoSkeleton,
   NeoTable,
   NeoTableColumn,
   NeoTooltip,
 } from '@kodadot1/brick'
+import itemEvents from '@/queries/subsquid/general/itemEvents.graphql'
+
+import Identity from '@/components/identity/IdentityIndex.vue'
 import { formatToNow } from '@/utils/format/time'
 import formatBalance, {
   formatNumber,
@@ -196,6 +222,7 @@ const formatPrice = (price) => {
   return [formatNumber(tokenAmount), flatPrice]
 }
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 

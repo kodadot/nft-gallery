@@ -5,15 +5,15 @@
     v-model:applySmoothing="applySmoothing"
     :price-chart-data="chartData"
     chart-height="350px"
-    data-testid="collection-activity-chart" />
+    data-testid="collection-activity-chart"
+  />
 </template>
 
 <script setup lang="ts">
-import { ActivityInteraction } from '@/components/rmrk/service/scheme'
 import { Interaction } from '@kodadot1/minimark/v1'
-import PriceChart from '@/components/chart/PriceChart.vue'
+import type {
+  DataPoint } from './utils'
 import {
-  DataPoint,
   bin,
   displayValue,
   getBinSizeForRange,
@@ -21,6 +21,8 @@ import {
   sortAsc,
   toDataPoint,
 } from './utils'
+import type { ActivityInteraction } from '@/components/rmrk/service/scheme'
+import PriceChart from '@/components/chart/PriceChart.vue'
 
 const { decimals } = useChain()
 
@@ -38,14 +40,14 @@ const applySmoothing = ref(true)
 const buyEvents = computed(() =>
   sortAsc(
     props.events
-      .filter((e) => e.interaction === Interaction.BUY)
+      .filter(e => e.interaction === Interaction.BUY)
       .map(toDataPoint),
   ),
 )
 const listEvents = computed(() => {
   const listDataPoints = sortAsc(
     props.events
-      .filter((e) => e.interaction === Interaction.LIST)
+      .filter(e => e.interaction === Interaction.LIST)
       .map(toDataPoint),
   )
   return hideOutliers.value ? removeOutliers(listDataPoints) : listDataPoints
@@ -62,10 +64,10 @@ const chartData = computed(() => {
     return [toChartFormat(buyEvents.value), toChartFormat(listEvents.value)]
   }
   const buyBinSize = getBinSizeForRange({
-    timestamps: buyEvents.value.map((e) => e.timestamp),
+    timestamps: buyEvents.value.map(e => e.timestamp),
   })
   const listBinSize = getBinSizeForRange({
-    timestamps: listEvents.value.map((e) => e.timestamp),
+    timestamps: listEvents.value.map(e => e.timestamp),
   })
   const buyBins = bin(buyEvents.value, buyBinSize)
   const listBins = bin(listEvents.value, listBinSize)

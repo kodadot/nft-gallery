@@ -10,7 +10,7 @@ export default function useCreate() {
   const components = [CreateComponent.Collection, CreateComponent.NFT]
   const activeTab = computed({
     get: () => (route.query.tab === CreateComponent.NFT ? 2 : 1),
-    set: (value) =>
+    set: value =>
       replaceUrl({
         tab: value === 2 ? CreateComponent.NFT : CreateComponent.Collection,
       }),

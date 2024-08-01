@@ -2,7 +2,11 @@
   <div>
     <div class="flex flex-col md:flex-row justify-center gap-3">
       <div class="flex-1 2xl:flex-0 2xl:w-1/3">
-        <img :src="congratsSrc" alt="Congratulations" class="w-full" />
+        <img
+          :src="congratsSrc"
+          alt="Congratulations"
+          class="w-full"
+        >
         <h1 class="text-3xl font-bold text-center">
           {{ $t('migrate.congrats.title') }}
         </h1>
@@ -24,7 +28,8 @@
             variant="pill"
             class="mr-2"
             :tag="NuxtLink"
-            :to="collectionPage">
+            :to="collectionPage"
+          >
             {{ $t('migrate.congrats.cta') }}
           </NeoButton>
           <NeoButton
@@ -32,9 +37,13 @@
             variant="pill"
             class="ml-2"
             tag="a"
-            target="_blank">
+            target="_blank"
+          >
             {{ $t('migrate.congrats.share') }}
-            <NeoIcon icon="x-twitter" pack="fab" />
+            <NeoIcon
+              icon="x-twitter"
+              pack="fab"
+            />
           </NeoButton>
         </div>
       </div>
@@ -60,10 +69,10 @@ definePageMeta({
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const source = availablePrefixWithIcon().find(
-  (item) => item.value === route.query.source,
+  item => item.value === route.query.source,
 )
 const destination = availablePrefixWithIcon().find(
-  (item) => item.value === route.query.destination,
+  item => item.value === route.query.destination,
 )
 
 const { isDarkMode } = useTheme()

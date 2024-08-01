@@ -1,13 +1,15 @@
 <template>
   <div
     data-partykit="generative-preview-card"
-    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
+    class="border bg-background-color shadow-primary p-5 pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative"
+  >
     <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border" />
+      class="border"
+    />
 
     <NeoButton
       v-if="dropStore.isCapturingImage"
@@ -15,10 +17,14 @@
       expanded
       rounded
       no-shadow
-      disabled>
+      disabled
+    >
       <div class="inline-flex items-center">
         <span class="mr-2">{{ $t('mint.unlockable.generating') }}</span>
-        <NeoIcon icon="circle-notch" spin />
+        <NeoIcon
+          icon="circle-notch"
+          spin
+        />
       </div>
     </NeoButton>
 
@@ -28,14 +34,18 @@
       expanded
       rounded
       no-shadow
-      @click="generateNft()">
+      @click="generateNft()"
+    >
       <div class="inline-flex items-center">
         <span>{{ $t('drops.createNewVariation') }}</span>
-        <NeoIcon icon="arrow-rotate-left" class="ml-2" />
+        <NeoIcon
+          icon="arrow-rotate-left"
+          class="ml-2"
+        />
       </div>
     </NeoButton>
 
-    <hr class="my-5" />
+    <hr class="my-5">
 
     <div class="flex justify-between items-center mb-4">
       <div class="font-bold">
@@ -43,7 +53,9 @@
         <span v-else>{{ $t('free') }}</span>
       </div>
       <div class="flex justify-end items-center">
-        <div class="mr-4 text-neutral-7">{{ mintedPercent }}% ~</div>
+        <div class="mr-4 text-neutral-7">
+          {{ mintedPercent }}% ~
+        </div>
         <div class="font-bold">
           {{ dropStore.mintsCount }}/{{ maxCount }}
           {{ $t('statsOverview.minted') }}
@@ -53,7 +65,8 @@
 
     <CollectionUnlockableSlider
       class="text-neutral-5 dark:text-neutral-9"
-      :value="dropStore.mintsCount / maxCount" />
+      :value="dropStore.mintsCount / maxCount"
+    />
 
     <div class="flex mt-6 gap-4 max-md:flex-col">
       <CollectionDropMintStepper />
@@ -61,11 +74,13 @@
     </div>
 
     <div
-      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]">
+      class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]"
+    >
       <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
         <NeoIcon
           icon="fa-sharp fa-solid fa-hourglass-half"
-          pack="fa-regular" />&nbsp; Please Note: Algorithms May Take Longer To
+          pack="fa-regular"
+        />&nbsp; Please Note: Algorithms May Take Longer To
         Generate
       </p>
     </div>

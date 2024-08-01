@@ -2,12 +2,14 @@
   <CursorParty
     :connections="connections"
     :ghost-on-elements="['generative-preview-card']"
-    :label-formatter="labelFormatter" />
+    :label-formatter="labelFormatter"
+  />
 </template>
 
 <script setup lang="ts">
 import useCursorParty from '@/composables/party/useCursorParty'
-import { DropEventType, UserDetails } from '@/composables/party/types'
+import type { UserDetails } from '@/composables/party/types'
+import { DropEventType } from '@/composables/party/types'
 import { formatAmountWithRound } from '@/utils/format/balance'
 import { type CursorLabel } from '@/components/common/party/CursorParty.vue'
 
@@ -34,9 +36,9 @@ const labelFormatter = (connection: UserDetails): CursorLabel => {
 
   if (lastEvent) {
     if (
-      lastEvent.type === DropEventType.DROP_MINTED &&
-      lastEvent.mintingSession &&
-      Date.now() - lastEvent.timestamp < DROP_MITED_EVENT_DURATION
+      lastEvent.type === DropEventType.DROP_MINTED
+      && lastEvent.mintingSession
+      && Date.now() - lastEvent.timestamp < DROP_MITED_EVENT_DURATION
     ) {
       return { mintingSession: lastEvent.mintingSession }
     }
@@ -44,8 +46,8 @@ const labelFormatter = (connection: UserDetails): CursorLabel => {
     if (
       [DropEventType.DROP_GENERATING, DropEventType.DROP_MINTING].includes(
         lastEvent.type,
-      ) &&
-      !lastEvent.completed
+      )
+      && !lastEvent.completed
     ) {
       return {
         label:

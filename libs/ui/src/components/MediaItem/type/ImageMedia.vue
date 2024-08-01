@@ -3,7 +3,8 @@
     :class="{
       'relative pt-[100%]': !original && !isFullscreen,
       'pt-0': isFullscreen,
-    }">
+    }"
+  >
     <!-- load normal image -->
     <TheImage
       v-if="status === 'ok'"
@@ -11,9 +12,11 @@
       :image-component-props="imageComponentProps"
       :src="src"
       :alt="alt"
+      :loading="loading"
       :class="className"
       data-testid="type-image"
-      @error.once="() => onError('error-1')" />
+      @error.once="() => onError('error-1')"
+    />
     <!-- if fail, try to load original url -->
     <!-- e.g: NuxtImg component will replace image-worker url to cf-image. there is a case when cf-image return 404 -->
     <img
@@ -21,15 +24,18 @@
       :src="src"
       :alt="alt"
       :class="className"
+      :loading="loading"
       data-testid="type-image"
-      @error.once="() => onError('error-2')" />
+      @error.once="() => onError('error-2')"
+    >
     <!-- else, load placeholder -->
     <img
       v-if="status === 'error-2'"
       :src="placeholder"
       :alt="alt"
       :class="className"
-      data-testid="type-image" />
+      data-testid="type-image"
+    >
   </figure>
 </template>
 
@@ -53,6 +59,7 @@ const props = withDefaults(
     original: boolean
     placeholder: string
     isFullscreen?: boolean
+    lazyLoading?: boolean
   }>(),
   {
     imageComponent: 'img',
@@ -61,12 +68,17 @@ const props = withDefaults(
     src: '',
     alt: '',
     isFullscreen: false,
+    lazyLoading: false,
   },
 )
 
 type Status = 'ok' | 'error-1' | 'error-2'
 const status = ref<Status>('ok')
 const isGif = computed(() => props.mimeType === 'image/gif')
+
+const loading = computed<'eager' | 'lazy'>(() =>
+  props.lazyLoading ? 'lazy' : 'eager',
+)
 
 const className = computed(() =>
   !props.original && !props.isFullscreen
@@ -92,9 +104,9 @@ const onError = async (phase: Status) => {
 }
 
 const sizes = computed(() =>
-  (props.imageComponentProps?.width && props.imageComponentProps?.height) ||
-  props.sizes === 'original' ||
-  isGif.value
+  (props.imageComponentProps?.width && props.imageComponentProps?.height)
+  || props.sizes === 'original'
+  || isGif.value
     ? undefined
     : props.sizes,
 )

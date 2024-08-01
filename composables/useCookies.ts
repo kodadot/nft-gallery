@@ -23,7 +23,8 @@ export default () => {
     (cookieConsentGiven) => {
       if (cookieConsentGiven || cookieConsentGiven === undefined) {
         grantConsent()
-      } else {
+      }
+      else {
         revokeConsent()
       }
     },

@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div v-for="item in items" :key="item.key">
+    <div
+      v-for="item in items"
+      :key="item.key"
+    >
       <div class="py-3">
-        <b>{{ item.key }}</b
-        >: {{ item.value }}
+        <b>{{ item.key }}</b>: {{ item.value }}
       </div>
     </div>
   </div>
@@ -16,7 +18,7 @@ import api from '@/utils/fetch'
 const props = defineProps<{
   src?: string
 }>()
-const items = ref<{ key: string; value: string }[]>([])
+const items = ref<{ key: string, value: string }[]>([])
 
 onMounted(async () => {
   if (props.src) {

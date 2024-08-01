@@ -1,10 +1,11 @@
+import { useQuery } from '@tanstack/vue-query'
+import type { Stats } from './types'
 import { getVolume } from '@/utils/math'
-import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
-import { NFTListSold } from '@/components/identity/utils/useIdentity'
-import { Stats } from './types'
+import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
-import { useQuery } from '@tanstack/vue-query'
+
 export const useCollectionDetails = ({
   collectionId,
 }: {
@@ -24,7 +25,7 @@ export const useCollectionDetails = ({
   watch(data, () => {
     if (data.value?.stats) {
       const uniqueOwnerCount = [
-        ...new Set(data.value.stats.base.map((item) => item.currentOwner)),
+        ...new Set(data.value.stats.base.map(item => item.currentOwner)),
       ].length
 
       const collectionLength = data.value.stats.base.length
@@ -37,15 +38,15 @@ export const useCollectionDetails = ({
         collectionLength,
         collectionFloorPrice:
           listedNfts.length > 0
-            ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
+            ? Math.min(...listedNfts.map(item => parseInt(item.price)))
             : undefined,
         uniqueOwners: uniqueOwnerCount,
         uniqueOwnersPercent: `${(
-          (uniqueOwnerCount / collectionLength) *
-          100
+          (uniqueOwnerCount / collectionLength)
+          * 100
         ).toFixed(2)}%`,
         collectionTradedVolumeNumber: Number(
-          getVolume(data.value.stats.sales.map((nft) => nft.events).flat()),
+          getVolume(data.value.stats.sales.map(nft => nft.events).flat()),
         ),
       }
     }
@@ -117,11 +118,11 @@ export const useCollectionMinimal = ({
     queryFn: () =>
       collectionId.value
         ? useGraphql({
-            queryName: isAssetHub.value
-              ? 'collectionByIdMinimalWithRoyalty'
-              : 'collectionByIdMinimal',
-            variables: variables.value,
-          })
+          queryName: isAssetHub.value
+            ? 'collectionByIdMinimalWithRoyalty'
+            : 'collectionByIdMinimal',
+          variables: variables.value,
+        })
         : null,
   })
 

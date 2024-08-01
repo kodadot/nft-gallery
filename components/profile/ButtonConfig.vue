@@ -10,14 +10,20 @@
     :active="button.active"
     :disabled="button.disabled || loading"
     :loading="loading"
-    @click="button.onClick">
-    <NeoIcon v-if="button.icon" :icon="button.icon" class="mr-1" />
+    @click="button.onClick"
+  >
+    <NeoIcon
+      v-if="button.icon"
+      :icon="button.icon"
+      class="mr-1"
+    />
     {{ button.label }}
   </NeoButton>
 </template>
+
 <script lang="ts" setup>
-import { ButtonConfig } from './types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import type { ButtonConfig } from './types'
 
 defineProps<{
   button: ButtonConfig

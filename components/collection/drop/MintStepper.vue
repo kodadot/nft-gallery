@@ -5,8 +5,10 @@
     data-testid="drop-stepper-container"
     :max="max"
     :min="min"
-    class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]" />
+    class="[&>.neo-input]:h-full [&>.neo-input>input]:h-full md:w-[200px]"
+  />
 </template>
+
 <script lang="ts" setup>
 import { NeoStepper } from '@kodadot1/brick'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'

@@ -1,13 +1,14 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
 const REPLICATE_BASE_URL = URLS.koda.replicate
-const VERSION =
-  '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
+const VERSION
+  = '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
 export const OUTPUTS = 4
-const NEGATIVE_PROMPT =
-  'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name'
+const NEGATIVE_PROMPT
+  = 'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name'
 
 type Option<T> = T | null
 

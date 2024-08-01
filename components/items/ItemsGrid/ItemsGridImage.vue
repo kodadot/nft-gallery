@@ -10,10 +10,11 @@
     :display-name-with-sn="displayNameWithSn"
     :show-timestamp="showTimestamp"
     :collection-popover-hide="collectionPopoverHide"
+    :lazy-loading="lazyLoading"
     :class="{
       'in-cart-border':
-        shoppingCartStore.isItemInCart(nft.id) ||
-        listingCartStore.isItemInCart(nft.id),
+        shoppingCartStore.isItemInCart(nft.id)
+        || listingCartStore.isItemInCart(nft.id),
     }"
     :card-icon="showCardIcon"
     :card-icon-src="cardIcon"
@@ -22,9 +23,16 @@
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     :media-static-video="hideVideoControls"
-    media-hover-on-cover-play>
-    <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && Number(nft?.price) && !isRemark" class="flex">
+    media-hover-on-cover-play
+  >
+    <template
+      v-if="!hideAction"
+      #action
+    >
+      <div
+        v-if="!isOwner && Number(nft?.price) && !isRemark"
+        class="flex"
+      >
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -32,13 +40,14 @@
           :loading="showActionSection"
           class="flex-grow"
           loading-with-label
-          @click.prevent="onClickBuy">
-        </NeoButton>
+          @click.prevent="onClickBuy"
+        />
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
           class="p-1 !border-l-0"
-          @click.prevent="onClickShoppingCart">
+          @click.prevent="onClickShoppingCart"
+        >
           <NeoIcon
             class="w-4 h-4"
             :icon="
@@ -46,17 +55,21 @@
                 ? 'fa-striked-out-cart-shopping'
                 : 'fa-shopping-cart-outline-sharp'
             "
-            pack="fa-kit" />
+            pack="fa-kit"
+          />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="flex">
+      <div
+        v-else-if="isOwner"
+        class="flex"
+      >
         <NeoButton
           :label="listLabel"
           data-testid="item-buy"
           no-shadow
           class="flex-grow"
-          @click.prevent="onClickListingCart">
-        </NeoButton>
+          @click.prevent="onClickListingCart"
+        />
       </div>
     </template>
   </NftCard>
@@ -97,6 +110,7 @@ const props = defineProps<{
   displayNameWithSn?: boolean
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
+  lazyLoading?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
@@ -151,14 +165,16 @@ const onClickBuy = () => {
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
-  } else {
+  }
+  else {
     shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
 const onClickListingCart = () => {
   if (listingCartStore.isItemInCart(props.nft.id)) {
     listingCartStore.removeItem(props.nft.id)
-  } else {
+  }
+  else {
     const floorPrice = props.nft.collection.floorPrice[0]?.price || '0'
     listingCartStore.setItem(nftToListingCartItem(props.nft, floorPrice))
   }

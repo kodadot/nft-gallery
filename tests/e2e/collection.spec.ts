@@ -11,16 +11,16 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(page.getByTestId('collection-banner-name')).toContainText(
       COLLECTION_NAME,
     )
-    //description show more
+    // description show more
     await page.getByTestId('description-show-less-more-button').click()
-    //collection description
+    // collection description
     await expect(page.getByTestId('collection-description')).toContainText(
       'Geometry',
     )
   })
 
-  //ITEMS TAB ----------------------------
-  //Buy Now Filter
+  // ITEMS TAB ----------------------------
+  // Buy Now Filter
   await test.step('Verify if checking buy now filter only yield results with price ', async () => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).click()
     await Commands.scrollDownAndStop()
@@ -31,7 +31,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     }
   })
 
-  //Buy Now Button on nft card opens wallet sidebar
+  // Buy Now Button on nft card opens wallet sidebar
   await test.step('Verifies if buy now button on first NFT card opens connect wallet sidebar', async () => {
     await page.locator('[class="infinite-scroll-item"]').first().hover()
     await page.getByTestId('item-buy').first().click()
@@ -42,7 +42,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     ).not.toBeVisible()
   })
 
-  //cart test
+  // cart test
   await test.step('Add two first nfts to cart and check if they got inserted', async () => {
     await page.locator('[class="infinite-scroll-item"]').nth(0).hover()
     await page.getByTestId('item-add-to-cart').nth(0).click()
@@ -64,7 +64,7 @@ test('Collection interactions', async ({ page, Commands }) => {
       .click()
   })
 
-  //collection search
+  // collection search
   await test.step('Use collection search', async () => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).click()
     await page
@@ -78,7 +78,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(page.getByTestId('nft-name')).toHaveText('Pare1d0scope #34')
   })
 
-  //art view
+  // art view
   await test.step('Activates art view and check if NFT name was hidden', async () => {
     await page.getByTestId('advanced-filter-collapsible').first().click()
     await page.getByTestId('filter-artview-checkbox').nth(1).click()
@@ -87,24 +87,24 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('filter-artview-checkbox').nth(1).click()
   })
 
-  //ACTIVITY TAB ----------------------------
+  // ACTIVITY TAB ----------------------------
   await test.step('Switches to activity tab', async () => {
     await page.getByTestId('collection-tab-activity').nth(1).click()
     await Commands.scrollDownAndStop()
   })
 
-  //chart
+  // chart
   await test.step('Checks chart visibility', async () => {
     await expect(page.getByTestId('collection-activity-chart')).toBeVisible()
   })
 
-  //Holders Tab
+  // Holders Tab
   await test.step('Holders tab Interactions', async () => {
     const holdersTab = page.getByTestId('collection-holders-container')
-    //check if nft details on Holders tab has content
+    // check if nft details on Holders tab has content
     await page.getByTestId('collection-holder-nft-details').first().click()
     await expect(holdersTab).toContainText(COLLECTION_NAME)
-    //check if popover on Holders is present
+    // check if popover on Holders is present
     await expect(
       page.getByTestId('collection-nft-holder').first(),
     ).toBeVisible()
@@ -112,7 +112,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(page.getByTestId('identity-popover-container')).toBeVisible()
   })
 
-  //event filters
+  // event filters
   await test.step('Event Filters(sale,list,mint,transfer)', async () => {
     const eventTable = page.getByTestId('nfts-event-table')
     const saleFilter = page.getByTestId('event-checkbox-filter-sale').nth(1)
@@ -136,7 +136,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(eventTable).toContainText('Transfer')
   })
 
-  //Creator link
+  // Creator link
   await test.step('Check if creator address redirects to proper page', async () => {
     await page.getByTestId('collection-creator-address').click()
     await expect(page).toHaveURL(`/ahp/u/${COLLECTION_OWNER}`)

@@ -1,14 +1,22 @@
 <template>
-  <div v-if="ready" class="">
+  <div
+    v-if="ready"
+    class=""
+  >
     <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
-      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 flex-col">
-      <nuxt-link class="flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
+      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 flex-col"
+    >
+      <nuxt-link
+        class="flex"
+        :to="`/${urlPrefix}/gallery/${nft.id}`"
+      >
         <BasicImage
           :src="avatar"
           :alt="nft?.name"
-          class="border mr-5 image-size pt-0" />
+          class="border mr-5 image-size pt-0"
+        />
         <span>{{ nft.name }}</span>
       </nuxt-link>
       <div class="flex flex-col justify-between mt-3">
@@ -19,8 +27,7 @@
               'text-k-green': profit > 0,
               'text-k-red': profit < 0,
             }"
-            >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span
-          >
+          >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span>
         </div>
         <div class="flex justify-between whitespace-nowrap">
           <span class="text-xs text-k-grey">{{ $t('activity.bought') }}</span>
@@ -39,9 +46,9 @@
 <script setup lang="ts">
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import Money from '@/components/shared/format/ChainMoney.vue'
-import { FlipEvent } from '@/composables/collectionActivity/types'
+import type { FlipEvent } from '@/composables/collectionActivity/types'
 import { format } from '@/components/collection/activity/utils'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
@@ -71,7 +78,8 @@ const processNFTImages = async () => {
       let avatar
       if (nft.meta?.image) {
         avatar = sanitizeIpfsUrl(nft.meta.image)
-      } else {
+      }
+      else {
         const meta = (await processSingleMetadata(nft.metadata)) as NFTMetadata
         avatar = sanitizeIpfsUrl(meta?.image)
       }

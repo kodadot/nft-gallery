@@ -8,19 +8,22 @@
       :step="0.1"
       :min-step="0.01"
       :min="0"
-      :max="99.99" />
+      :max="99.99"
+    />
 
     <BasicSwitch
       v-model="isMine"
       label="mint.royalty.mine"
-      data-testid="royalty-form-switch" />
+      data-testid="royalty-form-switch"
+    />
     <AddressInput
       v-show="!isMine"
       v-model="vAddress"
       label="mint.royalty.receiver"
       data-testid="royalty-form-custom-address"
       :strict="false"
-      empty-on-error />
+      empty-on-error
+    />
   </div>
 </template>
 

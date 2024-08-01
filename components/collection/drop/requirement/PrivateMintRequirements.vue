@@ -4,20 +4,27 @@
       <div class="flex gap-4 flex-col w-full">
         <CollectionDropRequirementItem
           :fulfilled="fulfillsMinimumFunds"
-          :loading="minimumFundsAttrs.isLoading">
+          :loading="minimumFundsAttrs.isLoading"
+        >
           <p v-dompurify-html="minimumFundsAttrs.description" />
         </CollectionDropRequirementItem>
         <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
-          :loading="holderOfCollection.isLoading">
-          <i18n-t keypath="drops.holderOfCollection" class="capitalize" tag="p">
+          :loading="holderOfCollection.isLoading"
+        >
+          <i18n-t
+            keypath="drops.holderOfCollection"
+            class="capitalize"
+            tag="p"
+          >
             <template #name>
               <CollectionDetailsPopover :collection="collection">
                 <template #content>
                   <nuxt-link
                     :to="`/${urlPrefix}/collection/${holderOfCollection.id}`"
-                    class="text-k-blue hover:text-k-blue-hover">
+                    class="text-k-blue hover:text-k-blue-hover"
+                  >
                     {{ collection?.name }}
                   </nuxt-link>
                 </template>
@@ -32,26 +39,30 @@
       <span class="text-k-grey capitalize mr-2">
         {{ $t('mint.unlockable.availableForMint') }}
       </span>
-      <span
-        >{{ props.holderOfCollection.amount?.available }}/{{
-          props.holderOfCollection.amount?.total
-        }}</span
-      >
+      <span>{{ props.holderOfCollection.amount?.available }}/{{
+        props.holderOfCollection.amount?.total
+      }}</span>
 
       <NeoTooltip
         position="top"
         multiline
         multiline-width="15rem"
         root-class="ml-2"
-        content-class="capitalize">
-        <NeoIcon icon="fa-info-circle" pack="fa-regular" class="text-k-grey" />
+        content-class="capitalize"
+      >
+        <NeoIcon
+          icon="fa-info-circle"
+          pack="fa-regular"
+          class="text-k-grey"
+        />
 
         <template #content>
           <p
             v-dompurify-html="
               $t('mint.unlockable.holderOfWarning1', [collection?.name])
             "
-            class="mb-3" />
+            class="mb-3"
+          />
           <p v-dompurify-html="$t('mint.unlockable.holderOfWarning2')" />
         </template>
       </NeoTooltip>
@@ -59,27 +70,33 @@
 
     <div
       class="flex items-start md:items-center mt-5 flex-col md:flex-row"
-      :class="[isMintedOut ? 'justify-end' : 'justify-between']">
+      :class="[isMintedOut ? 'justify-end' : 'justify-between']"
+    >
       <div
         v-if="!isMintedOut"
         class="border px-2 py-1 rounded-full h-fit w-fit capitalize text-xs flex"
         :class="[
           readyToMint ? 'bg-k-green-accent' : 'bg-neutral-5 dark:bg-neutral-9',
-        ]">
+        ]"
+      >
         <p>
           {{ mintLabel }}
         </p>
 
-        <NeoIcon v-if="readyToMint" class="ml-1" icon="check" />
+        <NeoIcon
+          v-if="readyToMint"
+          class="ml-1"
+          icon="check"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { HolderOfCollection } from '../types'
+import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 
 const props = defineProps<{
@@ -99,13 +116,13 @@ const { collection } = useCollectionMinimal({
 const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 
 const { hasCurrentChainBalance } = useMultipleBalance()
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds()
+const { hasMinimumFunds, formattedMinimumFunds, minimumFunds }
+  = useDropMinimumFunds()
 
 const fulfillsHolderOfCollection = computed(
   () =>
-    Boolean(props.holderOfCollection.isHolder) &&
-    props.holderOfCollection.hasAvailable,
+    Boolean(props.holderOfCollection.isHolder)
+    && props.holderOfCollection.hasAvailable,
 )
 
 const minimumFundsAttrs = computed(() => ({
@@ -120,8 +137,8 @@ const minimumFundsAttrs = computed(() => ({
 
 const fulfillsMinimumFunds = computed(
   () =>
-    Boolean(minimumFundsAttrs.value.amount) &&
-    minimumFundsAttrs.value.hasAmount,
+    Boolean(minimumFundsAttrs.value.amount)
+    && minimumFundsAttrs.value.hasAmount,
 )
 
 const readyToMint = computed(

@@ -1,9 +1,8 @@
 import { $fetch } from 'ofetch'
 import consola from 'consola'
 
-import { secondaryFileVisible } from '@/utils/mintUtils'
-
 import { URLS } from './constants'
+import { secondaryFileVisible } from '@/utils/mintUtils'
 
 export const DIRECTUPLOAD_BASE_URL = URLS.koda.directUpload
 
@@ -41,7 +40,8 @@ export const getKey = async (
     )
     consola.log('[PINNING] Obtain', status)
     return _data?.result
-  } catch (e) {
+  }
+  catch (e) {
     consola.warn(e)
     throw e
   }
@@ -58,7 +58,7 @@ export const upload = async (
     formData.append('id', id)
   }
 
-  //FormData support: https://github.com/unjs/ofetch/issues/37
+  // FormData support: https://github.com/unjs/ofetch/issues/37
   const { status, _data } = await $fetch.raw<CdnUploadResponse>(url, {
     method: 'POST',
     body: formData,
@@ -77,7 +77,8 @@ export const uploadDirect = async (
       const res = await upload(file, token.uploadURL, ipfsHash)
       consola.log('[DIRECT UPLOAD] OK!', res?.result.filename)
     }
-  } catch (e) {
+  }
+  catch (e) {
     consola.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }
 }
@@ -91,7 +92,8 @@ export const uploadDirectWhenMultiple = async (
 
   if (secondaryFileVisible(file) && secondFile && secondIpfsHash) {
     await uploadDirect(secondFile, secondIpfsHash)
-  } else {
+  }
+  else {
     await uploadDirect(file, ipfsHash)
   }
 }

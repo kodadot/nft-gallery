@@ -1,9 +1,9 @@
 import { balanceOf } from '@kodadot1/sub-api'
-import { Registration } from '@polkadot/types/interfaces/identity/types'
+import type { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'
-import { emptyObject } from '@/utils/empty'
 import type { Prefix } from '@kodadot1/static'
+import { emptyObject } from '@/utils/empty'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
@@ -85,8 +85,8 @@ export const useIdentityStore = defineStore('identity', {
       ...emptyObject<Auth>(),
       balance: DEFAULT_BALANCE_STATE,
       tokens: {
-        '1': '0',
-        '5': '0',
+        1: '0',
+        5: '0',
       },
       address: useWalletStore().selected?.address || '',
     },
@@ -103,11 +103,11 @@ export const useIdentityStore = defineStore('identity', {
     ],
   }),
   getters: {
-    availableIdentities: (state) => state.identities,
-    getAuth: (state) => state.auth,
-    getAuthAddress: (state) => state.auth.address,
-    getIdentityFor: (state) => (address: string) => state.identities[address],
-    getTokenBalanceOf: (state) => (tokenId: string) =>
+    availableIdentities: state => state.identities,
+    getAuth: state => state.auth,
+    getAuthAddress: state => state.auth.address,
+    getIdentityFor: state => (address: string) => state.identities[address],
+    getTokenBalanceOf: state => (tokenId: string) =>
       state.auth.tokens ? state.auth.tokens[tokenId] || '0' : '0',
     getAuthBalance: (state) => {
       const { urlPrefix } = usePrefix()
@@ -117,11 +117,11 @@ export const useIdentityStore = defineStore('identity', {
     },
     getTotalUsd: (state) => {
       if (
-        state.multiBalances &&
-        Object.values(state.multiBalances?.chains || 0).length > 0
+        state.multiBalances
+        && Object.values(state.multiBalances?.chains || 0).length > 0
       ) {
         return Object.values(state.multiBalances.chains)
-          .flatMap((chain) => Object.values(chain))
+          .flatMap(chain => Object.values(chain))
           .reduce((total, token) => total + parseFloat(token.usd), 0)
       }
 
@@ -196,7 +196,8 @@ export const useIdentityStore = defineStore('identity', {
         if (balance) {
           this.setPrefixBalance(balance)
         }
-      } catch (e) {
+      }
+      catch (e) {
         consola.error('[FETCH BALANCE] Unable to get user balance', e)
       }
     },

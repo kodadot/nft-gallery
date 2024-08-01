@@ -8,7 +8,11 @@
     <li>{{ $t('codeChecker.variationLoadingTimeMeans3') }}</li>
   </ul>
 
-  <CodeCheckerIssueHintCodeBlock class="mt-5" :code="code" lang="javascript" />
+  <CodeCheckerIssueHintCodeBlock
+    class="mt-5"
+    :code="code"
+    lang="javascript"
+  />
 </template>
 
 <script setup lang="ts">

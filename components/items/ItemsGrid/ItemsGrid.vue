@@ -2,7 +2,8 @@
   <div class="flex-grow">
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
-      @click="reachTopHandler" />
+      @click="reachTopHandler"
+    />
 
     <DynamicGrid
       v-if="total !== 0 && (!isLoading || !isFetchingData)"
@@ -11,12 +12,14 @@
       :grid-section="gridSection"
       :grid-size="gridSize"
       :mobile-cols="2"
-      class="my-5">
+      class="my-5"
+    >
       <div
         v-for="(entity, index) in items"
         :key="`${entity.id}=${index}`"
         :data-testid="index"
-        :class="scrollItemClassName">
+        :class="scrollItemClassName"
+      >
         <ItemsGridImage
           v-if="!isTokenEntity(entity)"
           :nft="entity"
@@ -25,12 +28,21 @@
           :display-name-with-sn="displayNameWithSn"
           :show-timestamp="showTimestamp"
           :collection-popover-hide="collectionPopoverHide"
+          :lazy-loading="
+            shouldLazyLoad({
+              cols: slotProps.cols,
+              index,
+              limit: first,
+              skipRows: EAGERLY_LOADED_ROWS,
+            })
+          "
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
               : 'primary'
-          " />
+          "
+        />
         <ItemsGridImageTokenEntity
           v-else
           :entity="entity"
@@ -38,11 +50,20 @@
           :hide-action="hideNFTHoverAction"
           :display-name-with-sn="displayNameWithSn"
           hide-video-controls
+          :lazy-loading="
+            shouldLazyLoad({
+              cols: slotProps.cols,
+              index,
+              limit: first,
+              skipRows: EAGERLY_LOADED_ROWS,
+            })
+          "
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
               : 'primary'
-          " />
+          "
+        />
       </div>
 
       <!-- skeleton on fetching next page -->
@@ -51,11 +72,15 @@
           v-for="n in skeletonCount"
           :key="n"
           :hide-media-info="hideMediaInfo"
-          :variant="getSkeletonVariant(slotProps)" />
+          :variant="getSkeletonVariant(slotProps)"
+        />
       </template>
 
       <!-- intersection observer element -->
-      <div v-else ref="target"></div>
+      <div
+        v-else
+        ref="target"
+      />
     </DynamicGrid>
 
     <!-- skeleton on first load -->
@@ -65,16 +90,21 @@
       :grid-section="gridSection"
       :grid-size="gridSize"
       class="my-5"
-      :mobile-cols="2">
+      :mobile-cols="2"
+    >
       <NftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
         :hide-media-info="hideMediaInfo"
-        :variant="getSkeletonVariant(slotProps)" />
+        :variant="getSkeletonVariant(slotProps)"
+      />
     </DynamicGrid>
 
     <template v-if="total === 0 && (!isLoading || !isFetchingData)">
-      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <slot
+        v-if="slots['empty-result']"
+        name="empty-result"
+      />
       <EmptyResult v-else />
     </template>
 
@@ -83,19 +113,22 @@
 </template>
 
 <script setup lang="ts">
-import DynamicGrid from '@/components/shared/DynamicGrid.vue'
+import isEqual from 'lodash/isEqual'
 import ItemsGridImage from './ItemsGridImage.vue'
 import ItemsGridImageTokenEntity from './ItemsGridImageTokenEntity.vue'
 import {
   updatePotentialNftsForListingCart,
   useFetchSearch,
 } from './useItemsGrid'
-import isEqual from 'lodash/isEqual'
-import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
-import { NFT } from '@/components/rmrk/service/scheme'
-import { GridSection } from '@/stores/preferences'
+import { useListingCartStore } from '@/stores/listingCart'
+import DynamicGrid from '@/components/shared/DynamicGrid.vue'
+import type { NFT } from '@/components/rmrk/service/scheme'
+import type { GridSection } from '@/stores/preferences'
+
 const slots = useSlots()
+
+const EAGERLY_LOADED_ROWS = 2
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
@@ -182,7 +215,8 @@ watch(
           items.value as TokenEntity[],
         )
         updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
-      } else {
+      }
+      else {
         updatePotentialNftsForListingCart(items.value as NFT[])
       }
     }

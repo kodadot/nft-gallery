@@ -3,7 +3,8 @@
     <NeoField
       :label="$t(label)"
       class="balance"
-      :variant="checkZeroFailed ? 'danger' : ''">
+      :variant="checkZeroFailed ? 'danger' : ''"
+    >
       <div class="field-body">
         <div class="field has-addons">
           <NeoInput
@@ -16,32 +17,41 @@
             :max="maxWithUnit"
             :expanded="expanded"
             data-testid="balance-input"
-            @input="handleInput" />
+            @input="handleInput"
+          />
           <p class="control balance">
             <NeoSelect
               :value="selectedUnit"
               :disabled="!calculate"
               data-testid="balance-input-select"
-              @input="handleUnitChange">
-              <option v-for="u in units" :key="u.value" :value="u.value">
+              @input="handleUnitChange"
+            >
+              <option
+                v-for="u in units"
+                :key="u.value"
+                :value="u.value"
+              >
                 {{ u.name }}
               </option>
             </NeoSelect>
           </p>
         </div>
       </div>
-      <p v-if="checkZeroFailed" class="help is-danger">
+      <p
+        v-if="checkZeroFailed"
+        class="help is-danger"
+      >
         {{ $t('tooltip.needToSetValidPrice') }}
-      </p></NeoField
-    >
+      </p>
+    </NeoField>
   </div>
 </template>
 
 <script setup lang="ts">
-import { units as defaultUnits } from '@/params/constants'
-import { Unit } from '@/params/types'
 import { useDebounceFn } from '@vueuse/core'
 import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
+import { units as defaultUnits } from '@/params/constants'
+import type { Unit } from '@/params/types'
 
 const props = defineProps({
   value: {

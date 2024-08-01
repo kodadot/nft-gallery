@@ -4,8 +4,12 @@
       v-if="showTwitter && twitter"
       v-safe-href="`https://twitter.com/${twitter}`"
       target="_blank"
-      rel="nofollow noopener noreferrer">
-      <NeoIcon pack="fab" icon="x-twitter" />
+      rel="nofollow noopener noreferrer"
+    >
+      <NeoIcon
+        pack="fab"
+        icon="x-twitter"
+      />
       <span class="aligned">
         {{ twitter }}
       </span>

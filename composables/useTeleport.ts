@@ -1,12 +1,12 @@
+import { web3Enable } from '@polkadot/extension-dapp'
+import type { SubmittableResult } from '@polkadot/api'
 import {
   Chain,
   allowedTransitions,
   chainToPrefixMap,
   prefixToChainMap,
 } from '@/utils/teleport'
-import { web3Enable } from '@polkadot/extension-dapp'
 import { getss58AddressByPrefix } from '@/utils/account'
-import { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
 
 export type TeleportParams = {
@@ -22,11 +22,11 @@ export default function (fetchBalancePeriodically: boolean = false) {
   const isError = ref<boolean>(false)
   const txId = ref<string | null>(null)
 
-  const { isLoading, status, initTransactionLoader, stopLoader } =
-    useTransactionStatus()
+  const { isLoading, status, initTransactionLoader, stopLoader }
+    = useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
-  const { $i18n } = useNuxtApp()
+  const { $i18n, $consola } = useNuxtApp()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
   const { fetchMultipleBalance, chainBalances } = useMultipleBalance(
@@ -64,7 +64,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
     const transactionHandler = txCb(
       ({ blockHash }) => {
-        successMessage(`Transaction finalized at blockHash ${blockHash}`)
+        $consola.log(`Transaction finalized at blockHash ${blockHash}`)
         status.value = TransactionStatus.Finalized
         isLoading.value = false
 
@@ -85,7 +85,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
         const { txHash } = submittableResult
 
         if (isFirstStatus) {
-          infoMessage(`Transaction hash is ${txHash.toHex()}`)
+          $consola.log(`Transaction hash is ${txHash.toHex()}`)
           txId.value = txHash.toHex()
           status.value = TransactionStatus.Block
           isFirstStatus = false
@@ -127,8 +127,8 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
   const getAddressByChain = (chain: Chain) => {
     return (
-      accountId.value &&
-      getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
+      accountId.value
+      && getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
     )
   }
 
@@ -145,7 +145,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
   }
 
   const fetchChainsBalances = (chains: Chain[]) => {
-    const chainPrefixes = chains.map((chain) => chainToPrefixMap[chain])
+    const chainPrefixes = chains.map(chain => chainToPrefixMap[chain])
     return fetchMultipleBalance(chainPrefixes)
   }
 

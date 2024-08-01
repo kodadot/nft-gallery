@@ -2,7 +2,8 @@
   <div
     v-if="count"
     class="count absolute h-5 w-5 leading-6 text-center flex justify-center items-center"
-    :class="[`count--${position}`, { 'rounded-full': rounded }]">
+    :class="[`count--${position}`, { 'rounded-full': rounded }]"
+  >
     {{ count }}
   </div>
 </template>
