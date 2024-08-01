@@ -24,10 +24,7 @@ test('Explore collections', async ({ page, Commands }) => {
   // Lazy loading mitigation
   await test.step('Scroll down and wait for images to load', async () => {
     await Commands.scrollDownAndStop()
-    await page.waitForFunction(() => {
-      const images = Array.from(document.querySelectorAll('img'))
-      return images.every(img => img.complete)
-    })
+    await page.waitForLoadState('networkidle')
   })
 
   // Results
