@@ -131,7 +131,7 @@ const estimateEvm = async ({ address, arg, abi, functionName, account, prefix }:
       args: arg,
       functionName,
     }),
-    publicClient.getGasPrice()
+    publicClient.getGasPrice(),
   ])
 
   return String(estimatedGas * gasPrice)
