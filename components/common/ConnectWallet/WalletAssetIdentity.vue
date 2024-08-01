@@ -3,11 +3,13 @@
     <NuxtLink
       :to="`/${urlPrefix}/u/${account}`"
       class="w-full"
-      @click="closeModal">
+      @click="closeModal"
+    >
       <IdentityItem
         :account="account"
         :label="display || shortenedAddress"
-        :prefix="urlPrefix">
+        :prefix="urlPrefix"
+      >
         <template #default="{ label }">
           <div class="pl-3">
             <div class="font-bold mb-1 truncate max-w-[11rem]">
@@ -25,7 +27,8 @@
     <div class="flex flex-row gap-2 pl-2">
       <a
         v-clipboard:copy="account"
-        @click="toast($t('general.copyAddressToClipboard'))">
+        @click="toast($t('general.copyAddressToClipboard'))"
+      >
         <NeoIcon icon="copy" />
       </a>
       <a @click="logout">
@@ -70,8 +73,11 @@ const logout = async () => {
   walletStore.setDisconnecting(true)
   walletStore.clear()
   if (isEvm) {
-    await disconnectWeb3Modal()
+    await disconnectWeb3Modal().catch((error) => {
+      console.warn('[WEB3MODAL::CONNECTION] Failed disconnecting', error)
+    })
   }
+
   walletStore.setDisconnecting(false)
 }
 </script>

@@ -14,7 +14,8 @@ export default function (instance) {
         onCancel,
         closeAfterConnect: true,
       })
-    } else {
+    }
+    else {
       onLoginSuccess()
     }
   }

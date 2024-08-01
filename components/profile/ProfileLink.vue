@@ -4,10 +4,18 @@
       class="flex items-center"
       :route="`/${urlPrefix}/u`"
       :param="address"
-      link="u">
-      <Identity v-if="address" :address="address" />
+      link="u"
+    >
+      <Identity
+        v-if="address"
+        :address="address"
+      />
       <template #extra>
-        <Avatar :size="avatarSize" :value="address" class="mr-2" />
+        <Avatar
+          :size="avatarSize"
+          :value="address"
+          class="mr-2"
+        />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
@@ -16,7 +24,8 @@
         :address="address"
         :show-twitter="showTwitter"
         :show-discord="showDiscord"
-        class="pt-2" />
+        class="pt-2"
+      />
     </template>
   </div>
 </template>

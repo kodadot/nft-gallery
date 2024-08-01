@@ -1,7 +1,13 @@
 <template>
-  <InfoBox v-if="showWarning" variant="warning">
+  <InfoBox
+    v-if="showWarning"
+    variant="warning"
+  >
     <div class="flex items-center">
-      <NeoIcon icon="triangle-exclamation" class="mr-2" />
+      <NeoIcon
+        icon="triangle-exclamation"
+        class="mr-2"
+      />
       <span> {{ $t('drops.holderOfClaimed', [exclusiveDrop?.name]) }}</span>
     </div>
   </InfoBox>
@@ -9,8 +15,8 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { NFT } from '@/components/rmrk/service/scheme'
 import { useDrop, useHolderOfCollectionDrop } from '../drops/useDrops'
+import type { NFT } from '@/components/rmrk/service/scheme'
 import {
   DROP_COLLECTION_TO_ALIAS_MAP,
   FALLBACK_DROP_COLLECTION_MAX,
@@ -43,9 +49,9 @@ const checkIfAlreadyClaimed = async () =>
 
 const isActiveDrop = computed(
   () =>
-    Boolean(exclusiveDrop) &&
-    !exclusiveDrop.value?.disabled &&
-    hasAvailable.value,
+    Boolean(exclusiveDrop)
+    && !exclusiveDrop.value?.disabled
+    && hasAvailable.value,
 )
 
 const showWarning = computed(

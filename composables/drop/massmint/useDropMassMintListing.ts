@@ -9,7 +9,7 @@ export default () => {
 
   const subscribeForNftsWithMetadata = (nftIds: string[]) => {
     subscribeToNfts(nftIds, async (data) => {
-      const ids = data.map((item) => item.id)
+      const ids = data.map(item => item.id)
       const readyToFetch = isEqual(ids.sort(), nftIds.sort())
 
       if (readyToFetch) {
@@ -31,7 +31,7 @@ export default () => {
   const listMintedNFTs = () => {
     mintedNFTs.value.forEach((withMetadataNFT: NFTWithMetadata) => {
       const mintingSessionNFT = mintingSession.value.items.find(
-        (nft) => nft.id === withMetadataNFT.id,
+        nft => nft.id === withMetadataNFT.id,
       )
       listNftByNftWithMetadata(
         {

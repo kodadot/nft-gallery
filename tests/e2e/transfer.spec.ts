@@ -6,21 +6,21 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
   await Commands.e2elogin()
   await page.goto(TRANSFER_PATH)
 
-  const UserAddress =
-    await test.step('Gets user address via attribute', async () => {
+  const UserAddress
+    = await test.step('Gets user address via attribute', async () => {
       const UserAddress = await page
         .getByTestId('avatar-identity-icon')
         .getAttribute('data-key')
       return UserAddress
     })
 
-  //Copy address
+  // Copy address
   await test.step('Copy user address and verifies clipboard content', async () => {
     await page.getByTestId('transfer-copy-sender-address').click()
     await Commands.copyText(`${UserAddress}`)
   })
 
-  //Wrong address format
+  // Wrong address format
   await test.step('Inserts invalid address and verifies if error message appears', async () => {
     await page.getByTestId('global-address-input').fill('0xwer6544443653444422')
     await expect(
@@ -28,24 +28,24 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
     ).toBeVisible()
   })
 
-  //Fill form
+  // Fill form
   await test.step('Add and Fill input recipients', async () => {
-    //selects token tab
+    // selects token tab
     await page.getByTestId('transfer-tab-token').click()
-    //fill input
+    // fill input
     await page.getByTestId('global-address-input').nth(0).fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(0).fill('1')
-    //add recipient
+    // add recipient
     await page.getByTestId('transfer-icon-add-recipient').click()
-    //fill polkadot Address and amount on last field
+    // fill polkadot Address and amount on last field
     await page.getByTestId('global-address-input').nth(1).fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(1).fill('5')
   })
 
-  //Send same amount Switch
+  // Send same amount Switch
   await test.step('Enables same amount switch and verifies its content', async () => {
     await page.getByTestId('transfer-switch-same').click()
-    //checks if second address input converted itself according to same amount switch
+    // checks if second address input converted itself according to same amount switch
     await expect(
       page.getByTestId('transfer-input-amount-token').nth(1),
     ).toHaveValue('1')
@@ -59,7 +59,7 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
     expect(totalNumber).toBeGreaterThan(0)
   })
 
-  //Recurring payment
+  // Recurring payment
   await test.step('Switchs to USD tab, fill inputs and verifies if total sums up', async () => {
     await page.getByTestId('transfer-tab-usd').click()
     await page.getByTestId('transfer-switch-same').click()
@@ -73,10 +73,10 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
     )
   })
 
-  //removes last transfer recipient
+  // removes last transfer recipient
   await page.getByTestId('transfer-remove-recipient').last().click()
 
-  //Pay me
+  // Pay me
   await test.step('Verifies if pay me button provides correct clipboard format', async () => {
     await page.getByTestId('transfer-input-amount-usd').fill('4')
     await page.getByTestId('transfer-button-options').click()
@@ -86,12 +86,12 @@ test('Transfer Page Functionality', async ({ page, Commands, baseURL }) => {
     )
   })
 
-  //verify if network fee is present
+  // verify if network fee is present
   await expect(page.getByTestId('transfer-network-fee')).toBeVisible()
 
-  //Address conversion
+  // Address conversion
   await test.step('Switch to KSM and convert address to proper chain', async () => {
-    //change to KSM chain
+    // change to KSM chain
     await page
       .getByTestId('transfer-token-tabs-container')
       .getByText('KSM')

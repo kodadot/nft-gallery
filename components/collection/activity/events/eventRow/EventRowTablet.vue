@@ -8,13 +8,15 @@
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.nft.name"
-            :size="70" />
+            :size="70"
+          />
         </div>
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
           class="is-ellipsis inline-block mobile-fixed-width"
-          :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+          :to="`/${urlPrefix}/gallery/${event.nft.id}`"
+        >
           <span class="font-bold">
             {{ event.nft.name }}
           </span>
@@ -22,14 +24,18 @@
 
         <div
           class="border text-xs justify-center flex items-center fixed-width fixed-height"
-          :class="getInteractionColor(event.interaction)">
+          :class="getInteractionColor(event.interaction)"
+        >
           {{ interactionName }}
         </div>
       </div>
     </div>
     <div class="flex">
       <div class="flex justify-between flex-grow">
-        <CommonTokenMoney v-if="amount !== blank" :value="amount" />
+        <CommonTokenMoney
+          v-if="amount !== blank"
+          :value="amount"
+        />
         <span v-else>
           {{ blank }}
         </span>
@@ -38,29 +44,39 @@
     </div>
 
     <div class="flex gap flex-direction">
-      <div v-if="fromAddress !== blank" class="flex items-center">
+      <div
+        v-if="fromAddress !== blank"
+        class="flex items-center"
+      >
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis"
+        >
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
             show-clipboard
-            show-badge />
+            show-badge
+          />
         </nuxt-link>
       </div>
 
-      <div v-if="toAddress !== blank" class="flex items-center">
+      <div
+        v-if="toAddress !== blank"
+        class="flex items-center"
+      >
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis"
+        >
           <IdentityIndex
             ref="identity"
             :address="toAddress"
             show-clipboard
-            show-badge />
+            show-badge
+          />
         </nuxt-link>
       </div>
     </div>
@@ -68,11 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  InteractionWithNFT,
-  Offer,
-} from '@/composables/collectionActivity/types'
-import IdentityIndex from '@/components/identity/IdentityIndex.vue'
+import { NeoAvatar } from '@kodadot1/brick'
 import {
   blank,
   getAmount,
@@ -82,7 +94,11 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
-import { NeoAvatar } from '@kodadot1/brick'
+import type {
+  InteractionWithNFT,
+  Offer,
+} from '@/composables/collectionActivity/types'
+import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 
 const NuxtImg = resolveComponent('NuxtImg')
 

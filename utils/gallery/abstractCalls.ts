@@ -1,5 +1,6 @@
 import type { ApiPromise } from '@polkadot/api'
 import { correctId } from '@/components/unique/utils'
+
 type CallDictionary = Record<string, [string, string]>
 
 export const uniqueActionResolver: CallDictionary = {
@@ -68,8 +69,8 @@ export function getApiCall(
   legacy = false,
 ) {
   const actionResolver = getActionsByPrefix(prefix, legacy)
-  const [module, method] =
-    actionResolver[selectedAction] || new Error('Action not found')
+  const [module, method]
+    = actionResolver[selectedAction] || new Error('Action not found')
   return api.tx[module][method]
 }
 

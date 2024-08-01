@@ -10,16 +10,18 @@
     display-percentage
     is-flipper
     :collapse-title-option="$t('Flipper')"
-    hide-collapse />
+    hide-collapse
+  />
 </template>
 
 <script lang="ts" setup>
-import CommonHolderTable, {
-  TableRow,
-} from '@/components/rmrk/Gallery/Holder/Holder.vue'
-import { parseDate } from '@/utils/datetime'
 import { formatDistanceToNow } from 'date-fns'
 import { Interaction } from '@kodadot1/minimark/v1'
+import type {
+  TableRow,
+} from '@/components/rmrk/Gallery/Holder/Holder.vue'
+import CommonHolderTable from '@/components/rmrk/Gallery/Holder/Holder.vue'
+import { parseDate } from '@/utils/datetime'
 
 type FlipperTableRowMap = Record<string, TableRow[]>
 
@@ -66,7 +68,8 @@ const generateTableRowList = (): TableRow[] => {
         Sale: 0,
         ...commonInfo,
       })
-    } else if (newEvent['interaction'] === Interaction.LIST) {
+    }
+    else if (newEvent['interaction'] === Interaction.LIST) {
       rowListMap[nftId] = rowListMap[nftId] ?? []
       // for saving Last Activity
       rowListMap[nftId].push({
@@ -76,7 +79,8 @@ const generateTableRowList = (): TableRow[] => {
         Sale: 0,
         ...commonInfo,
       })
-    } else if (newEvent['interaction'] === Interaction.SEND) {
+    }
+    else if (newEvent['interaction'] === Interaction.SEND) {
       rowListMap[nftId] = rowListMap[nftId] ?? []
       rowListMap[nftId].push(
         {
@@ -94,7 +98,8 @@ const generateTableRowList = (): TableRow[] => {
           ...commonInfo,
         },
       )
-    } else if (newEvent['interaction'] === Interaction.BUY) {
+    }
+    else if (newEvent['interaction'] === Interaction.BUY) {
       const price = parseInt(newEvent['meta'])
 
       rowListMap[nftId] = rowListMap[nftId] ?? []
@@ -131,11 +136,12 @@ const generateTableRowList = (): TableRow[] => {
           row['Bought'] = row['Bought'] ?? 0
           row['Sale'] = row['Sale'] ?? 0
 
-          flipperRow[nftId]['Bought'] =
-            (flipperRow[nftId]['Bought'] ?? 0) + row['Bought']
-          flipperRow[nftId]['Sale'] =
-            (flipperRow[nftId]['Sale'] ?? 0) + row['Sale']
-        } else {
+          flipperRow[nftId]['Bought']
+            = (flipperRow[nftId]['Bought'] ?? 0) + row['Bought']
+          flipperRow[nftId]['Sale']
+            = (flipperRow[nftId]['Sale'] ?? 0) + row['Sale']
+        }
+        else {
           flipperRow[nftId] = row
         }
       }

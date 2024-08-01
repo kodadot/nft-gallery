@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
 type ID = string
 
@@ -19,21 +19,22 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
   getters: {
     getItems: () => items(),
     getItemsByPrefix: () => (prefix: string) =>
-      items().filter((item) => item.urlPrefix === prefix),
-    getItem: () => (id: ID) => items().find((item) => item.id === id),
+      items().filter(item => item.urlPrefix === prefix),
+    getItem: () => (id: ID) => items().find(item => item.id === id),
     isItemInCart: () => (id: ID) =>
-      items().find((item) => item.id === id) !== undefined,
+      items().find(item => item.id === id) !== undefined,
     getItemToBuy: ({ itemToBuy }) => itemToBuy,
   },
 
   actions: {
     setItem(payload: ShoppingCartItem) {
       const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id,
+        item => item.id === payload.id,
       )
       if (existinItemIndex === -1) {
         localStorage.value = [...localStorage.value, payload]
-      } else {
+      }
+      else {
         const items = [...localStorage.value]
         items[existinItemIndex] = payload
         localStorage.value = items
@@ -47,11 +48,12 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     },
     updateItem(payload: ShoppingCartItem) {
       const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id,
+        item => item.id === payload.id,
       )
       if (existinItemIndex === -1) {
         return
-      } else {
+      }
+      else {
         const items = [...localStorage.value]
         items[existinItemIndex] = {
           ...this.items[existinItemIndex],
@@ -61,10 +63,11 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       }
     },
     removeItem(id: ID) {
-      const existinItemIndex = items().findIndex((item) => item.id === id)
+      const existinItemIndex = items().findIndex(item => item.id === id)
       if (existinItemIndex === -1) {
         return
-      } else {
+      }
+      else {
         const items = [...localStorage.value]
         items.splice(existinItemIndex, 1)
         localStorage.value = items

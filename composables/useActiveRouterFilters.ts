@@ -5,11 +5,11 @@ export default function useActiveRouterFilters() {
     type QueryValue = string | undefined
     const entries = Object.entries<QueryValue>(query).filter(
       ([key, value]) =>
-        (key === 'search' && Boolean(value)) ||
-        (key === 'min' && value) ||
-        (key === 'max' && value) ||
-        (key === 'collections' && value) ||
-        value === 'true',
+        (key === 'search' && Boolean(value))
+        || (key === 'min' && value)
+        || (key === 'max' && value)
+        || (key === 'collections' && value)
+        || value === 'true',
     )
     return Object.fromEntries(entries)
   })

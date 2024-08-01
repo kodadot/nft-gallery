@@ -1,4 +1,4 @@
-import { MintCollectionParams } from './types'
+import type { MintCollectionParams } from './types'
 import { execMintCollectionRmrk } from './mintCollection/transactionMintCollectionRmrk'
 import { execMintCollectionStatemine } from './mintCollection/transactionMintCollectionStatemine'
 

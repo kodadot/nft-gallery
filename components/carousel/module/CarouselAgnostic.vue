@@ -1,28 +1,43 @@
 <template>
   <div class="carousel-agnostic">
     <div class="relative">
-      <div ref="wrapper" class="keen-slider">
+      <div
+        ref="wrapper"
+        class="keen-slider"
+      >
         <div
           v-for="(item, index) in items"
           :key="`${item.id}-${index}`"
-          class="keen-slider__slide">
-          <slot :item="item" :index="index" />
+          class="keen-slider__slide"
+        >
+          <slot
+            :item="item"
+            :index="index"
+          />
         </div>
       </div>
       <Transition name="fade">
         <button
           v-if="leftArrowValid"
           class="button justify-center arrow arrow-left arrow-icon rounded-full"
-          @click="slider?.moveToIdx(leftCarouselIndex)">
-          <NeoIcon icon="chevron-left" size="medium" />
+          @click="slider?.moveToIdx(leftCarouselIndex)"
+        >
+          <NeoIcon
+            icon="chevron-left"
+            size="medium"
+          />
         </button>
       </Transition>
       <Transition name="fade">
         <button
           v-if="rightArrowValid"
           class="button justify-center arrow arrow-right arrow-icon rounded-full"
-          @click="slider?.moveToIdx(rightCarouselIndex)">
-          <NeoIcon icon="chevron-right" size="medium" />
+          @click="slider?.moveToIdx(rightCarouselIndex)"
+        >
+          <NeoIcon
+            icon="chevron-right"
+            size="medium"
+          />
         </button>
       </Transition>
     </div>
@@ -32,12 +47,12 @@
 <script lang="ts" setup>
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
-import { CarouselWheelsPlugin } from '../utils/useCarousel'
 import { NeoIcon } from '@kodadot1/brick'
+import { CarouselWheelsPlugin } from '../utils/useCarousel'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
 
-export type CarouselConfig = { slides: { perView: number; spacing: number } }
+export type CarouselConfig = { slides: { perView: number, spacing: number } }
 
 export type CarouseBreakpointsConfig = Record<
   CarouseBreakpoints,
@@ -96,7 +111,7 @@ const [wrapper, slider] = useKeenSlider(
       current.value = s.track.details.rel
       updateSliderArrows(s)
     },
-    detailsChanged: (s) => updateSlidesOpacity(s),
+    detailsChanged: s => updateSlidesOpacity(s),
     breakpoints: props.breakpoints
       ? {
           '(min-width: 640px)': props.breakpoints['640px'],
@@ -118,7 +133,8 @@ const updateSlidesOpacity = (s) => {
   s.slides.forEach((slide, index) => {
     if (s.track.details.slides[index].portion > 0) {
       slide.style.opacity = '1'
-    } else {
+    }
+    else {
       slide.style.opacity = '.5'
     }
   })

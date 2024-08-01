@@ -1,4 +1,5 @@
-import { Entry, isValidEntry } from './common'
+import type { Entry } from './common'
+import { isValidEntry } from './common'
 
 export function parseJson(jsonData: string): Record<string, Entry> {
   const { $consola } = useNuxtApp()
@@ -37,7 +38,8 @@ export function parseJson(jsonData: string): Record<string, Entry> {
     })
 
     return entries
-  } catch (error) {
+  }
+  catch (error) {
     $consola.error(`Error parsing JSON file: ${error}`)
     return {}
   }

@@ -1,5 +1,8 @@
 <template>
-  <a class="flex justify-center pb-4" @click="onClick">
+  <a
+    class="flex justify-center pb-4"
+    @click="onClick"
+  >
     <NeoIcon icon="chevron-up" />
   </a>
 </template>

@@ -1,14 +1,15 @@
+import type { DispatchError } from '@polkadot/types/interfaces'
+import type { ISubmittableResult } from '@polkadot/types/types'
+import useAPI from './useApi'
+import useTransactionStatus from './useTransactionStatus'
 import exec, {
-  ExecResult,
-  Extrinsic,
-  TxCbOnSuccessParams,
   execResultValue,
   txCb,
 } from '@/utils/transactionExecutor'
-import useTransactionStatus from './useTransactionStatus'
-import useAPI from './useApi'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { ISubmittableResult } from '@polkadot/types/types'
+import type {
+  ExecResult,
+  Extrinsic,
+  TxCbOnSuccessParams } from '@/utils/transactionExecutor'
 
 export type HowAboutToExecuteOnSuccessParam = {
   txHash: string
@@ -55,29 +56,30 @@ function useMetaTransaction() {
         args,
         txCb(successCb(onSuccess), errorCb(onError), resultCb(onResult)),
       )
-    } catch (e) {
+    }
+    catch (e) {
       onCatchError(e)
     }
   }
 
-  const successCb =
-    (onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void) =>
-    async ({ blockHash, txHash }: TxCbOnSuccessParams) => {
-      const api = await apiInstance.value
+  const successCb
+    = (onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void) =>
+      async ({ blockHash, txHash }: TxCbOnSuccessParams) => {
+        const api = await apiInstance.value
 
-      tx.value && execResultValue(tx.value)
-      const header = await api.rpc.chain.getHeader(blockHash)
-      const blockNumber = header.number.toString()
+        tx.value && execResultValue(tx.value)
+        const header = await api.rpc.chain.getHeader(blockHash)
+        const blockNumber = header.number.toString()
 
-      if (onSuccess) {
-        onSuccess({ txHash: txHash.toString(), blockNumber })
+        if (onSuccess) {
+          onSuccess({ txHash: txHash.toString(), blockNumber })
+        }
+
+        isLoading.value = false
+        tx.value = undefined
       }
 
-      isLoading.value = false
-      tx.value = undefined
-    }
-
-  const errorCb = (onError) => (dispatchError) => {
+  const errorCb = onError => (dispatchError) => {
     tx.value && execResultValue(tx.value)
     onTxError(dispatchError)
     isLoading.value = false
@@ -87,12 +89,12 @@ function useMetaTransaction() {
     }
   }
 
-  const resultCb =
-    (onResult?: (result: HowAboutToExecuteOnResultParam) => void) =>
-    (result: ISubmittableResult) => {
-      resolveStatus(result.status)
-      onResult?.({ txHash: result.txHash.toString(), result })
-    }
+  const resultCb
+    = (onResult?: (result: HowAboutToExecuteOnResultParam) => void) =>
+      (result: ISubmittableResult) => {
+        resolveStatus(result.status)
+        onResult?.({ txHash: result.txHash.toString(), result })
+      }
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
@@ -101,7 +103,8 @@ function useMetaTransaction() {
         warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 
         status.value = TransactionStatus.Cancelled
-      } else {
+      }
+      else {
         warningMessage(e.toString())
       }
       isLoading.value = false

@@ -1,16 +1,17 @@
 <template>
-  <div ref="wrapper" class="p-4 keen-slider bg-text-color">
+  <div
+    ref="wrapper"
+    class="p-4 keen-slider bg-text-color"
+  >
     <div
       v-for="(_, index) in slidesArray"
       :key="index"
-      class="keen-slider__slide flex whitespace-nowrap">
+      class="keen-slider__slide flex whitespace-nowrap"
+    >
       <div class="whitespace-nowrap">
-        <span class="mr-4 text-k-grey">Mint Phase Ends In</span
-        ><span class="text-text-color-inverse"
-          >{{ getPositiveNumber(hours) }} Hours :
+        <span class="mr-4 text-k-grey">Mint Phase Ends In</span><span class="text-text-color-inverse">{{ getPositiveNumber(hours) }} Hours :
           {{ getPositiveNumber(minutes) }} Minutes :
-          {{ getPositiveNumber(seconds) }} Seconds</span
-        >
+          {{ getPositiveNumber(seconds) }} Seconds</span>
       </div>
     </div>
   </div>
@@ -21,7 +22,8 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
 import { countDownTime, slidesCountOnTimeCountdown } from './const'
 import { useCountDown } from './utils/useCountDown'
-const animation = { duration: 30000, easing: (t) => t }
+
+const animation = { duration: 30000, easing: t => t }
 const getPositiveNumber = (number: number) => Math.max(0, number)
 
 const slidesArray = Array(slidesCountOnTimeCountdown).fill(0)

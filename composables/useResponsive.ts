@@ -8,7 +8,8 @@ export default function (container: Ref<HTMLDivElement | null>) {
   useResizeObserver(container, (entry) => {
     if (entry[0].contentRect.width >= desktopBreakPoint) {
       desktop.value = true
-    } else {
+    }
+    else {
       desktop.value = false
     }
   })

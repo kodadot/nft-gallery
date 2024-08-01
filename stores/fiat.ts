@@ -34,17 +34,17 @@ export const useFiatStore = defineStore('fiat', {
     getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
     getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
-      (state) =>
-      (token: string): FiatPrice => {
-        switch (token) {
-          case 'KSM':
-            return state.fiatPrice.kusama.usd
-          case 'DOT':
-            return state.fiatPrice.polkadot.usd
-          default:
-            return 0
-        }
-      },
+      state =>
+        (token: string): FiatPrice => {
+          switch (token) {
+            case 'KSM':
+              return state.fiatPrice.kusama.usd
+            case 'DOT':
+              return state.fiatPrice.polkadot.usd
+            default:
+              return 0
+          }
+        },
   },
   actions: {
     async fetchFiatPrice() {

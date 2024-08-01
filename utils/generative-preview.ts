@@ -1,7 +1,7 @@
-import { ImageDataPayload } from '@/composables/drop/useGenerativeIframeData'
+import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
+import type { ImageDataPayload } from '@/composables/drop/useGenerativeIframeData'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { getRandomIntFromRange } from '@/components/collection/unlockable/utils'
-import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 
 export type EntropyRange = [number, number]
 

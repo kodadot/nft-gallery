@@ -27,20 +27,17 @@ export function usePlayerEventBus() {
   const unsubscribe = eventBus.on((event, payload) => {
     switch (event) {
       case PlayerEvent.ADD_PLAYER:
-        const addPlayerPayload = payload as AddPlayerEventPayload
-        audios.value.set(addPlayerPayload.id, { pause: addPlayerPayload.pause })
+        audios.value.set((payload as AddPlayerEventPayload).id, { pause: (payload as AddPlayerEventPayload).pause })
         break
       case PlayerEvent.PLAY:
-        const playPlayerEventPayload = payload as PayloadWithId
         audios.value.forEach((player: { pause: Pause }, id) => {
-          if (playPlayerEventPayload.id !== id) {
-            player.pause().catch((error) => error)
+          if ((payload as PayloadWithId).id !== id) {
+            player.pause().catch(error => error)
           }
         })
         break
       case PlayerEvent.REMOVE_PLAYER:
-        const removePlayerEventPayload = payload as PayloadWithId
-        audios.value.delete(removePlayerEventPayload.id)
+        audios.value.delete((payload as PayloadWithId).id)
         break
     }
   })

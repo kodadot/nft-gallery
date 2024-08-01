@@ -1,7 +1,10 @@
 <template>
   <div class="mt-8 pt-4">
     <div class="flex relative section-title">
-      <img src="~/assets/svg/migrate/state-waiting.svg" alt="Ready" />
+      <img
+        src="~/assets/svg/migrate/state-waiting.svg"
+        alt="Ready"
+      >
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
 
@@ -14,20 +17,25 @@
         v-for="collection in collections"
         :key="collection.id"
         class="collection-card"
-        :class="{ hidden: !entities[collection.id]?.migrated[0]?.issuer }">
+        :class="{ hidden: !entities[collection.id]?.migrated[0]?.issuer }"
+      >
         <div
           class="collection-card-banner"
           :style="{
             backgroundImage: `url(${entities[collection.id]?.image})`,
-          }"></div>
+          }"
+        />
         <div
           class="collection-card-avatar"
           :style="{
             backgroundImage: `url(${entities[collection.id]?.image})`,
-          }"></div>
+          }"
+        />
 
         <div class="collection-card-info">
-          <p class="text-xl font-bold">{{ collection.name }}</p>
+          <p class="text-xl font-bold">
+            {{ collection.name }}
+          </p>
           <p class="flex">
             <span class="text-k-grey mr-2">
               {{ $t('migrate.waiting.status') }}
@@ -35,9 +43,11 @@
             <NuxtLink
               :to="`/${urlPrefix}/u/${
                 entities[collection.id]?.migrated[0]?.issuer
-              }`">
+              }`"
+            >
               <IdentityIndex
-                :address="entities[collection.id]?.migrated[0]?.issuer" />
+                :address="entities[collection.id]?.migrated[0]?.issuer"
+              />
             </NuxtLink>
           </p>
         </div>
@@ -48,7 +58,8 @@
               <p
                 v-dompurify-html="
                   $t('migrate.waiting.own', [collection.nfts?.length])
-                "></p>
+                "
+              />
             </div>
             <div>
               <NeoButton
@@ -62,7 +73,8 @@
                     setDestination:
                       entities[collection.id]?.migrated[0]?.to_chain,
                   })
-                ">
+                "
+              >
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>
             </div>

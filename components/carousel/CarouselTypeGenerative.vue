@@ -3,7 +3,8 @@
     data-testid="generative-activity"
     :title="$t('general.generativeArt')"
     :nfts="nfts.value"
-    action-type="pagination" />
+    action-type="pagination"
+  />
 </template>
 
 <script lang="ts" setup>

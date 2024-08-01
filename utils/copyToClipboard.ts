@@ -9,8 +9,8 @@ export function copyToClipboard(
   const { toast } = useToast()
 
   // Set default values for options
-  const { toast: shouldToast = true, toastMessage = 'Copied to clipboard' } =
-    options ?? {}
+  const { toast: shouldToast = true, toastMessage = 'Copied to clipboard' }
+    = options ?? {}
 
   copy(value)
   fallbackCopyToClipboard(value)

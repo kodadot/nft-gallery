@@ -12,9 +12,13 @@
       :placeholder="placeholder"
       data-testid="balance-input"
       :use-html5-validation="true"
-      @blur="onBlur" />
+      @blur="onBlur"
+    />
     <p class="control">
-      <span data-testid="balance-input-label" class="button is-static">{{
+      <span
+        data-testid="balance-input-label"
+        class="button is-static"
+      >{{
         unit
       }}</span>
     </p>
@@ -22,9 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { balanceFrom, simpleDivision } from '@/utils/balance'
 import { useVModel } from '@vueuse/core'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import { balanceFrom, simpleDivision } from '@/utils/balance'
 
 const props = defineProps({
   value: {
@@ -75,7 +79,7 @@ const balance = ref<InstanceType<typeof NeoInput>>()
 
 const metaValue = computed({
   get: () => simpleDivision(vValue.value, props.decimals),
-  set: (value) => handleInput(value),
+  set: value => handleInput(value),
 })
 
 function handleInput(value: number | string) {
@@ -83,7 +87,8 @@ function handleInput(value: number | string) {
   let v = '0'
   try {
     v = balanceFrom(value, props.decimals)
-  } catch (e) {
+  }
+  catch (e) {
     console.warn(e)
   }
   emit('input', v)

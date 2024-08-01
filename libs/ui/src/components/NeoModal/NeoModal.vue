@@ -1,5 +1,9 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody" v-bind="$attrs">
+  <teleport
+    to="body"
+    :disabled="!appendToBody"
+    v-bind="$attrs"
+  >
     <o-modal
       v-model:active="isModalActive"
       class="neo-modal"
@@ -18,7 +22,8 @@
       :style="{
         '--max-height': maxHeight,
       }"
-      @close="updateClose">
+      @close="updateClose"
+    >
       <slot />
     </o-modal>
   </teleport>

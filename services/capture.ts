@@ -1,4 +1,5 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 
 const CAPTURE_BASE_URL = 'https://kodacapture.vercel.app/api'
 const WEBGL_CAPTURE_BASE_URL = 'https://capturegl.vercel.app/api'

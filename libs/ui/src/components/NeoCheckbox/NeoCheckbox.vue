@@ -7,7 +7,8 @@
     :label-class="labelClass"
     :root-class="rootClass"
     :size="size"
-    @update:modelValue="updateValue">
+    @update:model-value="updateValue"
+  >
     <slot />
   </o-checkbox>
 </template>
@@ -15,6 +16,7 @@
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
 import { OCheckbox } from '@oruga-ui/oruga-next'
+
 const props = defineProps<{
   disabled?: boolean
   modelValue: boolean

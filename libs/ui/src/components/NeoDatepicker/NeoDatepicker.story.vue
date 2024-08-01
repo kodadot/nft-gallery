@@ -5,8 +5,8 @@
         v-model="selected"
         placeholder="Click to select..."
         icon="calendar"
-        trap-focus>
-      </NeoDatepicker>
+        trap-focus
+      />
     </Variant>
   </Story>
 </template>
