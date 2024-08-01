@@ -22,9 +22,26 @@ test('Explore collections', async ({ page, Commands }) => {
   })
 
   // Lazy loading mitigation
+  const imageRequests = new Set()
+  await page.route('https://image-beta.w.kodadot.xyz/**', async (route) => {
+    const request = route.request()
+    const url = request.url()
+
+    // Check if it's an image request
+    if (request.resourceType() === 'image') {
+      imageRequests.add(url)
+    }
+
+    // Continue the request and get the response
+    const response = await route.fetch()
+
+    await route.fulfill({ response })
+  })
+
   await test.step('Scroll down and wait for images to load', async () => {
     await Commands.scrollDownAndStop()
     await page.waitForLoadState('networkidle')
+    expect(imageRequests.size).toBeGreaterThan(0)
   })
 
   // Results
