@@ -1,9 +1,7 @@
-import { useQuery } from '@tanstack/vue-query'
 import { type MintedNFT } from '@/components/collection/drop/types'
 import type { DoResult } from '@/services/fxart'
 import { setMetadataUrl } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import type {
   MassMintNFT,
@@ -28,47 +26,38 @@ export type DropCollectionById = {
   }
 }
 
-function useCollectionData(collectionId, client) {
-  const { accountId } = useAuth()
-  const { vueApp } = useNuxtApp()
-  return vueApp.runWithContext(() =>
-    useQuery<DropCollectionById | null>({
-      queryKey: ['collection-drop-data', client, collectionId, accountId],
-      queryFn: () =>
-        collectionId.value
-          ? useAsyncQuery<DropCollectionById | null>({
-            clientId: client.value,
-            query: unlockableCollectionById,
-            variables: {
-              id: collectionId.value,
-              search: { issuer_eq: accountId.value },
-            },
-          }).then(res => res.data.value)
-          : null,
-    }),
-  )
-}
-
 export function useCollectionEntity() {
   const { drop } = useDrop()
-  const { client } = usePrefix()
-  const { data: collectionData } = useCollectionData(
-    computed(() => drop.value?.collection),
-    client,
-  )
-  const maxCount = computed(() => collectionData.value?.collectionEntity?.max)
-  const description = computed(
-    () => collectionData.value?.collectionEntity?.meta?.description ?? '',
-  )
-  const collectionName = computed(
-    () => collectionData.value?.collectionEntity?.name ?? '',
-  )
-  const nftCount = computed(
-    () => collectionData.value?.collectionEntity?.nftCount ?? 0,
-  )
+  const maxSupply = ref()
+  const nftCount = ref()
+  const description = ref()
+  const collectionName = ref()
+
+  watchEffect(async () => {
+    if (drop.value.collection) {
+      const api = await useApi().apiInstance.value
+      const [queryCollectionConfig, queryCollection, queryCollectionMetadata] = await Promise.all([
+        api.query.nfts.collectionConfigOf(drop.value.collection),
+        api.query.nfts.collection(drop.value.collection),
+        api.query.nfts.collectionMetadataOf(drop.value.collection),
+      ])
+      const collectionConfig = queryCollectionConfig.toJSON() as unknown as { maxSupply?: number }
+      const collection = queryCollection.toJSON() as unknown as { items?: number }
+
+      maxSupply.value = collectionConfig.maxSupply ?? 0
+      nftCount.value = collection.items ?? 0
+
+      const collectionMetadata = queryCollectionMetadata.toHuman() as unknown as { data?: string }
+      if (collectionMetadata.data) {
+        const metadata = await $fetch<{ description?: string, name?: string }>(sanitizeIpfsUrl(collectionMetadata.data))
+        description.value = metadata.description
+        collectionName.value = metadata.name
+      }
+    }
+  })
 
   return {
-    maxCount,
+    maxCount: maxSupply,
     description,
     collectionName,
     nftCount,
@@ -172,8 +161,7 @@ export const useUpdateMetadata = async () => {
 export default () => {
   const dropStore = useDropStore()
   const { mintedNFTs } = storeToRefs(dropStore)
-  const { drop } = useDrop()
-  const { maxCount: collectionMaxCount } = useCollectionEntity()
+  const { maxCount, nftCount } = useCollectionEntity()
   const { listNftByNftWithMetadata } = useListingCartModal()
 
   const claimedNft = computed({
@@ -181,15 +169,8 @@ export default () => {
     set: value => dropStore.setClaimedNFT(value),
   })
 
-  const maxCount = computed(
-    () =>
-      collectionMaxCount.value
-      ?? drop.value?.max
-      ?? FALLBACK_DROP_COLLECTION_MAX,
-  )
-
   const mintCountAvailable = computed(
-    () => dropStore.mintsCount < maxCount.value,
+    () => nftCount.value < maxCount.value,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))

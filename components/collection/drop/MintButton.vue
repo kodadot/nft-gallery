@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint, { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
@@ -41,6 +41,7 @@ const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
 const now = useNow()
 const { mintCountAvailable, maxCount } = useGenerativeDropMint()
+const { nftCount } = useCollectionEntity()
 const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
@@ -51,7 +52,7 @@ const priceUsd = ref()
 const isHolderAndEligible = computed(
   () =>
     holderOfCollection.value.isHolder
-    && maxCount.value > dropStore.mintsCount
+    && maxCount.value > nftCount.value
     && hasMinimumFunds.value
     && holderOfCollection.value.hasAvailable,
 )
@@ -74,7 +75,7 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (!mintCountAvailable.value) {
+  if (maxCount.value === nftCount.value) {
     return $i18n.t('mint.unlockable.seeListings')
   }
   if (!isLogIn.value) {
