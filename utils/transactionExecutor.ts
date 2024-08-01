@@ -123,15 +123,16 @@ export const estimate = async (
 const estimateEvm = async ({ address, arg, abi, functionName, account, prefix }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
   const { publicClient } = useViem(prefix)
 
-  const estimatedGas = await publicClient.estimateContractGas({
-    account: account as Address,
-    address: address as Address,
-    abi,
-    args: arg,
-    functionName,
-  })
-
-  const gasPrice = await publicClient.getGasPrice()
+  const [estimatedGas, gasPrice] = await Promise.all([
+    publicClient.estimateContractGas({
+      account: account as Address,
+      address: address as Address,
+      abi,
+      args: arg,
+      functionName,
+    }),
+    publicClient.getGasPrice()
+  ])
 
   return String(estimatedGas * gasPrice)
 }
