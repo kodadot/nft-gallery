@@ -34,7 +34,7 @@ import { getChainNameByPrefix } from '@/utils/chain'
 
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const options = useAvailableChainsOptions()
+const { availableChains: options } = useChain()
 
 const selected = computed({
   get: () => urlPrefix.value,
