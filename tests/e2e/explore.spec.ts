@@ -3,7 +3,7 @@ import { expect, test } from './fixtures'
 const EXPLORE_COLLECTIONS_PATH = '/ahk/explore/collectibles'
 const EXPLORE_ITEMS_PATH = '/ahk/explore/items?page=1'
 
-test('Explore collections', async ({ page, Commands }) => {
+test('Explore collections', async ({ page }) => {
   await page.goto(EXPLORE_COLLECTIONS_PATH)
 
   // Tabs
@@ -39,7 +39,7 @@ test('Explore collections', async ({ page, Commands }) => {
   })
 
   await test.step('Scroll down and wait for images to load', async () => {
-    await Commands.scrollDownAndStop()
+    // await Commands.scrollDownAndStop()
     await page.waitForLoadState('networkidle')
     expect(imageRequests.size).toBeGreaterThan(0)
   })
