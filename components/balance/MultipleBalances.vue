@@ -8,7 +8,6 @@
         {{ $t('asset.emptyAsset') }}
       </div>
       <NeoButton
-        v-if="isSub"
         variant="pill"
         size="small"
         class="px-4 py-1"
@@ -67,6 +66,7 @@
         v-if="isBalanceLoading"
         data-testid="skeleton-multiple-balances"
         animated
+        no-margin
       />
     </div>
 
@@ -77,7 +77,7 @@
     </p>
 
     <div
-      v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading && isSub"
+      v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="mt-4 flex items-center justify-end"
     >
       <a
@@ -108,8 +108,6 @@ const displayChainOrder: ChainType[] = [
   'kusamaHub',
 ]
 const identityStore = useIdentityStore()
-const { urlPrefix } = usePrefix()
-const { isSub } = useIsChain(urlPrefix)
 
 const rampActive = ref(false)
 
