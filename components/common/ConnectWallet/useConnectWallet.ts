@@ -65,5 +65,5 @@ export const openConnectWalletModal = (
     },
   })
 
-  return modal
+  return modal.value
 }
