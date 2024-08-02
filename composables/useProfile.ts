@@ -14,7 +14,7 @@ export default function useUserProfile() {
   } = useFetchProfile(params?.id as string)
 
   return {
-    hasProfile: computed(() => !!profile.value),
+    hasProfile: computed(() => isLoading.value || !!profile.value),
     userProfile: profile,
     fetchProfile,
     isFetchingProfile: isLoading,
