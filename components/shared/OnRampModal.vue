@@ -84,6 +84,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
+import type { ChainVM } from '@kodadot1/static'
 
 enum Provider {
   TRANSAK,
@@ -121,7 +122,7 @@ const PROVIDER_TOKEN_SUPPORTS = {
   EVM: ['ETH'],
 }
 
-const providers = computed<{ image: string, disabled: boolean, supports: Record<ChainVm, string[]>, value: Provider }>(() => [
+const providers = computed<{ image: string, disabled: boolean, supports: Record<ChainVM, string[]>, value: Provider }[]>(() => [
   {
     image: getImage('transak'),
     disabled: false,
