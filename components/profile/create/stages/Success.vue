@@ -33,6 +33,8 @@
       <NeoButton
         class="min-[400px]:!w-[150px] !w-full"
         variant="primary-rounded"
+        :tag="NuxtLink"
+        :to="profileUrl"
         :label="'Go To Profile'"
         @click="emit('close')"
       />
@@ -43,7 +45,10 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
+const NuxtLink = resolveComponent('NuxtLink')
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
 const emit = defineEmits(['close'])
 
-const profileUrl = window.location.href
+const profileUrl = computed(() => `/${urlPrefix.value}/u/${accountId.value}`)
 </script>

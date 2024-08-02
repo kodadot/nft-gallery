@@ -63,21 +63,22 @@ import { appClient, createChannel } from '@/services/farcaster'
 
 const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
-  modelValue: boolean
+  skipIntro?: boolean
 }>()
 
 const documentVisibility = useDocumentVisibility()
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
+const { fetchProfile } = useProfile()
 
-const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
+const { hasProfile, userProfile } = useProfile()
 
-const hasProfile = computed(() => profile?.hasProfile.value)
+provide('userProfile', { hasProfile, userProfile })
 
-const initialStep = computed(() => (hasProfile.value ? 2 : 1))
+const initialStep = computed(() => (props.skipIntro || hasProfile.value ? 2 : 1))
 
 const { getSignaturePair } = useVerifyAccount()
-const vOpen = useVModel(props, 'modelValue')
+const vOpen = ref(true)
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
@@ -165,6 +166,7 @@ const handleProfileDelete = async (address: string) => {
       title: $i18n.t('profiles.profileReset'),
     })
     emit('deleted')
+    fetchProfile()
     close()
   }
   catch (error) {
@@ -178,6 +180,8 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
   try {
     await processProfile(profileData)
     emit('success')
+
+    fetchProfile()
     stage.value = 5 // Go to success stage
   }
   catch (error) {
