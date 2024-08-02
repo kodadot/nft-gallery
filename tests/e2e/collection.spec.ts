@@ -1,13 +1,12 @@
 import { expect, test } from './fixtures'
 
-const COLLECTION_ADDRESS_PATH = '/ahp/collection/158/'
-const COLLECTION_NAME = 'Under the Microscope'
+const COLLECTION_ADDRESS_PATH = '/ahp/collection/38/'
+const COLLECTION_NAME = 'Pare1d0scope'
 const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
 
 test('Collection interactions', async ({ page, Commands }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
   await Commands.scrollDownAndStop()
-  await page.waitForLoadState('networkidle')
   await test.step('Check collection name and description', async () => {
     await expect(page.getByTestId('collection-banner-name')).toContainText(
       COLLECTION_NAME,
@@ -16,7 +15,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('description-show-less-more-button').click()
     // collection description
     await expect(page.getByTestId('collection-description')).toContainText(
-      'Artist: Gorilla Sun',
+      'Geometry',
     )
   })
 
@@ -73,11 +72,10 @@ test('Collection interactions', async ({ page, Commands }) => {
       .fill('34')
     await page.keyboard.press('Enter')
     await Commands.scrollDownSlow()
-    await page.waitForLoadState('networkidle')
     await expect(
       page.locator('[class="infinite-scroll-item"]').first(),
     ).toBeVisible()
-    await expect(page.getByTestId('nft-name')).toHaveText('Under the Microscope #34')
+    await expect(page.getByTestId('nft-name')).toHaveText('Pare1d0scope #34')
   })
 
   // art view
@@ -117,6 +115,7 @@ test('Collection interactions', async ({ page, Commands }) => {
   // event filters
   await test.step('Event Filters(sale,list,mint,transfer)', async () => {
     const eventTable = page.getByTestId('nfts-event-table')
+    const saleFilter = page.getByTestId('event-checkbox-filter-sale').nth(1)
     const listingFilter = page
       .getByTestId('event-checkbox-filter-listing')
       .nth(1)
@@ -124,6 +123,9 @@ test('Collection interactions', async ({ page, Commands }) => {
     const transferFilter = page
       .getByTestId('event-checkbox-filter-transfer')
       .nth(1)
+    await saleFilter.check()
+    await expect(eventTable).toContainText('Sale')
+    await saleFilter.uncheck()
     await listingFilter.check()
     await expect(eventTable).toContainText('List')
     await listingFilter.uncheck()

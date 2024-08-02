@@ -8,7 +8,6 @@ const ITEM_ROYALTY_RECIPIENT = '1L2xst...ucgnNZ'
 
 test('Gallery item Interactions', async ({ page }) => {
   await page.goto(ITEM_ADDRESS_PATH)
-  await page.waitForLoadState('networkidle')
 
   // Activity tab
   await test.step('Verifies if activity tab has content', async () => {
