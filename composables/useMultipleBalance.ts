@@ -22,6 +22,7 @@ export const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
   kusamaHub: 'ahk',
   polkadotHub: 'ahp',
   base: 'base',
+  immutablex: 'imx',
   // rococoHub: 'ahr',
 }
 
@@ -32,6 +33,7 @@ export const prefixToNetwork: Partial<Record<Prefix, ChainType>> = {
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',
   base: 'base',
+  imx: 'immutablex',
   // ahr: 'rococoHub',
 }
 
@@ -80,6 +82,11 @@ export default function (refetchPeriodically: boolean = false) {
     [Chain.POLKADOT]: multiBalances.value.chains.polkadot?.dot?.nativeBalance,
     [Chain.ASSETHUBPOLKADOT]:
       multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
+    // decouple Chain from teleport
+    [Chain.BASE]:
+        multiBalances.value.chains.base?.eth?.nativeBalance,
+    [Chain.IMMUTABLEX]:
+        multiBalances.value.chains.immutablex?.eth?.nativeBalance,
   }))
 
   const currentChain = computed(() => prefixToChainMap[urlPrefix.value])

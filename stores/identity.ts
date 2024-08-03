@@ -33,6 +33,7 @@ export type ChainType =
   | 'kusamaHub'
   | 'polkadotHub'
   | 'base'
+  | 'immutablex'
 // | 'rococoHub'
 
 type ChainDetail = {
@@ -42,7 +43,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-export type ChainToken = Partial<Record<'dot' | 'ksm', ChainDetail>>
+export type ChainToken = Partial<Record<'dot' | 'ksm' | 'eth', ChainDetail>>
 
 interface MultiBalances {
   address: string
@@ -103,6 +104,7 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
       { chain: 'base', token: 'ETH' },
+      { chain: 'immutablex', token: 'ETH' },
     ],
     multiBalanceAssetsTestnet: [
       // { chain: 'rococoHub', token: 'ROC' },

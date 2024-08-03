@@ -58,7 +58,7 @@ export default function (
   )
 
   const allowedSourceChains = computed(() =>
-    currentChain.value ? teleportRoutes[currentChain.value] : [],
+    currentChain.value ? teleportRoutes[currentChain.value] ?? [] : [],
   )
 
   const totalFees = computed(
