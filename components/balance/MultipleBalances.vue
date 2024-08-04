@@ -101,10 +101,11 @@ import type { ChainToken, ChainType } from '@/stores/identity'
 import { useIdentityStore } from '@/stores/identity'
 
 const displayChainOrder: ChainType[] = [
-  'polkadot',
   'polkadotHub',
-  'kusama',
   'kusamaHub',
+  'polkadot',
+  'kusama',
+
 ]
 const identityStore = useIdentityStore()
 const rampActive = ref(false)

@@ -77,8 +77,8 @@ const props = withDefaults(
     hideName: boolean
   }>(),
   {
-    route: '/rmrk/gallery',
-    link: 'rmrk/gallery',
+    route: '/ahp/gallery',
+    link: 'ahp/gallery',
     name: '',
     emoteCount: '',
     listed: true,

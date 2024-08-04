@@ -1,8 +1,4 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import type { ActionSend } from './types'
 import {
@@ -34,22 +30,6 @@ function checkTsxSend(item: ActionSend) {
   return true
 }
 
-function execSendRmrk(item: ActionSend, api, executeTransaction) {
-  const interaction
-    = item.urlPrefix === 'rmrk'
-      ? createInteraction(Interaction.SEND, item.nftId, item.address)
-      : createNewInteraction({
-        action: NewInteraction.SEND,
-        payload: { id: item.nftId, recipient: item.address },
-      })
-  executeTransaction({
-    cb: api.tx.system.remark,
-    arg: [interaction],
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
-  })
-}
-
 // note: price is automatically set to 0
 // https://github.com/paritytech/substrate/blob/e6a13b807a88d25aa1cd0d320edb9412c3692c67/frame/uniques/src/functions.rs#LL58C2-L58C51
 function execSendAssetHub(item: ActionSend, api, executeTransaction) {
@@ -68,10 +48,6 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
 export function execSendTx(item: ActionSend, api, executeTransaction) {
   if (!checkTsxSend(item)) {
     return
-  }
-
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    execSendRmrk(item, api, executeTransaction)
   }
 
   // item.urlPrefix === 'ahr'

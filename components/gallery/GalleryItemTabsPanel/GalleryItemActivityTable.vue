@@ -159,7 +159,7 @@ onMounted(async () => {
 
 const interaction = computed(() =>
   dprops.interactions.map((key) => {
-    if (['ksm', 'ahk', 'ahp', 'base'].includes(urlPrefix.value)) {
+    if (['ahk', 'ahp', 'base'].includes(urlPrefix.value)) {
       switch (key) {
         case 'MINTNFT':
           return 'MINT'

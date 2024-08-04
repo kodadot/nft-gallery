@@ -99,11 +99,6 @@ const menus = ref<{ label: string, to: string, vm: ChainVM[] }[]>([
     to: `/${urlPrefix.value}/teleport`,
     vm: ['SUB'],
   },
-  {
-    label: 'Migrate',
-    to: '/migrate',
-    vm: ['SUB'],
-  },
 ])
 
 // TODO: enable when asset hub offers are ready

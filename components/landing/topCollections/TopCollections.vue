@@ -22,7 +22,7 @@
           position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
-          :exclude="['ksm', 'imx']"
+          :exclude="['imx']"
         />
       </div>
     </div>

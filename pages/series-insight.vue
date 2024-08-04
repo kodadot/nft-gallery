@@ -9,14 +9,6 @@
           {{ $t('series.subtitle', { chain: urlPrefix }) }}
         </p>
       </div>
-      <div class="flex-1">
-        <img
-          v-if="isRemark"
-          src="/rmrk-logo-pink-faded.png"
-          alt="RMRK"
-          class="chain-logo is-hidden-mobile"
-        >
-      </div>
     </div>
 
     <SeriesTable />
@@ -27,7 +19,6 @@
 import { seriesInsightVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 const checkRouteAvailability = () => {
   if (!seriesInsightVisible(urlPrefix.value)) {

@@ -8,7 +8,7 @@
       },
     ]"
     :no-shadow="noShadow"
-    :disabled="!isLogIn || isRemark"
+    :disabled="!isLogIn"
   >
     <template #trigger="{ active }">
       <NeoButton
@@ -98,9 +98,6 @@ const props = defineProps({
   noShadow: { type: Boolean, default: false },
   preselected: { type: String, default: undefined },
 })
-
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 const { isLogIn, accountId } = useAuth()
 

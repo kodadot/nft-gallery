@@ -83,9 +83,6 @@ import {
 } from '@/composables/popularCollections/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
-
 const route = useRoute()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity',
@@ -131,7 +128,7 @@ const clearAllFilters = () => {
 }
 
 const queryMapTranslation = {
-  listed: isRemark.value ? $i18n.t('sort.listed_RMRK') : $i18n.t('sort.listed'),
+  listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
   art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),

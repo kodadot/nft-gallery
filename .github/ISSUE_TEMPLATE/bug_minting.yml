@@ -79,9 +79,7 @@ body:
       multiple: true
       options:
         - Basilisk
-        - Kusama
         - MoonBeam
-        - RMRK2
   - type: textarea
     id: Screenshots
     attributes:

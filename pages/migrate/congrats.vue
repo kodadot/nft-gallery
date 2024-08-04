@@ -68,10 +68,10 @@ definePageMeta({
 
 const { urlPrefix } = usePrefix()
 const route = useRoute()
-const source = availablePrefixWithIcon().find(
+const source = allPrefixWithIcon().find(
   item => item.value === route.query.source,
 )
-const destination = availablePrefixWithIcon().find(
+const destination = allPrefixWithIcon().find(
   item => item.value === route.query.destination,
 )
 

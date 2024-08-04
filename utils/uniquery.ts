@@ -37,7 +37,3 @@ export function unwrapId(
 export function correctPrefix(prefix: string): string {
   return prefix
 }
-
-export function ifRMRK<T>(prefix: string, first: T, second: T): T {
-  return prefix === 'rmrk' ? first : second
-}

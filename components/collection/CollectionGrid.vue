@@ -74,7 +74,6 @@ const slots = useSlots()
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
 
 const isProfilePage = route.name === 'prefix-u-id'
@@ -121,10 +120,6 @@ const getQueryVariables = (page: number) => {
 
   if (isProfilePage && accountId.value !== props.id) {
     Object.assign(searchParams, { nftCount_not_eq: 0 })
-  }
-
-  if (isRemark.value) {
-    delete searchParams.burned_eq
   }
 
   return props.id
