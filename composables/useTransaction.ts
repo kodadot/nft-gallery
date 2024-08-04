@@ -172,6 +172,7 @@ const useExecuteTransaction = (options: TransactionOptions) => {
           abi: evmParams.abi,
           args: arg,
           functionName: evmParams.functionName,
+          value: evmParams.value,
           onSuccess: successCb,
           onError: errorCb,
         } as EvmHowAboutToExecuteParam)

@@ -13,6 +13,7 @@ export type EvmHowAboutToExecuteParam = {
   functionName: string
   abi: Abi
   args: unknown[]
+  value?: string
 } & EvmHowAboutToExecuteEvents
 
 export type EvmHowAboutToExecute = (
@@ -44,6 +45,7 @@ export default function useEvmMetaTransaction() {
     address,
     args,
     abi,
+    value,
     onSuccess,
     onError,
   }: EvmHowAboutToExecuteParam): Promise<void> => {
@@ -61,6 +63,7 @@ export default function useEvmMetaTransaction() {
         abi,
         args,
         functionName,
+        value,
       })
 
       const txHash = await walletClient.writeContract(request)
