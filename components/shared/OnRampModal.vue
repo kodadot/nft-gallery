@@ -67,7 +67,7 @@
               </div>
 
               <div class="text-xs text-k-grey">
-                {{ getSupportedTokensToText(provider.supports) }}
+                {{ getSupportedTokensToText(provider.supports[vm]) }}
               </div>
             </div>
           </div>
@@ -84,6 +84,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
+import type { ChainVM } from '@kodadot1/static'
 
 enum Provider {
   TRANSAK,
@@ -101,6 +102,7 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 const agreeTos = ref<boolean>(false)
 
+const { vm } = useChain()
 const { init: initTransak } = useTransak()
 const { init: initRamp } = useRamp()
 
@@ -115,17 +117,22 @@ const getImage = (service: string) => {
 const getSupportedTokensToText = (tokens: string[]) =>
   tokens.map(token => `$${token}`).join(', ')
 
-const providers = computed(() => [
+const PROVIDER_TOKEN_SUPPORTS = {
+  SUB: ['DOT', 'KSM'],
+  EVM: ['ETH'],
+}
+
+const providers = computed<{ image: string, disabled: boolean, supports: Record<ChainVM, string[]>, value: Provider }[]>(() => [
   {
     image: getImage('transak'),
     disabled: false,
-    supports: ['DOT', 'KSM'],
+    supports: PROVIDER_TOKEN_SUPPORTS,
     value: Provider.TRANSAK,
   },
   {
     image: getImage('ramp'),
     disabled: false,
-    supports: ['DOT', 'KSM'],
+    supports: PROVIDER_TOKEN_SUPPORTS,
     value: Provider.RAMP,
   },
 ])

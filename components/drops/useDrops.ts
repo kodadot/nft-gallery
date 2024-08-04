@@ -177,7 +177,7 @@ export function useDrop(alias?: string) {
 
 export const fetchDropMintedCount = async (
   drop: Pick<DropItem, 'collection' | 'chain'>,
-) => {
+): Promise<number> => {
   if (!drop.collection || !drop.chain) {
     return 0
   }
@@ -192,7 +192,7 @@ export const fetchDropMintedCount = async (
     clientId: drop.chain,
   })
 
-  return data.value?.collectionEntityById.nftCount
+  return data.value?.collectionEntityById?.nftCount ?? 0
 }
 
 const subscribeDropMintedCount = (
