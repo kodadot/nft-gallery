@@ -35,6 +35,7 @@ export type ExecuteEvmTransactionParams = {
   address: string
   functionName: string
   abi: Abi
+  value?: string
 } & BaseExecuteTransactionParams
 
 export type ExecuteTransactionParams =
