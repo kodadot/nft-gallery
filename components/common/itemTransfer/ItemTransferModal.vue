@@ -113,7 +113,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -133,10 +133,9 @@ const { $i18n } = useNuxtApp()
 const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { decimals, chainSymbol, chainProperties } = useChain()
-const ss58Format = computed(() => chainProperties.value?.ss58Format)
+const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
-const { apiInstance } = useApi()
+const { getTransactionFee } = useFees()
 
 const txFee = ref<number>(0)
 const isModalActive = useVModel(props, 'value')
@@ -150,6 +149,8 @@ const action = computed<Actions>(() => ({
   address: address.value,
   tokenId: route.params.id.toString(),
   nftId: props.nft.id,
+  nftSn: props.nft.sn,
+  collectionId: props.nft.collection.id,
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 }))
@@ -207,8 +208,7 @@ const handleAddressCheck = (isValid: boolean) => {
 
 const getChainAddress = (value: string) => {
   try {
-    const publicKey = decodeAddress(value)
-    return encodeAddress(publicKey, ss58Format.value)
+    return toSubstrateAddress(value)
   }
   catch (error) {
     return null
@@ -216,13 +216,9 @@ const getChainAddress = (value: string) => {
 }
 
 const getTransferFee = async () => {
-  const api = await apiInstance.value
-  const fee = await getActionTransactionFee({
-    action: { ...action.value, address: accountId.value } as Actions,
-    address: accountId.value,
-    api,
-  })
-  txFee.value = Number(fee)
+  return getTransactionFee({ action: action.value, prefix: urlPrefix.value })
+    .then(fee => txFee.value = fee)
+    .catch(() => txFee.value = 0)
 }
 
 const transfer = () => {
