@@ -49,6 +49,7 @@ async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
     abi: GENSOL_ABI,
     arg: [accountId.value],
     functionName: 'safeMint',
+    value: drop.value.price,
   })
 }
 
