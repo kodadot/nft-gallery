@@ -1,8 +1,7 @@
 import type { Prefix } from '@kodadot1/static'
-import { CHAINS } from '@kodadot1/static'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import type { RawLocation } from 'vue-router/types/router'
 import { createVisible } from '@/utils/config/permission.config'
+import { getss58AddressByPrefix } from '@/utils/account'
 
 const NO_REDIRECT_ROUTE_NAMES = [
   'hot',
@@ -17,11 +16,6 @@ const NO_REDIRECT_ROUTE_NAMES = [
 
 function isNoRedirect(routeName: string): boolean {
   return NO_REDIRECT_ROUTE_NAMES.includes(routeName)
-}
-
-const getAddress = (chain: string, accountId: string) => {
-  const publicKey = decodeAddress(accountId)
-  return encodeAddress(publicKey, CHAINS[chain].ss58Format)
 }
 
 const clearInstanceSortFromQuery = (query) => {
@@ -48,7 +42,7 @@ function getRedirectPathForPrefix({
   route
 }): RawLocation {
   if (routeName === 'prefix-u-id') {
-    const accountId = getAddress(chain, route.params.id)
+    const accountId = getss58AddressByPrefix(route.params.id, chain)
 
     delete route.query.collections
 
