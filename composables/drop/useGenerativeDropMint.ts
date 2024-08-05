@@ -8,8 +8,8 @@ import type {
 } from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import { evmCollection } from '~/utils/onchain/evm'
-import { subCollection } from '~/utils/onchain/sub'
+import { evmCollection } from '@/utils/onchain/evm'
+import { subCollection } from '@/utils/onchain/sub'
 
 export type DropMintedNft = DoResult & {
   id: string
