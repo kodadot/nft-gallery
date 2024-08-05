@@ -31,7 +31,7 @@ function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction
 }
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
-  if (item.urlPrefix === 'base') {
+  if (item.urlPrefix === 'base' || item.urlPrefix === 'imx') {
     return execBurnEvm(item, executeTransaction)
   }
 
