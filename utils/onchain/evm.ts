@@ -28,8 +28,8 @@ export const evmCollection = async (address: `0x${string}`, chain: string) => {
     // 2. drops on fxhash: https://basescan.org/token/0xAC2D45854EAFF6eF61c2d5c8c7224Ea255937a9C
     // also use totalSupply to get the minted count. maxSupply = totalSupply + remainingSupply
     // at the moment use api from ogi is because our contract doesn't have the minted function
-    $fetch<{ collection?: { claimed?: string } }>(`https://ogi-feat--evm-api-for-item-d.workers-ogi.pages.dev/api/evm/${chain}/item/${address}`),
-  ]) as [bigint, string, { collection?: { claimed?: string } }]
+    $fetch(`https://ogi-feat--evm-api-for-item-d.workers-ogi.pages.dev/api/evm/${chain}/collection/${address}`),
+  ]) as [bigint, string, { claimed?: string }]
 
   let metadata = { description: '', name: '', image: '' }
   if (collectionMetadata) {
@@ -37,7 +37,7 @@ export const evmCollection = async (address: `0x${string}`, chain: string) => {
   }
 
   const maxSupply = Number(collectionSupply.toString())
-  const minted = Number(getCollection.collection?.claimed) || 0
+  const minted = Number(getCollection?.claimed) || 0
 
   return {
     maxSupply,
