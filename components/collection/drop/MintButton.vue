@@ -75,7 +75,7 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (maxCount.value === nftCount.value) {
+  if (maxCount.value && (maxCount.value === nftCount.value)) {
     return $i18n.t('mint.unlockable.seeListings')
   }
   if (!isLogIn.value) {
