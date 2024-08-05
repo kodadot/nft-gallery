@@ -13,6 +13,7 @@ export default () => {
   const dropStore = useDropStore()
   const { collectionName } = useCollectionEntity()
   const { drop, amountToMint, toMintNFTs, loading } = storeToRefs(dropStore)
+  const { isSub } = useIsChain(usePrefix().urlPrefix)
 
   // ensure tokenIds are unique on single user session
   const tokenIds = ref<number[]>([])
@@ -37,7 +38,9 @@ export default () => {
   const massGenerate = async () => {
     try {
       clearMassMint()
-      await populateTokenIds()
+      if (isSub.value) {
+        await populateTokenIds()
+      }
 
       toMintNFTs.value = Array.from({ length: amountToMint.value }).map(
         (_, index) => {
