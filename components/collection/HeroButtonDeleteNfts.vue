@@ -3,7 +3,8 @@
     :title="$t('moreActions.deletingNfts')"
     :is-loading="isLoading"
     :status="status"
-    @try-again="deleteNfts" />
+    @try-again="deleteNfts"
+  />
 
   <NeoDropdownItem @click="deleteNfts()">
     {{ $i18n.t('moreActions.deleteNfts') }}
@@ -11,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { NFTs } from '@/composables/transaction/types'
 import { NeoDropdownItem } from '@kodadot1/brick'
+import { NFTs } from '@/composables/transaction/types'
 
 type NftIds = {
   nfts?: {
@@ -46,7 +47,7 @@ const { data } = useGraphql({
 
 const deleteNfts = async () => {
   const nfts = (data.value as NftIds).nfts
-  const ids = nfts?.map((nft) => nft.id)
+  const ids = nfts?.map(nft => nft.id)
 
   if (ids?.length) {
     isLoading.value = true
@@ -67,8 +68,8 @@ const deleteNfts = async () => {
     `,
       onChange: ({ data }) => {
         if (
-          data.nftEntities.length === 0 ||
-          status.value === TransactionStatus.Finalized
+          data.nftEntities.length === 0
+          || status.value === TransactionStatus.Finalized
         ) {
           isLoading.value = false
         }

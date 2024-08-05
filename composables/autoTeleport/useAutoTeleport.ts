@@ -1,11 +1,11 @@
-import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
-import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
 import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
   AutoTeleportTransactions,
 } from './types'
+import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
+import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,

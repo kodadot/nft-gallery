@@ -1,13 +1,15 @@
-import { CreatedNFT, toNFTId as toNFTIdV1 } from '@kodadot1/minimark/v1'
+import type { CreatedNFT } from '@kodadot1/minimark/v1'
+import { toNFTId as toNFTIdV1 } from '@kodadot1/minimark/v1'
+import type {
+  CreatedNFT as CreatedNFTV2 } from '@kodadot1/minimark/v2'
 import {
-  CreatedNFT as CreatedNFTV2,
   toNFTId as toNFTIdV2,
 } from '@kodadot1/minimark/v2'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { ItemResources } from '@/composables/useNft'
-import { Attribute } from '@kodadot1/minimark/common'
+import type { Attribute } from '@kodadot1/minimark/common'
 import type { Prefix } from '@kodadot1/static'
 import type { TokenMetadata } from '@kodadot1/hyperdata'
+import type { ItemResources } from '@/composables/useNft'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -77,7 +79,7 @@ export interface NFTMetadata extends Metadata, ItemResources {
   youtube_url?: string
   type?: string
   image_ar?: string
-  properties?: Record<string, { value: string; type: string }>
+  properties?: Record<string, { value: string, type: string }>
   unlockable?: boolean
   sn?: string
 }
@@ -127,8 +129,8 @@ export interface Arweave {
 
 export interface CollectionWithMeta
   extends Collection,
-    CollectionMetadata,
-    Arweave {
+  CollectionMetadata,
+  Arweave {
   nfts?: NFT[]
   collection_id?: string
   totalCount?: number

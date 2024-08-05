@@ -4,7 +4,8 @@
     :icon="icon"
     :size="size || 'default'"
     :custom-size="customSize"
-    :variant="variant" />
+    :variant="variant"
+  />
 </template>
 
 <script lang="ts" setup>

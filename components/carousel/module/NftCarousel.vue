@@ -2,14 +2,23 @@
   <CarouselModuleCarouselAgnostic
     :items="nfts"
     :step="step"
-    :breakpoints="breakpoints">
+    :breakpoints="breakpoints"
+  >
     <template #default="{ item, index }">
       <NuxtLink
         class="h-full flex flex-col carousel-item"
         :to="urlOf({ id: item.id, url, chain: item.chain })"
-        rel="nofollow">
-        <CarouselMedia :item="item" :index="index" :length="nfts.length" />
-        <slot name="card-info" :item="item">
+        rel="nofollow"
+      >
+        <CarouselMedia
+          :item="item"
+          :index="index"
+          :length="nfts.length"
+        />
+        <slot
+          name="card-info"
+          :item="item"
+        >
           <CarouselInfo :item="item" />
         </slot>
       </NuxtLink>
@@ -18,11 +27,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useCarouselUrl } from '../utils/useCarousel'
 import CarouselMedia from './CarouselMedia.vue'
 import CarouselInfo from './CarouselInfo.vue'
 import type { CarouselNFT } from '@/components/base/types'
-
-import { useCarouselUrl } from '../utils/useCarousel'
 
 const breakpoints = {
   '640px': { slides: { perView: 2.2, spacing: 16 } },

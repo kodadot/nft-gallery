@@ -4,10 +4,14 @@
       v-show="isActive"
       ref="wrapper"
       class="message !px-6 !py-4 shadow-primary border border-border-color relative"
-      :class="[`message__${variant}`]">
+      :class="[`message__${variant}`]"
+    >
       <div class="flex gap-4">
         <div v-if="computedIcon">
-          <NeoIcon :icon="computedIcon" size="large" />
+          <NeoIcon
+            :icon="computedIcon"
+            size="large"
+          />
         </div>
 
         <div class="w-full flex justify-between">
@@ -31,14 +35,16 @@
             icon="xmark"
             no-shadow
             class="!bg-[unset] text-[16px] p-1"
-            @click="close" />
+            @click="close"
+          />
         </div>
       </div>
 
       <div
         v-if="showProgressBar"
         class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
-        :style="{ width: `${percent}%` }" />
+        :style="{ width: `${percent}%` }"
+      />
     </article>
   </transition>
 </template>
@@ -47,7 +53,7 @@
 import { useElementHover } from '@vueuse/core'
 import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
-import { NeoMessageVariant } from '../../types'
+import type { NeoMessageVariant } from '../../types'
 
 const iconVariant: Record<NeoMessageVariant, string> = {
   info: 'circle-info',
@@ -101,7 +107,8 @@ const close = () => {
 watch(isActive, (active) => {
   if (active) {
     startTimer()
-  } else if (timer.value) {
+  }
+  else if (timer.value) {
     clearTimeout(timer.value)
   }
 })
@@ -126,7 +133,7 @@ watch(remainingTime, (time) => {
 
 watch(
   () => props.active,
-  (active) => (isActive.value = active),
+  active => (isActive.value = active),
 )
 
 onMounted(startTimer)

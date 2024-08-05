@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="header"></slot>
+    <slot name="header" />
 
     <NeoField>
       <Auth />
@@ -9,7 +9,8 @@
     <CollectionSelect
       :collections="collections"
       :show-explainer-text="showExplainerText"
-      @change-selected-collection="onCollectionSelected" />
+      @change-selected-collection="onCollectionSelected"
+    />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
@@ -20,7 +21,8 @@
           :required="true"
           :label="$t('mint.nft.drop')"
           expanded
-          preview />
+          preview
+        />
 
         <BasicInput
           ref="nftName"
@@ -32,7 +34,8 @@
           :placeholder="$t('mint.nft.name.placeholder')"
           expanded
           spellcheck="true"
-          maxlength="60" />
+          maxlength="60"
+        />
 
         <BasicInput
           key="description"
@@ -43,7 +46,8 @@
           spellcheck="true"
           :label="$t('mint.nft.description.label')"
           :message="$t('mint.nft.description.message')"
-          :placeholder="$t('mint.nft.description.placeholder')" />
+          :placeholder="$t('mint.nft.description.placeholder')"
+        />
 
         <BasicNumberInput
           v-if="hasCopies"
@@ -54,7 +58,8 @@
           :placeholder="$t('mint.nft.edition.placeholder')"
           expanded
           :min="1"
-          :max="clickableMax" />
+          :max="clickableMax"
+        />
 
         <MetadataUpload
           v-if="secondaryFileVisible"
@@ -64,27 +69,28 @@
           icon="file-image"
           preview
           accept="image/png, image/jpeg, image/gif"
-          expanded />
+          expanded
+        />
 
-        <slot name="main"></slot>
+        <slot name="main" />
 
-        <slot name="footer"></slot>
+        <slot name="footer" />
       </template>
     </transition-group>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NeoField } from '@kodadot1/brick'
+import { useVModel } from '@vueuse/core'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
-import { BaseMintedCollection as MintedCollection } from './types'
-import { NeoField } from '@kodadot1/brick'
+import type { BaseMintedCollection as MintedCollection } from './types'
 import Auth from '@/components/shared/Auth.vue'
 import MetadataUpload from '@/components/shared/DropUpload.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
 import BasicNumberInput from '@/components/shared/form/BasicNumberInput.vue'
 import CollectionSelect from '@/components/base/CollectionSelect.vue'
-import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   label: {
@@ -152,7 +158,7 @@ const fileType = computed(() => resolveMedia(vFile.value?.type))
 
 const secondaryFileVisible = computed(() => {
   const ft = fileType.value
-  return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === ft)
+  return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === ft)
 })
 
 defineExpose({ checkValidity })

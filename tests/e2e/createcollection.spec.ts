@@ -4,20 +4,20 @@ const CREATE_COLLECTION_PATH = '/create/collection'
 
 test('Fill fields to check if they work', async ({ page, Commands }) => {
   await test.step('Login and goto create collection ', async () => {
-    //E2E connection
+    // E2E connection
     await Commands.e2elogin()
-    //Goto
+    // Goto
     await page.goto(CREATE_COLLECTION_PATH)
   })
   await test.step('Upload image ', async () => {
-    //upload image logo
+    // upload image logo
     await page.setInputFiles(
       'input[type="file"]',
       'tests/e2e/unsplash-image.jpg',
     )
   })
   await test.step('Fill collection name and description', async () => {
-    //checks if Collection Name Title Exists
+    // checks if Collection Name Title Exists
     await expect(
       page
         .getByTestId('collection-name')
@@ -33,7 +33,7 @@ test('Fill fields to check if they work', async ({ page, Commands }) => {
       .fill('Best Collection Ever Created')
   })
   await test.step('Activate unlimited items switch and verify if input is shown', async () => {
-    //active unlimited items switch
+    // active unlimited items switch
     const collectionAmount = page.getByTestId('collection-maxAmount')
     await collectionAmount.locator('.o-switch').click()
     await expect(
@@ -41,7 +41,7 @@ test('Fill fields to check if they work', async ({ page, Commands }) => {
     ).toBeVisible()
   })
   await test.step('Check if create collection button is on page', async () => {
-    //Check if button exists
+    // Check if button exists
     await expect(page.getByTestId('collection-create')).toBeVisible()
     await expect(
       page
@@ -60,13 +60,13 @@ test('Check if chain change works using the dropdown', async ({
     await page.goto(CREATE_COLLECTION_PATH)
   })
 
-  //Chain dropdown
+  // Chain dropdown
   await test.step('Wait for chain dropdown to be visible and select Kusamahub', async () => {
     expect(page.getByTestId('collection-chain')).toBeVisible()
     await page.getByTestId('collection-chain').selectOption('KusamaHub')
   })
 
-  //Deposits and Balance
+  // Deposits and Balance
   await test.step('Verify if balances are loaded', async () => {
     await expect(page.getByTestId('collection-deposit')).toBeVisible({
       timeout: 30000,
@@ -76,7 +76,7 @@ test('Check if chain change works using the dropdown', async ({
     })
   })
 
-  //Dropdown change to RMRK2
+  // Dropdown change to RMRK2
   await test.step('Changes to RMRK2 and verifies if chain changed', async () => {
     await page.getByTestId('collection-chain').selectOption('PolkadotHub')
     await expect(page.getByTestId('chain')).toContainText('ahp')

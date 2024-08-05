@@ -1,7 +1,8 @@
 <template>
   <div
     class="container is-fluid"
-    :class="{ 'sidebar-padding-left': isSidebarOpen }">
+    :class="{ 'sidebar-padding-left': isSidebarOpen }"
+  >
     <Items />
   </div>
 </template>
@@ -23,8 +24,8 @@ const checkRouteAvailability = () => {
 
 const getSeoMeta = computed(() => {
   const prefix = urlPrefix.value
-  const isAssetHub =
-    Object.keys(chainNameSeoMap).includes(prefix) && assetHub.includes(prefix)
+  const isAssetHub
+    = Object.keys(chainNameSeoMap).includes(prefix) && assetHub.includes(prefix)
 
   return {
     title: isAssetHub

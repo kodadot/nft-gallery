@@ -1,10 +1,19 @@
 <template>
-  <Story title="NeoAutocomplete" :layout="{ type: 'grid', width: '200px' }">
+  <Story
+    title="NeoAutocomplete"
+    :layout="{ type: 'grid', width: '200px' }"
+  >
     <Variant title="Autocomplete">
       {{ label }}
       <template #items>
-        <NeoAutocomplete placeholder="Search..." icon="search" icon-pack="fasr">
-          <template #header>header</template>
+        <NeoAutocomplete
+          placeholder="Search..."
+          icon="search"
+          icon-pack="fasr"
+        >
+          <template #header>
+            header
+          </template>
         </NeoAutocomplete>
       </template>
     </Variant>

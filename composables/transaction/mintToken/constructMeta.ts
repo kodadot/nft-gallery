@@ -1,4 +1,5 @@
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import type { TokenToMint } from '../types'
 import {
   nsfwAttribute,
   offsetAttribute,
@@ -9,7 +10,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
-import { TokenToMint } from '../types'
 
 export async function constructMeta(
   tokenToMint: TokenToMint,

@@ -1,10 +1,13 @@
 <template>
-  <NeoModal :value="isModalActive" @close="emit('close')">
+  <NeoModal
+    :value="isModalActive"
+    @close="emit('close')"
+  >
     <div class="p-6 w-[unset] lg:w-[25rem]">
       <div class="flex justify-center text-xl pb-4 border-b border-k-shade">
         <span>
           {{ $t('massmint.areYouSureDelete') }}
-          <br />
+          <br>
           <span class="font-bold"> “{{ nft.name }} #{{ nft.id }}” </span>
           ?
         </span>
@@ -15,12 +18,14 @@
           no-shadow
           variant="primary"
           :label="$t('massmint.yesDelete')"
-          @click="deleteNFT(nft)" />
+          @click="deleteNFT(nft)"
+        />
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
           class="flex flex-grow flex-1 h-[3.25rem]"
-          @click="emit('close')" />
+          @click="emit('close')"
+        />
       </div>
     </div>
   </NeoModal>
@@ -28,7 +33,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import { NFT } from '../types'
+import type { NFT } from '../types'
 
 const props = defineProps<{
   modelValue: boolean

@@ -6,20 +6,23 @@
       :is-loading="isLoading"
       :status="status"
       close-in-block
-      @try-again="handleBuy" />
+      @try-again="handleBuy"
+    />
 
     <BuySuccessfulBuyModal
       v-model="isSuccessfulModalOpen"
       :tx-hash="txHash"
       :status="status"
-      :items="buySessionItems" />
+      :items="buySessionItems"
+    />
 
     <ConfirmPurchaseModal
       :loading="!hasSyncedPrices"
       :action="autoteleportAction"
       @close="handleClose"
       @confirm="handleConfirm"
-      @completed="handleActionCompleted" />
+      @completed="handleActionCompleted"
+    />
   </div>
 </template>
 
@@ -29,9 +32,9 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
 import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
-import { Actions, TokenToBuy } from '@/composables/transaction/types'
-import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import type { Actions, TokenToBuy } from '@/composables/transaction/types'
+import type { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
@@ -39,8 +42,8 @@ type ConfirmPurchaseParams = {
   items: ShoppingCartItem[]
 } & AutoTeleportActionButtonConfirmEvent
 
-const { transaction, status, isLoading, isError, blockNumber, txHash } =
-  useTransaction()
+const { transaction, status, isLoading, isError, blockNumber, txHash }
+  = useTransaction()
 const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -152,9 +155,10 @@ const getCartModeBasedBuyAction = () => {
   if (isShoppingCartMode.value) {
     return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
-      items.value.map((item) => item.name),
+      items.value.map(item => item.name),
     )
-  } else {
+  }
+  else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
     return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
   }
@@ -176,7 +180,8 @@ const getBuyAction = (
 const handleBuy = async () => {
   try {
     await transaction(buyAction.value)
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error)
   }
 }
@@ -184,7 +189,8 @@ const handleBuy = async () => {
 const removeItem = (id: string) => {
   if (isShoppingCartMode.value) {
     shoppingCartStore.removeItem(id)
-  } else {
+  }
+  else {
     shoppingCartStore.removeItemToBuy()
   }
 }
@@ -195,7 +201,8 @@ const updateItem = (item: ShoppingCartItem, price: string) => {
       ...item,
       price,
     })
-  } else {
+  }
+  else {
     shoppingCartStore.setItemToBuy({
       ...item,
       price,
@@ -205,7 +212,7 @@ const updateItem = (item: ShoppingCartItem, price: string) => {
 
 const handleNftPriceChange = (
   item: ShoppingCartItem,
-  updatedNft: { id: string; price: string },
+  updatedNft: { id: string, price: string },
 ): boolean => {
   const newPrice = updatedNft.price
   const isNotListedAnymore = newPrice === '0'
@@ -219,7 +226,8 @@ const handleNftPriceChange = (
   if (isNotListedAnymore) {
     removeItem(item.id)
     toast($i18n.t('buyModal.nftNotListedAnymore', [name]))
-  } else {
+  }
+  else {
     updateItem(item, newPrice)
     toast($i18n.t('buyModal.nftPriceUpdated', [name]))
   }
@@ -239,7 +247,7 @@ const subscribeToNftPriceChange = (nftIds: string[]) => {
     onChange: ({ data: { nftEntities: updatedNfts } }) => {
       updatedNfts.forEach((updatedNft) => {
         const item = shoppingItems.value.find(
-          (item) => item.id === updatedNft.id,
+          item => item.id === updatedNft.id,
         )
 
         if (item) {
@@ -267,7 +275,7 @@ watch(
       reset()
       syncBuyAction()
 
-      const nftIds = shoppingItems.value.map((item) => item.id)
+      const nftIds = shoppingItems.value.map(item => item.id)
       if (nftIds.length) {
         subscribeToNftPriceChange(nftIds)
       }

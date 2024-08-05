@@ -9,31 +9,39 @@
         })
       "
       data-testid="addresschecker-infobox-convertion-success"
-      @close="onClose">
+      @close="onClose"
+    >
       <div
         v-dompurify-html="
           $t('transfers.invalidAddress.addressChanged.content', {
             selectedChain: currentChainName,
           })
         "
-        class="address-changed" />
+        class="address-changed"
+      />
     </InfoBox>
 
     <InfoBox
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
-      :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`, { ecosystem: ecosystem })"
       data-testid="addresschecker-infobox-invalid"
-      @close="onClose">
+      @close="onClose"
+    >
       <div
         v-dompurify-html="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
-            addressChain: addressCheck.value,
+            addressChain: addressCheck,
             selectedChain: currentChainName,
+            ecosystem: ecosystem,
           })
-        " />
+        "
+      />
 
-      <template v-if="isWrongNetworkAddress" #footer>
+      <template
+        v-if="isWrongNetworkAddress"
+        #footer
+      >
         <div class="flex items-center">
           <NeoButton
             no-shadow
@@ -41,7 +49,8 @@
             size="small"
             variant="k-pink"
             data-testid="addresschecker-button-change-to"
-            @click="changeAddress">
+            @click="changeAddress"
+          >
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
                 selectedChain: currentChainName,
@@ -51,7 +60,8 @@
           <a
             v-safe-href="`https://www.youtube.com/watch?v=3gPvGym8H7I`"
             target="_blank"
-            class="ml-2 text-xs is-blue">
+            class="ml-2 text-xs is-blue"
+          >
             {{ $t('helper.learnMore') }}
           </a>
         </div>
@@ -67,11 +77,11 @@ import {
   encodeAddress,
   isEthereumAddress,
 } from '@polkadot/util-crypto'
+import { NeoButton } from '@kodadot1/brick'
+import { type Prefix, chainNames, ecosystemNames } from '@kodadot1/static'
 import correctFormat from '@/utils/ss58Format'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
-import { NeoButton } from '@kodadot1/brick'
-import { type Prefix, chainNames } from '@kodadot1/static'
 
 enum AddressType {
   ETHEREUM = 'ethereum',
@@ -93,9 +103,10 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const { chainProperties } = useChain()
+const { chainProperties, vm } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
+const ecosystem = computed(() => ecosystemNames[vm.value])
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const addressCheck = ref<AddressCheck | null>(null)
 const showAddressCheck = ref(false)
@@ -111,6 +122,18 @@ const checkAddressByss58Format = (value: string, ss58: number) => {
 }
 
 const getAddressCheck = (value: string): AddressCheck => {
+  return execByVm({
+    SUB: () => getSubstrateAddressCheck(value),
+    EVM: () => getEvmAddressCheck(value),
+  }) as AddressCheck
+}
+
+const getEvmAddressCheck = (value: string): AddressCheck => {
+  const valid = isEthereumAddress(value)
+  return { valid, type: !valid ? AddressType.UNKNOWN : undefined }
+}
+
+const getSubstrateAddressCheck = (value: string): AddressCheck => {
   if (isEthereumAddress(value)) {
     return { valid: false, type: AddressType.ETHEREUM }
   }
@@ -134,7 +157,7 @@ const getAddressCheck = (value: string): AddressCheck => {
     return { valid: true }
   }
 
-  const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) =>
+  const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter(chain =>
     checkAddressByss58Format(value, CHAINS[chain].ss58Format),
   )
 
@@ -178,7 +201,8 @@ watch(
     if (Boolean(address) && address !== '') {
       addressCheck.value = getAddressCheck(address)
       showAddressCheck.value = !addressCheck.value.valid
-    } else {
+    }
+    else {
       showAddressCheck.value = false
       showChanged.value = false
       addressCheck.value = null
@@ -202,6 +226,7 @@ watch(addressCheck, (check) => {
   emit('check', isValid)
 })
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 

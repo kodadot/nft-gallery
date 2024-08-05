@@ -1,68 +1,84 @@
 <template>
-  <NeoModal :value="vOpen" @close="close">
+  <NeoModal
+    :value="vOpen"
+    @close="close"
+  >
     <ModalBody
       :title="'Profile Creation'"
       :content-class="stage === 1 ? 'p-0' : undefined"
-      @close="close">
-      <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
+      @close="close"
+    >
+      <Introduction
+        v-if="stage === 1"
+        @next="stage = 2"
+        @close="close"
+      />
       <Select
         v-if="stage === 2"
         :loading="farcasterSignInIsInProgress"
         @start-new="OnSelectStartNew"
-        @import-farcaster="onSelectFarcaster" />
+        @import-farcaster="onSelectFarcaster"
+      />
       <Form
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
         @submit="handleFormSubmition"
-        @delete="handleProfileDelete" />
+        @delete="handleProfileDelete"
+      />
       <Loading v-if="stage === 4" />
-      <Success v-if="stage === 5" @close="close" />
+      <Success
+        v-if="stage === 5"
+        @close="close"
+      />
     </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
+import type { StatusAPIResponse } from '@farcaster/auth-client'
+import { useDocumentVisibility } from '@vueuse/core'
+import { getBioWithLinks } from '../utils'
+import type {
+  ProfileFormData } from './stages/index'
 import {
   Form,
   Introduction,
   Loading,
-  ProfileFormData,
   Select,
   Success,
 } from './stages/index'
-import {
+import type {
   CreateProfileRequest,
   SocialLink,
-  UpdateProfileRequest,
+  UpdateProfileRequest } from '@/services/profile'
+import {
   createProfile,
   deleteProfile,
   updateProfile,
   uploadImage,
 } from '@/services/profile'
 import { appClient, createChannel } from '@/services/farcaster'
-import { StatusAPIResponse } from '@farcaster/auth-client'
-import { useDocumentVisibility } from '@vueuse/core'
-import { getBioWithLinks } from '../utils'
 
 const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
-  modelValue: boolean
+  skipIntro?: boolean
 }>()
 
 const documentVisibility = useDocumentVisibility()
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
+const { fetchProfile } = useProfile()
 
-const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
+const { hasProfile, userProfile } = useProfile()
 
-const hasProfile = computed(() => profile?.hasProfile.value)
+provide('userProfile', { hasProfile, userProfile })
 
-const initialStep = computed(() => (hasProfile.value ? 2 : 1))
+const initialStep = computed(() => (props.skipIntro || hasProfile.value ? 2 : 1))
 
 const { getSignaturePair } = useVerifyAccount()
-const vOpen = useVModel(props, 'modelValue')
+const vOpen = ref(true)
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
@@ -110,7 +126,7 @@ const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
       platform: 'Website',
       link: profileData.website || '',
     },
-  ].filter((social) => Boolean(social.handle))
+  ].filter(social => Boolean(social.handle))
 }
 
 const processProfile = async (profileData: ProfileFormData) => {
@@ -150,8 +166,10 @@ const handleProfileDelete = async (address: string) => {
       title: $i18n.t('profiles.profileReset'),
     })
     emit('deleted')
+    fetchProfile()
     close()
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error!.toString())
     console.error(error)
   }
@@ -162,8 +180,11 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
   try {
     await processProfile(profileData)
     emit('success')
+
+    fetchProfile()
     stage.value = 5 // Go to success stage
-  } catch (error) {
+  }
+  catch (error) {
     stage.value = 3 // Back to form stage
     warningMessage(error!.toString())
     console.error(error)
@@ -174,7 +195,8 @@ const onSelectFarcaster = () => {
   if (farcasterUserData.value) {
     stage.value = 3
     useFarcaster.value = true
-  } else {
+  }
+  else {
     farcasterSignInIsInProgress.value = true
     loginWithFarcaster()
       .then(() => {
@@ -240,9 +262,9 @@ useModalIsOpenTracker({
 
 watch(documentVisibility, (current, previous) => {
   if (
-    current === 'visible' &&
-    previous === 'hidden' &&
-    farcasterSignInIsInProgress.value
+    current === 'visible'
+    && previous === 'hidden'
+    && farcasterSignInIsInProgress.value
   ) {
     infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
       title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),

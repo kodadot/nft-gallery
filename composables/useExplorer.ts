@@ -1,24 +1,37 @@
-import { blockExplorerOf } from '@/utils/config/chain.config'
 import { type Prefix } from '@kodadot1/static'
+import { blockExplorerOf, chainPropListOf } from '@/utils/config/chain.config'
 
 export default function () {
-  const getExplorerUrl = (urlPrefix: string, hash: string, prefix: Prefix) =>
-    `${blockExplorerOf(prefix)}${urlPrefix}/${hash}`
+  const getSubstrateExplorerUrl = (
+    urlPrefix: string,
+    hash: string,
+    prefix: Prefix,
+  ): string => `${blockExplorerOf(prefix)}${urlPrefix}/${hash}`
 
-  const getAccountUrl = (hash: string, prefix: Prefix) =>
-    getExplorerUrl('account', hash, prefix)
+  const getEvmExplorerUrl = (hash: string, prefix: Prefix): string =>
+    `${blockExplorerOf(prefix)}/tx/${hash}`
 
-  const getExtrinsicUrl = (hash: string, prefix: Prefix) =>
-    getExplorerUrl('extrinsic', hash, prefix)
+  const getAccountUrl = (hash: string, prefix: Prefix): string =>
+    getSubstrateExplorerUrl('account', hash, prefix)
+
+  const getTransactionUrl = (hash: string, prefix: Prefix) => {
+    return execByVm(
+      {
+        EVM: () => getEvmExplorerUrl(hash, prefix),
+        SUB: () => getSubstrateExplorerUrl('extrinsic', hash, prefix),
+      },
+      { vm: chainPropListOf(prefix).vm },
+    )
+  }
 
   const getBlockUrl = (blockId: string, prefix: Prefix) => {
     const urlPrefix = 'block'
-    return getExplorerUrl(urlPrefix, blockId, prefix)
+    return getSubstrateExplorerUrl(urlPrefix, blockId, prefix)
   }
 
   return {
     getAccountUrl,
-    getExtrinsicUrl,
+    getTransactionUrl,
     getBlockUrl,
   }
 }

@@ -1,15 +1,16 @@
-import { chainPropListOf } from '@/utils/config/chain.config'
-import {
-  availablePrefixWithIcon,
-  availablePrefixes,
-  getChainName,
-} from '@/utils/chain'
 import {
   type ChainProperties,
   type ChainVM,
   type Prefix,
   existentialDeposit as chainsExistentialDeposit,
 } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
+import {
+  availablePrefixWithIcon,
+  availablePrefixes,
+  getChainName,
+} from '@/utils/chain'
+
 export type WithoutDecimalsParams = {
   value: number
   digits?: number
@@ -54,6 +55,8 @@ export default function () {
     )
   }
 
+  const vmOf = (prefix: Prefix): ChainVM => chainPropListOf(prefix).vm
+
   const existentialDeposit = computed<number>(
     () => chainsExistentialDeposit[urlPrefix.value],
   )
@@ -83,6 +86,7 @@ export default function () {
     withoutDecimals,
     unit,
     vm,
+    vmOf,
     offersDisabled,
     chainProperties,
     availableChains,

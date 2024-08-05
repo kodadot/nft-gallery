@@ -1,7 +1,13 @@
 <template>
-  <p v-if="accountId" class="subtitle text-base">
+  <p
+    v-if="accountId"
+    class="subtitle text-base"
+  >
     <span>{{ $t('general.balance') }}: </span>
-    <Money :value="realBalance" inline />
+    <Money
+      :value="realBalance"
+      inline
+    />
   </p>
 </template>
 

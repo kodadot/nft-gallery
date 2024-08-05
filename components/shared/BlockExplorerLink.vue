@@ -4,7 +4,8 @@
     v-else
     v-safe-href="blockUrl"
     target="_blank"
-    rel="nofollow noopener noreferrer">
+    rel="nofollow noopener noreferrer"
+  >
     {{ text }}
   </a>
 </template>

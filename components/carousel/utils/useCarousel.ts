@@ -112,7 +112,7 @@ export const useCarouselVisited = ({ ids }) => {
     if (data.value) {
       const dataNfts = data.value as VisitedNFTs
       const filteredNftsNullMeta = dataNfts.nftEntities.filter(
-        (nft) => nft.meta !== null,
+        nft => nft.meta !== null,
       )
 
       if (filteredNftsNullMeta.length) {

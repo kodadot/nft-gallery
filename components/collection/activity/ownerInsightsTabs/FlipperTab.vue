@@ -14,13 +14,15 @@
           },
         ] in displayedFlippers"
         :key="flipperId"
-        class="hide-last-hr">
+        class="hide-last-hr"
+      >
         <div class="flex flex-col gap-2">
           <div class="px-5">
             <ProfileLink
               :address="flipperId"
               :avatar-size="35"
-              class="font-bold" />
+              class="font-bold"
+            />
             <div class="flex justify-between mt-2">
               <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
@@ -48,8 +50,7 @@
                   'text-k-green': bestFlip > 0,
                   'text-k-red': bestFlip < 0,
                 }"
-                >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span
-              >
+              >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-xs text-k-grey">{{
@@ -57,32 +58,41 @@
               }}</span>
               <TimeAgo
                 custom-class="whitespace-nowrap"
-                :timestamp="latestflipTimestamp" />
+                :timestamp="latestflipTimestamp"
+              />
             </div>
             <div>
               <div
                 class="text-xs text-k-blue hover:text-k-blue-hover cursor-pointer"
-                @click="toggleNFTDetails(flipperId)">
+                @click="toggleNFTDetails(flipperId)"
+              >
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
                   :icon="
                     isNFTDetailsOpen[flipperId]
                       ? 'chevron-down'
                       : 'chevron-right'
-                  " />
+                  "
+                />
               </div>
             </div>
           </div>
           <div v-if="isNFTDetailsOpen[flipperId]">
-            <NFTsDetaislDropdown :flips="flips" variant="Flippers" />
+            <NFTsDetaislDropdown
+              :flips="flips"
+              variant="Flippers"
+            />
           </div>
         </div>
-        <hr class="my-3 mx-5" />
+        <hr class="my-3 mx-5">
       </div>
       <div ref="target" />
     </div>
 
-    <div v-else class="flex justify-center items-center pt-6">
+    <div
+      v-else
+      class="flex justify-center items-center pt-6"
+    >
       <div class="text-k-grey">
         {{ $t('activity.noFlips') }}
       </div>
@@ -91,12 +101,12 @@
 </template>
 
 <script setup lang="ts">
-import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { NeoIcon } from '@kodadot1/brick'
+import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { format } from '@/components/collection/activity/utils'
 
-import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { Flippers } from '@/composables/collectionActivity/types'
+import type { Flippers } from '@/composables/collectionActivity/types'
 
 const props = defineProps<{
   flippers?: Flippers
@@ -124,7 +134,7 @@ const displayedFlippers = computed(() => flippers.value.slice(0, offset.value))
 // map of flipper id to boolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
 const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   (accumelator, [flipperId, _]) => ({
     ...accumelator,
     [flipperId]: false,

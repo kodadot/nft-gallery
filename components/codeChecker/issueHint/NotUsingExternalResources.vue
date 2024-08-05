@@ -3,7 +3,11 @@
     {{ $t('codeChecker.notUsingExternalResourcesMeans') }}
   </p>
   <!--  -->
-  <CodeCheckerIssueHintCodeBlock class="mt-5" :code="code" lang="html" />
+  <CodeCheckerIssueHintCodeBlock
+    class="mt-5"
+    :code="code"
+    lang="html"
+  />
 </template>
 
 <script setup lang="ts">

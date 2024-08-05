@@ -1,5 +1,3 @@
-import type { CollectionToMintKusama, MintCollectionParams } from '../types'
-import { constructMeta } from './constructMeta'
 import {
   Interaction,
   createCollection,
@@ -10,6 +8,8 @@ import {
   createInteraction,
 } from '@kodadot1/minimark/v2'
 import { asSystemRemark } from '@kodadot1/minimark/common'
+import type { CollectionToMintKusama, MintCollectionParams } from '../types'
+import { constructMeta } from './constructMeta'
 
 export async function execMintCollectionRmrk({
   item,
@@ -37,9 +37,9 @@ export async function execMintCollectionRmrk({
   )
   const mintInteraction = isV2.value
     ? createInteraction({
-        action: NewInteraction.CREATE,
-        payload: { value: mint },
-      })
+      action: NewInteraction.CREATE,
+      payload: { value: mint },
+    })
     : createMintInteraction(Interaction.MINT, mint)
 
   const cb = api.tx.utility.batchAll
@@ -48,14 +48,14 @@ export async function execMintCollectionRmrk({
     cb,
     arg,
     successMessage:
-      item.successMessage ||
-      ((blockNumber) =>
+      item.successMessage
+      || (blockNumber =>
         $i18n.t('mint.mintCollectionSuccess', {
           name: item.collection.name,
           block: blockNumber,
         })),
     errorMessage:
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: item.collection.name }),
+      item.errorMessage
+      || $i18n.t('mint.errorCreateNewNft', { name: item.collection.name }),
   })
 }

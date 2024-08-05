@@ -4,11 +4,12 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import type { ApiPromise } from '@polkadot/api'
+import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
+import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
 import type {
   ActionDeleteCollection,
-  ExecuteTransactionParams,
+  ExecuteSubstrateTransactionParams,
 } from '@/composables/transaction/types'
-import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 
 import { warningMessage } from '@/utils/notification'
 
@@ -17,7 +18,6 @@ import {
   assetHubParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
-import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
   if (item.urlPrefix === 'rmrk') {
@@ -64,7 +64,7 @@ export function execBurnMultiple(
     arg: [arg],
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const cb = api.tx.utility.batch
 
@@ -134,7 +134,7 @@ export async function execBurnCollection(
     arg,
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const collectionId = params.collectionId.toString()
 
@@ -174,7 +174,8 @@ export async function execBurnCollection(
         arg: [collectionId, witnessArg],
       })
     }
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error)
   }
 }

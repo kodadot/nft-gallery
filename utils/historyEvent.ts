@@ -1,5 +1,5 @@
-import formatBalance from '@/utils/format/balance'
 import { Interaction } from '@kodadot1/minimark/v1'
+import formatBalance from '@/utils/format/balance'
 
 enum SpecialHistoryEventType {
   ALL = 'ALL',

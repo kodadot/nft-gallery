@@ -1,8 +1,8 @@
 // TODO: hacky, but works for now
 import { isEmpty } from '@kodadot1/minimark/utils'
-import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
 import { emptyObject } from './empty'
 import { fastExtract } from './ipfs'
+import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
 
 type P<T> = Promise<T>
 type KeyValue = Record<string, string>
@@ -18,7 +18,8 @@ export const cacheOrFetchMetadata = async <T>(
 
   try {
     return await fetchMetadata<T>({ metadata })
-  } catch (e) {
+  }
+  catch (e) {
     console.warn('[ERR] unable to get metadata', e)
     return emptyObject<T>()
   }
@@ -32,7 +33,7 @@ export const processMetadata = <T>(
   metadataList: string[],
   cb?: (meta: T, index: number) => void,
 ): void => {
-  const metadata = metadataList.map((meta) => meta || '')
+  const metadata = metadataList.map(meta => meta || '')
 
   metadata.forEach(async (m, i) => {
     const meta = await processSingleMetadata(m)
@@ -43,10 +44,10 @@ export const processMetadata = <T>(
   })
 }
 
-export const getProperImageLink =
-  (imageLinks: KeyValue) =>
-  (metadata: string, image: string): string => {
-    return (
-      imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
-    )
-  }
+export const getProperImageLink
+  = (imageLinks: KeyValue) =>
+    (metadata: string, image: string): string => {
+      return (
+        imageLinks[fastExtract(metadata)] || getSanitizer(image, 'image')(image)
+      )
+    }

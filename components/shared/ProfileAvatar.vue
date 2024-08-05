@@ -6,15 +6,21 @@
       width: `${size}px`,
       height: `${size}px`,
       padding: `${Math.round(size / 16)}px`,
-    }">
+    }"
+  >
     <BaseMediaItem
       :src="profileImageUrl"
       :image-component="NuxtImg"
       :sizes="`${size}px`"
       title="User Avatar"
-      class="object-cover overflow-hidden rounded-full h-full w-full !shadow-none" />
+      class="object-cover overflow-hidden rounded-full h-full w-full !shadow-none"
+    />
   </div>
-  <Avatar v-else :size="size" :value="address" />
+  <Avatar
+    v-else
+    :size="size"
+    :value="address"
+  />
 </template>
 
 <script lang="ts" setup>

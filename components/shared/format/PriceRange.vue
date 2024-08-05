@@ -1,10 +1,16 @@
 <template>
   <div :class="[{ 'inline-block': inline }]">
     {{ $t('query.priceRange.range') }} {{ $t('general.from') }}
-    <Money :value="from" inline />
+    <Money
+      :value="from"
+      inline
+    />
     <span v-if="to">
       {{ $t('general.to') }}
-      <Money :value="to" inline />
+      <Money
+        :value="to"
+        inline
+      />
     </span>
   </div>
 </template>

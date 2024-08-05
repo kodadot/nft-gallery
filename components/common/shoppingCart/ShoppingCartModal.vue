@@ -2,13 +2,16 @@
   <div>
     <div
       class="shopping-cart-modal-container bg-background-color border-l flex flex-col"
-      data-testid="shopping-cart-modal-container">
+      data-testid="shopping-cart-modal-container"
+    >
       <NeoModalHead
         :title="$t('shoppingCart.title')"
-        @close="closeShoppingCart(ModalCloseType.BACK)" />
+        @close="closeShoppingCart(ModalCloseType.BACK)"
+      />
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
+        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center"
+      >
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
@@ -16,9 +19,13 @@
           :label="$t('shoppingCart.clearAll')"
           no-shadow
           variant="text"
-          @click="clearAllItems" />
+          @click="clearAllItems"
+        />
       </div>
-      <div v-if="numberOfItems" class="scroll-y">
+      <div
+        v-if="numberOfItems"
+        class="scroll-y"
+      >
         <div class="bg-background-color flex flex-grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
@@ -29,12 +36,16 @@
             class="px-6 py-2 limit-name-width"
             allow-delete
             @delete="shoppingCartStore.removeItem"
-            @click-item="closeShoppingCart" />
+            @click-item="closeShoppingCart"
+          />
         </div>
         <div class="flex justify-between mx-6 py-4 border-t border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
-            <CommonTokenMoney :value="totalPrice" class="text-k-grey" />
+            <CommonTokenMoney
+              :value="totalPrice"
+              class="text-k-grey"
+            />
             <span class="font-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
@@ -46,16 +57,21 @@
             no-shadow
             size="large"
             variant="primary"
-            @click="onCompletePurchase" />
+            @click="onCompletePurchase"
+          />
         </div>
       </div>
-      <div v-else class="flex justify-between px-6 py-4 flex-col h-full">
+      <div
+        v-else
+        class="flex justify-between px-6 py-4 flex-col h-full"
+      >
         <div class="flex items-center flex-col pt-8">
           <img
             :src="emptyCartPlaceholder"
             alt="empty cart"
             width="140"
-            class="mb-5" />
+            class="mb-5"
+          >
           <span class="font-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
@@ -69,7 +85,8 @@
             rounded
             no-shadow
             tag="a"
-            icon="magnifying-glass" />
+            icon="magnifying-glass"
+          />
         </div>
         <div class="pt-4">
           <NeoButton
@@ -78,7 +95,8 @@
             class="w-full"
             size="large"
             no-shadow
-            variant="primary" />
+            variant="primary"
+          />
         </div>
       </div>
     </div>
@@ -87,19 +105,18 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModalHead } from '@kodadot1/brick'
+import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
+import { totalPriceUsd } from './utils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
-import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { ModalCloseType } from '@/components/navbar/types'
 
-import { totalPriceUsd } from './utils'
-
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const { isDarkMode } = useTheme()
 
 const emit = defineEmits(['close'])
@@ -121,7 +138,7 @@ const priceUSD = computed(() => {
 
 const isOpen = computed({
   get: () => prefrencesStore.getShoppingCartCollapse,
-  set: (value) => prefrencesStore.setShoppingCartCollapse(value),
+  set: value => prefrencesStore.setShoppingCartCollapse(value),
 })
 
 const clearAllItems = () => {
@@ -129,11 +146,12 @@ const clearAllItems = () => {
 }
 
 const sortedItems = computed(() =>
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
   items.value.sort((a, b) => b.addedAt - a.addedAt),
 )
 
 const totalPrice = computed(() =>
-  sum(sortedItems.value.map((nft) => Number(nft.price))),
+  sum(sortedItems.value.map(nft => Number(nft.price))),
 )
 
 // properly close modal when being closed from outside,e.g. by changeing chain

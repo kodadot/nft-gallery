@@ -4,7 +4,8 @@
       data-testid="classic"
       :to="`/${urlPrefix}/create`"
       class="navbar-item"
-      @click="emit('select')">
+      @click="emit('select')"
+    >
       {{ $t('create') }}
     </nuxt-link>
   </div>

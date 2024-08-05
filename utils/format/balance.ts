@@ -1,5 +1,5 @@
 import { trimAll } from '@kodadot1/minimark/utils'
-import BN from 'bn.js'
+import type BN from 'bn.js'
 import { formatBalance } from '@polkadot/util'
 
 function format(
@@ -9,8 +9,8 @@ function format(
   withSi?: boolean,
 ) {
   try {
-    const fixedBalance =
-      typeof balance === 'number' ? balance.toFixed() : balance
+    const fixedBalance
+      = typeof balance === 'number' ? balance.toFixed() : balance
 
     return formatBalance(fixedBalance, {
       decimals,
@@ -18,7 +18,8 @@ function format(
       forceUnit: '-',
       withSi,
     })
-  } catch (e: any) {
+  }
+  catch (e: any) {
     return ''
   }
 }
@@ -27,23 +28,29 @@ export function formatNumber(amount?: string | number): string {
   if (!amount) {
     return '0'
   }
-  const number =
-    typeof amount === 'number' ? amount : Number(withoutDigitSeparator(amount))
+  const number
+    = typeof amount === 'number' ? amount : Number(withoutDigitSeparator(amount))
 
   let formattedNumber
   if (number >= 1000000) {
     formattedNumber = (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'
-  } else if (number >= 1000) {
+  }
+  else if (number >= 1000) {
     formattedNumber = (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
-  } else if (number === 0) {
+  }
+  else if (number === 0) {
     formattedNumber = '0'
-  } else if (number < 0.001) {
+  }
+  else if (number < 0.001) {
     formattedNumber = number.toFixed(4)
-  } else if (number < 0.01) {
+  }
+  else if (number < 0.01) {
     formattedNumber = number.toFixed(3)
-  } else if (number < 0.1) {
+  }
+  else if (number < 0.1) {
     formattedNumber = number.toFixed(2)
-  } else {
+  }
+  else {
     formattedNumber = number.toFixed(1).replace(/\.0$/, '')
   }
   return formattedNumber

@@ -13,7 +13,8 @@ export function exponentialBackoff<T>(
           if (attempts++ < maxRetries) {
             const delay = initialDelay * Math.pow(2, attempts)
             setTimeout(attempt, delay)
-          } else {
+          }
+          else {
             reject(error)
           }
         })

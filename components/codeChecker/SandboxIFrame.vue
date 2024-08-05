@@ -7,14 +7,15 @@
     sandbox="allow-scripts allow-same-origin"
     title="render-preview"
     allow=""
-    @load="onIframeLoad" />
+    @load="onIframeLoad"
+  />
 </template>
 
 <script setup lang="ts">
 import { NeoIFrameMedia } from '@kodadot1/brick'
 import { postAssetsToSandbox } from './utils'
 import config from './codechecker.config'
-import { AssetMessage } from './types'
+import type { AssetMessage } from './types'
 
 const props = withDefaults(
   defineProps<{

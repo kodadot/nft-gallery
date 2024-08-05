@@ -1,13 +1,15 @@
 <template>
   <div
     class="carousel-media"
-    :class="{ 'carousel-media-collection': isCollection }">
+    :class="{ 'carousel-media-collection': isCollection }"
+  >
     <div :aria-label="`slide ${index + 1} of ${length}`">
       <img
         v-if="showCardIcon"
         class="absolute z-[1] right-4 top-4"
         :src="cardIcon"
-        alt="Card Icon" />
+        alt="Card Icon"
+      >
       <BaseMediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
@@ -17,7 +19,8 @@
         disable-operation
         enable-normal-tag
         :audio-player-cover="imageSrc || ''"
-        audio-hover-on-cover-play />
+        audio-hover-on-cover-play
+      />
     </div>
   </div>
 </template>

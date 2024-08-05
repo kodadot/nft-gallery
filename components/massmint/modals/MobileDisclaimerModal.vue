@@ -3,19 +3,24 @@
     :value="isModalActive"
     :enable-mobile="false"
     content-class="mx-4"
-    :can-cancel="false">
+    :can-cancel="false"
+  >
     <div class="px-6 py-5 w-[unset] lg:w-[25rem]">
       <div class="flex text-xl mb-4 items-center">
-        <NeoIcon icon="triangle-exclamation" pack="fasr" class="mr-3" />
+        <NeoIcon
+          icon="triangle-exclamation"
+          pack="fasr"
+          class="mr-3"
+        />
         <span class="font-bold">
           {{ $t('massmint.mobileDisclaimer.title') }}
-          <br />
+          <br>
         </span>
       </div>
       <div class="px-4 py-3 bg-k-yellow border border-k-orange">
         {{ $t('massmint.mobileDisclaimer.content1') }}
-        <br />
-        <br />
+        <br>
+        <br>
         {{ $t('massmint.mobileDisclaimer.content2') }}
       </div>
       <div class="flex mt-5 items-center">
@@ -24,11 +29,13 @@
           class="mr-4"
           no-shadow
           :label="$t('massmint.mobileDisclaimer.continueAnyway')"
-          @click="emit('continue')" />
+          @click="emit('continue')"
+        />
         <NeoButton
           variant="pill"
           :label="$t('massmint.mobileDisclaimer.leave')"
-          @click="emit('leave')" />
+          @click="emit('leave')"
+        />
       </div>
     </div>
   </NeoModal>

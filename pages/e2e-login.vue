@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p data-testid="mockAddress">{{ mockAddress }}</p>
+    <p data-testid="mockAddress">
+      {{ mockAddress }}
+    </p>
   </div>
 </template>
 

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { TokenName } from '~/utils/coinprice'
 
 type FiatPrice = string | number | null
 
@@ -8,6 +9,9 @@ interface State {
       usd: FiatPrice
     }
     polkadot: {
+      usd: FiatPrice
+    }
+    ethereum: {
       usd: FiatPrice
     }
   }
@@ -22,6 +26,9 @@ export const useFiatStore = defineStore('fiat', {
       polkadot: {
         usd: null,
       },
+      ethereum: {
+        usd: null,
+      },
     },
   }),
   getters: {
@@ -34,24 +41,28 @@ export const useFiatStore = defineStore('fiat', {
     getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
     getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
-      (state) =>
-      (token: string): FiatPrice => {
-        switch (token) {
-          case 'KSM':
-            return state.fiatPrice.kusama.usd
-          case 'DOT':
-            return state.fiatPrice.polkadot.usd
-          default:
-            return 0
-        }
-      },
+      state =>
+        (token: string): FiatPrice => {
+          switch (token) {
+            case 'KSM':
+              return state.fiatPrice.kusama.usd
+            case 'DOT':
+              return state.fiatPrice.polkadot.usd
+            case 'ETH':
+              return state.fiatPrice.ethereum.usd
+            default:
+              return 0
+          }
+        },
   },
   actions: {
     async fetchFiatPrice() {
-      const ksmPrice = await getPrice('kusama')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const dotPrice = await getPrice('polkadot')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
+      const prices = await Promise.all(
+        (['kusama', 'polkadot', 'ethereum'] as TokenName[]).map(getPrice),
+      )
+      prices.forEach((price) => {
+        this.fiatPrice = Object.assign({}, this.fiatPrice, price)
+      })
     },
     setFiatPrice(payload) {
       this.fiatPrice = Object.assign({}, this.fiatPrice, payload)

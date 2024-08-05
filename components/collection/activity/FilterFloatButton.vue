@@ -1,6 +1,9 @@
 <template>
   <div class="fixed -translate-x-2/4 z-[1] left-2/4 bottom-6 min-w-[134px]">
-    <NeoButton expanded @click="openMobileFilters">
+    <NeoButton
+      expanded
+      @click="openMobileFilters"
+    >
       {{ $t('general.filters')
       }}<span v-if="numOfActiveFilters">: {{ numOfActiveFilters }}</span>
     </NeoButton>

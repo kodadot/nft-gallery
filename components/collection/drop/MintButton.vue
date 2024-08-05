@@ -9,12 +9,13 @@
     :loading="loading"
     :disabled="!enabled || loading"
     :loading-with-label="
-      isCheckingMintRequirements ||
-      dropStore.walletConnecting ||
-      dropStore.loading
+      isCheckingMintRequirements
+        || dropStore.walletConnecting
+        || dropStore.loading
     "
     :label="label"
-    @click="handleMint" />
+    @click="handleMint"
+  />
 </template>
 
 <script setup lang="ts">
@@ -49,10 +50,10 @@ const priceUsd = ref()
 
 const isHolderAndEligible = computed(
   () =>
-    holderOfCollection.value.isHolder &&
-    maxCount.value > dropStore.mintsCount &&
-    hasMinimumFunds.value &&
-    holderOfCollection.value.hasAvailable,
+    holderOfCollection.value.isHolder
+    && maxCount.value > dropStore.mintsCount
+    && hasMinimumFunds.value
+    && holderOfCollection.value.hasAvailable,
 )
 
 watch(drop, async () => {
@@ -120,13 +121,13 @@ const enabled = computed(() => {
     return true
   }
   if (
-    !amountToMint.value || // number of drop to be mint is 0
-    Boolean(drop.value.disabled) || // drop is disabled
-    isMintNotLive.value || // drop start time is greater than now
-    !previewItem.value || // no image
-    isCheckingMintRequirements.value || // still checking requirements
-    loading.value || // still loading
-    drop.value.userAccess === false // no access due to geofencing
+    !amountToMint.value // number of drop to be mint is 0
+    || Boolean(drop.value.disabled) // drop is disabled
+    || isMintNotLive.value // drop start time is greater than now
+    || !previewItem.value // no image
+    || isCheckingMintRequirements.value // still checking requirements
+    || loading.value // still loading
+    || drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }
@@ -145,9 +146,9 @@ const enabled = computed(() => {
 
 const loading = computed(
   () =>
-    dropStore.isCapturingImage ||
-    dropStore.walletConnecting ||
-    dropStore.loading,
+    dropStore.isCapturingImage
+    || dropStore.walletConnecting
+    || dropStore.loading,
 )
 
 const showHolderOfCollection = computed(() =>
@@ -156,9 +157,9 @@ const showHolderOfCollection = computed(() =>
 
 const isCheckingMintRequirements = computed(
   () =>
-    showHolderOfCollection.value &&
-    isLogIn.value &&
-    (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
+    showHolderOfCollection.value
+    && isLogIn.value
+    && (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
 )
 
 const handleMint = () => {

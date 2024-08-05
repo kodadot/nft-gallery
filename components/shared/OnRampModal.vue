@@ -3,7 +3,8 @@
     v-model:active="isModalActive"
     class="neo-modal"
     data-testid="on-ramp-modal"
-    @close="onClose">
+    @close="onClose"
+  >
     <div class="w-[unset] lg:w-[25rem]">
       <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 text-base font-bold">
@@ -16,11 +17,15 @@
           icon="xmark"
           size="medium"
           class="cross"
-          @click="onClose" />
+          @click="onClose"
+        />
       </div>
       <div class="px-6 py-3">
         <div class="mb-4 flex">
-          <NeoCheckbox v-model="agreeTos" class="self-start pt-1" />
+          <NeoCheckbox
+            v-model="agreeTos"
+            class="self-start pt-1"
+          />
           <div>
             {{ $t('fiatOnRamp.agree') }}
             <a
@@ -28,23 +33,30 @@
               target="_blank"
               rel="nofollow noopener noreferrer"
               class="text-k-blue hover:text-k-blue-hover"
-              >{{ $t('fiatOnRamp.tos') }}</a
-            >
+            >{{ $t('fiatOnRamp.tos') }}</a>
           </div>
         </div>
-        <div v-for="(provider, index) in providers" :key="provider.value">
+        <div
+          v-for="(provider, index) in providers"
+          :key="provider.value"
+        >
           <div
             class="provider cursor-pointer flex justify-center items-start flex-col my-4"
             :class="{
               provider__disabled: provider.disabled || !agreeTos,
             }"
-            @click="onSelect(provider.value)">
+            @click="onSelect(provider.value)"
+          >
             <div class="flex justify-center">
               <img
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
-                class="provider-logo" />
-              <p v-if="provider.disabled" class="ml-2 text-xs text-k-grey">
+                class="provider-logo"
+              >
+              <p
+                v-if="provider.disabled"
+                class="ml-2 text-xs text-k-grey"
+              >
                 {{ $t('soon') }}
               </p>
             </div>
@@ -55,12 +67,15 @@
               </div>
 
               <div class="text-xs text-k-grey">
-                {{ getSupportedTokensToText(provider.supports) }}
+                {{ getSupportedTokensToText(provider.supports[vm]) }}
               </div>
             </div>
           </div>
 
-          <hr v-if="index !== providers.length - 1" class="my-0" />
+          <hr
+            v-if="index !== providers.length - 1"
+            class="my-0"
+          >
         </div>
       </div>
     </div>
@@ -69,6 +84,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
+import type { ChainVM } from '@kodadot1/static'
 
 enum Provider {
   TRANSAK,
@@ -86,6 +102,7 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 const agreeTos = ref<boolean>(false)
 
+const { vm } = useChain()
 const { init: initTransak } = useTransak()
 const { init: initRamp } = useRamp()
 
@@ -98,19 +115,24 @@ const getImage = (service: string) => {
 }
 
 const getSupportedTokensToText = (tokens: string[]) =>
-  tokens.map((token) => `$${token}`).join(', ')
+  tokens.map(token => `$${token}`).join(', ')
 
-const providers = computed(() => [
+const PROVIDER_TOKEN_SUPPORTS = {
+  SUB: ['DOT', 'KSM'],
+  EVM: ['ETH'],
+}
+
+const providers = computed<{ image: string, disabled: boolean, supports: Record<ChainVM, string[]>, value: Provider }[]>(() => [
   {
     image: getImage('transak'),
     disabled: false,
-    supports: ['DOT', 'KSM'],
+    supports: PROVIDER_TOKEN_SUPPORTS,
     value: Provider.TRANSAK,
   },
   {
     image: getImage('ramp'),
     disabled: false,
-    supports: ['DOT', 'KSM'],
+    supports: PROVIDER_TOKEN_SUPPORTS,
     value: Provider.RAMP,
   },
 ])
@@ -120,7 +142,7 @@ const onClose = () => {
 }
 
 const onSelect = (provider: Provider) => {
-  const selectedProvider = providers.value.find((p) => p.value === provider)
+  const selectedProvider = providers.value.find(p => p.value === provider)
 
   if (selectedProvider?.disabled || !agreeTos.value) {
     return

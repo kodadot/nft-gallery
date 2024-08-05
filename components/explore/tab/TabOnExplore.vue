@@ -3,11 +3,13 @@
     <TabItem
       :active="selectedTab === TabType.COLLECTION"
       :text="`${$t('collections')}`"
-      :to="pathWithSearchQuery(TabType.COLLECTION)" />
+      :to="pathWithSearchQuery(TabType.COLLECTION)"
+    />
     <TabItem
       :active="selectedTab === TabType.ITEMS"
       :text="`${$t('items')}`"
-      :to="pathWithSearchQuery(TabType.ITEMS)" />
+      :to="pathWithSearchQuery(TabType.ITEMS)"
+    />
   </div>
 </template>
 

@@ -11,25 +11,29 @@
             :src="sanitizeIpfsUrl(nft.mediaUrl.image)"
             :mime-type="nft.mediaUrl.mimeType"
             preview
-            is-detail />
+            is-detail
+          />
           <!-- keeping BasicImage since its has a skeleton laoder -->
           <BasicImage
             v-else
             :src="avatar"
             :alt="nft?.name"
             class="border image is-48x48"
-            :class="{ 'opacity-50': discarded }" />
+            :class="{ 'opacity-50': discarded }"
+          />
         </div>
 
         <div class="flex flex-col justify-between ml-4 limit-width">
           <div
             class="font-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
-            :class="[discarded ? 'text-k-grey' : 'text-text-color']">
+            :class="[discarded ? 'text-k-grey' : 'text-text-color']"
+          >
             {{ nameWithIndex(nft.name, nft.sn) }}
           </div>
           <div
             class="line-height-1 whitespace-nowrap is-clipped is-ellipsis"
-            :class="{ 'text-k-grey': discarded }">
+            :class="{ 'text-k-grey': discarded }"
+          >
             {{ nft.collection?.name || nft.collection.id }}
           </div>
         </div>
@@ -43,7 +47,7 @@
 
 <script setup lang="ts">
 import { parseNftAvatar } from '@/utils/nft'
-import { ListCartItem } from '@/stores/listingCart'
+import type { ListCartItem } from '@/stores/listingCart'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const avatar = ref<string>()

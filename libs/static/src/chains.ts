@@ -6,7 +6,7 @@ export const toChainProperty = (
   tokenDecimals: number,
   tokenSymbol: string,
   blockExplorer: string,
-  vm: ChainVM
+  vm: ChainVM,
 ): ChainProperties => {
   return {
     ss58Format,
@@ -22,7 +22,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
   12,
   'KSM',
   'https://kusama.subscan.io/',
-  'SUB'
+  'SUB',
 )
 
 export const CHAINS: Config<ChainProperties> = {
@@ -62,7 +62,7 @@ export const chainPrefixesMap = chainPrefixes.reduce(
     ...acc,
     [prefix]: prefix,
   }),
-  {}
+  {},
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
@@ -91,8 +91,13 @@ export const chainNames: Record<Prefix, string> = {
   // glmr: 'Moonbeam',
 }
 
+export const ecosystemNames: Record<ChainVM, string> = {
+  SUB: 'Polkadot',
+  EVM: 'Ethereum',
+}
+
 export const chainList = (): Option[] => {
-  return chainPrefixes.map((prefix) => ({
+  return chainPrefixes.map(prefix => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
     value: prefix,
@@ -116,6 +121,6 @@ export const existentialDeposit: Record<Prefix, number> = {
   ahk: 333333333,
   dot: 1e10,
   ahp: 1e8,
-  imx: 0, // nothing like ED in EVM :)
-  base: 0,
+  imx: 1e15, // nothing like ED in EVM :)
+  base: 1e15,
 }
