@@ -2,6 +2,9 @@ import { debounce } from 'lodash'
 
 export const NEO_MODAL_ANIMATION_DURATION = 200
 
+export const onModalAnimation = onChange =>
+  debounce(onChange, NEO_MODAL_ANIMATION_DURATION)()
+
 export default ({
   onChange,
   isOpen,
@@ -15,7 +18,7 @@ export default ({
 }) => {
   watch([isOpen, () => and], ([isOpen, and]) => {
     if (!isOpen === onClose && and.every(Boolean)) {
-      ;(onClose ? debounce(onChange, NEO_MODAL_ANIMATION_DURATION) : onChange)()
+      ;(onClose ? onModalAnimation(onChange) : onChange)()
     }
   })
 }

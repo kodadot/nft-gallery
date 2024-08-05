@@ -2075,6 +2075,10 @@
       "unsuccessfulFarcasterAuth": {
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
+      },
+      "setupFailed": {
+        "title": "Profile Setup Failed",
+        "message": "Error occurred. Try again later or report issue."
       }
     },
 
@@ -2087,7 +2091,9 @@
     "deleteConfirm": "You sure? - click again",
     "waitSeconds": "Wait {0} Seconds",
     "profileReset": "Profile Reset",
-    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!",
+    "finishCustomization": "Finish Customization",
+    "created": "Profile Created"
   },
   "reconnect": {
     "required": "Reconnect Required",

@@ -65,6 +65,8 @@ const route = useRoute()
 const props = defineProps<{
   mimeType?: string
   name?: string
+  nftSn?: string
+  collectionId?: string
   collectionName?: string
   ipfsImage?: string
   currentOwner?: string
@@ -120,6 +122,8 @@ const burn = () => {
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
     nftId: route.params.id as string,
+    nftSn: props.nftSn!,
+    collectionId: props.collectionId!,
     successMessage: $i18n.t('transaction.consume.success') as string,
     errorMessage: $i18n.t('transaction.consume.error') as string,
   })
