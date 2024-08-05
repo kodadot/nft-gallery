@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { TokenName } from '~/utils/coinprice'
 
 type FiatPrice = string | number | null
 
@@ -8,6 +9,9 @@ interface State {
       usd: FiatPrice
     }
     polkadot: {
+      usd: FiatPrice
+    }
+    ethereum: {
       usd: FiatPrice
     }
   }
@@ -20,6 +24,9 @@ export const useFiatStore = defineStore('fiat', {
         usd: null,
       },
       polkadot: {
+        usd: null,
+      },
+      ethereum: {
         usd: null,
       },
     },
@@ -41,6 +48,8 @@ export const useFiatStore = defineStore('fiat', {
               return state.fiatPrice.kusama.usd
             case 'DOT':
               return state.fiatPrice.polkadot.usd
+            case 'ETH':
+              return state.fiatPrice.ethereum.usd
             default:
               return 0
           }
@@ -48,10 +57,12 @@ export const useFiatStore = defineStore('fiat', {
   },
   actions: {
     async fetchFiatPrice() {
-      const ksmPrice = await getPrice('kusama')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const dotPrice = await getPrice('polkadot')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
+      const prices = await Promise.all(
+        (['kusama', 'polkadot', 'ethereum'] as TokenName[]).map(getPrice),
+      )
+      prices.forEach((price) => {
+        this.fiatPrice = Object.assign({}, this.fiatPrice, price)
+      })
     },
     setFiatPrice(payload) {
       this.fiatPrice = Object.assign({}, this.fiatPrice, payload)

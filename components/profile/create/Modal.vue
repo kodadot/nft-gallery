@@ -47,27 +47,28 @@ type SessionState = {
 
 const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
-  modelValue: boolean
+  skipIntro?: boolean
 }>()
 
-const vOpen = useVModel(props, 'modelValue')
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
 const documentVisibility = useDocumentVisibility()
 const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
+const { fetchProfile } = useProfile()
 
-const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
+const { hasProfile, userProfile } = useProfile()
+provide('userProfile', { hasProfile, userProfile })
+
+const initialStep = computed(() => (props.skipIntro || hasProfile.value ? 2 : 1))
 
 const signingMessage = ref(false)
+const vOpen = ref(true)
+const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
-
-const hasProfile = computed(() => Boolean(profile?.hasProfile.value))
-const initialStep = computed(() => (hasProfile.value ? 2 : 1))
-const stage = ref(initialStep.value)
 
 const close = () => {
   vOpen.value = false
@@ -82,6 +83,7 @@ const handleProfileDelete = async (address: string) => {
       title: $i18n.t('profiles.profileReset'),
     })
     emit('deleted')
+    fetchProfile()
     close()
   }
   catch (error) {
@@ -178,6 +180,7 @@ const showProfileCreationNotification = (session: Ref<SessionState>) => {
 
 const profileCreated = (sessionId: string) => {
   emit('success')
+  fetchProfile()
   stage.value = 5 // Go to success stage
   updateSession(sessionId, { state: 'succeeded' })
 }
@@ -264,7 +267,7 @@ const updateSession = (id: string, newSession: SessionState) => {
 }
 
 useModalIsOpenTracker({
-  isOpen: computed(() => props.modelValue),
+  isOpen: vOpen,
   onClose: false,
   onChange: () => {
     stage.value = initialStep.value

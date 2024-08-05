@@ -66,6 +66,7 @@
         v-if="isBalanceLoading"
         data-testid="skeleton-multiple-balances"
         animated
+        no-margin
       />
     </div>
 
@@ -107,6 +108,7 @@ const displayChainOrder: ChainType[] = [
   'kusamaHub',
 ]
 const identityStore = useIdentityStore()
+
 const rampActive = ref(false)
 
 const { multiBalances } = useMultipleBalance(true)

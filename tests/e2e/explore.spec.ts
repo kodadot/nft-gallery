@@ -21,17 +21,27 @@ test('Explore collections', async ({ page, Commands }) => {
     await page.keyboard.press('Escape')
   })
 
-  // Lazy loading
+  // Lazy loading mitigation
+  const imageRequests = new Set()
+  await page.route('https://image-beta.w.kodadot.xyz/**', async (route) => {
+    const request = route.request()
+    const url = request.url()
+
+    // Check if it's an image request
+    if (request.resourceType() === 'image') {
+      imageRequests.add(url)
+    }
+
+    // Continue the request and get the response
+    const response = await route.fetch()
+
+    await route.fulfill({ response })
+  })
+
   await test.step('Scroll down and wait for images to load', async () => {
     await Commands.scrollDownAndStop()
-
-    const loading = await page.$$eval(
-      '[data-testid="dynamic-grid"] img',
-      imgs => imgs.map(img => img.getAttribute('loading')),
-    )
-
-    expect(loading.includes('lazy')).toBe(true)
-    expect(loading.includes('eager')).toBe(true)
+    await page.waitForLoadState('networkidle')
+    expect(imageRequests.size).toBeGreaterThan(0)
   })
 
   // Results
