@@ -63,7 +63,7 @@ export default function useEvmMetaTransaction() {
         abi,
         args,
         functionName,
-        value,
+        value: value ? BigInt(value) : undefined,
       })
 
       const txHash = await walletClient.writeContract(request)
