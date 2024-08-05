@@ -116,7 +116,7 @@ import { ModalCloseType } from '@/components/navbar/types'
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const { isDarkMode } = useTheme()
 
 const emit = defineEmits(['close'])

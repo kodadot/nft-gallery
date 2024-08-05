@@ -95,8 +95,7 @@
 import { NeoIcon } from '@kodadot1/brick'
 import type { RawLocation } from 'vue-router/types/router'
 
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()

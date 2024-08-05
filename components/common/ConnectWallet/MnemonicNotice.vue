@@ -21,3 +21,6 @@
     </a>
   </div>
 </template>
+<script setup lang="ts">
+import { NeoIcon } from '@kodadot1/brick'
+</script>

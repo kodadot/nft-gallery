@@ -20,7 +20,7 @@ const { accountId } = useAuth()
 const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
 const { toast } = useToast()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
 const props = defineProps<{

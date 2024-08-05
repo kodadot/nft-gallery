@@ -8,7 +8,7 @@ import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
 import type {
   ActionDeleteCollection,
-  ExecuteTransactionParams,
+  ExecuteSubstrateTransactionParams,
 } from '@/composables/transaction/types'
 
 import { warningMessage } from '@/utils/notification'
@@ -64,7 +64,7 @@ export function execBurnMultiple(
     arg: [arg],
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const cb = api.tx.utility.batch
 
@@ -134,7 +134,7 @@ export async function execBurnCollection(
     arg,
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const collectionId = params.collectionId.toString()
 

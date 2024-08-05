@@ -15,8 +15,9 @@ import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 
 const { availableNfts } = useHolderOfCollection()
 const { amountToMint, drop } = storeToRefs(useDropStore())
+const { isEvm } = useIsChain(usePrefix().urlPrefix)
 
-const show = computed(() => drop.value.type !== 'free')
+const show = computed(() => drop.value.type !== 'free' && !isEvm.value)
 const isHolder = computed(() => drop.value.type === 'holder')
 const availableNftsAmount = computed(() => availableNfts.serialNumbers.length)
 
