@@ -89,6 +89,7 @@ export default defineNuxtConfig({
               '@web3modal/wagmi/vue',
               '@wagmi/core',
               'use-wagmi',
+              '@farcaster/auth-client',
             ],
           }
         : undefined,

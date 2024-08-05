@@ -8,6 +8,8 @@ import type {
 } from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import { evmCollection } from '~/utils/onchain/evm'
+import { subCollection } from '~/utils/onchain/sub'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -32,24 +34,26 @@ export function useCollectionEntity() {
   const nftCount = ref()
   const description = ref()
   const collectionName = ref()
+  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
 
   watchEffect(async () => {
     if (drop.value.collection) {
-      const api = await useApi().apiInstance.value
-      const [queryCollectionConfig, queryCollection, queryCollectionMetadata] = await Promise.all([
-        api.query.nfts.collectionConfigOf(drop.value.collection),
-        api.query.nfts.collection(drop.value.collection),
-        api.query.nfts.collectionMetadataOf(drop.value.collection),
-      ])
-      const collectionConfig = queryCollectionConfig.toJSON() as unknown as { maxSupply?: number }
-      const collection = queryCollection.toJSON() as unknown as { items?: number }
+      if (isSub.value) {
+        const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
 
-      maxSupply.value = collectionConfig.maxSupply ?? 0
-      nftCount.value = collection.items ?? 0
+        maxSupply.value = supply
+        nftCount.value = minted
+        description.value = metadata.description
+        collectionName.value = metadata.name
+      }
 
-      const collectionMetadata = queryCollectionMetadata.toHuman() as unknown as { data?: string }
-      if (collectionMetadata.data) {
-        const metadata = await $fetch<{ description?: string, name?: string }>(sanitizeIpfsUrl(collectionMetadata.data))
+      if (isEvm.value) {
+        const { urlPrefix } = usePrefix()
+        const address = drop.value.collection as `0x${string}`
+        const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
+
+        maxSupply.value = supply
+        nftCount.value = minted
         description.value = metadata.description
         collectionName.value = metadata.name
       }
