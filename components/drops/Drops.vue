@@ -36,7 +36,7 @@
       :drops="currentDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="(count/2) - currentDrops.length"
+      :async-skeleton-count="Math.round((count/2) - currentDrops.length)"
       skeleton-key="current-drops-skeleton"
     />
 
@@ -58,7 +58,7 @@
       :drops="pastDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="(count/2) - pastDrops.length"
+      :async-skeleton-count="Math.round((count/2) - pastDrops.length)"
       skeleton-key="skeleton"
     />
 
