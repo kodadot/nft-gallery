@@ -2,6 +2,7 @@
   <div
     ref="container"
     :style="gridCols"
+    data-testid="dynamic-grid"
   >
     <slot
       :is-mobile-variant="isMobileVariant"

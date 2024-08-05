@@ -15,4 +15,12 @@ export type NeoButtonVariant =
   | 'pill'
   | 'border-icon'
 
-export type NeoMessageVariant = 'warning' | 'success' | 'danger' | 'info'
+export type NeoMessageVariant =
+  | 'warning'
+  | 'success'
+  | 'danger'
+  | 'info'
+  | 'neutral'
+
+export type NeoMessageCustomIconVariant = { icon: string, spin: boolean }
+export type NeoMessageIconVariant = string | NeoMessageCustomIconVariant

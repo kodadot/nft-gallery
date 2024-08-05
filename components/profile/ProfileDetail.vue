@@ -1,10 +1,5 @@
 <template>
   <div>
-    <ProfileCreateModal
-      v-model="isModalActive"
-      @success="fetchProfile"
-      @deleted="fetchProfile"
-    />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"
@@ -236,9 +231,9 @@
           />
         </div>
         <!-- Followers -->
-        <div>
+        <div v-if="!isOwner">
           <span
-            v-if="isOwner || !hasProfile || followersCount == 0"
+            v-if="!hasProfile || followersCount == 0"
             class="text-sm text-k-grey"
           >
             {{ $t('profile.notFollowed') }}
@@ -500,10 +495,8 @@ const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 
-const { hasProfile, userProfile, fetchProfile, isFetchingProfile }
+const { hasProfile, userProfile, isFetchingProfile }
   = useProfile()
-
-provide('userProfile', { hasProfile, userProfile })
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
@@ -529,14 +522,14 @@ const followingCount = computed(() => following.value?.totalCount ?? 0)
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
   icon: 'pen',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   classes: 'hover:!bg-transparent',
 }
 
 const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   variant: 'primary',
 }
 
@@ -555,7 +548,6 @@ const displayName = ref('')
 const web = ref('')
 const legal = ref('')
 const riot = ref('')
-const isModalActive = ref(false)
 const isFollowModalActive = ref(false)
 const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
@@ -790,6 +782,12 @@ watch(collections, (value) => {
   replaceUrl({
     collections: value.length ? value.toString() : undefined,
   })
+})
+
+onMounted(() => {
+  if (!hasProfile.value && isOwner.value) {
+    openProfileCreateModal()
+  }
 })
 </script>
 
