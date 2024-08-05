@@ -55,6 +55,8 @@ export default function () {
     )
   }
 
+  const vmOf = (prefix: Prefix): ChainVM => chainPropListOf(prefix).vm
+
   const existentialDeposit = computed<number>(
     () => chainsExistentialDeposit[urlPrefix.value],
   )
@@ -84,6 +86,7 @@ export default function () {
     withoutDecimals,
     unit,
     vm,
+    vmOf,
     offersDisabled,
     chainProperties,
     availableChains,

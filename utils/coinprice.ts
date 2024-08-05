@@ -60,8 +60,9 @@ export const getPrice = async (id: string): Promise<GetPrice> => {
   return emptyPrice
 }
 
+export type TokenName = 'kusama' | 'polkadot' | 'ethereum'
 // tokenMap but reversed
-const tokenMap = {
+const tokenMap: Record<string, TokenName> = {
   KSM: 'kusama',
   DOT: 'polkadot',
   ETH: 'ethereum',

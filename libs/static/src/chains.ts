@@ -91,6 +91,11 @@ export const chainNames: Record<Prefix, string> = {
   // glmr: 'Moonbeam',
 }
 
+export const ecosystemNames: Record<ChainVM, string> = {
+  SUB: 'Polkadot',
+  EVM: 'Ethereum',
+}
+
 export const chainList = (): Option[] => {
   return chainPrefixes.map(prefix => ({
     info: chainInfo[prefix],
@@ -116,6 +121,6 @@ export const existentialDeposit: Record<Prefix, number> = {
   ahk: 333333333,
   dot: 1e10,
   ahp: 1e8,
-  imx: 0, // nothing like ED in EVM :)
-  base: 0,
+  imx: 1e15, // nothing like ED in EVM :)
+  base: 1e15,
 }

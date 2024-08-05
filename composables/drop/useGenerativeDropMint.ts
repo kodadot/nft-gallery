@@ -75,7 +75,11 @@ export function useCollectionEntity() {
   }
 }
 
-export const useUpdateMetadata = async () => {
+export const useUpdateMetadata = async ({
+  blockNumber,
+}: {
+  blockNumber: Ref<string | undefined>
+}) => {
   const { drop } = useDrop()
   const { toMintNFTs, amountToMint, mintingSession }
     = storeToRefs(useDropStore())
@@ -83,13 +87,19 @@ export const useUpdateMetadata = async () => {
   const { subscribeForNftsWithMetadata } = useDropMassMintListing()
   const { collectionName, maxCount } = useCollectionEntity()
   const { $consola } = useNuxtApp()
+  const { accountId } = useAuth()
 
-  const status = ref<'index' | 'update'>('index')
+  const collectionMax = computed(() => maxCount.value
+    ?? drop.value.max
+    ?? FALLBACK_DROP_COLLECTION_MAX)
 
-  // 1. get nft index
-  const mintNFTs: Ref<MassMintNFT[]> = ref([])
-  useSubscriptionGraphql({
-    query: `
+  const updateSubstrateMetdata = () => {
+    const status = ref<'index' | 'update'>('index')
+
+    // 1. get nft index
+    const mintNFTs: Ref<MassMintNFT[]> = ref([])
+    useSubscriptionGraphql({
+      query: `
       nfts: nftEntities(
         where: {collection: {id_eq: "${drop.value.collection}"}},
         orderBy: [createdAt_ASC, sn_ASC]
@@ -97,76 +107,131 @@ export const useUpdateMetadata = async () => {
         id
       }
     `,
-    onChange: async ({ data: { nfts } }) => {
-      mintNFTs.value = []
+      onChange: async ({ data: { nfts } }) => {
+        mintNFTs.value = []
 
-      if (status.value === 'update') {
-        return
+        if (status.value === 'update') {
+          return
+        }
+
+        const checkIndex = new Set() // check duplicate index
+        for (const mintNFT of toMintNFTs.value) {
+          const index
+            = nfts.findIndex(
+              nft => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
+            ) + 1
+
+          if (index > 0) {
+            checkIndex.add(index)
+            const metadata = setMetadataUrl({
+              chain: drop.value.chain,
+              collection: drop.value.collection,
+              sn: index.toString(),
+            })
+
+            mintNFTs.value.push({
+              ...mintNFT,
+              name: `${mintNFT.name} #${index}`,
+              metadata: metadata.toString(),
+              sn: index,
+            })
+          }
+        }
+
+        if (checkIndex.size === amountToMint.value) {
+          status.value = 'update'
+          await submitMetadata()
+        }
+      },
+    })
+
+    // 2. update metadata
+    const mintedNfts: Ref<MintedNFT[]> = ref([])
+    const submitMetadata = async () => {
+      const response = await Promise.all(mintNFTs.value.map(submitMint))
+
+      for (const [index, res] of response.entries()) {
+        let metadata = { name: '', image: '' }
+
+        try {
+          metadata = await $fetch(res.metadata || '')
+        }
+        catch (error) {
+          $consola.warn(error)
+        }
+
+        mintedNfts.value.push({
+          id: `${drop.value.collection}-${res.nft}`,
+          index: mintNFTs.value[index].sn as number,
+          chain: res.chain,
+          name: metadata.name,
+          image: metadata.image,
+          collection: {
+            id: res.collection,
+            name: collectionName.value,
+            max: collectionMax.value,
+          },
+        })
       }
 
-      const checkIndex = new Set() // check duplicate index
-      for (const mintNFT of toMintNFTs.value) {
-        const index
-          = nfts.findIndex(
-            nft => nft.id === `${drop.value.collection}-${mintNFT.nft}`,
-          ) + 1
+      mintingSession.value.items = mintedNfts.value
+      subscribeForNftsWithMetadata(mintedNfts.value.map(item => item.id))
+    }
+  }
 
-        if (index > 0) {
-          checkIndex.add(index)
-          const metadata = setMetadataUrl({
+  const updateEvmMetdata = () => {
+    const mintedNfts = [] as MintedNFT[]
+    useSubscriptionGraphql({
+      query: `
+    nfts: nftEntities(
+      where: {collection: {id_eq: "${drop.value.collection}"}, blockNumber_eq: "${blockNumber.value}", currentOwner_eq: "${accountId.value}"},
+      orderBy: [createdAt_ASC, sn_ASC]
+    ) {
+      id
+      blockNumber
+      currentOwner
+      metadata
+      sn
+    }
+  `,
+      onChange: async ({ data: { nfts } }) => {
+        if (!nfts.length) {
+          return
+        }
+
+        let metadata = { name: '', image: '' }
+
+        for (const nft of nfts) {
+          try {
+            metadata = await $fetch(nft.metadata || '')
+          }
+          catch (error) {
+            $consola.warn(error)
+          }
+
+          mintedNfts.push({
+            id: nft.id,
+            index: Number(nft.sn),
             chain: drop.value.chain,
-            collection: drop.value.collection,
-            sn: index.toString(),
-          })
-
-          mintNFTs.value.push({
-            ...mintNFT,
-            name: `${mintNFT.name} #${index}`,
-            metadata: metadata.toString(),
-            sn: index,
+            name: metadata.name,
+            image: metadata.image,
+            collection: {
+              id: drop.value.collection,
+              name: collectionName.value,
+              max: collectionMax.value,
+            },
           })
         }
-      }
 
-      if (checkIndex.size === amountToMint.value) {
-        status.value = 'update'
-        await submitMetadata()
-      }
-    },
-  })
-
-  // 2. update metadata
-  const mintedNfts: Ref<MintedNFT[]> = ref([])
-  const submitMetadata = async () => {
-    const response = await Promise.all(mintNFTs.value.map(submitMint))
-
-    for (const [index, res] of response.entries()) {
-      let metadata = { name: '', image: '' }
-
-      try {
-        metadata = await $fetch(res.metadata || '')
-      }
-      catch (error) {
-        $consola.warn(error)
-      }
-
-      mintedNfts.value.push({
-        id: `${drop.value.collection}-${res.nft}`,
-        index: mintNFTs.value[index].sn as number,
-        chain: res.chain,
-        name: metadata.name,
-        image: metadata.image,
-        collection: {
-          id: res.collection,
-          name: collectionName.value,
-          max: maxCount.value ?? drop.value.max ?? FALLBACK_DROP_COLLECTION_MAX,
-        },
-      })
-    }
-
-    mintingSession.value.items = mintedNfts.value
-    subscribeForNftsWithMetadata(mintedNfts.value.map(item => item.id))
+        mintingSession.value.items = mintedNfts
+      },
+    })
   }
+
+  execByVm({
+    EVM: updateEvmMetdata,
+    SUB: updateSubstrateMetdata,
+  })
 }
 
 export default () => {

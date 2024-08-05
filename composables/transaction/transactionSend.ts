@@ -4,7 +4,8 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
-import type { ActionSend } from './types'
+import type { ActionSend, ExecuteTransaction } from './types'
+import { GENSOL_ABI } from './evm/utils'
 import {
   assetHubParamResolver,
   getApiCall,
@@ -65,7 +66,26 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
   })
 }
 
-export function execSendTx(item: ActionSend, api, executeTransaction) {
+function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
+  const { accountId } = useAuth()
+
+  executeTransaction({
+    address: item.collectionId,
+    abi: GENSOL_ABI,
+    functionName: 'safeTransferFrom',
+    arg: [accountId.value, item.address, item.nftSn],
+  })
+}
+
+export function execSendTx(
+  item: ActionSend,
+  api,
+  executeTransaction: ExecuteTransaction,
+) {
+  if (item.urlPrefix === 'base') {
+    return execSendEvm(item, executeTransaction)
+  }
+
   if (!checkTsxSend(item)) {
     return
   }

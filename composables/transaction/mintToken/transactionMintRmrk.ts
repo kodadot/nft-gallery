@@ -21,8 +21,8 @@ import type { Extrinsic } from '@kodadot1/minimark/common'
 import { asSystemRemark } from '@kodadot1/minimark/common'
 import type {
   ActionMintToken,
-  MintTokenParams,
   MintedCollectionKusama,
+  SubstrateMintTokenParams,
   TokenToMint,
 } from '../types'
 import { constructMeta } from './constructMeta'
@@ -167,7 +167,7 @@ export async function execMintRmrk({
   executeTransaction,
   isLoading,
   status,
-}: MintTokenParams) {
+}: SubstrateMintTokenParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'
