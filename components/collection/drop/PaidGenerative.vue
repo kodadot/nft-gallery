@@ -117,7 +117,7 @@ const closeMintModal = () => {
   isMintModalActive.value = false
 }
 
-const submitMints = () => {
+const submitMints = async () => {
   try {
     await useUpdateMetadata({ blockNumber })
 

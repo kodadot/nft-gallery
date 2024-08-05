@@ -177,7 +177,7 @@ const mint = async () => {
   await mintNft()
 }
 
-const submitMints = () => {
+const submitMints = async () => {
   try {
     await useUpdateMetadata({ blockNumber })
 
