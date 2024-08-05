@@ -17,18 +17,20 @@
 import type { ChainVM } from '@kodadot1/static'
 import { NeoButton } from '@kodadot1/brick'
 
-const props = defineProps<{ modelValue: ChainVM }>()
+const props = defineProps<{ modelValue: ChainVM, preselected: ChainVM }>()
 
 const selectedTab = useVModel(props, 'modelValue')
 
-const walletTabs: { label: string, value: ChainVM }[] = [
-  {
-    label: 'Polkadot',
-    value: 'SUB',
-  },
-  {
-    label: 'Evm',
-    value: 'EVM',
-  },
-]
+const walletTabs = computed<{ label: string, value: ChainVM }[]>(() => {
+  return [
+    {
+      label: 'Polkadot',
+      value: 'SUB',
+    },
+    {
+      label: 'Evm',
+      value: 'EVM',
+    },
+  ].filter(tab => tab.value === props.preselected)
+})
 </script>
