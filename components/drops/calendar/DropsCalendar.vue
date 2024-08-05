@@ -58,6 +58,7 @@
               :time-tag-with-time="calendarHasTime(item)"
               :drop-prefix="item.chain"
               :drop-creator="item.creator"
+              :drop-price="item.price"
               @click="() => handleClick(item)"
             >
               <template
