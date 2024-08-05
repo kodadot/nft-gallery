@@ -24,15 +24,16 @@
     <InfoBox
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
-      :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`, { ecosystem: ecosystem })"
       data-testid="addresschecker-infobox-invalid"
       @close="onClose"
     >
       <div
         v-dompurify-html="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
-            addressChain: addressCheck.value,
+            addressChain: addressCheck,
             selectedChain: currentChainName,
+            ecosystem: ecosystem,
           })
         "
       />
@@ -77,7 +78,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import { NeoButton } from '@kodadot1/brick'
-import { type Prefix, chainNames } from '@kodadot1/static'
+import { type Prefix, chainNames, ecosystemNames } from '@kodadot1/static'
 import correctFormat from '@/utils/ss58Format'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
@@ -102,9 +103,10 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const { chainProperties } = useChain()
+const { chainProperties, vm } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
+const ecosystem = computed(() => ecosystemNames[vm.value])
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const addressCheck = ref<AddressCheck | null>(null)
 const showAddressCheck = ref(false)
@@ -120,6 +122,18 @@ const checkAddressByss58Format = (value: string, ss58: number) => {
 }
 
 const getAddressCheck = (value: string): AddressCheck => {
+  return execByVm({
+    SUB: () => getSubstrateAddressCheck(value),
+    EVM: () => getEvmAddressCheck(value),
+  }) as AddressCheck
+}
+
+const getEvmAddressCheck = (value: string): AddressCheck => {
+  const valid = isEthereumAddress(value)
+  return { valid, type: !valid ? AddressType.UNKNOWN : undefined }
+}
+
+const getSubstrateAddressCheck = (value: string): AddressCheck => {
   if (isEthereumAddress(value)) {
     return { valid: false, type: AddressType.ETHEREUM }
   }

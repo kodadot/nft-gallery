@@ -73,14 +73,14 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const {
   transaction,
   isLoading: isTransactionLoading,
   status,
   isError: isTransactionError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -130,6 +130,7 @@ const mintNft = async () => {
       collectionId: drop.value?.collection,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   }
   catch (e) {
@@ -178,7 +179,8 @@ const mint = async () => {
 
 const submitMints = () => {
   try {
-    useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
+
     loading.value = false
     isSuccessModalActive.value = true
 

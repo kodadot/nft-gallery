@@ -3,12 +3,8 @@
     <div class="flex flex-col wallet-asset-container my-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
-
-      <template v-if="getIsSubstrate">
-        <hr class="my-4">
-
-        <MultipleBalances />
-      </template>
+      <hr class="my-4">
+      <MultipleBalances />
     </div>
 
     <WalletAssetMenu />

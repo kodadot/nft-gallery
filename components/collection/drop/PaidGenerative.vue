@@ -25,8 +25,8 @@ import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
 const { subscribeDropStatus } = useDropStatus(drop)
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { urlPrefix } = usePrefix()
+const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
@@ -46,6 +46,7 @@ const {
   status,
   isError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -74,6 +75,7 @@ const mintNft = async () => {
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   }
   catch (e) {
@@ -117,7 +119,8 @@ const closeMintModal = () => {
 
 const submitMints = () => {
   try {
-    useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
+
     loading.value = false
   }
   catch (error) {

@@ -4,6 +4,7 @@ import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
+import type { MintedNFT } from '~/components/collection/drop/types'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -69,37 +70,104 @@ export function useCollectionEntity() {
   }
 }
 
-export const useUpdateMetadata = () => {
+export const useUpdateMetadata = async ({
+  blockNumber,
+}: {
+  blockNumber: Ref<string | undefined>
+}) => {
   const { drop } = useDrop()
   const { toMintNFTs, mintingSession } = storeToRefs(useDropStore())
   const { subscribeForNftsWithMetadata } = useDropMassMintListing()
+  const { collectionName, maxCount } = useCollectionEntity()
+  const { $consola } = useNuxtApp()
+  const { accountId } = useAuth()
 
-  mintingSession.value.items = toMintNFTs.value.map((item) => {
-    // trigger update metadata
-    updateMetadata({
-      chain: drop.value.chain,
-      collection: drop.value.collection,
-      nft: item.nft,
+  const collectionMax = computed(() => maxCount.value
+    ?? drop.value.max
+    ?? FALLBACK_DROP_COLLECTION_MAX)
+
+  const updateSubstrateMetdata = () => {
+    mintingSession.value.items = toMintNFTs.value.map((item) => {
+      // trigger update metadata
+      updateMetadata({
+        chain: drop.value.chain,
+        collection: drop.value.collection,
+        nft: item.nft,
+      })
+
+      return {
+        id: item.nft.toString(),
+        chain: drop.value.chain,
+        name: item.name,
+        image: item.image,
+        metadata: item.metadata,
+        collection: {
+          id: drop.value.collection,
+          name: item.collectionName,
+          max: drop.value.max,
+        },
+      }
     })
+    subscribeForNftsWithMetadata(
+      toMintNFTs.value.map(
+        item => `${drop.value.collection}-${item.nft.toString()}`,
+      ),
+    )
+  }
 
-    return {
-      id: item.nft.toString(),
-      chain: drop.value.chain,
-      name: item.name,
-      image: item.image,
-      metadata: item.metadata,
-      collection: {
-        id: drop.value.collection,
-        name: item.collectionName,
-        max: drop.value.max,
-      },
+  const updateEvmMetdata = () => {
+    const mintedNfts = [] as MintedNFT[]
+    useSubscriptionGraphql({
+      query: `
+    nfts: nftEntities(
+      where: {collection: {id_eq: "${drop.value.collection}"}, blockNumber_eq: "${blockNumber.value}", currentOwner_eq: "${accountId.value}"},
+      orderBy: [createdAt_ASC, sn_ASC]
+    ) {
+      id
+      blockNumber
+      currentOwner
+      metadata
+      sn
     }
+  `,
+      onChange: async ({ data: { nfts } }) => {
+        if (!nfts.length) {
+          return
+        }
+
+        let metadata = { name: '', image: '' }
+
+        for (const nft of nfts) {
+          try {
+            metadata = await $fetch(nft.metadata || '')
+          }
+          catch (error) {
+            $consola.warn(error)
+          }
+
+          mintedNfts.push({
+            id: nft.id,
+            index: Number(nft.sn),
+            chain: drop.value.chain,
+            name: metadata.name,
+            image: metadata.image,
+            collection: {
+              id: drop.value.collection,
+              name: collectionName.value,
+              max: collectionMax.value,
+            },
+          })
+        }
+
+        mintingSession.value.items = mintedNfts
+      },
+    })
+  }
+
+  execByVm({
+    EVM: updateEvmMetdata,
+    SUB: updateSubstrateMetdata,
   })
-  subscribeForNftsWithMetadata(
-    toMintNFTs.value.map(
-      item => `${drop.value.collection}-${item.nft.toString()}`,
-    ),
-  )
 }
 
 export default () => {
