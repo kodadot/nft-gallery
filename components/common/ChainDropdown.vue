@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
+import { useRoute } from 'vue-router'
 
 const props = withDefaults(
   defineProps<{
