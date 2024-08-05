@@ -39,8 +39,6 @@
       skeleton-key="current-drops-skeleton"
     />
 
-    <hr class="my-14">
-
     <DropsCalendar
       :drops="drops"
       :loaded="loaded"
