@@ -4,7 +4,7 @@ import { reconnect as reconnectWagmi } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
 import type { DisconnectMutateAsync } from 'use-wagmi/query'
 
-const buildWagmiConfig = () => {
+export const buildWagmiConfig = () => {
   const metadata = {
     name: 'KodaDot',
     description: 'KodaDot - Generative Art Marketplace',
@@ -21,16 +21,16 @@ const buildWagmiConfig = () => {
   })
 }
 
-const config = buildWagmiConfig() as any
-
 export default (
   { reconnect }: { reconnect: boolean } = { reconnect: false },
 ) => {
+  const { $wagmiConfig: config } = useNuxtApp()
+
   if (reconnect) {
     reconnectWagmi(config)
   }
 
-  const { isConnected, address, isConnecting, chainId } = useAccount({
+  const account = useAccount({
     config,
   })
 
@@ -39,11 +39,7 @@ export default (
   ) as Promise<DisconnectMutateAsync>
 
   return {
-    config,
-    isConnected,
-    isConnecting,
-    address,
+    ...account,
     disconnect,
-    chainId,
   }
 }
