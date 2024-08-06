@@ -5,6 +5,8 @@ export default function () {
   const identityStore = useIdentityStore()
 
   const logout = async () => {
+    const isEvm = walletStore.getIsEvm
+
     identityStore.resetAuth()
     sessionStorage.clear()
     localStorage.clear()
@@ -12,7 +14,8 @@ export default function () {
 
     walletStore.setDisconnecting(true)
     walletStore.clear()
-    if (walletStore.getIsEvm) {
+
+    if (isEvm) {
       await disconnectWeb3Modal().catch((error) => {
         console.warn('[WEB3MODAL::CONNECTION] Failed disconnecting', error)
       })
