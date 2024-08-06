@@ -124,6 +124,8 @@ export type ActionConsume = {
   interaction: Interaction.CONSUME
   urlPrefix: string
   nftId: string
+  nftSn: string
+  collectionId: string
   successMessage?: string
   errorMessage?: string
 }
