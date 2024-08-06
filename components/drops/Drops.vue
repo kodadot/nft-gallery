@@ -36,6 +36,7 @@
       :drops="currentDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+      :async-skeleton-count="Math.round((count/2) - currentDrops.length)"
       skeleton-key="current-drops-skeleton"
     />
 
@@ -55,6 +56,7 @@
       :drops="pastDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+      :async-skeleton-count="Math.round((count/2) - pastDrops.length)"
       skeleton-key="skeleton"
     />
 
@@ -78,11 +80,11 @@ const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { drops, loaded } = useDrops({
+const { drops, loaded, count } = useDrops({
   active: [true],
   chain: !isProduction ? [urlPrefix.value] : [],
-  limit: 100, // set limit to enable sort from backend
-})
+  limit: 100,
+}, { async: true })
 
 const isCreateEventModalActive = ref(false)
 
