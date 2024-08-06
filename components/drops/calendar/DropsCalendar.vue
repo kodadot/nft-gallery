@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <template v-if="grouppedDropCalendars?.length">
+    <hr
+      class="my-14"
+    >
     <h2 class="text-3xl font-semibold mb-7">
       {{ $t('drops.dropCalendar') }}
     </h2>
@@ -78,7 +81,7 @@
       :drop-calendar="previewDropCalendar"
       @close="previewDropCalendar = undefined"
     />
-  </div>
+  </template>
 </template>
 
 <script lang="ts" setup>

@@ -231,9 +231,9 @@
           />
         </div>
         <!-- Followers -->
-        <div>
+        <div v-if="!isOwner">
           <span
-            v-if="isOwner || !hasProfile || followersCount == 0"
+            v-if="!hasProfile || followersCount == 0"
             class="text-sm text-k-grey"
           >
             {{ $t('profile.notFollowed') }}

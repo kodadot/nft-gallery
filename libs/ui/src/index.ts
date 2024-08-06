@@ -5,8 +5,11 @@ export { default as NeoDropdownItem } from './components/NeoDropdown/NeoDropdown
 export { default as NeoSelect } from './components/NeoSelect/NeoSelect.vue'
 export { default as NeoSidebar } from './components/NeoSidebar/NeoSidebar.vue'
 export { default as NeoCheckbox } from './components/NeoCheckbox/NeoCheckbox.vue'
-export { type NeoButtonVariant } from './types'
-export { type NeoMessageVariant } from './types'
+export type {
+  NeoButtonVariant,
+  NeoMessageVariant,
+  NeoMessageIconVariant,
+} from './types'
 
 export { default as TheButton } from './components/TheButton/TheButton.vue'
 export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip.vue'
