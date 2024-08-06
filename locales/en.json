@@ -155,8 +155,8 @@
         "content": "Oops! You have entered ETH address which <strong>is not supported by Polkadot ecosystem.</strong> Please enter Polkadot supported address to proceed with the transaction."
       },
       "unknown": {
-        "title": "Not Polkadot ecosystem address",
-        "content": "Oops! The address you entered is not supported by Polkadot ecosystem. Please enter Polkadot supported address to proceed with the transaction."
+        "title": "Not {ecosystem} ecosystem address",
+        "content": "Oops! The address you entered is not supported by {ecosystem} ecosystem. Please enter {ecosystem} supported address to proceed with the transaction."
       },
       "wrong_network_address": {
         "title": "Wrong Network address",
@@ -2075,6 +2075,10 @@
       "unsuccessfulFarcasterAuth": {
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
+      },
+      "setupFailed": {
+        "title": "Profile Setup Failed",
+        "message": "Error occurred. Try again later or report issue."
       }
     },
 
@@ -2087,6 +2091,14 @@
     "deleteConfirm": "You sure? - click again",
     "waitSeconds": "Wait {0} Seconds",
     "profileReset": "Profile Reset",
-    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!",
+    "finishCustomization": "Finish Customization",
+    "created": "Profile Created"
+  },
+  "reconnect": {
+    "required": "Reconnect Required",
+    "title": "Reconnect to access page",
+    "toProceed": "To proceed, connect your <strong>{0}</strong> {1} Wallet.",
+    "switch": "Switch Wallet"
   }
 }
