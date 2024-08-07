@@ -4,7 +4,7 @@ import { useDrop } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import type { MintedNFT } from '~/components/collection/drop/types'
+import type { MintedNFT } from '@/components/collection/drop/types'
 
 export type DropMintedNft = DoResult & {
   id: string
