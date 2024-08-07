@@ -15,9 +15,10 @@
       v-else
       class="bg-no-repeat bg-cover bg-center md:h-[360px] h-40 border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.banner
-          ? `url(${userProfile.banner})`
-          : undefined,
+        backgroundImage:
+          userProfile?.banner
+            ? `url(${getHigherResolutionCloudflareImage(userProfile.banner)})`
+            : undefined,
       }"
     >
       <div
@@ -451,6 +452,7 @@ import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
