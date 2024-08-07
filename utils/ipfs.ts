@@ -201,6 +201,10 @@ export const ipfsToCf = (ipfsUrl: string): string => {
   return `${CF_IMAGE_URL}${cid}/public`
 }
 
+export const getHigherResolutionCloudflareImage = (url: string): string => {
+  return url.replace(/\/public$/, '/detail')
+}
+
 export type EntityWithMeta = {
   metadata: string
   meta?: NFTMetadata
