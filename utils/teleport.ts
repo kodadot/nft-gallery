@@ -16,6 +16,7 @@ export enum Chain {
   POLKADOT = 'Polkadot',
   BASE = 'Base',
   IMMUTABLEX = 'Immutable',
+  MANTLE = 'Mantle',
 }
 
 export type TeleportChain = {
