@@ -24,7 +24,6 @@ type InnerValidity = Pick<
 
 const constants = {
   canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/g,
-  graphicsRegex: /createGraphics\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/g,
   getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
   urlSearchParamsRegex:
     /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
@@ -43,24 +42,6 @@ const validateCanvasCreation = (
     return { isSuccess: false, error: 'createCanvas function not found.' }
   }
   return { isSuccess: true, value: canvasMatch }
-}
-
-export const webGlUsed = (content, path) => {
-  const canvasMatches = content.match(constants.canvasRegex)
-  const graphicsMatches = content.match(constants.graphicsRegex)
-
-  const canvasWebGLUsed = canvasMatches
-    ? canvasMatches.some(match => match.includes('WEBGL'))
-    : false
-  const graphicsWebGLUsed = graphicsMatches
-    ? graphicsMatches.some(match => match.includes('WEBGL'))
-    : false
-
-  if (canvasWebGLUsed || graphicsWebGLUsed) {
-    console.warn(`WebGL usage found in file: ${path}`)
-  }
-
-  return canvasWebGLUsed || graphicsWebGLUsed
 }
 
 const validateGetURLParamsUsage = (
