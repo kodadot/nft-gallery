@@ -261,6 +261,9 @@ importers:
       glob:
         specifier: ^8.1.0
         version: 8.1.0
+      husky:
+        specifier: ^9.1.4
+        version: 9.1.4
       jsdom:
         specifier: ^19.0.0
         version: 19.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -279,9 +282,6 @@ importers:
       sass:
         specifier: 1.77.6
         version: 1.77.6
-      simple-git-hooks:
-        specifier: ^2.11.1
-        version: 2.11.1
       tailwindcss:
         specifier: ^3.4.5
         version: 3.4.6
@@ -7405,6 +7405,11 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
+  husky@9.1.4:
+    resolution: {integrity: sha512-bho94YyReb4JV7LYWRWxZ/xr6TtOTt8cMfmQ39MQYJ7f/YE268s3GdghGwi+y4zAeqewE5zYLvuhV0M0ijsDEA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   i18next-browser-languagedetector@7.1.0:
     resolution: {integrity: sha512-cr2k7u1XJJ4HTOjM9GyOMtbOA47RtUoWRAtt52z43r3AoMs2StYKyjS3URPhzHaf+mn10hY9dZWamga5WPQjhA==}
 
@@ -10248,10 +10253,6 @@ packages:
 
   simple-get@4.0.1:
     resolution: {integrity: sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==}
-
-  simple-git-hooks@2.11.1:
-    resolution: {integrity: sha512-tgqwPUMDcNDhuf1Xf6KTUsyeqGdgKMhzaH4PAZZuzguOgTl5uuyeYe/8mWgAr6IBxB5V06uqEf6Dy37gIWDtDg==}
-    hasBin: true
 
   simple-git@3.25.0:
     resolution: {integrity: sha512-KIY5sBnzc4yEcJXW7Tdv4viEz8KyG+nU0hay+DWZasvdFOYKeUZ6Xc25LUHHjw0tinPT7O1eY6pzX7pRT1K8rw==}
@@ -22430,6 +22431,8 @@ snapshots:
 
   human-signals@5.0.0: {}
 
+  husky@9.1.4: {}
+
   i18next-browser-languagedetector@7.1.0:
     dependencies:
       '@babel/runtime': 7.24.4
@@ -26078,8 +26081,6 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
     optional: true
-
-  simple-git-hooks@2.11.1: {}
 
   simple-git@3.25.0:
     dependencies:
