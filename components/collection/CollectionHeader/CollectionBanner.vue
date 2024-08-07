@@ -20,7 +20,7 @@
               />
             </div>
             <h1
-              class="collection-banner-name font-bold text-2xl md:text-[31px]"
+              class="collection-banner-name font-bold text-2xl md:text-[31px] w-max max-w-sm"
               data-testid="collection-banner-name"
             >
               {{ collectionName }}
