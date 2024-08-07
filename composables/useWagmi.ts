@@ -1,6 +1,5 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 import { base, immutableZkEvm } from 'viem/chains'
-import { reconnect as reconnectWagmi } from '@wagmi/core'
 import { useAccount, useDisconnect } from 'use-wagmi'
 import type { DisconnectMutateAsync } from 'use-wagmi/query'
 
@@ -22,13 +21,8 @@ export const buildWagmiConfig = () => {
 }
 
 export default (
-  { reconnect }: { reconnect: boolean } = { reconnect: false },
 ) => {
   const { $wagmiConfig: config } = useNuxtApp()
-
-  if (reconnect) {
-    reconnectWagmi(config)
-  }
 
   const account = useAccount({
     config,
