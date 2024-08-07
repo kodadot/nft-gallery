@@ -87,6 +87,8 @@ export default function (refetchPeriodically: boolean = false) {
         multiBalances.value.chains.base?.eth?.nativeBalance,
     [Chain.IMMUTABLEX]:
         multiBalances.value.chains.immutablex?.eth?.nativeBalance,
+    [Chain.MANTLE]:
+        multiBalances.value.chains.mantle?.eth?.nativeBalance,
   }))
 
   const currentChain = computed(() => prefixToChainMap[urlPrefix.value])
