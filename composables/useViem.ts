@@ -4,6 +4,7 @@ import type { Prefix } from '@kodadot1/static'
 const provider = reactive<{ value: any, fetching: boolean }>({ value: undefined, fetching: false })
 
 export default function (prefix: Prefix) {
+  const walletStore = useWalletStore()
   const { connector } = useWagmi()
 
   const publicClient = createPublicClient({
@@ -35,7 +36,7 @@ export default function (prefix: Prefix) {
       provider.value = undefined
       console.log('[VIEM::PROVIDER] Cleared')
     }
-  })
+  }, { immediate: Boolean(walletStore.selected && walletStore.getIsEvm) })
 
   return {
     publicClient,
