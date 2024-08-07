@@ -4,26 +4,29 @@
     :default-width="GRID_DEFAULT_WIDTH"
     persist
   >
+    <template
+      v-if="asyncSkeletonCount ? true : loaded"
+    >
+      <div
+        v-for="(drop, index) in drops"
+        :key="`${isDrop(drop) ? drop.collection?.id : drop.id}=${index}`"
+        class="w-full h-full"
+        :data-testid="index"
+      >
+        <slot
+          name="card"
+          :item="drop as InternalDropCalendar"
+        >
+          <DropCard :drop="drop as Drop" />
+        </slot>
+      </div>
+    </template>
     <template v-if="!loaded">
       <DropsDropCardSkeleton
-        v-for="x in defaultSkeletonCount"
+        v-for="x in asyncSkeletonCount || defaultSkeletonCount"
         :key="`${skeletonKey}-${x}`"
       />
     </template>
-    <div
-      v-for="(drop, index) in drops"
-      v-else
-      :key="`${isDrop(drop) ? drop.collection?.id : drop.id}=${index}`"
-      class="w-full h-full"
-      :data-testid="index"
-    >
-      <slot
-        name="card"
-        :item="drop as InternalDropCalendar"
-      >
-        <DropCard :drop="drop as Drop" />
-      </slot>
-    </div>
   </DynamicGrid>
 </template>
 
@@ -42,6 +45,7 @@ defineProps<{
   drops: Drop[] | InternalDropCalendar[]
   loaded: boolean
   defaultSkeletonCount: number
+  asyncSkeletonCount?: number
   skeletonKey: string
   clickable?: boolean
 }>()
