@@ -1,3 +1,5 @@
+const PERSISTED_STORES = ['preferences', 'wallet']
+
 export default function () {
   const { disconnect: disconnectWeb3Modal } = useWagmi()
   const shoppingCartStore = useShoppingCartStore()
@@ -9,7 +11,9 @@ export default function () {
 
     identityStore.resetAuth()
     sessionStorage.clear()
-    localStorage.clear()
+    // don't use localStorage.clear(), web3modal uses localstorage to save data
+    // there's no way to regerate those values unless hard reload is made
+    PERSISTED_STORES.forEach(store => localStorage.removeItem(store))
     shoppingCartStore.clear()
 
     walletStore.setDisconnecting(true)
