@@ -240,7 +240,7 @@
           </span>
           <div
             v-else
-            class="flex gap-4 items-center"
+            class="flex gap-4 items-center followed-by"
           >
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
@@ -860,5 +860,11 @@ onMounted(() => {
   height: 5px;
   background-color: grey;
   margin: 0 10px;
+}
+
+.followed-by {
+  :deep(.o-btn.is-neo:hover) {
+    @apply text-text-color;
+  }
 }
 </style>
