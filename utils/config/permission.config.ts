@@ -9,11 +9,6 @@ const hasCreate: PartialConfig = {
   imx: false,
 }
 
-const hasList: PartialConfig = {
-  base: false,
-  imx: false,
-}
-
 const hasInsight: PartialConfig = {
   ahk: false,
   ahp: false,
@@ -39,7 +34,7 @@ export const createVisible = (prefix: Prefix | string): boolean => {
 }
 
 export const listVisible = (prefix: Prefix | string): boolean => {
-  return hasList[prefix] ?? true
+  return !isEvm(prefix as Prefix)
 }
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
