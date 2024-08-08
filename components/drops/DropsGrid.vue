@@ -5,7 +5,7 @@
     persist
   >
     <template
-      v-if="isAsync ? true : loaded"
+      v-if="isAsync || loaded"
     >
       <div
         v-for="(drop, index) in drops"
