@@ -10,8 +10,8 @@ import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-import { subCollection } from '~/utils/onchain/sub'
-import { evmCollection } from '~/utils/onchain/evm'
+import { subCollection } from '@/utils/onchain/sub'
+import { evmCollection } from '@/utils/onchain/evm'
 
 export interface Drop {
   collection: DropItem
