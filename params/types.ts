@@ -63,7 +63,9 @@ export type DropType = 'paid' | 'free' | 'holder'
 export type DropItem = {
   id: string
   chain: Prefix
-  collection: string
+  collection: string // collection id
+  collectionName: string
+  collectionDescription: string
   image: string
   banner: string
   name: string
@@ -72,7 +74,7 @@ export type DropItem = {
   type: DropType
   meta: string
   disabled: number
-  minted?: number
+  minted: number
   max?: number
   price?: string
   holder_of?: string

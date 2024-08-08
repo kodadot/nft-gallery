@@ -7,6 +7,9 @@ import type { MintingSession } from '@/components/collection/drop/types'
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
   collection: '',
+  collectionName: '',
+  collectionDescription: '',
+  minted: 0,
   image: '',
   banner: '',
   name: '',
