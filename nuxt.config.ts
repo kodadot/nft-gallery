@@ -62,7 +62,6 @@ export default defineNuxtConfig({
               'chartjs-plugin-zoom',
               'date-fns/format',
               'date-fns/formatDistanceToNow',
-              'graphql-ws',
               'keen-slider/vue',
               'lodash/camelCase',
               'lodash/filter',
