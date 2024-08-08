@@ -184,26 +184,28 @@ export function useDrop(alias?: string) {
   const fetchDrop = async () => {
     drop.value = await getDropById(alias ?? params.id.toString())
 
-    if (drop.value.collection) {
-      if (isSub.value) {
-        const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
+    if (!drop.value.collection) {
+      return
+    }
 
-        drop.value.max = supply
-        drop.value.minted = minted
-        drop.value.collectionName = metadata.name
-        drop.value.collectionDescription = metadata.description
-      }
+    if (isSub.value) {
+      const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
 
-      if (isEvm.value) {
-        const { urlPrefix } = usePrefix()
-        const address = drop.value.collection as `0x${string}`
-        const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
+    }
 
-        drop.value.max = supply
-        drop.value.minted = minted
-        drop.value.collectionName = metadata.name
-        drop.value.collectionDescription = metadata.description
-      }
+    if (isEvm.value) {
+      const { urlPrefix } = usePrefix()
+      const address = drop.value.collection as `0x${string}`
+      const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
+
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
     }
   }
 
