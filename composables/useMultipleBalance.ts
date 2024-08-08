@@ -23,6 +23,7 @@ export const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
   polkadotHub: 'ahp',
   base: 'base',
   immutablex: 'imx',
+  mantle: 'mnt',
   // rococoHub: 'ahr',
 }
 
@@ -34,6 +35,7 @@ export const prefixToNetwork: Partial<Record<Prefix, ChainType>> = {
   ahp: 'polkadotHub',
   base: 'base',
   imx: 'immutablex',
+  mnt: 'mantle',
   // ahr: 'rococoHub',
 }
 
