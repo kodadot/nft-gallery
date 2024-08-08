@@ -22,7 +22,7 @@
 import { NeoButton } from '@kodadot1/brick'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
-import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
   calculateBalanceUsdValue,
   formatAmountWithRound,
@@ -38,10 +38,9 @@ const { isLogIn } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
-const { drop } = useDrop()
 const now = useNow()
 const { mintCountAvailable } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()

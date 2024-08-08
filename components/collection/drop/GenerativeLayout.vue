@@ -93,7 +93,6 @@ import type {
   Drop } from '@/components/drops/useDrops'
 import {
   getFormattedDropItem,
-  useDrop,
 } from '@/components/drops/useDrops'
 import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
@@ -105,7 +104,7 @@ const mdBreakpoint = 768
 
 const emit = defineEmits(['mint'])
 
-const { drop } = useDrop()
+const { drop } = storeToRefs(useDropStore())
 const { previewItem, userMintsCount } = storeToRefs(useDropStore())
 const { width } = useWindowSize()
 
