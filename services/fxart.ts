@@ -1,5 +1,4 @@
-import type { FetchError } from 'ofetch'
-import { $fetch } from 'ofetch'
+import { $fetch, type FetchError } from 'ofetch'
 import type { Prefix } from '@kodadot1/static'
 import type { DropItem } from '@/params/types'
 import { isProduction } from '@/utils/env'
@@ -62,26 +61,14 @@ export const getDropMintedStatus = async (alias: string, accountId: string) => {
   })
 }
 
-export const setMetadataUrl = ({ chain, collection, sn }) => {
-  const metadataUrl = new URL(
-    'https://fxart-beta.kodadot.workers.dev/metadata/v2/json',
-  )
-  metadataUrl.searchParams.set('chain', chain)
-  metadataUrl.searchParams.set('collection', collection)
-  metadataUrl.searchParams.set('sn', sn.toString())
-
-  return metadataUrl.toString()
-}
-
-export const updateMetadata = async ({ chain, collection, nft, sn }) => {
+export const updateMetadata = async ({ chain, collection, nft }) => {
   try {
-    const response = await api<DoResult>('/metadata/v2/update', {
+    const response = await api('/metadata/v1/dyndata/update', {
       method: 'post',
       body: {
         chain,
         collection,
         nft,
-        sn,
       },
     })
 
