@@ -32,10 +32,10 @@ const { address, isConnected, isConnecting, chainId } = useWagmi()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { modal } = useWeb3Modal()
 
-watchEffect(() => {
-  const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId.value ?? '']
+watch([address, isConnected, chainId], ([address, isConnected, chainId]) => {
+  const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId ?? '']
 
-  if (address.value && isConnected.value && chainId.value && chainPrefix) {
+  if (address && isConnected && chainId && chainPrefix) {
     const isCorrectChainConnected = chainPrefix === urlPrefix.value
 
     if (!isCorrectChainConnected) {
