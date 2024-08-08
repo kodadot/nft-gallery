@@ -1,9 +1,9 @@
 import type { ToMintNft } from '@/components/collection/drop/types'
-import type { DoResult } from '@/services/fxart'
-import { updateMetadata } from '@/services/fxart'
+import { generateId, setDyndataUrl } from '@/services/dyndata'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
-  metadata?: string
+  image: string
+  metadata: string
   nft: number // nft id
   sn?: number // serial numbers
 }
@@ -11,23 +11,53 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 export default () => {
   const dropStore = useDropStore()
   const { drop, amountToMint, toMintNFTs, loading } = storeToRefs(dropStore)
+  const { isSub } = useIsChain(usePrefix().urlPrefix)
 
-  const clearMassmint = () => {
+  // ensure tokenIds are unique on single user session
+  const tokenIds = ref<number[]>([])
+  const populateTokenIds = async () => {
+    for (const _ of Array.from({ length: amountToMint.value })) {
+      const tokenId = Number.parseInt(await generateId())
+      if (!tokenIds.value.includes(tokenId)) {
+        tokenIds.value.push(tokenId)
+      }
+    }
+
+    if (tokenIds.value.length < amountToMint.value) {
+      await populateTokenIds()
+    }
+  }
+
+  const clearMassMint = () => {
     dropStore.resetMassmint()
+    tokenIds.value = []
   }
 
   const massGenerate = async () => {
     try {
-      clearMassmint()
+      clearMassMint()
+      if (isSub.value) {
+        await populateTokenIds()
+      }
 
-      toMintNFTs.value = Array.from({ length: amountToMint.value }).map(() => {
-        return {
-          name: drop.value.name,
-          collectionName: drop.value.collectionName,
-          price: drop.value.price?.toString() || '',
-          nft: parseInt(uidMathDate()),
-        }
-      })
+      toMintNFTs.value = Array.from({ length: amountToMint.value }).map(
+        (_, index) => {
+          const { image, metadata } = setDyndataUrl({
+            chain: drop.value.chain,
+            collection: drop.value.collection,
+            nft: tokenIds.value[index],
+          })
+
+          return {
+            name: drop.value.name,
+            collectionName: drop.value.collectionName,
+            price: drop.value.price?.toString() || '',
+            nft: tokenIds.value[index],
+            metadata,
+            image,
+          }
+        },
+      )
 
       console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
     }
@@ -37,27 +67,10 @@ export default () => {
     }
   }
 
-  const submitMint = async (nft: MassMintNFT): Promise<DoResult> => {
-    return new Promise((resolve, reject) => {
-      try {
-        updateMetadata({
-          chain: drop.value.chain,
-          collection: drop.value.collection,
-          nft: nft.nft,
-          sn: nft.sn,
-        }).then(result => resolve(result))
-      }
-      catch (e) {
-        reject(e)
-      }
-    })
-  }
-
-  onBeforeUnmount(clearMassmint)
+  onBeforeUnmount(clearMassMint)
 
   return {
     massGenerate,
-    submitMint,
-    clearMassMint: clearMassmint,
+    clearMassMint,
   }
 }

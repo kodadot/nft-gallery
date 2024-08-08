@@ -25,6 +25,7 @@ export enum SupportWalletExtension {
   SubWallet = 'subwallet-js',
   Talisman = 'talisman',
   Enkrypt = 'enkrypt',
+  PolkaGate = 'polkagate',
 }
 
 // source as 'polkadot-js' in mobile app
@@ -125,6 +126,14 @@ export const WalletConfigMap: IWalletConfigMap = {
     'https://www.enkrypt.com/',
     true,
   ),
+  [SupportWalletExtension.PolkaGate]: buildWalletConfig(
+    SupportWalletExtension.PolkaGate,
+    '/partners/logo-polkagate.svg',
+    'PolkaGate',
+    'https://chromewebstore.google.com/detail/polkagate-the-gateway-to/ginchbkmljhldofnbjabmeophlhdldgp?hl=en',
+    'https://polkagate.xyz/',
+    true,
+  ),
 }
 
 const MobileWalletExtensionList = [
@@ -136,6 +145,7 @@ const PCWalletExtensionList = [
   SupportWalletExtension.Talisman,
   SupportWalletExtension.SubWallet,
   SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.PolkaGate,
   SupportWalletExtension.Enkrypt,
   SupportWalletExtension.Clover,
 ]

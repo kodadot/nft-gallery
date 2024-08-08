@@ -42,6 +42,7 @@ import type { Passed } from './types'
 const props = defineProps<{
   passed: Passed
   description: string
+  optional?: boolean
 }>()
 
 const showResolveIssuesModal = ref(false)
@@ -54,7 +55,7 @@ const icon = computed(() => {
       spin: true,
     }
   }
-  if (props.passed === 'unknown') {
+  if (props.passed === 'unknown' || (props.optional && !props.passed)) {
     return {
       name: 'question',
       class: 'text-k-grey',
