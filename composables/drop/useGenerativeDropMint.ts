@@ -31,7 +31,7 @@ export const useUpdateMetadata = async ({
   const { $consola } = useNuxtApp()
   const { accountId } = useAuth()
 
-  const updateSubstrateMetdata = () => {
+  const updateSubstrateMetadata = () => {
     mintingSession.value.items = toMintNFTs.value.map((item) => {
       // trigger update metadata
       updateMetadata({
@@ -60,7 +60,7 @@ export const useUpdateMetadata = async ({
     )
   }
 
-  const updateEvmMetdata = () => {
+  const updateEvmMetadata = () => {
     const mintedNfts = [] as MintedNFT[]
     useSubscriptionGraphql({
       query: `
@@ -92,7 +92,7 @@ export const useUpdateMetadata = async ({
 
           mintedNfts.push({
             id: nft.id,
-            index: Number(nft.sn),
+            metadata: nft.metadata,
             chain: drop.value.chain,
             name: metadata.name,
             image: metadata.image,
@@ -110,8 +110,8 @@ export const useUpdateMetadata = async ({
   }
 
   execByVm({
-    EVM: updateEvmMetdata,
-    SUB: updateSubstrateMetdata,
+    EVM: updateEvmMetadata,
+    SUB: updateSubstrateMetadata,
   })
 }
 
