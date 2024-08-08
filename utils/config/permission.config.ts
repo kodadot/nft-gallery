@@ -1,3 +1,4 @@
+import { chainPropListOf } from './chain.config'
 import type { PartialConfig, Prefix } from './types'
 
 const hasCreate: PartialConfig = {
@@ -54,7 +55,7 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk' || prefix === 'ahp' || prefix === 'base'
+  return prefix === 'ahk' || prefix === 'ahp' || chainPropListOf(prefix as Prefix).vm === 'EVM'
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
