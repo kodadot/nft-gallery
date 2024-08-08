@@ -1,14 +1,10 @@
+import { chainPropListOf } from './chain.config'
 import type { PartialConfig, Prefix } from './types'
 
 const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
   rmrk: false,
-  base: false,
-  imx: false,
-}
-
-const hasList: PartialConfig = {
   base: false,
   imx: false,
 }
@@ -38,7 +34,7 @@ export const createVisible = (prefix: Prefix | string): boolean => {
 }
 
 export const listVisible = (prefix: Prefix | string): boolean => {
-  return hasList[prefix] ?? true
+  return !isEvm(prefix as Prefix)
 }
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
@@ -54,7 +50,7 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk' || prefix === 'ahp' || prefix === 'base'
+  return prefix === 'ahk' || prefix === 'ahp' || chainPropListOf(prefix as Prefix).vm === 'EVM'
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
