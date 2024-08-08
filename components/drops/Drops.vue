@@ -32,18 +32,18 @@
       </div>
     </div>
 
-    <DropsGrid
-      :drops="currentDrops"
-      :loaded="loaded"
-      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="asyncSkeletonCountOf(currentDrops.length)"
-      skeleton-key="current-drops-skeleton"
-    />
+    <div class="grid grid-cols-5 gap-4">
+      <DropsDropItem
+        v-for="drop in dropItems"
+        :key="drop.id"
+        :drop="drop"
+      />
+    </div>
 
     <DropsCalendar
-      :drops="drops"
-      :loaded="loaded"
-      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+      :drops="dropItems"
+      :loaded="dropItems?.length"
+      :default-skeleton-count="4"
     />
 
     <hr class="my-14">
@@ -52,13 +52,14 @@
       {{ $i18n.t('drops.pastArtDrops') }}
     </h2>
 
-    <DropsGrid
-      :drops="pastDrops"
-      :loaded="loaded"
-      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="asyncSkeletonCountOf(pastDrops.length)"
-      skeleton-key="skeleton"
-    />
+    <div class="grid grid-cols-5 gap-4">
+      <DropsDropItem
+        v-for="drop in dropItems"
+        :key="drop.id"
+        :drop="drop"
+        :past-drop="true"
+      />
+    </div>
 
     <DropsCreateCalendarEventModal
       v-model="isCreateEventModalActive"
@@ -69,34 +70,14 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import filter from 'lodash/filter'
-import { DropStatus, useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
-
-const DEFAULT_SKELETON_COUNT = 4
-const CURRENT_DROP_STATUS = Object.values(DropStatus).filter(
-  status => status !== DropStatus.MINTING_ENDED,
-)
+import { getDrops } from '~/services/fxart'
+import type { DropItem } from '~/params/types'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { drops, loaded, count } = useDrops({
-  active: [true],
-  chain: !isProduction ? [urlPrefix.value] : [],
-  limit: 100,
-}, { async: true })
 
 const isCreateEventModalActive = ref(false)
-
-const currentDrops = computed(() =>
-  filter(drops.value, drop => CURRENT_DROP_STATUS.includes(drop.status)),
-)
-
-const pastDrops = computed(() =>
-  filter(drops.value, { status: DropStatus.MINTING_ENDED }),
-)
-
-const asyncSkeletonCountOf = (amount: number) => count.value ? Math.max(0, Math.round((count.value) / 2) - amount) : DEFAULT_SKELETON_COUNT
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
@@ -108,5 +89,15 @@ watch(urlPrefix, () => checkRouteAvailability())
 
 onBeforeMount(() => {
   checkRouteAvailability()
+})
+
+const dropItems = ref<DropItem[]>()
+onBeforeMount(async () => {
+  const items = await getDrops({
+    active: [true],
+    chain: !isProduction ? [urlPrefix.value] : [],
+    limit: 100,
+  })
+  dropItems.value = items
 })
 </script>
