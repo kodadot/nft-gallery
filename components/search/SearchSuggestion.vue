@@ -89,16 +89,10 @@
             </SearchResultItem>
           </div>
         </div>
-        <nuxt-link
-          class="search-footer-link"
-          :to="{
-            path: `/${urlPrefix}/explore/collectibles`,
-            query: { ...$route.query },
-          }"
-        >
+        <div class="search-footer-link">
           <div
             :class="loadMoreItemClassName"
-            @click="seeAllButtonHandler"
+            @click="seeAllButtonHandler(`/${urlPrefix}/explore/collectibles`)"
           >
             {{ $t('search.seeAll') }}
             <svg
@@ -115,7 +109,7 @@
               />
             </svg>
           </div>
-        </nuxt-link>
+        </div>
       </NeoTabItem>
       <NeoTabItem
         label="NFTs"
@@ -169,16 +163,10 @@
             </SearchResultItem>
           </div>
         </div>
-        <nuxt-link
-          class="search-footer-link"
-          :to="{
-            path: `/${urlPrefix}/explore/items`,
-            query: { ...$route.query },
-          }"
-        >
+        <div class="search-footer-link">
           <div
             :class="loadMoreItemClassName"
-            @click="seeAllButtonHandler"
+            @click="seeAllButtonHandler(`/${urlPrefix}/explore/items`)"
           >
             {{ $t('search.seeAll') }}
             <svg
@@ -195,7 +183,7 @@
               />
             </svg>
           </div>
-        </nuxt-link>
+        </div>
       </NeoTabItem>
       <NeoTabItem
         value="User"
@@ -390,10 +378,9 @@ const nftSuggestion = computed(() =>
 
 const loadMoreItemClassName = computed(
   () =>
-    `link-item${
-      selectedIndex.value === totalItemsAtCurrentTab.value
-        ? ' selected-item'
-        : ''
+    `link-item${selectedIndex.value === totalItemsAtCurrentTab.value
+      ? 'selected-item'
+      : ''
     }`,
 )
 
@@ -416,28 +403,27 @@ const selectedItemListMap = computed(() => ({
 }))
 
 const router = useRouter()
-const route = useRoute()
 const { $consola } = useNuxtApp()
 
-const updateSearchUrl = () => {
+const updateSearchUrl = (path: string) => {
   const { name } = props
   if (name) {
     router
       .replace({
-        path: String(route.path),
+        path,
         query: {
           search: name,
         },
       })
-      .catch($consola.warn)
+      .catch(console.warn)
   }
 }
 
 const emit = defineEmits(['close', 'gotoGallery'])
 
-const seeAllButtonHandler = () => {
+const seeAllButtonHandler = (path: string) => {
   emit('close')
-  updateSearchUrl()
+  updateSearchUrl(path)
 }
 
 const nativeSearch = () => {
