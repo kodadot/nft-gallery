@@ -1,4 +1,3 @@
-import { useCollectionEntity } from '../useGenerativeDropMint'
 import type { ToMintNft } from '@/components/collection/drop/types'
 import type { DoResult } from '@/services/fxart'
 import { updateMetadata } from '@/services/fxart'
@@ -11,8 +10,6 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 
 export default () => {
   const dropStore = useDropStore()
-  const { collectionName } = useCollectionEntity()
-
   const { drop, amountToMint, toMintNFTs, loading } = storeToRefs(dropStore)
 
   const clearMassmint = () => {
@@ -26,7 +23,7 @@ export default () => {
       toMintNFTs.value = Array.from({ length: amountToMint.value }).map(() => {
         return {
           name: drop.value.name,
-          collectionName: collectionName.value,
+          collectionName: drop.value.collectionName,
           price: drop.value.price?.toString() || '',
           nft: parseInt(uidMathDate()),
         }

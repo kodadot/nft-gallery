@@ -34,7 +34,7 @@ export type MintedNFT = {
   name: string
   image: string
   index: number
-  collection: { id: string, name: string, max: number }
+  collection: { id: string, name: string, max?: number }
   mimeType?: string
 }
 

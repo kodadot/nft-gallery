@@ -29,7 +29,7 @@
           <CollectionUnlockableCollectionInfo
             class="mt-7"
             :collection-id="drop?.collection"
-            :description="description"
+            :description="drop.collectionDescription"
           />
 
           <hr class="hidden md:block mt-4 mb-0">
@@ -99,7 +99,6 @@ import { useCollectionActivity } from '@/composables/collectionActivity/useColle
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
-import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 import type { DropItem } from '@/params/types'
 
 const mdBreakpoint = 768
@@ -108,7 +107,6 @@ const emit = defineEmits(['mint'])
 
 const { drop } = useDrop()
 const { previewItem, userMintsCount } = storeToRefs(useDropStore())
-const { description } = useCollectionEntity()
 const { width } = useWindowSize()
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()

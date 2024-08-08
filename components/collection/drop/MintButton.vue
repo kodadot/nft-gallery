@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import useGenerativeDropMint, { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
@@ -40,8 +40,7 @@ const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const { drop } = useDrop()
 const now = useNow()
-const { mintCountAvailable, maxCount } = useGenerativeDropMint()
-const { nftCount } = useCollectionEntity()
+const { mintCountAvailable } = useGenerativeDropMint()
 const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
@@ -52,7 +51,8 @@ const priceUsd = ref()
 const isHolderAndEligible = computed(
   () =>
     holderOfCollection.value.isHolder
-    && maxCount.value > nftCount.value
+    && drop.value.max
+    && drop.value.max > drop.value.minted
     && hasMinimumFunds.value
     && holderOfCollection.value.hasAvailable,
 )
@@ -75,7 +75,7 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (maxCount.value && (maxCount.value === nftCount.value)) {
+  if (drop.value.max && (drop.value.max === drop.value.minted)) {
     return $i18n.t('mint.unlockable.seeListings')
   }
   if (!isLogIn.value) {
@@ -139,7 +139,7 @@ const enabled = computed(() => {
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return maxCount.value > userMintsCount.value
+      return drop.value.max && drop.value.max > userMintsCount.value
     default:
       return false
   }

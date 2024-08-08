@@ -57,10 +57,10 @@
           {{ mintedPercent }}% ~
         </div>
         <div
-          v-if="nftCount >= 0 && maxCount"
+          v-if="drop.minted >= 0 && drop.max"
           class="font-bold"
         >
-          {{ nftCount }}/{{ maxCount }}
+          {{ drop.minted }}/{{ drop.max }}
           {{ $t('statsOverview.minted') }}
         </div>
         <div v-else>
@@ -70,8 +70,9 @@
     </div>
 
     <CollectionUnlockableSlider
+      v-if="drop.max"
       class="text-neutral-5 dark:text-neutral-9"
-      :value="nftCount / maxCount"
+      :value="drop.minted / drop.max"
     />
 
     <div class="flex mt-6 gap-4 max-md:flex-col">
@@ -97,15 +98,11 @@
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
-import { useDrop } from '@/components/drops/useDrops'
-import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
-const { drop } = useDrop()
 const dropStore = useDropStore()
-const { userMintsCount } = storeToRefs(dropStore)
-const { maxCount, nftCount } = useCollectionEntity()
+const { userMintsCount, drop } = storeToRefs(dropStore)
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
@@ -127,10 +124,10 @@ const { start: startTimer } = useTimeoutFn(() => {
 const generativeImageUrl = ref('')
 
 const mintedPercent = computed(() => {
-  if (!maxCount.value) {
+  if (!drop.value.max) {
     return 0
   }
-  return Math.round((nftCount.value / maxCount.value) * 100)
+  return Math.round((drop.value.minted / drop.value.max) * 100)
 })
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)

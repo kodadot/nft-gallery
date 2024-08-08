@@ -1,15 +1,11 @@
 import { type MintedNFT } from '@/components/collection/drop/types'
 import type { DoResult } from '@/services/fxart'
 import { setMetadataUrl } from '@/services/fxart'
-import { useDrop } from '@/components/drops/useDrops'
-import { FALLBACK_DROP_COLLECTION_MAX } from '@/utils/drop'
 import type {
   MassMintNFT,
 } from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
-import { evmCollection } from '@/utils/onchain/evm'
-import { subCollection } from '@/utils/onchain/sub'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -28,63 +24,17 @@ export type DropCollectionById = {
   }
 }
 
-export function useCollectionEntity() {
-  const { drop } = useDrop()
-  const maxSupply = ref()
-  const nftCount = ref()
-  const description = ref()
-  const collectionName = ref()
-  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
-
-  watchEffect(async () => {
-    if (drop.value.collection) {
-      if (isSub.value) {
-        const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
-
-        maxSupply.value = supply
-        nftCount.value = minted
-        description.value = metadata.description
-        collectionName.value = metadata.name
-      }
-
-      if (isEvm.value) {
-        const { urlPrefix } = usePrefix()
-        const address = drop.value.collection as `0x${string}`
-        const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
-
-        maxSupply.value = supply
-        nftCount.value = minted
-        description.value = metadata.description
-        collectionName.value = metadata.name
-      }
-    }
-  })
-
-  return {
-    maxCount: maxSupply,
-    description,
-    collectionName,
-    nftCount,
-  }
-}
-
 export const useUpdateMetadata = async ({
   blockNumber,
 }: {
   blockNumber: Ref<string | undefined>
 }) => {
-  const { drop } = useDrop()
-  const { toMintNFTs, amountToMint, mintingSession }
+  const { toMintNFTs, amountToMint, mintingSession, drop }
     = storeToRefs(useDropStore())
   const { submitMint } = useDropMassMint()
   const { subscribeForNftsWithMetadata } = useDropMassMintListing()
-  const { collectionName, maxCount } = useCollectionEntity()
   const { $consola } = useNuxtApp()
   const { accountId } = useAuth()
-
-  const collectionMax = computed(() => maxCount.value
-    ?? drop.value.max
-    ?? FALLBACK_DROP_COLLECTION_MAX)
 
   const updateSubstrateMetdata = () => {
     const status = ref<'index' | 'update'>('index')
@@ -161,8 +111,8 @@ export const useUpdateMetadata = async ({
           image: metadata.image,
           collection: {
             id: res.collection,
-            name: collectionName.value,
-            max: collectionMax.value,
+            name: drop.value.collectionName,
+            max: drop.value.max,
           },
         })
       }
@@ -210,8 +160,8 @@ export const useUpdateMetadata = async ({
             image: metadata.image,
             collection: {
               id: drop.value.collection,
-              name: collectionName.value,
-              max: collectionMax.value,
+              name: drop.value.collectionName,
+              max: drop.value.max,
             },
           })
         }
@@ -229,8 +179,7 @@ export const useUpdateMetadata = async ({
 
 export default () => {
   const dropStore = useDropStore()
-  const { mintedNFTs } = storeToRefs(dropStore)
-  const { maxCount, nftCount } = useCollectionEntity()
+  const { mintedNFTs, drop } = storeToRefs(dropStore)
   const { listNftByNftWithMetadata } = useListingCartModal()
 
   const claimedNft = computed({
@@ -239,7 +188,7 @@ export default () => {
   })
 
   const mintCountAvailable = computed(
-    () => nftCount.value < maxCount.value,
+    () => drop.value.max && drop.value.minted < drop.value.max,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNFTs.value.length))
@@ -261,7 +210,6 @@ export default () => {
   }
 
   return {
-    maxCount,
     claimedNft,
     mintCountAvailable,
     canListMintedNft,

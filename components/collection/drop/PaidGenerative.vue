@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDrop, useDropStatus } from '@/components/drops/useDrops'
+import { useDrop } from '@/components/drops/useDrops'
 import { useUpdateMetadata } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
@@ -24,7 +24,6 @@ import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModa
 import { NFTs } from '@/composables/transaction/types'
 
 const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
@@ -167,8 +166,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">

@@ -53,7 +53,6 @@ import { NeoModal } from '@kodadot1/brick'
 import {
   useDrop,
   useDropMinimumFunds,
-  useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useUpdateMetadata,
@@ -92,7 +91,6 @@ const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
 const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
@@ -241,8 +239,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">
