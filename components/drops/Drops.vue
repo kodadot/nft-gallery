@@ -36,7 +36,7 @@
       :drops="currentDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="Math.round((count/2) - currentDrops.length)"
+      :async-skeleton-count="asyncSkeletonCountOf(currentDrops.length)"
       skeleton-key="current-drops-skeleton"
     />
 
@@ -56,7 +56,7 @@
       :drops="pastDrops"
       :loaded="loaded"
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="Math.round((count/2) - pastDrops.length)"
+      :async-skeleton-count="asyncSkeletonCountOf(pastDrops.length)"
       skeleton-key="skeleton"
     />
 
@@ -95,6 +95,8 @@ const currentDrops = computed(() =>
 const pastDrops = computed(() =>
   filter(drops.value, { status: DropStatus.MINTING_ENDED }),
 )
+
+const asyncSkeletonCountOf = (amount: number) => count.value ? Math.max(0, Math.round((count.value) / 2) - amount) : DEFAULT_SKELETON_COUNT
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
