@@ -4,6 +4,7 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
+import type { Prefix } from '@kodadot1/static'
 import type { ActionSend, ExecuteTransaction } from './types'
 import { GENSOL_ABI } from './evm/utils'
 import {
@@ -82,7 +83,7 @@ export function execSendTx(
   api,
   executeTransaction: ExecuteTransaction,
 ) {
-  if (item.urlPrefix === 'base') {
+  if (isEvm(item.urlPrefix as Prefix)) {
     return execSendEvm(item, executeTransaction)
   }
 

@@ -61,7 +61,7 @@ export function execMintDrop({ item, ...params }: MintDropParams) {
     } as SubstrateMintDropParams)
   }
 
-  if (item.prefix === 'base') {
+  if (isEvm(item.prefix)) {
     return execEvmMintDrop({
       item,
       ...params,
