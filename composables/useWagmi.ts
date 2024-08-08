@@ -25,11 +25,11 @@ export default (
   const { $wagmiConfig: config } = useNuxtApp()
 
   const account = useAccount({
-    config,
+    config: config as any,
   })
 
   const disconnect = useNuxtApp().runWithContext(
-    () => useDisconnect({ config }).disconnectAsync,
+    () => useDisconnect({ config: config as any }).disconnectAsync,
   ) as Promise<DisconnectMutateAsync>
 
   return {
