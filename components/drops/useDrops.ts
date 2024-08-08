@@ -3,7 +3,6 @@ import type { Prefix } from '@kodadot1/static'
 import { parseCETDate } from './utils'
 import type { GetDropsQuery } from '@/services/fxart'
 import { getDropById, getDrops } from '@/services/fxart'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { DropItem } from '@/params/types'
@@ -150,22 +149,6 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
   }
 
   return DropStatus.SCHEDULED
-}
-
-export const getDropDetails = async (alias: string) => {
-  const drop = await getDropById(alias)
-
-  const { data: collectionData } = await useAsyncQuery({
-    clientId: drop.chain,
-    query: unlockableCollectionById,
-    variables: {
-      id: drop.collection,
-    },
-  })
-
-  const { collectionEntity } = collectionData.value
-
-  return getFormattedDropItem(collectionEntity, drop)
 }
 
 export function useDrop(alias?: string) {
