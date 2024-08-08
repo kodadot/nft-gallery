@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { ChainVM, Prefix } from '@kodadot1/static'
 import { isDateWithinLastDays } from '@/utils/datetime'
 import { ss58Of } from '@/utils/config/chain.config'
+import { formatAddress } from '@/utils/account'
 
 export type WalletAccount = {
   address: string
@@ -38,6 +39,7 @@ export const useWalletStore = defineStore('wallet', {
     disconnecting: false,
   }),
   getters: {
+    getWalletVM: state => state.selected?.vm || 'SUB',
     getIsSubstrate: state => state.selected?.vm === 'SUB',
     getIsEvm: state => state.selected?.vm === 'EVM',
     getSignedMessage: state => state.selected?.signedMessage,

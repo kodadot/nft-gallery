@@ -3,6 +3,7 @@
     class="border border-border-color"
     :title="$t('reconnect.required')"
     :scrollable="false"
+    @close="emit('close')"
   >
     <div>
       <div class="flex gap-5 items-center justify-center !py-5 ">
@@ -78,14 +79,14 @@ const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName?: stri
 const emit = defineEmits(['close', 'connect'])
 
 const { logout } = useWallet()
-const { vm } = useChain()
+const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
 
 const loading = ref(false)
 
-const targetVm = computed(() => VM_SWITCH_MAP[vm.value]) // make prop
+const targetVm = computed(() => VM_SWITCH_MAP[getWalletVM.value]) // make prop
 const vmDetails = computed(() => ({
-  current: VM_DETAILS[vm.value],
+  current: VM_DETAILS[getWalletVM.value],
   target: VM_DETAILS[targetVm.value],
 }))
 
