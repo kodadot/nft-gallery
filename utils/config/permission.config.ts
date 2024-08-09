@@ -5,8 +5,6 @@ const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
   rmrk: false,
-  base: false,
-  imx: false,
 }
 
 const hasInsight: PartialConfig = {
@@ -30,7 +28,7 @@ const hasExplorer: PartialConfig = {
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
-  return hasCreate[prefix] ?? true
+  return isEvm(prefix as Prefix) ? false : hasCreate[prefix] ?? true
 }
 
 export const listVisible = (prefix: Prefix | string): boolean => {
