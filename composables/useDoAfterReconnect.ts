@@ -1,7 +1,7 @@
 import ReconnectWalletModal from '@/components/common/ConnectWallet/ReconnectWalletModal.vue'
 
 interface DoAfterReconnectParams {
-  onSuccess: (account?: string) => void
+  onSuccess?: (account?: string) => void
   onCancel?: () => void
   closeOnSuccess?: boolean
 }
@@ -48,7 +48,7 @@ export default function () {
     })
   }
 
-  const doAfterReconnect = ({ onSuccess, onCancel }: DoAfterReconnectParams) => {
+  const doAfterReconnect = ({ onSuccess, onCancel }: DoAfterReconnectParams = {}) => {
     openReconnectModal({
       onConnect: onSuccess,
       onCancel,
