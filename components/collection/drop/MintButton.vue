@@ -44,9 +44,8 @@ const { mintCountAvailable, maxCount } = useGenerativeDropMint()
 const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-const { vm } = useChain()
 const { doAfterReconnect } = useDoAfterReconnect()
-const { getWalletVM } = storeToRefs(useWalletStore())
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
 const isHolderAndEligible = computed(
@@ -169,8 +168,8 @@ const handleMint = () => {
       `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
   }
-  if (vm.value !== getWalletVM.value) {
-    doAfterReconnect({})
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    doAfterReconnect()
     return
   }
 

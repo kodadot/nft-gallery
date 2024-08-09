@@ -48,7 +48,7 @@ export default function () {
     })
   }
 
-  const doAfterReconnect = ({ onSuccess, onCancel }: DoAfterReconnectParams) => {
+  const doAfterReconnect = ({ onSuccess, onCancel }: DoAfterReconnectParams = {}) => {
     openReconnectModal({
       onConnect: onSuccess,
       onCancel,

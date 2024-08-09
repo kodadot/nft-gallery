@@ -81,12 +81,13 @@ const emit = defineEmits(['close', 'connect'])
 const { logout } = useWallet()
 const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
+const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
 
 const loading = ref(false)
 
-const targetVm = computed(() => VM_SWITCH_MAP[getWalletVM.value]) // make prop
+const targetVm = computed(() => VM_SWITCH_MAP[currentWalletVM.value]) // make prop
 const vmDetails = computed(() => ({
-  current: VM_DETAILS[getWalletVM.value],
+  current: VM_DETAILS[currentWalletVM.value],
   target: VM_DETAILS[targetVm.value],
 }))
 

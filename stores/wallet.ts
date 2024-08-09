@@ -39,7 +39,8 @@ export const useWalletStore = defineStore('wallet', {
     disconnecting: false,
   }),
   getters: {
-    getWalletVM: state => state.selected?.vm || 'SUB',
+    getWalletVM: state => state.selected?.vm,
+    getIsWalletVMChain: state => state.selected?.vm === useChain().vm.value,
     getIsSubstrate: state => state.selected?.vm === 'SUB',
     getIsEvm: state => state.selected?.vm === 'EVM',
     getSignedMessage: state => state.selected?.signedMessage,

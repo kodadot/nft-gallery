@@ -34,9 +34,8 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
 })
-const { vm } = useChain()
 const { doAfterReconnect } = useDoAfterReconnect()
-const { getWalletVM } = storeToRefs(useWalletStore())
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 
 const { loading, walletConnecting, mintingSession, isCapturingImage }
   = storeToRefs(useDropStore())
@@ -107,8 +106,8 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  if (vm.value !== getWalletVM.value) {
-    doAfterReconnect({})
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    doAfterReconnect()
     return false
   }
 
