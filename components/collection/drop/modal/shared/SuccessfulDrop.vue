@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Prefix } from '@kodadot1/static'
 import type { MintedNFT, MintingSession } from '../../types'
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
 import type { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
@@ -70,8 +71,12 @@ onMounted(async () => {
 })
 
 const nftPath = computed(
-  () =>
-    `/${mintedNft.value?.chain}/gallery/${mintedNft.value?.collection.id}-${mintedNft.value?.id}`,
+  () => mintedNft.value
+    ? pickByVm({
+      SUB: `/${mintedNft.value.chain}/gallery/${mintedNft.value.collection.id}-${mintedNft.value.id}`,
+      EVM: `/${mintedNft.value.chain}/gallery/${mintedNft.value.id}`,
+    }, { prefix: mintedNft.value.chain as Prefix })
+    : '',
 )
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
 const userProfilePath = computed(
