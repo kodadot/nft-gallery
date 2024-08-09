@@ -20,7 +20,7 @@ export default function (
       Number(tokenAmount.value) * Math.pow(10, -tokenDecimals.value),
       Number(getCurrentTokenValue(chainSymbol.value)),
     )
-    return value ? `$${value}` : ''
+    return typeof value === 'number' && value >= 0 ? `$${value}` : ''
   })
 
   return {

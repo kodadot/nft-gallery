@@ -59,7 +59,7 @@
       <div
         class="flex justify-between items-center flex-wrap gap-y-4 gap-x-2 w-full"
       >
-        <div class="w-16 flex gap-2">
+        <div class="w-32 flex gap-2">
           <NeoSkeleton
             height="28"
             width="100%"

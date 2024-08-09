@@ -12,6 +12,7 @@
     :drop-status="drop.status"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"
     :drop-prefix="drop.chain"
+    :drop-price="drop.price"
     :minted="drop.minted"
     @click="click"
   />
