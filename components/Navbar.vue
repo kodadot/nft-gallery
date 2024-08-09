@@ -290,7 +290,7 @@ const logoSrc = computed(() => {
 const dropsPath = computed(() => {
   const prefix = pickByVm({
     SUB: 'ahp',
-    EVM: 'base',
+    EVM: urlPrefix.value,
   })
   return `/${prefix}/drops`
 })

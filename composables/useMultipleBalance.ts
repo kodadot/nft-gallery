@@ -23,6 +23,7 @@ export const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
   polkadotHub: 'ahp',
   base: 'base',
   immutablex: 'imx',
+  mantle: 'mnt',
   // rococoHub: 'ahr',
 }
 
@@ -34,6 +35,7 @@ export const prefixToNetwork: Partial<Record<Prefix, ChainType>> = {
   ahp: 'polkadotHub',
   base: 'base',
   imx: 'immutablex',
+  mnt: 'mantle',
   // ahr: 'rococoHub',
 }
 
@@ -87,6 +89,8 @@ export default function (refetchPeriodically: boolean = false) {
         multiBalances.value.chains.base?.eth?.nativeBalance,
     [Chain.IMMUTABLEX]:
         multiBalances.value.chains.immutablex?.eth?.nativeBalance,
+    [Chain.MANTLE]:
+        multiBalances.value.chains.mantle?.mnt?.nativeBalance,
   }))
 
   const currentChain = computed(() => prefixToChainMap[urlPrefix.value])
