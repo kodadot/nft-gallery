@@ -96,7 +96,7 @@ import {
   langsFlags as langsFlagsList,
   setUserLocale,
 } from '@/utils/config/i18n'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
@@ -105,7 +105,6 @@ const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
-const modal = ref<{ close: () => void, isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
@@ -118,9 +117,7 @@ const toggleWalletConnectModal = () => {
   neoModal.closeAll()
 
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = neoModal.open({
-      ...ConnectWalletModalConfig,
-    })
+    openConnectWalletModal()
   }
 }
 
