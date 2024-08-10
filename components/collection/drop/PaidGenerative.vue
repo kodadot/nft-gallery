@@ -22,6 +22,7 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import { NFTs } from '@/composables/transaction/types'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const { drop } = useDrop()
 const { subscribeDropStatus } = useDropStatus(drop)
@@ -34,7 +35,6 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
 })
-const { doAfterReconnect } = useDoAfterReconnect()
 const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 
 const { loading, walletConnecting, mintingSession, isCapturingImage }
@@ -107,7 +107,7 @@ const handleSubmitMint = async () => {
   }
 
   if (getWalletVM.value && !getIsWalletVMChain.value) {
-    doAfterReconnect()
+    openReconnectWalletModal()
     return false
   }
 

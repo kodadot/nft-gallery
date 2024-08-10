@@ -28,6 +28,7 @@
 <script lang="ts" setup>
 import type { Drop } from '@/components/drops/useDrops'
 import { useDrops } from '@/components/drops/useDrops'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 let queries = {
   limit: 12,
@@ -36,6 +37,7 @@ let queries = {
 }
 
 const { urlPrefix } = usePrefix()
+const { getWalletVM } = storeToRefs(useWalletStore())
 
 if (!isProduction && urlPrefix.value === 'ahk') {
   queries = {
@@ -47,9 +49,8 @@ if (!isProduction && urlPrefix.value === 'ahk') {
 const container = ref()
 
 const { accountId } = useAuth()
-const { vmOf, vm } = useChain()
+const { vmOf } = useChain()
 const router = useRouter()
-const { doAfterReconnect } = useDoAfterReconnect()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
   container,
   itemMintWidth: computed(() => DROP_CARD_MIN_WIDTH),
@@ -67,12 +68,12 @@ const { drops, loaded: isReady } = useDrops(queries)
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
 
 const onDropClick = ({ path, drop }: { path: string, drop: Drop }) => {
-  if (vm.value === vmOf(drop.chain) || !accountId.value) {
+  if (getWalletVM.value === vmOf(drop.chain) || !accountId.value) {
     router.push(path)
     return
   }
 
-  doAfterReconnect({
+  openReconnectWalletModal({
     onSuccess: () => router.push(path),
   })
 }

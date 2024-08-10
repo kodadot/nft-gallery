@@ -29,6 +29,7 @@ import {
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { parseCETDate } from '@/components/drops/utils'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const emit = defineEmits(['mint'])
 
@@ -44,7 +45,6 @@ const { mintCountAvailable, maxCount } = useGenerativeDropMint()
 const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-const { doAfterReconnect } = useDoAfterReconnect()
 const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
@@ -169,7 +169,7 @@ const handleMint = () => {
     )
   }
   if (getWalletVM.value && !getIsWalletVMChain.value) {
-    doAfterReconnect()
+    openReconnectWalletModal()
     return
   }
 
