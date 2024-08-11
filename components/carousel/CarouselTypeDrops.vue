@@ -47,7 +47,6 @@ if (!isProduction && urlPrefix.value === 'ahk') {
 }
 
 const container = ref()
-
 const { accountId } = useAuth()
 const { vmOf } = useChain()
 const router = useRouter()
