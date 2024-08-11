@@ -29,9 +29,10 @@
 import type { Drop } from '@/components/drops/useDrops'
 import { useDrops } from '@/components/drops/useDrops'
 import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
+import { vmOf } from '@/utils/config/chain.config'
 
 let queries = {
-  limit: 12,
+  limit: 14,
   active: [true],
   chain: ['ahp', 'base'],
 }
@@ -48,7 +49,7 @@ if (!isProduction && urlPrefix.value === 'ahk') {
 
 const container = ref()
 const { accountId } = useAuth()
-const { vmOf } = useChain()
+
 const router = useRouter()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
   container,
@@ -63,7 +64,7 @@ const skeletonCount = computed(() =>
   Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
 )
 
-const { drops, loaded: isReady } = useDrops(queries)
+const { drops, loaded: isReady } = useDrops(queries, { filterOutMinted: true })
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
 
 const onDropClick = ({ path, drop }: { path: string, drop: Drop }) => {

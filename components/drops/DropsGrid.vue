@@ -5,7 +5,7 @@
     persist
   >
     <template
-      v-if="asyncSkeletonCount ? true : loaded"
+      v-if="isAsync || loaded"
     >
       <div
         v-for="(drop, index) in drops"
@@ -23,7 +23,7 @@
     </template>
     <template v-if="!loaded">
       <DropsDropCardSkeleton
-        v-for="x in asyncSkeletonCount || defaultSkeletonCount"
+        v-for="x in isAsync ? asyncSkeletonCount : defaultSkeletonCount"
         :key="`${skeletonKey}-${x}`"
       />
     </template>
@@ -41,7 +41,7 @@ const GRID_DEFAULT_WIDTH = {
   large: 0,
 }
 
-defineProps<{
+const props = defineProps<{
   drops: Drop[] | InternalDropCalendar[]
   loaded: boolean
   defaultSkeletonCount: number
@@ -49,6 +49,8 @@ defineProps<{
   skeletonKey: string
   clickable?: boolean
 }>()
+
+const isAsync = computed(() => typeof props.asyncSkeletonCount === 'number')
 
 const isDrop = (item: Drop | InternalDropCalendar): item is Drop =>
   (item as Drop).collection !== undefined

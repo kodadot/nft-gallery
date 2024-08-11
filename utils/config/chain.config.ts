@@ -1,9 +1,13 @@
 import { CHAINS } from '@kodadot1/static'
 
-import type { Prefix, ChainProperties } from '@kodadot1/static'
+import type { Prefix, ChainProperties, ChainVM } from '@kodadot1/static'
 
 export const chainPropListOf = (prefix: Prefix): ChainProperties => {
   return CHAINS[prefix]
+}
+
+export const vmOf = (prefix: Prefix): ChainVM => {
+  return chainPropListOf(prefix).vm
 }
 
 export const ss58Of = (prefix: Prefix): number => {

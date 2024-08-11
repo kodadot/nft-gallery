@@ -198,8 +198,9 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   prefix: string,
   unify = false,
 ) {
-  const checkMetadata = (nft.metadata || nft.meta?.id)?.includes(
-    DYNAMIC_METADATA,
+  const ignoreMetadata = [DYNAMIC_METADATA, 'dyndata']
+  const checkMetadata = ignoreMetadata.some(item =>
+    (nft.metadata || nft.meta?.id)?.includes(item),
   )
   if (unify && !checkMetadata) {
     return await getMetadata(sanitizeIpfsUrl(nft.metadata || nft.meta.id))
