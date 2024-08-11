@@ -42,7 +42,7 @@ export default function () {
       ...{
         component: ReconnectWalletModal,
         canCancel: ['escape', 'outside'],
-        rootClass: 'connect-wallet-modal !z-[998]',
+        rootClass: 'connect-wallet-modal neo-modal !z-[998]',
         trapFocus: false,
       },
     })
