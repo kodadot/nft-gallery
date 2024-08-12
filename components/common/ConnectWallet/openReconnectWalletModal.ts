@@ -47,3 +47,16 @@ export const openReconnectWalletModal = ({ onCancel, onSuccess, closeOnSuccess =
 
   return modal.value
 }
+
+export const doAfterCheckCurrentChainVM = (callback: () => void) => {
+  const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
+
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal({
+      onSuccess: callback,
+    })
+    return
+  }
+
+  callback()
+}

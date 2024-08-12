@@ -81,7 +81,7 @@ const emit = defineEmits(['close', 'connect'])
 const { logout } = useWallet()
 const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
-const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
+const currentWalletVM = ref(getWalletVM.value || 'SUB')
 
 const loading = ref(false)
 
