@@ -1,14 +1,14 @@
 <template>
   <div class="flex items-center justify-between">
     <NuxtLink
-      :to="`/${urlPrefix}/u/${account}`"
+      :to="`/${prefix}/u/${account}`"
       class="w-full"
       @click="closeModal"
     >
       <IdentityItem
         :account="account"
         :label="display || shortenedAddress"
-        :prefix="urlPrefix"
+        :prefix="prefix"
       >
         <template #default="{ label }">
           <div class="pl-3">
@@ -42,14 +42,14 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 
-const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { neoModal } = useProgrammatic()
-
+const { getPrefixByAddress } = useAddress()
 const identityStore = useIdentityStore()
 const { logout } = useWallet()
 const account = computed(() => identityStore.getAuthAddress)
 
+const prefix = computed(() => getPrefixByAddress(account.value))
 const { profile } = useFetchProfile(account.value)
 
 const { display, shortenedAddress } = useIdentity({

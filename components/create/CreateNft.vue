@@ -393,8 +393,11 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  menu => menu.value !== 'ksm' && menu.value !== 'rmrk',
-)
+  (menu) => {
+    const { isRemark, isEvm } = useIsChain(computed(() => menu.value as Prefix))
+    return !isRemark.value && !isEvm.value
+  })
+
 const chainByPrefix = computed(() =>
   menus.find(menu => menu.value === urlPrefix.value),
 )

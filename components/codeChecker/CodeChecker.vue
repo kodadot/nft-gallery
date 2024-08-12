@@ -234,11 +234,11 @@ import type { AssetMessage, Validity } from './types'
 const RESOURCES_LIST = [
   {
     title: 'codeChecker.kodahashTemplate',
-    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
+    url: 'https://github.com/vikiival/kodahash',
   },
   {
     title: 'codeChecker.learnAboutGenArt',
-    url: 'https://github.com/vikiival/kodahash',
+    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
   },
   {
     title: 'codeChecker.codeChecker',

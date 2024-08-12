@@ -5,6 +5,7 @@ import {
 } from '@kodadot1/minimark/v2'
 import type { ApiPromise } from '@polkadot/api'
 import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
+import type { Prefix } from '@kodadot1/static'
 import { GENSOL_ABI } from './evm/utils'
 import type {
   ActionDeleteCollection,
@@ -31,7 +32,7 @@ function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction
 }
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
-  if (item.urlPrefix === 'base' || item.urlPrefix === 'imx') {
+  if (isEvm(item.urlPrefix as Prefix)) {
     return execBurnEvm(item, executeTransaction)
   }
 
