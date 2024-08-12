@@ -1,5 +1,5 @@
 <template>
-  <template v-if="grouppedDropCalendars?.length">
+  <template v-if="Object.keys(grouppedDropCalendars ||{}).length">
     <hr
       class="my-14"
     >
