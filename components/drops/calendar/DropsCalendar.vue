@@ -15,6 +15,7 @@
         <div class="mb-6 flex items-center">
           <NeoButton
             variant="secondary-rounded"
+            root-class="!flex-shrink-0"
             no-shadow
           >
             {{ label }}
