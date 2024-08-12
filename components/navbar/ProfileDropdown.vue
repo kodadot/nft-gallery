@@ -98,6 +98,7 @@ import {
 } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
@@ -113,6 +114,7 @@ const profileIcon = computed(() =>
 const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
+  useProfileOnboardingStore().setSidebarToggled()
   neoModal.closeAll()
 
   if (!document.querySelector('.connect-wallet-modal')) {

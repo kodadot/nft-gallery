@@ -12,19 +12,20 @@ KodaDot, an NFT gallery that aims to be builder-owned and the ultimate public go
 - Participate in code reviews, maintaining high code quality standards
 - Use various testing methodologies and tools to validate the functionality and performance of the product
 - Offload 30% of dev work by checking if specific PRs work as intended, reporting and raising bugs that break UX, identifying missing functionality that was accidentally removed
-- Write and update E2E and unit tests (using Vite)
+- Write and update end-to-end (E2E) and unit tests (using Playwright/Vitest)
 - Communicate with the team in issues to help offload major context switching from devs
 - Tech-savvy QA is preferred
 - Give "works-for-me" labels on PRs if things work as intended
 
 ## Requirements
 
-- Strong proficiency in Node.js and adherence to its supported versions
+- Strong proficiency in Node.js/Typescript and adherence to its supported versions
 - Experience with pnpm as a package manager
-- Knowledge of Vue.js and familiarity with Vue Language Features (Volar) and Vue VSCode Snippets
+- Knowledge of Vue.js and familiarity with Nuxt framework
 - Understanding of KodaDot's tech stack and infrastructure
 - Strong communication skills for effective collaboration with the community and team
 - Familiarity with KodaDot's coding conventions and recommendations
+- Knowledge of GraphQL / REST API is an andvantage
 
 ## Quality Assurance
 
@@ -32,7 +33,7 @@ To have a faster pace of development, as our current pace of pull-requests was h
 
 The result would be that we could deliver user experience quality in a shorter time window. It's pretty natural that developers sometimes miss delivering the 100% specification in an issue or something breaks. It happens, and no need to make drama out of it. Everyone is learning.
 
-Until we have e2e tests complete on KodaDot, we would like to happily reward your participation for your input on our pull-requests to the codebase.
+Until we have E2E tests complete on KodaDot, we would like to happily reward your participation for your input on our pull-requests to the codebase.
 
 To participate, you must respect our code of conduct below.
 

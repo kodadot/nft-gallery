@@ -1,10 +1,5 @@
 <template>
   <div>
-    <ProfileCreateModal
-      v-model="isModalActive"
-      @success="fetchProfile"
-      @deleted="fetchProfile"
-    />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"
@@ -20,9 +15,10 @@
       v-else
       class="bg-no-repeat bg-cover bg-center md:h-[360px] h-40 border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.banner
-          ? `url(${userProfile.banner})`
-          : undefined,
+        backgroundImage:
+          userProfile?.banner
+            ? `url(${getHigherResolutionCloudflareImage(userProfile.banner)})`
+            : undefined,
       }"
     >
       <div
@@ -236,16 +232,16 @@
           />
         </div>
         <!-- Followers -->
-        <div>
+        <div v-if="!isOwner">
           <span
-            v-if="isOwner || !hasProfile || followersCount == 0"
+            v-if="!hasProfile || followersCount == 0"
             class="text-sm text-k-grey"
           >
             {{ $t('profile.notFollowed') }}
           </span>
           <div
             v-else
-            class="flex gap-4 items-center"
+            class="flex gap-4 items-center followed-by"
           >
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
@@ -456,6 +452,7 @@ import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -500,10 +497,8 @@ const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 
-const { hasProfile, userProfile, fetchProfile, isFetchingProfile }
+const { hasProfile, userProfile, isFetchingProfile }
   = useProfile()
-
-provide('userProfile', { hasProfile, userProfile })
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
@@ -529,14 +524,14 @@ const followingCount = computed(() => following.value?.totalCount ?? 0)
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
   icon: 'pen',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   classes: 'hover:!bg-transparent',
 }
 
 const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   variant: 'primary',
 }
 
@@ -555,7 +550,6 @@ const displayName = ref('')
 const web = ref('')
 const legal = ref('')
 const riot = ref('')
-const isModalActive = ref(false)
 const isFollowModalActive = ref(false)
 const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
@@ -791,6 +785,12 @@ watch(collections, (value) => {
     collections: value.length ? value.toString() : undefined,
   })
 })
+
+onMounted(() => {
+  if (!hasProfile.value && isOwner.value) {
+    openProfileCreateModal()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -862,5 +862,11 @@ watch(collections, (value) => {
   height: 5px;
   background-color: grey;
   margin: 0 10px;
+}
+
+.followed-by {
+  :deep(.o-btn.is-neo:hover) {
+    @apply text-text-color;
+  }
 }
 </style>

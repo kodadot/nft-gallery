@@ -24,7 +24,7 @@ import { isEthereumAddress } from '@polkadot/util-crypto'
 import Identicon from '@polkadot/vue-identicon'
 import { toSvg } from 'jdenticon'
 
-const WRAPPER_CLASS = 'border border-border-color rounded-full overflow-hidden'
+const WRAPPER_CLASS = 'border border-border-color rounded-full overflow-hidden bg-background-color'
 
 const props = withDefaults(
   defineProps<{

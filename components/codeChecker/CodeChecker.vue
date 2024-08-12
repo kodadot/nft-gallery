@@ -100,14 +100,6 @@
         class="border-t border-k-shade pt-5 flex flex-col gap-5"
       >
         <CodeCheckerTestItem
-          :passed="fileValidity.resizerUsed"
-          :description="$t('codeChecker.automaticResize')"
-        >
-          <template #modalContent>
-            <CodeCheckerIssueHintAutomaticResize />
-          </template>
-        </CodeCheckerTestItem>
-        <CodeCheckerTestItem
           :passed="fileValidity.validTitle"
           :description="$t('codeChecker.correctHTMLName')"
         >
@@ -147,26 +139,7 @@
             <CodeCheckerIssueHintUsingParamHash />
           </template>
         </CodeCheckerTestItem>
-        <CodeCheckerTestItem
-          :passed="!fileValidity.webGlUsed"
-          :description="$t('codeChecker.notUsingWebGl')"
-        >
-          <template #modalContent>
-            <CodeCheckerIssueHintNoWebGl />
-          </template>
-        </CodeCheckerTestItem>
-        <CodeCheckerTestItem
-          :passed="fileValidity.renderDurationValid"
-          :description="
-            $t('codeChecker.variationLoadingTime', [
-              (config.maxAllowedLoadTime / 1000).toFixed(0),
-            ])
-          "
-        >
-          <template #modalContent>
-            <CodeCheckerIssueHintVariationLoadingTime />
-          </template>
-        </CodeCheckerTestItem>
+
         <CodeCheckerTestItem
           :passed="fileValidity.validKodaRenderPayload"
           :description="$t('codeChecker.validImage')"
@@ -181,6 +154,26 @@
         >
           <template #modalContent>
             <CodeCheckerIssueHintConsistentArt />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.resizerUsed"
+          :description="$t('codeChecker.automaticResize')"
+          optional
+        >
+          <template #modalContent>
+            <CodeCheckerIssueHintAutomaticResize />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.renderDurationValid"
+          :description="
+            $t('codeChecker.variationLoadingTime')
+          "
+          optional
+        >
+          <template #modalContent>
+            <CodeCheckerIssueHintVariationLoadingTime />
           </template>
         </CodeCheckerTestItem>
       </div>
@@ -233,7 +226,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { validate, webGlUsed } from './validate'
+import { validate } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
 import type { AssetMessage, Validity } from './types'
@@ -241,11 +234,11 @@ import type { AssetMessage, Validity } from './types'
 const RESOURCES_LIST = [
   {
     title: 'codeChecker.kodahashTemplate',
-    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
+    url: 'https://github.com/vikiival/kodahash',
   },
   {
     title: 'codeChecker.learnAboutGenArt',
-    url: 'https://github.com/vikiival/kodahash',
+    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
   },
   {
     title: 'codeChecker.codeChecker',
@@ -255,7 +248,6 @@ const RESOURCES_LIST = [
 
 const validtyDefault: Validity = {
   canvasSize: '',
-  webGlUsed: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
   kodaRendererCalledOnce: 'unknown',
@@ -287,7 +279,7 @@ const onFileSelected = async (file: File) => {
   clear()
   startClock()
   selectedFile.value = file
-  const { indexFile, sketchFile, entries, jsFiles }
+  const { indexFile, sketchFile, entries }
     = await extractAssetsFromZip(file)
 
   if (!sketchFile) {
@@ -301,9 +293,6 @@ const onFileSelected = async (file: File) => {
   else {
     Object.assign(fileValidity, valid.value)
   }
-  fileValidity.webGlUsed = jsFiles.some(file =>
-    webGlUsed(file.content, file.path),
-  )
 
   if (!fileValidity.kodaRendererUsed) {
     fileValidity.renderDurationValid = 'unknown'
@@ -354,7 +343,6 @@ useEventListener(window, 'message', async (res) => {
     renderEndTime.value = performance.now()
     const duration = renderEndTime.value - renderStartTime.value
     fileValidity.renderDurationValid = duration < config.maxAllowedLoadTime
-
     fileValidity.validKodaRenderPayload
       = Boolean(payload?.image) && hasImage(payload.image)
     if (fileValidity.validKodaRenderPayload) {

@@ -131,7 +131,11 @@
       <NeoButton
         :disabled="submitDisabled"
         variant="primary"
-        label="Finish Customization"
+        :label="
+          signingMessage
+            ? $t('drops.signTransaction')
+            : $t('profiles.finishCustomization')
+        "
         size="large"
         no-shadow
         data-testid="create-profile-submit-button"
@@ -215,6 +219,7 @@ const emit = defineEmits<{
 const props = defineProps<{
   farcasterUserData?: StatusAPIResponse
   useFarcaster: boolean
+  signingMessage: boolean
 }>()
 
 const deleteConfirm = ref<Date>()
@@ -272,7 +277,11 @@ const form = reactive<ProfileFormData>({
 const userProfile = computed(() => profile?.userProfile.value)
 const missingImage = computed(() => (form.imagePreview ? false : !form.image))
 const submitDisabled = computed(
-  () => !form.name || !form.description || missingImage.value,
+  () =>
+    !form.name
+    || !form.description
+    || missingImage.value
+    || props.signingMessage,
 )
 
 const validatingFormInput = (model: string) => {
