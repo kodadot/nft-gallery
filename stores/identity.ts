@@ -60,7 +60,7 @@ const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
-  balance?: BalanceMap<Prefix>
+  balance?: BalanceMap<keyof ChainToken>
   tokens?: BalanceMap<number> // <id, amount>
 }
 
@@ -123,7 +123,7 @@ export const useIdentityStore = defineStore('identity', {
     getAuthBalance: (state) => {
       const { urlPrefix } = usePrefix()
       return state.auth.balance
-        ? state.auth.balance[urlPrefix.value] || '0'
+        ? state.auth.balance[urlPrefix.value] ?? '0'
         : '0'
     },
     getTotalUsd: (state) => {
