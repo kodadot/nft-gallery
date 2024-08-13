@@ -1,6 +1,5 @@
 <template>
   <ModalBody
-    class="border border-border-color"
     :title="$t('reconnect.required')"
     :scrollable="false"
     @close="emit('close')"
@@ -9,21 +8,21 @@
       <div class="flex gap-5 items-center justify-center !py-5 ">
         <div>
           <BasicImage
-            :src="vmDetails.current.icon"
-            :alt="vmDetails.current.name"
+            :src="vmSwitchDetails.current.icon"
+            :alt="vmSwitchDetails.current.name"
             class="image is-48x48"
           />
         </div>
 
         <img
-          :src="'/right-arrow.svg'"
+          :src="isDarkMode ? '/right-arrow_dark.svg' :'/right-arrow.svg'"
           alt="right arrow"
         >
 
         <div>
           <BasicImage
-            :src="vmDetails.target.icon"
-            :alt="vmDetails.target.name"
+            :src="vmSwitchDetails.target.icon"
+            :alt="vmSwitchDetails.target.name"
             class="image is-48x48"
           />
         </div>
@@ -34,7 +33,7 @@
           {{ $t("reconnect.title") }}
         </p>
         <p
-          v-dompurify-html="$t('reconnect.toProceed', [vmDetails.target.name, vmDetails.target.shortName ? `(${vmDetails.target.shortName})` : undefined])"
+          v-dompurify-html="$t('reconnect.toProceed', [vmSwitchDetails.target.name, vmSwitchDetails.target.shortName ? `(${vmSwitchDetails.target.shortName})` : undefined])"
           class="max-w-60 text-center"
         />
       </div>
@@ -64,31 +63,34 @@ const VM_SWITCH_MAP: Record<ChainVM, ChainVM> = {
   SUB: 'EVM',
 }
 
-const VM_DETAILS: Record<ChainVM, { icon: string, name: string, shortName?: string }> = {
-  SUB: {
-    name: 'Polkadot',
-    icon: '/token/dot_branded.svg',
-  },
-  EVM: {
-    name: 'Ethereum',
-    shortName: 'EVM',
-    icon: '/token/base_branded.svg',
-  },
-}
-
 const emit = defineEmits(['close', 'connect'])
 
 const { logout } = useWallet()
 const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
-const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
+const { isDarkMode } = useTheme()
 
 const loading = ref(false)
 
+const vmDetails = computed<Record<ChainVM, { icon: string, name: string, shortName?: string }>>(() => ({
+  SUB: {
+    name: 'Polkadot',
+    icon: isDarkMode.value ? '/token/dot_branded_dark.svg' : '/token/dot_branded.svg',
+  },
+  EVM: {
+    name: 'Ethereum',
+    shortName: 'EVM',
+    icon: isDarkMode.value ? '/token/base_branded_dark.svg' : '/token/base_branded.svg',
+
+  },
+}))
+
+const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
+
 const targetVm = computed(() => VM_SWITCH_MAP[currentWalletVM.value]) // make prop
-const vmDetails = computed(() => ({
-  current: VM_DETAILS[currentWalletVM.value],
-  target: VM_DETAILS[targetVm.value],
+const vmSwitchDetails = computed(() => ({
+  current: vmDetails.value[currentWalletVM.value],
+  target: vmDetails.value[targetVm.value],
 }))
 
 const switchWallet = async () => {
