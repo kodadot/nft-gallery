@@ -1,6 +1,6 @@
 import { balanceOf } from '@kodadot1/sub-api'
-import type { Prefix } from '@kodadot1/static'
 import type { Address } from 'viem'
+import { getBalance as accountBalance } from '@wagmi/core'
 import { useIdentityStore } from '@/stores/identity'
 
 export default function () {
@@ -27,30 +27,33 @@ export default function () {
     }
   }
 
-  const getEvmBalance = async (address: string, prefix: Prefix) => {
+  const getEvmBalance = async (address: string) => {
+    if (!address) {
+      return null
+    }
+
     try {
-      const response = await useViem(prefix).publicClient.getBalance({
+      const evmBalance = await accountBalance(useNuxtApp().$wagmiConfig, {
         address: address as Address,
+        blockTag: 'latest',
       })
-      return response.toString()
+      console.log('[BALANCE::EVM] Result', evmBalance)
+
+      return BigInt(evmBalance.value).toString()
     }
     catch (error) {
+      console.log('[BALANCE::EVM] Error', error)
       return null
     }
   }
 
   const fetchBalance = (
     address: string,
-    prefix?: Prefix,
-  ): Promise<string | null> => {
-    if (!prefix) {
-      prefix = urlPrefix.value
-    }
-
+  ) => {
     return execByVm({
       SUB: () => getSubBalance(address),
-      EVM: () => getEvmBalance(address, prefix),
-    }) as Promise<string | null>
+      EVM: () => getEvmBalance(address),
+    })
   }
 
   return {
