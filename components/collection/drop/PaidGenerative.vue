@@ -22,11 +22,12 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import { NFTs } from '@/composables/transaction/types'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const { drop } = useDrop()
 const { subscribeDropStatus } = useDropStatus(drop)
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { urlPrefix } = usePrefix()
+const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
@@ -34,6 +35,7 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,
   clearItemsOnModalClose: true,
 })
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 
 const { loading, walletConnecting, mintingSession, isCapturingImage }
   = storeToRefs(useDropStore())
@@ -46,6 +48,7 @@ const {
   status,
   isError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -74,6 +77,7 @@ const mintNft = async () => {
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   }
   catch (e) {
@@ -102,6 +106,11 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal()
+    return false
+  }
+
   isMintModalActive.value = true
   await massGenerate()
 }
@@ -117,7 +126,7 @@ const closeMintModal = () => {
 
 const submitMints = async () => {
   try {
-    await useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
 
     loading.value = false
   }

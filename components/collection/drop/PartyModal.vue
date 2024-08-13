@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div
-      v-if="isPartyModalOpen"
+      v-if="getHasUserNotSetPartyMode"
       class="fixed top-20 md:top-24 left-4 z-[1000] w-[calc(100%-32px)] md:w-[31.25rem] h-fit shadow-primary bg-background-color !p-6 gap-6 flex border items-center"
     >
       <div class="max-md:hidden relative h-full w-fit flex-shrink-0">
@@ -37,7 +37,7 @@
               size="large"
               no-shadow
               class="!h-fit"
-              @click="isPartyModalOpen = false"
+              @click="partyMode = true"
             />
           </div>
         </div>
@@ -71,12 +71,4 @@ import { usePreferencesStore } from '@/stores/preferences'
 const { partyMode, getHasUserNotSetPartyMode } = storeToRefs(
   usePreferencesStore(),
 )
-
-const isPartyModalOpen = ref(getHasUserNotSetPartyMode.value)
-
-if (getHasUserNotSetPartyMode.value) {
-  watch(getHasUserNotSetPartyMode, () => {
-    isPartyModalOpen.value = getHasUserNotSetPartyMode.value
-  })
-}
 </script>

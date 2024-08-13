@@ -1,12 +1,17 @@
-import type { MintDropParams } from './types'
+import { GENSOL_ABI } from './evm/utils'
+import type {
+  EvmMintDropParams,
+  MintDropParams,
+  SubstrateMintDropParams,
+} from './types'
 import { useDrop } from '@/components/drops/useDrops'
 
-export function execMintDrop({
+function execAssethubMintDrop({
   item,
   api,
   executeTransaction,
   isLoading,
-}: MintDropParams) {
+}: SubstrateMintDropParams) {
   const { drop } = useDrop()
   const { toMintNFTs } = storeToRefs(useDropStore())
   const { accountId } = useAuth()
@@ -33,4 +38,33 @@ export function execMintDrop({
     cb: api.tx.utility.batchAll,
     arg: [args],
   })
+}
+
+async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
+  const { accountId } = useAuth()
+  const { drop } = useDrop()
+
+  executeTransaction({
+    address: drop.value.collection,
+    abi: GENSOL_ABI,
+    arg: [accountId.value],
+    functionName: 'safeMint',
+    value: drop.value.price,
+  })
+}
+
+export function execMintDrop({ item, ...params }: MintDropParams) {
+  if (item.prefix === 'ahk' || item.prefix === 'ahp') {
+    return execAssethubMintDrop({
+      item,
+      ...params,
+    } as SubstrateMintDropParams)
+  }
+
+  if (isEvm(item.prefix)) {
+    return execEvmMintDrop({
+      item,
+      ...params,
+    })
+  }
 }

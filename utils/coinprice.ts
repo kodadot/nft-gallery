@@ -60,11 +60,14 @@ export const getPrice = async (id: string): Promise<GetPrice> => {
   return emptyPrice
 }
 
+export type Token = 'KSM' | 'DOT' | 'ETH' | 'MNT'
+export type TokenName = 'kusama' | 'polkadot' | 'ethereum' | 'mantle'
 // tokenMap but reversed
-const tokenMap = {
+const tokenMap: Record<Token, TokenName> = {
   KSM: 'kusama',
   DOT: 'polkadot',
   ETH: 'ethereum',
+  MNT: 'mantle',
 }
 
 export const getApproximatePriceOf = async (id: string): Promise<number> => {

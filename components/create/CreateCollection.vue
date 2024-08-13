@@ -277,8 +277,10 @@ const royalty = ref({
 })
 
 const menus = availablePrefixes().filter(
-  menu => menu.value !== 'ksm' && menu.value !== 'rmrk',
-)
+  (menu) => {
+    const { isRemark, isEvm } = useIsChain(computed(() => menu.value as Prefix))
+    return !isRemark.value && !isEvm.value
+  })
 
 const chainByPrefix = menus.find(menu => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)

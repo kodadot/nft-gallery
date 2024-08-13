@@ -2,7 +2,7 @@
   <DropsBasicDropCard
     :loading="!(drop.collection && !isLoadingMeta && !collectionOwnersLoading)"
     :card-is="externalUrl ? 'a' : NuxtLink"
-    :to="`/${dropPrefix}/drops/${drop.alias}`"
+    :to="!emitOnClick ? to : undefined"
     :name="drop.collection.name"
     :image="image"
     :show-time-tag="Boolean(drop.dropStartTime || ended)"
@@ -12,7 +12,9 @@
     :drop-status="drop.status"
     :drop-max="drop.max || FALLBACK_DROP_COLLECTION_MAX"
     :drop-prefix="drop.chain"
+    :drop-price="drop.price"
     :minted="drop.minted"
+    @click="click"
   />
 </template>
 
@@ -29,9 +31,11 @@ import { useCollectionActivity } from '@/composables/collectionActivity/useColle
 
 const NuxtLink = resolveComponent('NuxtLink')
 
+const emit = defineEmits(['click'])
 const props = defineProps<{
   drop: Drop
   dropUrl?: string
+  emitOnClick?: boolean
 }>()
 
 const isLoadingMeta = ref(false)
@@ -40,12 +44,20 @@ const externalUrl = ref()
 
 const dropPrefix = computed(() => props.drop.chain as Prefix)
 const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
+const to = computed(() => `/${dropPrefix.value}/drops/${props.drop.alias}`)
 
 const { owners, loading: collectionOwnersLoading } = useCollectionActivity({
   collectionId: computed(() => props.drop?.collection.collection),
   prefix: dropPrefix.value,
 })
 const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+
+const click = () => {
+  emit('click', {
+    path: to.value,
+    drop: props.drop,
+  })
+}
 
 onMounted(async () => {
   if (!props.drop?.collection) {

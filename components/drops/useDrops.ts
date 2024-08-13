@@ -49,22 +49,40 @@ const DROP_LIST_ORDER = [
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 
-export function useDrops(query?: GetDropsQuery) {
+export function useDrops(query?: GetDropsQuery, { async = false, filterOutMinted = false }: { async?: boolean, filterOutMinted?: boolean } = { }) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
+  const getDropsAsync = () => {
+    dropsList.value.forEach((drop) => {
+      getFormattedDropItem(drop, drop).then((drop: Drop) => {
+        drops.value = orderBy(
+          [...drops.value, drop],
+          [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
+        )
+      })
+    })
+
+    watch(() => drops.value.length === dropsList.value.length, () => {
+      loaded.value = true
+    }, { once: true })
+  }
+
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    const formattedDrops = await Promise.all(
-      dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-    )
+    if (async) {
+      getDropsAsync()
+    }
+    else {
+      drops.value = await Promise.all(
+        dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
+      ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
 
-    drops.value = formattedDrops
-
-    loaded.value = true
+      loaded.value = true
+    }
   })
 
   const sortDrops = computed(() =>
@@ -177,7 +195,7 @@ export function useDrop(alias?: string) {
 
 export const fetchDropMintedCount = async (
   drop: Pick<DropItem, 'collection' | 'chain'>,
-) => {
+): Promise<number> => {
   if (!drop.collection || !drop.chain) {
     return 0
   }
@@ -192,7 +210,7 @@ export const fetchDropMintedCount = async (
     clientId: drop.chain,
   })
 
-  return data.value?.collectionEntityById.nftCount
+  return data.value?.collectionEntityById?.nftCount ?? 0
 }
 
 const subscribeDropMintedCount = (
