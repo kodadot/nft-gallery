@@ -2,6 +2,7 @@
   <ModalBody
     :title="$t('reconnect.required')"
     :scrollable="false"
+    @close="emit('close')"
   >
     <div>
       <div class="flex gap-5 items-center justify-center !py-5 ">
@@ -65,7 +66,7 @@ const VM_SWITCH_MAP: Record<ChainVM, ChainVM> = {
 const emit = defineEmits(['close', 'connect'])
 
 const { logout } = useWallet()
-const { vm } = useChain()
+const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
 const { isDarkMode } = useTheme()
 
@@ -80,12 +81,15 @@ const vmDetails = computed<Record<ChainVM, { icon: string, name: string, shortNa
     name: 'Ethereum',
     shortName: 'EVM',
     icon: isDarkMode.value ? '/token/base_branded_dark.svg' : '/token/base_branded.svg',
+
   },
 }))
 
-const targetVm = computed(() => VM_SWITCH_MAP[vm.value]) // make prop
+const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
+
+const targetVm = computed(() => VM_SWITCH_MAP[currentWalletVM.value]) // make prop
 const vmSwitchDetails = computed(() => ({
-  current: vmDetails.value[vm.value],
+  current: vmDetails.value[currentWalletVM.value],
   target: vmDetails.value[targetVm.value],
 }))
 
