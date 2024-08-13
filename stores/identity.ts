@@ -123,7 +123,7 @@ export const useIdentityStore = defineStore('identity', {
     getAuthBalance: (state) => {
       const { urlPrefix } = usePrefix()
       return state.auth.balance
-        ? state.auth.balance[urlPrefix.value] ?? '0'
+        ? state.auth.balance[urlPrefix.value] || '0'
         : '0'
     },
     getTotalUsd: (state) => {

@@ -4,14 +4,16 @@ import type { Callback, ISubmittableResult } from '@polkadot/types/types'
 import type { DispatchError, Hash } from '@polkadot/types/interfaces'
 import type { ApiPromise } from '@polkadot/api'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { getGasPrice } from '@wagmi/core'
+import { estimateGas, getGasPrice } from '@wagmi/core'
 import { useConfig } from '@wagmi/vue'
+import type { Address } from 'viem'
+import { encodeFunctionData } from 'viem'
 import { calculateBalance } from './format/balance'
 import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { KODADOT_DAO } from '@/utils/support'
-import type { Actions } from '@/composables/transaction/types'
+import type { Actions, ExecuteEvmTransactionParams } from '@/composables/transaction/types'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -120,11 +122,21 @@ export const estimate = async (
   return info.partialFee.toString()
 }
 
-const estimateEvm = async () => {
+const estimateEvm = async ({ arg, abi, functionName, account }: ExecuteEvmTransactionParams & { account: string }) => {
   const wagmiConfig = useConfig()
-  const gasPrice = await getGasPrice(wagmiConfig)
+  const [estimatedGas, gasPrice] = await Promise.all([
+    estimateGas(wagmiConfig, {
+      account: account as Address,
+      data: encodeFunctionData({
+        abi,
+        args: arg,
+        functionName,
+      }),
+    }),
+    getGasPrice(wagmiConfig),
+  ])
 
-  return String(gasPrice)
+  return String(estimatedGas * gasPrice)
 }
 
 export const getActionTransactionFee = ({
@@ -150,7 +162,7 @@ export const getActionTransactionFee = ({
         try {
           const fee = await execByVm({
             SUB: () => estimate(account, params.cb, params.arg),
-            EVM: () => estimateEvm(),
+            EVM: () => estimateEvm({ account, ...params }),
           }) as string
 
           resolve(fee)
