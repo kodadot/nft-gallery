@@ -36,6 +36,7 @@ export default function () {
       const evmBalance = await accountBalance(useNuxtApp().$wagmiConfig, {
         address: address as Address,
         blockTag: 'latest',
+        chainId: PREFIX_TO_CHAIN[urlPrefix.value]?.id,
       })
       console.log('[BALANCE::EVM] Result', evmBalance)
 
