@@ -216,7 +216,7 @@ const getChainAddress = (value: string) => {
 }
 
 const getTransferFee = async () => {
-  return getTransactionFee({ action: action.value, prefix: urlPrefix.value })
+  return getTransactionFee({ action: action.value })
     .then(fee => txFee.value = fee)
     .catch(() => txFee.value = 0)
 }
