@@ -209,6 +209,10 @@ export default function (refetchPeriodically: boolean = false) {
   ) => {
     await fetchFiatPrice(forceFiat)
 
+    if (!accountId.value) {
+      return
+    }
+
     const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 
     const assetsToFetch = onlyPrefixes.length
