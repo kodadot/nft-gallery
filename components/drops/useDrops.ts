@@ -377,6 +377,7 @@ export const useHolderOfCollectionDrop = () => {
 export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
   const { drops } = useDrops({
     chain: [chain],
+    limit: 1000,
   })
 
   const relatedActiveDrop = computed(() =>
