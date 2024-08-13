@@ -191,7 +191,7 @@ export default function (refetchPeriodically: boolean = false) {
       chainName,
     })
 
-    identityStore.setBalance(prefix, currentBalance)
+    identityStore.setBalance(prefix, nativeBalance)
     identityStore.multiBalanceNetwork = currentNetwork.value
 
     return Promise.resolve()
