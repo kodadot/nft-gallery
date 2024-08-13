@@ -1,6 +1,7 @@
 import { balanceOf } from '@kodadot1/sub-api'
 import type { Address } from 'viem'
 import { getBalance as accountBalance } from '@wagmi/core'
+import type { Prefix } from '@kodadot1/static'
 import { useIdentityStore } from '@/stores/identity'
 
 export default function () {
@@ -27,7 +28,7 @@ export default function () {
     }
   }
 
-  const getEvmBalance = async (address: string) => {
+  const getEvmBalance = async (address: string, prefix: Prefix) => {
     if (!address) {
       return null
     }
@@ -36,7 +37,7 @@ export default function () {
       const evmBalance = await accountBalance(useNuxtApp().$wagmiConfig, {
         address: address as Address,
         blockTag: 'latest',
-        chainId: PREFIX_TO_CHAIN[urlPrefix.value]?.id,
+        chainId: PREFIX_TO_CHAIN[prefix]?.id,
       })
       console.log('[BALANCE::EVM] Result', evmBalance)
 
@@ -49,11 +50,15 @@ export default function () {
   }
 
   const fetchBalance = (
-    address: string,
+    address: string, prefix?: Prefix,
   ) => {
+    if (!prefix) {
+      prefix = urlPrefix.value
+    }
+
     return execByVm({
       SUB: () => getSubBalance(address),
-      EVM: () => getEvmBalance(address),
+      EVM: () => getEvmBalance(address, prefix),
     })
   }
 

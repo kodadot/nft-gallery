@@ -1,4 +1,5 @@
 import sum from 'lodash/sum'
+import type { Prefix } from '@kodadot1/static'
 import { existentialDeposit } from '@kodadot1/static'
 import type { Actions } from '../transaction/types'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
@@ -288,6 +289,7 @@ export default function (
               api,
               action: action as Actions,
               address,
+              prefix: prefix as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)

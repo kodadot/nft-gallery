@@ -130,8 +130,8 @@ export default function (refetchPeriodically: boolean = false) {
     return { balance: balance.toString(), prefixAddress }
   }
 
-  async function getEvmBalance({ address }) {
-    const balance = await fetchEvmBalance(address)
+  async function getEvmBalance({ address, prefix }) {
+    const balance = await fetchEvmBalance(address, prefix)
 
     return {
       balance: balance ?? '',
@@ -157,7 +157,7 @@ export default function (refetchPeriodically: boolean = false) {
           chain,
           tokenId,
         }),
-      EVM: () => getEvmBalance({ address: currentAddress }),
+      EVM: () => getEvmBalance({ address: currentAddress, prefix }),
     })) as { balance: string, prefixAddress: string }
 
     const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
