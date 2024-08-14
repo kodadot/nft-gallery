@@ -1,8 +1,9 @@
 import { type Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
-import type { Prefix } from '@kodadot1/static'
+import { type Prefix, chainList } from '@kodadot1/static'
 import { emptyObject } from '@/utils/empty'
 import { networkToPrefix } from '@/composables/useMultipleBalance'
+import { vmOf } from '@/utils/config/chain.config'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
@@ -142,14 +143,19 @@ export const useIdentityStore = defineStore('identity', {
       const { isTestnet } = usePrefix()
       const { multiBalanceAssets, multiBalanceAssetsTestnet }
         = storeToRefs(useIdentityStore())
-      const { availableChainsByVm } = useChain()
+      const { vm } = useChain()
+
+      // useChain().availableChainsByVm excludes disabled chains like dot
+      const vmChains = chainList().filter(
+        ({ value: prefix }) => vm.value === vmOf(prefix as Prefix),
+      )
 
       const assets = isTestnet
         ? multiBalanceAssetsTestnet.value
         : multiBalanceAssets.value
 
       return assets.filter(asset =>
-        availableChainsByVm.value
+        vmChains
           .map(chain => chain.value)
           .includes(networkToPrefix[asset.chain] as ChainType),
       )

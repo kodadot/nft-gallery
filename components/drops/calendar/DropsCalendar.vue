@@ -1,5 +1,5 @@
 <template>
-  <template v-if="grouppedDropCalendars?.length">
+  <template v-if="Object.keys(grouppedDropCalendars ||{}).length">
     <hr
       class="my-14"
     >
@@ -15,6 +15,7 @@
         <div class="mb-6 flex items-center">
           <NeoButton
             variant="secondary-rounded"
+            root-class="!flex-shrink-0"
             no-shadow
           >
             {{ label }}
