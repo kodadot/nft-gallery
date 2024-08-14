@@ -6,9 +6,9 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 export default defineNuxtPlugin((nuxtApp) => {
   const wagmiConfig = (projectId: string) => {
     const metadata = {
-      name: 'KodaDot',
-      description: 'KodaDot - Generative Art Marketplace',
-      url: 'https://kodadot.xyz/',
+      name: 'Koda',
+      description: 'Koda - Generative Art Marketplace',
+      url: 'https://koda.art/',
       icons: ['https://avatars.githubusercontent.com/u/37784886'],
     }
 
