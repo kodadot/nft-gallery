@@ -40,9 +40,9 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: val => val.includes('/rmrk2/'),
       replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
     },
-    getPermissionRouteCondition((val: string) => val.endsWith('teleport'), teleportVisible),
-    getPermissionRouteCondition((val: string) => val.endsWith('transfer'), transferVisible),
-    getPermissionRouteCondition((val: string) => val.endsWith('migrate'), migrateVisible),
+    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
+    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
+    getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),
     {
       cond: val => val.startsWith('/transfer'),
       replaceValue: () =>
