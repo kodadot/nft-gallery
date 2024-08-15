@@ -35,4 +35,6 @@ const fixPrefix = () => {
 }
 
 fetchDrop().then(fixPrefix)
+
+watch(urlPrefix, () => navigateTo('/'))
 </script>
