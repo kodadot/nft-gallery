@@ -1,10 +1,9 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
-import { base, immutableZkEvm } from 'viem/chains'
-import { reconnect as reconnectWagmi } from '@wagmi/core'
+import { base, immutableZkEvm, mantle } from 'viem/chains'
 import { useAccount, useDisconnect } from 'use-wagmi'
 import type { DisconnectMutateAsync } from 'use-wagmi/query'
 
-const buildWagmiConfig = () => {
+export const buildWagmiConfig = () => {
   const metadata = {
     name: 'KodaDot',
     description: 'KodaDot - Generative Art Marketplace',
@@ -12,7 +11,7 @@ const buildWagmiConfig = () => {
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
   }
 
-  const chains = [base, immutableZkEvm]
+  const chains = [base, immutableZkEvm, mantle]
 
   return defaultWagmiConfig({
     chains,
@@ -21,29 +20,20 @@ const buildWagmiConfig = () => {
   })
 }
 
-const config = buildWagmiConfig() as any
-
 export default (
-  { reconnect }: { reconnect: boolean } = { reconnect: false },
 ) => {
-  if (reconnect) {
-    reconnectWagmi(config)
-  }
+  const { $wagmiConfig: config } = useNuxtApp()
 
-  const { isConnected, address, isConnecting, chainId } = useAccount({
-    config,
+  const account = useAccount({
+    config: config as any,
   })
 
   const disconnect = useNuxtApp().runWithContext(
-    () => useDisconnect({ config }).disconnectAsync,
+    () => useDisconnect({ config: config as any }).disconnectAsync,
   ) as Promise<DisconnectMutateAsync>
 
   return {
-    config,
-    isConnected,
-    isConnecting,
-    address,
+    ...account,
     disconnect,
-    chainId,
   }
 }

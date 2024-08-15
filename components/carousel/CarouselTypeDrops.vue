@@ -8,7 +8,11 @@
         :items="drops"
         :config="config"
       >
-        <DropsDropCard :drop="item" />
+        <DropsDropCard
+          :drop="item"
+          emit-on-click
+          @click="onDropClick"
+        />
       </CarouselModuleCarouselAgnostic>
       <CarouselModuleCarouselAgnostic
         v-else
@@ -22,23 +26,31 @@
 </template>
 
 <script lang="ts" setup>
+import type { Drop } from '@/components/drops/useDrops'
 import { useDrops } from '@/components/drops/useDrops'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
+import { vmOf } from '@/utils/config/chain.config'
 
 let queries = {
-  limit: 12,
+  limit: 14,
   active: [true],
-  chain: ['ahp'],
+  chain: ['ahp', 'base'],
 }
 
-if (!isProduction) {
+const { urlPrefix } = usePrefix()
+const { getWalletVM } = storeToRefs(useWalletStore())
+
+if (!isProduction && urlPrefix.value === 'ahk') {
   queries = {
     ...queries,
-    chain: ['ahp', 'ahk'],
+    chain: ['ahk'],
   }
 }
 
 const container = ref()
+const { accountId } = useAuth()
 
+const router = useRouter()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
   container,
   itemMintWidth: computed(() => DROP_CARD_MIN_WIDTH),
@@ -52,6 +64,17 @@ const skeletonCount = computed(() =>
   Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
 )
 
-const { drops, loaded: isReady } = useDrops(queries)
+const { drops, loaded: isReady } = useDrops(queries, { filterOutMinted: true })
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
+
+const onDropClick = ({ path, drop }: { path: string, drop: Drop }) => {
+  if (getWalletVM.value === vmOf(drop.chain) || !accountId.value) {
+    router.push(path)
+    return
+  }
+
+  openReconnectWalletModal({
+    onSuccess: () => router.push(path),
+  })
+}
 </script>

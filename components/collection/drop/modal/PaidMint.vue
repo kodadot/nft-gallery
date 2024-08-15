@@ -7,8 +7,6 @@
       :title="title"
       :scrollable="false"
       :loading="loading"
-      :custom-skeleton-title="preStepTitle"
-      :estimated-time="estimedTime"
       @close="close"
     >
       <MintOverview
@@ -63,8 +61,6 @@ enum ModalStep {
   SUCCEEDED = 'succeded',
 }
 
-const IPFS_ESTIMATED_TIME_SECONDS = 15
-
 const emit = defineEmits(['confirm', 'update:modelValue', 'list', 'close'])
 const props = defineProps<{
   modelValue: boolean
@@ -94,10 +90,6 @@ const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
 )
 
-const estimedTime = computed(() =>
-  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
-)
-
 const mintButton = computed(() => {
   if (!canMint.value) {
     return {
@@ -115,10 +107,6 @@ const loading = computed(
     || mintOverview.value?.loading
     || (autoteleportCompleted.value && !moveSuccessfulDrop.value)
     || false,
-)
-
-const preStepTitle = computed<string | undefined>(() =>
-  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
 )
 
 const isMintOverviewStep = computed(

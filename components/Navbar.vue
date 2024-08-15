@@ -97,7 +97,7 @@
         <!-- NAV END -->
         <div class="navbar-end">
           <nuxt-link
-            to="/ahp/drops"
+            :to="dropsPath"
             rel="nofollow"
           >
             <div
@@ -250,7 +250,7 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
@@ -287,6 +287,14 @@ const logoSrc = computed(() => {
   return `/${variant}${color}.svg`
 })
 
+const dropsPath = computed(() => {
+  const prefix = pickByVm({
+    SUB: 'ahp',
+    EVM: urlPrefix.value,
+  })
+  return `/${prefix}/drops`
+})
+
 const handleMobileChainSelect = () => {
   showMobileNavbar()
 }
@@ -295,10 +303,7 @@ const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
   closeAllModals()
-  neoModal.open({
-    ...ConnectWalletModalConfig,
-    ...(isMobile ? { animation: 'none' } : {}),
-  })
+  openConnectWalletModal()
 }
 
 const showMobileNavbar = () => {
