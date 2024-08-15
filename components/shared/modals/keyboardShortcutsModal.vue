@@ -22,11 +22,7 @@
                 <kbd class="keyboard-shortcut-kbd">
                   {{ shortcut || '+' }}
                 </kbd>
-                <span
-                  v-if="
-                    index < props.row.shortcut.split('+', 2).length - 1 
-                    && props.row.shortcut.split('+')[1] !== '+'
-                  ">
+                <span v-if="index < props.row.shortcut.split('+', 2).length - 1 && props.row.shortcut.split('+')[1] !== '+'">
                   +
                 </span>
               </span>
