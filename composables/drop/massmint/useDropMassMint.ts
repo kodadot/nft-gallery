@@ -1,4 +1,3 @@
-import { useCollectionEntity } from '../useGenerativeDropMint'
 import type { ToMintNft } from '@/components/collection/drop/types'
 import { generateId, setDyndataUrl } from '@/services/dyndata'
 
@@ -11,7 +10,6 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 
 export default () => {
   const dropStore = useDropStore()
-  const { collectionName } = useCollectionEntity()
   const { drop, amountToMint, toMintNFTs, loading } = storeToRefs(dropStore)
   const { isSub } = useIsChain(usePrefix().urlPrefix)
 
@@ -52,7 +50,7 @@ export default () => {
 
           return {
             name: drop.value.name,
-            collectionName: collectionName.value,
+            collectionName: drop.value.collectionName,
             price: drop.value.price?.toString() || '',
             nft: tokenIds.value[index],
             metadata,

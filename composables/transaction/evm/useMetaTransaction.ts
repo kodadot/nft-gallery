@@ -1,4 +1,6 @@
 import { type Address, TransactionExecutionError } from 'viem'
+import { simulateContract, waitForTransactionReceipt, writeContract } from '@wagmi/core'
+import { useConfig } from '@wagmi/vue'
 import type { Abi } from '../types'
 import useTransactionStatus from '@/composables/useTransactionStatus'
 
@@ -33,11 +35,10 @@ export default function useEvmMetaTransaction() {
   const { $i18n } = useNuxtApp()
   const { isLoading, initTransactionLoader, status, stopLoader }
     = useTransactionStatus()
-  const { urlPrefix } = usePrefix()
   const tx = ref<ExecResult>()
   const isError = ref(false)
 
-  const { publicClient, getWalletClient } = useViem(urlPrefix.value)
+  const wagmiConfig = useConfig()
 
   const howAboutToExecute: EvmHowAboutToExecute = async ({
     account,
@@ -50,14 +51,7 @@ export default function useEvmMetaTransaction() {
     onError,
   }: EvmHowAboutToExecuteParam): Promise<void> => {
     try {
-      const walletClient = getWalletClient()
-
-      if (!walletClient) {
-        errorCb(onError)({ error: new Error('Wallet client not connected') })
-        return
-      }
-
-      const { request } = await publicClient.simulateContract({
+      const { request } = await simulateContract(wagmiConfig, {
         account,
         address,
         abi,
@@ -66,7 +60,7 @@ export default function useEvmMetaTransaction() {
         value: value ? BigInt(value) : undefined,
       })
 
-      const txHash = await walletClient.writeContract(request)
+      const txHash = await writeContract(wagmiConfig, request)
       console.log('[EXEC] Executed', txHash)
 
       successCb(onSuccess)({ txHash })
@@ -79,7 +73,7 @@ export default function useEvmMetaTransaction() {
   const successCb
     = (onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void) =>
       async ({ txHash }) => {
-        const transaciton = await publicClient.waitForTransactionReceipt({
+        const transaciton = await waitForTransactionReceipt(wagmiConfig, {
           hash: txHash,
         })
         const blockNumber = transaciton.blockNumber.toString()
