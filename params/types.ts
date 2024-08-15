@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types'
+import type { TypeDef } from '@polkadot/types/types'
 // import { BareProps } from '@polkadot/react-components/types';
 import type { Prefix } from '@kodadot1/static'
 
@@ -63,7 +63,9 @@ export type DropType = 'paid' | 'free' | 'holder'
 export type DropItem = {
   id: string
   chain: Prefix
-  collection: string
+  collection: string // collection id
+  collectionName: string
+  collectionDescription: string
   image: string
   banner: string
   name: string
@@ -72,7 +74,7 @@ export type DropItem = {
   type: DropType
   meta: string
   disabled: number
-  minted?: number
+  minted: number
   max?: number
   price?: string
   holder_of?: string

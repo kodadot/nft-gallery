@@ -1,4 +1,4 @@
-import { Interaction } from '~/components/rmrk/service/scheme'
+import type { Interaction } from '~/components/rmrk/service/scheme'
 
 // Sort events by Timestamp
 export const sortedEventByDate = (
@@ -13,7 +13,8 @@ export const sortedEventByDate = (
     events.sort((a: Interaction, b: Interaction) =>
       a.timestamp > b.timestamp ? 0 : -1,
     )
-  } else {
+  }
+  else {
     events.sort((a: Interaction, b: Interaction) =>
       a.timestamp > b.timestamp ? -1 : 0,
     )
@@ -27,9 +28,9 @@ export const sortItemListByIds = (
   limit = 10,
 ) => {
   let count = 0
-  const dataMap = new Map(itemList.map((item) => [item.id, item]))
+  const dataMap = new Map(itemList.map(item => [item.id, item]))
   const sortedList: { id: string }[] = []
-  // eslint-disable-next-line no-restricted-syntax
+
   for (let i = 0; i < ids.length && count < limit; i++) {
     const item = dataMap.get(ids[i])
     if (item) {

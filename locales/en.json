@@ -155,8 +155,8 @@
         "content": "Oops! You have entered ETH address which <strong>is not supported by Polkadot ecosystem.</strong> Please enter Polkadot supported address to proceed with the transaction."
       },
       "unknown": {
-        "title": "Not Polkadot ecosystem address",
-        "content": "Oops! The address you entered is not supported by Polkadot ecosystem. Please enter Polkadot supported address to proceed with the transaction."
+        "title": "Not {ecosystem} ecosystem address",
+        "content": "Oops! The address you entered is not supported by {ecosystem} ecosystem. Please enter {ecosystem} supported address to proceed with the transaction."
       },
       "wrong_network_address": {
         "title": "Wrong Network address",
@@ -1157,7 +1157,6 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
-    "featuredGenerativeDrops": "Featured generative drops",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -1831,7 +1830,6 @@
     "supportedFormats": "Supported Formats: .js",
     "canvasSize": "Canvas Size",
     "artName": "Art Name",
-    "webglSupported": "WebGL Supported",
     "local": "Local",
     "automaticResize": "Automatic Sizing - Responsiveness",
     "automaticResizeMeans": "Failure means the art is not responsive to screen size changes. In order to fix need to use resizeCanvas like this:",
@@ -1845,9 +1843,7 @@
     "usingKodaHashMeans": "Once the rendering of art is done, a message needs to be sent signaling the end of the render. This message is necessary for art to work properly on KodaDot. More details can be found in the {link}. This message should look like this:",
     "usingParamHash": "Param Hash From Url For Rendering",
     "usingParamHashMeans": "Your artwork is expected to use hash url param. Like this:",
-    "notUsingWebGl": "Not Using WebGL",
-    "notUsingWebGlMeans": "    Please do not use WebGl canvas in your artwork. It is not supported on KodaDot.",
-    "variationLoadingTime": "Variation loading time < {0} seconds",
+    "variationLoadingTime": "Variation loading time",
     "variationLoadingTimeMeans1": "The time between the start of render and message kodahash/render/completed is measured. As we mentioned in the documentation, art should be quick, to make the experience for the user better. Loading time check could fail if:",
     "variationLoadingTimeMeans2": "Artwork is not rendered in the checker.",
     "variationLoadingTimeMeans3": "Takes too long to render, no clear way to fix that, the artist needs to find a way to cut down time.",
@@ -2075,6 +2071,10 @@
       "unsuccessfulFarcasterAuth": {
         "title": "Unsuccessful Connection",
         "message": "Somehting went wrong linking with your farcaster account, please try again."
+      },
+      "setupFailed": {
+        "title": "Profile Setup Failed",
+        "message": "Error occurred. Try again later or report issue."
       }
     },
 
@@ -2087,6 +2087,14 @@
     "deleteConfirm": "You sure? - click again",
     "waitSeconds": "Wait {0} Seconds",
     "profileReset": "Profile Reset",
-    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!"
+    "profileHasBeenCleared": "Your profile has been cleared successfully. Start fresh!",
+    "finishCustomization": "Finish Customization",
+    "created": "Profile Created"
+  },
+  "reconnect": {
+    "required": "Reconnect Required",
+    "title": "Reconnect to access page",
+    "toProceed": "To proceed, connect your <strong>{0}</strong> {1} Wallet.",
+    "switch": "Switch Wallet"
   }
 }

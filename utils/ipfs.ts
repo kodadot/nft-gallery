@@ -1,18 +1,18 @@
-import { emptyObject } from '@/utils/empty'
-import { CollectionMetadata } from '@/components/rmrk/types'
-import api from '@/utils/fetch'
-import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
 import { IPFS_REGEX, isCID, isHTTP } from '@kodadot1/minipfs'
-
-import {
+import type {
   ArweaveProviders,
+  ProviderKeyType } from './config/ipfs'
+import {
   CF_IMAGE_URL,
-  ProviderKeyType,
   arweaveProviders,
   getIPFSProvider,
   kodaImage,
 } from './config/ipfs'
+import { emptyObject } from '@/utils/empty'
+import type { CollectionMetadata } from '@/components/rmrk/types'
+import api from '@/utils/fetch'
+import type { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
@@ -147,7 +147,8 @@ export const fetchMetadata = async <T>(
     if (status < 400) {
       return _data as T
     }
-  } catch (e) {
+  }
+  catch (e) {
     console.warn('IPFS Err', e)
     return emptyObject<T>()
   }
@@ -172,7 +173,7 @@ export const preheatFileFromIPFS = (ipfsUrl: string) => {
     redirect: 'manual', // no need to hit cf-images if the file exists
   })
     .then(async () => consola.log(`[PREHEAT] ${url}`))
-    .catch((err) => consola.error(`[PREHEAT] ${url} ${err.message}`))
+    .catch(err => consola.error(`[PREHEAT] ${url} ${err.message}`))
 }
 
 export const getSanitizer = (
@@ -181,23 +182,27 @@ export const getSanitizer = (
   arProvider?: ArweaveProviders,
 ): SanitizerFunc => {
   if (url && (isIpfsUrl(url) || url.includes('https://gateway.pinata.cloud'))) {
-    return (link) => sanitizeIpfsUrl(link, ipfsProvider)
+    return link => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
   if (isArweaveUrl(url)) {
-    return (link) => sanitizeArweaveUrl(link, arProvider)
+    return link => sanitizeArweaveUrl(link, arProvider)
   }
 
   if (isIpfsCid(url)) {
-    return (link) => sanitizeIpfsCid(link, ipfsProvider)
+    return link => sanitizeIpfsCid(link, ipfsProvider)
   }
 
-  return (link) => link
+  return link => link
 }
 
 export const ipfsToCf = (ipfsUrl: string): string => {
   const cid = extractCid(ipfsUrl)
   return `${CF_IMAGE_URL}${cid}/public`
+}
+
+export const getHigherResolutionCloudflareImage = (url: string): string => {
+  return url.replace(/\/public$/, '/detail')
 }
 
 export type EntityWithMeta = {

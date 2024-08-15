@@ -6,24 +6,32 @@
       </div>
       <div
         class="flex gallery-action-section-price-box"
-        data-testid="item-price">
+        data-testid="item-price"
+      >
         <div
           v-if="Number(price)"
           data-testid="money"
-          class="gallery-action-section-price font-bold">
+          class="gallery-action-section-price font-bold"
+        >
           {{ priceChain }}
         </div>
-        <div v-else class="font-bold text-3xl">--</div>
+        <div
+          v-else
+          class="font-bold text-3xl"
+        >
+          --
+        </div>
 
         <div
           v-if="Number(price)"
-          class="text-k-grey flex items-center gallery-action-section-price-sub">
+          class="text-k-grey flex items-center gallery-action-section-price-sub"
+        >
           {{ priceUsd }} USD
         </div>
       </div>
     </div>
 
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

@@ -30,9 +30,9 @@ export default ({
     }
 
     if (
-      successStatus.includes(curStatus) &&
-      !successStatus.includes(prevStatus) &&
-      waitFor.every((i) => i.value)
+      successStatus.includes(curStatus)
+      && !successStatus.includes(prevStatus)
+      && waitFor.every(i => i.value)
     ) {
       onSuccess()
     }

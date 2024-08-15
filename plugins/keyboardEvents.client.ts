@@ -87,6 +87,7 @@ const listenGlobalKeyboardEvents = (app) => {
   })
 
   document.addEventListener('keyup', (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete keysPressed[event.key]
   })
 }

@@ -1,5 +1,9 @@
 <template>
-  <tippy class="w-full inline-block" :placement="placement" :delay="delay">
+  <tippy
+    class="w-full inline-block"
+    :placement="placement"
+    :delay="delay"
+  >
     <slot name="content" />
 
     <template #content>

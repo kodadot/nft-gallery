@@ -1,6 +1,6 @@
 import { $fetch } from 'ofetch'
-import { URLS } from '~/utils/constants'
 import consola from 'consola'
+import { URLS } from '~/utils/constants'
 
 const SEARCH_BASE_URL = URLS.koda.search
 
@@ -27,7 +27,8 @@ export async function fetchCollectionSuggestion(key: string, limit?: number) {
       return data
     }
     return []
-  } catch (e) {
+  }
+  catch (e) {
     consola.log('fetchCollectionSuggestion Error', e)
     return []
   }

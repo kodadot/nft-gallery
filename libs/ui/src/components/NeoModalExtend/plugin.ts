@@ -1,8 +1,8 @@
 import { createVNode, render } from 'vue'
-import Modal from './NeoModalExtend.vue'
 
 import { merge } from '@oruga-ui/oruga-next/src/utils/helpers'
 import InstanceRegistry from '@oruga-ui/oruga-next/src/utils/InstanceRegistry'
+import Modal from './NeoModalExtend.vue'
 
 const instances = new InstanceRegistry()
 
@@ -16,7 +16,8 @@ const ModalProgrammatic = {
       newParams = {
         content: params,
       }
-    } else {
+    }
+    else {
       newParams = params
     }
 

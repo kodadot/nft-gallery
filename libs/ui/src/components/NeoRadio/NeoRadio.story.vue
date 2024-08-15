@@ -3,16 +3,33 @@
     <Variant title="NeoRadio Base">
       <section>
         <div class="block">
-          <NeoRadio v-model="radio" name="name" native-value="Flint">
+          <NeoRadio
+            v-model="radio"
+            name="name"
+            native-value="Flint"
+          >
             Flint
           </NeoRadio>
-          <NeoRadio v-model="radio" name="name" native-value="Silver">
+          <NeoRadio
+            v-model="radio"
+            name="name"
+            native-value="Silver"
+          >
             Silver
           </NeoRadio>
-          <NeoRadio v-model="radio" name="name" native-value="Jack">
+          <NeoRadio
+            v-model="radio"
+            name="name"
+            native-value="Jack"
+          >
             Jack
           </NeoRadio>
-          <NeoRadio v-model="radio" name="name" native-value="Vane" disabled>
+          <NeoRadio
+            v-model="radio"
+            name="name"
+            native-value="Vane"
+            disabled
+          >
             Vane
           </NeoRadio>
         </div>
@@ -26,12 +43,19 @@
     <Variant title="NeoRadio Variant">
       <section>
         <div class="field">
-          <NeoRadio v-model="radioVariant" native-value="default">
+          <NeoRadio
+            v-model="radioVariant"
+            native-value="default"
+          >
             Default
           </NeoRadio>
         </div>
         <div class="field">
-          <NeoRadio v-model="radioVariant" native-value="info" variant="info">
+          <NeoRadio
+            v-model="radioVariant"
+            native-value="info"
+            variant="info"
+          >
             Info
           </NeoRadio>
         </div>
@@ -39,7 +63,8 @@
           <NeoRadio
             v-model="radioVariant"
             native-value="success"
-            variant="success">
+            variant="success"
+          >
             Success
           </NeoRadio>
         </div>
@@ -47,7 +72,8 @@
           <NeoRadio
             v-model="radioVariant"
             native-value="danger"
-            variant="danger">
+            variant="danger"
+          >
             Danger
           </NeoRadio>
         </div>
@@ -55,7 +81,8 @@
           <NeoRadio
             v-model="radioVariant"
             native-value="warning"
-            variant="warning">
+            variant="warning"
+          >
             Warning
           </NeoRadio>
         </div>
@@ -67,25 +94,32 @@
         <NeoRadioButton
           v-model="radioButton"
           native-value="Nope"
-          type="is-danger is-light is-outlined">
+          type="is-danger is-light is-outlined"
+        >
           <span>Nope</span>
         </NeoRadioButton>
 
         <NeoRadioButton
           v-model="radioButton"
           native-value="Yep"
-          type="is-success is-light is-outlined">
+          type="is-success is-light is-outlined"
+        >
           <span>Yep</span>
         </NeoRadioButton>
 
         <NeoRadioButton
           v-model="radioButton"
           native-value="Default"
-          type="is-primary is-light is-outlined">
+          type="is-primary is-light is-outlined"
+        >
           Default
         </NeoRadioButton>
 
-        <NeoRadioButton v-model="radioButton" native-value="Disabled" disabled>
+        <NeoRadioButton
+          v-model="radioButton"
+          native-value="Disabled"
+          disabled
+        >
           Disabled
         </NeoRadioButton>
       </div>

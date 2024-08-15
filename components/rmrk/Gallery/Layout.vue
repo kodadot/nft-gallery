@@ -8,7 +8,8 @@
           class="collection-radio-btn"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
-          data-testid="large-display">
+          data-testid="large-display"
+        >
           <span>
             <NeoIcon icon="th-large" />
           </span>
@@ -21,7 +22,8 @@
           class="collection-radio-btn"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
-          data-testid="small-display">
+          data-testid="small-display"
+        >
           <span>
             <NeoIcon icon="th" />
           </span>
@@ -32,8 +34,8 @@
 </template>
 
 <script lang="ts" setup>
-import { usePreferencesStore } from '@/stores/preferences'
 import { NeoField, NeoIcon, NeoRadioButton, NeoTooltip } from '@kodadot1/brick'
+import { usePreferencesStore } from '@/stores/preferences'
 
 defineProps({
   type: { type: String, default: 'nftDetail' },

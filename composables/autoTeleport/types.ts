@@ -1,11 +1,11 @@
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import { type Prefix } from '@kodadot1/static'
+import { type DeepReadonly } from 'vue'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 import type {
   Actions,
   ActionsInteractions,
 } from '@/composables/transaction/types'
-import { type Prefix } from '@kodadot1/static'
-import { type DeepReadonly } from 'vue'
-import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import type { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
 type TransactionDetails = {
   status: DeepReadonly<Ref<TransactionStatus>>
@@ -42,7 +42,7 @@ export type AutoTeleportActionHandlerParams = { isRetry: boolean }
 
 export type AutoTeleportAction = {
   transaction?: (item: Actions, prefix: string) => Promise<any>
-  handler?: (params: AutoTeleportActionHandlerParams) => Promise<any | void>
+  handler?: (params: AutoTeleportActionHandlerParams) => Promise<any>
 } & AutoTeleportBaseAction
 
 export type AutoTeleportFeeParams = {

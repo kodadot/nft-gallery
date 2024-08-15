@@ -7,26 +7,30 @@
       no-shadow
       :active="tab.value === selectedTab"
       @click="selectedTab = tab.value"
-      >{{ tab.label }}</NeoButton
     >
+      {{ tab.label }}
+    </NeoButton>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { ChainVM } from '@kodadot1/static'
+import type { ChainVM } from '@kodadot1/static'
 import { NeoButton } from '@kodadot1/brick'
 
-const props = defineProps<{ modelValue: ChainVM }>()
+const props = defineProps<{ modelValue: ChainVM, preselected?: ChainVM }>()
 
 const selectedTab = useVModel(props, 'modelValue')
 
-const walletTabs: { label: string; value: ChainVM }[] = [
-  {
-    label: 'Polkadot',
-    value: 'SUB',
-  },
-  {
-    label: 'Evm',
-    value: 'EVM',
-  },
-]
+const walletTabs = computed<{ label: string, value: ChainVM }[]>(() => {
+  return [
+    {
+      label: 'Polkadot',
+      value: 'SUB',
+    },
+    {
+      label: 'Evm',
+      value: 'EVM',
+    },
+  ].filter(tab => props.preselected ? tab.value === props.preselected : true)
+})
 </script>

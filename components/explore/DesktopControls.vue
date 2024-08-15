@@ -5,10 +5,14 @@
       <ExploreTabs />
     </div>
 
-    <div v-if="!isActivityTab" class="explore-menu flex">
+    <div
+      v-if="!isActivityTab"
+      class="explore-menu flex"
+    >
       <ExploreSort />
       <ChainDropdown
-        v-if="!route.name?.toString().includes('prefix-collection-id')" />
+        v-if="!route.name?.toString().includes('prefix-collection-id')"
+      />
       <GridLayoutControls v-if="!isCollection" />
     </div>
   </div>

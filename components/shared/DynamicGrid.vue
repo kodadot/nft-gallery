@@ -1,14 +1,23 @@
 <template>
-  <div ref="container" :style="gridCols">
-    <slot :is-mobile-variant="isMobileVariant" :grid="grid" :cols="cols" />
+  <div
+    ref="container"
+    :style="gridCols"
+    data-testid="dynamic-grid"
+  >
+    <slot
+      :is-mobile-variant="isMobileVariant"
+      :grid="grid"
+      :cols="cols"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import type {
+  GridSection,
+  GridSize } from '@/stores/preferences'
 import {
   DEFAULT_GRID_SECTION,
-  GridSection,
-  type GridSize,
   usePreferencesStore,
 } from '@/stores/preferences'
 
@@ -47,9 +56,9 @@ const container = ref<HTMLDivElement>()
 
 const grid = computed(
   () =>
-    props.gridSize ||
-    (props.gridSection &&
-      preferencesStore.getGridConfigBySection(props.gridSection)?.size),
+    props.gridSize
+    || (props.gridSection
+    && preferencesStore.getGridConfigBySection(props.gridSection)?.size),
 )
 
 const { cols, isMobileVariant } = useDynamicGrid({

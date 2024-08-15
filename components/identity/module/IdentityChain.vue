@@ -5,16 +5,24 @@
       icon="badge-check"
       class="mr-1"
       pack="fass"
-      size="small" />
+      size="small"
+    />
 
-    <span v-if="showOnchainIdentity" class="inline-flex items-center">
+    <span
+      v-if="showOnchainIdentity"
+      class="inline-flex items-center"
+    >
       {{ shortenedAddress }}
       <img
         v-if="isFetchingIdentity"
         src="~/assets/svg/infinity.svg"
-        class="ml-1 infinity-loader" />
+        class="ml-1 infinity-loader"
+      >
       <template v-else>
-        <span v-if="display && !hideDisplayName" class="ml-1">
+        <span
+          v-if="display && !hideDisplayName"
+          class="ml-1"
+        >
           ({{ display }})
         </span>
       </template>
@@ -33,10 +41,10 @@
 </template>
 
 <script lang="ts" setup>
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { isMobileDevice } from '@/utils/extension'
-import IdentityPopover from './IdentityPopover.vue'
+import type { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { NeoIcon } from '@kodadot1/brick'
+import IdentityPopover from './IdentityPopover.vue'
+import { isMobileDevice } from '@/utils/extension'
 
 type Address = string | GenericAccountId | undefined
 

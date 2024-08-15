@@ -3,19 +3,22 @@
     :tx-hash="txHash"
     :share="share"
     :status="status"
-    :action-buttons="actionButtons">
+    :action-buttons="actionButtons"
+  >
     <SuccessfulItemsMedia
       :header="{
         single: $t('listingCart.newListingPrice'),
         multiple: $t('listingCart.bulkListingSuccessful'),
       }"
       :items="mediaItems"
-      show-price />
+      show-price
+    />
   </SuccessfulModalBody>
 </template>
+
 <script lang="ts" setup>
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
-import { TransactionStatus } from '@/composables/useTransactionStatus'
+import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = defineProps<{
   items: ListCartItem[]
@@ -29,7 +32,7 @@ const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 
 const mediaItems = computed<ItemMedia[]>(() =>
-  props.items.map((item) => ({
+  props.items.map(item => ({
     id: item.id,
     image: (item.mediaUrl?.image || item.meta?.image) as string,
     name: item.name,
@@ -49,7 +52,7 @@ const shareText = computed(() => {
     return $i18n.t('sharing.listedNft')
   }
 
-  const someNfts = props.items.map((item) => item.name)
+  const someNfts = props.items.map(item => item.name)
 
   return $i18n.t('sharing.listedNfts', [someNfts.join(', ')])
 })

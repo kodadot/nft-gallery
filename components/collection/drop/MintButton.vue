@@ -9,25 +9,27 @@
     :loading="loading"
     :disabled="!enabled || loading"
     :loading-with-label="
-      isCheckingMintRequirements ||
-      dropStore.walletConnecting ||
-      dropStore.loading
+      isCheckingMintRequirements
+        || dropStore.walletConnecting
+        || dropStore.loading
     "
     :label="label"
-    @click="handleMint" />
+    @click="handleMint"
+  />
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
-import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
   calculateBalanceUsdValue,
   formatAmountWithRound,
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { parseCETDate } from '@/components/drops/utils'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const emit = defineEmits(['mint'])
 
@@ -37,22 +39,22 @@ const { isLogIn } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
-const { drop } = useDrop()
 const now = useNow()
-const { mintCountAvailable, maxCount } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
+const { mintCountAvailable } = useGenerativeDropMint()
+const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
 const isHolderAndEligible = computed(
   () =>
-    holderOfCollection.value.isHolder &&
-    maxCount.value > dropStore.mintsCount &&
-    hasMinimumFunds.value &&
-    holderOfCollection.value.hasAvailable,
+    holderOfCollection.value.isHolder
+    && drop.value.max
+    && drop.value.max > drop.value.minted
+    && hasMinimumFunds.value
+    && holderOfCollection.value.hasAvailable,
 )
 
 watch(drop, async () => {
@@ -73,7 +75,7 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (!mintCountAvailable.value) {
+  if (drop.value.max && (drop.value.max === drop.value.minted)) {
     return $i18n.t('mint.unlockable.seeListings')
   }
   if (!isLogIn.value) {
@@ -120,13 +122,13 @@ const enabled = computed(() => {
     return true
   }
   if (
-    !amountToMint.value || // number of drop to be mint is 0
-    Boolean(drop.value.disabled) || // drop is disabled
-    isMintNotLive.value || // drop start time is greater than now
-    !previewItem.value || // no image
-    isCheckingMintRequirements.value || // still checking requirements
-    loading.value || // still loading
-    drop.value.userAccess === false // no access due to geofencing
+    !amountToMint.value // number of drop to be mint is 0
+    || Boolean(drop.value.disabled) // drop is disabled
+    || isMintNotLive.value // drop start time is greater than now
+    || !previewItem.value // no image
+    || isCheckingMintRequirements.value // still checking requirements
+    || loading.value // still loading
+    || drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }
@@ -137,7 +139,7 @@ const enabled = computed(() => {
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return maxCount.value > userMintsCount.value
+      return drop.value.max && drop.value.max > userMintsCount.value
     default:
       return false
   }
@@ -145,9 +147,9 @@ const enabled = computed(() => {
 
 const loading = computed(
   () =>
-    dropStore.isCapturingImage ||
-    dropStore.walletConnecting ||
-    dropStore.loading,
+    dropStore.isCapturingImage
+    || dropStore.walletConnecting
+    || dropStore.loading,
 )
 
 const showHolderOfCollection = computed(() =>
@@ -156,9 +158,9 @@ const showHolderOfCollection = computed(() =>
 
 const isCheckingMintRequirements = computed(
   () =>
-    showHolderOfCollection.value &&
-    isLogIn.value &&
-    (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
+    showHolderOfCollection.value
+    && isLogIn.value
+    && (holderOfCollection.value.isLoading || !hasCurrentChainBalance.value),
 )
 
 const handleMint = () => {
@@ -166,6 +168,10 @@ const handleMint = () => {
     return navigateTo(
       `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
+  }
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal()
+    return
   }
 
   emit('mint')

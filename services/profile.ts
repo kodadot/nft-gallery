@@ -1,4 +1,5 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { isProduction } from '@/utils/env'
 
@@ -112,9 +113,9 @@ export const searchProfiles = (query: string, limit = 5, offset = 0) =>
 
 export const fetchFollowersOf = (
   address: string,
-  options?: { limit?: number; offset?: number; exclude?: string[] },
+  options?: { limit?: number, offset?: number, exclude?: string[] },
 ) =>
-  api<{ followers: Follower[]; totalCount: number }>(
+  api<{ followers: Follower[], totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/followers`,
     {
       method: 'GET',
@@ -128,9 +129,9 @@ export const fetchFollowersOf = (
 
 export const fetchFollowing = (
   address: string,
-  options?: { limit?: number; offset?: number },
+  options?: { limit?: number, offset?: number },
 ) =>
-  api<{ following: Follower[]; totalCount: number }>(
+  api<{ following: Follower[], totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/following`,
     {
       method: 'GET',
@@ -145,7 +146,8 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
       body: profileData,
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::CREATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
@@ -163,7 +165,8 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
       },
     )
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::UPDATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
@@ -192,7 +195,8 @@ export const deleteProfile = async ({
       },
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(
       `[PROFILE::DELETE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
@@ -206,7 +210,8 @@ export const follow = async (followRequest: FollowRequest) => {
       body: convertToSubstrateAddress(followRequest),
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
 
     throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
@@ -220,7 +225,8 @@ export const unfollow = async (unFollowRequest: FollowRequest) => {
       body: convertToSubstrateAddress(unFollowRequest),
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
 
     throw new Error(`[PROFILE::UNFOLLOW] ERROR: ${(error as FetchError).data}`)
@@ -239,7 +245,8 @@ export const isFollowing = async (
       },
     )
     return response.isFollowing
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(
       `[PROFILE::IS_FOLLOWING] ERROR: ${(error as FetchError).data}`,
     )
@@ -277,7 +284,8 @@ export const uploadImage = async ({
     })
 
     return response
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(
       `[PROFILE::UPLOAD_IMAGE] ERROR: ${(error as FetchError).data}`,
     )

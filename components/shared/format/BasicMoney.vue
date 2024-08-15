@@ -8,8 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
-import formatBalance from '@/utils/format/balance'
+import formatBalance, { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{
@@ -29,14 +28,14 @@ const { decimals, chainSymbol } = useChain()
 const realUnit = computed(() => (props.hideUnit ? '' : ' ' + chainSymbol.value))
 
 const finalValue = computed(() =>
-  round(
+  roundValue(
     formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
     props.round,
     false,
   ),
 )
 
-const round = (value: string, limit: number, disableFilter: boolean) => {
+const roundValue = (value: string, limit: number, disableFilter: boolean) => {
   const number = Number(value.replace(/,/g, ''))
   if (disableFilter) {
     return parseFloat(number.toString())

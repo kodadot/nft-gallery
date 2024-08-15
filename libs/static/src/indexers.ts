@@ -1,4 +1,4 @@
-import { ApolloEndpoint, Config, Prefix, Squid } from './types'
+import type { ApolloEndpoint, Config, Prefix, Squid } from './types'
 
 type SquidUrl = 'https://squid.subsquid.io' | 'https://kodadot.squids.live'
 
@@ -15,6 +15,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
   imx: 'https://squid.subsquid.io/flick/graphql',
   base: 'https://kodadot.squids.live/basick/graphql',
+  mnt: 'https://squid.subsquid.io/flock/graphql',
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   // glmr: 'https://squid.subsquid.io/click/v/002/graphql',
@@ -26,16 +27,15 @@ export const toApolloEndpoint = (httpEndpoint: string): ApolloEndpoint => ({
 
 const reducer = (
   acc: Config<ApolloEndpoint>,
-  [key, value]: [string, SquidEndpoint]
+  [key, value]: [string, SquidEndpoint],
 ) => {
   acc[key as Prefix] = toApolloEndpoint(value)
   return acc
 }
 
 export const APOLLO_ENDPOINTS: Config<ApolloEndpoint> = Object.entries(
-  INDEXERS
-  // eslint-disable-next-line unicorn/no-array-reduce
+  INDEXERS,
 ).reduce(
   (accumulator, element) => reducer(accumulator, element),
-  {} as Config<ApolloEndpoint>
+  {} as Config<ApolloEndpoint>,
 )

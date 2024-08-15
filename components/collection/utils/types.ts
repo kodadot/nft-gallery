@@ -1,4 +1,4 @@
-import { CollectionMetadata } from '@/components/rmrk/service/scheme'
+import type { CollectionMetadata } from '@/components/rmrk/service/scheme'
 
 export type Stats = {
   listedCount?: number

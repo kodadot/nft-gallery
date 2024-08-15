@@ -2,8 +2,8 @@ export const replaceBooleanWithStrings = (
   obj: Record<string, string | null | boolean | undefined | number>,
 ): Record<string, string | null | undefined> => {
   return Object.entries(obj).reduce((result, [key, value]) => {
-    result[key] =
-      typeof value === 'boolean' || typeof value === 'number'
+    result[key]
+      = typeof value === 'boolean' || typeof value === 'number'
         ? String(value)
         : value
     return result

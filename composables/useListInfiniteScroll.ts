@@ -71,14 +71,14 @@ export default function ({
   const updateCurrentPage = () => {
     // allow page update only when current path is same as route path
     // i.e. scope it to only the page in which useListInfiniteScroll is used
-    const allowUpdate =
-      process.client && window.location.pathname === route.path
+    const allowUpdate
+      = import.meta.client && window.location.pathname === route.path
     if (!allowUpdate) {
       return
     }
-    const page =
-      Math.floor(document.documentElement.scrollTop / pageHeight.value) +
-      startPage.value
+    const page
+      = Math.floor(document.documentElement.scrollTop / pageHeight.value)
+      + startPage.value
     if (page) {
       replaceUrlPage(String(page))
       currentPage.value = page
@@ -99,7 +99,8 @@ export default function ({
         )
         scrollItemSizeInit.value = true
       }
-    } catch (err) {
+    }
+    catch (err) {
       $consola.warn('resize scroll item', err)
     }
   }, 1000)
@@ -112,7 +113,7 @@ export default function ({
     if (targetPage === route.query.page || (isFirstPage && !route.query.page)) {
       return
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { page, ...restQuery } = route.query
     router
       .replace({

@@ -1,145 +1,78 @@
 <template>
-  <NeoModal :value="vOpen" @close="close">
+  <NeoModal
+    :value="vOpen"
+    @close="close"
+  >
     <ModalBody
       :title="'Profile Creation'"
       :content-class="stage === 1 ? 'p-0' : undefined"
-      @close="close">
-      <Introduction v-if="stage === 1" @next="stage = 2" @close="close" />
+      @close="close"
+    >
+      <Introduction
+        v-if="stage === 1"
+        @next="stage = 2"
+        @close="close"
+      />
       <Select
         v-if="stage === 2"
         :loading="farcasterSignInIsInProgress"
         @start-new="OnSelectStartNew"
-        @import-farcaster="onSelectFarcaster" />
+        @import-farcaster="onSelectFarcaster"
+      />
       <Form
         v-if="stage === 3"
         :farcaster-user-data="farcasterUserData"
         :use-farcaster="useFarcaster"
+        :signing-message="signingMessage"
         @submit="handleFormSubmition"
-        @delete="handleProfileDelete" />
-      <Loading v-if="stage === 4" />
-      <Success v-if="stage === 5" @close="close" />
+        @delete="handleProfileDelete"
+      />
     </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import {
-  Form,
-  Introduction,
-  Loading,
-  ProfileFormData,
-  Select,
-  Success,
-} from './stages/index'
-import {
-  CreateProfileRequest,
-  SocialLink,
-  UpdateProfileRequest,
-  createProfile,
-  deleteProfile,
-  updateProfile,
-  uploadImage,
-} from '@/services/profile'
-import { appClient, createChannel } from '@/services/farcaster'
-import { StatusAPIResponse } from '@farcaster/auth-client'
+import type { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
-import { getBioWithLinks } from '../utils'
+import type { ProfileFormData } from './stages/index'
+import { Form, Introduction, Select } from './stages/index'
+import { deleteProfile } from '@/services/profile'
+import { appClient, createChannel } from '@/services/farcaster'
+
+type SessionState = {
+  state: LoadingNotificationState
+  error?: Error
+}
 
 const emit = defineEmits(['close', 'success', 'deleted'])
 const props = defineProps<{
-  modelValue: boolean
+  skipIntro?: boolean
 }>()
 
-const documentVisibility = useDocumentVisibility()
-const { $i18n } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
-
-const profile = inject<{ hasProfile: Ref<boolean> }>('userProfile')
-
-const hasProfile = computed(() => profile?.hasProfile.value)
-
-const initialStep = computed(() => (hasProfile.value ? 2 : 1))
-
+const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
-const vOpen = useVModel(props, 'modelValue')
+const documentVisibility = useDocumentVisibility()
+const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
+const { fetchProfile } = useProfile()
+
+const { hasProfile, userProfile } = useProfile()
+provide('userProfile', { hasProfile, userProfile })
+
+const initialStep = computed(() => (props.skipIntro || hasProfile.value ? 2 : 1))
+
+const signingMessage = ref(false)
+const vOpen = ref(true)
 const stage = ref(initialStep.value)
 const farcasterUserData = ref<StatusAPIResponse>()
 const useFarcaster = ref(false)
 const farcasterSignInIsInProgress = ref(false)
+
 const close = () => {
   vOpen.value = false
   emit('close')
-}
-
-const uploadProfileImage = async (
-  file: File | null,
-  type: 'image' | 'banner',
-): Promise<string | undefined> => {
-  if (!file) {
-    return undefined
-  }
-
-  const { signature, message } = await getSignaturePair()
-
-  const response = await uploadImage({
-    file,
-    type,
-    address: accountId.value,
-    signature,
-    message,
-  })
-
-  return response.url
-}
-
-const constructSocials = (profileData: ProfileFormData): SocialLink[] => {
-  return [
-    {
-      handle: profileData.farcasterHandle || '',
-      platform: 'Farcaster',
-      link: `https://warpcast.com/${profileData.farcasterHandle}`,
-    },
-    {
-      handle: profileData.twitterHandle || '',
-      platform: 'Twitter',
-      link: `https://twitter.com/${profileData.twitterHandle}`,
-    },
-    {
-      handle: profileData.website || '',
-      platform: 'Website',
-      link: profileData.website || '',
-    },
-  ].filter((social) => Boolean(social.handle))
-}
-
-const processProfile = async (profileData: ProfileFormData) => {
-  const { signature, message } = await getSignaturePair()
-
-  const imageUrl = profileData.image
-    ? await uploadProfileImage(profileData.image, 'image')
-    : profileData.imagePreview
-
-  const bannerUrl = profileData.banner
-    ? await uploadProfileImage(profileData.banner, 'banner')
-    : profileData.bannerPreview
-
-  const profileBody: CreateProfileRequest | UpdateProfileRequest = {
-    address: profileData.address,
-    name: profileData.name,
-    description: useFarcaster.value
-      ? getBioWithLinks(profileData.description)
-      : profileData.description,
-    image: imageUrl,
-    banner: hasProfile.value ? bannerUrl ?? null : bannerUrl!,
-    socials: constructSocials(profileData),
-    signature,
-    message,
-  }
-
-  return hasProfile.value
-    ? updateProfile(profileBody as UpdateProfileRequest)
-    : createProfile(profileBody as CreateProfileRequest)
 }
 
 const handleProfileDelete = async (address: string) => {
@@ -150,31 +83,124 @@ const handleProfileDelete = async (address: string) => {
       title: $i18n.t('profiles.profileReset'),
     })
     emit('deleted')
+    fetchProfile()
     close()
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error!.toString())
     console.error(error)
   }
 }
 
 const handleFormSubmition = async (profileData: ProfileFormData) => {
-  stage.value = 4 // Go to loading stage
+  let signaturePair: undefined | SignaturePair
+
   try {
-    await processProfile(profileData)
-    emit('success')
-    stage.value = 5 // Go to success stage
-  } catch (error) {
+    signingMessage.value = true
+    signaturePair = await getSignaturePair()
+    signingMessage.value = false
+    close()
+    onModalAnimation(() => {
+      stage.value = 4 // Go to loading stage
+    })
+  }
+  catch (error) {
     stage.value = 3 // Back to form stage
+    reset()
     warningMessage(error!.toString())
     console.error(error)
   }
+
+  if (!signaturePair) {
+    return
+  }
+
+  const sessionId = generateSession(
+    ref({
+      state: 'loading',
+    }),
+  )
+
+  const session = getSession(sessionId)
+  if (!session) {
+    return
+  }
+
+  // using a seperate try catch to show errors using the profile creation notification
+  try {
+    showProfileCreationNotification(session)
+
+    await useUpdateProfile({
+      profileData,
+      signaturePair,
+      hasProfile: hasProfile.value,
+      useFarcaster: useFarcaster.value,
+    })
+
+    profileCreated(sessionId)
+  }
+  catch (error) {
+    profileCreationFailed(sessionId, error as Error)
+  }
+}
+
+const showProfileCreationNotification = (session: Ref<SessionState>) => {
+  const isSessionState = (state: LoadingNotificationState) =>
+    session.value?.state === state
+
+  loadingMessage({
+    title: computed(() =>
+      isSessionState('failed')
+        ? $i18n.t('profiles.errors.setupFailed.title')
+        : $i18n.t('profiles.created'),
+    ),
+    message: computed(() =>
+      isSessionState('failed')
+        ? $i18n.t('profiles.errors.setupFailed.message')
+        : undefined,
+    ),
+    state: computed(() => session?.value.state as LoadingNotificationState),
+    action: computed<NotificationAction | undefined>(() => {
+      if (isSessionState('failed')) {
+        return getReportIssueAction(session?.value?.error?.toString() as string)
+      }
+
+      if (isSessionState('succeeded')) {
+        return {
+          label: $i18n.t('viewProfile'),
+          icon: 'arrow-up-right',
+          url: `/${urlPrefix.value}/u/${accountId.value}`,
+        }
+      }
+
+      return undefined
+    }),
+  })
+}
+
+const profileCreated = (sessionId: string) => {
+  emit('success')
+  fetchProfile()
+  stage.value = 5 // Go to success stage
+  updateSession(sessionId, { state: 'succeeded' })
+}
+
+const reset = () => {
+  signingMessage.value = false
+}
+
+const profileCreationFailed = (sessionId: string, error: Error) => {
+  reset()
+  console.error(error)
+  updateSession(sessionId, { state: 'failed', error: error })
 }
 
 const onSelectFarcaster = () => {
   if (farcasterUserData.value) {
     stage.value = 3
     useFarcaster.value = true
-  } else {
+  }
+  else {
     farcasterSignInIsInProgress.value = true
     loginWithFarcaster()
       .then(() => {
@@ -230,8 +256,18 @@ const loginWithFarcaster = async () => {
   farcasterUserData.value = userData.data
 }
 
+const updateSession = (id: string, newSession: SessionState) => {
+  const session = getSession(id)
+
+  if (!session) {
+    return
+  }
+
+  session.value = newSession
+}
+
 useModalIsOpenTracker({
-  isOpen: computed(() => props.modelValue),
+  isOpen: vOpen,
   onClose: false,
   onChange: () => {
     stage.value = initialStep.value
@@ -240,9 +276,9 @@ useModalIsOpenTracker({
 
 watch(documentVisibility, (current, previous) => {
   if (
-    current === 'visible' &&
-    previous === 'hidden' &&
-    farcasterSignInIsInProgress.value
+    current === 'visible'
+    && previous === 'hidden'
+    && farcasterSignInIsInProgress.value
   ) {
     infoMessage($i18n.t('profiles.errors.unconfrimedFarcasterAuth.message'), {
       title: $i18n.t('profiles.errors.unconfrimedFarcasterAuth.title'),

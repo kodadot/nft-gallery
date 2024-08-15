@@ -1,4 +1,4 @@
-import { Config } from './types'
+import type { Config } from './types'
 
 type WS_URL = `wss://${string}` | `ws://${string}`
 type HTTP_URL = `https://${string}` | `http://${string}`
@@ -43,6 +43,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
   ahp: AHP_ENDPOINTS,
   imx: ['https://rpc.immutable.com'],
   base: ['https://mainnet.base.org'],
+  mnt: ['https://rpc.mantle.xyz'],
   // ahr: ['wss://rococo-asset-hub-rpc.polkadot.io'],
   // glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
   // movr: ['wss://wss.api.moonriver.moonbeam.network'],
@@ -56,6 +57,7 @@ export const ENDPOINT_MAP: Config<ENDPOINT_URL> = {
   ahp: AHP_ENDPOINTS[0],
   imx: 'https://rpc.immutable.com',
   base: 'https://mainnet.base.org',
+  mnt: 'https://rpc.mantle.xyz',
   // ahr: 'wss://rococo-asset-hub-rpc.polkadot.io',
   // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
   // movr: 'wss://wss.api.moonriver.moonbeam.network',

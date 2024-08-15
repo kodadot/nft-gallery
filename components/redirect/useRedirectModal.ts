@@ -1,12 +1,12 @@
+import type VueI18n from 'vue-i18n/types'
+import { useEventListener } from '@vueuse/core'
+import type { Ref } from 'vue/types'
 import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
-import VueI18n from 'vue-i18n/types'
 import {
   convertSingularCollectionUrlToKodadotUrl,
   isExternal,
 } from '@/utils/url'
-import { useEventListener } from '@vueuse/core'
-import type { Ref } from 'vue/types'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
@@ -16,11 +16,12 @@ function isWhiteList(url: string) {
     if (link.startsWith('*')) {
       return (
         // match ".kodadot.xyz", prevent match "fakekodadot.xyz"
-        redirectHost.endsWith(link.substring(1)) ||
+        redirectHost.endsWith(link.substring(1))
         // match kodadot.xyz
-        redirectHost === link.substring(2)
+        || redirectHost === link.substring(2)
       )
-    } else {
+    }
+    else {
       return redirectHost === link
     }
   })
@@ -52,7 +53,8 @@ export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
 
     if (href && isExternal(href) && !isWhiteList(href)) {
       showModal(href, $i18n, neoModal)
-    } else if (href) {
+    }
+    else if (href) {
       window.open(href, '_blank')
     }
   }

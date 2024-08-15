@@ -3,9 +3,14 @@
     :open="expanded"
     animation="slide"
     class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }">
+    :class="{ 'fluid-padding-left': fluidPadding }"
+  >
     <template #trigger="{ open }">
-      <div class="flex" role="button" :aria-expanded="open">
+      <div
+        class="flex"
+        role="button"
+        :aria-expanded="open"
+      >
         <p class="card-header-title font-normal">
           {{ $t('filters.identityVerification') }}
         </p>
@@ -19,16 +24,17 @@
         <NeoCheckbox
           v-model="onlyVerified"
           data-testid="event-checkbox-filter-only-verified-identities"
-          >{{ $t('filters.onlyVerifiedIdentities') }}</NeoCheckbox
         >
+          {{ $t('filters.onlyVerifiedIdentities') }}
+        </NeoCheckbox>
       </NeoField>
     </div>
   </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
-import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { useAcivityFiltersStore } from '@/stores/activityFilters'
 
 const activityFiltersStore = useAcivityFiltersStore()
 const route = useRoute()
@@ -51,16 +57,16 @@ const props = withDefaults(
 
 const emit = defineEmits(['resetPage'])
 
-const onlyVerified =
-  props.dataModel === 'query'
+const onlyVerified
+  = props.dataModel === 'query'
     ? computed({
-        get: () => route.query?.verified?.toString() === 'true',
-        set: (value) => applyToUrl({ verified: String(value) }),
-      })
+      get: () => route.query?.verified?.toString() === 'true',
+      set: value => applyToUrl({ verified: String(value) }),
+    })
     : computed({
-        get: () => activityFiltersStore.getEventTypeFilters.sale,
-        set: (value) => activityFiltersStore.setVerified(value),
-      })
+      get: () => activityFiltersStore.getEventTypeFilters.sale,
+      set: value => activityFiltersStore.setVerified(value),
+    })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
   replaceURL(queryCondition)

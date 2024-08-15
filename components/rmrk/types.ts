@@ -1,5 +1,5 @@
-import { Interaction } from '@kodadot1/minimark/v1'
-import { Attribute as IAttribute } from '@kodadot1/minimark/common'
+import type { Interaction } from '@kodadot1/minimark/v1'
+import type { Attribute as IAttribute } from '@kodadot1/minimark/common'
 
 export type Attribute = IAttribute
 

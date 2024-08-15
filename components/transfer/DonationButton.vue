@@ -4,8 +4,8 @@
     no-shadow
     icon-left="gift"
     :tag="NuxtLink"
-    :to="`/${urlPrefix}/transfer?target=${props.address}&usdamount=10&donation=true`">
-  </NeoButton>
+    :to="`/${urlPrefix}/transfer?target=${props.address}&usdamount=10&donation=true`"
+  />
 </template>
 
 <script lang="ts" setup>

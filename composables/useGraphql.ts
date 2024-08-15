@@ -16,7 +16,7 @@ type UseGraphqlParams<T> = {
   loading?: Ref<boolean>
 }
 
-export default function <T = unknown>({
+export default function<T = unknown>({
   queryPrefix = '',
   queryName,
   clientName = '',
@@ -48,11 +48,13 @@ export default function <T = unknown>({
         clientId: isRef(client) ? String(client.value) : client,
       })
       data.value = result.value
-    } catch (err) {
+    }
+    catch (err) {
       ;(error.value as unknown) = err
       dangerMessage(`${err as string}`)
       $consola.error(err)
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
@@ -66,7 +68,8 @@ export default function <T = unknown>({
   if (!disabled.value) {
     if (isRef(variables)) {
       watchEffect(() => doFetch())
-    } else {
+    }
+    else {
       doFetch()
     }
   }

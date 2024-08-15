@@ -1,5 +1,5 @@
-import { TimeRange } from '@/components/series/types'
-import { CollectionEntityWithVolumes } from '@/components/landing/topCollections/utils/types'
+import type { TimeRange } from '@/components/series/types'
+import type { CollectionEntityWithVolumes } from '@/components/landing/topCollections/utils/types'
 
 export default (
   collection?: CollectionEntityWithVolumes,

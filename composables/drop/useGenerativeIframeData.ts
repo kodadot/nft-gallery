@@ -1,6 +1,6 @@
 import { useEventListener } from '@vueuse/core'
 
-export type ImageDataPayload = { hash: string; image: string }
+export type ImageDataPayload = { hash: string, image: string }
 
 export default ({
   onMessage,
@@ -10,8 +10,8 @@ export default ({
 
   useEventListener(window, 'message', (res) => {
     if (
-      res?.data?.type === 'kodahash/render/completed' &&
-      res?.data?.payload.image
+      res?.data?.type === 'kodahash/render/completed'
+      && res?.data?.payload.image
     ) {
       const payload = res?.data?.payload
       imageDataPayload.value = payload

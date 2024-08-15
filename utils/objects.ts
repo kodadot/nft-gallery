@@ -8,9 +8,10 @@ export const getMovedItemToFront = (
   let index: number
 
   if (typeof keyOrValue === 'string' && value !== undefined) {
-    index = (arr as Item[]).findIndex((obj) => obj[keyOrValue] === value)
-  } else {
-    index = (arr as any[]).findIndex((item) => item === keyOrValue)
+    index = (arr as Item[]).findIndex(obj => obj[keyOrValue] === value)
+  }
+  else {
+    index = (arr as any[]).findIndex(item => item === keyOrValue)
   }
 
   if (index === -1) {

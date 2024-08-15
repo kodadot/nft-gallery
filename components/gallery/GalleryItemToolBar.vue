@@ -1,27 +1,57 @@
 <template>
   <div
-    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400">
-    <NeoTooltip :label="$t('reload')" position="top">
-      <a no-shadow @click="handleReloadClick">
+    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400"
+  >
+    <NeoTooltip
+      :label="$t('reload')"
+      position="top"
+    >
+      <a
+        no-shadow
+        @click="handleReloadClick"
+      >
         <NeoIcon
           :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
           size="medium"
           :label="$t('reload')"
-          :spin="isLoading" />
+          :spin="isLoading"
+        />
       </a>
     </NeoTooltip>
-    <NeoTooltip :label="$t('fullscreen')" position="top">
-      <a no-shadow @click="$emit('toggle')">
+    <NeoTooltip
+      :label="$t('fullscreen')"
+      position="top"
+    >
+      <a
+        no-shadow
+        @click="$emit('toggle')"
+      >
         <NeoIcon
           icon="arrow-up-right-and-arrow-down-left-from-center"
-          size="medium" />
+          size="medium"
+        />
       </a>
     </NeoTooltip>
-    <NeoTooltip :label="$t('newTab')" position="top">
-      <a v-if="disableNewTab" no-shadow @click="handleNewTab">
-        <NeoIcon icon="arrow-up-right" size="medium" />
+    <NeoTooltip
+      :label="$t('newTab')"
+      position="top"
+    >
+      <a
+        v-if="disableNewTab"
+        no-shadow
+        @click="handleNewTab"
+      >
+        <NeoIcon
+          icon="arrow-up-right"
+          size="medium"
+        />
       </a>
-      <NeoIcon v-else icon="arrow-up-right" size="medium" class="text-k-grey" />
+      <NeoIcon
+        v-else
+        icon="arrow-up-right"
+        size="medium"
+        class="text-k-grey"
+      />
     </NeoTooltip>
   </div>
 </template>
@@ -45,8 +75,8 @@ type ReloadElement =
 
 defineEmits(['toggle'])
 
-const { nft, nftAnimation, nftImage, nftAnimationMimeType, nftMimeType } =
-  useGalleryItem()
+const { nft, nftAnimation, nftImage, nftAnimationMimeType, nftMimeType }
+  = useGalleryItem()
 
 const isLoading = ref(false)
 
@@ -81,7 +111,8 @@ const reloadElement = (selector: string) => {
       const url = new URL(element.src)
       url.searchParams.set('t', timestamp.toString())
       element.src = url.toString()
-    } else {
+    }
+    else {
       element.src += ''
     }
   }, 500)

@@ -1,13 +1,15 @@
-import { Prefix } from '@kodadot1/static'
-import { base, immutableZkEvm } from 'viem/chains'
+import type { Prefix } from '@kodadot1/static'
+import { base, immutableZkEvm, mantle } from '@wagmi/vue/chains'
 import { type Chain } from 'viem'
 
 export const CHAIN_ID_TO_PREFIX: Record<number, Prefix> = {
-  8453: 'base',
-  13371: 'imx',
+  [base.id]: 'base',
+  [immutableZkEvm.id]: 'imx',
+  [mantle.id]: 'mnt',
 }
 
 export const PREFIX_TO_CHAIN: Partial<Record<Prefix, Chain>> = {
   base: base,
   imx: immutableZkEvm,
+  mnt: mantle,
 }
