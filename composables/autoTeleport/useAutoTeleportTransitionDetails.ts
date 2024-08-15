@@ -1,5 +1,7 @@
 import sum from 'lodash/sum'
-import { existentialDeposit, type Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
+import { existentialDeposit } from '@kodadot1/static'
+import type { Actions } from '../transaction/types'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 import {
   checkIfAutoTeleportActionsNeedRefetch,
@@ -285,7 +287,7 @@ export default function (
             const address = getAddressByChain(currentChain.value as Chain)
             return getActionTransactionFee({
               api,
-              action: action,
+              action: action as Actions,
               address,
               prefix: prefix as Prefix,
             })
