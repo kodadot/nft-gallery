@@ -61,7 +61,7 @@ const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
-  balance?: BalanceMap<Prefix>
+  balance?: BalanceMap<keyof ChainToken>
   tokens?: BalanceMap<number> // <id, amount>
 }
 
