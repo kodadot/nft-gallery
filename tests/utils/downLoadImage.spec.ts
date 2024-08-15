@@ -1,4 +1,5 @@
 import { downloadImage } from '@/utils/download'
+
 const MOCK_IMAGE_URL = 'https://www.test.com/'
 
 global.fetch = vitest.fn(() =>

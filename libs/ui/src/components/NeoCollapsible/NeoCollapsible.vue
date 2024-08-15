@@ -4,7 +4,8 @@
     :class="{ 'pointer-events-none cursor-default bg-k-shade': disabled }"
     animation="slide"
     :open="false"
-    content-class="collapse-content">
+    content-class="collapse-content"
+  >
     <template #trigger="props">
       <button
         class="rounded-none flex items-stretch w-full cursor-pointer text-base p-0"
@@ -12,14 +13,17 @@
         :class="{
           'bg-background-color-inverse group active': props.open,
           'bg-transparent': !props.open,
-        }">
+        }"
+      >
         <p
-          class="text-text-color group-[.active]:text-text-color-inverse font-bold p-3 m-0 flex justify-center items-center grow px-7">
+          class="text-text-color group-[.active]:text-text-color-inverse font-bold p-3 m-0 flex justify-center items-center grow px-7"
+        >
           <slot />
         </p>
         <a
-          class="text-text-color group-[.active]:text-text-color-inverse absolute right-0 flex justify-center items-center">
-          <o-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </o-icon>
+          class="text-text-color group-[.active]:text-text-color-inverse absolute right-0 flex justify-center items-center"
+        >
+          <o-icon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
         </a>
       </button>
     </template>
@@ -33,6 +37,7 @@
 
 <script lang="ts" setup>
 import { OCollapse, OIcon } from '@oruga-ui/oruga-next'
+
 defineProps<{
   disabled?: boolean
 }>()

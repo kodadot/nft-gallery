@@ -1,4 +1,5 @@
-import { NeoButtonVariant } from '@kodadot1/brick'
+import type { NeoButtonVariant } from '@kodadot1/brick'
+
 export enum ProfileTab {
   OWNED = 'owned',
   CREATED = 'created',

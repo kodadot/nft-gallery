@@ -3,11 +3,16 @@
     <article
       v-show="isActive"
       ref="wrapper"
-      class="message !px-6 !py-4 shadow-primary border border-border-color relative"
-      :class="[`message__${variant}`]">
+      class="message !px-6 !py-4 shadow-primary border border-border-color relative md:min-w-[350px]"
+      :class="[`message__${variant}`]"
+    >
       <div class="flex gap-4">
         <div v-if="computedIcon">
-          <NeoIcon :icon="computedIcon" size="large" />
+          <NeoIcon
+            :icon="iconName"
+            size="large"
+            :spin="iconSpin"
+          />
         </div>
 
         <div class="w-full flex justify-between">
@@ -31,14 +36,16 @@
             icon="xmark"
             no-shadow
             class="!bg-[unset] text-[16px] p-1"
-            @click="close" />
+            @click="close"
+          />
         </div>
       </div>
 
       <div
         v-if="showProgressBar"
         class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
-        :style="{ width: `${percent}%` }" />
+        :style="{ width: `${percent}%` }"
+      />
     </article>
   </transition>
 </template>
@@ -47,13 +54,18 @@
 import { useElementHover } from '@vueuse/core'
 import NeoButton from '../NeoButton/NeoButton.vue'
 import NeoIcon from '../NeoIcon/NeoIcon.vue'
-import { NeoMessageVariant } from '../../types'
+import type {
+  NeoMessageCustomIconVariant,
+  NeoMessageIconVariant,
+  NeoMessageVariant,
+} from '../../types'
 
-const iconVariant: Record<NeoMessageVariant, string> = {
+const iconVariant: Record<NeoMessageVariant, NeoMessageIconVariant> = {
   info: 'circle-info',
-  success: 'check-circle',
+  success: 'check',
   warning: 'circle-exclamation',
   danger: 'circle-exclamation',
+  neutral: 'circle-info',
 }
 
 const emit = defineEmits(['close', 'update:active', 'click'])
@@ -66,6 +78,8 @@ const props = withDefaults(
     autoClose: boolean
     duration: number
     showProgressBar: boolean
+    icon?: NeoMessageIconVariant
+    holdTimer?: boolean
   }>(),
   {
     active: true,
@@ -75,6 +89,8 @@ const props = withDefaults(
     showProgressBar: false,
     variant: 'success',
     title: '',
+    icon: undefined,
+    holdTimer: false,
   },
 )
 
@@ -85,7 +101,17 @@ const timer = ref()
 const isActive = ref(props.active)
 const remainingTime = ref(props.duration)
 
-const computedIcon = computed(() => iconVariant[props.variant] ?? null)
+const computedIcon = computed(
+  () => props.icon ?? iconVariant[props.variant] ?? null,
+)
+const iconName = computed(
+  () =>
+    (computedIcon.value as NeoMessageCustomIconVariant)?.icon
+    ?? computedIcon.value,
+)
+const iconSpin = computed(
+  () => (computedIcon.value as NeoMessageCustomIconVariant).spin,
+)
 
 const percent = computed(() => {
   return (remainingTime.value / props.duration) * 100
@@ -98,10 +124,11 @@ const close = () => {
   emit('update:active', false)
 }
 
-watch(isActive, (active) => {
-  if (active) {
+watch([isActive, () => props.holdTimer], ([active, holdTimer]) => {
+  if (active && !holdTimer) {
     startTimer()
-  } else if (timer.value) {
+  }
+  else if (timer.value) {
     clearTimeout(timer.value)
   }
 })
@@ -126,10 +153,10 @@ watch(remainingTime, (time) => {
 
 watch(
   () => props.active,
-  (active) => (isActive.value = active),
+  active => (isActive.value = active),
 )
 
-onMounted(startTimer)
+onMounted(() => !props.holdTimer && startTimer())
 onUnmounted(() => clearTimeout(timer.value))
 </script>
 

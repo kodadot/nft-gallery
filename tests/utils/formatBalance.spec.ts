@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 
-import { checkInvalidBalanceFilter, formatNumber } from '@/utils/format/balance'
-import format from '@/utils/format/balance'
+import format, { checkInvalidBalanceFilter, formatNumber } from '@/utils/format/balance'
 
 describe('FORMAT BALANCE TEST', (): void => {
   it('TEST checkInvalidBalanceFilter', () => {
@@ -17,7 +16,7 @@ describe('FORMAT BALANCE TEST', (): void => {
     expect(format(1000000000000, decimals)).toBe('1.0000 Unit')
     expect(format(6600000000000, decimals)).toBe('6.6000 Unit')
 
-    const formatBalance = (balance) => format(balance, decimals, '')
+    const formatBalance = balance => format(balance, decimals, '')
     expect(formatBalance(217777560000000000)).toBe('217,777.5600')
     expect(formatBalance(98000000000000000)).toBe('98,000.0000')
     expect(formatBalance(23142594502346668)).toBe('23,142.5945')

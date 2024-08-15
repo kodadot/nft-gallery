@@ -1,6 +1,9 @@
 <template>
   <div :id="id">
-    <slot name="trigger" :handle-open="handleOpen">
+    <slot
+      name="trigger"
+      :handle-open="handleOpen"
+    >
       <NeoButton
         :icon-left="icon"
         :expanded="expanded"
@@ -11,11 +14,17 @@
         }"
         :variant="variant"
         no-shadow
-        @click="handleOpen">
-        <template v-if="label">{{ label }}</template>
+        @click="handleOpen"
+      >
+        <template v-if="label">
+          {{ label }}
+        </template>
       </NeoButton>
     </slot>
-    <NeoModal :value="isModalActive" @close="isModalActive = false">
+    <NeoModal
+      :value="isModalActive"
+      @close="isModalActive = false"
+    >
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
@@ -24,7 +33,7 @@
           <slot name="hint" />
         </header>
         <div class="card-content text-center">
-          <slot></slot>
+          <slot />
         </div>
       </div>
     </NeoModal>

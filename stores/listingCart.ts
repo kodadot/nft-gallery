@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import {
+import type { ComputedRef } from 'vue'
+import type { Prefix } from '@kodadot1/static'
+import type {
   EntityWithId,
   NFTMetadata,
   TokenId,
 } from '@/components/rmrk/service/scheme'
-import { ComputedRef } from 'vue'
-import type { Prefix } from '@kodadot1/static'
 
-export type ListCartItemMediaUrl = { image: string; mimeType?: string }
+export type ListCartItemMediaUrl = { image: string, mimeType?: string }
 
 type ListCartItemInternal = {
   id: string
@@ -45,20 +45,20 @@ export const useListingCartStore = defineStore('listingCart', {
   }),
   getters: {
     allItemsInChain: (state): ListCartItem[] =>
-      state.items.filter((item) => item.urlPrefix === state.chain),
+      state.items.filter(item => item.urlPrefix === state.chain),
     itemsInChain(): ListCartItem[] {
-      return this.allItemsInChain.filter((item) => !item.discarded)
+      return this.allItemsInChain.filter(item => !item.discarded)
     },
     count() {
       return this.itemsInChain.length
     },
     incompleteListPrices(): number {
-      return this.itemsInChain.filter((item) => !item.listPrice).length
+      return this.itemsInChain.filter(item => !item.listPrice).length
     },
   },
   actions: {
     getItem(id: ID) {
-      return this.items.find((item) => item.id === id)
+      return this.items.find(item => item.id === id)
     },
     isItemInCart(id: ID) {
       return existInItemIndex(id, this.items) !== -1
@@ -70,7 +70,7 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
-    setItemPrice({ id, price }: { id: ID; price?: number }) {
+    setItemPrice({ id, price }: { id: ID, price?: number }) {
       const itemIndex = existInItemIndex(id, this.items)
       if (itemIndex !== -1) {
         this.items[itemIndex].listPrice = price
@@ -87,7 +87,7 @@ export const useListingCartStore = defineStore('listingCart', {
       this.allUnlistedItems = payload
     },
     addAllToCart() {
-      this.allUnlistedItems.forEach((item) => this.setItem(item))
+      this.allUnlistedItems.forEach(item => this.setItem(item))
     },
     setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
@@ -109,7 +109,7 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
-    setItemDiscardedState({ id, discarded }: { id: ID; discarded: boolean }) {
+    setItemDiscardedState({ id, discarded }: { id: ID, discarded: boolean }) {
       const itemIndex = existInItemIndex(id, this.items)
       if (itemIndex !== -1) {
         this.items[itemIndex].discarded = discarded
@@ -117,7 +117,7 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     clearDiscardedItems() {
-      this.items = this.items.filter((item) => !item.discarded)
+      this.items = this.items.filter(item => !item.discarded)
     },
     clearListedItems() {
       localStorage.value = []
@@ -132,5 +132,5 @@ export const useListingCartStore = defineStore('listingCart', {
 })
 
 function existInItemIndex(id: string, items: ListCartItem[]) {
-  return items.findIndex((item) => item.id === id || item.token?.id === id)
+  return items.findIndex(item => item.id === id || item.token?.id === id)
 }

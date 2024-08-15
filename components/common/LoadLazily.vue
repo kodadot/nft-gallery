@@ -1,10 +1,14 @@
 <template>
-  <div v-if="!props.target" ref="target" />
+  <div
+    v-if="!props.target"
+    ref="target"
+  />
 
   <template v-if="targetIsVisible">
     <slot />
   </template>
 </template>
+
 <script lang="ts" setup>
 const props = withDefaults(
   defineProps<{
@@ -15,8 +19,8 @@ const props = withDefaults(
   },
 )
 
-const target = ref<HTMLHtmlElement>()
+const targetRef = ref<HTMLHtmlElement>()
 const targetIsVisible = useOnceIsVisible(
-  computed(() => props.target || target.value),
+  computed(() => props.target || targetRef.value),
 )
 </script>

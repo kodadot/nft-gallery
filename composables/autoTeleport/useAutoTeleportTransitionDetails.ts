@@ -1,3 +1,12 @@
+import sum from 'lodash/sum'
+import type { Prefix } from '@kodadot1/static'
+import { existentialDeposit } from '@kodadot1/static'
+import type { Actions } from '../transaction/types'
+import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
+import {
+  checkIfAutoTeleportActionsNeedRefetch,
+  getChainExistentialDeposit,
+} from './utils'
 import {
   type Chain,
   chainToPrefixMap,
@@ -7,13 +16,6 @@ import {
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
-import sum from 'lodash/sum'
-import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
-import { existentialDeposit } from '@kodadot1/static'
-import {
-  checkIfAutoTeleportActionsNeedRefetch,
-  getChainExistentialDeposit,
-} from './utils'
 
 const BUFFER_FEE_PERCENT = 0.7
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -58,7 +60,7 @@ export default function (
   )
 
   const allowedSourceChains = computed(() =>
-    currentChain.value ? teleportRoutes[currentChain.value] : [],
+    currentChain.value ? teleportRoutes[currentChain.value] ?? [] : [],
   )
 
   const totalFees = computed(
@@ -71,8 +73,8 @@ export default function (
 
   const currentChainBalance = computed(
     () =>
-      (currentChain.value && Number(chainBalances.value[currentChain.value])) ||
-      Number(balance.value),
+      (currentChain.value && Number(chainBalances.value[currentChain.value]))
+      || Number(balance.value),
   )
 
   const currentChainExistentialDeposit = computed(() =>
@@ -88,8 +90,8 @@ export default function (
 
   const hasEnoughInCurrentChain = computed(
     () =>
-      neededAmountWithFees.value <=
-      Number(transferableCurrentChainBalance.value),
+      neededAmountWithFees.value
+      <= Number(transferableCurrentChainBalance.value),
   )
 
   const needsSourceChainBalances = computed(
@@ -114,9 +116,9 @@ export default function (
 
   const hasBalances = computed(
     () =>
-      (Boolean(currentChainBalance.value) &&
-        Object.values(sourceChainsBalances.value).every(Boolean)) ||
-      hasFetched.balances,
+      (Boolean(currentChainBalance.value)
+      && Object.values(sourceChainsBalances.value).every(Boolean))
+      || hasFetched.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
@@ -150,9 +152,9 @@ export default function (
 
   const requiredAmountToTeleport = computed(
     () =>
-      neededAmountWithFees.value +
-      buffer.value -
-      transferableCurrentChainBalance.value,
+      neededAmountWithFees.value
+      + buffer.value
+      - transferableCurrentChainBalance.value,
   )
 
   const amountToTeleport = computed(() =>
@@ -201,16 +203,16 @@ export default function (
 
   const canGetTeleportFee = computed<boolean>(
     () =>
-      !teleportTxFee.value &&
-      Boolean(richestChain.value) &&
-      addTeleportFee.value &&
-      hasEnoughInRichestChain.value &&
-      amountToTeleport.value > 0,
+      !teleportTxFee.value
+      && Boolean(richestChain.value)
+      && addTeleportFee.value
+      && hasEnoughInRichestChain.value
+      && amountToTeleport.value > 0,
   )
 
   const doesNotNeedsTeleport = computed<boolean>(() => {
-    const needsTeleport =
-      Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
+    const needsTeleport
+      = Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
 
     if (!needsTeleport) {
       return true
@@ -271,9 +273,9 @@ export default function (
     [actionsId, actions],
     async ([id, actions], [prevId, prevActions]) => {
       if (
-        id !== prevId &&
-        actionAutoFees.value &&
-        checkIfAutoTeleportActionsNeedRefetch(actions, prevActions)
+        id !== prevId
+        && actionAutoFees.value
+        && checkIfAutoTeleportActionsNeedRefetch(actions, prevActions)
       ) {
         try {
           hasFetched.actionTxFees = false
@@ -285,15 +287,18 @@ export default function (
             const address = getAddressByChain(currentChain.value as Chain)
             return getActionTransactionFee({
               api,
-              action: action,
+              action: action as Actions,
               address,
+              prefix: prefix as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)
           actionTxFees.value = fees.map(Number)
-        } catch (error) {
+        }
+        catch (error) {
           console.error(`[AUTOTELEPORT]: Failed getting action fee  ${error}`)
-        } finally {
+        }
+        finally {
           hasFetched.actionTxFees = true
         }
       }

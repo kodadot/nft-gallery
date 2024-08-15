@@ -1,5 +1,5 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { Event } from '@/components/rmrk/service/types'
+import type { Event } from '@/components/rmrk/service/types'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()
@@ -19,7 +19,7 @@ export default () => {
     })
 
     const holdingsEvents = data.value?.invested.filter(
-      (event) => event.nft.currentOwner === accountId.value,
+      event => event.nft.currentOwner === accountId.value,
     )
 
     totalSpent.value = Number(getSumOfObjectField(holdingsEvents, 'meta'))

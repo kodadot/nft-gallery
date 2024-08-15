@@ -9,7 +9,6 @@ const methods = [uidCrypto]
 it.each(methods)('generate unique id', (random) => {
   const ids = new Set<string>()
 
-  // eslint-disable-next-line no-restricted-syntax
   for (let index = 0; index < users; index++) {
     const id = random()
     ids.add(id)

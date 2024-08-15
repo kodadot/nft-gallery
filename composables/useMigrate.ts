@@ -136,10 +136,10 @@ export function useMigrateDeposit(
 
   const chainItemDeposit = computed(() => {
     // Calculate the sum of all deposits and then multiply by itemCount squared
-    const total =
-      (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
-      itemCount *
-      itemCount
+    const total
+      = (metadataDeposit.value + itemDeposit.value + existentialDeposit.value)
+      * itemCount
+      * itemCount
 
     return parseDeposit(total, chainDecimals.value)
   })
@@ -150,8 +150,8 @@ export function useMigrateDeposit(
 
   const kodadotFee = computed(() =>
     parseDeposit(
-      ((preferencesStore.hasSupport ? BASE_FEE : 0) / chainTokenPrice.value) *
-        Math.pow(10, chainDecimals.value),
+      ((preferencesStore.hasSupport ? BASE_FEE : 0) / chainTokenPrice.value)
+      * Math.pow(10, chainDecimals.value),
       chainDecimals.value,
     ),
   )
@@ -169,8 +169,8 @@ export function useMigrateDeposit(
   })
 
   const totalChain = computed(() => {
-    let total =
-      chainNetworkFee.value + chainItemDeposit.value + kodadotFee.value
+    let total
+      = chainNetworkFee.value + chainItemDeposit.value + kodadotFee.value
 
     if (!collectionOwner) {
       total += parseFloat(totalCollectionDeposit.value)
@@ -184,8 +184,8 @@ export function useMigrateDeposit(
   })
 
   const totalChainUsd = computed(() => {
-    const amount =
-      parseFloat(totalChain.value.toString()) * chainTokenPrice.value
+    const amount
+      = parseFloat(totalChain.value.toString()) * chainTokenPrice.value
     return parseFloat(amount.toString()).toFixed(1)
   })
 
@@ -202,20 +202,20 @@ export function useMigrateDeposit(
 }
 
 const source = availablePrefixWithIcon().filter(
-  (item) => item.value === 'ksm' || item.value === 'rmrk',
+  item => item.value === 'ksm' || item.value === 'rmrk',
 )
 const destination = availablePrefixWithIcon().filter(
-  (item) => item.value === 'ahp' || item.value === 'ahk',
+  item => item.value === 'ahp' || item.value === 'ahk',
 )
 
 // set shared state here
 const useSourceSelected = () =>
   useState('sourceSelected', () =>
-    availablePrefixWithIcon().find((item) => item.value === 'ksm'),
+    availablePrefixWithIcon().find(item => item.value === 'ksm'),
   )
 const useDestinationSelected = () =>
   useState('destinationSelected', () =>
-    availablePrefixWithIcon().find((item) => item.value === 'ahp'),
+    availablePrefixWithIcon().find(item => item.value === 'ahp'),
   )
 
 export const toReview = ({
@@ -256,13 +256,13 @@ export default function useMigrate() {
 
     if (chain === 'ahk') {
       destinationSelected.value = destination.find(
-        (item) => item.value === 'ahp',
+        item => item.value === 'ahp',
       )
     }
 
     if (chain === 'ahp') {
       destinationSelected.value = destination.find(
-        (item) => item.value === 'ahk',
+        item => item.value === 'ahk',
       )
     }
   })
@@ -321,7 +321,7 @@ export const useWaitingItems = () => {
         )
         const migrated = (
           await waifuApi(`/relocations/owners/${accountId.value}`)
-        ).filter((item) => item.collection === collection.id)
+        ).filter(item => item.collection === collection.id)
 
         if (migrated.length && collection.nfts?.length) {
           entities[collection.id] = {

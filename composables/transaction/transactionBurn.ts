@@ -4,11 +4,15 @@ import {
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import type { ApiPromise } from '@polkadot/api'
+import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
+import type { Prefix } from '@kodadot1/static'
+import { GENSOL_ABI } from './evm/utils'
 import type {
   ActionDeleteCollection,
-  ExecuteTransactionParams,
+  ExecuteSubstrateTransactionParams,
+  ActionBurnMultipleNFTs, ActionConsume,
+  ExecuteTransaction,
 } from '@/composables/transaction/types'
-import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 
 import { warningMessage } from '@/utils/notification'
 
@@ -17,9 +21,21 @@ import {
   assetHubParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
-import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
+
+function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction) {
+  executeTransaction({
+    address: item.collectionId,
+    abi: GENSOL_ABI,
+    functionName: 'burn',
+    arg: [item.nftSn],
+  })
+}
 
 export function execBurnTx(item: ActionConsume, api, executeTransaction) {
+  if (isEvm(item.urlPrefix as Prefix)) {
+    return execBurnEvm(item, executeTransaction)
+  }
+
   if (item.urlPrefix === 'rmrk') {
     executeTransaction({
       cb: api.tx.system.remark,
@@ -64,7 +80,7 @@ export function execBurnMultiple(
     arg: [arg],
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const cb = api.tx.utility.batch
 
@@ -134,7 +150,7 @@ export async function execBurnCollection(
     arg,
     successMessage,
     errorMessage,
-  }: ExecuteTransactionParams) => void,
+  }: ExecuteSubstrateTransactionParams) => void,
 ) {
   const collectionId = params.collectionId.toString()
 
@@ -174,7 +190,8 @@ export async function execBurnCollection(
         arg: [collectionId, witnessArg],
       })
     }
-  } catch (error) {
+  }
+  catch (error) {
     warningMessage(error)
   }
 }

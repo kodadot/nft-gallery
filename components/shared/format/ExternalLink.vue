@@ -2,7 +2,8 @@
   <a
     v-safe-href="id ? url + id : url"
     target="_blank"
-    rel="nofollow noopener noreferrer">
+    rel="nofollow noopener noreferrer"
+  >
     <slot />
   </a>
 </template>

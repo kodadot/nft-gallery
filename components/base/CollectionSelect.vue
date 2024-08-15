@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="showExplainerText && isLogIn" class="mb-2">
+    <div
+      v-if="showExplainerText && isLogIn"
+      class="mb-2"
+    >
       <small>
         {{ $t('createNftExplainer') }}
       </small>
@@ -15,9 +18,20 @@
       <NeoSelect
         v-model="selectedCollection"
         placeholder="Select a collection"
-        expanded>
-        <option disabled selected value="">--</option>
-        <option v-for="option in collections" :key="option.id" :value="option">
+        expanded
+      >
+        <option
+          disabled
+          selected
+          value=""
+        >
+          --
+        </option>
+        <option
+          v-for="option in collections"
+          :key="option.id"
+          :value="option"
+        >
           {{ option.name || option.id }} ({{ option.totalCount }})
         </option>
       </NeoSelect>
@@ -26,8 +40,8 @@
 </template>
 
 <script lang="ts" setup>
-import { BaseMintedCollection as MintedCollection } from './types'
 import { NeoField, NeoSelect } from '@kodadot1/brick'
+import type { BaseMintedCollection as MintedCollection } from './types'
 
 const { isLogIn } = useAuth()
 const selectedCollection = ref()

@@ -4,7 +4,9 @@
     :icon="icon"
     :size="size || 'default'"
     :custom-size="customSize"
-    :variant="variant" />
+    :variant="variant"
+    :spin="spin"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +18,7 @@ defineProps<{
   pack?: string
   customSize?: string
   variant?: 'success' | 'primary' | 'k-grey'
+  spin?: boolean
 }>()
 </script>
 

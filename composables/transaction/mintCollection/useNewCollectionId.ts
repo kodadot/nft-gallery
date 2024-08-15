@@ -18,7 +18,7 @@ export function useNewCollectionId() {
       const collectionEntities = data.value.collectionEntities
       const collectionList = unwrapSafe(collectionEntities)
       const existingIds = collectionList.map(mapToId)
-      const newId = randomNumbers.find((id) => !existingIds.includes(id))
+      const newId = randomNumbers.find(id => !existingIds.includes(id))
       newCollectionId.value = Number(newId)
     }
   })
@@ -41,7 +41,8 @@ export function useStatemineNewCollectionId() {
       const result = await api.query.nfts.nextCollectionId()
 
       return result.unwrap().toNumber()
-    } catch (error) {
+    }
+    catch (error) {
       $consola.error('Error getting collection id', error)
       return undefined
     }

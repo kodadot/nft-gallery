@@ -1,15 +1,17 @@
-import { GetDropsQuery, getDropById, getDrops } from '@/services/fxart'
+import orderBy from 'lodash/orderBy'
+import type { Prefix } from '@kodadot1/static'
+import { parseCETDate } from './utils'
+import type { GetDropsQuery } from '@/services/fxart'
+import { getDropById, getDrops } from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { DropItem } from '@/params/types'
-import orderBy from 'lodash/orderBy'
-import type { Prefix } from '@kodadot1/static'
+import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-import { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
-import { parseCETDate } from './utils'
+import { subCollection } from '@/utils/onchain/sub'
+import { evmCollection } from '@/utils/onchain/evm'
 
 export interface Drop {
   collection: DropItem
@@ -25,6 +27,7 @@ export interface Drop {
   status: DropStatus
   image?: string
   banner?: string
+  creator?: string
 }
 
 export enum DropStatus {
@@ -47,28 +50,46 @@ const DROP_LIST_ORDER = [
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 
-export function useDrops(query?: GetDropsQuery) {
+export function useDrops(query?: GetDropsQuery, { async = false, filterOutMinted = false }: { async?: boolean, filterOutMinted?: boolean } = { }) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
+  const getDropsAsync = () => {
+    dropsList.value.forEach((drop) => {
+      getFormattedDropItem(drop, drop).then((drop: Drop) => {
+        drops.value = orderBy(
+          [...drops.value, drop],
+          [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
+        )
+      })
+    })
+
+    watch(() => drops.value.length === dropsList.value.length, () => {
+      loaded.value = true
+    }, { once: true })
+  }
+
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
-    const formattedDrops = await Promise.all(
-      dropsList.value.map(async (drop) => getFormattedDropItem(drop, drop)),
-    )
+    if (async) {
+      getDropsAsync()
+    }
+    else {
+      drops.value = await Promise.all(
+        dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
+      ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
 
-    drops.value = formattedDrops
-
-    loaded.value = true
+      loaded.value = true
+    }
   })
 
   const sortDrops = computed(() =>
     orderBy(
       drops.value,
-      [(drop) => DROP_LIST_ORDER.indexOf(drop.status)],
+      [drop => DROP_LIST_ORDER.indexOf(drop.status)],
       ['asc'],
     ),
   )
@@ -150,10 +171,11 @@ export const getDropDetails = async (alias: string) => {
 export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
+  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
 
   const drop = computed({
     get: () => dropStore.drop,
-    set: (value) => dropStore.setDrop(value),
+    set: value => dropStore.setDrop(value),
   })
 
   const chainName = computed(() => getChainName(drop.value?.chain ?? 'ahp'))
@@ -161,6 +183,30 @@ export function useDrop(alias?: string) {
 
   const fetchDrop = async () => {
     drop.value = await getDropById(alias ?? params.id.toString())
+
+    if (!drop.value.collection) {
+      return
+    }
+
+    if (isSub.value) {
+      const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
+
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
+    }
+
+    if (isEvm.value) {
+      const { urlPrefix } = usePrefix()
+      const address = drop.value.collection as `0x${string}`
+      const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
+
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
+    }
   }
 
   watch(() => params.id, fetchDrop)
@@ -175,7 +221,7 @@ export function useDrop(alias?: string) {
 
 export const fetchDropMintedCount = async (
   drop: Pick<DropItem, 'collection' | 'chain'>,
-) => {
+): Promise<number> => {
   if (!drop.collection || !drop.chain) {
     return 0
   }
@@ -190,76 +236,7 @@ export const fetchDropMintedCount = async (
     clientId: drop.chain,
   })
 
-  return data.value?.collectionEntityById.nftCount
-}
-
-const subscribeDropMintedCount = (
-  { drop, account }: { drop: Pick<DropItem, 'collection'>; account: string },
-  onChange: (params: { collection?: number; user?: number }) => void,
-) => {
-  return useSubscriptionGraphql({
-    query: `
-      collectionEntityById(id: "${drop.collection}") {
-        nftCount
-        nfts(where: { issuer_eq: "${account}"  }) {
-          id
-        }
-      }
-     `,
-    onChange: ({ data }) => {
-      onChange({
-        collection: data.collectionEntityById?.nftCount,
-        user: data.collectionEntityById?.nfts?.length,
-      })
-    },
-  })
-}
-
-export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string; chain: Prefix }>,
-) => {
-  const { mintsCount, userMintsCount } = storeToRefs(useDropStore())
-  const { accountId } = useAuth()
-
-  const dropStatusSubscription = ref<{
-    collection: string | undefined
-    account: string | undefined
-    unsubscribe: () => void
-  }>({
-    account: undefined,
-    collection: undefined,
-    unsubscribe: () => {},
-  })
-
-  const subscribeDropStatus = () => {
-    watch([() => drop.value, accountId], ([drop, account]) => {
-      if (drop) {
-        if (
-          drop.collection !== dropStatusSubscription.value.collection ||
-          account !== dropStatusSubscription.value.account
-        ) {
-          dropStatusSubscription.value.unsubscribe?.()
-        }
-
-        dropStatusSubscription.value.collection = drop.collection
-        dropStatusSubscription.value.account = accountId.value
-        dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
-          { drop, account: accountId.value },
-          ({ collection, user }) => {
-            mintsCount.value = collection ?? 0
-            userMintsCount.value = user ?? 0
-          },
-        )
-      }
-    })
-
-    onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
-  }
-
-  return {
-    mintsCount,
-    subscribeDropStatus,
-  }
+  return data.value?.collectionEntityById?.nftCount ?? 0
 }
 
 export const useDropMinimumFunds = (amount = ref(1)) => {
@@ -269,8 +246,8 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
     chainPropListOf(drop.value?.chain ?? 'ahp'),
   )
   const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance, transferableCurrentChainBalance } =
-    useMultipleBalance()
+  const { fetchMultipleBalance, transferableCurrentChainBalance }
+    = useMultipleBalance()
 
   const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
@@ -279,8 +256,8 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   )
   const hasMinimumFunds = computed(
     () =>
-      !minimumFunds.value ||
-      (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
+      !minimumFunds.value
+      || (transferableCurrentChainBalance.value ?? 0) >= minimumFunds.value,
   )
   const tokenDecimals = computed(() => chainProperties.value.tokenDecimals)
   const tokenSymbol = computed(() => chainProperties.value.tokenSymbol)
@@ -317,11 +294,13 @@ const convertCollectionIdToMagicId = (id: string) => {
   let constructedNumber
   if (hexId.length === 2) {
     constructedNumber = hexId.padEnd(4, '00')
-  } else if (hexId.length === 3) {
+  }
+  else if (hexId.length === 3) {
     const firstDigit = hexId.substring(0, 1)
-    constructedNumber =
-      hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
-  } else if (hexId.length === 4) {
+    constructedNumber
+      = hexId.padEnd(4, '0').split('').splice(1, 3).join('') + firstDigit
+  }
+  else if (hexId.length === 4) {
     constructedNumber = hexId.substring(2) + hexId.substring(0, 2)
   }
   return `0x00${constructedNumber}0000`
@@ -359,18 +338,18 @@ export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
 
   const relatedActiveDrop = computed(() =>
     drops.value.find(
-      (drop) =>
-        drop?.collection.collection === collectionId &&
-        !drop.disabled &&
-        drop.status === DropStatus.MINTING_LIVE,
+      drop =>
+        drop?.collection.collection === collectionId
+        && !drop.disabled
+        && drop.status === DropStatus.MINTING_LIVE,
     ),
   )
 
   const relatedEndedDrop = computed(() =>
     drops.value.find(
-      (drop) =>
-        drop?.collection.collection === collectionId &&
-        drop.status === DropStatus.MINTING_ENDED,
+      drop =>
+        drop?.collection.collection === collectionId
+        && drop.status === DropStatus.MINTING_ENDED,
     ),
   )
 

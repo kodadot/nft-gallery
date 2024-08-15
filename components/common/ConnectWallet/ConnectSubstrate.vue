@@ -5,10 +5,14 @@
         v-for="(wallet, index) in installedWallet"
         :key="index"
         :wallet="wallet"
-        @set-account="setAccount" />
+        @set-account="setAccount"
+      />
     </div>
 
-    <div v-if="showUninstalledWallet" class="!px-8 !pt-6">
+    <div
+      v-if="showUninstalledWallet"
+      class="!px-8 !pt-6"
+    >
       <div class="font-bold capitalize mb-3 text-xl">
         {{ $t('walletConnect.newToKoda') }}
       </div>
@@ -16,7 +20,9 @@
         {{ $t('walletConnect.startConnect') }}
       </div>
       <div class="border py-4 !px-6 !mb-6 bg-k-grey-light border-k-grey">
-        <div class="mb-3">{{ $t('walletConnect.quickSteps') }}</div>
+        <div class="mb-3">
+          {{ $t('walletConnect.quickSteps') }}
+        </div>
         <ol class="text-sm font-bold pl-4">
           <li class="mb-3">
             {{ $t('walletConnect.chooseWallet')
@@ -40,42 +46,56 @@
     <a
       v-else
       class="flex items-center pt-4 pb-3 text-xs text-k-grey mx-6 my-0 hover:text-k-hover-grey border-t border-k-shade2"
-      @click="toggleShowUninstalledWallet">
+      @click="toggleShowUninstalledWallet"
+    >
       {{ $t('walletConnect.moreOption') }}
       <NeoIcon
         v-if="isUninstalledWalletExpand"
         class="ml-1"
-        icon="chevron-down" />
+        icon="chevron-down"
+      />
 
-      <NeoIcon v-else class="ml-1" icon="chevron-right" />
+      <NeoIcon
+        v-else
+        class="ml-1"
+        icon="chevron-right"
+      />
     </a>
     <div
       v-if="showUninstalledWallet || isUninstalledWalletExpand"
-      class="buttons">
+      class="buttons"
+    >
       <WalletMenuItem
         v-for="wallet in uninstalledWallet"
         :key="wallet.name"
-        :wallet="wallet" />
+        :wallet="wallet"
+      />
     </div>
 
-    <div v-if="showUninstalledWallet" class="px-6">
-      <hr class="!my-0" />
+    <div
+      v-if="showUninstalledWallet"
+      class="px-6"
+    >
+      <hr class="!my-0">
       <NeoButton
         class="!w-full !my-6"
         variant="outlined-rounded"
-        @click="checkWallet">
+        @click="checkWallet"
+      >
         {{ $t('walletConnect.walletHeading') }}
         <NeoIcon icon="arrow-right" />
       </NeoButton>
     </div>
   </section>
 </template>
+
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
-import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import type {
+  WalletAccount as SubstrateWalletAccount } from '@/utils/config/wallets'
 import {
-  WalletAccount as SubstrateWalletAccount,
   SupportedWallets,
 } from '@/utils/config/wallets'
 
@@ -87,13 +107,13 @@ const forceWalletSelect = ref(false)
 const wallets = ref<BaseDotsamaWallet[]>([])
 
 const uninstalledWallet = computed(() => {
-  return wallets.value.filter((wallet) => !wallet.installed)
+  return wallets.value.filter(wallet => !wallet.installed)
 })
 
 const showUninstalledWallet = computed(() => !installedWallet.value.length)
 
 const installedWallet = computed(() => {
-  return wallets.value.filter((wallet) => wallet.installed)
+  return wallets.value.filter(wallet => wallet.installed)
 })
 
 const setAccount = (account: SubstrateWalletAccount) => {

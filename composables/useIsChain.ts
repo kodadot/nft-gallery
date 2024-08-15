@@ -1,6 +1,9 @@
 import type { Prefix } from '@kodadot1/static'
 import type { ComputedRef } from 'vue'
-import { chainPropListOf } from '@/utils/config/chain.config'
+import { vmOf } from '@/utils/config/chain.config'
+
+export const isEvm = (prefix: Prefix) => vmOf(prefix) === 'EVM'
+export const isSub = (prefix: Prefix) => vmOf(prefix) === 'SUB'
 
 export default function (prefix: ComputedRef<Prefix>) {
   const isRemark = computed(
@@ -10,20 +13,17 @@ export default function (prefix: ComputedRef<Prefix>) {
   const isRmrk = computed(() => prefix.value === 'rmrk')
 
   const isAssetHub = computed(
-    () => prefix.value === 'ahk' || prefix.value === 'ahp', //|| prefix.value === 'ahr'
+    () => prefix.value === 'ahk' || prefix.value === 'ahp', // || prefix.value === 'ahr'
   )
 
   const isBase = computed(() => 'base' === prefix.value)
 
-  const isEvm = computed(() => chainPropListOf(prefix.value).vm === 'EVM')
-  const isSub = computed(() => chainPropListOf(prefix.value).vm === 'SUB')
-
   return {
     isRemark,
     isAssetHub,
-    isEvm,
-    isSub,
     isRmrk,
     isBase,
+    isEvm: computed(() => isEvm(prefix.value)),
+    isSub: computed(() => isSub(prefix.value)),
   }
 }

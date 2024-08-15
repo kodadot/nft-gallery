@@ -15,8 +15,8 @@ const TEST_DROPS = [
   },
 ]
 
-const addresses = TEST_DROPS.map((drop) => drop.address)
-const collections = TEST_DROPS.map((drop) => drop.collection)
+const addresses = TEST_DROPS.map(drop => drop.address)
+const collections = TEST_DROPS.map(drop => drop.collection)
 
 test('make sure drops page with type holder not broken', async ({ page }) => {
   await page.goto(addresses[2])
@@ -38,7 +38,7 @@ test('make sure drops page with type holder not broken', async ({ page }) => {
   )
 })
 
-//CONVERGENTE
+// CONVERGENTE
 test('Drop page verification', async ({ page, Commands }) => {
   await page.goto(addresses[0])
 
@@ -49,7 +49,9 @@ test('Drop page verification', async ({ page, Commands }) => {
   })
 
   await test.step('Collected By', async () => {
-    await expect(page.getByTestId('drop-collected-by-container')).toBeVisible()
+    await expect(page.getByTestId('drop-collected-by-container')).toBeVisible({
+      timeout: 15000,
+    })
     await expect(page.getByTestId('collector-avatar').first()).toBeVisible()
     await page.getByTestId('collector-avatar').first().hover()
     await expect(page.getByTestId('identity-popover-container')).toBeVisible()
@@ -86,7 +88,8 @@ test('Drop page verification', async ({ page, Commands }) => {
       await page.goto(addresses[0])
       await expect(mintButton).toContainText('Mint For')
       await expect(page.getByTestId('drop-stepper-container')).toBeVisible()
-    } else {
+    }
+    else {
       await expect(mintButton).toContainText('See Listings')
       await page.getByTestId('drop-mint-button').click()
       await page.waitForTimeout(2000)

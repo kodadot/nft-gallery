@@ -1,7 +1,8 @@
-import { EntityWithId } from '@/components/rmrk/service/scheme'
-import { getValue } from '@/services/keywise'
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
+import type { EntityWithId } from '@/components/rmrk/service/scheme'
+import { getValue } from '@/services/keywise'
+
 export function useUnlockable(
   entity: Ref<Pick<EntityWithId, 'id'> | undefined>,
 ) {

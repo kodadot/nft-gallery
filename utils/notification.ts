@@ -1,14 +1,14 @@
-import MessageNotify from '@/components/MessageNotify.vue'
-import Notification from '@/components/common/Notification.vue'
-
 import {
+  type NeoMessageIconVariant,
   type NeoMessageVariant,
   NeoNotificationProgrammatic as Notif,
 } from '@kodadot1/brick'
 import consola from 'consola'
 import { h } from 'vue'
+import Notification from '@/components/common/Notification.vue'
+import MessageNotify from '@/components/MessageNotify.vue'
 
-type NotificationAction = { label: string; url: string }
+export type NotificationAction = { label: string, url: string }
 
 type Params = {
   variant: NeoMessageVariant
@@ -35,14 +35,20 @@ export const showNotification = ({
   title,
   message,
   action,
+  variant,
+  holdTimer,
+  icon,
   params = notificationTypes.info,
   duration = 10000,
 }: {
-  title: string
-  message: string | null
+  title?: MaybeRef<string>
+  message?: MaybeRef<string> | null
+  variant?: Ref<NeoMessageVariant>
   params?: Params
   duration?: number
-  action?: NotificationAction
+  action?: MaybeRef<NotificationAction | undefined>
+  holdTimer?: Ref<boolean>
+  icon?: Ref<NeoMessageIconVariant | undefined>
 }): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -52,25 +58,19 @@ export const showNotification = ({
 
   const componentParams = {
     component: h(Notification, {
-      title: title,
-      message: message!,
-      variant: params.variant,
+      title: title ? toRef(title) : title,
+      message: message ? toRef(message!) : message,
+      variant: variant ?? params.variant,
       duration: duration,
       action: action,
+      holdTimer: holdTimer,
+      icon: icon,
     }),
     variant: 'component',
     duration: 50000, // child component will trigger close when the real duration is ended
   }
 
-  Notif.open(
-    params.variant === 'success'
-      ? {
-          message,
-          duration: duration,
-          closable: true,
-        }
-      : componentParams,
-  )
+  Notif.open(componentParams)
 }
 
 export const showLargeNotification = ({
@@ -103,7 +103,7 @@ export const infoMessage = (
     url,
     duration,
     title = 'Information',
-  }: { url?: string; duration?: number; title?: string } = {},
+  }: { url?: string, duration?: number, title?: string } = {},
 ) => {
   const { $i18n } = useNuxtApp()
   showNotification({
@@ -115,10 +115,10 @@ export const infoMessage = (
   })
 }
 
-export const successMessage = (message) =>
+export const successMessage = message =>
   showNotification({
-    title: 'Succes',
-    message: `[SUCCESS] ${message}`,
+    title: 'Success',
+    message: message,
     params: notificationTypes.success,
   })
 
@@ -142,7 +142,7 @@ export const dangerMessage = (
   {
     title = 'Critical Error',
     reportable = true,
-  }: { title?: string; reportable?: boolean } = {},
+  }: { title?: string, reportable?: boolean } = {},
 ) =>
   showNotification({
     title,
@@ -150,3 +150,65 @@ export const dangerMessage = (
     params: notificationTypes.danger,
     action: reportable ? getReportIssueAction(message) : undefined,
   })
+
+const ifIsRef = <T>(value: MaybeRef<T | undefined>, otherwise: T): T =>
+  Boolean(value) && isRef(value) && unref(value)
+    ? (value.value as T)
+    : otherwise
+
+const NotificationStateToVariantMap: Record<
+  LoadingNotificationState,
+  NeoMessageVariant
+> = {
+  succeeded: 'success',
+  loading: 'neutral',
+  failed: 'danger',
+}
+
+export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
+
+export const loadingMessage = ({
+  title,
+  message,
+  state,
+  action,
+}: {
+  title: MaybeRef<string>
+  message?: MaybeRef<string | undefined>
+  state: Ref<LoadingNotificationState>
+  action?: Ref<NotificationAction | undefined>
+}) => {
+  const { $i18n } = useNuxtApp()
+  const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
+
+  watch(
+    [state],
+    ([state]) => {
+      if (state === 'succeeded') {
+        stateMessage.value = ifIsRef(
+          message,
+          $i18n.t('transactionLoader.completed'),
+        )
+      }
+      else if (state === 'failed') {
+        stateMessage.value = ifIsRef(message, '')
+      }
+    },
+    {
+      once: true,
+    },
+  )
+
+  const isLoadingState = computed(() => state.value === 'loading')
+
+  showNotification({
+    title,
+    message: stateMessage,
+    variant: computed(() => NotificationStateToVariantMap[state.value]),
+    action: action,
+    holdTimer: isLoadingState,
+    icon: computed(() =>
+      isLoadingState.value ? { icon: 'spinner-third', spin: true } : undefined,
+    ),
+  })
+}

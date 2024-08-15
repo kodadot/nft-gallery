@@ -3,11 +3,16 @@
     :open="expanded"
     animation="slide"
     class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }">
+    :class="{ 'fluid-padding-left': fluidPadding }"
+  >
     <template #trigger="{ open }">
-      <div class="flex" role="button" :aria-expanded="open">
+      <div
+        class="flex"
+        role="button"
+        :aria-expanded="open"
+      >
         <p class="card-header-title font-normal">
-          {{ $t('status') }}
+          {{ $t('massmint.status') }}
         </p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
@@ -16,12 +21,18 @@
     </template>
     <div class="p-4">
       <NeoField>
-        <NeoCheckbox v-model="listed" data-testid="filter-checkbox-buynow">
-          {{ $t(ListedOrBuynow) }}</NeoCheckbox
+        <NeoCheckbox
+          v-model="listed"
+          data-testid="filter-checkbox-buynow"
         >
+          {{ $t(ListedOrBuynow) }}
+        </NeoCheckbox>
       </NeoField>
       <NeoField>
-        <NeoCheckbox v-model="owned" :disabled="!accountId">
+        <NeoCheckbox
+          v-model="owned"
+          :disabled="!accountId"
+        >
           {{ $t('sort.own') }}
         </NeoCheckbox>
       </NeoField>
@@ -30,8 +41,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
@@ -61,27 +72,27 @@ const ListedOrBuynow = computed(() =>
 
 const emit = defineEmits(['resetPage'])
 
-const listed =
-  props.dataModel === 'query'
+const listed
+  = props.dataModel === 'query'
     ? computed({
-        get: () => route.query?.listed?.toString() === 'true',
-        set: (value) => applyToUrl({ listed: String(value) }),
-      })
+      get: () => route.query?.listed?.toString() === 'true',
+      set: value => applyToUrl({ listed: String(value) }),
+    })
     : computed({
-        get: () => exploreFiltersStore.listed,
-        set: (value) => exploreFiltersStore.setListed(value),
-      })
+      get: () => exploreFiltersStore.listed,
+      set: value => exploreFiltersStore.setListed(value),
+    })
 
-const owned =
-  props.dataModel === 'query'
+const owned
+  = props.dataModel === 'query'
     ? computed({
-        get: () => route.query?.owned?.toString() === 'true',
-        set: (value) => applyToUrl({ owned: String(value) }),
-      })
+      get: () => route.query?.owned?.toString() === 'true',
+      set: value => applyToUrl({ owned: String(value) }),
+    })
     : computed({
-        get: () => exploreFiltersStore.owned,
-        set: (value) => exploreFiltersStore.setOwned(value),
-      })
+      get: () => exploreFiltersStore.owned,
+      set: value => exploreFiltersStore.setOwned(value),
+    })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {
   replaceURL(queryCondition)

@@ -1,6 +1,4 @@
-import { KeyringAccount } from '@/utils/types/types'
 import keyring from '@polkadot/ui-keyring'
-import { getAddress } from '@/utils/extension'
 import {
   addressEq,
   addressToEvm,
@@ -10,8 +8,10 @@ import {
 } from '@polkadot/util-crypto'
 import { u8aToHex } from '@polkadot/util'
 import { Prefix as urlPrefix } from '@kodadot1/static'
-import { Prefix } from '@polkadot/util-crypto/address/types'
+import type { Prefix } from '@polkadot/util-crypto/address/types'
 import { ss58Of } from './config/chain.config'
+import { getAddress } from '@/utils/extension'
+import type { KeyringAccount } from '@/utils/types/types'
 import { useChainStore } from '@/stores/chain'
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
@@ -108,7 +108,8 @@ export const isValidSubstrateAddress = (address: string): boolean => {
   try {
     encodeAddress(decodeAddress(address))
     return true
-  } catch (error) {
+  }
+  catch (error) {
     return false
   }
 }

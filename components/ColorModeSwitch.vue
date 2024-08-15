@@ -5,17 +5,22 @@
       class="cursor-pointer"
       :icon="currentMode.icon"
       size="medium"
-      @click="switchToNextMode" />
+      @click="switchToNextMode"
+    />
     <NeoDropdown
       v-else
       v-model="preference"
       position="top-left"
       :close-on-click="true"
       aria-role="list"
-      @change="onChange">
+      @change="onChange"
+    >
       <template #trigger>
         <div class="flex items-center cursor-pointer">
-          <NeoIcon :icon="currentMode.icon" size="medium" />
+          <NeoIcon
+            :icon="currentMode.icon"
+            size="medium"
+          />
           <span class="ml-1 min-w-[82px]">{{ currentMode?.label }}</span>
         </div>
       </template>
@@ -25,8 +30,12 @@
         aria-role="listitem"
         class="flex"
         :active="preference === option.value"
-        :value="option">
-        <NeoIcon class="mr-2" :icon="option.icon" />
+        :value="option"
+      >
+        <NeoIcon
+          class="mr-2"
+          :icon="option.icon"
+        />
         <span>{{ option.label }}</span>
       </NeoDropdownItem>
     </NeoDropdown>

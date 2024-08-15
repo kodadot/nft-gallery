@@ -7,16 +7,15 @@ export const ProfileCreateModalConfig = {
   trapFocus: false,
 }
 
-export const openProfileCreateModal = (config = {}) => {
+export const openProfileCreateModal = (skipIntro: boolean = false) => {
   const { neoModal } = useProgrammatic()
 
   neoModal.closeAll()
 
   return neoModal.open({
     ...ProfileCreateModalConfig,
-    ...config,
     innerProps: {
-      value: true,
+      skipIntro,
     },
   })
 }

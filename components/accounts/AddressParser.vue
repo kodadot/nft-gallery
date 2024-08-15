@@ -9,14 +9,15 @@
         :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
         spellcheck="true"
         custom-class="ap-textarea"
-        @input="handleInput"></NeoInput>
+        @input="handleInput"
+      />
     </NeoField>
   </div>
 </template>
 
 <script setup lang="ts">
-import { parseBatchAddresses } from './utils'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import { parseBatchAddresses } from './utils'
 
 const emit = defineEmits(['input'])
 defineProps<{ value: string[] }>()

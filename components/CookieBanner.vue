@@ -4,10 +4,13 @@
       <i18n-t
         keypath="cookies.notice"
         tag="p"
-        class="border-none md:border-r md:border-solid md:border-k-shade">
-        <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
-          >Cookie Policy</nuxt-link
-        >
+        class="border-none md:border-r md:border-solid md:border-k-shade"
+      >
+        <nuxt-link
+          to="/cookie-notice"
+          target="_blank"
+          class="is-underlined"
+        >Cookie Policy</nuxt-link>
       </i18n-t>
     </template>
   </CookieControl>

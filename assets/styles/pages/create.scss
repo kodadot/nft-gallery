@@ -1,0 +1,42 @@
+@import '@/assets/styles/abstracts/variables';
+
+:deep(.o-field__label) {
+  margin-bottom: 4px;
+}
+
+.o-field:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.form-addons {
+  @apply text-center leading-[3rem] h-12 w-16 border-l-[none];
+  @include ktheme() {
+    border: 1px solid theme('card-border-color');
+  }
+}
+
+.sale :deep(.o-field__label) {
+  position: relative;
+  -webkit-text-stroke: 1px #000;
+  filter: drop-shadow(1px 1px #000);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.sale {
+  position: relative;
+}
+
+.hidden-sale-label {
+  @apply absolute pointer-events-none text-transparent bg-clip-text font-bold text-lg left-0 top-0;
+  background: linear-gradient(to right, white, white, white);
+  -webkit-text-stroke: 0;
+  -webkit-background-clip: text;
+}
+
+.sale.sale-on {
+  .hidden-sale-label {
+    background: linear-gradient(90deg, #ffffff 30%, #ff7ac3 100%);
+    background-clip: text;
+  }
+}

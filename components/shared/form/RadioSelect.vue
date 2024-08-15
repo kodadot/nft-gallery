@@ -2,13 +2,15 @@
   <component
     :is="separated || multiline ? 'div' : 'NeoField'"
     v-if="options"
-    :class="{ 'flex flex-wrap mb-3': separated || multiline }">
+    :class="{ 'flex flex-wrap mb-3': separated || multiline }"
+  >
     <NeoRadioButton
       v-if="showEmpty"
       v-model="vValue"
       native-value=""
       :class="cssClass"
-      :rounded="rounded">
+      :rounded="rounded"
+    >
       <span><b>NONE 🚫</b></span>
     </NeoRadioButton>
     <NeoRadioButton
@@ -17,7 +19,8 @@
       v-model="vValue"
       :native-value="option"
       :class="cssClass"
-      :rounded="rounded">
+      :rounded="rounded"
+    >
       <span>{{ option }}</span>
     </NeoRadioButton>
   </component>

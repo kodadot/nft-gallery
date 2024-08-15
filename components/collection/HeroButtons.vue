@@ -1,56 +1,79 @@
 <template>
   <div>
     <div class="hero-buttons flex justify-end items-end px-2">
-      <div v-if="twitter" class="flex">
+      <div
+        v-if="twitter"
+        class="flex"
+      >
         <NeoButton
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
-          @click="openUrl(`https://twitter.com/${twitter}`)" />
+          @click="openUrl(`https://twitter.com/${twitter}`)"
+        />
       </div>
 
       <div
         v-if="displaySeperator"
-        class="vertical-seperator mx-4 is-hidden-mobile" />
+        class="vertical-seperator mx-4 is-hidden-mobile"
+      />
 
       <div class="flex">
         <NeoDropdown
           position="bottom-left"
           append-to-body
           menu-class="w-fit"
-          :mobile-modal="false">
+          :mobile-modal="false"
+        >
           <template #trigger="{ active }">
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
               data-testid="share-button"
-              :active="active" />
+              :active="active"
+            />
           </template>
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
             class="w-max"
-            @click="shareCollectionToFarcaster">
-            <NeoIcon icon="frame" class="mr-2" />
+            @click="shareCollectionToFarcaster"
+          >
+            <NeoIcon
+              icon="frame"
+              class="mr-2"
+            />
             {{ $i18n.t('share.farcasterFrame') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
-            @click="toast($t('toast.urlCopy'))">
-            <NeoIcon icon="link" class="mr-2" />
+            @click="toast($t('toast.urlCopy'))"
+          >
+            <NeoIcon
+              icon="link"
+              class="mr-2"
+            />
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-QR-dropdown"
-            @click="QRModalActive = true">
-            <NeoIcon icon="qrcode" class="mr-2" />
+            @click="QRModalActive = true"
+          >
+            <NeoIcon
+              icon="qrcode"
+              class="mr-2"
+            />
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-twitter-dropdown"
-            @click="shareUrlToX">
-            <NeoIcon icon="share" class="mr-2" />
+            @click="shareUrlToX"
+          >
+            <NeoIcon
+              icon="share"
+              class="mr-2"
+            />
             {{ $i18n.t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
@@ -58,22 +81,26 @@
         <NeoDropdown
           position="bottom-left"
           append-to-body
-          :mobile-modal="false">
+          :mobile-modal="false"
+        >
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
               class="square-32"
               data-testid="more-actions-button"
-              :active="active" />
+              :active="active"
+            />
           </template>
 
           <!-- related: #5792 -->
           <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
+            <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonCustomizeCollection
               :min="collectionNftCount"
-              :max="collectionMaxCount" />
+              :max="collectionMaxCount"
+            />
           </div>
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
@@ -81,14 +108,20 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
-      <div class="card" data-testid="hero-share-qrcode-modal">
-        <header class="card-header">
-          <p class="card-header-title">{{ collection?.name }}</p>
-        </header>
-        <div class="card-content">
-          <QRCode :text="currentCollectionUrl" />
-        </div>
+    <NeoModal
+      :value="QRModalActive"
+      header=""
+      @close="QRModalActive = false"
+    >
+      <NeoModalHead
+        :title="collection?.name"
+        @close="QRModalActive = false"
+      />
+      <div
+        class="card-content"
+        data-testid="hero-share-qrcode-modal"
+      >
+        <QRCode :text="currentCollectionUrl" />
       </div>
     </NeoModal>
   </div>
@@ -101,6 +134,7 @@ import {
   NeoDropdownItem,
   NeoIcon,
   NeoModal,
+  NeoModalHead,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { hasOperationsDisabled } from '@/utils/prefix'

@@ -7,7 +7,9 @@
       <p class="mb-2">
         {{ props.i18n.t('redirect.leavingTips') }}
       </p>
-      <p class="link mb-2">{{ props.url }}</p>
+      <p class="link mb-2">
+        {{ props.url }}
+      </p>
       <p>
         {{ props.i18n.t('redirect.safetyTips') }}
       </p>
@@ -17,19 +19,21 @@
         class="mr-2"
         no-shadow
         :label="props.i18n.t('redirect.continue')"
-        @click="handleRedirect" />
+        @click="handleRedirect"
+      />
       <NeoButton
         no-shadow
         :label="props.i18n.t('redirect.stay')"
         variant="primary"
-        @click="emit('close')" />
+        @click="emit('close')"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import VueI18n from 'vue-i18n/types'
+import type VueI18n from 'vue-i18n/types'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{

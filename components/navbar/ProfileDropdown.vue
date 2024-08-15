@@ -5,26 +5,41 @@
       class="navbar-item"
       role="button"
       aria-label="open profile menu"
-      @click="toggleWalletConnectModal">
+      @click="toggleWalletConnectModal"
+    >
       <ProfileAvatar
         :address="account"
         class="navbar__avatar-icon"
-        :size="27" />
+        :size="27"
+      />
     </a>
-    <div v-else class="flex items-center">
+    <div
+      v-else
+      class="flex items-center"
+    >
       <NeoDropdown
         position="bottom-left"
         aria-role="menu"
         menu-class="mt-0"
-        :triggers="['hover']">
+        :triggers="['hover']"
+      >
         <template #trigger>
-          <a class="navbar-item my-4" role="button">
-            <img :src="profileIcon" alt="profile" />
+          <a
+            class="navbar-item my-4"
+            role="button"
+          >
+            <img
+              :src="profileIcon"
+              alt="profile"
+            >
           </a>
         </template>
 
         <NeoDropdownItem aria-role="menuitem">
-          <div class="flex items-center" @click="toggleLanguageMenu">
+          <div
+            class="flex items-center"
+            @click="toggleLanguageMenu"
+          >
             {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
           </div>
         </NeoDropdownItem>
@@ -41,7 +56,8 @@
           class="button-connect-wallet px-4"
           variant="primary"
           no-shadow
-          @toggleConnectModal="toggleWalletConnectModal" />
+          @toggle-connect-modal="toggleWalletConnectModal"
+        />
       </div>
     </div>
 
@@ -49,11 +65,13 @@
       ref="languageDropdown"
       position="bottom-left"
       aria-role="menu"
-      :toggle="toggleLanguageMenu">
+      :toggle="toggleLanguageMenu"
+    >
       <NeoDropdownItem
         aria-role="listitem"
         class="is-active flex items-center language-heading text-base"
-        @click="toggleLanguageMenu">
+        @click="toggleLanguageMenu"
+      >
         <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
       </NeoDropdownItem>
 
@@ -63,7 +81,8 @@
         aria-role="listitem"
         :value="lang.value"
         :class="{ 'is-active': $i18n.locale === lang.value }"
-        @click="setUserLocale(lang.value)">
+        @click="setUserLocale(lang.value)"
+      >
         <span>{{ lang.flag }} {{ lang.label }}</span>
       </NeoDropdownItem>
     </NeoDropdown>
@@ -77,15 +96,15 @@ import {
   langsFlags as langsFlagsList,
   setUserLocale,
 } from '@/utils/config/i18n'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
-const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
@@ -94,12 +113,11 @@ const profileIcon = computed(() =>
 const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
+  useProfileOnboardingStore().setSidebarToggled()
   neoModal.closeAll()
 
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = neoModal.open({
-      ...ConnectWalletModalConfig,
-    })
+    openConnectWalletModal()
   }
 }
 

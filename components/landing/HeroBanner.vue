@@ -1,39 +1,35 @@
 <template>
-  <section class="pt-6 md:!pt-[3.5rem]">
-    <div class="relative">
-      <img
-        src="~/assets/svg/landing-blur.svg"
-        alt="Hero banner background blur"
-        class="-z-10 absolute -translate-x-2/4 left-2/4 top-[-9rem] scale-120 md:scale-125 md:top-[-14rem] pointer-events-none" />
-
+  <section class="!pt-8 md:!pt-[3rem]">
+    <div class="container is-fluid flex max-md:flex-col max-md:gap-8 justify-center md:justify-between items-center">
       <h1
-        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col md:flex-row md:gap-5 flex-wrap justify-center items-center mb-0">
-        <div>
+        class="text-3xl md:text-[39px] md:leading-9 font-bold flex max-md:flex-col max-md:text-center md:gap-3 md:flex-wrap"
+      >
+        <span>
           {{ $t('search.landingTitle1') }}
-        </div>
+        </span>
         <span
-          class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize md:inline">
+          class="inverse-text"
+        >
           {{ $t('search.landingTitle2') }}
         </span>
-        <div>
+        <span>
           {{ $t('search.landingTitle3') }}
-        </div>
+        </span>
       </h1>
-      <div class="container is-fluid flex justify-center mt-[2rem]">
-        <LandingFarcasterMintNotificationBanner
-          v-if="farcasterLiveMint"
-          :config="farcasterLiveMint" />
-        <LandingFarcasterBanner v-else />
-      </div>
 
-      <div class="flex justify-center mt-[2rem]">
-        <p class="with-divider capitalize text-base">
-          {{ $t('landing.featuredGenerativeDrops') }}
-        </p>
+      <div class="flex-shrink-0">
+        <LandingDomainChangeNotificationBanner
+          v-if="!isLatestProductionDomain"
+        />
+        <LandingFarcasterMintNotificationBanner
+          v-else-if="farcasterLiveMint"
+          :config="farcasterLiveMint"
+        />
+        <LandingFarcasterBanner v-else />
       </div>
     </div>
 
-    <div class="container is-fluid mt-6 md:mt-8 mb-16">
+    <div class="container is-fluid !mt-8 md:!mt-[3rem] mb-16">
       <CarouselTypeDrops />
     </div>
   </section>
@@ -57,10 +53,12 @@ const fetchFarcasterLiveMint = async () => {
       if (config) {
         farcasterLiveMint.value = config
       }
-    } catch (error) {
+    }
+    catch (error) {
       // no live mint
     }
-  } else {
+  }
+  else {
     farcasterLiveMint.value = farcasterLiveMintConfig
   }
 }

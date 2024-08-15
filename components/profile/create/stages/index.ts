@@ -1,8 +1,6 @@
 export { default as Introduction } from './Introduction.vue'
 export { default as Select } from './Select.vue'
 export { default as Form } from './Form.vue'
-export { default as Loading } from './Loading.vue'
-export { default as Success } from './Success.vue'
 
 export type ProfileFormData = {
   address: string

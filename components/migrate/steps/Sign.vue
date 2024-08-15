@@ -1,21 +1,25 @@
 <template>
   <div>
-    <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
+    <div class="mt-5">
+      {{ $t('migrate.signNotes') }}
+    </div>
     <p class="mt-5 text-k-grey text-xs">
       {{ $t('migrate.signStep.notesModal') }}
     </p>
-    <hr />
+    <hr>
     <p class="text-xs">
-      <strong><NeoIcon icon="lightbulb" /> {{ $t('tip') }}</strong
-      >: {{ $t('migrate.signStep.notesPopup') }}
+      <strong><NeoIcon icon="lightbulb" /> {{ $t('tip') }}</strong>: {{ $t('migrate.signStep.notesPopup') }}
     </p>
 
-    <p class="my-5">Follow Steps:</p>
+    <p class="my-5">
+      Follow Steps:
+    </p>
     <NeoButton
       v-if="showStartSigning"
       variant="pill"
       class="w-full mb-6"
-      @click="startSigning()">
+      @click="startSigning()"
+    >
       <div class="flex gap-4 w-full justify-center">
         <p>Click here to start signing</p>
         <NeoIcon icon="chevrons-right" />
@@ -30,7 +34,8 @@
       class="mt-4 h-14 capitalize"
       expanded
       :disabled="steps !== 'init'"
-      @click="signTransactions()" />
+      @click="signTransactions()"
+    />
   </div>
 </template>
 
@@ -58,7 +63,8 @@ provide('steps', {
 const signTransactions = async () => {
   if (collectionOwner) {
     steps.value = 'step2'
-  } else {
+  }
+  else {
     steps.value = 'step1'
   }
 }

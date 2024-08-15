@@ -5,11 +5,13 @@
     no-shadow
     rounded
     :label="label"
-    @click="model = !model" />
+    @click="model = !model"
+  />
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import type { NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()

@@ -1,8 +1,9 @@
-import { MassMintNFT } from '@/components/rmrk/service/scheme'
+import type { Attribute } from '@kodadot1/minimark/common'
+import consola from 'consola'
+import type { MassMintNFT } from '@/components/rmrk/service/scheme'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/components/rmrk/utils'
-import { Attribute } from '@kodadot1/minimark/common'
-import consola from 'consola'
+
 type Range = [number, number]
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {
@@ -13,13 +14,21 @@ export function nsfwAttribute(nsfw: boolean): Attribute[] {
   return [{ trait_type: 'NSFW', value: Number(nsfw) }]
 }
 
+export function offsetAttribute(hasCarbonOffset: boolean): Attribute[] {
+  if (!hasCarbonOffset) {
+    return []
+  }
+
+  return [{ trait_type: 'KodaForest', value: 'Carbonless' }]
+}
+
 export function secondaryFileVisible(file?: Blob): boolean {
   const fileType = resolveMedia(file?.type)
   return isFileWithoutType(file, fileType) || isSecondFileVisible(fileType)
 }
 
 export function isSecondFileVisible(fileType: MediaType): boolean {
-  return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType)
+  return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
 }
 
 export function isFileWithoutType(
@@ -166,7 +175,7 @@ export function processMatchAllSyntax(
 }
 
 export function processFiles(files: File[]): MassMintNFT[] {
-  return files.map<MassMintNFT>((file) => ({
+  return files.map<MassMintNFT>(file => ({
     name: file.name,
     description: '',
     meta: 0,

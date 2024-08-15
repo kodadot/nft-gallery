@@ -29,7 +29,7 @@ Good kusama {i} of 5`
   })
 
   it('should process files', () => {
-    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
+    const files = [...Array(5).keys()].map(e => new File([], `${e + 1}.jpg`))
     const parsed = processFiles(files)
     expect(parsed.length).toBe(5)
     expect(parsed[0].name).toBe('1.jpg')
@@ -37,7 +37,7 @@ Good kusama {i} of 5`
   })
 
   it('should process range syntax correctly', () => {
-    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
+    const files = [...Array(5).keys()].map(e => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `1-3
 Kusamagen #{i}
@@ -61,7 +61,7 @@ Good generative art`
   })
 
   it('should process match all syntax correctly', () => {
-    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
+    const files = [...Array(5).keys()].map(e => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `...
 Kusamagen #{i}
@@ -77,7 +77,7 @@ Good kusama {i} of 5`
   })
 
   it('should skip name processing', () => {
-    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
+    const files = [...Array(5).keys()].map(e => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `...
 -

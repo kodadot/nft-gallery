@@ -1,5 +1,5 @@
-const URL_REGEX =
-  /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/
+const URL_REGEX
+  = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/
 
 export const findUrlsFromText = (text: string) => {
   const matches = text.match(URL_REGEX)
@@ -14,14 +14,15 @@ export const convertSingularCollectionUrlToKodadotUrl = (url: string) => {
     const urlObj = new URL(url)
     const pathname = urlObj.pathname
     if (
-      urlObj.hostname === 'singular.app' &&
-      pathname.startsWith('/collections/')
+      urlObj.hostname === 'singular.app'
+      && pathname.startsWith('/collections/')
     ) {
       const regex = new RegExp('/collections/(kusama/)?', 'g')
       const collectionId = pathname.replace(regex, '')
       return `${location.origin}/ksm/collection/${collectionId}`
     }
-  } catch (e) {
+  }
+  catch (e) {
     // ignore invalid url error
   }
 

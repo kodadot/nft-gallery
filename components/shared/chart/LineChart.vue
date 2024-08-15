@@ -1,5 +1,9 @@
 <template>
-  <canvas id="lineChart" ref="canvas" class="hover:cursor-grabbing" />
+  <canvas
+    id="lineChart"
+    ref="canvas"
+    class="hover:cursor-grabbing"
+  />
 </template>
 
 <script lang="ts" setup>

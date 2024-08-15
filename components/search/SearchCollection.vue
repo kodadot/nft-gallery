@@ -1,26 +1,35 @@
 <template>
   <div class="content field-group-container">
-    <NeoField grouped group-multiline>
+    <NeoField
+      grouped
+      group-multiline
+    >
       <Sort
         class="control"
         :value="sortBy"
         :is-collection="true"
         :sort-option="sortOption"
-        @input="updateSortBy" />
+        @input="updateSortBy"
+      />
       <div
         class="flex layout-search"
         :class="{
           'flex-grow': !hideSearch,
-        }">
-        <NeoField v-if="!hideSearch" expanded class="control">
+        }"
+      >
+        <NeoField
+          v-if="!hideSearch"
+          expanded
+          class="control"
+        >
           <NeoInput
             v-model="searchQuery"
             placeholder="Search..."
             type="search"
             icon="search"
             expanded
-            class="input-search">
-          </NeoInput>
+            class="input-search"
+          />
         </NeoField>
         <BasicSwitch
           v-if="!isMoonRiver"
@@ -30,7 +39,8 @@
           size="is-medium"
           label-color="text-k-green"
           :disabled="disableToggle"
-          :message="$t('tooltip.buy')" />
+          :message="$t('tooltip.buy')"
+        />
         <BasicSwitch
           v-if="showOwnerSwitch"
           v-model="vOwned"
@@ -38,7 +48,8 @@
           :label="'sort.own'"
           size="is-medium"
           label-color="text-k-green"
-          :message="$t('tooltip.own')" />
+          :message="$t('tooltip.own')"
+        />
         <slot />
       </div>
     </NeoField>
@@ -46,12 +57,12 @@
 </template>
 
 <script setup lang="ts">
+import { NeoField, NeoInput } from '@kodadot1/brick'
+import { useDebounceFn } from '@vueuse/core'
+import Sort from './SearchSortDropdown.vue'
 import { exist } from '@/utils/exist'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoField, NeoInput } from '@kodadot1/brick'
-import Sort from './SearchSortDropdown.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
-import { useDebounceFn } from '@vueuse/core'
 
 const props = defineProps({
   search: { type: String, default: '' },

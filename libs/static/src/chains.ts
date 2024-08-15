@@ -6,7 +6,7 @@ export const toChainProperty = (
   tokenDecimals: number,
   tokenSymbol: string,
   blockExplorer: string,
-  vm: ChainVM
+  vm: ChainVM,
 ): ChainProperties => {
   return {
     ss58Format,
@@ -22,7 +22,7 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
   12,
   'KSM',
   'https://kusama.subscan.io/',
-  'SUB'
+  'SUB',
 )
 
 export const CHAINS: Config<ChainProperties> = {
@@ -32,7 +32,8 @@ export const CHAINS: Config<ChainProperties> = {
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/', 'SUB'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/', 'SUB'),
   imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/', 'EVM'), // ss58Format is not available
-  base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'), // ss58Format is not available
+  base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'),
+  mnt: toChainProperty(42, 18, 'MNT', 'https://mantlescan.xyz', 'EVM'), // ss58Format is not available
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
@@ -53,6 +54,7 @@ export const chainPrefixes: Prefix[] = [
   'dot',
   'imx',
   'base',
+  'mnt',
   // 'ahr',
   // 'movr',
   // 'glmr',
@@ -62,7 +64,7 @@ export const chainPrefixesMap = chainPrefixes.reduce(
     ...acc,
     [prefix]: prefix,
   }),
-  {}
+  {},
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
@@ -73,6 +75,7 @@ export const chainInfo: Record<Prefix, string> = {
   ahp: 'statemint',
   imx: 'immutable',
   base: 'base',
+  mnt: 'mantle',
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
@@ -86,13 +89,19 @@ export const chainNames: Record<Prefix, string> = {
   ahp: 'Polkadot AssetHub',
   imx: 'Immutable zkEVM',
   base: 'Base',
+  mnt: 'Mantle',
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
 }
 
+export const ecosystemNames: Record<ChainVM, string> = {
+  SUB: 'Polkadot',
+  EVM: 'Ethereum',
+}
+
 export const chainList = (): Option[] => {
-  return chainPrefixes.map((prefix) => ({
+  return chainPrefixes.map(prefix => ({
     info: chainInfo[prefix],
     text: NAMES[prefix],
     value: prefix,
@@ -108,6 +117,7 @@ export const teleportExistentialDeposit: Record<Prefix, number> = {
   ahp: 5000000000,
   imx: 0,
   base: 0,
+  mnt: 0,
 }
 
 export const existentialDeposit: Record<Prefix, number> = {
@@ -116,6 +126,7 @@ export const existentialDeposit: Record<Prefix, number> = {
   ahk: 333333333,
   dot: 1e10,
   ahp: 1e8,
-  imx: 0, // nothing like ED in EVM :)
-  base: 0,
+  imx: 1e15, // nothing like ED in EVM :)
+  base: 1e15,
+  mnt: 1e15,
 }

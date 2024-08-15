@@ -5,18 +5,16 @@ export const DEFAULT_DROP = {
 }
 
 export const HOLDER_OF_DROP_MAP = {
-  '50': '51',
-  '352': '377',
-  '77': '95',
+  50: '51',
+  352: '377',
+  77: '95',
 }
 
 export const DROP_COLLECTION_TO_ALIAS_MAP = {
-  '51': 'chroma',
-  '377': 'complexity',
-  '95': 'echo',
+  51: 'chroma',
+  377: 'complexity',
+  95: 'echo',
 }
-
-export const DROP_MASSMINT_LIMIT = {}
 
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained
