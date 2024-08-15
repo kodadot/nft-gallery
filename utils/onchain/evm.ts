@@ -1,25 +1,17 @@
-import { http, createConfig, readContract } from '@wagmi/core'
-import { base, immutableZkEvm } from '@wagmi/core/chains'
+import { readContract } from '@wagmi/core'
 import type { Prefix } from '@kodadot1/static'
 import { GENSOL_ABI } from '@/composables/transaction/evm/utils'
 import { getEvmCollection } from '@/services/ogi'
 
-export const wagmiConfig = createConfig({
-  chains: [base, immutableZkEvm],
-  transports: {
-    [base.id]: http(),
-    [immutableZkEvm.id]: http(),
-  },
-})
-
 export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
+  const { $wagmiConfig } = useNuxtApp()
   const [collectionSupply, collectionMetadata, getCollection] = await Promise.all([
-    readContract(wagmiConfig, {
+    readContract($wagmiConfig, {
       address,
       abi: GENSOL_ABI,
       functionName: 'totalSupply',
     }),
-    readContract(wagmiConfig, {
+    readContract($wagmiConfig, {
       address,
       abi: GENSOL_ABI,
       functionName: 'contractURI',
