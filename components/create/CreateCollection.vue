@@ -228,6 +228,7 @@ import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/a
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { availablePrefixes } from '@/utils/chain'
+import { doAfterCheckCurrentChainVM, openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 export type MintedCollectionInfo = {
   id?: string
@@ -328,7 +329,13 @@ watch(currentChain, () => {
 })
 
 const showConfirm = () => {
-  confirmModal.value = true
+  if (!menus.find(menu => menu.value === currentChain.value)) {
+    openReconnectWalletModal()
+    return
+  }
+  doAfterCheckCurrentChainVM(() => {
+    confirmModal.value = true
+  })
 }
 
 const collection = computed(() => {
