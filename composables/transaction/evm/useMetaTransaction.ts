@@ -62,8 +62,17 @@ export default function useEvmMetaTransaction() {
 
       const txHash = await writeContract(wagmiConfig, request)
       console.log('[EXEC] Executed', txHash)
+      status.value = TransactionStatus.Broadcast
 
-      successCb(onSuccess)({ txHash })
+      const transaction = await waitForTransactionReceipt(wagmiConfig, { hash: txHash })
+      console.log('[EXEC] Completed', transaction)
+
+      const map = {
+        success: () => successCb(onSuccess)({ txHash, blockNumber: transaction.blockNumber.toString() }),
+        reverted: () => errorCb(onError)({ error: new Error('Transaction reverted') }),
+      }
+
+      map[transaction.status]?.()
     }
     catch (e) {
       errorCb(onError)({ error: e })
@@ -72,14 +81,7 @@ export default function useEvmMetaTransaction() {
 
   const successCb
     = (onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void) =>
-      async ({ txHash }) => {
-        const transaciton = await waitForTransactionReceipt(wagmiConfig, {
-          hash: txHash,
-        })
-        const blockNumber = transaciton.blockNumber.toString()
-
-        console.log('[EXEC] Completed', transaciton)
-
+      async ({ txHash, blockNumber }) => {
         if (onSuccess) {
           onSuccess({ txHash: txHash, blockNumber: blockNumber })
         }
