@@ -51,9 +51,7 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import {
-  useDrop,
   useDropMinimumFunds,
-  useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useUpdateMetadata,
@@ -91,14 +89,12 @@ const { openListingCartModal } = useListingCartModal({
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
-const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
-const { mintingSession, loading, walletConnecting, isCapturingImage }
+const { mintingSession, loading, walletConnecting, isCapturingImage, drop }
   = storeToRefs(dropStore)
 
 useCursorDropEvents([isTransactionLoading, loading])
@@ -241,8 +237,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">
