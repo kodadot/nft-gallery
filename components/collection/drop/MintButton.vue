@@ -29,6 +29,7 @@ import {
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { parseCETDate } from '@/components/drops/utils'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const emit = defineEmits(['mint'])
 
@@ -44,7 +45,7 @@ const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStor
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
 const isHolderAndEligible = computed(
@@ -167,6 +168,10 @@ const handleMint = () => {
     return navigateTo(
       `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
+  }
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal()
+    return
   }
 
   emit('mint')

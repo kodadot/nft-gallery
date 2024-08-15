@@ -17,13 +17,8 @@ export default ({
   onClose?: boolean
 }) => {
   watch([isOpen, () => and], ([isOpen, and]) => {
-    try {
-      if (!isOpen === onClose && and.every(Boolean)) {
-        ;(onClose ? onModalAnimation(onChange) : onChange)()
-      }
-    }
-    catch (error) {
-      console.log('[useModalIsOpenTracker] Error:', error)
+    if (!isOpen === onClose && and.every(Boolean)) {
+      onClose ? onModalAnimation(onChange) : onChange()
     }
   })
 }

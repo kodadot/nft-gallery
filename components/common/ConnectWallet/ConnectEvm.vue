@@ -25,10 +25,11 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { useAccount } from '@wagmi/vue'
 
 const emits = defineEmits(['select'])
 
-const { address, isConnected, isConnecting, chainId } = useWagmi()
+const { address, isConnected, isConnecting, chainId } = useAccount()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { modal } = useWeb3Modal()
 

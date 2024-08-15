@@ -45,11 +45,25 @@
           <div
             class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2"
           >
-            <slot name="supply">
-              <div>
-                <span>{{ minted }}</span><span class="text-k-grey">/{{ dropMax }}</span>
+            <div class="flex gap-4">
+              <slot name="supply">
+                <div>
+                  <span>{{ minted }}</span><span class="text-k-grey text-xs">/{{ dropMax }}</span>
+                </div>
+              </slot>
+              <div
+                v-if="Number(dropPrice)"
+                class="flex gap-1 items-baseline"
+              >
+                <span>{{ formattedPrice }}</span><span class="text-k-grey text-xs">USD</span>
               </div>
-            </slot>
+              <div
+                v-else
+              >
+                <span>{{ $t('free') }}</span>
+              </div>
+            </div>
+
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
@@ -74,9 +88,10 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 const emit = defineEmits(['click'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     image: string | undefined
     name: string
@@ -91,6 +106,7 @@ withDefaults(
     minted?: number
     ownerAddresses?: string[]
     dropCreator?: string | null
+    dropPrice?: string
   }>(),
   {
     loading: false,
@@ -107,6 +123,13 @@ withDefaults(
 )
 
 const { placeholder } = useTheme()
+
+const chainPropList = chainPropListOf(props.dropPrefix)
+const { usd: formattedPrice } = useAmount(
+  computed(() => props.dropPrice),
+  toRef(chainPropList.tokenDecimals),
+  toRef(chainPropList.tokenSymbol),
+)
 </script>
 
 <style scoped lang="scss">

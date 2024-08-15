@@ -4,8 +4,11 @@ import type { Callback, ISubmittableResult } from '@polkadot/types/types'
 import type { DispatchError, Hash } from '@polkadot/types/interfaces'
 import type { ApiPromise } from '@polkadot/api'
 import { Interaction } from '@kodadot1/minimark/v1'
-import type { Prefix } from '@kodadot1/static'
+import { estimateGas, getGasPrice } from '@wagmi/core'
+import { useConfig } from '@wagmi/vue'
 import type { Address } from 'viem'
+import { encodeFunctionData } from 'viem'
+import type { Prefix } from '@kodadot1/static'
 import { calculateBalance } from './format/balance'
 import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
@@ -120,18 +123,19 @@ export const estimate = async (
   return info.partialFee.toString()
 }
 
-const estimateEvm = async ({ address, arg, abi, functionName, account, prefix }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
-  const { publicClient } = useViem(prefix)
-
+const estimateEvm = async ({ arg, abi, functionName, account, prefix }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
+  const wagmiConfig = useConfig()
   const [estimatedGas, gasPrice] = await Promise.all([
-    publicClient.estimateContractGas({
+    estimateGas(wagmiConfig, {
       account: account as Address,
-      address: address as Address,
-      abi,
-      args: arg,
-      functionName,
+      data: encodeFunctionData({
+        abi,
+        args: arg,
+        functionName,
+      }),
+      chainId: PREFIX_TO_CHAIN[prefix]?.id,
     }),
-    publicClient.getGasPrice(),
+    getGasPrice(wagmiConfig),
   ])
 
   return String(estimatedGas * gasPrice)
@@ -146,7 +150,7 @@ export const getActionTransactionFee = ({
   action: Actions
   address: string
   api?: ApiPromise
-  prefix: Prefix
+  prefix?: Prefix
 }): Promise<string> => {
   return new Promise((resolve, reject) => {
     // Keep in mind atm actions with ipfs file will be uploadeed
@@ -162,7 +166,7 @@ export const getActionTransactionFee = ({
         try {
           const fee = await execByVm({
             SUB: () => estimate(account, params.cb, params.arg),
-            EVM: () => estimateEvm({ ...params, account, prefix }),
+            EVM: () => estimateEvm({ account, ...params, prefix }),
           }) as string
 
           resolve(fee)
