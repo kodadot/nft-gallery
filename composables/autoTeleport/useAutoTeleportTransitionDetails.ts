@@ -251,7 +251,7 @@ export default function (
 
   const getTransitionBalances = () => {
     return fetchChainsBalances([
-      ...allowedSourceChains.value,
+      ...(needsSourceChainBalances.value ? allowedSourceChains.value : []),
       currentChain.value as Chain,
     ])
   }
@@ -307,9 +307,9 @@ export default function (
   )
 
   watch(
-    [allowedSourceChains, needsSourceChainBalances],
+    [() => allowedSourceChains.value.length, needsSourceChainBalances],
     async () => {
-      if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
+      if ((allowedSourceChains.value.length && needsSourceChainBalances.value) || !currentChainBalance.value) {
         hasFetched.balances = false
         await getTransitionBalances()
         hasFetched.balances = true

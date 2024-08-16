@@ -82,7 +82,7 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { drops, loaded, count } = useDrops({
   active: [true],
-  chain: !isProduction ? [urlPrefix.value] : [],
+  chain: [urlPrefix.value],
   limit: 100,
 }, { async: true })
 
