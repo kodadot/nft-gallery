@@ -8,7 +8,6 @@ import {
   type Prefix,
 } from '@kodadot1/static'
 import { useIntervalFn } from '@vueuse/core'
-import { type Address } from 'viem'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
@@ -86,11 +85,11 @@ export default function (refetchPeriodically: boolean = false) {
       multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
     // decouple Chain from teleport
     [Chain.BASE]:
-        multiBalances.value.chains.base?.eth?.nativeBalance,
+      multiBalances.value.chains.base?.eth?.nativeBalance,
     [Chain.IMMUTABLEX]:
-        multiBalances.value.chains.immutablex?.eth?.nativeBalance,
+      multiBalances.value.chains.immutablex?.eth?.nativeBalance,
     [Chain.MANTLE]:
-        multiBalances.value.chains.mantle?.mnt?.nativeBalance,
+      multiBalances.value.chains.mantle?.mnt?.nativeBalance,
   }))
 
   const currentChain = computed(() => prefixToChainMap[urlPrefix.value])
@@ -131,13 +130,7 @@ export default function (refetchPeriodically: boolean = false) {
     return { balance: balance.toString(), prefixAddress }
   }
 
-  async function getEvmBalance({
-    address,
-    prefix,
-  }: {
-    address: Address
-    prefix: Prefix
-  }) {
+  async function getEvmBalance({ address, prefix }) {
     const balance = await fetchEvmBalance(address, prefix)
 
     return {
@@ -164,7 +157,7 @@ export default function (refetchPeriodically: boolean = false) {
           chain,
           tokenId,
         }),
-      EVM: () => getEvmBalance({ address: currentAddress as Address, prefix }),
+      EVM: () => getEvmBalance({ address: currentAddress, prefix }),
     })) as { balance: string, prefixAddress: string }
 
     const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
@@ -172,7 +165,7 @@ export default function (refetchPeriodically: boolean = false) {
 
     const usd = calculateUsd(
       currentBalance,
-      fiatStore.getCurrentTokenValue(token),
+      fiatStore.getCurrentTokenValue(token as Token),
     )
 
     identityStore.setMultiBalances({

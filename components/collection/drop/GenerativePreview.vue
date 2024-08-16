@@ -56,16 +56,23 @@
         <div class="mr-4 text-neutral-7">
           {{ mintedPercent }}% ~
         </div>
-        <div class="font-bold">
-          {{ dropStore.mintsCount }}/{{ maxCount }}
+        <div
+          v-if="drop.minted >= 0 && drop.max"
+          class="font-bold"
+        >
+          {{ drop.minted }}/{{ drop.max }}
           {{ $t('statsOverview.minted') }}
+        </div>
+        <div v-else>
+          <NeoSkeleton width="100" />
         </div>
       </div>
     </div>
 
     <CollectionUnlockableSlider
+      v-if="drop.max"
       class="text-neutral-5 dark:text-neutral-9"
-      :value="dropStore.mintsCount / maxCount"
+      :value="drop.minted / drop.max"
     />
 
     <div class="flex mt-6 gap-4 max-md:flex-col">
@@ -88,18 +95,14 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
-import { useDrop } from '@/components/drops/useDrops'
-import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
-const { drop } = useDrop()
 const dropStore = useDropStore()
-const { userMintsCount, mintsCount } = storeToRefs(dropStore)
-const { maxCount } = useGenerativeDropMint()
+const { userMintsCount, drop } = storeToRefs(dropStore)
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
@@ -121,10 +124,10 @@ const { start: startTimer } = useTimeoutFn(() => {
 const generativeImageUrl = ref('')
 
 const mintedPercent = computed(() => {
-  if (!maxCount.value) {
+  if (!drop.value.max) {
     return 0
   }
-  return Math.round((mintsCount.value / maxCount.value) * 100)
+  return Math.round((drop.value.minted / drop.value.max) * 100)
 })
 
 const displayUrl = computed(() => generativeImageUrl.value || drop.value?.image)
@@ -147,6 +150,16 @@ const generateNft = () => {
   emit('generation:start', previewItem)
   imageDataPayload.value = undefined
 }
+
+function bindDropsEvents(event: KeyboardEvent) {
+  switch (event.key) {
+    case 'n':
+      generateNft()
+      break
+  }
+}
+
+useKeyboardEvents({ v: bindDropsEvents })
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {

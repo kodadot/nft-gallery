@@ -1,6 +1,5 @@
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
-import type { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
 import { parseCETDate } from './utils'
 import type { GetDropsQuery } from '@/services/fxart'
 import { getDropById, getDrops } from '@/services/fxart'
@@ -11,6 +10,8 @@ import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
+import { subCollection } from '@/utils/onchain/sub'
+import { evmCollection } from '@/utils/onchain/evm'
 
 export interface Drop {
   collection: DropItem
@@ -170,6 +171,7 @@ export const getDropDetails = async (alias: string) => {
 export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
+  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
 
   const drop = computed({
     get: () => dropStore.drop,
@@ -181,6 +183,30 @@ export function useDrop(alias?: string) {
 
   const fetchDrop = async () => {
     drop.value = await getDropById(alias ?? params.id.toString())
+
+    if (!drop.value.collection) {
+      return
+    }
+
+    if (isSub.value) {
+      const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
+
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
+    }
+
+    if (isEvm.value) {
+      const { urlPrefix } = usePrefix()
+      const address = drop.value.collection as `0x${string}`
+      const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
+
+      drop.value.max = supply
+      drop.value.minted = minted
+      drop.value.collectionName = metadata.name
+      drop.value.collectionDescription = metadata.description
+    }
   }
 
   watch(() => params.id, fetchDrop)
@@ -211,75 +237,6 @@ export const fetchDropMintedCount = async (
   })
 
   return data.value?.collectionEntityById?.nftCount ?? 0
-}
-
-const subscribeDropMintedCount = (
-  { drop, account }: { drop: Pick<DropItem, 'collection'>, account: string },
-  onChange: (params: { collection?: number, user?: number }) => void,
-) => {
-  return useSubscriptionGraphql({
-    query: `
-      collectionEntityById(id: "${drop.collection}") {
-        nftCount
-        nfts(where: { issuer_eq: "${account}"  }) {
-          id
-        }
-      }
-     `,
-    onChange: ({ data }) => {
-      onChange({
-        collection: data.collectionEntityById?.nftCount,
-        user: data.collectionEntityById?.nfts?.length,
-      })
-    },
-  })
-}
-
-export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string, chain: Prefix }>,
-) => {
-  const { mintsCount, userMintsCount } = storeToRefs(useDropStore())
-  const { accountId } = useAuth()
-
-  const dropStatusSubscription = ref<{
-    collection: string | undefined
-    account: string | undefined
-    unsubscribe: () => void
-  }>({
-        account: undefined,
-        collection: undefined,
-        unsubscribe: () => {},
-      })
-
-  const subscribeDropStatus = () => {
-    watch([() => drop.value, accountId], ([drop, account]) => {
-      if (drop) {
-        if (
-          drop.collection !== dropStatusSubscription.value.collection
-          || account !== dropStatusSubscription.value.account
-        ) {
-          dropStatusSubscription.value.unsubscribe?.()
-        }
-
-        dropStatusSubscription.value.collection = drop.collection
-        dropStatusSubscription.value.account = accountId.value
-        dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
-          { drop, account: accountId.value },
-          ({ collection, user }) => {
-            mintsCount.value = collection ?? 0
-            userMintsCount.value = user ?? 0
-          },
-        )
-      }
-    })
-
-    onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
-  }
-
-  return {
-    mintsCount,
-    subscribeDropStatus,
-  }
 }
 
 export const useDropMinimumFunds = (amount = ref(1)) => {

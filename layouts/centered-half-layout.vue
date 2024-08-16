@@ -20,6 +20,7 @@
     </main>
     <LazyTheFooter />
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
   </div>
 </template>
