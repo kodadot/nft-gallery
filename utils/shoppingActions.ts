@@ -3,18 +3,18 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { hasMarketplace } from './prefix'
 
-enum BasiliskActions {
+enum OfferActions {
   MAKE_OFFER = 'MAKE_OFFER',
   SET_ROYALTY = 'SET_ROYALTY',
   WITHDRAW_OFFER = 'WITHDRAW_OFFER',
   ACCEPT_OFFER = 'ACCEPT_OFFER',
 }
 
-export type ShoppingActions = Interaction | BasiliskActions
+export type ShoppingActions = Interaction | OfferActions
 export type ShoppingActionToolTips = Partial<Record<ShoppingActions, string>>
 export const ShoppingActions = {
   ...Interaction,
-  ...BasiliskActions,
+  ...OfferActions,
   DOWNLOAD: 'DOWNLOAD',
 }
 
@@ -33,7 +33,7 @@ export const ownerActions = [
 
 export const listActions: [Interaction] = [ShoppingActions.LIST]
 export const buyActions: [Interaction] = [ShoppingActions.BUY]
-export const makeOfferActions: [BasiliskActions] = [ShoppingActions.MAKE_OFFER]
+export const makeOfferActions: [OfferActions] = [ShoppingActions.MAKE_OFFER]
 
 export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
   return getActionList('rmrk', isOwner, isAvailableToBuy)
