@@ -50,7 +50,7 @@ const { logout } = useWallet()
 const account = computed(() => identityStore.getAuthAddress)
 
 const prefix = computed(() => getPrefixByAddress(account.value))
-const { profile } = useFetchProfile(account.value)
+const { profile } = useFetchProfile(account)
 
 const { display, shortenedAddress } = useIdentity({
   address: account,
