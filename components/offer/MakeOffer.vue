@@ -149,7 +149,7 @@ const getAction = (items: MakingOfferItem[]): Actions => {
     interaction: ShoppingActions.MAKE_OFFER,
     urlPrefix: urlPrefix.value,
     token: items.map(item => ({
-      price: String(calculateBalance(Number(item?.offerPrice), decimals.value)),
+      price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
       collectionId: item.collection.id,
       nftSn: item.sn,
     } as TokenToOffer)),

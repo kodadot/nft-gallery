@@ -31,7 +31,7 @@ async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
         },
       )
 
-      const duration = 300 // this tells about one hour (12sec /block --> 300blocks/hr)
+      const duration = 300 * 24 * 7 // Temporarily set to one week (12sec /block --> 300blocks/hr)
       const offer = api.tx.nfts.createSwap(
         offerId,
         nextId,
