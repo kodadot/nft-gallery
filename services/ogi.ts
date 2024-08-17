@@ -1,6 +1,6 @@
 import type { Prefix } from '@kodadot1/static'
 
-const api = $fetch.create({ baseURL: 'https://ogi-cache-evm-api.workers-ogi.pages.dev' })
+const api = $fetch.create({ baseURL: 'https://ogi.koda.art' })
 
 type EVMCollection = {
   metadata?: {
