@@ -40,7 +40,7 @@ const props = withDefaults(
 )
 
 const { profile: profileFromAddress } = useFetchProfile(
-  props.profileImage ? undefined : props.address,
+  computed(() => props.profileImage ? undefined : props.address),
 )
 
 const profileImageUrl = computed(

@@ -1,7 +1,9 @@
+import { useDisconnect } from '@wagmi/vue'
+
 const KEYS_TO_REMOVE = ['wallet']
 
 export default function () {
-  const { disconnect: disconnectWeb3Modal } = useWagmi()
+  const { disconnect: disconnectWeb3Modal } = useDisconnect()
   const shoppingCartStore = useShoppingCartStore()
   const walletStore = useWalletStore()
   const identityStore = useIdentityStore()
@@ -20,9 +22,12 @@ export default function () {
     walletStore.clear()
 
     if (isEvm) {
-      await disconnectWeb3Modal().catch((error) => {
+      try {
+        await disconnectWeb3Modal()
+      }
+      catch (error) {
         console.warn('[WEB3MODAL::CONNECTION] Failed disconnecting', error)
-      })
+      }
     }
 
     walletStore.setDisconnecting(false)

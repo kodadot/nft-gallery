@@ -5,8 +5,8 @@ export default function () {
   const { accountId } = useAuth()
 
   const getTransactionFee = async ({ action, prefix }: {
-    prefix: Prefix
     action: Actions
+    prefix: Prefix
   }): Promise<number> => {
     const api = await execByVm({
       SUB: async () => {

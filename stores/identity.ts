@@ -61,7 +61,7 @@ const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
-  balance?: BalanceMap<Prefix>
+  balance?: BalanceMap<keyof ChainToken>
   tokens?: BalanceMap<number> // <id, amount>
 }
 
@@ -217,7 +217,10 @@ export const useIdentityStore = defineStore('identity', {
     },
     async fetchBalance({ address }: ChangeAddressRequest) {
       const { fetchBalance } = useBalance()
-      await fetchBalance(address)
+      const balance = await fetchBalance(address)
+      if (balance) {
+        this.setPrefixBalance(balance)
+      }
     },
     setMultiBalances({ address, chains, chainName }) {
       this.multiBalances = {

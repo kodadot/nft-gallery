@@ -797,8 +797,8 @@ watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
   immediate: true,
 })
 
-onMounted(() => {
-  if (!hasProfile.value && isOwner.value) {
+watchEffect(() => {
+  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value) {
     openProfileCreateModal()
   }
 })

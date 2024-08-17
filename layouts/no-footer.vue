@@ -13,6 +13,7 @@
       </div>
     </main>
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
   </div>
 </template>

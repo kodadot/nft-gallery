@@ -1,5 +1,5 @@
 import { isEthereumAddress } from '@polkadot/util-crypto'
-import { signMessage as signMessageEvm } from '@wagmi/core'
+import { useSignMessage } from '@wagmi/vue'
 
 export type SignaturePair = { signature: string, message: string }
 
@@ -20,10 +20,10 @@ export default function useVerifyAccount() {
   const walletStore = useWalletStore()
   const { accountId } = useAuth()
   const signedMessage = computed(() => walletStore.getSignedMessage)
-  const { config: wagmiConfig } = useWagmi()
+  const { signMessageAsync } = useSignMessage()
 
   const signMessageEthereum = async (address: string, message: string) => {
-    const signedMessage = await signMessageEvm(wagmiConfig, {
+    const signedMessage = await signMessageAsync({
       account: address as `0x${string}`,
       message: message,
     })
