@@ -184,7 +184,7 @@ export default function (refetchPeriodically: boolean = false) {
       chainName,
     })
 
-    identityStore.setBalance(prefix, currentBalance)
+    identityStore.setBalance(prefix, nativeBalance)
     identityStore.multiBalanceNetwork = currentNetwork.value
 
     return Promise.resolve()
@@ -201,6 +201,10 @@ export default function (refetchPeriodically: boolean = false) {
     forceFiat: boolean = false,
   ) => {
     await fetchFiatPrice(forceFiat)
+
+    if (!accountId.value) {
+      return
+    }
 
     const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 

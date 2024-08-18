@@ -26,4 +26,17 @@ const min = computed(() =>
 )
 
 const max = computed(() => isHolder.value ? availableNftsAmount.value : undefined)
+
+function bindDropsEvents(event: KeyboardEvent) {
+  switch (event.key) {
+    case '-':
+      amountToMint.value--
+      break
+    case '+':
+      amountToMint.value++
+      break
+  }
+}
+
+useKeyboardEvents({ v: bindDropsEvents })
 </script>

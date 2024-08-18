@@ -151,6 +151,16 @@ const generateNft = () => {
   imageDataPayload.value = undefined
 }
 
+function bindDropsEvents(event: KeyboardEvent) {
+  switch (event.key) {
+    case 'n':
+      generateNft()
+      break
+  }
+}
+
+useKeyboardEvents({ v: bindDropsEvents })
+
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {
     dropStore.setIsCapturingImage(false)
