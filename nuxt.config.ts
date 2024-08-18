@@ -410,7 +410,7 @@ export default defineNuxtConfig({
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
       walletConnectProjectId:
         process.env.WALLET_CONNECT_PROJECT_ID
-        || '3fcc6bba6f1de962d911bb5b5c3dba68', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
+        || '4483dd2f5c3049479618d611e8a1087a', // WalletConnect project ID from `https://wagmi.sh/core/api/connectors/walletConnect#projectid`
     },
   },
 
