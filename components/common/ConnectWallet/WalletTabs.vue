@@ -31,6 +31,6 @@ const walletTabs = computed<{ label: string, value: ChainVM }[]>(() => {
       label: 'Evm',
       value: 'EVM',
     },
-  ].filter(tab => props.preselected ? tab.value === props.preselected : true)
+  ]
 })
 </script>
