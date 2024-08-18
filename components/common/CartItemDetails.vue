@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div v-if="nft">
     <div class="flex justify-between">
       <div class="flex">
         <div>
           <BaseMediaItem
-            v-if="nft.mediaUrl"
+            v-if="nft?.mediaUrl"
             class="border border-k-shade image is-48x48"
             :class="{ 'opacity-50': discarded }"
             :alt="nft?.name"
@@ -48,23 +48,30 @@
 <script setup lang="ts">
 import { parseNftAvatar } from '@/utils/nft'
 import type { ListCartItem } from '@/stores/listingCart'
+import type { MakingOfferItem } from '@/components/offer/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const avatar = ref<string>()
 
 const props = defineProps<{
-  nft: ListCartItem
+  nft?: (ListCartItem | MakingOfferItem) & {
+    mediaUrl?: {
+      image: string
+      mimeType: string
+    }
+  }
   discarded?: boolean
 }>()
 
 const getAvatar = async () => {
   if (props.nft) {
-    avatar.value = await parseNftAvatar(props.nft)
+    avatar.value = await parseNftAvatar(props.nft as EntityWithMeta)
   }
 }
 
 onMounted(() => {
-  if (!props.nft.mediaUrl) {
+  if (!props.nft?.mediaUrl) {
     getAvatar()
   }
 })

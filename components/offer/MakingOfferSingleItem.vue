@@ -1,12 +1,12 @@
 <template>
   <div class="py-5">
-    <MakingOfferItemDetails :nft="item">
+    <CartItemDetails :nft="item">
       <template #right>
         <div class="flex items-end">
           {{ itemPrice }}
         </div>
       </template>
-    </MakingOfferItemDetails>
+    </CartItemDetails>
 
     <hr class="my-5">
 
@@ -23,10 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import MakingOfferItemDetails from '@/components/offer/MakingOfferItemDetails.vue'
 import ListingCartPriceInput from '@/components/common/listingCart/shared/ListingCartPriceInput.vue'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import formatBalance from '@/utils/format/balance'
+import CartItemDetails from '@/components/common/CartItemDetails.vue'
 
 const emit = defineEmits([
   'setOfferPrice',

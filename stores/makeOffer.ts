@@ -18,12 +18,15 @@ export const useMakingOfferStore = defineStore('makingOffer', {
     getItems: state => state.items,
     getItem: state => (id: ID) => state.items.find(item => item.id === id),
     allItemsInChain: (state): MakingOfferItem[] =>
-      state.items,
+      state.items.filter(item => item.urlPrefix === state.chain),
     itemsInChain(): MakingOfferItem[] {
       return this.allItemsInChain
     },
     count() {
       return this.itemsInChain.length
+    },
+    hasInvalidOfferPrices(): boolean {
+      return this.itemsInChain.some(item => Number(item.offerPrice || 0) <= 0)
     },
   },
 

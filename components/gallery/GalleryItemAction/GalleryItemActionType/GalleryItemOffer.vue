@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-end gallery-item-offer mr-[55px]">
+  <div class="flex justify-end gallery-item-offer">
     <NeoButton
       :label="$t('transaction.offer')"
       variant="k-blue"
       size="large"
-      fixed-width
+      class="w-[calc(10rem+55px)]"
       @click="openOfferModal"
     />
     <MakeOffer />

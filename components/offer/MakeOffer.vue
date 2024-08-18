@@ -6,7 +6,7 @@
       :is-loading="isLoading"
       :status="status"
       close-in-block
-      @try-again="submittingOffer"
+      @try-again="submitOffer"
     />
 
     <NeoModal
@@ -42,14 +42,12 @@
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
-          <MakingOfferSingleItem
-            v-model:fixedPrice="fixedPrice"
-          />
+          <MakingOfferSingleItem />
         </div>
 
         <div class="flex justify-between px-6">
           <AutoTeleportActionButton
-            ref="autoteleportButton"
+            ref="autoTeleportButton"
             :actions="actions"
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
@@ -84,6 +82,7 @@ import { hasOperationsDisabled } from '@/utils/prefix'
 import MakingOfferSingleItem from '@/components/offer/MakingOfferSingleItem.vue'
 import SuccessfulMakingOfferBody from '@/components/offer/SuccessfulMakingOfferBody.vue'
 import { offerVisible } from '@/utils/config/permission.config'
+import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -106,9 +105,8 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
 const { decimals } = useChain()
 const { $i18n } = useNuxtApp()
 
-const fixedPrice = ref()
 const autoTeleport = ref(false)
-const autoteleportButton = ref()
+const autoTeleportButton = ref()
 const itemCount = ref(offerStore.count)
 const items = ref<MakingOfferItem[]>([])
 const autoTeleportLoaded = ref(false)
@@ -116,33 +114,6 @@ const autoTeleportLoaded = ref(false)
 const isSuccessModalOpen = computed(
   () => Boolean(items.value.length) && isTransactionSuccessful.value,
 )
-
-const action = ref<Actions>(emptyObject<Actions>())
-const actions = computed<AutoTeleportAction[]>(() => [
-  {
-    action: action.value,
-    transaction,
-    details: {
-      isLoading: isLoading.value,
-      status: status.value,
-      isError: isError.value,
-      blockNumber: blockNumber.value,
-    },
-  },
-])
-
-const confirmButtonDisabled = computed(
-  () =>
-    hasOperationsDisabled(urlPrefix.value)
-    || !autoteleportButton.value?.isReady,
-)
-
-const confirmListingLabel = computed(() => {
-  if (!offerVisible(urlPrefix.value)) {
-    return $i18n.t('toast.unsupportedOperation')
-  }
-  return $i18n.t('transaction.offer')
-})
 
 const getAction = (items: MakingOfferItem[]): Actions => {
   return {
@@ -159,7 +130,45 @@ const getAction = (items: MakingOfferItem[]): Actions => {
   }
 }
 
-const submittingOffer = () => {
+const { action } = useAutoTeleportActionButton({
+  autoTeleport,
+  autoTeleportButton,
+  autoTeleportLoaded,
+  getActionFn: () => getAction(offerStore.itemsInChain),
+})
+
+const actions = computed<AutoTeleportAction[]>(() => [
+  {
+    action: action.value,
+    transaction,
+    details: {
+      isLoading: isLoading.value,
+      status: status.value,
+      isError: isError.value,
+      blockNumber: blockNumber.value,
+    },
+  },
+])
+
+const confirmButtonDisabled = computed(
+  () =>
+    hasOperationsDisabled(urlPrefix.value)
+    || offerStore.hasInvalidOfferPrices
+    || !autoTeleportButton.value?.isReady,
+)
+
+const confirmListingLabel = computed(() => {
+  if (!offerVisible(urlPrefix.value)) {
+    return $i18n.t('toast.unsupportedOperation')
+  }
+
+  if (!autoTeleportButton.value?.isReady) {
+    return $i18n.t('autoTeleport.checking')
+  }
+  return $i18n.t('transaction.offer')
+})
+
+const submitOffer = () => {
   return transaction(getAction(offerStore.itemsInChain))
 }
 
@@ -172,12 +181,11 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     items.value = [...offerStore.itemsInChain]
 
     if (!autoteleport) {
-      await submittingOffer()
+      await submitOffer()
     }
 
     offerStore.clear()
-    closeListingCartModal()
-    resetCartToDefaults()
+    closeMakingOfferModal()
   }
   catch (error) {
     warningMessage(error)
@@ -185,23 +193,18 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 }
 
 const onClose = () => {
-  resetCartToDefaults()
-  closeListingCartModal()
+  closeMakingOfferModal()
 }
 
 const handleSuccessModalClose = () => {
   items.value = []
 }
 
-const resetCartToDefaults = () => {
-  fixedPrice.value = undefined
-}
-
 watch(
   () => offerStore.count,
   () => {
     if (offerStore.count === 0) {
-      closeListingCartModal()
+      closeMakingOfferModal()
     }
   },
 )
@@ -210,31 +213,23 @@ watch(
   () => preferencesStore.makeOfferModalOpen,
   (makeOfferModalOpen) => {
     if (!makeOfferModalOpen) {
-      // offerStore.clearDiscardedItems()
+      offerStore.clear()
     }
   },
 )
 
-watch(
-  () => autoteleportButton.value?.isReady,
-  () => {
-    if (autoteleportButton.value?.isReady && !autoTeleportLoaded.value) {
-      autoTeleportLoaded.value = true
-    }
+useModalIsOpenTracker({
+  isOpen: computed(() => preferencesStore.makeOfferModalOpen),
+  onChange: () => {
+    offerStore.clear()
   },
-)
-
-watchSyncEffect(() => {
-  if (!autoTeleport.value) {
-    action.value = getAction(offerStore.itemsInChain)
-  }
 })
 
-const closeListingCartModal = () =>
+const closeMakingOfferModal = () =>
   (preferencesStore.makeOfferModalOpen = false)
 
-onBeforeMount(closeListingCartModal)
-onUnmounted(closeListingCartModal)
+onBeforeMount(closeMakingOfferModal)
+onUnmounted(closeMakingOfferModal)
 </script>
 
 <style lang="scss" scoped>

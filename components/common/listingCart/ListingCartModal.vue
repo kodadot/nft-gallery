@@ -76,7 +76,7 @@
 
         <div class="flex justify-between px-6">
           <AutoTeleportActionButton
-            ref="autoteleportButton"
+            ref="autoTeleportButton"
             :actions="actions"
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
@@ -114,6 +114,7 @@ import AutoTeleportActionButton, {
 } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
+import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -139,7 +140,7 @@ const { chainSymbol, decimals } = useChain()
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
-const autoteleportButton = ref()
+const autoTeleportButton = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
 const autoTeleportLoaded = ref(false)
@@ -150,7 +151,7 @@ const isSuccessModalOpen = computed(
 
 const teleportTransitionTxFees = computed(() =>
   format(
-    autoteleportButton.value?.optimalTransition.txFees || 0,
+    autoTeleportButton.value?.optimalTransition.txFees || 0,
     decimals.value,
     chainSymbol.value,
   ),
@@ -167,7 +168,33 @@ watch(floorPricePercentAdjustment, (rate) => {
 })
 
 const fiatStore = useFiatStore()
-const action = ref<Actions>(emptyObject<Actions>())
+
+const getAction = (items: ListCartItem[]): Actions => {
+  const token = items
+    .filter((item): item is ListCartItem & { listPrice: number } =>
+      Boolean(item.listPrice),
+    )
+    .map(item => ({
+      price: String(calculateBalance(item.listPrice, decimals.value)),
+      nftId: item.id,
+    })) as TokenToList[]
+
+  return {
+    interaction: Interaction.LIST,
+    urlPrefix: urlPrefix.value,
+    token,
+    successMessage: $i18n.t('transaction.price.success') as string,
+    errorMessage: $i18n.t('transaction.price.error') as string,
+  }
+}
+
+const { action } = useAutoTeleportActionButton({
+  autoTeleport,
+  autoTeleportButton,
+  autoTeleportLoaded,
+  getActionFn: () => getAction(listingCartStore.itemsInChain),
+})
+
 const actions = computed<AutoTeleportAction[]>(() => [
   {
     action: action.value,
@@ -218,7 +245,7 @@ const confirmButtonDisabled = computed(
   () =>
     hasOperationsDisabled(urlPrefix.value)
     || Boolean(listingCartStore.incompleteListPrices)
-    || !autoteleportButton.value?.isReady,
+    || !autoTeleportButton.value?.isReady,
 )
 
 const confirmListingLabel = computed(() => {
@@ -227,7 +254,7 @@ const confirmListingLabel = computed(() => {
   }
   switch (listingCartStore.incompleteListPrices) {
     case 0:
-      if (!autoteleportButton.value?.isReady) {
+      if (!autoTeleportButton.value?.isReady) {
         return $i18n.t('autoTeleport.checking')
       }
 
@@ -244,25 +271,6 @@ const confirmListingLabel = computed(() => {
       )}`
   }
 })
-
-const getAction = (items: ListCartItem[]): Actions => {
-  const token = items
-    .filter((item): item is ListCartItem & { listPrice: number } =>
-      Boolean(item.listPrice),
-    )
-    .map(item => ({
-      price: String(calculateBalance(item.listPrice, decimals.value)),
-      nftId: item.id,
-    })) as TokenToList[]
-
-  return {
-    interaction: Interaction.LIST,
-    urlPrefix: urlPrefix.value,
-    token,
-    successMessage: $i18n.t('transaction.price.success') as string,
-    errorMessage: $i18n.t('transaction.price.error') as string,
-  }
-}
 
 const submitListing = () => {
   return transaction(getAction(items.value || []))
@@ -321,20 +329,20 @@ watch(
   },
 )
 
-watch(
-  () => autoteleportButton.value?.isReady,
-  () => {
-    if (autoteleportButton.value?.isReady && !autoTeleportLoaded.value) {
-      autoTeleportLoaded.value = true
-    }
-  },
-)
+// watch(
+//   () => autoTeleportButton.value?.isReady,
+//   () => {
+//     if (autoTeleportButton.value?.isReady && !autoTeleportLoaded.value) {
+//       autoTeleportLoaded.value = true
+//     }
+//   },
+// )
 
-watchSyncEffect(() => {
-  if (!autoTeleport.value) {
-    action.value = getAction(listingCartStore.itemsInChain)
-  }
-})
+// watchSyncEffect(() => {
+//   if (!autoTeleport.value) {
+//     action.value = getAction(listingCartStore.itemsInChain)
+//   }
+// })
 
 const closeListingCartModal = () =>
   (preferencesStore.listingCartModalOpen = false)
