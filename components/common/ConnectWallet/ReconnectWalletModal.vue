@@ -2,7 +2,7 @@
   <ModalBody
     :title="$t('reconnect.required')"
     :scrollable="false"
-    @close="emit('close')"
+    @close="closeAllModals"
   >
     <div>
       <div class="flex gap-5 items-center justify-center !py-5 ">
@@ -69,6 +69,7 @@ const { logout } = useWallet()
 const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
 const { isDarkMode } = useTheme()
+const { neoModal } = useProgrammatic()
 
 const loading = ref(false)
 
@@ -106,4 +107,6 @@ const switchWallet = async () => {
     preselected: targetVm.value,
   })
 }
+
+const closeAllModals = () => neoModal.closeAll()
 </script>
