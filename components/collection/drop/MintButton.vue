@@ -41,7 +41,7 @@ const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const now = useNow()
 const { mintCountAvailable } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount, drop, getIsLoadingMaxCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
@@ -149,7 +149,8 @@ const loading = computed(
   () =>
     dropStore.isCapturingImage
     || dropStore.walletConnecting
-    || dropStore.loading,
+    || dropStore.loading
+    || getIsLoadingMaxCount.value,
 )
 
 const showHolderOfCollection = computed(() =>

@@ -55,7 +55,11 @@ export const useDropStore = defineStore('drop', {
       mintedNFTs: [],
     }
   },
-  getters: {},
+  getters: {
+    getIsLoadingMaxCount: (state) => {
+      return !(state.drop.minted >= 0 && Boolean(state.drop.max))
+    },
+  },
   actions: {
     setLoading(payload: boolean) {
       this.loading = payload
