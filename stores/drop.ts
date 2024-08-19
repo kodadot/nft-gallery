@@ -56,9 +56,7 @@ export const useDropStore = defineStore('drop', {
     }
   },
   getters: {
-    getIsLoadingMaxCount: (state) => {
-      return !(state.drop.minted >= 0 && Boolean(state.drop.max))
-    },
+    getIsLoadingMaxCount: state => !(state.drop.minted >= 0 && Boolean(state.drop.max)),
   },
   actions: {
     setLoading(payload: boolean) {
