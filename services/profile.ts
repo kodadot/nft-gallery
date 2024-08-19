@@ -15,6 +15,7 @@ const api = $fetch.create({
 export type Profile = {
   address: string
   name: string
+  version?: number
   description: string
   image: string
   banner: string | null
