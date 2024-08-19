@@ -34,20 +34,10 @@ const openOfferModal = () => {
   preferencesStore.setMakeOfferModalOpen(true)
 }
 
-watch(
-  () => preferencesStore.makeOfferModalOpen,
-  (isOpen) => {
-    if (!isOpen) {
-      onOfferModalClose()
-    }
-  },
-)
-
-const onOfferModalClose = () => {
-  setTimeout(() => {
-    makeOfferStore.clear()
-  }, 500) // wait for modal animation
-}
+useModalIsOpenTracker({
+  isOpen: computed(() => preferencesStore.makeOfferModalOpen),
+  onChange: () => makeOfferStore.clear(),
+})
 </script>
 
 <style lang="scss" scoped>

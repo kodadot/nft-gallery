@@ -1,11 +1,11 @@
 import type { Actions } from '@/composables/transaction/types'
 
 export default ({
-  autoTeleport,
-  autoTeleportButton,
-  autoTeleportLoaded,
   getActionFn,
 }) => {
+  const autoTeleport = ref(false)
+  const autoTeleportButton = ref()
+  const autoTeleportLoaded = ref(false)
   const action = ref<Actions>(emptyObject<Actions>())
 
   watch(
@@ -25,5 +25,8 @@ export default ({
 
   return {
     action,
+    autoTeleport,
+    autoTeleportButton,
+    autoTeleportLoaded,
   }
 }

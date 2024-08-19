@@ -104,12 +104,8 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
 
 const { decimals } = useChain()
 const { $i18n } = useNuxtApp()
-
-const autoTeleport = ref(false)
-const autoTeleportButton = ref()
 const itemCount = ref(offerStore.count)
 const items = ref<MakingOfferItem[]>([])
-const autoTeleportLoaded = ref(false)
 
 const isSuccessModalOpen = computed(
   () => Boolean(items.value.length) && isTransactionSuccessful.value,
@@ -130,10 +126,7 @@ const getAction = (items: MakingOfferItem[]): Actions => {
   }
 }
 
-const { action } = useAutoTeleportActionButton({
-  autoTeleport,
-  autoTeleportButton,
-  autoTeleportLoaded,
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
   getActionFn: () => getAction(offerStore.itemsInChain),
 })
 

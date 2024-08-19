@@ -4,7 +4,7 @@
       <div class="flex">
         <div>
           <BaseMediaItem
-            v-if="nft?.mediaUrl"
+            v-if="nft.mediaUrl"
             class="border border-k-shade image is-48x48"
             :class="{ 'opacity-50': discarded }"
             :alt="nft?.name"

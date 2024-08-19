@@ -139,11 +139,9 @@ const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
-const autoTeleport = ref(false)
-const autoTeleportButton = ref()
+
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
-const autoTeleportLoaded = ref(false)
 
 const isSuccessModalOpen = computed(
   () => Boolean(items.value.length) && isTransactionSuccessful.value,
@@ -188,10 +186,7 @@ const getAction = (items: ListCartItem[]): Actions => {
   }
 }
 
-const { action } = useAutoTeleportActionButton({
-  autoTeleport,
-  autoTeleportButton,
-  autoTeleportLoaded,
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
   getActionFn: () => getAction(listingCartStore.itemsInChain),
 })
 
@@ -328,21 +323,6 @@ watch(
     }
   },
 )
-
-// watch(
-//   () => autoTeleportButton.value?.isReady,
-//   () => {
-//     if (autoTeleportButton.value?.isReady && !autoTeleportLoaded.value) {
-//       autoTeleportLoaded.value = true
-//     }
-//   },
-// )
-
-// watchSyncEffect(() => {
-//   if (!autoTeleport.value) {
-//     action.value = getAction(listingCartStore.itemsInChain)
-//   }
-// })
 
 const closeListingCartModal = () =>
   (preferencesStore.listingCartModalOpen = false)
