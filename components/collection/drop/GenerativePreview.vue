@@ -119,6 +119,7 @@ const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
   decimals,
   chainSymbol,
+  computed(() => drop.value.chain),
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
