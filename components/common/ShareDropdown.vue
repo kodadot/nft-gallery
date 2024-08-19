@@ -1,17 +1,22 @@
 <template>
-  <NeoDropdown position="bottom-left" :mobile-modal="mobileModal">
+  <NeoDropdown
+    position="bottom-left"
+    :mobile-modal="mobileModal"
+  >
     <template #trigger="{ active }">
       <NeoButton
-        :class="isMobile ? 'icon-action' : ''"
+        :class="isMobile ? 'w-10 h-10' : ''"
         :label="label"
         :icon="icon"
         :no-shadow="noShadow"
-        :active="active" />
+        :active="active"
+      />
     </template>
 
     <NeoDropdownItem
       v-clipboard:copy="shareLink"
-      @click="toast(String($t('toast.urlCopy')))">
+      @click="toast(String($t('toast.urlCopy')))"
+    >
       {{ $t('share.copyLink') }}
     </NeoDropdownItem>
     <NeoDropdownItem @click="isModalActive = true">
@@ -19,12 +24,16 @@
     </NeoDropdownItem>
     <NeoDropdownItem
       data-testid="gallery-item-share-dropdown-twitter"
-      @click="actionTwitterShare">
+      @click="actionTwitterShare"
+    >
       {{ $t('share.twitter') }}
     </NeoDropdownItem>
   </NeoDropdown>
 
-  <NeoModal :value="isModalActive" @close="isModalActive = false">
+  <NeoModal
+    :value="isModalActive"
+    @close="isModalActive = false"
+  >
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -34,7 +43,8 @@
       <div class="card-content">
         <QRCode
           :text="shareLink"
-          data-testid="gallery-item-share-dropdown-qrcode" />
+          data-testid="gallery-item-share-dropdown-qrcode"
+        />
       </div>
     </div>
   </NeoModal>

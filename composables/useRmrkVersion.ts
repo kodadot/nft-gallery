@@ -1,4 +1,4 @@
-import { RemarkVersion } from '@kodadot1/minimark/shared'
+import type { RemarkVersion } from '@kodadot1/minimark/shared'
 
 export default function () {
   const { urlPrefix } = usePrefix()

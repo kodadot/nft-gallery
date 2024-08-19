@@ -3,14 +3,18 @@
     <div class="lg:w-1/2 flex flex-col gap-10">
       <!-- Content of the first column -->
       <div class="">
-        <h1 class="title is-3 mb-4">{{ $t('codeChecker.title') }}</h1>
+        <h1 class="title is-3 mb-4">
+          {{ $t('codeChecker.title') }}
+        </h1>
         <div class="w-2/3">
           {{ $t('codeChecker.description') }}
         </div>
       </div>
 
       <div class="py-4 px-5 border border-neutral-5">
-        <h2 class="mb-3">{{ $t('codeChecker.resources') }}:</h2>
+        <h2 class="mb-3">
+          {{ $t('codeChecker.resources') }}:
+        </h2>
         <div class="pl-3 flex flex-col gap-3">
           <a
             v-for="item in RESOURCES_LIST"
@@ -18,19 +22,30 @@
             v-safe-href="item.url"
             class="flex items-center w-fit"
             target="_blank"
-            rel="nofollow noopener noreferrer">
+            rel="nofollow noopener noreferrer"
+          >
             <div
-              class="text-k-blue hover:text-k-blue-hover flex items-center mr-2">
-              <NeoIcon icon="circle" pack="fas" class="text-[4px] mr-2" />
+              class="text-k-blue hover:text-k-blue-hover flex items-center mr-2"
+            >
+              <NeoIcon
+                icon="circle"
+                pack="fas"
+                class="text-[4px] mr-2"
+              />
               {{ $t(item.title) }}
             </div>
-            <NeoIcon icon="arrow-up-right" class="text-neutral-7 text-sm" />
+            <NeoIcon
+              icon="arrow-up-right"
+              class="text-neutral-7 text-sm"
+            />
           </a>
         </div>
       </div>
 
       <div class="">
-        <h2 class="mb-3 title is-4">{{ $t('codeChecker.upload') }}</h2>
+        <h2 class="mb-3 title is-4">
+          {{ $t('codeChecker.upload') }}
+        </h2>
         <p class="mb-4">
           {{ $t('codeChecker.uploadInstructions') }}
         </p>
@@ -38,16 +53,25 @@
           v-model="selectedFile"
           :file-name="fileName"
           @file-selected="onFileSelected"
-          @clear="clear" />
+          @clear="clear"
+        />
       </div>
 
       <div class="">
-        <h2 class="mb-3 title is-4">{{ $t('codeChecker.codeValidation') }}</h2>
-        <p v-if="!selectedFile" class="text-neutral-7">
+        <h2 class="mb-3 title is-4">
+          {{ $t('codeChecker.codeValidation') }}
+        </h2>
+        <p
+          v-if="!selectedFile"
+          class="text-neutral-7"
+        >
           {{ $t('codeChecker.uploadPrompt') }}
         </p>
         <div v-else>
-          <div v-if="errorMessage" class="text-red-500">
+          <div
+            v-if="errorMessage"
+            class="text-red-500"
+          >
             {{ $t('error') }}: {{ errorMessage }}
           </div>
           <div v-else>
@@ -65,9 +89,7 @@
             </div>
 
             <div class="flex justify-between items-center">
-              <span class="text-neutral-7"
-                >{{ $t('codeChecker.local') }} p5js</span
-              >
+              <span class="text-neutral-7">{{ $t('codeChecker.local') }} p5js</span>
               <span>{{ fileValidity.localP5jsUsed ? 'Yes' : 'No' }}</span>
             </div>
           </div>
@@ -75,86 +97,91 @@
       </div>
       <div
         v-if="selectedFile && !errorMessage"
-        class="border-t border-k-shade pt-5 flex flex-col gap-5">
-        <CodeCheckerTestItem
-          :passed="fileValidity.resizerUsed"
-          :description="$t('codeChecker.automaticResize')">
-          <template #modalContent>
-            <CodeCheckerIssueHintAutomaticResize />
-          </template>
-        </CodeCheckerTestItem>
+        class="border-t border-k-shade pt-5 flex flex-col gap-5"
+      >
         <CodeCheckerTestItem
           :passed="fileValidity.validTitle"
-          :description="$t('codeChecker.correctHTMLName')">
+          :description="$t('codeChecker.correctHTMLName')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintCorrectHTMLName />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.kodaRendererUsed"
-          :description="$t('codeChecker.usingKodaHash')">
+          :description="$t('codeChecker.usingKodaHash')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintUsingKodaHash />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.kodaRendererCalledOnce"
-          :description="$t('codeChecker.kodaHashCalledOnce')">
+          :description="$t('codeChecker.kodaHashCalledOnce')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintKodaHashCalledOnce />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.externalResourcesNotUsed"
-          :description="$t('codeChecker.notUsingExternalResources')">
+          :description="$t('codeChecker.notUsingExternalResources')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintNotUsingExternalResources />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.usesHashParam"
-          :description="$t('codeChecker.usingParamHash')">
+          :description="$t('codeChecker.usingParamHash')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintUsingParamHash />
           </template>
         </CodeCheckerTestItem>
-        <CodeCheckerTestItem
-          :passed="!fileValidity.webGlUsed"
-          :description="$t('codeChecker.notUsingWebGl')">
-          <template #modalContent>
-            <CodeCheckerIssueHintNoWebGl />
-          </template>
-        </CodeCheckerTestItem>
-        <CodeCheckerTestItem
-          :passed="fileValidity.renderDurationValid"
-          :description="
-            $t('codeChecker.variationLoadingTime', [
-              (config.maxAllowedLoadTime / 1000).toFixed(0),
-            ])
-          ">
-          <template #modalContent>
-            <CodeCheckerIssueHintVariationLoadingTime />
-          </template>
-        </CodeCheckerTestItem>
+
         <CodeCheckerTestItem
           :passed="fileValidity.validKodaRenderPayload"
-          :description="$t('codeChecker.validImage')">
+          :description="$t('codeChecker.validImage')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintValidImage />
           </template>
         </CodeCheckerTestItem>
         <CodeCheckerTestItem
           :passed="fileValidity.consistent"
-          :description="$t('codeChecker.consistentArt')">
+          :description="$t('codeChecker.consistentArt')"
+        >
           <template #modalContent>
             <CodeCheckerIssueHintConsistentArt />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.resizerUsed"
+          :description="$t('codeChecker.automaticResize')"
+          optional
+        >
+          <template #modalContent>
+            <CodeCheckerIssueHintAutomaticResize />
+          </template>
+        </CodeCheckerTestItem>
+        <CodeCheckerTestItem
+          :passed="fileValidity.renderDurationValid"
+          :description="
+            $t('codeChecker.variationLoadingTime')
+          "
+          optional
+        >
+          <template #modalContent>
+            <CodeCheckerIssueHintVariationLoadingTime />
           </template>
         </CodeCheckerTestItem>
       </div>
     </div>
 
     <div
-      class="w-full lg:w-1/2 flex flex-col items-center lg:mt-4 lg:items-end">
+      class="w-full lg:w-1/2 flex flex-col items-center lg:mt-4 lg:items-end"
+    >
       <!-- Content of the second column -->
       <CodeCheckerPreviewCard
         :selected-file="selectedFile"
@@ -165,20 +192,29 @@
         :reload-trigger="reloadTrigger"
         :index-url="indexUrl"
         @reload="startClock"
-        @hash:update="(hash) => (previewHash = hash)" />
+        @hash:update="(hash) => (previewHash = hash)"
+      />
 
       <CodeCheckerMassPreview
         v-if="selectedFile && indexContent"
         class="!mt-11"
         :assets="assets"
         :index-content="indexContent"
-        @upload="(value) => (indexUrl = value)" />
+        @upload="(value) => (indexUrl = value)"
+      />
 
       <div class="max-w-[490px] mt-11">
-        <hr v-if="selectedFile" class="my-2 bg-k-shade2 w-full !mb-11" />
+        <hr
+          v-if="selectedFile"
+          class="my-2 bg-k-shade2 w-full !mb-11"
+        >
 
         <div class="flex items-center gap-5">
-          <NeoIcon icon="shield" class="!block text-k-grey" size="large" />
+          <NeoIcon
+            icon="shield"
+            class="!block text-k-grey"
+            size="large"
+          />
           <p class="capitalize text-k-grey">
             {{ $t('codeChecker.confidentialCode') }}
           </p>
@@ -190,19 +226,19 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { validate, webGlUsed } from './validate'
+import { validate } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
-import { AssetMessage, Validity } from './types'
+import type { AssetMessage, Validity } from './types'
 
 const RESOURCES_LIST = [
   {
     title: 'codeChecker.kodahashTemplate',
-    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
+    url: 'https://github.com/vikiival/kodahash',
   },
   {
     title: 'codeChecker.learnAboutGenArt',
-    url: 'https://github.com/vikiival/kodahash',
+    url: 'https://hello.kodadot.xyz/tutorial/generative-art',
   },
   {
     title: 'codeChecker.codeChecker',
@@ -212,7 +248,6 @@ const RESOURCES_LIST = [
 
 const validtyDefault: Validity = {
   canvasSize: '',
-  webGlUsed: false,
   localP5jsUsed: false,
   kodaRendererUsed: 'unknown',
   kodaRendererCalledOnce: 'unknown',
@@ -244,8 +279,8 @@ const onFileSelected = async (file: File) => {
   clear()
   startClock()
   selectedFile.value = file
-  const { indexFile, sketchFile, entries, jsFiles } =
-    await extractAssetsFromZip(file)
+  const { indexFile, sketchFile, entries }
+    = await extractAssetsFromZip(file)
 
   if (!sketchFile) {
     errorMessage.value = `Sketch file not found: ${config.sketchFile}`
@@ -254,12 +289,10 @@ const onFileSelected = async (file: File) => {
   const valid = validate(indexFile.content, sketchFile.content)
   if (!valid.isSuccess) {
     errorMessage.value = valid.error ?? 'Unknown error'
-  } else {
+  }
+  else {
     Object.assign(fileValidity, valid.value)
   }
-  fileValidity.webGlUsed = jsFiles.some((file) =>
-    webGlUsed(file.content, file.path),
-  )
 
   if (!fileValidity.kodaRendererUsed) {
     fileValidity.renderDurationValid = 'unknown'
@@ -300,8 +333,8 @@ const consistencyField = (payload) => {
 
 useEventListener(window, 'message', async (res) => {
   if (
-    res.data?.type === 'kodahash/render/completed' &&
-    previewHash.value === res.data.payload.hash
+    res.data?.type === 'kodahash/render/completed'
+    && previewHash.value === res.data.payload.hash
   ) {
     renderCount.value++
     fileValidity.kodaRendererCalledOnce = renderCount.value === 1
@@ -310,20 +343,21 @@ useEventListener(window, 'message', async (res) => {
     renderEndTime.value = performance.now()
     const duration = renderEndTime.value - renderStartTime.value
     fileValidity.renderDurationValid = duration < config.maxAllowedLoadTime
-
-    fileValidity.validKodaRenderPayload =
-      Boolean(payload?.image) && hasImage(payload.image)
+    fileValidity.validKodaRenderPayload
+      = Boolean(payload?.image) && hasImage(payload.image)
     if (fileValidity.validKodaRenderPayload) {
       if (reloadTrigger.value === 0) {
         firstImage.value = consistencyField(payload)
         reloadTrigger.value = 1
-      } else if (
-        fileValidity.consistent === 'loading' ||
-        fileValidity.consistent === 'unknown'
+      }
+      else if (
+        fileValidity.consistent === 'loading'
+        || fileValidity.consistent === 'unknown'
       ) {
         fileValidity.consistent = firstImage.value === consistencyField(payload)
       }
-    } else {
+    }
+    else {
       fileValidity.consistent = 'unknown'
     }
   }

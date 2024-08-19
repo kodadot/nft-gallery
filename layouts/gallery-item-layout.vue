@@ -2,17 +2,22 @@
   <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
     <main class="flex-grow py-8">
-      <div class="container" :class="{ 'is-fluid': !isFullHD }">
+      <div
+        class="container"
+        :class="{ 'is-fluid': !isFullHD }"
+      >
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
           error-subtitle="Please check your network connections"
-          error-title="Offline Detected" />
+          error-title="Offline Detected"
+        />
         <NuxtPage v-else />
       </div>
     </main>
     <LazyTheFooter />
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
   </div>
 </template>

@@ -11,8 +11,8 @@
     :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
-        shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
-        listingCartStore.isItemInCart(entity.id),
+        shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+        || listingCartStore.isItemInCart(entity.id),
     }"
     :card-icon="showCardIcon"
     :card-icon-src="cardIcon"
@@ -21,23 +21,32 @@
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     :media-static-video="hideVideoControls"
-    media-hover-on-cover-play>
-    <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && isAvailableToBuy" class="flex">
+    :lazy-loading="lazyLoading"
+    media-hover-on-cover-play
+  >
+    <template
+      v-if="!hideAction"
+      #action
+    >
+      <div
+        v-if="!isOwner && isAvailableToBuy"
+        class="flex"
+      >
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="flex-grow btn-height"
+          class="flex-grow"
           loading-with-label
-          @click.prevent="onClickBuy">
-        </NeoButton>
+          @click.prevent="onClickBuy"
+        />
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
-          class="fixed-width p-1 border-l-0 btn-height override-wrapper-width"
-          @click.prevent="onClickShoppingCart">
+          class="p-1 !border-l-0"
+          @click.prevent="onClickShoppingCart"
+        >
           <NeoIcon
             class="w-4 h-4"
             :icon="
@@ -45,29 +54,33 @@
                 ? 'fa-striked-out-cart-shopping'
                 : 'fa-shopping-cart-outline-sharp'
             "
-            pack="fa-kit" />
+            pack="fa-kit"
+          />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="flex">
+      <div
+        v-else-if="isOwner"
+        class="flex"
+      >
         <template v-if="isStack">
           <NeoButton
             v-if="isThereAnythingToList !== undefined"
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="flex-grow btn-height"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
+            class="flex-grow"
+            @click.prevent="onClickListingCart"
+          />
         </template>
 
-        <template v-else>
+        <template v-else-if="listVisible(urlPrefix)">
           <NeoButton
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="flex-grow btn-height"
-            @click.prevent="onClickListingCart">
-          </NeoButton>
+            class="flex-grow"
+            @click.prevent="onClickListingCart"
+          />
         </template>
       </div>
     </template>
@@ -78,22 +91,24 @@
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { getTokensNfts, useNftActions } from './useNftActions'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { listVisible } from '@/utils/config/permission.config'
 import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
-import { getTokensNfts, useNftActions } from './useNftActions'
+
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -107,6 +122,7 @@ const props = defineProps<{
   hideAction?: boolean
   hideVideoControls?: boolean
   displayNameWithSn?: boolean
+  lazyLoading?: boolean
 }>()
 
 const {
@@ -139,9 +155,9 @@ const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
-    !isLogIn.value &&
-    shoppingCartStore.getItemToBuy?.id !== undefined &&
-    shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
+    !isLogIn.value
+    && shoppingCartStore.getItemToBuy?.id !== undefined
+    && shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
   )
 })
 
@@ -157,8 +173,8 @@ const buyLabel = computed(function () {
 
 const listLabel = computed(() => {
   const isPriceAvailable = Number(nftForShoppingCart.value?.price)
-  const shouldListForSale =
-    (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
+  const shouldListForSale
+    = (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
   const isInCart = listingCartStore.isItemInCart(props.entity.id)
 
   const label = shouldListForSale
@@ -195,7 +211,8 @@ const onClickBuy = async () => {
 const onClickShoppingCart = async () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)
-  } else {
+  }
+  else {
     const nft = await getNFTForBuying()
     shoppingCartStore.setItem(nftToShoppingCartItem(nft))
   }
@@ -209,7 +226,8 @@ const onClickListingCart = async () => {
   for (const nft of nftsToProcess) {
     if (listingCartStore.isItemInCart(nft.id)) {
       listingCartStore.removeItem(nft.id)
-    } else {
+    }
+    else {
       listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
     }
   }
@@ -223,11 +241,6 @@ onMounted(async () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-:deep(.override-wrapper-width) {
-  .o-btn__wrapper {
-    width: unset !important;
-  }
-}
 .in-cart-border {
   @include ktheme() {
     outline: 2px solid theme('k-blue') !important;
@@ -235,14 +248,6 @@ onMounted(async () => {
     border-color: transparent !important;
     background-color: theme('blue-light-cards');
   }
-}
-
-.fixed-width {
-  min-width: 35px;
-}
-
-.btn-height {
-  height: 35px;
 }
 
 .hover-color {

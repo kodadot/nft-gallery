@@ -27,6 +27,7 @@ module.exports = {
           'var(--k-accent-light-2-dark-paragraph)',
         'k-accent-light-3': 'var(--k-accent-light-3)',
         'k-green': 'var(--k-green)',
+        'k-green-light': 'var(--k-green-light)',
         'k-red': 'var(--k-red)',
         'k-orange': 'var(--k-orange)',
         'k-orange-light': 'var(--k-orange-light)',
@@ -54,7 +55,7 @@ module.exports = {
         'k-shade': 'rgb(var(--k-shade) / <alpha-value>)',
         'k-shade2': 'var(--k-shade2)',
         'placeholder-color': 'var(--placeholder-color)',
-        disabled: 'var(--disabled)',
+        'disabled': 'var(--disabled)',
         'card-border-color': 'var(--card-border-color)',
         'card-border-color-light': 'var(--card-border-color-light)',
         'green-border-color': 'var(--green-border-color)',
@@ -67,7 +68,7 @@ module.exports = {
         'purple-dark-color': 'var(--purple-dark-color)',
         'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
 
-        neutral: {
+        'neutral': {
           1: '#ffffff',
           2: '#fcfcfc',
           3: '#f5f5f5',
@@ -90,7 +91,7 @@ module.exports = {
         inherit: 'inherit',
       },
       opacity: {
-        unset: 'unset',
+        'unset': 'unset',
         'card-hover-opacity': 'var(--card-hover-opacity)',
       },
       // TODO: remove it after removing .border class from global.scss
@@ -106,7 +107,7 @@ module.exports = {
       animation: {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1s)',
-        ping: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'ping': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       // TODO: remove it after removing bulma
       padding: {

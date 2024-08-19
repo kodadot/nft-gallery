@@ -1,31 +1,44 @@
 <template>
-  <div class="flex flex-col" :class="[`nft-media-info__${variant}`]">
+  <div
+    class="flex flex-col"
+    :class="[`nft-media-info__${variant}`]"
+  >
     <div
       class="flex flex-col mb-2"
-      :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }">
+      :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }"
+    >
       <div class="flex justify-between">
         <span
           class="is-ellipsis font-bold"
           data-testid="nft-name"
-          :title="token.name">
+          :title="token.name"
+        >
           {{ token.name || '--' }}
         </span>
         <span v-if="!isMinimal">x{{ token.supply }}</span>
       </div>
 
-      <div v-if="!isMinimal" class="text-xs text-k-grey">
+      <div
+        v-if="!isMinimal"
+        class="text-xs text-k-grey"
+      >
         {{ $t('lowestPrice') }}:
         <CommonTokenMoney
           :value="token.cheapest?.price"
-          data-testid="card-money" />
+          data-testid="card-money"
+        />
       </div>
     </div>
 
     <div
       class="flex justify-between items-center"
-      :class="{ 'border-t border-border-color pt-2 px-3': !isMinimal }">
+      :class="{ 'border-t border-border-color pt-2 px-3': !isMinimal }"
+    >
       <template v-if="!isMinimal">
-        <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
+        <a
+          class="is-ellipsis pr-1"
+          :v-safe-href="collectionUrl"
+        >
           {{ collectionNameLabel }}
         </a>
         <NeoButton
@@ -35,7 +48,8 @@
           :v-safe-href="collectionUrl"
           class="text-xs text-k-grey hover:text-text-color"
           label="Visit"
-          icon="arrow-right" />
+          icon="arrow-right"
+        />
       </template>
 
       <template v-else>
@@ -43,11 +57,13 @@
           v-if="collectionNameLabel"
           :show-delay="collectionPopoverShowDelay"
           class-name="text-xs text-k-grey hover:text-text-color"
-          :nft="token">
+          :nft="token"
+        >
           <template #content>
             <a
               :v-safe-href="`/${prefix}/collection/${token.collection.id}`"
-              class="text-k-grey hover:text-text-color whitespace-nowrap">
+              class="text-k-grey hover:text-text-color whitespace-nowrap"
+            >
               {{ collectionNameLabel }}
             </a>
           </template>
@@ -60,9 +76,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { NeoNFT, NftCardVariant } from './types'
 import { computed } from 'vue'
 import { NeoButton } from '@kodadot1/brick'
+import type { NeoNFT, NftCardVariant } from './types'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 

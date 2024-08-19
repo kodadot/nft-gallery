@@ -19,24 +19,27 @@
       </template>
     </ListingCartItemDetails>
 
-    <hr class="my-5" />
+    <hr class="my-5">
 
-    <div class="font-bold">{{ $t('listingCart.chooseAPrice') }}</div>
+    <div class="font-bold">
+      {{ $t('listingCart.chooseAPrice') }}
+    </div>
 
     <ListingCartFloorPrice v-model="floorPricePercentAdjustment" />
 
     <ListingCartPriceInput
       v-model.number="fixedPrice"
       class="pt-2"
-      full-width />
+      full-width
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useListingCartStore } from '@/stores/listingCart'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
+import { useListingCartStore } from '@/stores/listingCart'
 import formatBalance from '@/utils/format/balance'
 
 const emit = defineEmits([
@@ -74,7 +77,7 @@ const formatWithBlank = (value: number) => {
 
 watch(
   () => props.fixedPrice,
-  (value) => emit('setFixedPrice', value),
+  value => emit('setFixedPrice', value),
 )
 
 watch(

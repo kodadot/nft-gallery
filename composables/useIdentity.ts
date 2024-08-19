@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
-import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import { type Prefix } from '@kodadot1/static'
+import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 
 export type IdentityFields = Record<string, string>
@@ -12,9 +12,11 @@ export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const getIdentityId = (address: string) => {
     if (isEvm.value) {
       return address
-    } else if (isDotAddress.value) {
+    }
+    else if (isDotAddress.value) {
       return accountToPublicKey(address)
-    } else {
+    }
+    else {
       return getss58AddressByPrefix(address, 'rmrk')
     }
   }
@@ -34,14 +36,14 @@ export default function useIdentity({
 
   const id = computed(() => address.value && getIdentityId(address.value))
 
-  const { profile, isPending: loading } = useFetchProfile(id.value)
+  const { profile, isPending: loading } = useFetchProfile(id)
 
   const shortenedAddress = computed(() => shortAddress(address.value))
 
-  const getSocialHandle = (platform) =>
+  const getSocialHandle = platform =>
     computed(
       () =>
-        profile?.value?.socials?.find((s) => s.platform === platform)?.handle,
+        profile?.value?.socials?.find(s => s.platform === platform)?.handle,
     )
 
   const twitter = getSocialHandle('Twitter')

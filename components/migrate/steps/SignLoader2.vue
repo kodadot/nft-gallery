@@ -2,7 +2,10 @@
   <div class="mb-5">
     <div class="flex items-center mb-4">
       <div class="mr-5">
-        <NeoIcon v-bind="whichIcon()" class="fa-2x" />
+        <NeoIcon
+          v-bind="whichIcon()"
+          class="fa-2x"
+        />
       </div>
       <div>
         <p class="font-bold text-xl">
@@ -14,28 +17,39 @@
       </div>
     </div>
     <div class="flex">
-      <div class="v-border"></div>
+      <div class="v-border" />
       <div class="mb-4">
         <p v-if="iterations">
           {{ iterations }}/{{ maxIterations }} {{ $t('migrate.signStep.left') }}
         </p>
-        <p v-else>{{ $t('migrate.signStep.done') }}</p>
+        <p v-else>
+          {{ $t('migrate.signStep.done') }}
+        </p>
       </div>
     </div>
-    <div v-for="(_, index) in maxIterations" :key="index" class="flex">
-      <div class="v-border"></div>
+    <div
+      v-for="(_, index) in maxIterations"
+      :key="index"
+      class="flex"
+    >
+      <div class="v-border" />
       <div class="mb-4 flex w-full">
-        <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
+        <NeoIcon
+          v-bind="itemLeftIcons(index)"
+          class="mr-4"
+        />
         <div :class="itemLeftIcons(index).textColor">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
         <div
           v-if="isError || status === TransactionStatus.Cancelled"
-          class="flex-1 text-right">
+          class="flex-1 text-right"
+        >
           <NeoButton
             variant="outlined-rounded"
             size="small"
-            @click="tryAgain()">
+            @click="tryAgain()"
+          >
             {{ $t('helper.tryAgain') }}
           </NeoButton>
         </div>
@@ -73,7 +87,7 @@ const collectionId = route.query.collectionId
 
 const { collections } = await useCollectionReady(from, fromAccountId)
 const fromCollection = collections.value.find(
-  (collection) => collection.id === route.query.collectionId,
+  collection => collection.id === route.query.collectionId,
 )
 
 const api = await apiInstance.value
@@ -122,7 +136,6 @@ const tryAgain = () => {
 const startStep2 = async () => {
   let nextCollectionId
   try {
-    // eslint-disable-next-line no-restricted-syntax
     for (let index = 0; index < iterations.value; index++) {
       const fromCollectionId = collectionOwner
         ? collectionId
@@ -135,7 +148,7 @@ const startStep2 = async () => {
       )
 
       const ownerSign = checkSign.data.filter(
-        (item) => item.account === accountId.value,
+        item => item.account === accountId.value,
       )
 
       if (!nextCollectionId) {
@@ -168,7 +181,8 @@ const startStep2 = async () => {
     }
 
     executeStep2()
-  } catch (error) {
+  }
+  catch (error) {
     $consola.error('error step2', error)
   }
 }
@@ -177,9 +191,9 @@ const executeStep2 = async () => {
   updateSteps('step2-migrate')
 
   if (
-    status.value &&
-    status.value !== TransactionStatus.Finalized &&
-    status.value !== TransactionStatus.Cancelled
+    status.value
+    && status.value !== TransactionStatus.Finalized
+    && status.value !== TransactionStatus.Cancelled
   ) {
     await delay(DETAIL_TIMEOUT)
     executeStep2()
@@ -209,9 +223,9 @@ watchEffect(() => {
 
   // Done, move to step3
   if (
-    steps.value === 'step2-migrate' &&
-    !iterations.value &&
-    status.value === TransactionStatus.Finalized
+    steps.value === 'step2-migrate'
+    && !iterations.value
+    && status.value === TransactionStatus.Finalized
   ) {
     updateSteps('step3')
   }

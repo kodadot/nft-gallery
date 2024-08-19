@@ -1,4 +1,5 @@
-import { $fetch, FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import { isEthereumAddress } from '@polkadot/util-crypto'
 import { isProduction } from '@/utils/env'
 
@@ -48,7 +49,7 @@ export type CreateProfileRequest = {
   name: string
   description: string
   image: string
-  banner: string
+  banner: string | undefined
   socials: SocialLink[]
 }
 
@@ -59,7 +60,7 @@ export type UpdateProfileRequest = {
   name?: string
   description?: string
   image?: string
-  banner?: string
+  banner: string | null
   socials: SocialLink[]
 }
 
@@ -105,11 +106,17 @@ export const fetchProfileByAddress = (address: string) =>
     method: 'GET',
   })
 
+export const searchProfiles = (query: string, limit = 5, offset = 0) =>
+  api<{ data: Profile[] }>('/profiles/search', {
+    method: 'GET',
+    query: { q: query, limit, offset },
+  })
+
 export const fetchFollowersOf = (
   address: string,
-  options?: { limit?: number; offset?: number; exclude?: string[] },
+  options?: { limit?: number, offset?: number, exclude?: string[] },
 ) =>
-  api<{ followers: Follower[]; totalCount: number }>(
+  api<{ followers: Follower[], totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/followers`,
     {
       method: 'GET',
@@ -123,9 +130,9 @@ export const fetchFollowersOf = (
 
 export const fetchFollowing = (
   address: string,
-  options?: { limit?: number; offset?: number },
+  options?: { limit?: number, offset?: number },
 ) =>
-  api<{ following: Follower[]; totalCount: number }>(
+  api<{ following: Follower[], totalCount: number }>(
     `/follow/${toSubstrateAddress(address)}/following`,
     {
       method: 'GET',
@@ -140,7 +147,8 @@ export const createProfile = async (profileData: CreateProfileRequest) => {
       body: profileData,
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::CREATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
@@ -158,10 +166,40 @@ export const updateProfile = async (updates: UpdateProfileRequest) => {
       },
     )
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
     throw new Error(
       `[PROFILE::UPDATE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
+    )
+  }
+}
+
+type DeleteProfile = {
+  message: string
+  signature: string
+  address: string
+}
+
+export const deleteProfile = async ({
+  address,
+  message,
+  signature,
+}: DeleteProfile) => {
+  try {
+    const response = await api<ProfileResponse>(`/profiles/${address}`, {
+      method: 'DELETE',
+      body: {
+        message,
+        signature,
+        address,
+      },
+    })
+    return response
+  }
+  catch (error) {
+    throw new Error(
+      `[PROFILE::DELETE] ERROR: ${(error as FetchError)?.data?.error?.issues[0]?.message}`,
     )
   }
 }
@@ -173,7 +211,8 @@ export const follow = async (followRequest: FollowRequest) => {
       body: convertToSubstrateAddress(followRequest),
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
 
     throw new Error(`[PROFILE::FOLLOW] ERROR: ${(error as FetchError).data}`)
@@ -187,7 +226,8 @@ export const unfollow = async (unFollowRequest: FollowRequest) => {
       body: convertToSubstrateAddress(unFollowRequest),
     })
     return response
-  } catch (error) {
+  }
+  catch (error) {
     invalidSignatureErrorHandler(error as FetchError)
 
     throw new Error(`[PROFILE::UNFOLLOW] ERROR: ${(error as FetchError).data}`)
@@ -206,9 +246,49 @@ export const isFollowing = async (
       },
     )
     return response.isFollowing
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error(
       `[PROFILE::IS_FOLLOWING] ERROR: ${(error as FetchError).data}`,
+    )
+  }
+}
+
+type UploadImage = {
+  file: File
+  type: string
+  address: string
+  signature: string
+  message: string
+}
+
+export const uploadImage = async ({
+  file,
+  type,
+  address,
+  signature,
+  message,
+}: UploadImage) => {
+  try {
+    address = toSubstrateAddress(address)
+
+    const form = new FormData()
+    form.append('file', file)
+    form.append('address', address)
+    form.append('type', type)
+    form.append('signature', signature)
+    form.append('message', message)
+
+    const response = await api<{ url: string }>(`/profiles/${address}/image`, {
+      method: 'POST',
+      body: form,
+    })
+
+    return response
+  }
+  catch (error) {
+    throw new Error(
+      `[PROFILE::UPLOAD_IMAGE] ERROR: ${(error as FetchError).data}`,
     )
   }
 }

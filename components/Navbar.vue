@@ -5,37 +5,52 @@
     class="navbar is-fixed-top is-spaced"
     :class="{
       'is-active': isMobileNavbarOpen,
-    }">
+    }"
+  >
     <div
       class="container items-center max-lg:!px-0"
-      :class="{ 'is-fluid': !isTouch }">
+      :class="{ 'is-fluid': !isTouch }"
+    >
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link
           v-if="!isMobile || !openMobileSearchBar"
           to="/"
-          class="navbar-item logo nuxt-link-active">
+          class="navbar-item logo nuxt-link-active"
+        >
           <img
             :src="logoSrc"
-            alt="First NFT market explorer on Kusama and Polkadot" />
+            alt="First NFT market explorer on Kusama and Polkadot"
+          >
         </nuxt-link>
         <div
           class="lg:!hidden flex flex-grow items-center justify-end"
-          @click="closeBurgerMenu">
+          @click="closeBurgerMenu"
+        >
           <NeoButton
             v-show="isMobile && !openMobileSearchBar"
             class="square-40 mr-2"
             icon="magnifying-glass"
-            @click="showMobileSearchBar" />
+            @click="showMobileSearchBar"
+          />
 
-          <div v-show="!isMobile || openMobileSearchBar" class="w-full">
+          <div
+            v-show="!isMobile || openMobileSearchBar"
+            class="w-full"
+          >
             <div
-              class="is-fixed-top z-10 flex items-center justify-between p-2">
-              <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
+              class="is-fixed-top z-10 flex items-center justify-between p-2"
+            >
+              <Search
+                ref="mobilSearchRef"
+                hide-filter
+                class="flex-grow"
+              />
               <NeoButton
                 variant="text"
                 class="p-3 is-shadowless border-0 capitalize sm:hidden"
-                @click="hideMobileSearchBar">
+                @click="hideMobileSearchBar"
+              >
                 {{ $t('cancel') }}
               </NeoButton>
             </div>
@@ -50,10 +65,11 @@
           aria-label="menu"
           aria-expanded="false"
           data-target="MainNavbar"
-          @click="showMobileNavbar">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+          @click="showMobileNavbar"
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </a>
         <!-- END BURGER MENU -->
       </div>
@@ -63,7 +79,8 @@
       <div
         id="MainNavbar"
         class="navbar-menu py-0"
-        :class="{ 'is-active': isMobileNavbarOpen }">
+        :class="{ 'is-active': isMobileNavbarOpen }"
+      >
         <!-- NAV START -->
         <div class="navbar-start">
           <div class="navbar-item is-expanded flex justify-center">
@@ -71,72 +88,95 @@
               v-if="!isTouch"
               class="search-navbar flex-grow pb-0 max-lg:!hidden"
               hide-filter
-              search-column-class="flex-grow" />
+              search-column-class="flex-grow"
+            />
           </div>
         </div>
         <!-- END NAV START -->
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/ahp/drops" rel="nofollow">
-            <div class="navbar-item" data-testid="drops">
+          <nuxt-link
+            :to="dropsPath"
+            rel="nofollow"
+          >
+            <div
+              class="navbar-item"
+              data-testid="drops"
+            >
               {{ $t('drops.drops') }}
 
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
                 pack="fass"
-                variant="primary" />
+                variant="primary"
+              />
             </div>
           </nuxt-link>
 
           <MobileExpandableSection
             v-slot="{ onCloseMobileSubMenu }"
             class="lg:!hidden"
-            :title="$t('explore')">
+            :title="$t('explore')"
+          >
             <NavbarExploreOptions
               @select="
                 () => {
                   showMobileNavbar()
                   onCloseMobileSubMenu()
                 }
-              " />
+              "
+            />
           </MobileExpandableSection>
           <NavbarExploreDropdown
             class="navbar-explore custom-navbar-item max-lg:!hidden"
-            data-testid="explore" />
+            data-testid="explore"
+          />
 
           <a
             href="https://hello.kodadot.xyz"
             rel="nofollow noopener noreferrer"
             target="_blank"
             class="navbar-item"
-            data-testid="learn">
+            data-testid="learn"
+          >
             {{ $t('learn') }}
           </a>
+          <CreateDropdown
+            v-show="isCreateVisible"
+            class="navbar-create custom-navbar-item ml-0"
+            data-testid="create"
+            :chain="urlPrefix"
+            @select="showMobileNavbar"
+          />
 
           <MobileExpandableSection
             v-slot="{ onCloseMobileSubMenu }"
             class="lg:!hidden"
             no-padding
-            :title="$t('chainSelect', [chainName])">
+            :title="$t('chainSelect', [chainName])"
+          >
             <NavbarChainOptions
               @select="
                 () => {
                   handleMobileChainSelect()
                   onCloseMobileSubMenu()
                 }
-              " />
+              "
+            />
           </MobileExpandableSection>
           <ChainSelectDropdown
             id="NavChainSelect"
             class="navbar-chain custom-navbar-item max-lg:!hidden"
-            data-testid="chain-select" />
+            data-testid="chain-select"
+          />
 
           <ShoppingCartButton
             data-testid="navbar-button-cart"
             :show-label="isTouch"
-            @closeBurgerMenu="showMobileNavbar" />
+            @close-burger-menu="showMobileNavbar"
+          />
 
           <div class="lg:!hidden">
             <template v-if="!account">
@@ -145,14 +185,16 @@
                 class="mobile-language"
                 :no-padding="true"
                 :title="$t('profileMenu.language')"
-                icon="globe">
+                icon="globe"
+              >
                 <MobileLanguageOption
                   @select="
                     () => {
                       showMobileNavbar()
                       onCloseMobileSubMenu()
                     }
-                  " />
+                  "
+                />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
               <NavbarCookiesButton @select="showMobileNavbar" />
@@ -160,23 +202,32 @@
             <div
               v-else
               class="navbar-item"
-              @click.stop="openWalletConnectModal">
+              @click.stop="openWalletConnectModal"
+            >
               <span>
                 {{ $t('profile.page') }}
                 <NeoIcon
                   icon="user-circle"
                   class="w-4 h-4 ml-2 lg:!ml-0"
-                  size="medium" />
+                  size="medium"
+                />
               </span>
-              <NeoIcon class="icon--right" icon="chevron-right" />
+              <NeoIcon
+                class="icon--right"
+                icon="chevron-right"
+              />
             </div>
 
-            <div v-if="!account" id="NavProfile">
+            <div
+              v-if="!account"
+              id="NavProfile"
+            >
               <ConnectWalletButton
                 class="button-connect-wallet"
                 data-testid="navbar-button-connect-wallet"
                 variant="connect"
-                @closeBurgerMenu="showMobileNavbar" />
+                @close-burger-menu="showMobileNavbar"
+              />
             </div>
           </div>
 
@@ -185,7 +236,8 @@
             class="max-lg:!hidden"
             :chain="urlPrefix"
             data-testid="navbar-profile-dropdown"
-            @closeBurgerMenu="closeBurgerMenu" />
+            @close-burger-menu="closeBurgerMenu"
+          />
         </div>
         <!-- END NAV END -->
       </div>
@@ -197,8 +249,10 @@
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
+import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
@@ -208,7 +262,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
+import { createVisible } from '@/utils/config/permission.config'
 
 const { neoModal } = useProgrammatic()
 const openMobileSearchBar = ref(false)
@@ -225,10 +279,20 @@ const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 
+const isCreateVisible = computed(() => createVisible(urlPrefix.value))
+
 const logoSrc = computed(() => {
   const variant = isTouch ? 'Koda' : 'Koda_Beta'
   const color = isDarkMode.value ? '_dark' : ''
   return `/${variant}${color}.svg`
+})
+
+const dropsPath = computed(() => {
+  const prefix = pickByVm({
+    SUB: 'ahp',
+    EVM: urlPrefix.value,
+  })
+  return `/${prefix}/drops`
 })
 
 const handleMobileChainSelect = () => {
@@ -239,10 +303,7 @@ const closeAllModals = () => neoModal.closeAll()
 
 const openWalletConnectModal = (): void => {
   closeAllModals()
-  neoModal.open({
-    ...ConnectWalletModalConfig,
-    ...(isMobile ? { animation: 'none' } : {}),
-  })
+  openConnectWalletModal()
 }
 
 const showMobileNavbar = () => {
@@ -268,7 +329,8 @@ const setBodyScroll = (allowScroll: boolean) => {
     const body = document.querySelector('body') as HTMLBodyElement
     if (allowScroll) {
       body.classList.remove('is-clipped')
-    } else {
+    }
+    else {
       body.classList.add('is-clipped')
     }
   })

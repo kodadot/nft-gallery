@@ -1,7 +1,7 @@
+import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 import { isMobileDevice } from '~/utils/extension'
 
 // wallet logo
-import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 
 export interface WalletConfig {
   img: string
@@ -25,6 +25,7 @@ export enum SupportWalletExtension {
   SubWallet = 'subwallet-js',
   Talisman = 'talisman',
   Enkrypt = 'enkrypt',
+  PolkaGate = 'polkagate',
 }
 
 // source as 'polkadot-js' in mobile app
@@ -125,6 +126,14 @@ export const WalletConfigMap: IWalletConfigMap = {
     'https://www.enkrypt.com/',
     true,
   ),
+  [SupportWalletExtension.PolkaGate]: buildWalletConfig(
+    SupportWalletExtension.PolkaGate,
+    '/partners/logo-polkagate.svg',
+    'PolkaGate',
+    'https://chromewebstore.google.com/detail/polkagate-the-gateway-to/ginchbkmljhldofnbjabmeophlhdldgp?hl=en',
+    'https://polkagate.xyz/',
+    true,
+  ),
 }
 
 const MobileWalletExtensionList = [
@@ -136,6 +145,7 @@ const PCWalletExtensionList = [
   SupportWalletExtension.Talisman,
   SupportWalletExtension.SubWallet,
   SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.PolkaGate,
   SupportWalletExtension.Enkrypt,
   SupportWalletExtension.Clover,
 ]
@@ -150,7 +160,7 @@ const createWalletInstance = (
 const createWalletInstanceList = (
   walletList: SupportWalletExtension[],
 ): BaseDotsamaWallet[] => {
-  return walletList.map((walletExtension) =>
+  return walletList.map(walletExtension =>
     createWalletInstance(walletExtension),
   )
 }
@@ -160,11 +170,11 @@ export const SupportedWallets = () => {
     return createWalletInstanceList(MobileWalletExtensionList)
   }
   const allWallets = createWalletInstanceList(PCWalletExtensionList)
-  const wallets = allWallets.filter((wallet) => wallet.installed)
-  const sourceIds = new Set(wallets.map((d) => d.source))
+  const wallets = allWallets.filter(wallet => wallet.installed)
+  const sourceIds = new Set(wallets.map(d => d.source))
   const allWalletsUpdates = [
     ...wallets,
-    ...allWallets.filter((d) => !sourceIds.has(d.source)),
+    ...allWallets.filter(d => !sourceIds.has(d.source)),
   ]
   return allWalletsUpdates
 }
@@ -228,6 +238,6 @@ interface Connector {
 
 export interface Wallet
   extends WalletData,
-    WalletExtension,
-    Connector,
-    Signer {}
+  WalletExtension,
+  Connector,
+  Signer {}

@@ -7,11 +7,13 @@
           v-if="$nuxt.isOffline"
           :has-img="false"
           error-subtitle="Please check your network connections"
-          error-title="Offline Detected" />
+          error-title="Offline Detected"
+        />
         <NuxtPage v-else />
       </div>
     </main>
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
   </div>
 </template>

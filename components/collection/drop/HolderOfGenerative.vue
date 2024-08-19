@@ -5,21 +5,25 @@
     :is-loading="loading"
     :status="status"
     :is-error="isTransactionError"
-    @try-again="mintNft" />
+    @try-again="mintNft"
+  />
 
   <NeoModal
     v-if="isOnlyHolderOfMint && status === TransactionStatus.Finalized"
     :value="isSuccessModalActive"
-    teleport>
+    teleport
+  >
     <ModalBody
       :title="$i18n.t('success')"
-      @close="isSuccessModalActive = false">
+      @close="isSuccessModalActive = false"
+    >
       <CollectionDropModalSharedSuccessfulDrop
         v-if="claimedNft"
         :status="status"
         :minting-session="mintingSession"
         :can-list-nfts="canListMintedNft"
-        @list="handleList" />
+        @list="handleList"
+      />
     </ModalBody>
   </NeoModal>
 
@@ -33,28 +37,28 @@
     :is-error="isTransactionError"
     @confirm="mintNft"
     @close="closeMintModal"
-    @list="handleList" />
+    @list="handleList"
+  />
 
   <CollectionDropAddFundsModal
     v-if="isOnlyHolderOfMint"
     v-model="isAddFundModalActive"
     @close="isAddFundModalActive = false"
-    @confirm="handleDropAddModalConfirm" />
+    @confirm="handleDropAddModalConfirm"
+  />
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import {
-  useDrop,
   useDropMinimumFunds,
-  useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useUpdateMetadata,
 } from '@/composables/drop/useGenerativeDropMint'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
-import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
@@ -67,14 +71,14 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const {
   transaction,
   isLoading: isTransactionLoading,
   status,
   isError: isTransactionError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -85,15 +89,13 @@ const { openListingCartModal } = useListingCartModal({
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
-const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
-const { mintingSession, loading, walletConnecting, isCapturingImage } =
-  storeToRefs(dropStore)
+const { mintingSession, loading, walletConnecting, isCapturingImage, drop }
+  = storeToRefs(dropStore)
 
 useCursorDropEvents([isTransactionLoading, loading])
 
@@ -124,8 +126,10 @@ const mintNft = async () => {
       collectionId: drop.value?.collection,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
-  } catch (e) {
+  }
+  catch (e) {
     warningMessage(`${e}`)
     $consola.error(e)
     isTransactionLoading.value = false
@@ -159,7 +163,8 @@ const handleSubmitMint = async () => {
 
   if (hasMinimumFunds.value) {
     mint()
-  } else {
+  }
+  else {
     isAddFundModalActive.value = true
   }
 }
@@ -170,13 +175,14 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    await useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
 
     loading.value = false
     isSuccessModalActive.value = true
 
     dropStore.incrementRuntimeMintCount()
-  } catch (error) {
+  }
+  catch (error) {
     toast($i18n.t('drops.mintDropError', [error?.toString()]))
     isCapturingImage.value = false
     $consola.error(error)
@@ -231,8 +237,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">

@@ -8,16 +8,19 @@
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
       :name="nft?.name"
+      :nft-sn="nft?.sn"
+      :collection-id="nft?.collection?.id"
       :collection-name="nft?.collection?.name"
       :current-owner="nft?.currentOwner"
       :price="nft?.price"
-      data-testid="gallery-item-more-button" />
+      data-testid="gallery-item-more-button"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { GalleryItem } from '../useGalleryItem'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
-import { GalleryItem } from '../useGalleryItem'
 import { extractTwitterIdFromDescription } from '@/utils/parse'
 
 const props = defineProps<{

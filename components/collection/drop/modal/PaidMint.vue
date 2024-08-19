@@ -1,15 +1,14 @@
 <template>
   <NeoModal
     :value="modelValue"
-    :can-cancel="isSigningStep ? false : ['outside', 'escape']"
-    @close="close">
+    @close="close"
+  >
     <ModalBody
       :title="title"
       :scrollable="false"
       :loading="loading"
-      :custom-skeleton-title="preStepTitle"
-      :estimated-time="estimedTime"
-      @close="close">
+      @close="close"
+    >
       <MintOverview
         v-if="isMintOverviewStep"
         ref="mintOverview"
@@ -20,7 +19,8 @@
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
         @confirm="handleConfirm"
-        @close="handleModalClose" />
+        @close="handleModalClose"
+      />
 
       <SigningModalBody
         v-else-if="isSigningStep"
@@ -28,26 +28,28 @@
         :subtitle="transactionStatus"
         :status="status"
         :failed="isError"
-        @try-again="confirm" />
+        @try-again="confirm"
+      />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
         :status="status"
         :minting-session="mintingSession"
         :can-list-nfts="canList"
-        @list="$emit('list')" />
+        @list="$emit('list')"
+      />
     </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import { usePreloadImages } from './utils'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
+import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import useDropMassMintState from '@/composables/drop/massmint/useDropMassMintState'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
@@ -58,8 +60,6 @@ enum ModalStep {
   SIGNING = 'SIGNING',
   SUCCEEDED = 'succeded',
 }
-
-const IPFS_ESTIMATED_TIME_SECONDS = 15
 
 const emit = defineEmits(['confirm', 'update:modelValue', 'list', 'close'])
 const props = defineProps<{
@@ -74,8 +74,8 @@ const { mintingSession, amountToMint, toMintNFTs } = storeToRefs(useDropStore())
 const { $i18n } = useNuxtApp()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
-const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit } =
-  useDropMinimumFunds(computed(() => amountToMint.value))
+const { formattedMinimumFunds, minimumFunds, formattedExistentialDeposit }
+  = useDropMinimumFunds(computed(() => amountToMint.value))
 
 const { completed: imagePreloadingCompleted } = usePreloadImages(
   computed(() => mintingSession.value.items),
@@ -88,10 +88,6 @@ const isModalOpen = useVModel(props, 'modelValue')
 
 const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
-)
-
-const estimedTime = computed(() =>
-  isSingleMintNotReady.value ? IPFS_ESTIMATED_TIME_SECONDS : undefined,
 )
 
 const mintButton = computed(() => {
@@ -107,14 +103,10 @@ const mintButton = computed(() => {
 
 const loading = computed(
   () =>
-    isSingleMintNotReady.value ||
-    mintOverview.value?.loading ||
-    (autoteleportCompleted.value && !moveSuccessfulDrop.value) ||
-    false,
-)
-
-const preStepTitle = computed<string | undefined>(() =>
-  isSingleMintNotReady.value ? $i18n.t('drops.mintDropError') : undefined,
+    isSingleMintNotReady.value
+    || mintOverview.value?.loading
+    || (autoteleportCompleted.value && !moveSuccessfulDrop.value)
+    || false,
 )
 
 const isMintOverviewStep = computed(
@@ -127,9 +119,9 @@ const isSuccessfulDropStep = computed(
 
 const moveSuccessfulDrop = computed<boolean>(
   () =>
-    imagePreloadingCompleted.value &&
-    Boolean(mintingSession.value.items.length) &&
-    Boolean(mintingSession.value.txHash),
+    imagePreloadingCompleted.value
+    && Boolean(mintingSession.value.items.length)
+    && Boolean(mintingSession.value.txHash),
 )
 
 const transactionStatus = computed(() => {
@@ -160,7 +152,8 @@ const handleModalClose = (completed: boolean) => {
   if (completed) {
     autoteleportCompleted.value = true
     isModalOpen.value = true
-  } else {
+  }
+  else {
     close()
   }
 }
@@ -173,7 +166,8 @@ const handleConfirm = ({
   if (!autoteleport) {
     confirm()
     modalStep.value = ModalStep.SIGNING
-  } else {
+  }
+  else {
     isModalOpen.value = false
   }
 }
@@ -185,8 +179,8 @@ const reset = () => {
 
 watchEffect(() => {
   if (
-    moveSuccessfulDrop.value &&
-    (isSigningStep.value || autoteleportCompleted.value)
+    moveSuccessfulDrop.value
+    && (isSigningStep.value || autoteleportCompleted.value)
   ) {
     modalStep.value = ModalStep.SUCCEEDED
   }

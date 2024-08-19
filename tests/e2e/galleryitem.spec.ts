@@ -9,7 +9,7 @@ const ITEM_ROYALTY_RECIPIENT = '1L2xst...ucgnNZ'
 test('Gallery item Interactions', async ({ page }) => {
   await page.goto(ITEM_ADDRESS_PATH)
 
-  //Activity tab
+  // Activity tab
   await test.step('Verifies if activity tab has content', async () => {
     await page
       .getByTestId('gallery-item-tabs')
@@ -21,7 +21,7 @@ test('Gallery item Interactions', async ({ page }) => {
     ).toBeVisible()
   })
 
-  //Details tab
+  // Details tab
   await test.step('Verifies if content inside details tab is visible', async () => {
     await page
       .getByTestId('gallery-item-description-neotabs')
@@ -41,7 +41,7 @@ test('Gallery item Interactions', async ({ page }) => {
     ).toContainText(ITEM_ROYALTY_RECIPIENT)
   })
 
-  //Chart tab
+  // Chart tab
   await test.step('Verify chart visibility', async () => {
     await page
       .getByTestId('gallery-item-tabs')
@@ -50,7 +50,7 @@ test('Gallery item Interactions', async ({ page }) => {
     await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   })
 
-  //More Button
+  // More Button
   await test.step('More Button Functionality', async () => {
     await page.getByTestId('gallery-item-more-button').click()
     const downloadPromise = page.waitForEvent('download')
@@ -58,7 +58,7 @@ test('Gallery item Interactions', async ({ page }) => {
     await downloadPromise
   })
 
-  //Description tab
+  // Description tab
   await test.step('Verifies if the right text shows on the description tab', async () => {
     await page
       .getByTestId('gallery-item-description-neotabs')
@@ -72,7 +72,7 @@ test('Gallery item Interactions', async ({ page }) => {
     ).toContainText('Whirls is a art piece built as a risk-taking')
   })
 
-  //Redirection
+  // Redirection
   await test.step('Clicks on collection link on gallery item and checks redirection', async () => {
     await page.getByTestId('gallery-item-collection-link').click()
     await expect(page).toHaveURL(COLLECTION_ADDRESS_PATH)

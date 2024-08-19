@@ -1,6 +1,8 @@
 <template>
   <section class="mb-5">
-    <h1 class="heading heading-is-4 font-bold uppercase">Cookie Policy</h1>
+    <h1 class="heading heading-is-4 font-bold uppercase">
+      Cookie Policy
+    </h1>
 
     <time class="mb-6">Last updated May 16, 2023</time>
 
@@ -17,7 +19,9 @@
       becomes personal information if we combine it with other information.
     </p>
 
-    <h3 class="heading heading-is-2">What are cookies?</h3>
+    <h3 class="heading heading-is-2">
+      What are cookies?
+    </h3>
 
     <p class="mb-4">
       Cookies are small data files that are placed on your computer or mobile
@@ -36,7 +40,9 @@
       the website in question and also when it visits certain other websites.
     </p>
 
-    <h3 class="heading heading-is-2">Why do we use cookies?</h3>
+    <h3 class="heading heading-is-2">
+      Why do we use cookies?
+    </h3>
 
     <p class="mb-4">
       We use first- and third-party cookies for several reasons. Some cookies
@@ -48,7 +54,9 @@
       purposes. This is described in more detail below.
     </p>
 
-    <h3 class="heading heading-is-2">How can I control cookies?</h3>
+    <h3 class="heading heading-is-2">
+      How can I control cookies?
+    </h3>
 
     <p class="mb-4">
       You have the right to decide whether to accept or reject cookies. You can
@@ -133,7 +141,9 @@
       connection with our services or online content.
     </p>
 
-    <h3 class="heading heading-is-2">Do you serve targeted advertising?</h3>
+    <h3 class="heading heading-is-2">
+      Do you serve targeted advertising?
+    </h3>
 
     <p class="mb-4">
       Third parties may serve cookies on your computer or mobile device to serve
@@ -167,7 +177,9 @@
       updated.
     </p>
 
-    <h3 class="heading heading-is-2">Where can I get further information?</h3>
+    <h3 class="heading heading-is-2">
+      Where can I get further information?
+    </h3>
 
     <p class="mb-4">
       If you have any questions about our use of cookies or other technologies,

@@ -1,14 +1,21 @@
 <template>
-  <NeoField grouped group-multiline>
+  <NeoField
+    grouped
+    group-multiline
+  >
     <div class="flex flex-wrap gap-3 lg:mt-6">
-      <template v-for="(value, key) in breads" :key="key">
+      <template
+        v-for="(value, key) in breads"
+        :key="key"
+      >
         <NeoTag
           v-if="key === 'search'"
           key="search"
           class="control"
           :variant="isCollectionSearchMode ? 'k-blue' : undefined"
           closable
-          @close="removeBread('search')">
+          @close="removeBread('search')"
+        >
           {{ `${$t('general.search')}: ${value}` }}
         </NeoTag>
         <NeoTag
@@ -16,7 +23,8 @@
           key="min"
           class="control"
           closable
-          @close="removeBread('min')">
+          @close="removeBread('min')"
+        >
           {{ `${$t('Min')}:` }}
           <CommonTokenMoney :value="value" />
         </NeoTag>
@@ -25,7 +33,8 @@
           key="max"
           class="control"
           closable
-          @close="removeBread('max')">
+          @close="removeBread('max')"
+        >
           {{ `${$t('Max')}:` }}
           <CommonTokenMoney :value="value" />
         </NeoTag>
@@ -35,7 +44,8 @@
             :key="`${key}-${item.id}`"
             class="control"
             closable
-            @close="removeCollection(item.id)">
+            @close="removeCollection(item.id)"
+          >
             {{ item.meta.name }}
           </NeoTag>
         </template>
@@ -45,14 +55,16 @@
           :key="key"
           class="control"
           closable
-          @close="closeTag(String(key))">
+          @close="closeTag(String(key))"
+        >
           {{ queryMapTranslation[String(key)] }}
         </NeoTag>
       </template>
       <div
         v-if="isAnyFilterActive"
         class="control py-1 cursor-pointer"
-        @click="clearAllFilters">
+        @click="clearAllFilters"
+      >
         <span>{{ $t('sort.clearAll') }}</span>
       </div>
     </div>
@@ -60,15 +72,16 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoField } from '@kodadot1/brick'
+import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import type {
+  Collection } from '@/composables/popularCollections/usePopularCollections'
 import {
-  Collection,
   collectionArray,
 } from '@/composables/popularCollections/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
-import { NeoField } from '@kodadot1/brick'
-import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 
 const { urlPrefix } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
@@ -89,16 +102,16 @@ const collectionIdList = computed(
 )
 
 const collections = computed<Collection[]>(() =>
-  collectionArray.value?.filter((collection) =>
-    collectionIdList.value?.find((id) => collection.id === id),
+  collectionArray.value?.filter(collection =>
+    collectionIdList.value?.find(id => collection.id === id),
   ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()
 const removeCollection = (id: string) => {
   const ids = collections.value
-    .filter((collection) => collection.id !== id)
-    .map((collection) => collection.id)
+    .filter(collection => collection.id !== id)
+    .map(collection => collection.id)
   replaceUrl({ collections: ids.join(',') })
 }
 
@@ -111,7 +124,7 @@ const clearAllFilters = () => {
     if (['search', 'min', 'max'].includes(key)) {
       return { ...filters, [key]: undefined }
     }
-    return { ...filters, [key]: isCollectionActivityTab ? undefined : 'false' }
+    return { ...filters, [key]: isCollectionActivityTab.value ? undefined : 'false' }
   }, {})
 
   replaceUrl(clearedFilters)

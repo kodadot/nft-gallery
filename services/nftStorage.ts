@@ -1,7 +1,8 @@
-import { $fetch, FetchError } from 'ofetch'
-import { URLS } from '../utils/constants'
+import type { FetchError } from 'ofetch'
+import { $fetch } from 'ofetch'
 import consola from 'consola'
-import { Metadata } from '@kodadot1/minimark/common'
+import type { Metadata } from '@kodadot1/minimark/common'
+import { URLS } from '../utils/constants'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
 import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
@@ -26,8 +27,8 @@ type StorageApiResponse = {
   }
 }
 
-export const pinJson = async (object: Metadata, name: string) => {
-  const { value } = await nftStorageApi<StorageApiResponse>(`pinJson/${name}`, {
+export const pinJson = async (object: Metadata, _name: string) => {
+  const { value } = await nftStorageApi<StorageApiResponse>('/pinJson', {
     method: 'POST',
     body: object,
   }).catch((error: FetchError) => {
@@ -65,12 +66,17 @@ export const rateLimitedPinFileToIPFS = (
 }
 
 export const pinFileToIPFS = async (file: Blob): Promise<string> => {
+  // DEV: this is woraround for
+  // https://github.com/kodadot/workers/issues/318
+  const formData = new FormData()
+  formData.append('file', file, (file as any).name)
+
   const { value } = await nftStorageApi<StorageApiResponse>('/pinFile', {
     method: 'POST',
-    body: file,
-    headers: {
-      'Content-Type': file.type || '*/*',
-    },
+    body: formData, // file,
+    // headers: {
+    //   'Content-Type': file.type || '*/*',
+    // },
   }).catch((error: FetchError) => {
     throw new Error(
       `[NFT::STORAGE] Unable to PIN File for reasons ${error.data}`,
@@ -82,7 +88,7 @@ export const pinFileToIPFS = async (file: Blob): Promise<string> => {
 
 export const pinDirectory = async (files: File[]): Promise<string> => {
   const formData = new FormData()
-  files.forEach((file) => formData.append('file', file, file.name))
+  files.forEach(file => formData.append('file', file, file.name))
 
   const response = await nftStorageApi('/pinFile', {
     method: 'POST',

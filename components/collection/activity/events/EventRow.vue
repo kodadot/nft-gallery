@@ -1,17 +1,23 @@
 <template>
   <div>
-    <EventRowDesktop v-if="variant === 'Desktop'" :event="event" />
-    <EventRowTablet v-else :event="event" />
+    <EventRowDesktop
+      v-if="variant === 'Desktop'"
+      :event="event"
+    />
+    <EventRowTablet
+      v-else
+      :event="event"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import {
+import EventRowDesktop from './eventRow/EventRowDesktop.vue'
+import EventRowTablet from './eventRow/EventRowTablet.vue'
+import type {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
-import EventRowDesktop from './eventRow/EventRowDesktop.vue'
-import EventRowTablet from './eventRow/EventRowTablet.vue'
 
 defineProps<{
   event: InteractionWithNFT | Offer

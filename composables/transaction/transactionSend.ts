@@ -1,20 +1,21 @@
-import {
-  assetHubParamResolver,
-  getApiCall,
-} from '@/utils/gallery/abstractCalls'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
+import type { Prefix } from '@kodadot1/static'
+import type { ActionSend, ExecuteTransaction } from './types'
+import { GENSOL_ABI } from './evm/utils'
+import {
+  assetHubParamResolver,
+  getApiCall,
+} from '@/utils/gallery/abstractCalls'
 
 import { isLegacy } from '@/components/unique/utils'
 import { ss58Of } from '@/utils/config/chain.config'
 import { warningMessage } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
-
-import type { ActionSend } from './types'
 
 function checkTsxSend(item: ActionSend) {
   const [, err] = checkAddress(
@@ -36,13 +37,13 @@ function checkTsxSend(item: ActionSend) {
 }
 
 function execSendRmrk(item: ActionSend, api, executeTransaction) {
-  const interaction =
-    item.urlPrefix === 'rmrk'
+  const interaction
+    = item.urlPrefix === 'rmrk'
       ? createInteraction(Interaction.SEND, item.nftId, item.address)
       : createNewInteraction({
-          action: NewInteraction.SEND,
-          payload: { id: item.nftId, recipient: item.address },
-        })
+        action: NewInteraction.SEND,
+        payload: { id: item.nftId, recipient: item.address },
+      })
   executeTransaction({
     cb: api.tx.system.remark,
     arg: [interaction],
@@ -66,7 +67,26 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
   })
 }
 
-export function execSendTx(item: ActionSend, api, executeTransaction) {
+function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
+  const { accountId } = useAuth()
+
+  executeTransaction({
+    address: item.collectionId,
+    abi: GENSOL_ABI,
+    functionName: 'safeTransferFrom',
+    arg: [accountId.value, item.address, item.nftSn],
+  })
+}
+
+export function execSendTx(
+  item: ActionSend,
+  api,
+  executeTransaction: ExecuteTransaction,
+) {
+  if (isEvm(item.urlPrefix as Prefix)) {
+    return execSendEvm(item, executeTransaction)
+  }
+
   if (!checkTsxSend(item)) {
     return
   }

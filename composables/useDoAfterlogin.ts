@@ -1,20 +1,24 @@
+import { type ChainVM } from '@kodadot1/static'
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 
-interface DoAfterLoginParams {
+export interface DoAfterLoginParams {
   onLoginSuccess: (account?: string) => void
   onCancel?: () => void
+  preselected?: ChainVM
 }
 
-export default function (instance) {
-  const doAfterLogin = ({ onLoginSuccess, onCancel }: DoAfterLoginParams) => {
+export default function () {
+  const doAfterLogin = ({ onLoginSuccess, onCancel, preselected }: DoAfterLoginParams) => {
     const { isLogIn } = useAuth()
     if (!isLogIn.value) {
-      openConnectWalletModal(instance, {
+      openConnectWalletModal({
         onConnect: onLoginSuccess,
         onCancel,
         closeAfterConnect: true,
+        preselected,
       })
-    } else {
+    }
+    else {
       onLoginSuccess()
     }
   }

@@ -1,9 +1,12 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
-    @close="onClose">
-    <ModalBody :title="$t('drops.createACalendarEvent')" @close="onClose">
+    @close="onClose"
+  >
+    <ModalBody
+      :title="$t('drops.createACalendarEvent')"
+      @close="onClose"
+    >
       <p class="capitalize">
         {{ title }}
       </p>
@@ -19,9 +22,13 @@
           class="w-full"
           size="large"
           no-shadow
-          @click="addEvent(provider.id)">
+          @click="addEvent(provider.id)"
+        >
           <div class="flex gap-2 justify-center">
-            <NeoIcon :icon="provider.icon" pack="fab" />
+            <NeoIcon
+              :icon="provider.icon"
+              pack="fab"
+            />
             <span>{{ provider.label }}</span>
           </div>
         </NeoButton>
@@ -29,10 +36,11 @@
     </ModalBody>
   </NeoModal>
 </template>
+
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
-import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { addHours, format } from 'date-fns'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 
 type CalendarProvider = 'google'
 
@@ -46,7 +54,7 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-const providers: { id: CalendarProvider; label: string; icon: string }[] = [
+const providers: { id: CalendarProvider, label: string, icon: string }[] = [
   {
     id: 'google',
     label: 'Google Calendar',
@@ -71,7 +79,7 @@ const getNextDropDate = (): Date => {
 }
 
 const getRfc5545FormatDate = (date: Date) =>
-  `${format(date, "yyyyMMdd'T'HH")}0000`
+  `${format(date, 'yyyyMMdd\'T\'HH')}0000`
 
 const addGoogleEvent = () => {
   const dropDate = getNextDropDate()

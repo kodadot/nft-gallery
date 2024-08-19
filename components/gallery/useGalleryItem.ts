@@ -1,11 +1,11 @@
+import type { Ref } from 'vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useHistoryStore } from '@/stores/history'
-import { NftResources, getNftMetadata } from '@/composables/useNft'
+import { getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
-import type { NFTWithMetadata } from '@/composables/useNft'
-import type { Ref } from 'vue'
+import type { NFTWithMetadata, NftResources } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
 
 interface NFTData {
@@ -76,11 +76,11 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nft.value = nftEntity
 
     const resources = nftEntity.resources?.map((resource, index) => {
-      const imageSrc =
-        resource.meta?.animationUrl ||
-        resource.src ||
-        resource.meta?.image ||
-        resource.thumb
+      const imageSrc
+        = resource.meta?.animationUrl
+        || resource.src
+        || resource.meta?.image
+        || resource.thumb
 
       let animationUrl = resource.meta?.animationUrl
 
@@ -100,23 +100,23 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMetadata.value = metadata
     nftResources.value = resources
 
-    nftAnimation.value =
-      sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
-    nftAnimationMimeType.value =
-      metadata.animationUrlMimeType ||
-      (await getMimeType(nftAnimation.value)) ||
-      ''
+    nftAnimation.value
+      = sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
+    nftAnimationMimeType.value
+      = metadata.animationUrlMimeType
+      || (nftAnimation.value && (await getMimeType(nftAnimation.value)))
+      || ''
     nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
-    nftMimeType.value =
-      metadata.imageMimeType ||
-      metadata.type ||
-      (await getMimeType(nftImage.value)) ||
-      ''
+    nftMimeType.value
+      = metadata.imageMimeType
+      || metadata.type
+      || (nftImage.value && (await getMimeType(nftImage.value)))
+      || ''
 
     // use cf-video & replace the video thumbnail
     if (
-      nftAnimationMimeType.value.includes('video') ||
-      nftMimeType.value.includes('video')
+      nftAnimationMimeType.value.includes('video')
+      || nftMimeType.value.includes('video')
     ) {
       // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
       if (isIos || isSafari) {

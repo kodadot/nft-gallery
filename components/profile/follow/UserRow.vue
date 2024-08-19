@@ -2,17 +2,17 @@
   <div class="flex items-center justify-between">
     <NuxtLink
       class="flex"
-      :to="`/${urlPrefix}/u/${getss58AddressByPrefix(user.address, urlPrefix)}`">
-      <NuxtImg
-        :src="user.image"
-        placholder
-        alt="follower avatar"
-        class="w-12 h-12 rounded-full border object-cover mr-4" />
+      :to="`/${urlPrefix}/u/${prefixUserAddress}`"
+    >
+      <ProfileAvatar
+        class="!mr-4"
+        :address="user.address"
+        :size="48"
+      />
       <div class="flex flex-col gap-[6px]">
         <span
           class="text-k-black font-bold truncate max-w-[10rem] max-sm:max-w-[8rem]"
-          >{{ user.name }}</span
-        >
+        >{{ user.name || shortAddress(prefixUserAddress) }}</span>
         <p class="text-sm">
           {{ followersCount }}
           <span class="text-k-grey">{{
@@ -30,11 +30,13 @@
       :variant="buttonConfig.variant"
       :active="buttonConfig.active"
       :disabled="buttonConfig.disabled"
-      @click="buttonConfig.onClick">
+      @click="buttonConfig.onClick"
+    >
       <NeoIcon
         v-if="buttonConfig.icon"
         :icon="buttonConfig.icon"
-        class="mr-1" />
+        class="mr-1"
+      />
       {{ buttonConfig.label }}
     </NeoButton>
   </div>
@@ -42,20 +44,23 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
+import type {
+  Follower } from '@/services/profile'
 import {
-  Follower,
   fetchFollowersOf,
   follow,
   isFollowing,
   toSubstrateAddress,
   unfollow,
 } from '@/services/profile'
-import { ButtonConfig } from '@/components/profile/types'
+import type { ButtonConfig } from '@/components/profile/types'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import shortAddress from '@/utils/shortAddress'
+
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const { toast } = useToast()
 const { getCommonSignaturePair } = useVerifyAccount()
 
@@ -70,11 +75,15 @@ const showFollowing = ref(false)
 
 const { urlPrefix } = usePrefix()
 
+const prefixUserAddress = computed(() =>
+  getss58AddressByPrefix(props.user.address, urlPrefix.value),
+)
+
 const { data: followersCount, refresh: refreshCount } = useAsyncData(
   `followerCountOf/${props.user.address}`,
   () =>
     fetchFollowersOf(props.user.address, { limit: 0 }).then(
-      (res) => res.totalCount,
+      res => res.totalCount,
     ),
 )
 

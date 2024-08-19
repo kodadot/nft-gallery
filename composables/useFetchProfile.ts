@@ -1,8 +1,8 @@
+import { useQuery } from '@tanstack/vue-query'
 import { fetchProfileByAddress, toSubstrateAddress } from '@/services/profile'
 import type { Profile } from '@/services/profile'
-import { useQuery } from '@tanstack/vue-query'
 
-export default function useFetchProfile(address?: string) {
+export default function useFetchProfile(address: Ref<string | undefined>) {
   const {
     data: profile,
     isPending,
@@ -11,10 +11,10 @@ export default function useFetchProfile(address?: string) {
   } = useQuery<Profile | null>({
     queryKey: [
       'user-profile',
-      computed(() => address && toSubstrateAddress(address)),
+      computed(() => address.value && toSubstrateAddress(address.value)),
     ],
-    queryFn: () => (address ? fetchProfileByAddress(address!) : null),
-    staleTime: 1000 * 60 * 5,
+    queryFn: () => (address.value ? fetchProfileByAddress(address.value) : null),
+    staleTime: 1000 * 10,
   })
 
   return {

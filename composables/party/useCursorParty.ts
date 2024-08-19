@@ -1,12 +1,12 @@
-import useParty from '@/composables/party/useParty'
-import {
+import filter from 'lodash/filter'
+import type {
   MaybeUserDetails,
   RemoveMessage,
   SyncMessage,
   UpdateMessage,
   UserDetails,
 } from './types'
-import filter from 'lodash/filter'
+import useParty from '@/composables/party/useParty'
 
 type CursorPartyEvents = UpdateMessage | RemoveMessage | SyncMessage
 
@@ -78,12 +78,12 @@ export default ({
     const withPositionFirst = cursorConnections.value.sort(
       (a, b) => Number(b?.cursor?.x) - Number(a?.cursor?.x),
     )
-    const someZeroDotCursors = filter(withPositionFirst, (connection) =>
+    const someZeroDotCursors = filter(withPositionFirst, connection =>
       isZeroDot(connection),
     ).slice(0, ZERO_DOT_VISIBLE_CURSOR_AMOUNT)
     const othersCursors = filter(
       cursorConnections.value,
-      (connection) => !isZeroDot(connection),
+      connection => !isZeroDot(connection),
     )
     return [...someZeroDotCursors, ...othersCursors]
   })

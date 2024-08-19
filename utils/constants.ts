@@ -20,11 +20,10 @@ export const dotHubDenyList = [
   '128qRiVjxU3TuT37tg7AX99zwqfPtj2t4nDKUv9Dvi5wzxuF', // RMRK test
   '155HWw3J9jyYphMm5is4vp9Bzj7ZRRd6HEzCPdWd8cq97KfT', // Very old unreacheable IPFS
   '16aWyT5Xa2wogTARQxk8LnQqi5nquy3Xrc4YcgJrmjEWrduq', // Market Manipulation
-  '1HzwKkNGv4gdWq4ds1C5k63u8hvmjC6ULneAaZbwUBZEauF', // Dead collection
 ]
 
-export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
+export const IPFS_KODADOT_IMAGE_PLACEHOLDER
+  = 'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 
@@ -45,7 +44,7 @@ export const URLS = {
     pinata: 'https://kodadot.mypinata.cloud/ipfs/',
     directUpload: 'https://direct-upload.kodadot.workers.dev/',
     estuary: 'https://pinning.kodadot.workers.dev/',
-    nftStorage: 'https://nft-storage.kodadot.workers.dev/',
+    nftStorage: 'https://ipos.kodadot.workers.dev/',
     keywise: 'https://keywise.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',

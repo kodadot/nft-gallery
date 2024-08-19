@@ -1,16 +1,19 @@
 <template>
   <div v-if="nfts.length">
-    <hr class="my-4" />
-    <p class="text-k-grey text-xs mb-2">Recent NFTs</p>
+    <hr class="my-4">
+    <p class="text-k-grey text-xs mb-2">
+      Recent NFTs
+    </p>
     <div class="nfts">
       <NuxtLink
         v-for="nft in nfts"
         :key="nft?.id"
-        :to="`/${urlPrefix}/gallery/${nft?.id}`">
+        :to="`/${urlPrefix}/gallery/${nft?.id}`"
+      >
         <BaseMediaItem
           :src="sanitizeIpfsUrl(nft?.meta.image)"
-          enable-normal-tag
-          :mime-type="nft?.type" />
+          :mime-type="nft?.type"
+        />
       </NuxtLink>
     </div>
   </div>

@@ -1,5 +1,9 @@
 type COLOR_MODE = 'system' | 'light' | 'dark'
 
+const IMG_PLACEHOLDER_LIGHT = '/Klight.webp'
+const IMG_PLACEHOLDER_DARK = '/Kdark.webp'
+export const IMG_PLACEHOLDERS = [IMG_PLACEHOLDER_LIGHT, IMG_PLACEHOLDER_DARK]
+
 export default function () {
   const colorMode = useColorMode()
   const { $i18n } = useNuxtApp()
@@ -10,17 +14,17 @@ export default function () {
   )
 
   const themeOptions = computed<
-    { value: COLOR_MODE; icon: string; label: string }[]
+    { value: COLOR_MODE, icon: string, label: string }[]
   >(() => [
     {
       value: 'system',
       icon: 'computer-classic',
       label: isSystemMode.value
         ? $i18n.t('profileMenu.systemMode', [
-            isDarkMode.value
-              ? $i18n.t('profileMenu.dark')
-              : $i18n.t('profileMenu.light'),
-          ])
+          isDarkMode.value
+            ? $i18n.t('profileMenu.dark')
+            : $i18n.t('profileMenu.light'),
+        ])
         : $i18n.t('profileMenu.system'),
     },
     {
@@ -36,7 +40,7 @@ export default function () {
   ])
 
   const currentModeIndex = computed(() =>
-    themeOptions.value.findIndex((option) => option.value === preference.value),
+    themeOptions.value.findIndex(option => option.value === preference.value),
   )
 
   const currentMode = computed(
@@ -51,7 +55,8 @@ export default function () {
   const toggleColorMode = (): void => {
     if (colorMode.value === 'dark') {
       colorMode.preference = 'light'
-    } else {
+    }
+    else {
       colorMode.preference = 'dark'
     }
   }
@@ -59,7 +64,7 @@ export default function () {
   const preference = computed(() => colorMode.preference)
 
   const placeholder = computed(() => {
-    return isDarkMode.value ? '/Kdark.webp' : '/Klight.webp'
+    return isDarkMode.value ? IMG_PLACEHOLDER_DARK : IMG_PLACEHOLDER_LIGHT
   })
 
   const setColorMode = (mode: 'light' | 'dark' | 'system') => {

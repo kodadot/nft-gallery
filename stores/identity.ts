@@ -1,9 +1,9 @@
-import { balanceOf } from '@kodadot1/sub-api'
-import { Registration } from '@polkadot/types/interfaces/identity/types'
+import { type Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
-import consola from 'consola'
+import { type Prefix, chainList } from '@kodadot1/static'
 import { emptyObject } from '@/utils/empty'
-import type { Prefix } from '@kodadot1/static'
+import { networkToPrefix } from '@/composables/useMultipleBalance'
+import { vmOf } from '@/utils/config/chain.config'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
@@ -11,6 +11,8 @@ const DEFAULT_BALANCE_STATE = {
   ahk: '0',
   dot: '0',
   ahp: '0',
+  eth: '0',
+  mnt: '0',
   // ahr: '0',
   // glmr: '0',
   // movr: '0',
@@ -27,7 +29,14 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-export type ChainType = 'polkadot' | 'kusama' | 'kusamaHub' | 'polkadotHub'
+export type ChainType =
+  | 'polkadot'
+  | 'kusama'
+  | 'kusamaHub'
+  | 'polkadotHub'
+  | 'base'
+  | 'immutablex'
+  | 'mantle'
 // | 'rococoHub'
 
 type ChainDetail = {
@@ -37,7 +46,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-export type ChainToken = Partial<Record<'dot' | 'ksm', ChainDetail>>
+export type ChainToken = Partial<Record<'dot' | 'ksm' | 'eth' | 'mnt', ChainDetail>>
 
 interface MultiBalances {
   address: string
@@ -52,7 +61,7 @@ const DEFAULT_MULTI_BALANCE_STATE: MultiBalances = {
 export interface Auth {
   address: string
   source?: 'keyring' | 'extension' | 'ledger'
-  balance?: BalanceMap<Prefix>
+  balance?: BalanceMap<keyof ChainToken>
   tokens?: BalanceMap<number> // <id, amount>
 }
 
@@ -85,8 +94,8 @@ export const useIdentityStore = defineStore('identity', {
       ...emptyObject<Auth>(),
       balance: DEFAULT_BALANCE_STATE,
       tokens: {
-        '1': '0',
-        '5': '0',
+        1: '0',
+        5: '0',
       },
       address: useWalletStore().selected?.address || '',
     },
@@ -97,17 +106,20 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
+      { chain: 'base', token: 'ETH' },
+      { chain: 'immutablex', token: 'ETH' },
+      { chain: 'mantle', token: 'MNT' },
     ],
     multiBalanceAssetsTestnet: [
       // { chain: 'rococoHub', token: 'ROC' },
     ],
   }),
   getters: {
-    availableIdentities: (state) => state.identities,
-    getAuth: (state) => state.auth,
-    getAuthAddress: (state) => state.auth.address,
-    getIdentityFor: (state) => (address: string) => state.identities[address],
-    getTokenBalanceOf: (state) => (tokenId: string) =>
+    availableIdentities: state => state.identities,
+    getAuth: state => state.auth,
+    getAuthAddress: state => state.auth.address,
+    getIdentityFor: state => (address: string) => state.identities[address],
+    getTokenBalanceOf: state => (tokenId: string) =>
       state.auth.tokens ? state.auth.tokens[tokenId] || '0' : '0',
     getAuthBalance: (state) => {
       const { urlPrefix } = usePrefix()
@@ -117,32 +129,47 @@ export const useIdentityStore = defineStore('identity', {
     },
     getTotalUsd: (state) => {
       if (
-        state.multiBalances &&
-        Object.values(state.multiBalances?.chains || 0).length > 0
+        state.multiBalances
+        && Object.values(state.multiBalances?.chains || 0).length > 0
       ) {
         return Object.values(state.multiBalances.chains)
-          .flatMap((chain) => Object.values(chain))
+          .flatMap(chain => Object.values(chain))
           .reduce((total, token) => total + parseFloat(token.usd), 0)
       }
 
       return 0
     },
-    getStatusMultiBalances: (state) => {
-      let totalAssets = 0
+    getVmAssets: (): any[] => {
+      const { isTestnet } = usePrefix()
+      const { multiBalanceAssets, multiBalanceAssetsTestnet }
+        = storeToRefs(useIdentityStore())
+      const { vm } = useChain()
+
+      // useChain().availableChainsByVm excludes disabled chains like dot
+      const vmChains = chainList().filter(
+        ({ value: prefix }) => vm.value === vmOf(prefix as Prefix),
+      )
+
+      const assets = isTestnet
+        ? multiBalanceAssetsTestnet.value
+        : multiBalanceAssets.value
+
+      return assets.filter(asset =>
+        vmChains
+          .map(chain => chain.value)
+          .includes(networkToPrefix[asset.chain] as ChainType),
+      )
+    },
+    getStatusMultiBalances(state): string {
+      let loadedAssets = 0
       for (const key in state.multiBalances.chains) {
         if (
           Object.prototype.hasOwnProperty.call(state.multiBalances.chains, key)
         ) {
-          totalAssets += Object.keys(state.multiBalances.chains[key]).length
+          loadedAssets += Object.keys(state.multiBalances.chains[key]).length
         }
       }
-
-      const { isTestnet } = usePrefix()
-      const assets = isTestnet
-        ? state.multiBalanceAssetsTestnet
-        : state.multiBalanceAssets
-
-      return totalAssets < assets.length ? 'loading' : 'done'
+      return loadedAssets < this.getVmAssets.length ? 'loading' : 'done'
     },
   },
   actions: {
@@ -189,15 +216,10 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
     async fetchBalance({ address }: ChangeAddressRequest) {
-      const { apiInstance } = useApi()
-      try {
-        const api = await apiInstance.value
-        const balance = await balanceOf(api, address)
-        if (balance) {
-          this.setPrefixBalance(balance)
-        }
-      } catch (e) {
-        consola.error('[FETCH BALANCE] Unable to get user balance', e)
+      const { fetchBalance } = useBalance()
+      const balance = await fetchBalance(address)
+      if (balance) {
+        this.setPrefixBalance(balance)
       }
     },
     setMultiBalances({ address, chains, chainName }) {

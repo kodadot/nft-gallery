@@ -6,14 +6,14 @@ const EXPLORE_ITEMS_PATH = '/ahk/explore/items?page=1'
 test('Explore collections', async ({ page, Commands }) => {
   await page.goto(EXPLORE_COLLECTIONS_PATH)
 
-  //Tabs
+  // Tabs
   await test.step('Verify tab existance', async () => {
     const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
     await expect(tabs.getByText('Collections')).toBeVisible()
     await expect(tabs.getByText('Items')).toBeVisible()
   })
 
-  //Sort Dropdown
+  // Sort Dropdown
   await test.step('Sort by Newest using filter', async () => {
     const sortDropdown = page.getByTestId('explore-sort-dropdown').nth(1)
     await sortDropdown.click()
@@ -21,16 +21,30 @@ test('Explore collections', async ({ page, Commands }) => {
     await page.keyboard.press('Escape')
   })
 
-  //Lazy loading mitigation
-  await test.step('Scroll down and wait for images to load', async () => {
-    await Commands.scrollDownAndStop()
-    await page.waitForFunction(() => {
-      const images = Array.from(document.querySelectorAll('img'))
-      return images.every((img) => img.complete)
-    })
+  // Lazy loading mitigation
+  const imageRequests = new Set()
+  await page.route('https://image-beta.w.kodadot.xyz/**', async (route) => {
+    const request = route.request()
+    const url = request.url()
+
+    // Check if it's an image request
+    if (request.resourceType() === 'image') {
+      imageRequests.add(url)
+    }
+
+    // Continue the request and get the response
+    const response = await route.fetch()
+
+    await route.fulfill({ response })
   })
 
-  //Results
+  await test.step('Scroll down and wait for images to load', async () => {
+    await Commands.scrollDownAndStop()
+    await page.waitForLoadState('networkidle')
+    expect(imageRequests.size).toBeGreaterThan(0)
+  })
+
+  // Results
   await test.step('Verify if explore results have loaded accordingly', async () => {
     await expect(page.getByTestId('collection-index-0').first()).toBeVisible({
       timeout: 10000,
@@ -44,14 +58,14 @@ test('Explore collections', async ({ page, Commands }) => {
 test('Explore Items', async ({ page, Commands }) => {
   await page.goto(EXPLORE_ITEMS_PATH)
 
-  //Tabs
+  // Tabs
   await test.step('Verify tab existance', async () => {
     const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
     await expect(tabs.getByText('Collections')).toBeVisible()
     await expect(tabs.getByText('Items')).toBeVisible()
   })
 
-  //Filter
+  // Filter
   await test.step('Apply filter of 100 KSM minium on results', async () => {
     const expandSearch = page.getByTestId('sidebar-price-filter')
     await expandSearch.click()
@@ -61,7 +75,7 @@ test('Explore Items', async ({ page, Commands }) => {
     await btnApply.click()
   })
 
-  //Sort Results
+  // Sort Results
   await test.step('Sort results by price, ascending', async () => {
     const exploreSort = page.getByTestId('explore-sort-dropdown').nth(1)
     await exploreSort.click()
@@ -71,7 +85,7 @@ test('Explore Items', async ({ page, Commands }) => {
     await page.keyboard.press('Escape')
   })
 
-  //mitigate lazy loading
+  // mitigate lazy loading
   await test.step('Scroll down, verify first card and filter tag existance', async () => {
     await Commands.scrollDownAndStop()
     await expect(page.getByTestId('card-money').first()).toBeVisible({
@@ -83,7 +97,7 @@ test('Explore Items', async ({ page, Commands }) => {
     })
   })
 
-  //Listing price
+  // Listing price
   await test.step('Checks if first NFT card is listed and its value is equal or greater than 100 KSM', async () => {
     const firstCardMoney = page.getByTestId('card-money').first()
     const moneyStr = await firstCardMoney.innerText()

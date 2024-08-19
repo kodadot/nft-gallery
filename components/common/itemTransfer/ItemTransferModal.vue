@@ -4,12 +4,17 @@
       :title="$t('transaction.transferingNft')"
       :is-loading="isLoading"
       :status="status"
-      @try-again="transfer" />
+      @try-again="transfer"
+    />
 
-    <NeoModal :value="isModalActive" @close="onClose">
+    <NeoModal
+      :value="isModalActive"
+      @close="onClose"
+    >
       <div class="lg:w-[25rem]">
         <header
-          class="border-b border-grey flex items-center justify-between px-6">
+          class="border-b border-grey flex items-center justify-between px-6"
+        >
           <p class="py-5 text-base font-bold">
             {{ $t('transaction.transferNft') }}
           </p>
@@ -20,7 +25,8 @@
             icon="xmark"
             size="medium"
             class="cross"
-            @click="onClose" />
+            @click="onClose"
+          />
         </header>
 
         <div class="px-6 pt-4 pb-5">
@@ -31,13 +37,16 @@
               <BasicImage
                 :src="avatar"
                 :alt="nft?.name"
-                class="border image is-48x48" />
+                class="border image is-48x48"
+              />
             </div>
 
             <div
-              class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
+              class="flex flex-col justify-between ml-4 limit-width w-full is-clipped"
+            >
               <div
-                class="font-bold text-text-color line-height-1 whitespace-nowrap is-ellipsis">
+                class="font-bold text-text-color line-height-1 whitespace-nowrap is-ellipsis"
+              >
                 {{ nft.name }}
               </div>
               <div class="line-height-1 whitespace-nowrap is-ellipsis">
@@ -50,7 +59,7 @@
             </div>
           </div>
 
-          <hr class="my-4" />
+          <hr class="my-4">
 
           <h2 class="mb-2 font-bold text-text-color capitalize">
             {{ $t('transaction.transferTo') }}
@@ -63,7 +72,8 @@
             class="flex-1"
             placeholder="Enter wallet address"
             with-address-check
-            @check="handleAddressCheck" />
+            @check="handleAddressCheck"
+          />
         </div>
 
         <div class="px-6 pb-4 flex flex-col">
@@ -80,10 +90,15 @@
             variant="primary"
             no-shadow
             class="flex flex-grow py-5 capitalize btn-height"
-            @click="transfer" />
+            @click="transfer"
+          />
 
           <div class="mt-3 flex justify-between text-k-grey">
-            <NeoIcon icon="circle-info" size="small" class="mr-4" />
+            <NeoIcon
+              icon="circle-info"
+              size="small"
+              class="mr-4"
+            />
 
             <p class="text-xs">
               {{ $t('transaction.wrongAddressCannotRecoveredWarning') }}
@@ -97,14 +112,14 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/components/rmrk/service/scheme'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { parseNftAvatar } from '@/utils/nft'
 import AddressInput from '@/components/shared/AddressInput.vue'
-import { Interaction } from '@kodadot1/minimark/v1'
 import formatBalance from '@/utils/format/balance'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import type { Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 
@@ -118,10 +133,9 @@ const { $i18n } = useNuxtApp()
 const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { decimals, chainSymbol, chainProperties } = useChain()
-const ss58Format = computed(() => chainProperties.value?.ss58Format)
+const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
-const { apiInstance } = useApi()
+const { getTransactionFee } = useFees()
 
 const txFee = ref<number>(0)
 const isModalActive = useVModel(props, 'value')
@@ -135,6 +149,8 @@ const action = computed<Actions>(() => ({
   address: address.value,
   tokenId: route.params.id.toString(),
   nftId: props.nft.id,
+  nftSn: props.nft.sn,
+  collectionId: props.nft.collection.id,
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 }))
@@ -164,10 +180,10 @@ const isYourAddress = computed(
 
 const isDisabled = computed(
   () =>
-    hasOperationsDisabled(urlPrefix.value) ||
-    !address.value ||
-    !isAddressValid.value ||
-    isYourAddress.value,
+    hasOperationsDisabled(urlPrefix.value)
+    || !address.value
+    || !isAddressValid.value
+    || isYourAddress.value,
 )
 
 const nftPrice = computed(() =>
@@ -192,21 +208,17 @@ const handleAddressCheck = (isValid: boolean) => {
 
 const getChainAddress = (value: string) => {
   try {
-    const publicKey = decodeAddress(value)
-    return encodeAddress(publicKey, ss58Format.value)
-  } catch (error) {
+    return toSubstrateAddress(value)
+  }
+  catch (error) {
     return null
   }
 }
 
 const getTransferFee = async () => {
-  const api = await apiInstance.value
-  const fee = await getActionTransactionFee({
-    action: { ...action.value, address: accountId.value } as Actions,
-    address: accountId.value,
-    api,
-  })
-  txFee.value = Number(fee)
+  return getTransactionFee({ action: action.value, prefix: urlPrefix.value })
+    .then(fee => txFee.value = fee)
+    .catch(() => txFee.value = 0)
 }
 
 const transfer = () => {

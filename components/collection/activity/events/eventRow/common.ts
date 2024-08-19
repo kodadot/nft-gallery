@@ -1,7 +1,8 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import {
+import type {
   InteractionWithNFT,
-  Offer,
+  Offer } from '@/composables/collectionActivity/types'
+import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import { parseNftAvatar } from '@/utils/nft'

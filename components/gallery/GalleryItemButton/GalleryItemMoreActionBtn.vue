@@ -4,31 +4,45 @@
       :title="signingModalTitle"
       :is-loading="isLoading"
       :status="status"
-      @try-again="burn" />
+      @try-again="burn"
+    />
 
-    <NeoDropdown position="bottom-left" :mobile-modal="false">
+    <NeoDropdown
+      position="bottom-left"
+      :mobile-modal="false"
+    >
       <template #trigger="{ active }">
         <NeoButton
-          class="icon-action"
+          class="w-10 h-10"
           icon="ellipsis-vertical"
-          :active="active" />
+          :active="active"
+        />
       </template>
 
       <NeoDropdownItem
         v-if="isDownloadEnabled"
         data-testid="gallery-item-more-dropdown-download"
-        @click="downloadMedia">
+        @click="downloadMedia"
+      >
         Download
       </NeoDropdownItem>
 
       <template
-        v-if="accountId === currentOwner && !hasOperationsDisabled(urlPrefix)">
-        <NeoDropdownItem @click="burn">Burn</NeoDropdownItem>
-        <NeoDropdownItem v-if="price !== '0'" @click="unlist">
+        v-if="accountId === currentOwner && !hasOperationsDisabled(urlPrefix)"
+      >
+        <NeoDropdownItem @click="burn">
+          Burn
+        </NeoDropdownItem>
+        <NeoDropdownItem
+          v-if="price !== '0'"
+          @click="unlist"
+        >
           Delist
         </NeoDropdownItem>
       </template>
-      <NeoDropdownItem disabled>Report</NeoDropdownItem>
+      <NeoDropdownItem disabled>
+        Report
+      </NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
@@ -51,6 +65,8 @@ const route = useRoute()
 const props = defineProps<{
   mimeType?: string
   name?: string
+  nftSn?: string
+  collectionId?: string
   collectionName?: string
   ipfsImage?: string
   currentOwner?: string
@@ -70,8 +86,8 @@ const signingModalTitle = computed(() => {
 const isDownloadEnabled = computed(() => {
   const mimeType = props.mimeType
   return (
-    (mimeType?.includes('image') || mimeType?.includes('text/html')) &&
-    props.ipfsImage
+    (mimeType?.includes('image') || mimeType?.includes('text/html'))
+    && props.ipfsImage
   )
 })
 
@@ -91,7 +107,8 @@ const downloadMedia = () => {
     }
     try {
       downloadImage(originalUrl, `${props.collectionName}_${props.name}`)
-    } catch (error) {
+    }
+    catch (error) {
       $consola.warn('[ERR] unable to fetch image')
       toast($i18n.t('toast.downloadError'))
       return
@@ -105,6 +122,8 @@ const burn = () => {
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
     nftId: route.params.id as string,
+    nftSn: props.nftSn!,
+    collectionId: props.collectionId!,
     successMessage: $i18n.t('transaction.consume.success') as string,
     errorMessage: $i18n.t('transaction.consume.error') as string,
   })

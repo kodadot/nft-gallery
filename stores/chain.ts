@@ -19,9 +19,9 @@ export const useChainStore = defineStore('chain', {
     },
   }),
   getters: {
-    getChainProperties: (state) => state.chainProperties,
-    getChainProperties58Format: (state) => state.chainProperties.ss58Format,
-    getChainPropertiesTokenDecimals: (state) =>
+    getChainProperties: state => state.chainProperties,
+    getChainProperties58Format: state => state.chainProperties.ss58Format,
+    getChainPropertiesTokenDecimals: state =>
       state.chainProperties.tokenDecimals,
   },
   actions: {

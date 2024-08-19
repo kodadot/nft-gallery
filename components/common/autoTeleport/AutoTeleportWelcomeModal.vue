@@ -1,9 +1,9 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    :can-cancel="['outside', 'escape']"
     class="z-[1000]"
-    @close="onClose">
+    @close="onClose"
+  >
     <div class="sm:w-[40rem]">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
         <span class="capitalize text-[1.6rem] font-bold">
@@ -16,7 +16,8 @@
           no-shadow
           icon="xmark"
           size="medium"
-          @click="onClose" />
+          @click="onClose"
+        />
       </header>
 
       <div class="px-6 pt-4 pb-5">
@@ -24,16 +25,19 @@
           <div
             v-for="(x, index) in 3"
             :key="reasonsIcons[index]"
-            class="border border-k-shade p-4">
+            class="border border-k-shade p-4"
+          >
             <div class="has-accent-blur">
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
-                class="text-k-primary mb-3" />
+                class="text-k-primary mb-3"
+              />
               <img
                 src="~/assets/svg/accent-blur.svg"
                 class="blur icon-blur"
-                alt="blur" />
+                alt="blur"
+              >
             </div>
 
             <p class="font-bold text-xl mb-3">
@@ -55,8 +59,7 @@
             class="text-k-blue hover:text-k-blue-hover"
             target="_blank"
             rel="nofollow noopener noreferrer"
-            >{{ $t('helper.learnMore') }}</a
-          >
+          >{{ $t('helper.learnMore') }}</a>
         </div>
 
         <div class="flex justify-between mt-4">
@@ -65,7 +68,8 @@
             variant="primary"
             no-shadow
             class="flex flex-grow btn-height"
-            @click="onClose" />
+            @click="onClose"
+          />
         </div>
       </div>
     </div>
