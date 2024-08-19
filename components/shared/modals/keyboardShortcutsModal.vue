@@ -7,30 +7,18 @@
   >
     <template #default>
       <div class="flex justify-between">
-        <NeoTable
-          v-for="ktype in types"
-          :key="ktype"
-          :data="updateData[ktype]"
-        >
-          <NeoTableColumn
-            v-slot="props"
-            field="text"
-            :label="labels[ktype]"
-          >
+        <NeoTable v-for="ktype in types" :key="ktype" :data="updateData[ktype]">
+          <NeoTableColumn v-slot="props" field="text" :label="labels[ktype]">
             <div class="text-left">
               {{ props.row.text }}
             </div>
           </NeoTableColumn>
-          <NeoTableColumn
-            v-slot="props"
-            field="shortcut"
-          >
+          <NeoTableColumn v-slot="props" field="shortcut">
             <div class="flex flex-grow">
               <span
                 v-for="(shortcut, index) in props.row.shortcut.split('+', 2)"
                 :key="shortcut"
-                class="inline-flex"
-              >
+                class="inline-flex">
                 <kbd class="keyboard-shortcut-kbd">
                   {{ shortcut || '+' }}
                 </kbd>
