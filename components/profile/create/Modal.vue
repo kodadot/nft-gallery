@@ -33,10 +33,15 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
+
 import type { StatusAPIResponse } from '@farcaster/auth-client'
 import { useDocumentVisibility } from '@vueuse/core'
-import type { ProfileFormData } from './stages/index'
-import { Form, Introduction, Select } from './stages/index'
+import {
+  Form,
+  Introduction,
+  Select,
+  type ProfileFormData,
+} from './stages/index'
 import { deleteProfile } from '@/services/profile'
 import { appClient, createChannel } from '@/services/farcaster'
 
@@ -53,7 +58,7 @@ const props = defineProps<{
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
-const { getSignaturePair } = useVerifyAccount()
+const { getProfileVersionedSignaturePair } = useVerifyAccount()
 const documentVisibility = useDocumentVisibility()
 const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
 const { fetchProfile } = useProfile()
@@ -75,10 +80,10 @@ const close = () => {
   emit('close')
 }
 
-const handleProfileDelete = async (address: string) => {
+const handleProfileDelete = async (profileData: ProfileFormData) => {
   try {
-    const { signature, message } = await getSignaturePair()
-    await deleteProfile({ address, message, signature })
+    const { signature, message } = await getProfileVersionedSignaturePair(profileData.address)
+    await deleteProfile({ address: profileData.address, message, signature })
     infoMessage($i18n.t('profiles.profileHasBeenCleared'), {
       title: $i18n.t('profiles.profileReset'),
     })
@@ -97,7 +102,7 @@ const handleFormSubmition = async (profileData: ProfileFormData) => {
 
   try {
     signingMessage.value = true
-    signaturePair = await getSignaturePair()
+    signaturePair = await getProfileVersionedSignaturePair(profileData.address)
     signingMessage.value = false
     close()
     onModalAnimation(() => {
