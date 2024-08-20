@@ -202,7 +202,6 @@ watch(
   },
 )
 
-
 useModalIsOpenTracker({
   isOpen: computed(() => preferencesStore.makeOfferModalOpen),
   onChange: () => {
