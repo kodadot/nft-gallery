@@ -116,11 +116,12 @@ export const formatAmountWithRound = (
   roundBy?: number | Prefix,
 ) => {
   let round: number | undefined
-  const roundByPrefix = typeof roundBy === 'string'
+  let roundByPrefix = false
 
-  if (roundByPrefix) {
+  if (typeof roundBy === 'string') {
     const prefix = roundBy as Prefix
     if (prefix && isEvm(prefix)) {
+      roundByPrefix = true
       round = chainToPrecisionMap[prefixToChainMap[prefix]!]
     }
   }
