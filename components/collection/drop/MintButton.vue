@@ -95,6 +95,10 @@ const label = computed(() => {
     return $i18n.t('mint.unlockable.notEligibility')
   }
 
+  if (isMintNotLive.value) {
+    return $i18n.t('mint.unlockable.mintingNotLive')
+  }
+
   switch (drop.value.type) {
     case 'free':
       return $i18n.t('drops.mintForFree')
