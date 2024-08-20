@@ -23,10 +23,9 @@ const MultipleBalances = defineAsyncComponent(
 
 const identityStore = useIdentityStore()
 const { $consola } = useNuxtApp()
-const { getIsSubstrate } = storeToRefs(useWalletStore())
 
 onMounted(async () => {
-  if (identityStore.getAuthAddress && getIsSubstrate.value) {
+  if (identityStore.getAuthAddress) {
     $consola.log('fetching balance...')
     await identityStore.fetchBalance({
       address: identityStore.getAuthAddress,

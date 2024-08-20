@@ -46,19 +46,21 @@
       :default-skeleton-count="DEFAULT_SKELETON_COUNT"
     />
 
-    <hr class="my-14">
+    <template v-if="!(loaded && pastDrops.length === 0)">
+      <hr class="my-14">
 
-    <h2 class="text-3xl font-semibold mb-7">
-      {{ $i18n.t('drops.pastArtDrops') }}
-    </h2>
+      <h2 class="text-3xl font-semibold mb-7">
+        {{ $i18n.t('drops.pastArtDrops') }}
+      </h2>
 
-    <DropsGrid
-      :drops="pastDrops"
-      :loaded="loaded"
-      :default-skeleton-count="DEFAULT_SKELETON_COUNT"
-      :async-skeleton-count="asyncSkeletonCountOf(pastDrops.length)"
-      skeleton-key="skeleton"
-    />
+      <DropsGrid
+        :drops="pastDrops"
+        :loaded="loaded"
+        :default-skeleton-count="DEFAULT_SKELETON_COUNT"
+        :async-skeleton-count="asyncSkeletonCountOf(pastDrops.length)"
+        skeleton-key="skeleton"
+      />
+    </template>
 
     <DropsCreateCalendarEventModal
       v-model="isCreateEventModalActive"
@@ -82,7 +84,7 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { drops, loaded, count } = useDrops({
   active: [true],
-  chain: !isProduction ? [urlPrefix.value] : [],
+  chain: [urlPrefix.value],
   limit: 100,
 }, { async: true })
 
