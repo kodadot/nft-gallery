@@ -230,7 +230,7 @@ watch(total, () => {
   emit('total', total.value)
 })
 
-watch(isLoading, () => {
+watchEffect(() => {
   emit('loading', isLoading.value)
 })
 
