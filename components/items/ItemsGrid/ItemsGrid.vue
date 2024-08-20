@@ -37,6 +37,7 @@
             })
           "
           hide-video-controls
+          :skeleton-variant="getSkeletonVariant(slotProps)"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -58,6 +59,7 @@
               skipRows: EAGERLY_LOADED_ROWS,
             })
           "
+          :skeleton-variant="getSkeletonVariant(slotProps)"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
