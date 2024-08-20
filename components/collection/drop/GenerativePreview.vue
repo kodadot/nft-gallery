@@ -53,15 +53,26 @@
         <span v-else>{{ $t('free') }}</span>
       </div>
       <div class="flex justify-end items-center">
-        <div class="mr-4 text-neutral-7">
+        <div
+          v-if="!isUnlimited"
+          class="mr-4 text-neutral-7"
+        >
           {{ mintedPercent }}% ~
         </div>
         <div
           v-if="drop.minted >= 0 && drop.max"
-          class="font-bold"
+          class="font-bold flex gap-2"
         >
-          {{ drop.minted }}/{{ drop.max }}
-          {{ $t('statsOverview.minted') }}
+          <span>{{ drop.minted }}</span>
+          <span>/</span>
+          <span v-if="isUnlimited">
+            <NeoIcon
+              icon="infinity"
+              pack="fas"
+            />
+          </span>
+          <span v-else>{{ drop.max }}</span>
+          <span>{{ $t('statsOverview.minted') }}</span>
         </div>
         <div v-else>
           <NeoSkeleton width="100" />
@@ -111,6 +122,7 @@ const { formatted: formattedPrice } = useAmount(
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+const isUnlimited = computed(() => drop.value.max !== undefined && drop.value.max > Number.MAX_SAFE_INTEGER)
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
