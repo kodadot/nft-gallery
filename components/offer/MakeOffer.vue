@@ -202,14 +202,6 @@ watch(
   },
 )
 
-watch(
-  () => preferencesStore.makeOfferModalOpen,
-  (makeOfferModalOpen) => {
-    if (!makeOfferModalOpen) {
-      offerStore.clear()
-    }
-  },
-)
 
 useModalIsOpenTracker({
   isOpen: computed(() => preferencesStore.makeOfferModalOpen),
