@@ -12,10 +12,10 @@ export default function useUserProfile() {
     profile,
     refetch: fetchProfile,
     isLoading,
-  } = useFetchProfile(params?.id as string || accountId.value)
+  } = useFetchProfile(computed(() => params?.id as string || accountId.value))
 
   return {
-    hasProfile: computed(() => isLoading.value || !!profile.value),
+    hasProfile: computed(() => Boolean(profile.value)),
     userProfile: profile,
     fetchProfile,
     isFetchingProfile: isLoading,

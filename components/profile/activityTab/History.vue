@@ -178,6 +178,7 @@ const createTable = (): void => {
     const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
     // Type
     switch (newEvent['interaction']) {
+      case Interaction.MINT:
       case Interaction.MINTNFT:
         event['From'] = newEvent['caller']
         event['To'] = ''

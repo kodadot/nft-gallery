@@ -37,8 +37,10 @@ const props = withDefaults(
   },
 )
 
+const formattedAddress = computed(() => props.value.toLowerCase())
+
 const evmAvatarSvg = computed(() =>
-  toSvg(props.value, props.size - 2, {
+  toSvg(formattedAddress.value, props.size - 2, {
     padding: 0.1,
   }),
 )
