@@ -92,7 +92,7 @@ async function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
   )
   let type = nft.meta.type
 
-  if (nft.metadata !== nft.meta.id && nft.metadata) {
+  if (nft.metadata !== nft.meta.id && nft.metadata && !nft.id.startsWith('0x')) {
     const metadataUrl = sanitizeIpfsUrl(nft.metadata)
     const res = await getMetadata(metadataUrl)
 
