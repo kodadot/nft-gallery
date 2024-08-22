@@ -688,7 +688,8 @@
       "readyToMint": "Ready to Mint: {0} NFTs Remaining",
       "requirementsNotMet": "Requirements not met",
       "holderOfWarning1": "Each {0} collection NFT allows you to <strong>mint one</strong> new NFT.",
-      "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint."
+      "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint.",
+      "mintingNotLive": "Minting Not Started Yet"
     },
     "blockchain": {
       "label": "Select Blockchain",
@@ -1157,7 +1158,6 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
-    "featuredGenerativeDrops": "Featured generative drops",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"

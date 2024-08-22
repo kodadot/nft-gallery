@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Prefix } from '@kodadot1/static'
 import type { MintedNFT, MintingSession } from '../../types'
 import type { ItemMedia } from '@/components/common/successfulModal/SuccessfulItemsMedia.vue'
 import type { ShareProp } from '@/components/common/successfulModal/SuccessfulModalBody.vue'
@@ -34,6 +35,7 @@ const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { getCollectionFrameUrl } = useSocialShare()
+const { toMintNFTs } = storeToRefs(useDropStore())
 
 const cantList = computed(() => !props.canListNfts)
 const txHash = computed(() => props.mintingSession.txHash ?? '')
@@ -42,30 +44,52 @@ const mintedNft = computed<MintedNFT | undefined>(
   () => props.mintingSession.items[0],
 )
 
-const items = computed<ItemMedia[]>(() =>
-  props.mintingSession.items.map(item => ({
-    id: item.id,
-    name: item.name,
-    image: item.image,
-    collection: item.collection.id,
-    collectionName: item.collection.name,
-    mimeType: item.mimeType,
-  })),
-)
+const itemMedias = props.mintingSession.items.map(item => ({
+  id: item.id,
+  name: item.name,
+  image: item.image,
+  collection: item.collection.id,
+  collectionName: item.collection.name,
+  mimeType: item.mimeType,
+  metadata: item.metadata,
+}))
+const items = ref<ItemMedia[]>(itemMedias)
+
+// update serial number in nft.name asynchronously
+onMounted(async () => {
+  const metadatas = await Promise.all(
+    items.value.map(item => $fetch<{ name?: string }>(item.metadata)),
+  )
+
+  items.value.forEach((_, index) => {
+    const metadata = metadatas[index]
+    if (metadata.name) {
+      items.value[index].name = metadata.name
+      toMintNFTs.value[index].name = metadata.name
+    }
+  })
+})
 
 const nftPath = computed(
-  () => `/${mintedNft.value?.chain}/gallery/${mintedNft.value?.id}`,
+  () => mintedNft.value
+    ? pickByVm({
+      SUB: `/${mintedNft.value.chain}/gallery/${mintedNft.value.collection.id}-${mintedNft.value.id}`,
+      EVM: `/${mintedNft.value.chain}/gallery/${mintedNft.value.id}`,
+    }, { prefix: mintedNft.value.chain as Prefix })
+    : '',
 )
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
 const userProfilePath = computed(
   () => `/${urlPrefix.value}/u/${accountId.value}`,
 )
 
+const getItemSn = (name: string) => `#${name.split('#')[1]}`
+
 const sharingTxt = computed(() =>
   singleMint.value
-    ? $i18n.t('sharing.dropNft', [`#${mintedNft.value?.index}`])
+    ? $i18n.t('sharing.dropNft', [getItemSn(items.value[0].name)])
     : $i18n.t('sharing.dropNfts', [
-      props.mintingSession.items.map(item => `#${item.index}`).join(', '),
+      items.value.map(item => getItemSn(item.name)).join(', '),
     ]),
 )
 

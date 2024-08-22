@@ -1,19 +1,19 @@
-import { createWeb3Modal, useWeb3Modal } from '@web3modal/wagmi/vue'
+import { createWeb3Modal } from '@web3modal/wagmi/vue'
+import type { Web3Modal } from '@web3modal/wagmi'
+import { useConfig } from '@wagmi/vue'
 
-const modal = ref()
+const modal = ref<Web3Modal>()
 
 export default () => {
-  const { config } = useWagmi()
   const { urlPrefix } = usePrefix()
-
-  createWeb3Modal({
-    wagmiConfig: config,
-    projectId: useRuntimeConfig().public.walletConnectProjectId,
-    defaultChain: PREFIX_TO_CHAIN[urlPrefix.value],
-  })
+  const wagmiConfig = useConfig()
 
   if (!modal.value) {
-    modal.value = useWeb3Modal()
+    modal.value = createWeb3Modal({
+      wagmiConfig,
+      projectId: useRuntimeConfig().public.walletConnectProjectId,
+      defaultChain: PREFIX_TO_CHAIN[urlPrefix.value],
+    })
   }
 
   return {

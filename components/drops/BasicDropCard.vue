@@ -43,13 +43,36 @@
             </div>
           </div>
           <div
-            class="h-[28px] flex justify-between items-center flex-wrap gap-y-4 gap-x-2"
+            class="h-[28px] flex justify-between items-center gap-y-4 gap-x-2"
           >
-            <slot name="supply">
-              <div>
-                <span>{{ minted }}</span><span class="text-k-grey">/{{ dropMax }}</span>
+            <div
+              v-if="dropStatus !== 'scheduled_soon'"
+              class="flex gap-4"
+            >
+              <slot name="supply">
+                <div>
+                  <span>{{ minted }}</span><span class="text-k-grey text-xs">/
+                    <span v-if="isUnlimited"><NeoIcon
+                      icon="infinity"
+                      pack="fas"
+                    /></span>
+                    <span v-else>{{ dropMax }}</span>
+                  </span>
+                </div>
+              </slot>
+              <div
+                v-if="Number(dropPrice)"
+                class="flex gap-1 items-baseline"
+              >
+                <span>{{ formattedPrice }}</span><span class="text-k-grey text-xs">USD</span>
               </div>
-            </slot>
+              <div
+                v-else
+              >
+                <span>{{ $t('free') }}</span>
+              </div>
+            </div>
+
             <CollectionDropCollectedBy
               v-if="ownerAddresses.length"
               :addresses="ownerAddresses"
@@ -72,11 +95,13 @@
 </template>
 
 <script setup lang="ts">
+import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 const emit = defineEmits(['click'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     image: string | undefined
     name: string
@@ -91,6 +116,7 @@ withDefaults(
     minted?: number
     ownerAddresses?: string[]
     dropCreator?: string | null
+    dropPrice?: string
   }>(),
   {
     loading: false,
@@ -107,6 +133,14 @@ withDefaults(
 )
 
 const { placeholder } = useTheme()
+const isUnlimited = computed(() => props.dropMax > Number.MAX_SAFE_INTEGER)
+
+const chainPropList = chainPropListOf(props.dropPrefix)
+const { usd: formattedPrice } = useAmount(
+  computed(() => props.dropPrice),
+  toRef(chainPropList.tokenDecimals),
+  toRef(chainPropList.tokenSymbol),
+)
 </script>
 
 <style scoped lang="scss">

@@ -18,7 +18,7 @@ export default ({
 }) => {
   watch([isOpen, () => and], ([isOpen, and]) => {
     if (!isOpen === onClose && and.every(Boolean)) {
-      ;(onClose ? onModalAnimation(onChange) : onChange)()
+      onClose ? onModalAnimation(onChange) : onChange()
     }
   })
 }

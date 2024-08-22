@@ -490,12 +490,14 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
-const { urlPrefix, client } = usePrefix()
+const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
+const { redirectAfterChainChange } = useChainRedirect()
 
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
+const { getPrefixByAddress } = useAddress()
 
 const { hasProfile, userProfile, isFetchingProfile }
   = useProfile()
@@ -786,8 +788,17 @@ watch(collections, (value) => {
   })
 })
 
-onMounted(() => {
-  if (!hasProfile.value && isOwner.value) {
+watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
+  if (prefix !== urlPrefix.value) {
+    setUrlPrefix(prefix)
+    redirectAfterChainChange(prefix)
+  }
+}, {
+  immediate: true,
+})
+
+watchEffect(() => {
+  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value) {
     openProfileCreateModal()
   }
 })

@@ -22,13 +22,14 @@
 import { NeoButton } from '@kodadot1/brick'
 import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
 import { useDropStore } from '@/stores/drop'
-import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
+import { useDropMinimumFunds } from '@/components/drops/useDrops'
 import {
   calculateBalanceUsdValue,
   formatAmountWithRound,
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { parseCETDate } from '@/components/drops/utils'
+import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const emit = defineEmits(['mint'])
 
@@ -38,20 +39,20 @@ const { isLogIn } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
-const { drop } = useDrop()
 const now = useNow()
-const { mintCountAvailable, maxCount } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount } = storeToRefs(dropStore)
+const { mintCountAvailable } = useGenerativeDropMint()
+const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-
+const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
 const isHolderAndEligible = computed(
   () =>
     holderOfCollection.value.isHolder
-    && maxCount.value > dropStore.mintsCount
+    && drop.value.max
+    && drop.value.max > drop.value.minted
     && hasMinimumFunds.value
     && holderOfCollection.value.hasAvailable,
 )
@@ -74,7 +75,7 @@ const mintForLabel = computed(() =>
 )
 
 const label = computed(() => {
-  if (!mintCountAvailable.value) {
+  if (drop.value.max && (drop.value.max === drop.value.minted)) {
     return $i18n.t('mint.unlockable.seeListings')
   }
   if (!isLogIn.value) {
@@ -92,6 +93,10 @@ const label = computed(() => {
   }
   if (drop.value.userAccess === false) {
     return $i18n.t('mint.unlockable.notEligibility')
+  }
+
+  if (isMintNotLive.value) {
+    return $i18n.t('mint.unlockable.mintingNotLive')
   }
 
   switch (drop.value.type) {
@@ -138,7 +143,7 @@ const enabled = computed(() => {
     case 'holder':
       return isHolderAndEligible.value
     case 'paid':
-      return maxCount.value > userMintsCount.value
+      return drop.value.max && drop.value.max > userMintsCount.value
     default:
       return false
   }
@@ -167,6 +172,10 @@ const handleMint = () => {
     return navigateTo(
       `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
+  }
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal()
+    return
   }
 
   emit('mint')

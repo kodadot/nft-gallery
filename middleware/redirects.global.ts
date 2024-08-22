@@ -1,7 +1,19 @@
-import { createVisible } from '@/utils/config/permission.config'
+import { type Prefix } from '@kodadot1/static'
+import { createVisible, transferVisible, teleportVisible, migrateVisible } from '@/utils/config/permission.config'
 
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
+
+  const getPermissionRouteCondition = (cond: (value: string) => boolean, routeVisible: (value: Prefix) => boolean) => {
+    return {
+      cond,
+      replaceValue: () => {
+        if (!routeVisible(urlPrefix.value)) {
+          return '/'
+        }
+      },
+    }
+  }
 
   let redirectValue
 
@@ -28,22 +40,18 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: val => val.includes('/rmrk2/'),
       replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
     },
+    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
+    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
+    getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),
     {
       cond: val => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
-    {
-      cond: val =>
-        val === `/${urlPrefix.value}/create`
-        || val === `/${urlPrefix.value}/massmint`
-        || val.startsWith('/create'),
-      replaceValue: () => {
-        if (!createVisible(urlPrefix.value)) {
-          return '/'
-        }
-      },
-    },
+    getPermissionRouteCondition((val: string) =>
+      val === `/${urlPrefix.value}/create`
+      || val === `/${urlPrefix.value}/massmint`
+      || val.startsWith('/create'), createVisible),
   ]
 
   for (const path of paths) {
