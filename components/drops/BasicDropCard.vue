@@ -46,8 +46,7 @@
             class="h-[28px] flex justify-between items-center gap-y-4 gap-x-2"
           >
             <div
-              v-if="dropStatus !== 'scheduled_soon'"
-              class="flex gap-4"
+              class="flex shrink-0 gap-4"
             >
               <slot name="supply">
                 <div>
