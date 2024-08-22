@@ -27,7 +27,7 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
     getEvmCollection(chain, address),
   ]) as [bigint, string, { claimed?: string }]
 
-  let metadata = { description: '', name: '', image: '' }
+  let metadata = { description: '', name: '', image: '', generative_uri: '', banner: '' }
   if (collectionMetadata) {
     metadata = await $fetch(sanitizeIpfsUrl(collectionMetadata))
   }

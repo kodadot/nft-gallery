@@ -9,7 +9,7 @@ export const subCollection = async (id: string) => {
   const collection = queryCollection.toJSON() as unknown as { items?: number }
 
   const collectionMetadata = queryCollectionMetadata.toHuman() as unknown as { data?: string }
-  let metadata = { description: '', name: '', image: '' }
+  let metadata = { description: '', name: '', image: '', generative_uri: '', banner: '' }
   if (collectionMetadata.data) {
     metadata = await $fetch(sanitizeIpfsUrl(collectionMetadata.data))
   }
