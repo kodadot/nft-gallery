@@ -1,16 +1,17 @@
+import type { Prefix } from '@kodadot1/static'
 import { formatAmountWithRound } from '@/utils/format/balance'
 
 export default function (
   tokenAmount: ComputedRef<number | string | undefined>,
   tokenDecimals: ComputedRef<number>,
   chainSymbol: ComputedRef<string>,
-  round: undefined | number = undefined,
+  roundBy?: ComputedRef<Prefix | number>,
 ) {
   const { getCurrentTokenValue } = useFiatStore()
 
   const amountFormatted = computed(() => {
     const amount = tokenAmount.value
-      ? formatAmountWithRound(tokenAmount.value, tokenDecimals.value, round)
+      ? formatAmountWithRound(tokenAmount.value, tokenDecimals.value, roundBy?.value)
       : 0
     return `${amount} ${chainSymbol.value}`
   })
