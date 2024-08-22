@@ -80,29 +80,29 @@
 
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
-import type { ChainVM } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
+import { transferVisible, teleportVisible, migrateVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
-const { vm } = useChain()
 // const { isAssetHub } = useIsChain(urlPrefix)
 const { neoModal } = useProgrammatic()
 
-const menus = ref<{ label: string, to: string, vm: ChainVM[] }[]>([
+const menus = ref<{ label: string, to: string, check: (v: Prefix) => boolean }[]>([
   {
     label: 'Transfer',
     to: `/${urlPrefix.value}/transfer`,
-    vm: ['SUB'],
+    check: transferVisible,
   },
   {
     label: 'Teleport Bridge',
     to: `/${urlPrefix.value}/teleport`,
-    vm: ['SUB'],
+    check: teleportVisible,
   },
   {
     label: 'Migrate',
     to: '/migrate',
-    vm: ['SUB'],
+    check: migrateVisible,
   },
 ])
 
@@ -122,7 +122,7 @@ const menus = ref<{ label: string, to: string, vm: ChainVM[] }[]>([
 // })
 
 const filteredMenus = computed(() =>
-  menus.value.filter(menu => menu.vm.includes(vm.value)),
+  menus.value.filter(menu => menu.check(urlPrefix.value)),
 )
 
 const closeModal = () => {

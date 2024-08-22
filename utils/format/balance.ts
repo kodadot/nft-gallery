@@ -1,6 +1,7 @@
 import { trimAll } from '@kodadot1/minimark/utils'
 import type BN from 'bn.js'
 import { formatBalance } from '@polkadot/util'
+import type { Prefix } from '@kodadot1/static'
 
 function format(
   balance: number | string | BN | bigint,
@@ -83,7 +84,6 @@ export function roundTo(value: number | string, limit = 2) {
   const hasDecimals = number % 1 !== 0
   const fractionDigits = hasDecimals ? limit : 0
   return number.toLocaleString(undefined, {
-    minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   })
 }
@@ -113,12 +113,27 @@ const roundAmount = (
 export const formatAmountWithRound = (
   value: string | number | bigint,
   tokenDecimals: number,
-  round?: number,
-) =>
-  roundAmount(
+  roundBy?: number | Prefix,
+) => {
+  let round: number | undefined
+  let roundByPrefix = false
+
+  if (typeof roundBy === 'string') {
+    const prefix = roundBy as Prefix
+    if (prefix && isEvm(prefix)) {
+      roundByPrefix = true
+      round = chainToPrecisionMap[prefixToChainMap[prefix]!]
+    }
+  }
+  else {
+    round = roundBy
+  }
+
+  return roundAmount(
     format(checkInvalidBalanceFilter(value), tokenDecimals, ''),
     round === 0 ? round : round || 4,
-    round === undefined,
+    roundByPrefix ? false : round === undefined,
   )
+}
 
 export default format
