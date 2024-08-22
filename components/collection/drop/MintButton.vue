@@ -41,7 +41,7 @@ const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const now = useNow()
 const { mintCountAvailable } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount, drop, getIsLoadingMaxCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
@@ -67,7 +67,7 @@ watch(drop, async () => {
 
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
-    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
+    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value, drop.value.chain)} ${
       chainSymbol.value
     } ${priceUsd.value ? '/ ' + (priceUsd.value * amountToMint.value).toFixed(2) + ' ' + $i18n.t('general.usd') : ''}`,
   ]),
@@ -152,7 +152,8 @@ const loading = computed(
   () =>
     dropStore.isCapturingImage
     || dropStore.walletConnecting
-    || dropStore.loading,
+    || dropStore.loading
+    || getIsLoadingMaxCount.value,
 )
 
 const showHolderOfCollection = computed(() =>
