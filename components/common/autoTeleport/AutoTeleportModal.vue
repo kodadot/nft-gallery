@@ -7,7 +7,7 @@
     <div class="sm:w-[25rem]">
       <ModalBody
         :title="$i18n.t('autoTeleport.signTransactions')"
-        @click="onClose"
+        @close="onClose"
       >
         <ModalIdentityItem />
 
