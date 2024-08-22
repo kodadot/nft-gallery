@@ -112,6 +112,7 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { sum } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { ModalCloseType } from '@/components/navbar/types'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -170,9 +171,11 @@ const closeShoppingCart = (
 }
 
 const openCompletePurcahseModal = () => {
-  prefrencesStore.setCompletePurchaseModal({
-    isOpen: true,
-    mode: 'shopping-cart',
+  doAfterCheckCurrentChainVM(() => {
+    prefrencesStore.setCompletePurchaseModal({
+      isOpen: true,
+      mode: 'shopping-cart',
+    })
   })
 }
 
