@@ -28,7 +28,6 @@
       <template v-else>
         <WalletTabs
           v-model="selectedTab"
-          :preselected="preselected"
         />
 
         <ConnectSubstrate

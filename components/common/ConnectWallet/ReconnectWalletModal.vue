@@ -68,6 +68,7 @@ const emit = defineEmits(['close', 'connect'])
 const { logout } = useWallet()
 const { getWalletVM } = storeToRefs(useWalletStore())
 const { doAfterLogin } = useDoAfterlogin()
+const currentWalletVM = ref(getWalletVM.value || 'SUB')
 const { isDarkMode } = useTheme()
 
 const loading = ref(false)
@@ -84,9 +85,6 @@ const vmDetails = computed<Record<ChainVM, { icon: string, name: string, shortNa
 
   },
 }))
-
-const currentWalletVM = computed(() => getWalletVM.value || 'SUB')
-
 const targetVm = computed(() => VM_SWITCH_MAP[currentWalletVM.value]) // make prop
 const vmSwitchDetails = computed(() => ({
   current: vmDetails.value[currentWalletVM.value],
