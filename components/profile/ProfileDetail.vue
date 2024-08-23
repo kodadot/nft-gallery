@@ -498,9 +498,9 @@ const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 const { getPrefixByAddress } = useAddress()
+const { params } = useRoute()
 
-const { hasProfile, userProfile, isFetchingProfile }
-  = useProfile()
+const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
