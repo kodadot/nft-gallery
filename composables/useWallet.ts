@@ -2,6 +2,8 @@ import { useDisconnect } from '@wagmi/vue'
 
 const KEYS_TO_REMOVE = ['wallet']
 
+const isWalletModalOpen = ref(false)
+
 export default function () {
   const { disconnect: disconnectWeb3Modal } = useDisconnect()
   const shoppingCartStore = useShoppingCartStore()
@@ -35,5 +37,6 @@ export default function () {
 
   return {
     logout,
+    isWalletModalOpen,
   }
 }

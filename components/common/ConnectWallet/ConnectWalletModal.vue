@@ -57,6 +57,7 @@ import { ModalCloseType } from '@/components/navbar/types'
 
 const emit = defineEmits(['close', 'connect'])
 const props = defineProps<{ preselected?: ChainVM }>()
+const { isWalletModalOpen } = useWallet()
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
@@ -86,7 +87,12 @@ const setAccount = (account: WalletAccount) => {
   emit('connect', account)
 }
 
-onMounted(() => walletStore.setDisconnecting(false))
+onMounted(() => {
+  walletStore.setDisconnecting(false)
+  isWalletModalOpen.value = true
+})
+
+onUnmounted(() => isWalletModalOpen.value = false)
 
 watch([urlPrefix], () => {
   emit('close', ModalCloseType.NAVIGATION)
