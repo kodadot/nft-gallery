@@ -56,7 +56,9 @@ const { $i18n } = useNuxtApp()
 const { getSignaturePair } = useVerifyAccount()
 const documentVisibility = useDocumentVisibility()
 const { add: generateSession, get: getSession } = useIdMap<Ref<SessionState>>()
-const { fetchProfile } = useProfile()
+const { params } = useRoute()
+
+const { fetchProfile } = useProfile(computed(() => params?.id as string))
 
 const { hasProfile, userProfile } = useProfile()
 provide('userProfile', { hasProfile, userProfile })
