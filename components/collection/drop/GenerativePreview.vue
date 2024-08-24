@@ -60,7 +60,7 @@
           {{ mintedPercent }}% ~
         </div>
         <div
-          v-if="drop.minted >= 0 && drop.max"
+          v-if="!getIsLoadingMaxCount"
           class="font-bold flex gap-2"
         >
           <span>{{ drop.minted }}</span>
@@ -113,12 +113,13 @@ import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
-const { userMintsCount, drop } = storeToRefs(dropStore)
+const { userMintsCount, drop, getIsLoadingMaxCount } = storeToRefs(dropStore)
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
   decimals,
   chainSymbol,
+  computed(() => drop.value.chain),
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
