@@ -184,34 +184,40 @@ export function useDrop(alias?: string) {
   const fetchDrop = async () => {
     // get some offchain data
     const campaign = await getDropById(alias ?? params.id.toString())
+    const offChainData = {
+      id: campaign.id,
+      chain: campaign.chain,
+      alias: campaign.alias,
+      collection: campaign.collection,
+      type: campaign.type,
+      disabled: campaign.disabled,
+      start_at: campaign.start_at,
+      holder_of: campaign.holder_of,
 
-    drop.value.id = campaign.id
-    drop.value.chain = campaign.chain
-    drop.value.alias = campaign.alias
-    drop.value.collection = campaign.collection
-    drop.value.type = campaign.type
-    drop.value.disabled = campaign.disabled
-    drop.value.price = campaign.price
-    drop.value.holder_of = campaign.holder_of
-    drop.value.start_at = campaign.start_at
-    drop.value.creator = campaign.creator
+      // would be nice if we could get this from the onchain
+      price: campaign.price,
+      creator: campaign.creator,
+    }
 
-    const address = drop.value.collection as `0x${string}`
+    const address = campaign.collection
     if (!address) {
       return
     }
 
     // get some onchain data
-    const { maxSupply: supply, minted, metadata } = isEvm.value ? await evmCollection(address, usePrefix().urlPrefix.value) : await subCollection(address)
+    const { maxSupply: supply, minted, metadata } = isEvm.value ? await evmCollection(address as `0x${string}`, usePrefix().urlPrefix.value) : await subCollection(address)
+    const onChainData = {
+      max: supply,
+      minted: minted || await fetchDropMintedCount(drop.value),
+      name: metadata.name,
+      collectionName: metadata.name,
+      collectionDescription: metadata.description,
+      image: metadata.image,
+      banner: metadata.banner || metadata.image,
+      content: metadata.generative_uri || campaign.content,
+    }
 
-    drop.value.max = supply
-    drop.value.minted = minted || await fetchDropMintedCount(drop.value)
-    drop.value.name = metadata.name
-    drop.value.collectionName = metadata.name
-    drop.value.collectionDescription = metadata.description
-    drop.value.image = metadata.image
-    drop.value.banner = metadata.banner || metadata.image
-    drop.value.content = metadata.generative_uri || campaign.content
+    drop.value = { ...offChainData, ...onChainData }
   }
 
   watch(() => params.id, fetchDrop)

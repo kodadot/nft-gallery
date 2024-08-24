@@ -1,5 +1,6 @@
 import { readContract } from '@wagmi/core'
 import type { Prefix } from '@kodadot1/static'
+import type { OnChainData } from './types'
 import { GENSOL_ABI } from '@/composables/transaction/evm/utils'
 import { getEvmCollection } from '@/services/ogi'
 
@@ -27,7 +28,7 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
     getEvmCollection(chain, address),
   ]) as [bigint, string, { claimed?: string }]
 
-  let metadata = { description: '', name: '', image: '', generative_uri: '', banner: '' }
+  let metadata: OnChainData = { description: '', name: '', image: '', generative_uri: '', banner: '' }
   if (collectionMetadata) {
     metadata = await $fetch(sanitizeIpfsUrl(collectionMetadata))
   }
