@@ -7,6 +7,7 @@ import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata, NftResources } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
+import { getDrops } from '@/services/fxart'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -71,6 +72,17 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
+    }
+
+    if (nftEntity.collection.id) {
+      await getDrops({
+        collection: nftEntity.collection.id,
+        chain: [urlPrefix.value],
+      }).then((drops) => {
+        if (drops && drops[0]?.creator) {
+          nftEntity.issuer = drops[0].creator
+        }
+      })
     }
 
     nft.value = nftEntity
