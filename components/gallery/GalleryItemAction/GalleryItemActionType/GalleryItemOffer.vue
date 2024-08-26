@@ -10,7 +10,7 @@
         variant="k-blue"
         size="large"
         class="w-[calc(10rem+55px)]"
-        @click="openOfferModal"
+        @click="onMakeOfferClick"
       />
       <MakeOffer />
     </div>
@@ -35,6 +35,7 @@ const props = defineProps<{
 
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
+const { doAfterLogin } = useDoAfterlogin()
 
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
 
@@ -44,6 +45,12 @@ const openOfferModal = () => {
   makeOfferStore.setItem(item)
 
   preferencesStore.setMakeOfferModalOpen(true)
+}
+
+const onMakeOfferClick = () => {
+  doAfterLogin({
+    onLoginSuccess: openOfferModal,
+  })
 }
 
 useModalIsOpenTracker({
