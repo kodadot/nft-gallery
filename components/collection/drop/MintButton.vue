@@ -90,9 +90,6 @@ const label = computed(() => {
   if (isCheckingMintRequirements.value) {
     return $i18n.t('checking')
   }
-  if (drop.value.userAccess === false) {
-    return $i18n.t('mint.unlockable.notEligibility')
-  }
 
   if (isMintNotLive.value) {
     return $i18n.t('mint.unlockable.mintingNotLive')
@@ -131,7 +128,6 @@ const enabled = computed(() => {
     || !previewItem.value // no image
     || isCheckingMintRequirements.value // still checking requirements
     || loading.value // still loading
-    || drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }

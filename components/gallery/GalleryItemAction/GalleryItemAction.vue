@@ -5,6 +5,12 @@
       v-if="!isOwner && nft"
       :nft="nft"
     />
+    <!-- make offer -->
+    <GalleryItemOffer
+      v-if="offerVisible(urlPrefix) && !isOwner && nft"
+      :nft="nft"
+      class="mt-2"
+    />
 
     <!-- change price as an owner -->
     <GalleryItemPriceRelist
@@ -24,9 +30,10 @@
 
 <script lang="ts" setup>
 import GalleryItemPriceBuy from './GalleryItemActionType/GalleryItemBuy.vue'
+import GalleryItemOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
 import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
-import { listVisible } from '@/utils/config/permission.config'
+import { listVisible, offerVisible } from '@/utils/config/permission.config'
 
 import type { NFT } from '@/components/rmrk/service/scheme'
 
