@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { useDrops } from '@/components/drops/useDrops'
+import { dropsVisible } from '@/utils/config/permission.config'
 
 const container = ref()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
@@ -44,7 +45,7 @@ const { urlPrefix } = usePrefix()
 const { drops, loaded: isReady } = useDrops({
   limit: 14,
   active: [true],
-  chain: [urlPrefix.value],
+  chain: dropsVisible(urlPrefix.value) ? [urlPrefix.value] : ['base', 'ahp'],
 }, { filterOutMinted: true })
 
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
