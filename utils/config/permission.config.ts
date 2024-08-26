@@ -46,6 +46,10 @@ export const migrateVisible = (prefix: Prefix | string): boolean => {
   return isSub(prefix as Prefix)
 }
 
+export const offerVisible = (prefix: Prefix | string): boolean => {
+  return ['ahp', 'ahk'].includes(prefix)
+}
+
 export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix] ?? true
 }
