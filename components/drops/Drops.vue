@@ -47,7 +47,7 @@
       :default-skeleton-count="4"
     />
 
-    <template v-if="dropItems?.length">
+    <template v-if="sortedMintedDrops.length">
       <hr class="my-14">
 
       <h2 class="text-3xl font-semibold mb-7">
@@ -55,11 +55,10 @@
       </h2>
 
       <div class="grid grid-cols-5 gap-4">
-        <DropsDropItem
-          v-for="drop in dropItems"
-          :key="drop.id"
+        <DropsDropCard
+          v-for="drop in sortedMintedDrops"
+          :key="drop.collection.id"
           :drop="drop"
-          :past-drop="true"
         />
       </div>
 
@@ -74,7 +73,7 @@
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useQuery } from '@tanstack/vue-query'
-import { getDrops } from '~/services/fxart'
+import { getDrops } from '@/services/fxart'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
@@ -88,5 +87,12 @@ const { data: dropItems } = useQuery({
     chain: [urlPrefix.value],
     limit: 100,
   }),
+})
+
+const mintedDrops = useMintedDropsStore()
+const sortedMintedDrops = computed(() => mintedDrops.sortedMintedDrops)
+
+onBeforeMount(() => {
+  mintedDrops.clearMintedDrops()
 })
 </script>

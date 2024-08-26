@@ -17,23 +17,20 @@ import type { DropItem } from '~/params/types'
 
 const props = defineProps<{
   drop: DropItem
-  pastDrop?: boolean
 }>()
 
 const formattedDrop = ref<Drop>()
 const loading = ref(true)
-const pastItem = computed(() => {
-  if (props.pastDrop) {
-    return formattedDrop.value?.minted === formattedDrop.value?.max
-  }
-
-  return formattedDrop.value?.minted !== formattedDrop.value?.max
-})
+const pastItem = computed(() => !formattedDrop.value?.isMintedOut)
 
 onBeforeMount(async () => {
   const dropAttributes = await getDropAttributes(props.drop.alias)
   if (dropAttributes) {
     formattedDrop.value = await getFormattedDropItem(dropAttributes)
+
+    if (formattedDrop.value?.isMintedOut) {
+      useMintedDropsStore().addMintedDrop(formattedDrop.value)
+    }
   }
   loading.value = false
 })
