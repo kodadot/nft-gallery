@@ -33,6 +33,7 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
     queryClient.fetchQuery({
       queryKey: ['evmCollection', chain, address],
       queryFn: () => getEvmCollection(chain, address),
+      retry: 3,
     }),
   ]) as [bigint, string, EVMCollection]
 

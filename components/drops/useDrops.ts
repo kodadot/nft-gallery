@@ -75,7 +75,7 @@ export function useDrops(query?: GetDropsQuery) {
 }
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const dropAttribtues = await getDropAttributes(drop.alias, true)
+  const dropAttribtues = await getDropAttributes(drop.alias, isEvm(drop.chain))
   const chainMax = dropAttribtues?.max || FALLBACK_DROP_COLLECTION_MAX
   const count = dropAttribtues?.minted || await fetchDropMintedCount(drop)
   const price = dropAttribtues?.price || 0
