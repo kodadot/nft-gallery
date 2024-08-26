@@ -1249,6 +1249,7 @@
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard",
+    "downloadImage": "Downloading image",
     "downloadError": "Unable to download image",
     "unsupportedOperation": "Unsupported action",
     "uploadFileSizeLimit": "The uploaded file exceeds the {0}MB size limit.",
