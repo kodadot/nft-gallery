@@ -32,11 +32,21 @@
             :title="'User Avatar'"
             class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full"
           />
-          <Avatar
+          <div
             v-else
-            :value="id"
-            class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] mb-[-7px]"
-          />
+            class="mb-[-7px]"
+          >
+            <Avatar
+              :value="id"
+              :size="78"
+              class="md:hidden"
+            />
+            <Avatar
+              :value="id"
+              :size="124"
+              class="max-md:hidden"
+            />
+          </div>
         </div>
       </div>
     </div>
