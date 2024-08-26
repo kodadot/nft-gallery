@@ -493,6 +493,8 @@ const { accountId } = useAuth()
 const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { redirectAfterChainChange } = useChainRedirect()
+const profileOnboardingStore = useProfileOnboardingStore()
+const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
@@ -798,7 +800,8 @@ watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
 })
 
 watchEffect(() => {
-  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value) {
+  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value && !getIsOnboardingShown.value) {
+    profileOnboardingStore.setOnboardingShown()
     openProfileCreateModal()
   }
 })
