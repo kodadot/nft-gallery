@@ -64,6 +64,15 @@ export type TokenEntity = {
   }
 }
 
+export type NFTOffer = {
+  id: string
+  price: string
+  expiration: number
+  status: string
+  currentOwner: string
+  royalty?: Royalty
+}
+
 export const isTokenEntity = (
   entity: NFTWithMetadata | TokenEntity,
 ): entity is TokenEntity =>

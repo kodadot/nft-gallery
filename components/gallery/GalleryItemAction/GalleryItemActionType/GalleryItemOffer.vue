@@ -1,14 +1,20 @@
 <template>
-  <div class="flex justify-end gallery-item-offer">
-    <NeoButton
-      :label="$t('transaction.offer')"
-      variant="k-blue"
-      size="large"
-      class="w-[calc(10rem+55px)]"
-      @click="openOfferModal"
-    />
-    <MakeOffer />
-  </div>
+  <GalleryItemPriceSection
+    :title="$t('offer.highestOffer')"
+    :price="highestOfferPrice"
+    class="mt-4"
+  >
+    <div class="flex justify-end gallery-item-offer">
+      <NeoButton
+        :label="$t('transaction.offer')"
+        variant="k-blue"
+        size="large"
+        class="w-[calc(10rem+55px)]"
+        @click="openOfferModal"
+      />
+      <MakeOffer />
+    </div>
+  </GalleryItemPriceSection>
 </template>
 
 <script setup lang="ts">
@@ -18,17 +24,23 @@ import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import MakeOffer from '@/components/offer/MakeOffer.vue'
+import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
 
 const props = defineProps<{
   nft: NFT
+  highestOffer?: {
+    price: string
+  }
 }>()
 
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
 
+const highestOfferPrice = computed(() => props.highestOffer?.price || '')
+
 const openOfferModal = () => {
   makeOfferStore.clear()
-  const item = nftToOfferItem(props.nft)
+  const item = nftToOfferItem(props.nft, highestOfferPrice.value)
   makeOfferStore.setItem(item)
 
   preferencesStore.setMakeOfferModalOpen(true)

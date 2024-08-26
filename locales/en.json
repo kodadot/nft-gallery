@@ -1631,7 +1631,14 @@
   },
   "offer": {
     "yourOfferAmount": "Your Offer Amount" ,
-    "newOffer": "New Offer"
+    "newOffer": "New Offer",
+    "bestOffer": "Best Offer",
+    "collectionFloorPrice": "Collection Floor",
+    "expiration": "Offer Expiration",
+    "typeOffer": "Type An Offer",
+    "highestOffer": "Highest Offer",
+    "invalidPrice": "Your offer must greater than 0.0001",
+    "emptyInput": "Please enter your offer"
   },
   "migrate": {
     "cta": "Migrate Now",
@@ -1809,6 +1816,10 @@
       "consume": {
         "confirm": "Teleport and Burn NFT",
         "title": "Burning NFT"
+      },
+      "make_offer": {
+        "confirm": "Teleport and Create Offer",
+        "title": "Creating Offer"
       }
     }
   },

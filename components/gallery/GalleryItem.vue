@@ -166,7 +166,10 @@
               v-if="nft && isAssetHub"
               :nft="nft"
             />
-            <GalleryItemAction :nft="nft" />
+            <GalleryItemAction
+              :nft="nft"
+              :highest-offer="nftHighestOffer"
+            />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
@@ -258,6 +261,7 @@ const {
   nftAnimationMimeType,
   nftMimeType,
   nftResources,
+  nftHighestOffer,
 } = galleryItem
 const collection = computed(() => nft.value?.collection)
 

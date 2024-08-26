@@ -49,6 +49,7 @@
           <AutoTeleportActionButton
             ref="autoTeleportButton"
             :actions="actions"
+            :amount="totalOfferAmount"
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
@@ -83,6 +84,7 @@ import MakingOfferSingleItem from '@/components/offer/MakingOfferSingleItem.vue'
 import SuccessfulMakingOfferBody from '@/components/offer/SuccessfulMakingOfferBody.vue'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
+import { sum } from '@/utils/math'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -96,6 +98,7 @@ const {
   txHash,
   clear: clearTransaction,
 } = useTransaction()
+const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
 const { isTransactionSuccessful } = useTransactionSuccessful({
   status,
@@ -104,7 +107,6 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
 
 const { decimals } = useChain()
 const { $i18n } = useNuxtApp()
-const itemCount = ref(offerStore.count)
 const items = ref<MakingOfferItem[]>([])
 
 const isSuccessModalOpen = computed(
@@ -118,17 +120,21 @@ const getAction = (items: MakingOfferItem[]): Actions => {
     token: items.map(item => ({
       price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
       collectionId: item.collection.id,
+      duration: item.offerExpiration || 7,
       nftSn: item.sn,
     } as TokenToOffer)),
-    duration: 300,
     successMessage: $i18n.t('transaction.price.offer') as string,
     errorMessage: $i18n.t('transaction.price.error') as string,
   }
 }
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
-  getActionFn: () => getAction(offerStore.itemsInChain),
+  getActionFn: () => getAction(itemsInChain.value),
 })
+
+const totalOfferAmount = computed(
+  () => calculateBalance(sum(itemsInChain.value.map(nft => Number(nft.offerPrice))), decimals.value),
+)
 
 const actions = computed<AutoTeleportAction[]>(() => [
   {
@@ -146,13 +152,21 @@ const actions = computed<AutoTeleportAction[]>(() => [
 const confirmButtonDisabled = computed(
   () =>
     hasOperationsDisabled(urlPrefix.value)
-    || offerStore.hasInvalidOfferPrices
+    || hasInvalidOfferPrices.value
     || !autoTeleportButton.value?.isReady,
 )
 
 const confirmListingLabel = computed(() => {
   if (!offerVisible(urlPrefix.value)) {
     return $i18n.t('toast.unsupportedOperation')
+  }
+
+  if (!totalOfferAmount.value) {
+    return $i18n.t('offer.emptyInput')
+  }
+
+  if (hasInvalidOfferPrices.value) {
+    return $i18n.t('offer.invalidPrice')
   }
 
   if (!autoTeleportButton.value?.isReady) {
@@ -162,7 +176,7 @@ const confirmListingLabel = computed(() => {
 })
 
 const submitOffer = () => {
-  return transaction(getAction(offerStore.itemsInChain))
+  return transaction(getAction(itemsInChain.value))
 }
 
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
@@ -170,8 +184,7 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     clearTransaction()
 
     autoTeleport.value = autoteleport
-    itemCount.value = offerStore.count
-    items.value = [...offerStore.itemsInChain]
+    items.value = [...itemsInChain.value]
 
     if (!autoteleport) {
       await submitOffer()
@@ -194,9 +207,9 @@ const handleSuccessModalClose = () => {
 }
 
 watch(
-  () => offerStore.count,
+  () => count.value,
   () => {
-    if (offerStore.count === 0) {
+    if (count.value === 0) {
       closeMakingOfferModal()
     }
   },

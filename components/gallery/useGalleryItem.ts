@@ -5,7 +5,7 @@ import { getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
-import type { NFTWithMetadata, NftResources } from '@/composables/useNft'
+import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
 
 interface NFTData {
@@ -20,6 +20,7 @@ export interface GalleryItem {
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
+  nftHighestOffer: Ref<NFTOffer>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -32,6 +33,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
+  const nftHighestOffer = ref<NFTOffer>()
 
   const { params } = useRoute()
   const id = nftId || params.id
@@ -47,6 +49,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
     queryName: 'nftById',
+    queryPrefix: queryPath[urlPrefix.value],
+    variables: {
+      id,
+    },
+  })
+
+  const { data: nftOfferData } = useGraphql({
+    queryName: 'highestOfferByNftId',
     queryPrefix: queryPath[urlPrefix.value],
     variables: {
       id,
@@ -152,6 +162,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     })
   })
 
+  watch(nftOfferData as unknown as { offers: NFTOffer[] }, (newData) => {
+    if (newData && newData.offers && newData.offers[0]) {
+      nftHighestOffer.value = newData.offers[0]
+    }
+  })
+
   return {
     nft,
     nftImage,
@@ -160,5 +176,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMimeType,
     nftMetadata,
     nftResources,
+    nftHighestOffer,
   }
 }
