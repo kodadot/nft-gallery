@@ -34,7 +34,7 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
       queryKey: ['evmCollection', chain, address],
       queryFn: () => getEvmCollection(chain, address),
       retry: 3,
-    }),
+    }).catch(() => ({ claimed: '0' })),
   ]) as [bigint, string, EVMCollection]
 
   let metadata: OnChainData = { description: '', name: '', image: '', generative_uri: '', banner: '' }
