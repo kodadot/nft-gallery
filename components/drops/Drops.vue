@@ -82,7 +82,7 @@ const { urlPrefix } = usePrefix()
 const isCreateEventModalActive = ref(false)
 
 const { data: dropItems } = useQuery({
-  queryKey: ['drops', urlPrefix.value, isProduction],
+  queryKey: ['drop-items', urlPrefix.value],
   queryFn: () => getDrops({
     active: [true],
     chain: [urlPrefix.value],

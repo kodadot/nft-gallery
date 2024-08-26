@@ -47,7 +47,7 @@ const DROP_LIST_ORDER = [
 
 const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 
-export function useDrops(query?: GetDropsQuery) {
+export function useDrops(query?: GetDropsQuery, { filterOutMinted = false } = {}) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
@@ -58,7 +58,7 @@ export function useDrops(query?: GetDropsQuery) {
 
     drops.value = await Promise.all(
       dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-    )
+    ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
 
     loaded.value = true
   })

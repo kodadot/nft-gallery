@@ -26,21 +26,6 @@
 <script lang="ts" setup>
 import { useDrops } from '@/components/drops/useDrops'
 
-let queries = {
-  limit: 14,
-  active: [true],
-  chain: ['ahp', 'base'],
-}
-
-const { urlPrefix } = usePrefix()
-
-if (!isProduction && urlPrefix.value === 'ahk') {
-  queries = {
-    ...queries,
-    chain: ['ahk'],
-  }
-}
-
 const container = ref()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
   container,
@@ -55,6 +40,12 @@ const skeletonCount = computed(() =>
   Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
 )
 
-const { drops, loaded: isReady } = useDrops(queries, { filterOutMinted: true })
+const { urlPrefix } = usePrefix()
+const { drops, loaded: isReady } = useDrops({
+  limit: 14,
+  active: [true],
+  chain: [urlPrefix.value],
+}, { filterOutMinted: true })
+
 const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
 </script>

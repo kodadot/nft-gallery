@@ -29,7 +29,10 @@
       </div>
     </div>
 
-    <div class="container is-fluid !mt-8 md:!mt-[3rem] mb-16">
+    <div
+      :key="usePrefix().urlPrefix.value"
+      class="container is-fluid !mt-8 md:!mt-[3rem] mb-16"
+    >
       <CarouselTypeDrops />
     </div>
   </section>
