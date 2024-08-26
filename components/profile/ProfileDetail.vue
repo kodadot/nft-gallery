@@ -89,7 +89,6 @@
                 variant="outlined-rounded"
                 data-testid="profile-wallet-links-button"
                 :active="active"
-                dropdown
                 :icon-right="active ? 'chevron-up' : 'chevron-down'"
               >
                 {{ $t('profile.walletAndLinks') }}
@@ -184,7 +183,6 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
-                dropdown
                 :active="active"
               />
             </template>
