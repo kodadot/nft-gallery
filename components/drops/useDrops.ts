@@ -1,16 +1,14 @@
 import orderBy from 'lodash/orderBy'
 import type { Prefix } from '@kodadot1/static'
-import { parseCETDate } from './utils'
+import { getDropAttributes, parseCETDate } from './utils'
 import type { GetDropsQuery } from '@/services/fxart'
-import { getDropById, getDrops } from '@/services/fxart'
+import { getDrops } from '@/services/fxart'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-import { subCollection } from '@/utils/onchain/sub'
-import { evmCollection } from '@/utils/onchain/evm'
 
 export interface Drop {
   collection: DropItem
@@ -77,14 +75,11 @@ export function useDrops(query?: GetDropsQuery) {
 }
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-
-  let count = drop.minted ?? collection.nftCount
-  if (!count) {
-    count = await fetchDropMintedCount(drop)
-  }
-  const price = drop.price || 0
-  let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
+  const dropAttribtues = await getDropAttributes(drop.alias, true)
+  const chainMax = dropAttribtues?.max || FALLBACK_DROP_COLLECTION_MAX
+  const count = dropAttribtues?.minted || await fetchDropMintedCount(drop)
+  const price = dropAttribtues?.price || 0
+  let dropStartTime = dropAttribtues?.start_at ? parseCETDate(dropAttribtues.start_at) : undefined
 
   if (count >= 5) {
     dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
@@ -145,42 +140,11 @@ export function useDrop(alias?: string) {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    // get some offchain data
-    const campaign = await getDropById(alias ?? params.id.toString())
-    const offChainData = {
-      id: campaign.id,
-      chain: campaign.chain,
-      alias: campaign.alias,
-      collection: campaign.collection,
-      type: campaign.type,
-      disabled: campaign.disabled,
-      start_at: campaign.start_at,
-      holder_of: campaign.holder_of,
+    const dropAttributes = await getDropAttributes(alias ?? params.id.toString(), isEvm.value)
 
-      // would be nice if we could get this from the onchain
-      price: campaign.price,
-      creator: campaign.creator,
+    if (dropAttributes) {
+      drop.value = dropAttributes
     }
-
-    const address = campaign.collection
-    if (!address) {
-      return
-    }
-
-    // get some onchain data
-    const { maxSupply: supply, minted, metadata } = isEvm.value ? await evmCollection(address as `0x${string}`, usePrefix().urlPrefix.value) : await subCollection(address)
-    const onChainData = {
-      max: supply,
-      minted: minted || await fetchDropMintedCount(drop.value),
-      name: metadata.name,
-      collectionName: metadata.name,
-      collectionDescription: metadata.description,
-      image: metadata.image,
-      banner: metadata.banner || metadata.image,
-      content: metadata.generative_uri || campaign.content,
-    }
-
-    drop.value = { ...offChainData, ...onChainData }
   }
 
   watch(() => params.id, fetchDrop)

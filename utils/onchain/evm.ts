@@ -1,11 +1,16 @@
 import { readContract } from '@wagmi/core'
 import type { Prefix } from '@kodadot1/static'
+import { QueryClient } from '@tanstack/query-core'
 import type { OnChainData } from './types'
 import { GENSOL_ABI } from '@/composables/transaction/evm/utils'
+import type { EVMCollection } from '@/services/ogi'
 import { getEvmCollection } from '@/services/ogi'
+
+const queryClient = new QueryClient()
 
 export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
   const { $wagmiConfig } = useNuxtApp()
+
   const [collectionSupply, collectionMetadata, getCollection] = await Promise.all([
     readContract($wagmiConfig, {
       address,
@@ -25,8 +30,11 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
     // also use totalSupply to get the minted count. maxSupply = totalSupply + remainingSupply
 
     // at the moment use api from ogi is because our contract doesn't have the minted function
-    getEvmCollection(chain, address),
-  ]) as [bigint, string, { claimed?: string }]
+    queryClient.fetchQuery({
+      queryKey: ['evmCollection', chain, address],
+      queryFn: () => getEvmCollection(chain, address),
+    }),
+  ]) as [bigint, string, EVMCollection]
 
   let metadata: OnChainData = { description: '', name: '', image: '', generative_uri: '', banner: '' }
   if (collectionMetadata) {

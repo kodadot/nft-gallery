@@ -1,4 +1,7 @@
 import { formatDuration, intervalToDuration, intlFormat } from 'date-fns'
+import { getDropById } from '@/services/fxart'
+import { evmCollection } from '@/utils/onchain/evm'
+import { subCollection } from '@/utils/onchain/sub'
 
 export function toDropScheduledDurationString(startTime: Date, short: boolean = false) {
   const duration = intervalToDuration({
@@ -57,3 +60,42 @@ export const parseCETDate = (datetime: string): Date => {
 }
 
 export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)
+
+export async function getDropAttributes(alias: string, isEvm: boolean) {
+  // get some offchain data
+  const campaign = await getDropById(alias)
+  const offChainData = {
+    id: campaign.id,
+    chain: campaign.chain,
+    alias: campaign.alias,
+    collection: campaign.collection,
+    type: campaign.type,
+    disabled: campaign.disabled,
+    start_at: campaign.start_at,
+    holder_of: campaign.holder_of,
+
+    // would be nice if we could get this from the onchain
+    price: campaign.price,
+    creator: campaign.creator,
+  }
+
+  const address = campaign.collection
+  if (!address) {
+    return
+  }
+
+  // get some onchain data
+  const { maxSupply: supply, minted, metadata } = isEvm ? await evmCollection(address as `0x${string}`, usePrefix().urlPrefix.value) : await subCollection(address)
+  const onChainData = {
+    max: supply,
+    minted: minted,
+    name: metadata.name,
+    collectionName: metadata.name,
+    collectionDescription: metadata.description,
+    image: metadata.image,
+    banner: metadata.banner || metadata.image,
+    content: metadata.generative_uri || campaign.content,
+  }
+
+  return { ...offChainData, ...onChainData }
+}

@@ -2,7 +2,7 @@ import type { Prefix } from '@kodadot1/static'
 
 const api = $fetch.create({ baseURL: 'https://ogi.koda.art' })
 
-type EVMCollection = {
+export type EVMCollection = {
   metadata?: {
     name?: string
     image?: string

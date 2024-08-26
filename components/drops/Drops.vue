@@ -32,6 +32,7 @@
       </div>
     </div>
 
+    <!-- TODO: wrap it with dynamic grids -->
     <div class="grid grid-cols-5 gap-4">
       <DropsDropItem
         v-for="drop in dropItems"
@@ -46,7 +47,7 @@
       :default-skeleton-count="4"
     />
 
-    <template v-if="!(dropItems?.length === 0)">
+    <template v-if="dropItems?.length">
       <hr class="my-14">
 
       <h2 class="text-3xl font-semibold mb-7">
@@ -82,6 +83,7 @@ const isCreateEventModalActive = ref(false)
 
 const dropItems = ref<DropItem[]>()
 onBeforeMount(async () => {
+  // TODO: wrap it with tanstack query
   const items = await getDrops({
     active: [true],
     chain: !isProduction ? [urlPrefix.value] : [],
