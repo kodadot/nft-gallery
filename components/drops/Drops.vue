@@ -73,22 +73,20 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { useQuery } from '@tanstack/vue-query'
 import { getDrops } from '~/services/fxart'
-import type { DropItem } from '~/params/types'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const isCreateEventModalActive = ref(false)
 
-const dropItems = ref<DropItem[]>()
-onBeforeMount(async () => {
-  // TODO: wrap it with tanstack query
-  const items = await getDrops({
+const { data: dropItems } = useQuery({
+  queryKey: ['drops', urlPrefix.value, isProduction],
+  queryFn: () => getDrops({
     active: [true],
-    chain: !isProduction ? [urlPrefix.value] : [],
+    chain: [urlPrefix.value],
     limit: 100,
-  })
-  dropItems.value = items
+  }),
 })
 </script>
