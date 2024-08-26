@@ -1,3 +1,5 @@
+import type { OnChainData } from './types'
+
 export const subCollection = async (id: string) => {
   const api = await useApi().apiInstance.value
   const [queryCollectionConfig, queryCollection, queryCollectionMetadata] = await Promise.all([
@@ -9,7 +11,7 @@ export const subCollection = async (id: string) => {
   const collection = queryCollection.toJSON() as unknown as { items?: number }
 
   const collectionMetadata = queryCollectionMetadata.toHuman() as unknown as { data?: string }
-  let metadata = { description: '', name: '', image: '' }
+  let metadata: OnChainData = { description: '', name: '', image: '', generative_uri: '', banner: '' }
   if (collectionMetadata.data) {
     metadata = await $fetch(sanitizeIpfsUrl(collectionMetadata.data))
   }
