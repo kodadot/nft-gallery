@@ -46,7 +46,7 @@
       :default-skeleton-count="4"
     />
 
-    <template v-if="!(loaded && pastDrops.length === 0)">
+    <template v-if="!(dropItems?.length === 0)">
       <hr class="my-14">
 
       <h2 class="text-3xl font-semibold mb-7">
@@ -72,7 +72,6 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { dropsVisible } from '@/utils/config/permission.config'
 import { getDrops } from '~/services/fxart'
 import type { DropItem } from '~/params/types'
 
@@ -80,18 +79,6 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const isCreateEventModalActive = ref(false)
-
-const checkRouteAvailability = () => {
-  if (!dropsVisible(urlPrefix.value)) {
-    navigateTo('/')
-  }
-}
-
-watch(urlPrefix, () => checkRouteAvailability())
-
-onBeforeMount(() => {
-  checkRouteAvailability()
-})
 
 const dropItems = ref<DropItem[]>()
 onBeforeMount(async () => {
