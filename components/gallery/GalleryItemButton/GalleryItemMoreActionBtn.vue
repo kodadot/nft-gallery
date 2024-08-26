@@ -68,9 +68,10 @@ const props = defineProps<{
   nftSn?: string
   collectionId?: string
   collectionName?: string
-  ipfsImage?: string
+  imageUrl?: string
   currentOwner?: string
   price?: string
+  imageData?: string
 }>()
 
 const action = ref('')
@@ -85,34 +86,42 @@ const signingModalTitle = computed(() => {
 
 const isDownloadEnabled = computed(() => {
   const mimeType = props.mimeType
-  return (
+  return ((
     (mimeType?.includes('image') || mimeType?.includes('text/html'))
-    && props.ipfsImage
+    && props.imageUrl) || props.imageData
   )
 })
 
-const downloadMedia = () => {
-  const ipfsImage = props.ipfsImage
+const downloadMedia = async () => {
+  let imageUrl = sanitizeIpfsUrl(props.imageUrl)
 
-  if (ipfsImage) {
-    const originalUrl = props.mimeType?.includes('image')
-      ? toOriginalContentUrl(ipfsImage)
-      : sanitizeIpfsUrl(ipfsImage)
-    if (isMobileDevice) {
-      toast($i18n.t('toast.downloadOnMobile'))
-      setTimeout(() => {
-        window.open(originalUrl, '_blank')
-      }, 2000)
-      return
-    }
-    try {
-      downloadImage(originalUrl, `${props.collectionName}_${props.name}`)
-    }
-    catch (error) {
-      $consola.warn('[ERR] unable to fetch image')
-      toast($i18n.t('toast.downloadError'))
-      return
-    }
+  if (!imageUrl) {
+    return
+  }
+
+  if (props.imageData) {
+    const blob = await $fetch<Blob>(props.imageData)
+    imageUrl = URL.createObjectURL(blob)
+  }
+  else if (props.mimeType?.includes('image')) {
+    imageUrl = toOriginalContentUrl(imageUrl)
+  }
+
+  if (isMobileDevice) {
+    toast($i18n.t('toast.downloadOnMobile'))
+    setTimeout(() => {
+      window.open(imageUrl, '_blank')
+    }, 2000)
+    return
+  }
+
+  try {
+    toast($i18n.t('toast.downloadImage'))
+    downloadImage(imageUrl, `${props.collectionName}_${props.name}`)
+  }
+  catch (error) {
+    $consola.warn('[ERR] unable to fetch image')
+    toast($i18n.t('toast.downloadError'))
   }
 }
 
