@@ -1,6 +1,6 @@
 <template>
   <ModalWrapper
-    :id="'keyboardShortcutsModal'"
+    id="keyboardShortcutsModal"
     icon=""
     :title="title"
     :is-button-hidden="true"
@@ -17,21 +17,24 @@
             field="text"
             :label="labels[ktype]"
           >
-            {{ props.row.text }}
+            <div class="text-left">
+              {{ props.row.text }}
+            </div>
           </NeoTableColumn>
           <NeoTableColumn
             v-slot="props"
             field="shortcut"
           >
-            <div>
+            <div class="flex flex-grow">
               <span
-                v-for="(shortcut, index) in props.row.shortcut.split('+')"
+                v-for="(shortcut, index) in props.row.shortcut.split('+', 2)"
                 :key="shortcut"
+                class="inline-flex"
               >
                 <kbd class="keyboard-shortcut-kbd">
-                  {{ shortcut }}
+                  {{ shortcut || '+' }}
                 </kbd>
-                <span v-if="index < props.row.shortcut.split('+').length - 1">
+                <span v-if="index < props.row.shortcut.split('+', 2).length - 1 && props.row.shortcut.split('+')[1] !== '+'">
                   +
                 </span>
               </span>
@@ -60,12 +63,14 @@ interface DifferentTypeShortCuts {
   navigation: { text: string, shortcut: string }[]
   item_detail: { text: string, shortcut: string }[]
   filters: { text: string, shortcut: string }[]
+  drops: { text: string, shortcut: string }[]
 }
 
 interface DifferentTypeName {
   navigation: string
   item_detail: string
   filters: string
+  drops: string
 }
 
 const { $i18n } = useNuxtApp()
@@ -154,12 +159,26 @@ const data = ref<DifferentTypeShortCuts>({
       shortcut: 'f+b',
     },
     {
-      text: $i18n.t('sort.BLOCK_NUMBER_DESC'),
+      text: $i18n.t('sort.blockNumber_DESC'),
       shortcut: 'f+n',
     },
     {
-      text: $i18n.t('sort.BLOCK_NUMBER_ASC'),
+      text: $i18n.t('sort.blockNumber_ASC'),
       shortcut: 'f+o',
+    },
+  ],
+  drops: [
+    {
+      text: 'New variation',
+      shortcut: 'v+n',
+    },
+    {
+      text: 'Mint +1',
+      shortcut: 'v++',
+    },
+    {
+      text: 'Mint -1',
+      shortcut: 'v+-',
     },
   ],
 })
@@ -168,16 +187,18 @@ const labels = ref<DifferentTypeName>({
   navigation: 'Navigation',
   item_detail: 'Item Detail',
   filters: 'Filters',
+  drops: 'Drops',
 })
 
-const types = ref(Object.keys(data))
+const types = ref(Object.keys(data.value))
 
 const addShortcuts = (shortcuts): DifferentTypeShortCuts => {
-  const { navigation, item_detail, filters } = data.value
+  const { navigation, item_detail, filters, drops } = data.value
 
   return {
     navigation,
     item_detail,
+    drops,
     filters: [...filters, ...shortcuts],
   }
 }

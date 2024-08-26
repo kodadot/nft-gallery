@@ -29,7 +29,7 @@ import {
 } from '@/utils/format/balance'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
 import { parseCETDate } from '@/components/drops/utils'
-import { openReconnectWalletModal } from '@/components/common/ConnectWallet/openReconnectWalletModal'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const emit = defineEmits(['mint'])
 
@@ -41,11 +41,10 @@ const dropStore = useDropStore()
 const { hasCurrentChainBalance } = useMultipleBalance()
 const now = useNow()
 const { mintCountAvailable } = useGenerativeDropMint()
-const { amountToMint, previewItem, userMintsCount, drop } = storeToRefs(dropStore)
+const { amountToMint, previewItem, userMintsCount, drop, getIsLoadingMaxCount } = storeToRefs(dropStore)
 
 const { hasMinimumFunds } = useDropMinimumFunds()
 const { holderOfCollection } = useHolderOfCollection()
-const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
 const priceUsd = ref()
 
 const isHolderAndEligible = computed(
@@ -68,7 +67,7 @@ watch(drop, async () => {
 
 const mintForLabel = computed(() =>
   $i18n.t('drops.mintForPaid', [
-    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value)} ${
+    `${formatAmountWithRound(drop.value?.price ? Number(drop.value?.price) * amountToMint.value : '', decimals.value, drop.value.chain)} ${
       chainSymbol.value
     } ${priceUsd.value ? '/ ' + (priceUsd.value * amountToMint.value).toFixed(2) + ' ' + $i18n.t('general.usd') : ''}`,
   ]),
@@ -91,8 +90,9 @@ const label = computed(() => {
   if (isCheckingMintRequirements.value) {
     return $i18n.t('checking')
   }
-  if (drop.value.userAccess === false) {
-    return $i18n.t('mint.unlockable.notEligibility')
+
+  if (isMintNotLive.value) {
+    return $i18n.t('mint.unlockable.mintingNotLive')
   }
 
   switch (drop.value.type) {
@@ -128,7 +128,6 @@ const enabled = computed(() => {
     || !previewItem.value // no image
     || isCheckingMintRequirements.value // still checking requirements
     || loading.value // still loading
-    || drop.value.userAccess === false // no access due to geofencing
   ) {
     return false
   }
@@ -149,7 +148,8 @@ const loading = computed(
   () =>
     dropStore.isCapturingImage
     || dropStore.walletConnecting
-    || dropStore.loading,
+    || dropStore.loading
+    || getIsLoadingMaxCount.value,
 )
 
 const showHolderOfCollection = computed(() =>
@@ -169,11 +169,9 @@ const handleMint = () => {
       `/${urlPrefix.value}/collection/${drop.value.collection}?listed=true`,
     )
   }
-  if (getWalletVM.value && !getIsWalletVMChain.value) {
-    openReconnectWalletModal()
-    return
-  }
 
-  emit('mint')
+  doAfterCheckCurrentChainVM(() => {
+    emit('mint')
+  })
 }
 </script>

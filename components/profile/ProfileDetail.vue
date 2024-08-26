@@ -493,14 +493,16 @@ const { accountId } = useAuth()
 const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { redirectAfterChainChange } = useChainRedirect()
+const profileOnboardingStore = useProfileOnboardingStore()
+const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isRemark, isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 const { getPrefixByAddress } = useAddress()
+const { params } = useRoute()
 
-const { hasProfile, userProfile, isFetchingProfile }
-  = useProfile()
+const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
@@ -797,8 +799,9 @@ watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
   immediate: true,
 })
 
-onMounted(() => {
-  if (!hasProfile.value && isOwner.value) {
+watchEffect(() => {
+  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value && !getIsOnboardingShown.value) {
+    profileOnboardingStore.setOnboardingShown()
     openProfileCreateModal()
   }
 })

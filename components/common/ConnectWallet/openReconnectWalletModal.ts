@@ -40,10 +40,23 @@ export const openReconnectWalletModal = ({ onCancel, onSuccess, closeOnSuccess =
     ...{
       component: ReconnectWalletModal,
       canCancel: ['escape', 'outside'],
-      rootClass: 'connect-wallet-modal !z-[998]',
+      rootClass: 'connect-wallet-modal neo-modal !z-[998]',
       trapFocus: false,
     },
   })
 
   return modal.value
+}
+
+export const doAfterCheckCurrentChainVM = (callback: () => void) => {
+  const { getWalletVM, getIsWalletVMChain } = storeToRefs(useWalletStore())
+
+  if (getWalletVM.value && !getIsWalletVMChain.value) {
+    openReconnectWalletModal({
+      onSuccess: callback,
+    })
+    return
+  }
+
+  callback()
 }

@@ -46,25 +46,27 @@
       :default-skeleton-count="4"
     />
 
-    <hr class="my-14">
+    <template v-if="!(loaded && pastDrops.length === 0)">
+      <hr class="my-14">
 
-    <h2 class="text-3xl font-semibold mb-7">
-      {{ $i18n.t('drops.pastArtDrops') }}
-    </h2>
+      <h2 class="text-3xl font-semibold mb-7">
+        {{ $i18n.t('drops.pastArtDrops') }}
+      </h2>
 
-    <div class="grid grid-cols-5 gap-4">
-      <DropsDropItem
-        v-for="drop in dropItems"
-        :key="drop.id"
-        :drop="drop"
-        :past-drop="true"
+      <div class="grid grid-cols-5 gap-4">
+        <DropsDropItem
+          v-for="drop in dropItems"
+          :key="drop.id"
+          :drop="drop"
+          :past-drop="true"
+        />
+      </div>
+
+      <DropsCreateCalendarEventModal
+        v-model="isCreateEventModalActive"
+        :title="$t('drops.kodadotWeeklyGenerativeDrop')"
       />
-    </div>
-
-    <DropsCreateCalendarEventModal
-      v-model="isCreateEventModalActive"
-      :title="$t('drops.kodadotWeeklyGenerativeDrop')"
-    />
+    </template>
   </div>
 </template>
 

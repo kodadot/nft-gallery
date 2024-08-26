@@ -53,15 +53,26 @@
         <span v-else>{{ $t('free') }}</span>
       </div>
       <div class="flex justify-end items-center">
-        <div class="mr-4 text-neutral-7">
+        <div
+          v-if="!isUnlimited"
+          class="mr-4 text-neutral-7"
+        >
           {{ mintedPercent }}% ~
         </div>
         <div
-          v-if="drop.minted >= 0 && drop.max"
-          class="font-bold"
+          v-if="!getIsLoadingMaxCount"
+          class="font-bold flex gap-2"
         >
-          {{ drop.minted }}/{{ drop.max }}
-          {{ $t('statsOverview.minted') }}
+          <span>{{ drop.minted }}</span>
+          <span>/</span>
+          <span v-if="isUnlimited">
+            <NeoIcon
+              icon="infinity"
+              pack="fas"
+            />
+          </span>
+          <span v-else>{{ drop.max }}</span>
+          <span>{{ $t('statsOverview.minted') }}</span>
         </div>
         <div v-else>
           <NeoSkeleton width="100" />
@@ -102,15 +113,17 @@ import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 const { accountId } = useAuth()
 const { chainSymbol, decimals } = useChain()
 const dropStore = useDropStore()
-const { userMintsCount, drop } = storeToRefs(dropStore)
+const { userMintsCount, drop, getIsLoadingMaxCount } = storeToRefs(dropStore)
 const { imageDataPayload, imageDataLoaded } = useGenerativeIframeData()
 const { formatted: formattedPrice } = useAmount(
   computed(() => drop.value.price),
   decimals,
   chainSymbol,
+  computed(() => drop.value.chain),
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
+const isUnlimited = computed(() => drop.value.max !== undefined && drop.value.max > Number.MAX_SAFE_INTEGER)
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
@@ -150,6 +163,16 @@ const generateNft = () => {
   emit('generation:start', previewItem)
   imageDataPayload.value = undefined
 }
+
+function bindDropsEvents(event: KeyboardEvent) {
+  switch (event.key) {
+    case 'n':
+      generateNft()
+      break
+  }
+}
+
+useKeyboardEvents({ v: bindDropsEvents })
 
 watch(imageDataLoaded, () => {
   if (imageDataLoaded.value) {

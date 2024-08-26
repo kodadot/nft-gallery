@@ -45,7 +45,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot', 'imx']
 
 const { urlPrefix } = usePrefix()
 const profileOnboardingStore = useProfileOnboardingStore()
-const { hasProfile } = useProfile()
+const { hasProfile, isFetchingProfile } = useProfile()
 
 // currently only supported on rmrk
 const showCarousel = computed(
@@ -56,7 +56,7 @@ const showTopCollections = computed(
 )
 
 watchEffect(() => {
-  if (!hasProfile.value && profileOnboardingStore.getShouldShowOnboarding) {
+  if (!hasProfile.value && !isFetchingProfile.value && profileOnboardingStore.getShouldShowOnboarding) {
     profileOnboardingStore.setOnboardingShown()
 
     // delay to show onboarding modal to avoid disturbing the user

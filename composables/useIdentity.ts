@@ -36,7 +36,7 @@ export default function useIdentity({
 
   const id = computed(() => address.value && getIdentityId(address.value))
 
-  const { profile, isPending: loading } = useFetchProfile(id.value)
+  const { profile, isPending: loading } = useFetchProfile(id)
 
   const shortenedAddress = computed(() => shortAddress(address.value))
 
