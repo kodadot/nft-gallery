@@ -56,8 +56,12 @@ export function useDrops(query?: GetDropsQuery, { filterOutMinted = false } = {}
   onBeforeMount(async () => {
     dropsList.value = await getDrops(query)
 
+    const dropAttributes = await Promise.all(
+      dropsList.value.map(drop => getDropAttributes(drop.alias)),
+    )
+
     drops.value = await Promise.all(
-      dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
+      dropAttributes.map(async drop => drop && getFormattedDropItem(drop)),
     ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
 
     loaded.value = true
@@ -74,12 +78,11 @@ export function useDrops(query?: GetDropsQuery, { filterOutMinted = false } = {}
   return { drops: sortDrops, count, loaded }
 }
 
-export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const dropAttribtues = await getDropAttributes(drop.alias)
-  const chainMax = dropAttribtues?.max || FALLBACK_DROP_COLLECTION_MAX
-  const count = dropAttribtues?.minted || await fetchDropMintedCount(drop)
-  const price = dropAttribtues?.price || 0
-  let dropStartTime = dropAttribtues?.start_at ? parseCETDate(dropAttribtues.start_at) : undefined
+export const getFormattedDropItem = async (drop: DropItem) => {
+  const chainMax = drop?.max || FALLBACK_DROP_COLLECTION_MAX
+  const count = drop?.minted || await fetchDropMintedCount(drop)
+  const price = drop?.price || 0
+  let dropStartTime = drop?.start_at ? parseCETDate(drop.start_at) : undefined
 
   if (count >= 5) {
     dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
@@ -87,7 +90,7 @@ export const getFormattedDropItem = async (collection, drop: DropItem) => {
 
   const newDrop = {
     ...drop,
-    collection: collection,
+    collection: drop,
     max: chainMax,
     dropStartTime,
     price,

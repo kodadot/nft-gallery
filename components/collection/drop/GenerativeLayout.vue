@@ -98,7 +98,6 @@ import { useCollectionActivity } from '@/composables/collectionActivity/useColle
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
-import type { DropItem } from '@/params/types'
 
 const mdBreakpoint = 768
 
@@ -127,10 +126,7 @@ watch(
   [collectionInfo],
   async () => {
     if (collectionInfo.value) {
-      formattedDropItem.value = await getFormattedDropItem(
-        collectionInfo.value,
-        drop.value as DropItem,
-      )
+      formattedDropItem.value = await getFormattedDropItem(drop.value)
     }
   },
   { immediate: true },

@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 import type { Drop } from './useDrops'
 import { getFormattedDropItem } from './useDrops'
+import { getDropAttributes } from './utils'
 import type { DropItem } from '~/params/types'
 
 const props = defineProps<{
@@ -30,7 +31,10 @@ const pastItem = computed(() => {
 })
 
 onBeforeMount(async () => {
-  formattedDrop.value = await getFormattedDropItem(props.drop, props.drop)
+  const dropAttributes = await getDropAttributes(props.drop.alias)
+  if (dropAttributes) {
+    formattedDrop.value = await getFormattedDropItem(dropAttributes)
+  }
   loading.value = false
 })
 </script>
