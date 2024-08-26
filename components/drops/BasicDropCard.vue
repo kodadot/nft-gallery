@@ -134,11 +134,11 @@ const props = withDefaults(
 const { placeholder } = useTheme()
 const isUnlimited = computed(() => props.dropMax > Number.MAX_SAFE_INTEGER)
 
-const chainPropList = chainPropListOf(props.dropPrefix)
+const chainPropList = chainPropListOf(props.dropPrefix ?? 'ahp')
 const { usd: formattedPrice } = useAmount(
   computed(() => props.dropPrice),
-  toRef(chainPropList.tokenDecimals),
-  toRef(chainPropList.tokenSymbol),
+  computed(() => chainPropList.tokenDecimals),
+  computed(() => chainPropList.tokenSymbol),
 )
 </script>
 
