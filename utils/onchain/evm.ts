@@ -11,12 +11,12 @@ export const evmCollection = async (address: `0x${string}`, chain: Prefix) => {
       address,
       abi: GENSOL_ABI,
       functionName: 'totalSupply',
-    }),
+    }).catch(() => 0),
     readContract($wagmiConfig, {
       address,
       abi: GENSOL_ABI,
       functionName: 'contractURI',
-    }),
+    }).catch(() => ''),
 
     // usually erc721 contract have minted function to get the minted count
     // 1. drops on opensea: https://etherscan.io/token/0xc5d914aea6f463f8e3f2797b4e258904c82cedad
