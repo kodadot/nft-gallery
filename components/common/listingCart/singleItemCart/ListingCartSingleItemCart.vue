@@ -1,6 +1,6 @@
 <template>
   <div class="py-5">
-    <ListingCartItemDetails :nft="item">
+    <CartItemDetails :nft="item">
       <template #right>
         <div class="flex items-end">
           {{ itemPrice }}
@@ -17,7 +17,7 @@
           </div>
         </div>
       </template>
-    </ListingCartItemDetails>
+    </CartItemDetails>
 
     <hr class="my-5">
 
@@ -36,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
+import CartItemDetails from '@/components/common/CartItemDetails.vue'
 import { useListingCartStore } from '@/stores/listingCart'
 import formatBalance from '@/utils/format/balance'
 

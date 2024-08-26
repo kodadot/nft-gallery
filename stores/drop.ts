@@ -16,7 +16,6 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   content: '',
   alias: '',
   type: 'paid',
-  meta: '',
   disabled: 0,
 }
 interface State {

@@ -150,6 +150,12 @@ export type TokenToList = {
   nftId: string
 }
 
+export type TokenToOffer = {
+  price: string
+  collectionId: string
+  nftSn: string
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
@@ -175,11 +181,9 @@ export type ActionSend = {
 export type ActionOffer = {
   interaction: typeof ShoppingActions.MAKE_OFFER
   urlPrefix: string
-  tokenId: string
-  day: number
-  price: number
-  currentOwner: string
-  successMessage?: string
+  token: TokenToOffer | TokenToOffer[]
+  duration: number
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
 

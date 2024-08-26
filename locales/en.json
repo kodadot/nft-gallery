@@ -1083,6 +1083,7 @@
     "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
     "listedNft": "Check out this awesome NFT I just listed on KodaDot",
     "listedNfts": "Check out these awesome NFTs I just listed on KodaDot:\n {0}",
+    "makeOfferNft":  "Check out this awesome NFT I just make an offer on KodaDot",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "dropNft": "I've minted {0} generative art piece on Koda!",
     "dropNfts": "I've minted {0} generative art pieces on Koda!",
@@ -1351,6 +1352,7 @@
     "transfer": "Transfer",
     "transferTo": "Transfer to",
     "transferNft": "Transfer NFT",
+    "offer": "Create Offer",
     "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
@@ -1361,7 +1363,8 @@
       "new": "Your New Price",
       "list": "Your Listing Price",
       "success": "Price updated",
-      "error": "Price update failed"
+      "error": "Price update failed",
+      "offer": "Offer creation confirmed"
     },
     "buy": {
       "error": "Failed to buy this item"
@@ -1625,6 +1628,10 @@
     "listingNft": "Listing NFT | Listing NFTs",
     "newListingPrice": "New Listing Price",
     "bulkListingSuccessful": "Bulk Listing Successful"
+  },
+  "offer": {
+    "yourOfferAmount": "Your Offer Amount" ,
+    "newOffer": "New Offer"
   },
   "migrate": {
     "cta": "Migrate Now",
