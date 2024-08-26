@@ -75,7 +75,7 @@ export function useDrops(query?: GetDropsQuery, { filterOutMinted = false } = {}
 }
 
 export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const dropAttribtues = await getDropAttributes(drop.alias, isEvm(drop.chain))
+  const dropAttribtues = await getDropAttributes(drop.alias)
   const chainMax = dropAttribtues?.max || FALLBACK_DROP_COLLECTION_MAX
   const count = dropAttribtues?.minted || await fetchDropMintedCount(drop)
   const price = dropAttribtues?.price || 0
@@ -129,7 +129,6 @@ const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
 export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
-  const { isEvm } = useIsChain(usePrefix().urlPrefix)
 
   const drop = computed({
     get: () => dropStore.drop,
@@ -140,7 +139,7 @@ export function useDrop(alias?: string) {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    const dropAttributes = await getDropAttributes(alias ?? params.id.toString(), isEvm.value)
+    const dropAttributes = await getDropAttributes(alias ?? params.id.toString())
 
     if (dropAttributes) {
       drop.value = dropAttributes

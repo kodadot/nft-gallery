@@ -1,7 +1,6 @@
 import { formatDuration, intervalToDuration, intlFormat } from 'date-fns'
 import { getDropById } from '@/services/fxart'
-import { evmCollection } from '@/utils/onchain/evm'
-import { subCollection } from '@/utils/onchain/sub'
+import { fetchOdaCollection } from '@/services/oda'
 
 export function toDropScheduledDurationString(startTime: Date, short: boolean = false) {
   const duration = intervalToDuration({
@@ -61,7 +60,7 @@ export const parseCETDate = (datetime: string): Date => {
 
 export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)
 
-export async function getDropAttributes(alias: string, isEvm: boolean) {
+export async function getDropAttributes(alias: string) {
   // get some offchain data
   const campaign = await getDropById(alias)
   const offChainData = {
@@ -85,10 +84,11 @@ export async function getDropAttributes(alias: string, isEvm: boolean) {
   }
 
   // get some onchain data
-  const { maxSupply: supply, minted, metadata } = isEvm ? await evmCollection(address as `0x${string}`, usePrefix().urlPrefix.value) : await subCollection(address)
+  const { supply, claimed: minted, metadata } = await fetchOdaCollection(campaign.chain, address)
+
   const onChainData = {
-    max: supply,
-    minted: minted,
+    max: Number(supply),
+    minted: Number(minted),
     name: metadata.name,
     collectionName: metadata.name,
     collectionDescription: metadata.description,
