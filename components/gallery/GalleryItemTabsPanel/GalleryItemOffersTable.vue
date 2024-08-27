@@ -126,7 +126,7 @@ const {
   clientId: client.value,
 })
 
-const loading = computed(() => !nftOffers.value.length && (fetching.value || !currentBlock.value))
+const loading = computed(() => nftOffers.value.length ? !currentBlock.value : !currentBlock.value || fetching.value)
 const nftOffers = computed(() => data.value?.offers)
 
 useSubscriptionGraphql({
