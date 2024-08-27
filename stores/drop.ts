@@ -16,7 +16,6 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   content: '',
   alias: '',
   type: 'paid',
-  meta: '',
   disabled: 0,
 }
 interface State {
@@ -55,7 +54,9 @@ export const useDropStore = defineStore('drop', {
       mintedNFTs: [],
     }
   },
-  getters: {},
+  getters: {
+    getIsLoadingMaxCount: state => !(state.drop.minted >= 0 && Boolean(state.drop.max)),
+  },
   actions: {
     setLoading(payload: boolean) {
       this.loading = payload

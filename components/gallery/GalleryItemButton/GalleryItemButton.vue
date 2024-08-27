@@ -5,7 +5,8 @@
     </div>
 
     <GalleryItemMoreActionBtn
-      :ipfs-image="nftMetadata?.image"
+      :image-url="nftMetadata?.image"
+      :image-data="imageData"
       :mime-type="nftMimeType"
       :name="nft?.name"
       :nft-sn="nft?.sn"
@@ -26,7 +27,9 @@ import { extractTwitterIdFromDescription } from '@/utils/parse'
 const props = defineProps<{
   galleryItem: GalleryItem
 }>()
+
 const { $i18n } = useNuxtApp()
+const imageData = ref()
 const nft = computed(() => props.galleryItem.nft.value)
 const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
 const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
@@ -38,6 +41,8 @@ const customSharingContent = computed(() => {
 
   return twitterId ? $i18n.t('sharing.nftWithArtist', [twitterId]) : ''
 })
+
+onKodahashRenderCompleted(({ payload }) => imageData.value = payload.image)
 </script>
 
 <style scoped lang="scss">

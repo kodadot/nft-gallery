@@ -1,13 +1,30 @@
 import { formatDuration, intervalToDuration, intlFormat } from 'date-fns'
 
-export function toDropScheduledDurationString(startTime: Date) {
+export function toDropScheduledDurationString(startTime: Date, short: boolean = false) {
   const duration = intervalToDuration({
     start: startTime,
     end: new Date(),
   })
-  return formatDuration(duration, {
+
+  const options = {
     format: ['hours', 'minutes'],
-  })
+  }
+
+  if (short) {
+    Object.assign(options, {
+      locale: {
+        formatDistance: (token: string, count: string) => {
+          return {
+            xHours: '{{count}}h',
+            xMinutes: '{{count}}m',
+            xSeconds: '{{count}}s',
+          }?.[token]?.replace('{{count}}', count)
+        },
+      } as Locale,
+    })
+  }
+
+  return formatDuration(duration, options)
 }
 
 export function formatDropStartTime(

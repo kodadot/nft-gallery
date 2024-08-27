@@ -171,7 +171,7 @@ export const getDropDetails = async (alias: string) => {
 export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
-  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
+  const { isEvm } = useIsChain(usePrefix().urlPrefix)
 
   const drop = computed({
     get: () => dropStore.drop,
@@ -182,31 +182,42 @@ export function useDrop(alias?: string) {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    drop.value = await getDropById(alias ?? params.id.toString())
+    // get some offchain data
+    const campaign = await getDropById(alias ?? params.id.toString())
+    const offChainData = {
+      id: campaign.id,
+      chain: campaign.chain,
+      alias: campaign.alias,
+      collection: campaign.collection,
+      type: campaign.type,
+      disabled: campaign.disabled,
+      start_at: campaign.start_at,
+      holder_of: campaign.holder_of,
 
-    if (!drop.value.collection) {
+      // would be nice if we could get this from the onchain
+      price: campaign.price,
+      creator: campaign.creator,
+    }
+
+    const address = campaign.collection
+    if (!address) {
       return
     }
 
-    if (isSub.value) {
-      const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
-
-      drop.value.max = supply
-      drop.value.minted = minted
-      drop.value.collectionName = metadata.name
-      drop.value.collectionDescription = metadata.description
+    // get some onchain data
+    const { maxSupply: supply, minted, metadata } = isEvm.value ? await evmCollection(address as `0x${string}`, usePrefix().urlPrefix.value) : await subCollection(address)
+    const onChainData = {
+      max: supply,
+      minted: minted || await fetchDropMintedCount(drop.value),
+      name: metadata.name,
+      collectionName: metadata.name,
+      collectionDescription: metadata.description,
+      image: metadata.image,
+      banner: metadata.banner || metadata.image,
+      content: metadata.generative_uri || campaign.content,
     }
 
-    if (isEvm.value) {
-      const { urlPrefix } = usePrefix()
-      const address = drop.value.collection as `0x${string}`
-      const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
-
-      drop.value.max = supply
-      drop.value.minted = minted
-      drop.value.collectionName = metadata.name
-      drop.value.collectionDescription = metadata.description
-    }
+    drop.value = { ...offChainData, ...onChainData }
   }
 
   watch(() => params.id, fetchDrop)
@@ -249,10 +260,9 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   const { fetchMultipleBalance, transferableCurrentChainBalance }
     = useMultipleBalance()
 
-  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
   const minimumFunds = computed<number>(() =>
-    price.value ? amount.value * price.value : meta.value,
+    price.value ? amount.value * price.value : 0,
   )
   const hasMinimumFunds = computed(
     () =>
