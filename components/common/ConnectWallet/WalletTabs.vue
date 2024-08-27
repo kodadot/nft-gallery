@@ -21,16 +21,14 @@ const props = defineProps<{ modelValue: ChainVM, preselected?: ChainVM }>()
 
 const selectedTab = useVModel(props, 'modelValue')
 
-const walletTabs = computed<{ label: string, value: ChainVM }[]>(() => {
-  return [
-    {
-      label: 'Polkadot',
-      value: 'SUB',
-    },
-    {
-      label: 'Evm',
-      value: 'EVM',
-    },
-  ].filter(tab => props.preselected ? tab.value === props.preselected : true)
-})
+const walletTabs: { label: string, value: ChainVM }[] = [
+  {
+    label: 'Polkadot',
+    value: 'SUB',
+  },
+  {
+    label: 'Evm',
+    value: 'EVM',
+  },
+]
 </script>

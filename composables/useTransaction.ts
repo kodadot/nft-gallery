@@ -47,7 +47,7 @@ import useEvmMetaTransaction, {
   type EvmHowAboutToExecute,
   type EvmHowAboutToExecuteParam,
 } from '@/composables/transaction/evm/useMetaTransaction'
-
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import {
@@ -116,8 +116,6 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     errorMessage,
     ...params
   }: ExecuteTransactionParams) => {
-    initTransactionLoader()
-
     const successCb = ({
       blockNumber: block,
       txHash: hash,
@@ -153,32 +151,35 @@ const useExecuteTransaction = (options: TransactionOptions) => {
       txHash.value = param.txHash || undefined
     }
 
-    execByVm({
-      SUB: () => {
-        ;(howAboutToExecute as SubstrateHowAboutToExecute)(
-          accountId.value,
-          (params as ExecuteSubstrateTransactionParams).cb,
-          arg,
-          {
+    doAfterCheckCurrentChainVM(() => {
+      initTransactionLoader()
+      execByVm({
+        SUB: () => {
+          ;(howAboutToExecute as SubstrateHowAboutToExecute)(
+            accountId.value,
+            (params as ExecuteSubstrateTransactionParams).cb,
+            arg,
+            {
+              onSuccess: successCb,
+              onError: errorCb,
+              onResult: resultCb,
+            },
+          )
+        },
+        EVM: () => {
+          const evmParams = params as ExecuteEvmTransactionParams
+          ;(howAboutToExecute as EvmHowAboutToExecute)({
+            account: accountId.value as Address,
+            address: evmParams.address,
+            abi: evmParams.abi,
+            args: arg,
+            functionName: evmParams.functionName,
+            value: evmParams.value,
             onSuccess: successCb,
             onError: errorCb,
-            onResult: resultCb,
-          },
-        )
-      },
-      EVM: () => {
-        const evmParams = params as ExecuteEvmTransactionParams
-        ;(howAboutToExecute as EvmHowAboutToExecute)({
-          account: accountId.value as Address,
-          address: evmParams.address,
-          abi: evmParams.abi,
-          args: arg,
-          functionName: evmParams.functionName,
-          value: evmParams.value,
-          onSuccess: successCb,
-          onError: errorCb,
-        } as EvmHowAboutToExecuteParam)
-      },
+          } as EvmHowAboutToExecuteParam)
+        },
+      })
     })
   }
 

@@ -28,7 +28,6 @@
       <template v-else>
         <WalletTabs
           v-model="selectedTab"
-          :preselected="preselected"
         />
 
         <ConnectSubstrate
@@ -57,6 +56,7 @@ import { ModalCloseType } from '@/components/navbar/types'
 
 const emit = defineEmits(['close', 'connect'])
 const props = defineProps<{ preselected?: ChainVM }>()
+const { isWalletModalOpen } = useWallet()
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
@@ -68,16 +68,11 @@ const selectedTab = ref<ChainVM>(props.preselected ?? 'SUB')
 
 const showAccount = computed(() => Boolean(account.value))
 
-const isCurrentPrefixAvailableForVm = (vm: ChainVM) =>
-  getAvailableChainsByVM(vm)
-    .map(({ value }) => value)
-    .includes(urlPrefix.value)
-
 const setAccount = (account: WalletAccount) => {
   walletStore.setWallet(account)
   identityStore.setAuth({ address: account.address })
 
-  if (!isCurrentPrefixAvailableForVm(account.vm)) {
+  if (!isPrefixVmOf(urlPrefix.value, account.vm)) {
     const newChain = DEFAULT_VM_PREFIX[account.vm]
     setUrlPrefix(newChain)
     redirectAfterChainChange(newChain)
@@ -86,7 +81,12 @@ const setAccount = (account: WalletAccount) => {
   emit('connect', account)
 }
 
-onMounted(() => walletStore.setDisconnecting(false))
+onMounted(() => {
+  walletStore.setDisconnecting(false)
+  isWalletModalOpen.value = true
+})
+
+onUnmounted(() => isWalletModalOpen.value = false)
 
 watch([urlPrefix], () => {
   emit('close', ModalCloseType.NAVIGATION)

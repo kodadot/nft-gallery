@@ -1,18 +1,14 @@
 <template>
   <div class="flex items-center">
-    <a
+    <div
       v-if="account"
       class="navbar-item"
-      role="button"
-      aria-label="open profile menu"
-      @click="toggleWalletConnectModal"
     >
-      <ProfileAvatar
+      <NavbarConnectedProfile
         :address="account"
-        class="navbar__avatar-icon"
-        :size="27"
+        @click="toggleWalletConnectModal"
       />
-    </a>
+    </div>
     <div
       v-else
       class="flex items-center"
