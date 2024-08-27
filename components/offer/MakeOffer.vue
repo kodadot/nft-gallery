@@ -32,6 +32,7 @@
       @close="onClose"
     >
       <ModalBody
+        v-if="preferencesStore.makeOfferModalOpen"
         modal-max-height="100vh"
         :title="$t('transaction.offer')"
         content-class="pt-4 pb-5 px-0"
@@ -124,7 +125,7 @@ const getAction = (items: MakingOfferItem[]): Actions => {
       nftSn: item.sn,
     } as TokenToOffer)),
     successMessage: $i18n.t('transaction.price.offer') as string,
-    errorMessage: $i18n.t('transaction.price.error') as string,
+    errorMessage: $i18n.t('transaction.offerError') as string,
   }
 }
 

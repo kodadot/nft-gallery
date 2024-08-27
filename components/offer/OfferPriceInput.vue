@@ -8,7 +8,7 @@
           v-model="model"
           type="number"
           step="0.01"
-          min="0.001"
+          min="0.0001"
           pattern="[0-9]+([\.,][0-9]+)?"
           class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color w-full"
           :placeholder="$t('offer.typeOffer')"
@@ -74,24 +74,24 @@ const model = computed({
   set: (value) => {
     const newTokenAmount = value === ''
       ? undefined
-      : (isSymbolMode.value ? value : (Number(value) / tokenPrice.value).toFixed(2))
+      : (isSymbolMode.value ? value : (Number(value) / tokenPrice.value))
     emit('update:modelValue', newTokenAmount)
     tokenAmount.value = value
   },
 })
 
 watch(urlPrefix, async () => {
-  tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
+  tokenPrice.value = Number((await getApproximatePriceOf(chainSymbol.value)).toFixed(2))
 }, {
   immediate: true,
 })
 
 watch(isSymbolMode, async (isSymbol) => {
   if (isSymbol) {
-    model.value = (Number(model.value) / tokenPrice.value).toFixed(2)
+    model.value = (Number(model.value) / tokenPrice.value)
   }
   else {
-    model.value = (Number(model.value) * tokenPrice.value).toFixed(2)
+    model.value = (Number(model.value) * tokenPrice.value)
   }
 })
 </script>
