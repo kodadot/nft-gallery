@@ -57,7 +57,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
 
   const { data: nftOfferData } = useGraphql({
     queryName: 'highestOfferByNftId',
-    queryPrefix: queryPath[urlPrefix.value],
+    disabled: computed(() => urlPrefix.value !== 'ahp'),
     variables: {
       id,
     },

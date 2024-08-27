@@ -90,7 +90,7 @@ const offerExpirationStoreItem = computed({
 const highestOfferPrice = computed(() => formatWithBlank(Number(item.value.highestOffer) || 0) || '--')
 
 const collectionFloorPrice = computed(() =>
-  formatWithBlank(Number(item.value.collection.floorPrice[0]?.price || '0')) || '--',
+  formatWithBlank(Number(item.value.collection.floorPrice?.[0]?.price || '0')) || '--',
 )
 
 watch(
