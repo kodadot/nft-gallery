@@ -32,14 +32,17 @@
       </div>
     </div>
 
-    <!-- TODO: wrap it with dynamic grids -->
-    <div class="grid grid-cols-5 gap-4">
+    <DynamicGrid
+      grid-size="medium"
+      :default-width="GRID_DEFAULT_WIDTH"
+      persist
+    >
       <DropsDropItem
         v-for="drop in dropItems"
         :key="drop.id"
         :drop="drop"
       />
-    </div>
+    </DynamicGrid>
 
     <DropsCalendar
       :drops="dropItems"
@@ -54,13 +57,17 @@
         {{ $i18n.t('drops.pastArtDrops') }}
       </h2>
 
-      <div class="grid grid-cols-5 gap-4">
+      <DynamicGrid
+        grid-size="medium"
+        :default-width="GRID_DEFAULT_WIDTH"
+        persist
+      >
         <DropsDropCard
           v-for="drop in sortedMintedDrops"
           :key="drop.collection.id"
           :drop="drop"
         />
-      </div>
+      </DynamicGrid>
 
       <DropsCreateCalendarEventModal
         v-model="isCreateEventModalActive"
@@ -95,4 +102,10 @@ const sortedMintedDrops = computed(() => mintedDrops.sortedMintedDrops)
 onBeforeMount(() => {
   mintedDrops.clearMintedDrops()
 })
+
+const GRID_DEFAULT_WIDTH = {
+  small: 0,
+  medium: DROP_CARD_MIN_WIDTH,
+  large: 0,
+}
 </script>
