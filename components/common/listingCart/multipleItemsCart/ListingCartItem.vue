@@ -1,6 +1,6 @@
 <template>
   <div class="border-t border-k-shade py-5">
-    <ListingCartItemDetails
+    <CartItemDetails
       :nft="nft"
       :discarded="nft.discarded"
     >
@@ -36,14 +36,14 @@
           </div>
         </div>
       </template>
-    </ListingCartItemDetails>
+    </CartItemDetails>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
-import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
+import CartItemDetails from '@/components/common/CartItemDetails.vue'
 import type { ListCartItem } from '@/stores/listingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import formatBalance from '@/utils/format/balance'

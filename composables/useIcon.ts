@@ -30,6 +30,8 @@ export const useIcon = () => {
         return isDarkMode.value ? '/chain/ahk_dark.svg' : '/chain/ahk.svg'
       case 'base':
         return isDarkMode.value ? '/chain/base_dark.svg' : '/chain/base.svg'
+      case 'mnt':
+        return isDarkMode.value ? '/chain/mnt_dark.svg' : '/chain/mnt.svg'
       default:
         return null
     }
