@@ -100,7 +100,7 @@ test('Drop page verification', async ({ page, Commands }) => {
 
 test('View Collection', async ({ page }) => {
   await page.goto(addresses[0])
-  await page.waitForTimeout(2000)
+  await page.waitForLoadState('networkidle')
   await expect(page.getByTestId('drops-view-collection-button')).toBeVisible()
   await page.getByTestId('drops-view-collection-button').click()
   await page.waitForTimeout(2000)

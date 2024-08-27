@@ -17,6 +17,7 @@ export const useProfileOnboardingStore = defineStore('profileOnboarding', {
       const { accountId } = useAuth()
       return accountId.value && !state.onboardingShown && state.sidebarToggled && state.carouselVisited
     },
+    getIsOnboardingShown: state => state.onboardingShown,
   },
   actions: {
     setOnboardingShown() {

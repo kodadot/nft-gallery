@@ -46,6 +46,7 @@ interface State {
   mobileFilterCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
+  makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
   // Layout
@@ -79,6 +80,7 @@ export const usePreferencesStore = defineStore('preferences', {
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
     listingCartModalOpen: false,
+    makeOfferModalOpen: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {
       isOpen: false,
@@ -151,6 +153,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setCompletePurchaseModalOpen(payload) {
       this.completePurchaseModal.isOpen = payload
+    },
+    setMakeOfferModalOpen(payload) {
+      this.makeOfferModalOpen = payload
     },
     setTriggerBuySuccess(payload) {
       this.triggerBuySuccess = payload

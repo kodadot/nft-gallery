@@ -73,6 +73,11 @@
       </div>
     </template>
   </NftCard>
+  <NftCardSkeleton
+    v-else
+    :hide-media-info="hideMediaInfo"
+    :variant="skeletonVariant"
+  />
 </template>
 
 <script setup lang="ts">
@@ -112,6 +117,7 @@ const props = defineProps<{
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
   lazyLoading?: boolean
+  skeletonVariant: string
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
