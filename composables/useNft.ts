@@ -69,8 +69,6 @@ export type NFTOffer = {
   price: string
   expiration: number
   status: string
-  currentOwner: string
-  royalty?: Royalty
 }
 
 export const isTokenEntity = (

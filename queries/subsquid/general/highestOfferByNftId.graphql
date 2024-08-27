@@ -1,14 +1,8 @@
 query highestOfferByNftId($id: String!) {
-    offers(where: {status_eq: ACTIVE, desired: {id_eq: $id}}, orderBy: price_DESC) {
+  offers(where: {status_eq: ACTIVE, desired: {id_eq: $id}}, orderBy: price_DESC, limit: 1) {
     expiration
     status
     price
     id
-    caller
-    desired {
-      name
-      price
-      id
-    }
   }
 }

@@ -20,7 +20,7 @@ export interface GalleryItem {
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
-  nftHighestOffer: Ref<NFTOffer>
+  nftHighestOffer: Ref<NFTOffer | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
