@@ -56,7 +56,7 @@
 
       <NeoButton
         :label="autoTeleportLabel"
-        variant="primary"
+        :variant="buttonVariant"
         no-shadow
         :shiny="shiny"
         :disabled="isDisabled"
@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoSwitch } from '@kodadot1/brick'
+import { NeoButton, NeoSwitch, type NeoButtonVariant } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import type { ActionlessInteraction } from './utils'
 import { getActionDetails } from './utils'
@@ -133,6 +133,7 @@ const props = withDefaults(
     loading?: boolean
     shiny?: boolean
     earlySuccess?: boolean
+    buttonVariant?: NeoButtonVariant
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -146,6 +147,7 @@ const props = withDefaults(
     loading: false,
     shiny: false,
     earlySuccess: true,
+    buttonVariant: 'primary',
   },
 )
 
