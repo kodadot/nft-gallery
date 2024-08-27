@@ -1,7 +1,8 @@
 import type { Prefix } from '@kodadot1/static'
 import { QueryClient } from '@tanstack/query-core'
 
-const api = $fetch.create({ baseURL: 'https://oda-beta.kodadot.workers.dev', retry: 3 })
+const BASE_URL = isProduction ? 'https://oda.koda.art' : 'https://oda-beta.koda.art'
+const api = $fetch.create({ baseURL: BASE_URL, retry: 3 })
 
 type OnchainCollection = {
   metadata: {
