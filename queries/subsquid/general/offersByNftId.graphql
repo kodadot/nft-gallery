@@ -1,0 +1,14 @@
+query offersByNftId($id: String!, $orderBy: [OfferOrderByInput!] = [blockNumber_DESC], $status: TradeStatus! = ACTIVE) {
+    offers(where: {status_eq: $status , desired: {id_eq: $id}}, orderBy: $orderBy) {
+    expiration
+    status
+    price
+    id
+    caller
+    desired {
+      name
+      price
+      id
+    }
+  }
+}
