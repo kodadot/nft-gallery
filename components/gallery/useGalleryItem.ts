@@ -34,6 +34,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
   const nftHighestOffer = ref<NFTOffer>()
+  const isOfferIndexerDisabled = computed(() => urlPrefix.value !== 'ahp')
 
   const { params } = useRoute()
   const id = nftId || params.id
@@ -55,9 +56,9 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
-  const { data: nftOfferData } = useGraphql({
+  const { data: nftOfferData, refetch: refetchHighestOffer } = useGraphql({
     queryName: 'highestOfferByNftId',
-    disabled: computed(() => urlPrefix.value !== 'ahp'),
+    disabled: isOfferIndexerDisabled,
     variables: {
       id,
     },
@@ -74,6 +75,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       }
     }`,
     onChange: refetch,
+  })
+
+  useSubscriptionGraphql({
+    query: `offers(where: {status_eq: ACTIVE, desired: {id_eq: "${id}"}}, orderBy: price_DESC, limit: 1) {
+      id
+    }`,
+    disabled: isOfferIndexerDisabled,
+    onChange: refetchHighestOffer,
   })
 
   watch(data as unknown as NFTData, async (newData) => {

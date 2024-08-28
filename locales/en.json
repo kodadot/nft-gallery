@@ -1635,6 +1635,8 @@
     "yourOfferAmount": "Your Offer Amount" ,
     "newOffer": "New Offer",
     "bestOffer": "Best Offer",
+    "manageOffers": "Manage Offers",
+    "offerCreation": "Offer Creation",
     "collectionFloorPrice": "Collection Floor",
     "expiration": "Offer Expiration",
     "typeOffer": "Type An Offer",

@@ -49,7 +49,7 @@ export const showNotification = ({
   action?: MaybeRef<NotificationAction | undefined>
   holdTimer?: Ref<boolean>
   icon?: Ref<NeoMessageIconVariant | undefined>
-}): void => {
+}): () => void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
   }
@@ -71,6 +71,8 @@ export const showNotification = ({
   }
 
   Notif.open(componentParams)
+
+  return Notif.closeAll
 }
 
 export const showLargeNotification = ({
@@ -201,7 +203,7 @@ export const loadingMessage = ({
 
   const isLoadingState = computed(() => state.value === 'loading')
 
-  showNotification({
+  return showNotification({
     title,
     message: stateMessage,
     variant: computed(() => NotificationStateToVariantMap[state.value]),
