@@ -21,17 +21,10 @@ export type NFTOfferItem = {
 const BLOCKS_PER_HOUR = 300
 const currentBlock = ref(0)
 
-export default function ({ byNftId, where = {}, limit = 100 }: {
-  byNftId?: string
+export default function ({ where = {}, limit = 100 }: {
   where?: Record<string, unknown>
   limit?: number
 }) {
-  if (byNftId) {
-    Object.assign(where, {
-      desired: { id_eq: byNftId },
-    })
-  }
-
   const {
     data,
     loading: fetching,

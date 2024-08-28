@@ -105,6 +105,7 @@ import {
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
+import type { UnwrapRef } from 'vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import formatBalance, {
   formatNumber,
@@ -124,12 +125,10 @@ const isWithdrawOfferModalOpen = ref(false)
 
 const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value])))
 
-const { offers, refetch, loading } = useOffers({
-  byNftId: props.nftId,
-  where: { status_eq: 'ACTIVE' },
-})
-
+const loading = ref(false)
+const offers = ref<UnwrapRef<ReturnType<typeof useOffers>['offers']>>([])
 const selectedOffer = ref<NFTOfferItem>()
+const stopLoadingWatch = ref(() => {})
 
 useSubscriptionGraphql({
   query: `
@@ -139,7 +138,22 @@ useSubscriptionGraphql({
   ) {
     id
   }`,
-  onChange: refetch,
+  onChange: ({ data: { offers: newOffers } }) => {
+    stopLoadingWatch.value?.()
+    offers.value = []
+
+    const { offers: offersData, loading: offersLoading } = useOffers({
+      where: { id_in: newOffers.map(offer => offer.id) },
+    })
+
+    stopLoadingWatch.value = watchEffect(() => {
+      loading.value = offersLoading.value
+    })
+
+    watch(() => offersData.value.length, () => {
+      offers.value = offersData.value
+    }, { once: true })
+  },
 })
 
 const formatPrice = (price) => {
