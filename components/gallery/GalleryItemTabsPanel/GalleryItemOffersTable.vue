@@ -78,6 +78,7 @@
         width="10%"
       >
         <OfferOwnerButton
+          class="max-md:!w-full"
           :offer="row as NFTOfferItem"
           @withdraw="withdrawOffer"
         />
