@@ -22,7 +22,7 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
   if (isOwnerOfOffer.value) {
     return {
       label: $i18n.t('transaction.offerWithdraw'),
-      classes: 'hover:!border-k-red hover:!bg-k-red-accent-2',
+      classes: '!border-k-red !bg-k-red-accent-2',
       onClick: () => emit('withdraw', props.offer),
     }
   }

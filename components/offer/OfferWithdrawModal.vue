@@ -64,7 +64,7 @@
 
         <div class="flex justify-between !pt-5">
           <NeoButton
-            class="!w-full hover:!border-k-red hover:!bg-k-red-accent-2"
+            class="!w-full !border-k-red !bg-k-red-accent-2"
             variant="outlined-rounded"
             :label="$t('transaction.offerWithdraw')"
             @click="cancelOffer"
