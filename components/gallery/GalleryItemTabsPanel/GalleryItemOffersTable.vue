@@ -128,7 +128,7 @@ const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixTo
 const loading = ref(false)
 const offers = ref<UnwrapRef<ReturnType<typeof useOffers>['offers']>>([])
 const selectedOffer = ref<NFTOfferItem>()
-const stopLoadingWatch = ref(() => {})
+const stopWatch = ref(() => {})
 
 useSubscriptionGraphql({
   query: `
@@ -139,20 +139,17 @@ useSubscriptionGraphql({
     id
   }`,
   onChange: ({ data: { offers: newOffers } }) => {
-    stopLoadingWatch.value?.()
+    stopWatch.value?.()
     offers.value = []
 
     const { offers: offersData, loading: offersLoading } = useOffers({
       where: { id_in: newOffers.map(offer => offer.id) },
     })
 
-    stopLoadingWatch.value = watchEffect(() => {
+    stopWatch.value = watchEffect(() => {
       loading.value = offersLoading.value
-    })
-
-    watch(() => offersData.value.length, () => {
       offers.value = offersData.value
-    }, { once: true })
+    })
   },
 })
 
