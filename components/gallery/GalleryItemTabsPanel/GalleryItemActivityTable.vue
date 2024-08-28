@@ -24,10 +24,10 @@
         v-slot="props"
         width="20%"
         field="meta"
-        :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`"
+        :label="$t(`amount`)"
       >
         <p v-if="Number(props.row.meta)">
-          {{ formatPrice(props.row.meta)[0] }}
+          {{ formatPrice(props.row.meta)[0] }} {{ chainSymbol }}
           <span class="text-k-grey">
             ${{ formatPrice(props.row.meta)[1] }}</span>
         </p>
@@ -143,6 +143,7 @@ import { parseDate } from '@/utils/datetime'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const dprops = defineProps<{
   nftId: string
@@ -151,11 +152,9 @@ const dprops = defineProps<{
 
 const { decimals, chainSymbol } = useChain()
 const { urlPrefix, client } = usePrefix()
-const tokenPrice = ref(0)
+const fiatStore = useFiatStore()
 
-onMounted(async () => {
-  tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
-})
+const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]) || 0))
 
 const interaction = computed(() =>
   dprops.interactions.map((key) => {

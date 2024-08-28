@@ -123,7 +123,7 @@ const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
 const isWithdrawOfferModalOpen = ref(false)
 
-const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value])))
+const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]) || 0))
 
 const loading = ref(false)
 const offers = ref<UnwrapRef<ReturnType<typeof useOffers>['offers']>>([])
