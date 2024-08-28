@@ -25,17 +25,17 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import MakeOffer from '@/components/offer/MakeOffer.vue'
 import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
+import type { NFTOffer } from '@/components/useNft'
 
 const props = defineProps<{
   nft: NFT
-  highestOffer?: {
-    price: string
-  }
+  highestOffer?: NFTOffer
 }>()
-
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
 const { doAfterLogin } = useDoAfterlogin()
+const { isCurrentOwner } = useAuth()
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
 
@@ -49,7 +49,11 @@ const openOfferModal = () => {
 
 const onMakeOfferClick = () => {
   doAfterLogin({
-    onLoginSuccess: openOfferModal,
+    onLoginSuccess: () => {
+      if (!isOwner.value) {
+        openOfferModal()
+      }
+    },
   })
 }
 

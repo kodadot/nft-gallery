@@ -55,10 +55,11 @@ const props = defineProps<{
 const { chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
 const { balance } = useDeposit(urlPrefix)
+const fiatStore = useFiatStore()
 const emit = defineEmits(['update:modelValue'])
 
 const isSymbolMode = ref(true)
-const tokenPrice = ref(0)
+const tokenPrice = computed(() => fiatStore.getCurrentTokenValue(chainSymbol.value as Token) as number)
 const switchSymbolMode = () => {
   isSymbolMode.value = !isSymbolMode.value
 }
@@ -80,10 +81,10 @@ const model = computed({
   },
 })
 
-watch(urlPrefix, async () => {
-  tokenPrice.value = Number((await getApproximatePriceOf(chainSymbol.value)).toFixed(2))
-}, {
-  immediate: true,
+onMounted(() => {
+  if (fiatStore.incompleteFiatValues) {
+    fiatStore.fetchFiatPrice()
+  }
 })
 
 watch(isSymbolMode, async (isSymbol) => {

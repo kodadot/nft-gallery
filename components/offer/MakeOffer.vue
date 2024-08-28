@@ -32,7 +32,6 @@
       @close="onClose"
     >
       <ModalBody
-        v-if="preferencesStore.makeOfferModalOpen"
         modal-max-height="100vh"
         :title="$t('transaction.offer')"
         content-class="pt-4 pb-5 px-0"
@@ -40,7 +39,10 @@
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div
+          v-if="preferencesStore.makeOfferModalOpen"
+          class="px-6 max-h-[50vh] overflow-y-auto"
+        >
           <ModalIdentityItem />
 
           <MakingOfferSingleItem />
@@ -223,8 +225,7 @@ useModalIsOpenTracker({
   },
 })
 
-const closeMakingOfferModal = () =>
-  (preferencesStore.makeOfferModalOpen = false)
+const closeMakingOfferModal = () => (preferencesStore.makeOfferModalOpen = false)
 
 onBeforeMount(closeMakingOfferModal)
 onUnmounted(closeMakingOfferModal)

@@ -59,16 +59,14 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['update:modelValue'])
-const selected = computed({
-  get: () => props.modelValue || 7,
-  set: (value) => {
-    emit('update:modelValue', value)
-  },
+
+const selected = useVModel(props, 'modelValue', emit, {
+  defaultValue: 7,
 })
 
 const formattedExpirationTime = computed(() => {
   const date = new Date()
-  date.setDate(date.getDate() + selected.value)
+  date.setDate(date.getDate() + selected.value!)
   return date.toLocaleString(undefined, {
     month: 'numeric',
     day: '2-digit',
