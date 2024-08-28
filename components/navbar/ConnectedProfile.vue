@@ -39,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { Prefix } from '@kodadot1/static'
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { useChainId } from '@wagmi/vue'
 
@@ -56,5 +57,5 @@ const label = computed(() => profile.value ? profile.value?.name : shortAddress(
 const chainIcon = computed(() => getChainIcon(execByVm({
   SUB: () => 'ahp',
   EVM: () => CHAIN_ID_TO_PREFIX[chainId.value] ?? '',
-}, { vm: getWalletVM.value })))
+}, { vm: getWalletVM.value }) as Prefix))
 </script>

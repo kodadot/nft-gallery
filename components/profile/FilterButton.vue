@@ -2,8 +2,6 @@
   <NeoButton
     :variant="variant"
     :active="model"
-    no-shadow
-    rounded
     :label="label"
     @click="model = !model"
   />
@@ -29,19 +27,3 @@ const model = computed({
   },
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.active {
-  @include ktheme() {
-    border-color: theme('background-color-inverse') !important;
-  }
-  &:hover {
-    @include ktheme() {
-      background-color: theme('background-color-inverse') !important;
-      color: theme('text-color-inverse') !important;
-    }
-  }
-}
-</style>
