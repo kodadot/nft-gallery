@@ -21,3 +21,13 @@ export const queryClient = new QueryClient()
 export const fetchOdaCollection = (chain: Prefix, address: string) => {
   return api<OnchainCollection>(`/v1/${chain}/collection/${address}`)
 }
+
+type OdaCollectionOwners = {
+  uniquerOwnersCount: number
+  minted: number
+  owners: Record<string, number>
+}
+
+export const fetchOdaCollectionOwners = (chain: Prefix, address: string) => {
+  return api<OdaCollectionOwners>(`/v1/${chain}/collection/owner/${address}`)
+}

@@ -89,9 +89,9 @@
 
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
-import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
+import { fetchOdaCollectionOwners } from '~/services/oda'
 
 const mdBreakpoint = 768
 
@@ -107,10 +107,15 @@ const divider = ref()
 
 const address = computed(() => drop.value?.creator)
 
-const { owners } = useCollectionActivity({
-  collectionId: computed(() => drop.value?.collection),
+const owners = ref()
+const ownerAddresses = computed(() => Object.keys(owners.value?.owners || {}))
+watchEffect(async () => {
+  if (!drop.value?.collection) {
+    return
+  }
+
+  owners.value = await fetchOdaCollectionOwners(drop.value.chain, drop.value.collection)
 })
-const ownerAddresses = computed(() => Object.keys(owners.value || {}))
 
 const handleNftGeneration = (preview: GenerativePreviewItem) => {
   emitEvent(DropEventType.DROP_GENERATING)

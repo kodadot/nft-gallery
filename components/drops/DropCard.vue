@@ -22,8 +22,8 @@
 import { resolveComponent } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 import { DropStatus } from './useDrops'
-import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
 import type { DropItem } from '@/params/types'
+import { fetchOdaCollectionOwners } from '@/services/oda'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -42,12 +42,8 @@ const dropPrefix = computed(() => props.drop.chain as Prefix)
 const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 const to = computed(() => `/${dropPrefix.value}/drops/${props.drop.alias}`)
 
-// TODO: get owners from oda workers. this query is quite heavy so many javascript calls on the client side
-const { owners } = useCollectionActivity({
-  collectionId: computed(() => props.drop?.collection),
-  prefix: dropPrefix.value,
-})
-const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+const { data: owners } = useAsyncData(`${props.drop.chain}-${props.drop.collection}-oda-owners`, () => fetchOdaCollectionOwners(dropPrefix.value, props.drop.collection))
+const ownerAddresses = computed(() => Object.keys(owners.value?.owners || {}))
 
 const click = () => {
   emit('click', {
