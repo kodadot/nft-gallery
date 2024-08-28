@@ -229,7 +229,7 @@ watch(isError, (error) => {
 
 watch(status, (status) => {
   switch (status) {
-    case TransactionStatus.Casting:
+    case TransactionStatus.Block:
       showOfferCreationNotification(offerSession)
       break
     case TransactionStatus.Finalized:
