@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div
-      class="flex max-md:flex-col md:items-center justify-between mb-7 md:gap-8"
-    >
+    <div class="flex max-md:flex-col md:items-center justify-between mb-7 md:gap-8">
       <h1 class="text-4xl font-semibold text-balance">
         <span class="block lg:inline mb-0 md:mr-3">{{ $i18n.t('drops.title') }},</span>
         <span class="inverse-text">{{ $i18n.t('drops.everyThursday') }}</span>
       </h1>
 
-      <div
-        class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-between flex-grow"
-      >
+      <div class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-between flex-grow">
         <NeoButton
           icon-left="plus"
           rounded
@@ -44,11 +40,7 @@
       />
     </DynamicGrid>
 
-    <DropsCalendar
-      :drops="dropItems"
-      :loaded="dropItems?.length"
-      :default-skeleton-count="4"
-    />
+    <DropsCalendar :default-skeleton-count="4" />
 
     <template v-if="sortedMintedDrops.length">
       <hr class="my-14">
@@ -64,7 +56,7 @@
       >
         <DropsDropCard
           v-for="drop in sortedMintedDrops"
-          :key="drop.collection.id"
+          :key="drop.collection"
           :drop="drop"
         />
       </DynamicGrid>
