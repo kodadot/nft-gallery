@@ -55,7 +55,6 @@ const selectedItem = computed(() => options.find(option => option.value === sele
 
 const props = defineProps<{
   modelValue?: number
-
 }>()
 
 const emit = defineEmits(['update:modelValue'])
