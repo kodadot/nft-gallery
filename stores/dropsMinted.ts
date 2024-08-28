@@ -1,21 +1,21 @@
 import { defineStore } from 'pinia'
-import type { Drop } from '~/components/drops/useDrops'
+import type { DropItem } from '@/params/types'
 
 export const useMintedDropsStore = defineStore('mintedDrops', {
   state: () => ({
-    mintedDrops: [] as Drop[],
+    mintedDrops: [] as DropItem[],
   }),
   getters: {
-    sortedMintedDrops(): Drop[] {
+    sortedMintedDrops(): DropItem[] {
       return [...this.mintedDrops].sort((a, b) => {
         // Sort from bigger to lower number
-        return Number(b.collection.collection) - Number(a.collection.collection)
+        return Number(b.collection) - Number(a.collection)
       })
     },
   },
   actions: {
-    addMintedDrop(drop: Drop) {
-      const exists = this.mintedDrops.some(d => d.collection.id === drop.collection.id)
+    addMintedDrop(drop: DropItem) {
+      const exists = this.mintedDrops.some(d => d.collection === drop.collection)
       if (!exists) {
         this.mintedDrops.push(drop)
       }
