@@ -1,0 +1,14 @@
+query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blockNumber_DESC]) {
+    offers(where: $where, orderBy: $orderBy) {
+    id
+    expiration
+    blockNumber
+    price
+    status
+    caller
+    desired {
+      id
+      currentOwner
+    }
+  }
+}

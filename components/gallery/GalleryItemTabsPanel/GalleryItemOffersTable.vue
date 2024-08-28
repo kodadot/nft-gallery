@@ -14,15 +14,15 @@
       />
     </div>
     <NeoTable
-      v-else-if="nftOffers.length"
-      :data="nftOffers"
+      v-else-if="offers.length"
+      :data="offers"
       hoverable
       class="py-5 padding-top-mobile"
     >
       <!-- price -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOffer}"
-        width="10%"
+        v-slot="{ row }: {row: NFTOfferItem}"
+        width="20%"
         field="price"
         :label="$t('amount')"
       >
@@ -35,7 +35,7 @@
 
       <!-- price -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOffer}"
+        v-slot="{ row }: {row: NFTOfferItem}"
         width="10%"
         field="expiration"
         :label="$t('expiration')"
@@ -44,13 +44,13 @@
           v-if="row.expiration"
           class="capitalize"
         >
-          {{ formatToBlock(row.expiration) }}
+          {{ row.time }}
         </p>
       </NeoTableColumn>
 
       <!-- from -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOffer}"
+        v-slot="{ row }: {row: NFTOfferItem}"
         width="20%"
         field="caller"
         :label="$t('tabs.tabActivity.from')"
@@ -71,6 +71,17 @@
           </nuxt-link>
         </div>
       </NeoTableColumn>
+
+      <!-- action -->
+      <NeoTableColumn
+        v-slot="{ row }"
+        width="10%"
+      >
+        <OfferOwnerButton
+          :offer="row as NFTOfferItem"
+          @withdraw="withdrawOffer"
+        />
+      </NeoTableColumn>
     </NeoTable>
     <div
       v-else
@@ -79,6 +90,12 @@
       {{ $t('tabs.tabActivity.empty') }}
     </div>
   </div>
+
+  <OfferWithdrawModal
+    v-model="isWithdrawOfferModalOpen"
+    :offer="selectedOffer!"
+    @close="closeWithdrawModal"
+  />
 </template>
 
 <script setup lang="ts">
@@ -87,19 +104,13 @@ import {
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
-import { addHours } from 'date-fns'
-import offersByNftId from '@/queries/subsquid/general/offersByNftId.graphql'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import formatBalance, {
   formatNumber,
   withoutDigitSeparator,
 } from '@/utils/format/balance'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import type { NFTOffer } from '@/composables/useNft'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { formatToNow } from '@/utils/format/time'
-
-const BLOCKS_PER_HOUR = 300
 
 const props = defineProps<{
   nftId: string
@@ -107,37 +118,27 @@ const props = defineProps<{
 
 const fiatStore = useFiatStore()
 const { decimals, chainSymbol } = useChain()
-const { urlPrefix, client } = usePrefix()
-
-const currentBlock = ref(0)
+const { urlPrefix } = usePrefix()
+const isWithdrawOfferModalOpen = ref(false)
 
 const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value])))
 
-const {
-  data,
-  pending: fetching,
-  refresh,
-} = await useAsyncQuery<{ offers: NFTOffer[] }>({
-  query: offersByNftId,
-  variables: {
-    id: props.nftId,
-    limit: 100,
-  },
-  clientId: client.value,
+const { offers, refetch, loading } = useOffers({
+  byNftId: props.nftId,
+  where: { status_eq: 'ACTIVE' },
 })
 
-const loading = computed(() => nftOffers.value.length ? !currentBlock.value : !currentBlock.value || fetching.value)
-const nftOffers = computed(() => data.value?.offers)
+const selectedOffer = ref<NFTOfferItem>()
 
 useSubscriptionGraphql({
   query: `
   offers (
-    where: { desired: { id_eq: "${props.nftId}" } }
+    where: { status_eq: ACTIVE, desired: { id_eq: "${props.nftId}" } }
     orderBy: blockNumber_DESC
   ) {
     id
   }`,
-  onChange: refresh,
+  onChange: refetch,
 })
 
 const formatPrice = (price) => {
@@ -148,19 +149,15 @@ const formatPrice = (price) => {
   return [formatNumber(tokenAmount), flatPrice]
 }
 
-async function getCurrentBlock() {
-  const api = await useApi().apiInstance.value
-  const { number } = await api.rpc.chain.getHeader()
-  return number.toNumber()
+const withdrawOffer = (offer: NFTOfferItem) => {
+  selectedOffer.value = offer
+  isWithdrawOfferModalOpen.value = true
 }
 
-const formatToBlock = (block: number) => {
-  return formatToNow(
-    addHours(new Date(), (Number(block) - currentBlock.value) / BLOCKS_PER_HOUR), false,
-  )
+const closeWithdrawModal = () => {
+  isWithdrawOfferModalOpen.value = false
+  selectedOffer.value = undefined
 }
-
-onBeforeMount(() => getCurrentBlock().then(b => currentBlock.value = b))
 </script>
 
 <style lang="scss" scoped>

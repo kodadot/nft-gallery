@@ -68,7 +68,7 @@ export function isActionValid(action: Actions): boolean {
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.token),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
-      Boolean(action.nftId),
+      Boolean(action.offeredId),
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>

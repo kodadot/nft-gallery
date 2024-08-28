@@ -189,8 +189,8 @@ export type ActionOffer = {
 
 export type ActionWithdrawOffer = {
   interaction: typeof ShoppingActions.WITHDRAW_OFFER
-  nftId: string
-  maker: string
+  urlPrefix: Prefix
+  offeredId: number
   successMessage?: string
   errorMessage?: string
 }
