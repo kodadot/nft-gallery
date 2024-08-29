@@ -40,8 +40,11 @@
 
     <div class="flex-1 is-ellipsis">
       <div class="h-[50px] flex items-center">
-        <div v-if="parseInt(offer.price)">
-          <CommonTokenMoney :value="offer.price" />
+        <div
+          v-if="parseInt(offer.price)"
+          class="flex gap-2 items-center"
+        >
+          <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
         </div>
         <div v-else>
           {{ blank }}
@@ -127,8 +130,11 @@
         </div>
       </div>
 
-      <div v-if="parseInt(offer.price)">
-        <CommonTokenMoney :value="offer.price" />
+      <div
+        v-if="parseInt(offer.price)"
+        class="flex gap-2 items-center"
+      >
+        <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
       </div>
       <div v-else>
         {{ blank }}
@@ -179,7 +185,6 @@ import {
   interactionNameMap,
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { nameWithIndex } from '@/utils/nft'
 import { OfferInteraction } from '@/composables/collectionActivity/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
@@ -192,6 +197,7 @@ const props = defineProps<{
   variant: 'Desktop' | 'Touch'
 }>()
 
+const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
 const image = ref()
 const animationUrl = ref()
@@ -200,6 +206,12 @@ const isDesktop = computed(() => props.variant === 'Desktop')
 const interactionName = computed(
   () =>
     interactionNameMap()[OfferInteraction],
+)
+
+const { formatted: amount, usd: price } = useAmount(
+  computed(() => props.offer?.price),
+  decimals,
+  chainSymbol,
 )
 
 const getAvatar = async (nft) => {
