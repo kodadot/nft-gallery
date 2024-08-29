@@ -6,6 +6,7 @@
   >
     <div class="flex justify-end gallery-item-offer">
       <NeoButton
+        v-if="!hideActionButton"
         :label="$t('transaction.offer')"
         variant="k-blue"
         size="large"
@@ -30,6 +31,7 @@ import type { NFTOffer } from '@/components/useNft'
 const props = defineProps<{
   nft: NFT
   highestOffer?: NFTOffer
+  hideActionButton?: boolean
 }>()
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()

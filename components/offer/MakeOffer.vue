@@ -189,7 +189,6 @@ const showOfferCreationNotification = (session) => {
 
   session.value.closeNotification = loadingMessage({
     title: ref($i18n.t('offer.offerCreation')),
-    message: ref(undefined),
     state: computed(() => session?.value.state as LoadingNotificationState),
     action: computed<NotificationAction | undefined>(() => {
       if (isSessionState('succeeded')) {

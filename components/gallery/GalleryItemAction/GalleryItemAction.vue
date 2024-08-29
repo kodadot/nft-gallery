@@ -7,7 +7,8 @@
     />
     <!-- make offer -->
     <GalleryItemOffer
-      v-if="offerVisible(urlPrefix) && !isOwner && nft"
+      v-if="offerVisible(urlPrefix) && nft"
+      :hide-action-button="isOwner"
       :nft="nft"
       :highest-offer="highestOffer"
       class="mt-2"
