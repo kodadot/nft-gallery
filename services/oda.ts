@@ -29,5 +29,5 @@ type OdaCollectionOwners = {
 }
 
 export const fetchOdaCollectionOwners = (chain: Prefix, address: string) => {
-  return api<OdaCollectionOwners>(`/v1/${chain}/collection/owner/${address}`)
+  return api<OdaCollectionOwners>(`/v1/${chain}/collection/${address}/owners`)
 }
