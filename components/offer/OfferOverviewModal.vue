@@ -1,7 +1,7 @@
 <template>
   <div>
     <SigningModal
-      :title="$t('transaction.offerWithdraw')"
+      :title="details.signingTitle"
       :is-loading="isLoading"
       :status="status"
       @try-again="execOffer"
@@ -13,7 +13,7 @@
       @close="onClose"
     >
       <ModalBody
-        :title="$t('offer.yourOffer')"
+        :title="details.title"
         :loading="loading"
         @close="onClose"
       >
@@ -50,7 +50,7 @@
               </div>
 
               <div
-                v-if="isWithdrawMode"
+                v-if="isMyOffer"
                 class="flex justify-between items-center"
               >
                 <span class="text-k-grey text-xs">
@@ -63,7 +63,7 @@
               </div>
 
               <div
-                v-if="isAcceptMode"
+                v-if="isIncomingOffer"
                 class="flex justify-between items-center"
               >
                 <span class="text-k-grey text-xs">
@@ -102,7 +102,7 @@ import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { formatToNow } from '@/utils/format/time'
 
-type OverviewMode = 'withdraw' | 'accept' | 'view'
+type OverviewMode = 'owner' | 'incoming'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -117,15 +117,16 @@ const { urlPrefix, client } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 const { transaction, isLoading, status } = useTransaction()
 const { isOwnerOfNft } = useIsOffer(computed(() => props.offer), accountId)
+const { $i18n } = useNuxtApp()
 
 const offeredItem = ref<number>()
 const subscription = ref(() => {})
 
 const nftId = computed(() => props.offer?.desired.id)
-const mode = computed<OverviewMode>(() => isOwnerOfNft.value ? 'accept' : 'withdraw')
+const mode = computed<OverviewMode>(() => isOwnerOfNft.value ? 'incoming' : 'owner')
 
-const isWithdrawMode = computed(() => mode.value === 'withdraw')
-const isAcceptMode = computed(() => mode.value === 'accept')
+const isMyOffer = computed(() => mode.value === 'owner')
+const isIncomingOffer = computed(() => mode.value === 'incoming')
 
 const { data: nft, pending: nftLoading } = await useAsyncData(`offer-nft-id-${nftId.value}`, async () => {
   if (!nftId.value) {
@@ -168,6 +169,24 @@ const { formatted: formmatedOffer, usd: offerUsd } = useAmount(
 
 const loading = computed(() => nftLoading.value || !offeredItem.value)
 
+const details = computed<{
+  title: string
+  signingTitle: string
+}>(() => {
+  if (isMyOffer.value) {
+    return {
+      title: $i18n.t('offer.yourOffer'),
+      signingTitle: $i18n.t('transaction.offerWithdraw'),
+    }
+  }
+  else {
+    return {
+      title: $i18n.t('offer.incomingOffer'),
+      signingTitle: $i18n.t('transaction.offerAccept'),
+    }
+  }
+})
+
 const execOffer = () => {
   if (!offeredItem.value || !nft.value || !props.offer) {
     return
@@ -175,7 +194,7 @@ const execOffer = () => {
 
   vModel.value = false
 
-  if (isWithdrawMode.value) {
+  if (isMyOffer.value) {
     transaction({
       interaction: ShoppingActions.WITHDRAW_OFFER,
       urlPrefix: urlPrefix.value,
@@ -183,7 +202,7 @@ const execOffer = () => {
     })
   }
 
-  if (isAcceptMode.value) {
+  if (isIncomingOffer.value) {
     transaction({
       interaction: ShoppingActions.ACCEPT_OFFER,
       urlPrefix: urlPrefix.value,

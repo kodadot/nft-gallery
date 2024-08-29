@@ -66,12 +66,24 @@
             data-testid="offer-item-row"
             :offer="item"
             :variant="variant as unknown"
-            with-to-column
+            @select="() => {
+              selectedOffer = item
+              isOfferModalOpen = true
+            }"
           />
         </template>
       </ResponsiveTable>
     </div>
   </div>
+
+  <OfferOverviewModal
+    v-model="isOfferModalOpen"
+    :offer="selectedOffer"
+    @close="() => {
+      selectedOffer = undefined
+      isOfferModalOpen = false
+    }"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -92,6 +104,9 @@ const props = defineProps<{
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
+
+const selectedOffer = ref<NFTOfferItem>()
+const isOfferModalOpen = ref(false)
 
 const activeFilters = computed(() =>
   filters.filter(queryParam => route.query[queryParam.id] === 'true').map(filter => filter.id),

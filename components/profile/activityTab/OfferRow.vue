@@ -87,6 +87,7 @@
         <OfferOwnerButton
           class="max-md:!w-full"
           :offer="offer"
+          @click="$emit('select')"
         />
       </div>
     </div>
@@ -167,6 +168,7 @@
     <OfferOwnerButton
       class="max-md:!w-full !mt-4"
       :offer="offer"
+      @click="$emit('select')"
     />
   </div>
 </template>
@@ -184,6 +186,7 @@ import { nameWithIndex } from '@/utils/nft'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
+defineEmits(['select'])
 const props = defineProps<{
   offer: NFTOfferItem
   variant: 'Desktop' | 'Touch'

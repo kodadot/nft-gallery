@@ -1639,7 +1639,8 @@
     "yourOffer": "Your Offer",
     "cancelOffer": "Cancel Offer",
     "floorDifference": "Floor Difference",
-    "newOffer": "New Offer"
+    "newOffer": "New Offer",
+    "incomingOffer": "Incoming Offer"
   },
   "migrate": {
     "cta": "Migrate Now",
