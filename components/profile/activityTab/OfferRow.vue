@@ -32,9 +32,8 @@
     <div class="w-1/12">
       <div class="h-[50px] flex items-center">
         <EventTag
-          :interaction="'LIST'"
+          :interaction="OfferInteraction"
           :interaction-name="interactionName"
-          distinguish-buy-and-sell
         />
       </div>
     </div>
@@ -122,9 +121,8 @@
           </nuxt-link>
 
           <EventTag
-            :interaction="'LIST'"
+            :interaction="OfferInteraction"
             :interaction-name="interactionName"
-            distinguish-buy-and-sell
           />
         </div>
       </div>
@@ -183,6 +181,8 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { nameWithIndex } from '@/utils/nft'
+import { OfferInteraction } from '@/composables/collectionActivity/types'
+import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
@@ -199,16 +199,15 @@ const isDesktop = computed(() => props.variant === 'Desktop')
 
 const interactionName = computed(
   () =>
-    interactionNameMap({ distinguishBuyAndSell: true })['LIST'],
+    interactionNameMap()[OfferInteraction],
 )
 
-// const getAvatar = async () => {
-//   if (props.offer.Item) {
-//     const meta = await getNftMetadata(props.offer.Item, urlPrefix.value)
-//     image.value = meta.image
-//     animationUrl.value = meta.animationUrl
-//   }
-// }
+const getAvatar = async (nft) => {
+  const meta = await getNftMetadata(nft, urlPrefix.value)
+  image.value = meta.image
+  animationUrl.value = meta.animationUrl
+}
 
-// onBeforeMount(getAvatar)
+// TODO imporve nft fetching
+onBeforeMount(() => fetchNft(props.offer.desired.id).then(getAvatar))
 </script>
