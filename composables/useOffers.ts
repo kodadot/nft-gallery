@@ -1,5 +1,4 @@
 import { addHours } from 'date-fns'
-import { formatToNow } from '@/utils/format/time'
 
 type NFTOffer = {
   id: string
@@ -10,38 +9,44 @@ type NFTOffer = {
   caller: string
   desired: {
     id: string
+    name: string
+    sn: string
     currentOwner: string
   }
 }
 
 export type NFTOfferItem = {
-  time: string
+  expirationDate?: Date
 } & NFTOffer
 
 const BLOCKS_PER_HOUR = 300
 const currentBlock = ref(0)
 
 export default function ({ where = {}, limit = 100 }: {
-  where?: Record<string, unknown>
+  where?: MaybeRef<Record<string, unknown>>
   limit?: number
 }) {
+  const variables = computed(() => ({
+    where: unref(where),
+    limit: limit,
+  }))
+
   const {
     data,
     loading: fetching,
     refetch,
   } = useGraphql<{ offers: NFTOffer[] }>({
     queryName: 'offersList',
-    variables: {
-      where: where,
-      limit: limit,
-    },
+    variables: variables.value,
   })
 
   const offers = computed<NFTOfferItem[]>(() => {
-    return data.value?.offers.map(offer => ({
-      ...offer,
-      time: currentBlock.value ? formatToNow(addHours(new Date(), (Number(offer.expiration) - currentBlock.value) / BLOCKS_PER_HOUR), false) : '',
-    })) || []
+    return data.value?.offers.map((offer) => {
+      return {
+        ...offer,
+        expirationDate: currentBlock.value ? addHours(new Date(), (Number(offer.expiration) - currentBlock.value) / BLOCKS_PER_HOUR) : undefined,
+      }
+    }) || []
   })
 
   async function getCurrentBlock() {
@@ -54,6 +59,12 @@ export default function ({ where = {}, limit = 100 }: {
 
   if (!currentBlock.value) {
     getCurrentBlock().then(b => currentBlock.value = b)
+  }
+
+  if (isRef(where)) {
+    watch(where, () => {
+      refetch(variables.value)
+    })
   }
 
   return {

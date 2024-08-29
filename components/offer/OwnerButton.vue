@@ -9,28 +9,29 @@
 <script setup lang="ts">
 import type { ButtonConfig } from '../profile/types'
 
-const emit = defineEmits(['withdraw', 'accept'])
+const emit = defineEmits(['click'])
 const props = defineProps<{ offer: NFTOfferItem }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const isOwnerOfOffer = computed(() => props.offer.caller === accountId.value)
-const isOwenrOfNft = computed(() => props.offer.desired.currentOwner === accountId.value)
+const { isOwnerOfNft, isOwnerOfOffer } = useIsOffer(computed(() => props.offer), accountId)
+
+const onClick = () => emit('click', props.offer)
 
 const buttonConfig = computed<ButtonConfig | null>(() => {
   if (isOwnerOfOffer.value) {
     return {
       label: $i18n.t('transaction.offerWithdraw'),
       classes: '!border-k-red !bg-k-red-accent-2',
-      onClick: () => emit('withdraw', props.offer),
+      onClick,
     }
   }
 
-  if (isOwenrOfNft.value) {
+  if (isOwnerOfNft.value) {
     return {
       label: $i18n.t('transaction.offerAccept'),
-      onClick: () => emit('accept', props.offer),
+      onClick,
     }
   }
 

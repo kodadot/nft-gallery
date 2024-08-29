@@ -423,6 +423,10 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
+        <ProfileActivityTabOffers
+          v-if="activeTab === ProfileTab.OFFERS"
+          :id="id"
+        />
       </div>
     </div>
   </div>
@@ -491,6 +495,7 @@ const tabs = [
   ProfileTab.CREATED,
   ProfileTab.COLLECTIONS,
   ProfileTab.ACTIVITY,
+  ProfileTab.OFFERS,
 ]
 
 const route = useRoute()

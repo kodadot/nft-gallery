@@ -1,7 +1,7 @@
 <template>
   <div
-    class="gallery-item-activity-table flex flex-col !py-6"
-    data-testid="gallery-item-activity-table"
+    class="gallery-item-offers-table flex flex-col !py-6"
+    data-testid="gallery-item-offers-table"
   >
     <div
       v-if="loading"
@@ -17,7 +17,7 @@
       v-else-if="offers.length"
       :data="offers"
       hoverable
-      class="py-5 padding-top-mobile"
+      class="py-5 max-md:!top-0"
     >
       <!-- price -->
       <NeoTableColumn
@@ -33,18 +33,15 @@
         </p>
       </NeoTableColumn>
 
-      <!-- price -->
+      <!-- expiration -->
       <NeoTableColumn
         v-slot="{ row }: {row: NFTOfferItem}"
         width="10%"
         field="expiration"
         :label="$t('expiration')"
       >
-        <p
-          v-if="row.expiration"
-          class="capitalize"
-        >
-          {{ row.time }}
+        <p class="capitalize">
+          {{ row.expirationDate ? formatToNow(row.expirationDate) : '--' }}
         </p>
       </NeoTableColumn>
 
@@ -80,7 +77,7 @@
         <OfferOwnerButton
           class="max-md:!w-full"
           :offer="row as NFTOfferItem"
-          @withdraw="withdrawOffer"
+          @click="selectOffer"
         />
       </NeoTableColumn>
     </NeoTable>
@@ -92,10 +89,10 @@
     </div>
   </div>
 
-  <OfferWithdrawModal
+  <OfferOverviewModal
     v-model="isWithdrawOfferModalOpen"
     :offer="selectedOffer!"
-    @close="closeWithdrawModal"
+    @close="closeOfferOverviewModal"
   />
 </template>
 
@@ -106,6 +103,7 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 import type { UnwrapRef } from 'vue'
+import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import formatBalance, {
   formatNumber,
@@ -161,12 +159,12 @@ const formatPrice = (price) => {
   return [formatNumber(tokenAmount), flatPrice]
 }
 
-const withdrawOffer = (offer: NFTOfferItem) => {
+const selectOffer = (offer: NFTOfferItem) => {
   selectedOffer.value = offer
   isWithdrawOfferModalOpen.value = true
 }
 
-const closeWithdrawModal = () => {
+const closeOfferOverviewModal = () => {
   isWithdrawOfferModalOpen.value = false
   selectedOffer.value = undefined
 }
@@ -175,7 +173,7 @@ const closeWithdrawModal = () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.gallery-item-activity-table {
+.gallery-item-offers-table {
   overflow-y: auto;
 
   @include desktop {
@@ -186,7 +184,7 @@ const closeWithdrawModal = () => {
 }
 
 @include touch {
-  .gallery-item-activity-table {
+  .gallery-item-offers-table {
     :deep(.o-table__td) {
       @apply border-inherit;
 
@@ -194,11 +192,6 @@ const closeWithdrawModal = () => {
         font-weight: 400 !important;
       }
     }
-  }
-}
-@include mobile {
-  .padding-top-mobile {
-    padding-top: 0 !important;
   }
 }
 </style>

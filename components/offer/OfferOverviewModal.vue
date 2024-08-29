@@ -4,7 +4,7 @@
       :title="$t('transaction.offerWithdraw')"
       :is-loading="isLoading"
       :status="status"
-      @try-again="cancelOffer"
+      @try-again="execOffer"
     />
 
     <NeoModal
@@ -39,9 +39,9 @@
 
             <div class="flex flex-col gap-2">
               <div class="flex justify-between items-center">
-                <p class="text-k-grey text-xs">
+                <span class="text-k-grey text-xs">
                   {{ $t('amount') }}
-                </p>
+                </span>
 
                 <p class="flex gap-2 items-center">
                   <span>{{ formmatedOffer }}</span>
@@ -49,25 +49,43 @@
                 </p>
               </div>
 
-              <div class="flex justify-between items-center">
-                <p class="text-k-grey text-xs">
+              <div
+                v-if="isWithdrawMode"
+                class="flex justify-between items-center"
+              >
+                <span class="text-k-grey text-xs">
                   {{ $t('expiration') }}
-                </p>
+                </span>
 
-                <p>
-                  {{ offer.time }}
-                </p>
+                <span>
+                  {{ offer.expirationDate ? formatToNow(offer.expirationDate, false) : '' }}
+                </span>
+              </div>
+
+              <div
+                v-if="isAcceptMode"
+                class="flex justify-between items-center"
+              >
+                <span class="text-k-grey text-xs">
+                  {{ $t('offer.floorDifference') }}
+                </span>
+
+                <span>
+                  {{ diff }}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="flex justify-between !pt-5">
-          <NeoButton
-            class="!w-full !border-k-red !bg-k-red-accent-2"
-            variant="outlined-rounded"
-            :label="$t('transaction.offerWithdraw')"
-            @click="cancelOffer"
+        <div
+          v-if="offer"
+          class="flex justify-between !pt-5"
+        >
+          <OfferOwnerButton
+            class="!w-full"
+            :offer="offer"
+            @click="execOffer"
           />
         </div>
       </ModalBody>
@@ -76,12 +94,15 @@
 </template>
 
 <script setup lang="ts">
-import { NeoModal, NeoButton } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import nftById from '@/queries/subsquid/general/nftById.graphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
+import { formatToNow } from '@/utils/format/time'
+
+type OverviewMode = 'withdraw' | 'accept' | 'view'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -91,14 +112,20 @@ const props = defineProps<{
 
 const vModel = useVModel(props, 'modelValue')
 
+const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 const { transaction, isLoading, status } = useTransaction()
+const { isOwnerOfNft } = useIsOffer(computed(() => props.offer), accountId)
 
-const offeredId = ref<number>()
+const offeredItem = ref<number>()
 const subscription = ref(() => {})
 
 const nftId = computed(() => props.offer?.desired.id)
+const mode = computed<OverviewMode>(() => isOwnerOfNft.value ? 'accept' : 'withdraw')
+
+const isWithdrawMode = computed(() => mode.value === 'withdraw')
+const isAcceptMode = computed(() => mode.value === 'accept')
 
 const { data: nft, pending: nftLoading } = await useAsyncData(`offer-nft-id-${nftId.value}`, async () => {
   if (!nftId.value) {
@@ -115,6 +142,18 @@ const { data: nft, pending: nftLoading } = await useAsyncData(`offer-nft-id-${nf
   return data.value.nftEntity
 }, { watch: [nftId] })
 
+const getFormattedDifference = (a: number, b: number) => {
+  const diff = ((b - a) / b) * 100
+
+  return diff > 0
+    ? `-${diff.toFixed()}%`
+    : `+${Math.abs(diff).toFixed()}%`
+}
+
+const floorPrice = computed(() => Number(nft.value?.collection.floorPrice[0].price) || 0)
+
+const diff = computed(() => getFormattedDifference(Number(props.offer?.price || 0), floorPrice.value))
+
 const { formatted: nftFormatted } = useAmount(
   computed(() => nft.value?.price),
   decimals,
@@ -127,18 +166,33 @@ const { formatted: formmatedOffer, usd: offerUsd } = useAmount(
   chainSymbol,
 )
 
-const loading = computed(() => nftLoading.value || !offeredId.value)
+const loading = computed(() => nftLoading.value || !offeredItem.value)
 
-const cancelOffer = () => {
-  if (!offeredId.value) {
+const execOffer = () => {
+  if (!offeredItem.value || !nft.value || !props.offer) {
     return
   }
+
   vModel.value = false
-  transaction({
-    interaction: ShoppingActions.WITHDRAW_OFFER,
-    urlPrefix: urlPrefix.value,
-    offeredId: offeredId.value,
-  })
+
+  if (isWithdrawMode.value) {
+    transaction({
+      interaction: ShoppingActions.WITHDRAW_OFFER,
+      urlPrefix: urlPrefix.value,
+      offeredId: offeredItem.value,
+    })
+  }
+
+  if (isAcceptMode.value) {
+    transaction({
+      interaction: ShoppingActions.ACCEPT_OFFER,
+      urlPrefix: urlPrefix.value,
+      offeredId: offeredItem.value,
+      nftId: nft.value.sn as string,
+      collectionId: nft.value.collection.id as string,
+      price: props.offer.price,
+    })
+  }
 }
 
 watch(() => props.offer, () => {
@@ -152,7 +206,7 @@ watch(() => props.offer, () => {
           sn
         }`,
       onChange: ({ data: { nftEntities } }) => {
-        offeredId.value = nftEntities[0].sn
+        offeredItem.value = nftEntities[0].sn
       },
     })
   }

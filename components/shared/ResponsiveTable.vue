@@ -1,7 +1,14 @@
 <template>
   <div ref="container">
+    <div v-if="loading">
+      <NeoSkeleton
+        animated
+        size="large"
+        :count="3"
+      />
+    </div>
     <div
-      v-if="showNoResults"
+      v-else-if="showNoResults"
       class="flex flex-col items-center justify-center py-8"
     >
       <span class="font-bold text-xl text-center">{{ noResultsMain }}</span>
@@ -23,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import { NeoSkeleton } from '@kodadot1/brick'
+
 const container = ref<HTMLDivElement | null>(null)
 const { variant, desktop } = useResponsive(container)
 
@@ -32,6 +41,7 @@ withDefaults(
     noResultsMain: string
     noResultsSub: string
     showNoResults: boolean
+    loading?: boolean
   }>(),
   {
     items: () => [],

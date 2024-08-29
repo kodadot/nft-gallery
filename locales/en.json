@@ -1357,6 +1357,7 @@
     "transferNft": "Transfer NFT",
     "offer": "Create Offer",
     "offerWithdraw": "Cancel Offer",
+    "offerAccept": "Accept Offer",
     "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
@@ -1637,6 +1638,7 @@
     "yourOfferAmount": "Your Offer Amount" ,
     "yourOffer": "Your Offer",
     "cancelOffer": "Cancel Offer",
+    "floorDifference": "Floor Difference",
     "newOffer": "New Offer"
   },
   "migrate": {

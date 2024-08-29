@@ -8,6 +8,8 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
     caller
     desired {
       id
+      name
+      sn
       currentOwner
     }
   }

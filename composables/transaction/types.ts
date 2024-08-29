@@ -196,9 +196,12 @@ export type ActionWithdrawOffer = {
 }
 
 export type ActionAcceptOffer = {
-  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+  interaction: typeof ShoppingActions.ACCEPT_OFFER
+  urlPrefix: Prefix
   nftId: string
-  maker: string
+  collectionId: string
+  offeredId: number
+  price: string
   successMessage?: string
   errorMessage?: string
 }
@@ -274,6 +277,7 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawOffer
+  | ActionAcceptOffer
   | ActionMintToken
   | ActionMintCollection
   | ActionDeleteCollection
