@@ -1,31 +1,27 @@
 <template>
   <div>
     <div class="flex justify-between py-5 content-center">
-      <div class="flex gap-4 items-center flex-wrap">
+      <div class="flex !gap-4 items-center flex-wrap">
         <FilterButton
           v-for="({ id, icon }) in filters"
           :key="id"
-          :label="id"
           variant="outlined-rounded"
           data-testid="profile-activity-button-filter"
           class="capitalize"
           :icon-left="icon"
           :url-param="id"
-        />
+        >
+          <div class="flex gap-2">
+            <span>{{ id }}</span>
+            <span
+              v-if="counts?.[id]"
+              class="text-k-grey"
+            >
+              ({{ counts[id] || '' }})
+            </span>
+          </div>
+        </FilterButton>
       </div>
-
-      <!-- <Pagination
-        class="max-md:hidden"
-        :value="currentPage"
-        :total="total"
-        :per-page="perPage"
-        :range-before="2"
-        :range-after="2"
-        replace
-        enable-listen-keyboard-event
-        preserve-scroll
-        @input="updateCurrentPage"
-      /> -->
     </div>
 
     <hr class="mb-10 mt-0">
@@ -88,7 +84,6 @@
 
 <script lang="ts" setup>
 import FilterButton from '@/components/profile/FilterButton.vue'
-// import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 
 const filters = [{
   id: 'outgoing',
@@ -136,10 +131,36 @@ const where = computed(() => {
     conditions.push(incoming)
   }
 
+  // if non selected empty results
   return isOutgoingActive.value || isIncomingActive.value ? { OR: conditions } : { AND: [outgoing, incoming] }
 })
 
 const { offers, loading } = useOffers({ where })
+
+const counts = ref<{ incoming: number, outgoing: number }>()
+
+useSubscriptionGraphql({
+  query: `
+    incoming: offersConnection (
+      where: { status_eq: ACTIVE, desired: { currentOwner_eq: "${props.id}" } }
+      orderBy: blockNumber_DESC
+    ) {
+      totalCount
+    }
+    outgoing: offersConnection (
+      where: { status_eq: ACTIVE, caller_eq: "${props.id}" }
+      orderBy: blockNumber_DESC
+    ) {
+      totalCount
+    }
+  `,
+  onChange: ({ data }) => {
+    counts.value = {
+      incoming: data.incoming.totalCount,
+      outgoing: data.outgoing.totalCount,
+    }
+  },
+})
 
 onMounted(() => {
   const noFiltersActive = activeFilters.value.length === 0
@@ -150,9 +171,3 @@ onMounted(() => {
   }
 })
 </script>
-
-<style scoped lang="scss">
-.gap-4 {
-  gap: 1rem;
-}
-</style>

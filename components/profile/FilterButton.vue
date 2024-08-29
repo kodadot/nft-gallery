@@ -4,7 +4,9 @@
     :active="model"
     :label="label"
     @click="model = !model"
-  />
+  >
+    <slot />
+  </NeoButton>
 </template>
 
 <script setup lang="ts">
