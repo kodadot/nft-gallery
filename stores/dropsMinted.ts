@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import type { DropItem } from '@/params/types'
 
+// would be nice if we could receive this from the backend
+// https://github.com/kodadot/private-workers/issues/214
 export const useMintedDropsStore = defineStore('mintedDrops', {
   state: () => ({
     mintedDrops: [] as DropItem[],

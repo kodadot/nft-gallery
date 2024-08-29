@@ -90,6 +90,7 @@ const getLocalDropStatus = (drop: Pick<DropItem, 'dropStartTime' | 'minted' | 'm
 
 export async function getDropAttributes(alias: string): Promise<DropItem | undefined> {
   // get some offchain data
+  // ----------------------
   const campaign = await getDropById(alias)
   const offChainData = {
     id: campaign.id,
@@ -112,6 +113,7 @@ export async function getDropAttributes(alias: string): Promise<DropItem | undef
   }
 
   // get some onchain data
+  // ----------------------
   const { supply, claimed: minted, metadata } = await fetchOdaCollection(campaign.chain, address)
 
   const onChainData = {
@@ -126,6 +128,7 @@ export async function getDropAttributes(alias: string): Promise<DropItem | undef
   }
 
   // additional data
+  // ----------------------
   let dropStartTime = offChainData.start_at ? parseCETDate(offChainData.start_at) : undefined
 
   if (onChainData.minted >= 5) {
