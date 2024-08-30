@@ -44,7 +44,7 @@
         :label="$t('expiration')"
       >
         <p class="capitalize">
-          {{ row.expirationDate ? formatToNow(row.expirationDate) : '--' }}
+          {{ row.expirationDate ? formatToNow(row.expirationDate, false) : '--' }}
         </p>
       </NeoTableColumn>
 
