@@ -26,8 +26,11 @@
         field="price"
         :label="$t('amount')"
       >
-        <p v-if="Number(row.price)">
-          {{ formatPrice(row.price)[0] }} {{ chainSymbol }}
+        <p
+          v-if="Number(row.price)"
+          class="flex gap-2"
+        >
+          <span> {{ formatPrice(row.price)[0] }} {{ chainSymbol }}</span>
           <span class="text-k-grey">
             ${{ formatPrice(row.price)[1] }}</span>
         </p>
@@ -36,7 +39,7 @@
       <!-- expiration -->
       <NeoTableColumn
         v-slot="{ row }: {row: NFTOfferItem}"
-        width="10%"
+        width="15%"
         field="expiration"
         :label="$t('expiration')"
       >
@@ -180,6 +183,13 @@ const closeOfferOverviewModal = () => {
     :deep(table tr > *:first-child) {
       padding-left: 2rem;
     }
+    :deep(table tbody > tr > td) {
+      vertical-align: middle;
+      height: 3.25rem;
+      &:last-child {
+         padding: 0;
+      }
+    }
   }
 }
 
@@ -187,10 +197,18 @@ const closeOfferOverviewModal = () => {
   .gallery-item-offers-table {
     :deep(.o-table__td) {
       @apply border-inherit;
-
+      padding: 0;
       &:before {
         font-weight: 400 !important;
       }
+    }
+
+    :deep(.o-table__td:not(:nth-last-child(1)):not(:nth-last-child(2))) {
+      padding: 0 0 1rem 0;
+    }
+
+    .o-table__td:last-child button {
+      margin-top: 1.5rem
     }
   }
 }
