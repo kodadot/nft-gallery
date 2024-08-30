@@ -1,12 +1,5 @@
 <template>
   <div>
-    <SigningModal
-      :title="details.signingTitle"
-      :is-loading="isLoading"
-      :status="status"
-      @try-again="execOffer"
-    />
-
     <NeoModal
       :value="modelValue"
       append-to-body
@@ -84,8 +77,9 @@
         >
           <OfferOwnerButton
             class="!w-full"
+            :loading="starting"
             :offer="offer"
-            @click="execOffer"
+            @click="execTransaction"
           />
         </div>
       </ModalBody>
@@ -115,11 +109,14 @@ const vModel = useVModel(props, 'modelValue')
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { decimals, chainSymbol } = useChain()
-const { transaction, isLoading, status } = useTransaction()
+const { transaction, status, isError } = useTransaction({ disableSuccessNotification: true })
 const { isOwnerOfNft } = useIsOffer(computed(() => props.offer), accountId)
 const { $i18n } = useNuxtApp()
+const { notification, lastSessionId, updateSession } = useLoadingNotfication()
+const { $i18n: { t } } = useNuxtApp()
 
 const offeredItem = ref<number>()
+const starting = ref(false)
 const subscription = ref(() => {})
 
 const nftId = computed(() => props.offer?.desired.id)
@@ -152,7 +149,7 @@ const getFormattedDifference = (a: number, b: number) => {
 }
 
 const floorPrice = computed(() => Number(nft.value?.collection.floorPrice[0].price) || 0)
-
+const loading = computed(() => nftLoading.value || !offeredItem.value)
 const diff = computed(() => getFormattedDifference(Number(props.offer?.price || 0), floorPrice.value))
 
 const { formatted: nftFormatted } = useAmount(
@@ -167,32 +164,38 @@ const { formatted: formmatedOffer, usd: offerUsd } = useAmount(
   chainSymbol,
 )
 
-const loading = computed(() => nftLoading.value || !offeredItem.value)
-
 const details = computed<{
   title: string
   signingTitle: string
+  notificationTitle: string
 }>(() => {
   if (isMyOffer.value) {
     return {
       title: $i18n.t('offer.yourOffer'),
       signingTitle: $i18n.t('transaction.offerWithdraw'),
+      notificationTitle: $i18n.t('offer.offerWithdrawl'),
     }
   }
   else {
     return {
       title: $i18n.t('offer.incomingOffer'),
       signingTitle: $i18n.t('transaction.offerAccept'),
+      notificationTitle: $i18n.t('transaction.offerAccept'),
     }
   }
 })
 
-const execOffer = () => {
+const onClose = () => {
+  vModel.value = false
+  onModalAnimation(() => emit('close'))
+}
+
+const execTransaction = () => {
   if (!offeredItem.value || !nft.value || !props.offer) {
     return
   }
 
-  vModel.value = false
+  starting.value = true
 
   if (isMyOffer.value) {
     transaction({
@@ -231,10 +234,38 @@ watch(() => props.offer, () => {
   }
 })
 
-const onClose = () => {
-  vModel.value = false
-  onModalAnimation(() => emit('close'))
-}
+useModalIsOpenTracker({
+  isOpen: vModel,
+  onChange: () => {
+    starting.value = false
+  },
+})
+
+useTransactionNotification({
+  status,
+  isError,
+  sessionId: lastSessionId,
+  updateSession,
+  init: () => {
+    vModel.value = false
+    notification(({ isSessionState, notify, session }) => {
+      notify({
+        title: details.value.notificationTitle,
+        state: computed(() => session.value.state),
+        action: computed(() => {
+          if (isSessionState('succeeded')) {
+            return {
+              label: t('offer.manageOffers'),
+              icon: 'arrow-up-right',
+              url: `/${urlPrefix.value}/u/${accountId.value}`,
+            }
+          }
+          return undefined
+        }),
+      })
+    })
+  },
+})
 </script>
 
 <style lang="scss" scoped>

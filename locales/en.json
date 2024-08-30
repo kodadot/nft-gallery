@@ -1640,7 +1640,10 @@
     "cancelOffer": "Cancel Offer",
     "floorDifference": "Floor Difference",
     "newOffer": "New Offer",
-    "incomingOffer": "Incoming Offer"
+    "incomingOffer": "Incoming Offer",
+    "manageOffers": "Manage Offer",
+    "offerWithdrawl": "Offer Cancelation",
+    "offerAccept": "Accepting Offer"
   },
   "migrate": {
     "cta": "Migrate Now",

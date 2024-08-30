@@ -167,17 +167,19 @@ const NotificationStateToVariantMap: Record<
 
 export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
 
+export type LoadingMessageParams = {
+  title: MaybeRef<string>
+  message?: MaybeRef<string | undefined>
+  state: Ref<LoadingNotificationState>
+  action?: Ref<NotificationAction | undefined>
+}
+
 export const loadingMessage = ({
   title,
   message,
   state,
   action,
-}: {
-  title: MaybeRef<string>
-  message?: MaybeRef<string | undefined>
-  state: Ref<LoadingNotificationState>
-  action?: Ref<NotificationAction | undefined>
-}) => {
+}: LoadingMessageParams) => {
   const { $i18n } = useNuxtApp()
   const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
 

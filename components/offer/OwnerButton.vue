@@ -1,7 +1,7 @@
 <template>
   <ProfileButtonConfig
     v-if="buttonConfig"
-    :loading="false"
+    :loading="loading"
     :button="buttonConfig"
   />
 </template>
@@ -10,7 +10,7 @@
 import type { ButtonConfig } from '../profile/types'
 
 const emit = defineEmits(['click'])
-const props = defineProps<{ offer: NFTOfferItem }>()
+const props = defineProps<{ offer: NFTOfferItem, loading: boolean }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
