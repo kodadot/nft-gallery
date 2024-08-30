@@ -323,7 +323,7 @@
             data-testid="profile-tabs"
             :active="activeTab === tab"
             :count="counts[tab]"
-            :show-active-check="false"
+            :show-active-check="tabsWithActiveCheck.includes(tab)"
             :text="tab"
             @click="() => switchToTab(tab)"
           />
@@ -340,7 +340,7 @@
             :active="activeTab === tab"
             :text="tab"
             :count="counts[tab]"
-            :show-active-check="false"
+            :show-active-check="tabsWithActiveCheck.includes(tab)"
             class="capitalize"
             @click="() => switchToTab(tab)"
           />
@@ -497,6 +497,8 @@ const tabs = [
   ProfileTab.ACTIVITY,
   ProfileTab.OFFERS,
 ]
+
+const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
