@@ -20,18 +20,18 @@ export default () => {
   }
 
   const notification = (
-    callback: (params: { notify: typeof loadingMessage, isSessionState: (state: LoadingNotificationState) => boolean, session: Session }) => void,
+    callback: (params: { notify: typeof loadingMessage, isSessionState: (state: LoadingNotificationState) => boolean, session: Session }) => () => void,
   ) => {
     const sessionId = generateSession(ref({ state: 'loading' }))
     const session = getSession(sessionId)
 
     if (!session) {
-      return
+      return () => {}
     }
 
     lastSessionId.value = sessionId
     const isSessionState = (state: LoadingNotificationState) => session.value?.state === state
-    callback({ isSessionState, notify: loadingMessage, session })
+    return callback({ isSessionState, notify: loadingMessage, session })
   }
 
   return {

@@ -2,15 +2,17 @@ type TransactionNotification = {
   status: Ref<TransactionStatus>
   isError: Ref<boolean>
   sessionId: Ref<string | undefined >
-  init: () => void
+  init: () => () => void
   updateSession: ReturnType<typeof useLoadingNotfication>['updateSession']
   initOn?: TransactionStatus[]
 }
 
 export default function ({ status, isError, sessionId, init, updateSession, initOn = [TransactionStatus.Broadcast] }: TransactionNotification) {
+  const closeModal = ref(() => {})
+
   watchEffect(() => {
     if (initOn.includes(status.value)) {
-      init()
+      closeModal.value = init()
       return
     }
   })
@@ -30,7 +32,7 @@ export default function ({ status, isError, sessionId, init, updateSession, init
     },
     onError: () => {
       if (sessionId.value) {
-        updateSession(sessionId.value, { state: 'failed', error: isError.value })
+        closeModal.value?.()
       }
     },
   })

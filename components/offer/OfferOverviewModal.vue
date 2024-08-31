@@ -258,8 +258,8 @@ useTransactionNotification({
   updateSession,
   init: () => {
     vModel.value = false
-    notification(({ isSessionState, notify, session }) => {
-      notify({
+    return notification(({ isSessionState, notify, session }) => {
+      return notify({
         title: details.value.notificationTitle,
         state: computed(() => session.value.state),
         action: computed(() => {
