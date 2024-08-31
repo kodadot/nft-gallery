@@ -234,6 +234,16 @@ watch(() => props.offer, () => {
   }
 })
 
+useTransactionTracker({
+  transaction: {
+    isError,
+    status,
+  },
+  onCancel: () => {
+    starting.value = false
+  },
+})
+
 useModalIsOpenTracker({
   isOpen: vModel,
   onChange: () => {
