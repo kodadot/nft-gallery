@@ -44,8 +44,10 @@ export default function ({
       const newResult = response.data as any
 
       if (!isEqual(newResult, lastQueryResult)) {
-        $consola.log(`[Graphql Subscription] New changes: ${JSON.stringify(newResult)}`)
-        onChange({ data: newResult })
+        if (lastQueryResult !== null) {
+          $consola.log(`[Graphql Subscription] New changes: ${JSON.stringify(newResult)}`)
+          onChange({ data: newResult })
+        }
         lastQueryResult = newResult
       }
     }
