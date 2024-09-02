@@ -3,21 +3,22 @@
     <div class="flex justify-between py-5 content-center">
       <div class="flex !gap-4 items-center flex-wrap">
         <FilterButton
-          v-for="({ id, icon }) in filters"
-          :key="id"
+          v-for="filter in filters"
+          :key="filter.id"
+          v-model="filter.active"
           variant="outlined-rounded"
           data-testid="profile-activity-button-filter"
           class="capitalize"
-          :icon-left="icon"
-          :url-param="id"
+          :icon-left="filter.icon"
+          :url-param="filter.id"
         >
           <div class="flex gap-2">
-            <span>{{ id }}</span>
+            <span>{{ filter.id }}</span>
             <span
-              v-if="counts?.[id]"
+              v-if="counts?.[filter.id]"
               class="text-k-grey"
             >
-              ({{ counts[id] || '' }})
+              ({{ counts[filter.id] || '' }})
             </span>
           </div>
         </FilterButton>
@@ -31,7 +32,7 @@
         :no-results-main="$t('activity.noResults')"
         :no-results-sub="$t('activity.noResultsSub')"
         :items="offers"
-        :show-no-results="!offers.length"
+        :show-no-results="!offers.length || !activeFilters.length"
         :loading="loading"
       >
         <template #columns>
@@ -85,14 +86,6 @@
 <script lang="ts" setup>
 import FilterButton from '@/components/profile/FilterButton.vue'
 
-const filters = [{
-  id: 'outgoing',
-  icon: 'arrow-up',
-}, {
-  id: 'incoming',
-  icon: 'arrow-down',
-}]
-
 const props = defineProps<{
   id: string
 }>()
@@ -102,13 +95,28 @@ const { replaceUrl } = useReplaceUrl()
 
 const selectedOffer = ref<NFTOfferItem>()
 const isOfferModalOpen = ref(false)
+const counts = ref<{ incoming: number, outgoing: number }>()
 
-const activeFilters = computed(() =>
-  filters.filter(queryParam => route.query[queryParam.id] === 'true').map(filter => filter.id),
-)
+const toBoolean = (param: unknown): boolean => param === 'true'
 
+const filters = ref([{
+  id: 'outgoing',
+  icon: 'arrow-up',
+  active: toBoolean(route.query.outgoing),
+}, {
+  id: 'incoming',
+  icon: 'arrow-down',
+  active: toBoolean(route.query.incoming),
+}])
+
+const syncQuery = computed(() => Object.fromEntries(filters.value.map(filter => [filter.id, filter.active])))
+const activeFilters = computed(() => Object.keys(syncQuery.value).filter(queryKey => syncQuery.value[queryKey]))
 const isIncomingActive = computed(() => activeFilters.value.includes('incoming'))
 const isOutgoingActive = computed(() => activeFilters.value.includes('outgoing'))
+
+if (!activeFilters.value.length) {
+  filters.value = filters.value.map(filter => filter.id === 'outgoing' ? ({ ...filter, active: true }) : filter)
+}
 
 const where = computed(() => {
   const conditions = [] as Record<string, unknown>[]
@@ -131,13 +139,14 @@ const where = computed(() => {
     conditions.push(incoming)
   }
 
-  // if non selected empty results
-  return isOutgoingActive.value || isIncomingActive.value ? { OR: conditions } : { AND: [outgoing, incoming] }
+  return { OR: conditions }
 })
 
-const { offers, loading } = useOffers({ where })
+const { offers, loading } = useOffers({ where, disabled: computed(() => !activeFilters.value.length) })
 
-const counts = ref<{ incoming: number, outgoing: number }>()
+watch(syncQuery, () => {
+  replaceUrl(syncQuery.value)
+}, { immediate: true })
 
 useSubscriptionGraphql({
   query: `
@@ -160,14 +169,5 @@ useSubscriptionGraphql({
       outgoing: data.outgoing.totalCount,
     }
   },
-})
-
-onMounted(() => {
-  const noFiltersActive = activeFilters.value.length === 0
-  if (noFiltersActive) {
-    replaceUrl({
-      outgoing: 'true',
-    })
-  }
 })
 </script>

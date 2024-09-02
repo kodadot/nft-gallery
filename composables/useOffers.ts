@@ -22,9 +22,10 @@ export type NFTOfferItem = {
 const BLOCKS_PER_HOUR = 300
 const currentBlock = ref(0)
 
-export default function ({ where = {}, limit = 100 }: {
+export default function ({ where = {}, limit = 100, disabled = computed(() => false) }: {
   where?: MaybeRef<Record<string, unknown>>
   limit?: number
+  disabled?: Ref<boolean>
 }) {
   const variables = computed(() => ({
     where: unref(where),
@@ -62,8 +63,10 @@ export default function ({ where = {}, limit = 100 }: {
   }
 
   if (isRef(where)) {
-    watch(where, () => {
-      refetch(variables.value)
+    watch([where, disabled], () => {
+      if (!disabled.value) {
+        refetch(variables.value)
+      }
     })
   }
 

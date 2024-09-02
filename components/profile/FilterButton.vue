@@ -13,19 +13,31 @@
 import type { NeoButtonVariant } from '@kodadot1/brick'
 import { NeoButton } from '@kodadot1/brick'
 
+const emit = defineEmits(['update:modelValue'])
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
+  modelValue?: boolean
   label?: string
   urlParam: string
   variant?: NeoButtonVariant
-}>()
+}>(), {
+  modelValue: undefined,
+  variant: undefined,
+})
+
+const isModelValue = computed(() => props.modelValue !== undefined)
 
 const model = computed({
-  get: () => route.query[props.urlParam] === 'true',
+  get: () => isModelValue.value ? props.modelValue : route.query[props.urlParam] === 'true',
   set: (val) => {
-    replaceUrl({ [props.urlParam]: val })
+    if (isModelValue.value) {
+      emit('update:modelValue', val)
+    }
+    else {
+      replaceUrl({ [props.urlParam]: val })
+    }
   },
 })
 </script>
