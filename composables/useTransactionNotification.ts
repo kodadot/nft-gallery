@@ -13,7 +13,6 @@ export default function ({ status, isError, sessionId, init, updateSession, init
   watchEffect(() => {
     if (initOn.includes(status.value)) {
       closeModal.value = init()
-      return
     }
   })
 
