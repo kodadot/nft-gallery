@@ -56,7 +56,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     return number.toNumber()
   }
 
-  const loading = computed(() => offers.value.length ? !currentBlock.value : !currentBlock.value || fetching.value)
+  const loading = computed(() => !currentBlock.value || fetching.value)
 
   if (!currentBlock.value) {
     getCurrentBlock().then(b => currentBlock.value = b)
