@@ -111,8 +111,6 @@ const filters = ref([{
 
 const syncQuery = computed(() => Object.fromEntries(filters.value.map(filter => [filter.id, filter.active])))
 const activeFilters = computed(() => Object.keys(syncQuery.value).filter(queryKey => syncQuery.value[queryKey]))
-const isIncomingActive = computed(() => activeFilters.value.includes('incoming'))
-const isOutgoingActive = computed(() => activeFilters.value.includes('outgoing'))
 
 if (!activeFilters.value.length) {
   filters.value = filters.value.map(filter => filter.id === 'outgoing' ? ({ ...filter, active: true }) : filter)
@@ -131,11 +129,11 @@ const where = computed(() => {
     status_eq: 'ACTIVE',
   }
 
-  if (isOutgoingActive.value) {
+  if (activeFilters.value.includes('outgoing')) {
     conditions.push(outgoing)
   }
 
-  if (isIncomingActive.value) {
+  if (activeFilters.value.includes('incoming')) {
     conditions.push(incoming)
   }
 
