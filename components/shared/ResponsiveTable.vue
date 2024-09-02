@@ -1,27 +1,28 @@
 <template>
   <div ref="container">
-    <div v-if="loading">
-      <NeoSkeleton
-        animated
-        size="large"
-        :count="3"
-      />
-    </div>
     <div
-      v-else-if="showNoResults"
+      v-if="showNoResults"
       class="flex flex-col items-center justify-center py-8"
     >
       <span class="font-bold text-xl text-center">{{ noResultsMain }}</span>
       <span class="text-k-grey">{{ noResultsSub }}</span>
     </div>
-    <div v-else-if="items.length > 0">
+    <div v-else-if="items.length > 0 || loading">
       <div
         v-if="desktop"
         class="flex gap-3 pb-3 text-xs text-k-grey"
       >
         <slot name="columns" />
       </div>
+
+      <NeoSkeleton
+        v-if="loading"
+        animated
+        size="large"
+        :count="3"
+      />
       <slot
+        v-else
         name="rows"
         :variant="variant"
       />
