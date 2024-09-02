@@ -2,15 +2,15 @@
   <div>
     <div class="flex justify-between py-5 content-center">
       <div class="flex !gap-4 items-center flex-wrap">
-        <FilterButton
+        <NeoButton
           v-for="filter in filters"
           :key="filter.id"
-          v-model="filter.active"
+          :active="filter.active"
           variant="outlined-rounded"
           data-testid="profile-activity-button-filter"
           class="capitalize"
           :icon-left="filter.icon"
-          :url-param="filter.id"
+          @click="filter.active = !filter.active"
         >
           <div class="flex gap-2">
             <span>{{ filter.id }}</span>
@@ -21,7 +21,7 @@
               ({{ counts[filter.id] || '' }})
             </span>
           </div>
-        </FilterButton>
+        </NeoButton>
       </div>
     </div>
 
@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts" setup>
-import FilterButton from '@/components/profile/FilterButton.vue'
+import { NeoButton } from '@kodadot1/brick'
 
 const props = defineProps<{
   id: string
