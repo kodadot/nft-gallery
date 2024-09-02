@@ -10,7 +10,7 @@
 import type { ButtonConfig } from '../profile/types'
 
 const emit = defineEmits(['click'])
-const props = defineProps<{ offer: NFTOfferItem, loading: boolean }>()
+const props = defineProps<{ offer: NFTOfferItem, loading?: boolean }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
