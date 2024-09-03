@@ -654,7 +654,15 @@ const itemsGridSearch = computed(() => {
 })
 
 const activeTab = computed({
-  get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,
+  get: () => {
+    const tab = route.query.tab as ProfileTab
+
+    if (!tab || !tabs.value.includes(tab)) {
+      return ProfileTab.OWNED
+    }
+
+    return tab
+  },
   set: (val) => {
     replaceUrl({ tab: val })
   },
