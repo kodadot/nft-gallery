@@ -30,9 +30,8 @@
           v-if="Number(row.price)"
           class="flex gap-2"
         >
-          <span> {{ formatPrice(row.price)[0] }} {{ chainSymbol }}</span>
-          <span class="text-k-grey">
-            ${{ formatPrice(row.price)[1] }}</span>
+          <span> {{ format(row.price).amount }} </span>
+          <span class="text-k-grey"> {{ format(row.price).price }} </span>
         </p>
       </NeoTableColumn>
 
@@ -108,24 +107,16 @@ import {
 import type { UnwrapRef } from 'vue'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import formatBalance, {
-  formatNumber,
-  withoutDigitSeparator,
-} from '@/utils/format/balance'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const props = defineProps<{
   nftId: string
 }>()
 
-const fiatStore = useFiatStore()
-const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
+const { format } = useFormatAmount()
+
 const isWithdrawOfferModalOpen = ref(false)
-
-const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]) || 0))
-
 const loading = ref(false)
 const offers = ref<UnwrapRef<ReturnType<typeof useOffers>['offers']>>([])
 const selectedOffer = ref<NFTOfferItem>()
@@ -153,14 +144,6 @@ useSubscriptionGraphql({
     })
   },
 })
-
-const formatPrice = (price) => {
-  const tokenAmount = formatBalance(price, decimals.value, false)
-  const flatPrice = `${formatNumber(
-    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value,
-  )}`
-  return [formatNumber(tokenAmount), flatPrice]
-}
 
 const selectOffer = (offer: NFTOfferItem) => {
   selectedOffer.value = offer

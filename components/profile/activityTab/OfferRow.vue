@@ -197,8 +197,10 @@ const props = defineProps<{
   variant: 'Desktop' | 'Touch'
 }>()
 
-const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
+const { format: formatPrice } = useFormatAmount()
+const { amount, price } = formatPrice(props.offer?.price)
+
 const image = ref()
 const animationUrl = ref()
 const isDesktop = computed(() => props.variant === 'Desktop')
@@ -206,12 +208,6 @@ const isDesktop = computed(() => props.variant === 'Desktop')
 const interactionName = computed(
   () =>
     interactionNameMap()[OfferInteraction],
-)
-
-const { formatted: amount, usd: price } = useAmount(
-  computed(() => props.offer?.price),
-  decimals,
-  chainSymbol,
 )
 
 const getAvatar = async (nft) => {
