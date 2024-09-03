@@ -15,10 +15,10 @@
           <div class="flex gap-2">
             <span>{{ filter.id }}</span>
             <span
-              v-if="counts?.[filter.id]"
+              v-if="offerIds?.[filter.id].length"
               class="text-k-grey"
             >
-              ({{ counts[filter.id] || '' }})
+              ({{ offerIds[filter.id].length || '' }})
             </span>
           </div>
         </NeoButton>
@@ -32,7 +32,7 @@
         :no-results-main="$t('activity.noResults')"
         :no-results-sub="$t('activity.noResultsSub')"
         :items="offers"
-        :show-no-results="!offers.length || !activeFilters.length"
+        :show-no-results="(!offers.length || !activeFilters.length) && !loading"
         :loading="loading"
       >
         <template #columns>
@@ -95,7 +95,7 @@ const { replaceUrl } = useReplaceUrl()
 
 const selectedOffer = ref<NFTOfferItem>()
 const isOfferModalOpen = ref(false)
-const counts = ref<{ incoming: number, outgoing: number }>()
+const offerIds = ref<{ incoming: string[], outgoing: string[] }>()
 
 const toBoolean = (param: unknown): boolean => param === 'true'
 
@@ -111,36 +111,33 @@ const filters = ref([{
 
 const syncQuery = computed(() => Object.fromEntries(filters.value.map(filter => [filter.id, filter.active])))
 const activeFilters = computed(() => Object.keys(syncQuery.value).filter(queryKey => syncQuery.value[queryKey]))
+const isIncomingActive = computed(() => activeFilters.value.includes('incoming'))
+const isOutgoingActive = computed(() => activeFilters.value.includes('outgoing'))
+const loading = computed(() => loadingOffers.value || !offerIds.value)
 
 if (!activeFilters.value.length) {
   filters.value = filters.value.map(filter => filter.id === 'outgoing' ? ({ ...filter, active: true }) : filter)
 }
 
 const where = computed(() => {
+  if (!offerIds.value) {
+    return {}
+  }
+
   const conditions = [] as Record<string, unknown>[]
 
-  const outgoing = {
-    caller_eq: props.id,
-    status_in: ['ACTIVE', 'EXPIRED'],
+  if (isOutgoingActive.value) {
+    conditions.push({ id_in: offerIds.value.outgoing })
   }
 
-  const incoming = {
-    desired: { currentOwner_eq: props.id },
-    status_eq: 'ACTIVE',
-  }
-
-  if (activeFilters.value.includes('outgoing')) {
-    conditions.push(outgoing)
-  }
-
-  if (activeFilters.value.includes('incoming')) {
-    conditions.push(incoming)
+  if (isIncomingActive.value) {
+    conditions.push({ id_in: offerIds.value.incoming })
   }
 
   return { OR: conditions }
 })
 
-const { offers, loading } = useOffers({ where, disabled: computed(() => !activeFilters.value.length) })
+const { offers, loading: loadingOffers, refetch } = useOffers({ where, disabled: computed(() => !activeFilters.value.length || !offerIds.value) })
 
 watch(syncQuery, () => {
   replaceUrl(syncQuery.value)
@@ -148,23 +145,30 @@ watch(syncQuery, () => {
 
 useSubscriptionGraphql({
   query: `
-    incoming: offersConnection (
+    incoming: offers (
       where: { status_eq: ACTIVE, desired: { currentOwner_eq: "${props.id}" } }
       orderBy: blockNumber_DESC
     ) {
-      totalCount
+      id
     }
-    outgoing: offersConnection (
+    outgoing: offers (
       where: { status_in: [ACTIVE, EXPIRED], caller_eq: "${props.id}" }
       orderBy: blockNumber_DESC
     ) {
-      totalCount
+      id
     }
   `,
   onChange: ({ data }) => {
-    counts.value = {
-      incoming: data.incoming.totalCount,
-      outgoing: data.outgoing.totalCount,
+    if (offerIds.value && (
+      (isIncomingActive.value && offerIds.value.incoming.length !== data.incoming.length)
+      || (isOutgoingActive.value && offerIds.value.outgoing.length !== data.outgoing.length))
+    ) {
+      refetch({ where: where.value })
+    }
+
+    offerIds.value = {
+      incoming: data.incoming.map(o => o.id),
+      outgoing: data.outgoing.map(o => o.id),
     }
   },
 })

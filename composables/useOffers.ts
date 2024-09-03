@@ -27,7 +27,7 @@ const currentBlock = ref(0)
 export default function ({ where = {}, limit = 100, disabled = computed(() => false) }: {
   where?: MaybeRef<Record<string, unknown>>
   limit?: number
-  disabled?: Ref<boolean>
+  disabled?: ComputedRef<boolean>
 }) {
   const variables = computed(() => ({
     where: unref(where),
@@ -41,6 +41,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   } = useGraphql<{ offers: NFTOffer[] }>({
     queryName: 'offersList',
     variables: variables.value,
+    disabled,
   })
 
   const offers = computed<NFTOfferItem[]>(() => {
