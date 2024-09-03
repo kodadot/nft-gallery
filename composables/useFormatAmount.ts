@@ -11,8 +11,8 @@ export default function () {
   const format = (tokenAmount: string) => {
     const amount = formatBalance(String(tokenAmount), decimals.value, false)
     return {
-      amount: `${amount} ${chainSymbol.value}`,
-      price: `$${`${formatNumber(Number(withoutDigitSeparator(String(amount))) * tokenPrice.value)}`}`,
+      amount: `${formatNumber(amount)} ${chainSymbol.value}`,
+      price: tokenPrice.value ? `$${`${formatNumber(Number(withoutDigitSeparator(String(amount))) * tokenPrice.value)}`}` : '',
     }
   }
 

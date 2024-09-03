@@ -27,9 +27,8 @@
         :label="$t(`amount`)"
       >
         <p v-if="Number(props.row.meta)">
-          {{ formatPrice(props.row.meta)[0] }} {{ chainSymbol }}
-          <span class="text-k-grey">
-            ${{ formatPrice(props.row.meta)[1] }}</span>
+          {{ formatPrice(props.row.meta).amount }}
+          <span class="text-k-grey">{{ formatPrice(props.row.meta).price }}</span>
         </p>
       </NeoTableColumn>
 
@@ -135,26 +134,18 @@ import itemEvents from '@/queries/subsquid/general/itemEvents.graphql'
 
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { formatToNow } from '@/utils/format/time'
-import formatBalance, {
-  formatNumber,
-  withoutDigitSeparator,
-} from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const dprops = defineProps<{
   nftId: string
   interactions: string[]
 }>()
 
-const { decimals, chainSymbol } = useChain()
 const { urlPrefix, client } = usePrefix()
-const fiatStore = useFiatStore()
-
-const tokenPrice = computed(() => Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]) || 0))
+const { format: formatPrice } = useFormatAmount()
 
 const interaction = computed(() =>
   dprops.interactions.map((key) => {
@@ -212,14 +203,6 @@ watchEffect(() => {
     events.value = itemEvents.events
   }
 })
-
-const formatPrice = (price) => {
-  const tokenAmount = formatBalance(price, decimals.value, false)
-  const flatPrice = `${formatNumber(
-    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value,
-  )}`
-  return [formatNumber(tokenAmount), flatPrice]
-}
 </script>
 
 <style lang="scss" scoped>
