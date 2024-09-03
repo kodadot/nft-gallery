@@ -465,6 +465,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
+import { offerVisible } from '@/utils/config/permission.config'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -490,13 +491,20 @@ const socials = {
   },
 }
 
-const tabs = [
-  ProfileTab.OWNED,
-  ProfileTab.CREATED,
-  ProfileTab.COLLECTIONS,
-  ProfileTab.ACTIVITY,
-  ProfileTab.OFFERS,
-]
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  return tabs
+})
 
 const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
