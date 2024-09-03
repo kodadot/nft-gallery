@@ -121,7 +121,7 @@ const where = computed(() => {
 
   const outgoing = {
     caller_eq: props.id,
-    status_eq: 'ACTIVE',
+    status_in: ['ACTIVE', 'EXPIRED'],
   }
 
   const incoming = {
@@ -155,7 +155,7 @@ useSubscriptionGraphql({
       totalCount
     }
     outgoing: offersConnection (
-      where: { status_eq: ACTIVE, caller_eq: "${props.id}" }
+      where: { status_in: [ACTIVE, EXPIRED], caller_eq: "${props.id}" }
       orderBy: blockNumber_DESC
     ) {
       totalCount

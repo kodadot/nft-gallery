@@ -76,7 +76,7 @@
       <div class="h-[50px] flex items-center">
         <div v-if="offer.expirationDate">
           <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-          <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, false) }})</span>
+          <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
         </div>
         <span v-else>
           {{ blank }}
@@ -141,7 +141,7 @@
       </div>
       <div v-if="offer.expirationDate">
         <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-        <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, false) }})</span>
+        <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
       </div>
       <span v-else>
         {{ blank }}
@@ -204,6 +204,7 @@ const { amount, price } = formatPrice(props.offer?.price)
 const image = ref()
 const animationUrl = ref()
 const isDesktop = computed(() => props.variant === 'Desktop')
+const isExpired = computed(() => props.offer.status === 'EXPIRED')
 
 const interactionName = computed(
   () =>

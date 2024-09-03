@@ -1,11 +1,13 @@
 import { addHours } from 'date-fns'
 
+type NFTOfferStatus = 'ACTIVE' | 'EXPIRED' | 'WITHDRAWN' | 'ACCEPTED'
+
 type NFTOffer = {
   id: string
   price: string
   expiration: string
   blockNumber: string
-  status: string
+  status: NFTOfferStatus
   caller: string
   desired: {
     id: string
