@@ -333,19 +333,21 @@
             class="ml-6"
           />
         </div>
-        <div class="flex flex-row is-hidden-widescreen mobile">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            :active="activeTab === tab"
-            :text="tab"
-            :count="counts[tab]"
-            :show-active-check="tabsWithActiveCheck.includes(tab)"
-            class="capitalize"
-            @click="() => switchToTab(tab)"
-          />
-          <div class="flex mt-4 flex-wrap">
-            <ChainDropdown class="mr-4" />
+        <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
+          <div class="flex flex-wrap">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              :active="activeTab === tab"
+              :text="tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              class="capitalize !w-[50%]"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <ChainDropdown />
             <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
           </div>
         </div>
