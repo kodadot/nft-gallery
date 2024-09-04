@@ -124,17 +124,17 @@ const where = computed(() => {
     return {}
   }
 
-  const conditions = [] as Record<string, unknown>[]
+  const id_in = [] as string[][]
 
   if (isOutgoingActive.value) {
-    conditions.push({ id_in: offerIds.value.outgoing })
+    id_in.push(offerIds.value.outgoing)
   }
 
   if (isIncomingActive.value) {
-    conditions.push({ id_in: offerIds.value.incoming })
+    id_in.push(offerIds.value.incoming)
   }
 
-  return { OR: conditions }
+  return { id_in: id_in.flat() }
 })
 
 const { offers, loading: loadingOffers, refetch } = useOffers({ where, disabled: computed(() => !activeFilters.value.length || !offerIds.value) })
