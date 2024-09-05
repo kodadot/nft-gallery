@@ -8,31 +8,13 @@ import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import { getMetadata } from '@/services/imageWorker'
 import { DYNAMIC_METADATA } from '@/services/fxart'
 
-export type NftResources = {
-  id: string
-  src?: string
-  thumb?: string
-  mimeType?: string
-  animation?: string
-  meta?: {
-    id: string
-    image?: string
-    animationUrl?: string
-  }
-}
-
-export type ItemResources = {
-  mediaUri?: string
-  resources?: NftResources[]
-}
-
 type baseMimeType = {
   imageMimeType?: string
   animationUrlMimeType?: string
 }
 
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: BaseNFTMeta } & ItemResources &
+  NFTMetadata & { meta: BaseNFTMeta } &
   baseMimeType
 
 export type MinimalNFT = {
@@ -42,7 +24,7 @@ export type MinimalNFT = {
   description?: string
   metadata: string
   meta: BaseNFTMeta
-} & ItemResources
+}
 
 export type TokenEntity = {
   id: string

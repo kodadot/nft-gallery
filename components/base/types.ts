@@ -1,5 +1,4 @@
 import type { Prefix } from '@kodadot1/static'
-import type { ItemResources } from '@/composables/useNft'
 
 export type BaseMintedCollection = {
   id: string
@@ -18,7 +17,7 @@ export type BaseTokenType<T = BaseMintedCollection> = {
   secondFile: File | null
 }
 
-export interface CarouselNFT extends ItemResources {
+export interface CarouselNFT {
   currentOwner: string
   id: string
   image: string
