@@ -18,7 +18,6 @@
         class="relative"
         :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }"
       >
-        {{ nft }}
         <MediaItem
           :key="nft.meta.image"
           class="nft-media"
