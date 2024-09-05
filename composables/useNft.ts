@@ -96,7 +96,7 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
 
   return {
     ...nft,
-    name: nameWithIndex(name, nft.sn) || nft.id,
+    name,
     description,
     image,
     animationUrl,

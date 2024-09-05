@@ -23,7 +23,7 @@
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
         >
           <span class="ml-5 font-bold is-clipped">
-            {{ nameWithIndex(event.Item.name, event.Item.sn) }}
+            {{ event.Item.name }}
           </span>
         </nuxt-link>
       </div>
@@ -129,7 +129,7 @@
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
         >
           <span class="font-bold">
-            {{ nameWithIndex(event.Item.name, event.Item.sn) }}
+            {{ event.Item.name }}
           </span>
         </nuxt-link>
 
@@ -208,7 +208,6 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { nameWithIndex } from '@/utils/nft'
 
 const props = defineProps<{
   event: Event

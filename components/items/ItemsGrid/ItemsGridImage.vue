@@ -7,7 +7,6 @@
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
     :hide-media-info="hideMediaInfo"
-    :display-name-with-sn="displayNameWithSn"
     :show-timestamp="showTimestamp"
     :collection-popover-hide="collectionPopoverHide"
     :lazy-loading="lazyLoading"
@@ -109,7 +108,6 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
-  displayNameWithSn?: boolean
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
   lazyLoading?: boolean

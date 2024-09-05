@@ -18,6 +18,7 @@
         class="relative"
         :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }"
       >
+        {{ nft }}
         <MediaItem
           :key="nft.meta.image"
           class="nft-media"
@@ -55,7 +56,6 @@
         v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
-        :display-name-with-sn="displayNameWithSn"
         :prefix="prefix"
         :show-price="showPrice"
         :show-timestamp="showTimestamp"
@@ -142,7 +142,6 @@ const props = withDefaults(
     mediaStaticVideo?: boolean
     hideMediaInfo?: boolean
     linkTo?: string
-    displayNameWithSn?: boolean
     lazyLoading?: boolean
   }>(),
   {

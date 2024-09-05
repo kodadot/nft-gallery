@@ -257,10 +257,7 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() =>
-  nameWithIndex(
-    nftMetadata.value?.name || nft.value?.name || '',
-    nft.value?.sn,
-  ),
+  nftMetadata.value?.name || nft.value?.name || '',
 )
 const seoDescription = computed(
   () => convertMarkdownToText(nftMetadata.value?.description) || '',
