@@ -16,12 +16,9 @@
         shoppingCartStore.isItemInCart(nft.id)
         || listingCartStore.isItemInCart(nft.id),
     }"
-    :card-icon="showCardIcon"
-    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
-    :media-player-cover="mediaPlayerCover"
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play
   >
@@ -94,7 +91,6 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
-import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
@@ -120,12 +116,6 @@ const props = defineProps<{
   skeletonVariant: string
 }>()
 
-const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
-
-const { nft: nftMetadata } = useNftMetadata(props.nft)
-
-const mediaPlayerCover = computed(() => nftMetadata.value?.image)
-
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
 })
@@ -146,8 +136,6 @@ const listLabel = computed(() => {
     : $i18n.t('listingCart.listForSale')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
-
-const { nft } = useNft(props.nft)
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 

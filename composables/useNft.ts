@@ -1,12 +1,8 @@
 import unionBy from 'lodash/unionBy'
-import type { Ref } from 'vue'
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
-import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
-import { getMetadata } from '@/services/imageWorker'
-import { DYNAMIC_METADATA } from '@/services/fxart'
+import { fetchOdaToken } from '@/services/oda'
 
 type baseMimeType = {
   imageMimeType?: string
@@ -65,25 +61,38 @@ function getAttributes(nft, metadata) {
     : attr
 }
 
-async function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
-  let name = nft.name || nft.meta.name
-  let description = nft.description || nft.meta.description
-  let image = sanitizeIpfsUrl(nft.meta.image)
-  let animationUrl = sanitizeIpfsUrl(
+async function getMetadata(nft) {
+  const { urlPrefix } = usePrefix()
+  const getMetadata = await fetchOdaToken(urlPrefix.value, nft.collection.id, nft.sn)
+  const metadata = getMetadata.metadata
+
+  return {
+    ...nft,
+    image: metadata.image,
+    animationUrl: metadata.animation_url,
+    meta: {
+      image: metadata.image,
+      animationUrl: metadata.animation_url,
+    },
+  }
+}
+
+export async function getNftMetadata<T extends NFTWithMetadata>(
+  nft: T,
+) {
+  if (!nft.meta?.image) {
+    // get metadata from onchain
+    return await getMetadata(nft)
+  }
+
+  // return metadata from indexer
+  const name = nft.name || nft.meta.name
+  const description = nft.description || nft.meta.description
+  const image = sanitizeIpfsUrl(nft.meta.image)
+  const animationUrl = sanitizeIpfsUrl(
     nft.meta.animation_url || nft.meta.animationUrl || '',
   )
-  let type = nft.meta.type
-
-  if (nft.metadata !== nft.meta.id && nft.metadata) {
-    const metadataUrl = sanitizeIpfsUrl(nft.metadata)
-    const res = await getMetadata(metadataUrl)
-
-    name = res.name
-    description = res.description
-    image = sanitizeIpfsUrl(res.image)
-    animationUrl = sanitizeIpfsUrl(res.animationUrl)
-    type = res.type
-  }
+  const type = nft.meta.type
 
   return {
     ...nft,
@@ -93,132 +102,5 @@ async function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
     animationUrl,
     type: type || '',
     attributes: getAttributes(nft, nft.metadata || nft.meta),
-  }
-}
-
-export function useNftCardIcon<
-  T extends {
-    meta: {
-      animationUrl?: string
-    }
-  },
->(nft: Ref<T>) {
-  const isAudio = ref(false)
-  const { unlockableIcon } = useIcon()
-
-  const cardIcon = computed(() => {
-    if (isAudio) {
-      return '/sound.svg'
-    }
-    return unlockableIcon.value
-  })
-
-  watchEffect(async () => {
-    const { isAudio: audio } = await useNftMimeType(nft)
-    isAudio.value = audio
-  })
-
-  return { showCardIcon: isAudio, cardIcon }
-}
-
-export async function useNftMimeType<
-  T extends {
-    meta: {
-      animationUrl?: string
-    }
-  },
->(nft?: Ref<T>) {
-  if (!nft?.value.meta?.animationUrl) {
-    return {
-      isAudio: false,
-    }
-  }
-
-  const mimeType = await getMimeType(
-    sanitizeIpfsUrl(nft.value.meta.animationUrl),
-  )
-
-  return {
-    isAudio: isAudioMimeType(mimeType),
-  }
-}
-
-async function getRmrk2Resources<T extends NFTWithMetadata>(nft: T) {
-  const thumb = nft.resources?.[0]?.thumb
-  const src = nft.resources?.[0]?.src
-  const image = sanitizeIpfsUrl(thumb || src || '')
-  const type = await getMimeType(image)
-
-  return {
-    ...(await getGeneralMetadata(nft)),
-    image,
-    type,
-  }
-}
-
-async function getProcessMetadata<T extends NFTWithMetadata>(nft: T) {
-  const metadata = await processSingleMetadata<NFTMetadata>(nft.metadata)
-  const image = sanitizeIpfsUrl(
-    metadata.image || metadata.mediaUri || metadata.thumbnailUri || '',
-  )
-  const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
-
-  return {
-    ...nft,
-    name:
-      nameWithIndex(nft.name || metadata.name, nft.sn || metadata.sn) || nft.id,
-    description: nft.description || metadata.description || '',
-    image,
-    animationUrl,
-    type: metadata.type || '',
-    attributes: getAttributes(nft, metadata),
-  }
-}
-
-export async function getNftMetadata<T extends NFTWithMetadata>(
-  nft: T,
-  prefix: string,
-  unify = false,
-) {
-  const ignoreMetadata = [DYNAMIC_METADATA, 'dyndata']
-  const checkMetadata = ignoreMetadata.some(item =>
-    (nft.metadata || nft.meta?.id)?.includes(item),
-  )
-  if (unify && !checkMetadata) {
-    return await getMetadata(sanitizeIpfsUrl(nft.metadata || nft.meta.id))
-  }
-
-  // if subsquid already give us the metadata, we don't need to fetch it again
-  if (nft.meta?.image) {
-    return await getGeneralMetadata(nft)
-  }
-
-  // if it's rmrk2, we need to check `resources` field
-  if (prefix === 'ksm' && nft.resources?.length) {
-    return await getRmrk2Resources(nft)
-  }
-
-  return await getProcessMetadata(nft)
-}
-
-export default function useNftMetadata<T extends NFTWithMetadata>(nft: T) {
-  const item = ref<
-    T & {
-      name: string
-      description: string
-      image: string
-      animationUrl: string
-      type: string
-      attributes: unknown
-    }
-  >()
-  const { urlPrefix } = usePrefix()
-
-  onMounted(async () => {
-    item.value = await getNftMetadata(nft, urlPrefix.value)
-  })
-
-  return {
-    nft: computed(() => item.value),
   }
 }

@@ -4,11 +4,7 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 export const parseNftAvatar = async (
   entity: EntityWithMeta,
 ): Promise<string> => {
-  const { urlPrefix } = usePrefix()
-  const meta = await getNftMetadata(
-    entity as unknown as NFTWithMetadata,
-    urlPrefix.value,
-  )
+  const meta = await getNftMetadata(entity as unknown as NFTWithMetadata)
   return meta.image
 }
 

@@ -19,14 +19,14 @@
         :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }"
       >
         <MediaItem
-          :key="nft.image"
+          :key="nft.meta.image"
           class="nft-media"
           :class="{
             'stacked-shadow relative theme-background border border-stacked':
               isStacked,
           }"
-          :src="nft.image"
-          :animation-src="nft.animationUrl"
+          :src="sanitizeIpfsUrl(nft.meta.image)"
+          :animation-src="sanitizeIpfsUrl(nft.meta.animationUrl)"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"

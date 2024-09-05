@@ -31,12 +31,3 @@ export async function getCloudflareMp4(url): Promise<StreamDownload> {
 
   return video as StreamDownload
 }
-
-export async function getMetadata(url: string) {
-  workerUrl.pathname = '/metadata'
-  workerUrl.searchParams.set('url', url)
-
-  const metadata = await $fetch(workerUrl.toString())
-
-  return metadata as unknown as NFTWithMetadata
-}

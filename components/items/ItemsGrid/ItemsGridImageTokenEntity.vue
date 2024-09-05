@@ -14,12 +14,10 @@
         shoppingCartStore.isItemInCart(nftForShoppingCart.id)
         || listingCartStore.isItemInCart(entity.id),
     }"
-    :card-icon="showCardIcon"
-    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
-    :media-player-cover="mediaPlayerCover"
+    :media-player-cover="entity.image"
     :media-static-video="hideVideoControls"
     :lazy-loading="lazyLoading"
     media-hover-on-cover-play
@@ -108,8 +106,6 @@ import {
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 
-import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
-
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
@@ -141,10 +137,6 @@ const {
 } = useNftActions(props.entity)
 const cheapestNFT = ref<NFTWithMetadata>()
 
-const { showCardIcon, cardIcon } = await useNftCardIcon(
-  computed(() => props.entity),
-)
-
 const linkTo = computed(() =>
   isStack.value
     ? `/${urlPrefix.value}/collection/${props.entity.collection.id}`
@@ -154,10 +146,6 @@ const linkTo = computed(() =>
 const variant = computed(() =>
   isStack.value ? `stacked-${props.variant}` : props.variant,
 )
-
-const { nft: nftMetadata } = useNftMetadata(props.entity)
-
-const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
@@ -189,8 +177,6 @@ const listLabel = computed(() => {
 
   return isInCart ? label + ' ✓' : label
 })
-
-const { nft: entity } = useNft(props.entity)
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({

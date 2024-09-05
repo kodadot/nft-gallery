@@ -231,7 +231,7 @@ const interactionName = computed(
 
 const getAvatar = async () => {
   if (props.event.Item) {
-    const meta = await getNftMetadata(props.event.Item, urlPrefix.value)
+    const meta = await getNftMetadata(props.event.Item)
     image.value = meta.image
     animationUrl.value = meta.animationUrl
   }
