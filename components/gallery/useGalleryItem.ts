@@ -88,7 +88,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     })
   })
 
+  const { isRemark } = useIsChain(usePrefix().urlPrefix)
   onBeforeMount(async () => {
+    if (isRemark.value) {
+      return
+    }
+
     const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
     const metadata = getMetadata.metadata
     nftMetadata.value = metadata
