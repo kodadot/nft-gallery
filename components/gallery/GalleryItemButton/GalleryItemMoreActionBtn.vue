@@ -43,6 +43,10 @@
       <NeoDropdownItem disabled>
         Report
       </NeoDropdownItem>
+
+      <NeoDropdownItem @click="refreshMetadata">
+        Refresh Metadata
+      </NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
@@ -54,6 +58,7 @@ import { downloadImage } from '@/utils/download'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
+import { refreshOdaTokenMetadata } from '@/services/oda'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
@@ -150,5 +155,12 @@ const unlist = () => {
     successMessage: $i18n.t('transaction.unlist.success') as string,
     errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
+}
+
+const refreshMetadata = async () => {
+  if (props.collectionId && props.nftSn) {
+    await refreshOdaTokenMetadata(urlPrefix.value, props.collectionId!, props.nftSn!)
+    window.location.reload()
+  }
 }
 </script>
