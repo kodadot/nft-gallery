@@ -229,34 +229,6 @@
         >{{ metadataMimeType }}</a>
       </div>
     </NeoTabItem>
-
-    <!-- parent tab -->
-    <div v-if="parent">
-      <NeoTabItem
-        value="3"
-        :label="$t('tabs.parent')"
-        class="p-5"
-      >
-        <nuxt-link :to="parentNftUrl">
-          <BaseMediaItem
-            :key="parent?.nftImage"
-            :class="{
-              'flex items-center justify-center h-audio':
-                resolveMedia(parent?.nftMimeType.value) == MediaType.AUDIO,
-            }"
-            class="gallery-parent-item"
-            :src="parent?.nftImage.value"
-            :animation-src="parent?.nftAnimation.value"
-            :title="parent?.nftMetadata?.value?.name"
-            enable-normal-tag
-            is-detail
-          />
-          <p class="gallery-parent-item__name">
-            {{ parent?.nftMetadata?.value?.name }}
-          </p>
-        </nuxt-link>
-      </NeoTabItem>
-    </div>
   </NeoTabs>
 </template>
 
@@ -268,31 +240,21 @@ import {
   NeoTabs,
   NeoTooltip,
 } from '@kodadot1/brick'
-import type { GalleryItem } from './useGalleryItem'
-import { useGalleryItem } from './useGalleryItem'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
-
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
-import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
+import { useNftStore } from '@/stores/nft'
 
 const { urlPrefix } = usePrefix()
 
-const props = defineProps<{
-  galleryItem: GalleryItem
-}>()
-
-const getValue = prop => computed(() => props.galleryItem[prop].value)
-
-const nft = getValue('nft')
-const nftMetadata = getValue('nftMetadata')
-const nftMimeType = getValue('nftMimeType')
-const nftImage = getValue('nftImage')
-const nftAnimation = getValue('nftAnimation')
-const nftAnimationMimeType = getValue('nftAnimationMimeType')
+const nftStore = useNftStore()
+const nft = computed(() => nftStore.nft)
+const nftMetadata = computed(() => nftStore.nftMetadata)
+const nftMimeType = computed(() => nftStore.nftMimeType)
+const nftImage = computed(() => nftStore.nftImage)
+const nftAnimation = computed(() => nftStore.nftAnimation)
+const nftAnimationMimeType = computed(() => nftStore.nftAnimationMimeType)
 
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
@@ -302,7 +264,6 @@ const descSource = computed(() => {
     nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
   )
 })
-const parent = computed(() => nft.value?.parent?.id ? useGalleryItem(nft.value?.parent?.id) : undefined)
 const isLewd = computed(() => {
   return Boolean(
     properties.value?.find((item) => {
@@ -326,28 +287,17 @@ const recipient = computed(() => {
 
 defineExpose({ isLewd })
 
-const parentNftUrl = computed(() => {
-  if (parent.value) {
-    const url = inject('itemUrl', 'gallery') as string
-
-    return `/${urlPrefix.value}/${url}/${parent.value?.nft.value?.id}`
-  }
-
-  return ''
-})
-
 const properties = computed(() => {
-  const attributes = (nftMetadata.value?.attributes
-    || nftMetadata.value?.meta?.attributes
-    || []) as Array<{
+  const attributes = nftMetadata.value?.attributes || [] as Array<{
     trait?: string
     trait_type: string
     value: string
     key?: string
   }>
+
   return attributes.map(({ trait, trait_type, key, value }) => ({
-    trait_type: trait || trait_type || key,
-    value,
+    trait_type: trait || trait_type || key || '',
+    value: value || '',
   }))
 })
 
@@ -366,7 +316,7 @@ const isCloudflareStream = (url: string) => url.includes('cloudflarestream.com')
 
 const mediaUrl = computed(() => {
   if (isCloudflareStream(nftImage.value)) {
-    return sanitizeIpfsUrl(nft.value.meta?.image)
+    return sanitizeIpfsUrl(nft.value?.meta?.image)
   }
 
   return nftImage.value
@@ -374,7 +324,7 @@ const mediaUrl = computed(() => {
 
 const animatedMediaUrl = computed(() => {
   if (isCloudflareStream(nftAnimation.value)) {
-    return sanitizeIpfsUrl(nft.value.meta?.animation_url)
+    return sanitizeIpfsUrl(nft.value?.meta?.animation_url)
   }
 
   return nftAnimation.value

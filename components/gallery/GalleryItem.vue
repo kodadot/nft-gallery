@@ -23,37 +23,7 @@
             <NeoIcon icon="chevron-left" />
             {{ $t('go back') }}
           </NeoButton>
-          <!-- media item -->
-          <div
-            v-if="hasResources"
-            class="gallery-item-carousel"
-          >
-            <NeoCarousel
-              v-model="activeCarousel"
-              indicators-class="mt-4"
-              indicator-item-class="mx-1"
-            >
-              <NeoCarouselItem
-                v-for="resource in nftResources"
-                :key="resource.id"
-              >
-                <BaseMediaItem
-                  :key="resource.src"
-                  :src="getMediaSrc(resource.src)"
-                  :mime-type="resource.mimeType"
-                  :animation-src="resource.animation"
-                  :audio-player-cover="galleryItem.nftImage.value"
-                  :image-component="NuxtImg"
-                  :is-fullscreen="isFullscreen"
-                  :sizes="sizes"
-                  enable-normal-tag
-                  is-detail
-                />
-              </NeoCarouselItem>
-            </NeoCarousel>
-          </div>
           <BaseMediaItem
-            v-else
             :key="image"
             ref="mediaItemRef"
             class="gallery-item-media relative"
@@ -111,10 +81,7 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton
-                v-if="!nft?.burned"
-                :gallery-item="galleryItem"
-              />
+              <GalleryItemButton v-if="!nft?.burned" />
             </div>
 
             <div
@@ -180,17 +147,11 @@
 
     <div class="flex flex-col lg:flex-row gap-8 mt-8 lg:pb-2">
       <div class="w-full lg:w-2/5 lg:pr-4">
-        <GalleryItemDescription
-          ref="galleryDescriptionRef"
-          :gallery-item="galleryItem"
-        />
+        <GalleryItemDescription ref="galleryDescriptionRef" />
       </div>
 
       <div class="w-full lg:w-3/5 gallery-item-tabs-panel-wrapper">
-        <GalleryItemTabsPanel
-          :active-tab="activeTab"
-          :gallery-item="galleryItem"
-        />
+        <GalleryItemTabsPanel :active-tab="activeTab" />
       </div>
     </div>
 
@@ -206,33 +167,25 @@
 </template>
 
 <script setup lang="ts">
-import {
-  NeoButton,
-  NeoCarousel,
-  NeoCarouselItem,
-  NeoIcon,
-} from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useFullscreen, useWindowSize } from '@vueuse/core'
-
-import { useGalleryItem } from './useGalleryItem'
-
+import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
-import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import UnlockableTag from './UnlockableTag.vue'
 import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
-
-import { convertMarkdownToText } from '@/utils/markdown'
-import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
-import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
-import { usePreferencesStore } from '@/stores/preferences'
 import { MediaType } from '@/components/rmrk/types'
+import { usePreferencesStore } from '@/stores/preferences'
+import { exist } from '@/utils/exist'
+import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { resolveMedia } from '@/utils/gallery/media'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
+import { convertMarkdownToText } from '@/utils/markdown'
+import { generateNftImage } from '@/utils/seoImageGenerator'
+import { useNftStore } from '@/stores/nft'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -249,16 +202,14 @@ const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
 
-const galleryItem = useGalleryItem()
-const {
-  nft,
-  nftMetadata,
-  nftImage,
-  nftAnimation,
-  nftAnimationMimeType,
-  nftMimeType,
-  nftResources,
-} = galleryItem
+const nftStore = useNftStore()
+const nft = computed(() => nftStore.nft)
+const nftMetadata = computed(() => nftStore.nftMetadata)
+const nftImage = computed(() => nftStore.nftImage)
+const nftAnimation = computed(() => nftStore.nftAnimation)
+const nftAnimationMimeType = computed(() => nftStore.nftAnimationMimeType)
+const nftMimeType = computed(() => nftStore.nftMimeType)
+
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
@@ -271,12 +222,6 @@ const tabs = {
   chart: '2',
 }
 const activeTab = ref(tabs.activity)
-
-const activeCarousel = ref(0)
-
-const hasResources = computed(
-  () => nftResources.value && nftResources.value?.length > 1,
-)
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
