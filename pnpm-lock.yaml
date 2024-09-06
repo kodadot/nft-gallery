@@ -48,8 +48,8 @@ importers:
         specifier: 5.0.0-alpha.6
         version: 5.0.0-alpha.6(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(rollup@4.18.0)(typescript@5.5.3)(vue@3.4.31(typescript@5.5.3))
       '@paraspell/sdk':
-        specifier: ^5.7.0
-        version: 5.7.0(@polkadot/api-base@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/api@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/apps-config@0.138.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-is@18.2.0)(react@18.2.0)(utf-8-validate@5.0.10))(@polkadot/types@11.2.1)(@polkadot/util@12.6.2)(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)
+        specifier: ^5.10.0
+        version: 5.10.0(@polkadot/api-base@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/api@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/apps-config@0.138.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-is@18.2.0)(react@18.2.0)(utf-8-validate@5.0.10))(@polkadot/types@11.2.1)(@polkadot/util@12.6.2)(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.18.0)(typescript@5.5.3)(vue@3.4.31(typescript@5.5.3))
@@ -2703,13 +2703,13 @@ packages:
   '@parallel-finance/type-definitions@2.0.1':
     resolution: {integrity: sha512-fC1QfhFFd8oSZqdIh6kmoMNvTxZdQGw1sTAbdYSINyVxyCxKiDg47ZP9bAZFDexL7POqnXnn4pYM7kUAnsT+8Q==}
 
-  '@paraspell/sdk@5.7.0':
-    resolution: {integrity: sha512-shvT79eN1Opx073g+qUNA1pD4uFy/JlON8tCyc0lvbPV3otU/Xc+/j24MdBtLtunvfr0aInNcFIglA9xc43PmA==}
+  '@paraspell/sdk@5.10.0':
+    resolution: {integrity: sha512-FCi37juuEMOt1hjIoSQlWlq6Ml/5Rkb+Q1sD8Dk/d9whiGMKtIy+IvoOB+UGlSYsXAG4uie96LDPHsFD5Pa/5g==}
     peerDependencies:
-      '@polkadot/api': ^12.2.2
-      '@polkadot/api-base': ^12.2.2
-      '@polkadot/apps-config': ^0.142.1
-      '@polkadot/types': ^12.2.2
+      '@polkadot/api': ^12.4.2
+      '@polkadot/api-base': ^12.4.2
+      '@polkadot/apps-config': ^0.143.2
+      '@polkadot/types': ^12.4.2
       '@polkadot/util': ^13.0.2
 
   '@parcel/watcher-android-arm64@2.4.1':
@@ -4119,11 +4119,11 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@snowbridge/api@0.1.17':
-    resolution: {integrity: sha512-uu/Ng+S16YVRqN92Y4skREZyf8CNs/iQGuxomB4FYhnJVY9BZU7J3M3+rWEQpxQfL79tQlp5iFcqknNNnNNn/w==}
+  '@snowbridge/api@0.1.19':
+    resolution: {integrity: sha512-bLvYJdgxl3cNMvyBM73M6CE0Quzjg9mgt2zEaW3iftft0RrV2jl/Urwfa9S+kPQjHLW/Jc/YVoLY89sPg2RaFg==}
 
-  '@snowbridge/contract-types@0.1.17':
-    resolution: {integrity: sha512-obMU6z4RfJSh3fmXbmmHhlLl7J55K6ItzJYkE92aQcVG7LE3f+4DyEiWBwkkp2Ijb2+AJLCByld582XfFmnTVA==}
+  '@snowbridge/contract-types@0.1.19':
+    resolution: {integrity: sha512-eXLRkqD/6Ehicmkmnz76A5GQa34Kfdn2k9hjH2y64Q0A7y42uVFN7ACKOTYUhMXBbf9J9CI0sh2MFNpX1q/C7w==}
 
   '@snowfork/snowbridge-types@0.2.7':
     resolution: {integrity: sha512-Dz3OM8xvYhzL7XU/QOjgyPWZI4IgPKGByaJo6eZe3UMS6F7TLaFaZW1oYhQVTTahGWWAE6ZwwCuMkVh2FC/9bw==}
@@ -14220,7 +14220,7 @@ snapshots:
       '@motionone/easing': 10.18.0
       '@motionone/types': 10.17.1
       '@motionone/utils': 10.18.0
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/dom@10.18.0':
     dependencies:
@@ -14229,23 +14229,23 @@ snapshots:
       '@motionone/types': 10.17.1
       '@motionone/utils': 10.18.0
       hey-listen: 1.0.8
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/easing@10.18.0':
     dependencies:
       '@motionone/utils': 10.18.0
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/generators@10.18.0':
     dependencies:
       '@motionone/types': 10.17.1
       '@motionone/utils': 10.18.0
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/svelte@10.16.4':
     dependencies:
       '@motionone/dom': 10.18.0
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/types@10.17.1': {}
 
@@ -14253,12 +14253,12 @@ snapshots:
     dependencies:
       '@motionone/types': 10.17.1
       hey-listen: 1.0.8
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@motionone/vue@10.16.4':
     dependencies:
       '@motionone/dom': 10.18.0
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@netlify/functions@2.8.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -15090,14 +15090,14 @@ snapshots:
     dependencies:
       '@open-web3/orml-type-definitions': 2.0.1
 
-  '@paraspell/sdk@5.7.0(@polkadot/api-base@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/api@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/apps-config@0.138.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-is@18.2.0)(react@18.2.0)(utf-8-validate@5.0.10))(@polkadot/types@11.2.1)(@polkadot/util@12.6.2)(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)':
+  '@paraspell/sdk@5.10.0(@polkadot/api-base@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/api@11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@polkadot/apps-config@0.138.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-is@18.2.0)(react@18.2.0)(utf-8-validate@5.0.10))(@polkadot/types@11.2.1)(@polkadot/util@12.6.2)(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@polkadot/api': 11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@polkadot/api-base': 11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@polkadot/apps-config': 0.138.1(@polkadot/keyring@13.0.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-is@18.2.0)(react@18.2.0)(utf-8-validate@5.0.10)
       '@polkadot/types': 11.2.1
       '@polkadot/util': 12.6.2
-      '@snowbridge/api': 0.1.17(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)
+      '@snowbridge/api': 0.1.19(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
@@ -15313,7 +15313,7 @@ snapshots:
       '@polkadot/types-augment': 10.13.1
       '@polkadot/types-codec': 10.13.1
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15380,7 +15380,7 @@ snapshots:
       '@polkadot/types': 10.13.1
       '@polkadot/util': 12.6.2
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15444,7 +15444,7 @@ snapshots:
       '@polkadot/util': 12.6.2
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15535,7 +15535,7 @@ snapshots:
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
       eventemitter3: 5.0.1
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15828,7 +15828,7 @@ snapshots:
       '@polkadot/types': 10.13.1
       '@polkadot/types-codec': 10.13.1
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15888,7 +15888,7 @@ snapshots:
       '@polkadot/types': 10.13.1
       '@polkadot/util': 12.6.2
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -15958,7 +15958,7 @@ snapshots:
       eventemitter3: 5.0.1
       mock-socket: 9.3.1
       nock: 13.5.4
-      tslib: 2.6.2
+      tslib: 2.6.3
     optionalDependencies:
       '@substrate/connect': 0.8.8(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
@@ -16074,14 +16074,14 @@ snapshots:
       '@polkadot/types': 10.13.1
       '@polkadot/types-codec': 10.13.1
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-augment@11.0.2':
     dependencies:
       '@polkadot/types': 11.0.2
       '@polkadot/types-codec': 11.0.2
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-augment@11.2.1':
     dependencies:
@@ -16115,13 +16115,13 @@ snapshots:
     dependencies:
       '@polkadot/util': 12.6.2
       '@polkadot/x-bigint': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-codec@11.0.2':
     dependencies:
       '@polkadot/util': 12.6.2
       '@polkadot/x-bigint': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-codec@11.2.1':
     dependencies:
@@ -16150,13 +16150,13 @@ snapshots:
     dependencies:
       '@polkadot/types-codec': 10.13.1
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-create@11.0.2':
     dependencies:
       '@polkadot/types-codec': 11.0.2
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-create@11.2.1':
     dependencies:
@@ -16189,7 +16189,7 @@ snapshots:
       '@polkadot/types-codec': 10.13.1
       '@polkadot/types-create': 10.13.1
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-known@11.2.1':
     dependencies:
@@ -16244,7 +16244,7 @@ snapshots:
   '@polkadot/types-support@10.13.1':
     dependencies:
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-support@11.0.2':
     dependencies:
@@ -16254,7 +16254,7 @@ snapshots:
   '@polkadot/types-support@11.2.1':
     dependencies:
       '@polkadot/util': 12.6.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types-support@12.4.2':
     dependencies:
@@ -16280,7 +16280,7 @@ snapshots:
       '@polkadot/util': 12.6.2
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@polkadot/types@11.0.2':
     dependencies:
@@ -17553,14 +17553,14 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@snowbridge/api@0.1.17(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)':
+  '@snowbridge/api@0.1.19(bufferutil@4.0.8)(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@polkadot/api': 11.2.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@polkadot/keyring': 12.6.2(@polkadot/util-crypto@12.6.2(@polkadot/util@12.6.2))(@polkadot/util@12.6.2)
       '@polkadot/types': 11.2.1
       '@polkadot/util': 12.6.2
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
-      '@snowbridge/contract-types': 0.1.17(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@snowbridge/contract-types': 0.1.19(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@typechain/ethers-v6': 0.5.1(ethers@6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10))(typechain@8.3.2(typescript@5.5.3))(typescript@5.5.3)
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       rxjs: 7.8.1
@@ -17571,7 +17571,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@snowbridge/contract-types@0.1.17(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@snowbridge/contract-types@0.1.19(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
@@ -19672,7 +19672,7 @@ snapshots:
 
   '@wry/context@0.7.4':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@wry/equality@0.5.7':
     dependencies:
@@ -19680,7 +19680,7 @@ snapshots:
 
   '@wry/trie@0.4.3':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@wry/trie@0.5.0':
     dependencies:
@@ -19895,7 +19895,7 @@ snapshots:
 
   ast-types@0.15.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   ast-walker-scope@0.6.1:
     dependencies:
@@ -19908,7 +19908,7 @@ snapshots:
 
   async-mutex@0.2.6:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   async-sema@3.1.1: {}
 
@@ -23270,7 +23270,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   lru-cache@10.2.0: {}
 
@@ -25435,7 +25435,7 @@ snapshots:
       ast-types: 0.15.2
       esprima: 4.0.1
       source-map: 0.6.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   redis-errors@1.2.0: {}
 
@@ -26425,7 +26425,7 @@ snapshots:
   synckit@0.9.1:
     dependencies:
       '@pkgr/core': 0.1.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   system-architecture@0.1.0: {}
 
@@ -27041,11 +27041,11 @@ snapshots:
 
   upper-case-first@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   upper-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   uqr@0.1.2: {}
 
