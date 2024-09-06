@@ -96,6 +96,11 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
 
     const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
     const metadata = getMetadata.metadata
+
+    if (!metadata) {
+      return
+    }
+
     nftMetadata.value = metadata
 
     const mimeType = metadata.image ? await fetchMimeType(metadata.image) : null
