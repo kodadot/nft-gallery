@@ -1,7 +1,7 @@
 <template>
   <NftCard
-    v-if="entity"
-    :nft="entity"
+    v-if="entityOnChain"
+    :nft="entityOnChain"
     :link-to="linkTo"
     :placeholder="placeholder"
     :prefix="urlPrefix"
@@ -104,6 +104,8 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { fetchOdaToken } from '@/services/oda'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
@@ -225,6 +227,25 @@ const onClickListingCart = async () => {
 
 onMounted(async () => {
   cheapestNFT.value = await getNFTForBuying()
+})
+
+const entityOnChain = ref(props.entity)
+const { isAssetHub } = useIsChain(urlPrefix)
+
+onMounted(async () => {
+  // until fixed on indexer side
+  // ref: https://github.com/kodadot/nft-gallery/pull/10934#issuecomment-2335128843
+  if (variant.value === 'minimal' && isAssetHub.value) {
+    const { id: collectionId, item: tokenId } = tokenIdToRoute(props.entity.cheapest.id)
+    const metadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
+
+    if (metadata.metadata) {
+      entityOnChain.value = {
+        ...props.entity,
+        name: metadata.metadata.name,
+      }
+    }
+  }
 })
 </script>
 
