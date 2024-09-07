@@ -1,18 +1,19 @@
 import { expect, test } from './fixtures'
 
-const LANDING_PATH = '/ksm'
+const LANDING_PATH = '/ahp'
+const SEARCH_TERM = 'hdd'
 
 test('Check if search provide results', async ({ page }) => {
   await page.goto(LANDING_PATH)
 
   // Search term
-  await test.step('Search for the term Waifu and hover over results', async () => {
+  await test.step('Search for the term ' + SEARCH_TERM + ' and hover over results', async () => {
     await expect(
       page.locator('[data-testid="search-bar"] >> visible = true'),
     ).toBeVisible()
     await page
       .locator('[data-testid="search-bar-input"] >> visible = true')
-      .fill('waifu')
+      .fill(SEARCH_TERM)
     await page
       .locator('[data-testid="search-suggestion-container"] >> visible = true')
       .hover()
