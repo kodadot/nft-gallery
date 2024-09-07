@@ -30,12 +30,10 @@ type DataModel = 'query' | 'store'
 
 const props = withDefaults(
   defineProps<{
-    expanded?: boolean
     dataModel?: DataModel
     fluidPadding?: boolean
   }>(),
   {
-    expanded: false,
     dataModel: 'query',
     fluidPadding: false,
   },
