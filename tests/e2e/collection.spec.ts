@@ -1,8 +1,11 @@
 import { expect, test } from './fixtures'
 
-const COLLECTION_ADDRESS_PATH = '/ahp/collection/76/'
-const COLLECTION_NAME = 'Assemblies'
+const COLLECTION_ADDRESS_PATH = '/ahp/collection/127/'
+const COLLECTION_NAME = '.hdd'
 const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
+const COLLECTION_DESCRIPTION = '.hdd is a series of generative art inspired by PC components'
+const COLLECTION_SEARCH = '127'
+const COLLECTION_SEARCH_RESULT = '.hdd #127'
 
 test('Collection interactions', async ({ page, Commands }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
@@ -15,7 +18,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('description-show-less-more-button').click()
     // collection description
     await expect(page.getByTestId('collection-description')).toContainText(
-      'robotic',
+      COLLECTION_DESCRIPTION,
     )
   })
 
@@ -69,13 +72,13 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).click()
     await page
       .locator('[data-testid="search-bar-input"] >> visible = true')
-      .fill('26')
+      .fill(COLLECTION_SEARCH)
     await page.keyboard.press('Enter')
     await Commands.scrollDownSlow()
     await expect(
       page.locator('[class="infinite-scroll-item"]').first(),
     ).toBeVisible()
-    await expect(page.getByTestId('nft-name')).toHaveText('Assemblies #26')
+    await expect(page.getByTestId('nft-name')).toHaveText(COLLECTION_SEARCH_RESULT)
   })
 
   // art view
