@@ -617,8 +617,8 @@
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
-        "KodaFee": "Koda Fee",
-        "KodaTooltip": "By keeping this option active, you're contributing to initial costs borne by Koda for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
+        "kodadotFee": "Koda Fee",
+        "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Koda for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
         "carbonless": "Carbonless",
         "totalFee": "Fees Total"
       },
