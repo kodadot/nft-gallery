@@ -42,7 +42,7 @@ import type { NFT } from '@/components/rmrk/service/scheme'
 
 const props = defineProps<{
   nft: NFT | undefined
-  highestOffer: NFTOffer
+  highestOffer: NFTOffer | undefined
 }>()
 
 const { urlPrefix } = usePrefix()
