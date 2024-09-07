@@ -26,7 +26,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import MakeOffer from '@/components/offer/MakeOffer.vue'
 import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
-import type { NFTOffer } from '@/components/useNft'
+import type { NFTOffer } from '@/composables/useNft'
 
 const props = defineProps<{
   nft: NFT
