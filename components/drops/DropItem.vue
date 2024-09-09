@@ -1,25 +1,25 @@
 <template>
-  <DropsDropCardSkeleton v-if="loading" />
-
-  <div v-else-if="!loading && pastItem">
-    <DropsDropCard
-      v-if="formattedDrop"
-      :drop="formattedDrop"
-    />
-  </div>
+  <DropsDropCardSkeleton v-if="!formattedDrop" />
+  <DropsDropCard
+    v-else-if="shouldShowDrop"
+    :drop="formattedDrop"
+  />
 </template>
 
 <script lang="ts" setup>
 import { getDropAttributes } from './utils'
-import type { DropItem } from '~/params/types'
+import type { DropItem } from '@/params/types'
 
 const props = defineProps<{
   drop: DropItem
+  showMinted?: boolean
 }>()
 
 const formattedDrop = ref<DropItem>()
-const loading = ref(true)
-const pastItem = computed(() => !formattedDrop.value?.isMintedOut)
+
+const shouldShowDrop = computed(() =>
+  props.showMinted || (!formattedDrop.value?.isMintedOut),
+)
 
 onBeforeMount(async () => {
   formattedDrop.value = await getDropAttributes(props.drop.alias)
@@ -27,7 +27,5 @@ onBeforeMount(async () => {
   if (formattedDrop.value?.isMintedOut) {
     useMintedDropsStore().addMintedDrop(formattedDrop.value)
   }
-
-  loading.value = false
 })
 </script>
