@@ -168,6 +168,10 @@ export default function (refetchPeriodically: boolean = false) {
       fiatStore.getCurrentTokenValue(token as Token),
     )
 
+    if (!identityStore.getWalletVmChains.includes(chainName)) {
+      return
+    }
+
     identityStore.setMultiBalances({
       address: defaultAddress,
       chains: {

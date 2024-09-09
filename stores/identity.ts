@@ -140,6 +140,9 @@ export const useIdentityStore = defineStore('identity', {
       const { getWalletVM } = storeToRefs(useWalletStore())
       return getWalletVM.value ? getVmAssets(getWalletVM.value) : []
     },
+    getWalletVmChains(): string[] {
+      return this.getWalletVmAssets.map(asset => asset.chain)
+    },
     getStatusMultiBalances(state): string {
       let loadedAssets = 0
       for (const key in state.multiBalances.chains) {
