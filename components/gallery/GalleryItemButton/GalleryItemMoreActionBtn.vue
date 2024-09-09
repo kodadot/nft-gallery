@@ -159,8 +159,8 @@ const unlist = () => {
 
 const refreshMetadata = async () => {
   if (props.collectionId && props.nftSn) {
+    toast('Refreshing metadata. Check back in a minute...')
     await refreshOdaTokenMetadata(urlPrefix.value, props.collectionId!, props.nftSn!)
-    window.location.reload()
   }
 }
 </script>
