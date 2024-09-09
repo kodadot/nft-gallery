@@ -91,7 +91,7 @@
 import { useWindowSize } from '@vueuse/core'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
-import { fetchOdaCollectionOwners } from '~/services/oda'
+import { fetchOdaCollectionOwners } from '@/services/oda'
 
 const mdBreakpoint = 768
 
