@@ -514,7 +514,7 @@ const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
-const { accountId } = useAuth()
+const { accountId, isCurrentOwner } = useAuth()
 const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { redirectAfterChainChange } = useChainRedirect()
@@ -605,7 +605,7 @@ const socialDropdownItems = computed(() => {
     .sort((a, b) => a?.order - b?.order)
 })
 
-const isOwner = computed(() => route.params.id === accountId.value)
+const isOwner = computed(() => isCurrentOwner(id.value))
 
 const buttonConfig = computed<ButtonConfig>(() =>
   hasProfile.value ? editProfileConfig : createProfileConfig,
