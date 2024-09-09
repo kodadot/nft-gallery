@@ -18,9 +18,22 @@
       />
     </NeoTabItem>
 
+    <!-- offers -->
+    <NeoTabItem
+      v-if="offerVisible(urlPrefix)"
+      value="2"
+      :label="$t('offers')"
+      data-testid="offers-activity"
+    >
+      <GalleryItemOffers
+        v-if="nft?.id"
+        :nft-id="nft.id"
+      />
+    </NeoTabItem>
+
     <!-- chart -->
     <NeoTabItem
-      value="2"
+      value="3"
       :label="$t('tabs.chart')"
       class="p-5"
     >
@@ -31,10 +44,11 @@
 
 <script setup lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
-
 import type { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
+import GalleryItemOffers from './GalleryItemOffers.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
+import { offerVisible } from '@/utils/config/permission.config'
 
 const props = withDefaults(
   defineProps<{
@@ -45,6 +59,8 @@ const props = withDefaults(
     activeTab: '0',
   },
 )
+
+const { urlPrefix } = usePrefix()
 
 const nft = computed(() => props.galleryItem.nft.value)
 
