@@ -320,7 +320,7 @@
             v-for="tab in tabs"
             :key="tab"
             class="capitalize"
-            data-testid="profile-tabs"
+            :data-testid="`profile-${tab}-tab`"
             :active="activeTab === tab"
             :count="counts[tab]"
             :show-active-check="tabsWithActiveCheck.includes(tab)"

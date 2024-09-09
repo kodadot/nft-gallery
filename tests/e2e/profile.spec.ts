@@ -10,8 +10,8 @@ test('Profile Interactions', async ({ page, Commands, baseURL }) => {
 
   // Activity
   await test.step('Activity Tab', async () => {
-    await expect(page.getByTestId('profile-tabs').last()).toBeVisible()
-    await page.getByTestId('profile-tabs').last().click()
+    await expect(page.getByTestId('profile-activity-tab').last()).toBeVisible()
+    await page.getByTestId('profile-activity-tab').last().click()
     // usually sale and buy are active when you enter the page
     // SALE
     await page.getByTestId('profile-activity-button-filter').nth(1).click()
