@@ -58,7 +58,7 @@
     "@kodadot1/sub-api": "0.3.2-rc.0",
     "@nuxt/image": "^1.7.0",
     "@nuxtjs/apollo": "5.0.0-alpha.6",
-    "@paraspell/sdk": "^5.7.0",
+    "@paraspell/sdk": "^5.10.0",
     "@pinia/nuxt": "^0.5.1",
     "@polkadot/api": "^11.2.1",
     "@polkadot/api-base": "^11.2.1",
