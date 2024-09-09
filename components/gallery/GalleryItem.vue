@@ -185,7 +185,6 @@ import { resolveMedia } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { generateNftImage } from '@/utils/seoImageGenerator'
-import { useNftStore } from '@/stores/nft'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -202,13 +201,7 @@ const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
 
-const nftStore = useNftStore()
-const nft = computed(() => nftStore.nft)
-const nftMetadata = computed(() => nftStore.nftMetadata)
-const nftImage = computed(() => nftStore.nftImage)
-const nftAnimation = computed(() => nftStore.nftAnimation)
-const nftAnimationMimeType = computed(() => nftStore.nftAnimationMimeType)
-const nftMimeType = computed(() => nftStore.nftMimeType)
+const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const collection = computed(() => nft.value?.collection)
 

@@ -33,7 +33,6 @@
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
-import { useNftStore } from '@/stores/nft'
 
 const props = withDefaults(
   defineProps<{
@@ -44,8 +43,7 @@ const props = withDefaults(
   },
 )
 
-const nftStore = useNftStore()
-const nft = computed(() => nftStore.nft)
+const { getNft: nft } = storeToRefs(useNftStore())
 
 const active = ref('1')
 const collectionId = ref('')

@@ -65,7 +65,6 @@ import {
   mediaTypeElementSelectors,
   resolveMedia,
 } from '@/utils/gallery/media'
-import { useNftStore } from '~/stores/nft'
 
 type ReloadElement =
   | HTMLIFrameElement
@@ -75,12 +74,7 @@ type ReloadElement =
 
 defineEmits(['toggle'])
 
-const nftStore = useNftStore()
-const nft = computed(() => nftStore.nft)
-const nftImage = computed(() => nftStore.nftImage)
-const nftAnimation = computed(() => nftStore.nftAnimation)
-const nftAnimationMimeType = computed(() => nftStore.nftAnimationMimeType)
-const nftMimeType = computed(() => nftStore.nftMimeType)
+const { getNft: nft, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const isLoading = ref(false)
 

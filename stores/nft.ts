@@ -14,4 +14,13 @@ export const useNftStore = defineStore('nft', {
     nftAnimation: '',
     nftAnimationMimeType: '',
   }),
+
+  getters: {
+    getNft: state => state.nft,
+    getNftMetadata: state => state.nftMetadata,
+    getNftImage: state => state.nftImage,
+    getNftMimeType: state => state.nftMimeType,
+    getNftAnimation: state => state.nftAnimation,
+    getNftAnimationMimeType: state => state.nftAnimationMimeType,
+  },
 })

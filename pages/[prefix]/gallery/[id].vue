@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { useGalleryItem } from '@/components/gallery/useGalleryItem'
-import { useNftStore } from '@/stores/nft'
 
 const nftStore = useNftStore()
 

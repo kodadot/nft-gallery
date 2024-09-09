@@ -158,9 +158,7 @@
             </li>
           </ol>
         </template>
-        <template
-          v-else-if="Array.isArray(recipient) && recipient.length === 1"
-        >
+        <template v-else-if="Array.isArray(recipient) && recipient.length === 1">
           <nuxt-link
             :to="`/${urlPrefix}/u/${recipient[0][0]}`"
             class="text-k-blue hover:text-k-blue-hover"
@@ -244,17 +242,10 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
-import { useNftStore } from '@/stores/nft'
 
 const { urlPrefix } = usePrefix()
 
-const nftStore = useNftStore()
-const nft = computed(() => nftStore.nft)
-const nftMetadata = computed(() => nftStore.nftMetadata)
-const nftMimeType = computed(() => nftStore.nftMimeType)
-const nftImage = computed(() => nftStore.nftImage)
-const nftAnimation = computed(() => nftStore.nftAnimation)
-const nftAnimationMimeType = computed(() => nftStore.nftAnimationMimeType)
+const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
@@ -337,8 +328,10 @@ const animatedMediaUrl = computed(() => {
 .recipient {
   li {
     gap: 0.3rem;
-    > span {
+
+    >span {
       font-size: 0.8rem;
+
       @include ktheme() {
         color: theme('k-grey');
       }

@@ -22,15 +22,11 @@
 <script setup lang="ts">
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import { extractTwitterIdFromDescription } from '@/utils/parse'
-import { useNftStore } from '@/stores/nft'
 
 const { $i18n } = useNuxtApp()
 const imageData = ref()
 
-const nftStore = useNftStore()
-const nft = computed(() => nftStore.nft)
-const nftMimeType = computed(() => nftStore.nftMimeType)
-const nftMetadata = computed(() => nftStore.nftMetadata)
+const { getNft: nft, getNftMetadata: nftMetadata, getNftMimeType: nftMimeType } = storeToRefs(useNftStore())
 
 const customSharingContent = computed(() => {
   const twitterId = nft.value?.meta?.description
