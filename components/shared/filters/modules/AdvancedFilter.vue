@@ -1,33 +1,6 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    :class="{ 'fluid-padding-left': fluidPadding }"
-  >
-    <template #trigger="{ open }">
-      <div
-        class="flex justify-between"
-        role="button"
-        :aria-expanded="open"
-      >
-        <p class="py-3 px-4 text-xs text-k-grey">
-          <span data-testid="advanced-filter-collapsible">{{
-            $t('advancedFilters')
-          }}</span>
-          <span
-            v-if="artView"
-            class="ml-2 text-k-primary"
-          >({{ $t('active') }})</span>
-        </p>
-        <a class="card-header-icon mr-1 text-k-grey">
-          <NeoIcon
-            size="small"
-            :icon="open ? 'chevron-down' : 'chevron-right'"
-          />
-        </a>
-      </div>
-    </template>
-    <div class="px-4 pb-4">
+  <div :class="{ 'fluid-padding-left': fluidPadding }">
+    <div class="p-4">
       <NeoField>
         <NeoCheckbox
           v-model="artView"
@@ -42,11 +15,11 @@
         </NeoCheckbox>
       </NeoField>
     </div>
-  </NeoCollapse>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField, NeoIcon } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()
@@ -57,12 +30,10 @@ type DataModel = 'query' | 'store'
 
 const props = withDefaults(
   defineProps<{
-    expanded?: boolean
     dataModel?: DataModel
     fluidPadding?: boolean
   }>(),
   {
-    expanded: false,
     dataModel: 'query',
     fluidPadding: false,
   },

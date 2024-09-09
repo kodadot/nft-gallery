@@ -2,7 +2,7 @@ import type { Prefix } from '@kodadot1/static'
 import type { ActionOffer } from './types'
 import { generateId } from '@/services/dyndata'
 
-const getOfferId = (prefix: Prefix) => {
+export const getOfferCollectionId = (prefix: Prefix) => {
   switch (prefix) {
     case 'ahk':
       return 464
@@ -22,7 +22,7 @@ async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
   const nfts = Array.isArray(item.token) ? item.token : [item.token]
   const transactions = await Promise.all(
     nfts.map(async ({ price, nftSn, collectionId, duration }) => {
-      const offerId = getOfferId(item.urlPrefix as Prefix)
+      const offerId = getOfferCollectionId(item.urlPrefix as Prefix)
       const nextId = Number.parseInt(await generateId())
       const create = api.tx.nfts.mint(
         offerId,

@@ -5,6 +5,8 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "offers": "Offers",
+  "expiration": "Expiration",
   "markdownSupported": "Markdown supported",
   "why": "Why",
   "requirements": "Requirements",
@@ -1354,6 +1356,8 @@
     "transferTo": "Transfer to",
     "transferNft": "Transfer NFT",
     "offer": "Create Offer",
+    "offerWithdraw": "Cancel Offer",
+    "offerAccept": "Accept Offer",
     "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
@@ -1642,7 +1646,13 @@
     "typeOffer": "Type An Offer",
     "highestOffer": "Highest Offer",
     "invalidPrice": "Your offer must greater than 0.0001",
-    "emptyInput": "Please enter your offer"
+    "emptyInput": "Please enter your offer",
+    "yourOffer": "Your Offer",
+    "cancelOffer": "Cancel Offer",
+    "floorDifference": "Floor Difference",
+    "incomingOffer": "Incoming Offer",
+    "offerWithdrawl": "Offer Cancelation",
+    "offerAccept": "Accepting Offer"
   },
   "migrate": {
     "cta": "Migrate Now",

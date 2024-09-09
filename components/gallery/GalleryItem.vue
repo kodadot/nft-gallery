@@ -251,6 +251,7 @@ const mediaItemRef = ref<{
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
+const fiatStore = useFiatStore()
 
 const galleryItem = useGalleryItem()
 const {
@@ -389,6 +390,8 @@ function toggleFallback() {
     isFullscreen.value = isCurrentlyFullscreen
   }
 }
+
+onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
 <style lang="scss">

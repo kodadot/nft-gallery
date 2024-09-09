@@ -49,7 +49,7 @@ export const showNotification = ({
   action?: MaybeRef<NotificationAction | undefined>
   holdTimer?: Ref<boolean>
   icon?: Ref<NeoMessageIconVariant | undefined>
-}): () => void => {
+}) => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
   }
@@ -70,9 +70,9 @@ export const showNotification = ({
     duration: 50000, // child component will trigger close when the real duration is ended
   }
 
-  Notif.open(componentParams)
+  const notification = Notif.open(componentParams)
 
-  return Notif.closeAll
+  return notification.close as () => void
 }
 
 export const showLargeNotification = ({
@@ -169,17 +169,19 @@ const NotificationStateToVariantMap: Record<
 
 export type LoadingNotificationState = 'loading' | 'succeeded' | 'failed'
 
+export type LoadingMessageParams = {
+  title: MaybeRef<string>
+  message?: MaybeRef<string | undefined>
+  state: Ref<LoadingNotificationState>
+  action?: Ref<NotificationAction | undefined>
+}
+
 export const loadingMessage = ({
   title,
   message,
   state,
   action,
-}: {
-  title: MaybeRef<string>
-  message?: MaybeRef<string | undefined>
-  state: Ref<LoadingNotificationState>
-  action?: Ref<NotificationAction | undefined>
-}) => {
+}: LoadingMessageParams) => {
   const { $i18n } = useNuxtApp()
   const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
 

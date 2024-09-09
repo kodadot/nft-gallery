@@ -60,6 +60,7 @@ export default function ({
   function startPolling() {
     if (!isPolling.value) {
       isPolling.value = true
+      pollData()
       intervalId = setInterval(pollData, pollingInterval) as unknown as number
       $consola.log('[Graphql Subscription] Started polling')
     }
