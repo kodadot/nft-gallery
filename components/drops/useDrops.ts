@@ -1,8 +1,4 @@
-import orderBy from 'lodash/orderBy'
-import type { Prefix } from '@kodadot1/static'
 import { getDropAttributes } from './utils'
-import type { GetDropsQuery } from '@/services/fxart'
-import { getDrops } from '@/services/fxart'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { DropItem } from '@/params/types'
@@ -17,46 +13,6 @@ export enum DropStatus {
   SCHEDULED_SOON = 'scheduled_soon', // live in < 24h
   SCHEDULED = 'scheduled', // live in > 24
   UNSCHEDULED = 'unscheduled',
-}
-
-const DROP_LIST_ORDER = [
-  DropStatus.SCHEDULED_SOON,
-  DropStatus.MINTING_LIVE,
-  DropStatus.SCHEDULED,
-  DropStatus.COMING_SOON,
-  DropStatus.MINTING_ENDED,
-  DropStatus.UNSCHEDULED,
-]
-
-export function useDrops(query?: GetDropsQuery, { filterOutMinted = false } = {}) {
-  const dropsList = ref<DropItem[]>([])
-  const count = computed(() => dropsList.value.length)
-  const loaded = ref(false)
-
-  onBeforeMount(async () => {
-    const drops = await getDrops(query)
-
-    if (drops.length) {
-      dropsList.value = await Promise.all(
-        drops.map(drop => getDropAttributes(drop.alias)),
-      ).then(dropsList =>
-        (filterOutMinted ? dropsList.filter(drop => drop && !drop.isMintedOut) : dropsList)
-          .filter((drop): drop is DropItem => drop !== undefined),
-      )
-    }
-
-    loaded.value = true
-  })
-
-  const sortDrops = computed(() =>
-    orderBy(
-      dropsList.value,
-      [drop => DROP_LIST_ORDER.indexOf(drop.status)],
-      ['asc'],
-    ),
-  )
-
-  return { drops: sortDrops, count, loaded }
 }
 
 export function useDrop(alias?: string) {
@@ -198,33 +154,4 @@ export const useHolderOfCollectionDrop = () => {
   }
 
   return { isNftClaimed }
-}
-
-export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
-  const { drops } = useDrops({
-    chain: [chain],
-    collection: collectionId,
-  })
-
-  const relatedActiveDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection === collectionId
-        && !drop.disabled
-        && drop.status === DropStatus.MINTING_LIVE,
-    ),
-  )
-
-  const relatedEndedDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection === collectionId
-        && drop.status === DropStatus.MINTING_ENDED,
-    ),
-  )
-
-  return {
-    relatedActiveDrop,
-    relatedEndedDrop,
-  }
 }
