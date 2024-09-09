@@ -39,6 +39,7 @@ import type { ProfileFormData } from './stages/index'
 import { Form, Introduction, Select } from './stages/index'
 import { deleteProfile } from '@/services/profile'
 import { appClient, createChannel } from '@/services/farcaster'
+import type { NotificationAction } from '@/utils/notification'
 
 type SessionState = {
   state: LoadingNotificationState

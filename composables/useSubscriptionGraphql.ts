@@ -7,19 +7,21 @@ export default function ({
   onChange,
   onError,
   pollingInterval = 6000,
+  disabled,
 }: {
   clientName?: string
   query: string
   onChange: (data) => void
   onError?: (error) => void
   pollingInterval?: number
+  disabled?: ComputedRef<boolean>
 }) {
   const { client: prefixClient } = usePrefix()
   const { $consola } = useNuxtApp()
   const client = clientName || prefixClient.value
   const httpUrl = apolloClientConfig[client]?.httpEndpoint
 
-  if (!httpUrl) {
+  if (disabled?.value || !httpUrl) {
     return () => {}
   }
 

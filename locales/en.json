@@ -1363,6 +1363,7 @@
     "addressIncorrect": "Address Incorrect",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
     "selfTransfer": "You can't transfer to yourself",
+    "offerError": "Offer creation failed",
     "price": {
       "change": "Change Price",
       "new": "Your New Price",
@@ -1636,12 +1637,20 @@
   },
   "offer": {
     "yourOfferAmount": "Your Offer Amount" ,
+    "newOffer": "New Offer",
+    "bestOffer": "Best Offer",
+    "manageOffers": "Manage Offers",
+    "offerCreation": "Offer Creation",
+    "collectionFloorPrice": "Collection Floor",
+    "expiration": "Offer Expiration",
+    "typeOffer": "Type An Offer",
+    "highestOffer": "Highest Offer",
+    "invalidPrice": "Your offer must greater than 0.0001",
+    "emptyInput": "Please enter your offer",
     "yourOffer": "Your Offer",
     "cancelOffer": "Cancel Offer",
     "floorDifference": "Floor Difference",
-    "newOffer": "New Offer",
     "incomingOffer": "Incoming Offer",
-    "manageOffers": "Manage Offer",
     "offerWithdrawl": "Offer Cancelation",
     "offerAccept": "Accepting Offer"
   },
@@ -1821,6 +1830,10 @@
       "consume": {
         "confirm": "Teleport and Burn NFT",
         "title": "Burning NFT"
+      },
+      "make_offer": {
+        "confirm": "Teleport and Create Offer",
+        "title": "Creating Offer"
       }
     }
   },
