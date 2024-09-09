@@ -45,7 +45,7 @@ test('Gallery item Interactions', async ({ page }) => {
   await test.step('Verify chart visibility', async () => {
     await page
       .getByTestId('gallery-item-tabs')
-      .locator('[aria-controls="2-content"]')
+      .locator('[aria-controls="3-content"]')
       .click()
     await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   })
