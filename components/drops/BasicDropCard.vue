@@ -106,7 +106,7 @@ const props = withDefaults(
     name: string
     dropStartTime?: Date | null
     dropStatus: DropStatus
-    dropPrefix?: Prefix | null
+    dropPrefix?: Prefix
     loading?: boolean
     cardIs?: string | object
     to?: string
@@ -134,7 +134,7 @@ const props = withDefaults(
 const { placeholder } = useTheme()
 const isUnlimited = computed(() => props.dropMax > Number.MAX_SAFE_INTEGER)
 
-const chainPropList = chainPropListOf(props.dropPrefix ?? 'ahp')
+const chainPropList = chainPropListOf(props.dropPrefix)
 const { usd: formattedPrice } = useAmount(
   computed(() => props.dropPrice),
   computed(() => chainPropList.tokenDecimals),
