@@ -1522,7 +1522,7 @@
     "everyThursday": "Every Thursday",
     "addToCal": "Add To Calendar",
     "createACalendarEvent": "Create A Calendar Event",
-    "KodaWeeklyGenerativeDrop": "Koda weekly generative drop",
+    "kodadotWeeklyGenerativeDrop": "Koda weekly generative drop",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "viewDrop": "View Drop",
@@ -1655,7 +1655,7 @@
       },
       "faq4": {
         "title": "Learn More About Process",
-        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='text-k-blue hover:text-k-blue-hover' target='_blank' href='https://hello.Koda.xyz/multi-chain/migrator'>See Article -&gt;</a></p>"
+        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='text-k-blue hover:text-k-blue-hover' target='_blank' href='https://hello.kodadot.xyz/multi-chain/migrator'>See Article -&gt;</a></p>"
       }
     },
     "resultFor": "Showing Results For:",
