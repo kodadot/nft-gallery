@@ -9,15 +9,15 @@
     >
       <div
         v-for="(drop, index) in drops"
-        :key="`${isDrop(drop) ? drop.collection?.id : drop.id}=${index}`"
+        :key="drop.collection"
         class="w-full h-full"
         :data-testid="index"
       >
         <slot
           name="card"
-          :item="drop as InternalDropCalendar"
+          :item="drop"
         >
-          <DropCard :drop="drop as Drop" />
+          <DropCard :drop="drop" />
         </slot>
       </div>
     </template>
@@ -31,8 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Drop } from './useDrops'
-import type { InternalDropCalendar } from './calendar/DropsCalendar.vue'
+import type { DropItem } from '@/params/types'
 import DropCard from '@/components/drops/DropCard.vue'
 
 const GRID_DEFAULT_WIDTH = {
@@ -42,7 +41,7 @@ const GRID_DEFAULT_WIDTH = {
 }
 
 const props = defineProps<{
-  drops: Drop[] | InternalDropCalendar[]
+  drops: DropItem[]
   loaded: boolean
   defaultSkeletonCount: number
   asyncSkeletonCount?: number
@@ -51,7 +50,4 @@ const props = defineProps<{
 }>()
 
 const isAsync = computed(() => typeof props.asyncSkeletonCount === 'number')
-
-const isDrop = (item: Drop | InternalDropCalendar): item is Drop =>
-  (item as Drop).collection !== undefined
 </script>
