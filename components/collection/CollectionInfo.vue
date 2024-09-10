@@ -140,7 +140,7 @@ const chain = computed(
     availableChains.value.find(chain => chain.value === route.params.prefix)
       ?.text,
 )
-const address = computed(() => collectionInfo.value?.currentOwner)
+const address = computed(() => collectionInfo.value?.displayCreator)
 const recipient = computed(() => collectionInfo.value?.recipient)
 const royalty = computed(() => collectionInfo.value?.royalty)
 const createdAt = computed(() => collectionInfo.value?.createdAt)
