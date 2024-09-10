@@ -6,24 +6,53 @@
           {{ itemPrice }}
         </div>
       </template>
+
+      <template #footer>
+        <hr class="my-4">
+
+        <div class="mb-2 flex justify-between">
+          <div>
+            {{ $t('offer.bestOffer') }}
+          </div>
+          <div>
+            {{ highestOfferPrice }}
+          </div>
+        </div>
+        <div class="flex justify-between">
+          <div>
+            {{ $t('offer.collectionFloorPrice') }}
+          </div>
+          <div>
+            {{ collectionFloorPrice }}
+          </div>
+        </div>
+      </template>
     </CartItemDetails>
 
-    <hr class="my-5">
+    <hr class="my-4">
 
     <div class="font-bold">
       {{ $t('offer.yourOfferAmount') }}
     </div>
 
-    <ListingCartPriceInput
-      v-model="offerStoreItem"
+    <OfferPriceInput
+      v-model="offerPriceStoreItem"
       class="pt-2"
-      full-width
+    />
+    <div class="font-bold pt-4">
+      {{ $t('offer.expiration') }}
+    </div>
+
+    <OfferExpirationSelector
+      v-model="offerExpirationStoreItem"
+      class="pt-2"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import ListingCartPriceInput from '@/components/common/listingCart/shared/ListingCartPriceInput.vue'
+import OfferPriceInput from '@/components/offer/OfferPriceInput.vue'
+import OfferExpirationSelector from '@/components/offer/OfferExpirationSelector.vue'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import formatBalance from '@/utils/format/balance'
 import CartItemDetails from '@/components/common/CartItemDetails.vue'
@@ -49,10 +78,20 @@ const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
 const formatWithBlank = (value: number) => {
   return value ? formatBalance(value, decimals.value, chainSymbol.value) : '--'
 }
-const offerStoreItem = computed({
+const offerPriceStoreItem = computed({
   get: () => offerStore.getItem(item.value?.id)?.offerPrice,
   set: price => offerStore.updateItem({ id: item.value.id, offerPrice: price }),
 })
+const offerExpirationStoreItem = computed({
+  get: () => offerStore.getItem(item.value?.id)?.offerExpiration,
+  set: v => offerStore.updateItem({ id: item.value.id, offerExpiration: v }),
+})
+
+const highestOfferPrice = computed(() => formatWithBlank(Number(item.value.highestOffer) || 0) || '--')
+
+const collectionFloorPrice = computed(() =>
+  formatWithBlank(Number(item.value.collection.floorPrice?.[0]?.price || '0')) || '--',
+)
 
 watch(
   () => props.offerPrice,

@@ -320,10 +320,10 @@
             v-for="tab in tabs"
             :key="tab"
             class="capitalize"
-            data-testid="profile-tabs"
+            :data-testid="`profile-${tab}-tab`"
             :active="activeTab === tab"
             :count="counts[tab]"
-            :show-active-check="false"
+            :show-active-check="tabsWithActiveCheck.includes(tab)"
             :text="tab"
             @click="() => switchToTab(tab)"
           />
@@ -333,19 +333,21 @@
             class="ml-6"
           />
         </div>
-        <div class="flex flex-row is-hidden-widescreen mobile">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            :active="activeTab === tab"
-            :text="tab"
-            :count="counts[tab]"
-            :show-active-check="false"
-            class="capitalize"
-            @click="() => switchToTab(tab)"
-          />
-          <div class="flex mt-4 flex-wrap">
-            <ChainDropdown class="mr-4" />
+        <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
+          <div class="flex flex-wrap">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              :active="activeTab === tab"
+              :text="tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              class="capitalize !w-[50%]"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <ChainDropdown />
             <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
           </div>
         </div>
@@ -422,6 +424,10 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
+        <ProfileActivityTabOffers
+          v-if="activeTab === ProfileTab.OFFERS"
+          :id="id"
+        />
       </div>
     </div>
   </div>
@@ -460,6 +466,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
+import { offerVisible } from '@/utils/config/permission.config'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -485,18 +492,28 @@ const socials = {
   },
 }
 
-const tabs = [
-  ProfileTab.OWNED,
-  ProfileTab.CREATED,
-  ProfileTab.COLLECTIONS,
-  ProfileTab.ACTIVITY,
-]
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  return tabs
+})
+
+const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
-const { accountId } = useAuth()
+const { accountId, isCurrentOwner } = useAuth()
 const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { redirectAfterChainChange } = useChainRedirect()
@@ -587,7 +604,7 @@ const socialDropdownItems = computed(() => {
     .sort((a, b) => a?.order - b?.order)
 })
 
-const isOwner = computed(() => route.params.id === accountId.value)
+const isOwner = computed(() => isCurrentOwner(id.value))
 
 const buttonConfig = computed<ButtonConfig>(() =>
   hasProfile.value ? editProfileConfig : createProfileConfig,
@@ -638,7 +655,15 @@ const itemsGridSearch = computed(() => {
 })
 
 const activeTab = computed({
-  get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,
+  get: () => {
+    const tab = route.query.tab as ProfileTab
+
+    if (!tab || !tabs.value.includes(tab)) {
+      return ProfileTab.OWNED
+    }
+
+    return tab
+  },
   set: (val) => {
     replaceUrl({ tab: val })
   },

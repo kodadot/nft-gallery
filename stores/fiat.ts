@@ -53,7 +53,11 @@ export const useFiatStore = defineStore('fiat', {
         },
   },
   actions: {
-    async fetchFiatPrice() {
+    async fetchFiatPrice(force = false) {
+      if (!this.incompleteFiatValues && !force) {
+        return
+      }
+
       const prices = await Promise.all(
         (['kusama', 'polkadot', 'ethereum', 'mantle'] as TokenName[]).map(getPrice),
       )

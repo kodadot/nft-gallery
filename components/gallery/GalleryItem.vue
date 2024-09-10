@@ -133,7 +133,10 @@
               v-if="nft && isAssetHub"
               :nft="nft"
             />
-            <GalleryItemAction :nft="nft" />
+            <GalleryItemAction
+              :nft="nft"
+              :highest-offer="nftHighestOffer"
+            />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
@@ -174,6 +177,7 @@ import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import UnlockableTag from './UnlockableTag.vue'
+import { useGalleryItem } from './useGalleryItem'
 import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
@@ -200,9 +204,11 @@ const mediaItemRef = ref<{
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
+const fiatStore = useFiatStore()
 
 const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
+const { nftHighestOffer } = useGalleryItem()
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
@@ -320,6 +326,8 @@ function toggleFallback() {
     isFullscreen.value = isCurrentlyFullscreen
   }
 }
+
+onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
 <style lang="scss">
