@@ -32,9 +32,11 @@ export default function () {
   const shareOnFarcaster = (
     text: string,
     embeds: string[] = [fullPathShare.value],
+    channel: string = 'koda',
   ) => {
     const url = new URL('https://warpcast.com/~/compose')
     url.searchParams.set('text', text)
+    url.searchParams.set('channelKey', channel)
     embeds.forEach(embed => url.searchParams.append('embeds[]', embed))
     open(url.toString())
   }
