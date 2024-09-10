@@ -151,7 +151,7 @@
         <div
           class="flex items-center"
         >
-          <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
+          <span class="text-xs mr-3">{{ tab === 'outgoing' ? $t('activity.event.to') : $t('activity.event.from') }}:</span>
           <div class="flex items-center gap-2">
             <ProfileAvatar
               :size="24"
