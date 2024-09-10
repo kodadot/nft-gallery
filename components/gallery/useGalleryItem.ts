@@ -4,16 +4,18 @@ import { useHistoryStore } from '@/stores/history'
 import { getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getCloudflareMp4 } from '@/services/imageWorker'
-import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
+import { getDrops } from '@/services/fxart'
 
 interface NFTData {
-  nftEntity?: NFTWithMetadata
+  nftEntity?: NftEntity
 }
 
+type NftEntity = NFTWithMetadata & { dropCreator?: string }
+
 export interface GalleryItem {
-  nft: Ref<NFT | undefined>
+  nft: Ref<NftEntity | undefined>
   nftMimeType: Ref<string>
   nftMetadata: Ref<NFTWithMetadata | undefined>
   nftAnimation: Ref<string>
@@ -26,7 +28,7 @@ export interface GalleryItem {
 export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
-  const nft = ref<NFT>()
+  const nft = ref<NftEntity>()
   const nftImage = ref('')
   const nftAnimation = ref('')
   const nftAnimationMimeType = ref('')
@@ -90,6 +92,17 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
+    }
+
+    if (nftEntity.collection.id) {
+      await getDrops({
+        collection: nftEntity.collection.id,
+        chain: [urlPrefix.value],
+      }).then((drops) => {
+        if (drops && drops[0]?.creator) {
+          nftEntity.dropCreator = drops[0].creator
+        }
+      })
     }
 
     nft.value = nftEntity
