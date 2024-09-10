@@ -151,7 +151,7 @@
         <div
           class="flex items-center"
         >
-          <span class="text-xs mr-3">{{ tab === 'outgoing' ? $t('activity.event.to') : $t('activity.event.from') }}:</span>
+          <span class="text-xs mr-3">{{ $t(`activity.event.${target}`) }}:</span>
           <div class="flex items-center gap-2">
             <ProfileAvatar
               :size="24"
@@ -195,7 +195,7 @@ defineEmits(['select'])
 const props = defineProps<{
   offer: NFTOfferItem
   variant: 'Desktop' | 'Touch'
-  tab: 'outgoing' | 'incoming'
+  target: 'from' | 'to'
 }>()
 
 const { urlPrefix } = usePrefix()
@@ -206,7 +206,7 @@ const image = ref()
 const animationUrl = ref()
 const isDesktop = computed(() => props.variant === 'Desktop')
 const isExpired = computed(() => props.offer.status === 'EXPIRED')
-const targetAddress = computed(() => props.tab === 'outgoing' ? props.offer.desired.currentOwner : props.offer.caller)
+const targetAddress = computed(() => props.target === 'to' ? props.offer.desired.currentOwner : props.offer.caller)
 
 const interactionName = computed(
   () =>

@@ -46,7 +46,7 @@
             <span>{{ $t('activity.event.amount') }}</span>
           </div>
           <div class="flex-1">
-            <span> {{ activeTab === 'outgoing' ? $t('activity.event.to') : $t('activity.event.from') }} </span>
+            <span> {{ $t(`activity.event.${tabTarget}`) }} </span>
           </div>
           <div class="flex-1">
             <span>{{ $t('activity.event.time') }}</span>
@@ -62,7 +62,7 @@
             :key="item.id"
             data-testid="offer-item-row"
             :offer="item"
-            :tab="activeTab"
+            :target="tabTarget"
             :variant="variant as unknown"
             @select="() => {
               selectedOffer = item
@@ -109,6 +109,7 @@ const tabs = ref([{
 }])
 
 const activeTab = ref<OfferTabType>(route.query.filter?.toString() as OfferTabType || 'outgoing')
+const tabTarget = computed(() => activeTab.value === 'outgoing' ? 'to' : 'from')
 const isIncomingActive = computed(() => activeTab.value === 'incoming')
 const isOutgoingActive = computed(() => activeTab.value === 'outgoing')
 const loading = computed(() => loadingOffers.value || !offerIds.value)
