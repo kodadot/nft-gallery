@@ -10,23 +10,6 @@
     />
 
     <NeoModal
-      :value="isSuccessModalOpen"
-      append-to-body
-      @close="handleSuccessModalClose"
-    >
-      <ModalBody
-        :title="$t('success')"
-        @close="handleSuccessModalClose"
-      >
-        <SuccessfulMakingOfferBody
-          :tx-hash="txHash"
-          :items="items"
-          :status="status"
-        />
-      </ModalBody>
-    </NeoModal>
-
-    <NeoModal
       :value="preferencesStore.makeOfferModalOpen"
       append-to-body
       @close="onClose"
@@ -39,7 +22,10 @@
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div
+          v-if="preferencesStore.makeOfferModalOpen"
+          class="px-6 max-h-[50vh] overflow-y-auto"
+        >
           <ModalIdentityItem />
 
           <MakingOfferSingleItem />
@@ -49,6 +35,7 @@
           <AutoTeleportActionButton
             ref="autoTeleportButton"
             :actions="actions"
+            :amount="totalOfferAmount"
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
@@ -80,36 +67,33 @@ import AutoTeleportActionButton, {
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import MakingOfferSingleItem from '@/components/offer/MakingOfferSingleItem.vue'
-import SuccessfulMakingOfferBody from '@/components/offer/SuccessfulMakingOfferBody.vue'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
+import { sum } from '@/utils/math'
+import type { NotificationAction } from '@/utils/notification'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const offerStore = useMakingOfferStore()
+const { accountId } = useAuth()
 const {
   transaction,
   isLoading,
   status,
   isError,
   blockNumber,
-  txHash,
   clear: clearTransaction,
-} = useTransaction()
-
-const { isTransactionSuccessful } = useTransactionSuccessful({
-  status,
-  isError,
+} = useTransaction({
+  disableSuccessNotification: true,
 })
+const offerSession = ref<{ state: LoadingNotificationState, closeNotification?: () => void }>({
+  state: 'loading',
+})
+const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
 const { decimals } = useChain()
 const { $i18n } = useNuxtApp()
-const itemCount = ref(offerStore.count)
 const items = ref<MakingOfferItem[]>([])
-
-const isSuccessModalOpen = computed(
-  () => Boolean(items.value.length) && isTransactionSuccessful.value,
-)
 
 const getAction = (items: MakingOfferItem[]): Actions => {
   return {
@@ -118,17 +102,19 @@ const getAction = (items: MakingOfferItem[]): Actions => {
     token: items.map(item => ({
       price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
       collectionId: item.collection.id,
+      duration: item.offerExpiration || 7,
       nftSn: item.sn,
     } as TokenToOffer)),
-    duration: 300,
-    successMessage: $i18n.t('transaction.price.offer') as string,
-    errorMessage: $i18n.t('transaction.price.error') as string,
   }
 }
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
-  getActionFn: () => getAction(offerStore.itemsInChain),
+  getActionFn: () => getAction(itemsInChain.value),
 })
+
+const totalOfferAmount = computed(
+  () => calculateBalance(sum(itemsInChain.value.map(nft => Number(nft.offerPrice))), decimals.value),
+)
 
 const actions = computed<AutoTeleportAction[]>(() => [
   {
@@ -146,13 +132,21 @@ const actions = computed<AutoTeleportAction[]>(() => [
 const confirmButtonDisabled = computed(
   () =>
     hasOperationsDisabled(urlPrefix.value)
-    || offerStore.hasInvalidOfferPrices
+    || hasInvalidOfferPrices.value
     || !autoTeleportButton.value?.isReady,
 )
 
 const confirmListingLabel = computed(() => {
   if (!offerVisible(urlPrefix.value)) {
     return $i18n.t('toast.unsupportedOperation')
+  }
+
+  if (!totalOfferAmount.value) {
+    return $i18n.t('offer.emptyInput')
+  }
+
+  if (hasInvalidOfferPrices.value) {
+    return $i18n.t('offer.invalidPrice')
   }
 
   if (!autoTeleportButton.value?.isReady) {
@@ -162,7 +156,7 @@ const confirmListingLabel = computed(() => {
 })
 
 const submitOffer = () => {
-  return transaction(getAction(offerStore.itemsInChain))
+  return transaction(getAction(items.value))
 }
 
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
@@ -170,8 +164,7 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
     clearTransaction()
 
     autoTeleport.value = autoteleport
-    itemCount.value = offerStore.count
-    items.value = [...offerStore.itemsInChain]
+    items.value = [...itemsInChain.value]
 
     if (!autoteleport) {
       await submitOffer()
@@ -188,15 +181,33 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 const onClose = () => {
   closeMakingOfferModal()
 }
+const closeMakingOfferModal = () => (preferencesStore.makeOfferModalOpen = false)
 
-const handleSuccessModalClose = () => {
-  items.value = []
+const showOfferCreationNotification = (session) => {
+  const isSessionState = (state: LoadingNotificationState) =>
+    session.value?.state === state
+
+  session.value.closeNotification = loadingMessage({
+    title: ref($i18n.t('offer.offerCreation')),
+    state: computed(() => session?.value.state as LoadingNotificationState),
+    action: computed<NotificationAction | undefined>(() => {
+      if (isSessionState('succeeded')) {
+        return {
+          label: $i18n.t('offer.manageOffers'),
+          icon: 'arrow-up-right',
+          url: `/${urlPrefix.value}/u/${accountId.value}`,
+        }
+      }
+
+      return undefined
+    }),
+  })
 }
 
 watch(
-  () => offerStore.count,
+  () => count.value,
   () => {
-    if (offerStore.count === 0) {
+    if (count.value === 0) {
       closeMakingOfferModal()
     }
   },
@@ -209,8 +220,22 @@ useModalIsOpenTracker({
   },
 })
 
-const closeMakingOfferModal = () =>
-  (preferencesStore.makeOfferModalOpen = false)
+watch(isError, (error) => {
+  if (error) {
+    offerSession.value.closeNotification?.()
+  }
+})
+
+watch(status, (status) => {
+  switch (status) {
+    case TransactionStatus.Block:
+      showOfferCreationNotification(offerSession)
+      break
+    case TransactionStatus.Finalized:
+      offerSession.value.state = 'succeeded'
+      break
+  }
+})
 
 onBeforeMount(closeMakingOfferModal)
 onUnmounted(closeMakingOfferModal)
