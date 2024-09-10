@@ -21,50 +21,18 @@
         <LandingDomainChangeNotificationBanner
           v-if="!isLatestProductionDomain"
         />
-        <LandingFarcasterMintNotificationBanner
-          v-else-if="farcasterLiveMint"
-          :config="farcasterLiveMint"
-        />
         <LandingFarcasterBanner v-else />
       </div>
     </div>
 
-    <div class="container is-fluid !mt-8 md:!mt-[3rem] mb-16">
+    <div
+      :key="usePrefix().urlPrefix.value"
+      class="container is-fluid !mt-8 md:!mt-[3rem] mb-16"
+    >
       <CarouselTypeDrops />
     </div>
   </section>
 </template>
-
-<script lang="ts" setup>
-import farcasterLiveMintConfig from '@/script/farcasterLiveMint.json'
-
-const farcasterLiveMint = ref()
-
-const fetchFarcasterLiveMint = async () => {
-  if (isProduction) {
-    try {
-      const res: string = await $fetch(
-        'https://raw.githubusercontent.com/kodadot/nft-gallery/main/script/farcasterLiveMint.json',
-        {
-          method: 'GET',
-        },
-      )
-      const config = JSON.parse(res)
-      if (config) {
-        farcasterLiveMint.value = config
-      }
-    }
-    catch (error) {
-      // no live mint
-    }
-  }
-  else {
-    farcasterLiveMint.value = farcasterLiveMintConfig
-  }
-}
-
-onMounted(fetchFarcasterLiveMint)
-</script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';

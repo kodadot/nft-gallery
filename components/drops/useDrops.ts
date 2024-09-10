@@ -1,34 +1,10 @@
-import orderBy from 'lodash/orderBy'
-import type { Prefix } from '@kodadot1/static'
-import { parseCETDate } from './utils'
-import type { GetDropsQuery } from '@/services/fxart'
-import { getDropById, getDrops } from '@/services/fxart'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { getDropAttributes } from './utils'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-import { subCollection } from '@/utils/onchain/sub'
-import { evmCollection } from '@/utils/onchain/evm'
-
-export interface Drop {
-  collection: DropItem
-  chain: Prefix
-  minted: number
-  max: number
-  disabled: number
-  dropStartTime?: Date
-  price: string
-  alias: string
-  name: string
-  isMintedOut: boolean
-  status: DropStatus
-  image?: string
-  banner?: string
-  creator?: string
-}
 
 export enum DropStatus {
   MINTING_ENDED = 'minting_ended',
@@ -39,139 +15,9 @@ export enum DropStatus {
   UNSCHEDULED = 'unscheduled',
 }
 
-const DROP_LIST_ORDER = [
-  DropStatus.SCHEDULED_SOON,
-  DropStatus.MINTING_LIVE,
-  DropStatus.SCHEDULED,
-  DropStatus.COMING_SOON,
-  DropStatus.MINTING_ENDED,
-  DropStatus.UNSCHEDULED,
-]
-
-const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
-
-export function useDrops(query?: GetDropsQuery, { async = false, filterOutMinted = false }: { async?: boolean, filterOutMinted?: boolean } = { }) {
-  const drops = ref<Drop[]>([])
-  const dropsList = ref<DropItem[]>([])
-  const count = computed(() => dropsList.value.length)
-  const loaded = ref(false)
-
-  const getDropsAsync = () => {
-    dropsList.value.forEach((drop) => {
-      getFormattedDropItem(drop, drop).then((drop: Drop) => {
-        drops.value = orderBy(
-          [...drops.value, drop],
-          [drop => dropsList.value.map(d => d.alias).indexOf(drop.alias)],
-        )
-      })
-    })
-
-    watch(() => drops.value.length === dropsList.value.length, () => {
-      loaded.value = true
-    }, { once: true })
-  }
-
-  onBeforeMount(async () => {
-    dropsList.value = await getDrops(query)
-
-    if (async) {
-      getDropsAsync()
-    }
-    else {
-      drops.value = await Promise.all(
-        dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-      ).then(dropsList => filterOutMinted ? dropsList.filter(drop => !drop.isMintedOut) : dropsList)
-
-      loaded.value = true
-    }
-  })
-
-  const sortDrops = computed(() =>
-    orderBy(
-      drops.value,
-      [drop => DROP_LIST_ORDER.indexOf(drop.status)],
-      ['asc'],
-    ),
-  )
-
-  return { drops: sortDrops, count, loaded }
-}
-
-export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-
-  let count = drop.minted ?? collection.nftCount
-  if (!count) {
-    count = await fetchDropMintedCount(drop)
-  }
-  const price = drop.price || 0
-  let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
-
-  if (count >= 5) {
-    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
-  }
-
-  const newDrop = {
-    ...drop,
-    collection: collection,
-    max: chainMax,
-    dropStartTime,
-    price,
-    isMintedOut: count >= chainMax,
-    isFree: !Number(price),
-    minted: count,
-  } as any
-
-  Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
-
-  return newDrop
-}
-
-const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
-  const now = new Date()
-
-  if (drop.minted === drop.max) {
-    return DropStatus.MINTING_ENDED
-  }
-
-  if (!drop.dropStartTime) {
-    return DropStatus.UNSCHEDULED
-  }
-
-  if (drop.dropStartTime <= now) {
-    if (drop.disabled) {
-      return DropStatus.COMING_SOON
-    }
-    return DropStatus.MINTING_LIVE
-  }
-
-  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
-    return DropStatus.SCHEDULED_SOON
-  }
-
-  return DropStatus.SCHEDULED
-}
-
-export const getDropDetails = async (alias: string) => {
-  const drop = await getDropById(alias)
-
-  const { data: collectionData } = await useAsyncQuery({
-    clientId: drop.chain,
-    query: unlockableCollectionById,
-    variables: {
-      id: drop.collection,
-    },
-  })
-
-  const { collectionEntity } = collectionData.value
-
-  return getFormattedDropItem(collectionEntity, drop)
-}
-
 export function useDrop(alias?: string) {
   const { params } = useRoute()
   const dropStore = useDropStore()
-  const { isEvm, isSub } = useIsChain(usePrefix().urlPrefix)
 
   const drop = computed({
     get: () => dropStore.drop,
@@ -182,30 +28,10 @@ export function useDrop(alias?: string) {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    drop.value = await getDropById(alias ?? params.id.toString())
+    const dropAttributes = await getDropAttributes(alias ?? params.id.toString())
 
-    if (!drop.value.collection) {
-      return
-    }
-
-    if (isSub.value) {
-      const { maxSupply: supply, minted, metadata } = await subCollection(drop.value.collection)
-
-      drop.value.max = supply
-      drop.value.minted = minted
-      drop.value.collectionName = metadata.name
-      drop.value.collectionDescription = metadata.description
-    }
-
-    if (isEvm.value) {
-      const { urlPrefix } = usePrefix()
-      const address = drop.value.collection as `0x${string}`
-      const { maxSupply: supply, metadata, minted } = await evmCollection(address, urlPrefix.value)
-
-      drop.value.max = supply
-      drop.value.minted = minted
-      drop.value.collectionName = metadata.name
-      drop.value.collectionDescription = metadata.description
+    if (dropAttributes) {
+      drop.value = dropAttributes
     }
   }
 
@@ -249,10 +75,9 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   const { fetchMultipleBalance, transferableCurrentChainBalance }
     = useMultipleBalance()
 
-  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
   const minimumFunds = computed<number>(() =>
-    price.value ? amount.value * price.value : meta.value,
+    price.value ? amount.value * price.value : 0,
   )
   const hasMinimumFunds = computed(
     () =>
@@ -329,33 +154,4 @@ export const useHolderOfCollectionDrop = () => {
   }
 
   return { isNftClaimed }
-}
-
-export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
-  const { drops } = useDrops({
-    chain: [chain],
-    collection: collectionId,
-  })
-
-  const relatedActiveDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection.collection === collectionId
-        && !drop.disabled
-        && drop.status === DropStatus.MINTING_LIVE,
-    ),
-  )
-
-  const relatedEndedDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection.collection === collectionId
-        && drop.status === DropStatus.MINTING_ENDED,
-    ),
-  )
-
-  return {
-    relatedActiveDrop,
-    relatedEndedDrop,
-  }
 }

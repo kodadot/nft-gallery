@@ -150,6 +150,13 @@ export type TokenToList = {
   nftId: string
 }
 
+export type TokenToOffer = {
+  price: string
+  collectionId: string
+  nftSn: string
+  duration: number
+}
+
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
@@ -175,26 +182,26 @@ export type ActionSend = {
 export type ActionOffer = {
   interaction: typeof ShoppingActions.MAKE_OFFER
   urlPrefix: string
-  tokenId: string
-  day: number
-  price: number
-  currentOwner: string
-  successMessage?: string
+  token: TokenToOffer | TokenToOffer[]
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
 
 export type ActionWithdrawOffer = {
   interaction: typeof ShoppingActions.WITHDRAW_OFFER
-  nftId: string
-  maker: string
+  urlPrefix: Prefix
+  offeredId: number
   successMessage?: string
   errorMessage?: string
 }
 
 export type ActionAcceptOffer = {
-  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+  interaction: typeof ShoppingActions.ACCEPT_OFFER
+  urlPrefix: Prefix
   nftId: string
-  maker: string
+  collectionId: string
+  offeredId: number
+  price: string
   successMessage?: string
   errorMessage?: string
 }
@@ -270,6 +277,7 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawOffer
+  | ActionAcceptOffer
   | ActionMintToken
   | ActionMintCollection
   | ActionDeleteCollection

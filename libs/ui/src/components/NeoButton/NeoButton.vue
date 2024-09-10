@@ -7,7 +7,6 @@
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
       'shiny': shiny,
-      'dropdown': dropdown,
       'pressing': pressing,
     }"
     :size="size"
@@ -48,7 +47,6 @@ const props = withDefaults(
     iconPack?: string
     label?: string
     active?: boolean
-    dropdown?: boolean
     fixedWidth?: boolean
     noShadow?: boolean
     variant?: NeoButtonVariant

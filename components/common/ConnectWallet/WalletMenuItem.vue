@@ -112,6 +112,8 @@
 
 <script lang="ts" setup>
 import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
 import type { WalletAccount } from '@/utils/config/wallets'
 import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -128,6 +130,7 @@ defineProps<{
 
 const { chainProperties } = useChain()
 const { $consola } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 const hasWalletProviderExtension = ref(false)
 const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
@@ -166,7 +169,7 @@ const { data: existingProfiles, isLoading: isProfilesLoading } = useProfiles('ac
 const formatAccount = (account: WalletAccount): WalletAccount => {
   return {
     ...account,
-    address: formatAddress(account.address, ss58Format.value),
+    address: formatAddress(account.address, !isPrefixVmOf(urlPrefix.value, 'SUB') ? chainPropListOf(DEFAULT_VM_PREFIX['SUB']).ss58Format : ss58Format.value),
   }
 }
 

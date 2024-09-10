@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import type { DropItem } from '@/params/types'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
-import type { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
 import type { MintingSession } from '@/components/collection/drop/types'
+import type { DropStatus } from '@/components/drops/useDrops'
+import type { MassMintNFT } from '@/composables/drop/massmint/useDropMassMint'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import type { DropItem } from '@/params/types'
 
 const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   id: '',
@@ -16,9 +17,13 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   content: '',
   alias: '',
   type: 'paid',
-  meta: '',
   disabled: 0,
+  dropStartTime: undefined,
+  isMintedOut: false,
+  isFree: false,
+  status: 'minting_live' as DropStatus,
 }
+
 interface State {
   loading: boolean
   walletConnecting: boolean
