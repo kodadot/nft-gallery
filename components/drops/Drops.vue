@@ -88,8 +88,9 @@ const { data: dropItems } = useQuery({
   }),
 })
 
+const { isEvm } = useIsChain(urlPrefix)
 const mintedDrops = useMintedDropsStore()
-const sortedMintedDrops = computed(() => mintedDrops.sortedMintedDrops)
+const sortedMintedDrops = computed(() => isEvm.value ? mintedDrops.getMintedDrops : mintedDrops.sortedMintedDrops)
 
 onBeforeMount(() => {
   mintedDrops.clearMintedDrops()

@@ -8,6 +8,9 @@ export const useMintedDropsStore = defineStore('mintedDrops', {
     mintedDrops: [] as DropItem[],
   }),
   getters: {
+    getMintedDrops(): DropItem[] {
+      return this.mintedDrops
+    },
     sortedMintedDrops(): DropItem[] {
       return [...this.mintedDrops].sort((a, b) => {
         // Sort from bigger to lower number
