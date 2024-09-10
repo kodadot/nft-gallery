@@ -1,5 +1,6 @@
 <script>
 import { ODropdown } from '@oruga-ui/oruga-next'
+import { useElementBounding } from '@vueuse/core'
 
 export default {
   mixins: [ODropdown],
@@ -12,7 +13,10 @@ export default {
       type: Boolean,
       default: false,
     },
-
+    closeMenuOnMove: {
+      type: Boolean,
+      default: false,
+    },
     position: {
       type: String,
       validator: (value) => {
@@ -90,6 +94,7 @@ export default {
     else {
       this.autoPosition = this.position
     }
+    watch(useElementBounding(this.$refs.trigger).top, this.onTriggerMove)
   },
   onBeforeUnmount() {
     window.removeEventListener('resize', this.calcDropdownPosition)
@@ -104,6 +109,11 @@ export default {
           ? 'right'
           : 'left'
       this.autoPosition = this.position.replace('auto', side)
+    },
+    onTriggerMove() {
+      if (this.closeMenuOnMove && this.isActive) {
+        this.isActive = false
+      }
     },
   },
 }
