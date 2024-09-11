@@ -94,7 +94,9 @@ export default {
     else {
       this.autoPosition = this.position
     }
-    watch(useElementBounding(this.$refs.trigger).top, this.onTriggerMove)
+    if (this.closeMenuOnMove) {
+      watch(useElementBounding(this.$refs.trigger).top, this.onTriggerMove)
+    }
   },
   onBeforeUnmount() {
     window.removeEventListener('resize', this.calcDropdownPosition)
@@ -111,7 +113,7 @@ export default {
       this.autoPosition = this.position.replace('auto', side)
     },
     onTriggerMove() {
-      if (this.closeMenuOnMove && this.isActive) {
+      if (this.isActive) {
         this.isActive = false
       }
     },
