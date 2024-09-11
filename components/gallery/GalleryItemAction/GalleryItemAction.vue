@@ -20,13 +20,6 @@
       :nft="nft"
       class="mt-2"
     />
-
-    <!-- transfer item as an owner -->
-    <GalleryItemPriceTransfer
-      v-if="isOwner && nft?.id"
-      :nft="nft"
-      class="mt-2"
-    />
   </div>
 </template>
 
@@ -34,7 +27,6 @@
 import GalleryItemPriceBuy from './GalleryItemActionType/GalleryItemBuy.vue'
 import GalleryItemOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
-import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
 import { listVisible, offerVisible } from '@/utils/config/permission.config'
 import type { NFTOffer } from '@/composables/useNft'
 

@@ -7,6 +7,13 @@
       @try-again="burn"
     />
 
+    <ItemTransferModal
+      v-if="nft && isOwner"
+      :value="isTransferModalActive"
+      :nft="nft"
+      @close="isTransferModalActive = false"
+    />
+
     <NeoDropdown
       position="bottom-left"
       :mobile-modal="false"
@@ -28,13 +35,18 @@
       </NeoDropdownItem>
 
       <template
-        v-if="accountId === currentOwner && !hasOperationsDisabled(urlPrefix)"
+        v-if="isOwner && !hasOperationsDisabled(urlPrefix)"
       >
+        <NeoDropdownItem
+          @click="transfer"
+        >
+          Transfer NFT
+        </NeoDropdownItem>
         <NeoDropdownItem @click="burn">
           Burn
         </NeoDropdownItem>
         <NeoDropdownItem
-          v-if="price !== '0'"
+          v-if="nft?.price !== '0'"
           @click="unlist"
         >
           Delist
@@ -54,6 +66,8 @@ import { downloadImage } from '@/utils/download'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
+import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
+import type { NFT } from '@/components/rmrk/service/scheme'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
@@ -63,18 +77,16 @@ const { urlPrefix } = usePrefix()
 const route = useRoute()
 
 const props = defineProps<{
+  nft?: NFT
   mimeType?: string
-  name?: string
-  nftSn?: string
-  collectionId?: string
-  collectionName?: string
   imageUrl?: string
-  currentOwner?: string
-  price?: string
   imageData?: string
 }>()
 
 const action = ref('')
+const isTransferModalActive = ref(false)
+
+const isOwner = computed(() => accountId.value === props.nft?.currentOwner)
 const signingModalTitle = computed(() => {
   return (
     {
@@ -117,7 +129,7 @@ const downloadMedia = async () => {
 
   try {
     toast($i18n.t('toast.downloadImage'))
-    downloadImage(imageUrl, `${props.collectionName}_${props.name}`)
+    downloadImage(imageUrl, `${props.nft?.collection?.name}_${props.nft?.name}`)
   }
   catch (error) {
     $consola.warn('[ERR] unable to fetch image')
@@ -131,8 +143,8 @@ const burn = () => {
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
     nftId: route.params.id as string,
-    nftSn: props.nftSn!,
-    collectionId: props.collectionId!,
+    nftSn: props.nft?.sn as string,
+    collectionId: props.nft?.collection?.id as string,
     successMessage: $i18n.t('transaction.consume.success') as string,
     errorMessage: $i18n.t('transaction.consume.error') as string,
   })
@@ -150,5 +162,9 @@ const unlist = () => {
     successMessage: $i18n.t('transaction.unlist.success') as string,
     errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
+}
+
+const transfer = () => {
+  isTransferModalActive.value = true
 }
 </script>
