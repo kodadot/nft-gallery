@@ -5,6 +5,7 @@ export enum ProfileTab {
   CREATED = 'created',
   COLLECTIONS = 'collections',
   ACTIVITY = 'activity',
+  OFFERS = 'offers',
 }
 
 export interface ButtonConfig {

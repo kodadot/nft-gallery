@@ -26,7 +26,7 @@ export const useMakingOfferStore = defineStore('makingOffer', {
       return this.itemsInChain.length
     },
     hasInvalidOfferPrices(): boolean {
-      return this.itemsInChain.some(item => Number(item.offerPrice || 0) <= 0)
+      return this.itemsInChain.some(item => Number(item.offerPrice || 0) <= 0.0001)
     },
   },
 

@@ -107,7 +107,8 @@ function useMetaTransaction() {
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
-      const isCancelled = e.message === 'Cancelled'
+      const errorMessage = e.message?.toLowerCase() || ''
+      const isCancelled = errorMessage.includes('cancelled') || errorMessage.includes('rejected')
       if (isCancelled) {
         warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 

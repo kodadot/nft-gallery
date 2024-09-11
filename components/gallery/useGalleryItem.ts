@@ -5,7 +5,7 @@ import { getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
-import type { NFTWithMetadata, NftResources } from '@/composables/useNft'
+import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
 
 interface NFTData {
@@ -20,6 +20,7 @@ export interface GalleryItem {
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
+  nftHighestOffer: Ref<NFTOffer | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -32,6 +33,8 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
+  const nftHighestOffer = ref<NFTOffer>()
+  const isOfferIndexerDisabled = computed(() => urlPrefix.value !== 'ahp')
 
   const { params } = useRoute()
   const id = nftId || params.id
@@ -53,6 +56,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
+  const { data: nftOfferData, refetch: refetchHighestOffer } = useGraphql({
+    queryName: 'highestOfferByNftId',
+    disabled: isOfferIndexerDisabled,
+    variables: {
+      id,
+    },
+  })
+
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
       id
@@ -64,6 +75,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       }
     }`,
     onChange: refetch,
+  })
+
+  useSubscriptionGraphql({
+    query: `offers(where: {status_eq: ACTIVE, desired: {id_eq: "${id}"}}, orderBy: price_DESC, limit: 1) {
+      id
+    }`,
+    disabled: isOfferIndexerDisabled,
+    onChange: refetchHighestOffer,
   })
 
   watch(data as unknown as NFTData, async (newData) => {
@@ -152,6 +171,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     })
   })
 
+  watch(nftOfferData as unknown as { offers: NFTOffer[] }, (newData) => {
+    if (newData && newData.offers && newData.offers[0]) {
+      nftHighestOffer.value = newData.offers[0]
+    }
+  })
+
   return {
     nft,
     nftImage,
@@ -160,5 +185,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMimeType,
     nftMetadata,
     nftResources,
+    nftHighestOffer,
   }
 }
