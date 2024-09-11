@@ -63,7 +63,7 @@ export default function (refetchPeriodically: boolean = false) {
   const {
     multiBalances,
     multiBalanceNetwork,
-    getVmAssets: assets,
+    getWalletVmAssets: assets,
   } = storeToRefs(identityStore)
 
   const currentNetwork = computed(() =>
@@ -140,14 +140,14 @@ export default function (refetchPeriodically: boolean = false) {
   }
 
   async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
+    const prefix = networkToPrefix[chainName] as Prefix
+    const chain = CHAINS[prefix]
     const currentAddress = accountId.value
+
     const defaultAddress = execByVm({
       SUB: () => toDefaultAddress(currentAddress),
       EVM: () => currentAddress,
-    })
-
-    const prefix = networkToPrefix[chainName]
-    const chain = CHAINS[prefix]
+    }, { prefix })
 
     const { balance: nativeBalance, prefixAddress } = (await execByVm({
       SUB: () =>
@@ -158,7 +158,7 @@ export default function (refetchPeriodically: boolean = false) {
           tokenId,
         }),
       EVM: () => getEvmBalance({ address: currentAddress, prefix }),
-    })) as { balance: string, prefixAddress: string }
+    }, { prefix })) as { balance: string, prefixAddress: string }
 
     const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
     const selectedTokenId = String(tokenId)
@@ -167,6 +167,10 @@ export default function (refetchPeriodically: boolean = false) {
       currentBalance,
       fiatStore.getCurrentTokenValue(token as Token),
     )
+
+    if (!identityStore.getWalletVmChains.includes(chainName)) {
+      return
+    }
 
     identityStore.setMultiBalances({
       address: defaultAddress,
