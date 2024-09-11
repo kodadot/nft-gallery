@@ -3,6 +3,8 @@
 </template>
 
 <script lang="ts" setup>
+import { dropsVisible } from '@/utils/config/permission.config'
+
 const route = useRoute()
 
 useSeoMeta({
@@ -14,4 +16,14 @@ useSeoMeta({
 definePageMeta({
   layout: 'no-footer',
 })
+
+const { urlPrefix } = usePrefix()
+const checkRouteAvailability = () => {
+  if (!dropsVisible(urlPrefix.value)) {
+    return navigateTo('/')
+  }
+}
+
+watchEffect(checkRouteAvailability)
+onBeforeMount(checkRouteAvailability)
 </script>
