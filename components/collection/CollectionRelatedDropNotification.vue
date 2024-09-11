@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="relatedActiveDrop"
+    v-if="drop && !drop.isMintedOut"
     class="flex w-full justify-center mt-4"
   >
     <div
@@ -20,19 +20,19 @@
       <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
       <nuxt-link
         class="flex items-center font-bold my-2"
-        :to="`/${relatedActiveDrop.chain}/drops/${relatedActiveDrop.alias}`"
+        :to="`/${drop?.chain}/drops/${drop?.alias}`"
       >
         {{ $t('drops.viewDrop') }}
       </nuxt-link>
     </div>
   </div>
   <div
-    v-else-if="relatedEndedDrop"
+    v-else
     class="flex w-full justify-center mt-4"
   >
     <NeoButton
       :tag="NuxtLink"
-      :to="`/${relatedEndedDrop.chain}/drops/${relatedEndedDrop.alias}`"
+      :to="`/${drop?.chain}/drops/${drop?.alias}`"
       variant="secondary-rounded"
       icon-left="puzzle-piece"
       icon-pack="fal"
@@ -44,7 +44,9 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
-import { useRelatedActiveDrop } from '@/components/drops/useDrops'
+import { getDropAttributes } from '../drops/utils'
+import { getDrops } from '@/services/fxart'
+import type { DropItem } from '@/params/types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -52,10 +54,18 @@ const props = defineProps<{
   collectionId: string
 }>()
 
-const collectionId = computed(() => props.collectionId)
 const { urlPrefix } = usePrefix()
-const { relatedActiveDrop, relatedEndedDrop } = useRelatedActiveDrop(
-  collectionId.value,
-  urlPrefix.value,
-)
+
+const drop = ref<DropItem>()
+
+onBeforeMount(async () => {
+  const fetchDrops = await getDrops({
+    chain: [urlPrefix.value],
+    collection: props.collectionId,
+  })
+
+  if (fetchDrops.length) {
+    drop.value = await getDropAttributes(fetchDrops[0].alias)
+  }
+})
 </script>
