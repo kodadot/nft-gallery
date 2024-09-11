@@ -179,7 +179,7 @@
     "tooltip": "Le NFT sans carbone signifie que vous contribuez à couvrir les coûts des crédits carbone et de la plantation d'arbres"
   },
   "support": {
-    "tooltip": "Les coûts de couverture signifient que les utilisateurs aident à supporter les coûts initiaux de KodaDot qui stocke votre JPEG en votre nom."
+    "tooltip": "Les coûts de couverture signifient que les utilisateurs aident à supporter les coûts initiaux de Koda qui stocke votre JPEG en votre nom."
   },
   "termOfService": {
     "accept": "Je confirme que je détiens tous les droits d'auteur sur le bien numérique soumis (ou que j'ai l'autorisation suffisante du propriétaire pour utiliser le bien)"
@@ -304,7 +304,7 @@
     "urlToTransform": {
       "label": "URL à transformer",
       "placeholder": "singular.rmrk.app/collectibles/",
-      "copy": "Le lien Kodadot a été copié avec succès"
+      "copy": "Le lien Koda a été copié avec succès"
     },
     "builtOn": "Bâti sur",
     "signStuckText": "Vous êtes coincé ? Vérifiez qu'il n'y a pas de pop-up et signez la transaction."
@@ -345,10 +345,10 @@
     }
   },
   "sharing": {
-    "collection": "Découvrez cette superbe collection sur KodaDot.",
-    "nft": "Découvrez ce superbe nft sur KodaDot.",
-    "pack": "Découvrez cette superbe pack sur KodaDot.",
-    "profile": "Découvrez cette superbe profil sur KodaDot."
+    "collection": "Découvrez cette superbe collection sur Koda.",
+    "nft": "Découvrez ce superbe nft sur Koda.",
+    "pack": "Découvrez cette superbe pack sur Koda.",
+    "profile": "Découvrez cette superbe profil sur Koda."
   },
   "warning": {
     "newTransactionWhilePriceSet": "Pour fixer le prix, il faut maintenant effectuer une transaction supplémentaire."

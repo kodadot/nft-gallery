@@ -5,15 +5,10 @@
     </div>
 
     <GalleryItemMoreActionBtn
+      :nft="nft"
       :image-url="nftMetadata?.image"
       :image-data="imageData"
       :mime-type="nftMimeType"
-      :name="nft?.name"
-      :nft-sn="nft?.sn"
-      :collection-id="nft?.collection?.id"
-      :collection-name="nft?.collection?.name"
-      :current-owner="nft?.currentOwner"
-      :price="nft?.price"
       data-testid="gallery-item-more-button"
     />
   </div>
