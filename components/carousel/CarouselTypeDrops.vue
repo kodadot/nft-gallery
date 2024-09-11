@@ -2,14 +2,15 @@
   <div ref="container">
     <template v-if="isDynamicGridReady">
       <CarouselModuleCarouselAgnostic
-        v-if="isReady"
+        v-if="isReady && dropsAlias"
         :key="dropsAlias.join('-')"
         v-slot="{ item }"
         :items="drops"
         :config="config"
       >
-        <DropsDropCard
+        <DropsDropItem
           :drop="item"
+          :show-minted="true"
         />
       </CarouselModuleCarouselAgnostic>
       <CarouselModuleCarouselAgnostic
@@ -24,22 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useDrops } from '@/components/drops/useDrops'
-
-let queries = {
-  limit: 14,
-  active: [true],
-  chain: ['ahp', 'base'],
-}
-
-const { urlPrefix } = usePrefix()
-
-if (!isProduction && urlPrefix.value === 'ahk') {
-  queries = {
-    ...queries,
-    chain: ['ahk'],
-  }
-}
+import { useQuery } from '@tanstack/vue-query'
+import { dropsVisible } from '@/utils/config/permission.config'
+import { getDrops } from '@/services/fxart'
 
 const container = ref()
 const { cols, isReady: isDynamicGridReady } = useDynamicGrid({
@@ -55,6 +43,16 @@ const skeletonCount = computed(() =>
   Number.isInteger(perView.value) ? perView.value : Math.ceil(perView.value),
 )
 
-const { drops, loaded: isReady } = useDrops(queries, { filterOutMinted: true })
-const dropsAlias = computed(() => drops.value.map(drop => drop.alias))
+const { urlPrefix } = usePrefix()
+
+const { data: drops, isSuccess: isReady } = useQuery({
+  queryKey: ['drop-items-carousel', urlPrefix.value],
+  queryFn: () => getDrops({
+    active: [true],
+    chain: dropsVisible(urlPrefix.value) ? [urlPrefix.value] : ['base', 'ahp'],
+    limit: 14,
+  }),
+})
+
+const dropsAlias = computed(() => drops.value?.map(drop => drop.alias))
 </script>

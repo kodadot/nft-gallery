@@ -7,7 +7,9 @@ import type {
 export type MakingOfferItem = {
   urlPrefix: string
   price?: string
+  highestOffer?: string
   offerPrice?: string
+  offerExpiration?: number
   id: string
   name: string
   currentOwner: string

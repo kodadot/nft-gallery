@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!(loaded && !drops.length)"
+    v-if="!(loaded && !drops?.length)"
     class="pt-6 pb-7 md:!pb-16 max-sm:mx-5 mx-12 2xl:mx-auto border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]"
   >
     <div class="flex flex-col gap-8 w-full">
@@ -64,19 +64,26 @@
         </div>
       </div>
 
-      <DropsGrid
-        :drops="drops"
-        :loaded="loaded"
-        :default-skeleton-count="4"
-        skeleton-key="curated-drops-skeleton"
-      />
+      <DynamicGrid
+        grid-size="medium"
+        persist
+        :default-width="{ medium: DROP_CARD_MIN_WIDTH, small: 0, large: 0 }"
+      >
+        <DropsDropItem
+          v-for="drop in drops"
+          :key="drop.id"
+          :drop="drop"
+          :show-minted="true"
+        />
+      </DynamicGrid>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoIcon, NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
-import { useDrops } from '@/components/drops/useDrops'
+import { useQuery } from '@tanstack/vue-query'
+import { getDrops } from '@/services/fxart'
 
 const props = defineProps<{
   id: string
@@ -84,9 +91,12 @@ const props = defineProps<{
 
 const { urlPrefix } = usePrefix()
 
-const { drops, loaded } = useDrops({
-  active: [true, false],
-  chain: [urlPrefix.value],
-  creator: props.id,
+const { data: drops, isSuccess: loaded } = useQuery({
+  queryKey: ['drop-items-curated', urlPrefix.value],
+  queryFn: () => getDrops({
+    active: [true, false],
+    chain: [urlPrefix.value],
+    creator: props.id,
+  }),
 })
 </script>

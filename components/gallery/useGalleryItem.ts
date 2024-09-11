@@ -4,34 +4,39 @@ import { useHistoryStore } from '@/stores/history'
 import { getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getCloudflareMp4 } from '@/services/imageWorker'
-import type { NFT } from '@/components/rmrk/service/scheme'
-import type { NFTWithMetadata, NftResources } from '@/composables/useNft'
+import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
+import { getDrops } from '@/services/fxart'
 
 interface NFTData {
-  nftEntity?: NFTWithMetadata
+  nftEntity?: NftEntity
 }
 
+type NftEntity = NFTWithMetadata & { dropCreator?: string }
+
 export interface GalleryItem {
-  nft: Ref<NFT | undefined>
+  nft: Ref<NftEntity | undefined>
   nftMimeType: Ref<string>
   nftMetadata: Ref<NFTWithMetadata | undefined>
   nftAnimation: Ref<string>
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
+  nftHighestOffer: Ref<NFTOffer | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
-  const nft = ref<NFT>()
+  const nft = ref<NftEntity>()
   const nftImage = ref('')
   const nftAnimation = ref('')
   const nftAnimationMimeType = ref('')
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
+  const nftHighestOffer = ref<NFTOffer>()
+  const isOfferIndexerDisabled = computed(() => urlPrefix.value !== 'ahp')
 
   const { params } = useRoute()
   const id = nftId || params.id
@@ -53,6 +58,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
+  const { data: nftOfferData, refetch: refetchHighestOffer } = useGraphql({
+    queryName: 'highestOfferByNftId',
+    disabled: isOfferIndexerDisabled,
+    variables: {
+      id,
+    },
+  })
+
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
       id
@@ -66,11 +79,30 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     onChange: refetch,
   })
 
+  useSubscriptionGraphql({
+    query: `offers(where: {status_eq: ACTIVE, desired: {id_eq: "${id}"}}, orderBy: price_DESC, limit: 1) {
+      id
+    }`,
+    disabled: isOfferIndexerDisabled,
+    onChange: refetchHighestOffer,
+  })
+
   watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)
       return
+    }
+
+    if (nftEntity.collection.id) {
+      await getDrops({
+        collection: nftEntity.collection.id,
+        chain: [urlPrefix.value],
+      }).then((drops) => {
+        if (drops && drops[0]?.creator) {
+          nftEntity.dropCreator = drops[0].creator
+        }
+      })
     }
 
     nft.value = nftEntity
@@ -152,6 +184,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     })
   })
 
+  watch(nftOfferData as unknown as { offers: NFTOffer[] }, (newData) => {
+    if (newData && newData.offers && newData.offers[0]) {
+      nftHighestOffer.value = newData.offers[0]
+    }
+  })
+
   return {
     nft,
     nftImage,
@@ -160,5 +198,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMimeType,
     nftMetadata,
     nftResources,
+    nftHighestOffer,
   }
 }

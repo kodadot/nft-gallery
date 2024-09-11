@@ -5,6 +5,8 @@
   "scheduled": "Scheduled",
   "supply": "Supply",
   "artist": "Artist",
+  "offers": "Offers",
+  "expiration": "Expiration",
   "markdownSupported": "Markdown supported",
   "why": "Why",
   "requirements": "Requirements",
@@ -17,6 +19,7 @@
   "gallery": "Gallery",
   "collection": "Collection",
   "creator": "Creator",
+  "collectionCreator": "Collection Creator",
   "collections": "Collections",
   "items": "Items",
   "learn": "Learn",
@@ -1354,11 +1357,14 @@
     "transferTo": "Transfer to",
     "transferNft": "Transfer NFT",
     "offer": "Create Offer",
+    "offerWithdraw": "Cancel Offer",
+    "offerAccept": "Accept Offer",
     "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
     "selfTransfer": "You can't transfer to yourself",
+    "offerError": "Offer creation failed",
     "price": {
       "change": "Change Price",
       "new": "Your New Price",
@@ -1632,7 +1638,22 @@
   },
   "offer": {
     "yourOfferAmount": "Your Offer Amount" ,
-    "newOffer": "New Offer"
+    "newOffer": "New Offer",
+    "bestOffer": "Best Offer",
+    "manageOffers": "Manage Offers",
+    "offerCreation": "Offer Creation",
+    "collectionFloorPrice": "Collection Floor",
+    "expiration": "Offer Expiration",
+    "typeOffer": "Type An Offer",
+    "highestOffer": "Highest Offer",
+    "invalidPrice": "Your offer must greater than 0.0001",
+    "emptyInput": "Please enter your offer",
+    "yourOffer": "Your Offer",
+    "cancelOffer": "Cancel Offer",
+    "floorDifference": "Floor Difference",
+    "incomingOffer": "Incoming Offer",
+    "offerWithdrawl": "Offer Cancelation",
+    "offerAccept": "Accepting Offer"
   },
   "migrate": {
     "cta": "Migrate Now",
@@ -1810,6 +1831,10 @@
       "consume": {
         "confirm": "Teleport and Burn NFT",
         "title": "Burning NFT"
+      },
+      "make_offer": {
+        "confirm": "Teleport and Create Offer",
+        "title": "Creating Offer"
       }
     }
   },

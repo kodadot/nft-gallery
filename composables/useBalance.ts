@@ -17,10 +17,10 @@ export default function () {
 
   const balance = computed(() => getBalance('KSM'))
 
-  const getSubBalance = async (address: string) => {
-    const { apiInstance } = useApi()
+  const getSubBalance = async (address: string, prefix: Prefix) => {
+    const { apiInstanceByPrefix } = useApi()
     try {
-      const api = await apiInstance.value
+      const api = await apiInstanceByPrefix(prefix)
       return await balanceOf(api, address)
     }
     catch (e) {
@@ -57,9 +57,9 @@ export default function () {
     }
 
     return execByVm({
-      SUB: () => getSubBalance(address),
+      SUB: () => getSubBalance(address, prefix),
       EVM: () => getEvmBalance(address, prefix),
-    })
+    }, { prefix })
   }
 
   return {

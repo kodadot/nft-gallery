@@ -9,7 +9,6 @@
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="icon"
     >
       <span> {{ text }}</span>
       <span
@@ -18,12 +17,17 @@
       >{{
         formatNumber(count)
       }}</span>
+      <NeoIcon
+        v-if="icon"
+        :icon="icon"
+        class="ml-2"
+      />
     </NeoButton>
   </p>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
 import { formatNumber } from '@/utils/format/balance'
 

@@ -5,7 +5,7 @@ type Params = {
     status: Ref<TransactionStatus>
     isError: Ref<boolean>
   }
-  onSuccess: () => any
+  onSuccess?: () => any
   onCancel?: () => void
   onError?: () => void
   successStatus?: TransactionStatus[]
@@ -34,7 +34,7 @@ export default ({
       && !successStatus.includes(prevStatus)
       && waitFor.every(i => i.value)
     ) {
-      onSuccess()
+      onSuccess?.()
     }
   })
 }

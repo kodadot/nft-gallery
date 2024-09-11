@@ -1,6 +1,5 @@
 import { type Prefix } from '@kodadot1/static'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import { defultTokenChain } from '@/utils/config/chain.config'
 
 export interface TokenDetails {
@@ -16,11 +15,11 @@ const getUniqueArrayItems = (items: string[]) => [...new Set(items)]
 export default function useToken() {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
-  const { getVmAssets } = storeToRefs(useIdentityStore())
+  const { vm } = useChain()
 
   const availableTokensAcrossAllChains = computed(() =>
     getUniqueArrayItems(
-      Object.values(getVmAssets.value).map(getAssetToken),
+      Object.values(getVmAssets(vm.value)).map(getAssetToken),
     ),
   )
 

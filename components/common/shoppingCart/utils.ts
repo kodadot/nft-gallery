@@ -91,13 +91,14 @@ export const nftToListingCartItem = (
   }
 }
 
-export const nftToOfferItem = (nft: NFT & TokenId): MakingOfferItem => {
+export const nftToOfferItem = (nft: NFT & TokenId, highestOffer?: string): MakingOfferItem => {
   const { urlPrefix } = usePrefix()
 
   return {
     id: nft.id,
     name: nameWithIndex(nft.name, nft.sn),
     price: nft.price ?? '0',
+    highestOffer,
     urlPrefix: urlPrefix.value,
     collection: nft.collection,
     metadata: nft.metadata,

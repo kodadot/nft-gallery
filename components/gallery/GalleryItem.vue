@@ -132,16 +132,16 @@
 
             <div class="flex flex-row flex-wrap">
               <IdentityItem
-                v-if="nft?.issuer"
+                v-if="nftCreator"
                 class="gallery-avatar"
                 :class="isMobile ? 'mr-4' : 'mr-8'"
-                :label="$t('creator')"
+                :label="$t(nft?.dropCreator ? 'collectionCreator' : 'creator')"
                 :prefix="urlPrefix"
-                :account="nft?.issuer"
+                :account="nftCreator"
                 data-testid="item-creator"
               />
               <IdentityItem
-                v-if="nft?.currentOwner !== nft?.issuer"
+                v-if="nft?.currentOwner !== nftCreator"
                 class="gallery-avatar"
                 :label="$t('owner')"
                 :prefix="urlPrefix"
@@ -166,7 +166,10 @@
               v-if="nft && isAssetHub"
               :nft="nft"
             />
-            <GalleryItemAction :nft="nft" />
+            <GalleryItemAction
+              :nft="nft"
+              :highest-offer="nftHighestOffer"
+            />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
@@ -248,6 +251,7 @@ const mediaItemRef = ref<{
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
+const fiatStore = useFiatStore()
 
 const galleryItem = useGalleryItem()
 const {
@@ -258,8 +262,11 @@ const {
   nftAnimationMimeType,
   nftMimeType,
   nftResources,
+  nftHighestOffer,
 } = galleryItem
 const collection = computed(() => nft.value?.collection)
+
+const nftCreator = computed(() => nft.value?.dropCreator || nft.value?.issuer)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
 
@@ -385,6 +392,8 @@ function toggleFallback() {
     isFullscreen.value = isCurrentlyFullscreen
   }
 }
+
+onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
 <style lang="scss">

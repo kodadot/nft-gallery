@@ -28,6 +28,6 @@ import type { ButtonConfig } from './types'
 defineProps<{
   button: ButtonConfig
   loading?: boolean
-  testId: string
+  testId?: string
 }>()
 </script>
