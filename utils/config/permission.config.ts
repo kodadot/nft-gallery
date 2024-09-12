@@ -4,8 +4,6 @@ const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
   rmrk: false,
-  base: false,
-  imx: false,
 }
 
 const hasInsight: PartialConfig = {
@@ -29,7 +27,27 @@ const hasExplorer: PartialConfig = {
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
-  return hasCreate[prefix] ?? true
+  return isEvm(prefix as Prefix) ? false : hasCreate[prefix] ?? true
+}
+
+export const listVisible = (prefix: Prefix | string): boolean => {
+  return isSub(prefix as Prefix)
+}
+
+export const transferVisible = (prefix: Prefix | string): boolean => {
+  return isSub(prefix as Prefix)
+}
+
+export const teleportVisible = (prefix: Prefix | string): boolean => {
+  return isSub(prefix as Prefix)
+}
+
+export const migrateVisible = (prefix: Prefix | string): boolean => {
+  return isSub(prefix as Prefix)
+}
+
+export const offerVisible = (prefix: Prefix | string): boolean => {
+  return ['ahp', 'ahk'].includes(prefix)
 }
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
@@ -45,7 +63,7 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk' || prefix === 'ahp'
+  return prefix === 'ahk' || prefix === 'ahp' || isEvm(prefix)
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {

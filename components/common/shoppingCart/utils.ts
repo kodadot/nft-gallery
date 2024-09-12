@@ -6,6 +6,7 @@ import { sum } from '@/utils/math'
 import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { nameWithIndex } from '@/utils/nft'
+import type { MakingOfferItem } from '@/components/offer/types'
 
 export const prefixToToken = {
   ahk: 'KSM',
@@ -85,6 +86,23 @@ export const nftToListingCartItem = (
     token: nft.token,
     sn: nft.sn,
     mediaUrl: mediaUrl,
+  }
+}
+
+export const nftToOfferItem = (nft: NFT & TokenId, highestOffer?: string): MakingOfferItem => {
+  const { urlPrefix } = usePrefix()
+
+  return {
+    id: nft.id,
+    name: nameWithIndex(nft.name, nft.sn),
+    price: nft.price ?? '0',
+    highestOffer,
+    urlPrefix: urlPrefix.value,
+    collection: nft.collection,
+    metadata: nft.metadata,
+    meta: nft.meta,
+    sn: nft.sn,
+    currentOwner: nft.currentOwner,
   }
 }
 

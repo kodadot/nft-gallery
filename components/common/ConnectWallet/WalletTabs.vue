@@ -17,7 +17,7 @@
 import type { ChainVM } from '@kodadot1/static'
 import { NeoButton } from '@kodadot1/brick'
 
-const props = defineProps<{ modelValue: ChainVM }>()
+const props = defineProps<{ modelValue: ChainVM, preselected?: ChainVM }>()
 
 const selectedTab = useVModel(props, 'modelValue')
 

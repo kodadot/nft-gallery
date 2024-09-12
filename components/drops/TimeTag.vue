@@ -35,7 +35,7 @@ const displayText = computed(() => {
     case DropStatus.MINTING_LIVE:
       return $i18n.t('drops.mintingNow')
     case DropStatus.SCHEDULED_SOON:
-      return toDropScheduledDurationString(props.dropStartTime as Date)
+      return toDropScheduledDurationString(props.dropStartTime as Date, true)
     case DropStatus.SCHEDULED:
       return formatDropStartTime(
         props.dropStartTime as Date,

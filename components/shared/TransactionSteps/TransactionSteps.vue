@@ -86,8 +86,7 @@ const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
   const { status, text } = getTransactionStepDetails(step, $i18n.t)
   let tsxText = text
 
-  const withCustomSubtitle
-    = Object.prototype.hasOwnProperty.call(step.stepStatusTextOverride, status) || false
+  const withCustomSubtitle = step.stepStatusTextOverride && status in step.stepStatusTextOverride
 
   if (withCustomSubtitle) {
     tsxText = step.stepStatusTextOverride?.[status] || ''

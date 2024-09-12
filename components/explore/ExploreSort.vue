@@ -7,7 +7,7 @@
       multiple
       :mobile-modal="false"
       aria-role="list"
-      position="bottom-auto"
+      position="bottom-right"
       data-testid="explore-sort-dropdown"
       @change="onChange"
     >

@@ -56,31 +56,53 @@
     </div>
 
     <div
-      v-if="walletAccounts.length && showAccountList"
+      v-if="walletAccountsWithProfile.length && showAccountList"
       class="account-list"
     >
       <div
-        v-for="option in walletAccounts"
+        v-for="option in walletAccountsWithProfile"
         :key="option.address"
         class="account-item"
       >
         <a
-          class="pl-5 flex items-center"
+          class="pl-5 flex items-center justify-between"
           :value="option.address"
           @click="emitAccountChange(option)"
         >
-          <Avatar
-            :size="33"
-            :value="option.address"
-            class="mr-2 image-outline"
-          />
-          <div class="flex flex-col">
-            <span class="text-k-grey text-xs account-name">{{
-              option.name
-            }}</span>
-            <div class="account-address">
-              {{ shortAddress(option.address, 6, -3) }}
+          <div class="flex items-center">
+            <Avatar
+              :size="33"
+              :value="option.address"
+              class="mr-2 image-outline"
+            />
+            <div class="flex flex-col">
+              <span class="text-k-grey text-xs account-name">{{
+                option.name
+              }}</span>
+              <div class="account-address">
+                {{ shortAddress(option.address, 6, -3) }}
+              </div>
             </div>
+          </div>
+          <NeoSkeleton
+            v-if="isProfilesLoading"
+            class="!w-[73px] !h-[22px] mr-1 rounded-full overflow-hidden"
+            width="100%"
+            height="100%"
+            no-margin
+          />
+          <div
+            v-else-if="option.profile"
+            class="flex items-center rounded-full bg-neutral-3 dark:bg-neutral-11 px-[6px] py-[3px] h-[22px] gap-[0.375rem] mr-1"
+          >
+            <ProfileAvatar
+              :size="12.5"
+              :address="option.address"
+              :profile-image="option.profile?.image"
+            />
+            <span
+              class="text-sm max-w-[80px] text-ellipsis whitespace-nowrap overflow-hidden"
+            >{{ option.profile?.name }}</span>
           </div>
         </a>
       </div>
@@ -89,7 +111,9 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
 import type { WalletAccount } from '@/utils/config/wallets'
 import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -98,6 +122,7 @@ import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import Avatar from '@/components/shared/Avatar.vue'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
+import { toSubstrateAddress } from '@/services/profile'
 
 defineProps<{
   wallet: BaseDotsamaWallet
@@ -105,6 +130,7 @@ defineProps<{
 
 const { chainProperties } = useChain()
 const { $consola } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 const hasWalletProviderExtension = ref(false)
 const walletAccounts = ref<WalletAccount[]>([])
 const showAccountList = ref(false)
@@ -121,16 +147,29 @@ const emitAccountChange = (account): void => {
 
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
+const walletAccountsWithProfile = computed(() => {
+  return walletAccounts.value.map((account) => {
+    return {
+      ...account,
+      profile: existingProfiles.value?.find(
+        p => p.address === toSubstrateAddress(account.address),
+      ),
+    }
+  })
+})
+
 watch(walletAccounts, (newValue) => {
   if (shouldUpdate(newValue, walletAccounts.value)) {
     walletAccounts.value = newValue
   }
 })
 
+const { data: existingProfiles, isLoading: isProfilesLoading } = useProfiles('account-profiles', computed(() => walletAccounts.value.map(a => a.address)))
+
 const formatAccount = (account: WalletAccount): WalletAccount => {
   return {
     ...account,
-    address: formatAddress(account.address, ss58Format.value),
+    address: formatAddress(account.address, !isPrefixVmOf(urlPrefix.value, 'SUB') ? chainPropListOf(DEFAULT_VM_PREFIX['SUB']).ss58Format : ss58Format.value),
   }
 }
 

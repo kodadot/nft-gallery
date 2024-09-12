@@ -22,7 +22,7 @@
 
     &:not(.pressing):active,
     &:not(.pressing).active {
-      @apply bg-background-color-inverse text-text-color-inverse;
+      @apply bg-background-color-inverse text-text-color-inverse border-border-color;
     }
   }
 
@@ -46,7 +46,7 @@
         @apply border-border-color #{!important};
       }
 
-      &:not(.dropdown.active):hover {
+      &:not(.active):hover {
         @apply bg-background-color text-text-color;
       }
 
@@ -116,7 +116,7 @@
     &--outlined-rounded {
       @apply w-min py-2 px-4 rounded-[3rem] shadow-none border border-card-border-color-light bg-background-color;
 
-      &:not(.dropdown.active):hover {
+      &:not(.active):hover {
         @apply bg-background-color border border-text-color text-text-color;
       }
 
@@ -131,7 +131,7 @@
     &--primary-rounded {
       @apply h-[40px] w-min rounded-3xl shadow-none border border-border-color bg-k-primary text-black;
 
-      &:not(.dropdown.active):hover {
+      &:not(.active):hover {
         @apply bg-background-color border border-text-color text-text-color;
       }
 

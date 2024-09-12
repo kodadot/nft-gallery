@@ -1,14 +1,14 @@
 <template>
   <div class="flex items-center justify-between">
     <NuxtLink
-      :to="`/${urlPrefix}/u/${account}`"
+      :to="`/${prefix}/u/${account}`"
       class="w-full"
       @click="closeModal"
     >
       <IdentityItem
         :account="account"
         :label="display || shortenedAddress"
-        :prefix="urlPrefix"
+        :prefix="prefix"
       >
         <template #default="{ label }">
           <div class="pl-3">
@@ -41,43 +41,20 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
-import { useShoppingCartStore } from '@/stores/shoppingCart'
-import { useWalletStore } from '@/stores/wallet'
 
-const identityStore = useIdentityStore()
-const shoppingCartStore = useShoppingCartStore()
-const walletStore = useWalletStore()
-const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { neoModal } = useProgrammatic()
-
+const { getPrefixByAddress } = useAddress()
+const identityStore = useIdentityStore()
+const { logout } = useWallet()
 const account = computed(() => identityStore.getAuthAddress)
 
-const { profile } = useFetchProfile(account.value)
+const prefix = computed(() => getPrefixByAddress(account.value))
+const { profile } = useFetchProfile(account)
 
 const { display, shortenedAddress } = useIdentity({
   address: account,
 })
 
 const closeModal = () => neoModal.closeAll()
-
-const { disconnect: disconnectWeb3Modal } = useWagmi()
-
-const logout = async () => {
-  identityStore.resetAuth()
-  sessionStorage.clear()
-  localStorage.clear()
-  shoppingCartStore.clear()
-
-  const isEvm = walletStore.getIsEvm
-  walletStore.setDisconnecting(true)
-  walletStore.clear()
-  if (isEvm) {
-    await disconnectWeb3Modal().catch((error) => {
-      console.warn('[WEB3MODAL::CONNECTION] Failed disconnecting', error)
-    })
-  }
-
-  walletStore.setDisconnecting(false)
-}
 </script>

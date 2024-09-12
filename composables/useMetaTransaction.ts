@@ -21,6 +21,19 @@ export type HowAboutToExecuteOnResultParam = {
   result: ISubmittableResult
 }
 
+type HowAboutToExecuteOptions = {
+  onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void
+  onError?: () => void
+  onResult?: (result: HowAboutToExecuteOnResultParam) => void
+}
+
+export type HowAboutToExecute = (
+  account: string,
+  cb: (...params: any[]) => Extrinsic,
+  args: any[],
+  options?: HowAboutToExecuteOptions
+) => Promise<void>
+
 function useMetaTransaction() {
   const { $i18n } = useNuxtApp()
   const {
@@ -34,18 +47,14 @@ function useMetaTransaction() {
   const tx = ref<ExecResult>()
   const isError = ref(false)
 
-  const howAboutToExecute = async (
-    account: string,
-    cb: (...params: any[]) => Extrinsic,
-    args: any[],
+  const howAboutToExecute: HowAboutToExecute = async (
+    account,
+    cb,
+    args,
     {
       onSuccess,
       onError,
       onResult,
-    }: {
-      onSuccess?: (param: HowAboutToExecuteOnSuccessParam) => void
-      onError?: () => void
-      onResult?: (result: HowAboutToExecuteOnResultParam) => void
     } = {},
   ): Promise<void> => {
     try {
@@ -98,7 +107,8 @@ function useMetaTransaction() {
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
-      const isCancelled = e.message === 'Cancelled'
+      const errorMessage = e.message?.toLowerCase() || ''
+      const isCancelled = errorMessage.includes('cancelled') || errorMessage.includes('rejected')
       if (isCancelled) {
         warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
 

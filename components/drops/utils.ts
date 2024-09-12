@@ -1,13 +1,34 @@
 import { formatDuration, intervalToDuration, intlFormat } from 'date-fns'
+import { DropStatus } from './useDrops'
+import type { DropItem } from '@/params/types'
+import { getDropById } from '@/services/fxart'
+import { fetchOdaCollection } from '@/services/oda'
 
-export function toDropScheduledDurationString(startTime: Date) {
+export function toDropScheduledDurationString(startTime: Date, short: boolean = false) {
   const duration = intervalToDuration({
     start: startTime,
     end: new Date(),
   })
-  return formatDuration(duration, {
+
+  const options = {
     format: ['hours', 'minutes'],
-  })
+  }
+
+  if (short) {
+    Object.assign(options, {
+      locale: {
+        formatDistance: (token: string, count: string) => {
+          return {
+            xHours: '{{count}}h',
+            xMinutes: '{{count}}m',
+            xSeconds: '{{count}}s',
+          }?.[token]?.replace('{{count}}', count)
+        },
+      } as Locale,
+    })
+  }
+
+  return formatDuration(duration, options)
 }
 
 export function formatDropStartTime(
@@ -40,3 +61,90 @@ export const parseCETDate = (datetime: string): Date => {
 }
 
 export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)
+
+const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
+const getLocalDropStatus = (drop: Pick<DropItem, 'dropStartTime' | 'minted' | 'max' | 'disabled'>): DropStatus => {
+  const now = new Date()
+
+  if (drop.minted === drop.max) {
+    return DropStatus.MINTING_ENDED
+  }
+
+  if (!drop.dropStartTime) {
+    return DropStatus.UNSCHEDULED
+  }
+
+  if (drop.dropStartTime <= now) {
+    if (drop.disabled) {
+      return DropStatus.COMING_SOON
+    }
+    return DropStatus.MINTING_LIVE
+  }
+
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
+    return DropStatus.SCHEDULED_SOON
+  }
+
+  return DropStatus.SCHEDULED
+}
+
+export async function getDropAttributes(alias: string): Promise<DropItem | undefined> {
+  // get some offchain data
+  // ----------------------
+  const campaign = await getDropById(alias)
+  const offChainData = {
+    id: campaign.id,
+    chain: campaign.chain,
+    alias: campaign.alias,
+    collection: campaign.collection,
+    type: campaign.type,
+    disabled: campaign.disabled,
+    start_at: campaign.start_at,
+    holder_of: campaign.holder_of,
+
+    // would be nice if we could get this from the onchain
+    price: campaign.price,
+    creator: campaign.creator,
+  }
+
+  const address = campaign.collection
+  if (!address) {
+    return
+  }
+
+  // get some onchain data
+  // ----------------------
+  const { supply, claimed: minted, metadata } = await fetchOdaCollection(campaign.chain, address)
+
+  const onChainData = {
+    max: Number(supply) || FALLBACK_DROP_COLLECTION_MAX,
+    minted: Number(minted),
+    name: metadata.name,
+    collectionName: metadata.name,
+    collectionDescription: metadata.description,
+    image: metadata.image,
+    banner: metadata.banner || metadata.image,
+    content: metadata.generative_uri || campaign.content,
+  }
+
+  // additional data
+  // ----------------------
+  let dropStartTime = offChainData.start_at ? parseCETDate(offChainData.start_at) : undefined
+
+  if (onChainData.minted >= 5) {
+    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
+  }
+
+  const drop = {
+    ...offChainData,
+    ...onChainData,
+    isMintedOut: onChainData.minted >= onChainData.max,
+    isFree: !Number(offChainData.price),
+    dropStartTime,
+  }
+
+  return {
+    ...drop,
+    status: getLocalDropStatus(drop),
+  }
+}

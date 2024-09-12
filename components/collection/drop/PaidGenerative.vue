@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDrop, useDropStatus } from '@/components/drops/useDrops'
 import { useUpdateMetadata } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
@@ -22,11 +21,10 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 import { NFTs } from '@/composables/transaction/types'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
-const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { urlPrefix } = usePrefix()
+const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
@@ -35,7 +33,7 @@ const { openListingCartModal } = useListingCartModal({
   clearItemsOnModalClose: true,
 })
 
-const { loading, walletConnecting, mintingSession, isCapturingImage }
+const { loading, walletConnecting, mintingSession, isCapturingImage, drop }
   = storeToRefs(useDropStore())
 
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
@@ -46,6 +44,7 @@ const {
   status,
   isError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -74,6 +73,7 @@ const mintNft = async () => {
       interaction: NFTs.MINT_DROP,
       collectionId: drop.value?.collection,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   }
   catch (e) {
@@ -102,8 +102,10 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  isMintModalActive.value = true
-  await massGenerate()
+  doAfterCheckCurrentChainVM(() => {
+    isMintModalActive.value = true
+    massGenerate()
+  })
 }
 
 const handleMintModalClose = () => {
@@ -117,7 +119,7 @@ const closeMintModal = () => {
 
 const submitMints = async () => {
   try {
-    await useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
 
     loading.value = false
   }
@@ -165,8 +167,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">

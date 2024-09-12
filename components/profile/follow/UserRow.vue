@@ -60,7 +60,7 @@ import shortAddress from '@/utils/shortAddress'
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const { toast } = useToast()
 const { getSignaturePair } = useVerifyAccount()
 

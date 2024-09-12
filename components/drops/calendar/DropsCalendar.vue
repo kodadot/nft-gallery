@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <template v-if="Object.keys(grouppedDropCalendars ||{}).length">
+    <hr
+      class="my-14"
+    >
     <h2 class="text-3xl font-semibold mb-7">
       {{ $t('drops.dropCalendar') }}
     </h2>
@@ -12,6 +15,7 @@
         <div class="mb-6 flex items-center">
           <NeoButton
             variant="secondary-rounded"
+            root-class="!flex-shrink-0"
             no-shadow
           >
             {{ label }}
@@ -58,6 +62,7 @@
               :time-tag-with-time="calendarHasTime(item)"
               :drop-prefix="item.chain"
               :drop-creator="item.creator"
+              :drop-price="item.price"
               @click="() => handleClick(item)"
             >
               <template
@@ -78,7 +83,7 @@
       :drop-calendar="previewDropCalendar"
       @close="previewDropCalendar = undefined"
     />
-  </div>
+  </template>
 </template>
 
 <script lang="ts" setup>

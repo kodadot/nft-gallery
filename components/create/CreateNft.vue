@@ -381,7 +381,11 @@ const imagePreview = computed(() => {
 })
 
 // select available blockchain
-const menus = availablePrefixes()
+const menus = availablePrefixes().filter(
+  (menu) => {
+    const { isEvm } = useIsChain(computed(() => menu.value as Prefix))
+    return !isEvm.value
+  })
 
 const chainByPrefix = computed(() =>
   menus.find(menu => menu.value === urlPrefix.value),

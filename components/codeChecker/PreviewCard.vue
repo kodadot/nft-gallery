@@ -82,7 +82,7 @@
           :disabled="!kodaRendererUsed"
           @click="exportAsPNG"
         >
-          <span class="text-k-grey">{{ `Export ${fileName} as PNG` }}</span>
+          <span>{{ `Export ${fileName} as PNG` }}</span>
         </NeoButton>
         <NeoDropdown v-model="selectedVariation">
           <template #trigger="{ active }">

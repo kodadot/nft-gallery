@@ -1,59 +1,85 @@
-import { createClient } from 'graphql-ws'
-import { getWSUrlByClient } from '@/utils/websocket'
+import isEqual from 'lodash/isEqual'
+import { apolloClientConfig } from '@/utils/constants'
 
 export default function ({
   clientName = '',
   query,
   onChange,
   onError,
+  pollingInterval = 6000,
+  disabled,
 }: {
   clientName?: string
   query: string
   onChange: (data) => void
   onError?: (error) => void
+  pollingInterval?: number
+  disabled?: ComputedRef<boolean>
 }) {
   const { client: prefixClient } = usePrefix()
   const { $consola } = useNuxtApp()
   const client = clientName || prefixClient.value
-  const wsUrl = getWSUrlByClient(client)
+  const httpUrl = apolloClientConfig[client]?.httpEndpoint
 
-  if (!wsUrl) {
-    // this client do not subscription
+  if (disabled?.value || !httpUrl) {
     return () => {}
   }
 
-  const wsClient = createClient({
-    url: wsUrl,
-  })
+  let lastQueryResult = null
+  let intervalId: number | null = null
 
-  wsClient.subscribe(
-    {
-      query: `
-          subscription {
+  const isPolling = ref(false)
+
+  async function pollData() {
+    try {
+      const response = await $fetch(httpUrl, {
+        method: 'POST',
+        body: {
+          query: `
+          query {
             ${query}
           }
-          `,
-      /**
-       * For each entity types, the following queries are supported for subscriptions:
-       * ${EntityName}ById -- query a single entity
-       * ${EntityName}s -- query multiple entities with a where filter
-       * ref: https://docs.subsquid.io/develop-a-squid/graphql-api/subscriptions/
-       */
-    },
-    {
-      next: (data) => {
-        $consola.log(`ws subscription: New changes: ${JSON.stringify(data)}`)
-        onChange(data)
-      },
-      error: (error) => {
-        $consola.error('ws subscription: error', error)
-        onError && onError(error)
-      },
-      complete: () => {
-        $consola.log('ws subscription: done!')
-      },
-    },
-  )
+        `,
+        },
+      })
 
-  return () => wsClient.dispose()
+      const newResult = response.data as any
+
+      if (!isEqual(newResult, lastQueryResult)) {
+        $consola.log(`[Graphql Subscription] New changes: ${JSON.stringify(newResult)}`)
+        onChange({ data: newResult })
+        lastQueryResult = newResult
+      }
+    }
+    catch (error) {
+      $consola.error('[Graphql Subscription] Polling error:', error)
+      onError && onError(error)
+    }
+  }
+
+  function startPolling() {
+    if (!isPolling.value) {
+      isPolling.value = true
+      pollData()
+      intervalId = setInterval(pollData, pollingInterval) as unknown as number
+      $consola.log('[Graphql Subscription] Started polling')
+    }
+  }
+
+  function stopPolling() {
+    if (isPolling.value && intervalId !== null) {
+      clearInterval(intervalId)
+      isPolling.value = false
+      $consola.log('[Graphql Subscription] Stopped polling')
+    }
+  }
+
+  startPolling()
+
+  // Clean up on component unmount
+  onUnmounted(() => {
+    stopPolling()
+  })
+
+  return stopPolling
 }

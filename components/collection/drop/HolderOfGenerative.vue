@@ -51,9 +51,7 @@
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import {
-  useDrop,
   useDropMinimumFunds,
-  useDropStatus,
 } from '@/components/drops/useDrops'
 import useGenerativeDropMint, {
   useUpdateMetadata,
@@ -73,14 +71,14 @@ const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const {
   transaction,
   isLoading: isTransactionLoading,
   status,
   isError: isTransactionError,
   txHash,
+  blockNumber,
 } = useTransaction({
   disableSuccessNotification: true,
 })
@@ -91,14 +89,12 @@ const { openListingCartModal } = useListingCartModal({
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds } = useDropMinimumFunds()
 
-const { drop } = useDrop()
-const { subscribeDropStatus } = useDropStatus(drop)
 const dropStore = useDropStore()
 const { claimedNft, canListMintedNft } = useGenerativeDropMint()
 const { availableNfts } = useHolderOfCollection()
 const { isAutoTeleportModalOpen } = useAutoTeleportModal()
 
-const { mintingSession, loading, walletConnecting, isCapturingImage }
+const { mintingSession, loading, walletConnecting, isCapturingImage, drop }
   = storeToRefs(dropStore)
 
 useCursorDropEvents([isTransactionLoading, loading])
@@ -130,6 +126,7 @@ const mintNft = async () => {
       collectionId: drop.value?.collection,
       availableSerialNumbers: availableNfts.serialNumbers,
       price: drop.value?.price || null,
+      prefix: urlPrefix.value,
     })
   }
   catch (e) {
@@ -178,7 +175,7 @@ const mint = async () => {
 
 const submitMints = async () => {
   try {
-    await useUpdateMetadata()
+    await useUpdateMetadata({ blockNumber })
 
     loading.value = false
     isSuccessModalActive.value = true
@@ -240,8 +237,6 @@ useTransactionTracker({
 watch(txHash, () => {
   mintingSession.value.txHash = txHash.value
 })
-
-onBeforeMount(subscribeDropStatus)
 </script>
 
 <style scoped lang="scss">

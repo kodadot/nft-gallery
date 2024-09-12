@@ -1,10 +1,5 @@
 <template>
   <div>
-    <ProfileCreateModal
-      v-model="isModalActive"
-      @success="fetchProfile"
-      @deleted="fetchProfile"
-    />
     <ProfileFollowModal
       :key="`${followersCount}-${followingCount}`"
       v-model="isFollowModalActive"
@@ -20,9 +15,10 @@
       v-else
       class="bg-no-repeat bg-cover bg-center md:h-[360px] h-40 border-b bg-neutral-3 dark:bg-neutral-11"
       :style="{
-        backgroundImage: userProfile?.banner
-          ? `url(${userProfile.banner})`
-          : undefined,
+        backgroundImage:
+          userProfile?.banner
+            ? `url(${getHigherResolutionCloudflareImage(userProfile.banner)})`
+            : undefined,
       }"
     >
       <div
@@ -36,11 +32,21 @@
             :title="'User Avatar'"
             class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full"
           />
-          <Avatar
+          <div
             v-else
-            :value="id"
-            class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] mb-[-7px]"
-          />
+            class="mb-[-7px]"
+          >
+            <Avatar
+              :value="id"
+              :size="78"
+              class="md:hidden"
+            />
+            <Avatar
+              :value="id"
+              :size="124"
+              class="max-md:hidden"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -93,7 +99,6 @@
                 variant="outlined-rounded"
                 data-testid="profile-wallet-links-button"
                 :active="active"
-                dropdown
                 :icon-right="active ? 'chevron-up' : 'chevron-down'"
               >
                 {{ $t('profile.walletAndLinks') }}
@@ -188,7 +193,6 @@
               <NeoButton
                 variant="outlined-rounded"
                 icon="arrow-up-from-bracket"
-                dropdown
                 :active="active"
               />
             </template>
@@ -236,16 +240,16 @@
           />
         </div>
         <!-- Followers -->
-        <div>
+        <div v-if="!isOwner">
           <span
-            v-if="isOwner || !hasProfile || followersCount == 0"
+            v-if="!hasProfile || followersCount == 0"
             class="text-sm text-k-grey"
           >
             {{ $t('profile.notFollowed') }}
           </span>
           <div
             v-else
-            class="flex gap-4 items-center"
+            class="flex gap-4 items-center followed-by"
           >
             <span class="text-sm text-k-grey">
               {{ $t('profile.followedBy') }}:
@@ -316,10 +320,10 @@
             v-for="tab in tabs"
             :key="tab"
             class="capitalize"
-            data-testid="profile-tabs"
+            :data-testid="`profile-${tab}-tab`"
             :active="activeTab === tab"
             :count="counts[tab]"
-            :show-active-check="false"
+            :show-active-check="tabsWithActiveCheck.includes(tab)"
             :text="tab"
             @click="() => switchToTab(tab)"
           />
@@ -329,19 +333,21 @@
             class="ml-6"
           />
         </div>
-        <div class="flex flex-row is-hidden-widescreen mobile">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            :active="activeTab === tab"
-            :text="tab"
-            :count="counts[tab]"
-            :show-active-check="false"
-            class="capitalize"
-            @click="() => switchToTab(tab)"
-          />
-          <div class="flex mt-4 flex-wrap">
-            <ChainDropdown class="mr-4" />
+        <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
+          <div class="flex flex-wrap">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              :active="activeTab === tab"
+              :text="tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              class="capitalize !w-[50%]"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <ChainDropdown />
             <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
           </div>
         </div>
@@ -419,6 +425,10 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
+        <ProfileActivityTabOffers
+          v-if="activeTab === ProfileTab.OFFERS"
+          :id="id"
+        />
       </div>
     </div>
   </div>
@@ -456,6 +466,8 @@ import { fetchFollowersOf, fetchFollowing } from '@/services/profile'
 import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
+import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
+import { offerVisible } from '@/utils/config/permission.config'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -481,29 +493,41 @@ const socials = {
   },
 }
 
-const tabs = [
-  ProfileTab.OWNED,
-  ProfileTab.CREATED,
-  ProfileTab.COLLECTIONS,
-  ProfileTab.ACTIVITY,
-]
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  return tabs
+})
+
+const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
-const { accountId } = useAuth()
-const { urlPrefix, client } = usePrefix()
+const { accountId, isCurrentOwner } = useAuth()
+const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
+const { redirectAfterChainChange } = useChainRedirect()
+const profileOnboardingStore = useProfileOnboardingStore()
+const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
+const { getPrefixByAddress } = useAddress()
+const { params } = useRoute()
 
-const { hasProfile, userProfile, fetchProfile, isFetchingProfile }
-  = useProfile()
-
-provide('userProfile', { hasProfile, userProfile })
+const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
@@ -529,14 +553,14 @@ const followingCount = computed(() => following.value?.totalCount ?? 0)
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
   icon: 'pen',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   classes: 'hover:!bg-transparent',
 }
 
 const createProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.createProfile'),
   icon: 'sparkles',
-  onClick: () => (isModalActive.value = true),
+  onClick: () => openProfileCreateModal(true),
   variant: 'primary',
 }
 
@@ -555,7 +579,6 @@ const displayName = ref('')
 const web = ref('')
 const legal = ref('')
 const riot = ref('')
-const isModalActive = ref(false)
 const isFollowModalActive = ref(false)
 const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
@@ -582,7 +605,7 @@ const socialDropdownItems = computed(() => {
     .sort((a, b) => a?.order - b?.order)
 })
 
-const isOwner = computed(() => route.params.id === accountId.value)
+const isOwner = computed(() => isCurrentOwner(id.value))
 
 const buttonConfig = computed<ButtonConfig>(() =>
   hasProfile.value ? editProfileConfig : createProfileConfig,
@@ -633,7 +656,15 @@ const itemsGridSearch = computed(() => {
 })
 
 const activeTab = computed({
-  get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,
+  get: () => {
+    const tab = route.query.tab as ProfileTab
+
+    if (!tab || !tabs.value.includes(tab)) {
+      return ProfileTab.OWNED
+    }
+
+    return tab
+  },
   set: (val) => {
     replaceUrl({ tab: val })
   },
@@ -785,6 +816,22 @@ watch(collections, (value) => {
     collections: value.length ? value.toString() : undefined,
   })
 })
+
+watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
+  if (prefix !== urlPrefix.value) {
+    setUrlPrefix(prefix)
+    redirectAfterChainChange(prefix)
+  }
+}, {
+  immediate: true,
+})
+
+watchEffect(() => {
+  if (!hasProfile.value && !isFetchingProfile.value && isOwner.value && !getIsOnboardingShown.value) {
+    profileOnboardingStore.setOnboardingShown()
+    openProfileCreateModal()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -856,5 +903,11 @@ watch(collections, (value) => {
   height: 5px;
   background-color: grey;
   margin: 0 10px;
+}
+
+.followed-by {
+  :deep(.o-btn.is-neo:hover) {
+    @apply text-text-color;
+  }
 }
 </style>

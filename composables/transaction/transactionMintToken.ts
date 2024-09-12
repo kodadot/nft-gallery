@@ -1,21 +1,12 @@
-import type { MintTokenParams } from './types'
+import type { MintTokenParams, SubstrateMintTokenParams } from './types'
 import { execMintStatemine } from './mintToken/transactionMintStatemine'
 
-export function execMintToken({
-  item,
-  api,
-  executeTransaction,
-  isLoading,
-  status,
-}: MintTokenParams) {
+export function execMintToken({ item, ...params }: MintTokenParams) {
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintStatemine({
       item,
-      api,
-      executeTransaction,
-      isLoading,
-      status,
-    })
+      ...params,
+    } as SubstrateMintTokenParams)
   }
 }

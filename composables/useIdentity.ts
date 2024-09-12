@@ -1,5 +1,6 @@
 import type { ComputedRef } from 'vue'
 import { type Prefix } from '@kodadot1/static'
+import { isEthereumAddress } from '@polkadot/util-crypto'
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 
@@ -7,10 +8,9 @@ export type IdentityFields = Record<string, string>
 
 export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
-  const { isEvm } = useIsChain(computed(() => urlPrefix.value))
 
   const getIdentityId = (address: string) => {
-    if (isEvm.value) {
+    if (isEthereumAddress(address)) {
       return address
     }
     else if (isDotAddress.value) {
@@ -36,7 +36,7 @@ export default function useIdentity({
 
   const id = computed(() => address.value && getIdentityId(address.value))
 
-  const { profile, isPending: loading } = useFetchProfile(id.value)
+  const { profile, isPending: loading } = useFetchProfile(id)
 
   const shortenedAddress = computed(() => shortAddress(address.value))
 
@@ -92,10 +92,6 @@ const displayName = ({
 }): string => {
   if (customNameOption) {
     return customNameOption
-  }
-
-  if (profileName?.length > 20) {
-    return shortenedAddress.value
   }
 
   return profileName || shortenedAddress.value

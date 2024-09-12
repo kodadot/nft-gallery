@@ -1,5 +1,7 @@
 import sum from 'lodash/sum'
+import type { Prefix } from '@kodadot1/static'
 import { existentialDeposit } from '@kodadot1/static'
+import type { Actions } from '../transaction/types'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 import {
   checkIfAutoTeleportActionsNeedRefetch,
@@ -58,7 +60,7 @@ export default function (
   )
 
   const allowedSourceChains = computed(() =>
-    currentChain.value ? teleportRoutes[currentChain.value] : [],
+    currentChain.value ? teleportRoutes[currentChain.value] ?? [] : [],
   )
 
   const totalFees = computed(
@@ -249,7 +251,7 @@ export default function (
 
   const getTransitionBalances = () => {
     return fetchChainsBalances([
-      ...allowedSourceChains.value,
+      ...(needsSourceChainBalances.value ? allowedSourceChains.value : []),
       currentChain.value as Chain,
     ])
   }
@@ -285,8 +287,9 @@ export default function (
             const address = getAddressByChain(currentChain.value as Chain)
             return getActionTransactionFee({
               api,
-              action: action,
+              action: action as Actions,
               address,
+              prefix: prefix as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)
@@ -304,9 +307,9 @@ export default function (
   )
 
   watch(
-    [allowedSourceChains, needsSourceChainBalances],
+    [() => allowedSourceChains.value.length, needsSourceChainBalances],
     async () => {
-      if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
+      if ((allowedSourceChains.value.length && needsSourceChainBalances.value) || !currentChainBalance.value) {
         hasFetched.balances = false
         await getTransitionBalances()
         hasFetched.balances = true

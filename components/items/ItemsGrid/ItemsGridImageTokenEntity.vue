@@ -73,7 +73,7 @@
           />
         </template>
 
-        <template v-else>
+        <template v-else-if="listVisible(urlPrefix)">
           <NeoButton
             :label="listLabel"
             data-testid="item-buy"
@@ -85,6 +85,11 @@
       </div>
     </template>
   </NftCard>
+  <NftCardSkeleton
+    v-else
+    :hide-media-info="hideMediaInfo"
+    :variant="skeletonVariant"
+  />
 </template>
 
 <script setup lang="ts">
@@ -97,6 +102,7 @@ import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { listVisible } from '@/utils/config/permission.config'
 import {
   nftToListingCartItem,
   nftToShoppingCartItem,
@@ -107,7 +113,7 @@ import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn } = useAuth()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -122,6 +128,7 @@ const props = defineProps<{
   hideVideoControls?: boolean
   displayNameWithSn?: boolean
   lazyLoading?: boolean
+  skeletonVariant: string
 }>()
 
 const {

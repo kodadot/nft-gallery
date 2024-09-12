@@ -4,17 +4,17 @@ export enum Socials {
   Farcaster = 'Farcaster',
 }
 
-export default function useUserProfile() {
-  const { params } = useRoute()
+export default function useUserProfile(address?: Ref<string>) {
+  const { accountId } = useAuth()
 
   const {
     profile,
     refetch: fetchProfile,
     isLoading,
-  } = useFetchProfile(params?.id as string)
+  } = useFetchProfile(computed(() => address?.value || accountId.value))
 
   return {
-    hasProfile: computed(() => !!profile.value),
+    hasProfile: computed(() => Boolean(profile.value)),
     userProfile: profile,
     fetchProfile,
     isFetchingProfile: isLoading,

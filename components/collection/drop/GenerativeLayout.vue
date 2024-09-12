@@ -29,7 +29,7 @@
           <CollectionUnlockableCollectionInfo
             class="mt-7"
             :collection-id="drop?.collection"
-            :description="description"
+            :description="drop.collectionDescription"
           />
 
           <hr class="hidden md:block mt-4 mb-0">
@@ -43,8 +43,8 @@
 
           <CollectionDropPhase
             class="mt-28 md:mt-7"
-            :drop-status="formattedDropItem?.status"
-            :drop-start-time="formattedDropItem?.dropStartTime"
+            :drop-status="drop?.status"
+            :drop-start-time="drop?.dropStartTime"
           />
 
           <CollectionUnlockableTag :collection-id="drop?.collection" />
@@ -89,55 +89,33 @@
 
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
-import type {
-  Drop } from '@/components/drops/useDrops'
-import {
-  getFormattedDropItem,
-  useDrop,
-} from '@/components/drops/useDrops'
-import { useCollectionActivity } from '@/composables/collectionActivity/useCollectionActivity'
-import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import { DropEventType } from '@/composables/party/types'
-import { useCollectionEntity } from '@/composables/drop/useGenerativeDropMint'
-import type { DropItem } from '@/params/types'
+import { fetchOdaCollectionOwners } from '@/services/oda'
 
 const mdBreakpoint = 768
 
 const emit = defineEmits(['mint'])
 
-const { drop } = useDrop()
+const { drop } = storeToRefs(useDropStore())
 const { previewItem, userMintsCount } = storeToRefs(useDropStore())
-const { description } = useCollectionEntity()
 const { width } = useWindowSize()
 
 const { emitEvent, completeLastEvent } = useCursorDropEvents()
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: computed(() => drop.value?.collection ?? ''),
-})
 
 const divider = ref()
 
 const address = computed(() => drop.value?.creator)
 
-const { owners } = useCollectionActivity({
-  collectionId: computed(() => drop.value?.collection),
-})
-const ownerAddresses = computed(() => Object.keys(owners.value || {}))
+const owners = ref()
+const ownerAddresses = computed(() => Object.keys(owners.value?.owners || {}))
+watchEffect(async () => {
+  if (!drop.value?.collection) {
+    return
+  }
 
-const formattedDropItem = ref<Drop>()
-watch(
-  [collectionInfo],
-  async () => {
-    if (collectionInfo.value) {
-      formattedDropItem.value = await getFormattedDropItem(
-        collectionInfo.value,
-        drop.value as DropItem,
-      )
-    }
-  },
-  { immediate: true },
-)
+  owners.value = await fetchOdaCollectionOwners(drop.value.chain, drop.value.collection)
+})
 
 const handleNftGeneration = (preview: GenerativePreviewItem) => {
   emitEvent(DropEventType.DROP_GENERATING)

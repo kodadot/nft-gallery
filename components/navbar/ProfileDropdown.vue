@@ -1,18 +1,14 @@
 <template>
   <div class="flex items-center">
-    <a
+    <div
       v-if="account"
       class="navbar-item"
-      role="button"
-      aria-label="open profile menu"
-      @click="toggleWalletConnectModal"
     >
-      <ProfileAvatar
+      <NavbarConnectedProfile
         :address="account"
-        class="navbar__avatar-icon"
-        :size="27"
+        @click="toggleWalletConnectModal"
       />
-    </a>
+    </div>
     <div
       v-else
       class="flex items-center"
@@ -96,15 +92,15 @@ import {
   langsFlags as langsFlagsList,
   setUserLocale,
 } from '@/utils/config/i18n'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
-const modal = ref<{ close: () => void, isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
@@ -113,12 +109,11 @@ const profileIcon = computed(() =>
 const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
+  useProfileOnboardingStore().setSidebarToggled()
   neoModal.closeAll()
 
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = neoModal.open({
-      ...ConnectWalletModalConfig,
-    })
+    openConnectWalletModal()
   }
 }
 

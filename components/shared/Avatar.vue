@@ -24,7 +24,7 @@ import { isEthereumAddress } from '@polkadot/util-crypto'
 import Identicon from '@polkadot/vue-identicon'
 import { toSvg } from 'jdenticon'
 
-const WRAPPER_CLASS = 'border border-border-color rounded-full overflow-hidden'
+const WRAPPER_CLASS = 'border border-border-color rounded-full overflow-hidden bg-background-color'
 
 const props = withDefaults(
   defineProps<{
@@ -37,8 +37,10 @@ const props = withDefaults(
   },
 )
 
+const formattedAddress = computed(() => props.value.toLowerCase())
+
 const evmAvatarSvg = computed(() =>
-  toSvg(props.value, props.size - 2, {
+  toSvg(formattedAddress.value, props.size - 2, {
     padding: 0.1,
   }),
 )

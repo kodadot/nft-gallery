@@ -43,6 +43,11 @@ export const getAvailableChainsByVM = (vm: ChainVM) =>
     ({ value: prefix }) => vm === chainPropListOf(prefix as Prefix).vm,
   )
 
+export const isPrefixVmOf = (prefix: Prefix, vm: ChainVM) =>
+  getAvailableChainsByVM(vm)
+    .map(({ value }) => value)
+    .includes(prefix)
+
 export const getAvailablePrefix = (prefix: string): string => {
   return availablePrefixes().some(chain => chain.value === prefix)
     ? prefix

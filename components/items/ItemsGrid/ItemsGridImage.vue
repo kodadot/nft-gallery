@@ -60,7 +60,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner"
+        v-else-if="isOwner && listVisible(urlPrefix)"
         class="flex"
       >
         <NeoButton
@@ -73,12 +73,18 @@
       </div>
     </template>
   </NftCard>
+  <NftCardSkeleton
+    v-else
+    :hide-media-info="hideMediaInfo"
+    :variant="skeletonVariant"
+  />
 </template>
 
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { listVisible } from '@/utils/config/permission.config'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -93,7 +99,7 @@ import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
-const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -110,6 +116,7 @@ const props = defineProps<{
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
   lazyLoading?: boolean
+  skeletonVariant: string
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

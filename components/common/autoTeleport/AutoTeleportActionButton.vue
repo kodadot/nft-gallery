@@ -56,7 +56,7 @@
 
       <NeoButton
         :label="autoTeleportLabel"
-        variant="primary"
+        :variant="buttonVariant"
         no-shadow
         :shiny="shiny"
         :disabled="isDisabled"
@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoSwitch } from '@kodadot1/brick'
+import { NeoButton, NeoSwitch, type NeoButtonVariant } from '@kodadot1/brick'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import type { ActionlessInteraction } from './utils'
 import { getActionDetails } from './utils'
@@ -133,6 +133,7 @@ const props = withDefaults(
     loading?: boolean
     shiny?: boolean
     earlySuccess?: boolean
+    buttonVariant?: NeoButtonVariant
   }>(),
   {
     autoCloseModalDelayModal: undefined,
@@ -146,6 +147,7 @@ const props = withDefaults(
     loading: false,
     shiny: false,
     earlySuccess: true,
+    buttonVariant: 'primary',
   },
 )
 
@@ -158,7 +160,7 @@ const amounts = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
-  isReady,
+  isReady: isAutoTeleportReady,
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
@@ -178,6 +180,10 @@ const showFirstTimeTeleport = computed(
     preferencesStore.firstTimeAutoTeleport
     && autoTeleport.value
     && !props.disabled,
+)
+
+const isReady = computed(() =>
+  isAutoTeleportAvailable.value ? isAutoTeleportReady.value : true,
 )
 
 const isTelportIconActive = computed(() => {
@@ -341,7 +347,11 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ isReady, optimalTransition, canAutoTeleport })
+defineExpose({
+  isReady,
+  optimalTransition,
+  canAutoTeleport,
+})
 </script>
 
 <style lang="scss" scoped>

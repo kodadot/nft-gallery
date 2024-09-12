@@ -4,32 +4,34 @@
     :default-width="GRID_DEFAULT_WIDTH"
     persist
   >
+    <template
+      v-if="isAsync || loaded"
+    >
+      <div
+        v-for="(drop, index) in drops"
+        :key="drop.collection"
+        class="w-full h-full"
+        :data-testid="index"
+      >
+        <slot
+          name="card"
+          :item="drop"
+        >
+          <DropCard :drop="drop" />
+        </slot>
+      </div>
+    </template>
     <template v-if="!loaded">
       <DropsDropCardSkeleton
-        v-for="x in defaultSkeletonCount"
+        v-for="x in isAsync ? asyncSkeletonCount : defaultSkeletonCount"
         :key="`${skeletonKey}-${x}`"
       />
     </template>
-    <div
-      v-for="(drop, index) in drops"
-      v-else
-      :key="`${isDrop(drop) ? drop.collection?.id : drop.id}=${index}`"
-      class="w-full h-full"
-      :data-testid="index"
-    >
-      <slot
-        name="card"
-        :item="drop as InternalDropCalendar"
-      >
-        <DropCard :drop="drop as Drop" />
-      </slot>
-    </div>
   </DynamicGrid>
 </template>
 
 <script lang="ts" setup>
-import type { Drop } from './useDrops'
-import type { InternalDropCalendar } from './calendar/DropsCalendar.vue'
+import type { DropItem } from '@/params/types'
 import DropCard from '@/components/drops/DropCard.vue'
 
 const GRID_DEFAULT_WIDTH = {
@@ -38,14 +40,14 @@ const GRID_DEFAULT_WIDTH = {
   large: 0,
 }
 
-defineProps<{
-  drops: Drop[] | InternalDropCalendar[]
+const props = defineProps<{
+  drops: DropItem[]
   loaded: boolean
   defaultSkeletonCount: number
+  asyncSkeletonCount?: number
   skeletonKey: string
   clickable?: boolean
 }>()
 
-const isDrop = (item: Drop | InternalDropCalendar): item is Drop =>
-  (item as Drop).collection !== undefined
+const isAsync = computed(() => typeof props.asyncSkeletonCount === 'number')
 </script>

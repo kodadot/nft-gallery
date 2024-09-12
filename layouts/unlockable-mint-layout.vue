@@ -6,6 +6,7 @@
       <NuxtPage />
     </main>
     <LazyCookieBanner />
+    <KeyboardShortcutsModal />
     <Buy />
     <ListingCartMini />
     <ListingCartModal />

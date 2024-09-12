@@ -1,33 +1,10 @@
-import orderBy from 'lodash/orderBy'
-import type { Prefix } from '@kodadot1/static'
-import type { WritableComputedRef } from 'nuxt/dist/app/compat/capi'
-import { parseCETDate } from './utils'
-import type { GetDropsQuery } from '@/services/fxart'
-import { getDropById, getDrops } from '@/services/fxart'
-import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { getDropAttributes } from './utils'
 import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
-
-export interface Drop {
-  collection: DropItem
-  chain: Prefix
-  minted: number
-  max: number
-  disabled: number
-  dropStartTime?: Date
-  price: string
-  alias: string
-  name: string
-  isMintedOut: boolean
-  status: DropStatus
-  image?: string
-  banner?: string
-  creator?: string
-}
 
 export enum DropStatus {
   MINTING_ENDED = 'minting_ended',
@@ -36,117 +13,6 @@ export enum DropStatus {
   SCHEDULED_SOON = 'scheduled_soon', // live in < 24h
   SCHEDULED = 'scheduled', // live in > 24
   UNSCHEDULED = 'unscheduled',
-}
-
-const DROP_LIST_ORDER = [
-  DropStatus.SCHEDULED_SOON,
-  DropStatus.MINTING_LIVE,
-  DropStatus.SCHEDULED,
-  DropStatus.COMING_SOON,
-  DropStatus.MINTING_ENDED,
-  DropStatus.UNSCHEDULED,
-]
-
-const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
-
-export function useDrops(query?: GetDropsQuery) {
-  const drops = ref<Drop[]>([])
-  const dropsList = ref<DropItem[]>([])
-  const count = computed(() => dropsList.value.length)
-  const loaded = ref(false)
-
-  onBeforeMount(async () => {
-    dropsList.value = await getDrops(query)
-
-    const formattedDrops = await Promise.all(
-      dropsList.value.map(async drop => getFormattedDropItem(drop, drop)),
-    )
-
-    drops.value = formattedDrops
-
-    loaded.value = true
-  })
-
-  const sortDrops = computed(() =>
-    orderBy(
-      drops.value,
-      [drop => DROP_LIST_ORDER.indexOf(drop.status)],
-      ['asc'],
-    ),
-  )
-
-  return { drops: sortDrops, count, loaded }
-}
-
-export const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
-
-  let count = drop.minted ?? collection.nftCount
-  if (!count) {
-    count = await fetchDropMintedCount(drop)
-  }
-  const price = drop.price || 0
-  let dropStartTime = drop.start_at ? parseCETDate(drop.start_at) : undefined
-
-  if (count >= 5) {
-    dropStartTime = new Date(Date.now() - 1e10) // this is a bad hack to make the drop appear as "live" in the UI
-  }
-
-  const newDrop = {
-    ...drop,
-    collection: collection,
-    max: chainMax,
-    dropStartTime,
-    price,
-    isMintedOut: count >= chainMax,
-    isFree: !Number(price),
-    minted: count,
-  } as any
-
-  Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
-
-  return newDrop
-}
-
-const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
-  const now = new Date()
-
-  if (drop.minted === drop.max) {
-    return DropStatus.MINTING_ENDED
-  }
-
-  if (!drop.dropStartTime) {
-    return DropStatus.UNSCHEDULED
-  }
-
-  if (drop.dropStartTime <= now) {
-    if (drop.disabled) {
-      return DropStatus.COMING_SOON
-    }
-    return DropStatus.MINTING_LIVE
-  }
-
-  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
-    return DropStatus.SCHEDULED_SOON
-  }
-
-  return DropStatus.SCHEDULED
-}
-
-export const getDropDetails = async (alias: string) => {
-  const drop = await getDropById(alias)
-
-  const { data: collectionData } = await useAsyncQuery({
-    clientId: drop.chain,
-    query: unlockableCollectionById,
-    variables: {
-      id: drop.collection,
-    },
-  })
-
-  const { collectionEntity } = collectionData.value
-
-  return getFormattedDropItem(collectionEntity, drop)
 }
 
 export function useDrop(alias?: string) {
@@ -162,7 +28,11 @@ export function useDrop(alias?: string) {
   const token = computed(() => prefixToToken[drop.value?.chain ?? 'ahp'])
 
   const fetchDrop = async () => {
-    drop.value = await getDropById(alias ?? params.id.toString())
+    const dropAttributes = await getDropAttributes(alias ?? params.id.toString())
+
+    if (dropAttributes) {
+      drop.value = dropAttributes
+    }
   }
 
   watch(() => params.id, fetchDrop)
@@ -177,7 +47,7 @@ export function useDrop(alias?: string) {
 
 export const fetchDropMintedCount = async (
   drop: Pick<DropItem, 'collection' | 'chain'>,
-) => {
+): Promise<number> => {
   if (!drop.collection || !drop.chain) {
     return 0
   }
@@ -192,76 +62,7 @@ export const fetchDropMintedCount = async (
     clientId: drop.chain,
   })
 
-  return data.value?.collectionEntityById.nftCount
-}
-
-const subscribeDropMintedCount = (
-  { drop, account }: { drop: Pick<DropItem, 'collection'>, account: string },
-  onChange: (params: { collection?: number, user?: number }) => void,
-) => {
-  return useSubscriptionGraphql({
-    query: `
-      collectionEntityById(id: "${drop.collection}") {
-        nftCount
-        nfts(where: { issuer_eq: "${account}"  }) {
-          id
-        }
-      }
-     `,
-    onChange: ({ data }) => {
-      onChange({
-        collection: data.collectionEntityById?.nftCount,
-        user: data.collectionEntityById?.nfts?.length,
-      })
-    },
-  })
-}
-
-export const useDropStatus = (
-  drop: WritableComputedRef<{ collection: string, chain: Prefix }>,
-) => {
-  const { mintsCount, userMintsCount } = storeToRefs(useDropStore())
-  const { accountId } = useAuth()
-
-  const dropStatusSubscription = ref<{
-    collection: string | undefined
-    account: string | undefined
-    unsubscribe: () => void
-  }>({
-        account: undefined,
-        collection: undefined,
-        unsubscribe: () => {},
-      })
-
-  const subscribeDropStatus = () => {
-    watch([() => drop.value, accountId], ([drop, account]) => {
-      if (drop) {
-        if (
-          drop.collection !== dropStatusSubscription.value.collection
-          || account !== dropStatusSubscription.value.account
-        ) {
-          dropStatusSubscription.value.unsubscribe?.()
-        }
-
-        dropStatusSubscription.value.collection = drop.collection
-        dropStatusSubscription.value.account = accountId.value
-        dropStatusSubscription.value.unsubscribe = subscribeDropMintedCount(
-          { drop, account: accountId.value },
-          ({ collection, user }) => {
-            mintsCount.value = collection ?? 0
-            userMintsCount.value = user ?? 0
-          },
-        )
-      }
-    })
-
-    onUnmounted(() => dropStatusSubscription.value.unsubscribe?.())
-  }
-
-  return {
-    mintsCount,
-    subscribeDropStatus,
-  }
+  return data.value?.collectionEntityById?.nftCount ?? 0
 }
 
 export const useDropMinimumFunds = (amount = ref(1)) => {
@@ -274,10 +75,9 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
   const { fetchMultipleBalance, transferableCurrentChainBalance }
     = useMultipleBalance()
 
-  const meta = computed<number>(() => Number(drop.value?.meta) || 0)
   const price = computed<number>(() => Number(drop.value?.price) || 0)
   const minimumFunds = computed<number>(() =>
-    price.value ? amount.value * price.value : meta.value,
+    price.value ? amount.value * price.value : 0,
   )
   const hasMinimumFunds = computed(
     () =>
@@ -354,32 +154,4 @@ export const useHolderOfCollectionDrop = () => {
   }
 
   return { isNftClaimed }
-}
-
-export const useRelatedActiveDrop = (collectionId: string, chain: Prefix) => {
-  const { drops } = useDrops({
-    chain: [chain],
-  })
-
-  const relatedActiveDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection.collection === collectionId
-        && !drop.disabled
-        && drop.status === DropStatus.MINTING_LIVE,
-    ),
-  )
-
-  const relatedEndedDrop = computed(() =>
-    drops.value.find(
-      drop =>
-        drop?.collection.collection === collectionId
-        && drop.status === DropStatus.MINTING_ENDED,
-    ),
-  )
-
-  return {
-    relatedActiveDrop,
-    relatedEndedDrop,
-  }
 }

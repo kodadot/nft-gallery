@@ -6,6 +6,7 @@ import {
   NFTs,
 } from '../transaction/types'
 import type {
+  ActionAcceptOffer,
   ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
@@ -19,26 +20,7 @@ import type {
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   Actions } from '../transaction/types'
-import { tokenIdToRoute } from '@/components/unique/utils'
-import { warningMessage } from '@/utils/notification'
 import { getPercentSupportFee } from '@/utils/support'
-
-export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
-  return function (params: ActionWithdrawOffer, api, executeTransaction) {
-    try {
-      const { id, item } = tokenIdToRoute(params.nftId)
-      const args = [id, item, params.maker]
-      const cb = api.tx.marketplace[key]
-      executeTransaction({
-        cb,
-        arg: args,
-      })
-    }
-    catch (error) {
-      warningMessage(error)
-    }
-  }
-}
 
 export const verifyRoyalty = (
   royalty?: Royalty,
@@ -66,9 +48,11 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nftId),
     [Interaction.CONSUME]: (action: ActionConsume) => Boolean(action.nftId),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
-      Boolean(action.tokenId),
+      hasContent(action.token),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
-      Boolean(action.nftId),
+      Boolean(action.offeredId),
+    [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
+      Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>

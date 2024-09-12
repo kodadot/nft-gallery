@@ -58,15 +58,14 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const props = defineProps<{ nft: NFT }>()
 
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
-
-const instance = getCurrentInstance()
-const { doAfterLogin } = useDoAfterlogin(instance)
+const { doAfterLogin } = useDoAfterlogin()
 const showRampModal = ref(false)
 
 enum BuyStatus {
@@ -88,10 +87,12 @@ const label = computed(() => {
 })
 
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
-  preferencesStore.setCompletePurchaseModal({
-    isOpen: true,
-    mode: 'buy-now',
+  doAfterCheckCurrentChainVM(() => {
+    shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
+    preferencesStore.setCompletePurchaseModal({
+      isOpen: true,
+      mode: 'buy-now',
+    })
   })
 }
 

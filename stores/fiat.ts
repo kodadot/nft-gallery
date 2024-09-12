@@ -1,16 +1,12 @@
 import { defineStore } from 'pinia'
+import type { TokenName } from '~/utils/coinprice'
 
 type FiatPrice = string | number | null
 
 interface State {
-  fiatPrice: {
-    kusama: {
-      usd: FiatPrice
-    }
-    polkadot: {
-      usd: FiatPrice
-    }
-  }
+  fiatPrice: Record<TokenName, {
+    usd: FiatPrice
+  }>
 }
 
 export const useFiatStore = defineStore('fiat', {
@@ -20,6 +16,12 @@ export const useFiatStore = defineStore('fiat', {
         usd: null,
       },
       polkadot: {
+        usd: null,
+      },
+      ethereum: {
+        usd: null,
+      },
+      mantle: {
         usd: null,
       },
     },
@@ -35,23 +37,33 @@ export const useFiatStore = defineStore('fiat', {
     getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
       state =>
-        (token: string): FiatPrice => {
+        (token: Token): FiatPrice => {
           switch (token) {
             case 'KSM':
               return state.fiatPrice.kusama.usd
             case 'DOT':
               return state.fiatPrice.polkadot.usd
+            case 'ETH':
+              return state.fiatPrice.ethereum.usd
+            case 'MNT':
+              return state.fiatPrice.mantle.usd
             default:
               return 0
           }
         },
   },
   actions: {
-    async fetchFiatPrice() {
-      const ksmPrice = await getPrice('kusama')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const dotPrice = await getPrice('polkadot')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
+    async fetchFiatPrice(force = false) {
+      if (!this.incompleteFiatValues && !force) {
+        return
+      }
+
+      const prices = await Promise.all(
+        (['kusama', 'polkadot', 'ethereum', 'mantle'] as TokenName[]).map(getPrice),
+      )
+      prices.forEach((price) => {
+        this.fiatPrice = Object.assign({}, this.fiatPrice, price)
+      })
     },
     setFiatPrice(payload) {
       this.fiatPrice = Object.assign({}, this.fiatPrice, payload)
