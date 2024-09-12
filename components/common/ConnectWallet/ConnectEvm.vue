@@ -40,7 +40,7 @@ const loading = computed(() => isConnecting.value || disconnecting.value)
 
 if (connections.value.length) {
   disconnecting.value = true
-  disconnect().then(() => disconnecting.value = false)
+  disconnect().finally(() => disconnecting.value = false)
 }
 
 watch([address, isConnected, chainId], ([address, isConnected, chainId]) => {
