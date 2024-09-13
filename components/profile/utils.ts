@@ -7,12 +7,12 @@ type LinkableBlock = {
 export const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
     id: 'channel',
-    regex: /^\/[a-zA-Z0-9_]+(?=[^a-zA-Z0-9_]|$)/,
+    regex: /^\/\w+(?=[^\w]|$)/,
     template: (match: string) => `https://warpcast.com/~/channel/${match.slice(1)}`,
   },
   {
     id: 'user',
-    regex: /^@[a-zA-Z0-9_]{1,15}(?=[^a-zA-Z0-9_]|$)/,
+    regex: /^@\w{1,15}(?=[^\w]|$)/,
     template: (match: string) => `https://warpcast.com/${match.slice(1)}`,
   },
 ]
