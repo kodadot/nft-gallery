@@ -99,16 +99,16 @@
 
             <div class="flex flex-row flex-wrap">
               <IdentityItem
-                v-if="nft?.issuer"
+                v-if="nftCreator"
                 class="gallery-avatar"
                 :class="isMobile ? 'mr-4' : 'mr-8'"
-                :label="$t('creator')"
+                :label="$t(nft?.dropCreator ? 'collectionCreator' : 'creator')"
                 :prefix="urlPrefix"
-                :account="nft?.issuer"
+                :account="nftCreator"
                 data-testid="item-creator"
               />
               <IdentityItem
-                v-if="nft?.currentOwner !== nft?.issuer"
+                v-if="nft?.currentOwner !== nftCreator"
                 class="gallery-avatar"
                 :label="$t('owner')"
                 :prefix="urlPrefix"
@@ -210,6 +210,8 @@ const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftM
 
 const { nftHighestOffer } = useGalleryItem()
 const collection = computed(() => nft.value?.collection)
+
+const nftCreator = computed(() => nft.value?.dropCreator || nft.value?.issuer)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
 

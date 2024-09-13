@@ -58,15 +58,15 @@
       <div class="h-[50px] flex items-center gap-2">
         <ProfileAvatar
           :size="24"
-          :address="offer.desired.currentOwner"
+          :address="targetAddress"
         />
 
         <nuxt-link
-          :to="`/${urlPrefix}/u/${offer.desired.currentOwner}`"
+          :to="`/${urlPrefix}/u/${targetAddress}`"
           class="text-k-blue hover:text-k-blue-hover"
         >
           <IdentityIndex
-            :address="offer.desired.currentOwner"
+            :address="targetAddress"
           />
         </nuxt-link>
       </div>
@@ -151,18 +151,18 @@
         <div
           class="flex items-center"
         >
-          <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
+          <span class="text-xs mr-3">{{ $t(`activity.event.${target}`) }}:</span>
           <div class="flex items-center gap-2">
             <ProfileAvatar
               :size="24"
-              :address="offer.desired.currentOwner"
+              :address="targetAddress"
             />
             <nuxt-link
-              :to="`/${urlPrefix}/u/${offer.desired.currentOwner}`"
+              :to="`/${urlPrefix}/u/${targetAddress}`"
               class="text-k-blue hover:text-k-blue-hover"
             >
               <IdentityIndex
-                :address="offer.desired.currentOwner"
+                :address="targetAddress"
               />
             </nuxt-link>
           </div>
@@ -194,6 +194,7 @@ defineEmits(['select'])
 const props = defineProps<{
   offer: NFTOfferItem
   variant: 'Desktop' | 'Touch'
+  target: 'from' | 'to'
 }>()
 
 const { urlPrefix } = usePrefix()
@@ -204,6 +205,7 @@ const image = ref()
 const animationUrl = ref()
 const isDesktop = computed(() => props.variant === 'Desktop')
 const isExpired = computed(() => props.offer.status === 'EXPIRED')
+const targetAddress = computed(() => props.target === 'to' ? props.offer.desired.currentOwner : props.offer.caller)
 
 const interactionName = computed(
   () =>
