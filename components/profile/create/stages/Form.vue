@@ -245,9 +245,9 @@ const deleteConfirmSafetyDelayText = computed(() => {
     return $i18n.t('profiles.waitSeconds', [
       Math.ceil(
         (deleteConfirm.value.getTime()
-        + DELETE_CONFIRM_SAFETY_DELAY
-        - now.value.getTime())
-        / 1000,
+          + DELETE_CONFIRM_SAFETY_DELAY
+          - now.value.getTime())
+          / 1000,
       ),
     ])
   }

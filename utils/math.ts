@@ -75,8 +75,8 @@ export const between
   = (dateA: Date, dateB: Date) =>
     (event: Interaction): boolean =>
       (isAfter(parseISO(event.timestamp), dateA)
-      || isEqual(parseISO(event.timestamp), dateA))
-      && isBefore(parseISO(event.timestamp), dateB)
+        || isEqual(parseISO(event.timestamp), dateA))
+        && isBefore(parseISO(event.timestamp), dateB)
 
 export function uniqueCount<T>(self: T[]): number {
   return new Set(self).size
