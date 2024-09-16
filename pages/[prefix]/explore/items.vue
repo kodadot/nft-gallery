@@ -47,7 +47,12 @@ definePageMeta({
   middleware: [
     function (to) {
       if (to.query.listed === undefined) {
-        return navigateTo({ path: to.path, query: { listed: true } })
+        return navigateTo({
+          path: to.path,
+          query: {
+            listed: true,
+            search: to.query.search,
+          } })
       }
     },
   ],
