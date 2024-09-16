@@ -1,5 +1,6 @@
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
+import type { Abi } from '@/composables/transaction/types'
 
 export interface Unit {
   name: string
@@ -30,6 +31,7 @@ export type DropItem = {
   image: string
   banner: string
   content: string
+  abi?: Abi | null
 
   // additional data
   dropStartTime?: Date

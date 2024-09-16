@@ -12,12 +12,13 @@
 <script lang="ts" setup>
 import { NeoStepper } from '@kodadot1/brick'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
+import { hasBatchMint } from '@/composables/transaction/evm/utils'
 
 const { availableNfts } = useHolderOfCollection()
 const { amountToMint, drop } = storeToRefs(useDropStore())
 const { isEvm } = useIsChain(usePrefix().urlPrefix)
 
-const show = computed(() => drop.value.type !== 'free' && !isEvm.value)
+const show = computed(() => isEvm.value ? hasBatchMint(drop.value?.abi || []) : drop.value.type !== 'free')
 const isHolder = computed(() => drop.value.type === 'holder')
 const availableNftsAmount = computed(() => availableNfts.serialNumbers.length)
 
