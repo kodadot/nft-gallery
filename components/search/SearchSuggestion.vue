@@ -93,13 +93,11 @@
           class="search-footer-link"
           :to="{
             path: `/${urlPrefix}/explore/collectibles`,
-            query: { ...$route.query },
+            query: { ...$route.query, search: name },
           }"
+          @click="close"
         >
-          <div
-            :class="loadMoreItemClassName"
-            @click="seeAllButtonHandler"
-          >
+          <div :class="loadMoreItemClassName">
             {{ $t('search.seeAll') }}
             <svg
               class="ml-1"
@@ -173,13 +171,11 @@
           class="search-footer-link"
           :to="{
             path: `/${urlPrefix}/explore/items`,
-            query: { ...$route.query },
+            query: { ...$route.query, search: name },
           }"
+          @click="close"
         >
-          <div
-            :class="loadMoreItemClassName"
-            @click="seeAllButtonHandler"
-          >
+          <div :class="loadMoreItemClassName">
             {{ $t('search.seeAll') }}
             <svg
               class="ml-1"
@@ -323,6 +319,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import Money from '@/components/shared/format/Money.vue'
 
+const emit = defineEmits(['close', 'gotoGallery'])
 const props = defineProps({
   name: {
     type: String,
@@ -416,29 +413,9 @@ const selectedItemListMap = computed(() => ({
 }))
 
 const router = useRouter()
-const route = useRoute()
 const { $consola } = useNuxtApp()
 
-const updateSearchUrl = () => {
-  const { name } = props
-  if (name) {
-    router
-      .replace({
-        path: String(route.path),
-        query: {
-          search: name,
-        },
-      })
-      .catch($consola.warn)
-  }
-}
-
-const emit = defineEmits(['close', 'gotoGallery'])
-
-const seeAllButtonHandler = () => {
-  emit('close')
-  updateSearchUrl()
-}
+const close = () => emit('close')
 
 const nativeSearch = () => {
   // not selected
