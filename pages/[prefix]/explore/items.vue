@@ -50,7 +50,7 @@ definePageMeta({
         return navigateTo({
           path: to.path,
           query: {
-            listed: true,
+            listed: 'true',
             search: to.query.search,
           } })
       }
