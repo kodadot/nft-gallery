@@ -1,3 +1,6 @@
+import { find } from 'lodash'
+import type { Abi } from '../types'
+
 export const GENSOL_ABI = [
   {
     type: 'constructor',
@@ -148,6 +151,19 @@ export const GENSOL_ABI = [
   },
   {
     type: 'function',
+    name: 'maxSupply',
+    inputs: [],
+    outputs: [
+      {
+        name: '',
+        type: 'uint256',
+        internalType: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     name: 'name',
     inputs: [],
     outputs: [
@@ -226,6 +242,24 @@ export const GENSOL_ABI = [
       },
     ],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'safeBatchMint',
+    inputs: [
+      {
+        name: 'to',
+        type: 'address',
+        internalType: 'address',
+      },
+      {
+        name: 'quantity',
+        type: 'uint256',
+        internalType: 'uint256',
+      },
+    ],
+    outputs: [],
+    stateMutability: 'payable',
   },
   {
     type: 'function',
@@ -727,7 +761,7 @@ export const GENSOL_ABI = [
     name: 'InsufficientFunds',
     inputs: [
       {
-        name: 'tokenId',
+        name: 'expected',
         type: 'uint256',
         internalType: 'uint256',
       },
@@ -740,6 +774,11 @@ export const GENSOL_ABI = [
   },
   {
     type: 'error',
+    name: 'MintQuantityCannotBeZero',
+    inputs: [],
+  },
+  {
+    type: 'error',
     name: 'MintQuantityExceedsMaxSupply',
     inputs: [
       {
@@ -749,6 +788,22 @@ export const GENSOL_ABI = [
       },
       {
         name: 'maxSupply',
+        type: 'uint256',
+        internalType: 'uint256',
+      },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'NewMaxSupplyCannotBeLessThenTotalMinted',
+    inputs: [
+      {
+        name: 'newSupply',
+        type: 'uint256',
+        internalType: 'uint256',
+      },
+      {
+        name: 'totalMinted',
         type: 'uint256',
         internalType: 'uint256',
       },
@@ -793,3 +848,7 @@ export const GENSOL_ABI = [
     ],
   },
 ]
+
+export const hasBatchMint = (abi: Abi): boolean => {
+  return Boolean(find(abi, { type: 'function', name: 'safeBatchMint' }))
+}

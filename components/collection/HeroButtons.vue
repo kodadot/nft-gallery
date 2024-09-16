@@ -171,7 +171,7 @@ const shareCollectionToFarcaster = () => {
 const { collection } = useCollectionMinimal({
   collectionId,
 })
-const collectionIssuer = computed(() => collection.value?.issuer)
+const collectionIssuer = computed(() => collection.value?.displayCreator)
 const collectionNftCount = computed(() => collection.value?.nftCount)
 const collectionMaxCount = computed(() => collection.value?.max)
 

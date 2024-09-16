@@ -2,7 +2,7 @@ import { formatDuration, intervalToDuration, intlFormat } from 'date-fns'
 import { DropStatus } from './useDrops'
 import type { DropItem } from '@/params/types'
 import { getDropById } from '@/services/fxart'
-import { fetchOdaCollection } from '@/services/oda'
+import { fetchOdaCollection, fetchOdaCollectionAbi } from '@/services/oda'
 
 export function toDropScheduledDurationString(startTime: Date, short: boolean = false) {
   const duration = intervalToDuration({
@@ -114,7 +114,10 @@ export async function getDropAttributes(alias: string): Promise<DropItem | undef
 
   // get some onchain data
   // ----------------------
-  const { supply, claimed: minted, metadata } = await fetchOdaCollection(campaign.chain, address)
+  const [{ supply, claimed: minted, metadata }, abi] = await Promise.all([
+    fetchOdaCollection(campaign.chain, address),
+    isEvm(campaign.chain) ? fetchOdaCollectionAbi(campaign.chain, address) : Promise.resolve(null),
+  ])
 
   const onChainData = {
     max: Number(supply) || FALLBACK_DROP_COLLECTION_MAX,
@@ -125,6 +128,7 @@ export async function getDropAttributes(alias: string): Promise<DropItem | undef
     image: metadata.image,
     banner: metadata.banner || metadata.image,
     content: metadata.generative_uri || campaign.content,
+    abi: abi,
   }
 
   // additional data

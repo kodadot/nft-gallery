@@ -93,7 +93,7 @@ export const useWalletStore = defineStore('wallet', {
         return
       }
 
-      if (this.getIsSubstrate) {
+      if (this.getIsSubstrate && isSub(prefix)) {
         const address = formatAddress(account.address, ss58Of(prefix))
 
         if (address === account.address) {
