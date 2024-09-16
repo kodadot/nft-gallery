@@ -6,9 +6,10 @@ const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
 
 test('Collection interactions', async ({ page, Commands }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
-  await page.waitForLoadState()
   await Commands.scrollDownAndStop()
+
   await test.step('Check collection name and description', async () => {
+    await page.goto(COLLECTION_ADDRESS_PATH)
     await expect(page.getByTestId('collection-banner-name')).toContainText(
       COLLECTION_NAME,
     )
