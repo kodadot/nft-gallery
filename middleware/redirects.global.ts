@@ -25,7 +25,7 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     {
       cond: (val: string) =>
-        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('profile'),
+        val === `/${urlPrefix.value}/profile`,
       replaceValue: () => {
         const { accountId } = useAuth()
         if (accountId.value) {
