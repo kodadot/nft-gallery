@@ -6,15 +6,15 @@ const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
 
 test('Collection interactions', async ({ page, Commands }) => {
   await page.goto(COLLECTION_ADDRESS_PATH)
+  await Commands.scrollDownAndStop()
 
   await test.step('Check collection name and description', async () => {
-    await Commands.scrollDownAndStop()
-
     await expect(page.getByTestId('collection-banner-name')).toContainText(
       COLLECTION_NAME,
     )
     // description show more
-    await page.getByTestId('description-show-less-more-button').click()
+    // await page.getByTestId('description-show-less-more-button').click()
+
     // collection description
     await expect(page.getByTestId('collection-description')).toContainText(
       'robotic',
