@@ -23,7 +23,7 @@
         @close="onClose"
       >
         <div
-          v-if="preferencesStore.makeOfferModalOpen"
+          v-if="offerStore.items.length"
           class="px-6 max-h-[50vh] overflow-y-auto"
         >
           <ModalIdentityItem />
