@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useHistoryStore } from '@/stores/history'
 import { getNftMetadata } from '@/composables/useNft'
@@ -7,6 +8,8 @@ import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'
 import { getDrops } from '@/services/fxart'
+import { fetchOdaCollectionAbi } from '@/services/oda'
+import type { Abi } from '@/composables/transaction/types'
 
 interface NFTData {
   nftEntity?: NftEntity
@@ -23,6 +26,7 @@ export interface GalleryItem {
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
   nftHighestOffer: Ref<NFTOffer | undefined>
+  abi: Ref<Abi | null | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -64,6 +68,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     variables: {
       id,
     },
+  })
+
+  const { data: abi } = useQuery({
+    queryKey: ['collection-abi', nft.value?.collection.id],
+    queryFn: () => isEvm(urlPrefix.value) ? fetchOdaCollectionAbi(urlPrefix.value, nft.value?.collection.id as string) : Promise.resolve(null),
+    enabled: computed(() => Boolean(nft.value)),
   })
 
   useSubscriptionGraphql({
@@ -199,5 +209,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMetadata,
     nftResources,
     nftHighestOffer,
+    abi,
   }
 }
