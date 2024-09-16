@@ -22,13 +22,10 @@
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div
-          v-if="preferencesStore.makeOfferModalOpen"
-          class="px-6 max-h-[50vh] overflow-y-auto"
-        >
+        <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
-          <MakingOfferSingleItem />
+          <MakingOfferSingleItem v-if="offerStore.items.length === 1" />
         </div>
 
         <div class="flex justify-between px-6">
