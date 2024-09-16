@@ -31,7 +31,7 @@ export default defineNuxtRouteMiddleware((route) => {
         if (accountId.value) {
           return `/${urlPrefix.value}/u/${accountId.value}`
         }
-        return `/${urlPrefix.value}/explore/collectibles`
+        return `/${urlPrefix.value}`
       },
     },
     {
