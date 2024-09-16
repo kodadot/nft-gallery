@@ -3,6 +3,7 @@ import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
+import type { Abi as ViemAbi } from 'viem'
 import type { BaseTokenType } from '@/components/base/types'
 import type { Royalty } from '@/utils/royalty'
 import type { ShoppingActions } from '@/utils/shoppingActions'
@@ -29,7 +30,7 @@ export type ExecuteSubstrateTransactionParams = {
   cb: (...params: any[]) => Extrinsic
 } & BaseExecuteTransactionParams
 
-export type Abi = unknown[]
+export type Abi = ViemAbi
 
 export type ExecuteEvmTransactionParams = {
   address: string

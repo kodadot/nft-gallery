@@ -1,9 +1,10 @@
 import { type Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
-import { type Prefix, chainList } from '@kodadot1/static'
+import { type ChainVM, DEFAULT_VM_PREFIX, type Prefix, chainList } from '@kodadot1/static'
+import { getChainId } from '@wagmi/core'
 import { emptyObject } from '@/utils/empty'
 import { networkToPrefix } from '@/composables/useMultipleBalance'
-import { vmOf } from '@/utils/config/chain.config'
+import { chainPropListOf, vmOf } from '@/utils/config/chain.config'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
@@ -24,10 +25,6 @@ export interface IdentityMap {
 
 type Key = Prefix | string | number
 type BalanceMap<T extends Key = string> = Record<T, string>
-type ChangeAddressRequest = {
-  address: string
-  apiUrl?: string
-}
 
 export type ChainType =
   | 'polkadot'
@@ -139,26 +136,12 @@ export const useIdentityStore = defineStore('identity', {
 
       return 0
     },
-    getVmAssets: (): any[] => {
-      const { isTestnet } = usePrefix()
-      const { multiBalanceAssets, multiBalanceAssetsTestnet }
-        = storeToRefs(useIdentityStore())
-      const { vm } = useChain()
-
-      // useChain().availableChainsByVm excludes disabled chains like dot
-      const vmChains = chainList().filter(
-        ({ value: prefix }) => vm.value === vmOf(prefix as Prefix),
-      )
-
-      const assets = isTestnet
-        ? multiBalanceAssetsTestnet.value
-        : multiBalanceAssets.value
-
-      return assets.filter(asset =>
-        vmChains
-          .map(chain => chain.value)
-          .includes(networkToPrefix[asset.chain] as ChainType),
-      )
+    getWalletVmAssets: (): any[] => {
+      const { getWalletVM } = storeToRefs(useWalletStore())
+      return getWalletVM.value ? getVmAssets(getWalletVM.value) : []
+    },
+    getWalletVmChains(): string[] {
+      return this.getWalletVmAssets.map(asset => asset.chain)
     },
     getStatusMultiBalances(state): string {
       let loadedAssets = 0
@@ -169,7 +152,7 @@ export const useIdentityStore = defineStore('identity', {
           loadedAssets += Object.keys(state.multiBalances.chains[key]).length
         }
       }
-      return loadedAssets < this.getVmAssets.length ? 'loading' : 'done'
+      return loadedAssets < this.getWalletVmAssets.length ? 'loading' : 'done'
     },
   },
   actions: {
@@ -200,26 +183,44 @@ export const useIdentityStore = defineStore('identity', {
         this.auth.balance[prefix] = balance
       }
     },
-    setPrefixBalance(balance: string) {
-      const { urlPrefix } = usePrefix()
+    setPrefixBalance(balance: string, prefix: Prefix) {
       if (this.auth.balance) {
-        this.auth.balance[urlPrefix.value] = balance
+        this.auth.balance[prefix] = balance
       }
     },
     setTokenListBalance(request: BalanceMap) {
       this.auth.tokens = request
     },
-    async setCorrectAddressBalance(apiUrl: string) {
-      if (this.auth.address) {
-        const address = this.auth.address
-        await this.fetchBalance({ address, apiUrl })
-      }
-    },
-    async fetchBalance({ address }: ChangeAddressRequest) {
+    async fetchBalance({ address }: { address: string }) {
       const { fetchBalance } = useBalance()
-      const balance = await fetchBalance(address)
+      const { getWalletVM } = useWalletStore()
+      const { vm } = useChain()
+
+      if (!getWalletVM) {
+        return
+      }
+
+      let prefix = usePrefix().urlPrefix.value
+
+      // remove once multiwallet support is added
+      if (vm.value !== getWalletVM) {
+        execByVm({
+          EVM: () => {
+            const { $wagmiConfig } = useNuxtApp()
+            const chainId = getChainId($wagmiConfig)
+            prefix = CHAIN_ID_TO_PREFIX[chainId] ?? ''
+          },
+          SUB: () => {
+            prefix = DEFAULT_VM_PREFIX[getWalletVM]
+            address = formatAddress(address, chainPropListOf(prefix).ss58Format)
+          },
+        }, { vm: getWalletVM })
+      }
+
+      const balance = await fetchBalance(address, prefix)
+
       if (balance) {
-        this.setPrefixBalance(balance)
+        this.setPrefixBalance(balance, prefix)
       }
     },
     setMultiBalances({ address, chains, chainName }) {
@@ -237,3 +238,24 @@ export const useIdentityStore = defineStore('identity', {
     },
   },
 })
+
+export const getVmAssets = (vm: ChainVM) => {
+  const { isTestnet } = usePrefix()
+  const { multiBalanceAssets, multiBalanceAssetsTestnet }
+    = storeToRefs(useIdentityStore())
+
+  // useChain().availableChainsByVm excludes disabled chains like dot
+  const vmChains = chainList().filter(
+    ({ value: prefix }) => vm === vmOf(prefix as Prefix),
+  )
+
+  const assets = isTestnet
+    ? multiBalanceAssetsTestnet.value
+    : multiBalanceAssets.value
+
+  return assets.filter(asset =>
+    vmChains
+      .map(chain => chain.value)
+      .includes(networkToPrefix[asset.chain] as ChainType),
+  )
+}

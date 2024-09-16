@@ -1,4 +1,5 @@
 import type { Prefix } from '@kodadot1/static'
+import type { Abi } from '@/composables/transaction/types'
 
 const BASE_URL = isProduction ? 'https://oda.koda.art' : 'https://oda-beta.koda.art'
 const api = $fetch.create({ baseURL: BASE_URL, retry: 3 })
@@ -27,4 +28,8 @@ type OdaCollectionOwners = {
 
 export const fetchOdaCollectionOwners = (chain: Prefix, address: string) => {
   return api<OdaCollectionOwners>(`/v1/${chain}/collection/${address}/owners`)
+}
+
+export const fetchOdaCollectionAbi = (chain: Prefix, address: string) => {
+  return api<Abi | null>(`/v1/${chain}/collection/${address}/abi`)
 }

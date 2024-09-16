@@ -1,9 +1,10 @@
-import { GENSOL_ABI } from './evm/utils'
 import type {
+  Abi,
   EvmMintDropParams,
   MintDropParams,
   SubstrateMintDropParams,
 } from './types'
+import { hasBatchMint } from './evm/utils'
 import { useDrop } from '@/components/drops/useDrops'
 
 function execAssethubMintDrop({
@@ -43,12 +44,24 @@ function execAssethubMintDrop({
 async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
   const { accountId } = useAuth()
   const { drop } = useDrop()
+  const { amountToMint } = storeToRefs(useDropStore())
+  const abi = drop.value.abi as Abi
+
+  const { arg, functionName } = hasBatchMint(abi) && amountToMint.value > 1
+    ? {
+        functionName: 'safeBatchMint',
+        arg: [accountId.value, amountToMint.value],
+      }
+    : {
+        functionName: 'safeMint',
+        arg: [accountId.value],
+      }
 
   executeTransaction({
     address: drop.value.collection,
-    abi: GENSOL_ABI,
-    arg: [accountId.value],
-    functionName: 'safeMint',
+    abi,
+    arg,
+    functionName,
     value: drop.value.price,
   })
 }

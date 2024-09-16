@@ -22,6 +22,7 @@ const DEFAULT_DROP: Omit<DropItem, 'chain'> = {
   isMintedOut: false,
   isFree: false,
   status: 'minting_live' as DropStatus,
+  abi: undefined,
 }
 
 interface State {

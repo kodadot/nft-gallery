@@ -5,6 +5,7 @@
     :triggers="['click']"
     position="bottom-left"
     append-to-body
+    close-menu-on-move
     class="w-full"
     menu-class="!min-w-[8rem]"
   >
