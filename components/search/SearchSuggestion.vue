@@ -288,6 +288,7 @@ import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import { useTopCollections } from '../landing/topCollections/utils/useTopCollections'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import type { DefaultCollectionSuggestion, SearchQuery } from './types'
+import { getDenyList } from '@/utils/prefix'
 import {
   type CollectionWithMeta,
   type NFTWithMeta,
@@ -377,6 +378,7 @@ const queryVariables = computed(() => {
   return {
     first: searchSuggestionEachTypeMaxNum,
     offset: 0,
+    denyList: getDenyList(urlPrefix.value),
     orderBy: query.value.sortByMultiple?.length
       ? query.value.sortByMultiple
       : undefined,
