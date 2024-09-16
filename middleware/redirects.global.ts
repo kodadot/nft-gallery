@@ -1,4 +1,5 @@
 import { type Prefix } from '@kodadot1/static'
+import type { RouteLocationRaw } from 'vue-router'
 import { createVisible, transferVisible, teleportVisible, migrateVisible } from '@/utils/config/permission.config'
 
 export default defineNuxtRouteMiddleware((route) => {
@@ -15,32 +16,40 @@ export default defineNuxtRouteMiddleware((route) => {
     }
   }
 
-  let redirectValue
+  let redirectValue: RouteLocationRaw | null | undefined
 
   const paths = [
     {
-      cond: val => val === '/drops',
+      cond: (val: string) => val === '/drops',
       replaceValue: '/ahp/drops',
     },
     {
-      cond: val =>
+      cond: (val: string) =>
+        val === `/${urlPrefix.value}/profile`,
+      replaceValue: () => {
+        const { accountId } = useAuth()
+        return accountId.value ? `/${urlPrefix.value}/u/${accountId.value}` : `/${urlPrefix.value}`
+      },
+    },
+    {
+      cond: (val: string) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
     },
     {
-      cond: val =>
+      cond: (val: string) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
       replaceValue: () => `/${urlPrefix.value}/explore/items`,
     },
     {
-      cond: val => val.includes('/stmn/'),
+      cond: (val: string | string[]) => val.includes('/stmn/'),
       replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
     getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),
     {
-      cond: val => val.startsWith('/transfer'),
+      cond: (val: string) => val.startsWith('/transfer'),
       replaceValue: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
