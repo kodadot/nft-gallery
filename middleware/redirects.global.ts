@@ -28,10 +28,7 @@ export default defineNuxtRouteMiddleware((route) => {
         val === `/${urlPrefix.value}/profile`,
       replaceValue: () => {
         const { accountId } = useAuth()
-        if (accountId.value) {
-          return `/${urlPrefix.value}/u/${accountId.value}`
-        }
-        return `/${urlPrefix.value}`
+        return accountId.value ? `/${urlPrefix.value}/u/${accountId.value}` : `/${urlPrefix.value}`
       },
     },
     {
