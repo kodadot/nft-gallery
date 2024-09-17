@@ -58,7 +58,7 @@ const grid = computed(
   () =>
     props.gridSize
     || (props.gridSection
-    && preferencesStore.getGridConfigBySection(props.gridSection)?.size),
+      && preferencesStore.getGridConfigBySection(props.gridSection)?.size),
 )
 
 const { cols, isMobileVariant } = useDynamicGrid({
