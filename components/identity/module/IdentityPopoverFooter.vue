@@ -1,7 +1,16 @@
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex justify-between">
-      <div class="flex flex-row gap-1 items-center">
+      <div v-if="statsLoading">
+        <NeoSkeleton
+          width="100px"
+          no-margin
+        />
+      </div>
+      <div
+        v-else
+        class="flex flex-row gap-1 items-center"
+      >
         <p
           class="text-base"
           data-testid="identity-created"
@@ -14,7 +23,16 @@
         }}</span>
       </div>
 
-      <div class="flex flex-row gap-1 items-center">
+      <div v-if="followersLoading">
+        <NeoSkeleton
+          width="100px"
+          no-margin
+        />
+      </div>
+      <div
+        v-else
+        class="flex flex-row gap-1 items-center"
+      >
         <p
           class="text-base"
           data-testid="identity-followers"
@@ -76,21 +94,19 @@ const NFT_AMOUNT = 2
 const address = inject('address') as ComputedRef<string>
 
 const { urlPrefix } = usePrefix()
-const { totalCreated } = useIdentityStats({
+const { totalCreated, loading: statsLoading } = useIdentityStats({
   address,
 })
 
 const {
   data: followersData,
   refresh,
-  pending: loading,
+  pending: followersLoading,
 } = useAsyncData(`followers-${address.value}`, () =>
   fetchFollowersOf(address.value),
 )
 
-const followers = computed(() =>
-  loading.value ? 0 : followersData.value?.totalCount || 0,
-)
+const followers = computed(() => followersData.value?.totalCount || 0)
 
 const { data } = useSearchNfts({
   search: [
