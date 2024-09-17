@@ -18,10 +18,8 @@ const nftEventVariables = {
 }
 
 const fetchLatestEvents = (chain, type, where = {}, limit = 20) => {
-  const query = latestEvents
-
   return useQuery(
-    query,
+    latestEvents,
     {
       limit,
       orderBy: 'timestamp_DESC',

@@ -45,8 +45,7 @@ export const useCollectionForMint = () => {
       return
     }
 
-    const prefix = urlPrefix.value
-    const query = await resolveQueryPath(prefix, 'collectionForMint')
+    const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
     const { data } = await useAsyncQuery({
       query: query.default,
       variables: {

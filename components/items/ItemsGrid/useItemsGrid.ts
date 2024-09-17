@@ -131,7 +131,7 @@ export function useFetchSearch({
     }
 
     // Query path and variables
-    const queryPath = client.value
+
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
@@ -181,7 +181,7 @@ export function useFetchSearch({
       ? { ...defaultSearchVariables, ...tokenQueryVariables }
       : { ...defaultSearchVariables, ...nftQueryVariables }
 
-    const query = await resolveQueryPath(queryPath, queryName)
+    const query = await resolveQueryPath(client.value, queryName)
     const { data: result } = await useAsyncQuery({
       query: query.default,
       variables: queryVariables,
