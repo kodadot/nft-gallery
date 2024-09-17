@@ -66,14 +66,10 @@ export default ({
   })
 
   if (clearItemsOnModalClose) {
-    watch(
-      () => preferencesStore.listingCartModalOpen,
-      (isOpen, wasOpen) => {
-        if (!isOpen && wasOpen) {
-          clearItemsInChain()
-        }
-      },
-    )
+    useModalIsOpenTracker({
+      isOpen: computed(() => preferencesStore.listingCartModalOpen),
+      onChange: clearItemsInChain,
+    })
   }
 
   return {
