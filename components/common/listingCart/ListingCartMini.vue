@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div
-      v-if="listingCartStore.count"
+      v-if="listingCartStore.count && !listingCartStore.cartMiniDisabled"
       class="listing-container"
     >
       <div class="inline-flex items-center">

@@ -3,8 +3,10 @@ import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphq
 
 export default () => {
   const { client } = usePrefix()
-  const { listNftByNftWithMetadata } = useListingCartModal()
+  const preferencesStore = usePreferencesStore()
+  const { listNftByNftWithMetadata, clearItemsInChain } = useListingCartModal()
 
+  const { cartMiniDisabled } = storeToRefs(useListingCartStore())
   const { mintedNFTs, toMintNFTs } = storeToRefs(useDropStore())
 
   const subscribeForNftsWithMetadata = (nftIds: string[]) => {
@@ -29,6 +31,9 @@ export default () => {
   }
 
   const listMintedNFTs = () => {
+    clearItemsInChain()
+    cartMiniDisabled.value = true
+
     mintedNFTs.value.forEach(async (withMetadataNFT: NFTWithMetadata) => {
       const mintingSessionNFT = toMintNFTs.value.find(
         nft => nft.nft.toString() === withMetadataNFT.sn,
@@ -44,6 +49,16 @@ export default () => {
         },
       )
     })
+
+    const watcherStop = watch(
+      () => preferencesStore.listingCartModalOpen,
+      (isOpen, wasOpen) => {
+        if (!isOpen && wasOpen) {
+          cartMiniDisabled.value = false
+          watcherStop()
+        }
+      },
+    )
   }
 
   return {

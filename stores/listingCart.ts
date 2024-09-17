@@ -32,6 +32,7 @@ interface State {
   allUnlistedItems: ListCartItem[]
   chain: ComputedRef<Prefix>
   decimals: ComputedRef<number>
+  cartMiniDisabled: boolean
 }
 
 export const DEFAULT_FLOOR_PRICE_RATE = 1
@@ -42,6 +43,7 @@ export const useListingCartStore = defineStore('listingCart', {
     allUnlistedItems: [],
     chain: usePrefix().urlPrefix,
     decimals: useChain().decimals,
+    cartMiniDisabled: false,
   }),
   getters: {
     allItemsInChain: (state): ListCartItem[] =>

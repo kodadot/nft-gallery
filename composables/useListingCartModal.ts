@@ -80,5 +80,6 @@ export default ({
     listNftByShoppingCartItem,
     listNftByNftWithMetadata,
     openListingCartModal,
+    clearItemsInChain,
   }
 }
