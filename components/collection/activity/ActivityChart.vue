@@ -1,8 +1,8 @@
 <template>
   <PriceChart
     v-if="events.length > 0"
-    v-model:hideOutliers="hideOutliers"
-    v-model:applySmoothing="applySmoothing"
+    v-model:hide-outliers="hideOutliers"
+    v-model:apply-smoothing="applySmoothing"
     :price-chart-data="chartData"
     chart-height="350px"
     data-testid="collection-activity-chart"
