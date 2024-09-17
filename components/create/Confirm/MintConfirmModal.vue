@@ -128,8 +128,8 @@ const kodadotFee = computed(
 const carbonlessFee = computed(
   () =>
     ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0)
-    / tokenPrice.value)
-    * Math.pow(10, decimals.value),
+      / tokenPrice.value)
+      * Math.pow(10, decimals.value),
 )
 const totalFee = computed(() => {
   return (
