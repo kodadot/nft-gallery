@@ -92,7 +92,7 @@ const categorizeFiles = async (
     const adjustedPath = path.replace(commonPrefix, '')
     const content = await file.text()
 
-    if (path.endsWith('index.html')) {
+    if (path === 'index.html') {
       htmlFiles.push({ path: adjustedPath, content })
     }
     else if (path.endsWith('.js') && !path.includes(config.p5)) {

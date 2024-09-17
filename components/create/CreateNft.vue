@@ -572,9 +572,9 @@ watchEffect(() => {
   // prepare nft blockNumber for redirect to detail page
   if (
     (transactionStatus.value === 'mint'
-    || transactionStatus.value === 'list')
-    && mintStatusFinalized
-    && blockNumber.value
+      || transactionStatus.value === 'list')
+      && mintStatusFinalized
+      && blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
     transactionStatus.value = 'done'
