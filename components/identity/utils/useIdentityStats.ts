@@ -66,7 +66,7 @@ export default function useIdentityStats({
   const firstMintDate = ref(new Date())
 
   const { lastBoughtDate } = useLastBought({ address })
-  const { data: stats } = useGraphql({
+  const { data: stats, loading } = useGraphql({
     queryName: 'userStatsByAccount',
     variables: {
       account: address.value,
@@ -113,5 +113,6 @@ export default function useIdentityStats({
     totalCreated,
     lastBought,
     startedMinting,
+    loading,
   }
 }
