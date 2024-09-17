@@ -127,6 +127,7 @@ export type ActionConsume = {
   nftId: string
   nftSn: string
   collectionId: string
+  abi?: Abi | null
   successMessage?: string
   errorMessage?: string
 }
@@ -175,6 +176,7 @@ export type ActionSend = {
   address: string
   nftId: string
   nftSn: string
+  abi?: Abi | null
   collectionId: string
   successMessage?: string
   errorMessage?: string

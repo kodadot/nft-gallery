@@ -6,12 +6,12 @@ import {
 import type { ApiPromise } from '@polkadot/api'
 import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 import type { Prefix } from '@kodadot1/static'
-import { GENSOL_ABI } from './evm/utils'
 import type {
   ActionDeleteCollection,
   ExecuteSubstrateTransactionParams,
   ActionBurnMultipleNFTs, ActionConsume,
   ExecuteTransaction,
+  Abi,
 } from '@/composables/transaction/types'
 
 import { warningMessage } from '@/utils/notification'
@@ -25,7 +25,7 @@ import {
 function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction) {
   executeTransaction({
     address: item.collectionId,
-    abi: GENSOL_ABI,
+    abi: item.abi as Abi,
     functionName: 'burn',
     arg: [item.nftSn],
   })
