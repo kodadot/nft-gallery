@@ -120,12 +120,13 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { parseNftAvatar } from '@/utils/nft'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import formatBalance from '@/utils/format/balance'
-import type { Actions } from '@/composables/transaction/types'
+import type { Abi, Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
   nft: NFT
+  abi?: Abi | null
   value: boolean
 }>()
 
@@ -150,6 +151,7 @@ const action = computed<Actions>(() => ({
   tokenId: route.params.id.toString(),
   nftId: props.nft.id,
   nftSn: props.nft.sn,
+  abi: props.abi,
   collectionId: props.nft.collection.id,
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
