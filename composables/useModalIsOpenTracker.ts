@@ -16,7 +16,7 @@ export default ({
   and?: Ref<boolean>[]
   onClose?: boolean
 }) => {
-  watch([isOpen, () => and], ([isOpen, and]) => {
+  return watch([isOpen, () => and], ([isOpen, and]) => {
     if (!isOpen === onClose && and.every(Boolean)) {
       onClose ? onModalAnimation(onChange) : onChange()
     }

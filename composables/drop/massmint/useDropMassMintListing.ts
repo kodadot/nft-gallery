@@ -50,15 +50,13 @@ export default () => {
       )
     })
 
-    const watcherStop = watch(
-      () => preferencesStore.listingCartModalOpen,
-      (isOpen, wasOpen) => {
-        if (!isOpen && wasOpen) {
-          cartMiniDisabled.value = false
-          watcherStop()
-        }
+    const watcherStop = useModalIsOpenTracker({
+      isOpen: computed(() => preferencesStore.listingCartModalOpen),
+      onChange: () => {
+        cartMiniDisabled.value = false
+        watcherStop()
       },
-    )
+    })
   }
 
   return {
