@@ -256,7 +256,7 @@ useTransactionNotification({
             return {
               label: t('offer.manageOffers'),
               icon: 'arrow-up-right',
-              url: `/${urlPrefix.value}/u/${accountId.value}`,
+              url: `/${urlPrefix.value}/u/${accountId.value}?tab=offers&filter=outgoing`,
             }
           }
           return undefined
