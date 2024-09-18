@@ -1,5 +1,13 @@
 <template>
   <div>
+    <SigningModal
+      :title="details.signingTitle"
+      :is-loading="isLoading"
+      :status="status"
+      close-at-signed
+      @try-again="execTransaction"
+    />
+
     <NeoModal
       :value="modelValue"
       append-to-body
@@ -77,7 +85,6 @@
         >
           <OfferOwnerButton
             class="!w-full"
-            :loading="starting"
             :offer="offer"
             @click="execTransaction"
           />
@@ -109,14 +116,13 @@ const vModel = useVModel(props, 'modelValue')
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { decimals, chainSymbol } = useChain()
-const { transaction, status, isError } = useTransaction({ disableSuccessNotification: true })
+const { transaction, status, isError, isLoading } = useTransaction({ disableSuccessNotification: true })
 const { isOwnerOfNft } = useIsOffer(computed(() => props.offer), accountId)
 const { $i18n } = useNuxtApp()
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { $i18n: { t } } = useNuxtApp()
 
 const offeredItem = ref<number>()
-const starting = ref(false)
 const subscription = ref(() => {})
 
 const nftId = computed(() => props.offer?.desired.id)
@@ -195,7 +201,7 @@ const execTransaction = () => {
     return
   }
 
-  starting.value = true
+  vModel.value = false
 
   if (isMyOffer.value) {
     transaction({
@@ -232,23 +238,6 @@ watch(() => props.offer, () => {
       },
     })
   }
-})
-
-useTransactionTracker({
-  transaction: {
-    isError,
-    status,
-  },
-  onCancel: () => {
-    starting.value = false
-  },
-})
-
-useModalIsOpenTracker({
-  isOpen: vModel,
-  onChange: () => {
-    starting.value = false
-  },
 })
 
 useTransactionNotification({

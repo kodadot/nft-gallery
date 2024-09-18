@@ -42,6 +42,13 @@
       </div>
 
       <div
+        v-if="$slots.footer"
+        class="mt-3 mb-1"
+      >
+        <slot name="footer" />
+      </div>
+
+      <div
         v-if="showProgressBar"
         class="w-full h-1 message-progress absolute left-0 bottom-0 transition-all ease-linear"
         :style="{ width: `${percent}%` }"

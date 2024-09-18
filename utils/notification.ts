@@ -38,6 +38,7 @@ export const showNotification = ({
   variant,
   holdTimer,
   icon,
+  footer,
   params = notificationTypes.info,
   duration = 10000,
 }: {
@@ -49,6 +50,7 @@ export const showNotification = ({
   action?: MaybeRef<NotificationAction | undefined>
   holdTimer?: Ref<boolean>
   icon?: Ref<NeoMessageIconVariant | undefined>
+  footer?: Ref<Omit<NotificationAction, 'url'> | undefined>
 }) => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -65,6 +67,7 @@ export const showNotification = ({
       action: action,
       holdTimer: holdTimer,
       icon: icon,
+      footer: footer,
     }),
     variant: 'component',
     duration: 50000, // child component will trigger close when the real duration is ended
@@ -213,6 +216,9 @@ export const loadingMessage = ({
     holdTimer: isLoadingState,
     icon: computed(() =>
       isLoadingState.value ? { icon: 'spinner-third', spin: true } : undefined,
+    ),
+    footer: computed(() =>
+      state.value === 'succeeded' ? { icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') } : undefined,
     ),
   })
 }
