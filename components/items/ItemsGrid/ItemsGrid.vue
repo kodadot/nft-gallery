@@ -28,6 +28,7 @@
           :display-name-with-sn="displayNameWithSn"
           :show-timestamp="showTimestamp"
           :collection-popover-hide="collectionPopoverHide"
+          :hide-listing="hideListing"
           :lazy-loading="
             shouldLazyLoad({
               cols: slotProps.cols,
@@ -49,6 +50,7 @@
           :entity="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          :hide-listing="hideListing"
           :display-name-with-sn="displayNameWithSn"
           hide-video-controls
           :lazy-loading="
@@ -146,6 +148,7 @@ const props = defineProps<{
   showTimestamp?: boolean
   hideHoverAction?: boolean
   collectionPopoverHide?: boolean
+  hideListing?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])
