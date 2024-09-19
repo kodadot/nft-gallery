@@ -19,9 +19,9 @@ export default function () {
   const prefix = computed<Prefix>(
     () =>
       (sharedPrefix.value
-        || validPrefixFromRoute.value
-        || storage.value.selected
-        || initialPrefixFromPath) as Prefix,
+      || validPrefixFromRoute.value
+      || storage.value.selected
+      || initialPrefixFromPath) as Prefix,
   )
 
   const handlePrefixChange = (value: Prefix) => {

@@ -9,7 +9,7 @@ export const getAutoTeleportActionInteraction = (
   autoTeleportAction: AutoTeleportAction,
 ): AutoteleportInteraction =>
   (autoTeleportAction.action?.interaction
-    || autoTeleportAction.interaction) as AutoteleportInteraction
+  || autoTeleportAction.interaction) as AutoteleportInteraction
 
 export default function ({
   actions,

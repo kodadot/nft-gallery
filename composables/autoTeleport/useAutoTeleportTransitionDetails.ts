@@ -117,8 +117,8 @@ export default function (
   const hasBalances = computed(
     () =>
       (Boolean(currentChainBalance.value)
-        && Object.values(sourceChainsBalances.value).every(Boolean))
-        || hasFetched.balances,
+      && Object.values(sourceChainsBalances.value).every(Boolean))
+      || hasFetched.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
