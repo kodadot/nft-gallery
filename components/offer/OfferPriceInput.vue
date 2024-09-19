@@ -33,20 +33,27 @@
       </NeoButton>
     </div>
 
-    <div class="flex justify-end text-k-grey text-xs mt-3 gap-1">
-      {{ $t('general.balance') }}:
-      <span v-if="isSymbolMode">
-        {{ balance }} {{ chainSymbol }}
+    <div class="flex justify-between text-xs mt-3">
+      <span class="text-k-grey">
+        ~ {{ formattedOppositeCurrency }}
       </span>
-      <span v-else>
-        {{ balanceUsd }} USD
-      </span>
+
+      <div class="flex gap-1">
+        {{ $t('general.balance') }}:
+        <span v-if="isSymbolMode">
+          {{ balance }} {{ chainSymbol }}
+        </span>
+        <span v-else>
+          {{ balanceUsd }} USD
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { roundTo } from '@/utils/format/balance'
 
 const props = defineProps<{
   modelValue?: number | string
@@ -59,16 +66,20 @@ const fiatStore = useFiatStore()
 const emit = defineEmits(['update:modelValue'])
 
 const isSymbolMode = ref(true)
+const tokenAmount = ref<string | number | undefined>(props.modelValue || '')
+
 const tokenPrice = computed(() => fiatStore.getCurrentTokenValue(chainSymbol.value as Token) as number)
 const switchSymbolMode = () => {
   isSymbolMode.value = !isSymbolMode.value
 }
 
-const balanceUsd = computed(() => {
-  return balance.value * tokenPrice.value
-})
+const balanceUsd = computed(() => roundTo(balance.value * tokenPrice.value))
 
-const tokenAmount = ref<string | number | undefined>(props.modelValue || '')
+const formattedOppositeCurrency = computed(() => {
+  const value = roundTo(isSymbolMode.value ? Number(tokenAmount.value || 0) * tokenPrice.value : Number(tokenAmount.value || 0) / tokenPrice.value)
+  const symbol = isSymbolMode.value ? 'USD' : chainSymbol.value
+  return `${value} ${symbol}`
+})
 
 const model = computed({
   get: () => tokenAmount.value,
