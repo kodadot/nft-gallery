@@ -1170,9 +1170,7 @@
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
     },
-    "connectFarcaster": "Connect with Koda on Farcaster",
-    "farcasterMintLive": "Mint is live!",
-    "becoming": "is becoming"
+    "connectFarcaster": "Connect with Koda on Farcaster"
   },
   "whyKoda": {
     "title": "Why Koda?",

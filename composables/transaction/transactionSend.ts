@@ -1,8 +1,7 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import type { Prefix } from '@kodadot1/static'
-import type { ActionSend, ExecuteTransaction } from './types'
-import { GENSOL_ABI } from './evm/utils'
+import type { Abi, ActionSend, ExecuteTransaction } from './types'
 import {
   assetHubParamResolver,
   getApiCall,
@@ -52,7 +51,7 @@ function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
 
   executeTransaction({
     address: item.collectionId,
-    abi: GENSOL_ABI,
+    abi: item.abi as Abi,
     functionName: 'safeTransferFrom',
     arg: [accountId.value, item.address, item.nftSn],
   })
