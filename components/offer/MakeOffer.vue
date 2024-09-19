@@ -216,7 +216,7 @@ useTransactionNotification({
 
           return undefined
         }),
-        showIndexerDelayMesasge: true,
+        showIndexerDelayMessage: true,
       })
     })
   },

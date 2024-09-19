@@ -177,7 +177,7 @@ export type LoadingMessageParams = {
   message?: MaybeRef<string | undefined>
   state: Ref<LoadingNotificationState>
   action?: Ref<NotificationAction | undefined>
-  showIndexerDelayMesasge?: boolean
+  showIndexerDelayMessage?: boolean
 }
 
 export const loadingMessage = ({
@@ -185,7 +185,7 @@ export const loadingMessage = ({
   message,
   state,
   action,
-  showIndexerDelayMesasge = false,
+  showIndexerDelayMessage: showIndexerDelayMesasge = false,
 }: LoadingMessageParams) => {
   const { $i18n } = useNuxtApp()
   const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
