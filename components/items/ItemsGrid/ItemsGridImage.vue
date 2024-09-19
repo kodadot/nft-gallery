@@ -30,7 +30,7 @@
       #action
     >
       <div
-        v-if="!isOwner && Number(nft?.price) && !isRemark"
+        v-if="!isOwner && Number(nft?.price)"
         class="flex"
       >
         <NeoButton
@@ -105,7 +105,6 @@ const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
-const { isRemark } = useIsChain(urlPrefix)
 
 const props = defineProps<{
   nft: NFTWithMetadata

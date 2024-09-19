@@ -45,10 +45,6 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: (val: string | string[]) => val.includes('/stmn/'),
       replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
-    {
-      cond: (val: string | string[]) => val.includes('/rmrk2/'),
-      replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
-    },
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
     getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),

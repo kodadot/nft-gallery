@@ -105,8 +105,6 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
-const isDisabledPurchasePrefix = isRemark
 
 const autoteleport = ref()
 const actions = computed(() => [props.action])
@@ -145,7 +143,7 @@ const total = computed(
 )
 
 const disabled = computed(
-  () => !isLogIn.value || isDisabledPurchasePrefix.value,
+  () => !isLogIn.value,
 )
 
 const priceUSD = computed(() => {
