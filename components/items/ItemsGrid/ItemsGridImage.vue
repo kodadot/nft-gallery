@@ -60,7 +60,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner && listVisible(urlPrefix)"
+        v-else-if="isOwner && listVisible(urlPrefix) && !hideListing"
         class="flex"
       >
         <NeoButton
@@ -112,6 +112,7 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
+  hideListing?: boolean
   displayNameWithSn?: boolean
   showTimestamp?: boolean
   collectionPopoverHide?: boolean

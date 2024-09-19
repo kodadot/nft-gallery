@@ -8,7 +8,6 @@
     <LazyCookieBanner />
     <KeyboardShortcutsModal />
     <Buy />
-    <ListingCartMini />
     <ListingCartModal />
   </div>
 </template>
