@@ -121,13 +121,6 @@
         </div>
       </NeoField>
 
-      <InfoBox
-        v-if="isRemark"
-        variant="warning"
-      >
-        <div>{{ $t('mint.disabledRmrk') }}</div>
-      </InfoBox>
-
       <!-- royalty -->
       <NeoField v-if="isAssetHub">
         <RoyaltyForm
@@ -161,7 +154,6 @@
       <NeoButton
         class="text-base"
         expanded
-        :disabled="isRemark"
         :label="submitButtonLabel"
         native-type="submit"
         size="medium"
@@ -279,8 +271,8 @@ const royalty = ref({
 
 const menus = availablePrefixes().filter(
   (menu) => {
-    const { isRemark, isEvm } = useIsChain(computed(() => menu.value as Prefix))
-    return !isRemark.value && !isEvm.value
+    const { isEvm } = useIsChain(computed(() => menu.value as Prefix))
+    return !isEvm.value
   })
 
 const chainByPrefix = menus.find(menu => menu.value === urlPrefix.value)
@@ -302,7 +294,7 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const { isAssetHub, isRemark } = useIsChain(currentChain)
+const { isAssetHub } = useIsChain(currentChain)
 const { balance, totalCollectionDeposit, chainSymbol, chain }
   = useDeposit(currentChain)
 
@@ -348,11 +340,6 @@ const collection = computed(() => {
   }
 
   if (isAssetHub.value) {
-    collection['nftCount'] = unlimited.value ? 0 : max.value
-  }
-
-  if (isRemark.value) {
-    collection['symbol'] = symbol.value
     collection['nftCount'] = unlimited.value ? 0 : max.value
   }
 

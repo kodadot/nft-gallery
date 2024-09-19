@@ -9,6 +9,7 @@
       :image-url="nftMetadata?.image"
       :image-data="imageData"
       :mime-type="nftMimeType"
+      :abi="abi"
       data-testid="gallery-item-more-button"
     />
   </div>
@@ -28,6 +29,7 @@ const imageData = ref()
 const nft = computed(() => props.galleryItem.nft.value)
 const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
 const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
+const abi = computed(() => props.galleryItem.abi.value)
 
 const customSharingContent = computed(() => {
   const twitterId = nft.value?.meta?.description

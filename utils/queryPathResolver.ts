@@ -15,10 +15,6 @@ function getPath(prefix: string) {
   switch (prefix) {
     case 'chain-ahk':
       return 'subsquid/ahk/'
-    case 'chain-rmrk':
-      return 'subsquid/rmrk/'
-    case 'chain-ksm':
-      return 'subsquid/ksm/'
     default:
       return 'subsquid/general/'
   }

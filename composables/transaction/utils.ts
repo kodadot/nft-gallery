@@ -79,10 +79,10 @@ export function useBuySupportFee(
   prefix: ComputedRef<Prefix>,
   amount: ComputedRef<string | number>,
 ) {
-  const { isRemark, isAssetHub } = useIsChain(prefix)
+  const { isAssetHub } = useIsChain(prefix)
 
   const hasBuySupportFee = computed(
-    () => isRemark.value || isAssetHub.value || false,
+    () => isAssetHub.value || false,
   )
 
   const supportFee = computed(() =>

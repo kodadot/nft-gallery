@@ -5,7 +5,7 @@ const KEYS_TO_REMOVE = ['wallet']
 const isWalletModalOpen = ref(false)
 
 export default function () {
-  const { disconnect: disconnectWeb3Modal } = useDisconnect()
+  const { disconnectAsync: disconnectWeb3Modal } = useDisconnect()
   const shoppingCartStore = useShoppingCartStore()
   const walletStore = useWalletStore()
   const identityStore = useIdentityStore()

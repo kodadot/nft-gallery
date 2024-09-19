@@ -1,14 +1,12 @@
 export default () => {
   const { urlPrefix } = usePrefix()
-  const { isRemark, isAssetHub } = useIsChain(urlPrefix)
+  const { isAssetHub } = useIsChain(urlPrefix)
 
   const { hasItems } = useHasRoute()
 
   const options = computed(() => {
     if (hasItems.value) {
-      return isRemark.value
-        ? [...NFT_SQUID_SORT_CONDITION_LIST, 'instance_ASC']
-        : NFT_SQUID_SORT_CONDITION_LIST
+      return NFT_SQUID_SORT_CONDITION_LIST
     }
 
     return isAssetHub.value

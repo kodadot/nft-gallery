@@ -102,14 +102,6 @@
         </div>
       </NeoField>
 
-      <InfoBox
-        v-if="isRemark"
-        variant="warning"
-        class="mb-5"
-      >
-        <div>{{ $t('mint.disabledRmrk') }}</div>
-      </InfoBox>
-
       <!-- list for sale -->
       <NeoField
         :key="currentChain"
@@ -164,7 +156,6 @@
 
       <!-- select collections -->
       <NeoField
-        v-if="!isRemark"
         :key="`collection-${currentChain}`"
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
@@ -221,7 +212,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="!isRmrk">
+      <NeoField>
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
           v-model:address="form.royalty.address"
@@ -274,7 +265,6 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
-        :disabled="isRemark"
         class="text-base"
         native-type="submit"
         size="medium"
@@ -335,7 +325,6 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import InfoBox from '@/components/shared/view/InfoBox.vue'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -394,8 +383,8 @@ const imagePreview = computed(() => {
 // select available blockchain
 const menus = availablePrefixes().filter(
   (menu) => {
-    const { isRemark, isEvm } = useIsChain(computed(() => menu.value as Prefix))
-    return !isRemark.value && !isEvm.value
+    const { isEvm } = useIsChain(computed(() => menu.value as Prefix))
+    return !isEvm.value
   })
 
 const chainByPrefix = computed(() =>
@@ -409,7 +398,6 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
@@ -512,26 +500,16 @@ const confirm = async ({
   }
 }
 
-const needsListing = computed(
-  () => isRemark.value && form.sale && form.salePrice,
-)
-
 const createNft = async () => {
   try {
-    const minted = (await transaction(
+    (await transaction(
       mintAction.value,
       currentChain.value,
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
 
-    if (needsListing.value) {
-      createdItems.value = minted?.createdNFTs?.value
-      transactionStatus.value = 'list'
-    }
-    else {
-      transactionStatus.value = 'mint'
-    }
+    transactionStatus.value = 'mint'
   }
   catch (error) {
     warningMessage(`${error}`)
@@ -543,10 +521,7 @@ const createNft = async () => {
 const autoTeleport = ref(false)
 const {
   transaction: listTransaction,
-  isLoading: listIsLoading,
-  isError: listIsError,
   status: listStatus,
-  blockNumber: listBlockNumber,
 } = useTransaction()
 
 const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
@@ -563,25 +538,6 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
       },
     },
   ]
-
-  if (needsListing.value) {
-    actions.push({
-      action: listAction.value,
-      handler: (params: { isRetry: boolean }) => {
-        if (params.isRetry) {
-          return listNft()
-        }
-        return Promise.resolve()
-      },
-      prefix: currentChain.value,
-      details: {
-        isLoading: listIsLoading.value,
-        isError: listIsError.value,
-        status: listStatus.value,
-        blockNumber: listBlockNumber.value,
-      },
-    })
-  }
 
   return actions
 })
@@ -616,14 +572,12 @@ watchEffect(() => {
   // prepare nft blockNumber for redirect to detail page
   if (
     (transactionStatus.value === 'mint'
-    || transactionStatus.value === 'list')
-    && mintStatusFinalized
-    && blockNumber.value
+      || transactionStatus.value === 'list')
+      && mintStatusFinalized
+      && blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
-    if (!needsListing.value) {
-      transactionStatus.value = 'done'
-    }
+    transactionStatus.value = 'done'
   }
 
   // if listing price is done, then redirect to detail page

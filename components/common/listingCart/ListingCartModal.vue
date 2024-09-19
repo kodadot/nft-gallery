@@ -44,15 +44,15 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-model:fixedPrice="fixedPrice"
-            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
+            v-model:fixed-price="fixedPrice"
+            v-model:floor-price-percent-adjustment="floorPricePercentAdjustment"
             @set-fixed-price="setFixedPrice"
           />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-model:fixedPrice="fixedPrice"
-            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
+            v-model:fixed-price="fixedPrice"
+            v-model:floor-price-percent-adjustment="floorPricePercentAdjustment"
             @set-fixed-price="setFixedPrice"
           />
         </div>

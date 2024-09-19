@@ -39,7 +39,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 defineProps({
   type: { type: String, default: 'nftDetail' },
-  link: { type: String, default: 'rmrk/detail' },
+  link: { type: String, default: 'ahp/detail' },
   disabled: { type: Boolean, default: false },
   items: { type: Array, default: () => [] },
 })

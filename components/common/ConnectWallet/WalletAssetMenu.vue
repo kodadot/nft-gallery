@@ -82,7 +82,7 @@
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
-import { transferVisible, teleportVisible, migrateVisible } from '@/utils/config/permission.config'
+import { transferVisible, teleportVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
 // const { isAssetHub } = useIsChain(urlPrefix)
@@ -98,11 +98,6 @@ const menus = ref<{ label: string, to: string, check: (v: Prefix) => boolean }[]
     label: 'Teleport Bridge',
     to: `/${urlPrefix.value}/teleport`,
     check: teleportVisible,
-  },
-  {
-    label: 'Migrate',
-    to: '/migrate',
-    check: migrateVisible,
   },
 ])
 

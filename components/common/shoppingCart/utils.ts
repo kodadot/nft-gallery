@@ -9,8 +9,6 @@ import { nameWithIndex } from '@/utils/nft'
 import type { MakingOfferItem } from '@/components/offer/types'
 
 export const prefixToToken = {
-  ksm: 'KSM',
-  rmrk: 'KSM',
   ahk: 'KSM',
   ahp: 'DOT',
   dot: 'DOT',

@@ -1,28 +1,39 @@
 type LinkableBlock = {
+  id: string
   regex: RegExp
   template: (match: string) => string
 }
 
-const createLink = (content: string, url: string) => `[${content}](${url})`
-
-const LINKABLE_BLOCKS: LinkableBlock[] = [
+export const LINKABLE_BLOCKS: LinkableBlock[] = [
   {
-    regex: /(?<!\[.*?)(?<!\()[/](\w+)(?![^\[]*\])(?![^\(]*\))/,
-    template: (match: string) => `https://warpcast.com/~/channel${match}`,
+    id: 'channel',
+    regex: /^\/\w+(?=[^\w]|$)/,
+    template: (match: string) => `https://warpcast.com/~/channel/${match.slice(1)}`,
   },
   {
-    regex: /(?<!\[.*?\]\()@(\w{1,15})(?=\b)(?![^\[]*\])/,
-    template: (match: string) =>
-      `https://warpcast.com/${match.slice(1, match.length)}`,
+    id: 'user',
+    regex: /^@\w{1,15}(?=[^\w]|$)/,
+    template: (match: string) => `https://warpcast.com/${match.slice(1)}`,
   },
 ]
 
-export const getBioWithLinks = (description: string) => {
-  return LINKABLE_BLOCKS.reduce(
-    (reducer, { regex, template }) =>
-      reducer.replace(new RegExp(regex, 'g'), (match: string) =>
-        createLink(match, template(match)),
-      ),
-    description,
-  )
+export const createLink = (content: string, url: string) => `[${content}](${url})`
+
+const processSegment = (segment: string): string => {
+  for (const { regex, template } of LINKABLE_BLOCKS) {
+    const match = segment.match(regex)
+    if (match) {
+      const trailingText = segment.slice(match.index! + match[0].length)
+      return createLink(match[0], template(match[0])) + trailingText
+    }
+  }
+
+  return segment
+}
+
+export const getBioWithLinks = (text: string): string => {
+  return text
+    .split(/(\s+)/)
+    .map(processSegment)
+    .join('')
 }

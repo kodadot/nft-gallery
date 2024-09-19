@@ -16,13 +16,11 @@
             class="button-height w-full"
             variant="primary"
             data-testid="item-buy"
-            :disabled="isRemark"
             @click="onClick"
           />
         </div>
 
         <NeoButton
-          v-if="!isRemark"
           class="button-height square-button-width border-l-0"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart"
@@ -69,8 +67,6 @@ const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { doAfterLogin } = useDoAfterlogin()
 const showRampModal = ref(false)
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 enum BuyStatus {
   BUY,
