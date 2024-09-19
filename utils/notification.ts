@@ -177,6 +177,7 @@ export type LoadingMessageParams = {
   message?: MaybeRef<string | undefined>
   state: Ref<LoadingNotificationState>
   action?: Ref<NotificationAction | undefined>
+  showIndexerDelayMesasge?: boolean
 }
 
 export const loadingMessage = ({
@@ -184,6 +185,7 @@ export const loadingMessage = ({
   message,
   state,
   action,
+  showIndexerDelayMesasge = false,
 }: LoadingMessageParams) => {
   const { $i18n } = useNuxtApp()
   const stateMessage = ref(unref(message) ?? `${$i18n.t('mint.progress')}...`)
@@ -218,7 +220,7 @@ export const loadingMessage = ({
       isLoadingState.value ? { icon: 'spinner-third', spin: true } : undefined,
     ),
     footer: computed(() =>
-      state.value === 'succeeded' ? { icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') } : undefined,
+      state.value === 'succeeded' && showIndexerDelayMesasge ? { icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') } : undefined,
     ),
   })
 }
