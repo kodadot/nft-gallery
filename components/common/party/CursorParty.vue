@@ -135,7 +135,7 @@ watch(
       const updateLabel
         = !isEqual(prevConnection?.lastEvent, connection.lastEvent)
         || (prevConnection?.lastEvent
-        && Date.now() - prevConnection.lastEvent.timestamp > 1000)
+          && Date.now() - prevConnection.lastEvent.timestamp > 1000)
 
       if (isNew || newSpent || updateLabel) {
         const cursorConnection = cursorConnections.value.get(connection.id)
