@@ -11,29 +11,6 @@ import type { TokenMetadata } from '@kodadot1/hyperdata'
 import type { ItemResources } from '@/composables/useNft'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-export interface CompletePack extends BasePack {
-  collections: Collection[]
-  nfts: NFT[]
-}
-
-export type RmrkType = RmrkWithMetaType | Emotion | Pack
-export type RmrkWithMetaType = CollectionWithMeta | NFTWithMeta
-export type CollectionOrNFT = Collection | NFT
-
-export interface CompletePackWithItemMeta extends BasePack {
-  collections: CollectionWithMeta[]
-  nfts: NFTWithMeta[]
-}
-
-export interface SimpleNFT {
-  name: string
-  max: number
-  symbol: string
-  tags: Attribute[]
-  description: string
-  metadata: string
-}
-
 export interface MintNFT {
   name: string
   edition: number
@@ -287,18 +264,6 @@ export const toNFTId = (
     ? toNFTIdV1(nft as CreatedNFT, blocknumber)
     : toNFTIdV2(nft as CreatedNFTV2, blocknumber)
   return nftId
-}
-
-export const computeAndUpdateNft = (
-  nft: NFT,
-  blocknumber?: string | number,
-): NFT => {
-  const id = getNftId(nft, blocknumber)
-  return {
-    ...nft,
-    _id: id,
-    id,
-  }
 }
 
 export const computeAndUpdateCollection = (

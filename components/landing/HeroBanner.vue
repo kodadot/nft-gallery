@@ -18,10 +18,7 @@
       </h1>
 
       <div class="flex-shrink-0">
-        <LandingDomainChangeNotificationBanner
-          v-if="!isLatestProductionDomain"
-        />
-        <LandingFarcasterBanner v-else />
+        <LandingFarcasterBanner />
       </div>
     </div>
 

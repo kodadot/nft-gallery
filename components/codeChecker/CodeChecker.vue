@@ -282,6 +282,11 @@ const onFileSelected = async (file: File) => {
   const { indexFile, sketchFile, entries }
     = await extractAssetsFromZip(file)
 
+  if (!indexFile) {
+    errorMessage.value = `Index file not found: Please make sure that “index.html” is in the root directory`
+    return
+  }
+
   if (!sketchFile) {
     errorMessage.value = `Sketch file not found: ${config.sketchFile}`
     return

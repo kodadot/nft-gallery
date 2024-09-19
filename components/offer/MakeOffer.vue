@@ -5,7 +5,7 @@
       :title="$t('transaction.offer')"
       :is-loading="isLoading"
       :status="status"
-      close-in-block
+      close-at-signed
       @try-again="submitOffer"
     />
 
@@ -22,13 +22,10 @@
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div
-          v-if="preferencesStore.makeOfferModalOpen"
-          class="px-6 max-h-[50vh] overflow-y-auto"
-        >
+        <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
-          <MakingOfferSingleItem />
+          <MakingOfferSingleItem v-if="offerStore.items.length === 1" />
         </div>
 
         <div class="flex justify-between px-6">
@@ -86,9 +83,7 @@ const {
 } = useTransaction({
   disableSuccessNotification: true,
 })
-const offerSession = ref<{ state: LoadingNotificationState, closeNotification?: () => void }>({
-  state: 'loading',
-})
+const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
 const { decimals } = useChain()
@@ -183,27 +178,6 @@ const onClose = () => {
 }
 const closeMakingOfferModal = () => (preferencesStore.makeOfferModalOpen = false)
 
-const showOfferCreationNotification = (session) => {
-  const isSessionState = (state: LoadingNotificationState) =>
-    session.value?.state === state
-
-  session.value.closeNotification = loadingMessage({
-    title: ref($i18n.t('offer.offerCreation')),
-    state: computed(() => session?.value.state as LoadingNotificationState),
-    action: computed<NotificationAction | undefined>(() => {
-      if (isSessionState('succeeded')) {
-        return {
-          label: $i18n.t('offer.manageOffers'),
-          icon: 'arrow-up-right',
-          url: `/${urlPrefix.value}/u/${accountId.value}`,
-        }
-      }
-
-      return undefined
-    }),
-  })
-}
-
 watch(
   () => count.value,
   () => {
@@ -220,21 +194,32 @@ useModalIsOpenTracker({
   },
 })
 
-watch(isError, (error) => {
-  if (error) {
-    offerSession.value.closeNotification?.()
-  }
-})
+useTransactionNotification({
+  status,
+  isError,
+  sessionId: lastSessionId,
+  autoTeleport,
+  updateSession,
+  init: () => {
+    return notification(({ isSessionState, notify, session }) => {
+      return notify({
+        title: ref($i18n.t('offer.offerCreation')),
+        state: computed(() => session?.value.state as LoadingNotificationState),
+        action: computed<NotificationAction | undefined>(() => {
+          if (isSessionState('succeeded')) {
+            return {
+              label: $i18n.t('offer.manageOffers'),
+              icon: 'arrow-up-right',
+              url: `/${urlPrefix.value}/u/${accountId.value}?tab=offers&filter=outgoing`,
+            }
+          }
 
-watch(status, (status) => {
-  switch (status) {
-    case TransactionStatus.Block:
-      showOfferCreationNotification(offerSession)
-      break
-    case TransactionStatus.Finalized:
-      offerSession.value.state = 'succeeded'
-      break
-  }
+          return undefined
+        }),
+        showIndexerDelayMessage: true,
+      })
+    })
+  },
 })
 
 onBeforeMount(closeMakingOfferModal)

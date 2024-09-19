@@ -1,11 +1,4 @@
-import { createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
-
 import { existentialDeposit } from '@kodadot1/static'
-import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 import { encodeAddress } from '@polkadot/util-crypto'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
@@ -69,42 +62,6 @@ async function payRoyaltyAssetHub(
     ])
 }
 
-function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
-  const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
-
-  const arg = nfts
-    .map(({ id: nftId, price, currentOwner, royalty }) => {
-      const isOldRemark = item.urlPrefix === 'rmrk'
-      const rmrk = isOldRemark
-        ? createInteraction(item.interaction, nftId, '')
-        : createNewInteraction({
-          action: NewInteraction[item.interaction],
-          payload: { id: nftId },
-        })
-
-      const arg = [
-        api.tx.system.remark(rmrk),
-        asBalanceTransferAlive(api, currentOwner, price),
-        somePercentFromTX(api, price),
-      ]
-      const { isValid, normalizedRoyalty } = verifyRoyalty(royalty)
-
-      if (isValid) {
-        arg.push(payRoyaltyTx(api, price, normalizedRoyalty))
-      }
-
-      return arg
-    })
-    .flat()
-
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: [arg],
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
-  })
-}
-
 async function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
   const transactions = await Promise.all(
@@ -141,10 +98,6 @@ async function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
 }
 
 export async function execBuyTx(item: ActionBuy, api, executeTransaction) {
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    execBuyRmrk(item, api, executeTransaction)
-  }
-
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     await execBuyStatemine(item, api, executeTransaction)
