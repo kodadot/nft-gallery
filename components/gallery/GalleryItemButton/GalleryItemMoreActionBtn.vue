@@ -11,6 +11,7 @@
       v-if="nft && isOwner"
       :value="isTransferModalActive"
       :nft="nft"
+      :abi="abi"
       @close="isTransferModalActive = false"
     />
 
@@ -68,6 +69,7 @@ import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
+import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
@@ -81,6 +83,7 @@ const props = defineProps<{
   mimeType?: string
   imageUrl?: string
   imageData?: string
+  abi?: Abi | null
 }>()
 
 const action = ref('')
@@ -145,6 +148,7 @@ const burn = () => {
     nftId: route.params.id as string,
     nftSn: props.nft?.sn as string,
     collectionId: props.nft?.collection?.id as string,
+    abi: props.abi,
     successMessage: $i18n.t('transaction.consume.success') as string,
     errorMessage: $i18n.t('transaction.consume.error') as string,
   })

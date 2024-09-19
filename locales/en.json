@@ -917,6 +917,7 @@
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
+    "updateOnWebsiteSoon": "Update on website visible soon",
     "usd": "USD",
     "using": "using"
   },
@@ -966,9 +967,7 @@
       "hook": "Get in {0} and we will hook you up with free mints.",
       "touch": "touch"
     },
-    "becoming": "is becoming",
     "connectFarcaster": "Connect with Koda on Farcaster",
-    "farcasterMintLive": "Mint is live!",
     "ksmArtistHeading": "KSM for artists",
     "newNft": {
       "click": "Click {0} for a step by step guide!",

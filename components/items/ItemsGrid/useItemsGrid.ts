@@ -102,17 +102,6 @@ export function useFetchSearch({
     }
     isFetchingData.value = true
 
-    const getQueryPath = (prefix: string) => {
-      switch (prefix) {
-        case 'rmrk':
-          return 'chain-rmrk'
-        case 'ksm':
-          return 'chain-ksm'
-
-        default:
-          return prefix
-      }
-    }
     const queryName = useTokens.value
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
@@ -142,7 +131,7 @@ export function useFetchSearch({
     }
 
     // Query path and variables
-    const queryPath = getQueryPath(client.value)
+
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
@@ -192,7 +181,7 @@ export function useFetchSearch({
       ? { ...defaultSearchVariables, ...tokenQueryVariables }
       : { ...defaultSearchVariables, ...nftQueryVariables }
 
-    const query = await resolveQueryPath(queryPath, queryName)
+    const query = await resolveQueryPath(client.value, queryName)
     const { data: result } = await useAsyncQuery({
       query: query.default,
       variables: queryVariables,

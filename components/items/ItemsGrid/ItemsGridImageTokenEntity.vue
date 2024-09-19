@@ -59,7 +59,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner"
+        v-else-if="isOwner && !hideListing"
         class="flex"
       >
         <template v-if="isStack">
@@ -129,6 +129,7 @@ const props = defineProps<{
   displayNameWithSn?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
+  hideListing?: boolean
 }>()
 
 const {
