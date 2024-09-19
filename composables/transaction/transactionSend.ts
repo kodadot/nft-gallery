@@ -1,8 +1,4 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import type { Prefix } from '@kodadot1/static'
 import type { Abi, ActionSend, ExecuteTransaction } from './types'
@@ -33,22 +29,6 @@ function checkTsxSend(item: ActionSend) {
   }
 
   return true
-}
-
-function execSendRmrk(item: ActionSend, api, executeTransaction) {
-  const interaction
-    = item.urlPrefix === 'rmrk'
-      ? createInteraction(Interaction.SEND, item.nftId, item.address)
-      : createNewInteraction({
-        action: NewInteraction.SEND,
-        payload: { id: item.nftId, recipient: item.address },
-      })
-  executeTransaction({
-    cb: api.tx.system.remark,
-    arg: [interaction],
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
-  })
 }
 
 // note: price is automatically set to 0
@@ -88,10 +68,6 @@ export function execSendTx(
 
   if (!checkTsxSend(item)) {
     return
-  }
-
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    execSendRmrk(item, api, executeTransaction)
   }
 
   // item.urlPrefix === 'ahr'

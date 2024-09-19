@@ -102,5 +102,5 @@ const showPrice = computed((): boolean => {
   return Number(price.value) > 0 && !isCollection
 })
 
-const unitSymbol = computed(() => prefixToToken[props.item.chain || 'ksm'])
+const unitSymbol = computed(() => prefixToToken[props.item.chain || 'ahp'])
 </script>

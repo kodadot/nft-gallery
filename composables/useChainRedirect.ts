@@ -70,11 +70,10 @@ function getRedirectPathForPrefix({
 
   if (route.name === 'prefix-explore-items') {
     const { collections: _c, page: _p, ...restOfQuery } = route.query
-    const { isRemark } = useIsChain(computed(() => chain))
 
     // https://github.com/kodadot/nft-gallery/pull/7742#issuecomment-1771105341
     const finalQuery
-      = !isRemark.value && restOfQuery.sort
+      = restOfQuery.sort
         ? clearInstanceSortFromQuery(restOfQuery)
         : restOfQuery
     return {
