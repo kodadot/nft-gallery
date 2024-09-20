@@ -31,7 +31,7 @@
       <div
         v-dompurify-html="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
-            addressChain: addressCheck,
+            addressChain: addressCheck.value,
             selectedChain: currentChainName,
             ecosystem: ecosystem,
           })
