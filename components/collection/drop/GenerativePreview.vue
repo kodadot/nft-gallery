@@ -81,7 +81,7 @@
     </div>
 
     <CollectionUnlockableSlider
-      v-if="drop.max"
+      v-if="drop.max && !isUnlimited"
       class="text-neutral-5 dark:text-neutral-9"
       :value="drop.minted / drop.max"
     />
