@@ -1,7 +1,8 @@
-import { WagmiPlugin, useSwitchChain } from '@wagmi/vue'
+import { WagmiPlugin, useSwitchChain, useChainId, useAccount } from '@wagmi/vue'
 import { defineNuxtPlugin } from 'nuxt/app'
 import { base, immutableZkEvm, mantle } from '@wagmi/vue/chains'
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
+import type { Prefix } from '@kodadot1/static'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const wagmiConfig = (projectId: string) => {
@@ -25,11 +26,29 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(WagmiPlugin, { config })
 
   const { switchChain } = useSwitchChain()
+  const { urlPrefix } = usePrefix()
+  const { getIsEvm } = storeToRefs(useWalletStore())
+  const chainId = useChainId()
 
-  watch(usePrefix().urlPrefix, (prefix) => {
-    const chain = PREFIX_TO_CHAIN[prefix]
-    chain && switchChain({ chainId: chain.id })
-  })
+  const changeChain = (prefix: Prefix) => {
+    if (getIsEvm.value) {
+      const chain = PREFIX_TO_CHAIN[prefix]
+      if (chain && chainId.value !== chain.id) {
+        switchChain({ chainId: chain.id })
+      }
+    }
+  }
+
+  watch(urlPrefix, changeChain)
+
+  if (getIsEvm.value) {
+    const stop = watch(useAccount().isConnected, (connected) => {
+      if (connected) {
+        changeChain(urlPrefix.value)
+        stop()
+      }
+    }, { immediate: true })
+  }
 
   // By default, you don't need to pass the config as long as you are using composables from @wagmi/vue.
   // If you still need to pass the config, you can do so through the useConfig() composable.
