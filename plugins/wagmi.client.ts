@@ -20,8 +20,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const projectId = useRuntimeConfig().public.walletConnectProjectId
+  const config = wagmiConfig(projectId)
 
-  nuxtApp.vueApp.use(WagmiPlugin, { config: wagmiConfig(projectId) })
+  nuxtApp.vueApp.use(WagmiPlugin, { config })
 
   const { switchChain } = useSwitchChain()
 
@@ -35,7 +36,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // If you need the config outside of the plugin, such as from a Pinia store, you can access it through useNuxtApp().$wagmiConfig.
   return {
     provide: {
-      wagmiConfig: wagmiConfig(projectId),
+      wagmiConfig: config,
     },
   }
 })
