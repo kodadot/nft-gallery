@@ -74,10 +74,15 @@
 
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
-        <div v-if="offer.expirationDate">
-          <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-          <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
-        </div>
+        <template v-if="offer.expirationDate">
+          <div v-if="offer.status === 'EXPIRED'">
+            <span>{{ $t('expired') }}</span>
+          </div>
+          <div v-else>
+            <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
+            <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+          </div>
+        </template>
         <span v-else>
           {{ blank }}
         </span>
@@ -139,10 +144,15 @@
       <div v-else>
         {{ blank }}
       </div>
-      <div v-if="offer.expirationDate">
-        <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-        <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
-      </div>
+      <template v-if="offer.expirationDate">
+        <div v-if="offer.status === 'EXPIRED'">
+          <span>{{ $t('expired') }}</span>
+        </div>
+        <div v-else>
+          <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
+          <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+        </div>
+      </template>
       <span v-else>
         {{ blank }}
       </span>
