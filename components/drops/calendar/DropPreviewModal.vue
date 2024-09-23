@@ -210,5 +210,5 @@ const formattedDate = computed(() =>
 )
 
 const withPlaceholder = (nullableValue: unknown, or: unknown) =>
-  nullableValue === null ? placeholder : or
+  nullableValue === null || nullableValue === '' ? placeholder : or
 </script>

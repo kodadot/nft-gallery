@@ -59,8 +59,11 @@
                   </span>
                 </div>
               </slot>
+              <div v-if="dropPrice === null || dropPrice === ''">
+                <span>TBA</span>
+              </div>
               <div
-                v-if="Number(dropPrice)"
+                v-else-if="Number(dropPrice)"
                 class="flex gap-1 items-baseline"
               >
                 <span>{{ formattedPrice }}</span><span class="text-k-grey text-xs">USD</span>
