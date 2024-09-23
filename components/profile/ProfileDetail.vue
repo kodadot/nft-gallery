@@ -626,7 +626,7 @@ const onFollowingClick = () => {
 }
 
 const tabKey = computed(() =>
-  activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq',
+  activeTab.value === ProfileTab.OWNED ? 'currentOwner_containsInsensitive' : 'issuer_containsInsensitive',
 )
 
 const itemsGridSearch = computed(() => {
@@ -699,7 +699,7 @@ const interactionIn = computed(() => {
 useAsyncData('tabs-count', async () => {
   const address = id.value.toString()
   const searchParams = {
-    currentOwner_eq: address,
+    currentOwner_containsInsensitive: address,
   }
 
   if (accountId.value !== address) {
@@ -741,7 +741,7 @@ const fetchTabsCountByNetwork = async (chain: Prefix) => {
   }
 
   const searchParams = {
-    currentOwner_eq: address,
+    currentOwner_containsInsensitive: address,
   }
 
   searchParams['burned_eq'] = false
