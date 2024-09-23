@@ -13,7 +13,7 @@ export const getOfferCollectionId = (prefix: Prefix) => {
   }
 }
 
-const OFFER_MINT_PRICE = '500000000'
+export const OFFER_MINT_PRICE = '500000000'
 
 const BLOCKS_PER_DAY = 300 * 24 // 12sec /block --> 300blocks/hr
 
