@@ -75,7 +75,7 @@
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <template v-if="offer.expirationDate">
-          <div v-if="offer.status === 'EXPIRED'">
+          <div v-if="isExpired">
             <span>{{ $t('expired') }}</span>
           </div>
           <div v-else>
@@ -145,7 +145,7 @@
         {{ blank }}
       </div>
       <template v-if="offer.expirationDate">
-        <div v-if="offer.status === 'EXPIRED'">
+        <div v-if="ieExpired">
           <span>{{ $t('expired') }}</span>
         </div>
         <div v-else>
