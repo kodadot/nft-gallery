@@ -112,7 +112,7 @@ const totalOfferAmount = computed(
   () => calculateBalance(sum(itemsInChain.value.map(nft => Number(nft.offerPrice))), decimals.value),
 )
 
-const totalNeededAmount = computed(() => totalOfferAmount.value + Number(OFFER_MINT_PRICE))
+const totalNeededAmount = computed(() => totalOfferAmount.value + OFFER_MINT_PRICE)
 
 const actions = computed<AutoTeleportAction[]>(() => [
   {
