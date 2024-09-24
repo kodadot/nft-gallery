@@ -59,7 +59,7 @@
                   </span>
                 </div>
               </slot>
-              <div v-if="dropPrice === null || dropPrice === ''">
+              <div v-if="isTBA(dropPrice)">
                 <span>TBA</span>
               </div>
               <div
@@ -101,6 +101,7 @@ import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
 import { chainPropListOf } from '@/utils/config/chain.config'
+import { isTBA } from '@/components/drops/utils'
 
 const emit = defineEmits(['click'])
 const props = withDefaults(

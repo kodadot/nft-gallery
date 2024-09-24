@@ -164,6 +164,7 @@ import { format } from 'date-fns'
 import type { InternalDropCalendar } from './DropsCalendar.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { chainPropListOf } from '@/utils/config/chain.config'
+import { isTBA } from '@/components/drops/utils'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const placeholder = 'TBA'
@@ -210,5 +211,5 @@ const formattedDate = computed(() =>
 )
 
 const withPlaceholder = (nullableValue: unknown, or: unknown) =>
-  nullableValue === null || nullableValue === '' ? placeholder : or
+  isTBA(nullableValue) ? placeholder : or
 </script>
