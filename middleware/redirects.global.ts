@@ -32,7 +32,7 @@ export default defineNuxtRouteMiddleware((route) => {
       },
     },
     {
-      cond: (val: string) => ['ksm', 'rmrk'].some(prefix => val.startsWith(`/${prefix}`) && !val.startsWith(`/${prefix}/transfer`)),
+      cond: (val: string) => ['ksm', 'rmrk', '/dot'].some(prefix => val.startsWith(`/${prefix}`) && !val.startsWith(`/${prefix}/transfer`)),
       replaceValue: () => `/ahp`,
     },
     {
