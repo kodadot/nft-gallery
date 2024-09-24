@@ -44,7 +44,7 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-import collectionById from '@/queries/subsquid/general/collectionById.query'
+import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
@@ -53,7 +53,7 @@ const route = useRoute()
 const { client } = usePrefix()
 
 const { data, refresh: refetch } = useAsyncQuery({
-  query: collectionById,
+  query: collectionByIdMinimal,
   variables: {
     id: collectionId.value,
   },
@@ -67,16 +67,17 @@ const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
 
+const collection = computed(() => data.value?.collectionEntityById)
+
 watch(collectionId, () => {
   refetch()
   collectionAvatar.value = ''
 })
 
 watchEffect(async () => {
-  const collection = data.value?.collectionEntity
-  const metadata = collection?.metadata
-  const image = collection?.meta?.image
-  const name = collection?.name
+  const metadata = collection.value?.metadata
+  const image = collection.value?.meta?.image
+  const name = collection.value?.name
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
@@ -102,21 +103,21 @@ watchEffect(async () => {
 useSeoMeta({
   title: collectionName,
   description: () =>
-    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
+    convertMarkdownToText(collection.value?.meta?.description),
   ogUrl: route.path,
   ogTitle: collectionName,
   ogDescription: () =>
-    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
+    convertMarkdownToText(collection.value?.meta?.description),
   ogImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection?.totalCount,
+      collection.value?.nftCount,
       collectionAvatar.value,
     ),
   twitterImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection?.totalCount,
+      collection.value?.nftCount,
       collectionAvatar.value,
     ),
 })
