@@ -38,7 +38,10 @@
     "prepare": "pnpm -F static build && nuxi prepare && husky"
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*": [
+      "eslint --fix",
+      "pnpm locales:order"
+    ]
   },
   "engines": {
     "npm": "please-use-pnpm",
