@@ -27,7 +27,7 @@
     </div>
   </div>
   <div
-    v-else
+    v-else-if="drop"
     class="flex w-full justify-center mt-4"
   >
     <NeoButton
