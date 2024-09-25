@@ -130,10 +130,10 @@ export const useCollectionMinimal = ({
 
   watch(
     [computed(() => data.value?.data), isPending, collectionDrop],
-    async ([data, dropFetched]) => {
+    async ([data, dropPending]) => {
       const collectionData = toRaw(data?.collectionEntityById)
 
-      if (!collectionData || dropFetched) {
+      if (!collectionData || dropPending) {
         return
       }
 
