@@ -167,6 +167,8 @@ export function useFetchSearch({
       denyList: getDenyList(urlPrefix.value),
       price_lte: Number(route.query.max) || undefined,
       price_gte: Number(route.query.min) || undefined,
+      ...(isArtGenDomain ? { kind: 'genart' } : {}),
+
     }
 
     const nftQueryVariables = search?.length
@@ -176,6 +178,14 @@ export function useFetchSearch({
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
         }
+
+    if (isArtGenDomain) {
+      nftQueryVariables.search.push({
+        collection: {
+          kind_eq: 'genart',
+        },
+      })
+    }
 
     const queryVariables = useTokens.value
       ? { ...defaultSearchVariables, ...tokenQueryVariables }

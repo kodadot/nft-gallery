@@ -122,9 +122,14 @@ const getQueryVariables = (page: number) => {
     Object.assign(searchParams, { nftCount_not_eq: 0 })
   }
 
+  const commonParams = {}
+  if (isArtGenDomain) {
+    Object.assign(commonParams, { kind_eq: 'genart' })
+  }
+
   return props.id
     ? {
-        search: [searchParams],
+        search: [{ ...searchParams, ...commonParams }],
         first: first.value,
         offset: (page - 1) * first.value,
         orderBy: searchQuery.sortBy,
@@ -132,7 +137,7 @@ const getQueryVariables = (page: number) => {
     : {
         denyList: getDenyList(urlPrefix.value),
         orderBy: searchQuery.sortBy,
-        search: buildSearchParam(),
+        search: [...buildSearchParam(), commonParams],
         listed: searchQuery.listed ? [{ price: { greaterThan: '0' } }] : [],
         first: first.value,
         offset: (page - 1) * first.value,

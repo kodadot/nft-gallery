@@ -4,4 +4,5 @@ fragment collection on CollectionEntity {
   issuer
   currentOwner
   blockNumber
+  kind
 }
