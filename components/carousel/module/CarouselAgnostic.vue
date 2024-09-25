@@ -145,7 +145,7 @@ const syncSlider = (s) => {
   updateSliderArrows(s)
 }
 
-const updateConfig = () => slider.value?.update(props.config)
+const updateConfig = () => nextTick().then(() => slider.value?.update(props.config))
 
 if (props.config) {
   watch(
