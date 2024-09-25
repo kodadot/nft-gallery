@@ -59,8 +59,11 @@
                   </span>
                 </div>
               </slot>
+              <div v-if="isTBA(dropPrice)">
+                <span>TBA</span>
+              </div>
               <div
-                v-if="Number(dropPrice)"
+                v-else-if="Number(dropPrice)"
                 class="flex gap-1 items-baseline"
               >
                 <span>{{ formattedPrice }}</span><span class="text-k-grey text-xs">USD</span>
@@ -98,6 +101,7 @@ import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
 import { chainPropListOf } from '@/utils/config/chain.config'
+import { isTBA } from '@/components/drops/utils'
 
 const emit = defineEmits(['click'])
 const props = withDefaults(
