@@ -44,21 +44,15 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const collectionId = computed(() => route.params.id as string)
-const route = useRoute()
-const { client } = usePrefix()
+const props = defineProps<{
+  collectionId: string
+  collection?: unknown
+}>()
 
-const { data, refresh: refetch } = useAsyncQuery({
-  query: collectionByIdMinimal,
-  variables: {
-    id: collectionId.value,
-  },
-  clientId: client.value,
-})
+const route = useRoute()
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
@@ -67,17 +61,16 @@ const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
 
-const collection = computed(() => data.value?.collectionEntityById)
-
-watch(collectionId, () => {
-  refetch()
+watch(() => props.collectionId, () => {
   collectionAvatar.value = ''
+  collectionName.value = '--'
 })
 
 watchEffect(async () => {
-  const metadata = collection.value?.metadata
-  const image = collection.value?.meta?.image
-  const name = collection.value?.name
+  const collection = props.collection
+  const metadata = collection?.metadata
+  const image = collection?.meta?.image
+  const name = collection?.name
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
@@ -103,21 +96,21 @@ watchEffect(async () => {
 useSeoMeta({
   title: collectionName,
   description: () =>
-    convertMarkdownToText(collection.value?.meta?.description),
+    convertMarkdownToText(props.collection?.meta?.description),
   ogUrl: route.path,
   ogTitle: collectionName,
   ogDescription: () =>
-    convertMarkdownToText(collection.value?.meta?.description),
+    convertMarkdownToText(props.collection?.meta?.description),
   ogImage: () =>
     generateCollectionImage(
       collectionName.value,
-      collection.value?.nftCount,
+      props.collection?.nftCount,
       collectionAvatar.value,
     ),
   twitterImage: () =>
     generateCollectionImage(
       collectionName.value,
-      collection.value?.nftCount,
+      props.collection?.nftCount,
       collectionAvatar.value,
     ),
 })

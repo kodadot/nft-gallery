@@ -5,7 +5,6 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
-import { getDrops } from '@/services/fxart'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -127,19 +126,20 @@ export const useCollectionMinimal = ({
         : null,
   })
 
-  watch(
-    computed(() => data.value?.data),
-    async (result) => {
-      const collectionData = toRaw(result.collectionEntityById)
+  const { drop: collectionDrop, isPending, refetch } = useCollectionDrop(collectionId)
 
-      await getDrops({
-        collection: collectionId.value,
-        chain: [urlPrefix.value],
-      }).then((drops) => {
-        if (drops && drops[0]?.creator) {
-          collectionData.dropCreator = drops[0].creator
-        }
-      })
+  watch(
+    [computed(() => data.value?.data), isPending, collectionDrop],
+    async ([data, dropFetched]) => {
+      const collectionData = toRaw(data?.collectionEntityById)
+
+      if (!collectionData || dropFetched) {
+        return
+      }
+
+      if (collectionDrop.value) {
+        collectionData.dropCreator = collectionDrop.value.creator
+      }
 
       collectionData.displayCreator = collectionData.dropCreator || collectionData.currentOwner
 
@@ -157,5 +157,5 @@ export const useCollectionMinimal = ({
     }
   })
 
-  return { collection }
+  return { collection, refetch }
 }
