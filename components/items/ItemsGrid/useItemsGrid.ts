@@ -51,7 +51,7 @@ export function useFetchSearch({
       isAssetHub.value
       && !EXCLUDED_TOKEN_USE_PAGES.includes(route.name as string),
   )
-
+  const { artGenModeEnabled } = useArtGenMode()
   const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
 
@@ -167,7 +167,7 @@ export function useFetchSearch({
       denyList: getDenyList(urlPrefix.value),
       price_lte: Number(route.query.max) || undefined,
       price_gte: Number(route.query.min) || undefined,
-      ...(isArtGenDomain ? { kind: 'genart' } : {}),
+      ...(artGenModeEnabled.value ? { kind: 'genart' } : {}),
 
     }
 
@@ -179,7 +179,7 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    if (isArtGenDomain) {
+    if (artGenModeEnabled.value) {
       nftQueryVariables.search.push({
         collection: {
           kind_eq: 'genart',

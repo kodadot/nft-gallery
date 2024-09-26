@@ -75,7 +75,7 @@ const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
-
+const { artGenModeEnabled } = useArtGenMode()
 const isProfilePage = route.name === 'prefix-u-id'
 const collections = ref<Collection[]>([])
 const loadedPages = ref<number[]>([])
@@ -123,7 +123,7 @@ const getQueryVariables = (page: number) => {
   }
 
   const commonParams = {}
-  if (isArtGenDomain) {
+  if (artGenModeEnabled.value) {
     Object.assign(commonParams, { kind_eq: 'genart' })
   }
 
