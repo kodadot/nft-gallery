@@ -105,7 +105,7 @@ export const useCollectionMinimal = ({
 }: {
   collectionId: Ref<string>
 }) => {
-  const { urlPrefix } = usePrefix()
+  const { urlPrefix, client } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
 
@@ -115,21 +115,21 @@ export const useCollectionMinimal = ({
 
   const { data } = useQuery({
     queryKey: ['collection-minimal', isAssetHub, collectionId],
-    queryFn: () =>
+    queryFn: async () =>
       collectionId.value
-        ? useGraphql({
-          queryName: isAssetHub.value
-            ? 'collectionByIdMinimalWithRoyalty'
-            : 'collectionByIdMinimal',
-          variables: variables.value,
-        })
+        ? (await useAsyncGraphql({
+            query: isAssetHub.value
+              ? 'collectionByIdMinimalWithRoyalty'
+              : 'collectionByIdMinimal',
+            variables: variables.value,
+            clientId: client.value,
+          })).data
         : null,
   })
 
   const { drop: collectionDrop, isPending: isDropPending, refetch } = useCollectionDrop(collectionId)
 
-  watch(
-    [computed(() => data.value?.data), isDropPending],
+  watch([data, isDropPending],
     async ([data, dropPending]) => {
       const collectionData = data?.collectionEntityById
 
