@@ -126,12 +126,12 @@ export const useCollectionMinimal = ({
         : null,
   })
 
-  const { drop: collectionDrop, isPending, refetch } = useCollectionDrop(collectionId)
+  const { drop: collectionDrop, isPending: isDropPending, refetch } = useCollectionDrop(collectionId)
 
   watch(
-    [computed(() => data.value?.data), isPending, collectionDrop],
+    [computed(() => data.value?.data), isDropPending],
     async ([data, dropPending]) => {
-      const collectionData = toRaw(data?.collectionEntityById)
+      const collectionData = data?.collectionEntityById
 
       if (!collectionData || dropPending) {
         return
