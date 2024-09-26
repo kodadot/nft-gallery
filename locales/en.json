@@ -1478,6 +1478,7 @@
     "mint": "Mint",
     "transfer": "Transfer",
     "artView": "Art View",
+    "artGen": "Generative Art",
     "offer": "Offer",
     "verified": "Verified",
     "onlyVerifiedIdentities": "Only Verified Identities",

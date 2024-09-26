@@ -19,6 +19,7 @@ const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'max',
   'owned',
   'collections',
+  'art_gen',
 ]
 
 const EXCLUDED_TOKEN_USE_PAGES = [

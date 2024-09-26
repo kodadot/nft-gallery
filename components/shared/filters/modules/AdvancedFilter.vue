@@ -14,6 +14,20 @@
           />
         </NeoCheckbox>
       </NeoField>
+      <NeoField v-if="artGenModeFeatureEnabled">
+        <NeoCheckbox
+          v-model="artGen"
+          data-testid="filter-artgen-checkbox"
+        >
+          <span>{{ $t('filters.artGen') }}</span>
+          <NeoIcon
+            class="ml-2"
+            size="small"
+            icon="puzzle-piece"
+            pack="fal"
+          />
+        </NeoCheckbox>
+      </NeoField>
     </div>
   </div>
 </template>
@@ -38,7 +52,7 @@ const props = withDefaults(
     fluidPadding: false,
   },
 )
-
+const { artGenModeFeatureEnabled } = useArtGenMode()
 const emit = defineEmits(['resetPage'])
 
 const artView
@@ -51,6 +65,16 @@ const artView
       get: () => exploreFiltersStore.artView,
       set: value => exploreFiltersStore.setArtView(value),
     })
+
+const artGen = props.dataModel === 'query'
+  ? computed({
+    get: () => route.query?.art_gen?.toString() === 'true',
+    set: value => applyToUrl({ art_gen: String(value) }),
+  })
+  : computed({
+    get: () => exploreFiltersStore.artGen,
+    set: value => exploreFiltersStore.setArtGen(value),
+  })
 
 const applyToUrl = (queryCondition: Record<string, string>) => {
   replaceURL(queryCondition)

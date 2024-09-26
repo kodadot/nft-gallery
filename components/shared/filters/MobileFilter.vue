@@ -116,11 +116,13 @@ const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
     artView = route.query?.art_view?.toString() === 'true',
+    artGen = route.query?.art_gen?.toString() === 'true',
     collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
   exploreFiltersStore.setArtView(artView)
+  exploreFiltersStore.setArtGen(artGen)
   exploreFiltersStore.setCollections(collections)
 }
 
@@ -168,12 +170,14 @@ const resetFilters = () => {
       listed: false,
       owned: false,
       artView: false,
+      artGen: false,
       collections: undefined,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
     exploreFiltersStore.setArtView(statusDefaults.artView)
+    exploreFiltersStore.setArtGen(statusDefaults.artGen)
     exploreFiltersStore.setCollections(statusDefaults.collections)
 
     // price
@@ -195,7 +199,7 @@ const resetFilters = () => {
 
 const applyFilters = () => {
   // status filters
-  const { artView, ...restStatusFilters } = exploreFiltersStore.getStatusFilters
+  const { artView, artGen, ...restStatusFilters } = exploreFiltersStore.getStatusFilters
   const priceRangeFilter = exploreFiltersStore.getPriceRange
   const eventTypeFilter = activityFiltersStore.getEventTypeFilters
 
@@ -204,7 +208,7 @@ const applyFilters = () => {
     replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
   }
   else {
-    replaceUrl({ art_view: artView, ...restStatusFilters, ...priceRangeFilter })
+    replaceUrl({ art_view: artView, art_gen: artGen, ...restStatusFilters, ...priceRangeFilter })
   }
   emit('resetPage')
   closeFilterModal()
