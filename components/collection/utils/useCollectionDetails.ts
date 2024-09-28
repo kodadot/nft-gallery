@@ -123,7 +123,7 @@ export const useCollectionMinimal = ({
               : 'collectionByIdMinimal',
             variables: variables.value,
             clientId: client.value,
-          })).data
+          })).data.value
         : null,
   })
 
