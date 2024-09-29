@@ -56,7 +56,7 @@
           <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
-          <span class="capitalize text-neutral-7">{{ $t('created') }}</span>&nbsp;{{ new Date(createdAt).toLocaleDateString() }}
+          <span class="capitalize text-neutral-7">{{ $t('created') }}</span>&nbsp;{{ createdAt }}
           <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
@@ -143,7 +143,7 @@ const chain = computed(
 const address = computed(() => collectionInfo.value?.displayCreator)
 const recipient = computed(() => collectionInfo.value?.recipient)
 const royalty = computed(() => collectionInfo.value?.royalty)
-const createdAt = computed(() => collectionInfo.value?.createdAt)
+const createdAt = computed(() => collectionInfo.value?.createdAt ? new Date(collectionInfo.value?.createdAt).toLocaleDateString() : '-')
 const seeAllDescription = ref(false)
 
 const toggleSeeAllDescription = () => {
