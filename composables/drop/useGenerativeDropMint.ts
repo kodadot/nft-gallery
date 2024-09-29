@@ -1,3 +1,4 @@
+import { isEthereumAddress } from '@polkadot/util-crypto'
 import { type DoResult, updateMetadata } from '@/services/fxart'
 import { useDrop } from '@/components/drops/useDrops'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
@@ -65,7 +66,7 @@ export const useUpdateMetadata = async ({
     useSubscriptionGraphql({
       query: `
     nfts: nftEntities(
-      where: {collection: {id_eq: "${drop.value.collection}"}, blockNumber_eq: "${blockNumber.value}", currentOwner_eq: "${accountId.value}"},
+      where: {collection: {id_eq: "${drop.value.collection}"}, blockNumber_eq: "${blockNumber.value}", currentOwner_eq: "${isEthereumAddress(accountId.value) ? accountId.value.toLowerCase() : accountId.value}"},
       orderBy: [createdAt_ASC, sn_ASC]
     ) {
       id
