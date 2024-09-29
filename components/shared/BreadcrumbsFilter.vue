@@ -131,7 +131,7 @@ const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
   art_view: $i18n.t('filters.artView'),
-  art_gen: $i18n.t('filters.artGen'),
+  gen_art: $i18n.t('filters.artGen'),
   sale: $i18n.t('filters.sale'),
   offer: $i18n.t('filters.offer'),
   listing: $i18n.t('filters.listing'),

@@ -68,8 +68,8 @@ const artView
 
 const artGen = props.dataModel === 'query'
   ? computed({
-    get: () => route.query?.art_gen?.toString() === 'true',
-    set: value => applyToUrl({ art_gen: String(value) }),
+    get: () => route.query?.gen_art?.toString() === 'true',
+    set: value => applyToUrl({ gen_art: String(value) }),
   })
   : computed({
     get: () => exploreFiltersStore.artGen,

@@ -116,7 +116,7 @@ const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
     artView = route.query?.art_view?.toString() === 'true',
-    artGen = route.query?.art_gen?.toString() === 'true',
+    artGen = route.query?.gen_art?.toString() === 'true',
     collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
@@ -208,7 +208,7 @@ const applyFilters = () => {
     replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
   }
   else {
-    replaceUrl({ art_view: artView, art_gen: artGen, ...restStatusFilters, ...priceRangeFilter })
+    replaceUrl({ art_view: artView, gen_art: artGen, ...restStatusFilters, ...priceRangeFilter })
   }
   emit('resetPage')
   closeFilterModal()

@@ -46,7 +46,7 @@ definePageMeta({
   layout: 'explore-layout',
   middleware: [
     function (to) {
-      const extraQuery = ['listed', 'art_gen'].reduce((acc, key) => {
+      const extraQuery = ['listed', 'gen_art'].reduce((acc, key) => {
         if (to.query[key] === undefined) {
           acc[key] = 'true'
         }

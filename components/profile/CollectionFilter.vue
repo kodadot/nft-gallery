@@ -114,9 +114,6 @@ const getProfileCollections = async () => {
     variables: {
       search: [
         collectionSearch,
-        {
-          kind_eq: 'genart',
-        },
       ],
       denyList: getDenyList(urlPrefix.value),
       first: 100,
