@@ -130,20 +130,22 @@ export const useCollectionMinimal = ({
   watch(
     computed(() => data.value?.data),
     async (result) => {
-      const collectionData = toRaw(result.collectionEntityById)
+      if (result?.collectionEntityById) {
+        const collectionData = toRaw(result.collectionEntityById)
 
-      await getDrops({
-        collection: collectionId.value,
-        chain: [urlPrefix.value],
-      }).then((drops) => {
-        if (drops && drops[0]?.creator) {
-          collectionData.dropCreator = drops[0].creator
-        }
-      })
+        await getDrops({
+          collection: collectionId.value,
+          chain: [urlPrefix.value],
+        }).then((drops) => {
+          if (drops && drops[0]?.creator) {
+            collectionData.dropCreator = drops[0].creator
+          }
+        })
 
-      collectionData.displayCreator = collectionData.dropCreator || collectionData.currentOwner
+        collectionData.displayCreator = collectionData.dropCreator || collectionData.currentOwner
 
-      collection.value = collectionData
+        collection.value = collectionData
+      }
     },
   )
 
