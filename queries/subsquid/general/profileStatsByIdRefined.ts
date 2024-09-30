@@ -43,7 +43,7 @@ const profileStatsByIdRefined = graphql(
 
       invested: events(
         where: {
-          caller_containsInsensitive: $id
+          caller_eq: $id
           interaction_eq: BUY
           nft: { burned_eq: false }
         }
