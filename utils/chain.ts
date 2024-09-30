@@ -20,10 +20,14 @@ export const getChainName = (prefix: Prefix) => {
   return NAMES[prefix].replace(' [Beta]', '')
 }
 
-export const disableChains = ['dot']
-export const disableChainListOnBetaEnv = ['dot'] // 'ahr'
+export const disableChains = ['dot', 'rmrk', 'ksm']
+export const disableChainListOnBetaEnv = ['dot', 'rmrk', 'ksm'] // 'ahr'
 
 export const availablePrefixes = (): Option[] => {
+  return allPrefixes().filter(chain => !disableChains.includes(String(chain.value)))
+}
+
+export const allPrefixes = (): Option[] => {
   const chains = chainList()
 
   if (isProduction || isBeta) {
@@ -31,8 +35,7 @@ export const availablePrefixes = (): Option[] => {
       chain => !disableChainListOnBetaEnv.includes(String(chain.value)),
     )
   }
-
-  return chains.filter(chain => !disableChains.includes(String(chain.value)))
+  return chains
 }
 
 export const getAvailableChainsByVM = (vm: ChainVM) =>
@@ -62,6 +65,14 @@ export const chainIcons = {
 
 export const availablePrefixWithIcon = () => {
   return availablePrefixes().map((chain) => {
+    return {
+      ...chain,
+      icon: chainIcons[chain.value] || '',
+    }
+  })
+}
+export const allPrefixWithIcon = () => {
+  return allPrefixes().map((chain) => {
     return {
       ...chain,
       icon: chainIcons[chain.value] || '',

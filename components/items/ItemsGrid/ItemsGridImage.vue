@@ -26,7 +26,7 @@
       #action
     >
       <div
-        v-if="!isOwner && Number(nft?.price) && !isRemark"
+        v-if="!isOwner && Number(nft?.price)"
         class="flex"
       >
         <NeoButton
@@ -56,7 +56,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner && listVisible(urlPrefix)"
+        v-else-if="isOwner && listVisible(urlPrefix) && !hideListing"
         class="flex"
       >
         <NeoButton
@@ -100,7 +100,6 @@ const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
-const { isRemark } = useIsChain(urlPrefix)
 
 const props = defineProps<{
   nft: NFTWithMetadata
@@ -108,6 +107,7 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
+  hideListing?: boolean
   showTimestamp?: boolean
   collectionPopoverHide?: boolean
   lazyLoading?: boolean

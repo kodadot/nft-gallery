@@ -33,10 +33,12 @@ const props = withDefaults(
     title: string
     isError?: boolean
     closeInBlock?: boolean
+    closeAtSigned?: boolean
   }>(),
   {
     isError: false,
     closeInBlock: false,
+    closeAtSigned: false,
   },
 )
 
@@ -84,6 +86,7 @@ watch(
 
     if (
       (props.closeInBlock && succeded)
+      || (props.closeAtSigned && isLoading.value)
       || status === TransactionStatus.Finalized
     ) {
       isModalActive.value = false

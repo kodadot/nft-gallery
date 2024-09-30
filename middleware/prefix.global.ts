@@ -1,44 +1,17 @@
-import { chainPrefixes } from '@kodadot1/static'
+import { chainPrefixes, type Prefix } from '@kodadot1/static'
 import consola from 'consola'
 import { useWalletStore } from '@/stores/wallet'
 
-export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
-
 export default defineNuxtRouteMiddleware((route) => {
   const walletStore = useWalletStore()
-  const prefixInPath = route.params.prefix || route.path.split('/')[1]
+  const prefixInPath = (route.params.prefix || route.path.split('/')[1]) as Prefix
   const { setUrlPrefix, urlPrefix } = usePrefix()
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
-  const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
-    prefix => location.hostname.startsWith(`${prefix}.`),
-  )
-
-  if (
-    [urlPrefix.value, prefixInPath].includes('dot')
+  if (['rmrk', 'ksm', 'dot'].some(prefix => [urlPrefix.value, prefixInPath].includes(prefix as Prefix))
     && route.name !== 'prefix-transfer'
   ) {
     setUrlPrefix('ahp')
-    navigateTo(route.path.replace(prefixInPath, 'ahp'))
-    return
-  }
-
-  if (rmrk2ChainPrefixInHostname) {
-    // fixed chain domain (for example: rmrk2.kodadot.xyz)
-
-    if (isAnyChainPrefixInPath && prefixInPath && prefixInPath !== 'ksm') {
-      window.open(
-        // multi-chain domain (for example: kodadot.xyz)
-        `${window.location.origin.replace(
-          `${rmrk2ChainPrefixInHostname}.`,
-          '',
-        )}${route.fullPath}`,
-        '_self',
-      )
-    }
-    else if (urlPrefix.value !== 'ksm') {
-      setUrlPrefix('ksm')
-    }
   }
   else if (
     urlPrefix.value !== prefixInPath

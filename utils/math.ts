@@ -41,8 +41,8 @@ export const between
   = (dateA: Date, dateB: Date) =>
     (event: Interaction): boolean =>
       (isAfter(parseISO(event.timestamp), dateA)
-      || isEqual(parseISO(event.timestamp), dateA))
-      && isBefore(parseISO(event.timestamp), dateB)
+        || isEqual(parseISO(event.timestamp), dateA))
+        && isBefore(parseISO(event.timestamp), dateB)
 
 export function toDecimals(value: number, decimals: number): number {
   return value * 10 ** decimals

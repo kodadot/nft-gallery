@@ -31,6 +31,21 @@
         <NeoIcon :icon="action.icon" />
       </a>
     </div>
+
+    <template
+      v-if="footer"
+      #footer
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        <NeoIcon :icon="footer.icon" />
+
+        <p class="text-xs">
+          {{ footer.label }}
+        </p>
+      </div>
+    </template>
   </NeoMessage>
 </template>
 
@@ -56,6 +71,7 @@ const props = withDefaults(
     action?: MaybeRef<NotificationAction | undefined>
     holdTimer?: Ref<boolean>
     icon?: Ref<NeoMessageIconVariant | undefined>
+    footer?: Ref<Omit<NotificationAction, 'url'> | undefined>
   }>(),
   {
     variant: 'success',
@@ -64,6 +80,7 @@ const props = withDefaults(
     state: undefined,
     holdTimer: undefined,
     icon: undefined,
+    footer: undefined,
   },
 )
 
@@ -72,5 +89,6 @@ const message = computed(() => unref(props.message))
 const action = computed(() => unref(props.action))
 const holdTimer = computed(() => unref(props.holdTimer))
 const icon = computed(() => unref(props.icon))
+const footer = computed(() => unref(props.footer))
 const variant = computed(() => unref(props.variant))
 </script>

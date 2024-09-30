@@ -112,13 +112,7 @@
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
-      <div
-        v-if="version"
-        class="flex justify-between"
-      >
-        <p>{{ $t('tabs.tabDetails.version') }}</p>
-        <p>{{ version }}</p>
-      </div>
+
       <!-- <div class="flex justify-between">
         <p>Token Standard</p>
         <p>--</p>
@@ -241,19 +235,15 @@ import {
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
 
 const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const activeTab = ref('0')
-const { version } = useRmrkVersion()
 
 const descSource = computed(() => {
-  return replaceSingularCollectionUrlByText(
-    nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
-  )
+  return nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
 })
 const isLewd = computed(() => {
   return Boolean(

@@ -8,8 +8,6 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import type { MakingOfferItem } from '@/components/offer/types'
 
 export const prefixToToken = {
-  ksm: 'KSM',
-  rmrk: 'KSM',
   ahk: 'KSM',
   ahp: 'DOT',
   dot: 'DOT',

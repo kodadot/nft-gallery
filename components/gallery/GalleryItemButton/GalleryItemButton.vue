@@ -9,6 +9,7 @@
       :image-url="nftMetadata?.image"
       :image-data="imageData"
       :mime-type="nftMimeType"
+      :abi="abi"
       data-testid="gallery-item-more-button"
     />
   </div>

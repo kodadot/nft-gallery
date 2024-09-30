@@ -27,6 +27,7 @@
       :search="itemsGridSearch"
       :grid-size="'medium'"
       collection-popover-hide
+      hide-listing
       show-timestamp
       :reset-search-query-params="['sort']"
     />

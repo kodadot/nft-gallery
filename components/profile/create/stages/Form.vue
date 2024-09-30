@@ -202,7 +202,7 @@ const socialLinks = [
   },
   {
     name: 'twitter',
-    icon: () => h(NeoIcon, { icon: 'twitter', pack: 'fab' }),
+    icon: () => h(NeoIcon, { icon: 'x-twitter', pack: 'fab' }),
     model: 'twitterHandle',
     placeholder: 'Twitter Handle',
     testId: 'create-profile-input-twitter-handle',
@@ -245,9 +245,9 @@ const deleteConfirmSafetyDelayText = computed(() => {
     return $i18n.t('profiles.waitSeconds', [
       Math.ceil(
         (deleteConfirm.value.getTime()
-        + DELETE_CONFIRM_SAFETY_DELAY
-        - now.value.getTime())
-        / 1000,
+          + DELETE_CONFIRM_SAFETY_DELAY
+          - now.value.getTime())
+          / 1000,
       ),
     ])
   }
