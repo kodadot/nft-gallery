@@ -7,7 +7,7 @@ const profileStatsByIdRefined = graphql(
     query profileStatsByIdRefined($id: String!, $denyList: [String!]) {
       listed: nftEntities(
         where: {
-          currentOwner_containsInsensitive: $id
+          currentOwner_eq: $id
           issuer_not_in: $denyList
           burned_eq: false
         }
@@ -24,7 +24,7 @@ const profileStatsByIdRefined = graphql(
 
       obtained: nftEntitiesConnection(
         where: {
-          currentOwner_containsInsensitive: $id
+          currentOwner_eq: $id
           burned_eq: false
           metadata_not_eq: ""
           issuer_not_in: $denyList
@@ -35,7 +35,7 @@ const profileStatsByIdRefined = graphql(
       }
 
       sold: events(
-        where: { interaction_eq: BUY, currentOwner_containsInsensitive: $id, caller_not_eq: $id }
+        where: { interaction_eq: BUY, currentOwner_eq: $id, caller_not_eq: $id }
       ) {
         id
         meta

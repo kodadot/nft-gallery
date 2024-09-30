@@ -4,7 +4,7 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
 
   owned: nftEntitiesConnection(
     where: {
-      currentOwner_containsInsensitive: $id,
+      currentOwner_eq: $id,
       burned_eq: false,
       metadata_not_eq: ""
       issuer_not_in: $denyList
@@ -16,7 +16,7 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
 
   created: nftEntitiesConnection(
     where: {
-      issuer_containsInsensitive: $id,
+      issuer_eq: $id,
       burned_eq: false
       metadata_not_eq: ""
     }
@@ -31,7 +31,7 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
         {
           caller_eq: $id,
           OR: {
-            currentOwner_containsInsensitive: $id,
+            currentOwner_eq: $id,
           }
         },
       ],
@@ -45,7 +45,7 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
   collections: collectionEntitiesConnection(
     where: {
       nfts_some: { burned_eq: false }
-      issuer_containsInsensitive: $id
+      issuer_eq: $id
       issuer_not_in: $denyList
       metadata_isNull: false
     }
