@@ -62,7 +62,7 @@ async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
     abi,
     arg,
     functionName,
-    value: drop.value.price,
+    value: String(Number(drop.value.price) * amountToMint.value),
   })
 }
 
