@@ -116,6 +116,7 @@
           </nuxt-link>
 
           <MobileExpandableSection
+            v-if="isExplorerVisible"
             v-slot="{ onCloseMobileSubMenu }"
             class="lg:!hidden"
             :title="$t('explore')"
@@ -130,6 +131,7 @@
             />
           </MobileExpandableSection>
           <NavbarExploreDropdown
+            v-if="isExplorerVisible"
             class="navbar-explore custom-navbar-item max-lg:!hidden"
             data-testid="explore"
           />
@@ -259,10 +261,9 @@ import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
-
+import { explorerVisible, createVisible } from '@/utils/config/permission.config'
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible } from '@/utils/config/permission.config'
 
 const { neoModal } = useProgrammatic()
 const openMobileSearchBar = ref(false)
@@ -280,6 +281,7 @@ const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
+const isExplorerVisible = computed(() => explorerVisible(urlPrefix.value))
 
 const logoSrc = computed(() => {
   const variant = isTouch ? 'Koda' : 'Koda_Beta'
