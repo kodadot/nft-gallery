@@ -282,9 +282,11 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
       await submitListing()
     }
 
-    listingCartStore.clearListedItems()
     closeListingCartModal()
-    resetCartToDefaults()
+    onModalAnimation(() => {
+      listingCartStore.clearListedItems()
+      resetCartToDefaults()
+    })
   }
   catch (error) {
     warningMessage(error)
