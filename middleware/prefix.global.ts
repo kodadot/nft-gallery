@@ -8,16 +8,12 @@ export default defineNuxtRouteMiddleware((route) => {
   const { setUrlPrefix, urlPrefix } = usePrefix()
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
-
   if (['rmrk', 'ksm', 'dot'].some(prefix => [urlPrefix.value, prefixInPath].includes(prefix as Prefix))
     && route.name !== 'prefix-transfer'
   ) {
     setUrlPrefix('ahp')
-    location.replace(location.href.replace(prefixInPath, 'ahp'))
-    return
   }
-
-  if (
+  else if (
     urlPrefix.value !== prefixInPath
     && prefixInPath
     && isAnyChainPrefixInPath

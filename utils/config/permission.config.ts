@@ -24,6 +24,8 @@ const hasMassmintCreate: PartialConfig = {
 
 const hasExplorer: PartialConfig = {
   dot: false,
+  rmrk: false,
+  ksm: false,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
