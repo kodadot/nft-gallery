@@ -5,10 +5,9 @@ import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import { getDrops } from '@/services/fxart'
 import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFTMetadata } from '@/services/oda'
-import { fetchMimeType, fetchOdaToken, fetchOdaCollectionAbi } from '@/services/oda'
+import { fetchMimeType, fetchOdaToken } from '@/services/oda'
 import { useHistoryStore } from '@/stores/history'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import type { Abi } from '@/composables/transaction/types'
 
 interface NFTData {
   nftEntity?: NftEntity
@@ -24,7 +23,6 @@ export interface GalleryItem {
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftHighestOffer: Ref<NFTOffer | undefined>
-  abi: Ref<Abi | null | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -64,12 +62,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     variables: {
       id,
     },
-  })
-
-  const { data: abi } = useQuery({
-    queryKey: ['collection-abi', nft.value?.collection.id],
-    queryFn: () => isEvm(urlPrefix.value) ? fetchOdaCollectionAbi(urlPrefix.value, nft.value?.collection.id as string) : Promise.resolve(null),
-    enabled: computed(() => Boolean(nft.value)),
   })
 
   useSubscriptionGraphql({
@@ -133,12 +125,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     }
   })
 
-  const { isRemark } = useIsChain(usePrefix().urlPrefix)
   onBeforeMount(async () => {
-    if (isRemark.value) {
-      return
-    }
-
     const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
     const metadata = getMetadata.metadata
 
@@ -187,6 +174,5 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMimeType,
     nftMetadata,
     nftHighestOffer,
-    abi,
   }
 }

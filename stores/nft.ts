@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { NFTMetadata } from '@/services/oda'
 import type { NFT } from '@/components/rmrk/service/scheme'
+import type { Abi } from '@/composables/transaction/types'
 
 export const useNftStore = defineStore('nft', {
   state: () => ({
@@ -13,6 +14,7 @@ export const useNftStore = defineStore('nft', {
     nftMimeType: '',
     nftAnimation: '',
     nftAnimationMimeType: '',
+    abi: null as Abi | null,
   }),
 
   getters: {
@@ -22,5 +24,6 @@ export const useNftStore = defineStore('nft', {
     getNftMimeType: state => state.nftMimeType,
     getNftAnimation: state => state.nftAnimation,
     getNftAnimationMimeType: state => state.nftAnimationMimeType,
+    getAbi: state => state.abi,
   },
 })

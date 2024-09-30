@@ -22,7 +22,7 @@ import { extractTwitterIdFromDescription } from '@/utils/parse'
 const { $i18n } = useNuxtApp()
 const imageData = ref()
 
-const { getNft: nft, getNftMetadata: nftMetadata, getNftMimeType: nftMimeType } = storeToRefs(useNftStore())
+const { getNft: nft, getNftMetadata: nftMetadata, getNftMimeType: nftMimeType, getAbi: abi } = storeToRefs(useNftStore())
 
 const customSharingContent = computed(() => {
   const twitterId = nft.value?.meta?.description
