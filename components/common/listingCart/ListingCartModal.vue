@@ -316,14 +316,10 @@ watch(
   },
 )
 
-watch(
-  () => preferencesStore.listingCartModalOpen,
-  (listingCartModalOpen) => {
-    if (!listingCartModalOpen) {
-      listingCartStore.clearDiscardedItems()
-    }
-  },
-)
+useModalIsOpenTracker({
+  isOpen: computed(() => preferencesStore.listingCartModalOpen),
+  onChange: () => listingCartStore.clearDiscardedItems(),
+})
 
 onBeforeMount(closeListingCartModal)
 onUnmounted(closeListingCartModal)
