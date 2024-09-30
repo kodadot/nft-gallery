@@ -119,6 +119,7 @@ import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTelep
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
+const { closeListingCartModal } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const {
   transaction,
@@ -323,9 +324,6 @@ watch(
     }
   },
 )
-
-const closeListingCartModal = () =>
-  (preferencesStore.listingCartModalOpen = false)
 
 onBeforeMount(closeListingCartModal)
 onUnmounted(closeListingCartModal)
