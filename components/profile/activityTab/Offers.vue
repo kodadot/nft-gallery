@@ -134,8 +134,8 @@ const where = computed(() => {
 
 const { offers, loading: loadingOffers, refetch } = useOffers({ where, disabled: computed(() => !offerIds.value) })
 
-watchEffect(() => {
-  replaceUrl({ filter: activeTab.value })
+watch(activeTab, (newVal) => {
+  replaceUrl({ filter: newVal })
 })
 
 useSubscriptionGraphql({
