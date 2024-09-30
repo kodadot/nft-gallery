@@ -32,7 +32,7 @@
           <AutoTeleportActionButton
             ref="autoTeleportButton"
             :actions="actions"
-            :amount="totalOfferAmount"
+            :amount="totalNeededAmount"
             :disabled="confirmButtonDisabled"
             :fees="{ forceActionAutoFees: true }"
             :label="confirmListingLabel"
@@ -68,6 +68,7 @@ import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import { sum } from '@/utils/math'
 import type { NotificationAction } from '@/utils/notification'
+import { OFFER_MINT_PRICE } from '@/composables/transaction/transactionOffer'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -110,6 +111,8 @@ const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAuto
 const totalOfferAmount = computed(
   () => calculateBalance(sum(itemsInChain.value.map(nft => Number(nft.offerPrice))), decimals.value),
 )
+
+const totalNeededAmount = computed(() => totalOfferAmount.value + OFFER_MINT_PRICE)
 
 const actions = computed<AutoTeleportAction[]>(() => [
   {
