@@ -97,6 +97,9 @@ const collectionFloorPrice = computed(() =>
 const trimmedCollectionFloorPrice = computed(() => trimDuplicateZeroes(collectionFloorPrice.value))
 
 const trimDuplicateZeroes = (price: string): string => {
+  if (price === '--') {
+    return '--'
+  }
   const [amount, chainSymbol] = price.split(' ')
 
   const trimmedAmount = parseFloat(amount).toString()
