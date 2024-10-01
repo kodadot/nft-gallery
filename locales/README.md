@@ -9,7 +9,7 @@ Particular commands you need to write to your terminal
 Look up on instructions at [First_Time](https://github.com/kodadot/nft-gallery/blob/main//content/blog/first-time.md#hyper-start-)
 
 1. If it is everything runs, that great!
-2. Now open in your editor your language .json file which is in `langDir`, for Spanish i.e. `es.json`
+2. Now open in your editor your language .json file which is in `locales`, for Spanish i.e. `es.json`
 3. Everytime you hit save, reload page to see your changes live.
 4. On the upper right you will see your flag. If you don't see your native language flag, [request new language at our Discord](https://discord.gg/kodadot), we can add your language!
 5. Once you are done, [make pull-request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
