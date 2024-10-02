@@ -78,9 +78,7 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
     = useMultipleBalance()
 
   const price = computed<number>(() => Number(drop.value?.price) || 0)
-  const minimumFunds = computed<number>(() =>
-    price.value ? amount.value * (price.value + itemDeposit.value) : 0,
-  )
+  const minimumFunds = computed<number>(() => amount.value * (price.value + itemDeposit.value))
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value
