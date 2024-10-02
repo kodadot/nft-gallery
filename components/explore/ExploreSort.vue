@@ -71,26 +71,6 @@ const { $i18n } = useNuxtApp()
 const { hasItems: isItems } = useHasRoute()
 const { options } = useRouteSortByOptions()
 
-function removeDuplicateSortKeys(options: string[]) {
-  const uniqueOptions = {}
-
-  if (!Array.isArray(options)) {
-    return []
-  }
-
-  options.forEach((option) => {
-    const opt = option.split('_')
-    const identifier = opt[0]
-    const sort = opt[1]
-
-    uniqueOptions[identifier] = sort
-  })
-
-  return Object.keys(uniqueOptions).map((identifier) => {
-    return `${identifier}_${uniqueOptions[identifier]}`
-  })
-}
-
 const sortOptions = ref<string[]>([])
 const selectedSort = computed({
   get: () => sortOptions.value,

@@ -74,7 +74,7 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'blockNumber_ASC',
   'updatedAt_DESC',
   'updatedAt_ASC',
-  'price_ASC',
+  'price_ASC_NULLS_LAST',
   'price_DESC',
 ]
 
