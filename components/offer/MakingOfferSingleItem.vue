@@ -3,7 +3,7 @@
     <CartItemDetails :nft="item">
       <template #right>
         <div class="flex items-end">
-          {{ trimmedItemPrice }}
+          {{ itemPrice }}
         </div>
       </template>
 
@@ -15,7 +15,7 @@
             {{ $t('offer.bestOffer') }}
           </div>
           <div>
-            {{ trimmedHighestOfferPrice }}
+            {{ highestOfferPrice }}
           </div>
         </div>
         <div class="flex justify-between">
@@ -23,7 +23,7 @@
             {{ $t('offer.collectionFloorPrice') }}
           </div>
           <div>
-            {{ trimmedCollectionFloorPrice }}
+            {{ collectionFloorPrice }}
           </div>
         </div>
       </template>
@@ -74,10 +74,9 @@ const { chainSymbol, decimals } = useChain()
 const item = computed(() => offerStore.items[0])
 
 const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
-const trimmedItemPrice = computed (() => trimDuplicateZeroes(itemPrice.value))
 
 const formatWithBlank = (value: number) => {
-  return value ? formatBalance(value, decimals.value, chainSymbol.value) : '--'
+  return value ? `${parseFloat(formatBalance(value, decimals.value))} ${chainSymbol.value}` : '--'
 }
 const offerPriceStoreItem = computed({
   get: () => offerStore.getItem(item.value?.id)?.offerPrice,
@@ -89,23 +88,10 @@ const offerExpirationStoreItem = computed({
 })
 
 const highestOfferPrice = computed(() => formatWithBlank(Number(item.value.highestOffer) || 0) || '--')
-const trimmedHighestOfferPrice = computed(() => trimDuplicateZeroes(highestOfferPrice.value))
 
 const collectionFloorPrice = computed(() =>
   formatWithBlank(Number(item.value.collection.floorPrice?.[0]?.price || '0')) || '--',
 )
-const trimmedCollectionFloorPrice = computed(() => trimDuplicateZeroes(collectionFloorPrice.value))
-
-const trimDuplicateZeroes = (price: string): string => {
-  if (price === '--') {
-    return '--'
-  }
-  const [amount, chainSymbol] = price.split(' ')
-
-  const trimmedAmount = parseFloat(amount).toString()
-
-  return `${trimmedAmount} ${chainSymbol}`
-}
 
 watch(
   () => props.offerPrice,
