@@ -23,21 +23,22 @@ export default async ({
   hasProfile: boolean
   useFarcaster: boolean
 }) => {
-  const imageUrl = profileData.image
-    ? await uploadProfileImage({
-      file: profileData.image,
-      type: 'image',
-      signaturePair,
-    })
-    : profileData.imagePreview
-
-  const bannerUrl = profileData.banner
-    ? await uploadProfileImage({
-      file: profileData.banner,
-      type: 'banner',
-      signaturePair,
-    })
-    : profileData.bannerPreview
+  const [imageUrl, bannerUrl] = await Promise.all([
+    profileData.image
+      ? uploadProfileImage({
+        file: profileData.image,
+        type: 'image',
+        signaturePair,
+      })
+      : Promise.resolve(profileData.imagePreview),
+    profileData.banner
+      ? uploadProfileImage({
+        file: profileData.banner,
+        type: 'banner',
+        signaturePair,
+      })
+      : Promise.resolve(profileData.bannerPreview),
+  ])
 
   const profileBody: CreateProfileRequest | UpdateProfileRequest = {
     address: profileData.address,

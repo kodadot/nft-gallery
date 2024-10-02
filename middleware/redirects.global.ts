@@ -32,6 +32,10 @@ export default defineNuxtRouteMiddleware((route) => {
       },
     },
     {
+      cond: (val: string) => ['ksm', 'rmrk', 'dot'].some(prefix => val.startsWith(`/${prefix}`) && !val.startsWith(`/${prefix}/transfer`)),
+      replaceValue: () => `/ahp`,
+    },
+    {
       cond: (val: string) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
