@@ -115,6 +115,7 @@ function useMetaTransaction() {
         status.value = TransactionStatus.Cancelled
       }
       else {
+        isError.value = true
         warningMessage(e.toString())
       }
       isLoading.value = false
