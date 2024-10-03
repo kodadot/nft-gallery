@@ -393,7 +393,6 @@
           <ItemsGrid
             :search="itemsGridSearch"
             :grid-section="gridSection"
-            display-name-with-sn
             :loading-other-network="loadingOtherNetwork"
             :reset-search-query-params="['sort']"
           >

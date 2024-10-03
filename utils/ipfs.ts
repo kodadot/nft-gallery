@@ -10,9 +10,8 @@ import {
   kodaImage,
 } from './config/ipfs'
 import { emptyObject } from '@/utils/empty'
-import type { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
-import type { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
@@ -160,10 +159,6 @@ export const fetchNFTMetadata = (
   rmrk: NFT | SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl,
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
-
-export const fetchCollectionMetadata = (
-  rmrk: Collection | SomethingWithMeta,
-): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(`${ipfsUrlPrefix}${ipfsUrl}`)

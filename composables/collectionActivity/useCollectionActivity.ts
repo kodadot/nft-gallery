@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/vue-query'
 import type { Prefix } from '@kodadot1/static'
 import type { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
-import { nameWithIndex } from '@/utils/nft'
 
 export const useCollectionActivity = ({
   collectionId,
@@ -46,7 +45,7 @@ export const useCollectionActivity = ({
         const nfts
           = result.collection?.nfts.map(nft => ({
             ...nft,
-            name: nameWithIndex(nft?.name, nft?.sn),
+            name: nft?.name,
           })) ?? []
         // flat events for chart
         const interactions: InteractionWithNFT[] = nfts

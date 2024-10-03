@@ -56,6 +56,10 @@
       <NeoDropdownItem disabled>
         Report
       </NeoDropdownItem>
+
+      <NeoDropdownItem @click="refreshMetadata">
+        Refresh Metadata
+      </NeoDropdownItem>
     </NeoDropdown>
   </div>
 </template>
@@ -67,6 +71,7 @@ import { downloadImage } from '@/utils/download'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
+import { refreshOdaTokenMetadata } from '@/services/oda'
 import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { Abi } from '@/composables/transaction/types'
@@ -166,6 +171,13 @@ const unlist = () => {
     successMessage: $i18n.t('transaction.unlist.success') as string,
     errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
+}
+
+const refreshMetadata = async () => {
+  if (props.nft?.collection?.id && props.nft?.sn) {
+    toast('Refreshing metadata. Check back in a minute...')
+    await refreshOdaTokenMetadata(urlPrefix.value, props.nft.collection.id, props.nft.sn)
+  }
 }
 
 const transfer = () => {

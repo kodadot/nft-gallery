@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
 import type { LastEvent } from '@/utils/types/types'
-import { nameWithIndex } from '@/utils/nft'
 import type { CarouselNFT } from '@/components/base/types'
 import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 /**
@@ -34,7 +33,7 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
       image: metaImage && sanitizeIpfsUrl(metaImage),
       animationUrl: metaAnimationUrl && sanitizeIpfsUrl(metaAnimationUrl),
       collectionName: nft.collectionName || nft.collection?.name || '--',
-      name: nameWithIndex(name, nft.sn),
+      name: name,
       collectionId: nft.collectionId || nft.collection?.id,
       chain: chain || urlPrefix.value,
     }
