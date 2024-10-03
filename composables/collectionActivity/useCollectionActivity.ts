@@ -25,22 +25,21 @@ export const useCollectionActivity = ({
     id: collectionId.value,
   }))
 
-  const { data: queryData, isLoading: loading } = useQuery({
+  const { data, isPending: loading } = useQuery({
     queryKey: ['collection-activity-events', prefix, variables],
-    queryFn: () =>
+    queryFn: async () =>
       collectionId.value
-        ? useGraphql({
-          queryPrefix,
-          queryName: 'collectionActivityEvents',
-          variables: variables.value,
-          clientName: prefix,
-        })
+        ? (await useAsyncGraphql({
+            query: 'collectionActivityEvents',
+            variables: variables.value,
+            prefix: queryPrefix,
+          })).data.value
         : null,
     staleTime: 1000 * 10,
   })
 
   watch(
-    computed(() => queryData.value?.data),
+    data,
     (result) => {
       if (result) {
         const nfts

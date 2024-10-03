@@ -76,7 +76,7 @@
           ref="autoteleport"
           :amount="minimumFunds"
           :hide-top="!canAutoTeleport"
-          :interaction="interaction"
+          :interaction="NFTs.MINT_DROP"
           @modal:close="handleModalClose"
         />
       </div>
@@ -89,30 +89,18 @@ import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'
+import { NFTs } from '@/composables/transaction/types'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
-const props = withDefaults(
-  defineProps<{
-    modelValue: boolean
-    free?: boolean
-  }>(),
-  {
-    free: false,
-  },
-)
+defineProps<{
+  modelValue: boolean
+}>()
 
 const { formattedMinimumFunds, minimumFunds } = useDropMinimumFunds()
 const { token, chainName } = useDrop()
 
 const autoteleport = ref()
-const interaction = computed(() => {
-  // tmp solution till drop type check is fixed
-  return props.free
-    ? ActionlessInteraction.FREE_DROP
-    : ActionlessInteraction.PAID_DROP
-})
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.isReady)
