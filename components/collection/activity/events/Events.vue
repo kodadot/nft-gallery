@@ -4,6 +4,7 @@
     :no-results-main="$t('activity.noResults')"
     :no-results-sub="$t('activity.noResultsSub')"
     :show-no-results="events.length > 0 && !displayedEvents.length"
+    :loading="loading"
     data-testid="nfts-event-table"
   >
     <template #columns>
@@ -62,9 +63,11 @@ import { toSubstrateAddress } from '@/services/profile'
 const props = withDefaults(
   defineProps<{
     events: (InteractionWithNFT | Offer)[]
+    loading: boolean
   }>(),
   {
     events: () => [],
+    loading: false,
   },
 )
 

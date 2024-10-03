@@ -7,6 +7,15 @@
     chart-height="350px"
     data-testid="collection-activity-chart"
   />
+  <div
+    v-else-if="loading"
+    class="relative h-[350px]"
+  >
+    <SkeletonLoader
+      :title="$t('activity.generatingChart')"
+      class="absolute"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -29,9 +38,11 @@ const { decimals } = useChain()
 const props = withDefaults(
   defineProps<{
     events: ActivityInteraction[]
+    loading?: boolean
   }>(),
   {
     events: () => [],
+    loading: false,
   },
 )
 const hideOutliers = ref(true)

@@ -10,7 +10,8 @@
           <div class="w-2/3 pr-2">
             <ActivityChart
               :events="events"
-              class="mt-2"
+              :loading="loading"
+              :class="{ 'mt-2': !loading }"
             />
           </div>
           <div class="flex-1">
@@ -29,7 +30,10 @@
             :flippers="flippers"
           />
           <div class="max-width">
-            <ActivityChart :events="events" />
+            <ActivityChart
+              :events="events"
+              :loading="loading"
+            />
           </div>
         </div>
       </div>
@@ -37,7 +41,10 @@
         class="mb-7"
         :class="{ 'my-7': !isBreadCrumbsShowing }"
       >
-      <Events :events="sortedEventsWithOffersDesc" />
+      <Events
+        :events="sortedEventsWithOffersDesc"
+        :loading="loading"
+      />
     </div>
   </div>
 </template>
@@ -63,8 +70,9 @@ const isBreadCrumbsShowing = computed(
   () => isAnyActivityFilterActive() && tablet.value,
 )
 
-const collectionId = computed(() => route.params.id)
-const { events, flippers, owners, offers } = useCollectionActivity({
+const collectionId = computed(() => route.params.id.toString())
+
+const { events, flippers, owners, offers, loading } = useCollectionActivity({
   collectionId,
 })
 
