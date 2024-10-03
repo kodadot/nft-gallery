@@ -4,7 +4,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 
 export const toChainAddres = (address: string, prefix: Prefix) => {
   if (isEthereumAddress(address)) {
-    return address
+    return address.toLowerCase()
   }
 
   const publicKey = decodeAddress(address)

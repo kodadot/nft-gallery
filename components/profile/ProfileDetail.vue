@@ -630,7 +630,7 @@ const tabKey = computed(() =>
 
 const itemsGridSearch = computed(() => {
   const query: Record<string, unknown> = {
-    [tabKey.value]: id.value,
+    [tabKey.value]: toChainAddres(id.value, urlPrefix.value),
     burned_eq: false,
   }
 
@@ -641,7 +641,7 @@ const itemsGridSearch = computed(() => {
   if (addSold.value) {
     query['events_some'] = {
       interaction_eq: 'BUY',
-      AND: { caller_not_eq: id.value },
+      AND: { caller_not_eq: toChainAddres(id.value, urlPrefix.value) },
     }
   }
 
@@ -696,7 +696,7 @@ const interactionIn = computed(() => {
 })
 
 useAsyncData('tabs-count', async () => {
-  const address = id.value.toString()
+  const address = toChainAddres(id.value, urlPrefix.value)
   const searchParams = {
     currentOwner_eq: address,
   }
@@ -711,7 +711,7 @@ useAsyncData('tabs-count', async () => {
     query: profileTabsCount,
     clientId: client.value,
     variables: {
-      id: id.value,
+      id: address,
       interactionIn: interactionIn.value,
       denyList: getDenyList(urlPrefix.value),
       search: [searchParams],
@@ -731,7 +731,7 @@ useAsyncData('tabs-count', async () => {
 })
 
 const fetchTabsCountByNetwork = async (chain: Prefix) => {
-  const account = id.value.toString()
+  const account = toChainAddres(id.value, urlPrefix.value)
   let address = account
 
   if (isSub.value) {
