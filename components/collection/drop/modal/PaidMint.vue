@@ -86,6 +86,11 @@ const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 const autoteleportCompleted = ref(false)
 const isModalOpen = useVModel(props, 'modelValue')
 
+const { isTransactionSuccessful } = useTransactionSuccessful({
+  status: computed(() => props.status),
+  isError: computed(() => props.isError),
+})
+
 const isSingleMintNotReady = computed(
   () => amountToMint.value === 1 && !canMint.value,
 )
@@ -121,7 +126,8 @@ const moveSuccessfulDrop = computed<boolean>(
   () =>
     imagePreloadingCompleted.value
     && Boolean(mintingSession.value.items.length)
-    && Boolean(mintingSession.value.txHash),
+    && Boolean(mintingSession.value.txHash)
+    && isTransactionSuccessful.value,
 )
 
 const transactionStatus = computed(() => {

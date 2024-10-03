@@ -1,4 +1,4 @@
-import { TransactionStatus } from './useTransactionStatus'
+import { TRANSACTION_ERROR_STATUSES, TransactionStatus } from './useTransactionStatus'
 
 type Params = {
   transaction: {
@@ -25,7 +25,7 @@ export default ({
       return onCancel?.()
     }
 
-    if (curStatus === TransactionStatus.Block && isError.value) {
+    if (TRANSACTION_ERROR_STATUSES.includes(curStatus) && isError.value) {
       return onError?.()
     }
 

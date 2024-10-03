@@ -11,6 +11,11 @@ export enum TransactionStatus {
   Cancelled = 'loader.cancelled',
 }
 
+export const TRANSACTION_ERROR_STATUSES = [
+  TransactionStatus.Unknown, // transaction is failed before it's broadcasted, e.g. not enough balance to pay for initial transaction
+  TransactionStatus.Block, // transaction is failed in block
+]
+
 function useTransactionStatus() {
   const status = ref<TransactionStatus>(TransactionStatus.Unknown)
   const isLoading = ref(false)

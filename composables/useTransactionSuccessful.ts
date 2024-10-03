@@ -1,4 +1,4 @@
-import { TransactionStatus } from './useTransactionStatus'
+import { TRANSACTION_ERROR_STATUSES, TransactionStatus } from './useTransactionStatus'
 
 export default ({
   isError,
@@ -13,7 +13,7 @@ export default ({
     [status, isError],
     () => {
       isTransactionSuccessful.value
-        = TransactionStatus.Block === status.value
+        = TRANSACTION_ERROR_STATUSES.includes(status.value)
           ? !isError.value
           : TransactionStatus.Finalized === status.value
     },
