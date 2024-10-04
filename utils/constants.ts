@@ -42,7 +42,7 @@ export const URLS = {
     rubick: 'https://squid.subsquid.io/rubick/graphql',
     marck: 'https://ksm.gql.api.kodadot.xyz/',
     stick: 'https://ahk.gql.api.kodadot.xyz/',
-    speck: 'https://kodadot.squids.live/speck/v/v14/graphql', // todo: change back to ` 'https://ahp.gql.api.kodadot.xyz/',`
+    speck: 'https://ahp.gql.api.kodadot.xyz/',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
