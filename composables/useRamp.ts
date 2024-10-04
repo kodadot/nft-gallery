@@ -27,7 +27,6 @@ export default function useRamp() {
       ahp: 'DOT_DOT',
       ahk: 'KUSAMA_KSM',
       ksm: 'KUSAMA_KSM',
-      rmrk: 'KUSAMA_KSM',
     } as Record<Prefix, string>)[prefix]
   }
 
