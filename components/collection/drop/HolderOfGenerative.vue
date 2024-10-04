@@ -32,7 +32,7 @@
   <CollectionDropModalPaidMint
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
-    :action="action"
+    :action="autoTeleportAction"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList"
@@ -55,14 +55,13 @@ import useGenerativeDropMint, {
   useUpdateMetadata,
 } from '@/composables/drop/useGenerativeDropMint'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
-import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
-import { NFTs } from '@/composables/transaction/types'
+import type { ActionMintDrop, NFTs } from '@/composables/transaction/types'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -104,8 +103,16 @@ const isMintModalActive = ref(false)
 const isHolderOfWithPaidMint = computed(() => Boolean(drop.value?.price))
 const isOnlyHolderOfMint = computed(() => !isHolderOfWithPaidMint.value)
 
-const action = computed<AutoTeleportAction>(() => ({
-  interaction: ActionlessInteraction.PAID_DROP,
+const action = computed<ActionMintDrop>(() => ({
+  interaction: NFTs.MINT_DROP,
+  collectionId: drop.value?.collection,
+  availableSerialNumbers: availableNfts.serialNumbers,
+  price: drop.value?.price || null,
+  prefix: urlPrefix.value,
+}))
+
+const autoTeleportAction = computed<AutoTeleportAction>(() => ({
+  action: action.value,
   handler: () => mint(),
   details: {
     isLoading: isTransactionLoading.value,
@@ -119,13 +126,7 @@ const mintNft = async () => {
     isTransactionError.value = false
     mintingSession.value.txHash = undefined
 
-    transaction({
-      interaction: NFTs.MINT_DROP,
-      collectionId: drop.value?.collection,
-      availableSerialNumbers: availableNfts.serialNumbers,
-      price: drop.value?.price || null,
-      prefix: urlPrefix.value,
-    })
+    transaction(action.value)
   }
   catch (e) {
     warningMessage(`${e}`)

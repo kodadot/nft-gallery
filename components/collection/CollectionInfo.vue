@@ -121,29 +121,31 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import {
-  useCollectionDetails,
-  useCollectionMinimal,
-} from './utils/useCollectionDetails'
+import { useCollectionDetails } from './utils/useCollectionDetails'
 import {
   DESCRIPTION_MAX_LENGTH,
   generatePreviewDescription,
 } from '@/components/collection/utils/description'
 
+const props = defineProps<{
+  collectionId: string
+  collection?: unknown
+}>()
+
 const body = ref(document.body)
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
-const collectionId = computed(() => route.params.id.toString())
+
 const chain = computed(
   () =>
     availableChains.value.find(chain => chain.value === route.params.prefix)
       ?.text,
 )
-const address = computed(() => collectionInfo.value?.displayCreator)
-const recipient = computed(() => collectionInfo.value?.recipient)
-const royalty = computed(() => collectionInfo.value?.royalty)
-const createdAt = computed(() => collectionInfo.value?.createdAt)
+const address = computed(() => props.collection?.displayCreator)
+const recipient = computed(() => props.collection?.recipient)
+const royalty = computed(() => props.collection?.royalty)
+const createdAt = computed(() => props.collection?.createdAt)
 const seeAllDescription = ref(false)
 
 const toggleSeeAllDescription = () => {
@@ -152,13 +154,13 @@ const toggleSeeAllDescription = () => {
 
 const hasSeeAllDescriptionOption = computed(() => {
   return (
-    (collectionInfo.value?.meta?.description?.length || 0)
+    (props.collection?.meta?.description?.length || 0)
     > DESCRIPTION_MAX_LENGTH
   )
 })
 
 const visibleDescription = computed(() => {
-  const desc = collectionInfo.value?.meta?.description
+  const desc = props.collection?.meta?.description
 
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
@@ -167,10 +169,7 @@ const visibleDescription = computed(() => {
   )
 })
 
-const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId,
-})
 const { stats } = useCollectionDetails({
-  collectionId,
+  collectionId: computed(() => props.collectionId),
 })
 </script>

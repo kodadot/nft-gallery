@@ -59,7 +59,6 @@
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-import { useGalleryItem } from './useGalleryItem'
 import { MediaType } from '@/components/rmrk/types'
 import {
   determineElementType,
@@ -75,8 +74,7 @@ type ReloadElement =
 
 defineEmits(['toggle'])
 
-const { nft, nftAnimation, nftImage, nftAnimationMimeType, nftMimeType }
-  = useGalleryItem()
+const { getNft: nft, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const isLoading = ref(false)
 
