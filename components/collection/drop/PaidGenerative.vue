@@ -4,8 +4,6 @@
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
-    :status="status"
-    :is-error="isError"
     @confirm="mintNft"
     @close="handleMintModalClose"
     @list="handleList"

@@ -45,6 +45,12 @@ function useMetaTransaction() {
   } = useTransactionStatus()
   const { apiInstance } = useAPI()
   const tx = ref<ExecResult>()
+  /**
+   *  Indicates whether an error occurred during the transaction.
+   *  This can be true if:
+   *  - {@link TransactionStatus.Unknown} Invalid Transaction (e.g., inability to pay some fees)
+   *  - {@link TransactionStatus.Block}
+   */
   const isError = ref(false)
 
   const howAboutToExecute: HowAboutToExecute = async (

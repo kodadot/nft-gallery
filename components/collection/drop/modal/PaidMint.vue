@@ -65,8 +65,6 @@ const emit = defineEmits(['confirm', 'update:modelValue', 'list', 'close'])
 const props = defineProps<{
   modelValue: boolean
   action: AutoTeleportAction
-  status: TransactionStatus
-  isError: boolean
 }>()
 
 const { canMint, canList } = useDropMassMintState()
@@ -86,9 +84,14 @@ const modalStep = ref<ModalStep>(ModalStep.OVERVIEW)
 const autoteleportCompleted = ref(false)
 const isModalOpen = useVModel(props, 'modelValue')
 
+const isError = computed(() => props.action.details.isError)
+const status = computed(() => props.action.details.status)
+const isLoading = computed(() => props.action.details.isLoading)
+
 const { isTransactionSuccessful } = useTransactionSuccessful({
-  status: computed(() => props.status),
-  isError: computed(() => props.isError),
+  status,
+  isError,
+  isLoading,
 })
 
 const isSingleMintNotReady = computed(
