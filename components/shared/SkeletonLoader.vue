@@ -82,6 +82,8 @@ const calculateTextContainerWidth = () => {
     return
   }
 
+  textContainerWidth.value = undefined
+
   nextTick(() => {
     const title = titleRef.value?.clientWidth || 0
     const substitle = subtitleRef.value?.clientWidth || 0
