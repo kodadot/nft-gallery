@@ -93,6 +93,10 @@ const calculateTextContainerWidth = () => {
       = substitle && subtitlePlusDots > title
         ? `${subtitlePlusDots}px`
         : undefined
+
+    if (substitle && subtitlePlusDots > title) {
+      textContainerWidth.value = `${subtitlePlusDots}px`
+    }
   })
 }
 
