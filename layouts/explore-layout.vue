@@ -11,16 +11,7 @@
           error-title="Offline Detected"
         />
         <div v-else>
-          <!-- new header component for collection here -->
-          <div v-if="isCollection">
-            <CollectionBanner />
-            <section class="pt-5">
-              <div class="container is-fluid">
-                <CollectionInfo />
-                <hr class="!bg-k-grey mb-0">
-              </div>
-            </section>
-          </div>
+          <CollectionHeader v-if="isCollection" />
           <section class="py-7 px-0">
             <div class="container is-fluid">
               <h1
@@ -53,8 +44,6 @@
 <script lang="ts" setup>
 import ExploreTabsFilterSort from '@/components/explore/Controls.vue'
 import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
-import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
-import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 import Buy from '@/components/buy/Buy.vue'
 import { assetHub, chainNameSeoMap, getSeoPrefixName } from '@/utils/seo'
 

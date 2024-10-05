@@ -28,7 +28,7 @@
             class="font-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
             :class="[discarded ? 'text-k-grey' : 'text-text-color']"
           >
-            {{ nameWithIndex(nft.name, nft.sn) }}
+            {{ nft.name }}
           </div>
           <div
             class="line-height-1 whitespace-nowrap is-clipped is-ellipsis"

@@ -27,7 +27,7 @@
     </div>
   </div>
   <div
-    v-else
+    v-else-if="drop"
     class="flex w-full justify-center mt-4"
   >
     <NeoButton
@@ -45,7 +45,6 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import { getDropAttributes } from '../drops/utils'
-import { getDrops } from '@/services/fxart'
 import type { DropItem } from '@/params/types'
 
 const NuxtLink = resolveComponent('NuxtLink')
@@ -54,18 +53,13 @@ const props = defineProps<{
   collectionId: string
 }>()
 
-const { urlPrefix } = usePrefix()
+const { drop: dropItem, isPending } = useCollectionDrop(computed(() => props.collectionId))
 
 const drop = ref<DropItem>()
 
-onBeforeMount(async () => {
-  const fetchDrops = await getDrops({
-    chain: [urlPrefix.value],
-    collection: props.collectionId,
-  })
-
-  if (fetchDrops.length) {
-    drop.value = await getDropAttributes(fetchDrops[0].alias)
+watchEffect(async () => {
+  if (Boolean(dropItem.value) && !isPending.value) {
+    drop.value = await getDropAttributes(dropItem.value?.alias as string)
   }
 })
 </script>

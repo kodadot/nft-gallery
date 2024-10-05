@@ -23,7 +23,7 @@
             class="font-bold text-text-color whitespace-nowrap is-clipped text-ellipsis"
             @click="emit('click-item')"
           >
-            {{ nameWithIndex(nft.name, nft.sn) }}
+            {{ nft.name }}
           </nuxt-link>
           <div class="flex justify-between w-full">
             <div class="whitespace-nowrap is-clipped text-ellipsis">
@@ -60,7 +60,7 @@ import { useElementHover } from '@vueuse/core'
 import { NeoButton } from '@kodadot1/brick'
 import type { ShoppingCartItem } from './types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { nameWithIndex, parseNftAvatar } from '@/utils/nft'
+import { parseNftAvatar } from '@/utils/nft'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const { urlPrefix } = usePrefix()
