@@ -55,7 +55,7 @@
           </tippy>
           <span class="text-neutral-5 mx-2">•</span>
         </span>
-        <span>
+        <span v-if="createdAt">
           <span class="capitalize text-neutral-7">{{ $t('created') }}</span>&nbsp;{{ new Date(createdAt).toLocaleDateString() }}
           <span class="text-neutral-5 mx-2">•</span>
         </span>
