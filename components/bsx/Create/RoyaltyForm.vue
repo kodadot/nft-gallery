@@ -11,19 +11,21 @@
       :max="99.99"
     />
 
-    <BasicSwitch
-      v-model="isMine"
-      label="mint.royalty.mine"
-      data-testid="royalty-form-switch"
-    />
-    <AddressInput
-      v-show="!isMine"
-      v-model="vAddress"
-      label="mint.royalty.receiver"
-      data-testid="royalty-form-custom-address"
-      :strict="false"
-      empty-on-error
-    />
+    <template v-if="Number(vRoyalty)">
+      <BasicSwitch
+        v-model="isMine"
+        :label="isMine ? 'mint.royalty.mine' : 'mint.royalty.custom'"
+        data-testid="royalty-form-switch"
+      />
+      <AddressInput
+        v-show="!isMine"
+        v-model="vAddress"
+        label="mint.royalty.receiver"
+        data-testid="royalty-form-custom-address"
+        :strict="false"
+        empty-on-error
+      />
+    </template>
   </div>
 </template>
 

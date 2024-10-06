@@ -1337,6 +1337,7 @@
     "progress": "In Progress",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
     "royalty": {
+      "custom": "Pay royalties to a specific account",
       "mine": "Pay royalties to the creator account",
       "rate": "Royalty Rate (%)",
       "receiver": "Destination account for royalty"
