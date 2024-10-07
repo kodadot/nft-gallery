@@ -3,7 +3,7 @@ import { graphql } from '../../clients/graphqlClients'
 const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction!], $denyList: [String!]) {
 
   owned: nftEntitiesConnection(
-    where: { 
+    where: {
       currentOwner_eq: $id,
       burned_eq: false,
       metadata_not_eq: ""
@@ -27,11 +27,11 @@ const query = `query profileTabsCount($id: String!, $interactionIn: [Interaction
 
   events: eventsConnection(
     where: {
-      AND: [ 
+      AND: [
         {
           caller_eq: $id,
           OR: {
-            currentOwner_eq: $id, 
+            currentOwner_eq: $id,
           }
         },
       ],

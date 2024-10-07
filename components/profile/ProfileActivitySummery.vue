@@ -55,7 +55,7 @@ const { client, urlPrefix } = usePrefix()
 
 const emit = defineEmits(['click-followers', 'click-following'])
 
-const id = computed(() => props?.userId || route.params.id || '')
+const id = computed(() => props?.userId || route.params.id as string || '')
 
 const stats = ref<Stats>({
   listedCount: 0,
@@ -98,7 +98,7 @@ useLazyAsyncData('stats', async () => {
     query: profileStatsByIdRefined,
     clientId: client.value,
     variables: {
-      id: id.value,
+      id: toChainAddres(id.value, urlPrefix.value),
       denyList: getDenyList(urlPrefix.value),
     },
   })

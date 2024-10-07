@@ -30,6 +30,36 @@ export const fetchOdaCollectionOwners = (chain: Prefix, address: string) => {
   return api<OdaCollectionOwners>(`/v1/${chain}/collection/${address}/owners`)
 }
 
+export type NFTMetadata = {
+  name: string
+  description: string
+  image: string
+  animation_url: string
+  attributes: Record<string, string>[]
+}
+
+type OdaToken = {
+  metadata: NFTMetadata
+  metadata_uri: string
+}
+export const fetchOdaToken = (chain: Prefix, address: string, tokenId: string) => {
+  return api<OdaToken>(`/v1/${chain}/collection/${address}/token/${tokenId}`)
+}
+
+export const refreshOdaTokenMetadata = (chain: Prefix, address: string, tokenId: string) => {
+  return api<OdaToken>(`/v1/${chain}/collection/${address}/token/${tokenId}`, {
+    method: 'DELETE',
+  })
+}
+
+type OdaMimeType = {
+  mime_type: string
+}
+
+export const fetchMimeType = (uri: string) => {
+  return api<OdaMimeType>(`/v1/mime-type/${uri}`)
+}
+
 export const fetchOdaCollectionAbi = (chain: Prefix, address: string) => {
   return api<Abi | null>(`/v1/${chain}/collection/${address}/abi`)
 }

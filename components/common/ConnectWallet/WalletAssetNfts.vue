@@ -46,7 +46,7 @@ watchEffect(() => {
     const nftEntities = data.value.nFTEntities
 
     nftEntities.forEach(async (nft, index) => {
-      const nftMetadata = await getNftMetadata(nft, urlPrefix.value)
+      const nftMetadata = await getNftMetadata(nft)
 
       if (nftMetadata.meta.image) {
         const mimeType = await getMimeType(
