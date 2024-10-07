@@ -88,10 +88,6 @@ export function roundTo(value: number | string, limit = 2) {
   })
 }
 
-export function formatBalanceWithBlank(value: number, decimals?: number, chainSymbol?: string) {
-  return value ? `${parseFloat(format(value, decimals))} ${chainSymbol}` : '--'
-}
-
 export const formatBalanceEmptyOnZero = (
   amount: string,
   decimals?: number,
