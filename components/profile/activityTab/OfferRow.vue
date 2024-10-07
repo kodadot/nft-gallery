@@ -23,7 +23,7 @@
           :to="`/${urlPrefix}/gallery/${offer.desired.id}`"
         >
           <span class="ml-5 font-bold is-clipped">
-            {{ nameWithIndex(offer.desired.name, offer.desired.sn) }}
+            {{ offer.desired.name }}
           </span>
         </nuxt-link>
       </div>
@@ -74,10 +74,15 @@
 
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
-        <div v-if="offer.expirationDate">
-          <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-          <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
-        </div>
+        <template v-if="offer.expirationDate">
+          <div v-if="isExpired">
+            <span>{{ $t('expired') }}</span>
+          </div>
+          <div v-else>
+            <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
+            <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+          </div>
+        </template>
         <span v-else>
           {{ blank }}
         </span>
@@ -119,7 +124,7 @@
             :to="`/${urlPrefix}/gallery/${offer.desired.id}`"
           >
             <span class="font-bold">
-              {{ nameWithIndex(offer.desired.name, offer.desired.sn) }}
+              {{ offer.desired.name }}
             </span>
           </nuxt-link>
 
@@ -139,10 +144,15 @@
       <div v-else>
         {{ blank }}
       </div>
-      <div v-if="offer.expirationDate">
-        <span> {{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-        <span class="text-k-grey ml-3"> ({{ formatToNow(offer.expirationDate, isExpired) }})</span>
-      </div>
+      <template v-if="offer.expirationDate">
+        <div v-if="isExpired">
+          <span>{{ $t('expired') }}</span>
+        </div>
+        <div v-else>
+          <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
+          <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+        </div>
+      </template>
       <span v-else>
         {{ blank }}
       </span>
@@ -185,7 +195,6 @@ import {
   interactionNameMap,
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
-import { nameWithIndex } from '@/utils/nft'
 import { OfferInteraction } from '@/composables/collectionActivity/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
@@ -214,7 +223,7 @@ const interactionName = computed(
 )
 
 const getAvatar = async (nft) => {
-  const meta = await getNftMetadata(nft, urlPrefix.value)
+  const meta = await getNftMetadata(nft)
   image.value = meta.image
   animationUrl.value = meta.animationUrl
 }

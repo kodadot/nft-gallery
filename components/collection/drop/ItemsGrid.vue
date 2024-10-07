@@ -26,7 +26,6 @@
     <ItemsGrid
       :search="itemsGridSearch"
       :grid-size="'medium'"
-      display-name-with-sn
       collection-popover-hide
       hide-listing
       show-timestamp

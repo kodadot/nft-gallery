@@ -282,6 +282,7 @@ watch(
         const { isTransactionSuccessful } = useTransactionSuccessful({
           isError: action.isError,
           status: action.status,
+          isLoading: action.isLoading,
         })
 
         watch(

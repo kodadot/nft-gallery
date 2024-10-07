@@ -25,7 +25,6 @@
           :nft="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
-          :display-name-with-sn="displayNameWithSn"
           :show-timestamp="showTimestamp"
           :collection-popover-hide="collectionPopoverHide"
           :hide-listing="hideListing"
@@ -51,7 +50,6 @@
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
           :hide-listing="hideListing"
-          :display-name-with-sn="displayNameWithSn"
           hide-video-controls
           :lazy-loading="
             shouldLazyLoad({
@@ -144,7 +142,6 @@ const props = defineProps<{
   gridSection?: GridSection
   gridSize?: GridSize
   loadingOtherNetwork?: boolean
-  displayNameWithSn?: boolean
   showTimestamp?: boolean
   hideHoverAction?: boolean
   collectionPopoverHide?: boolean

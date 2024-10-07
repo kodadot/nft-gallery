@@ -1,15 +1,13 @@
 import type { Ref } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { useHistoryStore } from '@/stores/history'
-import { getNftMetadata } from '@/composables/useNft'
+import { tokenIdToRoute } from '../unique/utils'
+import type { NFTOffer, NFTWithMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { getCloudflareMp4 } from '@/services/imageWorker'
-import type { NFTWithMetadata, NftResources, NFTOffer } from '@/composables/useNft'
-import { getMimeType } from '@/utils/gallery/media'
 import { getDrops } from '@/services/fxart'
-import { fetchOdaCollectionAbi } from '@/services/oda'
-import type { Abi } from '@/composables/transaction/types'
+import { getCloudflareMp4 } from '@/services/imageWorker'
+import type { NFTMetadata } from '@/services/oda'
+import { fetchMimeType, fetchOdaToken } from '@/services/oda'
+import { useHistoryStore } from '@/stores/history'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 interface NFTData {
   nftEntity?: NftEntity
@@ -20,13 +18,11 @@ type NftEntity = NFTWithMetadata & { dropCreator?: string }
 export interface GalleryItem {
   nft: Ref<NftEntity | undefined>
   nftMimeType: Ref<string>
-  nftMetadata: Ref<NFTWithMetadata | undefined>
+  nftMetadata: Ref<NFTMetadata | undefined>
   nftAnimation: Ref<string>
   nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
-  nftResources: Ref<NftResources[] | undefined>
   nftHighestOffer: Ref<NFTOffer | undefined>
-  abi: Ref<Abi | null | undefined>
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -37,14 +33,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nftAnimation = ref('')
   const nftAnimationMimeType = ref('')
   const nftMimeType = ref('')
-  const nftMetadata = ref<NFTWithMetadata>()
-  const nftResources = ref<NftResources[]>()
+  const nftMetadata = ref<NFTMetadata>()
+
   const nftHighestOffer = ref<NFTOffer>()
   const isOfferIndexerDisabled = computed(() => urlPrefix.value !== 'ahp')
 
   const { params } = useRoute()
   const id = nftId || params.id
-  // const { id: collectionID, item: id } = tokenIdToRoute(params.id)
+  const { id: collectionId, item: tokenId } = tokenIdToRoute(id.toString())
 
   const queryPath = {
     ahk: 'chain-ahk',
@@ -66,12 +62,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     variables: {
       id,
     },
-  })
-
-  const { data: abi } = useQuery({
-    queryKey: ['collection-abi', nft.value?.collection.id],
-    queryFn: () => isEvm(urlPrefix.value) ? fetchOdaCollectionAbi(urlPrefix.value, nft.value?.collection.id as string) : Promise.resolve(null),
-    enabled: computed(() => Boolean(nft.value)),
   })
 
   useSubscriptionGraphql({
@@ -115,69 +105,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
 
     nft.value = nftEntity
 
-    const resources = nftEntity.resources?.map((resource, index) => {
-      const imageSrc
-        = resource.meta?.animationUrl
-        || resource.src
-        || resource.meta?.image
-        || resource.thumb
-
-      let animationUrl = resource.meta?.animationUrl
-
-      if (index === 0 && !animationUrl) {
-        animationUrl = nftEntity.meta.animation_url
-      }
-
-      return {
-        ...resource,
-        src: sanitizeIpfsUrl(imageSrc),
-        thumb: sanitizeIpfsUrl(resource.thumb || resource.meta?.image),
-        animation: sanitizeIpfsUrl(animationUrl),
-      }
-    })
-
-    const metadata = await getNftMetadata(nftEntity, urlPrefix.value, true)
-    nftMetadata.value = metadata
-    nftResources.value = resources
-
-    nftAnimation.value
-      = sanitizeIpfsUrl(metadata.animationUrl || metadata.animation_url) || ''
-    nftAnimationMimeType.value
-      = metadata.animationUrlMimeType
-      || (nftAnimation.value && (await getMimeType(nftAnimation.value)))
-      || ''
-    nftImage.value = sanitizeIpfsUrl(metadata.image) || ''
-    nftMimeType.value
-      = metadata.imageMimeType
-      || metadata.type
-      || (nftImage.value && (await getMimeType(nftImage.value)))
-      || ''
-
-    // use cf-video & replace the video thumbnail
-    if (
-      nftAnimationMimeType.value.includes('video')
-      || nftMimeType.value.includes('video')
-    ) {
-      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
-      if (isIos || isSafari) {
-        nftImage.value = sanitizeIpfsUrl(nft.value.meta?.image, 'cloudflare')
-        nftAnimation.value = sanitizeIpfsUrl(
-          nft.value.meta?.animation_url,
-          'cloudflare',
-        )
-      }
-
-      // serve video from cloudflare stream
-      const streams = await getCloudflareMp4(
-        metadata.animationUrl || metadata.image,
-      )
-
-      if (streams.uid && streams.video?.default?.percentComplete === 100) {
-        nftAnimation.value = streams.video.default.url
-        nftImage.value = streams.detail?.thumbnail || ''
-      }
-    }
-
     historyStore.addHistoryItem({
       id: nft.value.id,
       name: nft.value.name,
@@ -198,6 +125,47 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     }
   })
 
+  onBeforeMount(async () => {
+    const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
+    const metadata = getMetadata.metadata
+
+    if (!metadata) {
+      return
+    }
+
+    nftMetadata.value = metadata
+    nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url)
+    nftImage.value = sanitizeIpfsUrl(metadata.image)
+
+    const mimeTypeAnimation = metadata.animation_url ? await fetchMimeType(metadata.animation_url) : null
+    nftAnimationMimeType.value = mimeTypeAnimation?.mime_type || ''
+
+    const mimeType = metadata.image ? await fetchMimeType(metadata.image) : null
+    nftMimeType.value = mimeType?.mime_type || ''
+
+    // use cf-video & replace the video thumbnail
+    if (
+      nftAnimationMimeType.value.includes('video')
+      || nftMimeType.value.includes('video')
+    ) {
+      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
+      if (isIos || isSafari) {
+        nftImage.value = sanitizeIpfsUrl(metadata.image, 'cloudflare')
+        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'cloudflare')
+      }
+
+      // serve video from cloudflare stream
+      const streams = await getCloudflareMp4(
+        metadata.animation_url || metadata.image,
+      )
+
+      if (streams.uid && streams.video?.default?.percentComplete === 100) {
+        nftAnimation.value = streams.video.default.url
+        nftImage.value = streams.detail?.thumbnail || ''
+      }
+    }
+  })
+
   return {
     nft,
     nftImage,
@@ -205,8 +173,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftAnimationMimeType,
     nftMimeType,
     nftMetadata,
-    nftResources,
     nftHighestOffer,
-    abi,
   }
 }
