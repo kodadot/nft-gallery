@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/vue-query'
 import type { Stats } from './types'
 import { getVolume } from '@/utils/math'
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFT, NFTMetadata } from '@/types'
 import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'

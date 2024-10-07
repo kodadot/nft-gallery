@@ -11,7 +11,7 @@ import {
 } from './config/ipfs'
 import { emptyObject } from '@/utils/empty'
 import api from '@/utils/fetch'
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFT, NFTMetadata } from '@/types'
 
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 

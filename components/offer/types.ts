@@ -2,7 +2,7 @@ import type {
   CollectionFloorPrice,
   EntityWithId,
   NFTMetadata,
-} from '@/components/rmrk/service/scheme'
+} from '@/types'
 
 export type MakingOfferItem = {
   urlPrefix: string

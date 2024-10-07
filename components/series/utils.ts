@@ -1,6 +1,6 @@
 import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
-import type { Interaction } from '../rmrk/service/scheme'
 import type { SortType } from './types'
+import type { Interaction } from '@/types'
 import { after, between, getVolume } from '@/utils/math'
 
 export const today = new Date()

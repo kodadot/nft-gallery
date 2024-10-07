@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Interaction } from '@/components/rmrk/service/scheme'
+import type { Interaction } from '@/types'
 import PriceChart from '@/components/chart/PriceChart.vue'
 import { parseChartAmount } from '@/utils/historyEvent'
 

@@ -3,7 +3,7 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import type { ListCartItem, ListCartItemMediaUrl } from '@/stores/listingCart'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
-import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
+import type { NFT, TokenId } from '@/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { MakingOfferItem } from '@/components/offer/types'
 

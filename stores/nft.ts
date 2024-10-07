@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { NFTMetadata } from '@/services/oda'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
 export const useNftStore = defineStore('nft', {
