@@ -15,7 +15,7 @@
         <div
           class="font-bold text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis"
         >
-          {{ nameWithIndex(name, sn) }}
+          {{ name }}
         </div>
         <div
           v-if="!hideCollection"
@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { nameWithIndex } from '@/utils/nft'
 
 defineProps<{
   name: string

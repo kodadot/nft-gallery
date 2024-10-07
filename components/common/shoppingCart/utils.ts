@@ -5,7 +5,6 @@ import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
 import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { nameWithIndex } from '@/utils/nft'
 import type { MakingOfferItem } from '@/components/offer/types'
 
 export const prefixToToken = {
@@ -49,7 +48,7 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
   const { urlPrefix } = usePrefix()
   return {
     id: nft.id,
-    name: nameWithIndex(nft.name, nft.sn),
+    name: nft.name,
     currentOwner: nft.currentOwner,
     price: nft.price ?? '0',
     urlPrefix: urlPrefix.value,
@@ -73,7 +72,7 @@ export const nftToListingCartItem = (
 
   return {
     id: nft.id,
-    name: nameWithIndex(nft.name, nft.sn),
+    name: nft.name,
     price: nft.price ?? '0',
     urlPrefix: urlPrefix.value,
     collection: {
@@ -94,7 +93,7 @@ export const nftToOfferItem = (nft: NFT & TokenId, highestOffer?: string): Makin
 
   return {
     id: nft.id,
-    name: nameWithIndex(nft.name, nft.sn),
+    name: nft.name,
     price: nft.price ?? '0',
     highestOffer,
     urlPrefix: urlPrefix.value,
@@ -112,7 +111,7 @@ export const shoppingCartItemToListingCartItem = (
 ): ListCartItem => {
   return {
     id: item.id,
-    name: nameWithIndex(item.name, item.sn),
+    name: item.name,
     price: item.price ?? '0',
     urlPrefix: item.urlPrefix,
     collection: { ...item.collection, floor },

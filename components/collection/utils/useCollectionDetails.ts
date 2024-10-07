@@ -5,7 +5,6 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
-import { getDrops } from '@/services/fxart'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -106,7 +105,7 @@ export const useCollectionMinimal = ({
 }: {
   collectionId: Ref<string>
 }) => {
-  const { urlPrefix } = usePrefix()
+  const { urlPrefix, client } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
 
@@ -116,30 +115,31 @@ export const useCollectionMinimal = ({
 
   const { data } = useQuery({
     queryKey: ['collection-minimal', isAssetHub, collectionId],
-    queryFn: () =>
+    queryFn: async () =>
       collectionId.value
-        ? useGraphql({
-          queryName: isAssetHub.value
-            ? 'collectionByIdMinimalWithRoyalty'
-            : 'collectionByIdMinimal',
-          variables: variables.value,
-        })
+        ? (await useAsyncGraphql({
+            query: isAssetHub.value
+              ? 'collectionByIdMinimalWithRoyalty'
+              : 'collectionByIdMinimal',
+            variables: variables.value,
+            clientId: client.value,
+          })).data.value
         : null,
   })
 
-  watch(
-    computed(() => data.value?.data),
-    async (result) => {
-      const collectionData = toRaw(result.collectionEntityById)
+  const { drop: collectionDrop, isPending: isDropPending, refetch } = useCollectionDrop(collectionId)
 
-      await getDrops({
-        collection: collectionId.value,
-        chain: [urlPrefix.value],
-      }).then((drops) => {
-        if (drops && drops[0]?.creator) {
-          collectionData.dropCreator = drops[0].creator
-        }
-      })
+  watch([data, isDropPending],
+    async ([data, dropPending]) => {
+      const collectionData = data?.collectionEntityById
+
+      if (!collectionData || dropPending) {
+        return
+      }
+
+      if (collectionDrop.value) {
+        collectionData.dropCreator = collectionDrop.value.creator
+      }
 
       collectionData.displayCreator = collectionData.dropCreator || collectionData.currentOwner
 
@@ -157,5 +157,5 @@ export const useCollectionMinimal = ({
     }
   })
 
-  return { collection }
+  return { collection, refetch }
 }
