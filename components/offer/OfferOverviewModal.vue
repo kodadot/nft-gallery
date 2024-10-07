@@ -58,7 +58,10 @@
                   {{ $t('expiration') }}
                 </span>
 
-                <span>
+                <span v-if="offer.status === 'EXPIRED'">
+                  {{ $t('expired') }}
+                </span>
+                <span v-else>
                   {{ offer.expirationDate ? formatToNow(offer.expirationDate, false) : '' }}
                 </span>
               </div>

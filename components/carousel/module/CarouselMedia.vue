@@ -4,12 +4,6 @@
     :class="{ 'carousel-media-collection': isCollection }"
   >
     <div :aria-label="`slide ${index + 1} of ${length}`">
-      <img
-        v-if="showCardIcon"
-        class="absolute z-[1] right-4 top-4"
-        :src="cardIcon"
-        alt="Card Icon"
-      >
       <BaseMediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
@@ -39,15 +33,5 @@ const NuxtImg = resolveComponent('NuxtImg')
 
 const isCollection = inject('isCollection', false)
 
-const { urlPrefix } = usePrefix()
 const imageSrc = ref(props.item.image)
-const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.item))
-
-watch(
-  () => props.item.image,
-  async () => {
-    const nft = await getNftMetadata(props.item, urlPrefix.value)
-    imageSrc.value = nft.image
-  },
-)
 </script>

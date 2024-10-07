@@ -67,6 +67,8 @@ export const fetchDropMintedCount = async (
 
 export const useDropMinimumFunds = (amount = ref(1)) => {
   const { drop } = useDrop()
+  const { urlPrefix } = usePrefix()
+  const { itemDeposit } = useDeposit(urlPrefix)
 
   const chainProperties = computed(() =>
     chainPropListOf(drop.value?.chain ?? 'ahp'),
@@ -76,9 +78,7 @@ export const useDropMinimumFunds = (amount = ref(1)) => {
     = useMultipleBalance()
 
   const price = computed<number>(() => Number(drop.value?.price) || 0)
-  const minimumFunds = computed<number>(() =>
-    price.value ? amount.value * price.value : 0,
-  )
+  const minimumFunds = computed<number>(() => amount.value * (price.value + itemDeposit.value))
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value

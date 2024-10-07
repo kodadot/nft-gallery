@@ -3,11 +3,9 @@ import {
   type ActionsInteractions,
   Collections,
 } from '@/composables/transaction/types'
+import { NFTs } from '@/composables/transaction/types'
 
-export enum ActionlessInteraction {
-  PAID_DROP = 'PAID_DROP',
-  FREE_DROP = 'FREE_DROP',
-}
+export type ActionlessInteraction = NFTs.MINT_DROP
 
 export type AutoTeleportInteractions =
   | ActionsInteractions
@@ -21,9 +19,7 @@ type AutoTeleportStepDetails = {
   submit: string
 }
 
-const interactionMap: {
-  [key in AutoTeleportInteractions]?: { action: string, item: string }
-} = {
+const interactionMap: Partial<Record<AutoTeleportInteractions, { action: string, item: string, overrideInteraction?: string }>> = {
   [Interaction.BUY]: { action: 'purchase', item: 'general.nft' },
   [Interaction.LIST]: { action: 'list', item: 'general.nfts' },
   [Interaction.MINT]: { action: 'create', item: 'collection' },
@@ -31,17 +27,19 @@ const interactionMap: {
   [Interaction.SEND]: { action: 'transfer', item: 'general.nft' },
   [Collections.DELETE]: { action: 'delete', item: 'collection' },
   [Interaction.CONSUME]: { action: 'burn', item: 'general.nft' },
-  [ActionlessInteraction.FREE_DROP]: {
-    action: 'drops.claimFree',
-    item: 'general.nft',
-  },
-  [ActionlessInteraction.PAID_DROP]: {
-    action: 'mint',
-    item: 'general.nft',
-  },
 }
 
-const getTransalationKey = (
+const overrideInteractionMap: Partial<Record<AutoTeleportInteractions, AutoTeleportInteractions>> = {
+  [NFTs.MINT_DROP]: Interaction.MINTNFT,
+}
+
+const getMappedInteraction = (interaction: AutoTeleportInteractions): AutoTeleportInteractions => {
+  const overrideInteraction = overrideInteractionMap[interaction]
+
+  return overrideInteraction || interaction
+}
+
+const getTranslationKey = (
   interaction: AutoTeleportInteractions,
 ): { item: string, action: string } => {
   const { action, item } = interactionMap[interaction] || {
@@ -61,9 +59,11 @@ export const getActionDetails = (
   const { $i18n } = useNuxtApp()
   const getTranslation = (key: string) => $i18n.t(key) || ''
 
-  const { action, item } = getTransalationKey(interaction)
+  const mappedInteraction = getMappedInteraction(interaction)
 
-  const i = interaction.toLocaleLowerCase()
+  const { action, item } = getTranslationKey(mappedInteraction)
+
+  const i = mappedInteraction.toLocaleLowerCase()
 
   const title = getTranslation(`autoTeleport.steps.${i}.title`)
 

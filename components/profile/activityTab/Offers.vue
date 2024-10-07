@@ -49,7 +49,7 @@
             <span> {{ $t(`activity.event.${tabTarget}`) }} </span>
           </div>
           <div class="flex-1">
-            <span>{{ $t('activity.event.time') }}</span>
+            <span>{{ $t('expiration') }}</span>
           </div>
           <div class="flex-1">
             <span />
