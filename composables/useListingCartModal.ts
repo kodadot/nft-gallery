@@ -50,6 +50,9 @@ export default ({
   const openListingCartModal = () =>
     (preferencesStore.listingCartModalOpen = true)
 
+  const closeListingCartModal = () =>
+    (preferencesStore.listingCartModalOpen = false)
+
   const clearItemsInChain = () => {
     listingCartStore.itemsInChain.forEach(item =>
       listingCartStore.removeItem(item.id),
@@ -76,5 +79,6 @@ export default ({
     listNftByShoppingCartItem,
     listNftByNftWithMetadata,
     openListingCartModal,
+    closeListingCartModal,
   }
 }

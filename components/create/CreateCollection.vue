@@ -248,8 +248,9 @@ const displaySuccessModal = ref(false)
 const { transaction, status, isLoading, isError, blockNumber, txHash }
   = useTransaction()
 const { isTransactionSuccessful } = useTransactionSuccessful({
-  isError: isError,
-  status: status,
+  status,
+  isError,
+  isLoading,
 })
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()

@@ -46,6 +46,7 @@ const { $i18n } = useNuxtApp()
 const { isTransactionSuccessful } = useTransactionSuccessful({
   isError: computed(() => props.isError),
   status: computed(() => props.status),
+  isLoading: computed(() => props.isLoading),
 })
 
 const isModalActive = ref(false)

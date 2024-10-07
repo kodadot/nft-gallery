@@ -119,6 +119,7 @@ import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTelep
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
+const { closeListingCartModal } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const {
   transaction,
@@ -133,6 +134,7 @@ const {
 const { isTransactionSuccessful } = useTransactionSuccessful({
   status,
   isError,
+  isLoading,
 })
 
 const { chainSymbol, decimals } = useChain()
@@ -143,9 +145,7 @@ const floorPricePercentAdjustment = ref()
 const itemCount = ref(listingCartStore.count)
 const items = ref<ListCartItem[]>([])
 
-const isSuccessModalOpen = computed(
-  () => Boolean(items.value.length) && isTransactionSuccessful.value,
-)
+const isSuccessModalOpen = ref(false)
 
 const teleportTransitionTxFees = computed(() =>
   format(
@@ -283,9 +283,11 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
       await submitListing()
     }
 
-    listingCartStore.clearListedItems()
     closeListingCartModal()
-    resetCartToDefaults()
+    onModalAnimation(() => {
+      listingCartStore.clearListedItems()
+      resetCartToDefaults()
+    })
   }
   catch (error) {
     warningMessage(error)
@@ -293,18 +295,28 @@ async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
 }
 
 const onClose = () => {
-  resetCartToDefaults()
   closeListingCartModal()
+  onModalAnimation(resetCartToDefaults)
 }
 
 const handleSuccessModalClose = () => {
-  items.value = []
+  isSuccessModalOpen.value = false
+  onModalAnimation(() => {
+    items.value = []
+    isTransactionSuccessful.value = false
+  })
 }
 
 const resetCartToDefaults = () => {
   fixedPrice.value = undefined
   floorPricePercentAdjustment.value = undefined
 }
+
+watch(computed(() => Boolean(items.value.length) && isTransactionSuccessful.value), (show) => {
+  if (show) {
+    isSuccessModalOpen.value = show
+  }
+})
 
 watch(
   () => listingCartStore.count,
@@ -315,17 +327,10 @@ watch(
   },
 )
 
-watch(
-  () => preferencesStore.listingCartModalOpen,
-  (listingCartModalOpen) => {
-    if (!listingCartModalOpen) {
-      listingCartStore.clearDiscardedItems()
-    }
-  },
-)
-
-const closeListingCartModal = () =>
-  (preferencesStore.listingCartModalOpen = false)
+useModalIsOpenTracker({
+  isOpen: computed(() => preferencesStore.listingCartModalOpen),
+  onChange: () => listingCartStore.clearDiscardedItems(),
+})
 
 onBeforeMount(closeListingCartModal)
 onUnmounted(closeListingCartModal)

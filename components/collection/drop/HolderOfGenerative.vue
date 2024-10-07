@@ -33,8 +33,6 @@
     v-if="isHolderOfWithPaidMint"
     v-model="isMintModalActive"
     :action="autoTeleportAction"
-    :status="status"
-    :is-error="isTransactionError"
     @confirm="mintNft"
     @close="closeMintModal"
     @list="handleList"
