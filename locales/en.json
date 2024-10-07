@@ -562,6 +562,7 @@
     }
   },
   "expiration": "Expiration",
+  "expired": "Expired",
   "explore": "Explore",
   "exploreCollections": "Explore Collections on",
   "exploreItems": "Explore Items on",
@@ -1489,6 +1490,7 @@
     "offerFees": "Offer Fee",
     "offerWithdrawl": "Offer Cancelation",
     "typeOffer": "Type An Offer",
+    "withdrawAmount": "Withdraw Amount",
     "yourOffer": "Your Offer",
     "yourOfferAmount": "Your Offer Amount"
   },
