@@ -104,7 +104,7 @@ export default function (
       : false,
   )
 
-  const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
+  const sourceChainsBalances = computed<Record<Chain, string>>(() =>
     allowedSourceChains.value.reduce(
       (reducer, chainPrefix) => ({
         ...reducer,
