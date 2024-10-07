@@ -1,19 +1,8 @@
-import type { TranslateResult } from 'vue-i18n'
-import type { Interaction } from '../rmrk/service/scheme'
-
 export type TimeRange = 'All' | 'Quarter' | 'Month' | 'Week'
 
 export interface TimeRangeOption {
   value: TimeRange
   label: string
-}
-
-export type Column = {
-  field: keyof RowSeries
-  label: string | TranslateResult
-  width?: number
-  numeric?: boolean
-  centered?: boolean
 }
 
 export type SortType = {
@@ -53,12 +42,4 @@ export type RowSeries = {
   name: string
   buyHistory: BuyHistory
   emoteCount: number
-}
-
-export type SimpleSeriesNFT = {
-  issuer: string
-  currentOwner: string
-  metadata: string
-  price: number
-  events: Interaction[]
 }

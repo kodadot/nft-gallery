@@ -107,16 +107,7 @@
         :key="currentChain"
         :label="$t('mint.nft.sale.label')"
         required
-        class="sale"
-        :class="{ 'sale-on': form.sale }"
       >
-        <span
-          aria-hidden="true"
-          class="hidden-sale-label"
-        >{{
-          $t('mint.nft.sale.label')
-        }}</span>
-
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>

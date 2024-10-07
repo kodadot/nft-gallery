@@ -67,7 +67,6 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import type { NeoNFT, NftCardVariant } from './types'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { nameWithIndex } from '@/utils/nft'
 
 const props = withDefaults(
   defineProps<{
@@ -78,7 +77,6 @@ const props = withDefaults(
     collectionPopoverHide?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
-    displayNameWithSn?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -86,17 +84,7 @@ const props = withDefaults(
   },
 )
 
-const name = computed(() => {
-  const originalName = props.nft.name
-  if (!props.displayNameWithSn) {
-    return originalName
-  }
-  const sn = isTokenEntity(props.nft)
-    ? props.nft?.cheapest?.id?.split('-')[1]
-    : props.nft?.sn
-
-  return sn ? nameWithIndex(props.nft.name, sn) : originalName
-})
+const name = computed(() => props.nft.name)
 const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
 )
