@@ -33,26 +33,38 @@ export interface NFTMetadata extends Metadata {
 }
 
 export interface NFT {
-  events: Interaction[]
-  name: string
-  instance: string
-  transferable: number
-  collection: EntityWithId & CollectionFloorPrice
-  collectionId?: string
-  sn: string
   _id: string
   id: string
-  metadata: string
-  currentOwner: string
-  issuer: string
-  price?: string
-  burned?: boolean
+  sn: string
   blockNumber?: number
-  emoteCount?: number
-  royalty?: number
-  recipient?: string
+  name: string
+  attributes: Attribute[]
+  burned?: boolean
+  collection: EntityWithId & CollectionFloorPrice
+  collectionId?: string
+  currentOwner: string
+  events: Interaction[]
+  hash: string
+  image?: string
+  issuer: string
+  lewd: boolean
+  media?: string
   meta?: NFTMetadata
+  metadata: string
+  price?: string
   parent?: NFT
+  recipient?: string
+  royalty?: number
+  transferable: number
+  createdAt: string
+  updatedAt: string
+  version: number
+}
+
+export interface Attribute {
+  display?: string
+  trait?: string
+  value: string
 }
 
 export type CollectionMetadata = Metadata
