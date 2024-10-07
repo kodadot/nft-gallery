@@ -1,25 +1,22 @@
 <template>
   <NftCard
-    v-if="entity"
-    :nft="entity"
+    v-if="entityOnChain"
+    :nft="entityOnChain"
     :link-to="linkTo"
     :placeholder="placeholder"
     :prefix="urlPrefix"
     :show-price="isAvailableToBuy"
     :variant="variant"
     :hide-media-info="hideMediaInfo"
-    :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nftForShoppingCart.id)
         || listingCartStore.isItemInCart(entity.id),
     }"
-    :card-icon="showCardIcon"
-    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
-    :media-player-cover="mediaPlayerCover"
+    :media-player-cover="entity.image"
     :media-static-video="hideVideoControls"
     :lazy-loading="lazyLoading"
     media-hover-on-cover-play
@@ -107,8 +104,8 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
-
-import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
+import { tokenIdToRoute } from '@/components/unique/utils'
+import { fetchOdaToken } from '@/services/oda'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
@@ -126,7 +123,6 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
-  displayNameWithSn?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
   hideListing?: boolean
@@ -142,10 +138,6 @@ const {
 } = useNftActions(props.entity)
 const cheapestNFT = ref<NFTWithMetadata>()
 
-const { showCardIcon, cardIcon } = await useNftCardIcon(
-  computed(() => props.entity),
-)
-
 const linkTo = computed(() =>
   isStack.value
     ? `/${urlPrefix.value}/collection/${props.entity.collection.id}`
@@ -155,10 +147,6 @@ const linkTo = computed(() =>
 const variant = computed(() =>
   isStack.value ? `stacked-${props.variant}` : props.variant,
 )
-
-const { nft: nftMetadata } = useNftMetadata(props.entity)
-
-const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
@@ -190,8 +178,6 @@ const listLabel = computed(() => {
 
   return isInCart ? label + ' ✓' : label
 })
-
-const { nft: entity } = useNft(props.entity)
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
@@ -242,6 +228,25 @@ const onClickListingCart = async () => {
 
 onMounted(async () => {
   cheapestNFT.value = await getNFTForBuying()
+})
+
+const entityOnChain = ref(props.entity)
+const { isAssetHub } = useIsChain(urlPrefix)
+
+onMounted(async () => {
+  // until fixed on indexer side
+  // ref: https://github.com/kodadot/nft-gallery/pull/10934#issuecomment-2335128843
+  if (variant.value === 'minimal' && isAssetHub.value) {
+    const { id: collectionId, item: tokenId } = tokenIdToRoute(props.entity.cheapest.id)
+    const metadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
+
+    if (metadata.metadata) {
+      entityOnChain.value = {
+        ...props.entity,
+        name: metadata.metadata.name,
+      }
+    }
+  }
 })
 </script>
 

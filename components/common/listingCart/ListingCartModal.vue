@@ -134,6 +134,7 @@ const {
 const { isTransactionSuccessful } = useTransactionSuccessful({
   status,
   isError,
+  isLoading,
 })
 
 const { chainSymbol, decimals } = useChain()

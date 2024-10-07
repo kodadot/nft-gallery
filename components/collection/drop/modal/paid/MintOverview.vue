@@ -36,9 +36,6 @@
       :loading="mintButton.disabled"
       :amount="minimumFunds"
       :actions="[action]"
-      :fees="{
-        actionAutoFees: false,
-      }"
       shiny
       auto-close-modal
       :auto-close-modal-delay-modal="0"
