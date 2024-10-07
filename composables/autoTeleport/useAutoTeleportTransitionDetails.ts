@@ -95,12 +95,12 @@ export default function (
   )
 
   const needsSourceChainBalances = computed(
-    () => !hasEnoughInCurrentChain.value,
+    () => !hasEnoughInCurrentChain.value && !hasSourceChainBalances.value,
   )
 
   const actionAutoFees = computed(() =>
     fees.actionAutoFees
-      ? fees.forceActionAutoFees || needsSourceChainBalances.value
+      ? fees.forceActionAutoFees || !hasEnoughInCurrentChain.value
       : false,
   )
 
@@ -114,11 +114,14 @@ export default function (
     ),
   )
 
+  const hasSourceChainBalances = computed(
+    () => Object.values(sourceChainsBalances.value).every(Boolean),
+  )
+
   const hasBalances = computed(
     () =>
-      (Boolean(currentChainBalance.value)
-        && Object.values(sourceChainsBalances.value).every(Boolean))
-        || hasFetched.balances,
+      (Boolean(currentChainBalance.value) && hasSourceChainBalances.value)
+      || hasFetched.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
