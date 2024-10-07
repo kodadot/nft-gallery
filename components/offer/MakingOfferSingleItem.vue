@@ -54,7 +54,6 @@
 import OfferPriceInput from '@/components/offer/OfferPriceInput.vue'
 import OfferExpirationSelector from '@/components/offer/OfferExpirationSelector.vue'
 import { useMakingOfferStore } from '@/stores/makeOffer'
-import { formatBalanceWithBlank } from '@/utils/format/balance'
 import CartItemDetails from '@/components/common/CartItemDetails.vue'
 
 const emit = defineEmits([
@@ -73,8 +72,13 @@ const { chainSymbol, decimals } = useChain()
 
 const item = computed(() => offerStore.items[0])
 
-const itemPrice = computed(() => formatBalanceWithBlank(Number(item.value.price), decimals.value, chainSymbol.value))
+const itemPrice = computed(() => formatWithBlank(item.value.price))
 
+const formatWithBlank = (value: string | undefined) => {
+  return value
+    ? useAmount(computed(() => value), decimals, chainSymbol).formatted
+    : '--'
+}
 const offerPriceStoreItem = computed({
   get: () => offerStore.getItem(item.value?.id)?.offerPrice,
   set: price => offerStore.updateItem({ id: item.value.id, offerPrice: price }),
@@ -84,11 +88,9 @@ const offerExpirationStoreItem = computed({
   set: v => offerStore.updateItem({ id: item.value.id, offerExpiration: v }),
 })
 
-const highestOfferPrice = computed(() => formatBalanceWithBlank(Number(item.value.highestOffer) || 0))
+const highestOfferPrice = computed(() => formatWithBlank(item.value.highestOffer))
 
-const collectionFloorPrice = computed(() =>
-  formatBalanceWithBlank(Number(item.value.collection.floorPrice?.[0]?.price) || 0, decimals.value, chainSymbol.value),
-)
+const collectionFloorPrice = computed(() => formatWithBlank(item.value.collection.floorPrice?.[0]?.price))
 
 watch(
   () => props.offerPrice,

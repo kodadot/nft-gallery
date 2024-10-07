@@ -40,7 +40,6 @@ import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import CartItemDetails from '@/components/common/CartItemDetails.vue'
 import { useListingCartStore } from '@/stores/listingCart'
-import { formatBalanceWithBlank } from '@/utils/format/balance'
 
 const emit = defineEmits([
   'setFixedPrice',
@@ -65,11 +64,17 @@ const { chainSymbol, decimals } = useChain()
 
 const item = computed(() => listingCartStore.itemsInChain[0])
 
-const itemPrice = computed(() => formatBalanceWithBlank(Number(item.value.price), decimals.value, chainSymbol.value))
+const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
 
 const collectionPrice = computed(() =>
-  formatBalanceWithBlank(Number(item.value.collection.floor), decimals.value, chainSymbol.value),
+  formatWithBlank(Number(item.value.collection.floor)),
 )
+
+const formatWithBlank = (value: number) => {
+  return value
+    ? useAmount(computed(() => value), decimals, chainSymbol).formatted
+    : '--'
+}
 
 watch(
   () => props.fixedPrice,
