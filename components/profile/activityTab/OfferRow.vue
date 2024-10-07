@@ -145,7 +145,7 @@
         {{ blank }}
       </div>
       <template v-if="offer.expirationDate">
-        <div v-if="ieExpired">
+        <div v-if="isExpired">
           <span>{{ $t('expired') }}</span>
         </div>
         <div v-else>
