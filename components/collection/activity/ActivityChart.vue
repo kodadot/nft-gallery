@@ -30,7 +30,7 @@ import {
   sortAsc,
   toDataPoint,
 } from './utils'
-import type { ActivityInteraction } from '@/components/rmrk/service/scheme'
+import type { ActivityInteraction } from '@/types'
 import PriceChart from '@/components/chart/PriceChart.vue'
 
 const { decimals } = useChain()

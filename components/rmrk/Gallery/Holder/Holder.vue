@@ -205,8 +205,8 @@ import {
   NeoTableColumn,
   NeoTooltip,
 } from '@kodadot1/brick'
-import type { Interaction as EventInteraction } from '../../service/scheme'
 import { parsePriceForItem } from './helper'
+import type { Interaction as EventInteraction } from '@/types'
 import { toPercent } from '@/utils/filters'
 import { parseDate } from '@/utils/datetime'
 import { usePreferencesStore } from '@/stores/preferences'

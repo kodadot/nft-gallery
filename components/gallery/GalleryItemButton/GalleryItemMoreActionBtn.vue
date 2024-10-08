@@ -73,7 +73,7 @@ import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { refreshOdaTokenMetadata } from '@/services/oda'
 import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
