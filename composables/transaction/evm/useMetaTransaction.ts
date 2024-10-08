@@ -1,6 +1,6 @@
 import { type Address, TransactionExecutionError } from 'viem'
 import { simulateContract, waitForTransactionReceipt, writeContract } from '@wagmi/core'
-import { useConfig } from '@wagmi/vue'
+import { useChainId, useConfig, useSwitchChain } from '@wagmi/vue'
 import type { Abi } from '../types'
 import useTransactionStatus from '@/composables/useTransactionStatus'
 
@@ -33,12 +33,14 @@ export type EvmHowAboutToExecuteOnSuccessParam = {
 */
 export default function useEvmMetaTransaction() {
   const { $i18n } = useNuxtApp()
-  const { isLoading, initTransactionLoader, status, stopLoader }
-    = useTransactionStatus()
+  const { isLoading, initTransactionLoader, status, stopLoader } = useTransactionStatus()
+  const { switchChainAsync: switchChain } = useSwitchChain()
+  const { urlPrefix: prefix } = usePrefix()
+  const chainId = useChainId()
+  const wagmiConfig = useConfig()
+
   const tx = ref<ExecResult>()
   const isError = ref(false)
-
-  const wagmiConfig = useConfig()
 
   const howAboutToExecute: EvmHowAboutToExecute = async ({
     account,
@@ -51,6 +53,8 @@ export default function useEvmMetaTransaction() {
     onError,
   }: EvmHowAboutToExecuteParam): Promise<void> => {
     try {
+      await syncWalletChain()
+
       const { request } = await simulateContract(wagmiConfig, {
         account,
         address,
@@ -76,6 +80,13 @@ export default function useEvmMetaTransaction() {
     }
     catch (e) {
       errorCb(onError)({ error: e })
+    }
+  }
+
+  const syncWalletChain = async () => {
+    const chain = PREFIX_TO_CHAIN[prefix.value]
+    if (chain && chainId.value !== chain.id) {
+      await switchChain({ chainId: chain.id })
     }
   }
 

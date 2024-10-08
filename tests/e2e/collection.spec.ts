@@ -2,7 +2,7 @@ import { expect, test } from './fixtures'
 
 const COLLECTION_ADDRESS_PATH = '/ahp/collection/127/'
 const COLLECTION_NAME = '.hdd'
-const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
+const COLLECTION_OWNER = '1VshyWpZUt8mgtWKgv9pgj8Gin99Wg5PCaDL3iCABixQbUP'
 const COLLECTION_DESCRIPTION = '.hdd is a series of generative art inspired by PC components'
 const COLLECTION_SEARCH = '127'
 const COLLECTION_SEARCH_RESULT = '.hdd #127'
