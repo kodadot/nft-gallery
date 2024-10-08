@@ -9,7 +9,6 @@ export default function () {
   const chainBlockTimes: PartialConfig<number> = {
     ksm: relayChainBlockTime,
     dot: relayChainBlockTime,
-    rmrk: relayChainBlockTime,
   }
 
   const blockTime = computed(

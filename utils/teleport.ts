@@ -53,7 +53,6 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
-  rmrk: Chain.KUSAMA,
   ksm: Chain.KUSAMA,
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,

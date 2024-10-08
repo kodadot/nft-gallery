@@ -10,7 +10,6 @@ export const SERVICES: Record<string, string> = {
 }
 
 export const EXPLORERS: Record<Prefix, string> = {
-  rmrk: 'https://kusama.subscan.io/account/',
   ksm: 'https://kusama.subscan.io/account/',
   ahk: 'https://assethub-kusama.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
