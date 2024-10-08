@@ -1,13 +1,23 @@
 import { TransactionStatus } from './useTransactionStatus'
 
+type TransactionSuccessfulParams = {
+  isError: Ref<boolean>
+  status: Ref<TransactionStatus>
+  isLoading: Ref<boolean>
+}
+
 export default ({
   isError,
   status,
-}: {
-  status: Ref<TransactionStatus>
-  isError: Ref<boolean>
-}) => {
+  isLoading,
+}: TransactionSuccessfulParams) => {
   const isTransactionSuccessful = ref<boolean>(false)
+
+  watch(isLoading, (loading) => {
+    if (loading) {
+      isTransactionSuccessful.value = false
+    }
+  })
 
   watchDebounced(
     [status, isError],

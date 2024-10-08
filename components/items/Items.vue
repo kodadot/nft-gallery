@@ -20,7 +20,6 @@
         <hr class="my-0">
       </div>
       <ItemsGrid
-        display-name-with-sn
         @total="(v) => (total = v)"
         @loading="
           (loading) => {

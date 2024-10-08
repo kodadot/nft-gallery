@@ -38,6 +38,7 @@
     "floorPrice": "FLOOR PRICE",
     "followers": "Followers",
     "following": "Following",
+    "generatingChart": "Generating Chart",
     "hideOutliers": "Hide Outliers",
     "highestSale": "HIGHEST SALE",
     "items": "Items",
@@ -561,6 +562,7 @@
     }
   },
   "expiration": "Expiration",
+  "expired": "Expired",
   "explore": "Explore",
   "exploreCollections": "Explore Collections on",
   "exploreItems": "Explore Items on",
@@ -1336,6 +1338,7 @@
     "progress": "In Progress",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
     "royalty": {
+      "custom": "Pay royalties to a specific account",
       "mine": "Pay royalties to the creator account",
       "rate": "Royalty Rate (%)",
       "receiver": "Destination account for royalty"
@@ -1484,8 +1487,10 @@
     "newOffer": "New Offer",
     "offerAccept": "Accepting Offer",
     "offerCreation": "Offer Creation",
+    "offerFees": "Offer Fee",
     "offerWithdrawl": "Offer Cancelation",
     "typeOffer": "Type An Offer",
+    "withdrawAmount": "Withdraw Amount",
     "yourOffer": "Your Offer",
     "yourOfferAmount": "Your Offer Amount"
   },

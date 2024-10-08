@@ -1,8 +1,6 @@
 export type NeoNFT = {
   id: string
   name: string
-  image: string
-  animationUrl?: string
   mimeType?: string
   supply?: number
   createdAt?: string
@@ -14,6 +12,10 @@ export type NeoNFT = {
   collection: {
     id: string
     name: string
+  }
+  meta: {
+    image?: string
+    animationUrl?: string
   }
 }
 

@@ -123,10 +123,10 @@ const props = withDefaults(
   defineProps<{
     amount: number | bigint
     label?: string
-    disabled: boolean
+    disabled?: boolean
     actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
-    autoCloseModal: boolean
+    autoCloseModal?: boolean
     autoCloseModalDelayModal?: number
     interaction?: ActionlessInteraction
     hideTop?: boolean

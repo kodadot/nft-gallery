@@ -54,6 +54,7 @@ const { $i18n } = useNuxtApp()
 const { isTransactionSuccessful } = useTransactionSuccessful({
   status,
   isError,
+  isLoading,
 })
 
 const nftSubscription = reactive<{
