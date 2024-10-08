@@ -55,9 +55,7 @@ const props = defineProps<{
   nft: ListCartItem
 }>()
 
-const floor = computed(() =>
-  useAmount(computed(() => props.nft.collection.floor), decimals, chainSymbol).formatted,
-)
+const { formatted: floor } = useAmount(computed(() => props.nft.collection.floor || 0), decimals, chainSymbol, { withBlank: true })
 
 const listingCartItem = computed({
   get: () => listingCartStore.getItem(props.nft.id)?.listPrice,
