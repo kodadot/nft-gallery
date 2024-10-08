@@ -1,7 +1,7 @@
 import nftById from '@/queries/subsquid/general/nftById.graphql'
 import listCount from '@/queries/subsquid/general/countOfTokenNftsToList.graphql'
 import nftListWithSearch from '@/queries/subsquid/ahk/nftListWithSearch.graphql'
-import type { TokenId } from '@/components/rmrk/service/scheme'
+import type { TokenId } from '@/types'
 
 export type NFTWitToken = NFTWithMetadata & TokenId
 export const isStack = (entity: TokenEntity) => entity.supply > 1

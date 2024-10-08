@@ -375,7 +375,7 @@ import {
   toSort,
   today,
 } from './utils'
-import type { Collection } from '@/components/rmrk/service/scheme'
+import type { Collection } from '@/types'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'

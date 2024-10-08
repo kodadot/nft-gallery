@@ -83,7 +83,7 @@
 import { NeoSkeleton } from '@kodadot1/brick'
 import useIdentityStats from '../utils/useIdentityStats'
 import { fetchFollowersOf } from '@/services/profile'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),

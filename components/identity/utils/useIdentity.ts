@@ -1,4 +1,4 @@
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 
 export interface NFTListSold {
   nftEntities?: NFT[]

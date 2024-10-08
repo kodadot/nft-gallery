@@ -1,6 +1,6 @@
 import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
 import maxBy from 'lodash/maxBy'
-import type { Interaction } from '@/components/rmrk/service/scheme'
+import type { Interaction } from '@/types'
 
 export const sum = (array: number[]): number =>
   array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)

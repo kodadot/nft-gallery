@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
-import type { EntityWithId } from '@/components/rmrk/service/scheme'
+import type { EntityWithId } from '@/types'
 import { getValue } from '@/services/keywise'
 
 export function useUnlockable(
