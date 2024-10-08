@@ -1,6 +1,6 @@
 import type { Attribute } from '@kodadot1/minimark/common'
 import consola from 'consola'
-import type { MassMintNFT } from '@/components/rmrk/service/scheme'
+import type { MassMintNFT } from '@/types'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/components/rmrk/utils'
 

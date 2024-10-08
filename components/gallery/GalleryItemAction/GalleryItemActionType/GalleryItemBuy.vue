@@ -56,7 +56,7 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 

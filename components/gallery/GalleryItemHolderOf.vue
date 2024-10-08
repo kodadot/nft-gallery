@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { useDrop, useHolderOfCollectionDrop } from '../drops/useDrops'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import {
   DROP_COLLECTION_TO_ALIAS_MAP,
   FALLBACK_DROP_COLLECTION_MAX,

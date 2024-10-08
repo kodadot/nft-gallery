@@ -1,4 +1,4 @@
-import type { Interaction } from '~/components/rmrk/service/scheme'
+import type { Interaction } from '@/types'
 
 // Sort events by Timestamp
 export const sortedEventByDate = (

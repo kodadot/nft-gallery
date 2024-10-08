@@ -90,7 +90,7 @@
 
 <script lang="ts" setup>
 import { NeoSkeleton } from '@kodadot1/brick'
-import type { Interaction, NFT } from '@/components/rmrk/service/scheme'
+import type { Interaction, NFT } from '@/types'
 import { getVolume } from '@/utils/math'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
