@@ -2,11 +2,11 @@ type ID = string
 
 type Item = { urlPrefix: unknown, discarded?: boolean, id: string }
 
-export const useCart = <T extends Item>({ items: initialItems = [] }: { items: T[] }) => {
+export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: T[] } = {}) => {
   const items = ref<T[]>(initialItems)
-  const chain = ref(usePrefix().urlPrefix)
-  const decimals = ref(useChain().decimals)
 
+  const chain = usePrefix().urlPrefix
+  const decimals = useChain().decimals
   const allItemsInChain = computed(() => items.value.filter(item => item.urlPrefix === chain.value))
   const itemsInChain = computed(() => allItemsInChain.value.filter(item => !item.discarded))
   const count = computed(() => itemsInChain.value.length)
