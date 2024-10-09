@@ -86,10 +86,7 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import {
-  nftToListingCartItem,
-  nftToShoppingCartItem,
-} from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
@@ -98,6 +95,7 @@ const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { listNftByNftWithMetadata } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -164,13 +162,7 @@ const onClickShoppingCart = () => {
   }
 }
 const onClickListingCart = () => {
-  if (listingCartStore.isItemInCart(props.nft.id)) {
-    listingCartStore.removeItem(props.nft.id)
-  }
-  else {
-    const floorPrice = props.nft.collection.floorPrice[0]?.price || '0'
-    listingCartStore.setItem(nftToListingCartItem(props.nft, floorPrice))
-  }
+  listNftByNftWithMetadata(props.nft, { toggle: true })
 }
 </script>
 

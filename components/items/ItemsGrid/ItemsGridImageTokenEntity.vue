@@ -100,10 +100,7 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { listVisible } from '@/utils/config/permission.config'
-import {
-  nftToListingCartItem,
-  nftToShoppingCartItem,
-} from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { fetchOdaToken } from '@/services/oda'
 
@@ -114,6 +111,7 @@ const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { listNftByNftWithMetadata } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -214,15 +212,8 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
-
   for (const nft of nftsToProcess) {
-    if (listingCartStore.isItemInCart(nft.id)) {
-      listingCartStore.removeItem(nft.id)
-    }
-    else {
-      listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
-    }
+    listNftByNftWithMetadata(nft, { toggle: true })
   }
 }
 
