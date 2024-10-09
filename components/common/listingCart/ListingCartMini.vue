@@ -6,7 +6,7 @@
     >
       <div class="inline-flex items-center">
         <div
-          class="k-shadow bg-background-color border flex items-center h-13 px-6"
+          class="k-shadow bg-background-color border flex items-center !py-[0.875rem] px-6 gap-8"
         >
           <div class="inline-flex items-center">
             <div>
@@ -16,7 +16,7 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="text-k-grey selection-button"
+              class="!text-k-grey selection-button"
               variant="text"
               no-shadow
               @click="listingCartStore.clearListedItems"
@@ -26,22 +26,31 @@
             <div class="mx-4 divider bg-k-grey" />
             <NeoButton
               variant="text"
-              class="text-k-grey selection-button"
+              class="!text-k-grey selection-button"
               no-shadow
               @click="listingCartStore.addAllToCart"
             >
               {{ $t('listingCart.selectAll') }}
             </NeoButton>
           </div>
+
+          <div class="flex gap-4">
+            <NeoButton
+              variant="outlined-rounded"
+              icon="paper-plane-top"
+              @click="preferencesStore.nftTransferCartModalOpen = true"
+            >
+              {{ $t('transfer', listingCartStore.count) }}
+            </NeoButton>
+
+            <NeoButton
+              variant="primary-rounded"
+              @click="preferencesStore.listingCartModalOpen = true"
+            >
+              {{ $t('listingCart.listItem', listingCartStore.count) }}
+            </NeoButton>
+          </div>
         </div>
-        <NeoButton
-          class="border-l-0 px-7"
-          variant="primary"
-          size="large"
-          @click="preferencesStore.listingCartModalOpen = true"
-        >
-          {{ $t('listingCart.listItem', listingCartStore.count) }}
-        </NeoButton>
       </div>
     </div>
   </transition>
