@@ -8,7 +8,8 @@
     />
 
     <NeoModal
-      :value="isModalActive"
+      :value="preferencesStore.nftTransferCartModalOpen"
+      append-
       @close="onClose"
     >
       <div class="lg:w-[25rem]">
@@ -32,31 +33,15 @@
         <div class="px-6 pt-4 pb-5">
           <ModalIdentityItem />
 
-          <div class="mt-4 flex">
-            <div>
-              <BasicImage
-                :src="avatar"
-                :alt="nft?.name"
-                class="border image is-48x48"
-              />
-            </div>
-
-            <div
-              class="flex flex-col justify-between ml-4 limit-width w-full is-clipped"
-            >
-              <div
-                class="font-bold text-text-color line-height-1 whitespace-nowrap is-ellipsis"
-              >
-                {{ nft.name }}
-              </div>
-              <div class="line-height-1 whitespace-nowrap is-ellipsis">
-                {{ nft.collection?.name || nft.collection.id }}
-              </div>
-            </div>
-
-            <div class="ml-4 flex items-end whitespace-nowrap">
-              {{ nftPrice }}
-            </div>
+          <div class="mt-4">
+            <ItemTransferSingleItem
+              v-if="count === 1"
+              :item="nft"
+            />
+            <ItemTransferMultipleItems
+              v-else
+              :items="items"
+            />
           </div>
 
           <hr class="my-4">
@@ -115,23 +100,18 @@ import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { parseNftAvatar } from '@/utils/nft'
 import AddressInput from '@/components/shared/AddressInput.vue'
-import formatBalance from '@/utils/format/balance'
 import type { Abi, Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 
-const emit = defineEmits(['close'])
 const props = defineProps<{
-  nft: NFT
   abi?: Abi | null
-  value: boolean
 }>()
 
+const preferencesStore = usePreferencesStore()
+const listingCartStore = useListingCartStore()
+const { itemsInChain: items, count } = storeToRefs(listingCartStore)
 const { $i18n } = useNuxtApp()
-const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
@@ -139,20 +119,21 @@ const { accountId } = useAuth()
 const { getTransactionFee } = useFees()
 
 const txFee = ref<number>(0)
-const isModalActive = useVModel(props, 'value')
-const avatar = ref<string>()
 const address = ref('')
 const isAddressValid = ref(false)
+
+const nft = computed(() => items.value[0])
 
 const action = computed<Actions>(() => ({
   interaction: Interaction.SEND,
   urlPrefix: urlPrefix.value,
   address: address.value,
-  tokenId: route.params.id.toString(),
-  nftId: props.nft.id,
-  nftSn: props.nft.sn,
   abi: props.abi,
-  collectionId: props.nft.collection.id,
+  nfts: items.value.map(item => ({
+    id: item.id,
+    sn: item.sn,
+    collectionId: item.collection.id,
+  })),
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 }))
@@ -188,20 +169,12 @@ const isDisabled = computed(
     || isYourAddress.value,
 )
 
-const nftPrice = computed(() =>
-  Number(props.nft.price)
-    ? formatBalance(Number(props.nft.price), decimals.value, chainSymbol.value)
-    : '--',
-)
-
-const getAvatar = async () => {
-  if (props.nft) {
-    avatar.value = await parseNftAvatar(props.nft)
-  }
+const closeModal = () => {
+  preferencesStore.nftTransferCartModalOpen = false
 }
 
 const onClose = () => {
-  emit('close')
+  closeModal()
 }
 
 const handleAddressCheck = (isValid: boolean) => {
@@ -225,11 +198,11 @@ const getTransferFee = async () => {
 
 const transfer = () => {
   transaction(action.value)
-  emit('close')
+  closeModal()
 }
 
-onMounted(() => {
-  getAvatar()
+onBeforeMount(() => {
+  closeModal()
   getTransferFee()
 })
 </script>
