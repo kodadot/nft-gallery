@@ -1,7 +1,9 @@
 <template>
-  <MultiItemMedia
-    :items="items"
-  />
+  <div>
+    <MultiItemMedia
+      :items="items"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>

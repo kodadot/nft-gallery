@@ -1,7 +1,7 @@
 <template>
   <div>
     <SigningModal
-      :title="$t('transaction.transferingNft')"
+      :title="$t('transaction.transferingNft', count)"
       :is-loading="isLoading"
       :status="status"
       @try-again="transfer"
@@ -12,34 +12,25 @@
       append-
       @close="onClose"
     >
-      <div class="lg:w-[25rem]">
-        <header
-          class="border-b border-grey flex items-center justify-between px-6"
-        >
-          <p class="py-5 text-base font-bold">
-            {{ $t('transaction.transferNft') }}
-          </p>
-
-          <NeoButton
-            variant="text"
-            no-shadow
-            icon="xmark"
-            size="medium"
-            class="cross"
-            @click="onClose"
-          />
-        </header>
-
-        <div class="px-6 pt-4 pb-5">
+      <ModalBody
+        modal-max-height="100vh"
+        :title="$t('transaction.transferNft', count)"
+        content-class="!py-4 px-0"
+        :scrollable="false"
+        @close="onClose"
+      >
+        <div class="px-6">
           <ModalIdentityItem />
 
-          <div class="mt-4">
+          <div>
             <ItemTransferSingleItem
               v-if="count === 1"
+              class="!mt-4"
               :item="nft"
             />
             <ItemTransferMultipleItems
               v-else
+              class="!mt-8"
               :items="items"
             />
           </div>
@@ -61,7 +52,7 @@
           />
         </div>
 
-        <div class="px-6 pb-4 flex flex-col">
+        <div class="px-6 pt-5 flex flex-col">
           <div class="flex text-k-grey justify-between items-center mb-4">
             <span class="text-xs capitalize">{{
               $t('transfers.networkFee')
@@ -90,7 +81,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </ModalBody>
     </NeoModal>
   </div>
 </template>
@@ -98,6 +89,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import AddressInput from '@/components/shared/AddressInput.vue'
