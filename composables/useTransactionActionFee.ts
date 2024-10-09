@@ -1,8 +1,9 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Actions } from '@/composables/transaction/types'
 
-export default function () {
+export default function ({ action, prefix = usePrefix().urlPrefix }: { action: Ref<Actions>, prefix?: Ref<Prefix> }) {
   const { accountId } = useAuth()
+  const txFee = ref(0)
 
   const getTransactionFee = async ({ action, prefix }: {
     action: Actions
@@ -25,7 +26,16 @@ export default function () {
     return Number(fee)
   }
 
+  const getFee = () => {
+    getTransactionFee({ action: action.value, prefix: prefix.value })
+      .then(fee => txFee.value = fee)
+      .catch(() => txFee.value = 0)
+  }
+
+  watchDebounced(action, getFee, { debounce: 500 })
+  onBeforeMount(getFee)
+
   return {
-    getTransactionFee,
+    txFee,
   }
 }

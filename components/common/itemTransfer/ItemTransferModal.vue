@@ -108,9 +108,7 @@ const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
-const { getTransactionFee } = useFees()
 
-const txFee = ref<number>(0)
 const address = ref('')
 const isAddressValid = ref(false)
 
@@ -129,6 +127,8 @@ const action = computed<Actions>(() => ({
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 }))
+
+const { txFee } = useTransactionActionFee({ action })
 
 const { formatted: formattedTxFee } = useAmount(
   computed(() => txFee.value),
@@ -182,21 +182,12 @@ const getChainAddress = (value: string) => {
   }
 }
 
-const getTransferFee = async () => {
-  return getTransactionFee({ action: action.value, prefix: urlPrefix.value })
-    .then(fee => txFee.value = fee)
-    .catch(() => txFee.value = 0)
-}
-
 const transfer = () => {
   transaction(action.value)
   closeModal()
 }
 
-onBeforeMount(() => {
-  closeModal()
-  getTransferFee()
-})
+onBeforeMount(closeModal)
 </script>
 
 <style lang="scss" scoped>
