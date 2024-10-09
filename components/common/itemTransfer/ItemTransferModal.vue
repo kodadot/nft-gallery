@@ -15,11 +15,11 @@
       <ModalBody
         modal-max-height="100vh"
         :title="$t('transaction.transferNft', count)"
-        content-class="!py-4 px-0"
+        content-class="!py-4 !px-8"
         :scrollable="false"
         @close="onClose"
       >
-        <div class="px-6">
+        <div>
           <ModalIdentityItem />
 
           <div>
@@ -52,7 +52,7 @@
           />
         </div>
 
-        <div class="px-6 pt-5 flex flex-col">
+        <div class="pt-5 flex flex-col">
           <div class="flex text-k-grey justify-between items-center mb-4">
             <span class="text-xs capitalize">{{
               $t('transfers.networkFee')
