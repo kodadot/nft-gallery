@@ -38,7 +38,7 @@
             <NeoButton
               variant="outlined-rounded"
               icon="paper-plane-top"
-              @click="preferencesStore.nftTransferCartModalOpen = true"
+              @click="preferencesStore.itemTransferCartModalOpen = true"
             >
               {{ $t('transfer', listingCartStore.count) }}
             </NeoButton>

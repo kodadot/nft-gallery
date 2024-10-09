@@ -8,7 +8,7 @@
     />
 
     <NeoModal
-      :value="preferencesStore.nftTransferCartModalOpen"
+      :value="preferencesStore.itemTransferCartModalOpen"
       append-
       @close="onClose"
     >
@@ -170,7 +170,7 @@ const isDisabled = computed(
 )
 
 const closeModal = () => {
-  preferencesStore.nftTransferCartModalOpen = false
+  preferencesStore.itemTransferCartModalOpen = false
 }
 
 const onClose = () => {
