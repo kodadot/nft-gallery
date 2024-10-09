@@ -167,7 +167,7 @@ export const getActionTransactionFee = ({
           const fee = await execByVm({
             SUB: () => estimate(account, params.cb, params.arg),
             EVM: () => estimateEvm({ account, ...params, prefix }),
-          }) as string
+          }, { prefix }) as string
 
           resolve(fee)
         }
