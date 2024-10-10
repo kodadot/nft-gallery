@@ -164,18 +164,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const listLabel = computed(() => {
-  const isPriceAvailable = Number(nftForShoppingCart.value?.price)
-  const shouldListForSale
-    = (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
-  const isInCart = listingCartStore.isItemInCart(props.entity.id)
-
-  const label = shouldListForSale
-    ? $i18n.t('listingCart.listForSale')
-    : $i18n.t('transaction.price.change')
-
-  return isInCart ? label + ' ✓' : label
-})
+const listLabel = computed(() => listingCartStore.isItemInCart(props.entity.id) ? $i18n.t('remove') : $i18n.t('select'))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({

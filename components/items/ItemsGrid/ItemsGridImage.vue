@@ -126,12 +126,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const listLabel = computed(() => {
-  const label = Number(props.nft.price)
-    ? $i18n.t('transaction.price.change')
-    : $i18n.t('listingCart.listForSale')
-  return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
-})
+const listLabel = computed(() => listingCartStore.isItemInCart(props.nft.id) ? $i18n.t('remove') : $i18n.t('select'))
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
