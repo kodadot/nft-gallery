@@ -8,8 +8,8 @@
     />
 
     <NeoModal
-      :value="preferencesStore.itemTransferCartModalOpen"
-      append-
+      :value="isModalActive"
+      append-to-body
       @close="onClose"
     >
       <ModalBody
@@ -17,6 +17,7 @@
         :title="$t('transaction.transferNft', count)"
         content-class="!py-4 !px-8"
         :scrollable="false"
+        :loading="!autoTeleportLoaded"
         @close="onClose"
       >
         <div>
@@ -60,13 +61,15 @@
             <span class="text-xs">{{ formattedTxFee }}</span>
           </div>
 
-          <NeoButton
+          <AutoTeleportActionButton
+            ref="autoTeleportButton"
+            :actions="actions"
             :disabled="isDisabled"
             :label="transferItemLabel"
-            variant="primary"
-            no-shadow
-            class="flex flex-grow py-5 capitalize btn-height"
-            @click="transfer"
+            early-success
+            auto-close-modal
+            :auto-close-modal-delay-modal="0"
+            @confirm="transfer"
           />
 
           <div class="mt-3 flex justify-between text-k-grey">
@@ -87,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoIcon, NeoModal } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { toSubstrateAddress } from '@/services/profile'
@@ -95,6 +98,9 @@ import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import type { Abi, Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
+import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 const props = defineProps<{
   abi?: Abi | null
@@ -104,7 +110,7 @@ const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { itemsInChain: items, count } = storeToRefs(listingCartStore)
 const { $i18n } = useNuxtApp()
-const { transaction, status, isLoading } = useTransaction()
+const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
@@ -114,7 +120,7 @@ const isAddressValid = ref(false)
 
 const nft = computed(() => items.value[0])
 
-const action = computed<Actions>(() => ({
+const getAction = (): Actions => ({
   interaction: Interaction.SEND,
   urlPrefix: urlPrefix.value,
   address: address.value,
@@ -126,7 +132,26 @@ const action = computed<Actions>(() => ({
   })),
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
-}))
+})
+
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
+  getActionFn: getAction,
+})
+
+const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
+  ? [
+      {
+        action: action.value,
+        transaction,
+        details: {
+          isLoading: isLoading.value,
+          status: status.value,
+          isError: isError.value,
+          blockNumber: blockNumber.value,
+        },
+      },
+    ]
+  : [])
 
 const { txFee } = useTransactionActionFee({ action })
 
@@ -135,6 +160,8 @@ const { formatted: formattedTxFee } = useAmount(
   decimals,
   chainSymbol,
 )
+
+const isModalActive = computed(() => preferencesStore.itemTransferCartModalOpen)
 
 const transferItemLabel = computed(() => {
   if (!address.value) {
@@ -158,11 +185,16 @@ const isDisabled = computed(
     hasOperationsDisabled(urlPrefix.value)
     || !address.value
     || !isAddressValid.value
-    || isYourAddress.value,
+    || isYourAddress.value
+    || !autoTeleportButton.value?.isReady,
 )
 
-const closeModal = () => {
+const closeModal = (callback?: () => void) => {
   preferencesStore.itemTransferCartModalOpen = false
+
+  if (callback) {
+    onModalAnimation(callback)
+  }
 }
 
 const onClose = () => {
@@ -182,9 +214,24 @@ const getChainAddress = (value: string) => {
   }
 }
 
-const transfer = () => {
-  transaction(action.value)
-  closeModal()
+const transfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
+  try {
+    clearTransaction()
+
+    autoTeleport.value = autoteleport
+
+    if (!autoteleport) {
+      await transaction(action.value)
+    }
+
+    closeModal(() => {
+      listingCartStore.clearListedItems()
+      // resetCartToDefaults()
+    })
+  }
+  catch (error) {
+    warningMessage(error)
+  }
 }
 
 onBeforeMount(closeModal)

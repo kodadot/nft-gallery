@@ -14,7 +14,7 @@ import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { KODADOT_DAO } from '@/utils/support'
-import type { Actions, ExecuteEvmTransactionParams } from '@/composables/transaction/types'
+import type { Actions, ActionsInteractions, ExecuteEvmTransactionParams } from '@/composables/transaction/types'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -141,6 +141,10 @@ const estimateEvm = async ({ arg, abi, functionName, account, prefix }: ExecuteE
   return String(estimatedGas * gasPrice)
 }
 
+const preProcessedAction: Partial<Record<ActionsInteractions, (params: { action: Actions, account: string }) => Actions>> = {
+  [Interaction.SEND]: ({ action, account }) => ({ ...action, address: account }),
+}
+
 export const getActionTransactionFee = ({
   action,
   address: account,
@@ -159,9 +163,11 @@ export const getActionTransactionFee = ({
       return resolve('0')
     }
 
+    const item = preProcessedAction[action.interaction]?.({ action, account }) || action
+
     executeAction({
       api,
-      item: action,
+      item,
       executeTransaction: async (params) => {
         try {
           const fee = await execByVm({

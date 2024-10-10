@@ -17,7 +17,7 @@ export default function ({ action, prefix = usePrefix().urlPrefix }: { action: R
     })
 
     const fee = await getActionTransactionFee({
-      action: { ...action, address: accountId.value } as Actions,
+      action,
       address: accountId.value,
       api,
       prefix,
