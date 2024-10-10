@@ -125,7 +125,7 @@ import {
 import { getTokensNfts } from './useNftActions'
 import { useListingCartStore } from '@/stores/listingCart'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import type { GridSection } from '@/stores/preferences'
 
 const slots = useSlots()

@@ -1,9 +1,7 @@
-import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { storeToRefs } from 'pinia'
 import {
   CHAINS,
-  ENDPOINT_MAP,
   type ChainProperties,
   type Prefix,
 } from '@kodadot1/static'
@@ -59,6 +57,7 @@ export default function (refetchPeriodically: boolean = false) {
   const fiatStore = useFiatStore()
   const { existentialDeposit } = useChain()
   const { getEvmBalance: fetchEvmBalance } = useBalance()
+  const { apiInstanceByPrefix } = useApi()
 
   const {
     multiBalances,
@@ -113,19 +112,14 @@ export default function (refetchPeriodically: boolean = false) {
   }) {
     const publicKey = decodeAddress(address)
     const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
-    const wsProvider = new WsProvider(ENDPOINT_MAP[prefix])
 
-    const api = await ApiPromise.create({
-      provider: wsProvider,
-    })
+    const api = await apiInstanceByPrefix(prefix)
 
     const balance = await getNativeBalance({
       address: prefixAddress,
       api: api,
       tokenId,
     })
-
-    await wsProvider.disconnect()
 
     return { balance: balance.toString(), prefixAddress }
   }

@@ -3,7 +3,7 @@ import type {
   EntityWithId,
   NFTMetadata,
   TokenId,
-} from '@/components/rmrk/service/scheme'
+} from '@/types'
 
 export type ListCartItemMediaUrl = { image: string, mimeType?: string }
 

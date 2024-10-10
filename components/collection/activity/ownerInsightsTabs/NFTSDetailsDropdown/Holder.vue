@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/types'
 import type { NFTExcludingEvents } from '@/composables/collectionActivity/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 

@@ -9,7 +9,7 @@ import { getDenyList } from '@/utils/prefix'
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
-import type { NFT, TokenId } from '@/components/rmrk/service/scheme'
+import type { NFT, TokenId } from '@/types'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
