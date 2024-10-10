@@ -1933,9 +1933,9 @@
     },
     "selfTransfer": "You can't transfer to yourself",
     "transfer": "Transfer",
-    "transferNft": "Transfer NFT",
+    "transferNft": "Transfer NFT | Transfer NFTs",
     "transferTo": "Transfer to",
-    "transferingNft": "Transfering NFT",
+    "transferingNft": "Transfering NFT | Bulk Transfer",
     "unlist": {
       "error": "Item unlisting failed",
       "success": "Item successfully unlisted"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <SigningModal
-      :title="$t('transaction.transferingNft', count)"
+      :title="$t('transaction.transferingNft', items.length)"
       :is-loading="isLoading"
       :status="status"
       @try-again="transfer"
@@ -14,7 +14,7 @@
     >
       <ModalBody
         modal-max-height="100vh"
-        :title="$t('transaction.transferNft', count)"
+        :title="$t('transaction.transferNft', items.length)"
         content-class="!py-4 !px-8"
         :scrollable="false"
         :loading="!autoTeleportLoaded"
@@ -25,7 +25,7 @@
 
           <div>
             <ItemTransferSingleItem
-              v-if="count === 1"
+              v-if="items.length === 1"
               class="!mt-4"
               :item="nft"
             />
@@ -108,7 +108,6 @@ const props = defineProps<{
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { itemsInChain: items, count } = storeToRefs(listingCartStore)
 const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction } = useTransaction()
 const { urlPrefix } = usePrefix()
@@ -117,6 +116,7 @@ const { accountId } = useAuth()
 
 const address = ref('')
 const isAddressValid = ref(false)
+const items = ref<ListCartItem[]>([])
 
 const nft = computed(() => items.value[0])
 
@@ -191,10 +191,7 @@ const isDisabled = computed(
 
 const closeModal = (callback?: () => void) => {
   preferencesStore.itemTransferCartModalOpen = false
-
-  if (callback) {
-    onModalAnimation(callback)
-  }
+  callback && onModalAnimation(callback)
 }
 
 const onClose = () => {
@@ -226,13 +223,20 @@ const transfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) 
 
     closeModal(() => {
       listingCartStore.clearListedItems()
-      // resetCartToDefaults()
     })
   }
   catch (error) {
     warningMessage(error)
   }
 }
+
+useModalIsOpenTracker({
+  isOpen: isModalActive,
+  onClose: false,
+  onChange: () => {
+    items.value = [...listingCartStore.itemsInChain]
+  },
+})
 
 onBeforeMount(closeModal)
 </script>
