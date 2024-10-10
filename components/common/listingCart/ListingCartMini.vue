@@ -35,20 +35,36 @@
           </div>
 
           <div class="flex gap-4">
-            <NeoButton
-              variant="outlined-rounded"
-              icon="paper-plane-top"
-              @click="preferencesStore.itemTransferCartModalOpen = true"
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isItemTransferDisabled"
+              :label="$t('toast.unsupportedOperation')"
             >
-              {{ $t('transfer', listingCartStore.count) }}
-            </NeoButton>
+              <NeoButton
+                variant="outlined-rounded"
+                icon="paper-plane-top"
+                :disabled="isItemTransferDisabled"
+                @click="preferencesStore.itemTransferCartModalOpen = true"
+              >
+                {{ $t('transfer') }}
+              </NeoButton>
+            </NeoTooltip>
 
-            <NeoButton
-              variant="primary-rounded"
-              @click="preferencesStore.listingCartModalOpen = true"
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isListingDisabled"
+              :label="$t('toast.unsupportedOperation')"
             >
-              {{ $t('listingCart.listItem', listingCartStore.count) }}
-            </NeoButton>
+              <NeoButton
+                variant="primary-rounded"
+                :disabled="isListingDisabled"
+                @click="preferencesStore.listingCartModalOpen = true"
+              >
+                {{ $t('listingCart.listItem', listingCartStore.count) }}
+              </NeoButton>
+            </NeoTooltip>
           </div>
         </div>
       </div>
@@ -57,12 +73,17 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { listVisible } from '@/utils/config/permission.config'
 
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { urlPrefix } = usePrefix()
+
+const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
+const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
 onBeforeUnmount(() => {
   listingCartStore.clear()

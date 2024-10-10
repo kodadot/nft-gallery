@@ -56,7 +56,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner && listVisible(urlPrefix) && !hideListing"
+        v-else-if="isOwner && !hideListing"
         class="flex"
       >
         <NeoButton

@@ -70,7 +70,7 @@
           />
         </template>
 
-        <template v-else-if="listVisible(urlPrefix)">
+        <template v-else>
           <NeoButton
             :label="listLabel"
             data-testid="item-buy"

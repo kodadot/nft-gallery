@@ -52,7 +52,7 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
 function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
   const { accountId } = useAuth()
 
-  // TODO: add evm mass send support
+  // TODO: add evm safeBatchTransferFrom support
   const nft = item.nfts[0]
 
   executeTransaction({
