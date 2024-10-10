@@ -33,6 +33,16 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     }
   }
 
+  function updateItem(payload: Partial<T>) {
+    const existingItemIndex = items.value.findIndex(item => item.id === payload.id)
+    if (existingItemIndex !== -1) {
+      items.value[existingItemIndex] = {
+        ...items.value[existingItemIndex],
+        ...payload,
+      }
+    }
+  }
+
   function setItemDiscardedState({ id, discarded }: { id: string, discarded: boolean }) {
     const itemIndex = existInItemIndex(id, items.value)
     if (itemIndex !== -1) {
@@ -49,7 +59,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     }
   }
 
-  function clearItems() {
+  function clear() {
     items.value = []
   }
 
@@ -63,9 +73,10 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     getItem,
     isItemInCart,
     clearDiscardedItems,
-    clearItems,
+    clear,
     existInItemIndex,
     removeItem,
+    updateItem,
     setItem,
     setItemDiscardedState,
   }

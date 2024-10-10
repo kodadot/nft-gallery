@@ -23,8 +23,6 @@ type ListCartItemInternal = {
 
 export type ListCartItem = ListCartItemInternal & TokenId
 
-type ID = string
-
 export const DEFAULT_FLOOR_PRICE_RATE = 1
 
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
@@ -44,7 +42,7 @@ export const useListingCartStore = defineStore('listingCart', () => {
     setItemDiscardedState,
     removeItem,
     clearDiscardedItems,
-    clearItems,
+    clear: clearItems,
   } = useCart<ListCartItem>({ items: localStorage.value })
 
   const allUnlistedItems = ref<ListCartItem[]>([])
@@ -53,7 +51,7 @@ export const useListingCartStore = defineStore('listingCart', () => {
     itemsInChain.value.filter(item => !item.listPrice).length,
   )
 
-  function setItemPrice({ id, price }: { id: ID, price?: number }) {
+  function setItemPrice({ id, price }: { id: string, price?: number }) {
     const itemIndex = existInItemIndex(id, items.value)
     if (itemIndex !== -1) {
       items.value[itemIndex].listPrice = price
