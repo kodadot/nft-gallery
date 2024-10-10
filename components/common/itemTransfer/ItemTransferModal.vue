@@ -1,9 +1,11 @@
 <template>
   <div>
     <SigningModal
+      v-if="!autoTeleport"
       :title="$t('transaction.transferingNft', items.length)"
       :is-loading="isLoading"
       :status="status"
+      close-at-signed
       @try-again="transfer"
     />
 
@@ -109,7 +111,9 @@ const props = defineProps<{
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction } = useTransaction()
+const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction, txHash } = useTransaction()
+const { notification, lastSessionId, updateSession } = useLoadingNotfication()
+const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
@@ -189,9 +193,17 @@ const isDisabled = computed(
     || !autoTeleportButton.value?.isReady,
 )
 
-const closeModal = (callback?: () => void) => {
+const reset = () => {
+  address.value = ''
+  isAddressValid.value = false
+}
+
+const closeModal = () => {
   preferencesStore.itemTransferCartModalOpen = false
-  callback && onModalAnimation(callback)
+  onModalAnimation(() => {
+    listingCartStore.clearListedItems()
+    reset()
+  })
 }
 
 const onClose = () => {
@@ -221,14 +233,38 @@ const transfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) 
       await transaction(action.value)
     }
 
-    closeModal(() => {
-      listingCartStore.clearListedItems()
-    })
+    closeModal()
   }
   catch (error) {
     warningMessage(error)
   }
 }
+
+useTransactionNotification({
+  status,
+  isError,
+  sessionId: lastSessionId,
+  autoTeleport,
+  updateSession,
+  init: () => {
+    return notification(({ isSessionState, notify, session }) => {
+      return notify({
+        title: ref($i18n.t('transaction.transferingNft', items.value.length)),
+        state: computed(() => session?.value.state as LoadingNotificationState),
+        action: computed<NotificationAction | undefined>(() => {
+          return isSessionState('succeeded')
+            ? ({
+                label: $i18n.t('helper.viewTx'),
+                icon: 'arrow-up-right',
+                url: getTransactionUrl(txHash.value || '', urlPrefix.value) || '',
+              })
+            : undefined
+        }),
+        showIndexerDelayMessage: true,
+      })
+    })
+  },
+})
 
 useModalIsOpenTracker({
   isOpen: isModalActive,
