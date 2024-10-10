@@ -6,7 +6,7 @@
     >
       <div class="inline-flex items-center">
         <div
-          class="k-shadow bg-background-color border flex items-center h-13 px-6"
+          class="k-shadow bg-background-color border flex items-center !py-[0.875rem] px-6 gap-8"
         >
           <div class="inline-flex items-center">
             <div>
@@ -16,7 +16,7 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="text-k-grey selection-button"
+              class="!text-k-grey selection-button"
               variant="text"
               no-shadow
               @click="listingCartStore.clearListedItems"
@@ -26,34 +26,64 @@
             <div class="mx-4 divider bg-k-grey" />
             <NeoButton
               variant="text"
-              class="text-k-grey selection-button"
+              class="!text-k-grey selection-button"
               no-shadow
               @click="listingCartStore.addAllToCart"
             >
               {{ $t('listingCart.selectAll') }}
             </NeoButton>
           </div>
+
+          <div class="flex gap-4">
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isItemTransferDisabled"
+              :label="$t('toast.unsupportedOperation')"
+            >
+              <NeoButton
+                variant="outlined-rounded"
+                icon="paper-plane-top"
+                :disabled="isItemTransferDisabled"
+                @click="preferencesStore.itemTransferCartModalOpen = true"
+              >
+                {{ $t('transfer') }}
+              </NeoButton>
+            </NeoTooltip>
+
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isListingDisabled"
+              :label="$t('toast.unsupportedOperation')"
+            >
+              <NeoButton
+                variant="primary-rounded"
+                :disabled="isListingDisabled"
+                @click="preferencesStore.listingCartModalOpen = true"
+              >
+                {{ $t('listingCart.listItem', listingCartStore.count) }}
+              </NeoButton>
+            </NeoTooltip>
+          </div>
         </div>
-        <NeoButton
-          class="border-l-0 px-7"
-          variant="primary"
-          size="large"
-          @click="preferencesStore.listingCartModalOpen = true"
-        >
-          {{ $t('listingCart.listItem', listingCartStore.count) }}
-        </NeoButton>
       </div>
     </div>
   </transition>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
+import { listVisible } from '@/utils/config/permission.config'
 
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { urlPrefix } = usePrefix()
+
+const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
+const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
 onBeforeUnmount(() => {
   listingCartStore.clear()

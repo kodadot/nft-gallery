@@ -56,7 +56,7 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner && listVisible(urlPrefix) && !hideListing"
+        v-else-if="isOwner && !hideListing"
         class="flex"
       >
         <NeoButton
@@ -86,10 +86,7 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import {
-  nftToListingCartItem,
-  nftToShoppingCartItem,
-} from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
@@ -98,6 +95,7 @@ const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { listNftByNftWithMetadata } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -128,12 +126,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const listLabel = computed(() => {
-  const label = Number(props.nft.price)
-    ? $i18n.t('transaction.price.change')
-    : $i18n.t('listingCart.listForSale')
-  return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
-})
+const listLabel = computed(() => listingCartStore.isItemInCart(props.nft.id) ? $i18n.t('remove') : $i18n.t('select'))
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
@@ -164,13 +157,7 @@ const onClickShoppingCart = () => {
   }
 }
 const onClickListingCart = () => {
-  if (listingCartStore.isItemInCart(props.nft.id)) {
-    listingCartStore.removeItem(props.nft.id)
-  }
-  else {
-    const floorPrice = props.nft.collection.floorPrice[0]?.price || '0'
-    listingCartStore.setItem(nftToListingCartItem(props.nft, floorPrice))
-  }
+  listNftByNftWithMetadata(props.nft, { toggle: true })
 }
 </script>
 

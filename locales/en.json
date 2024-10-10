@@ -7,6 +7,8 @@
   "Layout Options": "Layout Options",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
+  "select": "Select",
+  "remove": "Remove",
   "about": "About",
   "account": "Account",
   "accounts": "Accounts",
@@ -1931,9 +1933,9 @@
     },
     "selfTransfer": "You can't transfer to yourself",
     "transfer": "Transfer",
-    "transferNft": "Transfer NFT",
+    "transferNft": "Transfer NFT | Transfer NFTs",
     "transferTo": "Transfer to",
-    "transferingNft": "Transfering NFT",
+    "transferingNft": "Transfering NFT | Bulk Transfer",
     "unlist": {
       "error": "Item unlisting failed",
       "success": "Item successfully unlisted"

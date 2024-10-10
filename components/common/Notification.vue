@@ -58,8 +58,6 @@ import {
   NeoMessage,
 } from '@kodadot1/brick'
 
-type NotificationAction = { label: string, url: string, icon?: string }
-
 const emit = defineEmits(['close'])
 const props = withDefaults(
   defineProps<{

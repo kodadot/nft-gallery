@@ -3,6 +3,7 @@
     <ProfileDetail />
     <ListingCartMini />
     <ListingCartModal />
+    <ItemTransferModal />
   </div>
 </template>
 
