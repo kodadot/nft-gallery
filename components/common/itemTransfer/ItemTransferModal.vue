@@ -276,15 +276,3 @@ useModalIsOpenTracker({
 
 onBeforeMount(closeModal)
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.btn-height {
-  height: 3.5rem;
-}
-
-.limit-width {
-  max-width: 100%;
-}
-</style>
