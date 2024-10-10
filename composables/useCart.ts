@@ -1,5 +1,3 @@
-type ID = string
-
 type Item = { urlPrefix: unknown, discarded?: boolean, id: string }
 
 export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: T[] } = {}) => {
@@ -11,7 +9,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
   const itemsInChain = computed(() => allItemsInChain.value.filter(item => !item.discarded))
   const count = computed(() => itemsInChain.value.length)
 
-  function getItem(id: ID) {
+  function getItem(id: string) {
     return items.value.find(item => item.id === id)
   }
 
@@ -19,7 +17,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     return items.findIndex(item => item.id === id || item.token?.id === id)
   }
 
-  function isItemInCart(id: ID) {
+  function isItemInCart(id: string) {
     return existInItemIndex<T>(id, items.value) !== -1
   }
 
@@ -35,7 +33,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     }
   }
 
-  function setItemDiscardedState({ id, discarded }: { id: ID, discarded: boolean }) {
+  function setItemDiscardedState({ id, discarded }: { id: string, discarded: boolean }) {
     const itemIndex = existInItemIndex(id, items.value)
     if (itemIndex !== -1) {
       items.value[itemIndex].discarded = discarded
@@ -43,7 +41,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     }
   }
 
-  function removeItem(id: ID) {
+  function removeItem(id: string) {
     const itemIndex = existInItemIndex<T>(id, items.value)
     if (itemIndex !== -1) {
       items.value.splice(itemIndex, 1)
