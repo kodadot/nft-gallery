@@ -8,18 +8,15 @@ import type {
 export type ListCartItemMediaUrl = { image: string, mimeType?: string }
 
 type ListCartItemInternal = {
-  id: string
   name: string
-  urlPrefix: string
   price: string
   listPrice?: number
   sn: string
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
-  discarded?: boolean
   mediaUrl?: ListCartItemMediaUrl // used inside the drop page to show the actual nft image before the metadata is updated
-}
+} & CartItem
 
 export type ListCartItem = ListCartItemInternal & TokenId
 

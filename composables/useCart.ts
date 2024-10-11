@@ -1,6 +1,10 @@
-type Item = { urlPrefix: unknown, discarded?: boolean, id: string }
+export type CartItem = {
+  id: string
+  urlPrefix: string
+  discarded?: boolean
+}
 
-export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: T[] } = {}) => {
+export const useCart = <T extends CartItem>({ items: initialItems = [] }: { items?: T[] } = {}) => {
   const items = ref<T[]>(initialItems)
 
   const chain = usePrefix().urlPrefix
@@ -13,7 +17,7 @@ export const useCart = <T extends Item>({ items: initialItems = [] }: { items?: 
     return items.value.find(item => item.id === id)
   }
 
-  function existInItemIndex<T extends Item>(id: string, items: T[]) {
+  function existInItemIndex<T extends CartItem>(id: string, items: T[]) {
     return items.findIndex(item => item.id === id || item.token?.id === id)
   }
 

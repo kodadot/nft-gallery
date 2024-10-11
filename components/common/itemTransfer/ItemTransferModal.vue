@@ -3,10 +3,10 @@
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('transaction.transferingNft', items.length)"
-      :is-loading="isLoading"
+      :is-loading="loading"
       :status="status"
       close-at-signed
-      @try-again="transfer"
+      @try-again="itemTransfer"
     />
 
     <NeoModal
@@ -55,7 +55,7 @@
           />
         </div>
 
-        <div class="pt-5 flex flex-col">
+        <div class="pt-12 flex flex-col">
           <div class="flex text-k-grey justify-between items-center mb-4">
             <span class="text-xs capitalize">{{
               $t('transfers.networkFee')
@@ -71,7 +71,7 @@
             early-success
             auto-close-modal
             :auto-close-modal-delay-modal="0"
-            @confirm="transfer"
+            @confirm="handleTransfer"
           />
 
           <div class="mt-3 flex justify-between text-k-grey">
@@ -98,15 +98,11 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import AddressInput from '@/components/shared/AddressInput.vue'
-import type { Abi, Actions } from '@/composables/transaction/types'
+import type { Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-
-const props = defineProps<{
-  abi?: Abi | null
-}>()
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
@@ -124,11 +120,13 @@ const items = ref<ListCartItem[]>([])
 
 const nft = computed(() => items.value[0])
 
+const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
+
 const getAction = (): Actions => ({
   interaction: Interaction.SEND,
   urlPrefix: urlPrefix.value,
   address: address.value,
-  abi: props.abi,
+  abi: abi.value,
   nfts: items.value.map(item => ({
     id: item.id,
     sn: item.sn,
@@ -184,6 +182,11 @@ const isYourAddress = computed(
   () => accountId.value === getChainAddress(address.value),
 )
 
+const loading = computed(() => (
+  isLoading.value
+  || (isEvm(urlPrefix.value) ? !abi.value : false)
+))
+
 const isDisabled = computed(
   () =>
     hasOperationsDisabled(urlPrefix.value)
@@ -223,14 +226,23 @@ const getChainAddress = (value: string) => {
   }
 }
 
-const transfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
+const itemTransfer = async () => {
+  try {
+    await transaction(action.value)
+  }
+  catch (error) {
+    warningMessage(error)
+  }
+}
+
+const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
   try {
     clearTransaction()
 
     autoTeleport.value = autoteleport
 
     if (!autoteleport) {
-      await transaction(action.value)
+      await itemTransfer()
     }
 
     closeModal()
