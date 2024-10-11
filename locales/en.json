@@ -7,8 +7,6 @@
   "Layout Options": "Layout Options",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
-  "select": "Select",
-  "remove": "Remove",
   "about": "About",
   "account": "Account",
   "accounts": "Accounts",
@@ -1631,6 +1629,7 @@
   },
   "referralProgram": "Referral Program",
   "reload": "Reload",
+  "remove": "Remove",
   "requirements": "Requirements",
   "royalty": "royalty",
   "sales": {
@@ -1655,6 +1654,7 @@
     "seeAll": "See All",
     "units": "Units"
   },
+  "select": "Select",
   "series": {
     "assets": "Assets",
     "averagePrice": "Average price",
