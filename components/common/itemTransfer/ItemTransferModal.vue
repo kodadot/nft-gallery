@@ -3,7 +3,7 @@
     <SigningModal
       v-if="!autoTeleport"
       :title="$t('transaction.transferingNft', items.length)"
-      :is-loading="loading"
+      :is-loading="isLoading"
       :status="status"
       close-at-signed
       @try-again="itemTransfer"
@@ -19,7 +19,7 @@
         :title="$t('transaction.transferNft', items.length)"
         content-class="!py-4 !px-8"
         :scrollable="false"
-        :loading="!autoTeleportLoaded"
+        :loading="loading"
         @close="onClose"
       >
         <div>
@@ -183,7 +183,7 @@ const isYourAddress = computed(
 )
 
 const loading = computed(() => (
-  isLoading.value
+  !autoTeleportLoaded.value
   || (isEvm(urlPrefix.value) ? !abi.value : false)
 ))
 
