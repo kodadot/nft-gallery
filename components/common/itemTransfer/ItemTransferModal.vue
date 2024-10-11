@@ -193,7 +193,6 @@ const isDisabled = computed(
     || !address.value
     || !isAddressValid.value
     || isYourAddress.value
-    || !autoTeleportButton.value?.isReady,
 )
 
 const reset = () => {
