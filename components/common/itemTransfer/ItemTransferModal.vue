@@ -192,7 +192,7 @@ const isDisabled = computed(
     hasOperationsDisabled(urlPrefix.value)
     || !address.value
     || !isAddressValid.value
-    || isYourAddress.value
+    || isYourAddress.value,
 )
 
 const reset = () => {
