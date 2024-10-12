@@ -40,11 +40,28 @@ definePageMeta({
   layout: 'explore-layout',
   middleware: [
     function (to) {
-      if (to.query.listed !== undefined) {
+      const extraQuery = ['gen_art'].reduce((acc, key) => {
+        if (to.query[key] === undefined) {
+          acc[key] = 'true'
+        }
+        return acc
+      }, {})
+
+      const excludeQuery = ['listed'].reduce((acc, key) => {
+        if (to.query[key] !== undefined) {
+          acc[key] = undefined
+        }
+        return acc
+      }, {})
+
+      if (Object.keys(extraQuery).length > 0 || Object.keys(excludeQuery).length > 0) {
         return navigateTo({
           path: to.path,
-          query: { ...to.query, listed: undefined },
-        })
+          query: {
+            ...to.query,
+            ...extraQuery,
+            ...excludeQuery,
+          } })
       }
     },
   ],

@@ -14,7 +14,7 @@
           />
         </NeoCheckbox>
       </NeoField>
-      <NeoField v-if="artGenModeFeatureEnabled">
+      <NeoField v-if="genArtModeFeatureEnabled">
         <NeoCheckbox
           v-model="artGen"
           data-testid="filter-artgen-checkbox"
@@ -52,7 +52,7 @@ const props = withDefaults(
     fluidPadding: false,
   },
 )
-const { artGenModeFeatureEnabled } = useArtGenMode()
+const { genArtModeFeatureEnabled } = useGenArtMode()
 const emit = defineEmits(['resetPage'])
 
 const artView

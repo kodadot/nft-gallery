@@ -45,6 +45,7 @@ onBeforeMount(() => checkRouteAvailability())
 definePageMeta({
   layout: 'explore-layout',
   middleware: [
+
     function (to) {
       const extraQuery = ['listed', 'gen_art'].reduce((acc, key) => {
         if (to.query[key] === undefined) {
@@ -52,6 +53,7 @@ definePageMeta({
         }
         return acc
       }, {})
+
       if (Object.keys(extraQuery).length > 0) {
         return navigateTo({
           path: to.path,
