@@ -42,7 +42,7 @@
         v-if="isWrongNetworkAddress"
         #footer
       >
-        <div class="flex items-center">
+        <div class="flex flex-wrap items-center gap-2">
           <NeoButton
             no-shadow
             rounded
@@ -60,7 +60,7 @@
           <a
             v-safe-href="`https://www.youtube.com/watch?v=3gPvGym8H7I`"
             target="_blank"
-            class="ml-2 text-xs is-blue"
+            class="text-xs is-blue"
           >
             {{ $t('helper.learnMore') }}
           </a>
