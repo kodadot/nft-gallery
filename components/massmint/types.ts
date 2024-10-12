@@ -1,3 +1,5 @@
+import type { OpenSeaAttribute } from '@kodadot1/hyperdata'
+
 export enum Status {
   Ok = 'Ok',
   Incomplete = 'Incomplete',
@@ -21,6 +23,7 @@ export type NFTToMint = {
   file: File
   description?: string
   price?: number
+  attributes?: OpenSeaAttribute[]
 }
 
 export type NFTS = { [id: string]: NFT }
