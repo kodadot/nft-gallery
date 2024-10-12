@@ -60,7 +60,7 @@
             <span class="text-xs capitalize">{{
               $t('transfers.networkFee')
             }}</span>
-            <span class="text-xs">{{ formattedTxFee }}</span>
+            <span class="text-xs">{{ formattedTxFees }}</span>
           </div>
 
           <AutoTeleportActionButton
@@ -68,6 +68,7 @@
             :actions="actions"
             :disabled="isDisabled"
             :label="transferItemLabel"
+            :fees="{ forceActionAutoFees: true }"
             early-success
             auto-close-modal
             :auto-close-modal-delay-modal="0"
@@ -111,7 +112,6 @@ const { transaction, status, isLoading, isError, blockNumber, clear: clearTransa
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
-const { decimals, chainSymbol } = useChain()
 const { accountId } = useAuth()
 
 const address = ref('')
@@ -136,7 +136,7 @@ const getAction = (): Actions => ({
   errorMessage: $i18n.t('transaction.item.error') as string,
 })
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
   getActionFn: getAction,
 })
 
@@ -154,14 +154,6 @@ const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
       },
     ]
   : [])
-
-const { txFee } = useTransactionActionFee({ action })
-
-const { formatted: formattedTxFee } = useAmount(
-  computed(() => txFee.value),
-  decimals,
-  chainSymbol,
-)
 
 const isModalActive = computed(() => preferencesStore.itemTransferCartModalOpen)
 
