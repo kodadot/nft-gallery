@@ -299,6 +299,7 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
+import { toNFTId } from '@kodadot1/minimark/v2'
 import type { CreatedNFT } from '@kodadot1/minimark/v1'
 import { Interaction } from '@kodadot1/minimark/v1'
 import CreateNftPreview from './CreateNftPreview.vue'
@@ -313,7 +314,6 @@ import { availablePrefixes } from '@/utils/chain'
 import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
-import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 

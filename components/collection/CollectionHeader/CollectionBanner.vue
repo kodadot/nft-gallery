@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'

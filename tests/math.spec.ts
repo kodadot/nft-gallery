@@ -1,5 +1,5 @@
 import { fullCollection } from './sample2'
-import type { Interaction, NFT } from '@/components/rmrk/service/scheme'
+import type { Interaction, NFT } from '@/types'
 import formatBalance from '@/utils/format/balance'
 
 describe('MATHEMATICS TEST', (): void => {

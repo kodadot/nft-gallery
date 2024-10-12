@@ -1,7 +1,7 @@
 <template>
-  <CarouselIndex
+  <LazyCarouselIndex
     v-if="showCarousel"
-    :title="`${$t('nft.visited')}`"
+    :title="$t('nft.visited')"
     :nfts="nfts"
   />
 </template>

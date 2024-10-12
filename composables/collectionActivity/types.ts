@@ -2,7 +2,7 @@ import type { Interaction } from '@kodadot1/minimark/v1'
 import type {
   Interaction as InteractionType,
   NFTMetadata,
-} from '@/components/rmrk/service/scheme'
+} from '@/types'
 
 export type NFTExcludingEvents = {
   currentOwner: string

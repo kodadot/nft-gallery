@@ -58,7 +58,10 @@
                   {{ $t('expiration') }}
                 </span>
 
-                <span>
+                <span v-if="offer.status === 'EXPIRED'">
+                  {{ $t('expired') }}
+                </span>
+                <span v-else>
                   {{ offer.expirationDate ? formatToNow(offer.expirationDate, false) : '' }}
                 </span>
               </div>
@@ -99,7 +102,7 @@ import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import nftById from '@/queries/subsquid/general/nftById.graphql'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { formatToNow } from '@/utils/format/time'
 

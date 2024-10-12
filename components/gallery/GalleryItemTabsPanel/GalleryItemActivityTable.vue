@@ -136,7 +136,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { formatToNow } from '@/utils/format/time'
 import { parseDate } from '@/utils/datetime'
 
-import type { Interaction } from '@/components/rmrk/service/scheme'
+import type { Interaction } from '@/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 
 const dprops = defineProps<{
