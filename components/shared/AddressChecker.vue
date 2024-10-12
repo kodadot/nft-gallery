@@ -154,7 +154,11 @@ const getSubstrateAddressCheck = (value: string): AddressCheck => {
   )
 
   if (isValidGeneric) {
-    return { valid: true }
+    return {
+      valid: false,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: $i18n.t('generic'),
+    }
   }
 
   const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter(chain =>
