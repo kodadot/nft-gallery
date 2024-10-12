@@ -46,7 +46,7 @@
 <script setup lang="ts">
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/types'
 import Money from '@/components/shared/format/ChainMoney.vue'
 import type { FlipEvent } from '@/composables/collectionActivity/types'
 import { format } from '@/components/collection/activity/utils'

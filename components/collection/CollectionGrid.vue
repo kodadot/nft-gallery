@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import isEqual from 'lodash/isEqual'
-import type { Collection } from '@/components/rmrk/service/scheme'
+import type { Collection } from '@/types'
 import type { SearchQuery } from '@/components/search/types'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import collectionListWithSearchProfile from '@/queries/subsquid/general/collectionListWithSearchProfile.graphql'

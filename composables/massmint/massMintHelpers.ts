@@ -6,8 +6,7 @@ import type {
   TokenToMint,
 } from '@/composables/transaction/types'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import type { EntityWithId } from '@/components/rmrk/service/scheme'
-import { getNftId } from '@/components/rmrk/service/scheme'
+import type { EntityWithId, NFT } from '@/types'
 import type { NFTToMint } from '@/components/massmint/types'
 
 export const createTokensToMint = (
@@ -92,6 +91,15 @@ export const listForSell = (mintedNFts: TokenToList[]) => {
     status,
     isError,
   }
+}
+
+const getNftId = (
+  nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
+  blocknumber?: string | number,
+): string => {
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
+    nft.instance || nft.name
+  }-${nft.sn}`
 }
 
 export const getListForSellItems = (

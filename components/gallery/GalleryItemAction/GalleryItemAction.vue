@@ -29,7 +29,7 @@ import GalleryItemOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
 import { listVisible, offerVisible } from '@/utils/config/permission.config'
 import type { NFTOffer } from '@/composables/useNft'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 
 const props = defineProps<{
   nft: NFT | undefined
