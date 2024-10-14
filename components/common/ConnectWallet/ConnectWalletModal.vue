@@ -50,9 +50,11 @@
 
 <script setup lang="ts">
 import { NeoModalHead } from '@kodadot1/brick'
-import { type ChainVM, DEFAULT_VM_PREFIX } from '@kodadot1/static'
+import { type ChainVM, type Prefix } from '@kodadot1/static'
+import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
+import { areSameVm } from '@/utils/config/chain.config'
 
 const emit = defineEmits(['close', 'connect'])
 const props = defineProps<{ preselected?: ChainVM }>()
@@ -68,14 +70,15 @@ const selectedTab = ref<ChainVM>(props.preselected ?? 'SUB')
 
 const showAccount = computed(() => Boolean(account.value))
 
-const setAccount = (account: WalletAccount) => {
+const setAccount = ({ account, prefix }: { account: WalletAccount, prefix?: Prefix }) => {
+  prefix ??= DEFAULT_VM_PREFIX[account.vm]
+
   walletStore.setWallet(account)
   identityStore.setAuth({ address: account.address })
 
-  if (!isPrefixVmOf(urlPrefix.value, account.vm)) {
-    const newChain = DEFAULT_VM_PREFIX[account.vm]
-    setUrlPrefix(newChain)
-    redirectAfterChainChange(newChain)
+  if (!areSameVm(prefix, urlPrefix.value)) {
+    setUrlPrefix(prefix)
+    redirectAfterChainChange(urlPrefix.value)
   }
 
   emit('connect', account)
