@@ -10,7 +10,7 @@ export const vmOf = (prefix: Prefix): ChainVM => {
   return chainPropListOf(prefix).vm
 }
 
-export const areSameVm = (a: Prefix, b: Prefix): boolean => {
+export const arePrefixesOfSameVm = (a: Prefix, b: Prefix): boolean => {
   return vmOf(a) === vmOf(b)
 }
 

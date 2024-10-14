@@ -54,7 +54,7 @@ import { type ChainVM, type Prefix } from '@kodadot1/static'
 import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
-import { areSameVm } from '@/utils/config/chain.config'
+import { arePrefixesOfSameVm } from '@/utils/config/chain.config'
 
 const emit = defineEmits(['close', 'connect'])
 const props = defineProps<{ preselected?: ChainVM }>()
@@ -76,7 +76,7 @@ const setAccount = ({ account, prefix }: { account: WalletAccount, prefix?: Pref
   walletStore.setWallet(account)
   identityStore.setAuth({ address: account.address })
 
-  if (!areSameVm(prefix, urlPrefix.value)) {
+  if (!arePrefixesOfSameVm(prefix, urlPrefix.value)) {
     setUrlPrefix(prefix)
     redirectAfterChainChange(urlPrefix.value)
   }
