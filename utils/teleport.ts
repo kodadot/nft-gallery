@@ -43,7 +43,7 @@ export const allowedTransitions = {
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
-  [Chain.KUSAMA]: 'rmrk',
+  [Chain.KUSAMA]: 'ksm',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
