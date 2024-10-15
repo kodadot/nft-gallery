@@ -1,4 +1,4 @@
-import { type Address, TransactionExecutionError } from 'viem'
+import { type Address } from 'viem'
 import { simulateContract, waitForTransactionReceipt, writeContract } from '@wagmi/core'
 import { useChainId, useConfig, useSwitchChain } from '@wagmi/vue'
 import type { Abi } from '../types'
@@ -105,14 +105,9 @@ export default function useEvmMetaTransaction() {
   const errorCb
     = (onError?: () => void) =>
       ({ error }) => {
-        if (error instanceof TransactionExecutionError) {
-          const isCancelled = error.message.includes('User rejected the request.')
-          isError.value = !isCancelled
-
-          if (isCancelled) {
-            warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
-            status.value = TransactionStatus.Cancelled
-          }
+        if (error.message?.includes('User rejected the request.')) {
+          warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
+          status.value = TransactionStatus.Cancelled
         }
         else {
           isError.value = true
