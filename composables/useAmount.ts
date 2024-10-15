@@ -13,7 +13,7 @@ export default function (
     const amount = tokenAmount.value
       ? formatAmountWithRound(tokenAmount.value, tokenDecimals.value, roundBy?.value)
       : 0
-    return formatAmountWithSymbol(amount, { withBlank })
+    return (!Number(amount) && withBlank) ? '--' : `${amount} ${chainSymbol.value}`
   })
 
   const amountUsd = computed(() => {
@@ -21,17 +21,8 @@ export default function (
       Number(tokenAmount.value) * Math.pow(10, -tokenDecimals.value),
       Number(getCurrentTokenValue(chainSymbol.value)),
     )
-    return formatAmountWithSymbol(value, { isUsd: true })
+    return typeof value === 'number' && value >= 0 ? `$${value}` : ''
   })
-
-  const formatAmountWithSymbol = (
-    amount: string | number,
-    { withBlank = false, isUsd = false }: { withBlank?: boolean, isUsd?: boolean } = {},
-  ) => {
-    return isUsd
-      ? (typeof amount === 'number' && amount >= 0 ? `$${amount}` : '')
-      : (!Number(amount) && withBlank ? '--' : `${amount} ${chainSymbol.value}`)
-  }
 
   return {
     formatted: amountFormatted,
