@@ -74,6 +74,10 @@ type ReloadElement =
 
 defineEmits(['toggle'])
 
+const props = defineProps<{
+  containerId: string
+}>()
+
 const { getNft: nft, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const isLoading = ref(false)
@@ -126,7 +130,7 @@ const handleReloadClick = () => {
 }
 
 const openInNewTab = (selector: string, attribute: string = 'src') => {
-  const element = document.querySelector(selector)
+  const element = document.querySelector(`#${props.containerId} ${selector}`)
   if (element) {
     const src = element.getAttribute(attribute)
     if (src) {
