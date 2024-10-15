@@ -1,11 +1,11 @@
 type Item = {
   id: string
-  promise: () => Promise<any>
+  promise: () => Promise<unknown>
 }
 
 export default (retryCount: number = 3) => {
   const states = ref(
-    new Map<string, { tries: number, fulfilled: boolean, response?: any }>(),
+    new Map<string, { tries: number, fulfilled: boolean, response?: unknown }>(),
   )
 
   const stateValues = computed(() =>

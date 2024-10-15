@@ -188,7 +188,7 @@
     </form>
     <CreateModalsCollectionSuccessModal
       v-model="displaySuccessModal"
-      :tx-hash="txHash as string"
+      :tx-hash="String(txHash)"
       :status="status"
       :collection="mintedCollectionInfo"
     />

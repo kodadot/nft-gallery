@@ -29,8 +29,8 @@ type HowAboutToExecuteOptions = {
 
 export type HowAboutToExecute = (
   account: string,
-  cb: (...params: any[]) => Extrinsic,
-  args: any[],
+  cb: (...params: []) => Extrinsic,
+  args: [],
   options?: HowAboutToExecuteOptions
 ) => Promise<void>
 

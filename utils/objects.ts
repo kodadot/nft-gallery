@@ -1,17 +1,17 @@
-type Item = { [key: string]: any }
+type Item = { [key: string]: unknown }
 
 export const getMovedItemToFront = (
-  arr: Item[] | any[],
-  keyOrValue: string | any,
-  value?: any,
-): (Item | any)[] => {
+  arr: Item[] | [],
+  keyOrValue: string,
+  value?: string,
+): (Item)[] => {
   let index: number
 
   if (typeof keyOrValue === 'string' && value !== undefined) {
     index = (arr as Item[]).findIndex(obj => obj[keyOrValue] === value)
   }
   else {
-    index = (arr as any[]).findIndex(item => item === keyOrValue)
+    index = (arr as []).findIndex(item => item === keyOrValue)
   }
 
   if (index === -1) {

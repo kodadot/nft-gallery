@@ -31,12 +31,12 @@ export const execResultValue = (execResult: ExecResult): string => {
 const exec = async (
   account: KeyringAccount | string,
   password: string | null,
-  callback: (...params: any[]) => SubmittableExtrinsic<'promise'>,
-  params: any[],
-  statusCb: Callback<any>,
+  callback: (...params: []) => SubmittableExtrinsic<'promise'>,
+  params: [],
+  statusCb: Callback<unknown>,
 ): Promise<ExecResult> => {
   try {
-    const transfer = await callback(...params)
+    const transfer = callback(...params)
     const address = typeof account === 'string' ? account : account.address
     const injector = await getAddress(toDefaultAddress(address))
 
@@ -107,10 +107,10 @@ export const txCb
 
 export const estimate = async (
   account: KeyringAccount | string,
-  callback: (...params: any) => SubmittableExtrinsic<'promise'>,
-  params: any[],
+  callback: (...params) => SubmittableExtrinsic<'promise'>,
+  params: [],
 ): Promise<string> => {
-  const transfer = await callback(...params)
+  const transfer = callback(...params)
   const address
     = typeof account === 'string' ? account ?? KODADOT_DAO : account.address
   // if user have not connect wallet, we provide a mock address to estimate fee

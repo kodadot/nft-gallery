@@ -49,6 +49,7 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { CarouselWheelsPlugin } from '../utils/useCarousel'
+import type { CarouselNFT } from '@/components/base/types'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
 
@@ -64,7 +65,7 @@ const SYNC_CONFIG_DEBOUNCE_AMOUNT = 1 // anything bellow this makes the carousel
 const DEFAULT_SLIDES_CONFIG = { perView: 3, spacing: 16 }
 
 const props = defineProps<{
-  items: any[]
+  items: CarouselNFT[]
   step?: number
   breakpoints?: CarouseBreakpointsConfig
   config?: CarouselConfig

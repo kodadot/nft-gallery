@@ -38,7 +38,7 @@ const { variant, desktop } = useResponsive(container)
 
 withDefaults(
   defineProps<{
-    items: any[]
+    items: []
     noResultsMain: string
     noResultsSub: string
     showNoResults: boolean

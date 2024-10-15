@@ -20,7 +20,7 @@ export type BuyHistory = {
 export type RowSeries = {
   id: string
   unique: number
-  image: any
+  image: string
   metadata: string
   sold: number
   total: number

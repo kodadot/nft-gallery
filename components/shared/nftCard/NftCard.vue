@@ -110,7 +110,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { NeoSkeleton } from '@kodadot1/brick'
-import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+import type { ConcreteComponent } from 'vue'
 
 import NftMediaInfoStacked from './NftMediaInfoStacked.vue'
 import NftMediaInfo from './NftMediaInfo.vue'
@@ -132,8 +132,7 @@ const props = withDefaults(
     cardIconSrc?: string
     link?:
       | string
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
+      | ConcreteComponent
     bindKey?: string
     showActionOnHover?: boolean
     mediaPlayerCover?: string

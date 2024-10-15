@@ -26,7 +26,7 @@ const colors = {
   },
 }
 
-const initWaveform = (media: any) => {
+const initWaveform = (media: HTMLMediaElement) => {
   wavesurfer.value = WaveSurfer.create({
     container: wavesurferWrapper.value,
     height: 33,

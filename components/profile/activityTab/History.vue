@@ -162,7 +162,7 @@ export interface Event {
   Date: string
   Time: string
   Block: string
-  Item?: any
+  Item?: Record<string, unknown>
   Percentage?: number
 }
 

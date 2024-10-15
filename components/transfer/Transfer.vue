@@ -660,7 +660,7 @@ const generateTokenTabs = (
 
 const getQueryMultipleKeys = (
   queryKey: string,
-  filter: (value: [string, any]) => boolean,
+  filter: (value: [string, unknown]) => boolean,
 ) =>
   Object.entries(route.query)
     .filter(([key]) => key.startsWith(queryKey))
@@ -839,7 +839,7 @@ const getTransactionFee = async () => {
     decimals.value as number,
   )
 
-  return estimate(accountId.value, cb as any, arg as any)
+  return estimate(accountId.value, cb, arg as [])
 }
 
 const calculateTransactionFee = async () => {
@@ -890,7 +890,7 @@ const getTransferParams = async (
 }
 
 const submit = async (
-  event: any,
+  event: unknown,
   usedNodeUrls: string[] = [],
 ): Promise<void> => {
   isTransferModalVisible.value = false
@@ -923,7 +923,7 @@ const submit = async (
       ),
     )
   }
-  catch (e: any) {
+  catch (e: unknown) {
     if (e.message === 'Cancelled') {
       warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
       isLoading.value = false

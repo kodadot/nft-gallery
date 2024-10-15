@@ -25,7 +25,7 @@ export const fetchMimeType = async (
   try {
     return await getMimeType(assetUrl)
   }
-  catch (e: any) {
+  catch (e: unknown) {
     logError(e, (msg) => {
       console.warn(
         `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`,

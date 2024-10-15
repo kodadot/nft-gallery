@@ -20,7 +20,7 @@ function format(
       withSi,
     })
   }
-  catch (e: any) {
+  catch (e: unknown) {
     return ''
   }
 }

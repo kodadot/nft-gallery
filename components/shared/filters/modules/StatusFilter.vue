@@ -90,7 +90,7 @@ const owned
       set: value => exploreFiltersStore.setOwned(value),
     })
 
-const applyToUrl = (queryCondition: { [key: string]: any }) => {
+const applyToUrl = (queryCondition: { [key: string]: string }) => {
   replaceURL(queryCondition)
   emit('resetPage')
 }

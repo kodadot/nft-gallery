@@ -7,18 +7,15 @@
 
 <script lang="ts" setup>
 import type {
-  ComputedOptions,
   ConcreteComponent,
   ImgHTMLAttributes,
-  MethodOptions,
   ReservedProps,
 } from 'vue'
 import { computed, withDefaults } from 'vue'
 
 export type ImageComponent =
   | 'img'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
+  | ConcreteComponent
   | string
 export type ImageComponentProps = Record<string, unknown>
 

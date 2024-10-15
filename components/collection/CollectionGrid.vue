@@ -93,7 +93,7 @@ const resetPage = useDebounceFn(() => {
 }, 1000)
 
 const buildSearchParam = (): Record<string, unknown>[] => {
-  const params: any[] = []
+  const params: Record<string, unknown>[] = []
   if (searchQuery.search) {
     params.push({
       name_containsInsensitive: searchQuery.search,
@@ -206,7 +206,7 @@ const handleResult = (
     return
   }
 
-  const newCollections = data.collectionEntities.map((e: any) => ({
+  const newCollections = data.collectionEntities.map((e: Collection) => ({
     ...e,
   }))
 

@@ -1,6 +1,4 @@
-export interface KeyringPair$Meta {
-  [index: string]: any
-}
+import type { KeyringPair$Meta } from '@polkadot/keyring/types'
 
 export interface KeyringAccount {
   address: string

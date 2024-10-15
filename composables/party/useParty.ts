@@ -54,7 +54,7 @@ export default <T>({ room, onMessage, disabled }: UsePartyParams<T>) => {
     })
   }
 
-  const sendMessage = (value: any) => {
+  const sendMessage = (value: T) => {
     wss.value.get(room.value)?.send(JSON.stringify(value))
   }
 

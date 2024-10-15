@@ -21,13 +21,13 @@ export type ExecuteTransactionSuccessMessage =
   | ObjectMessage
 
 type BaseExecuteTransactionParams = {
-  arg: any[]
+  arg: []
   successMessage?: ExecuteTransactionSuccessMessage
   errorMessage?: string | (() => string)
 }
 
 export type ExecuteSubstrateTransactionParams = {
-  cb: (...params: any[]) => Extrinsic
+  cb: (...params: []) => Extrinsic
 } & BaseExecuteTransactionParams
 
 export type Abi = ViemAbi
