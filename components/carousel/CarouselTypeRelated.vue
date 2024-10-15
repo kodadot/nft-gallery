@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <LoadLazily>
-      <CarouselIndex
-        v-if="nfts"
-        :title="`${$t('nft.related')}`"
-        :nfts="nfts"
-      />
-    </LoadLazily>
-  </div>
+  <LazyCarouselIndex
+    v-if="nfts"
+    :title="$t('nft.related')"
+    :nfts="nfts"
+  />
 </template>
 
 <script lang="ts" setup>

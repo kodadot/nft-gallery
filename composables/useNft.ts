@@ -1,5 +1,5 @@
 import unionBy from 'lodash/unionBy'
-import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFT, NFTMetadata } from '@/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
 import { fetchOdaToken } from '@/services/oda'
