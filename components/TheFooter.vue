@@ -269,10 +269,6 @@ const socials = [
     url: 'https://t.me/koda_eco',
   },
   {
-    name: 'Beehiiv',
-    url: 'https://kodadotweeklyroundup.beehiiv.com',
-  },
-  {
     name: 'Linkedin',
     url: 'https://www.linkedin.com/company/kodadot',
   },

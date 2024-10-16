@@ -55,10 +55,6 @@ const footerSocialMediaLinks = [
     linkAddress: 'KodaDot',
   },
   {
-    linkName: 'Beehiiv',
-    linkAddress: 'kodadotweeklyroundup',
-  },
-  {
     linkName: 'Linkedin',
     linkAddress: '/company/kodadot',
   },

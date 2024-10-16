@@ -1,4 +1,4 @@
-# Generative Art Marketplace 
+# Generative Art Marketplace
 
 ![Frame 819](https://github.com/kodadot/nft-gallery/assets/90852205/70989633-9c78-47ee-9e23-4a60c12d8d76)
 
@@ -59,9 +59,8 @@ You'll find our goals for KodaDot upcoming future!
 - [Farcaster /koda](https://warpcast.com/~/channel/koda) 👈👀🫡
 - Follow us on [Twitter](https://twitter.com/KodaDot)
 - [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA)
-- [Beehiiv](https://kodaweeklyroundup.beehiiv.com/)
 - [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
-- Join our [Telegram KodaDot Ecosystem](https://t.me/koda_eco), 
+- Join our [Telegram KodaDot Ecosystem](https://t.me/koda_eco),
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
 
 # Fix dependency bump by renovate bot
