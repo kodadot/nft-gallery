@@ -38,7 +38,7 @@ export const useCollectionForMint = () => {
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['collections-for-mint', accountId, urlPrefix],
     queryFn: async () =>
       accountId.value
@@ -76,6 +76,7 @@ export const useCollectionForMint = () => {
 
   return {
     collectionsEntites,
+    isLoading: isPending,
   }
 }
 

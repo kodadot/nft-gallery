@@ -8,7 +8,7 @@
       },
     ]"
     :no-shadow="noShadow"
-    :disabled="!isLogIn"
+    :disabled="disabled"
   >
     <template #trigger="{ active }">
       <NeoButton
@@ -101,13 +101,14 @@ const props = defineProps({
 
 const { isLogIn, accountId } = useAuth()
 
-const { collectionsEntites } = useCollectionForMint()
+const { collectionsEntites, isLoading } = useCollectionForMint()
 const selectedCollection = ref<MintedCollection>()
 const emit = defineEmits(['selectedCollection'])
 
 watch(accountId, () => {
   selectedCollection.value = undefined
 })
+const disabled = computed(() => !isLogIn.value || isLoading.value)
 
 const selectCollection = (collection) => {
   selectedCollection.value = collection
