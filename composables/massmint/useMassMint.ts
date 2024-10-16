@@ -72,7 +72,7 @@ export const useCollectionForMint = () => {
 
       collectionsEntites.value = unwrapSafe(collections)
     }
-  })
+  }, { immediate: true })
 
   return {
     collectionsEntites,
