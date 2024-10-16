@@ -93,6 +93,7 @@ import {
 import type { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
+const emit = defineEmits(['selectedCollection'])
 const props = defineProps({
   fullWidth: { type: Boolean, default: false },
   noShadow: { type: Boolean, default: false },
@@ -103,11 +104,7 @@ const { isLogIn, accountId } = useAuth()
 
 const { collectionsEntites, isLoading } = useCollectionForMint()
 const selectedCollection = ref<MintedCollection>()
-const emit = defineEmits(['selectedCollection'])
 
-watch(accountId, () => {
-  selectedCollection.value = undefined
-})
 const disabled = computed(() => !isLogIn.value || isLoading.value)
 
 const selectCollection = (collection) => {
@@ -131,6 +128,10 @@ const handleCollectionsChange = (
     selectCollection(collection)
   }
 }
+
+watch(accountId, () => {
+  selectedCollection.value = undefined
+})
 
 watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
