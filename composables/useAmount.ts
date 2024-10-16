@@ -5,7 +5,7 @@ export default function (
   tokenAmount: ComputedRef<number | string | undefined>,
   tokenDecimals: ComputedRef<number>,
   chainSymbol: ComputedRef<string>,
-  roundBy?: ComputedRef<Prefix | number>,
+  { roundBy, withBlank = false }: { roundBy?: ComputedRef<Prefix | number>, withBlank?: boolean } = {},
 ) {
   const { getCurrentTokenValue } = useFiatStore()
 
@@ -13,7 +13,7 @@ export default function (
     const amount = tokenAmount.value
       ? formatAmountWithRound(tokenAmount.value, tokenDecimals.value, roundBy?.value)
       : 0
-    return `${amount} ${chainSymbol.value}`
+    return (!Number(amount) && withBlank) ? '--' : `${amount} ${chainSymbol.value}`
   })
 
   const amountUsd = computed(() => {
