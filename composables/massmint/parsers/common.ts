@@ -1,3 +1,4 @@
+import type { OpenSeaAttribute } from '@kodadot1/hyperdata'
 import { validFormats } from '@/composables/massmint/useZipValidator'
 
 export type Entry = {
@@ -7,6 +8,7 @@ export type Entry = {
   price?: number
   valid: boolean
   currency?: string
+  attributes?: OpenSeaAttribute[]
 }
 
 export const validFileExtension = (stringWithFileName: string): boolean => {
