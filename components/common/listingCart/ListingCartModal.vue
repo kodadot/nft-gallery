@@ -70,7 +70,7 @@
             class="flex justify-between text-k-grey pb-4 mt-3 border-b-k-shade"
           >
             <span>{{ $t('listingCart.listingFees') }}</span>
-            <span class="ml-2">{{ teleportTransitionTxFees }}</span>
+            <span class="ml-2">{{ formattedTxFees }}</span>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import type { TokenToList, Actions } from '@/composables/transaction/types'
 import type { ListCartItem } from '@/stores/listingCart'
 import { useListingCartStore } from '@/stores/listingCart'
-import format, { calculateBalance } from '@/utils/format/balance'
+import { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
@@ -147,14 +147,6 @@ const items = ref<ListCartItem[]>([])
 
 const isSuccessModalOpen = ref(false)
 
-const teleportTransitionTxFees = computed(() =>
-  format(
-    autoTeleportButton.value?.optimalTransition.txFees || 0,
-    decimals.value,
-    chainSymbol.value,
-  ),
-)
-
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
 
@@ -186,7 +178,7 @@ const getAction = (items: ListCartItem[]): Actions => {
   }
 }
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
   getActionFn: () => getAction(listingCartStore.itemsInChain),
 })
 

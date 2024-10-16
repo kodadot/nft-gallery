@@ -45,7 +45,7 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.LIST]: (action: ActionList) => hasContent(action.token),
     [Interaction.MINTNFT]: (action: ActionMintToken) =>
       hasContent(action.token),
-    [Interaction.SEND]: (action: ActionSend) => Boolean(action.nftId),
+    [Interaction.SEND]: (action: ActionSend) => Boolean(action.nfts.length),
     [Interaction.CONSUME]: (action: ActionConsume) => Boolean(action.nftId),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.token),

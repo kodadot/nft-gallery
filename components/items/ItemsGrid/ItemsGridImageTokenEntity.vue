@@ -70,7 +70,7 @@
           />
         </template>
 
-        <template v-else-if="listVisible(urlPrefix)">
+        <template v-else>
           <NeoButton
             :label="listLabel"
             data-testid="item-buy"
@@ -99,11 +99,7 @@ import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { listVisible } from '@/utils/config/permission.config'
-import {
-  nftToListingCartItem,
-  nftToShoppingCartItem,
-} from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { fetchOdaToken } from '@/services/oda'
 
@@ -114,6 +110,7 @@ const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+const { listNftByNftWithMetadata } = useListingCartModal()
 const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -166,18 +163,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const listLabel = computed(() => {
-  const isPriceAvailable = Number(nftForShoppingCart.value?.price)
-  const shouldListForSale
-    = (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
-  const isInCart = listingCartStore.isItemInCart(props.entity.id)
-
-  const label = shouldListForSale
-    ? $i18n.t('listingCart.listForSale')
-    : $i18n.t('transaction.price.change')
-
-  return isInCart ? label + ' ✓' : label
-})
+const listLabel = computed(() => listingCartStore.isItemInCart(props.entity.id) ? $i18n.t('remove') : $i18n.t('select'))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
@@ -214,15 +200,8 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
-
   for (const nft of nftsToProcess) {
-    if (listingCartStore.isItemInCart(nft.id)) {
-      listingCartStore.removeItem(nft.id)
-    }
-    else {
-      listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
-    }
+    listNftByNftWithMetadata(nft, { toggle: true })
   }
 }
 

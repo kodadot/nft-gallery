@@ -923,6 +923,7 @@
     "usd": "USD",
     "using": "using"
   },
+  "generic": "Generic",
   "go back": "Go Back",
   "handle": "Handle",
   "helper": {
@@ -1629,6 +1630,7 @@
   },
   "referralProgram": "Referral Program",
   "reload": "Reload",
+  "remove": "Remove",
   "requirements": "Requirements",
   "royalty": "royalty",
   "sales": {
@@ -1653,6 +1655,7 @@
     "seeAll": "See All",
     "units": "Units"
   },
+  "select": "Select",
   "series": {
     "assets": "Assets",
     "averagePrice": "Average price",
@@ -1931,9 +1934,9 @@
     },
     "selfTransfer": "You can't transfer to yourself",
     "transfer": "Transfer",
-    "transferNft": "Transfer NFT",
+    "transferNft": "Transfer NFT | Transfer NFTs",
     "transferTo": "Transfer to",
-    "transferingNft": "Transfering NFT",
+    "transferingNft": "Transfering NFT | Bulk Transfer",
     "unlist": {
       "error": "Item unlisting failed",
       "success": "Item successfully unlisted"
