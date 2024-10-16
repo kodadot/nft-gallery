@@ -43,7 +43,7 @@ export const allowedTransitions = {
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
-  [Chain.KUSAMA]: 'rmrk',
+  [Chain.KUSAMA]: 'ksm',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
@@ -53,7 +53,6 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
-  rmrk: Chain.KUSAMA,
   ksm: Chain.KUSAMA,
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,

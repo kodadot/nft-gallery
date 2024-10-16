@@ -8,7 +8,6 @@ import { chainPropListOf, vmOf } from '@/utils/config/chain.config'
 
 const DEFAULT_BALANCE_STATE = {
   ksm: '0',
-  rmrk: '0',
   ahk: '0',
   dot: '0',
   ahp: '0',
