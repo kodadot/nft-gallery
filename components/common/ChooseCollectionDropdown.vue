@@ -15,8 +15,8 @@
         v-if="!selectedCollection"
         class="dropdown-width"
         :no-shadow="noShadow"
-        :label="$t('massmint.selectCollection')"
-        :icon="active ? 'chevron-up' : 'chevron-down'"
+        :label="isLoading ? $t('loading') : $t('massmint.selectCollection')"
+        :icon="isLoading ? undefined : (active ? 'chevron-up' : 'chevron-down')"
       />
       <NeoButton
         v-else
