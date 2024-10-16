@@ -40,12 +40,14 @@ definePageMeta({
   layout: 'explore-layout',
   middleware: [
     function (to) {
-      const extraQuery = ['gen_art'].reduce((acc, key) => {
-        if (to.query[key] === undefined) {
-          acc[key] = 'true'
-        }
-        return acc
-      }, {})
+      const extraQuery = useGenArtMode().genArtModeFeatureEnabled.value
+        ? ['gen_art'].reduce((acc, key) => {
+            if (to.query[key] === undefined) {
+              acc[key] = 'true'
+            }
+            return acc
+          }, {})
+        : {}
 
       const excludeQuery = ['listed'].reduce((acc, key) => {
         if (to.query[key] !== undefined) {

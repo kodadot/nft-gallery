@@ -47,7 +47,7 @@ definePageMeta({
   middleware: [
 
     function (to) {
-      const extraQuery = ['listed', 'gen_art'].reduce((acc, key) => {
+      const extraQuery = (['listed'].concat(useGenArtMode().genArtModeFeatureEnabled.value ? ['gen_art'] : [])).reduce((acc, key) => {
         if (to.query[key] === undefined) {
           acc[key] = 'true'
         }

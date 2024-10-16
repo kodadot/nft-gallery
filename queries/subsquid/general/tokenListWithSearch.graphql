@@ -57,6 +57,7 @@ query tokenListWithSearch(
     price_lte: $price_lte
     collections: $collections
     name: $name
+    kind: $kind
   ) {
     totalCount
   }
