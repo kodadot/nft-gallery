@@ -23,7 +23,7 @@ type InnerValidity = Pick<
 >
 
 const constants = {
-  canvasRegex: /createCanvas\(([^,]+?),\s*([^\s,]+?)(,\s*WEBGL)?\)/g,
+  canvasRegex: /createCanvas\(([^,]+?),\s*([^,]+?)(,\s*WEBGL)?\)/g,
   getUrlParamsRegex: /\b(const|let|var)\s+(\w+)\s*=\s*getURLParams\(\)\s*/,
   urlSearchParamsRegex:
     /\b(const|let|var)\s+(\w+)\s*=\s*new URLSearchParams\(window.location.search\)\s*/,
