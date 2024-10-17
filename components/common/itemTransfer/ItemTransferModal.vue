@@ -89,6 +89,7 @@
             :label="transferItemLabel"
             variant="primary"
             no-shadow
+            with-shortcut
             class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer"
           />

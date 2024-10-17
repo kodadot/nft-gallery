@@ -149,6 +149,7 @@
         :label="$t('teleport.send')"
         variant="primary"
         no-shadow
+        with-shortcut
         class="fixed-button-height flex flex-1"
         @click="confirmTransfer"
       />

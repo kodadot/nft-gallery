@@ -62,6 +62,7 @@
         :disabled="isDisabled"
         :loading="loading"
         :loading-with-label="loading"
+        with-shortcut
         class="flex flex-grow btn-height capitalize"
         @click="handleSubmit"
       />
