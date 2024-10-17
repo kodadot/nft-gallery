@@ -67,7 +67,6 @@ const props = withDefaults(
 
 const button = ref<HTMLButtonElement>()
 const pressing = ref(false)
-const isVisible = ref(false)
 
 const { pressed } = useMousePressed({ target: button })
 
@@ -76,16 +75,22 @@ watch(pressed, (pressed) => {
 })
 
 if (props.withShortcut) {
-  useIntersectionObserver(button, ([{ isIntersecting }]) => {
-    isVisible.value = isIntersecting
-  })
+  const shortcutWatcher = ref()
 
-  useKeyboardKeys({
-    onPressControlEnter: () => {
-      if (isVisible.value && !button.value?.disabled) {
-        button.value?.$el?.click()
-      }
-    },
+  useIntersectionObserver(button, ([{ isIntersecting: isVisible }]) => {
+    if (!isVisible) {
+      shortcutWatcher.value?.()
+      shortcutWatcher.value = undefined
+      return
+    }
+
+    if (!shortcutWatcher.value) {
+      shortcutWatcher.value = onPressControlEnter(() => {
+        if (!button.value?.disabled) {
+          button.value?.$el?.click()
+        }
+      })
+    }
   })
 }
 </script>
