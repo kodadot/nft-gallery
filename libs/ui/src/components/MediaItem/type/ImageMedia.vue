@@ -82,7 +82,7 @@ const loading = computed<'eager' | 'lazy'>(() =>
 
 const className = computed(() =>
   !props.original && !props.isFullscreen
-    ? 'object-cover absolute inset-0 w-full h-full !rounded-none'
+    ? 'object-contain absolute inset-0 w-full h-full !rounded-none'
     : 'block !rounded-none',
 )
 

@@ -19,6 +19,7 @@ export function parseJson(jsonData: string): Record<string, Entry> {
         name: item.name || undefined,
         description: item.description || undefined,
         price: item.price !== undefined ? parseFloat(item.price) : undefined,
+        attributes: item.attributes || [],
       }
 
       if (!entry.file) {

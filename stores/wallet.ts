@@ -100,7 +100,8 @@ export const useWalletStore = defineStore('wallet', {
           return
         }
 
-        this.setWallet({ ...account, address: address })
+        this.setWallet({ ...account, address })
+        useIdentityStore().setAuth({ address })
       }
     },
     switchChain(prefix: Prefix) {

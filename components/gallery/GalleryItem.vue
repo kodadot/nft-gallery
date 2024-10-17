@@ -8,7 +8,7 @@
     <div class="flex flex-col lg:flex-row">
       <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
-          id="nft-img-container"
+          :id="CONTAINER_ID"
           ref="imgref"
           :class="{
             'relative': !isFullscreen,
@@ -41,7 +41,10 @@
             :audio-player-cover="image"
           />
         </div>
-        <GalleryItemToolBar @toggle="toggleFullscreen" />
+        <GalleryItemToolBar
+          :container-id="CONTAINER_ID"
+          @toggle="toggleFullscreen"
+        />
       </div>
 
       <div class="w-full lg:w-3/5 lg:pl-5 py-7">
@@ -187,6 +190,8 @@ import { resolveMedia } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { generateNftImage } from '@/utils/seoImageGenerator'
+
+const CONTAINER_ID = 'nft-img-container'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
