@@ -25,7 +25,7 @@ export const createTokensToMint = (
       nft.price === undefined ? 0 : nft.price * Math.pow(10, decimals.value),
     nsfw: false,
     postfix: true,
-    tags: [],
+    tags: Array.isArray(nft.attributes) ? nft.attributes : [],
   }))
 }
 export const subscribeToCollectionLengthUpdates = (collectionId: string) => {
