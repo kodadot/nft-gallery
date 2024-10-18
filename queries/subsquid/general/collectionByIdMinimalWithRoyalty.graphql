@@ -9,6 +9,7 @@ query collectionByIdMinimalWithRoyalty($id: String!) {
       description
       id
       image
+      banner
       name
       type
     }

@@ -1,7 +1,7 @@
 <template>
   <div
     class="collection-banner relative md:h-[560px] h-72 bg-no-repeat bg-cover bg-center border-b"
-    :style="{ backgroundImage: `url(${bannerImageUrl})` }"
+    :style="{ backgroundImage: `url(${collectionBanner})` }"
   >
     <div class="collection-banner-shadow absolute inset-0" />
 
@@ -55,14 +55,12 @@ const props = defineProps<{
 const route = useRoute()
 
 const collectionAvatar = ref('')
+const collectionBanner = ref('')
 const collectionName = ref('--')
-
-const bannerImageUrl = computed(
-  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
-)
 
 watch(() => props.collectionId, () => {
   collectionAvatar.value = ''
+  collectionBanner.value = ''
   collectionName.value = '--'
 })
 
@@ -70,10 +68,12 @@ watchEffect(async () => {
   const collection = props.collection
   const metadata = collection?.metadata
   const image = collection?.meta?.image
+  const banner = collection?.meta?.banner || image
   const name = collection?.name
 
-  if (image && name) {
+  if (image && name && banner) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
+    collectionBanner.value = toOriginalContentUrl(sanitizeIpfsUrl(banner))
     collectionName.value = name
   }
   else {
@@ -81,10 +81,15 @@ watchEffect(async () => {
       metadata as string,
     )) as NFTMetadata
     const metaImage = sanitizeIpfsUrl(meta?.image)
+    const metaBanner = sanitizeIpfsUrl(meta?.banner || metaImage)
     const metaName = meta?.name
 
     if (metaName) {
       collectionName.value = metaName
+    }
+
+    if (metaBanner) {
+      collectionBanner.value = toOriginalContentUrl(metaBanner)
     }
 
     if (metaImage) {
