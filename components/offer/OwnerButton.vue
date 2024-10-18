@@ -20,6 +20,15 @@ const { isOwnerOfNft, isOwnerOfOffer } = useIsOffer(computed(() => props.offer),
 const onClick = () => emit('click', props.offer)
 
 const buttonConfig = computed<ButtonConfig | null>(() => {
+  if (props.offer.status === 'EXPIRED') {
+    return isOwnerOfOffer.value
+      ? {
+          label: $i18n.t('offer.withdrawAmount'),
+          onClick,
+        }
+      : null
+  }
+
   if (isOwnerOfOffer.value) {
     return {
       label: $i18n.t('transaction.offerWithdraw'),

@@ -3,9 +3,7 @@
 
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
-    :action="action"
-    :status="status"
-    :is-error="isError"
+    :action="autoTeleportAction"
     @confirm="mintNft"
     @close="handleMintModalClose"
     @list="handleList"
@@ -15,12 +13,11 @@
 <script setup lang="ts">
 import { useUpdateMetadata } from '@/composables/drop/useGenerativeDropMint'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import useCursorDropEvents from '@/composables/party/useCursorDropEvents'
 import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
-import { NFTs } from '@/composables/transaction/types'
+import { type ActionMintDrop, NFTs } from '@/composables/transaction/types'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const { urlPrefix } = usePrefix()
@@ -53,8 +50,15 @@ useCursorDropEvents([isTransactionLoading, loading])
 
 const isMintModalActive = ref(false)
 
-const action = computed<AutoTeleportAction>(() => ({
-  interaction: ActionlessInteraction.PAID_DROP,
+const dropAction = computed<ActionMintDrop>(() => ({
+  interaction: NFTs.MINT_DROP,
+  collectionId: drop.value?.collection,
+  price: drop.value?.price || null,
+  prefix: urlPrefix.value,
+}))
+
+const autoTeleportAction = computed<AutoTeleportAction>(() => ({
+  action: dropAction.value,
   handler: () => mintNft(),
   details: {
     isLoading: isTransactionLoading.value,
@@ -69,12 +73,7 @@ const mintNft = async () => {
     isError.value = false
     mintingSession.value.txHash = undefined
 
-    transaction({
-      interaction: NFTs.MINT_DROP,
-      collectionId: drop.value?.collection,
-      price: drop.value?.price || null,
-      prefix: urlPrefix.value,
-    })
+    transaction(dropAction.value)
   }
   catch (e) {
     warningMessage(`${e}`)

@@ -38,27 +38,21 @@
 </template>
 
 <script setup lang="ts">
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-import collectionById from '@/queries/subsquid/general/collectionById.query'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const collectionId = computed(() => route.params.id as string)
-const route = useRoute()
-const { client } = usePrefix()
+const props = defineProps<{
+  collectionId: string
+  collection?: unknown
+}>()
 
-const { data, refresh: refetch } = useAsyncQuery({
-  query: collectionById,
-  variables: {
-    id: collectionId.value,
-  },
-  clientId: client.value,
-})
+const route = useRoute()
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
@@ -67,13 +61,13 @@ const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
 
-watch(collectionId, () => {
-  refetch()
+watch(() => props.collectionId, () => {
   collectionAvatar.value = ''
+  collectionName.value = '--'
 })
 
 watchEffect(async () => {
-  const collection = data.value?.collectionEntity
+  const collection = props.collection
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
@@ -102,21 +96,21 @@ watchEffect(async () => {
 useSeoMeta({
   title: collectionName,
   description: () =>
-    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
+    convertMarkdownToText(props.collection?.meta?.description),
   ogUrl: route.path,
   ogTitle: collectionName,
   ogDescription: () =>
-    convertMarkdownToText(data.value?.collectionEntity?.meta?.description),
+    convertMarkdownToText(props.collection?.meta?.description),
   ogImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection?.totalCount,
+      props.collection?.nftCount,
       collectionAvatar.value,
     ),
   twitterImage: () =>
     generateCollectionImage(
       collectionName.value,
-      data.value?.nftEntitiesConnection?.totalCount,
+      props.collection?.nftCount,
       collectionAvatar.value,
     ),
 })

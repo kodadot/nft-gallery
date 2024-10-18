@@ -1,51 +1,77 @@
 {
-  "translation": "portuguese",
-  "create": "Criar",
-  "credit": "Credito",
-  "gallery": "Galeria",
-  "collection": "Coleção",
-  "collections": "Coleções",
-  "classic": "Clássico",
-  "account": "Conta",
-  "accounts": "Contas",
-  "transfer": "Transferência",
-  "transform": "Transformar",
-  "settings": "Configurações",
-  "first NFT market explorer on Kusama and Polkadot": "Primeiro explorador de NFT's do mercado na Kusama e Polkadot",
-  "legend": "Legenda",
-  "owner": "Dono",
-  "facts": "Fatos",
-  "fullscreen": "Tela cheia",
-  "newTab": "Abrir em nova aba",
-  "computed id": "Id computado",
-  "create collection": "Criar Coleção",
-  "Select collection where do you want mint your token": "Selecione a coleção que voce quer fazer o mint do seu token",
-  "Maximum NFTs in collection": "Maximo de NFTs na coleção",
-  "name": "Nome",
-  "simple": "Simples",
-  "about": "Sobre",
-  "ambassador program": "Programa de Embaixadores",
-  "press kit": "Kit de mídia",
-  "careers": "Carreiras",
-  "contribute": "Contribua",
-  "qrCode": "Qrcode",
-  "reload": "Recarregar",
-  "documentation": "Documentação",
-  "referralProgram": "Programa de Referência",
-  "theatre": "auditório",
-  "view": "visão",
-  "price": "preço",
-  "royalty": "direitos sobre pagamentos(royalty)",
-  "Instance_tooltip": "A instância é como o identificador de um NFT, como um ticker de mercado. É um \"nome curto compatível com o computador\"",
-  "mintingSettings": "Configurações de mint",
-  "user interface mode": "Modo de interface do usuário",
-  "Layout Options": "Opções de Layout",
-  "Gallery Items Per Page": "Itens por página na galeria",
   "Collections Per Page": "Coleções por página",
+  "Gallery Items Per Page": "Itens por página na galeria",
   "I am helping to cover costs": "Estou ajudando a cobrir os custos",
   "I do not want to support": "Eu não quero apoiar",
+  "Instance_tooltip": "A instância é como o identificador de um NFT, como um ticker de mercado. É um \"nome curto compatível com o computador\"",
+  "Layout Options": "Opções de Layout",
+  "Maximum NFTs in collection": "Maximo de NFTs na coleção",
+  "Select collection where do you want mint your token": "Selecione a coleção que voce quer fazer o mint do seu token",
+  "about": "Sobre",
+  "account": "Conta",
+  "accounts": "Contas",
+  "action": {
+    "admin": "Painel de administração",
+    "click": "Clique para {0} NFT(s)",
+    "distributionCount": "Percentual que será distribuído",
+    "omitListed": "Pular NFT(s) listada(s)",
+    "random": "Usar aleatório",
+    "sendToMyself": "Enviar para mim mesmo"
+  },
+  "activity": {
+    "distribution": "DISTRIBUIÇÃO",
+    "floorPrice": "PREÇO MÍNIMO",
+    "highestSale": "MAIOR VENDA",
+    "listed": "Listados",
+    "owners": "OS PROPRIETÁRIOS",
+    "todayTraded": "24H",
+    "totalBuys": "Σ COMPRAS",
+    "totalItems": "Σ Items",
+    "totalTraded": "Σ VOLUME NEGOCIADO",
+    "unique": "UNIQUE"
+  },
+  "ambassador program": "Programa de Embaixadores",
+  "arweave": {
+    "tooltip": "Usar a Arweave significa que você está armazenando sua multimídia para sempre na Arweave, bom para pequenos ativos como JPEG.",
+    "uploadNo": "Não use Arweave",
+    "uploadYes": "Carregar imagem NFT para Arweave"
+  },
+  "carbonOffset": {
+    "carbonOffsetNo": "Eu não quero ter NFT sem carbono",
+    "carbonOffsetYes": "Estou fazendo NFT sem carbono",
+    "tooltip": "NFT sem carbono significa que você está ajudando a cobrir os custos de créditos de carbono e plantio de árvores"
+  },
+  "careers": "Carreiras",
+  "classic": "Clássico",
+  "collapse": {
+    "collection": {
+      "attributes": {
+        "hide": "Ocultar atributos na cadeia",
+        "show": "Mostrar atributos na cadeia"
+      },
+      "description": {
+        "hide": "Ocultar a descrição",
+        "show": "Mostre-me a descrição"
+      }
+    }
+  },
+  "collection": "Coleção",
+  "collections": "Coleções",
+  "computed id": "Id computado",
+  "contribute": "Contribua",
+  "cookies": {
+    "accept": "Aceitar",
+    "decline": "Declínio",
+    "notice": "Usamos terceiros 🍪 para personalizar a experiência do seu site"
+  },
+  "create": "Criar",
+  "create collection": "Criar Coleção",
   "createNftExplainer": "Se sua coleção teve mint e recentemente não apareceu aqui, aguarde, ela aparecerá no seletor abaixo em breve",
-  "passion": "Feed Passional",
+  "credit": "Credito",
+  "documentation": "Documentação",
+  "facts": "Fatos",
+  "first NFT market explorer on Kusama and Polkadot": "Primeiro explorador de NFT's do mercado na Kusama e Polkadot",
+  "fullscreen": "Tela cheia",
   "funfacts": {
     "1": {
       "heading": "Você sabia...",
@@ -143,10 +169,7 @@
       "heading": "Você sabia...",
       "question": "que se você fizer um pull request no repositório do Koda, sua curiosidade pode ser mostrada aqui?"
     },
-    "25": {
-      "heading": "Você checou...",
-      "question": "suas vendas JPEG hoje?"
-    },
+    "25": { "heading": "Você checou...", "question": "suas vendas JPEG hoje?" },
     "26": {
       "heading": "Você já...",
       "question": "fez o mint de algo bonito hoje?"
@@ -304,375 +327,341 @@
       "question": "Koda tem uma cultura de peer incrível?"
     }
   },
-  "sort": {
-    "EMOTES_COUNT_DESC": "O Mais reagido",
-    "BLOCK_NUMBER_DESC": "Criado recentemente",
-    "BLOCK_NUMBER_ASC": "O mais antigo",
-    "UPDATED_AT_DESC": "Interagido recentemente",
-    "UPDATED_AT_ASC": "Impopular",
-    "PRICE_DESC": "Preço: Maior para Menor",
-    "PRICE_ASC": "Preço: Menor para Maior",
-    "SN_ASC": "Alfabeticamente",
-    "blockNumber_DESC": "Criado recentemente",
-    "blockNumber_ASC": "O mais antigo",
-    "updatedAt_DESC": "Interagido recentemente",
-    "updatedAt_ASC": "Impopular",
-    "price_DESC": "Preço: Maior para Menor",
-    "price_ASC": "Preço: Menor para Maior",
-    "sn_ASC": "Alfabeticamente",
-    "listed": "Compre agora",
-    "own": "Em posse",
-    "collection": {
-      "blockNumber_DESC": "Novo primeiro",
-      "blockNumber_ASC": "Antigo primeiro",
-      "updatedAt_DESC": "Interagido recentemente",
-      "updatedAt_ASC": "Impopular",
-      "price_DESC": "Preço: Maior para Menor",
-      "price_ASC": "Preço: Menor para Maior",
-      "sn_ASC": "Alfabeticamente",
-      "listed": "Compre agora",
-      "EMOTES_COUNT_DESC": "O Mais reagido",
-      "BLOCK_NUMBER_DESC": "Criado recentemente",
-      "BLOCK_NUMBER_ASC": "O mais antigo",
-      "UPDATED_AT_DESC": "Interagido recentemente",
-      "UPDATED_AT_ASC": "Impopular",
-      "PRICE_DESC": "Preço: Maior para Menor",
-      "PRICE_ASC": "Preço: Menor para Maior",
-      "SN_ASC": "Alfabeticamente"
+  "gallery": "Galeria",
+  "general": {
+    "apply": "Aplicar",
+    "balance": "Saldo",
+    "change_account": "Mudar de conta",
+    "connect": "Conectar",
+    "connect_wallet": "Conectar sua carteira",
+    "copyRewardLink": "Copiar link Recompense-me",
+    "copyRewardTooltip": "Seu link de recompensa copiado para a área de transferência",
+    "copyUrl": "Copiar URL",
+    "correctAddress": "Formato de endereço correto",
+    "from": "de",
+    "ksmDiscoverText": "Descubra, colete e venda NFTs Kusama",
+    "latestSales": "Últimas vendas",
+    "latestSalesheading": "Descubra as últimas vendas em",
+    "newestListDesc": "Descubra os últimos itens à venda",
+    "newestListHeading": "Lista mais recente",
+    "openUrl": "Abrir URL",
+    "popularCollectionsDesc": "Descubra as coleções mais populares no rmrk",
+    "popularCollectionsHeading": "Coleções populares",
+    "remove": "Remover",
+    "searchResultsText": "Mostrando resultados para",
+    "submit": "Submiter",
+    "to": "para",
+    "tx": { "cancelled": "A transação foi cancelada" },
+    "using": "usando"
+  },
+  "helper": {
+    "builtOn": "Construído em",
+    "clickToCreate": "Clique aqui para criar coleção",
+    "indexerReadOnly": "O aplicativo está no modo somente leitura, tente recarregar o aplicativo ou visite o Discord",
+    "learnMore": "Saiba mais",
+    "noCollections": "Você não tem coleções",
+    "noInfinityCollections": "Você não tem coleções com NFTs ilimitados",
+    "seeMore": "Veja mais",
+    "signStuckText": "Preso? Certifique-se de verificar se há algum pop-up e ASSINE a transação.",
+    "urlToTransform": {
+      "copy": "Link Koda copiado com sucesso",
+      "label": "URL para transformar",
+      "placeholder": "singular.rmrk.app/collectibles/"
     }
   },
+  "hot": {
+    "subtitle": "Apresentando os NFTs vendidos recentemente no RMRK",
+    "title": "Recentemente, as vendas da KUSAMA em uma semana"
+  },
+  "identity": {
+    "click": "Clique para criar identidade",
+    "deposit": "Depósito",
+    "handleRequired": "Seu identificador é necessário",
+    "page": "Identidade",
+    "set": "Criar identidade na cadeia"
+  },
+  "legend": "Legenda",
+  "loader": {
+    "arweave": "Armazenando dados via PermaFrost",
+    "block": "(2/3) Bloco em transação",
+    "casting": "(1/3) Transmitindo o tx para a blockchain",
+    "checkBalance": "Verificando se você tem saldo suficiente",
+    "constructTx": "Construindo transação",
+    "finalized": "(3/3) Finalizada",
+    "ipfs": "Carregando dados para IPFS",
+    "pinImage": "Fixando imagem",
+    "pinMeta": "Fixando Metadata",
+    "sign": "Aguardando resposta do signatário",
+    "uploading": "({0}/{1}) Carregando dados para IPFS"
+  },
+  "mint": {
+    "collection": {
+      "create": "Criar Coleção",
+      "description": {
+        "label": "Descrição da coleção",
+        "message": "Descrição da sua coleção. Markdown é suportado",
+        "placeholder": "Insira a descrição da coleção"
+      },
+      "name": {
+        "label": "Nome da coleção",
+        "message": "Nome da sua coleção. Estará visível na galeria",
+        "placeholder": "Digite o nome da coleção"
+      },
+      "symbol": {
+        "label": "Símbolo (nome curto)",
+        "message": "O símbolo que é atribuído ao NFT: por exemplo, Kusama é rotulado como KSM",
+        "placeholder": "Nome longo de 3 a 5 caracteres"
+      }
+    },
+    "command": "Lista de comandos para massa de mint",
+    "deposit": "Depósito atual",
+    "estimate": "Mostre-me as taxas de transação",
+    "estimated": "As taxas de transação custarão cerca de",
+    "expert": {
+      "count": "Endereços correspondentes de {0} atualmente",
+      "countGlitch": "Você tem mais endereços do que edições disponíveis. Isso pode causar um problema. Considere definir o campo EDITION para pelo menos {0}",
+      "hide": "Ocultar configurações avançadas",
+      "postfix": "Adicione hashtag e índice após o nome (e.g #1)",
+      "show": "Mostrar configurações avançadas",
+      "sync": "Sincronize edições com {0}"
+    },
+    "listForSale": "Lista NFT para venda",
+    "mass": "Massa de NFT minter",
+    "nfsw": "Conteúdo explícito (NSFW)",
+    "nft": {
+      "description": {
+        "label": "Descrição NFT",
+        "message": "Descrição do seu NFT. Markdown é suportado",
+        "placeholder": "Digite a descrição NFT"
+      },
+      "edition": {
+        "label": "Edição",
+        "message": "Número de NFTs a serem minted",
+        "placeholder": "Mínimo é 1"
+      },
+      "name": {
+        "label": "nome",
+        "message": "Nome do seu NFT. Estará visível na galeria",
+        "placeholder": "Digite o nome NFT"
+      }
+    },
+    "royalty": {
+      "mine": "Pagar royalties para a conta do criador",
+      "rate": "Taxa de royalties",
+      "receiver": "Conta de destino para royalties"
+    },
+    "shareWithFriends": "Compartilhe {0} com seus amigos",
+    "submit": "Clique para criar NFT(s)",
+    "success": "Parabéns para seus novo(s) NFT(s)",
+    "transform": "Comandos de transformação em NFT",
+    "unlimited": "Itens ilimitados em sua coleção"
+  },
+  "mintingSettings": "Configurações de mint",
+  "name": "Nome",
+  "navbar": { "teleport": "Teleporte" },
+  "newTab": "Abrir em nova aba",
+  "nft": {
+    "action": { "submit": "Submiter {0}" },
+    "burned": "NFT foi queimado",
+    "carbonless": "Este NFT é sem carbono",
+    "description": "Descrição do NFT",
+    "event": {
+      "BUY": "COMPRA",
+      "CONSUME": "QUEIMA",
+      "DOWNLOAD": "DOWNLOAD",
+      "LIST": "LISTAR",
+      "MAKE_OFFER": "FAZER UMA OFERTA",
+      "MINTNFT": "MINT NFT",
+      "PAY_ROYALTY": "PAGAR ROYALTY",
+      "RELIST": "RELISTAR",
+      "ROYALTY": "ROYALTY",
+      "SEND": "PRESENTE",
+      "UNLIST": "DESLISTAR"
+    },
+    "frozen": "NFT está congelado",
+    "name": "Dê um nome à sua NFT",
+    "properties": { "label": "Características" },
+    "related": "Mais desta coleção",
+    "visited": "NFTs visitadas"
+  },
+  "owner": "Dono",
+  "passion": "Feed Passional",
+  "preferences": {
+    "helpCoverCosts": "Ajude a cobrir custos",
+    "userData": "Dados do usuário"
+  },
+  "press kit": "Kit de mídia",
+  "price": "preço",
+  "profile": {
+    "collected": "Coletado",
+    "collectedFromCreator": "Coletou {0} NFT(s) deste criador",
+    "created": "Criado",
+    "gains": "Ganhos",
+    "holdings": "Participações",
+    "page": "Perfil",
+    "showQr": "Mostre o QR",
+    "sold": "Vendido",
+    "user": "Usário"
+  },
+  "profileStats": {
+    "highestBuy": "Compra mais alta",
+    "highestSale": "MAIOR VENDA",
+    "holdingsNfts": "Valores das participações",
+    "listed": "Listados",
+    "maxSoldPrice": "Preço máximo de venda",
+    "totalAmountSpend": "Σ valor gasto",
+    "totalBuys": "Σ COMPRAS",
+    "totalHoldingsBoughtValues": "Gasto KSM para nfts de participações",
+    "totalItems": "Σ Items",
+    "totalSellValues": "Σ vender valores",
+    "totalSoldItems": "Σ itens vendidos"
+  },
+  "qrCode": "Qrcode",
   "query": {
     "priceRange": {
-      "minPrice": "Preço mínimo",
       "maxPrice": "Preço máximo",
+      "minPrice": "Preço mínimo",
       "priceValidation": "O preço mínimo deve ser menor que o preço máximo!",
       "range": "Faixa de preço"
     }
   },
-  "mint": {
-    "submit": "Clique para criar NFT(s)",
-    "estimate": "Mostre-me as taxas de transação",
-    "estimated": "As taxas de transação custarão cerca de",
-    "success": "Parabéns para seus novo(s) NFT(s)",
-    "shareWithFriends": "Compartilhe {0} com seus amigos",
-    "unlimited": "Itens ilimitados em sua coleção",
-    "nfsw": "Conteúdo explícito (NSFW)",
-    "listForSale": "Lista NFT para venda",
-    "mass": "Massa de NFT minter",
-    "command": "Lista de comandos para massa de mint",
-    "transform": "Comandos de transformação em NFT",
-    "deposit": "Depósito atual",
-    "expert": {
-      "show": "Mostrar configurações avançadas",
-      "hide": "Ocultar configurações avançadas",
-      "count": "Endereços correspondentes de {0} atualmente",
-      "countGlitch": "Você tem mais endereços do que edições disponíveis. Isso pode causar um problema. Considere definir o campo EDITION para pelo menos {0}",
-      "postfix": "Adicione hashtag e índice após o nome (e.g #1)",
-      "sync": "Sincronize edições com {0}"
-    },
-    "royalty": {
-      "rate": "Taxa de royalties",
-      "mine": "Pagar royalties para a conta do criador",
-      "receiver": "Conta de destino para royalties"
-    },
-    "collection": {
-      "name": {
-        "label": "Nome da coleção",
-        "placeholder": "Digite o nome da coleção",
-        "message": "Nome da sua coleção. Estará visível na galeria"
-      },
-      "description": {
-        "label": "Descrição da coleção",
-        "placeholder": "Insira a descrição da coleção",
-        "message": "Descrição da sua coleção. Markdown é suportado"
-      },
-      "symbol": {
-        "label": "Símbolo (nome curto)",
-        "placeholder": "Nome longo de 3 a 5 caracteres",
-        "message": "O símbolo que é atribuído ao NFT: por exemplo, Kusama é rotulado como KSM"
-      },
-      "create": "Criar Coleção"
-    },
-    "nft": {
-      "name": {
-        "label": "nome",
-        "placeholder": "Digite o nome NFT",
-        "message": "Nome do seu NFT. Estará visível na galeria"
-      },
-      "description": {
-        "label": "Descrição NFT",
-        "placeholder": "Digite a descrição NFT",
-        "message": "Descrição do seu NFT. Markdown é suportado"
-      },
-      "edition": {
-        "label": "Edição",
-        "placeholder": "Mínimo é 1",
-        "message": "Número de NFTs a serem minted"
-      }
-    }
-  },
-  "tooltip": {
-    "symbol": "O símbolo que é atribuído ao NFT: por exemplo, Kusama é rotulado como KSM",
-    "name": "NFT ficará visível com este nome na galeria",
-    "edition": "Número de cópias",
-    "created": "Criado por",
-    "collections": "Coleções criadas por",
-    "sold": "Nfts vendidos por",
-    "collected": "Nfts coletados por",
-    "buy": "Mostrar apenas nfts disponíveis para compra",
-    "own": "Mostrar apenas nfts que você possui",
-    "random": "Ir para página aleatória",
-    "buyDisabled": "Não há saldo suficiente",
-    "holdings": "Nfts de propriedade de",
-    "gains": "Ganho por",
-    "needToUploadNFTFile": "Você precisa fazer o upload do arquivo NFT",
-    "needToSetValidPrice": "Para listar NFT, o preço deve ser maior que 0",
-    "notEnoughBalance": "Fundos insuficientes",
-    "haveNoToS": "Não tem permissão para usar o ativo"
-  },
-  "nft": {
-    "carbonless": "Este NFT é sem carbono",
-    "burned": "NFT foi queimado",
-    "description": "Descrição do NFT",
-    "name": "Dê um nome à sua NFT",
-    "frozen": "NFT está congelado",
-    "related": "Mais desta coleção",
-    "visited": "NFTs visitadas",
-    "event": {
-      "MINTNFT": "MINT NFT",
-      "LIST": "LISTAR",
-      "UNLIST": "DESLISTAR",
-      "RELIST": "RELISTAR",
-      "SEND": "PRESENTE",
-      "CONSUME": "QUEIMA",
-      "BUY": "COMPRA",
-      "MAKE_OFFER": "FAZER UMA OFERTA",
-      "DOWNLOAD": "DOWNLOAD",
-      "ROYALTY": "ROYALTY",
-      "PAY_ROYALTY": "PAGAR ROYALTY"
-    },
-    "action": {
-      "submit": "Submiter {0}"
-    },
-    "properties": {
-      "label": "Características"
-    }
-  },
-  "statsOverview": {
-    "buys": "Compras",
-    "listed": "Listado",
-    "minted": "Minted",
-    "createdCollections": "coleções Criadas",
-    "activeWallets": "Carteiras ativas",
-    "values": "VALORES"
-  },
-  "loader": {
-    "casting": "(1/3) Transmitindo o tx para a blockchain",
-    "finalized": "(3/3) Finalizada",
-    "block": "(2/3) Bloco em transação",
-    "pinImage": "Fixando imagem",
-    "pinMeta": "Fixando Metadata",
-    "constructTx": "Construindo transação",
-    "sign": "Aguardando resposta do signatário",
-    "ipfs": "Carregando dados para IPFS",
-    "arweave": "Armazenando dados via PermaFrost",
-    "uploading": "({0}/{1}) Carregando dados para IPFS",
-    "checkBalance": "Verificando se você tem saldo suficiente"
-  },
-  "arweave": {
-    "uploadYes": "Carregar imagem NFT para Arweave",
-    "uploadNo": "Não use Arweave",
-    "tooltip": "Usar a Arweave significa que você está armazenando sua multimídia para sempre na Arweave, bom para pequenos ativos como JPEG."
-  },
-  "carbonOffset": {
-    "carbonOffsetYes": "Estou fazendo NFT sem carbono",
-    "carbonOffsetNo": "Eu não quero ter NFT sem carbono",
-    "tooltip": "NFT sem carbono significa que você está ajudando a cobrir os custos de créditos de carbono e plantio de árvores"
-  },
-  "support": {
-    "tooltip": "Os custos de cobertura significam que os usuários ajudam a suportar os custos iniciais do Koda, que armazena seu JPEG em seu nome."
-  },
-  "termOfService": {
-    "accept": "Confirmo que detenho a propriedade total dos direitos autorais do recurso digital enviado (ou tenho permissão suficiente do proprietário para usar o recurso)"
-  },
-  "profile": {
-    "page": "Perfil",
-    "user": "Usário",
-    "created": "Criado",
-    "collected": "Coletado",
-    "sold": "Vendido",
-    "holdings": "Participações",
-    "gains": "Ganhos",
-    "showQr": "Mostre o QR",
-    "collectedFromCreator": "Coletou {0} NFT(s) deste criador"
-  },
+  "referralProgram": "Programa de Referência",
+  "reload": "Recarregar",
+  "royalty": "direitos sobre pagamentos(royalty)",
   "sales": {
     "page": "Vendas",
-    "title": "Últimas vendas KUSAMA",
-    "subtitle": "Apresentando os NFTs vendidos mais recentemente no RMRK."
-  },
-  "hot": {
-    "title": "Recentemente, as vendas da KUSAMA em uma semana",
-    "subtitle": "Apresentando os NFTs vendidos recentemente no RMRK"
-  },
-  "spotlight": {
-    "page": "Spotlight",
-    "title": "Usuário no Spotlight",
-    "subtitle": "Apresentando os colecionadores e artistas mais ativos da RMRK.",
-    "filter_accounts": "Contas com identidade",
-    "id": "Criador",
-    "sold": "Vendido",
-    "unique": "∃! UNIQUE",
-    "total": "Total",
-    "averagePrice": "Ø preço",
-    "count": "Σ coleção",
-    "collectors": "Colecionadores",
-    "score": "Score",
-    "empty": "Vazio",
-    "uniqueCollectors": "∃! Colecionadores",
-    "soldHistory": "Últimos 30 dias vendidos"
+    "subtitle": "Apresentando os NFTs vendidos mais recentemente no RMRK.",
+    "title": "Últimas vendas KUSAMA"
   },
   "series": {
-    "title": "Coleção principal",
-    "subtitle": "As principais NFTs no RMRK, classificadas por volume, preço mínimo e outras estatísticas.",
     "assets": "Ativos",
+    "averagePrice": "Preço médio",
+    "buyHistory": "Últimos 30 dias de compra",
     "buys": "Compras",
     "collected": "Coletada",
+    "emoteCount": "Emotes",
     "floorprice": "Preço mínimo",
-    "averagePrice": "Preço médio",
     "highestSale": "Maior venda",
     "owners": "Os Proprietários",
-    "volume": "Volume",
     "score": "Score",
-    "emoteCount": "Emotes",
-    "buyHistory": "Últimos 30 dias de compra"
+    "subtitle": "As principais NFTs no RMRK, classificadas por volume, preço mínimo e outras estatísticas.",
+    "title": "Coleção principal",
+    "volume": "Volume"
   },
-  "activity": {
-    "listed": "Listados",
-    "totalItems": "Σ Items",
-    "todayTraded": "24H",
-    "totalTraded": "Σ VOLUME NEGOCIADO",
-    "highestSale": "MAIOR VENDA",
-    "totalBuys": "Σ COMPRAS",
-    "unique": "UNIQUE",
-    "owners": "OS PROPRIETÁRIOS",
-    "distribution": "DISTRIBUIÇÃO",
-    "floorPrice": "PREÇO MÍNIMO"
-  },
-  "profileStats": {
-    "listed": "Listados",
-    "totalItems": "Σ Items",
-    "highestSale": "MAIOR VENDA",
-    "totalBuys": "Σ COMPRAS",
-    "highestBuy": "Compra mais alta",
-    "totalAmountSpend": "Σ valor gasto",
-    "holdingsNfts": "Valores das participações",
-    "maxSoldPrice": "Preço máximo de venda",
-    "totalSellValues": "Σ vender valores",
-    "totalSoldItems": "Σ itens vendidos",
-    "totalHoldingsBoughtValues": "Gasto KSM para nfts de participações"
-  },
-  "tutorial": "Tutorial",
-  "general": {
-    "apply": "Aplicar",
-    "using": "usando",
-    "balance": "Saldo",
-    "connect": "Conectar",
-    "connect_wallet": "Conectar sua carteira",
-    "change_account": "Mudar de conta",
-    "submit": "Submiter",
-    "remove": "Remover",
-    "correctAddress": "Formato de endereço correto",
-    "copyUrl": "Copiar URL",
-    "openUrl": "Abrir URL",
-    "copyRewardTooltip": "Seu link de recompensa copiado para a área de transferência",
-    "copyRewardLink": "Copiar link Recompense-me",
-    "latestSales": "Últimas vendas",
-    "searchResultsText": "Mostrando resultados para",
-    "ksmDiscoverText": "Descubra, colete e venda NFTs Kusama",
-    "latestSalesheading": "Descubra as últimas vendas em",
-    "newestListDesc": "Descubra os últimos itens à venda",
-    "newestListHeading": "Lista mais recente",
-    "popularCollectionsHeading": "Coleções populares",
-    "popularCollectionsDesc": "Descubra as coleções mais populares no rmrk",
-    "from": "de",
-    "to": "para",
-    "tx": {
-      "cancelled": "A transação foi cancelada"
-    }
-  },
-  "helper": {
-    "seeMore": "Veja mais",
-    "learnMore": "Saiba mais",
-    "noCollections": "Você não tem coleções",
-    "noInfinityCollections": "Você não tem coleções com NFTs ilimitados",
-    "indexerReadOnly": "O aplicativo está no modo somente leitura, tente recarregar o aplicativo ou visite o Discord",
-    "clickToCreate": "Clique aqui para criar coleção",
-    "urlToTransform": {
-      "label": "URL para transformar",
-      "placeholder": "singular.rmrk.app/collectibles/",
-      "copy": "Link Koda copiado com sucesso"
-    },
-    "builtOn": "Construído em",
-    "signStuckText": "Preso? Certifique-se de verificar se há algum pop-up e ASSINE a transação."
-  },
-  "cookies": {
-    "notice": "Usamos terceiros 🍪 para personalizar a experiência do seu site",
-    "accept": "Aceitar",
-    "decline": "Declínio"
-  },
-  "action": {
-    "admin": "Painel de administração",
-    "click": "Clique para {0} NFT(s)",
-    "omitListed": "Pular NFT(s) listada(s)",
-    "random": "Usar aleatório",
-    "distributionCount": "Percentual que será distribuído",
-    "sendToMyself": "Enviar para mim mesmo"
-  },
-  "identity": {
-    "page": "Identidade",
-    "set": "Criar identidade na cadeia",
-    "click": "Clique para criar identidade",
-    "handleRequired": "Seu identificador é necessário",
-    "deposit": "Depósito"
-  },
-  "collapse": {
-    "collection": {
-      "description": {
-        "show": "Mostre-me a descrição",
-        "hide": "Ocultar a descrição"
-      },
-      "attributes": {
-        "show": "Mostrar atributos na cadeia",
-        "hide": "Ocultar atributos na cadeia"
-      }
-    }
-  },
+  "settings": "Configurações",
   "sharing": {
     "collection": "Confira esta coleção incrível na Koda",
     "nft": "Confira este incrível NFT na Koda",
     "pack": "Confira este pacote incrível na Koda",
     "profile": "Confira este incrível perfil na Koda"
   },
-  "warning": {
-    "newTransactionWhilePriceSet": "Definir o preço agora requer fazer uma transação adicional."
+  "simple": "Simples",
+  "sort": {
+    "BLOCK_NUMBER_ASC": "O mais antigo",
+    "BLOCK_NUMBER_DESC": "Criado recentemente",
+    "EMOTES_COUNT_DESC": "O Mais reagido",
+    "PRICE_ASC": "Preço: Menor para Maior",
+    "PRICE_DESC": "Preço: Maior para Menor",
+    "SN_ASC": "Alfabeticamente",
+    "UPDATED_AT_ASC": "Impopular",
+    "UPDATED_AT_DESC": "Interagido recentemente",
+    "blockNumber_ASC": "O mais antigo",
+    "blockNumber_DESC": "Criado recentemente",
+    "collection": {
+      "BLOCK_NUMBER_ASC": "O mais antigo",
+      "BLOCK_NUMBER_DESC": "Criado recentemente",
+      "EMOTES_COUNT_DESC": "O Mais reagido",
+      "PRICE_ASC": "Preço: Menor para Maior",
+      "PRICE_DESC": "Preço: Maior para Menor",
+      "SN_ASC": "Alfabeticamente",
+      "UPDATED_AT_ASC": "Impopular",
+      "UPDATED_AT_DESC": "Interagido recentemente",
+      "blockNumber_ASC": "Antigo primeiro",
+      "blockNumber_DESC": "Novo primeiro",
+      "listed": "Compre agora",
+      "price_ASC": "Preço: Menor para Maior",
+      "price_DESC": "Preço: Maior para Menor",
+      "sn_ASC": "Alfabeticamente",
+      "updatedAt_ASC": "Impopular",
+      "updatedAt_DESC": "Interagido recentemente"
+    },
+    "listed": "Compre agora",
+    "own": "Em posse",
+    "price_ASC": "Preço: Menor para Maior",
+    "price_DESC": "Preço: Maior para Menor",
+    "sn_ASC": "Alfabeticamente",
+    "updatedAt_ASC": "Impopular",
+    "updatedAt_DESC": "Interagido recentemente"
+  },
+  "spotlight": {
+    "averagePrice": "Ø preço",
+    "collectors": "Colecionadores",
+    "count": "Σ coleção",
+    "empty": "Vazio",
+    "filter_accounts": "Contas com identidade",
+    "id": "Criador",
+    "page": "Spotlight",
+    "score": "Score",
+    "sold": "Vendido",
+    "soldHistory": "Últimos 30 dias vendidos",
+    "subtitle": "Apresentando os colecionadores e artistas mais ativos da RMRK.",
+    "title": "Usuário no Spotlight",
+    "total": "Total",
+    "unique": "∃! UNIQUE",
+    "uniqueCollectors": "∃! Colecionadores"
+  },
+  "statsOverview": {
+    "activeWallets": "Carteiras ativas",
+    "buys": "Compras",
+    "createdCollections": "coleções Criadas",
+    "listed": "Listado",
+    "minted": "Minted",
+    "values": "VALORES"
+  },
+  "support": {
+    "tooltip": "Os custos de cobertura significam que os usuários ajudam a suportar os custos iniciais do Koda, que armazena seu JPEG em seu nome."
   },
   "teleport": {
     "page": "Teleporte",
     "route": "Teleportando {0} de {1} para {2}"
   },
-  "preferences": {
-    "helpCoverCosts": "Ajude a cobrir custos",
-    "userData": "Dados do usuário"
+  "termOfService": {
+    "accept": "Confirmo que detenho a propriedade total dos direitos autorais do recurso digital enviado (ou tenho permissão suficiente do proprietário para usar o recurso)"
   },
-  "navbar": {
-    "teleport": "Teleporte"
+  "theatre": "auditório",
+  "tooltip": {
+    "buy": "Mostrar apenas nfts disponíveis para compra",
+    "buyDisabled": "Não há saldo suficiente",
+    "collected": "Nfts coletados por",
+    "collections": "Coleções criadas por",
+    "created": "Criado por",
+    "edition": "Número de cópias",
+    "gains": "Ganho por",
+    "haveNoToS": "Não tem permissão para usar o ativo",
+    "holdings": "Nfts de propriedade de",
+    "name": "NFT ficará visível com este nome na galeria",
+    "needToSetValidPrice": "Para listar NFT, o preço deve ser maior que 0",
+    "needToUploadNFTFile": "Você precisa fazer o upload do arquivo NFT",
+    "notEnoughBalance": "Fundos insuficientes",
+    "own": "Mostrar apenas nfts que você possui",
+    "random": "Ir para página aleatória",
+    "sold": "Nfts vendidos por",
+    "symbol": "O símbolo que é atribuído ao NFT: por exemplo, Kusama é rotulado como KSM"
   },
+  "transfer": "Transferência",
+  "transform": "Transformar",
+  "translation": "portuguese",
+  "tutorial": "Tutorial",
+  "user interface mode": "Modo de interface do usuário",
+  "view": "visão",
   "walletConnect": {
-    "walletHeading": "Conectar Carteira",
     "authText": "O Koda nunca pedirá que você forneça sua frase minemônica ou chave privada.",
-    "understand": "Eu entendo",
+    "downloadExtension": "Download extensão",
     "learnText": "Saiba como conectar",
-    "downloadExtension": "Download extensão"
+    "understand": "Eu entendo",
+    "walletHeading": "Conectar Carteira"
+  },
+  "warning": {
+    "newTransactionWhilePriceSet": "Definir o preço agora requer fazer uma transação adicional."
   }
 }

@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import { useIcon } from '@/composables/useIcon'
 
 const props = defineProps<{

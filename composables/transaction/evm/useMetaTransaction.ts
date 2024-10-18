@@ -1,6 +1,6 @@
-import { type Address, TransactionExecutionError } from 'viem'
+import { type Address } from 'viem'
 import { simulateContract, waitForTransactionReceipt, writeContract } from '@wagmi/core'
-import { useConfig } from '@wagmi/vue'
+import { useChainId, useConfig, useSwitchChain } from '@wagmi/vue'
 import type { Abi } from '../types'
 import useTransactionStatus from '@/composables/useTransactionStatus'
 
@@ -33,12 +33,14 @@ export type EvmHowAboutToExecuteOnSuccessParam = {
 */
 export default function useEvmMetaTransaction() {
   const { $i18n } = useNuxtApp()
-  const { isLoading, initTransactionLoader, status, stopLoader }
-    = useTransactionStatus()
+  const { isLoading, initTransactionLoader, status, stopLoader } = useTransactionStatus()
+  const { switchChainAsync: switchChain } = useSwitchChain()
+  const { urlPrefix: prefix } = usePrefix()
+  const chainId = useChainId()
+  const wagmiConfig = useConfig()
+
   const tx = ref<ExecResult>()
   const isError = ref(false)
-
-  const wagmiConfig = useConfig()
 
   const howAboutToExecute: EvmHowAboutToExecute = async ({
     account,
@@ -51,6 +53,8 @@ export default function useEvmMetaTransaction() {
     onError,
   }: EvmHowAboutToExecuteParam): Promise<void> => {
     try {
+      await syncWalletChain()
+
       const { request } = await simulateContract(wagmiConfig, {
         account,
         address,
@@ -79,6 +83,13 @@ export default function useEvmMetaTransaction() {
     }
   }
 
+  const syncWalletChain = async () => {
+    const chain = PREFIX_TO_CHAIN[prefix.value]
+    if (chain && chainId.value !== chain.id) {
+      await switchChain({ chainId: chain.id })
+    }
+  }
+
   const successCb
     = (onSuccess?: (param: EvmHowAboutToExecuteOnSuccessParam) => void) =>
       async ({ txHash, blockNumber }) => {
@@ -94,14 +105,9 @@ export default function useEvmMetaTransaction() {
   const errorCb
     = (onError?: () => void) =>
       ({ error }) => {
-        if (error instanceof TransactionExecutionError) {
-          const isCancelled = error.message.includes('User rejected the request.')
-          isError.value = !isCancelled
-
-          if (isCancelled) {
-            warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
-            status.value = TransactionStatus.Cancelled
-          }
+        if (error.message?.includes('User rejected the request.')) {
+          warningMessage($i18n.t('general.tx.cancelled'), { reportable: false })
+          status.value = TransactionStatus.Cancelled
         }
         else {
           isError.value = true

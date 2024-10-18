@@ -1,4 +1,4 @@
-import type { CollectionWithMeta, NFTWithMeta } from '../rmrk/service/scheme'
+import type { CollectionWithMeta, NFTWithMeta } from '@/types'
 
 export type QueryType = Record<string, unknown>
 

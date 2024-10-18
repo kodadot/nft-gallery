@@ -27,8 +27,10 @@ export default function (prefix: ComputedRef<Prefix>) {
     chainPropListOf(chainSymbol.value.toLowerCase() as Prefix),
   )
 
+  const isEnabled = computed(() => prefix.value && isSub(prefix.value))
+
   watchEffect(async () => {
-    if (prefix.value) {
+    if (isEnabled.value) {
       const api = await apiInstanceByPrefix(prefix.value)
       const chain = CHAINS[prefix.value]
 
@@ -58,7 +60,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   })
 
   watchEffect(async () => {
-    if (prefix.value) {
+    if (isEnabled.value) {
       const api = await apiInstanceByPrefix(prefix.value)
 
       // get chain symbol and decimals

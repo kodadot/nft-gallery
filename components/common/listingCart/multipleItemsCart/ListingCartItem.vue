@@ -46,7 +46,6 @@ import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import CartItemDetails from '@/components/common/CartItemDetails.vue'
 import type { ListCartItem } from '@/stores/listingCart'
 import { useListingCartStore } from '@/stores/listingCart'
-import formatBalance from '@/utils/format/balance'
 
 const { decimals, chainSymbol } = useChain()
 
@@ -56,9 +55,7 @@ const props = defineProps<{
   nft: ListCartItem
 }>()
 
-const floor = computed(() =>
-  formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value),
-)
+const { formatted: floor } = useAmount(computed(() => props.nft.collection.floor || 0), decimals, chainSymbol, { withBlank: true })
 
 const listingCartItem = computed({
   get: () => listingCartStore.getItem(props.nft.id)?.listPrice,
