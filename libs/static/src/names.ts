@@ -1,8 +1,7 @@
 import type { Prefix } from './types'
 
 export const NAMES: Record<Prefix, string> = {
-  rmrk: 'Kusama',
-  ksm: 'RMRK2',
+  ksm: 'Kusama',
   ahk: 'KusamaHub',
   dot: 'Polkadot',
   ahp: 'PolkadotHub',

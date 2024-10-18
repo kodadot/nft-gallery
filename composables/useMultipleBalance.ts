@@ -26,7 +26,6 @@ export const networkToPrefix: Partial<Record<ChainType, Prefix>> = {
 
 export const prefixToNetwork: Partial<Record<Prefix, ChainType>> = {
   dot: 'polkadot',
-  rmrk: 'kusama',
   ksm: 'kusama',
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',

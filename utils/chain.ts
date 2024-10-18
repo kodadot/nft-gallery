@@ -58,7 +58,6 @@ export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',
   ksm: '/token/ksm.svg',
-  rmrk: '/token/ksm.svg',
   dot: '/token/dot.svg',
   // ahr: '/token/kusama_asset_hub.svg',
 }
