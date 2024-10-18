@@ -34,13 +34,16 @@ function checkTsxSend(item: ActionSend) {
 // note: price is automatically set to 0
 // https://github.com/paritytech/substrate/blob/e6a13b807a88d25aa1cd0d320edb9412c3692c67/frame/uniques/src/functions.rs#LL58C2-L58C51
 function execSendAssetHub(item: ActionSend, api, executeTransaction) {
-  const legacy = isLegacy(item.nftId)
-  const paramResolver = assetHubParamResolver(legacy)
+  const arg = item.nfts.map((nft) => {
+    const legacy = isLegacy(nft.id)
+    const paramResolver = assetHubParamResolver(legacy)
+    const cb = getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
+    return cb(...paramResolver(nft.id, Interaction.SEND, item.address))
+  })
 
-  // getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
   executeTransaction({
-    cb: getApiCall(api, item.urlPrefix, Interaction.SEND, legacy),
-    arg: paramResolver(item.nftId, Interaction.SEND, item.address),
+    cb: api.tx.utility.batchAll,
+    arg: [arg],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })
@@ -49,11 +52,14 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
 function execSendEvm(item: ActionSend, executeTransaction: ExecuteTransaction) {
   const { accountId } = useAuth()
 
+  // TODO: add evm safeBatchTransferFrom support
+  const nft = item.nfts[0]
+
   executeTransaction({
-    address: item.collectionId,
+    address: nft.collectionId,
     abi: item.abi as Abi,
     functionName: 'safeTransferFrom',
-    arg: [accountId.value, item.address, item.nftSn],
+    arg: [accountId.value, item.address, nft.sn],
   })
 }
 

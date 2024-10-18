@@ -3,9 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
 import { useGalleryItem } from '@/components/gallery/useGalleryItem'
-import { fetchOdaCollectionAbi } from '@/services/oda'
 
 const nftStore = useNftStore()
 
@@ -18,12 +16,7 @@ const {
   nftMimeType,
 } = useGalleryItem()
 
-const { urlPrefix } = usePrefix()
-const { data: abi } = useQuery({
-  queryKey: ['collection-abi', nft.value?.collection.id],
-  queryFn: () => isEvm(urlPrefix.value) ? fetchOdaCollectionAbi(urlPrefix.value, nft.value?.collection.id as string) : Promise.resolve(null),
-  enabled: computed(() => Boolean(nft.value)),
-})
+const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
 
 watchEffect(() => {
   nftStore.nft = nft.value
