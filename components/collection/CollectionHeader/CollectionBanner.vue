@@ -81,7 +81,7 @@ watchEffect(async () => {
       metadata as string,
     )) as NFTMetadata
     const metaImage = sanitizeIpfsUrl(meta?.image)
-    const metaBanner = sanitizeIpfsUrl(meta?.banner || metaImage)
+    const metaBanner = meta?.banner ? sanitizeIpfsUrl(meta?.banner) : metaImage
     const metaName = meta?.name
 
     if (metaName) {
