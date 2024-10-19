@@ -9,7 +9,3 @@ export function onPressControlEnter(callback: () => void) {
     }
   })
 }
-
-export function useKeyboardKeys({ onPressControlEnter: handlePressControlEnter }) {
-  handlePressControlEnter && onPressControlEnter(handlePressControlEnter)
-}
