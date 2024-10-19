@@ -279,8 +279,7 @@ const onFileSelected = async (file: File) => {
   clear()
   startClock()
   selectedFile.value = file
-  const { indexFile, sketchFile, entries }
-    = await extractAssetsFromZip(file)
+  const { indexFile, sketchFile, p5File, entries } = await extractAssetsFromZip(file)
 
   if (!indexFile) {
     errorMessage.value = `Index file not found: Please make sure that “index.html” is in the root directory`
@@ -291,6 +290,12 @@ const onFileSelected = async (file: File) => {
     errorMessage.value = `Sketch file not found: ${config.sketchFile}`
     return
   }
+
+  if (!p5File) {
+    errorMessage.value = `p5 file not found: Please make sure that “p5.min.js” is in the root directory`
+    return
+  }
+
   const valid = validate(indexFile.content, sketchFile.content)
   if (!valid.isSuccess) {
     errorMessage.value = valid.error ?? 'Unknown error'
