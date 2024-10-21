@@ -397,11 +397,11 @@
   "sort": {
     "BLOCK_NUMBER_ASC": "Urutan Akhir",
     "BLOCK_NUMBER_DESC": "Urutan Pertama",
-    "price_ASC_NULLS_LAST": "Harga Rendah Ke Tinggi",
     "PRICE_DESC": "Harga Tinggi Ke Rendah",
     "UPDATED_AT_ASC": "Aktifitas Terakhir",
     "UPDATED_AT_DESC": "Aktifitas Terbaru",
-    "listed": "Beli Sekarang"
+    "listed": "Beli Sekarang",
+    "price_ASC_NULLS_LAST": "Harga Rendah Ke Tinggi"
   },
   "spotlight": {
     "averagePrice": "Ø Harga",
