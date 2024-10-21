@@ -25,6 +25,7 @@
       :preview="preview"
       :autoplay="autoplay"
       :lazy-loading="lazyLoading"
+      :inner-class="innerClass"
     />
     <div
       v-if="isLewd && isLewdBlurredLayer"
@@ -101,6 +102,7 @@ const props = withDefaults(
     lazyLoading?: boolean
     enableNormalTag?: boolean
     sizes?: string
+    innerClass?: string
     imageComponent?:
       | string
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
