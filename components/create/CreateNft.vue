@@ -147,7 +147,6 @@
 
       <!-- select collections -->
       <NeoField
-        :key="`collection-${currentChain}`"
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true"
