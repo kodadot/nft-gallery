@@ -26,11 +26,10 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 )
 
 export const CHAINS: Config<ChainProperties> = {
-  rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
-  ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/', 'SUB'),
+  ahk: toChainProperty(2, 12, 'KSM', 'https://assethub-kusama.subscan.io/', 'SUB'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/', 'SUB'),
-  ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/', 'SUB'),
+  ahp: toChainProperty(0, 10, 'DOT', 'https://assethub-polkadot.subscan.io/', 'SUB'),
   imx: toChainProperty(42, 18, 'IMX', 'https://explorer.immutable.com/', 'EVM'), // ss58Format is not available
   base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'),
   mnt: toChainProperty(42, 18, 'MNT', 'https://mantlescan.xyz', 'EVM'), // ss58Format is not available
@@ -49,7 +48,6 @@ export const DEFAULT_PREFIX: Prefix = 'ahp'
 export const chainPrefixes: Prefix[] = [
   'ahp',
   'ahk',
-  'rmrk',
   'ksm',
   'dot',
   'imx',
@@ -68,8 +66,7 @@ export const chainPrefixesMap = chainPrefixes.reduce(
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
-  rmrk: 'kusama',
-  ksm: 'rmrk',
+  ksm: 'kusama',
   ahk: 'statemine',
   dot: 'polkadot',
   ahp: 'statemint',
@@ -82,7 +79,6 @@ export const chainInfo: Record<Prefix, string> = {
 }
 
 export const chainNames: Record<Prefix, string> = {
-  rmrk: 'Kusama',
   ksm: 'Kusama',
   ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
@@ -111,7 +107,6 @@ export const chainList = (): Option[] => {
 // DEV: note that ED is different from the on-chain ED to prevent weird edge cases of XCM
 export const teleportExistentialDeposit: Record<Prefix, number> = {
   ksm: 666666666,
-  rmrk: 666666666,
   ahk: 666666666,
   dot: 15000000000,
   ahp: 5000000000,
@@ -122,7 +117,6 @@ export const teleportExistentialDeposit: Record<Prefix, number> = {
 
 export const existentialDeposit: Record<Prefix, number> = {
   ksm: 333333333,
-  rmrk: 333333333,
   ahk: 333333333,
   dot: 1e10,
   ahp: 1e8,
