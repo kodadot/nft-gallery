@@ -285,10 +285,7 @@ import { useTopCollections } from '../landing/topCollections/utils/useTopCollect
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import type { DefaultCollectionSuggestion, SearchQuery } from './types'
 import { getDenyList } from '@/utils/prefix'
-import {
-  type CollectionWithMeta,
-  type NFTWithMeta,
-} from '@/components/rmrk/service/scheme'
+import type { CollectionWithMeta, NFTWithMeta } from '@/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { processMetadata } from '@/utils/cachingStrategy'

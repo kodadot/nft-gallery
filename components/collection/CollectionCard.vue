@@ -42,7 +42,7 @@
 import { NeoSkeleton } from '@kodadot1/brick'
 import type { TokenMetadata } from '@kodadot1/hyperdata'
 import CollectionDetail from './CollectionDetail.vue'
-import type { CollectionWithMeta } from '@/components/rmrk/service/scheme'
+import type { CollectionWithMeta } from '@/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'

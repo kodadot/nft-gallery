@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'

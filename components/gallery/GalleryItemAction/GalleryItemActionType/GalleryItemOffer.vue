@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import type { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'

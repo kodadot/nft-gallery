@@ -60,7 +60,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-import type { NFTMetadata } from '@/components/rmrk/service/scheme'
+import type { NFTMetadata } from '@/types'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const props = withDefaults(

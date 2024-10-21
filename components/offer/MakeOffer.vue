@@ -28,6 +28,15 @@
           <MakingOfferSingleItem v-if="offerStore.items.length === 1" />
         </div>
 
+        <div class="border-t pt-5 pb-4 px-6">
+          <div
+            class="flex justify-between text-k-grey border-b-k-shade"
+          >
+            <span>{{ $t('offer.offerFees') }}</span>
+            <span class="ml-2">{{ teleportTransitionTxFees }}</span>
+          </div>
+        </div>
+
         <div class="flex justify-between px-6">
           <AutoTeleportActionButton
             ref="autoTeleportButton"
@@ -55,7 +64,7 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import type { Actions, TokenToOffer } from '@/composables/transaction/types'
 import { useMakingOfferStore } from '@/stores/makeOffer'
-import { calculateBalance } from '@/utils/format/balance'
+import format, { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import AutoTeleportActionButton, {
@@ -87,7 +96,7 @@ const {
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
-const { decimals } = useChain()
+const { decimals, chainSymbol } = useChain()
 const { $i18n } = useNuxtApp()
 const items = ref<MakingOfferItem[]>([])
 
@@ -103,6 +112,14 @@ const getAction = (items: MakingOfferItem[]): Actions => {
     } as TokenToOffer)),
   }
 }
+
+const teleportTransitionTxFees = computed(() =>
+  format(
+    (autoTeleportButton.value?.optimalTransition.txFees || 0) + OFFER_MINT_PRICE,
+    decimals.value,
+    chainSymbol.value,
+  ),
+)
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
   getActionFn: () => getAction(itemsInChain.value),

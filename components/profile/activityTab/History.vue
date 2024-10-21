@@ -89,7 +89,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { HistoryEventType, InteractionBsxOnly } from '@/utils/historyEvent'
 import { parseDate } from '@/utils/datetime'
 
-import type { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
+import type { Interaction as EventInteraction } from '@/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import { emptyObject } from '@/utils/empty'
