@@ -43,7 +43,7 @@ watch(urlPrefix, () => checkRouteAvailability())
 onBeforeMount(() => checkRouteAvailability())
 
 definePageMeta({
-  layout: 'explore-layout'
+  layout: 'explore-layout',
 })
 
 useSeoMeta({
