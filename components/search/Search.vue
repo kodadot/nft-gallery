@@ -161,12 +161,6 @@ const updateSortBy = useDebounceFn((value: string[] | string) => {
   const final = (Array.isArray(value) ? value : [value]).filter(condition =>
     sortByOptions.value.includes(condition),
   )
-  const listed = final.some(
-    condition => condition.toLowerCase().indexOf('price') > -1,
-  )
-  if (listed && !vListed.value) {
-    vListed.value = true
-  }
 
   replaceUrl({ sort: final })
 
