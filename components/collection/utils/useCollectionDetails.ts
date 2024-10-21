@@ -145,6 +145,7 @@ export const useCollectionMinimal = ({
 
       collection.value = collectionData
     },
+    { immediate: true },
   )
 
   watchEffect(async () => {
