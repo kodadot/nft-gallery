@@ -65,16 +65,18 @@
 
           <AutoTeleportActionButton
             ref="autoTeleportButton"
+            class="flex flex-grow py-5 capitalize btn-height"
             :actions="actions"
             :disabled="isDisabled"
             :label="transferItemLabel"
-            :fees="{ forceActionAutoFees: true }"
+            variant="primary"
+            no-shadow
+            with-shortcut
             early-success
             auto-close-modal
             :auto-close-modal-delay-modal="0"
             @confirm="handleTransfer"
           />
-
           <div class="mt-3 flex justify-between text-k-grey">
             <NeoIcon
               icon="circle-info"
