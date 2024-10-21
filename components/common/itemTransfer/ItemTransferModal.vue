@@ -66,6 +66,7 @@
           <AutoTeleportActionButton
             ref="autoTeleportButton"
             class="flex flex-grow py-5 capitalize btn-height"
+            :fees="{ forceActionAutoFees: true }"
             :actions="actions"
             :disabled="isDisabled"
             :label="transferItemLabel"
