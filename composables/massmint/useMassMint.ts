@@ -1,10 +1,10 @@
 import { Interaction } from '@kodadot1/minimark/v1'
+import { useQuery } from '@tanstack/vue-query'
 import {
   createTokensToMint,
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
 import { unwrapSafe } from '@/utils/uniquery'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import type { NFTToMint } from '@/components/massmint/types'
 import { Status } from '@/components/massmint/types'
 import type { MintedCollection } from '@/composables/transaction/types'
@@ -35,64 +35,48 @@ export const statusClass = (status?: Status) => {
 
 export const useCollectionForMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
-  const collections = ref()
-  const { $consola } = useNuxtApp()
-  const { accountId, isLogIn } = useAuth()
-  const { client, urlPrefix } = usePrefix()
+  const { accountId } = useAuth()
+  const { urlPrefix } = usePrefix()
 
-  const doFetch = async () => {
-    if (!isLogIn.value) {
-      return
-    }
-
-    const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
-    const { data } = await useAsyncQuery({
-      query: query.default,
-      variables: {
-        account: accountId.value,
-      },
-      clientId: client.value,
-    })
-
-    const { collectionEntities } = data.value
-
-    collections.value = collectionEntities
-      .map(collection => ({
-        ...collection,
-        lastIndexUsed: Math.max(
-          ...collection.nfts.map(nft => Number(nft.index)),
-        ),
-
-        alreadyMinted: collection.nfts?.length,
-        totalCount: collection.nfts?.filter(nft => !nft.burned).length,
-      }))
-      .filter(
-        collection =>
-          (collection.max || Infinity) - collection.alreadyMinted > 0,
-      )
-  }
-
-  const doFetchWithErrorHandling = () =>
-    doFetch().catch((error) => {
-      $consola.error(
-        `Error fetching collections for account ${accountId.value}:`,
-        error,
-      )
-    })
-
-  watch(accountId, doFetchWithErrorHandling, { immediate: true })
-
-  watch(collections, () => {
-    if (!collections) {
-      $consola.log(`collections for account ${accountId.value} not found`)
-      return
-    }
-
-    collectionsEntites.value = unwrapSafe(collections.value)
+  const { data, isPending } = useQuery({
+    queryKey: ['collections-for-mint', accountId, urlPrefix],
+    queryFn: async () =>
+      accountId.value
+        ? (await useAsyncGraphql({
+            query: 'collectionForMint',
+            variables: {
+              account: accountId.value,
+            },
+          })).data.value
+        : null,
   })
+
+  watch(data, () => {
+    const collectionEntities = data.value?.collectionEntities
+
+    if (collectionEntities?.length) {
+      const collections = collectionEntities
+        .map(collection => ({
+          ...collection,
+          lastIndexUsed: Math.max(
+            ...collection.nfts.map(nft => Number(nft.index)),
+          ),
+
+          alreadyMinted: collection.nfts?.length,
+          totalCount: collection.nfts?.filter(nft => !nft.burned).length,
+        }))
+        .filter(
+          collection =>
+            (collection.max || Infinity) - collection.alreadyMinted > 0,
+        )
+
+      collectionsEntites.value = unwrapSafe(collections)
+    }
+  }, { immediate: true })
 
   return {
     collectionsEntites,
+    isLoading: isPending,
   }
 }
 

@@ -8,15 +8,15 @@
       },
     ]"
     :no-shadow="noShadow"
-    :disabled="!isLogIn"
+    :disabled="disabled"
   >
     <template #trigger="{ active }">
       <NeoButton
         v-if="!selectedCollection"
         class="dropdown-width"
         :no-shadow="noShadow"
-        :label="$t('massmint.selectCollection')"
-        :icon="active ? 'chevron-up' : 'chevron-down'"
+        :label="isLoading ? $t('loading') : $t('massmint.selectCollection')"
+        :icon="isLoading ? undefined : (active ? 'chevron-up' : 'chevron-down')"
       />
       <NeoButton
         v-else
@@ -93,6 +93,7 @@ import {
 import type { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
+const emit = defineEmits(['selectedCollection'])
 const props = defineProps({
   fullWidth: { type: Boolean, default: false },
   noShadow: { type: Boolean, default: false },
@@ -101,13 +102,10 @@ const props = defineProps({
 
 const { isLogIn, accountId } = useAuth()
 
-const { collectionsEntites } = useCollectionForMint()
+const { collectionsEntites, isLoading } = useCollectionForMint()
 const selectedCollection = ref<MintedCollection>()
-const emit = defineEmits(['selectedCollection'])
 
-watch(accountId, () => {
-  selectedCollection.value = undefined
-})
+const disabled = computed(() => !isLogIn.value || isLoading.value)
 
 const selectCollection = (collection) => {
   selectedCollection.value = collection
@@ -130,6 +128,10 @@ const handleCollectionsChange = (
     selectCollection(collection)
   }
 }
+
+watch(accountId, () => {
+  selectedCollection.value = undefined
+})
 
 watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
