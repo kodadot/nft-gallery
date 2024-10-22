@@ -34,48 +34,67 @@ export const statusClass = (status?: Status) => {
 }
 
 export const useCollectionForMint = () => {
-  const collectionsEntites = ref<MintedCollection[]>()
+  const collections = ref<MintedCollection[]>()
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
 
   const { data, isPending } = useQuery({
     queryKey: ['collections-for-mint', accountId, urlPrefix],
+    queryFn: async () => {
+      if (!accountId.value) {
+        return null
+      }
+
+      collections.value = []
+
+      return (await useAsyncGraphql({
+        query: 'collectionForMint',
+        variables: {
+          account: accountId.value,
+        },
+      })).data.value
+    },
+  })
+
+  const collectionEntities = computed(() => data.value?.collectionEntities || [])
+
+  const { data: collectionTotalCounts } = useQuery({
+    queryKey: ['collection-total-counts', computed(() => collectionEntities.value?.map(c => c.id))],
     queryFn: async () =>
-      accountId.value
-        ? (await useAsyncGraphql({
-            query: 'collectionForMint',
-            variables: {
-              account: accountId.value,
-            },
-          })).data.value
+      collectionEntities.value?.length
+        ? await Promise.all(collectionEntities.value.map(collection => new Promise((resolve, reject) =>
+          fetchGraphql(`
+            nftEntitiesConnection(
+              orderBy: blockNumber_ASC,
+              where: {
+                collection: { id_eq: "${collection.id}" }
+                burned_eq: false
+            }) {
+                totalCount
+            }
+          `)
+            .then(response => resolve(response.data.nftEntitiesConnection.totalCount))
+            .catch(reject),
+        )))
         : null,
   })
 
-  watch(data, () => {
-    const collectionEntities = data.value?.collectionEntities
-
-    if (collectionEntities?.length) {
-      const collections = collectionEntities
-        .map(collection => ({
+  watch([collectionEntities, collectionTotalCounts], async ([data, totalCounts]) => {
+    if (data?.length && totalCounts) {
+      const newCollections = data
+        .map((collection, index) => ({
           ...collection,
-          lastIndexUsed: Math.max(
-            ...collection.nfts.map(nft => Number(nft.index)),
-          ),
-
-          alreadyMinted: collection.nfts?.length,
-          totalCount: collection.nfts?.filter(nft => !nft.burned).length,
+          minted: collection.nftCount,
+          totalCount: totalCounts[index],
         }))
-        .filter(
-          collection =>
-            (collection.max || Infinity) - collection.alreadyMinted > 0,
-        )
+        .filter(collection => (collection.max || Infinity) - collection.minted > 0)
 
-      collectionsEntites.value = unwrapSafe(collections)
+      collections.value = unwrapSafe(newCollections)
     }
   }, { immediate: true })
 
   return {
-    collectionsEntites,
+    collections,
     isLoading: isPending,
   }
 }

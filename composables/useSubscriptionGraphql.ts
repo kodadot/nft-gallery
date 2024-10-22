@@ -32,16 +32,7 @@ export default function ({
 
   async function pollData() {
     try {
-      const response = await $fetch(httpUrl, {
-        method: 'POST',
-        body: {
-          query: `
-          query {
-            ${query}
-          }
-        `,
-        },
-      })
+      const response = await fetchGraphql(query, { client })
 
       const newResult = response.data as any
 
