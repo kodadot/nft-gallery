@@ -8,7 +8,7 @@ import { h } from 'vue'
 import Notification from '@/components/common/Notification.vue'
 import MessageNotify from '@/components/MessageNotify.vue'
 
-export type NotificationAction = { label: string, url: string }
+export type NotificationAction = { label: string, url: string, icon?: string }
 
 type Params = {
   variant: NeoMessageVariant

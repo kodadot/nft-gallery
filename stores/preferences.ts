@@ -46,6 +46,7 @@ interface State {
   mobileFilterCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
+  itemTransferCartModalOpen: boolean
   makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
@@ -80,6 +81,7 @@ export const usePreferencesStore = defineStore('preferences', {
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
     listingCartModalOpen: false,
+    itemTransferCartModalOpen: false,
     makeOfferModalOpen: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {
