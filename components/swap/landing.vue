@@ -34,7 +34,7 @@
         </p>
       </div>
 
-      <form @submit="handleSubmit">
+      <form @submit.prevent="handleSubmit">
         <AddressInput
           v-model="traderAddress"
           placeholder="Enter wallet address"
@@ -48,7 +48,7 @@
           size="large"
           class="text-base my-5 capitalize"
           expanded
-          :disabled="traderAddress === ''"
+          :disabled="traderAddress === '' || traderAddress === accountId"
           native-type="submit"
           variant="primary"
         />
@@ -60,9 +60,12 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 
+const { accountId } = useAuth()
+
 const traderAddress = ref('')
 
-const handleSubmit = () => {
-  console.log(traderAddress.value)
+const handleSubmit = async () => {
+  // check valid address
+  await navigateTo({ name: 'prefix-swap-id', params: { id: traderAddress.value } })
 }
 </script>
