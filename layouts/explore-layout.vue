@@ -32,6 +32,7 @@
     <template v-if="listingCartEnabled">
       <ListingCartMini />
       <ListingCartModal />
+      <ItemTransferModal />
     </template>
 
     <Loader

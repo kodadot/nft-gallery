@@ -31,6 +31,7 @@
             :image-component="NuxtImg"
             :title="'User Avatar'"
             class="md:w-[124px] md:h-[124px] h-[78px] w-[78px] object-cover rounded-full"
+            inner-class="object-cover"
           />
           <div
             v-else

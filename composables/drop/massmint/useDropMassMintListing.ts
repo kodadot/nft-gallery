@@ -40,7 +40,7 @@ export default () => {
           name: mintingSessionNFT?.name || withMetadataNFT.name,
         },
         {
-          image: mintingSessionNFT?.image as string,
+          mediaUrl: { image: mintingSessionNFT?.image as string },
         },
       )
     })

@@ -7,13 +7,7 @@
       @try-again="burn"
     />
 
-    <ItemTransferModal
-      v-if="nft && isOwner"
-      :value="isTransferModalActive"
-      :nft="nft"
-      :abi="abi"
-      @close="isTransferModalActive = false"
-    />
+    <ItemTransferModal v-if="canTransfer" />
 
     <NeoDropdown
       position="bottom-left"
@@ -39,6 +33,7 @@
         v-if="isOwner && !hasOperationsDisabled(urlPrefix)"
       >
         <NeoDropdownItem
+          v-if="canTransfer"
           @click="transfer"
         >
           Transfer NFT
@@ -67,6 +62,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { useQuery } from '@tanstack/vue-query'
 import { downloadImage } from '@/utils/download'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
@@ -80,6 +76,8 @@ const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
 const { accountId } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
+const { listNftByNftWithMetadata } = useListingCartModal()
+const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 
@@ -92,9 +90,24 @@ const props = defineProps<{
 }>()
 
 const action = ref('')
-const isTransferModalActive = ref(false)
 
 const isOwner = computed(() => accountId.value === props.nft?.currentOwner)
+const nftId = computed(() => props.nft?.id || '')
+
+const { data } = useQuery({
+  queryKey: ['nft-with-metadata', nftId],
+  queryFn: async () =>
+    nftId.value && canTransfer.value
+      ? (await useAsyncGraphql({
+          query: 'nftEntitiesByIDs',
+          variables: { ids: [nftId.value] },
+        })).data.value
+      : null,
+})
+
+const nftWithMetadata = computed<NFTWithMetadata>(() => data.value?.nftEntities?.[0])
+const canTransfer = computed(() => props.nft && isOwner.value)
+
 const signingModalTitle = computed(() => {
   return (
     {
@@ -181,6 +194,9 @@ const refreshMetadata = async () => {
 }
 
 const transfer = () => {
-  isTransferModalActive.value = true
+  if (nftWithMetadata.value) {
+    listNftByNftWithMetadata(nftWithMetadata.value)
+    preferencesStore.itemTransferCartModalOpen = true
+  }
 }
 </script>

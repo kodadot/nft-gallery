@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import { OButton } from '@oruga-ui/oruga-next'
-import { useMousePressed } from '@vueuse/core'
+import { useMousePressed, useIntersectionObserver } from '@vueuse/core'
 import type { NeoButtonVariant } from '../../types'
 
 const props = withDefaults(
@@ -57,6 +57,7 @@ const props = withDefaults(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
       | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
     loadingWithLabel?: boolean
+    withShortcut?: boolean
   }>(),
   {
     iconPack: 'fasr',
@@ -64,7 +65,7 @@ const props = withDefaults(
   },
 )
 
-const button = ref(null)
+const button = ref<HTMLButtonElement>()
 const pressing = ref(false)
 
 const { pressed } = useMousePressed({ target: button })
@@ -72,6 +73,26 @@ const { pressed } = useMousePressed({ target: button })
 watch(pressed, (pressed) => {
   pressing.value = !pressed ? false : pressed && !props.active
 })
+
+if (props.withShortcut) {
+  const shortcutWatcher = ref()
+
+  useIntersectionObserver(button, ([{ isIntersecting: isVisible }]) => {
+    if (!isVisible) {
+      shortcutWatcher.value?.()
+      shortcutWatcher.value = undefined
+      return
+    }
+
+    if (!shortcutWatcher.value) {
+      shortcutWatcher.value = onPressControlEnter(() => {
+        if (!button.value?.disabled) {
+          button.value?.$el?.click()
+        }
+      })
+    }
+  })
+}
 </script>
 
 <style lang="scss">
