@@ -76,7 +76,6 @@ import MakingOfferSingleItem from '@/components/offer/MakingOfferSingleItem.vue'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import { sum } from '@/utils/math'
-import type { NotificationAction } from '@/utils/notification'
 import { OFFER_MINT_PRICE } from '@/composables/transaction/transactionOffer'
 
 const { urlPrefix } = usePrefix()

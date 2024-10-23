@@ -30,7 +30,6 @@ const AHP_ENDPOINTS: WS_URL[] = [
 
 // Someone from HydraDX team told me that Polkadot API takes Array of endpoints
 export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
-  rmrk: KUSAMA_ENDPOINTS,
   ksm: KUSAMA_ENDPOINTS,
   ahk: [
     'wss://sys.ibp.network/statemine',
@@ -50,7 +49,6 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<ENDPOINT_URL[]> = {
 }
 
 export const ENDPOINT_MAP: Config<ENDPOINT_URL> = {
-  rmrk: KUSAMA_ENDPOINTS[0],
   ksm: KUSAMA_ENDPOINTS[0],
   ahk: 'wss://sys.ibp.network/statemine',
   dot: POLKADOT_ENDPOINTS[0],

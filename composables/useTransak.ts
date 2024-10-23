@@ -16,7 +16,6 @@ export default function useTransak() {
       imx: { currency: 'ETH', network: 'immutablezkevm' },
       ahp: { currency: 'DOT', network: 'mainnet' },
       ahk: { currency: 'KSM', network: 'mainnet' },
-      rmrk: { currency: 'KSM', network: 'mainnet' },
       ksm: { currency: 'KSM', network: 'mainnet' },
     } as Record<Prefix, { currency: string, network: string }>)[prefix]
   }

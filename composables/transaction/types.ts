@@ -169,15 +169,18 @@ export type ActionList = {
   price?: string
 }
 
+type TokenToSend = {
+  id: string
+  sn: string
+  collectionId: string
+}
+
 export type ActionSend = {
   interaction: Interaction.SEND
   urlPrefix: string
-  tokenId: string
   address: string
-  nftId: string
-  nftSn: string
+  nfts: TokenToSend[]
   abi?: Abi | null
-  collectionId: string
   successMessage?: string
   errorMessage?: string
 }
