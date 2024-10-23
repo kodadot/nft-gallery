@@ -102,7 +102,7 @@ const props = defineProps({
 
 const { isLogIn, accountId } = useAuth()
 
-const { collectionsEntites, isLoading } = useCollectionForMint()
+const { collections: collectionsEntites, isLoading } = useCollectionForMint()
 const selectedCollection = ref<MintedCollection>()
 
 const disabled = computed(() => !isLogIn.value || isLoading.value)
