@@ -573,6 +573,7 @@
   },
   "filters": {
     "acceptedOffer": "Accepted offer",
+    "artGen": "Generative Art",
     "artView": "Art View",
     "buy": "Buy",
     "identityVerification": "Identity Verification",

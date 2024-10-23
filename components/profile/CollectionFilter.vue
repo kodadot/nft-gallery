@@ -112,7 +112,9 @@ const getProfileCollections = async () => {
   const { data } = await useAsyncQuery({
     query: collectionListWithSearch,
     variables: {
-      search: [collectionSearch],
+      search: [
+        collectionSearch,
+      ],
       denyList: getDenyList(urlPrefix.value),
       first: 100,
       offset: 0,
