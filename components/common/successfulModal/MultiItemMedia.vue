@@ -54,7 +54,10 @@
     }}</a>
   </div>
 
-  <div class="mt-5 border-b-k-shade">
+  <div
+    v-if="header"
+    class="mt-5 border-b-k-shade"
+  >
     <p class="is-size-6 capitalize font-bold text-center">
       {{ header }}
     </p>
@@ -68,7 +71,7 @@ const COLLAPSED_ITEMS_COUNT = 5
 
 const props = defineProps<{
   items: ItemMedia[]
-  header: string
+  header?: string
   showPrice?: boolean
 }>()
 
