@@ -1787,6 +1787,14 @@
   "support": {
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
+  "swap": {
+    "beginSwap": "Begin Swap offer",
+    "connectTrader": "Connect with a trader",
+    "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
+    "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
+    "landingTitle": "Koda Swap",
+    "learnMoreAboutSwaps": "Learn more about swaps"
+  },
   "tabs": {
     "activity": "Activity",
     "chart": "Chart",
