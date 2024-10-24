@@ -40,6 +40,7 @@
           placeholder="Enter wallet address"
           :strict="false"
           empty-on-error
+          with-address-check
         />
 
         <NeoButton
