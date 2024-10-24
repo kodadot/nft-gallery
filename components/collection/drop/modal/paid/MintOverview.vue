@@ -39,6 +39,8 @@
       shiny
       auto-close-modal
       :auto-close-modal-delay-modal="0"
+      @on-ramp:open="onRampHook?.onOpen"
+      @on-ramp:close="onRampHook?.onClose"
       @confirm="(e) => $emit('confirm', e)"
       @modal:close="(e) => $emit('close', e)"
     />
@@ -62,6 +64,7 @@ const props = defineProps<{
   mintButton: { label: string, disabled: boolean, loading?: boolean }
   formattedMinimumFunds: string
   formattedExistentialDeposit: string
+  onRampHook: { onOpen: () => void, onClose: () => void }
 }>()
 
 const autoteleport = ref()

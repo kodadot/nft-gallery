@@ -10,7 +10,7 @@
     />
 
     <NeoModal
-      :value="preferencesStore.makeOfferModalOpen"
+      :value="isModalOpen"
       append-to-body
       @close="onClose"
     >
@@ -49,6 +49,8 @@
             auto-close-modal
             button-variant="k-blue"
             :auto-close-modal-delay-modal="0"
+            @on-ramp:open="isOnrampModalOpen = true"
+            @on-ramp:close="isOnrampModalOpen = false"
             @confirm="confirm"
           />
         </div>
@@ -111,6 +113,9 @@ const getAction = (items: MakingOfferItem[]): Actions => {
     } as TokenToOffer)),
   }
 }
+
+const isOnrampModalOpen = ref<boolean>(false)
+const isModalOpen = computed(() => isOnrampModalOpen.value ? false : preferencesStore.makeOfferModalOpen)
 
 const teleportTransitionTxFees = computed(() =>
   format(

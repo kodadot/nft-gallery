@@ -18,6 +18,7 @@
         :formatted-minimum-funds="formattedMinimumFunds"
         :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
+        :on-ramp-hook="{ onOpen: () => isModalOpen = false, onClose: () => isModalOpen = true }"
         @confirm="handleConfirm"
         @close="handleModalClose"
       />

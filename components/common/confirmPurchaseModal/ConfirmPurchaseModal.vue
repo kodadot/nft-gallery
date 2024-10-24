@@ -74,6 +74,8 @@
           early-success
           auto-close-modal
           :auto-close-modal-delay-modal="0"
+          @on-ramp:open="prefrencesStore.setCompletePurchaseModalOpen(false)"
+          @on-ramp:close="prefrencesStore.setCompletePurchaseModalOpen(true)"
           @confirm="confirm"
           @actions:completed="$emit('completed')"
         />

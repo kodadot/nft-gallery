@@ -111,11 +111,11 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
 
 const reset = () => {
   usingAutoTeleport.value = false
+  stopListeningNftPriceChanges()
 }
 
 const handleClose = () => {
   reset()
-  stopListeningNftPriceChanges()
 }
 
 const openSuccessModal = () => {
