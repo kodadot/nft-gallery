@@ -39,8 +39,8 @@
       shiny
       auto-close-modal
       :auto-close-modal-delay-modal="0"
-      @onramp:open="onRampHook?.onOpen"
-      @onramp:close="onRampHook?.onClose"
+      @on-ramp:open="onRampHook?.onOpen"
+      @on-ramp:close="onRampHook?.onClose"
       @confirm="(e) => $emit('confirm', e)"
       @modal:close="(e) => $emit('close', e)"
     />

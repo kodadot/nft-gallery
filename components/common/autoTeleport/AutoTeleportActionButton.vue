@@ -93,7 +93,7 @@
       v-model="onRampActive"
       @close="() => {
         onRampActive = false
-        $emit('onramp:close')
+        $emit('on-ramp:close')
       }"
     />
   </div>
@@ -122,8 +122,8 @@ const emit = defineEmits([
   'actions:completed',
   'action:run',
   'modal:close',
-  'onramp:open',
-  'onramp:close',
+  'on-ramp:open',
+  'on-ramp:close',
 ])
 const props = withDefaults(
   defineProps<{
@@ -319,7 +319,7 @@ const actionRun = async (interaction, isRetry = false) => {
 const handleSubmit = () => {
   if (showAddFunds.value) {
     onRampActive.value = true
-    emit('onramp:open')
+    emit('on-ramp:open')
   }
   else {
     submit()
