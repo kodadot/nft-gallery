@@ -2,9 +2,9 @@
   <section class="pt-5 container is-fluid flex flex-col space-y-10">
     <div class="flex justify-between">
       <SwapBannerTitle
-        step="2/4"
-        :title="$t('swap.selectNft')"
-        :subtitle="$t('swap.clickOnNft')"
+        step="3/4"
+        :title="$t('swap.selectOffer')"
+        :subtitle="$t('swap.selectOfferSubtitle')"
       />
 
       <SwapBannerAccounts :counterparty="String(route.params.id)" />
@@ -20,7 +20,7 @@
         <div class="border bg-background-color shadow-primary pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
           <div class="px-6 py-4 flex justify-between border-b items-center">
             <div class="text-base font-bold line-height">
-              {{ $t('swap.yourOffer') }}
+              {{ $t('swap.yourSwapList') }}
             </div>
           </div>
 
@@ -44,7 +44,6 @@
                 variant="primary"
                 no-shadow
                 expanded
-                @click="handleSelectList"
               />
             </div>
           </div>
@@ -62,12 +61,7 @@ const route = useRoute()
 const router = useRouter()
 
 const query = reactive({
-  currentOwner_eq: route.params.id,
-  currentOwner_not_eq: accountId.value,
+  currentOwner_eq: accountId.value,
   burned_eq: false,
 })
-
-const handleSelectList = async () => {
-  await navigateTo({ name: 'prefix-swap-id-offer', params: { id: route.params.id } })
-}
 </script>

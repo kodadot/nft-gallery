@@ -5,7 +5,7 @@
         <div class="flex items-center">
           <img
             class="-ml-8"
-            src="~/assets/svg/arrows.svg"
+            src="~/assets/svg/swap/arrows.svg"
             alt="Swap NFTs"
           >
           <h1 class="title">

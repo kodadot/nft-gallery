@@ -1796,8 +1796,18 @@
     "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
     "landingTitle": "Koda Swap",
     "learnMoreAboutSwaps": "Learn more about swaps",
+    "reviewCheckAssets": "Check the assets on both sides of the swap",
+    "reviewCounterpartyAccept": "If counterparty accept, these are the NFTs you will gain",
+    "reviewOffer": "Review swap offer",
+    "reviewSelected": "The NFTs you’ve selected to offer are displayed below. Confirm your selections are correct.",
     "selectNft": "Select their NFTs for the Swap",
-    "yourAddress": "Your Address"
+    "selectOffer": "Select your offer",
+    "selectOfferSubtitle": "Select your NFTs you want to offer in this swap.",
+    "youOffer": "You offer",
+    "youWillReceive": "You will receive",
+    "yourAddress": "Your Address",
+    "yourOffer": "Your offer",
+    "yourSwapList": "Your Swap List"
   },
   "tabs": {
     "activity": "Activity",
