@@ -1,8 +1,9 @@
 <template>
-  <NeoModalExtend
-    v-model:active="isModalActive"
+  <NeoModal
+    :value="isModalActive"
     class="neo-modal"
     data-testid="on-ramp-modal"
+    append-to-body
     @close="onClose"
   >
     <div class="w-[unset] lg:w-[25rem]">
@@ -79,11 +80,11 @@
         </div>
       </div>
     </div>
-  </NeoModalExtend>
+  </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoModal } from '@kodadot1/brick'
 import type { ChainVM } from '@kodadot1/static'
 
 enum Provider {
