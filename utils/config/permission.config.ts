@@ -71,3 +71,7 @@ export const dropsVisible = (prefix: Prefix | string) => {
 export const explorerVisible = (prefix: Prefix | string): boolean => {
   return hasExplorer[prefix] ?? true
 }
+
+export const swapVisible = (prefix: Prefix | string): boolean => {
+  return ['ahp', 'ahk'].includes(prefix)
+}
