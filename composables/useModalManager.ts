@@ -6,8 +6,6 @@ export default function (modalRef: Ref) {
   const targetModals = ref<ModalRef[]>([])
   const symbol = Symbol()
 
-  modals.value.set(symbol, modalRef)
-
   const otherModals = computed(() => {
     return Array.from(modals.value.keys())
       .filter(modal => modal !== symbol)
@@ -30,6 +28,7 @@ export default function (modalRef: Ref) {
     targetModals.value = []
   }
 
+  onMounted(() => modals.value.set(symbol, modalRef))
   onUnmounted(() => modals.value.delete(symbol))
 
   return {
