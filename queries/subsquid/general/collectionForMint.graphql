@@ -7,7 +7,7 @@ query collectionForMint($account: String!) {
     name
     metadata
     max
-    nftCount
-    supply
+    minted: nftCount
+    totalCount: supply
   }
 }
