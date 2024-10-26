@@ -56,36 +56,15 @@ export const useCollectionForMint = () => {
     },
   })
 
-  const collectionEntities = computed(() => data.value?.collectionEntities || [])
+  watch(data, async () => {
+    const collectionEntities = data.value?.collectionEntities
 
-  const { data: collectionTotalCounts } = useQuery({
-    queryKey: ['collection-total-counts', computed(() => collectionEntities.value?.map(c => c.id))],
-    queryFn: async () =>
-      collectionEntities.value?.length
-        ? await Promise.all(collectionEntities.value.map(collection => new Promise((resolve, reject) =>
-          fetchGraphql(`
-            nftEntitiesConnection(
-              orderBy: blockNumber_ASC,
-              where: {
-                collection: { id_eq: "${collection.id}" }
-                burned_eq: false
-            }) {
-                totalCount
-            }
-          `)
-            .then(response => resolve(response.data.nftEntitiesConnection.totalCount))
-            .catch(reject),
-        )))
-        : null,
-  })
-
-  watch([collectionEntities, collectionTotalCounts], async ([data, totalCounts]) => {
-    if (data?.length && totalCounts) {
-      const newCollections = data
-        .map((collection, index) => ({
+    if (collectionEntities?.length) {
+      const newCollections = collectionEntities
+        .map(collection => ({
           ...collection,
           minted: collection.nftCount,
-          totalCount: totalCounts[index],
+          totalCount: collection.supply,
         }))
         .filter(collection => (collection.max || Infinity) - collection.minted > 0)
 
