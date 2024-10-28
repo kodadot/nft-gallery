@@ -36,10 +36,10 @@ export default function ({
         method: 'POST',
         body: {
           query: `
-          query {
-            ${query}
-          }
-        `,
+             query {
+               ${query}
+             }
+           `,
         },
       })
 
