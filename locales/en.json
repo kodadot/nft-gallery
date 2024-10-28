@@ -377,6 +377,23 @@
     "youSuccessfullyClaimedNft": "You successfully minted {0} NFT",
     "yourWalletNeeds": "Your wallet needs a minimum of {0} to claim this drop."
   },
+  "edit": {
+    "collection": {
+      "banner": {
+        "hint": "1440 x 560 size recommended",
+        "message": "Represents your collection on its page and on collection card",
+        "title": "Banner"
+      },
+      "drop": "Don't click, just drop!",
+      "image": {
+        "hint": "300 x 300 size recommended",
+        "message": "Visible on collection card and view",
+        "title": "Logo"
+      },
+      "saveChanges": "Save Changes",
+      "title": "Edit Collection"
+    }
+  },
   "email": "Email",
   "error": "Error",
   "errors": {
@@ -1421,11 +1438,11 @@
   "mintingSettings": "Minting Settings",
   "moreActions": {
     "addNfts": "Add NFTs",
-    "customize": "Customize",
     "deleteCollection": "Delete Collection",
     "deleteNfts": "Delete NFTs",
     "deletingNfts": "Deleting NFTs",
     "download": "Download",
+    "editCollection": "Edit Collection",
     "reportCollection": "Report Collection"
   },
   "multipleNFTS": "Multiple NFT's",
