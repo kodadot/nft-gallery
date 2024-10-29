@@ -27,7 +27,7 @@ type StorageApiResponse = {
   }
 }
 
-export const pinJson = async (object: Metadata, _name: string) => {
+export const pinJson = async (object: Metadata) => {
   const { value } = await nftStorageApi<StorageApiResponse>('/pinJson', {
     method: 'POST',
     body: object,

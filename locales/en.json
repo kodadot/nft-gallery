@@ -381,15 +381,16 @@
     "collection": {
       "banner": {
         "hint": "1440 x 560 size recommended",
-        "message": "Represents your collection on its page and on collection card",
-        "title": "Banner"
+        "label": "Banner",
+        "message": "Represents your collection on its page and on collection card"
       },
       "drop": "Don't click, just drop!",
       "image": {
         "hint": "300 x 300 size recommended",
-        "message": "Visible on collection card and view",
-        "title": "Logo"
+        "label": "Logo",
+        "message": "Visible on collection card and view"
       },
+      "modal": "Editing Collection",
       "saveChanges": "Save Changes",
       "title": "Edit Collection"
     }

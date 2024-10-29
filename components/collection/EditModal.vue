@@ -1,4 +1,11 @@
 <template>
+  <SigningModal
+    :title="$t('edit.collection.modal')"
+    :is-loading="isLoading"
+    :status="status"
+    @try-again="editCollection"
+  />
+
   <NeoModal
     :value="isModalActive"
     @close="isModalActive = false"
@@ -12,7 +19,7 @@
         class="flex flex-col gap-6"
         @submit.prevent
       >
-        <CollectionEditSection :title="$t('edit.collection.image.title')">
+        <CollectionEditSection :title="$t('edit.collection.image.label')">
           <div
             v-if="imageUrl"
             class="flex gap-2"
@@ -35,7 +42,10 @@
                 </p>
 
                 <CollectionEditOverrideFile
-                  @clear="() => imageUrl = undefined"
+                  @clear="() => {
+                    image = undefined
+                    imageUrl = undefined
+                  }"
                   @select="value => image = value"
                 />
               </div>
@@ -52,7 +62,7 @@
           />
         </CollectionEditSection>
 
-        <CollectionEditSection :title="$t('mint.collection.banner.label')">
+        <CollectionEditSection :title="$t('edit.collection.banner.label')">
           <p class="text-xs !mb-4">
             {{ $t('edit.collection.banner.message') }}
           </p>
@@ -71,7 +81,10 @@
             </p>
 
             <CollectionEditOverrideFile
-              @clear="() => bannerUrl = undefined"
+              @clear="() => {
+                banner = undefined
+                bannerUrl = undefined
+              }"
               @select="value => banner = value"
             />
           </div>
@@ -100,9 +113,19 @@
           required
         >
           <div class="w-full">
+            <div class="flex justify-between">
+              <p>{{ $t('mint.unlimited') }}</p>
+              <NeoSwitch
+                v-model="unlimited"
+                position="left"
+              />
+            </div>
             <NeoInput
+              v-if="!unlimited"
               v-model="max"
+              class="mt-3"
               type="number"
+              data-testid="collection-input-maximum-nfts"
               :placeholder="`${min} is the minimum`"
               :min="min"
             />
@@ -129,17 +152,19 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch } from '@kodadot1/brick'
 import { Collections } from '@/composables/transaction/types'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 
 export type CollectionEditMetadata = {
+  name: string
+  description: string
   image: string
+  imageType: string
   banner?: string
   max?: number
 }
 
-const emit = defineEmits(['update:value', 'submit'])
 const props = defineProps<{
   modelValue: boolean
   collection?: CollectionEditMetadata
@@ -148,44 +173,54 @@ const props = defineProps<{
 
 const isModalActive = useVModel(props, 'modelValue')
 
-const image = ref<File | null>(null)
-const banner = ref<File | null>(null)
+const image = ref<File>()
+const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
+const unlimited = ref(true)
 
-const { $updateLoader } = useNuxtApp()
-const { transaction, status } = useTransaction()
+const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 
 const min = computed(() => props.min || 1)
 const max = ref(props.collection?.max)
 
-const disabled = computed(() => !imageUrl.value)
+const disabled = computed(() => !image.value && !banner.value && props.collection?.max === max.value)
 
 const editCollection = async () => {
-  emit('submit')
-  $updateLoader(true)
+  if (!props.collection) {
+    return
+  }
+
+  isModalActive.value = false
 
   await transaction({
-    interaction: Collections.SET_MAX_SUPPLY,
+    interaction: Collections.UPDATE_COLLECTION,
     collectionId: route.params.id.toString(),
+    collection: {
+      name: props.collection.name,
+      description: props.collection.description,
+      image: image.value || props.collection.image,
+      imageType: props.collection.imageType,
+      banner: banner.value || props.collection.banner,
+      max: max.value,
+    },
     urlPrefix: urlPrefix.value,
-    max: Number(max.value),
   })
-
-  if (status.value === TransactionStatus.Finalized) {
-    $updateLoader(false)
-  }
 }
 
 watch(isModalActive, (value) => {
   if (value) {
     imageUrl.value = sanitizeIpfsUrl(props.collection?.image)
+    bannerUrl.value = props.collection?.banner && sanitizeIpfsUrl(props.collection?.banner)
+    image.value = undefined
+    banner.value = undefined
+    unlimited.value = !props.collection?.max
   }
 })
 
-watch([image, banner], ([image, banner]) => {
+watch([image, banner, unlimited], ([image, banner, unlimited]) => {
   if (image) {
     imageUrl.value = URL.createObjectURL(image)
   }
@@ -193,5 +228,7 @@ watch([image, banner], ([image, banner]) => {
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }
+
+  max.value = unlimited ? undefined : props.collection?.max
 })
 </script>

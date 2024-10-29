@@ -241,7 +241,7 @@ export interface ActionMintCollection {
 
 export enum Collections {
   DELETE = 'delete',
-  SET_MAX_SUPPLY = 'setCollectionMaxSupply',
+  UPDATE_COLLECTION = 'updateCollection',
 }
 
 export type ActionsInteractions = Interaction | ShoppingActions | Collections
@@ -267,11 +267,22 @@ export interface ActionBurnMultipleNFTs {
   errorMessage?: string
 }
 
-export interface ActionSetCollectionMaxSupply {
-  interaction: Collections.SET_MAX_SUPPLY
+type UpdateCollectionStatemine = {
+  name: string
+  description: string
+  image: File | string
+  imageType?: string
+  banner?: File | string | null
+  max?: number
+}
+
+export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
+
+export interface ActionUpdateCollection {
+  interaction: Collections.UPDATE_COLLECTION
   collectionId: string
+  collection: UpdateCollectionStatemine
   urlPrefix: string
-  max: number
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
@@ -288,5 +299,5 @@ export type Actions =
   | ActionMintCollection
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
-  | ActionSetCollectionMaxSupply
+  | ActionUpdateCollection
   | ActionMintDrop

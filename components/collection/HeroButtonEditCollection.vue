@@ -9,7 +9,6 @@
     v-model="isModalActive"
     :collection="collectinoMetadata"
     :min="collection.nftCount"
-    @submit="isModalActive = false"
   />
 </template>
 
@@ -24,7 +23,10 @@ const props = defineProps<{
 const isModalActive = ref(false)
 
 const collectinoMetadata = computed<CollectionEditMetadata>(() => ({
+  name: props.collection.meta.name,
+  description: props.collection.meta.description,
   image: props.collection.meta.image,
+  imageType: props.collection.meta.type,
   banner: props.collection.meta.banner,
   max: props.collection.max,
 }))

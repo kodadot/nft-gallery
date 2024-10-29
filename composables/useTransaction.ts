@@ -15,7 +15,7 @@ import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
-import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
+import { execUpdateCollection } from './transaction/transactionSetCollectionMaxSupply'
 import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
@@ -28,7 +28,7 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionSend,
-  ActionSetCollectionMaxSupply,
+  ActionUpdateCollection,
   ActionWithdrawOffer,
   Actions,
   ExecuteEvmTransactionParams,
@@ -253,12 +253,14 @@ export const executeAction = ({
         api as ApiPromise,
         executeTransaction,
       ),
-    [Collections.SET_MAX_SUPPLY]: () =>
-      execSetCollectionMaxSupply(
-        item as ActionSetCollectionMaxSupply,
+    [Collections.UPDATE_COLLECTION]: () =>
+      execUpdateCollection({
+        item: item as ActionUpdateCollection,
         api,
         executeTransaction,
-      ),
+        isLoading,
+        status,
+      }),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(
         item as ActionBurnMultipleNFTs,
