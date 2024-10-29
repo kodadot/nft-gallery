@@ -38,7 +38,8 @@ const constants = {
 const validateCanvasCreation = (
   sketchFileContent: string,
 ): Result<RegExpExecArray> => {
-  const canvasMatch = constants.canvasRegex.exec(sketchFileContent)
+  // Create a new regex instance to avoid issues with lastIndex when using the global flag.
+  const canvasMatch = new RegExp(constants.canvasRegex).exec(sketchFileContent)
   if (!canvasMatch) {
     return { isSuccess: false, error: 'createCanvas function not found.' }
   }
