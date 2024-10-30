@@ -12,9 +12,7 @@ const getIpfsMedia = async ({ collection: { image, banner, imageType } }: Action
   const ipfs: { image: string, banner?: string } = { image: '', banner: '' }
 
   if (isImageFile && isBannerFile) {
-    const mediaFiles = await uploadMediaFiles([image, banner])
-    ipfs.image = mediaFiles[0]
-    ipfs.banner = mediaFiles[1]
+    [ipfs.image, ipfs.banner] = await uploadMediaFiles([image, banner])
     type = getImageTypeSafe(image)
   }
   else if (isImageFile) {
