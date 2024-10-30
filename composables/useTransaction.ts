@@ -15,7 +15,7 @@ import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
-import { execUpdateCollection } from './transaction/transactionSetCollectionMaxSupply'
+import { execUpdateCollection } from './transaction/transactionUpdateCollection'
 import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,

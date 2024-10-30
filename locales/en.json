@@ -392,6 +392,7 @@
       },
       "modal": "Editing Collection",
       "saveChanges": "Save Changes",
+      "success": "Successfully edited collection",
       "title": "Edit Collection"
     }
   },

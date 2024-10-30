@@ -3,34 +3,24 @@ import { uploadMediaFiles } from './mintToken/constructDirectoryMeta'
 import type { ActionUpdateCollection, UpdateCollectionParams } from './types'
 import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 
-const constructMeta = async (item: ActionUpdateCollection) => {
-  const { name, description, image, banner, imageType } = item.collection
-
-  const mediaFiles = [] as File[]
+const getIpfsMedia = async ({ collection: { image, banner, imageType } }: ActionUpdateCollection) => {
   const isImageFile = image instanceof File
   const isBannerFile = banner instanceof File
 
   let type = imageType
 
-  if (isImageFile) {
-    mediaFiles.push(image)
-    type = getImageTypeSafe(image)
-  }
-
-  if (isBannerFile) {
-    mediaFiles.push(banner)
-  }
-
-  const ipfs = { image: '', banner: '' }
+  const ipfs: { image: string, banner?: string } = { image: '', banner: '' }
 
   if (isImageFile && isBannerFile) {
-    const [image, banner] = await uploadMediaFiles(mediaFiles)
-    ipfs.image = image
-    ipfs.banner = banner
+    const mediaFiles = await uploadMediaFiles([image, banner])
+    ipfs.image = mediaFiles[0]
+    ipfs.banner = mediaFiles[1]
+    type = getImageTypeSafe(image)
   }
   else if (isImageFile) {
     ipfs.image = await pinFileToIPFS(image)
-    ipfs.banner = banner as string
+    ipfs.banner = banner as string | undefined
+    type = getImageTypeSafe(image)
   }
   else if (isBannerFile) {
     ipfs.image = image as string
@@ -38,22 +28,32 @@ const constructMeta = async (item: ActionUpdateCollection) => {
   }
   else {
     ipfs.image = image as string
-    ipfs.banner = banner as string
+    ipfs.banner = banner as string | undefined
   }
+
+  return {
+    ...ipfs,
+    type,
+  }
+}
+
+const constructMeta = async (item: ActionUpdateCollection) => {
+  const { name, description } = item.collection
+  const { image, banner, type } = await getIpfsMedia(item)
 
   const attributes = []
 
   const meta = createMetadata(
     name,
     description,
-    ipfs.image,
+    image,
     undefined,
     attributes,
     undefined,
     type,
   )
 
-  const metaHash = await pinJson(meta)
+  const metaHash = await pinJson({ ...meta, banner } as any)
 
   return unSanitizeIpfsUrl(metaHash)
 }
