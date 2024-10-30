@@ -187,7 +187,13 @@ const route = useRoute()
 const min = computed(() => props.min || 1)
 const max = ref(props.collection?.max)
 
-const disabled = computed(() => !image.value && !banner.value && props.collection?.max === max.value && bannerUrl.value)
+const disabled = computed(() => {
+  const hasImage = imageUrl.value
+  const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection?.banner)) || Boolean(banner.value)
+  const hasMaxChanged = max.value !== props.collection?.max
+
+  return !hasImage || (!hasBannerChanged && !hasMaxChanged)
+})
 
 const editCollection = async () => {
   if (!props.collection) {
