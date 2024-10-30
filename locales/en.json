@@ -1445,6 +1445,7 @@
     "deletingNfts": "Deleting NFTs",
     "download": "Download",
     "editCollection": "Edit Collection",
+    "refereshCollectionMetdata": "Refresh Metadata",
     "reportCollection": "Report Collection"
   },
   "multipleNFTS": "Multiple NFT's",
@@ -1892,6 +1893,7 @@
     "downloadImage": "Downloading image",
     "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds.",
     "paymentLinkCopy": "Payment link copied to clipboard",
+    "refreshMetdata": "Refreshing metadata. Check back in a minute...",
     "unsupportedOperation": "Unsupported action",
     "uploadFileSizeLimit": "The uploaded file exceeds the {0}MB size limit.",
     "urlCopy": "URL copied to clipboard ✓"

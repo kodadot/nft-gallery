@@ -188,7 +188,7 @@ const unlist = () => {
 
 const refreshMetadata = async () => {
   if (props.nft?.collection?.id && props.nft?.sn) {
-    toast('Refreshing metadata. Check back in a minute...')
+    toast($i18n.t('toast.refreshMetdata'))
     await refreshOdaTokenMetadata(urlPrefix.value, props.nft.collection.id, props.nft.sn)
   }
 }

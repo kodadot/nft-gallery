@@ -102,6 +102,7 @@
               @refetch="refetch"
             />
           </div>
+          <CollectionHeroButtonRefreshMetadata v-if="isOwner" />
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
           </NeoDropdownItem>
