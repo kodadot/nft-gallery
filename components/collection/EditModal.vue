@@ -218,6 +218,6 @@ watch([image, banner, unlimited], ([image, banner, unlimited]) => {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
-  max.value = unlimited ? undefined : props.collection?.max
+  max.value = unlimited ? undefined : max.value || props.collection?.max
 })
 </script>
