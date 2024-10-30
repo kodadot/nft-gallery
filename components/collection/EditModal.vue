@@ -1,11 +1,4 @@
 <template>
-  <SigningModal
-    :title="$t('edit.collection.modal')"
-    :is-loading="isLoading"
-    :status="status"
-    @try-again="editCollection"
-  />
-
   <NeoModal
     :value="isModalActive"
     @close="isModalActive = false"
@@ -153,8 +146,8 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch } from '@kodadot1/brick'
-import { Collections } from '@/composables/transaction/types'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
+import type { UpdateCollection } from '@/composables/transaction/types'
 
 export type CollectionEditMetadata = {
   name: string
@@ -165,6 +158,7 @@ export type CollectionEditMetadata = {
   max?: number
 }
 
+const emit = defineEmits(['submit'])
 const props = defineProps<{
   modelValue: boolean
   collection?: CollectionEditMetadata
@@ -178,11 +172,6 @@ const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
 const unlimited = ref(true)
-
-const { $i18n } = useNuxtApp()
-const { transaction, status, isLoading } = useTransaction()
-const { urlPrefix } = usePrefix()
-const route = useRoute()
 
 const min = computed(() => props.min || 1)
 const max = ref(props.collection?.max)
@@ -200,22 +189,14 @@ const editCollection = async () => {
     return
   }
 
-  isModalActive.value = false
-
-  await transaction({
-    interaction: Collections.UPDATE_COLLECTION,
-    collectionId: route.params.id.toString(),
-    collection: {
-      name: props.collection.name,
-      description: props.collection.description,
-      image: image.value || props.collection.image,
-      imageType: props.collection.imageType,
-      banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
-      max: max.value,
-    },
-    urlPrefix: urlPrefix.value,
-    successMessage: $i18n.t('edit.collection.success'),
-  })
+  emit('submit', {
+    name: props.collection.name,
+    description: props.collection.description,
+    image: image.value || props.collection.image,
+    imageType: props.collection.imageType,
+    banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
+    max: max.value,
+  } as UpdateCollection)
 }
 
 watch(isModalActive, (value) => {

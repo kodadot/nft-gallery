@@ -113,7 +113,7 @@ export const useCollectionMinimal = ({
     id: collectionId.value,
   }))
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['collection-minimal', isAssetHub, collectionId],
     queryFn: async () =>
       collectionId.value
@@ -127,7 +127,7 @@ export const useCollectionMinimal = ({
         : null,
   })
 
-  const { drop: collectionDrop, isPending: isDropPending, refetch } = useCollectionDrop(collectionId)
+  const { drop: collectionDrop, isPending: isDropPending } = useCollectionDrop(collectionId)
 
   watch([data, isDropPending],
     async ([data, dropPending]) => {

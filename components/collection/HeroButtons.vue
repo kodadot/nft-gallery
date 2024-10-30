@@ -99,6 +99,7 @@
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonEditCollection
               :collection="collection"
+              @refetch="refetch"
             />
           </div>
           <NeoDropdownItem disabled>
@@ -167,7 +168,7 @@ const shareCollectionToFarcaster = () => {
   )
 }
 
-const { collection } = useCollectionMinimal({
+const { collection, refetch } = useCollectionMinimal({
   collectionId,
 })
 const collectionIssuer = computed(() => collection.value?.displayCreator)

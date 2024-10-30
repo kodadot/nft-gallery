@@ -276,12 +276,14 @@ type UpdateCollectionStatemine = {
   max?: number
 }
 
+export type UpdateCollection = UpdateCollectionStatemine
+
 export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
 
 export interface ActionUpdateCollection {
   interaction: Collections.UPDATE_COLLECTION
   collectionId: string
-  collection: UpdateCollectionStatemine
+  collection: UpdateCollection
   urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
