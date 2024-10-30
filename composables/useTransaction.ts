@@ -256,7 +256,7 @@ export const executeAction = ({
     [Collections.UPDATE_COLLECTION]: () =>
       execUpdateCollection({
         item: item as ActionUpdateCollection,
-        api,
+        api: api as ApiPromise,
         executeTransaction,
         isLoading,
         status,
