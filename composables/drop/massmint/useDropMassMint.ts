@@ -9,6 +9,7 @@ export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
 }
 
 export default () => {
+  const { $i18n } = useNuxtApp()
   const dropStore = useDropStore()
   const { drop, amountToMint, toMintNFTs, loading } = storeToRefs(dropStore)
   const { isSub } = useIsChain(usePrefix().urlPrefix)
@@ -62,8 +63,10 @@ export default () => {
       console.log('[MASSMINT::GENERATE] Generated', toRaw(toMintNFTs.value))
     }
     catch (error) {
+      dangerMessage($i18n.t('drops.mintDropError', [error?.toString()]))
       console.log('[MASSMINT::GENERATE] Failed', error)
       loading.value = false
+      throw error
     }
   }
 

@@ -157,7 +157,7 @@ const handleSubmitMint = async () => {
   // use paid modal if it's holder of + price
   if (isHolderOfWithPaidMint.value) {
     isMintModalActive.value = true
-    return await massGenerate()
+    return await massGenerate().catch(closeMintModal)
   }
 
   if (hasMinimumFunds.value) {
