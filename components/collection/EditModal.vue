@@ -56,7 +56,7 @@
         </CollectionEditSection>
 
         <CollectionEditSection :title="$t('edit.collection.banner.label')">
-          <p class="text-xs !mb-4">
+          <p class="text-xs !mb-4 capitalize">
             {{ $t('edit.collection.banner.message') }}
           </p>
 
