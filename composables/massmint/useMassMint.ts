@@ -34,48 +34,41 @@ export const statusClass = (status?: Status) => {
 }
 
 export const useCollectionForMint = () => {
-  const collectionsEntites = ref<MintedCollection[]>()
+  const collections = ref<MintedCollection[]>()
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
 
   const { data, isPending } = useQuery({
     queryKey: ['collections-for-mint', accountId, urlPrefix],
-    queryFn: async () =>
-      accountId.value
-        ? (await useAsyncGraphql({
-            query: 'collectionForMint',
-            variables: {
-              account: accountId.value,
-            },
-          })).data.value
-        : null,
+    queryFn: async () => {
+      if (!accountId.value) {
+        return null
+      }
+
+      collections.value = []
+
+      return (await useAsyncGraphql({
+        query: 'collectionForMint',
+        variables: {
+          account: accountId.value,
+        },
+      })).data.value
+    },
   })
 
-  watch(data, () => {
+  watch(data, async () => {
     const collectionEntities = data.value?.collectionEntities
 
     if (collectionEntities?.length) {
-      const collections = collectionEntities
-        .map(collection => ({
-          ...collection,
-          lastIndexUsed: Math.max(
-            ...collection.nfts.map(nft => Number(nft.index)),
-          ),
+      const newCollections = collectionEntities
+        .filter(collection => (collection.max || Infinity) - collection.minted > 0)
 
-          alreadyMinted: collection.nfts?.length,
-          totalCount: collection.nfts?.filter(nft => !nft.burned).length,
-        }))
-        .filter(
-          collection =>
-            (collection.max || Infinity) - collection.alreadyMinted > 0,
-        )
-
-      collectionsEntites.value = unwrapSafe(collections)
+      collections.value = unwrapSafe(newCollections)
     }
   }, { immediate: true })
 
   return {
-    collectionsEntites,
+    collections,
     isLoading: isPending,
   }
 }
