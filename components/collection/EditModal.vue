@@ -69,7 +69,7 @@
               class="h-[167px] border border-border-color object-cover"
             >
 
-            <p class="text-xs text-k-grey !mt-2">
+            <p class="text-xs text-k-grey !mt-2 capitalize">
               {{ $t('edit.collection.banner.hint') }}
             </p>
 
@@ -93,7 +93,7 @@
               :label="$t('edit.collection.drop')"
             />
 
-            <p class="text-xs text-k-grey !mt-4">
+            <p class="text-xs text-k-grey !mt-4 capitalize">
               {{ $t('edit.collection.banner.hint') }}
             </p>
           </div>
@@ -101,7 +101,7 @@
 
         <!-- collection max nfts -->
         <NeoField
-          :label="$t('Maximum NFTs in collection')"
+          :label="$t('edit.collection.max.label')"
           data-testid="collection-maxAmount"
           required
         >
@@ -124,7 +124,7 @@
             />
 
             <div class="text-k-grey text-xs !mt-2">
-              This will update the Maximum items in your collection
+              {{ $t('edit.collection.max.hint') }}
             </div>
           </div>
         </NeoField>

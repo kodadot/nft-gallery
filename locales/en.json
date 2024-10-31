@@ -390,6 +390,10 @@
         "label": "Logo",
         "message": "Visible on collection card and view"
       },
+      "max": {
+        "hit": "This will update the Maximum items in your collection",
+        "label": "Maximum NFTs in collection"
+      },
       "modal": "Editing Collection",
       "saveChanges": "Save Changes",
       "success": "Successfully edited collection",
