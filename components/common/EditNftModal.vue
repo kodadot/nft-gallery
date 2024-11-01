@@ -1,0 +1,171 @@
+<template>
+  <NeoModal
+    :value="isModalActive"
+    @close="isModalActive = false"
+  >
+    <ModalBody
+      :title="$t('edit.nft.title')"
+      :scrollable="false"
+      @close="isModalActive = false"
+    >
+      <form
+        class="flex flex-col gap-6"
+        @submit.prevent
+      >
+        <NeoField
+          :label="$t('mint.nft.art.label')"
+          data-testid="nft-image"
+          required
+        >
+          <div
+            v-if="imageUrl"
+            class="flex gap-2"
+          >
+            <img
+              :src="imageUrl"
+              class="h-[100px] aspect-square border border-border-color object-cover"
+            >
+
+            <div
+              class="flex flex-col justify-between"
+            >
+              <p class="text-xs capitalize">
+                {{ $t('edit.collection.image.message') }}
+              </p>
+
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-k-grey capitalize">
+                  {{ $t('edit.collection.image.hint') }}
+                </p>
+
+                <CollectionEditOverrideFile
+                  @clear="() => {
+                    image = undefined
+                    imageUrl = undefined
+                  }"
+                  @select="value => image = value"
+                />
+              </div>
+            </div>
+          </div>
+
+          <DropUpload
+            v-else
+            v-model="image"
+            required
+            expanded
+            preview
+            :label="$t('edit.collection.drop')"
+          />
+        </NeoField>
+
+        <!-- nft name -->
+        <NeoField
+          :label="`${$t('mint.nft.name.label')} *`"
+          required
+          :error="!name"
+        >
+          <NeoInput
+            v-model="name"
+            data-testid="create-nft-input-name"
+            required
+            :placeholder="$t('mint.nft.name.placeholder')"
+          />
+        </NeoField>
+
+        <!-- nft description -->
+        <NeoField :label="`${$t('mint.nft.description.label')} (optional)`">
+          <NeoInput
+            v-model="description"
+            data-testid="create-nft-input-description"
+            type="textarea"
+            has-counter
+            maxlength="1000"
+            height="10rem"
+            :placeholder="$t('mint.nft.description.placeholder')"
+          />
+        </NeoField>
+
+        <!-- nft properties -->
+        <NeoField :label="`${$t('tabs.properties')} (optional)`">
+          <CustomAttributeInput
+            v-model="attributes"
+            :max="10"
+            data-testid="create-nft-properties"
+          />
+        </NeoField>
+      </form>
+
+      <div class="flex flex-col !mt-6">
+        <NeoButton
+          variant="primary"
+          size="large"
+          :disabled="disabled"
+          no-shadow
+          :label="$t('edit.collection.saveChanges')"
+          @click="editCollection"
+        />
+      </div>
+    </ModalBody>
+  </NeoModal>
+</template>
+
+<script setup lang="ts">
+import { NeoButton, NeoField, NeoInput, NeoModal } from '@kodadot1/brick'
+import type { Metadata, Attribute } from '@kodadot1/minimark/common'
+import type { ActionMetadataSetMetadata } from '@/composables/transaction/types'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
+import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
+
+const emit = defineEmits(['submit'])
+const props = defineProps<{
+  modelValue: boolean
+  metadata?: Metadata
+}>()
+
+const isModalActive = useVModel(props, 'modelValue')
+
+const name = ref<string>()
+const description = ref<string>()
+const image = ref<File>()
+const imageUrl = ref<string>()
+const attributes = ref<Attribute[]>([])
+
+const disabled = computed(() => {
+  const hasImage = imageUrl.value
+
+  return !hasImage
+})
+
+const editCollection = async () => {
+  const { metadata } = props
+
+  if (!metadata) {
+    return
+  }
+
+  emit('submit', {
+    ...metadata,
+    image: image.value || metadata.image,
+    name: name.value,
+    description: description.value,
+    attributes: attributes.value,
+  } as ActionMetadataSetMetadata)
+}
+
+watch(isModalActive, (value) => {
+  if (value) {
+    imageUrl.value = sanitizeIpfsUrl(props.metadata?.image)
+    image.value = undefined
+    name.value = props.metadata?.name
+    description.value = props.metadata?.description
+    attributes.value = props.metadata?.attributes || [] as Attribute[]
+  }
+})
+
+watch([image], ([image]) => {
+  if (image) {
+    imageUrl.value = URL.createObjectURL(image)
+  }
+})
+</script>7

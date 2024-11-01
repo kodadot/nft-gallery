@@ -19,6 +19,7 @@ import type {
   ActionSend,
   ActionUpdateCollection,
   ActionWithdrawOffer,
+  ActionSetNftMetadata,
   Actions } from '../transaction/types'
 import { getPercentSupportFee } from '@/utils/support'
 
@@ -61,6 +62,8 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.collectionId),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),
+    [NFTs.SET_METADATA]: (action: ActionSetNftMetadata) =>
+      hasContent(action.nftSn),
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
   }

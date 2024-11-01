@@ -398,7 +398,8 @@
       "saveChanges": "Save Changes",
       "success": "Successfully edited collection",
       "title": "Edit Collection"
-    }
+    },
+    "nft": { "title": "Edit NFT" }
   },
   "email": "Email",
   "error": "Error",

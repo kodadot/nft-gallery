@@ -1,4 +1,4 @@
-import type { Attribute } from '@kodadot1/minimark/common'
+import type { Attribute, Metadata } from '@kodadot1/minimark/common'
 import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
@@ -257,6 +257,7 @@ export interface ActionDeleteCollection {
 export enum NFTs {
   BURN_MULTIPLE = 'burnMultiple',
   MINT_DROP = 'mintDrop',
+  SET_METADATA = 'setMetadata',
 }
 
 export interface ActionBurnMultipleNFTs {
@@ -266,6 +267,20 @@ export interface ActionBurnMultipleNFTs {
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
+
+export type ActionMetadataSetMetadata = Metadata & { image: File | string }
+
+export interface ActionSetNftMetadata {
+  interaction: NFTs.SET_METADATA
+  urlPrefix: string
+  nftSn: string
+  collectionId: string
+  metadata: ActionMetadataSetMetadata
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
 
 type UpdateCollectionStatemine = {
   name: string
@@ -302,4 +317,5 @@ export type Actions =
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
   | ActionUpdateCollection
+  | ActionSetNftMetadata
   | ActionMintDrop

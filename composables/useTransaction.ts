@@ -16,6 +16,7 @@ import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { execUpdateCollection } from './transaction/transactionUpdateCollection'
+import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
@@ -29,6 +30,7 @@ import type {
   ActionMintToken,
   ActionSend,
   ActionUpdateCollection,
+  ActionSetNftMetadata,
   ActionWithdrawOffer,
   Actions,
   ExecuteEvmTransactionParams,
@@ -267,6 +269,14 @@ export const executeAction = ({
         api as ApiPromise,
         executeTransaction,
       ),
+    [NFTs.SET_METADATA]: () =>
+      execSetNftMetadata({
+        item: item as ActionSetNftMetadata,
+        api: api as ApiPromise,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [NFTs.MINT_DROP]: () =>
       execMintDrop({
         item: item as ActionMintDrop,
