@@ -64,6 +64,47 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
+  const getOdaToken = async () => {
+    const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
+    const metadata = getMetadata.metadata
+
+    if (!metadata) {
+      return
+    }
+
+    nftMetadata.value = metadata
+    nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url)
+    nftImage.value = sanitizeIpfsUrl(metadata.image)
+
+    const mimeTypeAnimation = metadata.animation_url ? await fetchMimeType(metadata.animation_url) : null
+    nftAnimationMimeType.value = mimeTypeAnimation?.mime_type || ''
+
+    const mimeType = metadata.image ? await fetchMimeType(metadata.image) : null
+    nftMimeType.value = mimeType?.mime_type || ''
+
+    // use cf-video & replace the video thumbnail
+    if (
+      nftAnimationMimeType.value.includes('video')
+      || nftMimeType.value.includes('video')
+    ) {
+      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
+      if (isIos || isSafari) {
+        nftImage.value = sanitizeIpfsUrl(metadata.image, 'cloudflare')
+        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'cloudflare')
+      }
+
+      // serve video from cloudflare stream
+      const streams = await getCloudflareMp4(
+        metadata.animation_url || metadata.image,
+      )
+
+      if (streams.uid && streams.video?.default?.percentComplete === 100) {
+        nftAnimation.value = streams.video.default.url
+        nftImage.value = streams.detail?.thumbnail || ''
+      }
+    }
+  }
+
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
       id
@@ -75,6 +116,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       }
     }`,
     onChange: refetch,
+  })
+
+  useSubscriptionGraphql({
+    query: `nftEntityById(id: "${id}") {
+      metadata
+    }`,
+    onChange: getOdaToken,
+    immediate: false,
   })
 
   useSubscriptionGraphql({
@@ -125,46 +174,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     }
   })
 
-  onBeforeMount(async () => {
-    const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
-    const metadata = getMetadata.metadata
-
-    if (!metadata) {
-      return
-    }
-
-    nftMetadata.value = metadata
-    nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url)
-    nftImage.value = sanitizeIpfsUrl(metadata.image)
-
-    const mimeTypeAnimation = metadata.animation_url ? await fetchMimeType(metadata.animation_url) : null
-    nftAnimationMimeType.value = mimeTypeAnimation?.mime_type || ''
-
-    const mimeType = metadata.image ? await fetchMimeType(metadata.image) : null
-    nftMimeType.value = mimeType?.mime_type || ''
-
-    // use cf-video & replace the video thumbnail
-    if (
-      nftAnimationMimeType.value.includes('video')
-      || nftMimeType.value.includes('video')
-    ) {
-      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
-      if (isIos || isSafari) {
-        nftImage.value = sanitizeIpfsUrl(metadata.image, 'cloudflare')
-        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'cloudflare')
-      }
-
-      // serve video from cloudflare stream
-      const streams = await getCloudflareMp4(
-        metadata.animation_url || metadata.image,
-      )
-
-      if (streams.uid && streams.video?.default?.percentComplete === 100) {
-        nftAnimation.value = streams.video.default.url
-        nftImage.value = streams.detail?.thumbnail || ''
-      }
-    }
-  })
+  onBeforeMount(getOdaToken)
 
   return {
     nft,

@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import type { Metadata } from '@kodadot1/minimark/common'
+import { refreshOdaTokenMetadata } from '@/services/oda'
 import { type ActionMetadataSetMetadata, NFTs } from '@/composables/transaction/types'
 import type { NFT } from '@/types'
 
@@ -49,6 +50,8 @@ const submit = async (metadata: ActionMetadataSetMetadata) => {
     urlPrefix: urlPrefix.value,
     successMessage: $i18n.t('edit.collection.success'),
   })
+
+  await refreshOdaTokenMetadata(urlPrefix.value, props.nft?.collection.id as string, props.nft?.sn as string)
 }
 
 watchEffect(async () => {
