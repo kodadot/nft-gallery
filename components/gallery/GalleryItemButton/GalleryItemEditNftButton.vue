@@ -42,16 +42,19 @@ const metadata = ref<Metadata>()
 const submit = async (metadata: ActionMetadataSetMetadata) => {
   isModalActive.value = false
 
+  const nftSn = props.nft?.sn as string
+  const collectionId = props.nft?.collection.id as string
+
   await transaction({
     interaction: NFTs.SET_METADATA,
-    nftSn: props.nft?.sn as string,
-    collectionId: props.nft?.collection.id as string,
+    nftSn,
+    collectionId,
     metadata,
     urlPrefix: urlPrefix.value,
     successMessage: $i18n.t('edit.collection.success'),
   })
 
-  await refreshOdaTokenMetadata(urlPrefix.value, props.nft?.collection.id as string, props.nft?.sn as string)
+  await refreshOdaTokenMetadata(urlPrefix.value, collectionId, nftSn)
 }
 
 watchEffect(async () => {
