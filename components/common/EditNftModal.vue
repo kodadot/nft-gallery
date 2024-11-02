@@ -132,9 +132,16 @@ const imageUrl = ref<string>()
 const attributes = ref<Attribute[]>([])
 
 const disabled = computed(() => {
-  const hasImage = imageUrl.value
+  const hasImage = Boolean(imageUrl.value)
+  const isNameFilled = Boolean(name.value)
 
-  return !hasImage
+  const nameChanged = props.metadata?.name !== name.value
+  const descriptionChanged = props.metadata?.description !== description.value
+  const imageChanged = Boolean(image.value)
+  const attributesChanged = JSON.stringify(attributes.value) !== JSON.stringify(props.metadata?.attributes || [])
+
+  return !hasImage || !isNameFilled
+    || (!nameChanged && !descriptionChanged && !imageChanged && !attributesChanged)
 })
 
 const editCollection = async () => {
@@ -159,7 +166,7 @@ watch(isModalActive, (value) => {
     image.value = undefined
     name.value = props.metadata?.name
     description.value = props.metadata?.description
-    attributes.value = props.metadata?.attributes || [] as Attribute[]
+    attributes.value = JSON.parse(JSON.stringify(props.metadata?.attributes || []))
   }
 })
 
