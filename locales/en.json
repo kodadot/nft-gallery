@@ -394,12 +394,12 @@
         "hit": "This will update the Maximum items in your collection",
         "label": "Maximum NFTs in collection"
       },
-      "modal": "Editing Collection",
       "saveChanges": "Save Changes",
       "success": "Successfully edited collection",
-      "title": "Edit Collection"
+      "title": "Edit Collection",
+      "transaction": "Editing Collection"
     },
-    "nft": { "title": "Edit NFT" }
+    "nft": { "title": "Edit NFT", "transaction": "Editing NFT" }
   },
   "email": "Email",
   "error": "Error",

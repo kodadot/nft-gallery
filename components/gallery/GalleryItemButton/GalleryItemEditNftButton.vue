@@ -7,7 +7,7 @@
   </NeoDropdownItem>
 
   <SigningModal
-    :title="$t('edit.collection.modal')"
+    :title="$t('edit.nft.transaction')"
     :is-loading="isLoading"
     :status="status"
     @try-again="submit"

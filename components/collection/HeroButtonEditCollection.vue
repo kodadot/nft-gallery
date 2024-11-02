@@ -6,7 +6,7 @@
   </NeoDropdownItem>
 
   <SigningModal
-    :title="$t('edit.collection.modal')"
+    :title="$t('edit.collection.transaction')"
     :is-loading="isLoading"
     :status="status"
     @try-again="editCollection"
