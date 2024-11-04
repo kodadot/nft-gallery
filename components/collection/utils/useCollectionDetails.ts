@@ -56,6 +56,7 @@ export const useCollectionDetails = ({
 
   return {
     stats,
+    refetch,
   }
 }
 

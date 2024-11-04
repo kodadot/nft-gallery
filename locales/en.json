@@ -397,7 +397,8 @@
       "saveChanges": "Save Changes",
       "success": "Successfully edited collection",
       "title": "Edit Collection",
-      "transaction": "Editing Collection"
+      "transaction": "Editing Collection",
+      "updated": "Collection updated"
     },
     "nft": { "title": "Edit NFT", "transaction": "Editing NFT" }
   },

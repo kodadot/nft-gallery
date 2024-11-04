@@ -3,7 +3,7 @@
     :disabled="!metadata"
     @click="isModalActive = true"
   >
-    Edit
+    {{ $t('massmint.edit') }}
   </NeoDropdownItem>
 
   <SigningModal
@@ -40,10 +40,14 @@ const isModalActive = ref(false)
 const metadata = ref<Metadata>()
 
 const submit = async (metadata: ActionMetadataSetMetadata) => {
+  if (!props.nft) {
+    return
+  }
+
   isModalActive.value = false
 
-  const nftSn = props.nft?.sn as string
-  const collectionId = props.nft?.collection.id as string
+  const nftSn = props.nft.sn
+  const collectionId = props.nft.collection.id
 
   await transaction({
     interaction: NFTs.SET_METADATA,

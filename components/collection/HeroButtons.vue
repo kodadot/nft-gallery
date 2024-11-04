@@ -99,7 +99,6 @@
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonEditCollection
               :collection="collection"
-              @refetch="refetch"
             />
           </div>
           <CollectionHeroButtonRefreshMetadata v-if="isOwner" />
@@ -169,7 +168,7 @@ const shareCollectionToFarcaster = () => {
   )
 }
 
-const { collection, refetch } = useCollectionMinimal({
+const { collection } = useCollectionMinimal({
   collectionId,
 })
 const collectionIssuer = computed(() => collection.value?.displayCreator)

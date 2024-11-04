@@ -25,7 +25,6 @@ import { NeoDropdownItem } from '@kodadot1/brick'
 import { type CollectionEditMetadata } from '@/components/collection/EditModal.vue'
 import { Collections, type UpdateCollection } from '@/composables/transaction/types'
 
-const emit = defineEmits(['refetch'])
 const props = defineProps<{
   collection: any
 }>()
@@ -58,17 +57,4 @@ const editCollection = async (collection: UpdateCollection) => {
     successMessage: $i18n.t('edit.collection.success'),
   })
 }
-
-useSubscriptionGraphql({
-  query: `
-    collectionEntity: collectionEntityById(id: "${props.collection.id}") {
-      max
-      metadata
-    }
-  `,
-  onChange: () => {
-    emit('refetch')
-  },
-  immediate: false,
-})
 </script>
