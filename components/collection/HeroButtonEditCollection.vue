@@ -53,6 +53,7 @@ const editCollection = async (collection: UpdateCollection) => {
     interaction: Collections.UPDATE_COLLECTION,
     collectionId: route.params.id.toString(),
     collection,
+    update: { max: collection.max !== collectinoMetadata.value.max },
     urlPrefix: urlPrefix.value,
     successMessage: $i18n.t('edit.collection.success'),
   })

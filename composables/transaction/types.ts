@@ -288,7 +288,7 @@ type UpdateCollectionStatemine = {
   image: File | string
   imageType?: string
   banner?: File | string | null
-  max?: number
+  max: number | null
 }
 
 export type UpdateCollection = UpdateCollectionStatemine
@@ -299,6 +299,7 @@ export interface ActionUpdateCollection {
   interaction: Collections.UPDATE_COLLECTION
   collectionId: string
   collection: UpdateCollection
+  update: { max: boolean }
   urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string

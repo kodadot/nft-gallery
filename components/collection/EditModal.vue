@@ -155,7 +155,7 @@ export type CollectionEditMetadata = {
   image: string
   imageType: string
   banner?: string
-  max?: number
+  max: number | null
 }
 
 const emit = defineEmits(['submit'])
@@ -174,7 +174,7 @@ const bannerUrl = ref<string>()
 const unlimited = ref(true)
 
 const min = computed(() => props.min || 1)
-const max = ref(props.collection?.max)
+const max = ref<number | null>(null)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -202,16 +202,21 @@ const editCollection = async () => {
 }
 
 watch(isModalActive, (value) => {
-  if (value) {
-    imageUrl.value = sanitizeIpfsUrl(props.collection?.image)
-    bannerUrl.value = props.collection?.banner && sanitizeIpfsUrl(props.collection?.banner)
+  if (value && props.collection) {
+    imageUrl.value = sanitizeIpfsUrl(props.collection.image)
+    bannerUrl.value = props.collection.banner && sanitizeIpfsUrl(props.collection.banner)
     image.value = undefined
     banner.value = undefined
-    unlimited.value = !props.collection?.max
+    unlimited.value = !props.collection.max
+    max.value = props.collection.max
   }
 })
 
 watch([image, banner, unlimited], ([image, banner, unlimited]) => {
+  if (!props.collection) {
+    return
+  }
+
   if (image) {
     imageUrl.value = URL.createObjectURL(image)
   }
@@ -220,6 +225,6 @@ watch([image, banner, unlimited], ([image, banner, unlimited]) => {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
-  max.value = unlimited ? undefined : max.value || props.collection?.max
+  max.value = unlimited ? null : max.value || props.collection.max
 })
 </script>

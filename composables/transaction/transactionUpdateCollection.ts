@@ -66,8 +66,11 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
 
   const args = [
     api.tx.nfts.setCollectionMetadata(collectionId, metadata),
-    api.tx.nfts.setCollectionMaxSupply(collectionId, item.collection.max),
   ]
+
+  if (item.update.max) {
+    args.push(api.tx.nfts.setCollectionMaxSupply(collectionId, item.collection.max ? item.collection.max : undefined))
+  }
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
