@@ -178,10 +178,12 @@ const max = ref(props.collection?.max)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
+
+  const hasImagechanged = (!imageUrl.value && Boolean(props.collection?.image)) || Boolean(image.value)
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection?.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection?.max
 
-  return !hasImage || (!hasBannerChanged && !hasMaxChanged)
+  return !hasImage || (!hasImagechanged && !hasBannerChanged && !hasMaxChanged)
 })
 
 const editCollection = async () => {
