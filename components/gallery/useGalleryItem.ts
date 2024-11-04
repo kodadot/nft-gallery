@@ -64,6 +64,11 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
+  const refreshToken = async () => {
+    refetch({ id })
+    getOdaToken()
+  }
+
   const getOdaToken = async () => {
     const getMetadata = await fetchOdaToken(urlPrefix.value, collectionId, tokenId)
     const metadata = getMetadata.metadata
@@ -122,7 +127,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     query: `nftEntityById(id: "${id}") {
       metadata
     }`,
-    onChange: getOdaToken,
+    onChange: refreshToken,
     immediate: false,
   })
 
