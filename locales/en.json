@@ -391,7 +391,7 @@
         "message": "Visible on collection card and view"
       },
       "max": {
-        "hit": "This will update the Maximum items in your collection",
+        "hint": "This will update the Maximum items in your collection",
         "label": "Maximum NFTs in collection"
       },
       "saveChanges": "Save Changes",
