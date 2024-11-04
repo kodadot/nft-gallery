@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import type { Metadata } from '@kodadot1/minimark/common'
+import { useQuery } from '@tanstack/vue-query'
 import { refreshOdaTokenMetadata } from '@/services/oda'
 import { type ActionMetadataSetMetadata, NFTs } from '@/composables/transaction/types'
 import type { NFT } from '@/types'
@@ -36,8 +37,6 @@ const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 
 const isModalActive = ref(false)
-
-const metadata = ref<Metadata>()
 
 const submit = async (metadata: ActionMetadataSetMetadata) => {
   if (!props.nft) {
@@ -61,7 +60,8 @@ const submit = async (metadata: ActionMetadataSetMetadata) => {
   await refreshOdaTokenMetadata(urlPrefix.value, collectionId, nftSn)
 }
 
-watchEffect(async () => {
-  metadata.value = await $fetch<Metadata>(sanitizeIpfsUrl(props.nft?.metadata))
+const { data: metadata } = useQuery({
+  queryKey: ['collection-metadata', computed(() => props.nft?.metadata)],
+  queryFn: () => $fetch<Metadata>(sanitizeIpfsUrl(props.nft?.metadata)),
 })
 </script>
