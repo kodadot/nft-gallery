@@ -13,45 +13,9 @@
         @submit.prevent
       >
         <CollectionEditSection :title="$t('edit.collection.image.label')">
-          <div
-            v-if="imageUrl"
-            class="flex gap-2"
-          >
-            <img
-              :src="imageUrl"
-              class="h-[100px] aspect-square border border-border-color object-cover"
-            >
-
-            <div
-              class="flex flex-col justify-between"
-            >
-              <p class="text-xs capitalize">
-                {{ $t('edit.collection.image.message') }}
-              </p>
-
-              <div class="flex flex-col gap-2">
-                <p class="text-xs text-k-grey capitalize">
-                  {{ $t('edit.collection.image.hint') }}
-                </p>
-
-                <CollectionEditOverrideFile
-                  @clear="() => {
-                    image = undefined
-                    imageUrl = undefined
-                  }"
-                  @select="value => image = value"
-                />
-              </div>
-            </div>
-          </div>
-
-          <DropUpload
-            v-else
-            v-model="image"
-            required
-            expanded
-            preview
-            :label="$t('edit.collection.drop')"
+          <LogoField
+            v-model:file="image"
+            v-model:url="imageUrl"
           />
         </CollectionEditSection>
 
@@ -73,7 +37,7 @@
               {{ $t('edit.collection.banner.hint') }}
             </p>
 
-            <CollectionEditOverrideFile
+            <OverrideFile
               @clear="() => {
                 banner = undefined
                 bannerUrl = undefined
