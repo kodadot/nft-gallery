@@ -130,7 +130,7 @@ watch(isModalActive, (value) => {
     image.value = undefined
     name.value = props.metadata?.name
     description.value = props.metadata?.description
-    attributes.value = JSON.parse(JSON.stringify(props.metadata?.attributes || []))
+    attributes.value = structuredClone(toRaw(props.metadata?.attributes || []))
   }
 })
 </script>
