@@ -133,10 +133,4 @@ watch(isModalActive, (value) => {
     attributes.value = JSON.parse(JSON.stringify(props.metadata?.attributes || []))
   }
 })
-
-watch([image], ([image]) => {
-  if (image) {
-    imageUrl.value = URL.createObjectURL(image)
-  }
-})
-</script>7
+</script>

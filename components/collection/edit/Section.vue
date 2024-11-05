@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label>{{ title }}</label>
+    <p>{{ title }}</p>
 
     <hr class="!my-4">
 

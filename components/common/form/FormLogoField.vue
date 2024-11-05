@@ -64,9 +64,9 @@ watch(file, (file) => {
   }
 })
 
-watch(() => props.url), (value) => {
+watch(() => props.url, (value) => {
   if (value) {
     url.value = value
   }
-}, { immediate: true }
+}, { immediate: true })
 </script>

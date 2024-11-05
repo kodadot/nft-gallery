@@ -30,6 +30,7 @@
             class="flex flex-col gap-2"
           >
             <img
+              alt="banner image"
               :src="bannerUrl"
               class="h-[167px] border border-border-color object-cover"
             >
@@ -177,13 +178,9 @@ watch(isModalActive, (value) => {
   }
 })
 
-watch([image, banner, unlimited], ([image, banner, unlimited]) => {
+watch([banner, unlimited], ([banner, unlimited]) => {
   if (!props.collection) {
     return
-  }
-
-  if (image) {
-    imageUrl.value = URL.createObjectURL(image)
   }
 
   if (banner) {
