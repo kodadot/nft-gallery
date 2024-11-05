@@ -282,7 +282,7 @@ export interface ActionSetNftMetadata {
 
 export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
 
-type UpdateCollectionStatemine = {
+type UpdateCollection = {
   name: string
   description: string
   image: File | string
@@ -290,8 +290,6 @@ type UpdateCollectionStatemine = {
   banner?: File | string | null
   max: number | null
 }
-
-export type UpdateCollection = UpdateCollectionStatemine
 
 export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
 
