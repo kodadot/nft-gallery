@@ -13,6 +13,7 @@
   />
 
   <CollectionEditModal
+    v-if="collectinoMetadata"
     v-model="isModalActive"
     :collection="collectinoMetadata"
     :min="collection.nftCount"
@@ -36,17 +37,24 @@ const route = useRoute()
 
 const isModalActive = ref(false)
 
-const collectinoMetadata = computed<CollectionEditMetadata>(() => ({
-  name: props.collection.meta.name,
-  description: props.collection.meta.description,
-  image: props.collection.meta.image,
-  imageType: props.collection.meta.type,
-  banner: props.collection.meta.banner,
-  max: props.collection.max,
-}))
+const collectinoMetadata = computed(() =>
+  props.collection
+    ? {
+        name: props.collection.meta.name,
+        description: props.collection.meta.description,
+        image: props.collection.meta.image,
+        imageType: props.collection.meta.type,
+        banner: props.collection.meta.banner,
+        max: props.collection.max,
+      } as CollectionEditMetadata
+    : null)
 
 const editCollection = async (collection: UpdateCollection) => {
   isModalActive.value = false
+
+  if (!collectinoMetadata.value) {
+    return
+  }
 
   await transaction({
     interaction: Collections.UPDATE_COLLECTION,

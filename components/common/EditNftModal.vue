@@ -80,7 +80,7 @@ import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.
 const emit = defineEmits(['submit'])
 const props = defineProps<{
   modelValue: boolean
-  metadata?: Metadata
+  metadata: Metadata
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
@@ -106,10 +106,6 @@ const disabled = computed(() => {
 
 const editCollection = async () => {
   const { metadata } = props
-
-  if (!metadata) {
-    return
-  }
 
   emit('submit', {
     ...metadata,

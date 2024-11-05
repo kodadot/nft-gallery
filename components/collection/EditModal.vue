@@ -125,7 +125,7 @@ export type CollectionEditMetadata = {
 const emit = defineEmits(['submit'])
 const props = defineProps<{
   modelValue: boolean
-  collection?: CollectionEditMetadata
+  collection: CollectionEditMetadata
   min?: number
 }>()
 
@@ -151,10 +151,6 @@ const disabled = computed(() => {
 })
 
 const editCollection = async () => {
-  if (!props.collection) {
-    return
-  }
-
   emit('submit', {
     name: props.collection.name,
     description: props.collection.description,
@@ -177,10 +173,6 @@ watch(isModalActive, (value) => {
 })
 
 watch([banner, unlimited], ([banner, unlimited]) => {
-  if (!props.collection) {
-    return
-  }
-
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }

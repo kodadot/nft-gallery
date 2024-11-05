@@ -14,6 +14,7 @@
   />
 
   <EditNftModal
+    v-if="metadata"
     v-model="isModalActive"
     :metadata="metadata"
     @submit="submit"
