@@ -36,6 +36,11 @@ const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 
+const { data: metadata } = useQuery({
+  queryKey: ['collection-metadata', computed(() => props.nft?.metadata)],
+  queryFn: () => $fetch<Metadata>(sanitizeIpfsUrl(props.nft?.metadata)),
+})
+
 const isModalActive = ref(false)
 
 const submit = async (metadata: ActionMetadataSetMetadata) => {
@@ -59,9 +64,4 @@ const submit = async (metadata: ActionMetadataSetMetadata) => {
 
   await refreshOdaTokenMetadata(urlPrefix.value, collectionId, nftSn)
 }
-
-const { data: metadata } = useQuery({
-  queryKey: ['collection-metadata', computed(() => props.nft?.metadata)],
-  queryFn: () => $fetch<Metadata>(sanitizeIpfsUrl(props.nft?.metadata)),
-})
 </script>
