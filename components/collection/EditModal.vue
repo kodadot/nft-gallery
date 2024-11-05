@@ -30,7 +30,7 @@
             class="flex flex-col gap-2"
           >
             <img
-              alt="banner image"
+              alt="collection banner"
               :src="bannerUrl"
               class="h-[167px] border border-border-color object-cover"
             >

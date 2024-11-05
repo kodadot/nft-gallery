@@ -5,7 +5,7 @@
   >
     <img
       :src="url"
-      alt="logo field"
+      alt="logo"
       class="h-[100px] aspect-square border border-border-color object-cover"
     >
 
