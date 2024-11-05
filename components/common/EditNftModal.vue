@@ -25,7 +25,7 @@
 
         <!-- nft name -->
         <NeoField
-          :label="`${$t('mint.nft.name.label')} *`"
+          :label="$t('mint.nft.name.label')"
           required
           :error="!name"
         >
@@ -38,7 +38,7 @@
         </NeoField>
 
         <!-- nft description -->
-        <NeoField :label="`${$t('mint.nft.description.label')} (optional)`">
+        <NeoField :label="$t('mint.nft.description.label')">
           <NeoInput
             v-model="description"
             data-testid="create-nft-input-description"
@@ -51,7 +51,7 @@
         </NeoField>
 
         <!-- nft properties -->
-        <NeoField :label="`${$t('tabs.properties')} (optional)`">
+        <NeoField :label="$t('tabs.properties')">
           <CustomAttributeInput
             v-model="attributes"
             :max="10"
