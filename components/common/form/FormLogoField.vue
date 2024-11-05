@@ -13,12 +13,12 @@
       class="flex flex-col justify-between"
     >
       <p class="text-xs capitalize">
-        {{ $t('edit.collection.image.message') }}
+        {{ title }}
       </p>
 
       <div class="flex flex-col gap-2">
         <p class="text-xs text-k-grey capitalize">
-          {{ $t('edit.collection.image.hint') }}
+          {{ hint || $t('edit.collection.image.hint') }}
         </p>
 
         <FormOverrideFile
@@ -46,11 +46,14 @@
 import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['update:file', 'update:url'])
-const props = defineProps<{
-  // title: string
+const props = withDefaults(defineProps<{
   file: File | undefined
   url: string | undefined
-}>()
+  title?: string
+  hint?: string
+}>(), {
+  title: '',
+})
 
 const file = useVModel(props, 'file', emit)
 const url = useVModel(props, 'url', emit)

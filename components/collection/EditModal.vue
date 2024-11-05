@@ -16,6 +16,7 @@
           <FormLogoField
             v-model:file="image"
             v-model:url="imageUrl"
+            :title="$t('edit.collection.image.message')"
           />
         </CollectionEditSection>
 
