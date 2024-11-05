@@ -68,7 +68,6 @@
         <!-- collection max nfts -->
         <NeoField
           :label="$t('edit.collection.max.label')"
-          data-testid="collection-maxAmount"
           required
         >
           <div class="w-full">
@@ -84,7 +83,6 @@
               v-model="max"
               class="mt-3"
               type="number"
-              data-testid="collection-input-maximum-nfts"
               :placeholder="`${min} is the minimum`"
               :min="min"
             />

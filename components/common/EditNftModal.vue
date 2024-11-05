@@ -14,7 +14,6 @@
       >
         <NeoField
           :label="$t('mint.nft.art.label')"
-          data-testid="nft-image"
           required
         >
           <FormLogoField
@@ -31,7 +30,6 @@
         >
           <NeoInput
             v-model="name"
-            data-testid="create-nft-input-name"
             required
             :placeholder="$t('mint.nft.name.placeholder')"
           />
@@ -41,7 +39,6 @@
         <NeoField :label="$t('mint.nft.description.label')">
           <NeoInput
             v-model="description"
-            data-testid="create-nft-input-description"
             type="textarea"
             has-counter
             maxlength="1000"
@@ -55,7 +52,6 @@
           <CustomAttributeInput
             v-model="attributes"
             :max="10"
-            data-testid="create-nft-properties"
           />
         </NeoField>
       </form>
