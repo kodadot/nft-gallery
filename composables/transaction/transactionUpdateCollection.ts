@@ -51,7 +51,10 @@ const constructMeta = async (item: ActionUpdateCollection) => {
     type,
   )
 
-  const metaHash = await pinJson({ ...meta, banner } as any)
+  // TODO: add banner field to minimark https://github.com/kodadot/packages/blob/main/minimark/src/utils/metadata.ts#L4
+  Object.assign(meta, { banner: banner ? unSanitizeIpfsUrl(banner) : '' })
+
+  const metaHash = await pinJson(meta as any)
 
   return unSanitizeIpfsUrl(metaHash)
 }
