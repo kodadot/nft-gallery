@@ -17,7 +17,7 @@
           data-testid="nft-image"
           required
         >
-          <LogoField
+          <FormLogoField
             v-model:file="image"
             v-model:url="imageUrl"
           />

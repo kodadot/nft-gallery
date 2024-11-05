@@ -13,7 +13,7 @@
         @submit.prevent
       >
         <CollectionEditSection :title="$t('edit.collection.image.label')">
-          <LogoField
+          <FormLogoField
             v-model:file="image"
             v-model:url="imageUrl"
           />
@@ -37,7 +37,7 @@
               {{ $t('edit.collection.banner.hint') }}
             </p>
 
-            <OverrideFile
+            <FormOverrideFile
               @clear="() => {
                 banner = undefined
                 bannerUrl = undefined

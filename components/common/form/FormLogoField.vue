@@ -21,7 +21,7 @@
           {{ $t('edit.collection.image.hint') }}
         </p>
 
-        <OverrideFile
+        <FormOverrideFile
           @clear="() => {
             file = undefined
             url = undefined
