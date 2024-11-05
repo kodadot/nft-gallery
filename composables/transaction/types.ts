@@ -282,7 +282,7 @@ export interface ActionSetNftMetadata {
 
 export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
 
-type UpdateCollection = {
+export type UpdateCollection = {
   name: string
   description: string
   image: File | string
