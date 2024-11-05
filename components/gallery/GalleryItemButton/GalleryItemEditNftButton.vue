@@ -38,7 +38,7 @@ const { urlPrefix } = usePrefix()
 
 const { data: metadata } = useQuery({
   queryKey: ['collection-metadata', computed(() => props.nft?.metadata)],
-  queryFn: () => $fetch<Metadata>(sanitizeIpfsUrl(props.nft?.metadata)),
+  queryFn: () => props.nft ? $fetch<Metadata>(sanitizeIpfsUrl(props.nft.metadata)) : undefined,
 })
 
 const isModalActive = ref(false)
