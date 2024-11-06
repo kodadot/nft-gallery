@@ -64,6 +64,7 @@
           size="large"
           label="Next"
           variant="primary"
+          :disabled
           no-shadow
           expanded
           @click="emit('next')"
@@ -80,6 +81,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 const emit = defineEmits(['next', 'clear'])
 const props = defineProps<{
   title: string
+  disabled?: boolean
   items: any[]
 }>()
 

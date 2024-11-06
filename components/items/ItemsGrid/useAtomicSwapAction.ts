@@ -8,7 +8,7 @@ export const ATOMIC_SWAP_PAGES = [
 
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
-  const { desired, offered } = storeToRefs(useAtomicSwapsStore())
+  const { lastSwap } = storeToRefs(useAtomicSwapsStore())
 
   const routeName = computed(() => route.name?.toString() as string)
 
@@ -17,24 +17,35 @@ export default (nft: NFTWithMetadata) => {
   const isDesiredSelection = computed(() => routeName.value === 'prefix-swap-id')
   const isOfferedSelection = computed(() => routeName.value === 'prefix-swap-id-offer')
 
-  const items = computed(() => {
+  const itemsKey = computed(() => {
     if (isDesiredSelection.value) {
-      return desired
+      return 'desired'
     }
+
     if (isOfferedSelection.value) {
-      return offered
+      return 'offered'
     }
-    return ref([])
   })
 
-  const isItemSelected = computed(() => items.value.value.some(item => item.id === nft.id))
+  const items = computed(() => {
+    const items = lastSwap.value?.[itemsKey.value || '']
+    return items
+  })
+
+  const isItemSelected = computed(() => items.value?.some(item => item.id === nft.id))
 
   const onAtomicSwapSelect = () => {
+    if (!itemsKey.value) {
+      return
+    }
+
+    const updatedSwap = lastSwap.value
+
     if (isItemSelected.value) {
-      items.value.value = items.value.value.filter(item => item.id !== nft.id)
+      updatedSwap[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
     }
     else {
-      items.value.value.push(nft)
+      updatedSwap[itemsKey.value].push(nft)
     }
   }
 

@@ -12,10 +12,12 @@
 
     <template #preview>
       <SwapPreview
+        v-if="lastSwap"
         :title="$t('swap.yourSwapList')"
-        :items="desired"
+        :items="lastSwap.desired"
+        :disabled="!lastSwap.desired.length"
         @next="onNext"
-        @clear="desired = []"
+        @clear="lastSwap.desired = []"
       />
     </template>
   </SwapSelectionLayout>
@@ -25,7 +27,8 @@
 const { accountId } = useAuth()
 const route = useRoute()
 
-const { desired } = storeToRefs(useAtomicSwapsStore())
+const atomicSwapsStore = useAtomicSwapsStore()
+const { lastSwap } = storeToRefs(atomicSwapsStore)
 
 const query = reactive({
   currentOwner_eq: route.params.id,
@@ -36,4 +39,10 @@ const query = reactive({
 const onNext = async () => {
   await navigateTo({ name: 'prefix-swap-id-offer', params: { id: route.params.id } })
 }
+
+onBeforeMount(() => {
+  if (!lastSwap.value) {
+    atomicSwapsStore.createSwap()
+  }
+})
 </script>
