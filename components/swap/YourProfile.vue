@@ -12,13 +12,16 @@
 
     <template #preview>
       <SwapPreview
-        :title="$t('swap.yourSwapList')"
+        :title="$t('swap.yourOffer')"
+        :items="offered"
+        @clear="offered = []"
       />
     </template>
   </SwapSelectionLayout>
 </template>
 
 <script setup lang="ts">
+const { offered } = storeToRefs(useAtomicSwapsStore())
 const { accountId } = useAuth()
 
 const query = reactive({

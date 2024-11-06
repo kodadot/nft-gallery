@@ -4,6 +4,7 @@ import {
   useItemsGridQueryParams,
   useSearchParams,
 } from './utils/useSearchParams'
+import { ATOMIC_SWAP_PAGES } from './useAtomicSwapAction'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
@@ -25,6 +26,7 @@ const EXCLUDED_TOKEN_USE_PAGES = [
   'prefix-collection-id',
   'prefix-drops-id',
   'prefix-u-id',
+  ...ATOMIC_SWAP_PAGES,
 ]
 
 export function useFetchSearch({

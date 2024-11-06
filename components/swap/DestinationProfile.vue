@@ -12,8 +12,10 @@
 
     <template #preview>
       <SwapPreview
-        :title="$t('swap.yourOffer')"
+        :title="$t('swap.yourSwapList')"
+        :items="desired"
         @next="onNext"
+        @clear="desired = []"
       />
     </template>
   </SwapSelectionLayout>
@@ -22,6 +24,8 @@
 <script setup lang="ts">
 const { accountId } = useAuth()
 const route = useRoute()
+
+const { desired } = storeToRefs(useAtomicSwapsStore())
 
 const query = reactive({
   currentOwner_eq: route.params.id,

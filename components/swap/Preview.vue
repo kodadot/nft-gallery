@@ -7,7 +7,47 @@
     </div>
 
     <div class="p-6 min-h-[50vh] overflow-y-auto">
-      YEET
+      <div class="flex justify-between items-center">
+        <span>
+          {{ items.length }} {{ $t('items') }}
+        </span>
+
+        <a
+          v-if="items.length"
+          @click="emit('clear')"
+        >
+          {{ $t('shoppingCart.clearAll') }}
+        </a>
+      </div>
+
+      <hr class="!my-6">
+
+      <div
+        ref="itemsContainer"
+        class="flex flex-col gap-3 max-h-[300px] overflow-y-auto"
+      >
+        <div
+          v-for="nft in items"
+          :key="nft.id"
+          class="flex justify-between"
+        >
+          <div
+            class="flex gap-4 items-center"
+          >
+            <BaseMediaItem
+              class="border border-k-shade image is-48x48"
+              :alt="nft.name"
+              :src="sanitizeIpfsUrl(nft.meta.image)"
+              preview
+              is-detail
+            />
+
+            <span>
+              {{ nft.name }}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="pb-4 px-6">
@@ -35,9 +75,25 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-const emit = defineEmits(['next'])
-defineProps<{ title: string }>()
+const emit = defineEmits(['next', 'clear'])
+const props = defineProps<{
+  title: string
+  items: any[]
+}>()
+
+const itemsContainer = ref()
 
 const router = useRouter()
+
+watch(() => props.items.length, () => {
+  nextTick().then(() => {
+    // scroll to bottom
+    itemsContainer.value.scrollTo({
+      top: itemsContainer.value.scrollHeight,
+      behavior: 'smooth',
+    })
+  })
+})
 </script>
