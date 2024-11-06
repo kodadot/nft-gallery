@@ -35,17 +35,15 @@ export default (nft: NFTWithMetadata) => {
   const isItemSelected = computed(() => items.value?.some(item => item.id === nft.id))
 
   const onAtomicSwapSelect = () => {
-    if (!itemsKey.value) {
+    if (!itemsKey.value || !lastSwap.value) {
       return
     }
 
-    const updatedSwap = lastSwap.value
-
     if (isItemSelected.value) {
-      updatedSwap[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
+      lastSwap.value[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
     }
     else {
-      updatedSwap[itemsKey.value].push(nft)
+      lastSwap.value[itemsKey.value].push(nft)
     }
   }
 
