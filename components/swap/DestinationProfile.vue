@@ -15,12 +15,15 @@
 
     <template #preview>
       <SwapPreview
-        v-if="lastSwap"
         :title="$t('swap.yourSwapList')"
-        :items="lastSwap.desired"
-        :disabled="!lastSwap.desired.length"
+        :items="swap?.desired || []"
+        :disabled="!swap?.desired.length || !accountId"
         @next="onNext"
-        @clear="lastSwap.desired = []"
+        @clear="() => {
+          if (swap) {
+            swap.desired = []
+          }
+        }"
       />
     </template>
   </SwapSelectionLayout>
@@ -31,7 +34,7 @@ const { accountId } = useAuth()
 const route = useRoute()
 
 const atomicSwapsStore = useAtomicSwapsStore()
-const { lastSwap } = storeToRefs(atomicSwapsStore)
+const { swap } = storeToRefs(atomicSwapsStore)
 
 const query = reactive({
   currentOwner_eq: route.params.id,

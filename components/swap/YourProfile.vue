@@ -15,10 +15,11 @@
 
     <template #preview>
       <SwapPreview
-        v-if="lastSwap"
+        v-if="swap"
         :title="$t('swap.yourOffer')"
-        :items="lastSwap.offered"
-        @clear="lastSwap.offered = []"
+        :disabled="!swap.offered.length"
+        :items="swap.offered"
+        @clear="swap.offered = []"
         @next="onNext"
       />
     </template>
@@ -27,7 +28,7 @@
 
 <script setup lang="ts">
 const atomicSwapsStore = useAtomicSwapsStore()
-const { lastSwap } = storeToRefs(atomicSwapsStore)
+const { swap } = storeToRefs(atomicSwapsStore)
 const { accountId } = useAuth()
 
 const query = reactive({

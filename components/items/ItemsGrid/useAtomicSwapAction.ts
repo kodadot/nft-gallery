@@ -8,42 +8,41 @@ export const ATOMIC_SWAP_PAGES = [
 
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
-  const { lastSwap } = storeToRefs(useAtomicSwapsStore())
+  const { swap, step } = storeToRefs(useAtomicSwapsStore())
 
   const routeName = computed(() => route.name?.toString() as string)
 
   const showAtomicSwapAction = computed(() => ATOMIC_SWAP_PAGES.includes(routeName.value))
 
-  const isDesiredSelection = computed(() => routeName.value === 'prefix-swap-id')
-  const isOfferedSelection = computed(() => routeName.value === 'prefix-swap-id-offer')
-
   const itemsKey = computed(() => {
-    if (isDesiredSelection.value) {
+    if (step.value === SwapStep.DESIRED) {
       return 'desired'
     }
 
-    if (isOfferedSelection.value) {
+    if (step.value === SwapStep.OFFERED) {
       return 'offered'
     }
   })
 
   const items = computed(() => {
-    const items = lastSwap.value?.[itemsKey.value || '']
+    const items = swap.value?.[itemsKey.value || '']
     return items
   })
 
-  const isItemSelected = computed(() => items.value?.some(item => item.id === nft.id))
+  const isItemSelected = computed(() => {
+    return step.value === SwapStep.REVIEW ? false : items.value?.some(item => item.id === nft.id)
+  })
 
   const onAtomicSwapSelect = () => {
-    if (!itemsKey.value || !lastSwap.value) {
+    if (!itemsKey.value || !swap.value) {
       return
     }
 
     if (isItemSelected.value) {
-      lastSwap.value[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
+      swap.value[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
     }
     else {
-      lastSwap.value[itemsKey.value].push(nft)
+      swap.value[itemsKey.value].push(nft)
     }
   }
 

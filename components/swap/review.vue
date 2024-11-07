@@ -66,9 +66,9 @@
 import { NeoIcon } from '@kodadot1/brick'
 
 const atomicSwapsStore = useAtomicSwapsStore()
-const { lastSwap } = storeToRefs(atomicSwapsStore)
+const { swap } = storeToRefs(atomicSwapsStore)
 const route = useRoute()
 
-const offeredQuery = computed(() => ({ id_in: lastSwap.value?.offered.map(item => item.id) }))
-const desiredQuery = computed(() => ({ id_in: lastSwap.value?.desired.map(item => item.id) }))
+const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
+const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
 </script>
