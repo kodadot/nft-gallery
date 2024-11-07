@@ -8,7 +8,10 @@
       />
     </template>
 
-    <SwapGridList :query />
+    <SwapGridList
+      :query
+      selectable
+    />
 
     <template #preview>
       <SwapPreview
@@ -16,6 +19,7 @@
         :title="$t('swap.yourOffer')"
         :items="lastSwap.offered"
         @clear="lastSwap.offered = []"
+        @next="onNext"
       />
     </template>
   </SwapSelectionLayout>
@@ -23,7 +27,6 @@
 
 <script setup lang="ts">
 const atomicSwapsStore = useAtomicSwapsStore()
-const { toast } = useToast()
 const { lastSwap } = storeToRefs(atomicSwapsStore)
 const { accountId } = useAuth()
 
@@ -31,11 +34,9 @@ const query = reactive({
   currentOwner_eq: accountId.value,
   burned_eq: false,
 })
+const route = useRoute()
 
-onBeforeMount(async () => {
-  if (!lastSwap.value) {
-    toast('First select the NFTs you want to offer')
-    await navigateTo({ name: 'prefix-swap-id', params: { id: useRoute().params.id } })
-  }
-})
+const onNext = async () => {
+  await navigateTo({ name: 'prefix-swap-id-review', params: { id: route.params.id } })
+}
 </script>

@@ -29,10 +29,8 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
   const getItems = computed(() => items.value)
-  const route = useRoute()
 
-  // make a ref
-  const counterparty = computed(() => route.params.id.toString() as string)
+  const counterparty = ref()
 
   const lastSwap = computed(() => {
     const atomicSwaps = items.value
@@ -63,6 +61,7 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
   return {
     // state
     items,
+    counterparty,
     // getters
     chain,
     count,

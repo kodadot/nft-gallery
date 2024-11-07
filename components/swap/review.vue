@@ -26,8 +26,13 @@
         <p>
           {{ $t('swap.reviewSelected') }}
         </p>
+
+        <SwapGridList
+          :query="offeredQuery"
+          class="!my-10"
+        />
       </div>
-      <div class="column is-narrow">
+      <div class="column is-narrow flex items-center">
         <NeoIcon
           class="pt-8 px-4"
           icon="arrow-right-arrow-left"
@@ -47,6 +52,11 @@
         <p>
           {{ $t('swap.reviewCounterpartyAccept') }}
         </p>
+
+        <SwapGridList
+          :query="desiredQuery"
+          class="!my-10"
+        />
       </div>
     </div>
   </section>
@@ -55,5 +65,10 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 
+const atomicSwapsStore = useAtomicSwapsStore()
+const { lastSwap } = storeToRefs(atomicSwapsStore)
 const route = useRoute()
+
+const offeredQuery = computed(() => ({ id_in: lastSwap.value?.offered.map(item => item.id) }))
+const desiredQuery = computed(() => ({ id_in: lastSwap.value?.desired.map(item => item.id) }))
 </script>

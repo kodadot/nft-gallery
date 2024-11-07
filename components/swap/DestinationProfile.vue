@@ -8,7 +8,10 @@
       />
     </template>
 
-    <SwapGridList :query />
+    <SwapGridList
+      :query
+      selectable
+    />
 
     <template #preview>
       <SwapPreview
@@ -39,10 +42,4 @@ const query = reactive({
 const onNext = async () => {
   await navigateTo({ name: 'prefix-swap-id-offer', params: { id: route.params.id } })
 }
-
-onBeforeMount(() => {
-  if (!lastSwap.value) {
-    atomicSwapsStore.createSwap()
-  }
-})
 </script>

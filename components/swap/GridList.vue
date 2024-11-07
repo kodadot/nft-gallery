@@ -3,6 +3,7 @@
     :search="query"
     grid-size="medium"
     :grid-section="gridSection"
+    :hide-hover-action="!selectable"
   />
 </template>
 
@@ -13,5 +14,6 @@ const gridSection = GridSection.PROFILE_GALLERY
 
 defineProps<{
   query: Record<string, any>
+  selectable?: boolean
 }>()
 </script>
