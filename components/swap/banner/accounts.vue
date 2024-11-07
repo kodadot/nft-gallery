@@ -1,10 +1,14 @@
 <template>
-  <div class="flex items-center">
-    <div>
-      <div class="font-bold is-size-5 mb-4 capitalize">
+  <div class="flex ">
+    <div class="flex flex-col gap-4 justify-start">
+      <div class="font-bold text-xl capitalize">
         {{ $t('swap.yourAddress') }}
       </div>
-      <CollectionDropCreatedBy :address="accountId" />
+      <CollectionDropCreatedBy
+        v-if="accountId"
+        :address="accountId"
+      />
+      <Auth v-else />
     </div>
     <div>
       <NeoIcon
@@ -13,8 +17,8 @@
         size="large"
       />
     </div>
-    <div>
-      <div class="font-bold is-size-5 mb-4 capitalize">
+    <div class="flex flex-col gap-4 justify-start">
+      <div class="font-bold text-xl capitalize">
         {{ $t('swap.counterparty') }}
       </div>
       <CollectionDropCreatedBy :address="counterparty" />
