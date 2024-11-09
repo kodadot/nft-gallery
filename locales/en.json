@@ -1788,6 +1788,7 @@
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
   "swap": {
+    "addToken": "Add Token",
     "beginSwap": "Begin Swap offer",
     "clickOnNft": "Click on any NFT to add it to your swap list.",
     "connectTrader": "Connect with a trader",
@@ -1796,6 +1797,8 @@
     "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
     "landingTitle": "Koda Swap",
     "learnMoreAboutSwaps": "Learn more about swaps",
+    "modifyOffer": "Modify Offer",
+    "requestToken": "Request Token",
     "reviewCheckAssets": "Check the assets on both sides of the swap",
     "reviewCounterpartyAccept": "If counterparty accept, these are the NFTs you will gain",
     "reviewOffer": "Review swap offer",
@@ -1803,6 +1806,7 @@
     "selectNft": "Select their NFTs for the Swap",
     "selectOffer": "Select your offer",
     "selectOfferSubtitle": "Select your NFTs you want to offer in this swap.",
+    "submit": "Submit Swap Offer",
     "youOffer": "You offer",
     "youWillReceive": "You will receive",
     "yourAddress": "Your Address",

@@ -42,7 +42,13 @@ export default (nft: NFTWithMetadata) => {
       swap.value[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
     }
     else {
-      swap.value[itemsKey.value].push(nft)
+      swap.value[itemsKey.value].push({
+        id: nft.id,
+        collectionId: nft.collection.id,
+        sn: nft.sn,
+        name: nft.name,
+        meta: nft.meta,
+      })
     }
   }
 

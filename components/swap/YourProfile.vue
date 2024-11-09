@@ -10,7 +10,7 @@
 
     <SwapGridList
       :query
-      selectable
+      :selectable="swap?.desired.length !== swap?.offered.length"
     />
 
     <template #preview>
@@ -19,6 +19,9 @@
         :title="$t('swap.yourOffer')"
         :disabled="!swap.offered.length"
         :items="swap.offered"
+        :surcharge-title="$t('swap.addToken')"
+        :surcharge-amount="swap.surcharge?.amount"
+        @update:surcharge-amount="onSurchargeUpdate"
         @clear="swap.offered = []"
         @next="onNext"
       />
@@ -39,5 +42,11 @@ const route = useRoute()
 
 const onNext = async () => {
   await navigateTo({ name: 'prefix-swap-id-review', params: { id: route.params.id } })
+}
+
+const onSurchargeUpdate = (amount: string) => {
+  if (swap.value) {
+    swap.value.surcharge = amount ? { amount, direction: 'Send' } : undefined
+  }
 }
 </script>

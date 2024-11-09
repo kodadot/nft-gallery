@@ -48,6 +48,20 @@
           </div>
         </div>
       </div>
+
+      <hr class="!my-6">
+
+      <div class="flex flex-col gap-4 ">
+        <div class="font-bold flex items-center gap-2">
+          <span> {{ surchargeTitle }}  </span>
+          <span class="text-k-grey text-xs">(Optional)</span>
+        </div>
+
+        <ListingCartPriceInput
+          v-model="amount"
+          full-width
+        />
+      </div>
     </div>
 
     <div class="pb-4 px-6">
@@ -83,7 +97,11 @@ const props = defineProps<{
   title: string
   disabled?: boolean
   items: any[]
+  surchargeTitle?: string
+  surchargeAmount?: string
 }>()
+
+const amount = useVModel(props, 'surchargeAmount')
 
 const itemsContainer = ref()
 

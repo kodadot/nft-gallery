@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
+import { type SwapSurcharge } from '@/composables/transaction/types'
 
 export type AtomicSwap = {
   counterparty: string
@@ -7,11 +8,16 @@ export type AtomicSwap = {
   offered: SwapItem[]
   desired: SwapItem[]
   createdAt: number
-  surcharge: { receive?: string, send?: string }
+  surcharge?: SwapSurcharge
+  duration: number
 } & CartItem
 
-type SwapItem = {
+export type SwapItem = {
   id: string
+  name: string
+  collectionId: string
+  sn: string
+  meta: any
 }
 
 export enum SwapStep {
@@ -69,7 +75,7 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
       desired: [],
       createdAt: Date.now(),
       urlPrefix: urlPrefix.value,
-      surcharge: {},
+      duration: 7,
       creator: accountId.value ? accountId.value : undefined,
     }
 

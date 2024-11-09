@@ -16,6 +16,7 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionOffer,
+  ActionSwap,
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
@@ -63,6 +64,8 @@ export function isActionValid(action: Actions): boolean {
       hasContent(action.nftIds),
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
+    [ShoppingActions.CREATE_SWAP]: (action: ActionSwap) =>
+      hasContent(action.offered) && hasContent(action.desired),
   }
 
   const checker = validityMap[action.interaction]

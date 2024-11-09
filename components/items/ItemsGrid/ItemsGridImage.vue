@@ -28,7 +28,7 @@
       #action
     >
       <div
-        v-if="!isOwner && Number(nft?.price)"
+        v-if="!isOwner && Number(nft?.price) && !showAtomicSwapAction"
         class="flex"
       >
         <NeoButton

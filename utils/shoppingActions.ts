@@ -7,6 +7,7 @@ enum OfferActions {
   SET_ROYALTY = 'SET_ROYALTY',
   WITHDRAW_OFFER = 'WITHDRAW_OFFER',
   ACCEPT_OFFER = 'ACCEPT_OFFER',
+  CREATE_SWAP = 'CREATE_SWAP',
 }
 
 export type ShoppingActions = Interaction | OfferActions
