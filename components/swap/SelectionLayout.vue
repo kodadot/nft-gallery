@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <slot name="title" />
 
-      <SwapBannerAccounts :counterparty="String(route.params.id)" />
+      <SwapBannerAccounts :counterparty="swap.counterparty" />
     </div>
 
     <div class="columns">
@@ -20,5 +20,16 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
+const swapStore = useAtomicSwapsStore()
+const { swap } = storeToRefs(swapStore)
+const { accountId } = useAuth()
+
+watchEffect(() => {
+  if (swap.value) {
+    swapStore.updateItem({
+      ...swap.value,
+      creator: accountId.value ? accountId.value : undefined,
+    })
+  }
+})
 </script>

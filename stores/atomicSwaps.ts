@@ -21,9 +21,19 @@ export type SwapItem = {
 }
 
 export enum SwapStep {
+  COUNTERPARTY = 'counterparty',
   DESIRED = 'desired',
   OFFERED = 'offered',
   REVIEW = 'review',
+}
+
+const DEFAULT_SWAP: Omit<AtomicSwap, 'urlPrefix'> = {
+  id: '',
+  counterparty: '',
+  offered: [],
+  desired: [],
+  createdAt: 0,
+  duration: 7,
 }
 
 export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
@@ -41,31 +51,22 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
 
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
+
+  const swap = ref<AtomicSwap>({ ...DEFAULT_SWAP, urlPrefix: urlPrefix.value })
+  const step = ref(SwapStep.COUNTERPARTY)
+
   const getItems = computed(() => items.value)
+  const stepItemsKey = computed(() => {
+    if (step.value === SwapStep.DESIRED) {
+      return 'desired'
+    }
 
-  const route = useRoute()
-  const routeName = computed(() => route.name?.toString())
-
-  const step = computed(() => {
-    return routeName.value
-      ? {
-          'prefix-swap-id': SwapStep.DESIRED,
-          'prefix-swap-id-offer': SwapStep.OFFERED,
-          'prefix-swap-id-review': SwapStep.REVIEW,
-        }[routeName.value]
-      : undefined
+    if (step.value === SwapStep.OFFERED) {
+      return 'offered'
+    }
   })
 
-  const counterparty = ref()
-
-  const swap = computed<AtomicSwap | undefined>(() => {
-    const atomicSwaps = items.value
-      .filter(item =>
-        item.counterparty === counterparty.value
-        && item.urlPrefix === urlPrefix.value,
-      ).sort((a, b) => b.createdAt - a.createdAt)
-    return atomicSwaps[0]
-  })
+  const stepItems = computed<SwapItem[]>(() => swap.value?.[stepItemsKey.value || ''] || [])
 
   const createSwap = (counterparty: string) => {
     const newAtomicSwap: AtomicSwap = {
@@ -84,16 +85,27 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
     return newAtomicSwap
   }
 
+  const updateStepItems = (items: SwapItem[]) => {
+    if (swap.value && stepItemsKey.value) {
+      swap.value[stepItemsKey.value] = items
+    }
+  }
+
+  const removeStepItem = (id: string) => {
+    updateStepItems(stepItems.value.filter(item => item.id !== id))
+  }
+
   return {
     // state
     items,
-    counterparty,
     // getters
     chain,
     count,
     itemsInChain,
     getItems,
     step,
+    stepItemsKey,
+    stepItems,
     // actions
     getItem,
     swap,
@@ -102,5 +114,7 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
     removeItem,
     clear,
     createSwap,
+    updateStepItems,
+    removeStepItem,
   }
 }, { persist: true })

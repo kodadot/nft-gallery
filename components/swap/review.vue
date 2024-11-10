@@ -1,6 +1,5 @@
 <template>
   <section
-    v-if="swap"
     class="pt-5 container is-fluid flex flex-col space-y-10"
   >
     <div class="flex justify-between">
@@ -79,7 +78,7 @@
           class="!px-10"
           size="large"
           :label="$t('swap.modifyOffer')"
-          @click="router.push({ name: 'prefix-swap-id', params: { id: counterparty } })"
+          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty } })"
         />
 
         <NeoButton
@@ -109,8 +108,7 @@ const route = useRoute()
 const router = useRouter()
 const { transaction, isLoading, status } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { swap, counterparty } = storeToRefs(useAtomicSwapsStore())
-const { decimals } = useChain()
+const { swap } = storeToRefs(useAtomicSwapsStore())
 
 const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
 const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
@@ -126,14 +124,12 @@ const submit = () => {
     return
   }
 
-  const surcharge = swap.value.surcharge
-
   transaction({
     interaction: ShoppingActions.CREATE_SWAP,
     offered: swap.value.offered.map(toTokenToSwap),
     desired: swap.value.desired.map(toTokenToSwap),
     duration: swap.value.duration,
-    surcharge: surcharge ? { amount: String(Number(surcharge.amount) * Math.pow(10, decimals.value)), direction: surcharge.direction } : undefined,
+    surcharge: swap.value.surcharge,
     urlPrefix: urlPrefix.value,
   })
 }

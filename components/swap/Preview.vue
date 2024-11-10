@@ -1,41 +1,44 @@
 <template>
-  <div class="border bg-background-color shadow-primary pb-6 w-full h-min md:w-[444px] lg:w-[490px] relative">
+  <div class="border bg-background-color shadow-primary w-full h-min md:w-[380px] relative">
     <div class="px-6 py-4 flex justify-between border-b items-center">
       <div class="text-base font-bold line-height">
         {{ title }}
       </div>
     </div>
 
-    <div class="p-6 min-h-[50vh] overflow-y-auto">
+    <div class="!px-6 !pb-6 !pt-4 min-h-[40vh] overflow-y-auto">
       <div class="flex justify-between items-center">
         <span>
-          {{ items.length }} {{ $t('items') }}
+          {{ count }} {{ $t('items') }}
         </span>
 
         <a
-          v-if="items.length"
-          @click="emit('clear')"
+          v-if="count"
+          @click="clearAll"
         >
           {{ $t('shoppingCart.clearAll') }}
         </a>
       </div>
 
-      <hr class="!my-6">
+      <hr
+        v-if="count"
+        class="!my-6"
+      >
 
       <div
         ref="itemsContainer"
         class="flex flex-col gap-3 max-h-[300px] overflow-y-auto"
       >
         <div
-          v-for="nft in items"
+          v-for="nft in stepItems"
           :key="nft.id"
-          class="flex justify-between"
+          class="flex justify-between items-center"
         >
           <div
             class="flex gap-4 items-center"
           >
             <BaseMediaItem
-              class="border border-k-shade image is-48x48"
+              class="border border-k-shade image is-32x32"
               :alt="nft.name"
               :src="sanitizeIpfsUrl(nft.meta.image)"
               preview
@@ -46,25 +49,73 @@
               {{ nft.name }}
             </span>
           </div>
+
+          <NeoButton
+            size="small"
+            variant="icon"
+            icon="xmark"
+            @click="() => swapStore.removeStepItem(nft.id)"
+          />
+        </div>
+
+        <div
+          v-if="stepHasSurcharge"
+          class="flex justify-between items-center"
+        >
+          <div
+            class="flex gap-4 items-center"
+          >
+            <BaseMediaItem
+              class="image is-32x32"
+              :src="getChainIcon(urlPrefix) || ''"
+            />
+
+            <Money
+              :value="swap.surcharge?.amount"
+              inline
+            />
+          </div>
+
+          <NeoButton
+            size="small"
+            variant="icon"
+            icon="xmark"
+            @click="swap.surcharge = undefined"
+          />
         </div>
       </div>
 
       <hr class="!my-6">
 
-      <div class="flex flex-col gap-4 ">
+      <div class="flex flex-col gap-4">
         <div class="font-bold flex items-center gap-2">
           <span> {{ surchargeTitle }}  </span>
-          <span class="text-k-grey text-xs">(Optional)</span>
+          <span class="text-k-grey text-xs">({{ $t('massmint.optional') }})</span>
         </div>
 
-        <ListingCartPriceInput
-          v-model="amount"
-          full-width
-        />
+        <div class="flex items-center gap-2">
+          <ListingCartPriceInput
+            v-model="amount"
+            class="w-[200px]"
+            :placeholder="$t('amount')"
+            :disabled="surchargeDisabled"
+            full-width
+          />
+
+          <NeoButton
+            class="h-10 w-[120px]"
+            icon-pack="fas"
+            icon-left="plus"
+            no-shadow
+            :label="$t('add')"
+            :disabled="surchargeDisabled"
+            @click="addSurcharge"
+          />
+        </div>
       </div>
     </div>
 
-    <div class="pb-4 px-6">
+    <div class="py-6 px-6">
       <div class="flex gap-4">
         <NeoButton
           size="large"
@@ -72,7 +123,7 @@
           variant="text"
           no-shadow
           expanded
-          @click="router.back()"
+          @click="onBack"
         />
         <NeoButton
           size="large"
@@ -81,7 +132,7 @@
           :disabled
           no-shadow
           expanded
-          @click="emit('next')"
+          @click="onNext"
         />
       </div>
     </div>
@@ -91,23 +142,71 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { type SwapSurchargeDirection } from '@/composables/transaction/types'
 
-const emit = defineEmits(['next', 'clear'])
-const props = defineProps<{
+type StepDetails = {
   title: string
-  disabled?: boolean
-  items: any[]
-  surchargeTitle?: string
-  surchargeAmount?: string
-}>()
+  surchargeTitle: string
+  nextRouteName: string
+  backRouteName: string
+  surchargeDirection: SwapSurchargeDirection
+}
 
-const amount = useVModel(props, 'surchargeAmount')
+const stepDetailsMap: Partial<Record<SwapStep, StepDetails>> = {
+  [SwapStep.DESIRED]: {
+    title: 'swap.yourSwapList',
+    surchargeTitle: 'swap.requestToken',
+    nextRouteName: 'prefix-swap-id-offer',
+    backRouteName: 'prefix-swap',
+    surchargeDirection: 'Send',
+  },
+  [SwapStep.OFFERED]: {
+    title: 'swap.yourOffer',
+    surchargeTitle: 'swap.addToken',
+    nextRouteName: 'prefix-swap-id-review',
+    backRouteName: 'prefix-swap-id',
+    surchargeDirection: 'Receive',
+  },
+}
 
+const swapStore = useAtomicSwapsStore()
+const { swap, step, stepItems } = storeToRefs(swapStore)
+const { $i18n } = useNuxtApp()
+const { accountId } = useAuth()
+const { decimals } = useChain()
+const { urlPrefix } = usePrefix()
+const { getChainIcon } = useIcon()
+
+const amount = ref()
 const itemsContainer = ref()
 
-const router = useRouter()
+const surchargeDisabled = computed(() => Boolean(swap.value.surcharge))
+const stepDetails = computed(() => stepDetailsMap[step.value] as StepDetails)
+const title = computed(() => $i18n.t(stepDetails.value.title))
+const surchargeTitle = computed(() => $i18n.t(stepDetails.value.surchargeTitle))
+const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === stepDetails.value.surchargeDirection)
+const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
+const disabled = computed(() => !stepItems.value.length || !accountId.value)
 
-watch(() => props.items.length, () => {
+const onNext = async () => {
+  await navigateTo({ name: stepDetails.value.nextRouteName, params: { id: swap.value.counterparty } })
+}
+
+const onBack = async () => {
+  await navigateTo({ name: stepDetails.value.backRouteName, params: { id: swap.value.counterparty } })
+}
+
+const clearAll = () => {
+  swapStore.updateStepItems([])
+  swap.value.surcharge = undefined
+}
+
+const addSurcharge = () => {
+  swap.value.surcharge = { amount: String(Number(amount.value) * Math.pow(10, decimals.value)), direction: stepDetails.value.surchargeDirection }
+  amount.value = ''
+}
+
+watch(() => stepItems.value.length, () => {
   nextTick().then(() => {
     // scroll to bottom
     itemsContainer.value.scrollTo({

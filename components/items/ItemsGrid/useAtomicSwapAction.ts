@@ -8,47 +8,32 @@ export const ATOMIC_SWAP_PAGES = [
 
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
-  const { swap, step } = storeToRefs(useAtomicSwapsStore())
+  const atomicSwapStore = useAtomicSwapsStore()
+  const { step, stepItems } = storeToRefs(atomicSwapStore)
 
   const routeName = computed(() => route.name?.toString() as string)
 
   const showAtomicSwapAction = computed(() => ATOMIC_SWAP_PAGES.includes(routeName.value))
 
-  const itemsKey = computed(() => {
-    if (step.value === SwapStep.DESIRED) {
-      return 'desired'
-    }
-
-    if (step.value === SwapStep.OFFERED) {
-      return 'offered'
-    }
-  })
-
-  const items = computed(() => {
-    const items = swap.value?.[itemsKey.value || '']
-    return items
-  })
-
   const isItemSelected = computed(() => {
-    return step.value === SwapStep.REVIEW ? false : items.value?.some(item => item.id === nft.id)
+    return step.value === SwapStep.REVIEW ? false : stepItems.value?.some(item => item.id === nft.id)
   })
 
   const onAtomicSwapSelect = () => {
-    if (!itemsKey.value || !swap.value) {
-      return
-    }
-
     if (isItemSelected.value) {
-      swap.value[itemsKey.value] = items.value.filter(item => item.id !== nft.id)
+      atomicSwapStore.removeStepItem(nft.id)
     }
     else {
-      swap.value[itemsKey.value].push({
-        id: nft.id,
-        collectionId: nft.collection.id,
-        sn: nft.sn,
-        name: nft.name,
-        meta: nft.meta,
-      })
+      atomicSwapStore.updateStepItems([
+        ...stepItems.value,
+        {
+          id: nft.id,
+          collectionId: nft.collection.id,
+          sn: nft.sn,
+          name: nft.name,
+          meta: nft.meta,
+        },
+      ])
     }
   }
 
