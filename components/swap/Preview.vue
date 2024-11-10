@@ -156,15 +156,15 @@ const stepDetailsMap: Partial<Record<SwapStep, StepDetails>> = {
   [SwapStep.DESIRED]: {
     title: 'swap.yourSwapList',
     surchargeTitle: 'swap.requestToken',
-    nextRouteName: 'prefix-swap-id-offer',
-    backRouteName: 'prefix-swap',
+    nextRouteName: getSwapStepRouteName(SwapStep.OFFERED),
+    backRouteName: getSwapStepRouteName(SwapStep.COUNTERPARTY),
     surchargeDirection: 'Receive',
   },
   [SwapStep.OFFERED]: {
     title: 'swap.yourOffer',
     surchargeTitle: 'swap.addToken',
-    nextRouteName: 'prefix-swap-id-review',
-    backRouteName: 'prefix-swap-id',
+    nextRouteName: getSwapStepRouteName(SwapStep.REVIEW),
+    backRouteName: getSwapStepRouteName(SwapStep.DESIRED),
     surchargeDirection: 'Send',
   },
 }
