@@ -82,7 +82,6 @@ const props = defineProps<{
   id: string
   modelValue: string[]
   search: Record<string, string | number>
-  tabKey: string
 }>()
 
 const isLoading = ref(false)

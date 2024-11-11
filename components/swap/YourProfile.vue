@@ -11,6 +11,7 @@
     <SwapGridList
       :query
       :selectable="swap.desired.length !== swap.offered.length"
+      with-filters
     />
 
     <template #preview>

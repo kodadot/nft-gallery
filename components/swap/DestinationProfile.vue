@@ -10,6 +10,7 @@
 
     <SwapGridList
       :query
+      with-filters
       selectable
     />
 

@@ -4,9 +4,10 @@
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
+          :variant
           :label="
             isMobile || !showNetworkLabel
-              ? selected?.text
+              ? label || selected?.text
               : `Network: ${selected?.text}`
           "
           :icon="active ? 'chevron-up' : 'chevron-down'"
@@ -27,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+import { NeoButton, NeoDropdown, NeoDropdownItem, type NeoButtonVariant } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
 
 const props = withDefaults(
@@ -36,6 +37,8 @@ const props = withDefaults(
     position?: 'bottom-auto'
     redirect?: boolean
     exclude: Prefix[]
+    variant?: NeoButtonVariant
+    label?: string
   }>(),
   {
     showNetworkLabel: true,
