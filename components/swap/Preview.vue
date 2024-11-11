@@ -108,7 +108,7 @@
             icon-left="plus"
             no-shadow
             :label="$t('add')"
-            :disabled="surchargeDisabled"
+            :disabled="surchargeDisabled || !amount"
             @click="addSurcharge"
           />
         </div>
@@ -188,12 +188,16 @@ const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === step
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
 const disabled = computed(() => !stepItems.value.length || !accountId.value)
 
+const goTo = (name: string) => {
+  return navigateTo({ name, params: { id: swap.value.counterparty }, query: { swapId: swap.value.id } })
+}
+
 const onNext = async () => {
-  await navigateTo({ name: stepDetails.value.nextRouteName, params: { id: swap.value.counterparty } })
+  await goTo(stepDetails.value.nextRouteName)
 }
 
 const onBack = async () => {
-  await navigateTo({ name: stepDetails.value.backRouteName, params: { id: swap.value.counterparty } })
+  await goTo(stepDetails.value.backRouteName)
 }
 
 const clearAll = () => {

@@ -10,6 +10,7 @@ export type AtomicSwap = {
   createdAt: number
   surcharge?: SwapSurcharge
   duration: number
+  blockNumber?: string
 } & CartItem
 
 export type SwapItem = {
@@ -21,10 +22,11 @@ export type SwapItem = {
 }
 
 export enum SwapStep {
-  COUNTERPARTY = 'counterparty',
-  DESIRED = 'desired',
-  OFFERED = 'offered',
-  REVIEW = 'review',
+  COUNTERPARTY,
+  DESIRED,
+  OFFERED,
+  REVIEW,
+  CREATED,
 }
 
 const DEFAULT_SWAP: Omit<AtomicSwap, 'urlPrefix'> = {
@@ -70,7 +72,7 @@ export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
 
   const createSwap = (counterparty: string) => {
     const newAtomicSwap: AtomicSwap = {
-      id: window.crypto.randomUUID(),
+      id: window.crypto.randomUUID().split('-')[0],
       counterparty,
       offered: [],
       desired: [],

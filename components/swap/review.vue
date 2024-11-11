@@ -63,7 +63,7 @@
     </div>
 
     <div
-      class="flex justify-between !my-[3.5rem]"
+      class="flex justify-between items-center !my-[3.5rem]"
     >
       <div class="w-[300px]">
         <OfferExpirationSelector
@@ -78,7 +78,7 @@
           class="!px-10"
           size="large"
           :label="$t('swap.modifyOffer')"
-          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty } })"
+          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
         />
 
         <NeoButton
@@ -93,10 +93,9 @@
   </section>
 
   <SigningModal
-    title="Creating Swap"
+    :title="$t('swap.creatingSwap')"
     :is-loading="isLoading"
     :status="status"
-    close-in-block
     @try-again="submit"
   />
 </template>
@@ -106,9 +105,11 @@ import { NeoIcon, NeoButton } from '@kodadot1/brick'
 
 const route = useRoute()
 const router = useRouter()
-const { transaction, isLoading, status } = useTransaction()
+const { $i18n } = useNuxtApp()
+const { transaction, isLoading, status, isError, blockNumber } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { swap } = storeToRefs(useAtomicSwapsStore())
+const swapsStore = useAtomicSwapsStore()
+const { swap } = storeToRefs(swapsStore)
 
 const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
 const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
@@ -131,6 +132,21 @@ const submit = () => {
     duration: swap.value.duration,
     surcharge: swap.value.surcharge,
     urlPrefix: urlPrefix.value,
+    successMessage: $i18n.t('swap.created'),
   })
 }
+
+watch(blockNumber, (blockNumber) => {
+  if (blockNumber) {
+    swap.value.blockNumber = blockNumber
+  }
+})
+
+useTransactionTracker({
+  transaction: { isError, status },
+  onSuccess: async () => {
+    await navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY) })
+  },
+  waitFor: [computed(() => Boolean(swap.value.blockNumber))],
+})
 </script>

@@ -1795,6 +1795,8 @@
     "connectTrader": "Connect with a trader",
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterparty": "Counterparty",
+    "created": "Swap Created",
+    "creatingSwap": "Creating Swap",
     "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
     "landingTitle": "Koda Swap",
     "learnMoreAboutSwaps": "Learn more about swaps",

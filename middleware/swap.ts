@@ -1,9 +1,9 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const { toast } = useToast()
   const swapStore = useAtomicSwapsStore()
   const { swap, items, step } = storeToRefs(swapStore)
   const { urlPrefix } = usePrefix()
 
+  const swapId = to.query.swapId?.toString()
   const id = to.params.id?.toString()
   const routeName = to.name?.toString()
 
@@ -11,20 +11,30 @@ export default defineNuxtRouteMiddleware((to) => {
     return navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY) })
   }
 
-  step.value = SWAP_ROUTE_NAME_STEP_MAP[routeName]
-  swap.value = items.value
+  const routeStep = SWAP_ROUTE_NAME_STEP_MAP[routeName]
+
+  const foundSwap = items.value
     .filter(item =>
       item.counterparty === id
+      && item.id === swapId
       && item.urlPrefix === urlPrefix.value,
     ).sort((a, b) => b.createdAt - a.createdAt)[0]
 
-  if (to.name === getSwapStepRouteName(SwapStep.DESIRED) && !swap.value) {
-    swapStore.createSwap(id)
-    return
+  if (!foundSwap) {
+    return navigateTo({ name: getSwapStepRouteName(SwapStep.DESIRED), params: { id }, query: { swapId: swapStore.createSwap(id).id } })
   }
 
-  if (!swap.value) {
-    toast('First select the NFTs you want to offer')
-    return navigateTo({ name: getSwapStepRouteName(SwapStep.DESIRED), params: { id } })
+  swap.value = foundSwap
+
+  const swapStep = getSwapStep(swap.value)
+
+  if (swapStep === SwapStep.CREATED) {
+    return navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY) })
+  }
+
+  step.value = routeStep
+
+  if (routeStep > swapStep) {
+    return navigateTo({ name: getSwapStepRouteName(swapStep), params: { id }, query: { swapId: swap.value.id } })
   }
 })

@@ -9,3 +9,19 @@ export const getSwapStepRouteName = (step: SwapStep) => {
   const index = Object.values(SWAP_ROUTE_NAME_STEP_MAP).findIndex(name => name === step)
   return Object.keys(SWAP_ROUTE_NAME_STEP_MAP)[index]
 }
+
+export const getSwapStep = (swap: AtomicSwap): SwapStep => {
+  if (swap.blockNumber) {
+    return SwapStep.CREATED
+  }
+
+  if (!swap.desired.length) {
+    return SwapStep.DESIRED
+  }
+
+  if (!swap.offered.length) {
+    return SwapStep.OFFERED
+  }
+
+  return SwapStep.REVIEW
+}
