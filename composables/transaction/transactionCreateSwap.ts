@@ -9,19 +9,16 @@ async function execCreateSwapStatmine({ item, api, executeTransaction, isLoading
 
   isLoading.value = true
 
-  const amountOfSwaps = Math.max(item.offered.length, item.desired.length)
+  const amountOfSwaps = item.desired.length
 
-  const amount = Number(item.surcharge?.amount || 0) * amountOfSwaps
+  const amount = Number(item.surcharge?.amount || 0) / amountOfSwaps
   const amountOfDustTokensToCreate = item.desired.length - item.offered.length
 
   const transactions = await Promise.all(
     Array.from({ length: amountOfSwaps }).map(async (_, i) => {
-      const arg = [] as SubmittableExtrinsic<'promise'>[]
-      let offeredCollectionId: string,
-        offeredItem: string
-
-      const desiredCollectionId = item.desired[i].collectionId
-      const desiredItem = item.desired[i].sn
+      let offeredCollectionId: string, offeredItem: string
+      const { collectionId: desiredCollectionId, sn: desiredItem } = item.desired[i]
+      const arg: SubmittableExtrinsic<'promise'>[] = []
 
       if (item.offered[i]) {
         offeredCollectionId = item.offered[i].collectionId
