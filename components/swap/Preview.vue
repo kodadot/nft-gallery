@@ -1,139 +1,148 @@
 <template>
-  <div class="border bg-background-color shadow-primary w-full h-min md:w-[380px] relative">
-    <div class="px-6 py-4 flex justify-between border-b items-center">
-      <div class="text-base font-bold line-height">
-        {{ title }}
+  <div class="md:w-[380px] relative">
+    <span ref="target" />
+
+    <div
+      class="border bg-background-color shadow-primary h-min"
+      :class="{
+        'md:fixed md:top-[100px]': !isTargetVisible,
+      }"
+    >
+      <div class="px-6 py-4 flex justify-between border-b items-center">
+        <div class="text-base font-bold line-height">
+          {{ title }}
+        </div>
       </div>
-    </div>
 
-    <div class="!px-6 !pb-6 !pt-4 min-h-[40vh] overflow-y-auto">
-      <div class="flex justify-between items-center">
-        <span>
-          {{ count }} {{ $t('items') }}
-        </span>
+      <div class="!px-6 !pb-6 !pt-4 min-h-[40vh] overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <span>
+            {{ count }} {{ $t('items') }}
+          </span>
 
-        <a
+          <a
+            v-if="count"
+            @click="clearAll"
+          >
+            {{ $t('shoppingCart.clearAll') }}
+          </a>
+        </div>
+
+        <hr
           v-if="count"
-          @click="clearAll"
+          class="!my-6"
         >
-          {{ $t('shoppingCart.clearAll') }}
-        </a>
-      </div>
-
-      <hr
-        v-if="count"
-        class="!my-6"
-      >
-
-      <div
-        ref="itemsContainer"
-        class="flex flex-col gap-3 max-h-[300px] overflow-y-auto"
-      >
-        <div
-          v-for="nft in stepItems"
-          :key="nft.id"
-          class="flex justify-between items-center"
-        >
-          <div
-            class="flex gap-4 items-center"
-          >
-            <BaseMediaItem
-              class="border border-k-shade image is-32x32"
-              :alt="nft.name"
-              :src="sanitizeIpfsUrl(nft.meta.image)"
-              preview
-              is-detail
-            />
-
-            <span>
-              {{ nft.name }}
-            </span>
-          </div>
-
-          <NeoButton
-            size="small"
-            variant="icon"
-            icon="xmark"
-            @click="() => swapStore.removeStepItem(nft.id)"
-          />
-        </div>
 
         <div
-          v-if="stepHasSurcharge"
-          class="flex justify-between items-center"
+          ref="itemsContainer"
+          class="flex flex-col gap-3 max-h-[300px] overflow-y-auto"
         >
           <div
-            class="flex gap-4 items-center"
+            v-for="nft in stepItems"
+            :key="nft.id"
+            class="flex justify-between items-center"
           >
-            <BaseMediaItem
-              class="image is-32x32"
-              :src="getChainIcon(urlPrefix) || ''"
-            />
+            <div
+              class="flex gap-4 items-center"
+            >
+              <BaseMediaItem
+                class="border border-k-shade image is-32x32"
+                :alt="nft.name"
+                :src="sanitizeIpfsUrl(nft.meta.image)"
+                preview
+                is-detail
+              />
 
-            <Money
-              :value="swap.surcharge?.amount"
-              inline
+              <span>
+                {{ nft.name }}
+              </span>
+            </div>
+
+            <NeoButton
+              size="small"
+              variant="icon"
+              icon="xmark"
+              @click="() => swapStore.removeStepItem(nft.id)"
             />
           </div>
 
-          <NeoButton
-            size="small"
-            variant="icon"
-            icon="xmark"
-            @click="swap.surcharge = undefined"
-          />
+          <div
+            v-if="stepHasSurcharge"
+            class="flex justify-between items-center"
+          >
+            <div
+              class="flex gap-4 items-center"
+            >
+              <BaseMediaItem
+                class="image is-32x32"
+                :src="getChainIcon(urlPrefix) || ''"
+              />
+
+              <Money
+                :value="swap.surcharge?.amount"
+                inline
+              />
+            </div>
+
+            <NeoButton
+              size="small"
+              variant="icon"
+              icon="xmark"
+              @click="swap.surcharge = undefined"
+            />
+          </div>
+        </div>
+
+        <hr class="!my-6">
+
+        <div class="flex flex-col gap-4">
+          <div class="font-bold flex items-center gap-2">
+            <span> {{ surchargeTitle }}  </span>
+            <span class="text-k-grey text-xs">({{ $t('massmint.optional') }})</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <ListingCartPriceInput
+              v-model="amount"
+              class="w-[200px]"
+              :placeholder="$t('amount')"
+              :disabled="surchargeDisabled"
+              full-width
+            />
+
+            <NeoButton
+              class="h-10 w-[120px]"
+              icon-pack="fas"
+              icon-left="plus"
+              no-shadow
+              :label="$t('add')"
+              :disabled="surchargeDisabled || !amount"
+              @click="addSurcharge"
+            />
+          </div>
         </div>
       </div>
 
-      <hr class="!my-6">
-
-      <div class="flex flex-col gap-4">
-        <div class="font-bold flex items-center gap-2">
-          <span> {{ surchargeTitle }}  </span>
-          <span class="text-k-grey text-xs">({{ $t('massmint.optional') }})</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <ListingCartPriceInput
-            v-model="amount"
-            class="w-[200px]"
-            :placeholder="$t('amount')"
-            :disabled="surchargeDisabled"
-            full-width
-          />
-
+      <div class="py-6 px-6">
+        <div class="flex gap-4">
           <NeoButton
-            class="h-10 w-[120px]"
-            icon-pack="fas"
-            icon-left="plus"
+            size="large"
+            label="Back"
+            variant="text"
             no-shadow
-            :label="$t('add')"
-            :disabled="surchargeDisabled || !amount"
-            @click="addSurcharge"
+            expanded
+            @click="onBack"
+          />
+          <NeoButton
+            size="large"
+            label="Next"
+            variant="primary"
+            :disabled
+            no-shadow
+            expanded
+            @click="onNext"
           />
         </div>
-      </div>
-    </div>
-
-    <div class="py-6 px-6">
-      <div class="flex gap-4">
-        <NeoButton
-          size="large"
-          label="Back"
-          variant="text"
-          no-shadow
-          expanded
-          @click="onBack"
-        />
-        <NeoButton
-          size="large"
-          label="Next"
-          variant="primary"
-          :disabled
-          no-shadow
-          expanded
-          @click="onNext"
-        />
       </div>
     </div>
   </div>
@@ -141,6 +150,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { useElementVisibility } from '@vueuse/core'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { type SwapSurchargeDirection } from '@/composables/transaction/types'
 
@@ -177,9 +187,11 @@ const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { getChainIcon } = useIcon()
 
+const target = ref()
 const amount = ref()
 const itemsContainer = ref()
 
+const isTargetVisible = useElementVisibility(target)
 const surchargeDisabled = computed(() => Boolean(swap.value.surcharge))
 const stepDetails = computed(() => stepDetailsMap[step.value] as StepDetails)
 const title = computed(() => $i18n.t(stepDetails.value.title))
