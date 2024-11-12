@@ -7,6 +7,7 @@
       variant="secondary-rounded"
       :show-network-label="false"
       :label="$t('activity.network')"
+      :exclude="['base', 'imx', 'mnt']"
     />
 
     <ProfileCollectionFilter
@@ -26,10 +27,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  modelValue: any[]
+defineProps<{
   query: Record<string, any>
 }>()
 
-const collections = useVModel(props, 'modelValue')
+const collections = defineModel({ type: Array as PropType<string[]>, required: true })
 </script>
