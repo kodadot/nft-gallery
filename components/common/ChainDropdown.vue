@@ -39,6 +39,7 @@ const props = withDefaults(
     exclude: Prefix[]
     variant?: NeoButtonVariant
     label?: string
+    filterByVm?: boolean
   }>(),
   {
     showNetworkLabel: true,
@@ -46,12 +47,13 @@ const props = withDefaults(
     redirect: true,
     mobileModal: false,
     exclude: () => [],
+    filterByVm: false,
   },
 )
 
 const route = useReactiveRoute()
 const { setUrlPrefix, urlPrefix } = usePrefix()
-const { availableChains: allChains } = useChain()
+const { availableChains: allChains, availableChainsByVm: allChainInVm } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 const { isMobile } = useViewport()
 
@@ -61,11 +63,10 @@ const selected = computed(() =>
   allChains.value.find(chain => chain.value === prefix.value),
 )
 
-const availableChains = computed(() =>
-  allChains.value.filter(
-    chain => !props.exclude.includes(chain.value as Prefix),
-  ),
-)
+const availableChains = computed(() => {
+  return (props.filterByVm ? allChainInVm.value : allChains.value)
+    .filter(chain => !props.exclude.includes(chain.value as Prefix))
+})
 
 function onSwitchChain(chain) {
   setUrlPrefix(chain)

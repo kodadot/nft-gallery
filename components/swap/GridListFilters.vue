@@ -5,6 +5,7 @@
     <ChainDropdown
       position="bottom-auto"
       variant="secondary-rounded"
+      filter-by-vm
       :show-network-label="false"
       :label="$t('activity.network')"
     />

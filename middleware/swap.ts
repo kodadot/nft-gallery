@@ -1,8 +1,10 @@
+import { type Prefix } from '@kodadot1/static'
+
 export default defineNuxtRouteMiddleware((to) => {
   const swapStore = useAtomicSwapsStore()
   const { swap, items, step } = storeToRefs(swapStore)
-  const { urlPrefix } = usePrefix()
 
+  const prefix = to.params.prefix?.toString() as Prefix
   const swapId = to.query.swapId?.toString()
   const id = to.params.id?.toString()
   const routeName = to.name?.toString()
@@ -17,11 +19,15 @@ export default defineNuxtRouteMiddleware((to) => {
     .filter(item =>
       item.counterparty === id
       && item.id === swapId
-      && item.urlPrefix === urlPrefix.value,
-    ).sort((a, b) => b.createdAt - a.createdAt)[0]
+      && item.urlPrefix === prefix,
+    )[0]
 
   if (!foundSwap) {
-    return navigateTo({ name: getSwapStepRouteName(SwapStep.DESIRED), params: { id }, query: { swapId: swapStore.createSwap(id).id } })
+    return navigateTo({
+      name: getSwapStepRouteName(SwapStep.DESIRED),
+      params: { id, prefix },
+      query: { swapId: swapStore.createSwap(id).id },
+    })
   }
 
   swap.value = foundSwap
@@ -29,12 +35,12 @@ export default defineNuxtRouteMiddleware((to) => {
   const swapStep = getSwapStep(swap.value)
 
   if (swapStep === SwapStep.CREATED) {
-    return navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY) })
+    return navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY), params: { prefix } })
   }
 
   step.value = routeStep
 
   if (routeStep > swapStep) {
-    return navigateTo({ name: getSwapStepRouteName(swapStep), params: { id }, query: { swapId: swap.value.id } })
+    return navigateTo({ name: getSwapStepRouteName(swapStep), params: { id, prefix }, query: { swapId: swap.value.id } })
   }
 })
