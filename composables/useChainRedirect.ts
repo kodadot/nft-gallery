@@ -49,6 +49,9 @@ function getRedirectPathForPrefix({
         prefix: chain,
         id: accountId,
       },
+      query: {
+        swapId: route.query.swapId,
+      },
     }
   }
 
