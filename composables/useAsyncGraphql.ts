@@ -7,10 +7,10 @@ type AyncQueryParams = {
   prefix?: string
 }
 
-export default async function ({ query, variables, clientId, prefix }: AyncQueryParams) {
+export default async function asyncGraphql<T>({ query, variables, clientId, prefix }: AyncQueryParams) {
   const { urlPrefix, client } = usePrefix()
 
-  return useAsyncQuery({
+  return useAsyncQuery<T>({
     query: (await resolveQueryPath(prefix || urlPrefix.value, query)).default,
     variables: variables,
     clientId: clientId || client.value,
