@@ -10,7 +10,7 @@
     />
 
     <ProfileCollectionFilter
-      :id="accountId"
+      :id="query.currentOwner_eq"
       v-model="collections"
       variant="outlined-rounded"
       :search="query"
@@ -26,8 +26,6 @@
 </template>
 
 <script setup lang="ts">
-const { accountId } = useAuth()
-
 const props = defineProps<{
   modelValue: any[]
   query: Record<string, any>
