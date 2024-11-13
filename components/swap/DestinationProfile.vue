@@ -1,5 +1,5 @@
 <template>
-  <SwapSelectionLayout>
+  <SwapLayoutSelection>
     <template #title>
       <SwapBannerTitle
         step="2/4"
@@ -17,7 +17,7 @@
     <template #preview>
       <SwapPreview />
     </template>
-  </SwapSelectionLayout>
+  </SwapLayoutSelection>
 </template>
 
 <script setup lang="ts">

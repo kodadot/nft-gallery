@@ -1,21 +1,12 @@
 <template>
-  <section class="pt-5 container is-fluid flex flex-col space-y-10">
-    <div class="flex justify-between">
+  <section class="container is-fluid flex flex-col">
+    <div class="flex my-14 flex-wrap gap-10 justify-between">
       <slot name="title" />
 
       <SwapBannerAccounts :counterparty="swap.counterparty" />
     </div>
 
-    <div class="columns">
-      <div class="column">
-        <hr class="mb-6 mt-0">
-
-        <slot />
-      </div>
-      <div class="column is-narrow">
-        <slot name="preview" />
-      </div>
-    </div>
+    <slot />
   </section>
 </template>
 

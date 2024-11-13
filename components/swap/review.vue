@@ -1,96 +1,94 @@
 <template>
-  <section
-    class="pt-5 container is-fluid flex flex-col space-y-10"
-  >
-    <div class="flex justify-between">
+  <SwapLayout>
+    <template #title>
       <SwapBannerTitle
         step="4/4"
         :title="$t('swap.reviewOffer')"
         :subtitle="$t('swap.reviewCheckAssets')"
       />
+    </template>
 
-      <SwapBannerAccounts :counterparty="String(route.params.id)" />
-    </div>
+    <div>
+      <hr class="mb-14 mt-0">
 
-    <hr class="mb-0">
-
-    <div class="columns">
-      <div class="column">
-        <div class="flex items-center">
-          <div class="title mb-0">
-            {{ $t('swap.youOffer') }}
+      <div class="columns">
+        <div class="column">
+          <div class="flex items-center">
+            <div class="title mb-0">
+              {{ $t('swap.youOffer') }}
+            </div>
+            <img
+              src="~/assets/svg/swap/arrow-up.svg"
+              alt="Swap offer"
+            >
           </div>
-          <img
-            src="~/assets/svg/swap/arrow-up.svg"
-            alt="Swap offer"
-          >
-        </div>
-        <p>
-          {{ $t('swap.reviewSelected') }}
-        </p>
+          <p>
+            {{ $t('swap.reviewSelected') }}
+          </p>
 
-        <SwapGridList
-          :query="offeredQuery"
-          class="!my-10"
-        />
-      </div>
-      <div class="column is-narrow flex items-center">
-        <NeoIcon
-          class="pt-8 px-4"
-          icon="arrow-right-arrow-left"
-          size="large"
-        />
-      </div>
-      <div class="column">
-        <div class="flex items-center">
-          <div class="title mb-0">
-            {{ $t('swap.youWillReceive') }}
+          <SwapGridList
+            :query="offeredQuery"
+            class="!my-10"
+          />
+        </div>
+        <div class="column is-narrow flex items-center">
+          <NeoIcon
+            class="pt-8 px-4"
+            icon="arrow-right-arrow-left"
+            size="large"
+          />
+        </div>
+        <div class="column">
+          <div class="flex items-center">
+            <div class="title mb-0">
+              {{ $t('swap.youWillReceive') }}
+            </div>
+            <img
+              src="~/assets/svg/swap/arrow-down.svg"
+              alt="Swap Receive"
+            >
           </div>
-          <img
-            src="~/assets/svg/swap/arrow-down.svg"
-            alt="Swap Receive"
-          >
+          <p>
+            {{ $t('swap.reviewCounterpartyAccept') }}
+          </p>
+
+          <SwapGridList
+            :query="desiredQuery"
+            class="!my-10"
+          />
         </div>
-        <p>
-          {{ $t('swap.reviewCounterpartyAccept') }}
-        </p>
+      </div>
 
-        <SwapGridList
-          :query="desiredQuery"
-          class="!my-10"
-        />
+      <div
+        class="flex justify-between items-center my-[3.5rem]"
+      >
+        <div class="w-[300px]">
+          <OfferExpirationSelector
+            v-model="swap.duration"
+            position="auto"
+            class="pt-2"
+          />
+        </div>
+
+        <div class="flex gap-8 justify-end">
+          <NeoButton
+            class="!px-10"
+            size="large"
+            :label="$t('swap.modifyOffer')"
+            @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
+          />
+
+          <NeoButton
+            class="!px-10"
+            variant="primary"
+            size="large"
+            :label="$t('swap.submit')"
+            @click="submit"
+          />
+        </div>
       </div>
     </div>
-
-    <div
-      class="flex justify-between items-center !my-[3.5rem]"
-    >
-      <div class="w-[300px]">
-        <OfferExpirationSelector
-          v-model="swap.duration"
-          position="auto"
-          class="pt-2"
-        />
-      </div>
-
-      <div class="flex gap-8 justify-end">
-        <NeoButton
-          class="!px-10"
-          size="large"
-          :label="$t('swap.modifyOffer')"
-          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
-        />
-
-        <NeoButton
-          class="!px-10"
-          variant="primary"
-          size="large"
-          :label="$t('swap.submit')"
-          @click="submit"
-        />
-      </div>
-    </div>
-  </section>
+  </SwapLayout>
 
   <SigningModal
     :title="$t('swap.creatingSwap')"
@@ -104,7 +102,6 @@
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
 import { SwapStep } from '@/components/swap/types'
 
-const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
 const { transaction, isLoading, status, isError, blockNumber } = useTransaction()

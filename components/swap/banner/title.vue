@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-6">
+  <div class="flex flex-wrap items-center gap-6">
     <div class="px-4 py-2 bg-neutral-3 text-black text-xl rounded-full">
       {{ step }}
     </div>
