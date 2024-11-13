@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
 import { type SwapSurcharge } from '@/composables/transaction/types'
+import { SwapStep } from '@/components/swap/types'
 
 export type AtomicSwap = {
   counterparty: string
@@ -19,14 +20,6 @@ export type SwapItem = {
   collectionId: string
   sn: string
   meta: any
-}
-
-export enum SwapStep {
-  COUNTERPARTY,
-  DESIRED,
-  OFFERED,
-  REVIEW,
-  CREATED,
 }
 
 const DEFAULT_SWAP: Omit<AtomicSwap, 'urlPrefix'> = {

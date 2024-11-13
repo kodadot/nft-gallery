@@ -4,7 +4,6 @@ import {
   useItemsGridQueryParams,
   useSearchParams,
 } from './utils/useSearchParams'
-import { ATOMIC_SWAP_PAGES } from './useAtomicSwapAction'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'

@@ -102,6 +102,7 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
+import { SwapStep } from '@/components/swap/types'
 
 const route = useRoute()
 const router = useRouter()

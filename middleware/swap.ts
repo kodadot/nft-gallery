@@ -1,4 +1,5 @@
 import { type Prefix } from '@kodadot1/static'
+import { SwapStep } from '@/components/swap/types'
 
 export default defineNuxtRouteMiddleware((to) => {
   const swapStore = useAtomicSwapsStore()

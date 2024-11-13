@@ -153,6 +153,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { useElementVisibility } from '@vueuse/core'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { type SwapSurchargeDirection } from '@/composables/transaction/types'
+import { SwapStep } from '@/components/swap/types'
 
 type StepDetails = {
   title: string

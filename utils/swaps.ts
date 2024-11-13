@@ -1,9 +1,17 @@
+import { SwapStep } from '@/components/swap/types'
+
 export const SWAP_ROUTE_NAME_STEP_MAP = {
   'prefix-swap': SwapStep.COUNTERPARTY,
   'prefix-swap-id': SwapStep.DESIRED,
   'prefix-swap-id-offer': SwapStep.OFFERED,
   'prefix-swap-id-review': SwapStep.REVIEW,
 }
+
+export const ATOMIC_SWAP_PAGES = [
+  'prefix-swap-id',
+  'prefix-swap-id-offer',
+  'prefix-swap-id-review',
+]
 
 export const getSwapStepRouteName = (step: SwapStep) => {
   const index = Object.values(SWAP_ROUTE_NAME_STEP_MAP).findIndex(name => name === step)

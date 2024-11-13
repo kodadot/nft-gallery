@@ -1,10 +1,5 @@
 import type { NFTWithMetadata } from '@/composables/useNft'
-
-export const ATOMIC_SWAP_PAGES = [
-  'prefix-swap-id',
-  'prefix-swap-id-offer',
-  'prefix-swap-id-review',
-]
+import { SwapStep } from '@/components/swap/types'
 
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
