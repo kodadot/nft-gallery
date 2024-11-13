@@ -13,7 +13,7 @@ import {
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
-import { execCreateSwapTx } from './transaction/transactionCreateSwap'
+import { execCreateSwap } from './transaction/transactionCreateSwap'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
@@ -234,7 +234,7 @@ export const executeAction = ({
     [ShoppingActions.MAKE_OFFER]: () =>
       execMakingOfferTx(item as ActionOffer, api, executeTransaction),
     [ShoppingActions.CREATE_SWAP]: () =>
-      execCreateSwapTx({
+      execCreateSwap({
         item: item as ActionSwap,
         api: api as ApiPromise,
         executeTransaction,

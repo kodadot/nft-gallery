@@ -65,7 +65,7 @@ export function isActionValid(action: Actions): boolean {
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
     [ShoppingActions.CREATE_SWAP]: (action: ActionSwap) =>
-      hasContent(action.offered) && hasContent(action.desired),
+      hasContent(action.offered) && hasContent(action.desired) && action.offered.length === action.desired.length,
   }
 
   const checker = validityMap[action.interaction]

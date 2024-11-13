@@ -19,7 +19,7 @@ export const getSwapStep = (swap: AtomicSwap): SwapStep => {
     return SwapStep.DESIRED
   }
 
-  if (!swap.offered.length) {
+  if (!swap.offered.length || swap.offered.length !== swap.desired.length) {
     return SwapStep.OFFERED
   }
 
