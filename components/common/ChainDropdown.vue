@@ -36,7 +36,7 @@ const props = withDefaults(
     showNetworkLabel: boolean
     position?: 'bottom-auto'
     redirect?: boolean
-    exclude: Prefix[]
+    exclude?: Prefix[]
     variant?: NeoButtonVariant
     label?: string
     filterByVm?: boolean

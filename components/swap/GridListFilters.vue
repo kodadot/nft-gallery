@@ -27,10 +27,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  modelValue: any[]
+defineProps<{
   query: Record<string, any>
 }>()
 
-const collections = useVModel(props, 'modelValue')
+const collections = defineModel({ type: Array as PropType<string[]>, required: true })
 </script>
