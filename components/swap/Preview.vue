@@ -37,60 +37,27 @@
           ref="itemsContainer"
           class="flex flex-col gap-3 max-h-[300px] overflow-y-auto"
         >
-          <div
+          <SwapPreviewItem
             v-for="nft in stepItems"
             :key="nft.id"
-            class="flex justify-between items-center"
-          >
-            <div
-              class="flex gap-4 items-center"
-            >
-              <BaseMediaItem
-                class="border border-k-shade image is-32x32"
-                :alt="nft.name"
-                :src="sanitizeIpfsUrl(nft.meta.image)"
-                preview
-                is-detail
-              />
+            :name="nft.name"
+            :image="sanitizeIpfsUrl(nft.meta.image)"
+            image-class="border border-k-shade"
+            @remove="() => swapStore.removeStepItem(nft.id)"
+          />
 
-              <span>
-                {{ nft.name }}
-              </span>
-            </div>
-
-            <NeoButton
-              size="small"
-              variant="icon"
-              icon="xmark"
-              @click="() => swapStore.removeStepItem(nft.id)"
-            />
-          </div>
-
-          <div
+          <SwapPreviewItem
             v-if="stepHasSurcharge"
-            class="flex justify-between items-center"
+            :image="getChainIcon(urlPrefix) || ''"
+            @remove="swap.surcharge = undefined"
           >
-            <div
-              class="flex gap-4 items-center"
-            >
-              <BaseMediaItem
-                class="image is-32x32"
-                :src="getChainIcon(urlPrefix) || ''"
-              />
-
+            <template #name>
               <Money
                 :value="swap.surcharge?.amount"
                 inline
               />
-            </div>
-
-            <NeoButton
-              size="small"
-              variant="icon"
-              icon="xmark"
-              @click="swap.surcharge = undefined"
-            />
-          </div>
+            </template>
+          </SwapPreviewItem>
         </div>
 
         <hr class="!my-6">
