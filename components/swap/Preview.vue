@@ -198,7 +198,18 @@ const title = computed(() => $i18n.t(stepDetails.value.title))
 const surchargeTitle = computed(() => $i18n.t(stepDetails.value.surchargeTitle))
 const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === stepDetails.value.surchargeDirection)
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
-const disabled = computed(() => !stepItems.value.length || !accountId.value)
+const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && step.value === SwapStep.OFFERED)
+const disabled = computed(() => {
+  if (!accountId.value || isOverOneToOneSwap.value) {
+    return true
+  }
+
+  if (step.value === SwapStep.DESIRED) {
+    return !swap.value.desired.length
+  }
+
+  return swap.value.desired.length !== swap.value.offered.length
+})
 
 const goTo = (name: string) => {
   return navigateTo({ name, params: { id: swap.value.counterparty }, query: { swapId: swap.value.id } })
@@ -230,5 +241,11 @@ watch(() => stepItems.value.length, () => {
       behavior: 'smooth',
     })
   })
+})
+
+watchEffect(() => {
+  if (isOverOneToOneSwap.value) {
+    swap.value.offered = []
+  }
 })
 </script>

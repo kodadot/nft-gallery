@@ -28,10 +28,4 @@ const query = reactive({
   currentOwner_eq: accountId.value,
   burned_eq: false,
 })
-
-watchEffect(() => {
-  if (swap.value.offered.length > swap.value.desired.length) {
-    swap.value.offered = []
-  }
-})
 </script>
