@@ -106,7 +106,8 @@ const router = useRouter()
 const { $i18n } = useNuxtApp()
 const { transaction, isLoading, status, isError, blockNumber } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { swap } = storeToRefs(useAtomicSwapStore())
+const swapStore = useAtomicSwapStore()
+const { swap } = storeToRefs(swapStore)
 
 const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
 const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
@@ -135,7 +136,7 @@ const submit = () => {
 
 watch(blockNumber, (blockNumber) => {
   if (blockNumber) {
-    swap.value.blockNumber = blockNumber
+    swapStore.updateSwap({ blockNumber })
   }
 })
 
