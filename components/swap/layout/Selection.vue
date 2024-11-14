@@ -4,13 +4,13 @@
       <slot name="title" />
     </template>
 
-    <div class="columns is-reversed-mobile">
-      <div class="column">
+    <div class="flex gap-6 flex-col-reverse md:flex-row">
+      <div class="flex-1">
         <hr class="mb-6 mt-0">
 
         <slot />
       </div>
-      <div class="column is-narrow">
+      <div class="w-auto">
         <slot name="preview" />
       </div>
     </div>
@@ -31,11 +31,3 @@ watch(accountId, (account) => {
   }
 })
 </script>
-
-<style>
-@media screen and (max-width: 768px) {
-  .columns.is-reversed-mobile {
-    @apply flex flex-col-reverse;
-  }
-}
-</style>
