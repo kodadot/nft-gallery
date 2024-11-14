@@ -33,3 +33,13 @@ export const getSwapStep = (swap: AtomicSwap): SwapStep => {
 
   return SwapStep.REVIEW
 }
+
+export const getStepItemsKey = (step: SwapStep) => {
+  if (step === SwapStep.DESIRED) {
+    return 'desired'
+  }
+
+  if (step === SwapStep.OFFERED) {
+    return 'offered'
+  }
+}

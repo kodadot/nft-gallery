@@ -3,7 +3,7 @@
     <div class="px-4 py-2 bg-neutral-3 text-black text-xl rounded-full">
       {{ step }}
     </div>
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-col justify-center capitalize">
       <h1 class="title">
         {{ title }}
       </h1>

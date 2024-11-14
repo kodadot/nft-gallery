@@ -43,7 +43,7 @@
             :name="nft.name"
             :image="sanitizeIpfsUrl(nft.meta.image)"
             image-class="border border-k-shade"
-            @remove="() => swapStore.removeStepItem(nft.id)"
+            @remove="swapStore.removeStepItem(nft.id)"
           />
 
           <SwapPreviewItem
@@ -147,8 +147,12 @@ const stepDetailsMap: Partial<Record<SwapStep, StepDetails>> = {
   },
 }
 
+const props = defineProps<{
+  step: SwapStep
+}>()
+
 const swapStore = useAtomicSwapsStore()
-const { swap, step, stepItems } = storeToRefs(swapStore)
+const { swap } = storeToRefs(swapStore)
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const { decimals } = useChain()
@@ -160,19 +164,20 @@ const amount = ref()
 const itemsContainer = ref()
 
 const isTargetVisible = useElementVisibility(target)
-const surchargeDisabled = computed(() => Boolean(swap.value.surcharge))
-const stepDetails = computed(() => stepDetailsMap[step.value] as StepDetails)
+const stepItems = computed(() => swapStore.getStepItems(props.step))
+const stepDetails = computed(() => stepDetailsMap[props.step] as StepDetails)
 const title = computed(() => $i18n.t(stepDetails.value.title))
 const surchargeTitle = computed(() => $i18n.t(stepDetails.value.surchargeTitle))
+const surchargeDisabled = computed(() => Boolean(swap.value.surcharge))
 const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === stepDetails.value.surchargeDirection)
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
-const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && step.value === SwapStep.OFFERED)
+const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && props.step === SwapStep.OFFERED)
 const disabled = computed(() => {
   if (!accountId.value || isOverOneToOneSwap.value) {
     return true
   }
 
-  if (step.value === SwapStep.DESIRED) {
+  if (props.step === SwapStep.DESIRED) {
     return !swap.value.desired.length
   }
 

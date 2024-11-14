@@ -15,12 +15,14 @@
     />
 
     <template #preview>
-      <SwapPreview />
+      <SwapPreview :step="SwapStep.OFFERED" />
     </template>
   </SwapLayoutSelection>
 </template>
 
 <script setup lang="ts">
+import { SwapStep } from '@/components/swap/types'
+
 const { accountId } = useAuth()
 const { swap } = storeToRefs(useAtomicSwapsStore())
 

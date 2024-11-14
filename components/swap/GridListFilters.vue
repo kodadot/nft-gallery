@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex gap-4"
+    class="flex flex-wrap gap-4"
   >
     <ChainDropdown
       position="bottom-auto"
