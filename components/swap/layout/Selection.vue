@@ -4,7 +4,7 @@
       <slot name="title" />
     </template>
 
-    <div class="columns">
+    <div class="columns is-reversed-mobile">
       <div class="column">
         <hr class="mb-6 mt-0">
 
@@ -31,3 +31,11 @@ watch(accountId, (account) => {
   }
 })
 </script>
+
+<style>
+@media screen and (max-width: 768px) {
+  .columns.is-reversed-mobile {
+    @apply flex flex-col-reverse;
+  }
+}
+</style>

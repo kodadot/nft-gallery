@@ -31,7 +31,7 @@
             class="!my-10"
           />
         </div>
-        <div class="column is-narrow flex items-center">
+        <div class="column is-narrow flex items-center is-hidden-touch">
           <NeoIcon
             class="pt-8 px-4"
             icon="arrow-right-arrow-left"
@@ -60,7 +60,7 @@
       </div>
 
       <div
-        class="flex justify-between items-center my-[3.5rem]"
+        class="flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:my-[3.5rem]"
       >
         <div class="w-[300px]">
           <OfferExpirationSelector
