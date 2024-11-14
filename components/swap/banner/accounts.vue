@@ -5,8 +5,8 @@
         {{ $t('swap.yourAddress') }}
       </div>
       <CollectionDropCreatedBy
-        v-if="accountId"
-        :address="accountId"
+        v-if="creator"
+        :address="creator"
       />
       <Auth v-else />
     </div>
@@ -29,9 +29,8 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
-const { accountId } = useAuth()
-
 defineProps<{
+  creator?: string
   counterparty: string
 }>()
 </script>

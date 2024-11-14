@@ -9,6 +9,7 @@
     </template>
 
     <SwapGridList
+      v-if="accountId"
       :query
       :selectable="swap.desired.length !== swap.offered.length"
       with-filters
@@ -26,8 +27,8 @@ import { SwapStep } from '@/components/swap/types'
 const { accountId } = useAuth()
 const { swap } = storeToRefs(useAtomicSwapStore())
 
-const query = reactive({
+const query = computed(() => ({
   currentOwner_eq: accountId.value,
   burned_eq: false,
-})
+}))
 </script>

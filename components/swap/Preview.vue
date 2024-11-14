@@ -173,7 +173,7 @@ const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === step
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
 const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && props.step === SwapStep.OFFERED)
 const disabled = computed(() => {
-  if (!accountId.value || isOverOneToOneSwap.value) {
+  if ((!accountId.value && props.step === SwapStep.OFFERED) || isOverOneToOneSwap.value) {
     return true
   }
 

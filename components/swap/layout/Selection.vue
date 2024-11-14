@@ -16,3 +16,18 @@
     </div>
   </SwapLayout>
 </template>
+
+<script lang="ts" setup>
+import { SwapStep } from '@/components/swap/types'
+
+const swapStore = useAtomicSwapStore()
+const { step } = storeToRefs(swapStore)
+const { accountId } = useAuth()
+
+watch(accountId, (account) => {
+  swapStore.updateSwap({ creator: account ? account : undefined })
+  if (step.value === SwapStep.OFFERED) {
+    swapStore.updateStepItems([])
+  }
+})
+</script>

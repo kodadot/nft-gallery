@@ -39,7 +39,6 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     itemsInChain,
     getItem,
     setItem,
-    removeItem,
     clear,
     updateItem,
   } = useCart<AtomicSwap>()
@@ -75,7 +74,7 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
   const updateStepItems = (items: SwapItem[]) => {
     const key = getStepItemsKey(step.value)
     if (key) {
-      swap.value[key] = items
+      updateSwap({ [key]: items })
     }
   }
 
@@ -83,25 +82,31 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     updateStepItems(getStepItems(step.value).filter(item => item.id !== id))
   }
 
+  const updateSwap = (payload: Partial<AtomicSwap>) => {
+    swap.value = {
+      ...swap.value,
+      ...payload,
+    }
+    updateItem(swap.value)
+  }
+
   return {
     // state
     items,
+    swap,
+    step,
     // getters
     chain,
     count,
     itemsInChain,
     getItems,
-    step,
     stepItems,
     // actions
     getItem,
     getStepItems,
-    swap,
-    setItem,
-    updateItem,
-    removeItem,
     clear,
     createSwap,
+    updateSwap,
     updateStepItems,
     removeStepItem,
   }

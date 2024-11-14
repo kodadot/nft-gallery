@@ -3,7 +3,10 @@
     <div class="flex my-14 flex-wrap gap-10 justify-between">
       <slot name="title" />
 
-      <SwapBannerAccounts :counterparty="swap.counterparty" />
+      <SwapBannerAccounts
+        :creator="swap.creator"
+        :counterparty="swap.counterparty"
+      />
     </div>
 
     <slot />
@@ -11,16 +14,5 @@
 </template>
 
 <script setup lang="ts">
-const swapStore = useAtomicSwapStore()
-const { swap } = storeToRefs(swapStore)
-const { accountId } = useAuth()
-
-watchEffect(() => {
-  if (swap.value) {
-    swapStore.updateItem({
-      ...swap.value,
-      creator: accountId.value ? accountId.value : undefined,
-    })
-  }
-})
+const { swap } = storeToRefs(useAtomicSwapStore())
 </script>
