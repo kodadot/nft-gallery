@@ -151,7 +151,7 @@ const props = defineProps<{
   step: SwapStep
 }>()
 
-const swapStore = useAtomicSwapsStore()
+const swapStore = useAtomicSwapStore()
 const { swap } = storeToRefs(swapStore)
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()

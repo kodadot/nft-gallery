@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const swapStore = useAtomicSwapsStore()
+const swapStore = useAtomicSwapStore()
 const { swap } = storeToRefs(swapStore)
 const { accountId } = useAuth()
 

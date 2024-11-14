@@ -3,8 +3,8 @@ import { SwapStep } from '@/components/swap/types'
 
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
-  const atomicSwapStore = useAtomicSwapsStore()
-  const { step, stepItems } = storeToRefs(atomicSwapStore)
+  const swapStore = useAtomicSwapStore()
+  const { step, stepItems } = storeToRefs(swapStore)
 
   const routeName = computed(() => route.name?.toString() as string)
 
@@ -16,10 +16,10 @@ export default (nft: NFTWithMetadata) => {
 
   const onAtomicSwapSelect = () => {
     if (isItemSelected.value) {
-      atomicSwapStore.removeStepItem(nft.id)
+      swapStore.removeStepItem(nft.id)
     }
     else {
-      atomicSwapStore.updateStepItems([
+      swapStore.updateStepItems([
         ...stepItems.value,
         {
           id: nft.id,

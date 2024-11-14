@@ -24,7 +24,7 @@
 import { SwapStep } from '@/components/swap/types'
 
 const { accountId } = useAuth()
-const { swap } = storeToRefs(useAtomicSwapsStore())
+const { swap } = storeToRefs(useAtomicSwapStore())
 
 const query = reactive({
   currentOwner_eq: accountId.value,

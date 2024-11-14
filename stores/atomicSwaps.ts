@@ -31,7 +31,7 @@ const DEFAULT_SWAP: Omit<AtomicSwap, 'urlPrefix'> = {
   duration: 7,
 }
 
-export const useAtomicSwapsStore = defineStore('atomicSwaps', () => {
+export const useAtomicSwapStore = defineStore('atomicSwap', () => {
   const {
     items,
     chain,
