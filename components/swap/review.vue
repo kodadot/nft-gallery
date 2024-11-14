@@ -59,6 +59,8 @@
         </div>
       </div>
 
+      <hr class="mb-14 mt-0">
+
       <div
         class="flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:my-[3.5rem]"
       >
