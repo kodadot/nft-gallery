@@ -104,7 +104,7 @@ import { SwapStep } from '@/components/swap/types'
 
 const router = useRouter()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError, blockNumber } = useTransaction()
+const { transaction, isLoading, status, blockNumber } = useTransaction()
 const { urlPrefix } = usePrefix()
 const swapStore = useAtomicSwapStore()
 const { swap } = storeToRefs(swapStore)
@@ -134,17 +134,10 @@ const submit = () => {
   })
 }
 
-watch(blockNumber, (blockNumber) => {
-  if (blockNumber) {
-    swapStore.updateSwap({ blockNumber })
-  }
-})
-
-useTransactionTracker({
-  transaction: { isError, status },
-  onSuccess: async () => {
+watchEffect(async () => {
+  if (status.value === TransactionStatus.Finalized && blockNumber.value) {
+    swapStore.updateSwap({ blockNumber: blockNumber.value })
     await navigateTo({ name: getSwapStepRouteName(SwapStep.COUNTERPARTY) })
-  },
-  waitFor: [computed(() => Boolean(swap.value.blockNumber))],
+  }
 })
 </script>
