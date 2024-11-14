@@ -11,8 +11,8 @@
     <div>
       <hr class="mb-14 mt-0">
 
-      <div class="columns">
-        <div class="column">
+      <div class="flex flex-col md:flex-row">
+        <div class="flex-1">
           <div class="flex items-center">
             <div class="title mb-0">
               {{ $t('swap.youOffer') }}
@@ -31,14 +31,16 @@
             class="!my-10"
           />
         </div>
-        <div class="column is-narrow flex items-center is-hidden-touch">
+
+        <div class="hidden md:flex md:items-center">
           <NeoIcon
             class="pt-8 px-4"
             icon="arrow-right-arrow-left"
             size="large"
           />
         </div>
-        <div class="column">
+
+        <div class="flex-1">
           <div class="flex items-center">
             <div class="title mb-0">
               {{ $t('swap.youWillReceive') }}
