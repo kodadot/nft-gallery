@@ -4,14 +4,16 @@ import { SwapStep } from '@/components/swap/types'
 export default (nft: NFTWithMetadata) => {
   const route = useRoute()
   const swapStore = useAtomicSwapStore()
-  const { step, stepItems } = storeToRefs(swapStore)
+  const { swap, step, stepItems } = storeToRefs(swapStore)
 
   const routeName = computed(() => route.name?.toString() as string)
 
   const showAtomicSwapAction = computed(() => ATOMIC_SWAP_PAGES.includes(routeName.value))
 
   const isItemSelected = computed(() => {
-    return step.value === SwapStep.REVIEW ? false : stepItems.value?.some(item => item.id === nft.id)
+    return step.value === SwapStep.REVIEW
+      ? false
+      : [...swap.value.desired, ...swap.value.offered].flat().some(item => item.id === nft.id)
   })
 
   const onAtomicSwapSelect = () => {
