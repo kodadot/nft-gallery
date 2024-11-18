@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { NeoSkeleton } from '@kodadot1/brick'
-import type { TokenMetadata } from '@kodadot1/hyperdata'
+import type { CollectionMetadata } from '@kodadot1/hyperdata'
 import CollectionDetail from './CollectionDetail.vue'
 import type { CollectionWithMeta } from '@/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -62,7 +62,7 @@ const { urlPrefix } = usePrefix()
 const getImageFromMetadata = async (collectionMetadata: string) => {
   isLoadingMeta.value = true
 
-  const metadata = await processSingleMetadata<TokenMetadata>(collectionMetadata)
+  const metadata = await processSingleMetadata<CollectionMetadata>(collectionMetadata)
 
   const metadataImage = getCollectionImage(metadata) || ''
   const metadataBanner = metadata.banner || metadataImage
