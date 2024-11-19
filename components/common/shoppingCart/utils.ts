@@ -5,7 +5,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
 import type { NFT, TokenId } from '@/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import type { MakingOfferItem } from '@/components/offer/types'
+import type { MakingOfferItem } from '@/components/trade/types'
 
 export const prefixToToken = {
   ahk: 'KSM',

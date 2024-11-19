@@ -1787,6 +1787,13 @@
   "support": {
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
+  "swap": {
+    "acceptSwap": "Accept Swap",
+    "cancelSwap": "Cancel Swap",
+    "incomingSwap": "Incoming Swap",
+    "yourSwap": "Your Swap"
+  },
+  "swaps": "Swaps",
   "tabs": {
     "activity": "Activity",
     "chart": "Chart",

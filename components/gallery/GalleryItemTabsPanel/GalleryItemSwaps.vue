@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col">
     <GalleryItemTradesTable
       :nft-id="nftId"
-      :type="TradeType.OFFER"
+      :type="TradeType.SWAP"
     />
   </div>
 </template>

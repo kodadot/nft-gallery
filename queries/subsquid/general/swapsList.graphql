@@ -1,11 +1,12 @@
-query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blockNumber_DESC]) {
-    offers(where: $where, orderBy: $orderBy) {
+query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockNumber_DESC]) {
+    swaps(where: $where, orderBy: $orderBy) {
     id
     expiration
     blockNumber
-    price
     status
     caller
+    surcharge
+    price
     nft {
       id
       sn

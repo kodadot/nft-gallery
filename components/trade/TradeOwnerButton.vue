@@ -10,18 +10,29 @@
 import type { ButtonConfig } from '../profile/types'
 
 const emit = defineEmits(['click'])
-const props = defineProps<{ offer: NFTOfferItem, loading?: boolean }>()
+const props = defineProps<{ offer: TradeNftItem, loading?: boolean }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const { isOwnerOfNft, isOwnerOfOffer } = useIsOffer(computed(() => props.offer), accountId)
+const { isOwnerOfNft, isCreatorOfTrade } = useIsTrade(computed(() => props.offer), accountId)
 
 const onClick = () => emit('click', props.offer)
 
+const details = {
+  [TradeType.SWAP]: {
+    cancel: 'swap.cancelSwap',
+    accept: 'swap.acceptSwap',
+  },
+  [TradeType.OFFER]: {
+    cancel: 'transaction.offerWithdraw',
+    accept: 'transaction.offerAccept',
+  },
+}
+
 const buttonConfig = computed<ButtonConfig | null>(() => {
   if (props.offer.status === 'EXPIRED') {
-    return isOwnerOfOffer.value
+    return isCreatorOfTrade.value
       ? {
           label: $i18n.t('offer.withdrawAmount'),
           onClick,
@@ -29,9 +40,9 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
       : null
   }
 
-  if (isOwnerOfOffer.value) {
+  if (isCreatorOfTrade.value) {
     return {
-      label: $i18n.t('transaction.offerWithdraw'),
+      label: $i18n.t(details[props.offer.type].cancel),
       classes: '!border-k-red !bg-k-red-accent-2',
       onClick,
     }
@@ -39,7 +50,7 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
 
   if (isOwnerOfNft.value) {
     return {
-      label: $i18n.t('transaction.offerAccept'),
+      label: $i18n.t(details[props.offer.type].accept),
       onClick,
     }
   }

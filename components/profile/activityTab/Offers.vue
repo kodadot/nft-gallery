@@ -65,7 +65,7 @@
             :target="tabTarget"
             :variant="variant as unknown"
             @select="() => {
-              selectedOffer = item
+              selectedTrade = item
               isOfferModalOpen = true
             }"
           />
@@ -74,11 +74,11 @@
     </div>
   </div>
 
-  <OfferOverviewModal
+  <TradeOverviewModal
     v-model="isOfferModalOpen"
-    :offer="selectedOffer"
+    :trade="selectedTrade"
     @close="() => {
-      selectedOffer = undefined
+      selectedTrade = undefined
       isOfferModalOpen = false
     }"
   />
@@ -96,7 +96,7 @@ const props = defineProps<{
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
-const selectedOffer = ref<NFTOfferItem>()
+const selectedTrade = ref<TradeNftItem>()
 const isOfferModalOpen = ref(false)
 const offerIds = ref<{ incoming: string[], outgoing: string[] }>()
 
@@ -132,7 +132,7 @@ const where = computed(() => {
   return { id_in: id_in.flat() }
 })
 
-const { offers, loading: loadingOffers, refetch } = useOffers({ where, disabled: computed(() => !offerIds.value) })
+const { items: offers, loading: loadingOffers, refetch } = useTrades({ where, disabled: computed(() => !offerIds.value), type: TradeType.OFFER })
 
 watch(activeTab, (newVal) => {
   replaceUrl({ filter: newVal })

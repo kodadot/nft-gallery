@@ -91,7 +91,7 @@
 
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
-        <OfferOwnerButton
+        <TradeOwnerButton
           class="max-md:!w-full"
           :offer="offer"
           @click="$emit('select')"
@@ -179,7 +179,7 @@
         </div>
       </div>
     </div>
-    <OfferOwnerButton
+    <TradeOwnerButton
       class="max-md:!w-full !mt-4"
       :offer="offer"
       @click="$emit('select')"
@@ -202,7 +202,7 @@ const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
 defineEmits(['select'])
 const props = defineProps<{
-  offer: NFTOfferItem
+  offer: TradeNftItem
   variant: 'Desktop' | 'Touch'
   target: 'from' | 'to'
 }>()
