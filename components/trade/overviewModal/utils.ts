@@ -1,8 +1,8 @@
 import type { OverviewMode } from '@/components/trade/OfferOverviewModal.vue'
 
-export const useIsTradeOverview = (trade) => {
+export const useIsTradeOverview = (trade: ComputedRef<TradeNftItem | undefined>) => {
   const { accountId } = useAuth()
-  const { isOwnerOfNft } = useIsTrade(computed(() => trade), accountId)
+  const { isOwnerOfNft } = useIsTrade(trade, accountId)
 
   const mode = computed<OverviewMode>(() => isOwnerOfNft.value ? 'incoming' : 'owner')
 

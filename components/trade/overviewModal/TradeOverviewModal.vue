@@ -91,7 +91,7 @@ const { transaction, status, isError, isLoading } = useTransaction({ disableSucc
 const { $i18n } = useNuxtApp()
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { $i18n: { t } } = useNuxtApp()
-const { mode } = useIsTradeOverview(props.trade)
+const { mode } = useIsTradeOverview(computed(() => props.trade))
 
 const TradeTypeDetails: Record<TradeType, Record<OverviewMode, Details>> = {
   [TradeType.SWAP]: {

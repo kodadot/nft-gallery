@@ -55,7 +55,7 @@ const props = defineProps<{
   trade: TradeNftItem
 }>()
 
-const { isMyTrade } = useIsTradeOverview(props.trade)
+const { isMyTrade } = useIsTradeOverview(computed(() => props.trade))
 const { decimals, chainSymbol } = useChain()
 
 const { formatted: desiredFormatted } = useAmount(

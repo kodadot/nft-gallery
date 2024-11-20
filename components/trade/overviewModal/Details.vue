@@ -53,7 +53,7 @@ const props = defineProps<{
 }>()
 
 const { decimals, chainSymbol } = useChain()
-const { isMyTrade, isIncomingTrade } = useIsTradeOverview(props.trade)
+const { isMyTrade, isIncomingTrade } = useIsTradeOverview(computed(() => props.trade))
 
 const getFormattedDifference = (a: number, b: number) => {
   const diff = ((b - a) / b) * 100
