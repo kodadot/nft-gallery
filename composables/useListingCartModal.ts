@@ -22,9 +22,12 @@ export default ({
   const getFloorPrice = (cartItem: ShoppingCartItem | NFTWithMetadata) =>
     cartItem.collection.floorPrice[0]?.price || '0'
 
-  const tryAddingItemToListingCart = (item: ListCartItem) => {
+  const tryAddingItemToListingCart = (item: ListCartItem, toggle: boolean = false) => {
     if (!isItemInCart(item.id)) {
       listingCartStore.setItem(item)
+    }
+    else if (toggle) {
+      listingCartStore.removeItem(item.id)
     }
   }
 
@@ -36,7 +39,7 @@ export default ({
 
   const listNftByNftWithMetadata = (
     nftWithMetadata: NFTWithMetadata,
-    mediaUrl?: ListCartItemMediaUrl,
+    { mediaUrl, toggle }: { mediaUrl?: ListCartItemMediaUrl, toggle?: boolean } = {},
   ) => {
     tryAddingItemToListingCart(
       nftToListingCartItem(
@@ -44,6 +47,7 @@ export default ({
         getFloorPrice(nftWithMetadata),
         mediaUrl,
       ),
+      toggle,
     )
   }
 

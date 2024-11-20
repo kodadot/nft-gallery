@@ -1,26 +1,17 @@
 <template>
-  <NeoModalExtend
-    v-model:active="isModalActive"
+  <NeoModal
+    :value="isModalActive"
     class="neo-modal"
     data-testid="on-ramp-modal"
+    append-to-body
+    :no-overlap="noOverlap"
     @close="onClose"
   >
-    <div class="w-[unset] lg:w-[25rem]">
-      <div class="border-b border-grey flex items-center justify-between px-6">
-        <p class="py-5 text-base font-bold">
-          {{ $t('general.chooseProvider') }}
-        </p>
-
-        <NeoButton
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          class="cross"
-          @click="onClose"
-        />
-      </div>
-      <div class="px-6 py-3">
+    <ModalBody
+      :title="$t('general.chooseProvider')"
+      @close="onClose"
+    >
+      <div>
         <div class="mb-4 flex">
           <NeoCheckbox
             v-model="agreeTos"
@@ -78,13 +69,14 @@
           >
         </div>
       </div>
-    </div>
-  </NeoModalExtend>
+    </ModalBody>
+  </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoCheckbox, NeoModalExtend } from '@kodadot1/brick'
+import { NeoCheckbox, NeoModal } from '@kodadot1/brick'
 import type { ChainVM } from '@kodadot1/static'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 
 enum Provider {
   TRANSAK,
@@ -94,6 +86,7 @@ enum Provider {
 const emit = defineEmits(['close'])
 const props = defineProps<{
   modelValue: boolean
+  noOverlap?: boolean
 }>()
 
 const { accountId } = useAuth()

@@ -123,7 +123,7 @@ const { formatted: formattedPrice } = useAmount(
 )
 
 const emit = defineEmits(['generation:start', 'generation:end', 'mint'])
-const isUnlimited = computed(() => drop.value.max !== undefined && drop.value.max > Number.MAX_SAFE_INTEGER)
+const isUnlimited = computed(() => drop.value.max !== undefined && drop.value.max >= Number.MAX_SAFE_INTEGER)
 
 const { start: startTimer } = useTimeoutFn(() => {
   // quick fix: ensure that even if the completed event is not received, the loading state of the drop can be cleared
