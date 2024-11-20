@@ -54,14 +54,12 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import { useIsTradeOverview } from '@/components/trade/OverviewModal/utils'
+import { useIsTradeOverview, type OverviewMode } from './utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import nftById from '@/queries/subsquid/general/nftById.graphql'
 import { TradeType } from '@/composables/useTrades'
 import type { NFT } from '@/types'
-
-export type OverviewMode = 'owner' | 'incoming'
 
 type Details = {
   title: string
