@@ -93,7 +93,7 @@
       <div class="h-[50px] flex items-center">
         <TradeOwnerButton
           class="max-md:!w-full"
-          :offer="offer"
+          :trade="offer"
           @click="$emit('select')"
         />
       </div>
@@ -181,7 +181,7 @@
     </div>
     <TradeOwnerButton
       class="max-md:!w-full !mt-4"
-      :offer="offer"
+      :trade="offer"
       @click="$emit('select')"
     />
   </div>

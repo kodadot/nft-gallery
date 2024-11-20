@@ -19,8 +19,42 @@
       hoverable
       class="py-5 max-md:!top-0"
     >
+      <!-- item -->
+      <NeoTableColumn
+        v-if="type === TradeType.SWAP"
+        v-slot="{ row }: {row: TradeNftItem}"
+        width="20%"
+        field="item"
+        :label="$t('activity.event.item')"
+      >
+        <div class="flex-1 text-clip">
+          <div class="flex items-center gap-4">
+            <nuxt-link
+              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
+            >
+              <BaseMediaItem
+                class="border border-k-shade w-[2.25rem] h-[2.25rem] !shadow-none"
+                :alt="row.offered.name"
+                :src="sanitizeIpfsUrl(row.offered.image)"
+                preview
+                is-detail
+              />
+            </nuxt-link>
+            <nuxt-link
+              class="text-ellipsis inline-block"
+              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
+            >
+              <span class="text-clip">
+                {{ row.offered.name }}
+              </span>
+            </nuxt-link>
+          </div>
+        </div>
+      </NeoTableColumn>
+
       <!-- price -->
       <NeoTableColumn
+        v-if="type === TradeType.OFFER"
         v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="price"
@@ -78,7 +112,7 @@
       >
         <TradeOwnerButton
           class="max-md:!w-full"
-          :offer="row as TradeNftItem"
+          :trade="row as TradeNftItem"
           @click="selectOffer"
         />
       </NeoTableColumn>
@@ -105,9 +139,11 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 import type { UnwrapRef } from 'vue'
+import { TradeType } from '@/composables/useTrades'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const props = defineProps<{
   nftId: string

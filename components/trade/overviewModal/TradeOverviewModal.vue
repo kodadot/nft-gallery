@@ -43,7 +43,7 @@
         >
           <TradeOwnerButton
             class="!w-full"
-            :offer="trade"
+            :trade="trade"
             @click="execTransaction"
           />
         </div>

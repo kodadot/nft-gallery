@@ -2,6 +2,14 @@ import { addHours } from 'date-fns'
 
 type TradeStatus = 'ACTIVE' | 'EXPIRED' | 'WITHDRAWN' | 'ACCEPTED'
 
+type TradeToken = {
+  id: string
+  name: string
+  sn: string
+  currentOwner: string
+  image: string
+}
+
 type BaseTrade = {
   id: string
   price: string
@@ -9,16 +17,8 @@ type BaseTrade = {
   blockNumber: string
   status: TradeStatus
   caller: string
-  offered: {
-    id: string
-    sn: string
-  }
-  desired: {
-    id: string
-    name: string
-    sn: string
-    currentOwner: string
-  }
+  offered: TradeToken
+  desired: TradeToken
 }
 
 export enum TradeType {

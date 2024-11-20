@@ -9,13 +9,17 @@ query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockN
     price
     nft {
       id
+      name
       sn
+      currentOwner
+      image
     }
     desired {
       id
       name
       sn
       currentOwner
+      image
     }
   }
 }
