@@ -63,6 +63,12 @@ import type { NFT } from '@/types'
 
 export type OverviewMode = 'owner' | 'incoming'
 
+type Details = {
+  title: string
+  signingTitle: string
+  notificationTitle: string
+}
+
 const emit = defineEmits(['close'])
 const props = defineProps<{
   modelValue: boolean
@@ -77,12 +83,47 @@ const { transaction, status, isError, isLoading } = useTransaction({ disableSucc
 const { $i18n } = useNuxtApp()
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { $i18n: { t } } = useNuxtApp()
+const { isMyTrade, isIncomingTrade, mode } = useIsTradeOverview(props.trade)
+
+const TRADE_TYPE_DETAILS: Record<TradeType, Record<OverviewMode, Details>> = {
+  [TradeType.SWAP]: {
+    ['incoming']: {
+      title: $i18n.t('swap.incomingSwap'),
+      signingTitle: $i18n.t('swap.acceptSwap'),
+      notificationTitle: $i18n.t('swap.acceptSwap'),
+    },
+    ['owner']: {
+      title: $i18n.t('swap.yourSwap'),
+      signingTitle: $i18n.t('swap.cancelSwap'),
+      notificationTitle: $i18n.t('swap.cancelSwap'),
+    },
+  },
+  [TradeType.OFFER]: {
+    ['incoming']: {
+      title: $i18n.t('offer.incomingOffer'),
+      signingTitle: $i18n.t('transaction.offerAccept'),
+      notificationTitle: $i18n.t('transaction.offerAccept'),
+    },
+    ['owner']: {
+      title: $i18n.t('offer.yourOffer'),
+      signingTitle: $i18n.t('transaction.offerWithdraw'),
+      notificationTitle: $i18n.t('offer.offerWithdrawl'),
+    },
+  },
+}
 
 const nftId = computed(() => props.trade?.desired.id)
 const offeredItemId = computed(() => props.trade?.offered.id)
 const offeredItemSn = computed(() => props.trade?.offered.sn)
 
-const { isMyTrade, isIncomingTrade, mode } = useIsTradeOverview(props.trade)
+const details = computed<Details>(() =>
+  props.trade
+    ? TRADE_TYPE_DETAILS[props.trade.type][mode.value]
+    : {
+        title: '',
+        signingTitle: '',
+        notificationTitle: '',
+      })
 
 const { data: nft, pending: nftLoading } = await useAsyncData<{ desired: NFT, offered: NFT } | null>(`tarde-nft-id-${nftId.value}`, async () => {
   if (!nftId.value) {
@@ -113,48 +154,6 @@ const { data: nft, pending: nftLoading } = await useAsyncData<{ desired: NFT, of
 }, { watch: [nftId, offeredItemId] })
 
 const loading = computed(() => nftLoading.value || !nft.value)
-
-type Details = {
-  title: string
-  signingTitle: string
-  notificationTitle: string
-}
-
-const TRADE_TYPE_DETAILS: Record<TradeType, Record<OverviewMode, Details>> = {
-  [TradeType.SWAP]: {
-    ['incoming']: {
-      title: $i18n.t('swap.incomingSwap'),
-      signingTitle: $i18n.t('swap.acceptSwap'),
-      notificationTitle: $i18n.t('swap.acceptSwap'),
-    },
-    ['owner']: {
-      title: $i18n.t('swap.yourSwap'),
-      signingTitle: $i18n.t('swap.cancelSwap'),
-      notificationTitle: $i18n.t('swap.cancelSwap'),
-    },
-  },
-  [TradeType.OFFER]: {
-    ['incoming']: {
-      title: $i18n.t('offer.incomingOffer'),
-      signingTitle: $i18n.t('transaction.offerAccept'),
-      notificationTitle: $i18n.t('transaction.offerAccept'),
-    },
-    ['owner']: {
-      title: $i18n.t('offer.yourOffer'),
-      signingTitle: $i18n.t('transaction.offerWithdraw'),
-      notificationTitle: $i18n.t('offer.offerWithdrawl'),
-    },
-  },
-}
-
-const details = computed<Details>(() =>
-  props.trade
-    ? TRADE_TYPE_DETAILS[props.trade.type][mode.value]
-    : {
-        title: '',
-        signingTitle: '',
-        notificationTitle: '',
-      })
 
 const onClose = () => {
   vModel.value = false
