@@ -130,7 +130,18 @@ const TradeTypeTx: Record<TradeType, Record<OverviewMode, (params: ExecTxParams)
         offeredCollectionId: offered.collection.id,
       })
     },
-    incoming: () => {},
+    incoming: ({ offered, desired, trade }) => {
+      transaction({
+        interaction: ShoppingActions.ACCEPT_SWAP,
+        urlPrefix: urlPrefix.value,
+        receiveItem: offered.sn,
+        receiveCollection: offered.collection.id,
+        sendCollection: desired.collection.id,
+        sendItem: desired.sn,
+        price: trade.price,
+        surcharge: (trade as TradeNftItem<Swap>).surcharge,
+      })
+    },
   },
   [TradeType.OFFER]: {
     owner: ({ offered }) => {

@@ -11,6 +11,7 @@ enum OfferActions {
 
 enum SwapActions {
   WITHDRAW_SWAP = 'WITHDRAW_SWAP',
+  ACCEPT_SWAP = 'ACCEPT_SWAP',
 }
 
 export type ShoppingActions = Interaction | OfferActions | SwapActions

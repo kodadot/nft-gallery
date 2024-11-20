@@ -11,6 +11,7 @@ import {
   execBurnTx,
 } from './transaction/transactionBurn'
 import { execWithdrawSwap } from './transaction/transactionSwapWithdraw'
+import { execAcceptSwap } from './transaction/transactionSwapAccept'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
@@ -37,6 +38,7 @@ import type {
   ExecuteTransactionParams,
   ObjectMessage,
   ActionWithdrawSwap,
+  ActionAcceptSwap,
 } from './transaction/types'
 import { Collections, NFTs } from './transaction/types'
 import { isActionValid } from './transaction/utils'
@@ -229,6 +231,8 @@ export const executeAction = ({
       execBurnTx(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.WITHDRAW_SWAP]: () =>
       execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
+    [ShoppingActions.ACCEPT_SWAP]: () =>
+      execAcceptSwap(item as ActionAcceptSwap, api!, executeTransaction),
     [ShoppingActions.WITHDRAW_OFFER]: () =>
       execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>

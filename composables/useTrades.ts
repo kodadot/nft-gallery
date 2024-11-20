@@ -26,7 +26,7 @@ export enum TradeType {
   OFFER,
 }
 
-type Swap = BaseTrade & {
+export type Swap = BaseTrade & {
   surcharge: string | null
 }
 
@@ -34,7 +34,7 @@ type Offer = BaseTrade
 
 type Trade = Swap | Offer
 
-export type TradeNftItem = Trade & {
+export type TradeNftItem<T = Trade> = T & {
   expirationDate?: Date
   type: TradeType
 }

@@ -20,6 +20,7 @@ import type {
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   ActionWithdrawSwap,
+  ActionAcceptSwap,
   Actions } from '../transaction/types'
 import { getPercentSupportFee } from '@/utils/support'
 
@@ -54,6 +55,8 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.offeredId),
     [ShoppingActions.WITHDRAW_SWAP]: (action: ActionWithdrawSwap) =>
       Boolean(action.offeredId) && Boolean(action.offeredCollectionId),
+    [ShoppingActions.ACCEPT_SWAP]: (action: ActionAcceptSwap) =>
+      Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),
     [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
       Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
     [Interaction.MINT]: (action: ActionMintCollection) =>

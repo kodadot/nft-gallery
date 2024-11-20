@@ -221,6 +221,19 @@ export type ActionWithdrawSwap = {
   errorMessage?: string
 }
 
+export type ActionAcceptSwap = {
+  interaction: typeof ShoppingActions.ACCEPT_SWAP
+  urlPrefix: Prefix
+  sendCollection: string
+  sendItem: string
+  receiveItem: string
+  receiveCollection: string
+  price: string | null
+  surcharge: string | null
+  successMessage?: string
+  errorMessage?: string
+}
+
 export interface ActionMintToken {
   interaction: Interaction.MINTNFT
   urlPrefix: string
@@ -292,6 +305,7 @@ export type Actions =
   | ActionOffer
   | ActionConsume
   | ActionWithdrawSwap
+  | ActionAcceptSwap
   | ActionWithdrawOffer
   | ActionAcceptOffer
   | ActionMintToken
