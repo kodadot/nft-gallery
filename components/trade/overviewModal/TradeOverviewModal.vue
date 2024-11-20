@@ -15,7 +15,7 @@
     >
       <ModalBody
         :title="details.title"
-        body-class="min-h-[400px]"
+        :body-class="loading ? 'min-h-[350px]' : ''"
         :loading="loading"
         @close="onClose"
       >
