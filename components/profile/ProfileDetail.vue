@@ -425,9 +425,14 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
-        <ProfileActivityTabOffers
-          v-if="activeTab === ProfileTab.OFFERS"
+        <ProfileActivityTabTrades
+          v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
           :id="id"
+          :key="activeTab"
+          :type="{
+            [ProfileTab.SWAPS]: TradeType.SWAP,
+            [ProfileTab.OFFERS]: TradeType.OFFER,
+          }[activeTab]"
         />
       </div>
     </div>
@@ -468,6 +473,7 @@ import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible } from '@/utils/config/permission.config'
+import { TradeType } from '@/composables/useTrades'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -504,6 +510,8 @@ const tabs = computed(() => {
   if (offerVisible(urlPrefix.value)) {
     tabs.push(ProfileTab.OFFERS)
   }
+
+  tabs.push(ProfileTab.SWAPS)
 
   return tabs
 })

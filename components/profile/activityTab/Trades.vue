@@ -15,10 +15,10 @@
           <div class="flex gap-2">
             <span>{{ filter.id }}</span>
             <span
-              v-if="offerIds?.[filter.id].length"
+              v-if="tradeIds?.[filter.id].length"
               class="text-k-grey"
             >
-              ({{ offerIds[filter.id].length || '' }})
+              ({{ tradeIds[filter.id].length || '' }})
             </span>
           </div>
         </NeoButton>
@@ -31,8 +31,8 @@
       <ResponsiveTable
         :no-results-main="$t('activity.noResults')"
         :no-results-sub="$t('activity.noResultsSub')"
-        :items="offers"
-        :show-no-results="!offers.length && !loading"
+        :items="trades"
+        :show-no-results="!trades.length && !loading"
         :loading="loading"
       >
         <template #columns>
@@ -57,16 +57,16 @@
         </template>
 
         <template #rows="{ variant }">
-          <ProfileActivityTabOfferRow
-            v-for="item in offers"
+          <ProfileActivityTabTradeRow
+            v-for="item in trades"
             :key="item.id"
             data-testid="offer-item-row"
             :offer="item"
             :target="tabTarget"
-            :variant="variant as unknown"
+            :variant="variant"
             @select="() => {
               selectedTrade = item
-              isOfferModalOpen = true
+              isTradeModalOpen = true
             }"
           />
         </template>
@@ -75,11 +75,11 @@
   </div>
 
   <TradeOverviewModal
-    v-model="isOfferModalOpen"
+    v-model="isTradeModalOpen"
     :trade="selectedTrade"
     @close="() => {
       selectedTrade = undefined
-      isOfferModalOpen = false
+      isTradeModalOpen = false
     }"
   />
 </template>
@@ -87,66 +87,67 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 
-type OfferTabType = 'outgoing' | 'incoming'
+type TradeTabType = 'outgoing' | 'incoming'
 
 const props = defineProps<{
   id: string
+  type: TradeType
 }>()
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
+const dataKey = TRADES_QUERY_MAP[props.type].dataKey
+
 const selectedTrade = ref<TradeNftItem>()
-const isOfferModalOpen = ref(false)
-const offerIds = ref<{ incoming: string[], outgoing: string[] }>()
+const isTradeModalOpen = ref(false)
+const tradeIds = ref<{ incoming: string[], outgoing: string[] }>()
+const activeTab = ref<TradeTabType>(route.query.filter?.toString() as TradeTabType || 'outgoing')
 
 const tabs = ref([{
-  id: 'outgoing' as OfferTabType,
+  id: 'outgoing' as TradeTabType,
   icon: 'arrow-up',
 }, {
-  id: 'incoming' as OfferTabType,
+  id: 'incoming' as TradeTabType,
   icon: 'arrow-down',
 }])
 
-const activeTab = ref<OfferTabType>(route.query.filter?.toString() as OfferTabType || 'outgoing')
 const tabTarget = computed(() => activeTab.value === 'outgoing' ? 'to' : 'from')
 const isIncomingActive = computed(() => activeTab.value === 'incoming')
 const isOutgoingActive = computed(() => activeTab.value === 'outgoing')
-const loading = computed(() => loadingOffers.value || !offerIds.value)
+const loading = computed(() => loadingTrades.value || !tradeIds.value)
 
 const where = computed(() => {
-  if (!offerIds.value) {
+  if (!tradeIds.value) {
     return {}
   }
 
   const id_in = [] as string[][]
 
   if (isOutgoingActive.value) {
-    id_in.push(offerIds.value.outgoing)
+    id_in.push(tradeIds.value.outgoing)
   }
 
   if (isIncomingActive.value) {
-    id_in.push(offerIds.value.incoming)
+    id_in.push(tradeIds.value.incoming)
   }
 
   return { id_in: id_in.flat() }
 })
 
-const { items: offers, loading: loadingOffers, refetch } = useTrades({ where, disabled: computed(() => !offerIds.value), type: TradeType.OFFER })
+const { items: trades, loading: loadingTrades, refetch } = useTrades({ where, disabled: computed(() => !tradeIds.value), type: props.type })
 
-watch(activeTab, (newVal) => {
-  replaceUrl({ filter: newVal })
-})
+watch(activeTab, value => replaceUrl({ filter: value }))
 
 useSubscriptionGraphql({
   query: `
-    incoming: offers (
+    incoming: ${dataKey} (
       where: { status_eq: ACTIVE, desired: { currentOwner_eq: "${props.id}" } }
       orderBy: blockNumber_DESC
     ) {
       id
     }
-    outgoing: offers (
+    outgoing: ${dataKey} (
       where: { status_in: [ACTIVE, EXPIRED], caller_eq: "${props.id}" }
       orderBy: blockNumber_DESC
     ) {
@@ -154,16 +155,16 @@ useSubscriptionGraphql({
     }
   `,
   onChange: ({ data }) => {
-    if (offerIds.value && (
-      (isIncomingActive.value && offerIds.value.incoming.length !== data.incoming.length)
-      || (isOutgoingActive.value && offerIds.value.outgoing.length !== data.outgoing.length))
+    if (tradeIds.value && (
+      (isIncomingActive.value && tradeIds.value.incoming.length !== data.incoming.length)
+      || (isOutgoingActive.value && tradeIds.value.outgoing.length !== data.outgoing.length))
     ) {
       refetch({ where: where.value })
     }
 
-    offerIds.value = {
-      incoming: data.incoming.map(o => o.id),
-      outgoing: data.outgoing.map(o => o.id),
+    tradeIds.value = {
+      incoming: data.incoming.map(item => item.id),
+      outgoing: data.outgoing.map(item => item.id),
     }
   },
 })

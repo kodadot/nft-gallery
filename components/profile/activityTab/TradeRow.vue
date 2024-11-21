@@ -203,7 +203,7 @@ const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 defineEmits(['select'])
 const props = defineProps<{
   offer: TradeNftItem
-  variant: 'Desktop' | 'Touch'
+  variant: ResponsiveVariant
   target: 'from' | 'to'
 }>()
 

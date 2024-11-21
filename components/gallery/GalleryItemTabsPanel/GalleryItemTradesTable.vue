@@ -161,7 +161,7 @@ const stopWatch = ref(() => {})
 
 useSubscriptionGraphql({
   query: `
-  ${TRADES_QUERY_MAP[props.type].dataKey} (
+  items: ${TRADES_QUERY_MAP[props.type].dataKey} (
     where: { status_eq: ACTIVE, desired: { id_eq: "${props.nftId}" } }
     orderBy: blockNumber_DESC
   ) {
@@ -172,7 +172,7 @@ useSubscriptionGraphql({
     offers.value = []
 
     const { items: offersData, loading: offersLoading } = useTrades({
-      where: { id_in: data[TRADES_QUERY_MAP[props.type].dataKey]?.map(offer => offer.id) },
+      where: { id_in: data.items?.map(offer => offer.id) },
       type: props.type,
     })
 
