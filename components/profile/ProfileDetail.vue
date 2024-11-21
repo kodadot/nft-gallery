@@ -316,23 +316,22 @@
 
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
-        <div class="flex is-hidden-touch is-hidden-desktop-only">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            class="capitalize"
-            :data-testid="`profile-${tab}-tab`"
-            :active="activeTab === tab"
-            :count="counts[tab]"
-            :show-active-check="tabsWithActiveCheck.includes(tab)"
-            :text="tab"
-            @click="() => switchToTab(tab)"
-          />
-          <ChainDropdown class="ml-6" />
-          <OrderByDropdown
-            v-if="activeTab !== ProfileTab.ACTIVITY"
-            class="ml-6"
-          />
+        <div class="flex gap-6 is-hidden-touch is-hidden-desktop-only">
+          <div class="flex w-full">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              class="capitalize !w-full [&>*]:!w-full max-w-[12rem]"
+              :data-testid="`profile-${tab}-tab`"
+              :active="activeTab === tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              :text="tab"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <ChainDropdown />
+          <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
           <div class="flex flex-wrap">
@@ -853,14 +852,6 @@ watchEffect(() => {
 
 .invisible-tab>nav.tabs {
   display: none;
-}
-
-:deep(.control) {
-  width: 12rem;
-}
-
-:deep(.explore-tabs-button) {
-  width: 12rem;
 }
 
 @include until-widescreen {
