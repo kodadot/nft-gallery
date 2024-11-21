@@ -200,8 +200,10 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  // force array0 instead for (const nft of nftsToProcess) {}
-  listNftByNftWithMetadata(nftsToProcess[0], { toggle: true })
+  console.log(nftsToProcess)
+  for (const nft of nftsToProcess) {
+    listNftByNftWithMetadata(nft, { toggle: true })
+  }
 }
 
 onMounted(async () => {

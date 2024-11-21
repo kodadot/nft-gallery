@@ -42,6 +42,9 @@ export const prepareListingQuery = (
         burned_eq: false,
         OR: {
           price_isNull: true,
+          token: tokenSearchTerm,
+          currentOwner_eq: accountId.value,
+          burned_eq: false,
         },
       },
     ],
