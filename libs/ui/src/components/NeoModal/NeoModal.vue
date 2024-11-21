@@ -13,6 +13,7 @@
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
       :full-screen="fullScreen"
+      :data-testid="dataTestid"
       :content-class="[
         ...contentClassName,
         noShadow ? 'no-shadow' : '',
@@ -50,6 +51,7 @@ const props = withDefaults(
     mobileBreakpoint?: string
     appendToBody?: boolean
     noOverlap?: boolean
+    dataTestid?: string
   }>(),
   {
     destroyOnHide: true,
@@ -62,6 +64,7 @@ const props = withDefaults(
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
     appendToBody: true,
+    dataTestid: undefined,
   },
 )
 
