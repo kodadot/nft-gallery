@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { useIsTradeOverview } from '@/components/trade/OverviewModal/utils'
+import { useIsTradeOverview } from './utils'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import type { NFT } from '@/types'
 
