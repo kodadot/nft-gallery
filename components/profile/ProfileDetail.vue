@@ -673,7 +673,7 @@ const activeTab = computed({
     return tab
   },
   set: (val) => {
-    replaceUrl({ tab: val })
+    replaceUrl({ tab: val }, { override: true })
   },
 })
 
