@@ -331,7 +331,7 @@
             />
           </div>
           <ChainDropdown />
-          <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
+          <OrderByDropdown v-if="showOrderByDropdown" />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
           <div class="flex flex-wrap">
@@ -348,7 +348,7 @@
           </div>
           <div class="flex flex-wrap gap-4">
             <ChainDropdown />
-            <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
+            <OrderByDropdown v-if="showOrderByDropdown" />
           </div>
         </div>
       </div>
@@ -481,6 +481,7 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const gridSection = GridSection.PROFILE_GALLERY
+const tabsWithActiveCheck = [ProfileTab.OFFERS, ProfileTab.SWAPS]
 
 const socials = {
   [Socials.Farcaster]: {
@@ -497,25 +498,6 @@ const socials = {
     order: 3,
   },
 }
-
-const tabs = computed(() => {
-  const tabs = [
-    ProfileTab.OWNED,
-    ProfileTab.CREATED,
-    ProfileTab.COLLECTIONS,
-    ProfileTab.ACTIVITY,
-  ]
-
-  if (offerVisible(urlPrefix.value)) {
-    tabs.push(ProfileTab.OFFERS)
-  }
-
-  tabs.push(ProfileTab.SWAPS)
-
-  return tabs
-})
-
-const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
@@ -591,6 +573,24 @@ const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
+
+const showOrderByDropdown = computed(() => [ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab.value))
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  tabs.push(ProfileTab.SWAPS)
+
+  return tabs
+})
 
 const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
