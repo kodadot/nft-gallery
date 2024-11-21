@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { useIsTradeOverview } from '@/components/trade/OverviewModal/utils'
+import { useIsTradeOverview } from './utils'
 import { formatToNow } from '@/utils/format/time'
 import type { NFT } from '@/types'
 
