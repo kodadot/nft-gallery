@@ -2,20 +2,10 @@
   <div>
     <div class="flex max-md:flex-col md:items-center justify-between mb-7 md:gap-8">
       <h1 class="text-4xl font-semibold text-balance">
-        <span class="block lg:inline mb-0 md:mr-3">{{ $i18n.t('drops.title') }},</span>
-        <span class="inverse-text">{{ $i18n.t('drops.everyThursday') }}</span>
+        <span>{{ $i18n.t('drops.title') }}</span>
       </h1>
 
-      <div class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-between flex-grow">
-        <NeoButton
-          icon-left="plus"
-          rounded
-          variant="outlined-rounded"
-          @click="isCreateEventModalActive = true"
-        >
-          {{ $t('drops.addToCal') }}
-        </NeoButton>
-
+      <div class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-end flex-grow">
         <nuxt-link
           class="flex-shrink-0"
           to="https://form.kodadot.xyz/drop-interest"
@@ -60,24 +50,17 @@
           :drop="drop"
         />
       </DynamicGrid>
-
-      <DropsCreateCalendarEventModal
-        v-model="isCreateEventModalActive"
-        :title="$t('drops.kodadotWeeklyGenerativeDrop')"
-      />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import { useQuery } from '@tanstack/vue-query'
 import { getDrops } from '@/services/fxart'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-
-const isCreateEventModalActive = ref(false)
 
 const { data: dropItems } = useQuery({
   queryKey: ['drop-items', urlPrefix.value],
