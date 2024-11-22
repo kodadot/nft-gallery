@@ -1,7 +1,4 @@
-// todo: const isArtGenDomain = ['koda.art'].includes(
-// window.location.hostname,
-// )
-export const isArtGenDomain = location.hostname.startsWith('deploy-preview-') || ['koda.art', 'localhost'].includes(
+export const isArtGenDomain = ['koda.art'].includes(
   window.location.hostname,
 )
 
