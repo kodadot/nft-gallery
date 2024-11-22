@@ -27,31 +27,18 @@ export const fetchNft = async (nftId: string): Promise<NFTWithMetadata> => {
 
 export const prepareListingQuery = (
   entities: TokenEntity[],
-  isThereAnythingToList: boolean,
 ) => {
   const { accountId } = useAuth()
-
-  const tokenSearchTerm = { id_in: entities.map(n => n.id) }
-
   const variables = {
     first: 10000, // some large number
     search: [
       {
-        token: tokenSearchTerm,
+        token: { id_in: entities.map(n => n.id) },
         currentOwner_eq: accountId.value,
         burned_eq: false,
-        OR: {
-          price_isNull: true,
-          token: tokenSearchTerm,
-          currentOwner_eq: accountId.value,
-          burned_eq: false,
-        },
       },
     ],
   }
-
-  const searchKey = isThereAnythingToList ? 'price_eq' : 'price_gt'
-  variables.search[0][searchKey] = '0'
 
   return {
     query: nftListWithSearch,
@@ -80,10 +67,7 @@ const getCachedAndMissingEntities = (
 const fetchMissingEntities = async (
   missingEntities: TokenEntity[],
 ): Promise<NFTWitToken[]> => {
-  const { query, variables } = prepareListingQuery(
-    missingEntities,
-    await checkIfAnythingToList(missingEntities),
-  )
+  const { query, variables } = prepareListingQuery(missingEntities)
   const { client } = usePrefix()
 
   const { data } = await useAsyncQuery<{ nFTEntities: NFTWitToken[] }>({
