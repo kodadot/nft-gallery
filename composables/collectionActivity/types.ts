@@ -19,7 +19,12 @@ export type InteractionWithNFT = InteractionType & {
   timestamp: number
 }
 
-// TODO rename to OFFER ?
+export enum TradeInteraction {
+  OFFER = 'OFFER',
+  SWAP = 'SWAP',
+}
+
+// TODO remove old OFFER interaction ?
 export const OfferInteraction = 'Offer'
 export type Offer = {
   caller: string

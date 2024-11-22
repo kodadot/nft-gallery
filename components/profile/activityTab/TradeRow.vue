@@ -6,7 +6,7 @@
     <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link
-          :to="`/${urlPrefix}/gallery/${offer.desired.id}`"
+          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
           class="h-[50px]"
         >
           <BaseMediaItem
@@ -20,10 +20,10 @@
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis inline-block"
-          :to="`/${urlPrefix}/gallery/${offer.desired.id}`"
+          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
         >
           <span class="ml-5 font-bold is-clipped">
-            {{ offer.desired.name }}
+            {{ trade.desired.name }}
           </span>
         </nuxt-link>
       </div>
@@ -32,7 +32,7 @@
     <div class="w-1/12">
       <div class="h-[50px] flex items-center">
         <EventTag
-          :interaction="OfferInteraction"
+          :interaction="interaction"
           :interaction-name="interactionName"
         />
       </div>
@@ -41,7 +41,7 @@
     <div class="flex-1 is-ellipsis">
       <div class="h-[50px] flex items-center">
         <div
-          v-if="parseInt(offer.price)"
+          v-if="parseInt(trade.price)"
           class="flex gap-2 items-center"
         >
           <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
@@ -74,13 +74,13 @@
 
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
-        <template v-if="offer.expirationDate">
+        <template v-if="trade.expirationDate">
           <div v-if="isExpired">
             <span>{{ $t('expired') }}</span>
           </div>
           <div v-else>
-            <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-            <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+            <span>{{ format(trade.expirationDate, EXPIRATION_FORMAT) }}</span>
+            <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, isExpired) }})</span>
           </div>
         </template>
         <span v-else>
@@ -93,7 +93,7 @@
       <div class="h-[50px] flex items-center">
         <TradeOwnerButton
           class="max-md:!w-full"
-          :trade="offer"
+          :trade="trade"
           @click="$emit('select')"
         />
       </div>
@@ -106,7 +106,7 @@
   >
     <div class="flex flex-col gap-[10px]">
       <div class="flex h-[70px] leading-[1]">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${offer.desired.id}`">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${trade.desired.id}`">
           <div class="mr-5">
             <BaseMediaItem
               class="border border-k-shade w-[4.375rem] h-[4.375rem]"
@@ -121,22 +121,22 @@
         <div class="flex flex-col justify-center gap-[10px] flex-grow">
           <nuxt-link
             class="is-ellipsis inline-block w-60"
-            :to="`/${urlPrefix}/gallery/${offer.desired.id}`"
+            :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
           >
             <span class="font-bold">
-              {{ offer.desired.name }}
+              {{ trade.desired.name }}
             </span>
           </nuxt-link>
 
           <EventTag
-            :interaction="OfferInteraction"
+            :interaction="interaction"
             :interaction-name="interactionName"
           />
         </div>
       </div>
 
       <div
-        v-if="parseInt(offer.price)"
+        v-if="parseInt(trade.price)"
         class="flex gap-2 items-center"
       >
         <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
@@ -144,13 +144,13 @@
       <div v-else>
         {{ blank }}
       </div>
-      <template v-if="offer.expirationDate">
+      <template v-if="trade.expirationDate">
         <div v-if="isExpired">
           <span>{{ $t('expired') }}</span>
         </div>
         <div v-else>
-          <span>{{ format(offer.expirationDate, EXPIRATION_FORMAT) }}</span>
-          <span class="text-k-grey ml-3">({{ formatToNow(offer.expirationDate, isExpired) }})</span>
+          <span>{{ format(trade.expirationDate, EXPIRATION_FORMAT) }}</span>
+          <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, isExpired) }})</span>
         </div>
       </template>
       <span v-else>
@@ -181,7 +181,7 @@
     </div>
     <TradeOwnerButton
       class="max-md:!w-full !mt-4"
-      :trade="offer"
+      :trade="trade"
       @click="$emit('select')"
     />
   </div>
@@ -195,32 +195,34 @@ import {
   interactionNameMap,
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
-import { OfferInteraction } from '@/composables/collectionActivity/types'
+import { TradeInteraction } from '@/composables/collectionActivity/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
 defineEmits(['select'])
 const props = defineProps<{
-  offer: TradeNftItem
+  trade: TradeNftItem
   variant: ResponsiveVariant
   target: 'from' | 'to'
 }>()
 
+const interaction = {
+  [TradeType.OFFER]: TradeInteraction.OFFER,
+  [TradeType.SWAP]: TradeInteraction.SWAP,
+}[props.trade.type]
+
 const { urlPrefix } = usePrefix()
 const { format: formatPrice } = useFormatAmount()
-const { amount, price } = formatPrice(props.offer?.price)
+const { amount, price } = formatPrice(props.trade?.price)
 
 const image = ref()
 const animationUrl = ref()
-const isDesktop = computed(() => props.variant === 'Desktop')
-const isExpired = computed(() => props.offer.status === 'EXPIRED')
-const targetAddress = computed(() => props.target === 'to' ? props.offer.desired.currentOwner : props.offer.caller)
 
-const interactionName = computed(
-  () =>
-    interactionNameMap()[OfferInteraction],
-)
+const isDesktop = computed(() => props.variant === 'Desktop')
+const isExpired = computed(() => props.trade.status === 'EXPIRED')
+const targetAddress = computed(() => props.target === 'to' ? props.trade.desired.currentOwner : props.trade.caller)
+const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
   const meta = await getNftMetadata(nft)
@@ -229,5 +231,5 @@ const getAvatar = async (nft) => {
 }
 
 // TODO imporve nft fetching
-onBeforeMount(() => fetchNft(props.offer.desired.id).then(getAvatar))
+onBeforeMount(() => fetchNft(props.trade.desired.id).then(getAvatar))
 </script>

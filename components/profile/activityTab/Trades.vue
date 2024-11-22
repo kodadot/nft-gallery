@@ -61,7 +61,7 @@
             v-for="item in trades"
             :key="item.id"
             data-testid="offer-item-row"
-            :offer="item"
+            :trade="item"
             :target="tabTarget"
             :variant="variant"
             @select="() => {
