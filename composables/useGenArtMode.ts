@@ -3,7 +3,7 @@ const enabledOnPages = [
   'prefix-explore-collectibles', // explore collections page
 ]
 
-const enabledPrefix = ['ahp', 'base', 'mnt']
+const enabledPrefix = ['ahk', 'ahp', 'base', 'mnt']
 
 export default function () {
   const route = useRoute()
