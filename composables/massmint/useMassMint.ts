@@ -61,6 +61,7 @@ export const useCollectionForMint = () => {
 
     if (collectionEntities?.length) {
       const newCollections = collectionEntities
+        .map(collection => ({ ...collection, lastIndexUsed: Number(collection.lastNft[0]?.sn || 0) }))
         .filter(collection => (collection.max || Infinity) - collection.minted > 0)
 
       collections.value = unwrapSafe(newCollections)
