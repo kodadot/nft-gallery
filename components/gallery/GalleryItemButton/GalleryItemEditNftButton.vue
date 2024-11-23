@@ -38,7 +38,7 @@ const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 
 const { data: metadata } = useQuery({
-  queryKey: ['collection-metadata', computed(() => props.nft?.metadata)],
+  queryKey: ['nft-metadata', computed(() => props.nft?.metadata)],
   queryFn: () => props.nft ? $fetch<Metadata>(sanitizeIpfsUrl(props.nft.metadata)) : undefined,
 })
 
