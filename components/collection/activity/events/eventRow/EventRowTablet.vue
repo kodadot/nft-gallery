@@ -94,17 +94,14 @@ import {
   getToAddress,
   interactionNameMap,
 } from './common'
-import type {
-  InteractionWithNFT,
-  Offer,
-} from '@/composables/collectionActivity/types'
+import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 
 const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
-  event: InteractionWithNFT | Offer
+  event: InteractionWithNFT
 }>()
 
 const avatar = ref<string>()

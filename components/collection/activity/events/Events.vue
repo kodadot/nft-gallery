@@ -51,18 +51,13 @@ import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import EventRow from './EventRow.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
-import type {
-  InteractionWithNFT,
-  Offer } from '@/composables/collectionActivity/types'
-import {
-  OfferInteraction,
-} from '@/composables/collectionActivity/types'
+import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import { toSubstrateAddress } from '@/services/profile'
 
 const props = withDefaults(
   defineProps<{
-    events: (InteractionWithNFT | Offer)[]
+    events: InteractionWithNFT[]
     loading: boolean
   }>(),
   {
@@ -92,7 +87,6 @@ const filteredEvents = computed(() => {
     [mintInteraction()]: is(query?.mint as string),
     [Interaction.LIST]: is(query?.listing as string),
     [Interaction.SEND]: is(query?.transfer as string),
-    [OfferInteraction]: is(query?.offer as string),
   }
 
   const identityIds = profiles.value?.map(profile => profile?.address) || []
@@ -127,7 +121,7 @@ const eventsAddresses = computed(() => {
 
 const { data: profiles } = useProfiles('profiles', eventsAddresses, { staleTime: 1000 * 60 * 5 })
 
-const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
+const displayedEvents = ref<InteractionWithNFT[]>([])
 
 const displayMoreEvents = () => {
   offset.value += 10

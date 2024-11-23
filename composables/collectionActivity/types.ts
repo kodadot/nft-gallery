@@ -24,18 +24,6 @@ export enum TradeInteraction {
   SWAP = 'SWAP',
 }
 
-// TODO remove old OFFER interaction ?
-export const OfferInteraction = 'Offer'
-export type Offer = {
-  caller: string
-  expiration: string
-  status: string
-  price: number
-  timestamp: number
-  interaction: string
-  nft: NFTExcludingEvents
-}
-
 export type NFTHistoryState = {
   owner: string
   nft: NFTExcludingEvents

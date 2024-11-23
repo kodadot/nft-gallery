@@ -1,9 +1,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import type {
-  InteractionWithNFT,
-  Offer } from '@/composables/collectionActivity/types'
 import {
-  OfferInteraction,
+  type InteractionWithNFT,
   TradeInteraction,
 } from '@/composables/collectionActivity/types'
 import { parseNftAvatar } from '@/utils/nft'
@@ -55,7 +52,7 @@ export const getInteractionColor = (
 }
 
 export const getAmount = (
-  event: InteractionWithNFT | Offer,
+  event: InteractionWithNFT,
 ): string | number => {
   switch (event.interaction) {
     case mintInteraction():
@@ -63,14 +60,12 @@ export const getAmount = (
     case Interaction.LIST:
     case Interaction.BUY:
       return (event as InteractionWithNFT).meta
-    case OfferInteraction:
-      return (event as Offer).price
     default:
       return blank
   }
 }
 
-export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
+export const getFromAddress = (event: InteractionWithNFT): string => {
   const interaction = event.interaction
   if (interaction === mintInteraction()) {
     return blank
@@ -78,13 +73,13 @@ export const getFromAddress = (event: InteractionWithNFT | Offer): string => {
   if (interaction === Interaction.BUY || interaction === Interaction.SEND) {
     return (event as InteractionWithNFT).currentOwner
   }
-  if (interaction === OfferInteraction || interaction === Interaction.LIST) {
-    return (event as Offer).caller
+  if (interaction === Interaction.LIST) {
+    return event.caller
   }
   return blank
 }
 
-export const getToAddress = (event: InteractionWithNFT | Offer): string => {
+export const getToAddress = (event: InteractionWithNFT): string => {
   const interaction = event.interaction
   if (interaction === mintInteraction() || interaction === Interaction.BUY) {
     return event.caller
@@ -95,5 +90,5 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   return blank
 }
 export const getNFTAvatar = (
-  event: InteractionWithNFT | Offer,
+  event: InteractionWithNFT,
 ): Promise<string> => parseNftAvatar(event.nft)
