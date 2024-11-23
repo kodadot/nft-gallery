@@ -297,7 +297,7 @@ export interface ActionUpdateCollection {
   interaction: Collections.UPDATE_COLLECTION
   collectionId: string
   collection: UpdateCollection
-  update: { max: boolean }
+  update: { max: boolean, metadata: boolean }
   urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string

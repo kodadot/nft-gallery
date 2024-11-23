@@ -1,4 +1,5 @@
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import type { SubmittableExtrinsic } from '@polkadot/api-base/types'
 import { uploadMediaFiles } from './mintToken/constructDirectoryMeta'
 import type { ActionUpdateCollection, UpdateCollectionParams } from './types'
 import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
@@ -63,16 +64,15 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
   isLoading.value = true
   status.value = 'loader.ipfs'
 
-  const metadata = await constructMeta(item)
+  const args: SubmittableExtrinsic<'promise'>[] = []
 
-  const collectionId = item.collectionId.toString()
-
-  const args = [
-    api.tx.nfts.setCollectionMetadata(collectionId, metadata),
-  ]
+  if (item.update.metadata) {
+    const metadata = await constructMeta(item)
+    args.push(api.tx.nfts.setCollectionMetadata(item.collectionId, metadata))
+  }
 
   if (item.update.max) {
-    args.push(api.tx.nfts.setCollectionMaxSupply(collectionId, item.collection.max ? item.collection.max : undefined))
+    args.push(api.tx.nfts.setCollectionMaxSupply(item.collectionId, item.collection.max ? item.collection.max : undefined))
   }
 
   executeTransaction({

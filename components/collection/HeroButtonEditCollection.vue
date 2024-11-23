@@ -44,10 +44,19 @@ const collectinoMetadata = computed(() =>
         description: props.collection.meta.description,
         image: props.collection.meta.image,
         imageType: props.collection.meta.type,
-        banner: props.collection.meta.banner,
+        banner: props.collection.meta.banner || undefined,
         max: props.collection.max,
       } as CollectionEditMetadata
     : null)
+
+const updateMetadata = (a: UpdateCollection, b: UpdateCollection) => {
+  const getMetadataKey = (m: UpdateCollection) => {
+    const { max, ...rest } = m
+    return JSON.stringify(rest)
+  }
+
+  return getMetadataKey(a) !== getMetadataKey(b)
+}
 
 const editCollection = async (collection: UpdateCollection) => {
   isModalActive.value = false
@@ -60,7 +69,10 @@ const editCollection = async (collection: UpdateCollection) => {
     interaction: Collections.UPDATE_COLLECTION,
     collectionId: route.params.id.toString(),
     collection,
-    update: { max: collection.max !== collectinoMetadata.value.max },
+    update: {
+      metadata: updateMetadata(collection, collectinoMetadata.value),
+      max: collection.max !== collectinoMetadata.value.max,
+    },
     urlPrefix: urlPrefix.value,
     successMessage: $i18n.t('edit.collection.success'),
   })

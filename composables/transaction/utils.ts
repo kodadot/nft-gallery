@@ -59,7 +59,7 @@ export function isActionValid(action: Actions): boolean {
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
       Boolean(action.collectionId),
     [Collections.UPDATE_COLLECTION]: (action: ActionUpdateCollection) =>
-      Boolean(action.collectionId),
+      Boolean(action.collectionId) && (action.update.metadata || action.update.max),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),
     [NFTs.SET_METADATA]: (action: ActionSetNftMetadata) =>
