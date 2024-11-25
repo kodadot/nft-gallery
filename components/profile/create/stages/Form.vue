@@ -247,7 +247,7 @@ const deleteConfirmSafetyDelayText = computed(() => {
         (deleteConfirm.value.getTime()
           + DELETE_CONFIRM_SAFETY_DELAY
           - now.value.getTime())
-          / 1000,
+        / 1000,
       ),
     ])
   }

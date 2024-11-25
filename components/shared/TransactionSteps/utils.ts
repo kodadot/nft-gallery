@@ -37,7 +37,7 @@ export const getTransactionStepDetails = (
   if (
     (status !== TransactionStatus.Unknown
       && step.stepStatus !== TransactionStepStatus.WAITING)
-      || step.stepStatus === TransactionStepStatus.LOADING
+    || step.stepStatus === TransactionStepStatus.LOADING
   ) {
     return {
       text: $t('transactionSteps.loading'),

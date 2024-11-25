@@ -211,7 +211,7 @@ const createTable = (): void => {
           event['Percentage']
             = ((parseInt(newEvent['meta']) - previousPriceMap[nftId])
               / previousPriceMap[nftId])
-              * 100
+            * 100
         }
         else {
           event['Percentage'] = 100
