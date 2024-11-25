@@ -136,7 +136,7 @@ const props = withDefaults(
 )
 
 const { placeholder } = useTheme()
-const isUnlimited = computed(() => props.dropMax > Number.MAX_SAFE_INTEGER)
+const isUnlimited = computed(() => props.dropMax >= Number.MAX_SAFE_INTEGER)
 
 const chainPropList = chainPropListOf(props.dropPrefix)
 const { usd: formattedPrice } = useAmount(

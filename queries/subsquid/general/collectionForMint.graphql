@@ -6,9 +6,11 @@ query collectionForMint($account: String!) {
     id
     name
     metadata
-    nfts(orderBy: sn_DESC) {
-      index: sn
-      burned
+    max
+    minted: nftCount
+    totalCount: supply
+    lastNft: nfts(orderBy: sn_DESC, limit: 1) {
+        sn
     }
   }
 }

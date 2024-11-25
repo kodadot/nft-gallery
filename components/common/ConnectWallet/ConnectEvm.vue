@@ -30,7 +30,6 @@ import { useAccount, useDisconnect, useConnections } from '@wagmi/vue'
 const emits = defineEmits(['select'])
 
 const { address, isConnected, isConnecting, chainId } = useAccount()
-const { urlPrefix, setUrlPrefix } = usePrefix()
 const { modal } = useWeb3Modal()
 const { disconnectAsync: disconnect } = useDisconnect()
 const connections = useConnections()
@@ -47,15 +46,12 @@ watch([address, isConnected, chainId], ([address, isConnected, chainId]) => {
   const chainPrefix = CHAIN_ID_TO_PREFIX?.[chainId ?? '']
 
   if (address && isConnected && chainId && chainPrefix) {
-    const isCorrectChainConnected = chainPrefix === urlPrefix.value
-
-    if (!isCorrectChainConnected) {
-      setUrlPrefix(chainPrefix)
-    }
-
     emits('select', {
-      address: address as string,
-      vm: 'EVM',
+      account: {
+        address: address as string,
+        vm: 'EVM',
+      },
+      prefix: chainPrefix,
     })
   }
 })

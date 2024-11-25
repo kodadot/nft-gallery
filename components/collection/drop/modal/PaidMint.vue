@@ -94,24 +94,11 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
   isLoading,
 })
 
-const isSingleMintNotReady = computed(
-  () => amountToMint.value === 1 && !canMint.value,
-)
-
-const mintButton = computed(() => {
-  if (!canMint.value) {
-    return {
-      label: $i18n.t('drops.mintDropError'),
-      disabled: true,
-    }
-  }
-
-  return { label: $i18n.t('drops.proceedToSigning'), disabled: false }
-})
+const mintButton = { label: $i18n.t('drops.proceedToSigning'), disabled: false }
 
 const loading = computed(
   () =>
-    isSingleMintNotReady.value
+    !canMint.value
     || mintOverview.value?.loading
     || (autoteleportCompleted.value && !moveSuccessfulDrop.value)
     || false,

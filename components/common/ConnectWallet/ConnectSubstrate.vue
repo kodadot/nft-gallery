@@ -119,11 +119,13 @@ const installedWallet = computed(() => {
 const setAccount = (account: SubstrateWalletAccount) => {
   forceWalletSelect.value = false
   emits('select', {
-    address: account.address,
-    extension: account.source,
-    name: account.name,
-    vm: 'SUB',
-  } as WalletAccount)
+    account: {
+      address: account.address,
+      extension: account.source,
+      name: account.name,
+      vm: 'SUB',
+    } as WalletAccount,
+  })
 }
 
 const refreshWallets = () => {

@@ -13,6 +13,7 @@
       root-class="!px-2"
       label-class="flex gap-[10px] items-center"
       aria-label="open profile menu"
+      data-testid="navbar-connected-profile"
       :active="isWalletModalOpen"
       @click="$emit('click')"
     >

@@ -5,6 +5,7 @@
     v-bind="$attrs"
   >
     <o-modal
+      ref="modal"
       v-model:active="isModalActive"
       class="neo-modal"
       :class="{ 'append-to-body': appendToBody }"
@@ -12,6 +13,7 @@
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
       :full-screen="fullScreen"
+      :data-testid="dataTestid"
       :content-class="[
         ...contentClassName,
         noShadow ? 'no-shadow' : '',
@@ -34,6 +36,7 @@ import { computed } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { OModal } from '@oruga-ui/oruga-next'
 
+const emit = defineEmits(['close'])
 const props = withDefaults(
   defineProps<{
     value: boolean
@@ -47,6 +50,8 @@ const props = withDefaults(
     maxHeight?: string | number
     mobileBreakpoint?: string
     appendToBody?: boolean
+    noOverlap?: boolean
+    dataTestid?: string
   }>(),
   {
     destroyOnHide: true,
@@ -59,10 +64,14 @@ const props = withDefaults(
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
     appendToBody: true,
+    dataTestid: undefined,
   },
 )
 
-const emit = defineEmits(['close'])
+const modal = ref()
+
+const isModalActive = useVModel(props, 'value')
+const { closeOthers, openClosed } = useModalManager(modal)
 
 const maxHeight = computed(() => {
   if (typeof props.maxHeight === 'number') {
@@ -70,8 +79,6 @@ const maxHeight = computed(() => {
   }
   return props.maxHeight
 })
-
-const isModalActive = useVModel(props, 'value')
 
 const contentClassName = computed(() => {
   if (Array.isArray(props.contentClass)) {
@@ -81,6 +88,17 @@ const contentClassName = computed(() => {
 })
 const updateClose = () => {
   emit('close', false)
+}
+
+if (props.noOverlap) {
+  watch(() => props.value, (value) => {
+    if (value) {
+      closeOthers()
+    }
+    else {
+      openClosed()
+    }
+  })
 }
 </script>
 

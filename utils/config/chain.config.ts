@@ -10,6 +10,10 @@ export const vmOf = (prefix: Prefix): ChainVM => {
   return chainPropListOf(prefix).vm
 }
 
+export const arePrefixesOfSameVm = (a: Prefix, b: Prefix): boolean => {
+  return vmOf(a) === vmOf(b)
+}
+
 export const ss58Of = (prefix: Prefix): number => {
   return chainPropListOf(prefix).ss58Format
 }

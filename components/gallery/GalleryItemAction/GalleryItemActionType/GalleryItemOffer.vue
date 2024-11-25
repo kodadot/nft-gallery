@@ -27,6 +27,7 @@ import { useMakingOfferStore } from '@/stores/makeOffer'
 import MakeOffer from '@/components/offer/MakeOffer.vue'
 import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
 import type { NFTOffer } from '@/composables/useNft'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const props = defineProps<{
   nft: NFT
@@ -36,7 +37,7 @@ const props = defineProps<{
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
 const { doAfterLogin } = useDoAfterlogin()
-const { isCurrentOwner } = useAuth()
+const { isCurrentOwner, isLogIn } = useAuth()
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
@@ -50,13 +51,18 @@ const openOfferModal = () => {
 }
 
 const onMakeOfferClick = () => {
-  doAfterLogin({
-    onLoginSuccess: () => {
-      if (!isOwner.value) {
-        openOfferModal()
-      }
-    },
-  })
+  const cb = () => {
+    if (!isOwner.value) {
+      openOfferModal()
+    }
+  }
+
+  if (isLogIn.value) {
+    doAfterCheckCurrentChainVM(cb)
+  }
+  else {
+    doAfterLogin({ onLoginSuccess: cb })
+  }
 }
 
 useModalIsOpenTracker({

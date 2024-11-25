@@ -60,6 +60,7 @@ const props = withDefaults(
     placeholder: string
     isFullscreen?: boolean
     lazyLoading?: boolean
+    innerClass?: string
   }>(),
   {
     imageComponent: 'img',
@@ -69,6 +70,7 @@ const props = withDefaults(
     alt: '',
     isFullscreen: false,
     lazyLoading: false,
+    innerClass: '',
   },
 )
 
@@ -81,9 +83,9 @@ const loading = computed<'eager' | 'lazy'>(() =>
 )
 
 const className = computed(() =>
-  !props.original && !props.isFullscreen
+  (!props.original && !props.isFullscreen
     ? 'object-contain absolute inset-0 w-full h-full !rounded-none'
-    : 'block !rounded-none',
+    : 'block !rounded-none') + ` ${props.innerClass}`,
 )
 
 const isBlob = computed(() => props.src.startsWith('blob:'))
