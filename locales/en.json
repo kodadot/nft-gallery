@@ -271,7 +271,7 @@
   "confirmPurchase": {
     "action": "Confirm Purchase",
     "connectedWith": "Connected as",
-    "notEnoughFuns": "Not Enough Funds",
+    "notEnoughFunds": "Not Enough Funds",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
     "youWillPay": "You Will Pay"
