@@ -158,7 +158,7 @@ export function useMigrateDeposit(
 
   const chainNetworkFee = computedAsync(async () => {
     if (account) {
-      const fee = await getTransitionFee(account, [''], chainDecimals.value)
+      const fee = await estimateTransactionFee(account, chainDecimals.value)
       return parseDeposit(
         parseInt(fee) * itemCount * itemCount,
         chainDecimals.value,
