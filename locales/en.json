@@ -304,7 +304,6 @@
   "documentation": "Documentation",
   "dropUpload": "Drop your file here or click to select.",
   "drops": {
-    "addToCal": "Add To Calendar",
     "agreeToProceed": "Agree to proceed",
     "amountMintedSuccessfully": "{0} NFTs minted successfully",
     "artBy": "{0} By",
@@ -328,7 +327,6 @@
     "emailConfirmationSent": "Email confirmation sent",
     "emailNotConfirmed": "Email not confirmed. Please confirm your email address and check again",
     "enterValidEmail": "Enter valid email address",
-    "everyThursday": "Every Thursday",
     "exploreDrop": "Explore Algorithm",
     "failedCheckingSubscription": "Failed checking subscription",
     "failedEmailConfirmation": "Failed sending email confirmation",
@@ -339,7 +337,6 @@
     "holderOfCollection": "Holder of NFT from {name} collection",
     "iveConfirmed": "I've confirmed",
     "justConfirmSubscriptionViaEmail": "Just confirm your subscription via email",
-    "kodadotWeeklyGenerativeDrop": "Koda weekly generative drop",
     "latestMints": "Latest NFT Mints",
     "listNft": "List NFT",
     "mintDrop": "Mint Drop",
