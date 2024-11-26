@@ -15,7 +15,8 @@ import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
-import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
+import { execUpdateCollection } from './transaction/transactionUpdateCollection'
+import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
@@ -28,7 +29,8 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionSend,
-  ActionSetCollectionMaxSupply,
+  ActionUpdateCollection,
+  ActionSetNftMetadata,
   ActionWithdrawOffer,
   Actions,
   ExecuteEvmTransactionParams,
@@ -253,18 +255,28 @@ export const executeAction = ({
         api as ApiPromise,
         executeTransaction,
       ),
-    [Collections.SET_MAX_SUPPLY]: () =>
-      execSetCollectionMaxSupply(
-        item as ActionSetCollectionMaxSupply,
-        api,
+    [Collections.UPDATE_COLLECTION]: () =>
+      execUpdateCollection({
+        item: item as ActionUpdateCollection,
+        api: api as ApiPromise,
         executeTransaction,
-      ),
+        isLoading,
+        status,
+      }),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(
         item as ActionBurnMultipleNFTs,
         api as ApiPromise,
         executeTransaction,
       ),
+    [NFTs.SET_METADATA]: () =>
+      execSetNftMetadata({
+        item: item as ActionSetNftMetadata,
+        api: api as ApiPromise,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [NFTs.MINT_DROP]: () =>
       execMintDrop({
         item: item as ActionMintDrop,

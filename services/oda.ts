@@ -52,6 +52,12 @@ export const refreshOdaTokenMetadata = (chain: Prefix, address: string, tokenId:
   })
 }
 
+export const refreshOdaCollectionTokensMetadata = (chain: Prefix, address: string) => {
+  return api(`/v1/${chain}/collection/${address}/tokens`, {
+    method: 'DELETE',
+  })
+}
+
 type OdaMimeType = {
   mime_type: string
 }

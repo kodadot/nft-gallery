@@ -7,6 +7,7 @@
     <section class="pt-5">
       <div class="container is-fluid">
         <CollectionInfo
+          ref="collectionInfo"
           :collection-id="collectionId"
           :collection="collection"
         />
@@ -21,11 +22,30 @@ import { useCollectionMinimal } from '@/components/collection/utils/useCollectio
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 
+const collectionInfo = ref()
+
+const { toast } = useToast()
+const { $i18n } = useNuxtApp()
 const route = useRoute()
 const collectionId = computed(() => route.params.id.toString())
 
 const { collection, refetch } = useCollectionMinimal({
   collectionId,
+})
+
+useSubscriptionGraphql({
+  query: `
+    collectionEntity: collectionEntityById(id: "${collectionId.value}") {
+      max
+      metadata
+    }
+  `,
+  onChange: () => {
+    toast($i18n.t('edit.collection.updated'))
+    refetch()
+    collectionInfo.value?.refetch()
+  },
+  immediate: false,
 })
 
 watch(collectionId, () => refetch())

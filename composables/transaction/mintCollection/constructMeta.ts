@@ -21,7 +21,7 @@ export async function constructMeta(item: ActionMintCollection) {
     undefined,
     type,
   )
-  const metaHash = await pinJson(meta, imageHash)
+  const metaHash = await pinJson(meta)
 
   if (file) {
     $consola.log('[UPLOADING FILE]')
