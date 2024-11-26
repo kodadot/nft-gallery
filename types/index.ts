@@ -1,9 +1,9 @@
 import type { Attribute } from '@kodadot1/minimark/common'
 import type { Prefix } from '@kodadot1/static'
-import type { TokenMetadata } from '@kodadot1/hyperdata'
+import type { TokenMetadata, CollectionMetadata as CollectionMeta } from '@kodadot1/hyperdata'
 
 // TODO: remove this
-export interface Metadata {
+export interface Metadata<T = TokenMetadata> {
   id: string
   description?: string
   attributes?: Attribute[]
@@ -14,7 +14,7 @@ export interface Metadata {
   thumbnailUri?: string
   mediaUri?: string
   chain?: Prefix
-  meta?: TokenMetadata
+  meta?: T
 }
 
 export interface NFTMetadata extends Metadata {
@@ -67,7 +67,7 @@ export interface Attribute {
   value: string
 }
 
-export type CollectionMetadata = Metadata
+export type CollectionMetadata = Metadata<CollectionMeta>
 
 export type MassMintNFT = {
   name: string
