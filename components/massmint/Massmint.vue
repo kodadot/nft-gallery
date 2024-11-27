@@ -132,7 +132,7 @@ const router = useRouter()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { selectedCollection, preselectedCollectionId, onCollectionSelected } = useCollectionDropdown()
-const { itemDeposit } = useDeposit(urlPrefix)
+const { itemDeposit, metadataDeposit } = useDeposit(urlPrefix)
 const { decimals } = useChain()
 const { transferableCurrentChainBalance } = useMultipleBalance(true)
 
@@ -153,7 +153,7 @@ const transactionFee = ref(0)
 const isMinting = ref(false)
 const mintStatus = ref('')
 
-const neededAmount = computed(() => (itemDeposit.value * Object.keys(NFTS.value).length) + transactionFee.value)
+const neededAmount = computed(() => ((itemDeposit.value + metadataDeposit.value) * Object.keys(NFTS.value).length) + transactionFee.value)
 const hasEnoughBalance = computed(() => (transferableCurrentChainBalance.value ?? 0) >= neededAmount.value)
 
 const numberOfMissingNames = computed(
