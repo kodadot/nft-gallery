@@ -210,7 +210,7 @@ const startMint = () => {
 
       if (isLoadingOldV && !isLoadingV) {
         mintModalOpen.value = false
-        if (!isError.value && statusV !== TransactionStatus.Sign) {
+        if (!isError.value && statusV === TransactionStatus.Block) {
           successMessage($i18n.t('massmint.continueToCollectionPage'))
         }
       }
