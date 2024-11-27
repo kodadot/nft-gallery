@@ -80,7 +80,7 @@ const batchFiles = (files: File[], maxBatchSize: number): File[][] => {
   return batches
 }
 
-const uploadMediaFiles = async (files: File[]): Promise<string[]> => {
+export const uploadMediaFiles = async (files: File[]): Promise<string[]> => {
   const MAX_BATCH_SIZE = 100 * 1024 * 1024 // 100 MB in bytes
   const serialFiles = mapToSerial(files)
   const fileBatches = batchFiles(serialFiles, MAX_BATCH_SIZE)
