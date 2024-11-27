@@ -17,8 +17,9 @@ import type {
   ActionMintToken,
   ActionOffer,
   ActionSend,
-  ActionSetCollectionMaxSupply,
+  ActionUpdateCollection,
   ActionWithdrawOffer,
+  ActionSetNftMetadata,
   Actions } from '../transaction/types'
 import { getPercentSupportFee } from '@/utils/support'
 
@@ -57,10 +58,12 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
       Boolean(action.collectionId),
-    [Collections.SET_MAX_SUPPLY]: (action: ActionSetCollectionMaxSupply) =>
-      Boolean(action.collectionId),
+    [Collections.UPDATE_COLLECTION]: (action: ActionUpdateCollection) =>
+      Boolean(action.collectionId) && (action.update.metadata || action.update.max),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),
+    [NFTs.SET_METADATA]: (action: ActionSetNftMetadata) =>
+      hasContent(action.nftSn),
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
   }

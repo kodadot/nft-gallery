@@ -8,6 +8,7 @@ export default function ({
   onError,
   pollingInterval = 6000,
   disabled,
+  immediate = true,
 }: {
   clientName?: string
   query: string
@@ -15,6 +16,7 @@ export default function ({
   onError?: (error) => void
   pollingInterval?: number
   disabled?: ComputedRef<boolean>
+  immediate?: boolean
 }) {
   const { client: prefixClient } = usePrefix()
   const { $consola } = useNuxtApp()
@@ -46,8 +48,10 @@ export default function ({
       const newResult = response.data as any
 
       if (!isEqual(newResult, lastQueryResult)) {
-        $consola.log(`[Graphql Subscription] New changes: ${JSON.stringify(newResult)}`)
-        onChange({ data: newResult })
+        if (!lastQueryResult ? immediate : true) {
+          $consola.log(`[Graphql Subscription] New changes: ${JSON.stringify(newResult)}`)
+          onChange({ data: newResult })
+        }
         lastQueryResult = newResult
       }
     }

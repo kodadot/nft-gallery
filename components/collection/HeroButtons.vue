@@ -97,11 +97,11 @@
             <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
-            <CollectionHeroButtonCustomizeCollection
-              :min="collectionNftCount"
-              :max="collectionMaxCount"
+            <CollectionHeroButtonEditCollection
+              :collection="collection"
             />
           </div>
+          <CollectionHeroButtonRefreshMetadata v-if="isOwner" />
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
           </NeoDropdownItem>
@@ -172,8 +172,6 @@ const { collection } = useCollectionMinimal({
   collectionId,
 })
 const collectionIssuer = computed(() => collection.value?.displayCreator)
-const collectionNftCount = computed(() => collection.value?.nftCount)
-const collectionMaxCount = computed(() => collection.value?.max)
 
 const { twitter } = useIdentity({
   address: collectionIssuer,

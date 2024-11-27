@@ -1,4 +1,4 @@
-import type { Attribute } from '@kodadot1/minimark/common'
+import type { Attribute, Metadata } from '@kodadot1/minimark/common'
 import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
@@ -241,7 +241,7 @@ export interface ActionMintCollection {
 
 export enum Collections {
   DELETE = 'delete',
-  SET_MAX_SUPPLY = 'setCollectionMaxSupply',
+  UPDATE_COLLECTION = 'updateCollection',
 }
 
 export type ActionsInteractions = Interaction | ShoppingActions | Collections
@@ -257,6 +257,7 @@ export interface ActionDeleteCollection {
 export enum NFTs {
   BURN_MULTIPLE = 'burnMultiple',
   MINT_DROP = 'mintDrop',
+  SET_METADATA = 'setMetadata',
 }
 
 export interface ActionBurnMultipleNFTs {
@@ -267,11 +268,37 @@ export interface ActionBurnMultipleNFTs {
   errorMessage?: string
 }
 
-export interface ActionSetCollectionMaxSupply {
-  interaction: Collections.SET_MAX_SUPPLY
-  collectionId: string
+export type ActionMetadataSetMetadata = Metadata & { image: File | string }
+
+export interface ActionSetNftMetadata {
+  interaction: NFTs.SET_METADATA
   urlPrefix: string
-  max: number
+  nftSn: string
+  collectionId: string
+  metadata: ActionMetadataSetMetadata
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
+
+export type UpdateCollection = {
+  name: string
+  description: string
+  image: File | string
+  imageType?: string
+  banner?: File | string | null
+  max: number | null
+}
+
+export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
+
+export interface ActionUpdateCollection {
+  interaction: Collections.UPDATE_COLLECTION
+  collectionId: string
+  collection: UpdateCollection
+  update: { max: boolean, metadata: boolean }
+  urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
@@ -288,5 +315,6 @@ export type Actions =
   | ActionMintCollection
   | ActionDeleteCollection
   | ActionBurnMultipleNFTs
-  | ActionSetCollectionMaxSupply
+  | ActionUpdateCollection
+  | ActionSetNftMetadata
   | ActionMintDrop
