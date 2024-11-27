@@ -10,11 +10,17 @@ enum OfferActions {
   CREATE_SWAP = 'CREATE_SWAP',
 }
 
-export type ShoppingActions = Interaction | OfferActions
+enum SwapActions {
+  WITHDRAW_SWAP = 'WITHDRAW_SWAP',
+  ACCEPT_SWAP = 'ACCEPT_SWAP',
+}
+
+export type ShoppingActions = Interaction | OfferActions | SwapActions
 export type ShoppingActionToolTips = Partial<Record<ShoppingActions, string>>
 export const ShoppingActions = {
   ...Interaction,
   ...OfferActions,
+  ...SwapActions,
   DOWNLOAD: 'DOWNLOAD',
 }
 

@@ -35,7 +35,7 @@
       {{ $t('offer.yourOfferAmount') }}
     </div>
 
-    <OfferPriceInput
+    <TradePriceInput
       v-model="offerPriceStoreItem"
       class="pt-2"
     />
@@ -43,7 +43,7 @@
       {{ $t('offer.expiration') }}
     </div>
 
-    <OfferExpirationSelector
+    <TradeExpirationSelector
       v-model="offerExpirationStoreItem"
       class="pt-2"
     />
@@ -51,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import OfferPriceInput from '@/components/offer/OfferPriceInput.vue'
-import OfferExpirationSelector from '@/components/offer/OfferExpirationSelector.vue'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import CartItemDetails from '@/components/common/CartItemDetails.vue'
 

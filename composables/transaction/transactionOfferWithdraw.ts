@@ -5,7 +5,7 @@ import { getOfferCollectionId } from './transactionOffer'
 async function execWithdrawOffer(item: ActionWithdrawOffer, api: ApiPromise, executeTransaction) {
   executeTransaction({
     cb: api.tx.nfts.cancelSwap,
-    arg: [getOfferCollectionId(item.urlPrefix), item.offeredId],
+    arg: [getOfferCollectionId(item.urlPrefix), Number(item.offeredId)],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })

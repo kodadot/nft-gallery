@@ -272,7 +272,7 @@
   "confirmPurchase": {
     "action": "Confirm Purchase",
     "connectedWith": "Connected as",
-    "notEnoughFuns": "Not Enough Funds",
+    "notEnoughFunds": "Not Enough Funds",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
     "youWillPay": "You Will Pay"
@@ -374,6 +374,31 @@
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "youSuccessfullyClaimedNft": "You successfully minted {0} NFT",
     "yourWalletNeeds": "Your wallet needs a minimum of {0} to claim this drop."
+  },
+  "edit": {
+    "collection": {
+      "banner": {
+        "hint": "1440 x 560 size recommended",
+        "label": "Banner",
+        "message": "Represents your collection on its page and on collection card"
+      },
+      "drop": "Don't click, just drop!",
+      "image": {
+        "hint": "300 x 300 size recommended",
+        "label": "Logo",
+        "message": "Visible on collection card and view"
+      },
+      "max": {
+        "hint": "This will update the Maximum items in your collection",
+        "label": "Maximum NFTs in collection"
+      },
+      "saveChanges": "Save Changes",
+      "success": "Successfully edited collection",
+      "title": "Edit Collection",
+      "transaction": "Editing Collection",
+      "updated": "Collection updated"
+    },
+    "nft": { "title": "Edit NFT", "transaction": "Editing NFT" }
   },
   "email": "Email",
   "error": "Error",
@@ -1419,11 +1444,12 @@
   "mintingSettings": "Minting Settings",
   "moreActions": {
     "addNfts": "Add NFTs",
-    "customize": "Customize",
     "deleteCollection": "Delete Collection",
     "deleteNfts": "Delete NFTs",
     "deletingNfts": "Deleting NFTs",
     "download": "Download",
+    "editCollection": "Edit Collection",
+    "refereshCollectionMetdata": "Refresh Metadata",
     "reportCollection": "Report Collection"
   },
   "multipleNFTS": "Multiple NFT's",
@@ -1786,14 +1812,17 @@
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
   "swap": {
+    "acceptSwap": "Accept Swap",
     "addToken": "Add Token",
     "beginSwap": "Begin Swap offer",
+    "cancelSwap": "Cancel Swap",
     "clickOnNft": "Click on any NFT to add it to your swap list.",
     "connectTrader": "Connect with a trader",
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterparty": "Counterparty",
     "created": "Swap Created",
     "creatingSwap": "Creating Swap",
+    "incomingSwap": "Incoming Swap",
     "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
     "landingTitle": "Koda Swap",
     "learnMoreAboutSwaps": "Learn more about swaps",
@@ -1811,8 +1840,10 @@
     "youWillReceive": "You will receive",
     "yourAddress": "Your Address",
     "yourOffer": "Your offer",
+    "yourSwap": "Your Swap",
     "yourSwapList": "Your Swap List"
   },
+  "swaps": "Swaps",
   "tabs": {
     "activity": "Activity",
     "chart": "Chart",
@@ -1899,6 +1930,7 @@
     "downloadImage": "Downloading image",
     "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds.",
     "paymentLinkCopy": "Payment link copied to clipboard",
+    "refreshMetdata": "Refreshing metadata. Check back in a minute...",
     "unsupportedOperation": "Unsupported action",
     "uploadFileSizeLimit": "The uploaded file exceeds the {0}MB size limit.",
     "urlCopy": "URL copied to clipboard ✓"

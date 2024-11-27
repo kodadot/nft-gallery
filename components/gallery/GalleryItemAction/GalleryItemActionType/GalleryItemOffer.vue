@@ -13,7 +13,7 @@
         class="w-[calc(10rem+55px)]"
         @click="onMakeOfferClick"
       />
-      <MakeOffer />
+      <TradeMakeOfferModal />
     </div>
   </GalleryItemPriceSection>
 </template>
@@ -24,7 +24,6 @@ import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'
-import MakeOffer from '@/components/offer/MakeOffer.vue'
 import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
 import type { NFTOffer } from '@/composables/useNft'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'

@@ -18,9 +18,13 @@ import type {
   ActionOffer,
   ActionSwap,
   ActionSend,
-  ActionSetCollectionMaxSupply,
+  ActionUpdateCollection,
   ActionWithdrawOffer,
-  Actions } from '../transaction/types'
+  ActionSetNftMetadata,
+  ActionWithdrawSwap,
+  ActionAcceptSwap,
+  Actions,
+} from '../transaction/types'
 import { getPercentSupportFee } from '@/utils/support'
 
 export const verifyRoyalty = (
@@ -52,16 +56,22 @@ export function isActionValid(action: Actions): boolean {
       hasContent(action.token),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
       Boolean(action.offeredId),
+    [ShoppingActions.WITHDRAW_SWAP]: (action: ActionWithdrawSwap) =>
+      Boolean(action.offeredId) && Boolean(action.offeredCollectionId),
+    [ShoppingActions.ACCEPT_SWAP]: (action: ActionAcceptSwap) =>
+      Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),
     [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
       Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
       Boolean(action.collectionId),
-    [Collections.SET_MAX_SUPPLY]: (action: ActionSetCollectionMaxSupply) =>
-      Boolean(action.collectionId),
+    [Collections.UPDATE_COLLECTION]: (action: ActionUpdateCollection) =>
+      Boolean(action.collectionId) && (action.update.metadata || action.update.max),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),
+    [NFTs.SET_METADATA]: (action: ActionSetNftMetadata) =>
+      hasContent(action.nftSn),
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
     [ShoppingActions.CREATE_SWAP]: (action: ActionSwap) =>

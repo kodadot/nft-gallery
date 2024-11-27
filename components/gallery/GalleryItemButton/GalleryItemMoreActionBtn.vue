@@ -48,6 +48,7 @@
           Delist
         </NeoDropdownItem>
       </template>
+      <GalleryItemEditNftButton :nft="nft" />
       <NeoDropdownItem disabled>
         Report
       </NeoDropdownItem>
@@ -63,6 +64,7 @@
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { useQuery } from '@tanstack/vue-query'
+import GalleryItemEditNftButton from './GalleryItemEditNftButton.vue'
 import { downloadImage } from '@/utils/download'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
@@ -188,7 +190,7 @@ const unlist = () => {
 
 const refreshMetadata = async () => {
   if (props.nft?.collection?.id && props.nft?.sn) {
-    toast('Refreshing metadata. Check back in a minute...')
+    toast($i18n.t('toast.refreshMetdata'))
     await refreshOdaTokenMetadata(urlPrefix.value, props.nft.collection.id, props.nft.sn)
   }
 }
