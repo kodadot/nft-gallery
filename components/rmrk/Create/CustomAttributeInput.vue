@@ -36,6 +36,7 @@ import AttributeInput from './AttributeInput.vue'
 
 const props = withDefaults(
   defineProps<{
+    modelValue?: Attribute[]
     max: number
     visible?: string
     hidden?: string
@@ -44,11 +45,12 @@ const props = withDefaults(
     max: 0,
     visible: 'collapse.collection.attributes.show',
     hidden: 'collapse.collection.attributes.hide',
+    modelValue: () => [],
   },
 )
 
-const emit = defineEmits(['update:modelValue'])
-const attributes = ref<Attribute[]>([])
+const attributes = useVModel(props, 'modelValue')
+
 const disabled = computed(
   () => props.max > 0 && attributes.value.length === props.max,
 )
@@ -61,13 +63,8 @@ const addAttribute = () => {
     })
   }
 }
-const removeAttribute = (index: number) => attributes.value.splice(index, 1)
-const handleInput = (attributes: Attribute[]) =>
-  emit('update:modelValue', attributes)
 
-watch(attributes.value, () => {
-  handleInput(attributes.value)
-})
+const removeAttribute = (index: number) => attributes.value.splice(index, 1)
 </script>
 
 <style scoped>
