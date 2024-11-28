@@ -1,5 +1,5 @@
 import type { Prefix } from '@kodadot1/static'
-import type { RawLocation } from 'vue-router/types/router'
+import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { createVisible } from '@/utils/config/permission.config'
 import { arePrefixesOfSameVm } from '@/utils/config/chain.config'
 import { getss58AddressByPrefix } from '@/utils/account'
@@ -44,10 +44,14 @@ function getRedirectPathForPrefix({
 }: {
   routeName: string
   chain: Prefix
-  route
-}): RawLocation {
+  route: RouteLocationNormalizedLoadedGeneric
+}): RouteLocationRaw {
+  if (!arePrefixesOfSameVm(route.params.prefix.toString() as Prefix, chain) && REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES.includes(routeName)) {
+    return { path: `/${chain}` }
+  }
+
   if (routeName === 'prefix-u-id') {
-    const accountId = getss58AddressByPrefix(route.params.id, chain)
+    const accountId = getss58AddressByPrefix(route.params.id.toString(), chain)
 
     delete route.query.collections
 
@@ -108,14 +112,9 @@ export default function () {
       return
     }
 
-    let redirectLocation: RawLocation = { path: `/${newChain}` }
-
-    if (!arePrefixesOfSameVm(route.params.prefix as Prefix, newChain) && REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES.includes(routeName)) {
-      router.push(redirectLocation)
-      return
-    }
-
     const isSimpleCreate = routeName.includes('-create')
+
+    let redirectLocation: RouteLocationRaw = { path: `/${newChain}` }
 
     if (route.params.prefix) {
       redirectLocation = getRedirectPathForPrefix({
