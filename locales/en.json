@@ -271,7 +271,7 @@
   "confirmPurchase": {
     "action": "Confirm Purchase",
     "connectedWith": "Connected as",
-    "notEnoughFuns": "Not Enough Funds",
+    "notEnoughFunds": "Not Enough Funds",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
     "youWillPay": "You Will Pay"
@@ -1810,6 +1810,13 @@
   "support": {
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
+  "swap": {
+    "acceptSwap": "Accept Swap",
+    "cancelSwap": "Cancel Swap",
+    "incomingSwap": "Incoming Swap",
+    "yourSwap": "Your Swap"
+  },
+  "swaps": "Swaps",
   "tabs": {
     "activity": "Activity",
     "chart": "Chart",

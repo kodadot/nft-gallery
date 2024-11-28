@@ -35,9 +35,9 @@ export default function (
   const router = useRouter()
   const replaceUrl = (queryCondition: {
     [key: string]: string | null | boolean | undefined | number
-  }) => {
+  }, { override = false }: { override?: boolean } = {}) => {
     const query = {
-      ...route.query,
+      ...(override ? {} : route.query),
       ...replaceBooleanWithStrings(queryCondition),
     }
     if (resetPage) {

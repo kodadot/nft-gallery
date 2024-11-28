@@ -196,7 +196,7 @@ export type ActionOffer = {
 export type ActionWithdrawOffer = {
   interaction: typeof ShoppingActions.WITHDRAW_OFFER
   urlPrefix: Prefix
-  offeredId: number
+  offeredId: string
   successMessage?: string
   errorMessage?: string
 }
@@ -208,6 +208,28 @@ export type ActionAcceptOffer = {
   collectionId: string
   offeredId: number
   price: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type ActionWithdrawSwap = {
+  interaction: typeof ShoppingActions.WITHDRAW_SWAP
+  urlPrefix: Prefix
+  offeredId: string
+  offeredCollectionId: string
+  successMessage?: string
+  errorMessage?: string
+}
+
+export type ActionAcceptSwap = {
+  interaction: typeof ShoppingActions.ACCEPT_SWAP
+  urlPrefix: Prefix
+  sendCollection: string
+  sendItem: string
+  receiveItem: string
+  receiveCollection: string
+  price: string | null
+  surcharge: string | null
   successMessage?: string
   errorMessage?: string
 }
@@ -309,6 +331,8 @@ export type Actions =
   | ActionSend
   | ActionOffer
   | ActionConsume
+  | ActionWithdrawSwap
+  | ActionAcceptSwap
   | ActionWithdrawOffer
   | ActionAcceptOffer
   | ActionMintToken

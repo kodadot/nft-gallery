@@ -60,9 +60,9 @@
       <div
         ref="slot"
         class="slot"
-        :class="{
+        :class="[{
           slot__loading: loading,
-        }"
+        }, bodyClass]"
       >
         <slot />
       </div>
@@ -86,6 +86,7 @@ const props = withDefaults(
     scrollable?: boolean
     customSkeletonTitle?: string
     estimatedTime?: number
+    bodyClass?: string
   }>(),
   {
     modalWidth: '25rem',
@@ -93,6 +94,7 @@ const props = withDefaults(
     modalMaxHeight: '70vh',
     scrollable: true,
     contentClass: 'pt-4 pb-5 px-6',
+    bodyClass: '',
   },
 )
 

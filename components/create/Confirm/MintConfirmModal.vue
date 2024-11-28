@@ -55,7 +55,6 @@ import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
 import { availablePrefixes } from '@/utils/chain'
-import { getTransitionFee } from '@/utils/transactionExecutor'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -183,7 +182,7 @@ const confirm = (params) => {
 watchEffect(async () => {
   networkFee.value = 0
 
-  const fee = await getTransitionFee(accountId.value, [''], decimals.value)
+  const fee = await estimateTransactionFee(accountId.value, decimals.value)
   networkFee.value = props.nftInformation.listForSale
     ? Number(fee) * 2
     : Number(fee)

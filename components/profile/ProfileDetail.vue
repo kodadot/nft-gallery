@@ -316,23 +316,22 @@
 
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
-        <div class="flex is-hidden-touch is-hidden-desktop-only">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            class="capitalize"
-            :data-testid="`profile-${tab}-tab`"
-            :active="activeTab === tab"
-            :count="counts[tab]"
-            :show-active-check="tabsWithActiveCheck.includes(tab)"
-            :text="tab"
-            @click="() => switchToTab(tab)"
-          />
-          <ChainDropdown class="ml-6" />
-          <OrderByDropdown
-            v-if="activeTab !== ProfileTab.ACTIVITY"
-            class="ml-6"
-          />
+        <div class="flex gap-6 is-hidden-touch is-hidden-desktop-only">
+          <div class="flex w-full">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              class="capitalize !w-full [&>*]:!w-full max-w-[12rem]"
+              :data-testid="`profile-${tab}-tab`"
+              :active="activeTab === tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              :text="tab"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <ChainDropdown />
+          <OrderByDropdown v-if="showOrderByDropdown" />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
           <div class="flex flex-wrap">
@@ -349,7 +348,7 @@
           </div>
           <div class="flex flex-wrap gap-4">
             <ChainDropdown />
-            <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
+            <OrderByDropdown v-if="showOrderByDropdown" />
           </div>
         </div>
       </div>
@@ -425,9 +424,14 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
-        <ProfileActivityTabOffers
-          v-if="activeTab === ProfileTab.OFFERS"
+        <ProfileActivityTabTrades
+          v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
           :id="id"
+          :key="activeTab"
+          :type="{
+            [ProfileTab.SWAPS]: TradeType.SWAP,
+            [ProfileTab.OFFERS]: TradeType.OFFER,
+          }[activeTab]"
         />
       </div>
     </div>
@@ -468,6 +472,7 @@ import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible } from '@/utils/config/permission.config'
+import { TradeType } from '@/composables/useTrades'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -476,6 +481,7 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const gridSection = GridSection.PROFILE_GALLERY
+const tabsWithActiveCheck = [ProfileTab.OFFERS, ProfileTab.SWAPS]
 
 const socials = {
   [Socials.Farcaster]: {
@@ -492,23 +498,6 @@ const socials = {
     order: 3,
   },
 }
-
-const tabs = computed(() => {
-  const tabs = [
-    ProfileTab.OWNED,
-    ProfileTab.CREATED,
-    ProfileTab.COLLECTIONS,
-    ProfileTab.ACTIVITY,
-  ]
-
-  if (offerVisible(urlPrefix.value)) {
-    tabs.push(ProfileTab.OFFERS)
-  }
-
-  return tabs
-})
-
-const tabsWithActiveCheck = [ProfileTab.OFFERS]
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
@@ -584,6 +573,24 @@ const followModalTab = ref<'followers' | 'following'>('followers')
 const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
+
+const showOrderByDropdown = computed(() => [ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab.value))
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  tabs.push(ProfileTab.SWAPS)
+
+  return tabs
+})
 
 const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
@@ -666,7 +673,7 @@ const activeTab = computed({
     return tab
   },
   set: (val) => {
-    replaceUrl({ tab: val })
+    replaceUrl({ tab: val }, { override: true })
   },
 })
 
@@ -845,14 +852,6 @@ watchEffect(() => {
 
 .invisible-tab>nav.tabs {
   display: none;
-}
-
-:deep(.control) {
-  width: 12rem;
-}
-
-:deep(.explore-tabs-button) {
-  width: 12rem;
 }
 
 @include until-widescreen {
