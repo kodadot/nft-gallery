@@ -110,6 +110,7 @@ export interface TokenId {
 export type EntityWithId = {
   id: string
   name: string
+  issuer: string
   floor: string
 }
 

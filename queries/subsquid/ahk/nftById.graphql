@@ -9,6 +9,7 @@ query nftById($id: String!) {
     collection {
       id
       name
+      issuer
     }
     attributes {
       key: trait
