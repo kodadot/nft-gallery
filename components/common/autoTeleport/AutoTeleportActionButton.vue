@@ -91,6 +91,7 @@
 
     <OnRampModal
       v-model="onRampActive"
+      no-overlap
       @close="onRampActive = false"
     />
   </div>

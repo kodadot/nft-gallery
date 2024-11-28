@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { parseNftAvatar } from '@/utils/nft'
 import type { ListCartItem } from '@/stores/listingCart'
-import type { MakingOfferItem } from '@/components/offer/types'
+import type { MakingOfferItem } from '@/components/trade/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 

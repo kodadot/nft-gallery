@@ -84,23 +84,29 @@ const calculateCommonPrefix = (filePaths: string[]): string => {
 const categorizeFiles = async (
   entries: { [key: string]: ZipEntry },
   commonPrefix: string,
-): Promise<{ htmlFiles: FileEntry[], jsFiles: FileEntry[] }> => {
+): Promise<{ htmlFiles: FileEntry[], jsFiles: FileEntry[], p5Files: FileEntry[] }> => {
   const htmlFiles: FileEntry[] = []
   const jsFiles: FileEntry[] = []
+  const p5Files: FileEntry[] = []
 
   for (const [path, file] of Object.entries(entries)) {
     const adjustedPath = path.replace(commonPrefix, '')
     const content = await file.text()
+    const isJsFile = path.endsWith('.js')
 
     if (path === 'index.html') {
       htmlFiles.push({ path: adjustedPath, content })
     }
-    else if (path.endsWith('.js') && !path.includes(config.p5)) {
+    // allows p5 libraries
+    else if (path.includes(config.p5) && isJsFile) {
+      p5Files.push({ path: adjustedPath, content })
+    }
+    else if (isJsFile) {
       jsFiles.push({ path: adjustedPath, content })
     }
   }
 
-  return { htmlFiles, jsFiles }
+  return { htmlFiles, jsFiles, p5Files }
 }
 
 // exported functions
@@ -130,6 +136,7 @@ export const extractAssetsFromZip = async (
 ): Promise<{
   indexFile: FileEntry
   sketchFile: FileEntry
+  p5File: FileEntry
   entries: { [key: string]: ZipEntry }
   jsFiles: FileEntry[]
 }> => {
@@ -138,14 +145,15 @@ export const extractAssetsFromZip = async (
 
   const commonPrefix = calculateCommonPrefix(filePaths)
 
-  const { htmlFiles, jsFiles } = await categorizeFiles(entries, commonPrefix)
-  const sketchFile = jsFiles.find(file =>
-    file.path.includes(config.sketchFile),
-  ) as FileEntry
+  const { htmlFiles, jsFiles, p5Files } = await categorizeFiles(entries, commonPrefix)
+
+  const sketchFile = jsFiles.find(file => file.path.includes(config.sketchFile)) as FileEntry
+  const p5File = p5Files.find(file => file.path.includes(config.p5File)) as FileEntry
 
   return {
     indexFile: htmlFiles[0],
     sketchFile,
+    p5File,
     entries,
     jsFiles,
   }

@@ -103,7 +103,7 @@ const handleSubmitMint = async () => {
 
   doAfterCheckCurrentChainVM(() => {
     isMintModalActive.value = true
-    massGenerate()
+    massGenerate().catch(handleMintModalClose)
   })
 }
 

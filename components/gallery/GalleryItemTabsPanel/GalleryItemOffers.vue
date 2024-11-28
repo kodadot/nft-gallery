@@ -1,13 +1,15 @@
 <template>
   <div class="h-full flex flex-col">
-    <GalleryItemOffersTable
+    <GalleryItemTradesTable
       :nft-id="nftId"
+      :type="TradeType.OFFER"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import GalleryItemOffersTable from './GalleryItemOffersTable.vue'
+import GalleryItemTradesTable from './GalleryItemTradesTable.vue'
+import { TradeType } from '@/composables/useTrades'
 
 defineProps<{
   nftId: string

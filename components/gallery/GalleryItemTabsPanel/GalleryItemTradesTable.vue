@@ -19,9 +19,43 @@
       hoverable
       class="py-5 max-md:!top-0"
     >
+      <!-- item -->
+      <NeoTableColumn
+        v-if="type === TradeType.SWAP"
+        v-slot="{ row }: {row: TradeNftItem}"
+        width="20%"
+        field="item"
+        :label="$t('activity.event.item')"
+      >
+        <div class="flex-1 text-clip">
+          <div class="flex items-center gap-4">
+            <nuxt-link
+              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
+            >
+              <BaseMediaItem
+                class="border border-k-shade w-[2.25rem] h-[2.25rem] !shadow-none"
+                :alt="row.offered.name"
+                :src="sanitizeIpfsUrl(row.offered.image)"
+                preview
+                is-detail
+              />
+            </nuxt-link>
+            <nuxt-link
+              class="text-ellipsis inline-block"
+              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
+            >
+              <span class="text-clip">
+                {{ row.offered.name }}
+              </span>
+            </nuxt-link>
+          </div>
+        </div>
+      </NeoTableColumn>
+
       <!-- price -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOfferItem}"
+        v-if="type === TradeType.OFFER"
+        v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="price"
         :label="$t('amount')"
@@ -37,7 +71,7 @@
 
       <!-- expiration -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOfferItem}"
+        v-slot="{ row }: {row: TradeNftItem}"
         width="15%"
         field="expiration"
         :label="$t('expiration')"
@@ -49,7 +83,7 @@
 
       <!-- from -->
       <NeoTableColumn
-        v-slot="{ row }: {row: NFTOfferItem}"
+        v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="caller"
         :label="$t('tabs.tabActivity.from')"
@@ -76,9 +110,9 @@
         v-slot="{ row }"
         width="10%"
       >
-        <OfferOwnerButton
+        <TradeOwnerButton
           class="max-md:!w-full"
-          :offer="row as NFTOfferItem"
+          :trade="row as TradeNftItem"
           @click="selectOffer"
         />
       </NeoTableColumn>
@@ -91,10 +125,10 @@
     </div>
   </div>
 
-  <OfferOverviewModal
-    v-model="isWithdrawOfferModalOpen"
-    :offer="selectedOffer!"
-    @close="closeOfferOverviewModal"
+  <TradeOverviewModal
+    v-model="isWithdrawTradeModalOpen"
+    :trade="selectedTrade!"
+    @close="closeTradeOverviewModal"
   />
 </template>
 
@@ -105,37 +139,41 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 import type { UnwrapRef } from 'vue'
+import { TradeType } from '@/composables/useTrades'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const props = defineProps<{
   nftId: string
+  type: TradeType
 }>()
 
 const { urlPrefix } = usePrefix()
 const { format } = useFormatAmount()
 
-const isWithdrawOfferModalOpen = ref(false)
+const isWithdrawTradeModalOpen = ref(false)
 const loading = ref(false)
-const offers = ref<UnwrapRef<ReturnType<typeof useOffers>['offers']>>([])
-const selectedOffer = ref<NFTOfferItem>()
+const offers = ref<UnwrapRef<ReturnType<typeof useTrades>['items']>>([])
+const selectedTrade = ref<TradeNftItem>()
 const stopWatch = ref(() => {})
 
 useSubscriptionGraphql({
   query: `
-  offers (
+  items: ${TRADES_QUERY_MAP[props.type].dataKey} (
     where: { status_eq: ACTIVE, desired: { id_eq: "${props.nftId}" } }
     orderBy: blockNumber_DESC
   ) {
     id
   }`,
-  onChange: ({ data: { offers: newOffers } }) => {
+  onChange: ({ data }) => {
     stopWatch.value?.()
     offers.value = []
 
-    const { offers: offersData, loading: offersLoading } = useOffers({
-      where: { id_in: newOffers.map(offer => offer.id) },
+    const { items: offersData, loading: offersLoading } = useTrades({
+      where: { id_in: data.items?.map(offer => offer.id) },
+      type: props.type,
     })
 
     stopWatch.value = watchEffect(() => {
@@ -145,14 +183,14 @@ useSubscriptionGraphql({
   },
 })
 
-const selectOffer = (offer: NFTOfferItem) => {
-  selectedOffer.value = offer
-  isWithdrawOfferModalOpen.value = true
+const selectOffer = (offer: TradeNftItem) => {
+  selectedTrade.value = offer
+  isWithdrawTradeModalOpen.value = true
 }
 
-const closeOfferOverviewModal = () => {
-  isWithdrawOfferModalOpen.value = false
-  selectedOffer.value = undefined
+const closeTradeOverviewModal = () => {
+  isWithdrawTradeModalOpen.value = false
+  selectedTrade.value = undefined
 }
 </script>
 

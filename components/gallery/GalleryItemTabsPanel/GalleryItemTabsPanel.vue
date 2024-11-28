@@ -31,9 +31,22 @@
       />
     </NeoTabItem>
 
+    <!-- swaps -->
+    <NeoTabItem
+      v-if="offerVisible(urlPrefix)"
+      value="3"
+      :label="$t('swaps')"
+      data-testid="offers-activity"
+    >
+      <GalleryItemSwaps
+        v-if="nft?.id"
+        :nft-id="nft.id"
+      />
+    </NeoTabItem>
+
     <!-- chart -->
     <NeoTabItem
-      value="3"
+      value="4"
       :label="$t('tabs.chart')"
       class="p-5"
     >
@@ -46,6 +59,7 @@
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
+import GalleryItemSwaps from './GalleryItemSwaps.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import { offerVisible } from '@/utils/config/permission.config'
 

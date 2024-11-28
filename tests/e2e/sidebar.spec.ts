@@ -7,6 +7,8 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
   await page.goto(LANDING_PATH)
   await test.step('Switches trough sidebars and check if they overlap each other', async () => {
     // profile
+    // wait for profile pill to load
+    await expect(page.getByTestId('navbar-connected-profile')).toBeVisible({ timeout: 10000 })
     await page.getByTestId('navbar-profile-dropdown').click()
     await expect(page.getByTestId('sidebar-wallet-container')).toBeVisible()
     // cart

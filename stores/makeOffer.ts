@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
-import type { MakingOfferItem } from '@/components/offer/types'
+import type { MakingOfferItem } from '@/components/trade/types'
 
 export const useMakingOfferStore = defineStore('makingOffer', () => {
   const {

@@ -8,7 +8,7 @@
       :to="`/${urlPrefix}/collection/${collection.id}`"
     >
       <BasicImage
-        :src="image"
+        :src="banner"
         :alt="collection.name"
         :lazy="lazyLoading"
         sizes="300px md:350px"
@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { NeoSkeleton } from '@kodadot1/brick'
-import type { TokenMetadata } from '@kodadot1/hyperdata'
+import type { CollectionMetadata } from '@kodadot1/hyperdata'
 import CollectionDetail from './CollectionDetail.vue'
 import type { CollectionWithMeta } from '@/types'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
@@ -55,17 +55,21 @@ const props = defineProps<{
 
 const isLoadingMeta = ref(false)
 const image = ref('')
+const banner = ref('')
 
 const { urlPrefix } = usePrefix()
 
 const getImageFromMetadata = async (collectionMetadata: string) => {
   isLoadingMeta.value = true
 
-  const metadata = (await processSingleMetadata(
-    collectionMetadata,
-  )) as TokenMetadata
+  const metadata = await processSingleMetadata<CollectionMetadata>(collectionMetadata)
 
-  image.value = sanitizeIpfsUrl(getCollectionImage(metadata) || '')
+  const metadataImage = getCollectionImage(metadata) || ''
+  const metadataBanner = metadata.banner || metadataImage
+
+  image.value = sanitizeIpfsUrl(metadataImage)
+  banner.value = sanitizeIpfsUrl(metadataBanner)
+
   isLoadingMeta.value = false
 }
 
@@ -76,9 +80,11 @@ onMounted(async () => {
 
   const meta = props.collection.meta
   const metaImage = meta ? getCollectionImage(meta) : undefined
+  const metaBanner = meta?.banner || metaImage
 
-  if (metaImage) {
+  if (metaImage && metaBanner) {
     image.value = sanitizeIpfsUrl(metaImage)
+    banner.value = sanitizeIpfsUrl(metaBanner)
   }
   else {
     getImageFromMetadata(props.collection.metadata)

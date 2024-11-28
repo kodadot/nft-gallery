@@ -14,13 +14,10 @@
 <script setup lang="ts">
 import EventRowDesktop from './eventRow/EventRowDesktop.vue'
 import EventRowTablet from './eventRow/EventRowTablet.vue'
-import type {
-  InteractionWithNFT,
-  Offer,
-} from '@/composables/collectionActivity/types'
+import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
 
 defineProps<{
-  event: InteractionWithNFT | Offer
+  event: InteractionWithNFT
   variant: 'Touch' | 'Desktop'
 }>()
 </script>
