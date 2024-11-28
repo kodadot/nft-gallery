@@ -67,7 +67,7 @@
         class="flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:my-[3.5rem]"
       >
         <div class="w-[300px]">
-          <OfferExpirationSelector
+          <TradeExpirationSelector
             v-model="swap.duration"
             position="auto"
             class="pt-2"
