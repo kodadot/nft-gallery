@@ -49,7 +49,7 @@
         </NeoDropdownItem>
       </template>
       <GalleryItemEditNftButton
-        v-if="isCollectionIssuer"
+        v-if="isCollectionOwner"
         :nft="nft"
       />
       <NeoDropdownItem disabled>
@@ -97,7 +97,7 @@ const props = defineProps<{
 const action = ref('')
 
 const isOwner = computed(() => accountId.value === props.nft?.currentOwner)
-const isCollectionIssuer = computed(() => accountId.value === props.nft?.collection?.issuer)
+const isCollectionOwner = computed(() => accountId.value === props.nft?.collection?.currentOwner)
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({
