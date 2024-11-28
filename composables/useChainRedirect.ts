@@ -1,6 +1,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { RawLocation } from 'vue-router/types/router'
 import { createVisible } from '@/utils/config/permission.config'
+import { arePrefixesOfSameVm } from '@/utils/config/chain.config'
 import { getss58AddressByPrefix } from '@/utils/account'
 
 const NO_REDIRECT_ROUTE_NAMES = [
@@ -12,6 +13,10 @@ const NO_REDIRECT_ROUTE_NAMES = [
   'blog-slug',
   'create-nft',
   'create-collection',
+]
+
+const REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES = [
+  'prefix-u-id',
 ]
 
 function isNoRedirect(routeName: string): boolean {
@@ -103,9 +108,14 @@ export default function () {
       return
     }
 
-    const isSimpleCreate = routeName.includes('-create')
-
     let redirectLocation: RawLocation = { path: `/${newChain}` }
+
+    if (!arePrefixesOfSameVm(route.params.prefix as Prefix, newChain) && REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES.includes(routeName)) {
+      router.push(redirectLocation)
+      return
+    }
+
+    const isSimpleCreate = routeName.includes('-create')
 
     if (route.params.prefix) {
       redirectLocation = getRedirectPathForPrefix({
