@@ -165,8 +165,6 @@ const onClickShoppingCart = () => {
 
 const onClickListingCart = () => listNftByNftWithMetadata(props.nft, { toggle: true })
 
-// select
-
 const selectLabel = computed(() => {
   const selected = showAtomicSwapAction.value ? isAtomicSwapItemSelected.value : listingCartStore.isItemInCart(props.nft.id)
   return selected ? $i18n.t('remove') : $i18n.t('select')

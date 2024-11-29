@@ -66,7 +66,6 @@ const { accountId } = useAuth()
 const traderAddress = ref('')
 
 const handleSubmit = async () => {
-  // check valid address
   await navigateTo({ name: 'prefix-swap-id', params: { id: traderAddress.value } })
 }
 </script>
