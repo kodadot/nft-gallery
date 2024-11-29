@@ -198,11 +198,11 @@ const onBack = async () => {
 
 const clearAll = () => {
   swapStore.updateStepItems([])
-  swap.value.surcharge = undefined
+  swapStore.updateSwap({ surcharge: undefined })
 }
 
 const addSurcharge = () => {
-  swap.value.surcharge = { amount: String(Number(amount.value) * Math.pow(10, decimals.value)), direction: stepDetails.value.surchargeDirection }
+  swapStore.updateSwap({ surcharge: { amount: String(Number(amount.value) * Math.pow(10, decimals.value)), direction: stepDetails.value.surchargeDirection } })
   amount.value = ''
 }
 
