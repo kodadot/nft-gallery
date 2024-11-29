@@ -15,8 +15,8 @@
     "@vitejs/plugin-vue": "^4.6.2",
     "autoprefixer": "^10.4.20",
     "histoire": "0.17.6",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.11"
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -24,7 +24,7 @@
     "@google/model-viewer": "^3.5.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.168.0",
-    "vue": "^3.5.6"
+    "three": "^0.171.0",
+    "vue": "^3.5.13"
   }
 }
