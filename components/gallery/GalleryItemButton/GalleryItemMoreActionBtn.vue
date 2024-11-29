@@ -48,7 +48,10 @@
           Delist
         </NeoDropdownItem>
       </template>
-      <GalleryItemEditNftButton :nft="nft" />
+      <GalleryItemEditNftButton
+        v-if="isCollectionOwner"
+        :nft="nft"
+      />
       <NeoDropdownItem disabled>
         Report
       </NeoDropdownItem>
@@ -94,6 +97,7 @@ const props = defineProps<{
 const action = ref('')
 
 const isOwner = computed(() => accountId.value === props.nft?.currentOwner)
+const isCollectionOwner = computed(() => accountId.value === props.nft?.collection?.currentOwner)
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({
