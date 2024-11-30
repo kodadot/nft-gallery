@@ -99,24 +99,24 @@ const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, Overv
   [TradeType.SWAP]: {
     incoming: {
       title: $i18n.t('swap.incomingSwap'),
-      signingTitle: $i18n.t('swap.acceptSwap'),
+      signingTitle: $i18n.t('transaction.acceptSwap'),
       notificationTitle: $i18n.t('swap.acceptSwap'),
     },
     owner: {
       title: $i18n.t('swap.yourSwap'),
-      signingTitle: $i18n.t('swap.cancelSwap'),
-      notificationTitle: $i18n.t('swap.cancelSwap'),
+      signingTitle: $i18n.t('transaction.withdrawSwap'),
+      notificationTitle: $i18n.t('swap.swapWithdrawl'),
     },
   },
   [TradeType.OFFER]: {
     incoming: {
       title: $i18n.t('offer.incomingOffer'),
-      signingTitle: $i18n.t('transaction.offerAccept'),
-      notificationTitle: $i18n.t('transaction.offerAccept'),
+      signingTitle: $i18n.t('transaction.acceptOffer'),
+      notificationTitle: $i18n.t('offer.offerAccept'),
     },
     owner: {
       title: $i18n.t('offer.yourOffer'),
-      signingTitle: $i18n.t('transaction.offerWithdraw'),
+      signingTitle: $i18n.t('transaction.withdrawOffer'),
       notificationTitle: $i18n.t('offer.offerWithdrawl'),
     },
   },
