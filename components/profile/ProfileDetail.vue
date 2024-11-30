@@ -619,7 +619,9 @@ const buttonConfig = computed<ButtonConfig>(() =>
 )
 
 const switchToTab = (tab: ProfileTab) => {
-  activeTab.value = tab
+  if (activeTab.value !== tab) {
+    activeTab.value = tab
+  }
 }
 
 const onFollowersClick = () => {
