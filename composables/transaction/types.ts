@@ -229,7 +229,7 @@ export type ActionAcceptOffer = {
   urlPrefix: Prefix
   nftId: string
   collectionId: string
-  offeredId: number
+  offeredId: string
   price: string
   successMessage?: string
   errorMessage?: string
