@@ -16,10 +16,12 @@
           :label="$t('mint.nft.art.label')"
           required
         >
-          <FormLogoField
-            v-model:file="image"
-            v-model:url="imageUrl"
-          />
+          <NonRecommendFieldNotification :show="imageChanged">
+            <FormLogoField
+              v-model:file="image"
+              v-model:url="imageUrl"
+            />
+          </NonRecommendFieldNotification>
         </NeoField>
 
         <!-- nft name -->
@@ -28,11 +30,13 @@
           required
           :error="!name"
         >
-          <NeoInput
-            v-model="name"
-            required
-            :placeholder="$t('mint.nft.name.placeholder')"
-          />
+          <NonRecommendFieldNotification :show="name && nameChanged">
+            <NeoInput
+              v-model="name"
+              required
+              :placeholder="$t('mint.nft.name.placeholder')"
+            />
+          </NonRecommendFieldNotification>
         </NeoField>
 
         <!-- nft description -->
@@ -91,17 +95,17 @@ const image = ref<File>()
 const imageUrl = ref<string>()
 const attributes = ref<Attribute[]>([])
 
+const nameChanged = computed(() => props.metadata?.name !== name.value)
+const imageChanged = computed(() => Boolean(image.value))
+
 const disabled = computed(() => {
   const hasImage = Boolean(imageUrl.value)
   const isNameFilled = Boolean(name.value)
-
-  const nameChanged = props.metadata?.name !== name.value
   const descriptionChanged = props.metadata?.description !== description.value
-  const imageChanged = Boolean(image.value)
   const attributesChanged = JSON.stringify(attributes.value) !== JSON.stringify(props.metadata?.attributes || [])
 
   return !hasImage || !isNameFilled
-    || (!nameChanged && !descriptionChanged && !imageChanged && !attributesChanged)
+    || (!nameChanged.value && !descriptionChanged && !imageChanged.value && !attributesChanged)
 })
 
 const editCollection = async () => {

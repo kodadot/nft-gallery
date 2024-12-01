@@ -1358,6 +1358,7 @@
         "message": "People will be able to buy your NFT."
       }
     },
+    "notRecommendedModify": "Please note that this value is not recommended to be modified as it may lead to misuse and confusion",
     "progress": "In Progress",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
     "royalty": {
