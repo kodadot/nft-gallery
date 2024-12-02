@@ -109,10 +109,10 @@ const getAction = (items: MakingOfferItem[]): ActionOffer => {
     urlPrefix: urlPrefix.value,
     token: items.map(item => ({
       price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
+      desiredItem: item.sn,
+      desiredCollectionId: item.collection.id,
       offeredItem: offeredItem.value,
-      collectionId: item.collection.id,
       duration: item.offerExpiration || 7,
-      nftSn: item.sn,
     } as TokenToOffer)),
   }
 }
