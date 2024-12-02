@@ -1,6 +1,6 @@
 import type { Actions } from '@/composables/transaction/types'
 
-export default ({
+export default <T = Actions>({
   getActionFn,
 }) => {
   const { decimals, chainSymbol } = useChain()
@@ -8,7 +8,7 @@ export default ({
   const autoTeleport = ref(false)
   const autoTeleportButton = ref()
   const autoTeleportLoaded = ref(false)
-  const action = ref<Actions>(emptyObject<Actions>())
+  const action = ref<T>(emptyObject<T>())
 
   const txFees = computed(() => autoTeleportButton.value?.optimalTransition.txFees || 0)
   const { formatted: formattedTxFees } = useAmount(txFees, decimals, chainSymbol)

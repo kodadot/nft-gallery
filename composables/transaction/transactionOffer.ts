@@ -1,3 +1,5 @@
+import type { ApiPromise } from '@polkadot/api'
+import type { SubmittableExtrinsic } from '@polkadot/api-base/types'
 import type { Prefix } from '@kodadot1/static'
 import type { ActionOffer } from './types'
 import { generateId } from '@/services/dyndata'
@@ -17,27 +19,34 @@ export const OFFER_MINT_PRICE = 5e8
 
 const BLOCKS_PER_DAY = 300 * 24 // 12sec /block --> 300blocks/hr
 
-async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
+async function execMakingOffer(item: ActionOffer, api: ApiPromise, executeTransaction) {
   const { accountId } = useAuth()
   const nfts = Array.isArray(item.token) ? item.token : [item.token]
   const transactions = await Promise.all(
-    nfts.map(async ({ price, nftSn, collectionId, duration }) => {
-      const offerId = getOfferCollectionId(item.urlPrefix as Prefix)
-      const nextId = Number.parseInt(await generateId())
-      const create = api.tx.nfts.mint(
-        offerId,
-        nextId,
-        accountId.value,
-        {
-          mintPrice: String(OFFER_MINT_PRICE),
-        },
-      )
+    nfts.map(async ({ price, nftSn: desiredItem, collectionId: desiredCollectionId, duration, offeredItem: offeredSn }) => {
+      const offeredCollectionId = getOfferCollectionId(item.urlPrefix as Prefix)
+      let offeredItem = Number(offeredSn)
+
+      const transactions: SubmittableExtrinsic<'promise'>[] = []
+
+      if (!offeredItem) {
+        offeredItem = Number.parseInt(await generateId())
+        const create = api.tx.nfts.mint(
+          offeredCollectionId,
+          offeredItem,
+          accountId.value,
+          {
+            mintPrice: String(OFFER_MINT_PRICE),
+          },
+        )
+        transactions.push(create)
+      }
 
       const offer = api.tx.nfts.createSwap(
-        offerId,
-        nextId,
-        collectionId,
-        nftSn,
+        offeredCollectionId,
+        offeredItem,
+        desiredCollectionId,
+        desiredItem,
         {
           amount: Number(price) || 0,
           direction: 'Send',
@@ -45,7 +54,9 @@ async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
         BLOCKS_PER_DAY * duration,
       )
 
-      return [create, offer]
+      transactions.push(offer)
+
+      return transactions
     }),
   )
 
