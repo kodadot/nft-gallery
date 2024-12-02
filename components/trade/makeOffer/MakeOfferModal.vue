@@ -77,7 +77,7 @@ import { hasOperationsDisabled } from '@/utils/prefix'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import { sum } from '@/utils/math'
-import { OFFER_MINT_PRICE } from '@/composables/transaction/transactionOffer'
+import { OFFER_MINT_PRICE, getOfferCollectionId } from '@/composables/transaction/transactionOffer'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -229,6 +229,12 @@ useModalIsOpenTracker({
       offers(where: {
         status_not_in: [ACTIVE, ACCEPTED]
         caller_eq: "${accountId.value}"
+        nft: {
+          currentOwner_eq: "${accountId.value}"
+          collection: {
+            id_eq: "${getOfferCollectionId(urlPrefix.value)}"
+          }
+        }
       }) {
         nft {
           sn
