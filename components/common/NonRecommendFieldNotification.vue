@@ -7,11 +7,11 @@
     >
       <NeoIcon
         icon="warning"
-        class="text-yellow-500 flex-shrink-0"
+        class="text-yellow-500"
         size="small"
       />
 
-      <div class="w-full">
+      <div>
         <p class="text-sm text-yellow-700">
           {{ $t('mint.notRecommendedModify') }}
         </p>
@@ -26,7 +26,6 @@
           >
             <NeoIcon
               icon="undo"
-              class="flex-shrink-0"
               size="small"
             />
             {{ $t('undo') }}
