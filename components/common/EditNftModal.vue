@@ -16,7 +16,10 @@
           :label="$t('mint.nft.art.label')"
           required
         >
-          <NonRecommendFieldNotification :show="imageChanged">
+          <NonRecommendFieldNotification
+            :show="imageChanged"
+            @undo="initImage"
+          >
             <FormLogoField
               v-model:file="image"
               v-model:url="imageUrl"
@@ -30,7 +33,10 @@
           required
           :error="!name"
         >
-          <NonRecommendFieldNotification :show="name && nameChanged">
+          <NonRecommendFieldNotification
+            :show="name && nameChanged"
+            @undo="name = props.metadata?.name"
+          >
             <NeoInput
               v-model="name"
               required
@@ -95,8 +101,15 @@ const image = ref<File>()
 const imageUrl = ref<string>()
 const attributes = ref<Attribute[]>([])
 
+const originalImageUrl = computed(() => sanitizeIpfsUrl(props.metadata?.image))
+
 const nameChanged = computed(() => props.metadata?.name !== name.value)
-const imageChanged = computed(() => Boolean(image.value))
+const imageChanged = computed(() => originalImageUrl.value !== imageUrl.value)
+
+const initImage = () => {
+  imageUrl.value = originalImageUrl.value
+  image.value = undefined
+}
 
 const disabled = computed(() => {
   const hasImage = Boolean(imageUrl.value)
@@ -122,8 +135,7 @@ const editCollection = async () => {
 
 watch(isModalActive, (value) => {
   if (value) {
-    imageUrl.value = sanitizeIpfsUrl(props.metadata?.image)
-    image.value = undefined
+    initImage()
     name.value = props.metadata?.name
     description.value = props.metadata?.description
     attributes.value = structuredClone(toRaw(props.metadata?.attributes || []))
