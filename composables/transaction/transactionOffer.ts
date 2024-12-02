@@ -23,7 +23,7 @@ async function execMakingOffer(item: ActionOffer, api: ApiPromise, executeTransa
   const { accountId } = useAuth()
   const nfts = Array.isArray(item.token) ? item.token : [item.token]
   const transactions = await Promise.all(
-    nfts.map(async ({ price, nftSn: desiredItem, collectionId: desiredCollectionId, duration, offeredItem: offeredSn }) => {
+    nfts.map(async ({ price, desiredItem, desiredCollectionId, duration, offeredItem: offeredSn }) => {
       const offeredCollectionId = getOfferCollectionId(item.urlPrefix as Prefix)
       let offeredItem = Number(offeredSn)
 
