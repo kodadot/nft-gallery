@@ -61,7 +61,7 @@
             early-success
             auto-close-modal
             :auto-close-modal-delay-modal="0"
-            @confirm="handleTransfer"
+            @confirm="submit"
           />
 
           <slot name="footer" />
@@ -146,7 +146,7 @@ const execTransaction = async () => {
   }
 }
 
-const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
+const submit = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
   try {
     clearTransaction()
 
