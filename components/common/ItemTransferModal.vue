@@ -22,7 +22,7 @@
         class="flex-1"
         placeholder="Enter wallet address"
         with-address-check
-        @check="handleAddressCheck"
+        @check="isValid => isAddressValid = isValid"
       />
     </template>
 
@@ -77,7 +77,7 @@ const transferItemLabel = computed(() => {
   return $i18n.t('transaction.transferNft')
 })
 
-const isYourAddress = computed(() => accountId.value === getChainAddress(address.value))
+const isYourAddress = computed(() => getChainAddress(accountId.value) === getChainAddress(address.value))
 const loading = computed(() => (isEvm(urlPrefix.value) ? !abi.value : false))
 
 const disabled = computed(
@@ -104,10 +104,6 @@ const getAction = (): ActionSend => ({
 const reset = () => {
   address.value = ''
   isAddressValid.value = false
-}
-
-const handleAddressCheck = (isValid: boolean) => {
-  isAddressValid.value = isValid
 }
 
 const getChainAddress = (value: string) => {
