@@ -6,7 +6,7 @@
       :is-loading="isLoading"
       :status="status"
       close-at-signed
-      @try-again="exectTransaction"
+      @try-again="execTransaction"
     />
 
     <NeoModal
@@ -137,6 +137,15 @@ const onClose = () => {
   closeModal()
 }
 
+const execTransaction = async () => {
+  try {
+    await transaction(action.value)
+  }
+  catch (error) {
+    warningMessage(error)
+  }
+}
+
 const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
   try {
     clearTransaction()
@@ -144,7 +153,7 @@ const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmE
     autoTeleport.value = autoteleport
 
     if (!autoteleport) {
-      await transaction(action.value)
+      await execTransaction()
     }
 
     closeModal()
