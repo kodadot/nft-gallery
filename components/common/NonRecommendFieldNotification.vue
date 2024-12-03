@@ -28,7 +28,7 @@
               icon="undo"
               size="small"
             />
-            {{ $t('undo') }}
+            {{ $t('general.undo') }}
           </NeoButton>
         </div>
       </div>
