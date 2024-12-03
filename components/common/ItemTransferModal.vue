@@ -2,8 +2,10 @@
   <UserCartModal
     ref="userCartModal"
     v-model="isModalActive"
+    :title="$t('transaction.transferNft', items.length)"
+    :signing-title="$t('transaction.transferingNft', items.length)"
     :get-action="getAction"
-    :label="transferItemLabel"
+    :label="label"
     :disabled
     :loading
     @reset="reset"
@@ -64,7 +66,7 @@ const items = computed(() => userCartModal.value?.items || [] as ListCartItem[])
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
 
-const transferItemLabel = computed(() => {
+const label = computed(() => {
   if (!address.value) {
     return $i18n.t('transaction.inputAddressFirst')
   }

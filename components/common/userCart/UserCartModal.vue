@@ -2,7 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
-      :title="$t('transaction.transferingNft', items.length)"
+      :title="signingTitle"
       :is-loading="isLoading"
       :status="status"
       close-at-signed
@@ -16,7 +16,7 @@
     >
       <ModalBody
         modal-max-height="100vh"
-        :title="$t('transaction.transferNft', items.length)"
+        :title="title"
         content-class="!py-4 !px-8"
         :scrollable="false"
         :loading="loading"
@@ -87,6 +87,8 @@ const props = defineProps<{
   label: string
   disabled?: boolean
   loading?: boolean
+  title: string
+  signingTitle: string
 }>()
 
 const isModalActive = defineModel({ type: Boolean, required: true })
@@ -172,7 +174,7 @@ useTransactionNotification({
   init: () => {
     return notification(({ isSessionState, notify, session }) => {
       return notify({
-        title: ref($i18n.t('transaction.transferingNft', items.value.length)),
+        title: ref(props.signingTitle),
         state: computed(() => session?.value.state as LoadingNotificationState),
         action: computed<NotificationAction | undefined>(() => {
           return isSessionState('succeeded')
