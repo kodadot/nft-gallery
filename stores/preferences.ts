@@ -41,12 +41,14 @@ type NewsletterSubscription = {
   email?: string
 }
 
+export type UserCartMode = 'transfer'
+
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
-  itemTransferCartModalOpen: boolean
+  userCartModal: { open: boolean, mode: UserCartMode } | undefined
   makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
@@ -81,7 +83,7 @@ export const usePreferencesStore = defineStore('preferences', {
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
     listingCartModalOpen: false,
-    itemTransferCartModalOpen: false,
+    userCartModal: undefined,
     makeOfferModalOpen: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {

@@ -43,9 +43,25 @@
             >
               <NeoButton
                 variant="outlined-rounded"
+                icon="fire-flame-simple"
+                :disabled="isItemTransferDisabled"
+                @click="preferencesStore.userCartModal = undefined"
+              >
+                {{ $t('burn') }}
+              </NeoButton>
+            </NeoTooltip>
+
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isItemTransferDisabled"
+              :label="$t('toast.unsupportedOperation')"
+            >
+              <NeoButton
+                variant="outlined-rounded"
                 icon="paper-plane-top"
                 :disabled="isItemTransferDisabled"
-                @click="preferencesStore.itemTransferCartModalOpen = true"
+                @click="preferencesStore.userCartModal = { open: true, mode: 'transfer' }"
               >
                 {{ $t('transfer') }}
               </NeoButton>

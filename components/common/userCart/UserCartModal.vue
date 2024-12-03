@@ -84,14 +84,13 @@ import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/a
 const emit = defineEmits(['reset'])
 const props = defineProps<{
   getAction: () => Actions
+  mode: UserCartMode
   label: string
   disabled?: boolean
   loading?: boolean
   title: string
   signingTitle: string
 }>()
-
-const isModalActive = defineModel({ type: Boolean, required: true })
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
@@ -108,6 +107,7 @@ const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedT
   getActionFn: props.getAction,
 })
 
+const isModalActive = computed(() => preferencesStore.userCartModal?.open && preferencesStore.userCartModal.mode === props.mode)
 const nft = computed(() => items.value[0])
 const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
   ? [
@@ -128,7 +128,7 @@ const loading = computed(() => (!autoTeleportLoaded.value || props.loading))
 const isDisabled = computed(() => hasOperationsDisabled(urlPrefix.value) || props.disabled)
 
 const closeModal = () => {
-  preferencesStore.itemTransferCartModalOpen = false
+  preferencesStore.userCartModal = undefined
   onModalAnimation(() => {
     listingCartStore.clearListedItems()
     emit('reset')

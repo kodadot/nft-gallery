@@ -1,7 +1,7 @@
 <template>
   <UserCartModal
     ref="userCartModal"
-    v-model="isModalActive"
+    mode="transfer"
     :title="$t('transaction.transferNft', items.length)"
     :signing-title="$t('transaction.transferingNft', items.length)"
     :get-action="getAction"
@@ -51,8 +51,6 @@ import { toSubstrateAddress } from '@/services/profile'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import type { ActionSend } from '@/composables/transaction/types'
 
-const preferencesStore = usePreferencesStore()
-
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
@@ -61,7 +59,6 @@ const userCartModal = ref()
 const address = ref('')
 const isAddressValid = ref(false)
 
-const isModalActive = computed(() => preferencesStore.itemTransferCartModalOpen)
 const items = computed(() => userCartModal.value?.items || [] as ListCartItem[])
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
