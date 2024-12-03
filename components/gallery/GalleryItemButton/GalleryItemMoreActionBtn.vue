@@ -73,7 +73,6 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { refreshOdaTokenMetadata } from '@/services/oda'
-import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
 import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 

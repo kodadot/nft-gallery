@@ -6,7 +6,7 @@
       :is-loading="isLoading"
       :status="status"
       close-at-signed
-      @try-again="itemTransfer"
+      @try-again="exectTransaction"
     />
 
     <NeoModal
@@ -26,33 +26,19 @@
           <ModalIdentityItem />
 
           <div>
-            <ItemTransferSingleItem
+            <UserCartSingleItem
               v-if="items.length === 1"
               class="!mt-4"
               :item="nft"
             />
-            <ItemTransferMultipleItems
+            <UserCartMultipleItems
               v-else
               class="!mt-8"
               :items="items"
             />
           </div>
 
-          <hr class="my-4">
-
-          <h2 class="mb-2 font-bold text-text-color capitalize">
-            {{ $t('transaction.transferTo') }}
-          </h2>
-
-          <AddressInput
-            v-model="address"
-            :is-invalid="isYourAddress"
-            label=""
-            class="flex-1"
-            placeholder="Enter wallet address"
-            with-address-check
-            @check="handleAddressCheck"
-          />
+          <slot name="body" />
         </div>
 
         <div class="pt-12 flex flex-col">
@@ -68,7 +54,7 @@
             :fees="{ forceActionAutoFees: true }"
             :actions="actions"
             :disabled="isDisabled"
-            :label="transferItemLabel"
+            :label="label"
             variant="primary"
             no-shadow
             with-shortcut
@@ -78,17 +64,7 @@
             @confirm="handleTransfer"
           />
 
-          <div class="mt-3 flex justify-between text-k-grey">
-            <NeoIcon
-              icon="circle-info"
-              size="small"
-              class="mr-4"
-            />
-
-            <p class="text-xs">
-              {{ $t('transaction.wrongAddressCannotRecoveredWarning') }}
-            </p>
-          </div>
+          <slot name="footer" />
         </div>
       </ModalBody>
     </NeoModal>
@@ -96,53 +72,41 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoModal } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import { toSubstrateAddress } from '@/services/profile'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import AddressInput from '@/components/shared/AddressInput.vue'
 import type { Actions } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
+const emit = defineEmits(['reset'])
+const props = defineProps<{
+  getAction: () => Actions
+  label: string
+  disabled?: boolean
+  loading?: boolean
+}>()
+
+const isModalActive = defineModel({ type: Boolean, required: true })
+
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
+
+const items = ref<ListCartItem[]>([])
+
 const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction, txHash } = useTransaction()
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-
-const address = ref('')
-const isAddressValid = ref(false)
-const items = ref<ListCartItem[]>([])
-
-const nft = computed(() => items.value[0])
-
-const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
-
-const getAction = (): Actions => ({
-  interaction: Interaction.SEND,
-  urlPrefix: urlPrefix.value,
-  address: address.value,
-  abi: abi.value,
-  nfts: items.value.map(item => ({
-    id: item.id,
-    sn: item.sn,
-    collectionId: item.collection.id,
-  })),
-  successMessage: $i18n.t('transaction.item.success') as string,
-  errorMessage: $i18n.t('transaction.item.error') as string,
-})
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
-  getActionFn: getAction,
+  getActionFn: props.getAction,
 })
 
+const nft = computed(() => items.value[0])
 const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
   ? [
       {
@@ -158,75 +122,19 @@ const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
     ]
   : [])
 
-const isModalActive = computed(() => preferencesStore.itemTransferCartModalOpen)
-
-const transferItemLabel = computed(() => {
-  if (!address.value) {
-    return $i18n.t('transaction.inputAddressFirst')
-  }
-  if (!isAddressValid.value) {
-    return $i18n.t('transaction.addressIncorrect')
-  }
-  if (isYourAddress.value) {
-    return $i18n.t('transaction.selfTransfer')
-  }
-  return $i18n.t('transaction.transferNft')
-})
-
-const isYourAddress = computed(
-  () => accountId.value === getChainAddress(address.value),
-)
-
-const loading = computed(() => (
-  !autoTeleportLoaded.value
-  || (isEvm(urlPrefix.value) ? !abi.value : false)
-))
-
-const isDisabled = computed(
-  () =>
-    hasOperationsDisabled(urlPrefix.value)
-    || !address.value
-    || !isAddressValid.value
-    || isYourAddress.value,
-)
-
-const reset = () => {
-  address.value = ''
-  isAddressValid.value = false
-}
+const loading = computed(() => (!autoTeleportLoaded.value || props.loading))
+const isDisabled = computed(() => hasOperationsDisabled(urlPrefix.value) || props.disabled)
 
 const closeModal = () => {
   preferencesStore.itemTransferCartModalOpen = false
   onModalAnimation(() => {
     listingCartStore.clearListedItems()
-    reset()
+    emit('reset')
   })
 }
 
 const onClose = () => {
   closeModal()
-}
-
-const handleAddressCheck = (isValid: boolean) => {
-  isAddressValid.value = isValid
-}
-
-const getChainAddress = (value: string) => {
-  try {
-    return toSubstrateAddress(value)
-  }
-  catch (error) {
-    return null
-  }
-}
-
-const itemTransfer = async () => {
-  try {
-    await transaction(action.value)
-  }
-  catch (error) {
-    warningMessage(error)
-  }
 }
 
 const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
@@ -236,7 +144,7 @@ const handleTransfer = async ({ autoteleport }: AutoTeleportActionButtonConfirmE
     autoTeleport.value = autoteleport
 
     if (!autoteleport) {
-      await itemTransfer()
+      await transaction(action.value)
     }
 
     closeModal()
@@ -281,4 +189,6 @@ useModalIsOpenTracker({
 })
 
 onBeforeMount(closeModal)
+
+defineExpose({ items })
 </script>
