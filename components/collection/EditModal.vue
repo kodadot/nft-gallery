@@ -171,9 +171,9 @@ const disabled = computed(() => {
 
   const nameChanged = props.collection.name !== name.value
   const descriptionChanged = props.collection.description !== description.value
-  const hasImageChanged = (!imageUrl.value && Boolean(props.collection?.image)) || Boolean(image.value)
-  const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection?.banner)) || Boolean(banner.value)
-  const hasMaxChanged = max.value !== props.collection?.max
+  const hasImageChanged = (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value)
+  const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
+  const hasMaxChanged = max.value !== props.collection.max
 
   return !hasImage || !isNameFilled || (!nameChanged && !descriptionChanged && !hasImageChanged && !hasBannerChanged && !hasMaxChanged)
 })
