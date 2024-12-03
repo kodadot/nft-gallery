@@ -26,7 +26,7 @@ async function execCreateSwapStatmine({ item, api, executeTransaction, isLoading
               amount,
               direction: item.surcharge.direction,
             }
-          : undefined,
+          : null,
         BLOCKS_PER_DAY * item.duration,
       )
 
