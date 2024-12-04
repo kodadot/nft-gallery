@@ -6,6 +6,7 @@ export enum ProfileTab {
   COLLECTIONS = 'collections',
   ACTIVITY = 'activity',
   OFFERS = 'offers',
+  SWAPS = 'swaps',
 }
 
 export interface ButtonConfig {

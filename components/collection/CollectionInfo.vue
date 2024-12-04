@@ -169,7 +169,9 @@ const visibleDescription = computed(() => {
   )
 })
 
-const { stats } = useCollectionDetails({
+const { stats, refetch } = useCollectionDetails({
   collectionId: computed(() => props.collectionId),
 })
+
+defineExpose({ refetch })
 </script>

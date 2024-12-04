@@ -30,6 +30,7 @@ const constants = {
   localP5JsRegex: /<script.*src="(?!http)([^"]*p5[^"]*\.js)"/,
   titleTagRegex: /<title>(.*?)<\/title>/,
   kodaRendererRegex: /kodahash\/render\/completed/,
+  kodaRendererCalledRegex: /(?<!function\s)postMessageKoda\s*\(/,
   resizerRegex: /resizeCanvas\(/,
   disallowedTitle: 'KodaHash',
 }
@@ -37,7 +38,8 @@ const constants = {
 const validateCanvasCreation = (
   sketchFileContent: string,
 ): Result<RegExpExecArray> => {
-  const canvasMatch = constants.canvasRegex.exec(sketchFileContent)
+  // Create a new regex instance to avoid issues with lastIndex when using the global flag.
+  const canvasMatch = new RegExp(constants.canvasRegex).exec(sketchFileContent)
   if (!canvasMatch) {
     return { isSuccess: false, error: 'createCanvas function not found.' }
   }
@@ -141,7 +143,7 @@ const validateSketchContent = (
     canvasSize,
     localP5jsUsed: false, // This will be set based on HTML content checks
     validTitle: false, // This will be updated after HTML content checks
-    kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent),
+    kodaRendererUsed: constants.kodaRendererRegex.test(sketchFileContent) && constants.kodaRendererCalledRegex.test(sketchFileContent),
     resizerUsed: constants.resizerRegex.test(sketchFileContent),
     usesHashParam: validateURLParamsUsage(sketchFileContent).isSuccess,
   }

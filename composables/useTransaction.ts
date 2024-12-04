@@ -10,12 +10,15 @@ import {
   execBurnMultiple,
   execBurnTx,
 } from './transaction/transactionBurn'
+import { execWithdrawSwap } from './transaction/transactionSwapWithdraw'
+import { execAcceptSwap } from './transaction/transactionSwapAccept'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
-import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
+import { execUpdateCollection } from './transaction/transactionUpdateCollection'
+import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import type {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
@@ -28,13 +31,16 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionSend,
-  ActionSetCollectionMaxSupply,
+  ActionUpdateCollection,
+  ActionSetNftMetadata,
   ActionWithdrawOffer,
   Actions,
   ExecuteEvmTransactionParams,
   ExecuteSubstrateTransactionParams,
   ExecuteTransactionParams,
   ObjectMessage,
+  ActionWithdrawSwap,
+  ActionAcceptSwap,
 } from './transaction/types'
 import { Collections, NFTs } from './transaction/types'
 import { isActionValid } from './transaction/utils'
@@ -225,6 +231,10 @@ export const executeAction = ({
       execSendTx(item as ActionSend, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
       execBurnTx(item as ActionConsume, api, executeTransaction),
+    [ShoppingActions.WITHDRAW_SWAP]: () =>
+      execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
+    [ShoppingActions.ACCEPT_SWAP]: () =>
+      execAcceptSwap(item as ActionAcceptSwap, api!, executeTransaction),
     [ShoppingActions.WITHDRAW_OFFER]: () =>
       execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>
@@ -253,18 +263,28 @@ export const executeAction = ({
         api as ApiPromise,
         executeTransaction,
       ),
-    [Collections.SET_MAX_SUPPLY]: () =>
-      execSetCollectionMaxSupply(
-        item as ActionSetCollectionMaxSupply,
-        api,
+    [Collections.UPDATE_COLLECTION]: () =>
+      execUpdateCollection({
+        item: item as ActionUpdateCollection,
+        api: api as ApiPromise,
         executeTransaction,
-      ),
+        isLoading,
+        status,
+      }),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(
         item as ActionBurnMultipleNFTs,
         api as ApiPromise,
         executeTransaction,
       ),
+    [NFTs.SET_METADATA]: () =>
+      execSetNftMetadata({
+        item: item as ActionSetNftMetadata,
+        api: api as ApiPromise,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [NFTs.MINT_DROP]: () =>
       execMintDrop({
         item: item as ActionMintDrop,

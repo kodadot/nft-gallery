@@ -57,7 +57,7 @@ export async function constructMeta(
     file.type,
   )
 
-  const metaHash = await pinJson(meta, imageHash)
+  const metaHash = await pinJson(meta)
   preheatFileFromIPFS(fileHash)
   uploadDirectWhenMultiple(
     [file, secondFile],

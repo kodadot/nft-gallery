@@ -2,6 +2,7 @@ fragment collectionDetails on CollectionEntity {
   name
   meta {
     image
+    banner
   }
   # max
 }
