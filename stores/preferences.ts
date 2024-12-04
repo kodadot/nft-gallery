@@ -241,6 +241,9 @@ export const usePreferencesStore = defineStore('preferences', {
     setNewsletterSubscription(subscription: NewsletterSubscription) {
       this.newsletterSubscription = subscription
     },
+    setOpenedUserCartModal(mode: UserCartMode) {
+      this.userCartModal = { mode, open: true }
+    },
   },
   persist: true,
 })

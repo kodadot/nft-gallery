@@ -10,17 +10,18 @@
 </template>
 
 <script setup lang="ts">
-import { type ActionBurnMultipleNFTs, NFTs } from '@/composables/transaction/types'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { type ActionConsume } from '@/composables/transaction/types'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
-const userCartModal = ref()
+const userCartModal = ref<{ items: ListCartItem[] }>()
 
-const items = computed(() => userCartModal.value?.items || [] as ListCartItem[])
+const items = computed(() => userCartModal.value?.items || [])
 
-const getAction = (): ActionBurnMultipleNFTs => ({
-  interaction: NFTs.BURN_MULTIPLE,
+const getAction = (): ActionConsume => ({
+  interaction: Interaction.CONSUME,
   nftIds: items.value.map(item => item.id),
   urlPrefix: urlPrefix.value,
   successMessage: $i18n.t('transaction.item.success') as string,

@@ -5,134 +5,74 @@ import {
 } from '@kodadot1/minimark/v2'
 import type { ApiPromise } from '@polkadot/api'
 import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
-import type { Prefix } from '@kodadot1/static'
+import type { SubmittableExtrinsicFunction } from '@polkadot/api-base/types'
 import type {
   ActionDeleteCollection,
   ExecuteSubstrateTransactionParams,
-  ActionBurnMultipleNFTs, ActionConsume,
+  ActionConsume,
   ExecuteTransaction,
   Abi,
 } from '@/composables/transaction/types'
-
 import { warningMessage } from '@/utils/notification'
-
 import { isLegacy } from '@/components/unique/utils'
 import {
   assetHubParamResolver,
+  destructTokenId,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
 
 function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction) {
+  const { collectionId, nftSn } = destructTokenId(item.nftIds[0])
+
   executeTransaction({
-    address: item.collectionId,
+    address: collectionId,
     abi: item.abi as Abi,
     functionName: 'burn',
-    arg: [item.nftSn],
+    arg: [nftSn],
   })
 }
 
-export function execBurnTx(item: ActionConsume, api, executeTransaction) {
-  if (isEvm(item.urlPrefix as Prefix)) {
+function execBurnAssetHub(item: ActionConsume, api: ApiPromise, executeTransaction: ExecuteTransaction) {
+  const getApiCallParams = (nftId: string) => {
+    const legacy = isLegacy(nftId)
+    const paramResolver = assetHubParamResolver(legacy)
+
+    const apiCall = getApiCall(api, item.urlPrefix, Interaction.CONSUME)
+    const params = paramResolver(nftId, Interaction.CONSUME, '')
+
+    return { apiCall, params }
+  }
+
+  let cb: SubmittableExtrinsicFunction<'promise'>, arg
+
+  if (item.nftIds.length > 1) {
+    cb = api.tx.utility.batch
+    arg = [
+      item.nftIds.map((nftId) => {
+        const { apiCall, params } = getApiCallParams(nftId)
+        return apiCall(...params)
+      }),
+    ]
+  }
+  else {
+    ({ apiCall: cb, params: arg } = getApiCallParams(item.nftIds[0]))
+  }
+
+  executeTransaction({
+    cb,
+    arg,
+    successMessage: item.successMessage,
+    errorMessage: item.errorMessage,
+  })
+}
+
+export function execBurn(item: ActionConsume, api, executeTransaction) {
+  if (isEvm(item.urlPrefix)) {
     return execBurnEvm(item, executeTransaction)
   }
 
-  if (item.urlPrefix === 'rmrk') {
-    executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [createInteraction(Interaction.CONSUME, item.nftId, '')],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
-  if (item.urlPrefix === 'ksm') {
-    executeTransaction({
-      cb: api.tx.system.remark,
-      arg: [
-        createNewInteraction({
-          action: NewInteraction.BURN,
-          payload: { id: item.nftId },
-        }),
-      ],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
-  // item.urlPrefix === 'ahr'
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    const legacy = isLegacy(item.nftId)
-    const paramResolver = assetHubParamResolver(legacy)
-    executeTransaction({
-      cb: getApiCall(api, item.urlPrefix, Interaction.CONSUME),
-      arg: paramResolver(item.nftId, Interaction.CONSUME, ''),
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-}
-
-export function execBurnMultiple(
-  item: ActionBurnMultipleNFTs,
-  api: ApiPromise,
-  executeTransaction: ({
-    cb,
-    arg: [arg],
-    successMessage,
-    errorMessage,
-  }: ExecuteSubstrateTransactionParams) => void,
-) {
-  const cb = api.tx.utility.batch
-
-  if (item.urlPrefix === 'rmrk') {
-    const arg = item.nftIds.map((nftId) => {
-      return api.tx.system.remark(
-        createInteraction(Interaction.CONSUME, nftId, ''),
-      )
-    })
-
-    executeTransaction({
-      cb,
-      arg: [arg],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-
-  if (item.urlPrefix === 'ksm') {
-    const arg = item.nftIds.map((nftId) => {
-      return api.tx.system.remark(
-        createNewInteraction({
-          action: NewInteraction.BURN,
-          payload: { id: nftId },
-        }),
-      )
-    })
-
-    executeTransaction({
-      cb,
-      arg: [arg],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
-  }
-  // item.urlPrefix === 'ahr'
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    const arg = item.nftIds.map((nftId) => {
-      const legacy = isLegacy(nftId)
-      const paramResolver = assetHubParamResolver(legacy)
-      const apiCall = getApiCall(api, item.urlPrefix, Interaction.CONSUME)
-      const params = paramResolver(nftId, Interaction.CONSUME, '')
-
-      return apiCall(...params)
-    })
-
-    executeTransaction({
-      cb,
-      arg: [arg],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
+  if (isAssetHub(item.urlPrefix)) {
+    return execBurnAssetHub(item, api, executeTransaction)
   }
 }
 

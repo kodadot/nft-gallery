@@ -39,7 +39,7 @@
               v-if="isBurnAvailable"
               variant="outlined-rounded"
               icon="fire-flame-simple"
-              @click="preferencesStore.userCartModal = { open: true, mode: 'burn' }"
+              @click="preferencesStore.setOpenedUserCartModal('burn')"
             >
               {{ $t('burn') }}
             </NeoButton>
@@ -54,7 +54,7 @@
                 variant="outlined-rounded"
                 icon="paper-plane-top"
                 :disabled="isItemTransferDisabled"
-                @click="preferencesStore.userCartModal = { open: true, mode: 'transfer' }"
+                @click="preferencesStore.setOpenedUserCartModal('transfer')"
               >
                 {{ $t('transfer') }}
               </NeoButton>
