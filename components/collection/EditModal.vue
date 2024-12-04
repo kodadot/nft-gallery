@@ -24,7 +24,7 @@
           />
         </NeoField>
 
-        <!-- nft description -->
+        <!-- collection description -->
         <NeoField :label="$t('mint.collection.description.label')">
           <NeoInput
             v-model="description"
