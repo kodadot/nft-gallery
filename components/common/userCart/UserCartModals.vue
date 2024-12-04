@@ -1,0 +1,4 @@
+<template>
+  <ItemTransferModal />
+  <ItemBurnModal />
+</template>

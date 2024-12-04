@@ -17,7 +17,7 @@
       <ModalBody
         modal-max-height="100vh"
         :title="title"
-        content-class="!py-4 !px-8"
+        content-class="!pt-4 !pb-5 !px-8"
         :scrollable="false"
         :loading="loading"
         @close="onClose"
@@ -107,7 +107,7 @@ const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedT
   getActionFn: props.getAction,
 })
 
-const isModalActive = computed(() => preferencesStore.userCartModal?.open && preferencesStore.userCartModal.mode === props.mode)
+const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.open && preferencesStore.userCartModal?.mode === props.mode))
 const nft = computed(() => items.value[0])
 const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
   ? [

@@ -3,7 +3,6 @@ import type { PartialConfig, Prefix } from './types'
 const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
-  rmrk: false,
 }
 
 const hasInsight: PartialConfig = {
@@ -24,7 +23,6 @@ const hasMassmintCreate: PartialConfig = {
 
 const hasExplorer: PartialConfig = {
   dot: false,
-  rmrk: false,
   ksm: false,
 }
 
@@ -70,4 +68,8 @@ export const dropsVisible = (prefix: Prefix | string) => {
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
   return hasExplorer[prefix] ?? true
+}
+
+export const burnVisible = (prefix: Prefix | string): boolean => {
+  return isSub(prefix as Prefix)
 }

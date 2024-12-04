@@ -1289,7 +1289,7 @@
         "label": "Your Awesome Art",
         "message": "This can be image, video, audio, 3D model"
       },
-      "burning": "Burning NFT",
+      "burning": "Burning NFT | Burning NFTs",
       "collection": {
         "label": "Select Collection",
         "message": "Choose a collection to which you want to mint your NFT."
@@ -1946,6 +1946,7 @@
   },
   "transaction": {
     "addressIncorrect": "Address Incorrect",
+    "burnNft": "Burn NFT | Burn NFTs",
     "buy": { "error": "Failed to buy this item" },
     "consume": { "error": "Failed to burn item", "success": "Item burned" },
     "inputAddressFirst": "Input address first",

@@ -35,21 +35,14 @@
           </div>
 
           <div class="flex gap-4">
-            <NeoTooltip
-              class="cursor-pointer"
-              position="top"
-              :active="isItemTransferDisabled"
-              :label="$t('toast.unsupportedOperation')"
+            <NeoButton
+              v-if="isBurnAvailable"
+              variant="outlined-rounded"
+              icon="fire-flame-simple"
+              @click="preferencesStore.userCartModal = { open: true, mode: 'burn' }"
             >
-              <NeoButton
-                variant="outlined-rounded"
-                icon="fire-flame-simple"
-                :disabled="isItemTransferDisabled"
-                @click="preferencesStore.userCartModal = undefined"
-              >
-                {{ $t('burn') }}
-              </NeoButton>
-            </NeoTooltip>
+              {{ $t('burn') }}
+            </NeoButton>
 
             <NeoTooltip
               class="cursor-pointer"
@@ -92,12 +85,13 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { listVisible } from '@/utils/config/permission.config'
+import { listVisible, burnVisible } from '@/utils/config/permission.config'
 
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
 
+const isBurnAvailable = computed(() => burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
