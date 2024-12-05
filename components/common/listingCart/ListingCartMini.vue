@@ -35,14 +35,21 @@
           </div>
 
           <div class="flex gap-4">
-            <NeoButton
-              v-if="isBurnAvailable"
-              variant="outlined-rounded"
-              icon="fire-flame-simple"
-              @click="preferencesStore.setOpenedUserCartModal('burn')"
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
+              :active="isItemBurnDisabled"
+              :label="$t('toast.unsupportedOperation')"
             >
-              {{ $t('burn') }}
-            </NeoButton>
+              <NeoButton
+                variant="outlined-rounded"
+                icon="fire-flame-curved"
+                :disabled="isItemBurnDisabled"
+                @click="preferencesStore.setOpenedUserCartModal('burn')"
+              >
+                {{ $t('burn') }}
+              </NeoButton>
+            </NeoTooltip>
 
             <NeoTooltip
               class="cursor-pointer"
@@ -90,8 +97,9 @@ import { listVisible, burnVisible } from '@/utils/config/permission.config'
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
+const { isEvm } = useIsChain(urlPrefix)
 
-const isBurnAvailable = computed(() => burnVisible(urlPrefix.value))
+const isItemBurnDisabled = computed(() => isEvm.value ? listingCartStore.count > 1 : !burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
