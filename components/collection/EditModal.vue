@@ -17,11 +17,16 @@
           required
           :error="!name"
         >
-          <NeoInput
-            v-model="name"
-            required
-            :placeholder="$t('mint.collection.name.placeholder')"
-          />
+          <NonRecommendFieldNotification
+            :show="name && nameChanged"
+            @undo="name = props.collection.name"
+          >
+            <NeoInput
+              v-model="name"
+              required
+              :placeholder="$t('mint.collection.name.placeholder')"
+            />
+          </NonRecommendFieldNotification>
         </NeoField>
 
         <!-- collection description -->
@@ -36,11 +41,16 @@
           />
         </NeoField>
         <CollectionEditSection :title="$t('edit.collection.image.label')">
-          <FormLogoField
-            v-model:file="image"
-            v-model:url="imageUrl"
-            :title="$t('edit.collection.image.message')"
-          />
+          <NonRecommendFieldNotification
+            :show="hasImageChanged"
+            @undo="initLogoImage"
+          >
+            <FormLogoField
+              v-model:file="image"
+              v-model:url="imageUrl"
+              :title="$t('edit.collection.image.message')"
+            />
+          </NonRecommendFieldNotification>
         </CollectionEditSection>
 
         <CollectionEditSection :title="$t('edit.collection.banner.label')">
@@ -165,18 +175,25 @@ const unlimited = ref(true)
 const min = computed(() => props.min || 1)
 const max = ref<number | null>(null)
 
+const nameChanged = computed(() => props.collection.name !== name.value)
+const hasImageChanged = computed(() => (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value))
+const originalLogoImageUrl = computed(() => sanitizeIpfsUrl(props.collection.image))
+
 const disabled = computed(() => {
   const hasImage = imageUrl.value
   const isNameFilled = Boolean(name.value)
 
-  const nameChanged = props.collection.name !== name.value
   const descriptionChanged = props.collection.description !== description.value
-  const hasImageChanged = (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value)
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection.max
 
-  return !hasImage || !isNameFilled || (!nameChanged && !descriptionChanged && !hasImageChanged && !hasBannerChanged && !hasMaxChanged)
+  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged)
 })
+
+const initLogoImage = () => {
+  imageUrl.value = originalLogoImageUrl.value
+  image.value = undefined
+}
 
 const editCollection = async () => {
   emit('submit', {
@@ -193,10 +210,9 @@ watch(isModalActive, (value) => {
   if (value && props.collection) {
     name.value = props.collection.name
     description.value = props.collection.description
-    imageUrl.value = sanitizeIpfsUrl(props.collection.image)
     bannerUrl.value = props.collection.banner && sanitizeIpfsUrl(props.collection.banner)
-    image.value = undefined
     banner.value = undefined
+    initLogoImage()
     unlimited.value = !props.collection.max
     max.value = props.collection.max
   }
