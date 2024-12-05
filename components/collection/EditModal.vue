@@ -155,14 +155,23 @@
                   position="left"
                 />
               </div>
-              <NeoInput
+              <div
                 v-if="!mintingPriceUnset"
-                v-model="mintingPrice"
-                class="mt-3"
-                type="number"
-                :placeholder="$t('mint.collection.permission.pricePlaceholder')"
-                :min="0"
-              />
+                class="flex focus-within:!border-border-color border border-k-shade h-12 mt-3"
+              >
+                <input
+                  v-model="mintingPrice"
+                  type="number"
+                  step="0.01"
+                  min="0.0001"
+                  pattern="[0-9]+([\.,][0-9]+)?"
+                  class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color w-full"
+                  :placeholder="$t('mint.collection.permission.pricePlaceholder')"
+                >
+                <div class="px-3 flex items-center">
+                  {{ chainSymbol }}
+                </div>
+              </div>
             </div>
           </div>
         </NeoField>
@@ -207,6 +216,7 @@ const props = defineProps<{
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
+const { chainSymbol, decimals, withDecimals } = useChain()
 
 const name = ref<string>()
 const description = ref<string>()
@@ -225,7 +235,8 @@ const nameChanged = computed(() => props.collection.name !== name.value)
 const hasImageChanged = computed(() => (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value))
 const originalLogoImageUrl = computed(() => sanitizeIpfsUrl(props.collection.image))
 const mintTypeChanged = computed(() => selectedMintingType.value !== props.collection.mintingSettings.mintType)
-const mintPriceChanged = computed(() => mintingPrice.value !== Number(props.collection.mintingSettings.price))
+const mintPriceChanged = computed(() => mintingPrice.value !== originalMintPrice.value)
+const originalMintPrice = computed(() => props.collection.mintingSettings.price ? Number(props.collection.mintingSettings.price) / (10 ** decimals.value) : null)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -253,7 +264,7 @@ const editCollection = async () => {
     max: max.value,
     mintingSettings: {
       mintType: selectedMintingType.value,
-      price: mintingPriceUnset.value ? null : String(mintingPrice.value),
+      price: mintingPriceUnset.value ? null : String(withDecimals(mintingPrice.value || 0)),
     },
   } as UpdateCollection)
 }
@@ -271,17 +282,17 @@ watch(isModalActive, (value) => {
     // permission
     selectedMintingType.value = props.collection.mintingSettings.mintType
     mintingPriceUnset.value = !props.collection.mintingSettings.price
-    mintingPrice.value = Number(props.collection.mintingSettings.price) || null
+    mintingPrice.value = originalMintPrice.value || null
   }
 })
 
-watch([banner, unlimited, mintingPriceUnset], ([banner, unlimited, mintingPriceUnset]) => {
+watch([banner, unlimited, mintingPriceUnset], ([banner, unlimited, priceUnset]) => {
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
   max.value = unlimited ? null : max.value || props.collection.max
 
-  mintingPrice.value = mintingPriceUnset ? null : mintingPrice.value || Number(props.collection.mintingSettings.price)
+  mintingPrice.value = priceUnset ? null : originalMintPrice.value
 })
 </script>
