@@ -17,7 +17,7 @@
       <ModalBody
         modal-max-height="100vh"
         :title="title"
-        content-class="!pt-4 !pb-5 !px-8"
+        content-class="!pt-4 !pb-6 !px-8"
         :scrollable="false"
         :loading="loading"
         @close="onClose"
@@ -41,13 +41,15 @@
           <slot name="body" />
         </div>
 
-        <div class="pt-12 flex flex-col">
+        <div class="flex flex-col">
           <div class="flex text-k-grey justify-between items-center mb-4">
             <span class="text-xs capitalize">{{
               $t('transfers.networkFee')
             }}</span>
             <span class="text-xs">{{ formattedTxFees }}</span>
           </div>
+
+          <slot name="action-button-top" />
 
           <AutoTeleportActionButton
             ref="autoTeleportButton"
