@@ -1247,6 +1247,11 @@
         "message": "Name of your collection. It will be visible in the gallery",
         "placeholder": "Enter collection name"
       },
+      "permission": {
+        "label": "Collection Permission",
+        "noPriceSet": "No specified price set",
+        "pricePlaceholder": "specify the price of the items"
+      },
       "submit": "Create Collection",
       "symbol": {
         "label": "Symbol (short name)",
@@ -1283,6 +1288,7 @@
     "mass": "NFT mass minter",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
+    "mintType": "Mint Type",
     "nfsw": "Explicit content (NSFW)",
     "nfswMessage": "Set your collection as explicit and sensitive content.",
     "nft": {

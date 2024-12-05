@@ -125,6 +125,47 @@
             </div>
           </div>
         </NeoField>
+
+        <NeoField
+          :label="$t('mint.collection.permission.label')"
+        >
+          <div class="w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <p>
+                {{ $t('mint.mintType') }}
+              </p>
+              <NeoSelect
+                v-model="selectedMintingType"
+              >
+                <option
+                  v-for="menu in COLLECTION_MINTING_TYPES_OPTIONS"
+                  :key="menu.value"
+                  :value="menu.value"
+                >
+                  {{ menu.text }}
+                </option>
+              </NeoSelect>
+            </div>
+
+            <div>
+              <div class="flex justify-between">
+                <p>{{ $t('mint.collection.permission.noPriceSet') }}</p>
+                <NeoSwitch
+                  v-model="mintingPriceUnset"
+                  position="left"
+                />
+              </div>
+              <NeoInput
+                v-if="!mintingPriceUnset"
+                v-model="mintingPrice"
+                class="mt-3"
+                type="number"
+                :placeholder="$t('mint.collection.permission.pricePlaceholder')"
+                :min="0"
+              />
+            </div>
+          </div>
+        </NeoField>
       </form>
 
       <div class="flex flex-col !mt-6">
@@ -142,9 +183,9 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import type { UpdateCollection } from '@/composables/transaction/types'
+import type { UpdateCollection, CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
 
 export type CollectionEditMetadata = {
   name: string
@@ -153,7 +194,10 @@ export type CollectionEditMetadata = {
   imageType: string
   banner?: string
   max: number | null
+  mintingSettings: CollectionMintSetting
 }
+
+const COLLECTION_MINTING_TYPES_OPTIONS = ['Issuer', 'Public', 'HolderOf'].map(type => ({ value: type as CollectionMintSettingType, text: type }))
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{
@@ -171,13 +215,17 @@ const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
 const unlimited = ref(true)
-
+const mintingPriceUnset = ref(true)
+const mintingPrice = ref<number | null>(null)
+const selectedMintingType = ref<CollectionMintSettingType | null>(null)
 const min = computed(() => props.min || 1)
 const max = ref<number | null>(null)
 
 const nameChanged = computed(() => props.collection.name !== name.value)
 const hasImageChanged = computed(() => (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value))
 const originalLogoImageUrl = computed(() => sanitizeIpfsUrl(props.collection.image))
+const mintTypeChanged = computed(() => selectedMintingType.value !== props.collection.mintingSettings.mintType)
+const mintPriceChanged = computed(() => mintingPrice.value !== Number(props.collection.mintingSettings.price))
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -187,7 +235,7 @@ const disabled = computed(() => {
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection.max
 
-  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged)
+  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged && !mintTypeChanged.value && !mintPriceChanged.value)
 })
 
 const initLogoImage = () => {
@@ -203,6 +251,10 @@ const editCollection = async () => {
     imageType: props.collection.imageType,
     banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
     max: max.value,
+    mintingSettings: {
+      mintType: selectedMintingType.value,
+      price: mintingPriceUnset.value ? null : String(mintingPrice.value),
+    },
   } as UpdateCollection)
 }
 
@@ -215,14 +267,21 @@ watch(isModalActive, (value) => {
     initLogoImage()
     unlimited.value = !props.collection.max
     max.value = props.collection.max
+
+    // permission
+    selectedMintingType.value = props.collection.mintingSettings.mintType
+    mintingPriceUnset.value = !props.collection.mintingSettings.price
+    mintingPrice.value = Number(props.collection.mintingSettings.price) || null
   }
 })
 
-watch([banner, unlimited], ([banner, unlimited]) => {
+watch([banner, unlimited, mintingPriceUnset], ([banner, unlimited, mintingPriceUnset]) => {
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
   max.value = unlimited ? null : max.value || props.collection.max
+
+  mintingPrice.value = mintingPriceUnset ? null : mintingPrice.value || Number(props.collection.mintingSettings.price)
 })
 </script>
