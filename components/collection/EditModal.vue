@@ -12,6 +12,29 @@
         class="flex flex-col gap-6"
         @submit.prevent
       >
+        <NeoField
+          :label="$t('mint.collection.name.label')"
+          required
+          :error="!name"
+        >
+          <NeoInput
+            v-model="name"
+            required
+            :placeholder="$t('mint.collection.name.placeholder')"
+          />
+        </NeoField>
+
+        <!-- collection description -->
+        <NeoField :label="$t('mint.collection.description.label')">
+          <NeoInput
+            v-model="description"
+            type="textarea"
+            has-counter
+            maxlength="1000"
+            height="10rem"
+            :placeholder="$t('mint.collection.description.placeholder')"
+          />
+        </NeoField>
         <CollectionEditSection :title="$t('edit.collection.image.label')">
           <FormLogoField
             v-model:file="image"
@@ -131,6 +154,8 @@ const props = defineProps<{
 
 const isModalActive = useVModel(props, 'modelValue')
 
+const name = ref<string>()
+const description = ref<string>()
 const image = ref<File>()
 const banner = ref<File>()
 const imageUrl = ref<string>()
@@ -142,18 +167,21 @@ const max = ref<number | null>(null)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
+  const isNameFilled = Boolean(name.value)
 
-  const hasImagechanged = (!imageUrl.value && Boolean(props.collection?.image)) || Boolean(image.value)
-  const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection?.banner)) || Boolean(banner.value)
-  const hasMaxChanged = max.value !== props.collection?.max
+  const nameChanged = props.collection.name !== name.value
+  const descriptionChanged = props.collection.description !== description.value
+  const hasImageChanged = (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value)
+  const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
+  const hasMaxChanged = max.value !== props.collection.max
 
-  return !hasImage || (!hasImagechanged && !hasBannerChanged && !hasMaxChanged)
+  return !hasImage || !isNameFilled || (!nameChanged && !descriptionChanged && !hasImageChanged && !hasBannerChanged && !hasMaxChanged)
 })
 
 const editCollection = async () => {
   emit('submit', {
-    name: props.collection.name,
-    description: props.collection.description,
+    name: name.value,
+    description: description.value,
     image: image.value || props.collection.image,
     imageType: props.collection.imageType,
     banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
@@ -163,6 +191,8 @@ const editCollection = async () => {
 
 watch(isModalActive, (value) => {
   if (value && props.collection) {
+    name.value = props.collection.name
+    description.value = props.collection.description
     imageUrl.value = sanitizeIpfsUrl(props.collection.image)
     bannerUrl.value = props.collection.banner && sanitizeIpfsUrl(props.collection.banner)
     image.value = undefined
