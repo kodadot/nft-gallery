@@ -83,6 +83,11 @@ import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTelep
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
+export type UserCartModalExpose = {
+  items: ListCartItem[]
+  abi: any
+}
+
 const emit = defineEmits(['reset'])
 const props = defineProps<{
   getAction: () => Actions
@@ -104,6 +109,7 @@ const { transaction, status, isLoading, isError, blockNumber, clear: clearTransa
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
+const { isEvm } = useIsChain(urlPrefix)
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
   getActionFn: props.getAction,
@@ -111,6 +117,8 @@ const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedT
 
 const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.open && preferencesStore.userCartModal?.mode === props.mode))
 const nft = computed(() => items.value[0])
+const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
+
 const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
   ? [
       {
@@ -126,7 +134,8 @@ const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
     ]
   : [])
 
-const loading = computed(() => (!autoTeleportLoaded.value || props.loading))
+const loadingAbi = computed(() => (isEvm.value ? !abi.value : false))
+const loading = computed(() => (!autoTeleportLoaded.value || props.loading || loadingAbi.value))
 const isDisabled = computed(() => hasOperationsDisabled(urlPrefix.value) || props.disabled)
 
 const closeModal = () => {
@@ -203,5 +212,5 @@ useModalIsOpenTracker({
 
 onBeforeMount(closeModal)
 
-defineExpose({ items })
+defineExpose({ items, abi })
 </script>

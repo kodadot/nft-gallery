@@ -31,14 +31,16 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoCheckbox } from '@kodadot1/brick'
 import { type ActionConsume } from '@/composables/transaction/types'
+import { type UserCartModalExpose } from '@/components/common/userCart/UserCartModal.vue'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const acknowledged = ref(false)
-const userCartModal = ref<{ items: ListCartItem[] }>()
+const userCartModal = ref<UserCartModalExpose>()
 
 const items = computed(() => userCartModal.value?.items || [])
+const abi = computed(() => userCartModal.value?.abi)
 
 const label = computed(() => {
   if (!acknowledged.value) {
@@ -51,6 +53,7 @@ const getAction = (): ActionConsume => ({
   interaction: Interaction.CONSUME,
   nftIds: items.value.map(item => item.id),
   urlPrefix: urlPrefix.value,
+  abi: abi.value,
   successMessage: $i18n.t('transaction.item.success') as string,
   errorMessage: $i18n.t('transaction.item.error') as string,
 })

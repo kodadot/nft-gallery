@@ -50,18 +50,18 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { toSubstrateAddress } from '@/services/profile'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import type { ActionSend } from '@/composables/transaction/types'
+import { type UserCartModalExpose } from '@/components/common/userCart/UserCartModal.vue'
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 
-const userCartModal = ref()
+const userCartModal = ref<UserCartModalExpose>()
 const address = ref('')
 const isAddressValid = ref(false)
 
-const items = computed(() => userCartModal.value?.items || [] as ListCartItem[])
-const nft = computed(() => items.value[0])
-const abi = useCollectionAbi(computed(() => nft.value?.collection.id))
+const items = computed(() => userCartModal.value?.items || [])
+const abi = computed(() => userCartModal.value?.abi)
 
 const label = computed(() => {
   if (!address.value) {
