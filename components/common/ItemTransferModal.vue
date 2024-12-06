@@ -6,8 +6,8 @@
     :signing-title="$t('transaction.transferingNft', items.length)"
     :get-action="getAction"
     :label="label"
-    :disabled
-    :loading
+    :disabled="disabled"
+    :loading="loading"
     @reset="reset"
   >
     <template #body>
