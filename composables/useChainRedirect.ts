@@ -15,10 +15,6 @@ const NO_REDIRECT_ROUTE_NAMES = [
   'create-collection',
 ]
 
-const REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES = [
-  'prefix-u-id',
-]
-
 function isNoRedirect(routeName: string): boolean {
   return NO_REDIRECT_ROUTE_NAMES.includes(routeName)
 }
@@ -46,11 +42,13 @@ function getRedirectPathForPrefix({
   chain: Prefix
   route: RouteLocationNormalizedLoadedGeneric
 }): RouteLocationRaw {
-  if (!arePrefixesOfSameVm(route.params.prefix.toString() as Prefix, chain) && REDIRECT_HOME_ON_VM_CHANGE_ROUTE_NAMES.includes(routeName)) {
-    return { path: `/${chain}` }
-  }
+  const vmChanged = !arePrefixesOfSameVm(route.params.prefix.toString() as Prefix, chain)
 
   if (routeName === 'prefix-u-id') {
+    if (vmChanged) {
+      return { path: `/${chain}` }
+    }
+
     const accountId = getss58AddressByPrefix(route.params.id.toString(), chain)
 
     delete route.query.collections
@@ -106,7 +104,7 @@ export default function () {
   const router = useRouter()
 
   const redirectAfterChainChange = (newChain: Prefix): void => {
-    const routeName = route.name as string
+    const routeName = route.name?.toString() || ''
 
     if (isNoRedirect(routeName)) {
       return
