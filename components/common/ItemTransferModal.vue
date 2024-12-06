@@ -96,8 +96,6 @@ const getAction = (): ActionSend => ({
     sn: item.sn,
     collectionId: item.collection.id,
   })),
-  successMessage: $i18n.t('transaction.item.success') as string,
-  errorMessage: $i18n.t('transaction.item.error') as string,
 })
 
 const reset = () => {

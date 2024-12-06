@@ -54,7 +54,5 @@ const getAction = (): ActionConsume => ({
   nftIds: items.value.map(item => item.id),
   urlPrefix: urlPrefix.value,
   abi: abi.value,
-  successMessage: $i18n.t('transaction.item.success') as string,
-  errorMessage: $i18n.t('transaction.item.error') as string,
 })
 </script>

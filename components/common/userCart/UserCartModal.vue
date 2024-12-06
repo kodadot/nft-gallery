@@ -89,7 +89,7 @@ export type UserCartModalExpose = {
 }
 
 const emit = defineEmits(['reset'])
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   getAction: () => Actions
   mode: UserCartMode
   label: string
@@ -97,7 +97,10 @@ const props = defineProps<{
   loading?: boolean
   title: string
   signingTitle: string
-}>()
+  showTransactionNotification?: boolean
+}>(), {
+  showTransactionNotification: true,
+})
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
@@ -105,7 +108,7 @@ const listingCartStore = useListingCartStore()
 const items = ref<ListCartItem[]>([])
 
 const { $i18n } = useNuxtApp()
-const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction, txHash } = useTransaction()
+const { transaction, status, isLoading, isError, blockNumber, clear: clearTransaction, txHash } = useTransaction({ disableSuccessNotification: props.showTransactionNotification })
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
@@ -176,31 +179,33 @@ const submit = async ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) =>
   }
 }
 
-useTransactionNotification({
-  status,
-  isError,
-  sessionId: lastSessionId,
-  autoTeleport,
-  updateSession,
-  init: () => {
-    return notification(({ isSessionState, notify, session }) => {
-      return notify({
-        title: ref(props.signingTitle),
-        state: computed(() => session?.value.state as LoadingNotificationState),
-        action: computed<NotificationAction | undefined>(() => {
-          return isSessionState('succeeded')
-            ? ({
-                label: $i18n.t('helper.viewTx'),
-                icon: 'arrow-up-right',
-                url: getTransactionUrl(txHash.value || '', urlPrefix.value) || '',
-              })
-            : undefined
-        }),
-        showIndexerDelayMessage: true,
+if (props.showTransactionNotification) {
+  useTransactionNotification({
+    status,
+    isError,
+    sessionId: lastSessionId,
+    autoTeleport,
+    updateSession,
+    init: () => {
+      return notification(({ isSessionState, notify, session }) => {
+        return notify({
+          title: ref(props.signingTitle),
+          state: computed(() => session?.value.state as LoadingNotificationState),
+          action: computed<NotificationAction | undefined>(() => {
+            return isSessionState('succeeded')
+              ? ({
+                  label: $i18n.t('helper.viewTx'),
+                  icon: 'arrow-up-right',
+                  url: getTransactionUrl(txHash.value || '', urlPrefix.value) || '',
+                })
+              : undefined
+          }),
+          showIndexerDelayMessage: true,
+        })
       })
-    })
-  },
-})
+    },
+  })
+}
 
 useModalIsOpenTracker({
   isOpen: isModalActive,
