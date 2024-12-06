@@ -27,8 +27,8 @@ export const nftActionResolver: CallDictionary = {
 
 export const destructTokenId = (id: string) => {
   const sanitized = correctId(id)
-  const [collectionId, nftSn] = sanitized.split('-')
-  return { collectionId, nftSn }
+  const [collectionId, tokenId] = sanitized.split('-')
+  return { collectionId, tokenId }
 }
 
 export const uniqueParamResolver = (
@@ -36,12 +36,12 @@ export const uniqueParamResolver = (
   selectedAction: string,
   meta: string | number,
 ): any[] => {
-  const { collectionId, nftSn } = destructTokenId(id)
+  const { collectionId, tokenId } = destructTokenId(id)
   const actions = {
-    SEND: [collectionId, nftSn, meta],
-    CONSUME: [collectionId, nftSn],
-    BUY: [collectionId, nftSn, meta],
-    LIST: [collectionId, nftSn, meta, undefined],
+    SEND: [collectionId, tokenId, meta],
+    CONSUME: [collectionId, tokenId],
+    BUY: [collectionId, tokenId, meta],
+    LIST: [collectionId, tokenId, meta, undefined],
   }
 
   return actions[selectedAction]
@@ -52,8 +52,7 @@ export const nftParamResolver = (
   selectedAction: string,
   meta: string | number,
 ): any[] => {
-  const sanitized = correctId(id)
-  const [collectionId, tokenId] = sanitized.split('-')
+  const { collectionId, tokenId } = destructTokenId(id)
   const actions = {
     SEND: [collectionId, tokenId, meta],
     CONSUME: [collectionId, tokenId],

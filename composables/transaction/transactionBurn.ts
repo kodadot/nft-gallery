@@ -22,13 +22,13 @@ import {
 } from '@/utils/gallery/abstractCalls'
 
 function execBurnEvm(item: ActionConsume, executeTransaction: ExecuteTransaction) {
-  const { collectionId, nftSn } = destructTokenId(item.nftIds[0])
+  const { collectionId, tokenId } = destructTokenId(item.nftIds[0])
 
   executeTransaction({
     address: collectionId,
     abi: item.abi as Abi,
     functionName: 'burn',
-    arg: [nftSn],
+    arg: [tokenId],
   })
 }
 
