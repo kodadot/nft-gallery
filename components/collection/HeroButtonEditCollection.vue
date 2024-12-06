@@ -1,5 +1,6 @@
 <template>
   <NeoDropdownItem
+    :disabled="!collectionMetadata"
     @click="isModalActive = true"
   >
     {{ $t('moreActions.editCollection') }}

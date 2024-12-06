@@ -148,8 +148,8 @@
             </div>
 
             <div>
-              <div class="flex justify-between">
-                <p>{{ $t('mint.collection.permission.noPriceSet') }}</p>
+              <div class="flex justify-between capitalize">
+                <p>{{ $t(mintingPriceUnset ? 'mint.collection.permission.noPriceSet' : 'mint.collection.permission.pricePlaceholder') }}</p>
                 <NeoSwitch
                   v-model="mintingPriceUnset"
                   position="left"
@@ -206,7 +206,7 @@ export type CollectionEditMetadata = {
   mintingSettings: CollectionMintSetting
 }
 
-const COLLECTION_MINTING_TYPES_OPTIONS = ['Issuer', 'Public', 'HolderOf'].map(type => ({ value: type as CollectionMintSettingType, text: type }))
+const COLLECTION_MINTING_TYPES_OPTIONS = (['Issuer', 'Public', 'HolderOf'] as CollectionMintSettingType[]).map(type => ({ value: type, text: type }))
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{
