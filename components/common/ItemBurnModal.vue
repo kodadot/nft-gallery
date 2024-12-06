@@ -14,14 +14,13 @@
     </template>
 
     <template #action-button-top>
-      <div class="mb-4 flex items-center">
+      <div class="mb-4">
         <NeoCheckbox
           v-model="acknowledged"
-          class="!m-0"
+          class="!flex items-center"
+          label-class="!pl-3 text-sm capitalize"
+          :label="$t('burning.agree')"
         />
-        <p class="text-sm capitalize">
-          {{ $t('burning.agree') }}
-        </p>
       </div>
     </template>
   </UserCartModal>
