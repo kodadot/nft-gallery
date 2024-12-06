@@ -8,6 +8,7 @@ query nftById($id: String!) {
     collection {
       id
       name
+      currentOwner
     }
     emotes {
       caller

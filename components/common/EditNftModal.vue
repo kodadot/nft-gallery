@@ -16,10 +16,15 @@
           :label="$t('mint.nft.art.label')"
           required
         >
-          <FormLogoField
-            v-model:file="image"
-            v-model:url="imageUrl"
-          />
+          <NonRecommendFieldNotification
+            :show="imageChanged"
+            @undo="initImage"
+          >
+            <FormLogoField
+              v-model:file="image"
+              v-model:url="imageUrl"
+            />
+          </NonRecommendFieldNotification>
         </NeoField>
 
         <!-- nft name -->
@@ -28,11 +33,16 @@
           required
           :error="!name"
         >
-          <NeoInput
-            v-model="name"
-            required
-            :placeholder="$t('mint.nft.name.placeholder')"
-          />
+          <NonRecommendFieldNotification
+            :show="name && nameChanged"
+            @undo="name = props.metadata?.name"
+          >
+            <NeoInput
+              v-model="name"
+              required
+              :placeholder="$t('mint.nft.name.placeholder')"
+            />
+          </NonRecommendFieldNotification>
         </NeoField>
 
         <!-- nft description -->
@@ -91,17 +101,24 @@ const image = ref<File>()
 const imageUrl = ref<string>()
 const attributes = ref<Attribute[]>([])
 
+const originalImageUrl = computed(() => sanitizeIpfsUrl(props.metadata?.image))
+
+const nameChanged = computed(() => props.metadata?.name !== name.value)
+const imageChanged = computed(() => originalImageUrl.value !== imageUrl.value)
+
+const initImage = () => {
+  imageUrl.value = originalImageUrl.value
+  image.value = undefined
+}
+
 const disabled = computed(() => {
   const hasImage = Boolean(imageUrl.value)
   const isNameFilled = Boolean(name.value)
-
-  const nameChanged = props.metadata?.name !== name.value
   const descriptionChanged = props.metadata?.description !== description.value
-  const imageChanged = Boolean(image.value)
   const attributesChanged = JSON.stringify(attributes.value) !== JSON.stringify(props.metadata?.attributes || [])
 
   return !hasImage || !isNameFilled
-    || (!nameChanged && !descriptionChanged && !imageChanged && !attributesChanged)
+    || (!nameChanged.value && !descriptionChanged && !imageChanged.value && !attributesChanged)
 })
 
 const editCollection = async () => {
@@ -118,8 +135,7 @@ const editCollection = async () => {
 
 watch(isModalActive, (value) => {
   if (value) {
-    imageUrl.value = sanitizeIpfsUrl(props.metadata?.image)
-    image.value = undefined
+    initImage()
     name.value = props.metadata?.name
     description.value = props.metadata?.description
     attributes.value = structuredClone(toRaw(props.metadata?.attributes || []))
