@@ -1,7 +1,7 @@
 import { isEthereumAddress } from '@polkadot/util-crypto'
+import { type Prefix } from '@kodadot1/static'
 
-export default function () {
-  const { urlPrefix } = usePrefix()
+export default function (urlPrefix: ComputedRef<Prefix> = usePrefix().urlPrefix) {
   const { isEvm, isSub } = useIsChain(urlPrefix)
 
   const getPrefixByAddress = (address: string) => {
