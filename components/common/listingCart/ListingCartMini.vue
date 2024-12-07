@@ -38,6 +38,22 @@
             <NeoTooltip
               class="cursor-pointer"
               position="top"
+              :active="isItemBurnDisabled"
+              :label="$t('toast.unsupportedOperation')"
+            >
+              <NeoButton
+                variant="outlined-rounded"
+                icon="fire-flame-curved"
+                :disabled="isItemBurnDisabled"
+                @click="preferencesStore.setOpenedUserCartModal('burn')"
+              >
+                {{ $t('burn') }}
+              </NeoButton>
+            </NeoTooltip>
+
+            <NeoTooltip
+              class="cursor-pointer"
+              position="top"
               :active="isItemTransferDisabled"
               :label="$t('toast.unsupportedOperation')"
             >
@@ -45,7 +61,7 @@
                 variant="outlined-rounded"
                 icon="paper-plane-top"
                 :disabled="isItemTransferDisabled"
-                @click="preferencesStore.itemTransferCartModalOpen = true"
+                @click="preferencesStore.setOpenedUserCartModal('transfer')"
               >
                 {{ $t('transfer') }}
               </NeoButton>
@@ -76,12 +92,14 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { listVisible } from '@/utils/config/permission.config'
+import { listVisible, burnVisible } from '@/utils/config/permission.config'
 
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
+const { isEvm } = useIsChain(urlPrefix)
 
+const isItemBurnDisabled = computed(() => isEvm.value ? listingCartStore.count > 1 : !burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
