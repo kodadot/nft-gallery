@@ -7,8 +7,7 @@ import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
 import {
   execBurnCollection,
-  execBurnMultiple,
-  execBurnTx,
+  execBurn,
 } from './transaction/transactionBurn'
 import { execWithdrawSwap } from './transaction/transactionSwapWithdraw'
 import { execAcceptSwap } from './transaction/transactionSwapAccept'
@@ -21,7 +20,6 @@ import { execUpdateCollection } from './transaction/transactionUpdateCollection'
 import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import type {
   ActionAcceptOffer,
-  ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
   ActionOffer,
@@ -230,7 +228,7 @@ export const executeAction = ({
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
-      execBurnTx(item as ActionConsume, api, executeTransaction),
+      execBurn(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.WITHDRAW_SWAP]: () =>
       execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
     [ShoppingActions.ACCEPT_SWAP]: () =>
@@ -271,12 +269,6 @@ export const executeAction = ({
         isLoading,
         status,
       }),
-    [NFTs.BURN_MULTIPLE]: () =>
-      execBurnMultiple(
-        item as ActionBurnMultipleNFTs,
-        api as ApiPromise,
-        executeTransaction,
-      ),
     [NFTs.SET_METADATA]: () =>
       execSetNftMetadata({
         item: item as ActionSetNftMetadata,
