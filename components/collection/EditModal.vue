@@ -125,6 +125,56 @@
             </div>
           </div>
         </NeoField>
+
+        <NeoField
+          :label="$t('mint.collection.permission.label')"
+        >
+          <div class="w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <p>
+                {{ $t('mint.mintType') }}
+              </p>
+              <NeoSelect
+                v-model="selectedMintingType"
+              >
+                <option
+                  v-for="menu in COLLECTION_MINTING_TYPES_OPTIONS"
+                  :key="menu.value"
+                  :value="menu.value"
+                >
+                  {{ menu.text }}
+                </option>
+              </NeoSelect>
+            </div>
+
+            <div>
+              <div class="flex justify-between capitalize">
+                <p>{{ $t(mintingPriceUnset ? 'mint.collection.permission.noPriceSet' : 'mint.collection.permission.pricePlaceholder') }}</p>
+                <NeoSwitch
+                  v-model="mintingPriceUnset"
+                  position="left"
+                />
+              </div>
+              <div
+                v-if="!mintingPriceUnset"
+                class="flex focus-within:!border-border-color border border-k-shade h-12 mt-3"
+              >
+                <input
+                  v-model="mintingPrice"
+                  type="number"
+                  step="0.01"
+                  min="0.0001"
+                  pattern="[0-9]+([\.,][0-9]+)?"
+                  class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color w-full"
+                  :placeholder="$t('mint.collection.permission.pricePlaceholder')"
+                >
+                <div class="px-3 flex items-center">
+                  {{ chainSymbol }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </NeoField>
       </form>
 
       <div class="flex flex-col !mt-6">
@@ -142,9 +192,9 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import type { UpdateCollection } from '@/composables/transaction/types'
+import type { UpdateCollection, CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
 
 export type CollectionEditMetadata = {
   name: string
@@ -153,7 +203,10 @@ export type CollectionEditMetadata = {
   imageType: string
   banner?: string
   max: number | null
+  mintingSettings: CollectionMintSetting
 }
+
+const COLLECTION_MINTING_TYPES_OPTIONS = (['Issuer', 'Public', 'HolderOf'] as CollectionMintSettingType[]).map(type => ({ value: type, text: type }))
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{
@@ -163,6 +216,7 @@ const props = defineProps<{
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
+const { chainSymbol, decimals, withDecimals } = useChain()
 
 const name = ref<string>()
 const description = ref<string>()
@@ -171,13 +225,18 @@ const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
 const unlimited = ref(true)
-
+const mintingPriceUnset = ref(true)
+const mintingPrice = ref<number | null>(null)
+const selectedMintingType = ref<CollectionMintSettingType | null>(null)
 const min = computed(() => props.min || 1)
 const max = ref<number | null>(null)
 
 const nameChanged = computed(() => props.collection.name !== name.value)
 const hasImageChanged = computed(() => (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value))
 const originalLogoImageUrl = computed(() => sanitizeIpfsUrl(props.collection.image))
+const mintTypeChanged = computed(() => selectedMintingType.value !== props.collection.mintingSettings.mintType)
+const mintPriceChanged = computed(() => mintingPrice.value !== originalMintPrice.value)
+const originalMintPrice = computed(() => props.collection.mintingSettings.price ? Number(props.collection.mintingSettings.price) / (10 ** decimals.value) : null)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -187,7 +246,7 @@ const disabled = computed(() => {
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection.max
 
-  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged)
+  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged && !mintTypeChanged.value && !mintPriceChanged.value)
 })
 
 const initLogoImage = () => {
@@ -203,6 +262,10 @@ const editCollection = async () => {
     imageType: props.collection.imageType,
     banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
     max: max.value,
+    mintingSettings: {
+      mintType: selectedMintingType.value,
+      price: mintingPriceUnset.value ? null : String(withDecimals(mintingPrice.value || 0)),
+    },
   } as UpdateCollection)
 }
 
@@ -215,14 +278,21 @@ watch(isModalActive, (value) => {
     initLogoImage()
     unlimited.value = !props.collection.max
     max.value = props.collection.max
+
+    // permission
+    selectedMintingType.value = props.collection.mintingSettings.mintType
+    mintingPriceUnset.value = !props.collection.mintingSettings.price
+    mintingPrice.value = originalMintPrice.value || null
   }
 })
 
-watch([banner, unlimited], ([banner, unlimited]) => {
+watch([banner, unlimited, mintingPriceUnset], ([banner, unlimited, priceUnset]) => {
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
   max.value = unlimited ? null : max.value || props.collection.max
+
+  mintingPrice.value = priceUnset ? null : originalMintPrice.value
 })
 </script>

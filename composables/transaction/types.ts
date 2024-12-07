@@ -291,6 +291,12 @@ export interface ActionSetNftMetadata {
   errorMessage?: string
 }
 
+export type CollectionMintSettingType = 'Issuer' | 'Public' | 'HolderOf'
+export type CollectionMintSetting = {
+  price: string
+  mintType: CollectionMintSettingType
+}
+
 export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
 
 export type UpdateCollection = {
@@ -300,6 +306,7 @@ export type UpdateCollection = {
   imageType?: string
   banner?: File | string | null
   max: number | null
+  mintingSettings: CollectionMintSetting
 }
 
 export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
@@ -308,7 +315,7 @@ export interface ActionUpdateCollection {
   interaction: Collections.UPDATE_COLLECTION
   collectionId: string
   collection: UpdateCollection
-  update: { max: boolean, metadata: boolean }
+  update: { max: boolean, metadata: boolean, permission: boolean }
   urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
