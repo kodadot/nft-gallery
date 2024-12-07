@@ -8,8 +8,7 @@ export default function () {
   const isLogIn = computed(() => Boolean(identityStore.getAuthAddress))
   const balance = computed(() => identityStore.getAuthBalance)
 
-  const isCurrentOwner = (address?: string) =>
-    accountsAreSame(accountId.value, address)
+  const isCurrentOwner = (address?: string) => accountsAreSame(accountId.value, address)
 
   return {
     accountId,
