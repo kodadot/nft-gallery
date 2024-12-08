@@ -503,7 +503,7 @@ const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
-const { accountId, isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { urlPrefix, client, setUrlPrefix } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const { redirectAfterChainChange } = useChainRedirect()
@@ -612,7 +612,7 @@ const socialDropdownItems = computed(() => {
     .sort((a, b) => a?.order - b?.order)
 })
 
-const isOwner = computed(() => isCurrentOwner(id.value))
+const isOwner = computed(() => isCurrentAccount(id.value))
 
 const buttonConfig = computed<ButtonConfig>(() =>
   hasProfile.value ? editProfileConfig : createProfileConfig,
@@ -711,8 +711,8 @@ useAsyncData('tabs-count', async () => {
     currentOwner_eq: address,
   }
 
-  if (accountId.value !== address) {
-    Object.assign(searchParams, { nftCount_not_eq: 0 })
+  if (!isCurrentAccount(address)) {
+    Object.assign(searchParams, { supply_not_eq: 0 })
   }
 
   searchParams['burned_eq'] = false

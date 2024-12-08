@@ -37,6 +37,6 @@ const props = defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-const { isCurrentOwner } = useAuth()
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const { isCurrentAccount } = useAuth()
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 </script>

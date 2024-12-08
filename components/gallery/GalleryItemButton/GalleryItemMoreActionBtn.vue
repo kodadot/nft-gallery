@@ -79,7 +79,7 @@ import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { listNftByNftWithMetadata } = useListingCartModal()
 const preferencesStore = usePreferencesStore()
@@ -96,8 +96,8 @@ const props = defineProps<{
 
 const action = ref('')
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
-const isCollectionOwner = computed(() => isCurrentOwner(props.nft?.collection?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
+const isCollectionOwner = computed(() => isCurrentAccount(props.nft?.collection?.currentOwner))
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({

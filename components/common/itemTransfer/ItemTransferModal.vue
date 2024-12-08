@@ -115,7 +115,7 @@ const { transaction, status, isLoading, isError, blockNumber, clear: clearTransa
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
+const { isCurrentAccount } = useAuth()
 
 const address = ref('')
 const isAddressValid = ref(false)
@@ -173,9 +173,7 @@ const transferItemLabel = computed(() => {
   return $i18n.t('transaction.transferNft')
 })
 
-const isYourAddress = computed(
-  () => accountId.value === getChainAddress(address.value),
-)
+const isYourAddress = computed(() => isCurrentAccount(getChainAddress(address.value) || ''))
 
 const loading = computed(() => (
   !autoTeleportLoaded.value
