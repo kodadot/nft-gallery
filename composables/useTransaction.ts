@@ -14,6 +14,7 @@ import { execAcceptSwap } from './transaction/transactionSwapAccept'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
+import { execCreateSwap } from './transaction/transactionCreateSwap'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { execUpdateCollection } from './transaction/transactionUpdateCollection'
@@ -23,6 +24,7 @@ import type {
   ActionBuy,
   ActionConsume,
   ActionOffer,
+  ActionSwap,
   ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
@@ -239,6 +241,14 @@ export const executeAction = ({
       execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
     [ShoppingActions.MAKE_OFFER]: () =>
       execMakingOfferTx(item as ActionOffer, api, executeTransaction),
+    [ShoppingActions.CREATE_SWAP]: () =>
+      execCreateSwap({
+        item: item as ActionSwap,
+        api: api as ApiPromise,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [ShoppingActions.MINTNFT]: () =>
       execMintToken({
         item: item as ActionMintToken,

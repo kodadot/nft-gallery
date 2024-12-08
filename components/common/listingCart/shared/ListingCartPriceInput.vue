@@ -6,12 +6,13 @@
     >
       <input
         v-model="model"
+        :disabled="disabled"
         type="number"
         step="0.01"
         min="0.001"
         pattern="[0-9]+([\.,][0-9]+)?"
         class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color"
-        :placeholder="$t('price')"
+        :placeholder="placeholder || $t('price')"
       >
       <div class="px-3 flex items-center">
         {{ chainSymbol }}
@@ -35,6 +36,8 @@ const props = defineProps<{
   modelValue?: number | string
   check?: boolean
   fullWidth?: boolean
+  disabled?: boolean
+  placeholder?: string
 }>()
 const emit = defineEmits(['confirm', 'update:modelValue'])
 

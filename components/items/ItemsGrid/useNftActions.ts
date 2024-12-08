@@ -1,5 +1,4 @@
 import nftById from '@/queries/subsquid/general/nftById.graphql'
-import listCount from '@/queries/subsquid/general/countOfTokenNftsToList.graphql'
 import nftListWithSearch from '@/queries/subsquid/ahk/nftListWithSearch.graphql'
 import type { TokenId } from '@/types'
 
@@ -120,19 +119,15 @@ export const getTokensNfts = async (
 }
 
 export const checkIfAnythingToList = async (entities: TokenEntity[]) => {
-  const { client, urlPrefix } = usePrefix()
   const { accountId } = useAuth()
-  const { data } = await useAsyncQuery<{ count: { totalCount: number } }>({
-    query: listCount,
-    variables: {
-      token: entities.map(({ id }) => id),
-      owner: accountId.value,
-      denyList: getDenyList(urlPrefix.value),
-    },
-    clientId: client.value,
+
+  const count = await getNftCount({
+    token: { id_in: entities.map(n => n.id) },
+    currentOwner_eq: accountId.value,
+    price_eq: 0,
   })
 
-  return data.value.count.totalCount > 0
+  return count > 0
 }
 
 export function useNftActions(entity: TokenEntity) {

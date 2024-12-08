@@ -73,3 +73,7 @@ export const explorerVisible = (prefix: Prefix | string): boolean => {
 export const burnVisible = (prefix: Prefix): boolean => {
   return isSub(prefix) || isEvm(prefix)
 }
+
+export const swapVisible = (prefix: Prefix): boolean => {
+  return isAssetHub(prefix)
+}

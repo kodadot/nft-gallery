@@ -18,4 +18,5 @@ export type CollectionEntityMinimal = {
   name: string
   currentOwner: string
   type: string
+  ownerCount?: number
 }

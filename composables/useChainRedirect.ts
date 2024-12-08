@@ -41,6 +41,20 @@ function getRedirectPathForPrefix({
   chain: Prefix
   route
 }): RawLocation {
+  if (routeName.includes('prefix-swap-id')) {
+    const accountId = getss58AddressByPrefix(route.params.id, chain)
+
+    return {
+      params: {
+        prefix: chain,
+        id: accountId,
+      },
+      query: {
+        swapId: route.query.swapId,
+      },
+    }
+  }
+
   if (routeName === 'prefix-u-id') {
     const accountId = getss58AddressByPrefix(route.params.id, chain)
 

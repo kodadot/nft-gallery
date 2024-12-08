@@ -21,12 +21,12 @@ const onClick = () => emit('click', props.trade)
 
 const details = {
   [TradeType.SWAP]: {
-    cancel: 'swap.cancelSwap',
-    accept: 'swap.acceptSwap',
+    cancel: 'transaction.withdrawSwap',
+    accept: 'transaction.acceptSwap',
   },
   [TradeType.OFFER]: {
-    cancel: 'transaction.offerWithdraw',
-    accept: 'transaction.offerAccept',
+    cancel: 'transaction.withdrawOffer',
+    accept: 'transaction.acceptOffer',
   },
 }
 

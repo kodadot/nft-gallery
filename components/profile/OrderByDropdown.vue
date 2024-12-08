@@ -26,6 +26,7 @@
 
         <ActiveCount
           v-if="selectedSort.length"
+          position="top-right"
           :count="selectedSort.length"
         />
       </template>

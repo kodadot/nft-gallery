@@ -47,12 +47,12 @@
             </div>
 
             <div class="flex justify-between text-xs text-k-grey">
-              <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
+              <div>{{ $t('search.owners') }}: {{ collection.ownerCount }}</div>
             </div>
           </div>
 
           <div class="rounded-2xl ml-5 px-3 bg-k-grey-light">
-            {{ collection.owned }}
+            {{ collection.ownedCount }}
           </div>
         </div>
       </NeoDropdownItem>
@@ -69,20 +69,18 @@ import {
 } from '@kodadot1/brick'
 import isEqual from 'lodash/isEqual'
 import ActiveCount from '../explore/ActiveCount.vue'
-import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
+import collectionListWithSearchMinimal from '@/queries/subsquid/general/collectionListWithSearchMinimal.graphql'
 import type { CollectionEntityMinimal } from '@/components/collection/utils/types'
 import { getDenyList } from '@/utils/prefix'
 
 type Collection = CollectionEntityMinimal & {
-  owners: number
-  owned: number
+  ownedCount: number
 }
 
 const props = defineProps<{
   id: string
   modelValue: string[]
   search: Record<string, string | number>
-  tabKey: string
 }>()
 
 const isLoading = ref(false)
@@ -109,8 +107,8 @@ const getProfileCollections = async () => {
 
   isLoading.value = true
 
-  const { data } = await useAsyncQuery({
-    query: collectionListWithSearch,
+  const { data } = await useAsyncQuery<{ collectionEntities: CollectionEntityMinimal[] }>({
+    query: collectionListWithSearchMinimal,
     variables: {
       search: [collectionSearch],
       denyList: getDenyList(urlPrefix.value),
@@ -123,25 +121,27 @@ const getProfileCollections = async () => {
 
   const collectionEntities = data.value?.collectionEntities || []
 
-  collections.value = formatCollections(collectionEntities)
+  collections.value = await formatCollections(collectionEntities)
 
   syncCheckedCollections()
 
   isLoading.value = false
 }
 
-const formatCollections = (collectionEntities) => {
-  return collectionEntities.map((collection) => {
-    const currentOwners = collection.nfts.map(nft => nft.currentOwner)
+const formatCollections = (collections) => {
+  return Promise.all(
+    collections.map(async (collection) => {
+      const ownedCount = await getNftCount({
+        currentOwner_eq: props.id,
+        collection: { id_eq: collection.id },
+      })
 
-    return {
-      ...collection,
-      owners: new Set(currentOwners).size,
-      owned: currentOwners.filter(
-        (currentOwner: string) => props.id === currentOwner,
-      ).length,
-    }
-  })
+      return {
+        ...collection,
+        ownedCount,
+      } as Collection
+    }),
+  )
 }
 
 const isSelected = (collection: Collection) => {

@@ -61,10 +61,15 @@ import nftById from '@/queries/subsquid/general/nftById.graphql'
 import { TradeType } from '@/composables/useTrades'
 import type { NFT } from '@/types'
 
-type Details = {
+type OverviewModeDetails = {
   title: string
   signingTitle: string
   notificationTitle: string
+}
+
+type Details = {
+  transactionSuccessTitle: string
+  transactionSuccessTab: string
 }
 
 type TradeNFTs = { desired: NFT, offered: NFT }
@@ -88,33 +93,43 @@ const { urlPrefix, client } = usePrefix()
 const { transaction, status, isError, isLoading } = useTransaction({ disableSuccessNotification: true })
 const { $i18n } = useNuxtApp()
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
-const { $i18n: { t } } = useNuxtApp()
 const { mode } = useIsTradeOverview(computed(() => props.trade))
 
-const TradeTypeDetails: Record<TradeType, Record<OverviewMode, Details>> = {
+const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, OverviewModeDetails>> = {
   [TradeType.SWAP]: {
     incoming: {
       title: $i18n.t('swap.incomingSwap'),
-      signingTitle: $i18n.t('swap.acceptSwap'),
+      signingTitle: $i18n.t('transaction.acceptSwap'),
       notificationTitle: $i18n.t('swap.acceptSwap'),
     },
     owner: {
       title: $i18n.t('swap.yourSwap'),
-      signingTitle: $i18n.t('swap.cancelSwap'),
-      notificationTitle: $i18n.t('swap.cancelSwap'),
+      signingTitle: $i18n.t('transaction.withdrawSwap'),
+      notificationTitle: $i18n.t('swap.swapWithdrawl'),
     },
   },
   [TradeType.OFFER]: {
     incoming: {
       title: $i18n.t('offer.incomingOffer'),
-      signingTitle: $i18n.t('transaction.offerAccept'),
-      notificationTitle: $i18n.t('transaction.offerAccept'),
+      signingTitle: $i18n.t('transaction.acceptOffer'),
+      notificationTitle: $i18n.t('offer.offerAccept'),
     },
     owner: {
       title: $i18n.t('offer.yourOffer'),
-      signingTitle: $i18n.t('transaction.offerWithdraw'),
+      signingTitle: $i18n.t('transaction.withdrawOffer'),
       notificationTitle: $i18n.t('offer.offerWithdrawl'),
     },
+  },
+}
+
+const TradeTypeDetails: Record<TradeType, Details> = {
+  [TradeType.SWAP]: {
+    transactionSuccessTitle: $i18n.t('swap.manageSwaps'),
+    transactionSuccessTab: 'swaps',
+  },
+  [TradeType.OFFER]: {
+    transactionSuccessTitle: $i18n.t('offer.manageOffers'),
+    transactionSuccessTab: 'offers',
   },
 }
 
@@ -166,13 +181,18 @@ const nftId = computed(() => props.trade?.desired.id)
 const offeredItemId = computed(() => props.trade?.offered.id)
 const offeredItemSn = computed(() => props.trade?.offered.sn)
 
-const details = computed<Details>(() =>
+const details = computed<Details & OverviewModeDetails>(() =>
   props.trade
-    ? TradeTypeDetails[props.trade.type][mode.value]
+    ? {
+        ...TradeTypeDetails[props.trade.type],
+        ...TradeTypeOverviewModeDetails[props.trade.type][mode.value],
+      }
     : {
         title: '',
         signingTitle: '',
         notificationTitle: '',
+        transactionSuccessTitle: '',
+        transactionSuccessTab: '',
       })
 
 const { data: nft, pending: nftLoading } = await useAsyncData<TradeNFTs | null>(`tarde-nft-id-${nftId.value}`, async () => {
@@ -238,9 +258,9 @@ useTransactionNotification({
         action: computed(() => {
           if (isSessionState('succeeded')) {
             return {
-              label: t('offer.manageOffers'),
+              label: details.value.transactionSuccessTitle,
               icon: 'arrow-up-right',
-              url: `/${urlPrefix.value}/u/${accountId.value}?tab=offers&filter=outgoing`,
+              url: `/${urlPrefix.value}/u/${accountId.value}?tab=${details.value.transactionSuccessTab}&filter=outgoing`,
             }
           }
           return undefined
