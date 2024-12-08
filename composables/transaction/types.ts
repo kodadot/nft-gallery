@@ -125,10 +125,8 @@ export type TokenToMint = BaseTokenType<
 
 export type ActionConsume = {
   interaction: Interaction.CONSUME
-  urlPrefix: string
-  nftId: string
-  nftSn: string
-  collectionId: string
+  urlPrefix: Prefix
+  nftIds: string[]
   abi?: Abi | null
   successMessage?: string
   errorMessage?: string
@@ -300,17 +298,8 @@ export interface ActionDeleteCollection {
 }
 
 export enum NFTs {
-  BURN_MULTIPLE = 'burnMultiple',
   MINT_DROP = 'mintDrop',
   SET_METADATA = 'setMetadata',
-}
-
-export interface ActionBurnMultipleNFTs {
-  interaction: NFTs.BURN_MULTIPLE
-  urlPrefix: string
-  nftIds: string[]
-  successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
 }
 
 export type ActionMetadataSetMetadata = Metadata & { image: File | string }
@@ -361,7 +350,6 @@ export type Actions =
   | ActionMintToken
   | ActionMintCollection
   | ActionDeleteCollection
-  | ActionBurnMultipleNFTs
   | ActionUpdateCollection
   | ActionSetNftMetadata
   | ActionMintDrop

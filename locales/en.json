@@ -175,6 +175,7 @@
   "blog": "Blog",
   "bridging": "Bridging",
   "burn": "Burn",
+  "burning": { "agree": "I understand NFT(s) will be permanently destroyed" },
   "buyModal": {
     "amountPurchaseSuccessfully": "{0} NFTs purchased successfully",
     "buyingNft": "Buying NFT | Buying NFTs",
@@ -951,6 +952,7 @@
   "go back": "Go Back",
   "handle": "Handle",
   "helper": {
+    "acknowledgeToContinue": "Acknowledge To Continue",
     "builtOn": "Built on",
     "clickToCreate": "Click here to create collection",
     "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
@@ -1291,7 +1293,7 @@
         "label": "Your Awesome Art",
         "message": "This can be image, video, audio, 3D model"
       },
-      "burning": "Burning NFT",
+      "burning": "Burning NFT | Burning NFTs",
       "collection": {
         "label": "Select Collection",
         "message": "Choose a collection to which you want to mint your NFT."
@@ -1978,6 +1980,7 @@
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",
     "addressIncorrect": "Address Incorrect",
+    "burnNft": "Burn NFT | Burn NFTs",
     "buy": { "error": "Failed to buy this item" },
     "consume": { "error": "Failed to burn item", "success": "Item burned" },
     "inputAddressFirst": "Input address first",
