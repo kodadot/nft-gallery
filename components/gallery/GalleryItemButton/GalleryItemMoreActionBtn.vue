@@ -4,10 +4,10 @@
       :title="signingModalTitle"
       :is-loading="isLoading"
       :status="status"
-      @try-again="burn"
+      @try-again="tryAgain"
     />
 
-    <ItemTransferModal v-if="canTransfer" />
+    <UserCartModals v-if="canDoActions" />
 
     <NeoDropdown
       position="bottom-left"
@@ -33,7 +33,7 @@
         v-if="isOwner && !hasOperationsDisabled(urlPrefix)"
       >
         <NeoDropdownItem
-          v-if="canTransfer"
+          v-if="canDoActions"
           @click="transfer"
         >
           Transfer NFT
@@ -73,7 +73,6 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { refreshOdaTokenMetadata } from '@/services/oda'
-import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
 import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
@@ -94,8 +93,9 @@ const props = defineProps<{
   abi?: Abi | null
 }>()
 
-const action = ref('')
+const action = ref<'unlist' | ''>('')
 
+const id = computed(() => route.params.id.toString())
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 const isCollectionOwner = computed(() => isCurrentAccount(props.nft?.collection?.currentOwner))
 const nftId = computed(() => props.nft?.id || '')
@@ -103,7 +103,7 @@ const nftId = computed(() => props.nft?.id || '')
 const { data } = useQuery({
   queryKey: ['nft-with-metadata', nftId],
   queryFn: async () =>
-    nftId.value && canTransfer.value
+    nftId.value && canDoActions.value
       ? (await useAsyncGraphql({
           query: 'nftEntitiesByIDs',
           variables: { ids: [nftId.value] },
@@ -112,12 +112,11 @@ const { data } = useQuery({
 })
 
 const nftWithMetadata = computed<NFTWithMetadata>(() => data.value?.nftEntities?.[0])
-const canTransfer = computed(() => props.nft && isOwner.value)
+const canDoActions = computed(() => props.nft && isOwner.value)
 
 const signingModalTitle = computed(() => {
   return (
     {
-      burn: $i18n.t('mint.nft.burning'),
       unlist: $i18n.t('mint.nft.delisting'),
     }[action.value] || ''
   )
@@ -165,17 +164,12 @@ const downloadMedia = async () => {
 }
 
 const burn = () => {
-  action.value = 'burn'
-  transaction({
-    interaction: Interaction.CONSUME,
-    urlPrefix: urlPrefix.value,
-    nftId: route.params.id as string,
-    nftSn: props.nft?.sn as string,
-    collectionId: props.nft?.collection?.id as string,
-    abi: props.abi,
-    successMessage: $i18n.t('transaction.consume.success') as string,
-    errorMessage: $i18n.t('transaction.consume.error') as string,
-  })
+  openUserCartModal('burn')
+}
+
+const tryAgain = () => {
+  const map = { unlist }
+  map[action.value]?.()
 }
 
 const unlist = () => {
@@ -184,7 +178,7 @@ const unlist = () => {
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
     token: {
-      nftId: route.params.id as string,
+      nftId: id.value,
       price: '0',
     },
     successMessage: $i18n.t('transaction.unlist.success') as string,
@@ -199,10 +193,12 @@ const refreshMetadata = async () => {
   }
 }
 
-const transfer = () => {
+const openUserCartModal = (mode: UserCartMode) => {
   if (nftWithMetadata.value) {
     listNftByNftWithMetadata(nftWithMetadata.value)
-    preferencesStore.itemTransferCartModalOpen = true
+    preferencesStore.setOpenedUserCartModal(mode)
   }
 }
+
+const transfer = () => openUserCartModal('transfer')
 </script>

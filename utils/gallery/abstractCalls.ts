@@ -25,13 +25,18 @@ export const nftActionResolver: CallDictionary = {
   // REVOKE: ['uniques', 'cancelApproval'],
 }
 
+export const destructTokenId = (id: string) => {
+  const sanitized = correctId(id)
+  const [collectionId, tokenId] = sanitized.split('-')
+  return { collectionId, tokenId }
+}
+
 export const uniqueParamResolver = (
   id: string,
   selectedAction: string,
   meta: string | number,
 ): any[] => {
-  const sanitized = correctId(id)
-  const [collectionId, tokenId] = sanitized.split('-')
+  const { collectionId, tokenId } = destructTokenId(id)
   const actions = {
     SEND: [collectionId, tokenId, meta],
     CONSUME: [collectionId, tokenId],
@@ -47,8 +52,7 @@ export const nftParamResolver = (
   selectedAction: string,
   meta: string | number,
 ): any[] => {
-  const sanitized = correctId(id)
-  const [collectionId, tokenId] = sanitized.split('-')
+  const { collectionId, tokenId } = destructTokenId(id)
   const actions = {
     SEND: [collectionId, tokenId, meta],
     CONSUME: [collectionId, tokenId],
