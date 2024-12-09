@@ -93,6 +93,7 @@
             @unfollow:success="handleFollowRefresh"
           />
           <NeoButton
+            v-if="swapVisible(urlPrefix)"
             :tag="NuxtLink"
             variant="outlined-rounded"
             icon-left="arrow-right-arrow-left"
@@ -479,7 +480,7 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
-import { offerVisible } from '@/utils/config/permission.config'
+import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { TradeType } from '@/composables/useTrades'
 
 const NuxtImg = resolveComponent('NuxtImg')
