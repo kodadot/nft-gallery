@@ -56,10 +56,14 @@ import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
 import { arePrefixesOfSameVm } from '@/utils/config/chain.config'
 
+const NO_PREFIX_CHNAGE_ROUTES_NAMES = [
+  'prefix-u-id',
+]
+
 const emit = defineEmits(['close', 'connect'])
 const props = defineProps<{ preselected?: ChainVM }>()
 const { isWalletModalOpen } = useWallet()
-
+const route = useRoute()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
 const walletStore = useWalletStore()
@@ -76,7 +80,7 @@ const setAccount = ({ account, prefix }: { account: WalletAccount, prefix?: Pref
   walletStore.setWallet(account)
   identityStore.setAuth({ address: account.address })
 
-  if (!arePrefixesOfSameVm(prefix, urlPrefix.value)) {
+  if (!arePrefixesOfSameVm(prefix, urlPrefix.value) && !NO_PREFIX_CHNAGE_ROUTES_NAMES.includes(route.name?.toString() || '')) {
     setUrlPrefix(prefix)
     redirectAfterChainChange(urlPrefix.value)
   }
