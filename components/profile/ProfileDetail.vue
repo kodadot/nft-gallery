@@ -92,6 +92,14 @@
             @follow:fail="openProfileCreateModal"
             @unfollow:success="handleFollowRefresh"
           />
+          <NeoButton
+            :tag="NuxtLink"
+            variant="outlined-rounded"
+            icon-left="arrow-right-arrow-left"
+            :to="`/${urlPrefix}/swap/${isOwner ? '' : id}`"
+          >
+            {{ $t('swaps') }}
+          </NeoButton>
 
           <!-- Wallet And Links Dropdown -->
           <NeoDropdown position="bottom-auto">
