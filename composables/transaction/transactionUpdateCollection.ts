@@ -75,6 +75,10 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
     args.push(api.tx.nfts.setCollectionMaxSupply(item.collectionId, item.collection.max ? item.collection.max : undefined))
   }
 
+  if (item.update.permission) {
+    args.push(api.tx.nfts.updateMintSettings(item.collectionId, item.collection.mintingSettings))
+  }
+
   executeTransaction({
     cb: api.tx.utility.batchAll,
     arg: [args],
