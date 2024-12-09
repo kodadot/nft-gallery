@@ -1,9 +1,7 @@
 import MarkdownIt from 'markdown-it'
-import type { LocaleMessages, VueMessageType } from '#i18n'
-import { defineI18nConfig } from '#i18n'
-import commonData from '@/locales/all_lang.json'
+import commonData from '@/i18n/locales/all_lang.json'
 
-const locales = import.meta.glob('../../locales/*.json', { eager: true })
+const locales = import.meta.glob('./i18n/locales/*.json', { eager: true })
 export const langsFlags = [
   {
     value: 'en',
@@ -43,7 +41,7 @@ const md = MarkdownIt({
   breaks: false,
 })
 function getMessages() {
-  const messages: { [x: string]: LocaleMessages<VueMessageType> } = {}
+  const messages: { [x: string]: string } = {}
   for (const [key, value] of Object.entries(locales)) {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {
@@ -58,6 +56,16 @@ function getMessages() {
 }
 
 export default defineI18nConfig(() => ({
+  skipSettingLocaleOnNavigate: true,
+  warnHtmlMessage: false,
+  defaultLocale: 'en',
+  detectBrowserLanguage: {
+    useCookie: true,
+    cookieKey: 'lang',
+    fallbackLocale: 'en',
+    alwaysRedirect: true,
+  },
+  strategy: 'no_prefix',
   locale: process.env.VUE_APP_I18N_LOCALE || 'en',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   silentTranslationWarn: true,
@@ -66,6 +74,4 @@ export default defineI18nConfig(() => ({
     common: str => str.split('.').reduce((o, i) => o[i], commonData),
   },
   messages: getMessages(),
-  warnHtmlInMessage: false,
-  warnHtmlMessage: false,
 }))
