@@ -15,7 +15,7 @@ export const getOfferCollectionId = (prefix: Prefix) => {
 
 export const OFFER_MINT_PRICE = 5e8
 
-const BLOCKS_PER_DAY = 300 * 24 // 12sec /block --> 300blocks/hr
+export const BLOCKS_PER_DAY = 300 * 24 // 12sec /block --> 300blocks/hr
 
 async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
   const { accountId } = useAuth()
