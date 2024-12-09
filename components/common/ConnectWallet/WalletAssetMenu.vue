@@ -53,7 +53,7 @@
               :data-testid="`sidebar-language-${lang.value}`"
               :value="lang.value"
               :class="{ 'is-active': $i18n.locale === lang.value }"
-              @click="setUserLocale(lang.value)"
+              @click="usePreferencesStore().setUserLocale(lang.value)"
             >
               <span>{{ lang.flag }} {{ lang.label }}</span>
             </NeoDropdownItem>
@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
-import { langsFlags, setUserLocale } from '@/utils/config/i18n'
+import { langsFlags, usePreferencesStore } from '@/stores/preferences'
 import { transferVisible, teleportVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()

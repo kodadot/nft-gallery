@@ -2,41 +2,6 @@ import MarkdownIt from 'markdown-it'
 import commonData from '@/i18n/locales/all_lang.json'
 
 const locales = import.meta.glob('./i18n/locales/*.json', { eager: true })
-export const langsFlags = [
-  {
-    value: 'en',
-    flag: '🇬🇧',
-    label: 'English',
-  },
-  {
-    value: 'de',
-    flag: '🇩🇪',
-    label: 'Deutsch',
-  },
-  {
-    value: 'es',
-    flag: '🇪🇸',
-    label: 'Español',
-  },
-  {
-    value: 'fr',
-    flag: '🇫🇷',
-    label: 'Français',
-  },
-  {
-    value: 'hi',
-    flag: '🇮🇳',
-    label: 'हिंदी',
-  },
-]
-
-export const setUserLocale = (locale: string) => {
-  const { $i18n } = useNuxtApp()
-  const preferenceStore = usePreferencesStore()
-  preferenceStore.setUserLocale(locale)
-  $i18n.locale.value = locale
-}
-
 const md = MarkdownIt({
   breaks: false,
 })
