@@ -3,7 +3,7 @@ import type { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/types'
 import type { Callback, ISubmittableResult } from '@polkadot/types/types'
 import type { DispatchError, Hash } from '@polkadot/types/interfaces'
 import type { ApiPromise } from '@polkadot/api'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { estimateGas, getGasPrice } from '@wagmi/core'
 import { useConfig } from '@wagmi/vue'
 import type { Address } from 'viem'
@@ -158,7 +158,7 @@ export const getActionTransactionFee = ({
 }): Promise<string> => {
   return new Promise((resolve, reject) => {
     // Keep in mind atm actions with ipfs file will be uploadeed
-    if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
+    if ([Interaction.CREATE, Interaction.MINTNFT].includes(action.interaction)) {
       console.log('[ACTION FEE]: Fee not allowed', action.interaction)
       return resolve('0')
     }
