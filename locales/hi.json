@@ -1134,8 +1134,8 @@
     "carbonless": "इस NFT में कार्बन नहीं है",
     "description": "NFT विवरण",
     "event": {
+      "BURN": "जलाएं",
       "BUY": "खरीदें",
-      "CONSUME": "जलाएं",
       "DOWNLOAD": "डाउनलोड",
       "LIST": "सूचीबद्ध",
       "MAKE_OFFER": "ऑफ़र दो",
@@ -1393,8 +1393,8 @@
     "properties": "गुण",
     "rarity": "Koda द्वारा दुर्लभता",
     "tabActivity": {
+      "BURN": "जलाए गए",
       "BUY": "बिक्री",
-      "CONSUME": "जलाए गए",
       "LIST": "सूचियाँ",
       "MINTNFT": "Mint्स",
       "SEND": "स्थानांतरण",
