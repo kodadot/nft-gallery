@@ -1,4 +1,5 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
+import { Interaction as LegacyInteraction, createInteraction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
@@ -98,7 +99,7 @@ export async function execBurnCollection(
     if (params.urlPrefix === 'rmrk') {
       executeTransaction({
         cb: api.tx.system.remark,
-        arg: [createInteraction(Interaction.BURN, collectionId, '')],
+        arg: [createInteraction(LegacyInteraction.CONSUME, collectionId, '')],
       })
     }
 

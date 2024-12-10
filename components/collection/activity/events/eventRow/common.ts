@@ -20,7 +20,7 @@ export const interactionNameMap = ({
   const map = {
     LIST: 'List',
     MINTNFT: 'Mint',
-    MINT: 'Mint',
+    CREATE: 'Create',
     SEND: 'Transfer',
     Offer: 'Offer',
     [TradeInteraction.OFFER]: 'Offer',
