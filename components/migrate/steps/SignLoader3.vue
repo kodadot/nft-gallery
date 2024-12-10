@@ -82,7 +82,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { Collections } from '@/composables/transaction/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
@@ -165,7 +165,7 @@ const burnItems = async () => {
 
   await transaction(
     {
-      interaction: Interaction.CONSUME,
+      interaction: Interaction.BURN,
       nftIds: ids,
       urlPrefix: from,
     },
