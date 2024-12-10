@@ -101,7 +101,7 @@ import {
 
 const emits = defineEmits(['select'])
 
-const { toast } = useToast()
+const { toast } = useToastOruga()
 
 const forceWalletSelect = ref(false)
 const wallets = ref<BaseDotsamaWallet[]>([])

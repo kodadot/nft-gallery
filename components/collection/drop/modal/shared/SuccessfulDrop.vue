@@ -31,7 +31,7 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { getCollectionFrameUrl } = useSocialShare()

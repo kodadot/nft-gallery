@@ -11,7 +11,7 @@ import { NeoDropdownItem } from '@kodadot1/brick'
 import { refreshOdaCollectionTokensMetadata } from '@/services/oda'
 
 const route = useRoute()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 

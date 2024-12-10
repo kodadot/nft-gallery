@@ -61,7 +61,7 @@ import shortAddress from '@/utils/shortAddress'
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const { doAfterLogin } = useDoAfterlogin()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { getSignaturePair } = useVerifyAccount()
 
 const props = defineProps<{

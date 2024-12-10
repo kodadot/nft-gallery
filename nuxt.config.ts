@@ -28,9 +28,20 @@ export default defineNuxtConfig({
     },
   },
 
+  build: {
+    transpile: ['three'],
+  },
+
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: process.env.NODE_ENV === 'development',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            '@kodadot1/brick': ['@kodadot1/brick'],
+          },
+        },
+      },
     },
     plugins: [
       svgLoader({
@@ -64,12 +75,14 @@ export default defineNuxtConfig({
               'date-fns/formatDistanceToNow',
               'keen-slider/vue',
               'lodash/camelCase',
+              'lodash/chunk',
               'lodash/filter',
               'lodash/groupBy',
               'lodash/isEqual',
               'lodash/orderBy',
               'lodash/sortBy',
               'lodash/sum',
+              'lodash/uniqBy',
               'lodash/unionBy',
               'lodash/zipWith',
               'markdown-it',
@@ -88,6 +101,7 @@ export default defineNuxtConfig({
               '@web3modal/wagmi/vue',
               '@wagmi/core',
               '@farcaster/auth-client',
+              'viem',
             ],
           }
         : undefined,
@@ -277,7 +291,14 @@ export default defineNuxtConfig({
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-gtag',
     '@nuxt/eslint',
+    '@nuxt/ui',
   ],
+
+  tailwindcss: {
+    // exposeConfig: true,
+    configPath: '~/libs/ui/tailwind.config.js',
+    cssPath: '~/libs/ui/src/scss/tailwind.scss',
+  },
 
   eslint: {
     config: {

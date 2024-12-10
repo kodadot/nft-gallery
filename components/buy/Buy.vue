@@ -48,7 +48,7 @@ const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { $i18n } = useNuxtApp()
 
 const { isTransactionSuccessful } = useTransactionSuccessful({
