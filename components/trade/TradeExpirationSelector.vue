@@ -3,7 +3,7 @@
     v-model="selected"
     aria-role="list"
     :triggers="['click']"
-    position="bottom-left"
+    :position="position"
     append-to-body
     close-menu-on-move
     class="w-full"
@@ -54,9 +54,14 @@ const options = EXPIRATION_DAYS_LIST.map(value => ({
 
 const selectedItem = computed(() => options.find(option => option.value === selected.value))
 
-const props = defineProps<{
-  modelValue?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue?: number
+    position?: string
+  }>(), {
+    position: 'bottom-left',
+  },
+)
 
 const emit = defineEmits(['update:modelValue'])
 

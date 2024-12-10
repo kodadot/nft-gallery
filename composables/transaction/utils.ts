@@ -7,7 +7,6 @@ import {
 } from '../transaction/types'
 import type {
   ActionAcceptOffer,
-  ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
   ActionDeleteCollection,
@@ -16,6 +15,7 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionOffer,
+  ActionSwap,
   ActionSend,
   ActionUpdateCollection,
   ActionWithdrawOffer,
@@ -50,7 +50,7 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.MINTNFT]: (action: ActionMintToken) =>
       hasContent(action.token),
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nfts.length),
-    [Interaction.CONSUME]: (action: ActionConsume) => Boolean(action.nftId),
+    [Interaction.CONSUME]: (action: ActionConsume) => hasContent(action.nftIds),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.token),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
@@ -67,12 +67,12 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.collectionId),
     [Collections.UPDATE_COLLECTION]: (action: ActionUpdateCollection) =>
       Boolean(action.collectionId) && (action.update.metadata || action.update.max),
-    [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
-      hasContent(action.nftIds),
     [NFTs.SET_METADATA]: (action: ActionSetNftMetadata) =>
       hasContent(action.nftSn),
     [NFTs.MINT_DROP]: (action: ActionMintDrop) =>
       hasContent(action.collectionId),
+    [ShoppingActions.CREATE_SWAP]: (action: ActionSwap) =>
+      hasContent(action.offered) && hasContent(action.desired) && action.offered.length === action.desired.length,
   }
 
   const checker = validityMap[action.interaction]

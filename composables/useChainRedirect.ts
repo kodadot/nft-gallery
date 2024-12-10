@@ -1,6 +1,7 @@
 import type { Prefix } from '@kodadot1/static'
-import type { RawLocation } from 'vue-router/types/router'
+import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { createVisible } from '@/utils/config/permission.config'
+import { arePrefixesOfSameVm } from '@/utils/config/chain.config'
 import { getss58AddressByPrefix } from '@/utils/account'
 
 const NO_REDIRECT_ROUTE_NAMES = [
@@ -39,10 +40,30 @@ function getRedirectPathForPrefix({
 }: {
   routeName: string
   chain: Prefix
-  route
-}): RawLocation {
+  route: RouteLocationNormalizedLoadedGeneric
+}): RouteLocationRaw {
+  const vmChanged = !arePrefixesOfSameVm(route.params.prefix.toString() as Prefix, chain)
+
+  if (routeName.includes('prefix-swap-id')) {
+    const accountId = getss58AddressByPrefix(route.params.id.toString(), chain)
+
+    return {
+      params: {
+        prefix: chain,
+        id: accountId,
+      },
+      query: {
+        swapId: route.query.swapId,
+      },
+    }
+  }
+
   if (routeName === 'prefix-u-id') {
-    const accountId = getss58AddressByPrefix(route.params.id, chain)
+    if (vmChanged) {
+      return { path: `/${chain}` }
+    }
+
+    const accountId = getss58AddressByPrefix(route.params.id.toString(), chain)
 
     delete route.query.collections
 
@@ -97,7 +118,7 @@ export default function () {
   const router = useRouter()
 
   const redirectAfterChainChange = (newChain: Prefix): void => {
-    const routeName = route.name as string
+    const routeName = route.name?.toString() || ''
 
     if (isNoRedirect(routeName)) {
       return
@@ -105,7 +126,7 @@ export default function () {
 
     const isSimpleCreate = routeName.includes('-create')
 
-    let redirectLocation: RawLocation = { path: `/${newChain}` }
+    let redirectLocation: RouteLocationRaw = { path: `/${newChain}` }
 
     if (route.params.prefix) {
       redirectLocation = getRedirectPathForPrefix({
