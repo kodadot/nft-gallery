@@ -28,9 +28,20 @@ export default defineNuxtConfig({
     },
   },
 
+  build: {
+    transpile: ['three'],
+  },
+
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: process.env.NODE_ENV === 'development',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            '@kodadot1/brick': ['@kodadot1/brick'],
+          },
+        },
+      },
     },
     plugins: [
       svgLoader({
