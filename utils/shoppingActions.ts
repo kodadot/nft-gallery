@@ -27,13 +27,13 @@ export const ShoppingActions = {
 export const KeyboardValueToActionMap = {
   b: ShoppingActions.BUY,
   s: ShoppingActions.SEND,
-  c: ShoppingActions.CONSUME,
+  c: ShoppingActions.BURN,
   l: ShoppingActions.LIST,
 }
 
 export const ownerActions = [
   ShoppingActions.SEND,
-  ShoppingActions.CONSUME,
+  ShoppingActions.BURN,
   ShoppingActions.LIST,
 ]
 
@@ -54,7 +54,7 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   FREEZE: ['is-warning is-dark'],
   REVOKE: ['is-warning is-dark'],
   [ShoppingActions.SEND]: ['is-info is-dark'],
-  [ShoppingActions.CONSUME]: ['is-danger'],
+  [ShoppingActions.BURN]: ['is-danger'],
   [ShoppingActions.LIST]: ['is-light'],
   [ShoppingActions.BUY]: ['is-success is-dark'],
   [ShoppingActions.MAKE_OFFER]: ['is-orange'],
