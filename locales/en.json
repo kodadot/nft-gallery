@@ -66,6 +66,7 @@
     "unique": "UNIQUE",
     "volume": "Volume"
   },
+  "add": "Add",
   "addFunds": "Add Funds",
   "advancedFilters": "Advanced Filters",
   "ambassador program": "Ambassador Program",
@@ -1816,10 +1817,37 @@
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
   "swap": {
-    "acceptSwap": "Accept Swap",
-    "cancelSwap": "Cancel Swap",
+    "acceptSwap": "Accepting Swap",
+    "addToken": "Add Token",
+    "beginSwap": "Begin Swap offer",
+    "clickOnNft": "Click on any NFT to add it to your swap list.",
+    "connectTrader": "Connect with a trader",
+    "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
+    "counterparty": "Counterparty",
+    "created": "Swap Created",
+    "creatingSwap": "Creating Swap",
     "incomingSwap": "Incoming Swap",
-    "yourSwap": "Your Swap"
+    "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
+    "landingTitle": "Koda Swap",
+    "learnMoreAboutSwaps": "Learn more about swaps",
+    "manageSwaps": "Manage Swaps",
+    "modifyOffer": "Modify Offer",
+    "requestToken": "Request Token",
+    "reviewCheckAssets": "Check the assets on both sides of the swap",
+    "reviewCounterpartyAccept": "If counterparty accept, these are the NFTs you will gain",
+    "reviewOffer": "Review swap offer",
+    "reviewSelected": "The NFTs you’ve selected to offer are displayed below. Confirm your selections are correct.",
+    "selectNft": "Select their NFTs for the Swap",
+    "selectOffer": "Select your offer",
+    "selectOfferSubtitle": "Select your NFTs you want to offer in this swap.",
+    "submit": "Submit Swap Offer",
+    "swapWithdrawl": "Swap Cancelation",
+    "youOffer": "You offer",
+    "youWillReceive": "You will receive",
+    "yourAddress": "Your Address",
+    "yourOffer": "Your offer",
+    "yourSwap": "Your Swap",
+    "yourSwapList": "Your Swap List"
   },
   "swaps": "Swaps",
   "tabs": {
@@ -1950,6 +1978,8 @@
     }
   },
   "transaction": {
+    "acceptOffer": "Accept Offer",
+    "acceptSwap": "Accept Swap",
     "addressIncorrect": "Address Incorrect",
     "burnNft": "Burn NFT | Burn NFTs",
     "buy": { "error": "Failed to buy this item" },
@@ -1958,9 +1988,6 @@
     "item": { "error": "Failed to send item", "success": "Item sent" },
     "list": "List",
     "offer": "Create Offer",
-    "offerAccept": "Accept Offer",
-    "offerError": "Offer creation failed",
-    "offerWithdraw": "Cancel Offer",
     "price": {
       "change": "Change Price",
       "error": "Price update failed",
@@ -1978,6 +2005,8 @@
       "error": "Item unlisting failed",
       "success": "Item successfully unlisted"
     },
+    "withdrawOffer": "Cancel Offer",
+    "withdrawSwap": "Cancel Swap",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered."
   },
   "transactionLoader": {
