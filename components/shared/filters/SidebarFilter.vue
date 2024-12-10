@@ -19,12 +19,12 @@
         />
       </template>
       <StatusFilter
-        v-else
+        v-else-if="isCollectionItemsTab"
         expanded
         fluid-padding
       />
       <PriceFilter
-        v-if="!isCollectionActivityTab"
+        v-if="isCollectionItemsTab"
         fluid-padding
         data-testid="sidebar-price-filter"
       />
@@ -34,9 +34,16 @@
         fluid-padding
       />
       <AdvancedFilter
-        v-if="!isCollectionActivityTab"
+        v-if="isCollectionItemsTab"
         fluid-padding
         data-testid="sidebar-advanced-filter"
+      />
+
+      <!-- Trade -->
+      <TradeFilter
+        v-if="isCollectionSwapsTab"
+        expanded
+        fluid-padding
       />
     </NeoSidebar>
   </div>
@@ -45,6 +52,7 @@
 <script lang="ts" setup>
 import { NeoSidebar } from '@kodadot1/brick'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
+import TradeFilter from '@/components/shared/filters/modules/TradeFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
@@ -54,9 +62,10 @@ import { usePreferencesStore } from '@/stores/preferences'
 const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
-const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity',
-)
+
+const isCollectionItemsTab = computed(() => route.name === 'prefix-collection-id')
+const isCollectionActivityTab = computed(() => route.name === 'prefix-collection-id-activity')
+const isCollectionSwapsTab = computed(() => route.name === 'prefix-collection-id-swaps')
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>
 
