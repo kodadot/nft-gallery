@@ -46,10 +46,6 @@ export const migrateVisible = (prefix: Prefix | string): boolean => {
   return isSub(prefix as Prefix)
 }
 
-export const offerVisible = (prefix: Prefix | string): boolean => {
-  return isAssetHub(prefix as Prefix)
-}
-
 export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix] ?? true
 }
@@ -74,6 +70,14 @@ export const burnVisible = (prefix: Prefix): boolean => {
   return isSub(prefix) || isEvm(prefix)
 }
 
+export const offerVisible = (prefix: Prefix): boolean => {
+  return tradeVisible(prefix)
+}
+
 export const swapVisible = (prefix: Prefix): boolean => {
+  return tradeVisible(prefix)
+}
+
+export const tradeVisible = (prefix: Prefix): boolean => {
   return isAssetHub(prefix)
 }

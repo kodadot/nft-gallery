@@ -107,6 +107,7 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     clear,
     createSwap,
     updateSwap,
+    updateItem,
     updateStepItems,
     removeStepItem,
   }
