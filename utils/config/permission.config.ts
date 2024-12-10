@@ -3,7 +3,6 @@ import type { PartialConfig, Prefix } from './types'
 const hasCreate: PartialConfig = {
   dot: false,
   ksm: false,
-  rmrk: false,
 }
 
 const hasInsight: PartialConfig = {
@@ -24,7 +23,6 @@ const hasMassmintCreate: PartialConfig = {
 
 const hasExplorer: PartialConfig = {
   dot: false,
-  rmrk: false,
   ksm: false,
 }
 
@@ -49,7 +47,7 @@ export const migrateVisible = (prefix: Prefix | string): boolean => {
 }
 
 export const offerVisible = (prefix: Prefix | string): boolean => {
-  return ['ahp', 'ahk'].includes(prefix)
+  return isAssetHub(prefix as Prefix)
 }
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
@@ -65,9 +63,17 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk' || prefix === 'ahp' || isEvm(prefix)
+  return isAssetHub(prefix as Prefix) || isEvm(prefix as Prefix)
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
   return hasExplorer[prefix] ?? true
+}
+
+export const burnVisible = (prefix: Prefix): boolean => {
+  return isSub(prefix) || isEvm(prefix)
+}
+
+export const swapVisible = (prefix: Prefix): boolean => {
+  return isAssetHub(prefix)
 }

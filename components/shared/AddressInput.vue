@@ -37,7 +37,7 @@ const props = withDefaults(
     modelValue: string
     label?: string
     emptyOnError?: boolean
-    strict: boolean
+    strict?: boolean
     icon?: string
     placeholder?: string
     disableError?: boolean

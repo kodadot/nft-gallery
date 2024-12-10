@@ -66,6 +66,7 @@
     "unique": "UNIQUE",
     "volume": "Volume"
   },
+  "add": "Add",
   "addFunds": "Add Funds",
   "advancedFilters": "Advanced Filters",
   "ambassador program": "Ambassador Program",
@@ -174,6 +175,7 @@
   "blog": "Blog",
   "bridging": "Bridging",
   "burn": "Burn",
+  "burning": { "agree": "I understand NFT(s) will be permanently destroyed" },
   "buyModal": {
     "amountPurchaseSuccessfully": "{0} NFTs purchased successfully",
     "buyingNft": "Buying NFT | Buying NFTs",
@@ -941,6 +943,7 @@
       "cancelled": "Transaction was cancelled",
       "feesPaidIn": "You are paying fees in {0}"
     },
+    "undo": "Undo",
     "updateOnWebsiteSoon": "Update on website visible soon",
     "usd": "USD",
     "using": "using"
@@ -949,6 +952,7 @@
   "go back": "Go Back",
   "handle": "Handle",
   "helper": {
+    "acknowledgeToContinue": "Acknowledge To Continue",
     "builtOn": "Built on",
     "clickToCreate": "Click here to create collection",
     "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
@@ -1289,7 +1293,7 @@
         "label": "Your Awesome Art",
         "message": "This can be image, video, audio, 3D model"
       },
-      "burning": "Burning NFT",
+      "burning": "Burning NFT | Burning NFTs",
       "collection": {
         "label": "Select Collection",
         "message": "Choose a collection to which you want to mint your NFT."
@@ -1358,6 +1362,7 @@
         "message": "People will be able to buy your NFT."
       }
     },
+    "notRecommendedModify": "Please note that this field is not recommended to be modified as it may lead to misuse and confusion",
     "progress": "In Progress",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
     "royalty": {
@@ -1811,10 +1816,38 @@
     "tooltip": "Cover costs mean that users help to support initial costs for Koda which stores your JPEG on your behalf."
   },
   "swap": {
-    "acceptSwap": "Accept Swap",
-    "cancelSwap": "Cancel Swap",
+    "acceptSwap": "Accepting Swap",
+    "addToken": "Add Token",
+    "beginSwap": "Begin Swap offer",
+    "clickOnNft": "Click on any NFT to add it to your swap list.",
+    "connectTrader": "Connect with a trader",
+    "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
+    "counterparty": "Counterparty",
+    "created": "Swap Created",
+    "creatingSwap": "Creating Swap",
     "incomingSwap": "Incoming Swap",
-    "yourSwap": "Your Swap"
+    "landingSubtitle": "Koda Swap facilitates secure and straightforward exchanges of digital assets. Connect directly with traders and confidently navigate your NFT transactions with our reliable platform.",
+    "landingTitle": "Koda Swap",
+    "learnMoreAboutSwaps": "Learn more about swaps",
+    "manageSwaps": "Manage Swaps",
+    "modifyOffer": "Modify Offer",
+    "requestToken": "Request Token",
+    "reviewCheckAssets": "Check the assets on both sides of the swap",
+    "reviewCounterpartyAccept": "If counterparty accept, these are the NFTs you will gain",
+    "reviewOffer": "Review swap offer",
+    "reviewSelected": "The NFTs you’ve selected to offer are displayed below. Confirm your selections are correct.",
+    "selectNft": "Select their NFTs for the Swap",
+    "selectOffer": "Select your offer",
+    "selectOfferSubtitle": "Select your NFTs you want to offer in this swap.",
+    "submit": "Submit Swap Offer",
+    "swap": "Swap",
+    "swapWithdrawl": "Swap Cancelation",
+    "youOffer": "You offer",
+    "youWillReceive": "You will receive",
+    "yourAddress": "Your Address",
+    "yourOffer": "Your offer",
+    "yourSwap": "Your Swap",
+    "yourSwapList": "Your Swap List"
   },
   "swaps": "Swaps",
   "tabs": {
@@ -1945,16 +1978,16 @@
     }
   },
   "transaction": {
+    "acceptOffer": "Accept Offer",
+    "acceptSwap": "Accept Swap",
     "addressIncorrect": "Address Incorrect",
+    "burnNft": "Burn NFT | Burn NFTs",
     "buy": { "error": "Failed to buy this item" },
     "consume": { "error": "Failed to burn item", "success": "Item burned" },
     "inputAddressFirst": "Input address first",
     "item": { "error": "Failed to send item", "success": "Item sent" },
     "list": "List",
     "offer": "Create Offer",
-    "offerAccept": "Accept Offer",
-    "offerError": "Offer creation failed",
-    "offerWithdraw": "Cancel Offer",
     "price": {
       "change": "Change Price",
       "error": "Price update failed",
@@ -1972,6 +2005,8 @@
       "error": "Item unlisting failed",
       "success": "Item successfully unlisted"
     },
+    "withdrawOffer": "Cancel Offer",
+    "withdrawSwap": "Cancel Swap",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered."
   },
   "transactionLoader": {

@@ -71,11 +71,11 @@ export type MintDropParams = BaseMintParams<ActionMintDrop>
 export type SubstrateMintDropParams = BaseSubstrateMintParams<ActionMintDrop>
 export type EvmMintDropParams = BaseEvmMintParams<ActionMintDrop>
 
+export type CreateSwapParams = BaseSubstrateMintParams<ActionSwap>
+
 export type NftCountType = {
   nftCount: number
 }
-
-export type Max = { max: number }
 
 export type SymbolType = {
   symbol: string
@@ -106,13 +106,10 @@ export type MintedCollection = {
   name?: string
   lastIndexUsed: number
   totalCount: number
+  max: number
 }
 
-export type MintedCollectionKusama = MintedCollection & Max & SymbolType
-
-export type TokenToMint = BaseTokenType<
-  MintedCollection | MintedCollectionKusama
-> & {
+export type TokenToMint = BaseTokenType<MintedCollection> & {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
@@ -123,10 +120,8 @@ export type TokenToMint = BaseTokenType<
 
 export type ActionConsume = {
   interaction: Interaction.CONSUME
-  urlPrefix: string
-  nftId: string
-  nftSn: string
-  collectionId: string
+  urlPrefix: Prefix
+  nftIds: string[]
   abi?: Abi | null
   successMessage?: string
   errorMessage?: string
@@ -193,6 +188,27 @@ export type ActionOffer = {
   errorMessage?: string
 }
 
+export type SwapSurchargeDirection = 'Send' | 'Receive'
+
+export type SwapSurcharge = { amount: string, direction: SwapSurchargeDirection }
+
+export type TokenToSwap = {
+  id: string
+  collectionId: string
+  sn: string
+}
+
+export type ActionSwap = {
+  interaction: typeof ShoppingActions.CREATE_SWAP
+  urlPrefix: string
+  offered: TokenToSwap[]
+  desired: TokenToSwap[]
+  surcharge?: SwapSurcharge
+  duration: number
+  successMessage?: string
+  errorMessage?: string
+}
+
 export type ActionWithdrawOffer = {
   interaction: typeof ShoppingActions.WITHDRAW_OFFER
   urlPrefix: Prefix
@@ -206,7 +222,7 @@ export type ActionAcceptOffer = {
   urlPrefix: Prefix
   nftId: string
   collectionId: string
-  offeredId: number
+  offeredId: string
   price: string
   successMessage?: string
   errorMessage?: string
@@ -277,17 +293,8 @@ export interface ActionDeleteCollection {
 }
 
 export enum NFTs {
-  BURN_MULTIPLE = 'burnMultiple',
   MINT_DROP = 'mintDrop',
   SET_METADATA = 'setMetadata',
-}
-
-export interface ActionBurnMultipleNFTs {
-  interaction: NFTs.BURN_MULTIPLE
-  urlPrefix: string
-  nftIds: string[]
-  successMessage?: string | ((blockNumber: string) => string)
-  errorMessage?: string
 }
 
 export type ActionMetadataSetMetadata = Metadata & { image: File | string }
@@ -338,7 +345,7 @@ export type Actions =
   | ActionMintToken
   | ActionMintCollection
   | ActionDeleteCollection
-  | ActionBurnMultipleNFTs
   | ActionUpdateCollection
   | ActionSetNftMetadata
   | ActionMintDrop
+  | ActionSwap

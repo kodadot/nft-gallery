@@ -4,17 +4,14 @@ import { vmOf } from '@/utils/config/chain.config'
 
 export const isEvm = (prefix: Prefix) => vmOf(prefix) === 'EVM'
 export const isSub = (prefix: Prefix) => vmOf(prefix) === 'SUB'
+export const isAssetHub = (prefix: Prefix) => prefix === 'ahk' || prefix === 'ahp'// || prefix.value === 'ahr'
 
 export default function (prefix: ComputedRef<Prefix>) {
-  const isAssetHub = computed(
-    () => prefix.value === 'ahk' || prefix.value === 'ahp', // || prefix.value === 'ahr'
-  )
-
   const isBase = computed(() => 'base' === prefix.value)
 
   return {
-    isAssetHub,
     isBase,
+    isAssetHub: computed(() => isAssetHub(prefix.value)),
     isEvm: computed(() => isEvm(prefix.value)),
     isSub: computed(() => isSub(prefix.value)),
   }

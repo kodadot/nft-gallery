@@ -1,15 +1,15 @@
 import BN from 'bn.js'
+import { destructTokenId } from '@/utils/gallery/abstractCalls'
 
 const LEGACY_PREFIX = /^u-/
 
 export const tokenIdToRoute = (
   tokenId: string,
 ): { id: string, item: string } => {
-  const sanitized = correctId(tokenId)
-  const [collection, item] = sanitized.split('-')
+  const { collectionId: id, tokenId: item } = destructTokenId(tokenId)
 
   return {
-    id: collection,
+    id,
     item,
   }
 }

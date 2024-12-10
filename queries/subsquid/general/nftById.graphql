@@ -8,6 +8,7 @@ query nftById($id: String!) {
     collection {
       id
       name
+      currentOwner
       floorPrice: nfts(
         where: { burned_eq: false, price_not_eq: "0" }
         orderBy: price_ASC
