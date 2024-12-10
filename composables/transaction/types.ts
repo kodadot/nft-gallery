@@ -1,7 +1,6 @@
 import type { Attribute, Metadata } from '@kodadot1/minimark/common'
-import type { Interaction } from '@kodadot1/minimark/v1'
+import type { Interaction, Prefix } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
-import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { Abi as ViemAbi } from 'viem'
 import type { BaseTokenType } from '@/components/base/types'
@@ -119,7 +118,7 @@ export type TokenToMint = BaseTokenType<MintedCollection> & {
 }
 
 export type ActionConsume = {
-  interaction: Interaction.CONSUME
+  interaction: Interaction.BURN
   urlPrefix: Prefix
   nftIds: string[]
   abi?: Abi | null
@@ -267,7 +266,7 @@ export interface ActionMintDrop {
 }
 
 export interface ActionMintCollection {
-  interaction: Interaction.MINT
+  interaction: Interaction.CREATE
   urlPrefix: string
   collection:
     | CollectionToMintBasilisk
