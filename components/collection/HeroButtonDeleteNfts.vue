@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { NeoDropdownItem } from '@kodadot1/brick'
 
 type NftIds = {
@@ -53,7 +53,7 @@ const deleteNfts = async () => {
     isLoading.value = true
 
     await transaction({
-      interaction: Interaction.CONSUME,
+      interaction: Interaction.BURN,
       nftIds: ids,
       urlPrefix: urlPrefix.value,
     })

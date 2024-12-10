@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import type { Address } from 'viem'
 
@@ -229,7 +229,7 @@ export const executeAction = ({
       execListTx(item as ActionList, api, executeTransaction),
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
-    [ShoppingActions.CONSUME]: () =>
+    [ShoppingActions.BURN]: () =>
       execBurn(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.WITHDRAW_SWAP]: () =>
       execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
@@ -257,7 +257,7 @@ export const executeAction = ({
         isLoading,
         status,
       }),
-    [ShoppingActions.MINT]: () =>
+    [ShoppingActions.CREATE]: () =>
       execMintCollection({
         item: item as ActionMintCollection,
         api,

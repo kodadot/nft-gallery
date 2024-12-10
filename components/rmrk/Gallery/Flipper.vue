@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { formatDistanceToNow } from 'date-fns'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type {
   TableRow,
 } from '@/components/rmrk/Gallery/Holder/Holder.vue'

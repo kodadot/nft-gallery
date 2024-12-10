@@ -1467,8 +1467,8 @@
     "carbonless": "This NFT is carbonless",
     "description": "NFT description",
     "event": {
+      "BURN": "BURN",
       "BUY": "BUY",
-      "CONSUME": "BURN",
       "DOWNLOAD": "DOWNLOAD",
       "LIST": "LIST",
       "MAKE_OFFER": "MAKE OFFER",
@@ -1860,8 +1860,8 @@
     "properties": "Properties",
     "rarity": "Rarity by Koda",
     "tabActivity": {
+      "BURN": "Burns",
       "BUY": "Sales",
-      "CONSUME": "Burns",
       "LIST": "Listings",
       "MINTNFT": "Mints",
       "SEND": "Transfers",

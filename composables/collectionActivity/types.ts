@@ -1,4 +1,4 @@
-import type { Interaction } from '@kodadot1/minimark/v1'
+import type { Interaction } from '@kodadot1/static'
 import type {
   Interaction as InteractionType,
   NFTMetadata,
