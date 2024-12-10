@@ -75,6 +75,21 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
     args.push(api.tx.nfts.setCollectionMaxSupply(item.collectionId, item.collection.max ? item.collection.max : undefined))
   }
 
+  if (item.update.permission) {
+    if (item.collection.mintingSettings.mintType === 'HolderOf') {
+      args.push(api.tx.nfts.updateMintSettings(item.collectionId, {
+        price: item.collection.mintingSettings.price,
+        mintType: {
+          HolderOf: item.collection.mintingSettings.holderOf,
+        },
+      }))
+    }
+    else {
+      const { holderOf: _, ...restSettings } = item.collection.mintingSettings
+      args.push(api.tx.nfts.updateMintSettings(item.collectionId, restSettings))
+    }
+  }
+
   executeTransaction({
     cb: api.tx.utility.batchAll,
     arg: [args],
