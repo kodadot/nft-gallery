@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type {
   DataPoint } from './utils'
 import {
