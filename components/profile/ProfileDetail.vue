@@ -645,7 +645,7 @@ const onFollowingClick = () => {
 
 const handleSwapPageRedirect = () => {
   doAfterCheckCurrentChainVM(() => {
-    return navigateTo(`/${urlPrefix}/swap/${isOwner.value ? '' : id}`)
+    return navigateTo(`/${urlPrefix.value}/swap/${isOwner.value ? '' : id.value}`)
   })
 }
 
