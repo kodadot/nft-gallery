@@ -1,6 +1,6 @@
 // TODO: REMOVE!!!
 
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 
 enum OfferActions {
   MAKE_OFFER = 'MAKE_OFFER',
