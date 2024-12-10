@@ -76,7 +76,7 @@ const props = withDefaults(
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { isMobile } = useViewport()
 const { shareOnX } = useSocialShare()
 const propsSharingContent = computed(() => props.sharingContent)

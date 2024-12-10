@@ -446,7 +446,7 @@ const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status }
   = useTransactionStatus()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { getTokenIconBySymbol } = useIcon()
 const { tokens } = useToken()
 const { chainExistentialDeposit } = useExistentialDeposit()

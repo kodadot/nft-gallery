@@ -1,5 +1,5 @@
 // vue composables api for toast message function
-export default function useToast() {
+export default function useToastOruga() {
   const { neoNotification } = useProgrammatic()
 
   // toast message function

@@ -66,7 +66,7 @@ import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModa
 
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin()
 const {
