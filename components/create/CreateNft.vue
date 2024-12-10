@@ -302,7 +302,7 @@ import { toNFTId } from '@kodadot1/minimark/v2'
 import type { CreatedNFT } from '@kodadot1/minimark/v1'
 import { Interaction } from '@kodadot1/minimark/v1'
 import CreateNftPreview from './CreateNftPreview.vue'
-import type { Actions, TokenToList } from '@/composables/transaction/types'
+import type { ActionMintToken, ActionList, TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
@@ -429,14 +429,14 @@ const transactionStatus = ref<
 const createdItems = ref()
 const mintedBlockNumber = ref()
 
-const mintAction = computed<Actions>(() => ({
+const mintAction = computed<ActionMintToken>(() => ({
   interaction: Interaction.MINTNFT,
   urlPrefix: currentChain.value,
   token: {
     file: form.file,
     name: form.name,
     description: form.description,
-    selectedCollection: selectedCollection.value,
+    selectedCollection: selectedCollection.value || null,
     copies: form.copies,
     nsfw: form.nsfw,
     postfix: form.postfix,
@@ -448,7 +448,7 @@ const mintAction = computed<Actions>(() => ({
   },
 }))
 
-const listAction = computed<Actions>(() => {
+const listAction = computed<ActionList>(() => {
   const list: TokenToList[] = createdItems.value?.map(nft => ({
     price: balanceFrom(form.salePrice, decimals.value),
     nftId: toNFTId(nft, String(blockNumber.value)),

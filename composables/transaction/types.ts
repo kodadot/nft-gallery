@@ -77,8 +77,6 @@ export type NftCountType = {
   nftCount: number
 }
 
-export type Max = { max: number }
-
 export type SymbolType = {
   symbol: string
 }
@@ -108,13 +106,10 @@ export type MintedCollection = {
   name?: string
   lastIndexUsed: number
   totalCount: number
+  max: number
 }
 
-export type MintedCollectionKusama = MintedCollection & Max & SymbolType
-
-export type TokenToMint = BaseTokenType<
-  MintedCollection | MintedCollectionKusama
-> & {
+export type TokenToMint = BaseTokenType<MintedCollection> & {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean

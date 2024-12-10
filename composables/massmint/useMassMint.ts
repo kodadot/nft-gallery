@@ -47,7 +47,7 @@ export const useCollectionForMint = () => {
 
       collections.value = []
 
-      return (await useAsyncGraphql({
+      return (await useAsyncGraphql<{ collectionEntities: any[] }>({
         query: 'collectionForMint',
         variables: {
           account: accountId.value,
@@ -62,7 +62,7 @@ export const useCollectionForMint = () => {
     if (collectionEntities?.length) {
       const newCollections = collectionEntities
         .map(collection => ({ ...collection, lastIndexUsed: Number(collection.lastNft[0]?.sn || 0) }))
-        .filter(collection => (collection.max || Infinity) - collection.minted > 0)
+        .filter((collection: MintedCollection) => (collection.max || Infinity) - collection.alreadyMinted > 0)
 
       collections.value = unwrapSafe(newCollections)
     }

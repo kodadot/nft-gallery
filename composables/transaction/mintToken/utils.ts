@@ -1,6 +1,5 @@
 import type {
   ActionMintToken,
-  Max,
   MintedCollection,
   SubstrateMintTokenParams,
   TokenToMint,
@@ -11,7 +10,7 @@ import type { SupportTokens } from '@/utils/support'
 
 export const copiesToMint = <T extends TokenToMint>(token: T): number => {
   const { copies, selectedCollection } = token
-  const { alreadyMinted, max } = selectedCollection as MintedCollection & Max
+  const { alreadyMinted, max } = selectedCollection as MintedCollection
   const maxAllowedNftsInCollection = (max || 0) === 0 ? Infinity : max
   const remaining = maxAllowedNftsInCollection - alreadyMinted
 
