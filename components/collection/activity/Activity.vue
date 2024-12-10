@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { useResizeObserver } from '@vueuse/core'
 import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
