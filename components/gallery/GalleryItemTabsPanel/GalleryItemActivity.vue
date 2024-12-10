@@ -51,7 +51,7 @@ defineProps<{
 
 const defaultInteractions = ['BUY', 'LIST']
 
-const allInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'CONSUME']
+const allInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'BURN']
 
 const interactions = ref(defaultInteractions)
 const filters = {
@@ -59,7 +59,7 @@ const filters = {
   sales: 'BUY',
   listings: 'LIST',
   transfers: 'SEND',
-  burns: 'CONSUME',
+  burns: 'BURN',
 }
 
 const checkAll = () => {
