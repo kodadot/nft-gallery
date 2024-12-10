@@ -300,7 +300,7 @@ import {
 } from '@kodadot1/brick'
 import { toNFTId } from '@kodadot1/minimark/v2'
 import type { CreatedNFT } from '@kodadot1/minimark/v1'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import CreateNftPreview from './CreateNftPreview.vue'
 import type { ActionMintToken, ActionList, TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
