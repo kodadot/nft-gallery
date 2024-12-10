@@ -513,16 +513,14 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId, isCurrentOwner } = useAuth()
-const { urlPrefix, client, setUrlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { redirectAfterChainChange } = useChainRedirect()
 const profileOnboardingStore = useProfileOnboardingStore()
 const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
-const { getPrefixByAddress } = useAddress()
 const { params } = useRoute()
 
 const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
@@ -839,15 +837,6 @@ watch(collections, (value) => {
   replaceUrl({
     collections: value.length ? value.toString() : undefined,
   })
-})
-
-watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
-  if (prefix !== urlPrefix.value) {
-    setUrlPrefix(prefix)
-    redirectAfterChainChange(prefix)
-  }
-}, {
-  immediate: true,
 })
 
 watchEffect(() => {
