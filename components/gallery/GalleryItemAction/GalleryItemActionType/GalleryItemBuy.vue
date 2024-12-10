@@ -123,10 +123,10 @@ const onClickShoppingCart = () => {
 }
 
 .square-button-width {
-  width: 55px;
+  width: 6.25rem;
 }
 .buy-button-width {
-  width: 10rem;
+  width: 8.375rem;
 
   @include until-widescreen {
     width: 100%;
