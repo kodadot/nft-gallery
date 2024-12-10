@@ -149,6 +149,7 @@ const { format: formatPrice } = useFormatAmount()
 
 const interaction = computed(() =>
   dprops.interactions.map((key) => {
+    // DEV: safe to remove?
     if (['ahk', 'ahp', 'base'].includes(urlPrefix.value)) {
       switch (key) {
         case 'MINTNFT':
