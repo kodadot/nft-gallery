@@ -79,8 +79,8 @@ test('Explore Items', async ({ page, Commands }) => {
   await test.step('Sort results by price, ascending', async () => {
     const exploreSort = page.getByTestId('explore-sort-dropdown').nth(1)
     await exploreSort.click()
-    await page.getByTestId('price_ASC').nth(1).click()
-    const btnAsc = await page.$('[value="price_ASC"]')
+    await page.getByTestId('price_ASC_NULLS_LAST').nth(1).click()
+    const btnAsc = await page.$('[value="price_ASC_NULLS_LAST"]')
     await btnAsc?.click()
     await page.keyboard.press('Escape')
   })
