@@ -295,6 +295,7 @@ export type CollectionMintSettingType = 'Issuer' | 'Public' | 'HolderOf'
 export type CollectionMintSetting = {
   price: string
   mintType: CollectionMintSettingType
+  holderOf?: string
 }
 
 export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }

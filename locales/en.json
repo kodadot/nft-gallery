@@ -1250,10 +1250,15 @@
         "placeholder": "Enter collection name"
       },
       "permission": {
+        "holderOfIdWarning": "You need to set a HolderOf collection",
+        "holderOfWarning": "Currently HolderOf collection is not supported to mint on Koda",
+        "issuerWarning": "You should not set a price for Issuer type",
         "label": "Collection Permission",
         "noPriceSet": "No specified price set",
-        "pricePlaceholder": "specify the price of the items"
+        "pricePlaceholder": "specify the price of the items",
+        "publicWarning": "You need to set a price so that users can mint on Koda"
       },
+      "search": "Search Collection Name...",
       "submit": "Create Collection",
       "symbol": {
         "label": "Symbol (short name)",
