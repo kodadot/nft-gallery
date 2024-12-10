@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/vue-query'
 import type { Prefix } from '@kodadot1/static'
-import type { Flippers, InteractionWithNFT, Offer, Owners } from './types'
+import type { Flippers, InteractionWithNFT, Owners } from './types'
 import { getFlippers, getOwners } from './helpers'
 
 export const useCollectionActivity = ({
@@ -14,7 +14,6 @@ export const useCollectionActivity = ({
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
   const flippers = ref<Flippers>()
-  const offers = ref<Offer[]>([])
 
   const queryPrefixMap = {
     ksm: 'chain-ksm',
@@ -85,7 +84,6 @@ export const useCollectionActivity = ({
     events,
     owners,
     flippers,
-    offers,
     loading,
   }
 }

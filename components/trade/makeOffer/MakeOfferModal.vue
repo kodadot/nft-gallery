@@ -25,7 +25,7 @@
         <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
-          <MakingOfferSingleItem v-if="offerStore.items.length === 1" />
+          <MakeOfferSingleItem v-if="offerStore.items.length === 1" />
         </div>
 
         <div class="border-t pt-5 pb-4 px-6">
@@ -59,7 +59,8 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import type { MakingOfferItem } from './types'
+import type { MakingOfferItem } from '@/components/trade/types'
+import MakeOfferSingleItem from '@/components/trade/makeOffer/MakeOfferSingleItem.vue'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import type { Actions, TokenToOffer } from '@/composables/transaction/types'
@@ -72,7 +73,6 @@ import AutoTeleportActionButton, {
 } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
-import MakingOfferSingleItem from '@/components/offer/MakingOfferSingleItem.vue'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import { sum } from '@/utils/math'

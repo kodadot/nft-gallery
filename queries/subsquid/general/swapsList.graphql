@@ -1,0 +1,25 @@
+query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockNumber_DESC]) {
+    swaps(where: $where, orderBy: $orderBy) {
+    id
+    expiration
+    blockNumber
+    status
+    caller
+    surcharge
+    price
+    nft {
+      id
+      name
+      sn
+      currentOwner
+      image
+    }
+    desired {
+      id
+      name
+      sn
+      currentOwner
+      image
+    }
+  }
+}

@@ -187,6 +187,8 @@ export const getActionTransactionFee = ({
   })
 }
 
+export const estimateTransactionFee = (account: string, decimals: number): Promise<string> => getTransitionFee(account, [''], decimals)
+
 export const getTransitionFee = async (
   accountId: string,
   targetAddresses: Array<string>,

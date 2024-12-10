@@ -6,11 +6,19 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
     price
     status
     caller
+    nft {
+      id
+      name
+      sn
+      currentOwner
+      image
+    }
     desired {
       id
       name
       sn
       currentOwner
+      image
     }
   }
 }

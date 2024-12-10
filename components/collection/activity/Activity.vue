@@ -42,7 +42,7 @@
         :class="{ 'my-7': !isBreadCrumbsShowing }"
       >
       <Events
-        :events="sortedEventsWithOffersDesc"
+        :events="filteredEvents"
         :loading="loading"
       />
     </div>
@@ -72,7 +72,7 @@ const isBreadCrumbsShowing = computed(
 
 const collectionId = computed(() => route.params.id.toString())
 
-const { events, flippers, owners, offers, loading } = useCollectionActivity({
+const { events, flippers, owners, loading } = useCollectionActivity({
   collectionId,
 })
 
@@ -83,17 +83,12 @@ const InteractionIncluded = [
   Interaction.SEND,
 ]
 
-const filteredEvents = computed(() =>
-  events.value.filter(event =>
-    InteractionIncluded.includes(event.interaction as Interaction),
-  ),
-)
-const withOffers = computed(() => [...filteredEvents.value, ...offers.value])
-
 // newest events first (bigger timestamp first)
-const sortedEventsWithOffersDesc = computed(() =>
-  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-  withOffers.value.sort((a, b) => b.timestamp - a.timestamp),
+const filteredEvents = computed(() =>
+  events.value
+    .filter(event =>
+      InteractionIncluded.includes(event.interaction as Interaction),
+    ).sort((a, b) => b.timestamp - a.timestamp),
 )
 
 useResizeObserver(wrapper, (entry) => {

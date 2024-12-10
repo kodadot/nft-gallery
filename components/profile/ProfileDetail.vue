@@ -92,6 +92,14 @@
             @follow:fail="openProfileCreateModal"
             @unfollow:success="handleFollowRefresh"
           />
+          <NeoButton
+            v-if="swapVisible(urlPrefix)"
+            variant="outlined-rounded"
+            icon-left="arrow-right-arrow-left"
+            @click="handleSwapPageRedirect"
+          >
+            {{ $t('swaps') }}
+          </NeoButton>
 
           <!-- Wallet And Links Dropdown -->
           <NeoDropdown position="bottom-auto">
@@ -316,23 +324,22 @@
 
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
-        <div class="flex is-hidden-touch is-hidden-desktop-only">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            class="capitalize"
-            :data-testid="`profile-${tab}-tab`"
-            :active="activeTab === tab"
-            :count="counts[tab]"
-            :show-active-check="tabsWithActiveCheck.includes(tab)"
-            :text="tab"
-            @click="() => switchToTab(tab)"
-          />
-          <ChainDropdown class="ml-6" />
-          <OrderByDropdown
-            v-if="activeTab !== ProfileTab.ACTIVITY"
-            class="ml-6"
-          />
+        <div class="flex gap-6 is-hidden-touch is-hidden-desktop-only">
+          <div class="flex w-full">
+            <TabItem
+              v-for="tab in tabs"
+              :key="tab"
+              class="capitalize !w-full [&>*]:!w-full max-w-[12rem]"
+              :data-testid="`profile-${tab}-tab`"
+              :active="activeTab === tab"
+              :count="counts[tab]"
+              :show-active-check="tabsWithActiveCheck.includes(tab)"
+              :text="tab"
+              @click="() => switchToTab(tab)"
+            />
+          </div>
+          <ChainDropdown />
+          <OrderByDropdown v-if="showOrderByDropdown" />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
           <div class="flex flex-wrap">
@@ -349,7 +356,7 @@
           </div>
           <div class="flex flex-wrap gap-4">
             <ChainDropdown />
-            <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
+            <OrderByDropdown v-if="showOrderByDropdown" />
           </div>
         </div>
       </div>
@@ -425,9 +432,14 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
-        <ProfileActivityTabOffers
-          v-if="activeTab === ProfileTab.OFFERS"
+        <ProfileActivityTabTrades
+          v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
           :id="id"
+          :key="activeTab"
+          :type="{
+            [ProfileTab.SWAPS]: TradeType.SWAP,
+            [ProfileTab.OFFERS]: TradeType.OFFER,
+          }[activeTab]"
         />
       </div>
     </div>
@@ -467,7 +479,9 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
-import { offerVisible } from '@/utils/config/permission.config'
+import { offerVisible, swapVisible } from '@/utils/config/permission.config'
+import { TradeType } from '@/composables/useTrades'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -476,6 +490,7 @@ const FarcasterIcon = defineAsyncComponent(
 )
 
 const gridSection = GridSection.PROFILE_GALLERY
+const tabsWithActiveCheck = [ProfileTab.OFFERS, ProfileTab.SWAPS]
 
 const socials = {
   [Socials.Farcaster]: {
@@ -493,38 +508,19 @@ const socials = {
   },
 }
 
-const tabs = computed(() => {
-  const tabs = [
-    ProfileTab.OWNED,
-    ProfileTab.CREATED,
-    ProfileTab.COLLECTIONS,
-    ProfileTab.ACTIVITY,
-  ]
-
-  if (offerVisible(urlPrefix.value)) {
-    tabs.push(ProfileTab.OFFERS)
-  }
-
-  return tabs
-})
-
-const tabsWithActiveCheck = [ProfileTab.OFFERS]
-
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId, isCurrentOwner } = useAuth()
-const { urlPrefix, client, setUrlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { redirectAfterChainChange } = useChainRedirect()
 const profileOnboardingStore = useProfileOnboardingStore()
 const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
-const { getPrefixByAddress } = useAddress()
 const { params } = useRoute()
 
 const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
@@ -585,6 +581,24 @@ const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
 
+const showOrderByDropdown = computed(() => [ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab.value))
+const tabs = computed(() => {
+  const tabs = [
+    ProfileTab.OWNED,
+    ProfileTab.CREATED,
+    ProfileTab.COLLECTIONS,
+    ProfileTab.ACTIVITY,
+  ]
+
+  if (offerVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.OFFERS)
+  }
+
+  tabs.push(ProfileTab.SWAPS)
+
+  return tabs
+})
+
 const shareURL = computed(() => `${window.location.origin}${route.path}`)
 
 const socialDropdownItems = computed(() => {
@@ -612,7 +626,9 @@ const buttonConfig = computed<ButtonConfig>(() =>
 )
 
 const switchToTab = (tab: ProfileTab) => {
-  activeTab.value = tab
+  if (activeTab.value !== tab) {
+    activeTab.value = tab
+  }
 }
 
 const onFollowersClick = () => {
@@ -623,6 +639,12 @@ const onFollowersClick = () => {
 const onFollowingClick = () => {
   followModalTab.value = 'following'
   isFollowModalActive.value = true
+}
+
+const handleSwapPageRedirect = () => {
+  doAfterCheckCurrentChainVM(() => {
+    return navigateTo(`/${urlPrefix.value}/swap/${isOwner.value ? '' : id.value}`)
+  })
 }
 
 const tabKey = computed(() =>
@@ -666,7 +688,7 @@ const activeTab = computed({
     return tab
   },
   set: (val) => {
-    replaceUrl({ tab: val })
+    replaceUrl({ tab: val }, { override: true })
   },
 })
 
@@ -817,15 +839,6 @@ watch(collections, (value) => {
   })
 })
 
-watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
-  if (prefix !== urlPrefix.value) {
-    setUrlPrefix(prefix)
-    redirectAfterChainChange(prefix)
-  }
-}, {
-  immediate: true,
-})
-
 watchEffect(() => {
   if (!hasProfile.value && !isFetchingProfile.value && isOwner.value && !getIsOnboardingShown.value) {
     profileOnboardingStore.setOnboardingShown()
@@ -845,14 +858,6 @@ watchEffect(() => {
 
 .invisible-tab>nav.tabs {
   display: none;
-}
-
-:deep(.control) {
-  width: 12rem;
-}
-
-:deep(.explore-tabs-button) {
-  width: 12rem;
 }
 
 @include until-widescreen {

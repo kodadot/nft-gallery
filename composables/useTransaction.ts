@@ -7,22 +7,24 @@ import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
 import {
   execBurnCollection,
-  execBurnMultiple,
-  execBurnTx,
+  execBurn,
 } from './transaction/transactionBurn'
+import { execWithdrawSwap } from './transaction/transactionSwapWithdraw'
+import { execAcceptSwap } from './transaction/transactionSwapAccept'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
+import { execCreateSwap } from './transaction/transactionCreateSwap'
 import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { execUpdateCollection } from './transaction/transactionUpdateCollection'
 import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import type {
   ActionAcceptOffer,
-  ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
   ActionOffer,
+  ActionSwap,
   ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
@@ -37,6 +39,8 @@ import type {
   ExecuteSubstrateTransactionParams,
   ExecuteTransactionParams,
   ObjectMessage,
+  ActionWithdrawSwap,
+  ActionAcceptSwap,
 } from './transaction/types'
 import { Collections, NFTs } from './transaction/types'
 import { isActionValid } from './transaction/utils'
@@ -226,13 +230,25 @@ export const executeAction = ({
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
-      execBurnTx(item as ActionConsume, api, executeTransaction),
+      execBurn(item as ActionConsume, api, executeTransaction),
+    [ShoppingActions.WITHDRAW_SWAP]: () =>
+      execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
+    [ShoppingActions.ACCEPT_SWAP]: () =>
+      execAcceptSwap(item as ActionAcceptSwap, api!, executeTransaction),
     [ShoppingActions.WITHDRAW_OFFER]: () =>
       execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>
       execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
     [ShoppingActions.MAKE_OFFER]: () =>
       execMakingOfferTx(item as ActionOffer, api, executeTransaction),
+    [ShoppingActions.CREATE_SWAP]: () =>
+      execCreateSwap({
+        item: item as ActionSwap,
+        api: api as ApiPromise,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
     [ShoppingActions.MINTNFT]: () =>
       execMintToken({
         item: item as ActionMintToken,
@@ -263,12 +279,6 @@ export const executeAction = ({
         isLoading,
         status,
       }),
-    [NFTs.BURN_MULTIPLE]: () =>
-      execBurnMultiple(
-        item as ActionBurnMultipleNFTs,
-        api as ApiPromise,
-        executeTransaction,
-      ),
     [NFTs.SET_METADATA]: () =>
       execSetNftMetadata({
         item: item as ActionSetNftMetadata,
