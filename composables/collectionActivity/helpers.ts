@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type { Prefix } from '@kodadot1/static'
 import type {
   Flippers,
@@ -15,7 +15,7 @@ export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
   // https://github.com/kodadot/snek/issues/183
   return chainsWithMintInteraction.includes(urlPrefix.value)
-    ? Interaction.MINT
+    ? Interaction.CREATE
     : Interaction.MINTNFT
 }
 
@@ -117,7 +117,7 @@ export const getOwners = (nfts) => {
     const { events } = nft
     const owner = owners[nft.currentOwner] || newOwnerEntry()
 
-    if (interactions.includes(Interaction.CONSUME)) {
+    if (interactions.includes(Interaction.BURN)) {
       // no owner
       return
     }
