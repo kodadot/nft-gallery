@@ -44,6 +44,20 @@ function getRedirectPathForPrefix({
 }): RouteLocationRaw {
   const vmChanged = !arePrefixesOfSameVm(route.params.prefix.toString() as Prefix, chain)
 
+  if (routeName.includes('prefix-swap-id')) {
+    const accountId = getss58AddressByPrefix(route.params.id.toString(), chain)
+
+    return {
+      params: {
+        prefix: chain,
+        id: accountId,
+      },
+      query: {
+        swapId: route.query.swapId,
+      },
+    }
+  }
+
   if (routeName === 'prefix-u-id') {
     if (vmChanged) {
       return { path: `/${chain}` }

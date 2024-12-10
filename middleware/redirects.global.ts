@@ -1,6 +1,6 @@
 import { type Prefix } from '@kodadot1/static'
 import type { RouteLocationRaw } from 'vue-router'
-import { createVisible, transferVisible, teleportVisible, migrateVisible } from '@/utils/config/permission.config'
+import { createVisible, transferVisible, teleportVisible, migrateVisible, swapVisible } from '@/utils/config/permission.config'
 
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
@@ -51,6 +51,7 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
+    getPermissionRouteCondition((val: string) => val.includes(`/${urlPrefix.value}/swap`), swapVisible),
     getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),
     {
       cond: (val: string) => val.startsWith('/transfer'),
