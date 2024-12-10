@@ -37,8 +37,8 @@ function execBurnAssetHub(item: ActionConsume, api: ApiPromise, executeTransacti
     const legacy = isLegacy(nftId)
     const paramResolver = assetHubParamResolver(legacy)
 
-    const apiCall = getApiCall(api, item.urlPrefix, Interaction.CONSUME)
-    const params = paramResolver(nftId, Interaction.CONSUME, '')
+    const apiCall = getApiCall(api, item.urlPrefix, Interaction.BURN)
+    const params = paramResolver(nftId, Interaction.BURN, '')
 
     return { apiCall, params }
   }
@@ -98,7 +98,7 @@ export async function execBurnCollection(
     if (params.urlPrefix === 'rmrk') {
       executeTransaction({
         cb: api.tx.system.remark,
-        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
+        arg: [createInteraction(Interaction.BURN, collectionId, '')],
       })
     }
 
