@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import {
   type ActionsInteractions,
   Collections,
@@ -22,11 +22,11 @@ type AutoTeleportStepDetails = {
 const interactionMap: Partial<Record<AutoTeleportInteractions, { action: string, item: string, overrideInteraction?: string }>> = {
   [Interaction.BUY]: { action: 'purchase', item: 'general.nft' },
   [Interaction.LIST]: { action: 'list', item: 'general.nfts' },
-  [Interaction.MINT]: { action: 'create', item: 'collection' },
+  [Interaction.CREATE]: { action: 'create', item: 'collection' },
   [Interaction.MINTNFT]: { action: 'mint', item: 'general.nft' },
   [Interaction.SEND]: { action: 'transfer', item: 'general.nft' },
   [Collections.DELETE]: { action: 'delete', item: 'collection' },
-  [Interaction.CONSUME]: { action: 'burn', item: 'general.nft' },
+  [Interaction.BURN]: { action: 'burn', item: 'general.nft' },
 }
 
 const overrideInteractionMap: Partial<Record<AutoTeleportInteractions, AutoTeleportInteractions>> = {
