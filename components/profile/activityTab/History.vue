@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { formatDistanceToNow } from 'date-fns'
 
 import HistoryRow from './HistoryRow.vue'
@@ -178,7 +178,7 @@ const createTable = (): void => {
     const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
     // Type
     switch (newEvent['interaction']) {
-      case Interaction.MINT:
+      case Interaction.CREATE:
       case Interaction.MINTNFT:
         event['From'] = newEvent['caller']
         event['To'] = ''
@@ -196,7 +196,7 @@ const createTable = (): void => {
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
         break
-      case Interaction.CONSUME:
+      case Interaction.BURN:
         event['From'] = newEvent['caller']
         event['To'] = ''
         break
