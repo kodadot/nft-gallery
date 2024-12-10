@@ -92,6 +92,14 @@
             @follow:fail="openProfileCreateModal"
             @unfollow:success="handleFollowRefresh"
           />
+          <NeoButton
+            v-if="swapVisible(urlPrefix)"
+            variant="outlined-rounded"
+            icon-left="arrow-right-arrow-left"
+            @click="handleSwapPageRedirect"
+          >
+            {{ $t('swaps') }}
+          </NeoButton>
 
           <!-- Wallet And Links Dropdown -->
           <NeoDropdown position="bottom-auto">
@@ -471,8 +479,9 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
-import { offerVisible } from '@/utils/config/permission.config'
+import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { TradeType } from '@/composables/useTrades'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -632,6 +641,12 @@ const onFollowersClick = () => {
 const onFollowingClick = () => {
   followModalTab.value = 'following'
   isFollowModalActive.value = true
+}
+
+const handleSwapPageRedirect = () => {
+  doAfterCheckCurrentChainVM(() => {
+    return navigateTo(`/${urlPrefix.value}/swap/${isOwner.value ? '' : id.value}`)
+  })
 }
 
 const tabKey = computed(() =>
