@@ -210,8 +210,8 @@
     "carbonless": "Ce NFT est sans carbone",
     "description": "Description du NFT",
     "event": {
+      "BURN": "BURN",
       "BUY": "BUY",
-      "CONSUME": "BURN",
       "LIST": "LIST",
       "MINTNFT": "MINT",
       "SEND": "GIFT",
