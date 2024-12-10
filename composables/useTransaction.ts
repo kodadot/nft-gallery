@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import type { Address } from 'viem'
 
