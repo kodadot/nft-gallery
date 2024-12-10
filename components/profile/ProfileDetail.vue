@@ -94,10 +94,9 @@
           />
           <NeoButton
             v-if="swapVisible(urlPrefix)"
-            :tag="NuxtLink"
             variant="outlined-rounded"
             icon-left="arrow-right-arrow-left"
-            :to="`/${urlPrefix}/swap/${isOwner ? '' : id}`"
+            @click="handleSwapPageRedirect"
           >
             {{ $t('swaps') }}
           </NeoButton>
@@ -482,6 +481,7 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { TradeType } from '@/composables/useTrades'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -641,6 +641,12 @@ const onFollowersClick = () => {
 const onFollowingClick = () => {
   followModalTab.value = 'following'
   isFollowModalActive.value = true
+}
+
+const handleSwapPageRedirect = () => {
+  doAfterCheckCurrentChainVM(() => {
+    return navigateTo(`/${urlPrefix}/swap/${isOwner.value ? '' : id}`)
+  })
 }
 
 const tabKey = computed(() =>
