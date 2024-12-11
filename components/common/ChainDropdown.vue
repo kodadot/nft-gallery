@@ -4,7 +4,7 @@
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
-          :variant
+          :variant="variant"
           :label="
             isMobile || !showNetworkLabel
               ? label || selected?.text
@@ -12,6 +12,7 @@
           "
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active"
+          :no-shadow="noShadow"
         />
       </template>
 
@@ -38,6 +39,7 @@ const props = withDefaults(
     redirect?: boolean
     exclude?: Prefix[]
     variant?: NeoButtonVariant
+    noShadow?: boolean
     label?: string
     filterByVm?: boolean
   }>(),
