@@ -1,0 +1,35 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+
+query collectionListWithSearchMinimal(
+  $first: Int!
+  $offset: Int
+  $search: [CollectionEntityWhereInput!]
+  $orderBy: [CollectionEntityOrderByInput!] = [blockNumber_DESC]
+  $denyList: [String!]
+) {
+  collectionEntities(
+    orderBy: $orderBy
+    limit: $first
+    offset: $offset
+    where: {
+      nfts_some: { burned_eq: false, issuer_not_in: $denyList }
+      AND: $search
+      metadata_isNull: false
+    }
+  ) {
+    ...collection
+    ...collectionDetails
+    ownerCount
+  }
+  stats: collectionEntitiesConnection(
+    where: {
+      nfts_some: { burned_eq: false, issuer_not_in: $denyList }
+      AND: $search
+      metadata_isNull: false
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}

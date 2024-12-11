@@ -25,6 +25,7 @@ const EXCLUDED_TOKEN_USE_PAGES = [
   'prefix-collection-id',
   'prefix-drops-id',
   'prefix-u-id',
+  ...ATOMIC_SWAP_PAGES,
 ]
 
 export function useFetchSearch({
