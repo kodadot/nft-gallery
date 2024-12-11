@@ -92,6 +92,14 @@
             @follow:fail="openProfileCreateModal"
             @unfollow:success="handleFollowRefresh"
           />
+          <NeoButton
+            v-if="swapVisible(urlPrefix)"
+            variant="outlined-rounded"
+            icon-left="arrow-right-arrow-left"
+            @click="handleSwapPageRedirect"
+          >
+            {{ $t('swaps') }}
+          </NeoButton>
 
           <!-- Wallet And Links Dropdown -->
           <NeoDropdown position="bottom-auto">
@@ -471,9 +479,10 @@ import { removeHttpFromUrl } from '@/utils/url'
 import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
-import { offerVisible } from '@/utils/config/permission.config'
+import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
 import { TradeType } from '@/composables/useTrades'
+import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const NuxtLink = resolveComponent('NuxtLink')
@@ -505,16 +514,14 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId, isCurrentOwner } = useAuth()
-const { urlPrefix, client, setUrlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
-const { redirectAfterChainChange } = useChainRedirect()
 const profileOnboardingStore = useProfileOnboardingStore()
 const { getIsOnboardingShown } = storeToRefs(profileOnboardingStore)
 
 const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
-const { getPrefixByAddress } = useAddress()
 const { params } = useRoute()
 
 const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
@@ -638,6 +645,12 @@ const onFollowersClick = () => {
 const onFollowingClick = () => {
   followModalTab.value = 'following'
   isFollowModalActive.value = true
+}
+
+const handleSwapPageRedirect = () => {
+  doAfterCheckCurrentChainVM(() => {
+    return navigateTo(`/${urlPrefix.value}/swap/${isOwner.value ? '' : id.value}`)
+  })
 }
 
 const tabKey = computed(() =>
@@ -830,15 +843,6 @@ watch(collections, (value) => {
   replaceUrl({
     collections: value.length ? value.toString() : undefined,
   })
-})
-
-watch(() => getPrefixByAddress(route.params.id.toString()), (prefix) => {
-  if (prefix !== urlPrefix.value) {
-    setUrlPrefix(prefix)
-    redirectAfterChainChange(prefix)
-  }
-}, {
-  immediate: true,
 })
 
 watchEffect(() => {
