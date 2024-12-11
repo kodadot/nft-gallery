@@ -91,7 +91,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 const { placeholder } = useTheme()
-const { isLogIn, isCurrentOwner } = useAuth()
+const { isLogIn, isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
@@ -134,7 +134,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
