@@ -3,18 +3,18 @@
     <input
       v-model="searchQuery"
       type="text"
-      class="w-full h-12 p-2 border border-gray-300"
+      class="w-full h-12 p-2 border border-k-shade bg-background-color text-text-color focus:border-border-color outline-none"
       :placeholder="$t('mint.collection.search')"
       @input="handleSearch"
     >
     <div
       v-if="showResults"
-      class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md max-h-[300px] overflow-y-auto z-[1000]"
+      class="absolute top-full left-0 right-0 bg-background-color border border-k-shade rounded-md max-h-[300px] overflow-y-auto z-[1000]"
     >
       <div
         v-for="collection in searchResults"
         :key="collection.collection_id"
-        class="p-2 flex items-center cursor-pointer hover:bg-gray-100"
+        class="p-2 flex items-center cursor-pointer hover:bg-k-hover text-text-color"
         @click="selectCollection(collection)"
       >
         <img
@@ -29,7 +29,7 @@
       v-if="selectedCollection"
       class="mt-2.5"
     >
-      <div class="flex items-center p-2 bg-gray-100 rounded-md gap-2">
+      <div class="flex items-center p-2 bg-k-shade rounded-md gap-2 text-text-color">
         <img
           :src="sanitizeIpfsUrl(selectedCollection.image, 'image')"
           class="w-6 h-6 rounded-full object-cover"
