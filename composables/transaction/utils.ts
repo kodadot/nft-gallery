@@ -18,9 +18,9 @@ import type {
   ActionSwap,
   ActionSend,
   ActionUpdateCollection,
-  ActionWithdrawOffer,
+  ActionCancelOffer,
   ActionSetNftMetadata,
-  ActionWithdrawSwap,
+  ActionCancelSwap,
   ActionAcceptSwap,
   Actions,
 } from '../transaction/types'
@@ -53,9 +53,9 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.CONSUME]: (action: ActionConsume) => hasContent(action.nftIds),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.token),
-    [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
+    [ShoppingActions.CANCEL_OFFER]: (action: ActionCancelOffer) =>
       Boolean(action.offeredId),
-    [ShoppingActions.WITHDRAW_SWAP]: (action: ActionWithdrawSwap) =>
+    [ShoppingActions.CANCEL_SWAP]: (action: ActionCancelSwap) =>
       Boolean(action.offeredId) && Boolean(action.offeredCollectionId),
     [ShoppingActions.ACCEPT_SWAP]: (action: ActionAcceptSwap) =>
       Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),

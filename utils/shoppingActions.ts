@@ -5,14 +5,14 @@ import { Interaction } from '@kodadot1/minimark/v1'
 enum OfferActions {
   MAKE_OFFER = 'MAKE_OFFER',
   SET_ROYALTY = 'SET_ROYALTY',
-  WITHDRAW_OFFER = 'WITHDRAW_OFFER',
+  CANCEL_OFFER = 'CANCEL_OFFER',
   ACCEPT_OFFER = 'ACCEPT_OFFER',
   CREATE_SWAP = 'CREATE_SWAP',
 }
 
 enum SwapActions {
-  WITHDRAW_SWAP = 'WITHDRAW_SWAP',
   ACCEPT_SWAP = 'ACCEPT_SWAP',
+  CANCEL_SWAP = 'CANCEL_SWAP',
 }
 
 export type ShoppingActions = Interaction | OfferActions | SwapActions
