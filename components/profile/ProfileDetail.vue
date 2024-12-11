@@ -593,7 +593,9 @@ const tabs = computed(() => {
     tabs.push(ProfileTab.OFFERS)
   }
 
-  tabs.push(ProfileTab.SWAPS)
+  if (swapVisible(urlPrefix.value)) {
+    tabs.push(ProfileTab.SWAPS)
+  }
 
   return tabs
 })
