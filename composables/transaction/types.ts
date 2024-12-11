@@ -149,8 +149,9 @@ export type TokenToList = {
 
 export type TokenToOffer = {
   price: string
-  collectionId: string
-  nftSn: string
+  desiredItem: string
+  desiredCollectionId: string
+  offeredItem?: string
   duration: number
 }
 
