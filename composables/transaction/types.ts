@@ -209,8 +209,8 @@ export type ActionSwap = {
   errorMessage?: string
 }
 
-export type ActionWithdrawOffer = {
-  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+export type ActionCancelOffer = {
+  interaction: typeof ShoppingActions.CANCEL_OFFER
   urlPrefix: Prefix
   offeredId: string
   successMessage?: string
@@ -228,8 +228,8 @@ export type ActionAcceptOffer = {
   errorMessage?: string
 }
 
-export type ActionWithdrawSwap = {
-  interaction: typeof ShoppingActions.WITHDRAW_SWAP
+export type ActionCancelSwap = {
+  interaction: typeof ShoppingActions.CANCEL_SWAP
   urlPrefix: Prefix
   offeredId: string
   offeredCollectionId: string
@@ -338,9 +338,9 @@ export type Actions =
   | ActionSend
   | ActionOffer
   | ActionConsume
-  | ActionWithdrawSwap
+  | ActionCancelSwap
   | ActionAcceptSwap
-  | ActionWithdrawOffer
+  | ActionCancelOffer
   | ActionAcceptOffer
   | ActionMintToken
   | ActionMintCollection
