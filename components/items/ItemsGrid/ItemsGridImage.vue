@@ -13,7 +13,9 @@
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id)
-        || listingCartStore.isItemInCart(nft.id),
+        || listingCartStore.isItemInCart(nft.id)
+        || isAtomicSwapItemSelected
+      ,
     }"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
@@ -26,7 +28,7 @@
       #action
     >
       <div
-        v-if="!isOwner && Number(nft?.price)"
+        v-if="!isOwner && Number(nft?.price) && !showAtomicSwapAction"
         class="flex"
       >
         <NeoButton
@@ -56,15 +58,15 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="isOwner && !hideListing"
+        v-else-if="showSelect"
         class="flex"
       >
         <NeoButton
-          :label="listLabel"
+          :label="selectLabel"
           data-testid="item-buy"
           no-shadow
           class="flex-grow"
-          @click.prevent="onClickListingCart"
+          @click.prevent="onSelect"
         />
       </div>
     </template>
@@ -80,6 +82,7 @@
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import useAtomicSwapAction from './useAtomicSwapAction'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -111,6 +114,12 @@ const props = defineProps<{
   skeletonVariant: string
 }>()
 
+const {
+  onAtomicSwapSelect,
+  showAtomicSwapAction,
+  isItemSelected: isAtomicSwapItemSelected,
+} = useAtomicSwapAction(props.nft)
+
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
 })
@@ -124,8 +133,6 @@ const buyLabel = computed(function () {
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow',
   )
 })
-
-const listLabel = computed(() => listingCartStore.isItemInCart(props.nft.id) ? $i18n.t('remove') : $i18n.t('select'))
 
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
@@ -155,8 +162,29 @@ const onClickShoppingCart = () => {
     shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
-const onClickListingCart = () => {
-  listNftByNftWithMetadata(props.nft, { toggle: true })
+
+const onClickListingCart = () => listNftByNftWithMetadata(props.nft, { toggle: true })
+
+const selectLabel = computed(() => {
+  const selected = showAtomicSwapAction.value ? isAtomicSwapItemSelected.value : listingCartStore.isItemInCart(props.nft.id)
+  return selected ? $i18n.t('remove') : $i18n.t('select')
+})
+
+const showSelect = computed(() => {
+  if (showAtomicSwapAction.value) {
+    return true
+  }
+
+  return isOwner.value && !props.hideListing
+})
+
+const onSelect = () => {
+  if (showAtomicSwapAction.value) {
+    onAtomicSwapSelect()
+  }
+  else {
+    onClickListingCart()
+  }
 }
 </script>
 
