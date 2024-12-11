@@ -1,0 +1,19 @@
+query countOfNfts(
+  $where: NFTEntityWhereInput!
+  $denyList: [String!]
+) {
+  count: nftEntitiesConnection(
+    where: {
+        AND: [
+            {
+              burned_eq: false
+              issuer_not_in: $denyList
+            },
+            $where
+        ]
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}
