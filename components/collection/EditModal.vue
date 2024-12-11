@@ -151,8 +151,8 @@
               <div class="flex justify-between capitalize">
                 <p>{{ $t(mintingPriceUnset ? 'mint.collection.permission.noPriceSet' : 'mint.collection.permission.pricePlaceholder') }}</p>
                 <NeoSwitch
+                  v-if="selectedMintingType === 'HolderOf'"
                   v-model="mintingPriceUnset"
-                  :disabled="selectedMintingType && ['Issuer', 'Public'].includes(selectedMintingType)"
                   position="left"
                 />
               </div>
@@ -178,7 +178,7 @@
                 class="mt-4"
               >
                 <p class="mb-2">
-                  Holder of Collection
+                  {{ $t('mint.collection.permission.holderOfCollection') }}
                 </p>
                 <CollectionSearchInput
                   :collection-id="holderOfCollectionId"
@@ -279,10 +279,11 @@ const disabled = computed(() => {
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection.max
   const holderOfCollectionIdChanged = holderOfCollectionId.value !== originalHolderOfCollectionId.value
+  const invalidPublicCollection = selectedMintingType.value === 'Public' && !mintingPrice.value
 
   const invalidHolderOfCollection = selectedMintingType.value === 'HolderOf' && !holderOfCollectionId.value
 
-  return !hasImage || !isNameFilled || invalidHolderOfCollection
+  return !hasImage || !isNameFilled || invalidHolderOfCollection || invalidPublicCollection
     || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged && !mintTypeChanged.value && !mintPriceChanged.value && !holderOfCollectionIdChanged)
 })
 
@@ -347,6 +348,7 @@ const permissionSettingCheckingMap = {
     if (!mintingPrice.value || mintingPrice.value <= 0) {
       return $i18n.t('mint.collection.permission.publicWarning')
     }
+    return $i18n.t('mint.collection.permission.publicWithPriceWarning')
   },
   HolderOf: () => {
     if (!holderOfCollectionId.value) {
