@@ -1,4 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { createOpenSeaMetadata as createMetadata, protocolize } from '@kodadot1/hyperdata'
 import type { SubmittableExtrinsic } from '@polkadot/api-base/types'
 import { uploadMediaFiles } from './mintToken/constructDirectoryMeta'
 import type { ActionUpdateCollection, UpdateCollectionParams } from './types'
@@ -53,11 +53,11 @@ const constructMeta = async (item: ActionUpdateCollection) => {
   )
 
   // TODO: add banner field to minimark https://github.com/kodadot/packages/blob/main/minimark/src/utils/metadata.ts#L4
-  Object.assign(meta, { banner: banner ? unSanitizeIpfsUrl(banner) : '' })
+  Object.assign(meta, { banner: banner ? protocolize(banner) : '' })
 
   const metaHash = await pinJson(meta as any)
 
-  return unSanitizeIpfsUrl(metaHash)
+  return protocolize(metaHash)
 }
 
 async function execUpdateCollectionStatmine({ item, api, executeTransaction, isLoading, status }: UpdateCollectionParams) {
