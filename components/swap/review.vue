@@ -1,5 +1,5 @@
 <template>
-  <SwapLayout class="pb-[160px]">
+  <SwapLayout class="pb-[100px]">
     <template #title>
       <SwapBannerTitle
         step="4/4"
@@ -64,11 +64,11 @@
       </div>
     </div>
   </SwapLayout>
-  <div class="fixed bottom-0 left-0 right-0 bg-background-color z-1">
-    <hr class="mb-14 mt-0">
+  <div class="fixed bottom-0 left-0 right-0 bg-background-color z-[100]">
+    <hr class="m-0">
 
     <div
-      class="container is-fluid flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:my-[3.5rem]"
+      class="container is-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
     >
       <div class="w-[300px]">
         <TradeExpirationSelector
