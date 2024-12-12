@@ -29,6 +29,7 @@
           <SwapGridList
             :query="offeredQuery"
             class="!my-10"
+            :surcharge="surcharge?.direction === 'Send' ? surcharge : undefined"
           />
         </div>
 
@@ -57,6 +58,7 @@
           <SwapGridList
             :query="desiredQuery"
             class="!my-10"
+            :surcharge="surcharge?.direction === 'Receive' ? surcharge : undefined"
           />
         </div>
       </div>
@@ -125,6 +127,8 @@ const toTokenToSwap = (item: SwapItem) => ({
   sn: item.sn,
 })
 
+const surcharge = computed(() => swap.value?.surcharge)
+
 const submit = () => {
   if (!swap.value) {
     return
@@ -135,7 +139,7 @@ const submit = () => {
     offered: swap.value.offered.map(toTokenToSwap),
     desired: swap.value.desired.map(toTokenToSwap),
     duration: swap.value.duration,
-    surcharge: swap.value.surcharge,
+    surcharge: surcharge.value,
     urlPrefix: urlPrefix.value,
     successMessage: $i18n.t('swap.created'),
   })
