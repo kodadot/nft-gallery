@@ -29,10 +29,15 @@ const route = useRoute()
 const collectionId = computed(() => route.params.id.toString())
 const tradeCollection = computed(() => route.query.trade_collection === 'true')
 
-const getTradeQuery = (target: 'nft' | 'desired') => {
+const getTradeQuery = (direction: 'incoming' | 'outgoing') => {
+  const directionQuery = {
+    incoming: `considered: { id_eq: "${collectionId.value}" }`,
+    outgoing: `nft: { collection: { id_eq: "${collectionId.value}" } }`,
+  }[direction]
+
   const where = [
     'status_eq: ACTIVE',
-    `${target}: { collection: { id_eq: "${collectionId.value}" } }`,
+    directionQuery,
   ]
 
   if (tradeCollection.value) {
@@ -43,8 +48,8 @@ const getTradeQuery = (target: 'nft' | 'desired') => {
 }
 
 const tradeQuery = computed<TradeTableQuery>(() => ({
-  incoming: getTradeQuery('desired'),
-  outgoing: getTradeQuery('nft'),
+  incoming: getTradeQuery('incoming'),
+  outgoing: getTradeQuery('outgoing'),
 }))
 
 const key = computed(() => JSON.stringify(tradeQuery.value))

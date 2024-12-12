@@ -21,5 +21,10 @@ query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockN
       currentOwner
       image
     }
+    considered {
+      id
+      name
+      currentOwner
+    }
   }
 }

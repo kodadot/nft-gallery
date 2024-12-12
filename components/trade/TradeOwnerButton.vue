@@ -31,7 +31,7 @@ const details = {
 }
 
 const buttonConfig = computed<ButtonConfig | null>(() => {
-  if (props.trade.status === 'EXPIRED') {
+  if (props.trade.status === TradeStatus.EXPIRED) {
     return isCreatorOfTrade.value
       ? {
           label: $i18n.t('offer.withdrawAmount'),

@@ -1,12 +1,12 @@
 <template>
   <div
-    v-if="isDesktop"
+    v-if="isDesktop && item"
     class="flex gap-3 py-[.6rem]"
   >
     <div class="flex-1 is-clipped">
       <div class="flex items-center">
         <nuxt-link
-          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+          :to="itemPath"
           class="h-[50px]"
         >
           <BaseMediaItem
@@ -20,10 +20,10 @@
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis inline-block"
-          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+          :to="itemPath"
         >
           <span class="ml-5 font-bold is-clipped">
-            {{ trade.desired.name }}
+            {{ item.name }}
           </span>
         </nuxt-link>
       </div>
@@ -101,12 +101,12 @@
   </div>
   <!-- Mobile -->
   <div
-    v-else
+    v-else-if="item"
     class="mb-6 flex flex-col"
   >
     <div class="flex flex-col gap-[10px]">
       <div class="flex h-[70px] leading-[1]">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${trade.desired.id}`">
+        <nuxt-link :to="itemPath">
           <div class="mr-5">
             <BaseMediaItem
               class="border border-k-shade w-[4.375rem] h-[4.375rem]"
@@ -121,10 +121,10 @@
         <div class="flex flex-col justify-center gap-[10px] flex-grow">
           <nuxt-link
             class="is-ellipsis inline-block w-60"
-            :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+            :to="itemPath"
           >
             <span class="font-bold">
-              {{ trade.desired.name }}
+              {{ item.name }}
             </span>
           </nuxt-link>
 
@@ -218,10 +218,16 @@ const { amount, price } = formatPrice(props.trade?.price)
 
 const image = ref()
 const animationUrl = ref()
+const item = ref<TradeToken | TradeConsidered>()
+const desiredType = ref<TradeDesiredType>()
 
 const isDesktop = computed(() => props.variant === 'Desktop')
-const isExpired = computed(() => props.trade.status === 'EXPIRED')
-const targetAddress = computed(() => props.target === 'to' ? props.trade.desired.currentOwner : props.trade.caller)
+const isExpired = computed(() => props.trade.status === TradeStatus.EXPIRED)
+
+const isTradeCollection = computed(() => desiredType.value === TradeDesiredType.COLLECTION)
+const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.value?.id}` : `/${urlPrefix.value}/gallery/${item.value?.id}`)
+
+const targetAddress = computed(() => props.target === 'to' ? item.value?.currentOwner : props.trade.caller)
 const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
@@ -231,5 +237,21 @@ const getAvatar = async (nft) => {
 }
 
 // TODO imporve nft fetching
-onBeforeMount(() => fetchNft(props.trade.desired.id).then(getAvatar))
+onBeforeMount(() => {
+  if (props.target === 'from') {
+    item.value = props.trade.offered
+    desiredType.value = TradeDesiredType.TOKEN
+  }
+  else {
+    item.value = props.trade.desiredType === TradeDesiredType.TOKEN ? props.trade.offered : props.trade.considered
+    desiredType.value = props.trade.desiredType
+  }
+
+  const fetchMetdataMap = {
+    [TradeDesiredType.TOKEN]: (id: string) => fetchNft(id).then(getAvatar),
+    [TradeDesiredType.COLLECTION]: () => ({}),
+  }
+
+  fetchMetdataMap[desiredType.value]?.(item.value.id)
+})
 </script>

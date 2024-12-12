@@ -20,5 +20,10 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
       currentOwner
       image
     }
+    considered {
+      id
+      name
+      currentOwner
+    }
   }
 }
