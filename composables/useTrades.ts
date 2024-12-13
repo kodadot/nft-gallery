@@ -13,12 +13,16 @@ export type TradeToken = {
   sn: string
   currentOwner: string
   image: string
+  collection: {
+    id: string
+  }
 }
 
 export type TradeConsidered = {
   id: string
   name: string
   currentOwner: string
+  image: string
 }
 
 type BaseTrade = {
@@ -55,6 +59,7 @@ export type TradeNftItem<T = Trade> = T & {
   expirationDate?: Date
   type: TradeType
   desiredType: TradeDesiredType
+  isEntireCollectionDesired: boolean
 }
 
 export const TRADES_QUERY_MAP: Record<TradeType, { queryName: string, dataKey: string }> = {
@@ -96,11 +101,14 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
 
   const items = computed<TradeNftItem[]>(() => {
     return data.value?.[dataKey]?.map((trade) => {
+      const desiredType = trade.desired ? TradeDesiredType.TOKEN : TradeDesiredType.COLLECTION
+
       return {
         ...trade,
         expirationDate: currentBlock.value ? addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR) : undefined,
         offered: trade.nft,
-        desiredType: trade.desired ? TradeDesiredType.TOKEN : TradeDesiredType.COLLECTION,
+        desiredType: desiredType,
+        isEntireCollectionDesired: desiredType === TradeDesiredType.COLLECTION,
         type,
       } as TradeNftItem
     }) || []

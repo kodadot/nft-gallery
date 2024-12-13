@@ -12,6 +12,9 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
       sn
       currentOwner
       image
+      collection {
+        id
+      }
     }
     desired {
       id
@@ -19,11 +22,15 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
       sn
       currentOwner
       image
+      collection {
+        id
+      }
     }
     considered {
       id
       name
       currentOwner
+      image
     }
   }
 }
