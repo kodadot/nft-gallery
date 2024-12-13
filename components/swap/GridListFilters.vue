@@ -4,22 +4,23 @@
   >
     <ChainDropdown
       position="bottom-auto"
-      variant="secondary-rounded"
+      variant="rounded"
       filter-by-vm
       :show-network-label="false"
       :label="$t('activity.network')"
+      no-shadow
     />
 
     <ProfileCollectionFilter
       :id="query.currentOwner_eq"
       v-model="collections"
-      variant="outlined-rounded"
+      variant="rounded"
       :search="query"
     />
 
     <ProfileOrderByDropdown
       preselect="blockNumber_DESC"
-      variant="outlined-rounded"
+      variant="rounded"
       no-shadow
       rounded
     />
