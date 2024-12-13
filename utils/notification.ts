@@ -120,11 +120,12 @@ export const infoMessage = (
   })
 }
 
-export const successMessage = message =>
+export const successMessage = (message: string, extraConfig?: { footer?: Ref<Omit<NotificationAction, 'url'> | undefined> }) =>
   showNotification({
     title: 'Success',
     message: message,
     params: notificationTypes.success,
+    ...extraConfig,
   })
 
 export const getReportIssueAction = (message: string) => {

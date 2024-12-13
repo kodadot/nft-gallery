@@ -104,10 +104,11 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
+import { successMessage } from '@/utils/notification'
 
 const router = useRouter()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, blockNumber } = useTransaction()
+const { transaction, isLoading, status, blockNumber } = useTransaction({ disableSuccessNotification: true })
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const swapStore = useAtomicSwapStore()
@@ -134,12 +135,14 @@ const submit = () => {
     duration: swap.value.duration,
     surcharge: swap.value.surcharge,
     urlPrefix: urlPrefix.value,
-    successMessage: $i18n.t('swap.created'),
   })
 }
 
-watchEffect(async () => {
+watch([status, blockNumber], () => {
   if (status.value === TransactionStatus.Finalized && blockNumber.value) {
+    successMessage($i18n.t('swap.created'), {
+      footer: computed(() => ({ icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') })),
+    })
     swapStore.updateSwap({ blockNumber: blockNumber.value })
     navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=swaps&filter=outgoing`)
   }
