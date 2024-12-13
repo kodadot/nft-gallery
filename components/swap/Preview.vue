@@ -1,6 +1,9 @@
 <template>
   <div class="md:w-[380px] relative">
-    <span ref="target" />
+    <span
+      ref="target"
+      class="md:relative md:top-[-100px]"
+    />
 
     <div
       class="border bg-background-color shadow-primary h-min"
