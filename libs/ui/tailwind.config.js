@@ -2,7 +2,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 module.exports = {
-  content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
   theme: {
     screens: {
       xs: '400px',

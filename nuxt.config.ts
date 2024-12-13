@@ -294,10 +294,19 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
 
+  ui: {
+    global: true,
+  },
+
   tailwindcss: {
-    // exposeConfig: true,
+    exposeConfig: true,
     configPath: '~/libs/ui/tailwind.config.js',
     cssPath: '~/libs/ui/src/scss/tailwind.scss',
+    config: {
+      content: [
+        './libs/ui/src/**/*.{js,vue,ts}',
+      ],
+    },
   },
 
   eslint: {
