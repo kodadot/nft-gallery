@@ -74,7 +74,7 @@
     "@polkadot/ui-settings": "^3.6.6",
     "@polkadot/util": "^12.6.2",
     "@polkadot/util-crypto": "^12.6.2",
-    "@polkadot/vue-identicon": "^3.6.6",
+    "@polkadot/vue-identicon": "^3.11.3",
     "@ramp-network/ramp-instant-sdk": "^4.0.5",
     "@tanstack/vue-query": "^5.56.2",
     "@transak/transak-sdk": "^1.4.1",
@@ -148,5 +148,10 @@
   },
   "resolutions": {
     "@apollo/federation": "0.38.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@polkadot/vue-identicon@3.11.3": "patches/@polkadot__vue-identicon@3.11.3.patch"
+    }
   }
 }
