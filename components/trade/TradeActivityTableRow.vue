@@ -243,15 +243,12 @@ onBeforeMount(() => {
     desiredType.value = TradeDesiredType.TOKEN
   }
   else {
-    item.value = props.trade.desiredType === TradeDesiredType.TOKEN ? props.trade.offered : props.trade.considered
+    item.value = props.trade.isEntireCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken
     desiredType.value = props.trade.desiredType
   }
 
-  const fetchMetdataMap = {
-    [TradeDesiredType.TOKEN]: (id: string) => fetchNft(id).then(getAvatar),
-    [TradeDesiredType.COLLECTION]: () => ({}),
+  if (desiredType.value === TradeDesiredType.TOKEN) {
+    fetchNft(item.value.id).then(getAvatar)
   }
-
-  fetchMetdataMap[desiredType.value]?.(item.value.id)
 })
 </script>
