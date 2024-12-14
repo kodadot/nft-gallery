@@ -15,8 +15,6 @@
       />
     </div>
   </div>
-
-  <div class="container is-fluid !pb-8" />
 </template>
 
 <script setup lang="ts">
