@@ -6,14 +6,12 @@
     </div>
 
     <div
-      v-if="isExploreCollection || isCollection"
+      v-if="isExploreCollections || isExploreItems || isCollection"
       class="explore-menu flex"
     >
       <ExploreSort />
-      <ChainDropdown
-        v-if="!route.name?.toString().includes('prefix-collection-id')"
-      />
-      <GridLayoutControls v-if="isCollection" />
+      <ChainDropdown v-if="isExploreItems || isExploreCollections" />
+      <GridLayoutControls v-if="isCollection || isExploreItems" />
     </div>
   </div>
 </template>
@@ -26,10 +24,10 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 const route = useRoute()
-const routeName = computed(() => route.name?.toString() || '')
 
-const isCollection = computed(() => routeName.value === 'prefix-collection-id')
-const isExploreCollection = computed(() => route.name === 'prefix-explore-collectibles')
+const isCollection = computed(() => route.name === 'prefix-collection-id')
+const isExploreItems = computed(() => route.name === 'prefix-explore-items')
+const isExploreCollections = computed(() => route.name === 'prefix-explore-collectibles')
 </script>
 
 <style lang="scss" scoped>
