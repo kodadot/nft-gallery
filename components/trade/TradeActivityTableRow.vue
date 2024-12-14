@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isDesktop && item"
+    v-if="isDesktop"
     class="flex gap-3 py-[.6rem]"
   >
     <div class="flex-1 is-clipped">
@@ -101,7 +101,7 @@
   </div>
   <!-- Mobile -->
   <div
-    v-else-if="item"
+    v-else
     class="mb-6 flex flex-col"
   >
     <div class="flex flex-col gap-[10px]">
@@ -200,12 +200,26 @@ import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
+type Item = TradeToken | TradeConsidered
+
 defineEmits(['select'])
 const props = defineProps<{
   trade: TradeNftItem
   variant: ResponsiveVariant
   target: 'from' | 'to'
 }>()
+
+const getRowConfig = () => {
+  return props.target === 'from'
+    ? {
+        item: props.trade.offered,
+        desiredType: TradeDesiredType.TOKEN,
+      }
+    : {
+        item: props.trade.isEntireCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken,
+        desiredType: props.trade.desiredType,
+      }
+}
 
 const interaction = {
   [TradeType.OFFER]: TradeInteraction.OFFER,
@@ -216,18 +230,18 @@ const { urlPrefix } = usePrefix()
 const { format: formatPrice } = useFormatAmount()
 const { amount, price } = formatPrice(props.trade?.price)
 
+const { item, desiredType } = getRowConfig()
+
 const image = ref()
 const animationUrl = ref()
-const item = ref<TradeToken | TradeConsidered>()
-const desiredType = ref<TradeDesiredType>()
 
 const isDesktop = computed(() => props.variant === 'Desktop')
 const isExpired = computed(() => props.trade.status === TradeStatus.EXPIRED)
 
-const isTradeCollection = computed(() => desiredType.value === TradeDesiredType.COLLECTION)
-const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.value?.id}` : `/${urlPrefix.value}/gallery/${item.value?.id}`)
+const isTradeCollection = computed(() => desiredType === TradeDesiredType.COLLECTION)
+const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)
 
-const targetAddress = computed(() => props.target === 'to' ? item.value?.currentOwner : props.trade.caller)
+const targetAddress = computed(() => props.target === 'to' ? item.currentOwner : props.trade.caller)
 const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
@@ -238,17 +252,11 @@ const getAvatar = async (nft) => {
 
 // TODO imporve nft fetching
 onBeforeMount(() => {
-  if (props.target === 'from') {
-    item.value = props.trade.offered
-    desiredType.value = TradeDesiredType.TOKEN
-  }
-  else {
-    item.value = props.trade.isEntireCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken
-    desiredType.value = props.trade.desiredType
+  const fetchImageMap = {
+    [TradeDesiredType.TOKEN]: (item: Item) => fetchNft(item.id).then(getAvatar),
+    [TradeDesiredType.COLLECTION]: (item: Item) => image.value = sanitizeIpfsUrl(item.image),
   }
 
-  if (desiredType.value === TradeDesiredType.TOKEN) {
-    fetchNft(item.value.id).then(getAvatar)
-  }
+  fetchImageMap[desiredType]?.(item)
 })
 </script>
