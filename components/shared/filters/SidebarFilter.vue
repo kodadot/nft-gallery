@@ -8,7 +8,7 @@
       :open="open"
       fullheight
     >
-      <template v-if="isCollectionActivityTab">
+      <template v-if="isCollectionActivity">
         <EventTypeFilter
           expanded
           fluid-padding
@@ -18,30 +18,32 @@
           fluid-padding
         />
       </template>
-      <StatusFilter
-        v-else-if="isCollectionItemsTab"
-        expanded
-        fluid-padding
-      />
-      <PriceFilter
-        v-if="isCollectionItemsTab"
-        fluid-padding
-        data-testid="sidebar-price-filter"
-      />
+
+      <template v-if="isPageWithItems">
+        <StatusFilter
+          expanded
+          fluid-padding
+        />
+        <PriceFilter
+          fluid-padding
+          data-testid="sidebar-price-filter"
+        />
+      </template>
+
       <PopularCollections
         v-if="isExploreItems"
         expanded
         fluid-padding
       />
+
       <AdvancedFilter
-        v-if="isCollectionItemsTab"
+        v-if="isPageWithItems"
         fluid-padding
         data-testid="sidebar-advanced-filter"
       />
 
-      <!-- Trade -->
       <TradeFilter
-        v-if="isCollectionSwapsTab"
+        v-if="isCollectionSwaps"
         expanded
         fluid-padding
       />
@@ -63,10 +65,11 @@ const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 
-const isCollectionItemsTab = computed(() => route.name === 'prefix-collection-id')
-const isCollectionActivityTab = computed(() => route.name === 'prefix-collection-id-activity')
-const isCollectionSwapsTab = computed(() => route.name === 'prefix-collection-id-swaps')
+const isCollectionItems = computed(() => route.name === 'prefix-collection-id')
+const isCollectionActivity = computed(() => route.name === 'prefix-collection-id-activity')
+const isCollectionSwaps = computed(() => route.name === 'prefix-collection-id-swaps')
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
+const isPageWithItems = computed(() => isExploreItems.value || isCollectionItems.value)
 </script>
 
 <style lang="scss" scoped>
