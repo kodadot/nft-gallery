@@ -1,6 +1,6 @@
 <template>
   <SiderbarFilterSection
-    :title="$t('general.filters')"
+    :title="$t('filters.tradeType', [$t('swap.swap')])"
     :expanded="expanded"
     :fluid-padding="fluidPadding"
   >

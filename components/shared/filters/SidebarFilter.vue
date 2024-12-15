@@ -8,68 +8,16 @@
       :open="open"
       fullheight
     >
-      <template v-if="isCollectionActivity">
-        <EventTypeFilter
-          expanded
-          fluid-padding
-        />
-        <IdentityVerficationFilter
-          expanded
-          fluid-padding
-        />
-      </template>
-
-      <template v-if="isPageWithItems">
-        <StatusFilter
-          expanded
-          fluid-padding
-        />
-        <PriceFilter
-          fluid-padding
-          data-testid="sidebar-price-filter"
-        />
-      </template>
-
-      <PopularCollections
-        v-if="isExploreItems"
-        expanded
-        fluid-padding
-      />
-
-      <AdvancedFilter
-        v-if="isPageWithItems"
-        fluid-padding
-        data-testid="sidebar-advanced-filter"
-      />
-
-      <TradeFilter
-        v-if="isCollectionSwaps"
-        expanded
-        fluid-padding
-      />
+      <Filters />
     </NeoSidebar>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoSidebar } from '@kodadot1/brick'
-import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
-import TradeFilter from '@/components/shared/filters/modules/TradeFilter.vue'
-import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
-import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
-import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
-import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
-import { usePreferencesStore } from '@/stores/preferences'
+import Filters from '@/components/shared/filters/Filters.vue'
 
-const route = useRoute()
-const preferencesStore = usePreferencesStore()
-const open = computed(() => preferencesStore.getsidebarFilterCollapse)
-
-const isCollectionItems = computed(() => route.name === 'prefix-collection-id')
-const isCollectionActivity = computed(() => route.name === 'prefix-collection-id-activity')
-const isCollectionSwaps = computed(() => route.name === 'prefix-collection-id-swaps')
-const isExploreItems = computed(() => route.name === 'prefix-explore-items')
-const isPageWithItems = computed(() => isExploreItems.value || isCollectionItems.value)
+const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
 </script>
 
 <style lang="scss" scoped>
