@@ -141,7 +141,7 @@ const submit = () => {
 watch([status, blockNumber], () => {
   if (status.value === TransactionStatus.Finalized && blockNumber.value) {
     successMessage($i18n.t('swap.created'), {
-      footer: computed(() => ({ icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') })),
+      footer: { icon: 'circle-info', label: $i18n.t('general.updateOnWebsiteSoon') },
     })
     swapStore.updateSwap({ blockNumber: blockNumber.value })
     navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=swaps&filter=outgoing`)
