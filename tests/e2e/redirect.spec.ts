@@ -6,13 +6,13 @@ test('Redirections', async ({ page }) => {
   // Collection
   await test.step('Expect collection url to be properly redirected', async () => {
     await page.goto('/ahk/explore/gallery')
-    await expect(page).toHaveURL('/ahk/explore/items')
+    await expect(page).toHaveURL('/ahk/explore/items?listed=true')
   })
 
   // Statemine
   await test.step('Expect url with stmn to be properly redirected', async () => {
     await page.goto('/stmn/explore/items')
-    await expect(page).toHaveURL('/ahk/explore/items')
+    await expect(page).toHaveURL('/ahk/explore/items?listed=true')
   })
 
   // Transfer
