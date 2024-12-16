@@ -1,5 +1,5 @@
 <template>
-  <SwapLayout>
+  <SwapLayout class="pb-[100px]">
     <template #title>
       <SwapBannerTitle
         step="4/4"
@@ -22,13 +22,14 @@
               alt="Swap offer"
             >
           </div>
-          <p>
+          <p class="h-12">
             {{ $t('swap.reviewSelected') }}
           </p>
 
           <SwapGridList
             :query="offeredQuery"
             class="!my-10"
+            :surcharge="surcharge.direction === 'Send' ? surcharge : undefined"
           />
         </div>
 
@@ -50,49 +51,53 @@
               alt="Swap Receive"
             >
           </div>
-          <p>
+          <p class="h-12">
             {{ $t('swap.reviewCounterpartyAccept') }}
           </p>
 
           <SwapGridList
             :query="desiredQuery"
             class="!my-10"
-          />
-        </div>
-      </div>
-
-      <hr class="mb-14 mt-0">
-
-      <div
-        class="flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:my-[3.5rem]"
-      >
-        <div class="w-[300px]">
-          <TradeExpirationSelector
-            v-model="swap.duration"
-            position="auto"
-            class="pt-2"
-          />
-        </div>
-
-        <div class="flex gap-8 justify-end">
-          <NeoButton
-            class="!px-10"
-            size="large"
-            :label="$t('swap.modifyOffer')"
-            @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
-          />
-
-          <NeoButton
-            class="!px-10"
-            variant="primary"
-            size="large"
-            :label="$t('swap.submit')"
-            @click="submit"
+            :surcharge="surcharge?.direction === 'Receive' ? surcharge : undefined"
           />
         </div>
       </div>
     </div>
   </SwapLayout>
+  <div class="fixed bottom-0 left-0 right-0 bg-background-color z-[100]">
+    <hr class="m-0">
+
+    <div
+      class="container is-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
+    >
+      <div class="w-[300px]">
+        <TradeExpirationSelector
+          v-model="swap.duration"
+          position="auto"
+          class="pt-2"
+        />
+      </div>
+
+      <div class="flex gap-8 justify-end">
+        <NeoButton
+          class="!px-10"
+          size="large"
+          no-shadow
+          :label="$t('swap.modifyOffer')"
+          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
+        />
+
+        <NeoButton
+          class="!px-10"
+          variant="primary"
+          no-shadow
+          size="large"
+          :label="$t('swap.submit')"
+          @click="submit"
+        />
+      </div>
+    </div>
+  </div>
 
   <SigningModal
     :title="$t('swap.creatingSwap')"
@@ -123,6 +128,8 @@ const toTokenToSwap = (item: SwapItem) => ({
   sn: item.sn,
 })
 
+const surcharge = computed(() => swap.value?.surcharge)
+
 const submit = () => {
   if (!swap.value) {
     return
@@ -133,7 +140,7 @@ const submit = () => {
     offered: swap.value.offered.map(toTokenToSwap),
     desired: swap.value.desired.map(toTokenToSwap),
     duration: swap.value.duration,
-    surcharge: swap.value.surcharge,
+    surcharge: surcharge.value,
     urlPrefix: urlPrefix.value,
   })
 }
