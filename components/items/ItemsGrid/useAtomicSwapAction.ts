@@ -8,12 +8,12 @@ export default (nft: NFTWithMetadata) => {
 
   const routeName = computed(() => route.name?.toString() as string)
 
-  const showAtomicSwapAction = computed(() => ATOMIC_SWAP_PAGES.includes(routeName.value))
+  const showAtomicSwapAction = computed(() => ATOMIC_SWAP_PAGES.includes(routeName.value) && step.value !== SwapStep.REVIEW)
 
   const isItemSelected = computed(() => {
-    return !showAtomicSwapAction.value || step.value === SwapStep.REVIEW
-      ? false
-      : [...swap.value.desired, ...swap.value.offered].flat().some(item => item.id === nft.id)
+    return showAtomicSwapAction.value
+      ? [...swap.value.desired, ...swap.value.offered].flat().some(item => item.id === nft.id)
+      : false
   })
 
   const onAtomicSwapSelect = () => {
