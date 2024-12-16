@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { NeoCheckbox } from '@kodadot1/brick'
 import { type ActionConsume } from '@/composables/transaction/types'
 import { type UserCartModalExpose } from '@/components/common/userCart/UserCartModal.vue'
@@ -49,7 +49,7 @@ const label = computed(() => {
 })
 
 const getAction = (): ActionConsume => ({
-  interaction: Interaction.CONSUME,
+  interaction: Interaction.BURN,
   nftIds: items.value.map(item => item.id),
   urlPrefix: urlPrefix.value,
   abi: abi.value,

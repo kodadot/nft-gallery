@@ -517,8 +517,8 @@
     "carbonless": "Dieses NFT ist CO2 befreit",
     "description": "NFT Beschreibung",
     "event": {
+      "BURN": "VERBRENNEN",
       "BUY": "KAUFEN",
-      "CONSUME": "VERBRENNEN",
       "DOWNLOAD": "DOWNLOADEN",
       "LIST": "LISTEN",
       "MAKE_OFFER": "ANGEBOT MACHEN",

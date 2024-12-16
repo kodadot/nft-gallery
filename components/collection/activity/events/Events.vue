@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import EventRow from './EventRow.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'

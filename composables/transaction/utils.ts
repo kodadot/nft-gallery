@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import consola from 'consola'
 import { type Prefix } from '@kodadot1/static'
 import {
@@ -50,7 +50,7 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.MINTNFT]: (action: ActionMintToken) =>
       hasContent(action.token),
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nfts.length),
-    [Interaction.CONSUME]: (action: ActionConsume) => hasContent(action.nftIds),
+    [Interaction.BURN]: (action: ActionConsume) => hasContent(action.nftIds),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.token),
     [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
@@ -61,7 +61,7 @@ export function isActionValid(action: Actions): boolean {
       Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),
     [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
       Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
-    [Interaction.MINT]: (action: ActionMintCollection) =>
+    [Interaction.CREATE]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
       Boolean(action.collectionId),

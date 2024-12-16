@@ -31,3 +31,13 @@ export type ChainProperties = {
   genesisHash?: string
   vm: ChainVM // vm stands for vitrual machine
 }
+
+export enum Interaction {
+  BURN = 'BURN',
+  BUY = 'BUY',
+  CREATE = 'CREATE',
+  LIST = 'LIST',
+  MINTNFT = 'MINT',
+  SEND = 'SEND',
+  UNLIST = 'UNLIST',
+}

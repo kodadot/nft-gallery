@@ -466,8 +466,8 @@
     "carbonless": "Este NFT é sem carbono",
     "description": "Descrição do NFT",
     "event": {
+      "BURN": "QUEIMA",
       "BUY": "COMPRA",
-      "CONSUME": "QUEIMA",
       "DOWNLOAD": "DOWNLOAD",
       "LIST": "LISTAR",
       "MAKE_OFFER": "FAZER UMA OFERTA",

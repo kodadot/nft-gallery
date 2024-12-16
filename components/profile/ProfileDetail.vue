@@ -454,9 +454,8 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction, CHAINS } from '@kodadot1/static'
 import type { ChainVM, Prefix } from '@kodadot1/static'
-import { CHAINS } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import ProfileActivity from './ProfileActivitySummery.vue'
 import FilterButton from './FilterButton.vue'

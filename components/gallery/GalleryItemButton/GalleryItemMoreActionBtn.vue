@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { useQuery } from '@tanstack/vue-query'
 import GalleryItemEditNftButton from './GalleryItemEditNftButton.vue'
 import { downloadImage } from '@/utils/download'

@@ -1,5 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
-import { teleportExistentialDeposit } from '@kodadot1/static'
+import { Interaction, teleportExistentialDeposit } from '@kodadot1/static'
 import type { AutoTeleportAction } from './types'
 import type { ActionList, Actions } from '@/composables/transaction/types'
 import type { Chain } from '@/utils/teleport'

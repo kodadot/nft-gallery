@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import Loader from '@/components/shared/Loader.vue'
@@ -144,7 +144,7 @@ const submit = async () => {
 
   try {
     transaction({
-      interaction: Interaction.MINT,
+      interaction: Interaction.CREATE,
       urlPrefix: usePrefix().urlPrefix.value,
       collection: {
         ...base.value,

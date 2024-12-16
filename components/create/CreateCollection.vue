@@ -206,7 +206,7 @@ import {
   NeoSwitch,
 } from '@kodadot1/brick'
 import { makeSymbol } from '@kodadot1/minimark/shared'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import type {
   ActionMintCollection,
   BaseCollectionType,
@@ -348,7 +348,7 @@ const collection = computed(() => {
 })
 
 const mintCollectionAction = computed<ActionMintCollection>(() => ({
-  interaction: Interaction.MINT,
+  interaction: Interaction.CREATE,
   urlPrefix: currentChain.value,
   collection: collection.value as
   | CollectionToMintBasilisk

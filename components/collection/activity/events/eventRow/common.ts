@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import {
   type InteractionWithNFT,
   TradeInteraction,
@@ -20,7 +20,7 @@ export const interactionNameMap = ({
   const map = {
     LIST: 'List',
     MINTNFT: 'Mint',
-    MINT: 'Mint',
+    CREATE: 'Create',
     SEND: 'Transfer',
     Offer: 'Offer',
     [TradeInteraction.OFFER]: 'Offer',

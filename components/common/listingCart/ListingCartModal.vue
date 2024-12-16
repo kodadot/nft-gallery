@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { NeoModal } from '@kodadot1/brick'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'

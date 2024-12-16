@@ -194,7 +194,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@kodadot1/static'
 import { formatDistanceToNow } from 'date-fns'
 import {
   NeoCheckbox,
@@ -388,7 +388,7 @@ const generateNFTList = (): TableRow[] => {
         }
       }
     }
-    else if (newEvent['interaction'] === Interaction.CONSUME) {
+    else if (newEvent['interaction'] === Interaction.BURN) {
       if (!itemRowMap[nftId]) {
         itemRowMap[nftId] = {
           Item: newEvent['nft'],
