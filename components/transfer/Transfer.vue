@@ -788,7 +788,7 @@ const onUsdFieldChange = (target: TargetAddress) => {
 }
 
 const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
-  target.isInvalid = !isValid
+  target.isInvalid = !target.address ? undefined : !isValid
 
   targetAddresses.value = [...targetAddresses.value]
 }
