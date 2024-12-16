@@ -12,7 +12,7 @@
       <NeoButton
         :active="active"
         no-shadow
-        rounded
+        :variant="variant"
         label="Collections"
         :icon="active ? 'chevron-up' : 'chevron-down'"
       />
@@ -66,6 +66,7 @@ import {
   NeoCheckbox,
   NeoDropdown,
   NeoDropdownItem,
+  type NeoButtonVariant,
 } from '@kodadot1/brick'
 import isEqual from 'lodash/isEqual'
 import ActiveCount from '../explore/ActiveCount.vue'
@@ -81,6 +82,7 @@ const props = defineProps<{
   id: string
   modelValue: string[]
   search: Record<string, string | number>
+  variant: NeoButtonVariant
 }>()
 
 const isLoading = ref(false)

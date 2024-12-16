@@ -2,26 +2,16 @@ import { DEFAULT_PREFIX } from '@kodadot1/static'
 import type { Prefix } from '@kodadot1/static'
 import { useWalletStore } from '@/stores/wallet'
 import { useAssetsStore } from '@/stores/assets'
-import { getAvailablePrefix } from '@/utils/chain'
 
 const sharedPrefix = ref<Prefix>()
 
 export default function () {
-  const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
-  const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
   const walletStore = useWalletStore()
-
-  const validPrefixFromRoute = computed(() =>
-    getAvailablePrefix(route.params.prefix),
-  )
 
   const prefix = computed<Prefix>(
     () =>
-      (sharedPrefix.value
-        || validPrefixFromRoute.value
-        || storage.value.selected
-        || initialPrefixFromPath) as Prefix,
+      (sharedPrefix.value || storage.value.selected) as Prefix,
   )
 
   const handlePrefixChange = (value: Prefix) => {

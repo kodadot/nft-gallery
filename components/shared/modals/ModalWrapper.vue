@@ -45,19 +45,22 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
-    label: string
+    label?: string
     title: string
     icon: string
     type?: string
-    expanded: boolean
-    isRight: boolean
+    expanded?: boolean
+    isRight?: boolean
     id: string
     isButtonHidden: boolean
   }>(),
   {
+    label: undefined,
     type: undefined,
     id: '',
     isButtonHidden: false,
+    isRight: false,
+    expanded: false,
   },
 )
 
