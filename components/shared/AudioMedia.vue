@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, withDefaults } from 'vue'
 import { useElementHover, watchDebounced } from '@vueuse/core'
 import { NeoImageMedia } from '@kodadot1/brick'
 
