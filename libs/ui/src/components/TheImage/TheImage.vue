@@ -11,9 +11,7 @@ import type {
   ConcreteComponent,
   ImgHTMLAttributes,
   MethodOptions,
-  ReservedProps,
 } from 'vue'
-import { computed, withDefaults } from 'vue'
 
 export type ImageComponent =
   | 'img'
@@ -22,7 +20,7 @@ export type ImageComponent =
   | string
 export type ImageComponentProps = Record<string, unknown>
 
-interface Props extends /* @vue-ignore */ ImgHTMLAttributes, ReservedProps {
+interface Props extends /* @vue-ignore */ ImgHTMLAttributes {
   imageComponent?: ImageComponent
   imageComponentProps?: ImageComponentProps
 }

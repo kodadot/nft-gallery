@@ -82,11 +82,11 @@
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
-import { transferVisible, teleportVisible } from '@/utils/config/permission.config'
+import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
-// const { isAssetHub } = useIsChain(urlPrefix)
 const { neoModal } = useProgrammatic()
+const { $i18n } = useNuxtApp()
 
 const menus = ref<{ label: string, to: string, check: (v: Prefix) => boolean }[]>([
   {
@@ -99,22 +99,12 @@ const menus = ref<{ label: string, to: string, check: (v: Prefix) => boolean }[]
     to: `/${urlPrefix.value}/teleport`,
     check: teleportVisible,
   },
+  {
+    label: $i18n.t('swap.swap'),
+    to: `/${urlPrefix.value}/swap`,
+    check: swapVisible,
+  },
 ])
-
-// TODO: enable when asset hub offers are ready
-// watchEffect(() => {
-//   if (isAssetHub.value) {
-//     menus.value.push({
-//       label: 'Incoming Offers',
-//       to: `/${urlPrefix.value}/incomingoffers`,
-//     })
-
-//     menus.value.push({
-//       label: 'Assets',
-//       to: `/${urlPrefix.value}/assets`,
-//     })
-//   }
-// })
 
 const filteredMenus = computed(() =>
   menus.value.filter(menu => menu.check(urlPrefix.value)),
