@@ -1,4 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { createOpenSeaMetadata as createMetadata, protocolize } from '@kodadot1/hyperdata'
 import type { TokenToMint } from '../types'
 import {
   nsfwAttribute,
@@ -63,5 +63,5 @@ export async function constructMeta(
     [file, secondFile],
     [fileHash, secondFileHash],
   ).catch($consola.warn)
-  return unSanitizeIpfsUrl(metaHash)
+  return protocolize(metaHash)
 }
