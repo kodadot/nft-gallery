@@ -1,4 +1,4 @@
-import type { Attribute, Metadata } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
@@ -8,6 +8,7 @@ import type { BaseTokenType } from '@/components/base/types'
 import type { Royalty } from '@/utils/royalty'
 import type { ShoppingActions } from '@/utils/shoppingActions'
 import type { Extrinsic } from '@/utils/transactionExecutor'
+import type { Metadata } from '@/services/nftStorage'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
 export type ObjectMessage = {
@@ -209,8 +210,8 @@ export type ActionSwap = {
   errorMessage?: string
 }
 
-export type ActionWithdrawOffer = {
-  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+export type ActionCancelOffer = {
+  interaction: typeof ShoppingActions.CANCEL_OFFER
   urlPrefix: Prefix
   offeredId: string
   successMessage?: string
@@ -228,8 +229,8 @@ export type ActionAcceptOffer = {
   errorMessage?: string
 }
 
-export type ActionWithdrawSwap = {
-  interaction: typeof ShoppingActions.WITHDRAW_SWAP
+export type ActionCancelSwap = {
+  interaction: typeof ShoppingActions.CANCEL_SWAP
   urlPrefix: Prefix
   offeredId: string
   offeredCollectionId: string
@@ -338,9 +339,9 @@ export type Actions =
   | ActionSend
   | ActionOffer
   | ActionConsume
-  | ActionWithdrawSwap
+  | ActionCancelSwap
   | ActionAcceptSwap
-  | ActionWithdrawOffer
+  | ActionCancelOffer
   | ActionAcceptOffer
   | ActionMintToken
   | ActionMintCollection
