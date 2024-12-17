@@ -2,11 +2,9 @@
   <UCarousel
     v-slot="{ item }"
     :items="drops"
-    :ui="{ container: 'gap-4' }"
-    class=""
     arrows
   >
-    <div class="lg:w-80">
+    <div class="w-80 lg:w-96 pr-4">
       <DropsDropItem
         :drop="item"
         :show-minted="true"
