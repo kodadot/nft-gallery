@@ -296,10 +296,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
 
-  ui: {
-    global: true,
-  },
-
   tailwindcss: {
     exposeConfig: true,
     configPath: '~/libs/ui/tailwind.config.js',
