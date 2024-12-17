@@ -74,6 +74,7 @@ export default defineNuxtConfig({
               'date-fns/format',
               'date-fns/formatDistanceToNow',
               'keen-slider/vue',
+              '@kodadot1/hyperdata',
               'lodash/camelCase',
               'lodash/chunk',
               'lodash/filter',
@@ -445,7 +446,7 @@ export default defineNuxtConfig({
   // privateRuntimeConfig: {}
 
   devtools: {
-    enabled: true,
+    enabled: false,
   },
 
   compatibilityDate: '2024-07-11',
