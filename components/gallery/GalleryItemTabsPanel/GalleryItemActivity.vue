@@ -76,7 +76,7 @@ const cssActive = (value) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 
 .gallery-activity-events-wrapper {
   height: 100%;

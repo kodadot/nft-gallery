@@ -41,7 +41,7 @@ const { isUnlockable } = useUnlockable(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 .unlockable-container {
   @include ktheme() {
     border-color: theme('k-shade');

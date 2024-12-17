@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 
 .listing-container {
   position: fixed;

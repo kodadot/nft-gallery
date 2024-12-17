@@ -51,7 +51,7 @@ const displayText = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 .tag-container {
   @include ktheme() {
     border-color: theme('k-shade');

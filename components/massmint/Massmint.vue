@@ -289,7 +289,7 @@ watch(urlPrefix, async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 
 .controls {
   justify-content: center;

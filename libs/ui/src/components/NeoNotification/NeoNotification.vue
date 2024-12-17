@@ -12,7 +12,7 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
-@import '@oruga-ui/oruga-next/src/scss/components/_notification.scss';
+// @import '@oruga-ui/oruga-next/src/scss/components/_notification.scss';
 
 .o-notices {
   @apply top-[4.5rem];

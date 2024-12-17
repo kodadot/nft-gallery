@@ -52,7 +52,7 @@ const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/_variables.scss';
 .unlockable-container {
   @apply max-w-[60%] rounded-[2rem];
 
