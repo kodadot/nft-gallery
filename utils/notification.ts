@@ -10,6 +10,8 @@ import MessageNotify from '@/components/MessageNotify.vue'
 
 export type NotificationAction = { label: string, url: string, icon?: string }
 
+export type NotificationFooter = MaybeRef<Omit<NotificationAction, 'url'> | undefined>
+
 type Params = {
   variant: NeoMessageVariant
   duration?: number
@@ -50,7 +52,7 @@ export const showNotification = ({
   action?: MaybeRef<NotificationAction | undefined>
   holdTimer?: Ref<boolean>
   icon?: Ref<NeoMessageIconVariant | undefined>
-  footer?: Ref<Omit<NotificationAction, 'url'> | undefined>
+  footer?: NotificationFooter
 }) => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -120,11 +122,12 @@ export const infoMessage = (
   })
 }
 
-export const successMessage = message =>
+export const successMessage = (message: string, extraConfig?: { footer?: NotificationFooter }) =>
   showNotification({
     title: 'Success',
     message: message,
     params: notificationTypes.success,
+    ...extraConfig,
   })
 
 export const getReportIssueAction = (message: string) => {

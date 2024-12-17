@@ -40,8 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, withDefaults } from 'vue'
-
 import TheImage from '../../TheImage/TheImage.vue'
 import type {
   ImageComponent,

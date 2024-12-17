@@ -1,0 +1,13 @@
+diff --git a/Identicon.js b/Identicon.js
+index 18ac195b5fd0adfe10aa1e69ef5715e32be3ad2d..24f446e967cd089c930a405503aacb4021238370 100644
+--- a/Identicon.js
++++ b/Identicon.js
+@@ -97,7 +97,7 @@ export const Identicon = defineComponent({
+                     key: address,
+                     size: iconSize
+                 })
+-            }, []);
++            }, () => []);
+         }
+         else {
+             return h(cmp, {}, []);

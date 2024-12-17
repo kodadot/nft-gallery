@@ -1,4 +1,4 @@
-import { createMetadata } from '@kodadot1/minimark/utils'
+import { createOpenSeaMetadata as createMetadata } from '@kodadot1/hyperdata'
 
 export const UNLOCKABLE_CAMPAIGN = 'bbw2023'
 export const UNLOCKABLE_NAME = 'Berlin (Blockchain) Waifus'

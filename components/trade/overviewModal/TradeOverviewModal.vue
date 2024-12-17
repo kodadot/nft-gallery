@@ -104,8 +104,8 @@ const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, Overv
     },
     owner: {
       title: $i18n.t('swap.yourSwap'),
-      signingTitle: $i18n.t('transaction.withdrawSwap'),
-      notificationTitle: $i18n.t('swap.swapWithdrawl'),
+      signingTitle: $i18n.t('transaction.cancelSwap'),
+      notificationTitle: $i18n.t('swap.swapCancellation'),
     },
   },
   [TradeType.OFFER]: {
@@ -116,8 +116,8 @@ const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, Overv
     },
     owner: {
       title: $i18n.t('offer.yourOffer'),
-      signingTitle: $i18n.t('transaction.withdrawOffer'),
-      notificationTitle: $i18n.t('offer.offerWithdrawl'),
+      signingTitle: $i18n.t('transaction.cancelOffer'),
+      notificationTitle: $i18n.t('offer.offerCancellation'),
     },
   },
 }
@@ -137,7 +137,7 @@ const TradeTypeTx: Record<TradeType, Record<OverviewMode, (params: ExecTxParams)
   [TradeType.SWAP]: {
     owner: ({ offered }) => {
       transaction({
-        interaction: ShoppingActions.WITHDRAW_SWAP,
+        interaction: ShoppingActions.CANCEL_SWAP,
         urlPrefix: urlPrefix.value,
         offeredId: offered.sn,
         offeredCollectionId: offered.collection.id,
@@ -159,7 +159,7 @@ const TradeTypeTx: Record<TradeType, Record<OverviewMode, (params: ExecTxParams)
   [TradeType.OFFER]: {
     owner: ({ offered }) => {
       transaction({
-        interaction: ShoppingActions.WITHDRAW_OFFER,
+        interaction: ShoppingActions.CANCEL_OFFER,
         urlPrefix: urlPrefix.value,
         offeredId: offered.sn,
       })

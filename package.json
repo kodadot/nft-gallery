@@ -56,7 +56,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@kodadot1/brick": "workspace:*",
-    "@kodadot1/hyperdata": "0.0.1-rc.6",
+    "@kodadot1/hyperdata": "0.0.2-rc.1",
     "@kodadot1/minimark": "^0.1.14-rc.0",
     "@kodadot1/minipfs": "0.4.3-rc.1",
     "@kodadot1/static": "workspace:*",
@@ -75,7 +75,7 @@
     "@polkadot/ui-settings": "^3.6.6",
     "@polkadot/util": "^12.6.2",
     "@polkadot/util-crypto": "^12.6.2",
-    "@polkadot/vue-identicon": "^3.6.6",
+    "@polkadot/vue-identicon": "^3.11.3",
     "@ramp-network/ramp-instant-sdk": "^4.0.5",
     "@tanstack/vue-query": "^5.56.2",
     "@transak/transak-sdk": "^1.4.1",
@@ -150,5 +150,10 @@
   },
   "resolutions": {
     "@apollo/federation": "0.38.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@polkadot/vue-identicon@3.11.3": "patches/@polkadot__vue-identicon@3.11.3.patch"
+    }
   }
 }
