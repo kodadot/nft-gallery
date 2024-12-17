@@ -68,11 +68,20 @@ const traderAddress = ref('')
 const isTraderAddressValid = ref(false)
 const isYourAddress = ref(false)
 
-const disabled = computed(() => traderAddress.value === '' || isYourAddress.value || !isTraderAddressValid.value)
+const isAddressEmpty = computed(() => !traderAddress.value)
+const disabled = computed(() => isAddressEmpty.value || isYourAddress.value || !isTraderAddressValid.value)
 
 const label = computed(() => {
   if (isYourAddress.value) {
     return $i18n.t('swap.cantSwapWithYourself')
+  }
+
+  if (isAddressEmpty.value) {
+    return $i18n.t('transaction.inputAddressFirst')
+  }
+
+  if (!isTraderAddressValid.value) {
+    return $i18n.t('transaction.addressIncorrect')
   }
 
   return $i18n.t('swap.beginSwap')
