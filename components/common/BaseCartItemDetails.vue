@@ -13,15 +13,15 @@
           </slot>
         </div>
 
-        <div class="flex flex-col justify-between ml-4 limit-width">
+        <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
           <div
-            class="font-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
+            class="font-bold leading-none whitespace-nowrap is-clipped is-ellipsis"
             :class="[discarded ? 'text-k-grey' : 'text-text-color']"
           >
             {{ name }}
           </div>
           <div
-            class="line-height-1 whitespace-nowrap is-clipped is-ellipsis"
+            class="leading-none whitespace-nowrap is-clipped is-ellipsis"
             :class="{ 'text-k-grey': discarded }"
           >
             {{ secondName }}
@@ -43,18 +43,3 @@ defineProps<{
   discarded?: boolean
 }>()
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.limit-width {
-  width: 170px;
-  @include mobile {
-    width: 100px;
-  }
-}
-
-.line-height-1 {
-  line-height: 1;
-}
-</style>
