@@ -10,7 +10,7 @@
     :on-cancel="closePanel"
   >
     <div
-      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full"
+      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between"
     >
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
@@ -58,6 +58,12 @@
               height="10rem"
             />
           </NeoField>
+          <NeoField :label="`${$t('nft.properties.label')}`">
+            <CustomAttributeInput
+              v-model="tags"
+              :max="10"
+            />
+          </NeoField>
           <NeoField
             :label="$t('massmint.price')"
             class="w-full"
@@ -100,6 +106,7 @@ import {
   NeoSidebar,
 } from '@kodadot1/brick'
 import type { NFT } from './types'
+import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 
 const props = defineProps<{
   nft?: NFT
@@ -112,14 +119,14 @@ const { placeholder } = useTheme()
 const { unit } = useChain()
 
 const internalNfT = ref<Partial<NFT>>({})
-const dirty = ref({ name: false, description: false, price: false })
+const dirty = ref({ name: false, description: false, price: false, tags: false })
 
-const createField = fieldName =>
+const createField = (fieldName: string, defaultValue: string | unknown = '') =>
   computed({
     get: () =>
       dirty.value[fieldName]
         ? internalNfT.value[fieldName]
-        : props.nft?.[fieldName] || '',
+        : props.nft?.[fieldName] || defaultValue,
     set: (value) => {
       internalNfT.value = {
         ...internalNfT.value,
@@ -133,12 +140,13 @@ const createField = fieldName =>
 const name = createField('name')
 const description = createField('description')
 const price = createField('price')
+const tags = createField('tags', [])
 
 const emit = defineEmits(['close', 'save'])
 
 const closePanel = () => {
   internalNfT.value = {}
-  dirty.value = { name: false, description: false, price: false }
+  dirty.value = { name: false, description: false, price: false, tags: false }
   emit('close')
 }
 
@@ -154,7 +162,7 @@ const save = () => {
 
 <style lang="scss" scoped>
 .navbar-margin {
-  margin-top: 83px;
+  margin-top: 80px;
 }
 
 .cover {

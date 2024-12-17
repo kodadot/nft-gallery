@@ -8,11 +8,25 @@ export const descriptionTabs = {
           "file": "file1.jpg",
           "name": "Image1",
           "description": "This is an image",
+          "attributes": [{
+            "value": "white",
+            "trait_type": "color"
+          }, {
+            "value": "happy",
+            "trait_type": "expression"
+          }],
           "price": 2.45
       },
       {
           "file": "file2.jpg",
           "name": "Image2",
+          "attributes": [{
+            "value": "blue",
+            "trait_type": "color"
+          }, {
+            "value": "shy",
+            "trait_type": "expression"
+          }],
           "price": 200
       },
       {

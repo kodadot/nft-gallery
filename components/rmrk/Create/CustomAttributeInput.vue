@@ -2,6 +2,7 @@
   <CollapseWrapper
     :visible="visible"
     :hidden="hidden"
+    :default-open="defaultOpen"
   >
     <div
       v-for="(attribute, index) in attributes"
@@ -40,12 +41,14 @@ const props = withDefaults(
     max: number
     visible?: string
     hidden?: string
+    defaultOpen?: boolean
   }>(),
   {
     max: 0,
     visible: 'collapse.collection.attributes.show',
     hidden: 'collapse.collection.attributes.hide',
     modelValue: () => [],
+    defaultOpen: false,
   },
 )
 
