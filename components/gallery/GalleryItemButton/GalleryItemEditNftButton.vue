@@ -23,11 +23,11 @@
 
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
-import type { Metadata } from '@kodadot1/minimark/common'
 import { useQuery } from '@tanstack/vue-query'
 import { refreshOdaTokenMetadata } from '@/services/oda'
 import { type ActionMetadataSetMetadata, NFTs } from '@/composables/transaction/types'
 import type { NFT } from '@/types'
+import type { Metadata } from '@/services/nftStorage'
 
 const props = defineProps<{
   nft?: NFT
