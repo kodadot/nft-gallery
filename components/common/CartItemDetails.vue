@@ -37,7 +37,7 @@ import type { ListCartItem } from '@/stores/listingCart'
 import type { MakingOfferItem } from '@/components/trade/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-const avatar = ref<string>()
+const avatar = ref<string>('')
 
 const props = defineProps<{
   nft?: (ListCartItem | MakingOfferItem) & {
