@@ -39,7 +39,7 @@ const entire_collection = computed({
   set: value => applyToUrl({ trade_collection: String(value) }),
 })
 
-const applyToUrl = (queryCondition: { [key: string]: any }) => {
+const applyToUrl = (queryCondition: Record<string, string>) => {
   replaceURL(queryCondition)
   emit('resetPage')
 }
