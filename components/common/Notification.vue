@@ -69,7 +69,7 @@ const props = withDefaults(
     action?: MaybeRef<NotificationAction | undefined>
     holdTimer?: Ref<boolean>
     icon?: Ref<NeoMessageIconVariant | undefined>
-    footer?: Ref<Omit<NotificationAction, 'url'> | undefined>
+    footer?: NotificationFooter
   }>(),
   {
     variant: 'success',

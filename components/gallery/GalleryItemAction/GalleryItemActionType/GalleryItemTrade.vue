@@ -4,22 +4,36 @@
     :price="highestOfferPrice"
     class="mt-4"
   >
-    <div class="flex justify-end gallery-item-offer">
+    <div
+      v-if="!hideActionButton"
+      class="flex justify-end gallery-item-trade"
+    >
       <NeoButton
-        v-if="!hideActionButton"
         :label="$t('transaction.offer')"
         variant="k-blue"
         size="large"
-        class="w-[calc(10rem+55px)]"
+        class="w-[8.375rem] !h-[55px]"
         @click="onMakeOfferClick"
       />
+      <NeoButton
+        size="large"
+        class="!w-[6.25rem] !h-[55px]"
+        @click="onSwapClick"
+      >
+        <div class="flex gap-2">
+          <NeoIcon
+            icon="arrow-right-arrow-left"
+          />
+          <span> {{ $t('swap.swap') }}</span>
+        </div>
+      </NeoButton>
       <TradeMakeOfferModal />
     </div>
   </GalleryItemPriceSection>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -35,6 +49,7 @@ const props = defineProps<{
 }>()
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
+const swapStore = useAtomicSwapStore()
 const { doAfterLogin } = useDoAfterlogin()
 const { isCurrentAccount, isLogIn } = useAuth()
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
@@ -49,19 +64,49 @@ const openOfferModal = () => {
   preferencesStore.setMakeOfferModalOpen(true)
 }
 
-const onMakeOfferClick = () => {
-  const cb = () => {
+const onTradeActionClick = (cb: () => void) => {
+  const fn = () => {
     if (!isOwner.value) {
-      openOfferModal()
+      cb()
     }
   }
 
   if (isLogIn.value) {
-    doAfterCheckCurrentChainVM(cb)
+    doAfterCheckCurrentChainVM(fn)
   }
   else {
-    doAfterLogin({ onLoginSuccess: cb })
+    doAfterLogin({ onLoginSuccess: fn })
   }
+}
+
+const onMakeOfferClick = () => {
+  onTradeActionClick(openOfferModal)
+}
+
+const onSwapClick = () => {
+  onTradeActionClick(() => {
+    const nft = props.nft
+    const swap = swapStore.createSwap(nft.currentOwner)
+
+    swapStore.updateItem({
+      ...swap,
+      desired: [
+        {
+          id: nft.id,
+          collectionId: nft.collection.id,
+          sn: nft.sn,
+          name: nft.name,
+          meta: nft.meta,
+        },
+      ],
+    })
+
+    navigateTo({
+      name: 'prefix-swap-id',
+      params: { id: nft.currentOwner },
+      query: { swapId: swap.id },
+    })
+  })
 }
 
 useModalIsOpenTracker({
@@ -73,7 +118,7 @@ useModalIsOpenTracker({
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.gallery-item-offer {
+.gallery-item-trade {
   button {
     font-size: 1rem;
     height: 3.375rem;
@@ -81,7 +126,7 @@ useModalIsOpenTracker({
 }
 
 @include until-widescreen {
-  .gallery-item-offer {
+  .gallery-item-trade {
     width: 100%;
     margin-top: 1rem !important;
     button {

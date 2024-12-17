@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Attribute } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import { emptyArray } from '~/utils/empty'
 import CollapseCardWrapper from '@/components/shared/collapse/CollapseCardWrapper.vue'
 

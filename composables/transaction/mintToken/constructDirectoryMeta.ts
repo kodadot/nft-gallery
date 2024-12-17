@@ -1,4 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { createOpenSeaMetadata as createMetadata, protocolize } from '@kodadot1/hyperdata'
 import type { TokenToMint } from '../types'
 import { pinDirectory } from '@/services/nftStorage'
 
@@ -40,7 +40,7 @@ export const uploadMediaAndMetadataDirectories = async (
   )
 
   return metadataFiles.map((_, index) =>
-    unSanitizeIpfsUrl(`ipfs://${metaDirectoryCid}/${index}.json`),
+    protocolize(`ipfs://${metaDirectoryCid}/${index}.json`),
   )
 }
 

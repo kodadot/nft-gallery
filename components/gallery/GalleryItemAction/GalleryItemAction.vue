@@ -5,9 +5,9 @@
       v-if="!isOwner && nft"
       :nft="nft"
     />
-    <!-- make offer -->
-    <GalleryItemOffer
-      v-if="offerVisible(urlPrefix) && nft"
+    <!-- make offer and swap -->
+    <GalleryItemTrade
+      v-if="tradeVisible(urlPrefix) && nft"
       :hide-action-button="isOwner"
       :nft="nft"
       :highest-offer="highestOffer"
@@ -25,9 +25,9 @@
 
 <script lang="ts" setup>
 import GalleryItemPriceBuy from './GalleryItemActionType/GalleryItemBuy.vue'
-import GalleryItemOffer from './GalleryItemActionType/GalleryItemOffer.vue'
+import GalleryItemTrade from './GalleryItemActionType/GalleryItemTrade.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
-import { listVisible, offerVisible } from '@/utils/config/permission.config'
+import { listVisible, tradeVisible } from '@/utils/config/permission.config'
 import type { NFTOffer } from '@/composables/useNft'
 import type { NFT } from '@/types'
 
