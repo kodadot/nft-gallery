@@ -29,7 +29,7 @@
           <SwapGridList
             :query="offeredQuery"
             class="!my-10"
-            :surcharge="surcharge.direction === 'Send' ? surcharge : undefined"
+            :surcharge="surcharge?.direction === 'Send' ? surcharge : undefined"
           />
         </div>
 
