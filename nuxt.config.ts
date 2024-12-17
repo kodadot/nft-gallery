@@ -268,7 +268,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/apollo',
-    '@nuxtjs/i18n',
+    // '@nuxtjs/i18n',
     '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
