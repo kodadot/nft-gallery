@@ -120,7 +120,6 @@
     "@nuxtjs/color-mode": "^3.5.1",
     "@nuxtjs/device": "^3.2.2",
     "@nuxtjs/google-fonts": "^3.2.0",
-    "@nuxtjs/i18n": "^8.5.3",
     "@nuxtjs/sitemap": "^5.3.5",
     "@playwright/test": "^1.47.1",
     "@types/jest": "^27.5.2",

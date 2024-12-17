@@ -1,5 +1,5 @@
 <template>
-  <i18n-t
+  <!-- <i18n-t
     tag="p"
     class="text-base"
     keypath="codeChecker.usingKodaHashMeans"
@@ -14,7 +14,7 @@
         {{ $t('codeChecker.kodahashTemplate') }}
       </a>
     </template>
-  </i18n-t>
+  </i18n-t> -->
 
   <CodeCheckerIssueHintCodeBlock
     class="mt-5"
