@@ -7,7 +7,6 @@
           :key="filter.id"
           :active="filter.id === activeTab"
           variant="outlined-rounded"
-          :data-testid="`trade-tab-${filter.id}`"
           class="capitalize"
           :icon-left="filter.icon"
           @click="activeTab = filter.id"
