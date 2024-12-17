@@ -18,7 +18,7 @@
           @close="onClose"
         />
 
-        <Filters />
+        <Filters v-if="open" />
       </div>
 
       <div class="buttons-container px-4 py-3 border-t bg-background-color">
