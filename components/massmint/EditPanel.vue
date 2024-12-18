@@ -62,6 +62,7 @@
             <CustomAttributeInput
               v-model="tags"
               :max="10"
+              default-open
             />
           </NeoField>
           <NeoField
