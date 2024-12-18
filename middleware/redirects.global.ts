@@ -2,15 +2,46 @@ import { type Prefix } from '@kodadot1/static'
 import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { createVisible, transferVisible, teleportVisible, migrateVisible, swapVisible } from '@/utils/config/permission.config'
 
+type ReplaceRouteItemCondition = (route: RouteLocationNormalizedLoadedGeneric) => boolean
+
 type ReplaceRouteItem = {
-  cond: (route: RouteLocationNormalizedLoadedGeneric) => boolean
+  cond: ReplaceRouteItemCondition
   replaceRoute: string | ((route: RouteLocationNormalizedLoadedGeneric) => RouteLocationRaw | string | undefined)
+}
+
+const getFormatAddressRouteCondition = (cond: ReplaceRouteItemCondition, { addressKey = 'id' }: { addressKey?: string } = {}): ReplaceRouteItem => {
+  return {
+    cond,
+    replaceRoute: ({ params, name, query }) => {
+      const address = params[addressKey].toString()
+      const prefix = params.prefix.toString() as Prefix
+
+      return execByVm({
+        SUB: () => {
+          const formattedAddress = getss58AddressByPrefix(address, prefix)
+
+          if (address === formattedAddress) {
+            return
+          }
+
+          return {
+            name,
+            query,
+            params: {
+              ...params,
+              [addressKey]: formattedAddress,
+            },
+          }
+        },
+      }, { prefix })
+    },
+  }
 }
 
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
 
-  const getPermissionRouteCondition = (cond: ReplaceRouteItem['cond'], routeVisible: (value: Prefix) => boolean) => {
+  const getPermissionRouteCondition = (cond: ReplaceRouteItemCondition, routeVisible: (value: Prefix) => boolean): ReplaceRouteItem => {
     return {
       cond,
       replaceRoute: () => {
@@ -35,24 +66,9 @@ export default defineNuxtRouteMiddleware((route) => {
         return accountId.value ? `/${urlPrefix.value}/u/${accountId.value}` : `/${urlPrefix.value}`
       },
     },
-    {
-      cond: ({ name }) => name === 'prefix-u-id',
-      replaceRoute: ({ params }) => {
-        const address = params.id.toString()
-
-        if (!isSub(urlPrefix.value)) {
-          return
-        }
-
-        const formattedAddress = getss58AddressByPrefix(address, urlPrefix.value)
-
-        if (address === formattedAddress) {
-          return
-        }
-
-        return `/${urlPrefix.value}/u/${formattedAddress}`
-      },
-    },
+    getFormatAddressRouteCondition(({ name }) => name === 'prefix-u-id'),
+    getPermissionRouteCondition(({ name }) => String(name).includes('prefix-swap'), swapVisible),
+    getFormatAddressRouteCondition(({ name }) => String(name).includes('prefix-swap-id')),
     {
       cond: ({ path }) => ['ksm', 'rmrk', 'dot'].some(prefix => path.startsWith(`/${prefix}`) && !path.startsWith(`/${prefix}/transfer`)),
       replaceRoute: () => `/ahp`,
@@ -71,12 +87,10 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/transfer`, transferVisible),
-    getPermissionRouteCondition(({ path }) => path.includes(`/${urlPrefix.value}/swap`), swapVisible),
     getPermissionRouteCondition(({ path }) => path === '/migrate', migrateVisible),
     {
       cond: ({ path }) => path.startsWith('/transfer'),
-      replaceRoute: () =>
-        window.location.href.replace('/transfer', '/ksm/transfer'),
+      replaceRoute: () => window.location.href.replace('/transfer', '/ksm/transfer'),
     },
     getPermissionRouteCondition(({ path }) =>
       path === `/${urlPrefix.value}/create`
