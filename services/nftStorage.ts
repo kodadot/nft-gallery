@@ -1,7 +1,7 @@
 import type { FetchError } from 'ofetch'
 import { $fetch } from 'ofetch'
 import consola from 'consola'
-import type { Metadata } from '@kodadot1/minimark/common'
+import type { Indexable, OpenSeaMetadata } from '@kodadot1/hyperdata'
 import { URLS } from '../utils/constants'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
 import { exponentialBackoff } from '@/utils/exponentialBackoff'
@@ -16,6 +16,8 @@ export type PinningKey = {
   expiry: string
   token: string
 }
+
+export type Metadata = OpenSeaMetadata & Indexable
 
 type StorageApiResponse = {
   ok: boolean

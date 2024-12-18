@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Attribute } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import { NeoButton } from '@kodadot1/brick'
 import AttributeInput from './AttributeInput.vue'
 
