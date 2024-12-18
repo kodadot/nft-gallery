@@ -29,13 +29,3 @@ const handleClick = () => {
   emit(selected.value ? 'click' : 'remove', props.index)
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/_variables';
-.is-selected {
-  border: 4px $link solid;
-}
-.selectable-image:hover {
-  border: 4px $link-light solid;
-}
-</style>

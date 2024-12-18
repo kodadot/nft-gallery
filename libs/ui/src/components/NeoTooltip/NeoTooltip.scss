@@ -1,5 +1,5 @@
-@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+
+
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
@@ -12,7 +12,6 @@ $tooltip-content-max-width: 25rem;
 $tooltip-content-multiline-width: var(--multiline-width, 10rem);
 $tooltip-arrow-margin: 1rem;
 
-@import '@oruga-ui/oruga-next/src/scss/components/tooltip.scss';
 
 .o-tip__content {
   @apply text-xs py-2 px-4 text-text-color border-default border-text-color bg-background-color;

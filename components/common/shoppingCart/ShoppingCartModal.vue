@@ -188,26 +188,3 @@ const onCompletePurchase = () => {
   }, 100)
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-.shopping-cart-modal {
-  .shopping-cart-modal-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100%;
-    padding-top: $navbar-desktop-min-height;
-    max-width: 360px;
-    width: 100%;
-    @include mobile {
-      padding-top: $navbar-mobile-min-height;
-      max-width: 100vw;
-    }
-  }
-}
-
-.scroll-y {
-  overflow-y: auto;
-}
-</style>

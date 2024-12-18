@@ -60,20 +60,3 @@ const handleTabClick = (value: string) => {
   emit('select', value)
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.square-20 {
-  width: 20px;
-  height: 20px;
-}
-
-.pill-tabs-container {
-  gap: 10px;
-
-  @include touch {
-    flex-wrap: wrap !important;
-  }
-}
-</style>

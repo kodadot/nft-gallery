@@ -34,27 +34,3 @@ const isActivityTab = computed(
   () => route.name?.toString().includes('prefix-collection-id-activity'),
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.gap {
-  gap: 1.5rem;
-}
-.explore {
-  gap: 1.5rem;
-
-  &-menu {
-    gap: 1.5rem;
-  }
-
-  @include mobile {
-    gap: 1rem;
-    flex-direction: column;
-
-    &-menu {
-      gap: 1rem;
-    }
-  }
-}
-</style>

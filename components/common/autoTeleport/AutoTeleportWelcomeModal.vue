@@ -91,29 +91,3 @@ const onClose = () => {
   emit('close')
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.btn-height {
-  height: 3.5rem;
-}
-
-.welcome-card {
-  &-container {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 1rem;
-
-    @include mobile {
-      grid-template-columns: repeat(1, auto);
-    }
-  }
-}
-
-.icon-blur {
-  transform: scale(1.3);
-  top: -9px !important;
-  left: -8px !important;
-}
-</style>

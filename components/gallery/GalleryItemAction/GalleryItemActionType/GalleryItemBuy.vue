@@ -114,33 +114,3 @@ const onClickShoppingCart = () => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-:deep(.button-height) {
-  height: 55px !important;
-}
-
-.square-button-width {
-  width: 6.25rem;
-}
-.buy-button-width {
-  width: 8.375rem;
-
-  @include until-widescreen {
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  .wrapper {
-    width: 100%;
-  }
-}
-
-.desktop-full-w {
-  @include until-widescreen {
-    width: 100%;
-  }
-}
-</style>

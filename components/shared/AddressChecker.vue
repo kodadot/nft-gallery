@@ -230,27 +230,3 @@ watch(addressCheck, (check) => {
   emit('check', isValid)
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.is-blue {
-  @include ktheme() {
-    color: theme('k-blue') !important;
-    &:hover {
-      color: theme('k-blue-hover') !important;
-    }
-  }
-}
-
-.address-changed {
-  :deep(a) {
-    @include ktheme() {
-      color: theme('k-blue') !important;
-      &:hover {
-        color: theme('k-blue-hover') !important;
-      }
-    }
-  }
-}
-</style>

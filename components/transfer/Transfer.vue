@@ -1061,27 +1061,3 @@ watchDebounced(
   { debounce: 300 },
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.transfer-card {
-  max-width: 660px;
-
-  @include touch {
-    width: 100vw;
-  }
-
-  .square-32 {
-    width: 32px;
-    height: 32px;
-  }
-
-  .fixed-height {
-    height: 51px;
-  }
-}
-:deep(.o-drop__menu.no-border-bottom) {
-  @apply border-b-0;
-}
-</style>

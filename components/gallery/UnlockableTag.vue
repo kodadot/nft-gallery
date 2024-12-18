@@ -50,20 +50,3 @@ const { unlockableIcon } = useIcon()
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/_variables.scss';
-.unlockable-container {
-  @apply max-w-[60%] rounded-[2rem];
-
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-@include until-widescreen {
-  .unlockable-container {
-    max-width: 100%;
-  }
-}
-</style>

@@ -107,23 +107,3 @@ onBeforeUnmount(() => {
   listingCartStore.clear()
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/_variables.scss';
-
-.listing-container {
-  position: fixed;
-  right: 96px;
-  bottom: 36px;
-  @apply z-[998];
-  .selection-button:not([disabled='disabled']):hover {
-    @include ktheme() {
-      color: theme('text-color') !important;
-    }
-  }
-  .divider {
-    width: 1px;
-    height: 1rem;
-  }
-}
-</style>

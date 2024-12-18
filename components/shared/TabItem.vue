@@ -54,31 +54,3 @@ const icon = computed(() =>
   props.showActiveCheck && props.active ? 'check' : '',
 )
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.control:not(:last-of-type) .explore-tabs-button {
-  border-right: none;
-}
-
-.control,
-.explore-tabs-button {
-  width: 15rem;
-
-  @include until-widescreen {
-    width: 12rem;
-  }
-
-  @include mobile {
-    width: 100%;
-  }
-}
-
-.full-width {
-  &.control,
-  .explore-tabs-button {
-    width: 100%;
-  }
-}
-</style>

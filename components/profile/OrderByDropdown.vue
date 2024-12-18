@@ -162,26 +162,3 @@ onMounted(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.sort {
-  position: relative;
-
-  &-active .is-neo {
-    @include ktheme() {
-      background-color: theme('text-color');
-      color: theme('text-color-inverse');
-    }
-  }
-
-  .neo-dropdown-item {
-    width: 14rem;
-  }
-}
-
-.dark .sort-check {
-  filter: brightness(0%);
-}
-</style>

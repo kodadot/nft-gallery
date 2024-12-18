@@ -311,21 +311,3 @@ const animatedMediaUrl = computed(() => {
   return nftAnimation.value
 })
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.recipient {
-  li {
-    gap: 0.3rem;
-
-    >span {
-      font-size: 0.8rem;
-
-      @include ktheme() {
-        color: theme('k-grey');
-      }
-    }
-  }
-}
-</style>

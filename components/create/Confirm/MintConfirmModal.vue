@@ -188,25 +188,3 @@ watchEffect(async () => {
     : Number(fee)
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-.btn-height {
-  height: 3.5rem;
-}
-:deep(.identity-name-font-weight-regular) {
-  .identity-name {
-    font-weight: unset !important;
-  }
-}
-:deep(.o-modal__content) {
-  width: unset;
-}
-</style>

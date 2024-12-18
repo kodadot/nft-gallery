@@ -71,25 +71,3 @@ const onListingModalClose = () => {
 
 const isListed = computed(() => Boolean(Number(nftPrice.value)))
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.gallery-item-relist {
-  button {
-    font-size: 1rem;
-    height: 3.375rem;
-  }
-}
-
-@include until-widescreen {
-  .gallery-item-relist {
-    width: 100%;
-    margin-top: 1rem !important;
-    button {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-</style>

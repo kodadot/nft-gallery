@@ -120,37 +120,3 @@ useSeoMeta({
     ),
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.collection-banner {
-  &-shadow {
-    background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
-  }
-
-  &-avatar {
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  &-name {
-    @include ktheme() {
-      color: theme('text-color-inverse');
-      text-shadow:
-        1px 1px 0 theme('text-color'),
-        1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'),
-        -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'),
-        0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'),
-        0px -1px 0 theme('text-color'),
-        4px 4px theme('text-color');
-    }
-  }
-}
-</style>

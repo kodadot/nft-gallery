@@ -59,39 +59,3 @@ const showAllEmotes = () => {
   DISPLAYED_EMOJI.value = props.emotes.length
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.emotion {
-  max-width: 400px;
-  border: 2px solid $primary;
-
-  &.modal-card {
-    background: $frosted-glass-background;
-    backdrop-filter: $frosted-glass-light-backdrop-filter;
-  }
-
-  .modal-card-body,
-  .modal-card-head {
-    background: unset;
-  }
-
-  .buttons button {
-    @apply justify-between rounded-none;
-  }
-}
-
-.emotes {
-  display: flex;
-
-  & + & {
-    margin-top: 1rem;
-  }
-
-  &-icon {
-    font-size: 2rem;
-    margin-right: 1rem;
-  }
-}
-</style>

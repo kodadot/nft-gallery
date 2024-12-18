@@ -174,28 +174,3 @@ const onSelectAction = () => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.in-cart-border {
-  @include ktheme() {
-    outline: 2px solid theme('k-blue') !important;
-    outline-offset: -1px;
-    border-color: transparent !important;
-    background-color: theme('blue-light-cards');
-  }
-}
-
-.hover-color {
-  &:hover {
-    @include ktheme() {
-      background-color: theme('background-color-inverse');
-    }
-    // can this be used in the composable to remove assets?
-    img {
-      filter: invert(1);
-    }
-  }
-}
-</style>

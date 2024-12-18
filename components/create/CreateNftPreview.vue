@@ -55,33 +55,3 @@ defineProps<{
   image?: string
 }>()
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.preview {
-  position: fixed;
-  top: 10rem;
-  left: 75%;
-
-  @include until-fullhd {
-    left: unset;
-    right: 2rem;
-  }
-
-  &-card {
-    width: 15rem;
-  }
-
-  &-image {
-    background-color: #d7d7d7;
-    background-size: cover;
-    background-position: center;
-    height: 15rem;
-  }
-
-  @include touch() {
-    display: none;
-  }
-}
-</style>

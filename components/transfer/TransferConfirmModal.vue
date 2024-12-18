@@ -197,27 +197,3 @@ const onClose = () => {
   emit('close')
 }
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.transfer-confirm-modal {
-  .fixed-height {
-    height: 10rem;
-  }
-
-  .fixed-button-height {
-    min-height: 55px;
-  }
-}
-</style>
-
-<style lang="scss">
-// manually calculated number, based on address length and container padding, not the best solution but it works :)
-.o-tip__content.transfer-tooltip {
-  transform: translateX(-22rem);
-  .o-tip__arrow {
-    transform: translateX(10rem);
-  }
-}
-</style>

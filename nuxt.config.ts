@@ -6,6 +6,8 @@ import { URLS, apolloClientConfig } from './utils/constants'
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
+  debug: true,
+
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',

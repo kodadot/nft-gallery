@@ -49,29 +49,3 @@ const realDuration = computed(() => {
 
 const autoClose = computed(() => !props.noToast)
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.message-box {
-  max-width: 500px;
-
-  &--toast {
-    @apply z-[100] fixed mx-auto rounded-none right-0 top-[100px] #{!important};
-  }
-
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    background-color: theme('background-color');
-    border: 1px solid theme('border-color');
-  }
-
-  .message-body {
-    @apply rounded-none border-l-0;
-  }
-
-  .congrats-message {
-    filter: drop-shadow(4px 4px 0px rgb(0 0 0 / 1));
-  }
-}
-</style>

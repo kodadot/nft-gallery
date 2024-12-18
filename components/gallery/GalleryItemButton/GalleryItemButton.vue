@@ -34,16 +34,3 @@ const customSharingContent = computed(() => {
 
 onKodahashRenderCompleted(({ payload }) => imageData.value = payload.image)
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.gallery-button {
-  display: flex;
-  gap: 1rem;
-
-  @include mobile {
-    flex-direction: column-reverse;
-  }
-}
-</style>

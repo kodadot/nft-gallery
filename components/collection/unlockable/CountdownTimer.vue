@@ -49,7 +49,3 @@ const [wrapper] = useKeenSlider({
   },
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-</style>

@@ -49,20 +49,3 @@ const displayText = computed(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/_variables.scss';
-.tag-container {
-  @include ktheme() {
-    border-color: theme('k-shade');
-    background-color: theme('background-color');
-    color: theme('text-color');
-  }
-}
-
-@include until-widescreen {
-  .unlockable-container {
-    max-width: 100%;
-  }
-}
-</style>

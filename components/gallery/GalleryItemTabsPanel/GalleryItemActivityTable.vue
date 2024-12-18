@@ -204,34 +204,3 @@ watchEffect(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.gallery-item-activity-table {
-  overflow-y: auto;
-
-  @include desktop {
-    :deep(table tr > *:first-child) {
-      padding-left: 2rem;
-    }
-  }
-}
-
-@include touch {
-  .gallery-item-activity-table {
-    :deep(.o-table__td) {
-      @apply border-inherit;
-
-      &:before {
-        font-weight: 400 !important;
-      }
-    }
-  }
-}
-@include mobile {
-  .padding-top-mobile {
-    padding-top: 0 !important;
-  }
-}
-</style>

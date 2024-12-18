@@ -63,14 +63,3 @@ const nft = computed(
     },
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.popover-container {
-  min-height: 12.5rem;
-  @include ktheme() {
-    background: theme('background-color');
-  }
-}
-</style>

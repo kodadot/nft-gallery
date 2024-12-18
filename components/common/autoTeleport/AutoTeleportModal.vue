@@ -334,16 +334,3 @@ watchDebounced(
   { debounce: 500 }, // wait for the modal closing animation to finish
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.btn-height {
-  height: 3.5rem;
-}
-
-.limit-height {
-  max-height: 80vh;
-  overflow-y: auto;
-}
-</style>
