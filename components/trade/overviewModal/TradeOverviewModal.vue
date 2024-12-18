@@ -196,30 +196,33 @@ const { data: nft, pending: nftLoading } = await useAsyncData<TradeNFTs | null>(
     return null
   }
 
-  const [offered, desired] = await Promise.all(
-    [
+  const promises = [
+    useAsyncQuery<{ nftEntity: NFT }>({
+      query: nftById,
+      variables: {
+        id: trade.value.offered.id,
+      },
+      clientId: client.value,
+    }),
+  ]
+
+  if (trade.value.desired) {
+    promises.push(
       useAsyncQuery<{ nftEntity: NFT }>({
         query: nftById,
         variables: {
-          id: trade.value.offered.id,
+          id: trade.value.desired.id,
         },
         clientId: client.value,
       }),
-      trade.value.desired
-        ? useAsyncQuery<{ nftEntity: NFT }>({
-          query: nftById,
-          variables: {
-            id: trade.value.desired.id,
-          },
-          clientId: client.value,
-        })
-        : undefined,
-    ].filter(Boolean),
-  )
+    )
+  }
+
+  const [offered, desired] = await Promise.all(promises)
 
   return {
-    offered: offered.data.value.nftEntity,
-    desired: desired?.data.value.nftEntity,
+    offered: offered.data.value?.nftEntity,
+    desired: desired?.data.value?.nftEntity,
   }
 }, { watch: [trade] })
 
