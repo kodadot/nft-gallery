@@ -104,7 +104,10 @@ export default defineNuxtRouteMiddleware((route) => {
         = typeof path.replaceRoute === 'function'
           ? path.replaceRoute(route)
           : path.replaceRoute
-      break
+
+      if (redirectRoute) {
+        break
+      }
     }
   }
 
