@@ -1,14 +1,19 @@
 import { type Prefix } from '@kodadot1/static'
-import type { RouteLocationRaw } from 'vue-router'
+import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { createVisible, transferVisible, teleportVisible, migrateVisible, swapVisible } from '@/utils/config/permission.config'
+
+type ReplaceRouteItem = {
+  cond: (route: RouteLocationNormalizedLoadedGeneric) => boolean
+  replaceRoute: string | ((route: RouteLocationNormalizedLoadedGeneric) => RouteLocationRaw | string | undefined)
+}
 
 export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
 
-  const getPermissionRouteCondition = (cond: (value: string) => boolean, routeVisible: (value: Prefix) => boolean) => {
+  const getPermissionRouteCondition = (cond: ReplaceRouteItem['cond'], routeVisible: (value: Prefix) => boolean) => {
     return {
       cond,
-      replaceValue: () => {
+      replaceRoute: () => {
         if (!routeVisible(urlPrefix.value)) {
           return '/'
         }
@@ -16,65 +21,80 @@ export default defineNuxtRouteMiddleware((route) => {
     }
   }
 
-  let redirectValue: RouteLocationRaw | null | undefined
+  let redirectRoute: RouteLocationRaw | null | undefined
 
-  const paths = [
+  const paths: ReplaceRouteItem[] = [
     {
-      cond: (val: string) => val === '/drops',
-      replaceValue: '/ahp/drops',
+      cond: ({ path }) => path === '/drops',
+      replaceRoute: '/ahp/drops',
     },
     {
-      cond: (val: string) =>
-        val === `/${urlPrefix.value}/profile`,
-      replaceValue: () => {
+      cond: ({ path }) => path === `/${urlPrefix.value}/profile`,
+      replaceRoute: () => {
         const { accountId } = useAuth()
         return accountId.value ? `/${urlPrefix.value}/u/${accountId.value}` : `/${urlPrefix.value}`
       },
     },
     {
-      cond: (val: string) => ['ksm', 'rmrk', 'dot'].some(prefix => val.startsWith(`/${prefix}`) && !val.startsWith(`/${prefix}/transfer`)),
-      replaceValue: () => `/ahp`,
+      cond: ({ name }) => name === 'prefix-u-id',
+      replaceRoute: ({ params }) => {
+        const address = params.id.toString()
+
+        if (!isSub(urlPrefix.value)) {
+          return
+        }
+
+        const formattedAddress = getss58AddressByPrefix(address, urlPrefix.value)
+
+        if (address === formattedAddress) {
+          return
+        }
+
+        return `/${urlPrefix.value}/u/${formattedAddress}`
+      },
     },
     {
-      cond: (val: string) =>
-        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
-      replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
+      cond: ({ path }) => ['ksm', 'rmrk', 'dot'].some(prefix => path.startsWith(`/${prefix}`) && !path.startsWith(`/${prefix}/transfer`)),
+      replaceRoute: () => `/ahp`,
     },
     {
-      cond: (val: string) =>
-        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
-      replaceValue: () => `/${urlPrefix.value}/explore/items`,
+      cond: ({ path }) => path.startsWith(`/${urlPrefix.value}`) && path.endsWith('collections'),
+      replaceRoute: () => `/${urlPrefix.value}/explore/collectibles`,
     },
     {
-      cond: (val: string | string[]) => val.includes('/stmn/'),
-      replaceValue: () => window.location.href.replace('/stmn/', '/ahk/'),
+      cond: ({ path }) => path.startsWith(`/${urlPrefix.value}`) && path.endsWith('gallery'),
+      replaceRoute: () => `/${urlPrefix.value}/explore/items`,
     },
-    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/teleport`, teleportVisible),
-    getPermissionRouteCondition((val: string) => val === `/${urlPrefix.value}/transfer`, transferVisible),
-    getPermissionRouteCondition((val: string) => val.includes(`/${urlPrefix.value}/swap`), swapVisible),
-    getPermissionRouteCondition((val: string) => val === '/migrate', migrateVisible),
     {
-      cond: (val: string) => val.startsWith('/transfer'),
-      replaceValue: () =>
+      cond: ({ path }) => path.includes('/stmn/'),
+      replaceRoute: () => window.location.href.replace('/stmn/', '/ahk/'),
+    },
+    getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/teleport`, teleportVisible),
+    getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/transfer`, transferVisible),
+    getPermissionRouteCondition(({ path }) => path.includes(`/${urlPrefix.value}/swap`), swapVisible),
+    getPermissionRouteCondition(({ path }) => path === '/migrate', migrateVisible),
+    {
+      cond: ({ path }) => path.startsWith('/transfer'),
+      replaceRoute: () =>
         window.location.href.replace('/transfer', '/ksm/transfer'),
     },
-    getPermissionRouteCondition((val: string) =>
-      val === `/${urlPrefix.value}/create`
-      || val === `/${urlPrefix.value}/massmint`
-      || val.startsWith('/create'), createVisible),
+    getPermissionRouteCondition(({ path }) =>
+      path === `/${urlPrefix.value}/create`
+      || path === `/${urlPrefix.value}/massmint`
+      || path.startsWith('/create'), createVisible),
   ]
 
   for (const path of paths) {
-    if (path.cond(route.path)) {
-      redirectValue
-        = typeof path.replaceValue === 'function'
-          ? path.replaceValue()
-          : path.replaceValue
+    if (path.cond(route)) {
+      redirectRoute
+        = typeof path.replaceRoute === 'function'
+          ? path.replaceRoute(route)
+          : path.replaceRoute
       break
     }
   }
 
-  if (redirectValue) {
-    return navigateTo(redirectValue, { external: true })
+  if (redirectRoute) {
+    return navigateTo(redirectRoute, { external: true })
   }
 })
