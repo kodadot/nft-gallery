@@ -48,7 +48,7 @@
         header-class="z-10"
         cell-class="is-vcentered"
       >
-        <div class="image is-48x48 mb-2">
+        <div class="image size-12 mb-2">
           <BasicImage
             :src="props.row.image"
             :alt="props.row.name"
