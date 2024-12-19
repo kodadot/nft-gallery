@@ -73,16 +73,9 @@ const props = withDefaults(
 const { urlPrefix } = usePrefix()
 const { getNft: nft } = storeToRefs(useNftStore())
 
-const active = ref(GALLERY_ITEM_TABS.ACTIVITY)
-const collectionId = ref('')
+const active = ref<GALLERY_ITEM_TABS>(props.activeTab)
 
-watchEffect(() => {
-  if (props.activeTab) {
-    active.value = props.activeTab
-  }
-
-  collectionId.value = nft.value?.collection.id || ''
-})
+watch(() => props.activeTab, activeTab => active.value = activeTab)
 </script>
 
 <style lang="scss">
