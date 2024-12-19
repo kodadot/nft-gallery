@@ -48,7 +48,7 @@
               />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless border-0 capitalize sm:hidden"
+                class="p-3 !shadow-none border-0 capitalize sm:hidden"
                 @click="hideMobileSearchBar"
               >
                 {{ $t('cancel') }}

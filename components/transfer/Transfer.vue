@@ -28,7 +28,7 @@
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
-          menu-class="is-shadowless no-border-bottom"
+          menu-class="!shadow-none no-border-bottom"
         >
           <template #trigger="{ active }">
             <NeoButton
@@ -358,7 +358,7 @@
 
       <div class="flex">
         <NeoButton
-          class="flex flex-1 fixed-height is-shadowless"
+          class="flex flex-1 fixed-height !shadow-none"
           variant="primary"
           :disabled="disabled"
           @click="handleOpenConfirmModal"
