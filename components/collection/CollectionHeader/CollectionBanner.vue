@@ -3,7 +3,9 @@
     class="collection-banner relative md:h-[560px] h-72 bg-no-repeat bg-cover bg-center border-b"
     :style="{ backgroundImage: `url(${collectionBanner})` }"
   >
-    <div class="collection-banner-shadow absolute inset-0" />
+    <div
+      class="collection-banner-shadow absolute inset-0 bg-gradient-to-b from-black/[0.06] to-black/20"
+    />
 
     <section class="h-full py-8">
       <div
@@ -11,7 +13,9 @@
       >
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
-            <div class="collection-banner-avatar p-2.5 mb-4 md:mb-6">
+            <div
+              class="collection-banner-avatar p-2.5 mb-4 md:mb-6 border border-border-color bg-background-color shadow-[4px_4px]"
+            >
               <BaseMediaItem
                 :src="collectionAvatar"
                 :image-component="NuxtImg"
@@ -20,7 +24,7 @@
               />
             </div>
             <h1
-              class="collection-banner-name font-bold text-2xl md:text-[31px] w-max max-w-sm"
+              class="collection-banner-name font-bold text-2xl md:text-[31px] w-max max-w-sm text-text-color-inverse text-shadow-border"
               data-testid="collection-banner-name"
             >
               {{ collectionName }}
@@ -120,37 +124,3 @@ useSeoMeta({
     ),
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.collection-banner {
-  &-shadow {
-    background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
-  }
-
-  &-avatar {
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  &-name {
-    @include ktheme() {
-      color: theme('text-color-inverse');
-      text-shadow:
-        1px 1px 0 theme('text-color'),
-        1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'),
-        -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'),
-        0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'),
-        0px -1px 0 theme('text-color'),
-        4px 4px theme('text-color');
-    }
-  }
-}
-</style>
