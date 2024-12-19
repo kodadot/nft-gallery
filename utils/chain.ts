@@ -48,12 +48,6 @@ export const isPrefixVmOf = (prefix: Prefix, vm: ChainVM) =>
     .map(({ value }) => value)
     .includes(prefix)
 
-export const getAvailablePrefix = (prefix: string): string => {
-  return availablePrefixes().some(chain => chain.value === prefix)
-    ? prefix
-    : ''
-}
-
 export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',

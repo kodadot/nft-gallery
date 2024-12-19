@@ -68,6 +68,8 @@
         />
       </div>
 
+      <slot name="additional-item" />
+
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
         <NftCardSkeleton

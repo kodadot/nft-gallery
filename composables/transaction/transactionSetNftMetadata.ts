@@ -1,6 +1,6 @@
-import { unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
-import { type Metadata } from '@kodadot1/minimark/common'
+import { protocolize } from '@kodadot1/hyperdata'
 import type { SetNftMetadataParams, ActionSetNftMetadata } from './types'
+import type { Metadata } from '@/services/nftStorage'
 import { pinJson, rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 
 const constructMeta = async (item: ActionSetNftMetadata) => {
@@ -10,7 +10,7 @@ const constructMeta = async (item: ActionSetNftMetadata) => {
   let type: string | undefined
 
   if (image instanceof File) {
-    imageHash = unSanitizeIpfsUrl(await rateLimitedPinFileToIPFS(image))
+    imageHash = protocolize(await rateLimitedPinFileToIPFS(image))
     type = getImageTypeSafe(image)
   }
   else {
@@ -29,7 +29,7 @@ const constructMeta = async (item: ActionSetNftMetadata) => {
 
   const metaHash = await pinJson(meta)
 
-  return unSanitizeIpfsUrl(metaHash)
+  return protocolize(metaHash)
 }
 
 async function execSetNftMetadataStatmine({ item, api, executeTransaction, isLoading, status }: SetNftMetadataParams) {
