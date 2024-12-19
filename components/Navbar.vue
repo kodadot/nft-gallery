@@ -365,7 +365,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
-  document.documentElement.classList.remove('overflow-hidden-touch')
+  document.documentElement.classList.remove('overflow-hidden')
   clearInterval(updateAuthBalanceTimer.value)
 })
 </script>
