@@ -6,7 +6,7 @@
           <BasicImage
             :src="avatar"
             :alt="nft.name"
-            class="border image is-48x48"
+            class="border image size-12"
           />
         </div>
         <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">

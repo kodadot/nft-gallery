@@ -125,7 +125,7 @@
           }}</span>
           <div class="flex items-center">
             <img
-              class="mr-2 is-32x32"
+              class="mr-2 size-8"
               :src="tokenIcon"
               alt="token"
             >

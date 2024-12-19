@@ -5,7 +5,7 @@
         <div>
           <BaseMediaItem
             v-if="nft.mediaUrl"
-            class="border border-k-shade image is-48x48"
+            class="border border-k-shade image size-12"
             :class="{ 'opacity-50': discarded }"
             :alt="nft?.name"
             :src="sanitizeIpfsUrl(nft.mediaUrl.image)"
@@ -18,7 +18,7 @@
             v-else
             :src="avatar"
             :alt="nft?.name"
-            class="border image is-48x48"
+            class="border image size-12"
             :class="{ 'opacity-50': discarded }"
           />
         </div>

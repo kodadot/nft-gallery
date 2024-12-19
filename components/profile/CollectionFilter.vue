@@ -38,7 +38,7 @@
         <div class="flex items-center filter-container grow min-w-0">
           <img
             :src="sanitizeIpfsUrl(collection.meta?.image)"
-            class="image is-32x32 is-flex-shrink-0 border mr-2"
+            class="image size-8 is-flex-shrink-0 border mr-2"
             :alt="collection.name || collection.id"
           >
           <div class="flex flex-col grow min-w-0">
