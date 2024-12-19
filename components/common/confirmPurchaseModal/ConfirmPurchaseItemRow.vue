@@ -13,13 +13,13 @@
 
       <div class="flex flex-col justify-center ml-4 w-[100px] md:w-[170px]">
         <div
-          class="font-bold text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis"
+          class="font-bold text-text-color leading-none whitespace-nowrap overflow-hidden text-ellipsis"
         >
           {{ name }}
         </div>
         <div
           v-if="!hideCollection"
-          class="leading-none whitespace-nowrap is-clipped text-ellipsis mt-2"
+          class="leading-none whitespace-nowrap overflow-hidden text-ellipsis mt-2"
         >
           {{ collectionName }}
         </div>
