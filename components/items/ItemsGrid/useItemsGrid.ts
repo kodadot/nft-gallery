@@ -19,6 +19,7 @@ const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'max',
   'owned',
   'collections',
+  'gen_art',
 ]
 
 const EXCLUDED_TOKEN_USE_PAGES = [
@@ -52,7 +53,7 @@ export function useFetchSearch({
       isAssetHub.value
       && !EXCLUDED_TOKEN_USE_PAGES.includes(route.name as string),
   )
-
+  const { genArtModeEnabled } = useGenArtMode()
   const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
 
@@ -168,6 +169,8 @@ export function useFetchSearch({
       denyList: getDenyList(urlPrefix.value),
       price_lte: Number(route.query.max) || undefined,
       price_gte: Number(route.query.min) || undefined,
+      ...(genArtModeEnabled.value ? { kind: 'genart' } : {}),
+
     }
 
     const nftQueryVariables = search?.length
@@ -177,6 +180,14 @@ export function useFetchSearch({
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
         }
+
+    if (genArtModeEnabled.value) {
+      nftQueryVariables.search.push({
+        collection: {
+          kind_eq: 'genart',
+        },
+      })
+    }
 
     const queryVariables = useTokens.value
       ? { ...defaultSearchVariables, ...tokenQueryVariables }
