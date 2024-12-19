@@ -60,14 +60,14 @@
     <img
       v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': name || inputFocused }"
+      :class="{ invisible: name || inputFocused }"
       src="~/assets/svg/search-k-keyboard.svg"
       alt="press k to focus search input"
     >
     <img
       v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': !name && !inputFocused }"
+      :class="{ invisible: !name && !inputFocused }"
       src="~/assets/svg/k-search-enter.svg"
       alt="press enter to start search"
     >
