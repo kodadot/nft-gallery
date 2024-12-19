@@ -17,30 +17,8 @@
           :title="$t('general.filters')"
           @close="onClose"
         />
-        <EventTypeFilter
-          v-if="isCollectionActivityTab"
-          data-model="store"
-          expanded
-        />
-        <StatusFilter
-          v-else
-          data-model="store"
-          expanded
-        />
-        <PriceFilter
-          v-if="!isCollectionActivityTab"
-          data-model="store"
-          expanded
-        />
-        <PopularCollections
-          v-if="isExploreItems"
-          data-model="store"
-          expanded
-        />
-        <AdvancedFilter
-          v-if="!isCollectionActivityTab"
-          data-model="store"
-        />
+
+        <Filters v-if="open" />
       </div>
 
       <div class="buttons-container px-4 py-3 border-t bg-background-color">
@@ -70,11 +48,9 @@ import { NeoButton, NeoCommonHead, NeoSidebar } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { usePreferencesStore } from '@/stores/preferences'
-import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
-import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
-import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
-import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
-import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
+
+import Filters from '@/components/shared/filters/Filters.vue'
+
 import { getCollectionIds } from '@/utils/queryParams'
 
 const route = useRoute()
@@ -85,8 +61,6 @@ const activityFiltersStore = useAcivityFiltersStore()
 const isCollectionActivityTab = computed(
   () => route.name === 'prefix-collection-id-activity',
 )
-
-const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 
 const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,

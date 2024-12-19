@@ -8,10 +8,10 @@
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
       <ChainDropdown
-        v-if="!route.name?.toString().includes('prefix-collection-id')"
+        v-if="!isCollectionTab && !isSwapsTab"
         class="flex-grow-1"
       />
-      <ExploreSort v-if="!isActivityTab" />
+      <ExploreSort v-if="!isActivityTab && !isSwapsTab" />
     </div>
   </div>
 </template>
@@ -24,10 +24,11 @@ import FilterFloatButton from '@/components/collection/activity/FilterFloatButto
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
+const routeName = computed(() => route.name?.toString() || '')
 
-const isActivityTab = computed(
-  () => route.name?.toString().includes('prefix-collection-id-activity'),
-)
+const isCollectionTab = computed(() => routeName.value.includes('prefix-collection-id'))
+const isActivityTab = computed(() => routeName.value.includes('prefix-collection-id-activity'))
+const isSwapsTab = computed(() => routeName.value.includes('prefix-collection-id-swaps'))
 </script>
 
 <style lang="scss" scoped>

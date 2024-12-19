@@ -1,47 +1,30 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }"
+  <SiderbarFilterSection
+    :title="$t('massmint.status')"
+    :expanded="expanded"
+    :fluid-padding="fluidPadding"
   >
-    <template #trigger="{ open }">
-      <div
-        class="flex"
-        role="button"
-        :aria-expanded="open"
+    <NeoField>
+      <NeoCheckbox
+        v-model="listed"
+        data-testid="filter-checkbox-buynow"
       >
-        <p class="card-header-title font-normal">
-          {{ $t('massmint.status') }}
-        </p>
-        <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
-      </div>
-    </template>
-    <div class="p-4">
-      <NeoField>
-        <NeoCheckbox
-          v-model="listed"
-          data-testid="filter-checkbox-buynow"
-        >
-          {{ $t(ListedOrBuynow) }}
-        </NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
-          v-model="owned"
-          :disabled="!accountId"
-        >
-          {{ $t('sort.own') }}
-        </NeoCheckbox>
-      </NeoField>
-    </div>
-  </NeoCollapse>
+        {{ $t(ListedOrBuynow) }}
+      </NeoCheckbox>
+    </NeoField>
+    <NeoField>
+      <NeoCheckbox
+        v-model="owned"
+        :disabled="!accountId"
+      >
+        {{ $t('sort.own') }}
+      </NeoCheckbox>
+    </NeoField>
+  </SiderbarFilterSection>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()

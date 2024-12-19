@@ -3,14 +3,20 @@
     <TabItem
       :active="route.name === 'prefix-collection-id'"
       :text="`${$t('items')}`"
-      :to="toItem"
+      :to="collectionRute"
       data-testid="collection-tab-item"
     />
     <TabItem
       :active="route.name === 'prefix-collection-id-activity'"
       :text="`${$t('tabs.activity')}`"
-      :to="toActivity"
+      :to="`${collectionRute}/activity`"
       data-testid="collection-tab-activity"
+    />
+    <TabItem
+      :active="route.name === 'prefix-collection-id-swaps'"
+      :text="`${$t('swaps')}`"
+      :to="`${collectionRute}/swaps`"
+      data-testid="collection-tab-swaps"
     />
   </div>
 </template>
@@ -20,10 +26,5 @@ import TabItem from '@/components/shared/TabItem.vue'
 
 const route = useRoute()
 
-const toItem = computed(
-  () => `/${route.params.prefix}/collection/${route.params.id}`,
-)
-const toActivity = computed(
-  () => `/${route.params.prefix}/collection/${route.params.id}/activity`,
-)
+const collectionRute = computed(() => `/${route.params.prefix}/collection/${route.params.id}`)
 </script>
