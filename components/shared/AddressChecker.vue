@@ -221,11 +221,7 @@ watch(showAddressCheck, () => {
 })
 
 watch(addressCheck, (check) => {
-  let isValid = !check
-
-  if (!isValid) {
-    isValid = check ? check.valid : false
-  }
+  const isValid = check ? check.valid : false
 
   emit('check', isValid)
 })

@@ -55,25 +55,22 @@ const props = withDefaults(
 
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
-const isAddressCheckValid = ref<boolean>(true)
+const isAddressCheckValid = ref<boolean>()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
 const variant = computed(() => {
-  if (props.isInvalid || error.value || !isAddressCheckValid.value) {
+  const isNotEmpty = Boolean(inputValue.value)
+  const isInvalidWithAddressCheck = props.withAddressCheck && !isAddressCheckValid.value && isNotEmpty
+
+  if (props.isInvalid || error.value || isInvalidWithAddressCheck) {
     return 'danger'
   }
 
-  const isNotEmpty = !!inputValue.value
   const isValidAddress = isAddress(inputValue.value)
-  const isSuccessWithAddressCheck
-    = props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
-  const isSuccesssWithoutAddressCheck
-    = !props.withAddressCheck && isValidAddress
+  const isSuccessWithAddressCheck = props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
+  const isSuccesssWithoutAddressCheck = !props.withAddressCheck && isValidAddress
 
-  if (
-    isNotEmpty
-    && (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
-  ) {
+  if (isNotEmpty && (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)) {
     return 'success'
   }
 
