@@ -2,7 +2,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 module.exports = {
-  content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
   theme: {
     screens: {
       xs: '400px',
@@ -119,10 +118,13 @@ module.exports = {
       fontSize: {
         '3xl': '2rem',
       },
+
+      // aspect ratio disabled from nuxt/ui: https://ui.nuxt.com/getting-started/installation#nuxtjstailwindcss
+      aspectRatio: {
+        auto: 'auto',
+        square: '1 / 1',
+        video: '16 / 9',
+      },
     },
-  },
-  plugins: [],
-  corePlugins: {
-    preflight: false,
   },
 }
