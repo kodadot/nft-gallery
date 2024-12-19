@@ -1,11 +1,26 @@
 import { addHours } from 'date-fns'
 
-type TradeStatus = 'ACTIVE' | 'EXPIRED' | 'WITHDRAWN' | 'ACCEPTED'
+export enum TradeStatus {
+  ACTIVE = 'ACTIVE',
+  EXPIRED = 'EXPIRED',
+  WITHDRAWN = 'WITHDRAWN',
+  ACCEPTED = 'ACCEPTED',
+}
 
-type TradeToken = {
+export type TradeToken = {
   id: string
   name: string
   sn: string
+  currentOwner: string
+  image: string
+  collection: {
+    id: string
+  }
+}
+
+export type TradeConsidered = {
+  id: string
+  name: string
   currentOwner: string
   image: string
 }
@@ -18,7 +33,13 @@ type BaseTrade = {
   status: TradeStatus
   caller: string
   offered: TradeToken
-  desired: TradeToken
+  desired: TradeToken | null
+  considered: TradeConsidered
+}
+
+export enum TradeDesiredType {
+  TOKEN,
+  COLLECTION,
 }
 
 export enum TradeType {
@@ -37,6 +58,8 @@ type Trade = Swap | Offer
 export type TradeNftItem<T = Trade> = T & {
   expirationDate?: Date
   type: TradeType
+  desiredType: TradeDesiredType
+  isEntireCollectionDesired: boolean
 }
 
 export const TRADES_QUERY_MAP: Record<TradeType, { queryName: string, dataKey: string }> = {
@@ -78,10 +101,14 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
 
   const items = computed<TradeNftItem[]>(() => {
     return data.value?.[dataKey]?.map((trade) => {
+      const desiredType = trade.desired ? TradeDesiredType.TOKEN : TradeDesiredType.COLLECTION
+
       return {
         ...trade,
         expirationDate: currentBlock.value ? addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR) : undefined,
         offered: trade.nft,
+        desiredType: desiredType,
+        isEntireCollectionDesired: desiredType === TradeDesiredType.COLLECTION,
         type,
       } as TradeNftItem
     }) || []

@@ -32,7 +32,7 @@ type Grid = { icon: string, size: GridSize, class: string }
 const props = withDefaults(
   defineProps<{
     sizes?: GridSize[]
-    section: GridSection
+    section?: GridSection
   }>(),
   {
     sizes: () => ['small', 'large', 'medium'],

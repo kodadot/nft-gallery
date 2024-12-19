@@ -19,7 +19,7 @@
         {{ $t('expiration') }}
       </span>
 
-      <span v-if="trade.status === 'EXPIRED'">
+      <span v-if="trade.status === TradeStatus.EXPIRED">
         {{ $t('expired') }}
       </span>
       <span v-else>
@@ -45,11 +45,12 @@
 <script setup lang="ts">
 import { useIsTradeOverview } from './utils'
 import { formatToNow } from '@/utils/format/time'
+import { TradeStatus } from '@/composables/useTrades'
 import type { NFT } from '@/types'
 
 const props = defineProps<{
   trade: TradeNftItem
-  desired: NFT
+  desired?: NFT
 }>()
 
 const { decimals, chainSymbol } = useChain()
@@ -63,7 +64,7 @@ const getFormattedDifference = (a: number, b: number) => {
     : `+${Math.abs(diff).toFixed()}%`
 }
 
-const floorPrice = computed(() => Number(props.desired.collection.floorPrice[0].price) || 0)
+const floorPrice = computed(() => Number(props.desired?.collection.floorPrice[0].price) || 0)
 const diff = computed(() => getFormattedDifference(Number(props.trade.price || 0), floorPrice.value))
 
 const { formatted: formmatedOffer, usd: offerUsd } = useAmount(

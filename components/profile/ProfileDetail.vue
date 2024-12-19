@@ -432,10 +432,10 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
-        <ProfileActivityTabTrades
+        <TradeActivityTable
           v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
-          :id="id"
           :key="activeTab"
+          :query="tradeQuery"
           :type="{
             [ProfileTab.SWAPS]: TradeType.SWAP,
             [ProfileTab.OFFERS]: TradeType.OFFER,
@@ -480,6 +480,7 @@ import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible, swapVisible } from '@/utils/config/permission.config'
+import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
 import { TradeType } from '@/composables/useTrades'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
@@ -545,6 +546,11 @@ const refresh = ({ fetchFollowing = true } = {}) => {
 }
 const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
+
+const tradeQuery = computed<TradeTableQuery>(() => ({
+  incoming: `{ status_eq: ACTIVE, desired: { currentOwner_eq: "${id.value}" } }`,
+  outgoing: `{ status_in: [ACTIVE, EXPIRED], caller_eq: "${id.value}" }`,
+}))
 
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),

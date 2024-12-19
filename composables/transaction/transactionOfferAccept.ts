@@ -4,10 +4,10 @@ import { getOfferCollectionId } from './transactionOffer'
 
 async function execAcceptOffer(item: ActionAcceptOffer, api: ApiPromise, executeTransaction) {
   const arg = [
-    Number(item.collectionId), // send collection
-    Number(item.nftId), // send nft
+    Number(item.sendCollection), // send collection
+    Number(item.sendItem), // send nft
     getOfferCollectionId(item.urlPrefix), // receive collection
-    Number(item.offeredId), // receive nft
+    Number(item.receiveItem), // receive nft
     {
       amount: Number(item.price),
       direction: 'Send',

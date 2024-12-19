@@ -7,7 +7,6 @@
           :key="filter.id"
           :active="filter.id === activeTab"
           variant="outlined-rounded"
-          data-testid="profile-activity-button-filter"
           class="capitalize"
           :icon-left="filter.icon"
           @click="activeTab = filter.id"
@@ -57,7 +56,7 @@
         </template>
 
         <template #rows="{ variant }">
-          <ProfileActivityTabTradeRow
+          <TradeActivityTableRow
             v-for="item in trades"
             :key="item.id"
             data-testid="offer-item-row"
@@ -88,10 +87,11 @@
 import { NeoButton } from '@kodadot1/brick'
 
 type TradeTabType = 'outgoing' | 'incoming'
+export type TradeTableQuery = Record<TradeTabType, string>
 
 const props = defineProps<{
-  id: string
   type: TradeType
+  query: TradeTableQuery
 }>()
 
 const route = useRoute()
@@ -142,13 +142,13 @@ watch(activeTab, value => replaceUrl({ filter: value }))
 useSubscriptionGraphql({
   query: `
     incoming: ${dataKey} (
-      where: { status_eq: ACTIVE, desired: { currentOwner_eq: "${props.id}" } }
+      where: ${props.query.incoming}
       orderBy: blockNumber_DESC
     ) {
       id
     }
     outgoing: ${dataKey} (
-      where: { status_in: [ACTIVE, EXPIRED], caller_eq: "${props.id}" }
+      where: ${props.query.outgoing}
       orderBy: blockNumber_DESC
     ) {
       id
