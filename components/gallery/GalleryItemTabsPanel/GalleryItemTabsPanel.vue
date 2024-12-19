@@ -10,7 +10,6 @@
     <NeoTabItem
       :value="GALLERY_ITEM_TABS.ACTIVITY"
       :label="$t('tabs.activity')"
-      data-testid="offer-activity"
     >
       <GalleryItemActivity
         v-if="nft?.id"
@@ -23,7 +22,6 @@
       v-if="offerVisible(urlPrefix)"
       :value="GALLERY_ITEM_TABS.OFFERS"
       :label="$t('offers')"
-      data-testid="offers-activity"
     >
       <GalleryItemOffers
         v-if="nft?.id"
@@ -36,7 +34,6 @@
       v-if="swapVisible(urlPrefix)"
       :value="GALLERY_ITEM_TABS.SWAPS"
       :label="$t('swaps')"
-      data-testid="swaps-activity"
     >
       <GalleryItemSwaps
         v-if="nft?.id"
