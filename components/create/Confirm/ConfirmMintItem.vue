@@ -11,12 +11,12 @@
         </div>
         <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
           <div
-            class="text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis"
+            class="text-text-color leading-none whitespace-nowrap overflow-hidden text-ellipsis"
           >
             {{ nft.name }}
           </div>
           <div
-            class="leading-none whitespace-nowrap text-k-grey is-clipped text-ellipsis"
+            class="leading-none whitespace-nowrap text-k-grey overflow-hidden text-ellipsis"
           >
             {{ label }}:
           </div>

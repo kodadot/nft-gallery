@@ -4,7 +4,7 @@
       :open="isOpen"
       :position="position"
       aria-id="contentIdForA11y1"
-      :class="{ 'is-unselectable': !isSelectable }"
+      :class="{ 'select-none': !isSelectable }"
     >
       <template #trigger="props">
         <a
