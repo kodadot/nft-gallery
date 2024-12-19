@@ -72,7 +72,7 @@ const props = defineProps<{
 
 const slots = useSlots()
 const route = useRoute()
-const { accountId } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
 
@@ -118,8 +118,8 @@ const getQueryVariables = (page: number) => {
     ? { currentOwner_eq: props.id, burned_eq: false }
     : { issuer_eq: props.id }
 
-  if (isProfilePage && accountId.value !== props.id) {
-    Object.assign(searchParams, { nftCount_not_eq: 0 })
+  if (isProfilePage && !isCurrentAccount(props.id)) {
+    Object.assign(searchParams, { supply_not_eq: 0 })
   }
 
   return props.id

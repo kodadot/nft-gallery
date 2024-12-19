@@ -35,7 +35,7 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
+const { accountId, isCurrentAccount } = useAuth()
 const { listNftByShoppingCartItem, openListingCartModal } = useListingCartModal(
   {
     clearItemsOnBeforeUnmount: true,
@@ -122,9 +122,7 @@ const watchCurrentOwners = () => {
     }`,
     onChange: ({ data: { nftEntities } }) => {
       const currentOwners: string[] = nftEntities.map(nft => nft.currentOwner)
-      canListItems.value = currentOwners.every(
-        currentOwner => currentOwner === accountId.value,
-      )
+      canListItems.value = currentOwners.every(isCurrentAccount)
     },
   })
 }

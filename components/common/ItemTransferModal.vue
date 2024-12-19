@@ -54,7 +54,7 @@ import { type UserCartModalExpose } from '@/components/common/userCart/UserCartM
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
+const { isCurrentAccount } = useAuth()
 
 const userCartModal = ref<UserCartModalExpose>()
 const address = ref('')
@@ -76,7 +76,7 @@ const label = computed(() => {
   return $i18n.t('transaction.transferNft')
 })
 
-const isYourAddress = computed(() => getChainAddress(accountId.value) === getChainAddress(address.value))
+const isYourAddress = computed(() => isCurrentAccount(getChainAddress(address.value) || ''))
 const loading = computed(() => (isEvm(urlPrefix.value) ? !abi.value : false))
 
 const disabled = computed(
