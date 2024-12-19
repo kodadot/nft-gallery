@@ -1,3 +1,7 @@
+export const isArtGenDomain = ['koda.art'].includes(
+  window.location.hostname,
+)
+
 export const isProduction = ['kodadot.xyz', 'koda.art'].includes(
   window.location.hostname,
 )
