@@ -96,24 +96,3 @@ const onFileSelected = (file: File) => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.icon-size {
-  font-size: 3.5rem;
-}
-
-.check-icon {
-  font-size: 2.5rem;
-}
-
-.limit-width {
-  max-width: 25rem;
-}
-.hover-color:deep(.o-upl__draggable--hovered) {
-  @include ktheme() {
-    background-color: theme('k-primaryLight');
-  }
-}
-</style>

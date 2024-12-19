@@ -22,8 +22,6 @@ definePageMeta({
 
 const { $i18n } = useNuxtApp()
 
-const glob = import.meta.glob('~/public/why-koda-*.webp', { eager: true })
-
 const chunckByBlock = (items: Section[]) => {
   const blocks: Section[][] = []
   let block: Section[] = []
@@ -62,7 +60,13 @@ const sections = [
   },
   {
     id: 'offlineExhibitions',
-    images: Object.entries(glob).map(([, value]) => value.default),
+    images: [
+      'https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/public/why-koda-1.webp',
+      'https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/public/why-koda-2.webp',
+      'https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/public/why-koda-3.webp',
+      'https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/public/why-koda-4.webp',
+      'https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/public/why-koda-5.webp',
+    ],
     tags: [
       'visibilityRecognition',
       'digitalCreationsToPhysicalAudience',

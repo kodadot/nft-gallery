@@ -1,7 +1,7 @@
 <template>
   <CookieControl class="cookie-banner">
     <template #bar>
-      <i18n-t
+      <!-- <i18n-t
         keypath="cookies.notice"
         tag="p"
         class="border-none md:border-r md:border-solid md:border-k-shade"
@@ -11,7 +11,7 @@
           target="_blank"
           class="is-underlined"
         >Cookie Policy</nuxt-link>
-      </i18n-t>
+      </i18n-t> -->
     </template>
   </CookieControl>
 </template>

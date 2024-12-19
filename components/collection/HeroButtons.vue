@@ -186,25 +186,3 @@ const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-@include mobile {
-  .hero-buttons {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
-}
-.square-32 {
-  width: 32px;
-  height: 32px;
-}
-.vertical-seperator {
-  height: 24px;
-  margin-bottom: 4px;
-  width: 1px;
-  @include ktheme() {
-    background-color: theme('border-color');
-  }
-}
-</style>
