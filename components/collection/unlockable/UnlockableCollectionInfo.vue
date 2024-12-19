@@ -69,30 +69,3 @@ const visibleDescription = computed(() => {
   )
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.max-width {
-  max-width: 100%;
-}
-
-.gap {
-  gap: 1rem;
-}
-
-@include mobile {
-  .mobile-flex-direction-column {
-    flex-direction: column;
-  }
-
-  .mobile-no-gap {
-    gap: 0;
-  }
-  .max-width {
-    max-width: 100%;
-  }
-  .overflow-wrap {
-    overflow-wrap: break-word;
-  }
-}
-</style>

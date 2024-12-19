@@ -13,7 +13,7 @@
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading"
         >
-          <i18n-t
+          <!-- <i18n-t
             keypath="drops.holderOfCollection"
             class="capitalize"
             tag="p"
@@ -30,7 +30,7 @@
                 </template>
               </CollectionDetailsPopover>
             </template>
-          </i18n-t>
+          </i18n-t> -->
         </CollectionDropRequirementItem>
       </div>
     </div>
@@ -105,7 +105,7 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
+// const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { chainName } = useDrop()
 

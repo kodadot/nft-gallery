@@ -115,17 +115,3 @@ const handleModalClose = (completed: boolean) => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.add-funds-modal {
-  .o-tip {
-    display: flex;
-  }
-
-  .o-tip__trigger > * {
-    height: initial;
-  }
-}
-</style>

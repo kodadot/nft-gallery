@@ -14,13 +14,3 @@ import TabOnCollection from './tab/TabOnCollection.vue'
 
 const route = useRoute()
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-@include mobile {
-  .mobile-expand {
-    width: 100%;
-  }
-}
-</style>

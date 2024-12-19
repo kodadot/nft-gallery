@@ -34,7 +34,7 @@
       </div>
       <div class="flex-1">
         <img
-          src="~/assets/svg/unlockable-introduce.svg"
+          src="https://raw.githubusercontent.com/kodadot/nft-gallery/refs/heads/main/assets/svg/unlockable-introduce.svg"
           alt="Unlockable"
         >
       </div>

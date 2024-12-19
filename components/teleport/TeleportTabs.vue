@@ -42,24 +42,3 @@ defineProps<{
 }>()
 const emit = defineEmits(['select'])
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.teleport-tabs {
-  .teleport-tabs-button {
-    width: 15rem;
-  }
-
-  @include mobile {
-    .control,
-    &-button {
-      width: 100%;
-    }
-  }
-}
-
-.dark .teleport-tabs-button.active img {
-  filter: brightness(0%);
-}
-</style>
