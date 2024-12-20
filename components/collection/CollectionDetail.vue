@@ -43,7 +43,7 @@
       v-if="nfts && !isLoading"
       class="flex justify-around is-vcentered"
     >
-      <div class="detail-item text-center column">
+      <div class="detail-item text-center basis-0 grow shrink p-3">
         <p class="detail-item__title text-k-grey">
           {{ $t('collectionCard.volume') }}
         </p>
@@ -52,7 +52,7 @@
           :value="collectionTradedVolumeNumber"
         />
       </div>
-      <div class="detail-item text-center column">
+      <div class="detail-item text-center basis-0 grow shrink p-3">
         <p class="detail-item__title text-k-grey">
           {{ $t('series.highestSale') }}
         </p>
@@ -62,7 +62,7 @@
         />
       </div>
 
-      <div class="detail-item text-center column">
+      <div class="detail-item text-center basis-0 grow shrink p-3">
         <p class="detail-item__title text-k-grey">
           {{ $t('collectionCard.items') }}
         </p>
@@ -76,7 +76,7 @@
       <div
         v-for="n in DESC_SKELETON_COUNT"
         :key="n"
-        class="flex items-center detail-item column px-5"
+        class="flex items-center detail-item basis-0 grow shrink p-3 px-5"
       >
         <NeoSkeleton
           no-margin

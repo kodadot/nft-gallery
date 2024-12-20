@@ -3,8 +3,8 @@
     <div
       class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px]"
     >
-      <div class="columns is-variable is-4-tablet">
-        <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
+      <div class="flex">
+        <div class="mobile-padding lg:max-w-[600px]">
           <div class="flex justify-between flex-wrap max-w-[504px]">
             <div
               v-if="address"
