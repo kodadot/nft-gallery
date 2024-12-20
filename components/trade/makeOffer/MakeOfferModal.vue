@@ -219,6 +219,7 @@ useTransactionNotification({
   sessionId: lastSessionId,
   autoTeleport,
   updateSession,
+  onSuccess: () => preferencesStore.setTriggerOfferSuccess(true),
   init: () => {
     return notification(({ isSessionState, notify, session }) => {
       return notify({
