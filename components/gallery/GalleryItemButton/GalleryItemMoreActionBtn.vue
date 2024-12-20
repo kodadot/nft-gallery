@@ -77,7 +77,7 @@ import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { accountId } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { listNftByNftWithMetadata } = useListingCartModal()
