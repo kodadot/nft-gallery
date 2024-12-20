@@ -1,9 +1,9 @@
 <template>
   <div>
     <div>
-      <section class="flex controls">
+      <section class="flex justify-center items-end relative">
         <NeoButton
-          class="left"
+          class="absolute left-10 max-lg:static max-lg:mb-8"
           @click="toOnborading"
         >
           <NeoIcon
@@ -12,7 +12,7 @@
           />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
-        <div class="dropdown-container">
+        <div class="max-lg:self-center">
           <div>
             <p class="mb-4">
               {{ $t('massmint.chooseCollection') }}
@@ -50,7 +50,7 @@
     />
     <div class="mt-6 flex justify-center w-full">
       <NeoButton
-        class="flex flex-grow limit-width"
+        class="flex flex-grow max-w-[45rem]"
         variant="primary"
         size="large"
         :disabled="!mediaLoaded || !hasEnoughBalance"
@@ -287,39 +287,6 @@ watch(urlPrefix, async () => {
   transactionFee.value = Number(await estimateTransactionFee(accountId.value, decimals.value))
 }, { immediate: true })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-
-.controls {
-  justify-content: center;
-  align-items: flex-end;
-
-  .left {
-    position: absolute;
-    left: 2.5rem;
-  }
-}
-
-@include touch {
-  .controls {
-    flex-direction: column;
-    gap: 2rem;
-    align-items: flex-start;
-
-    .dropdown-container {
-      align-self: center;
-    }
-    .left {
-      position: unset;
-    }
-  }
-}
-
-.limit-width {
-  max-width: 45rem;
-}
-</style>
 
 <style lang="scss">
 .tab-nft {

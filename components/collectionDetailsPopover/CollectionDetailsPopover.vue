@@ -13,7 +13,7 @@
     <slot name="content" />
 
     <template #content>
-      <div class="popover-container">
+      <div class="min-h-[12.5rem] bg-background-color">
         <CollectionDetailsPopoverContent
           v-if="triggered"
           :nft="nft"
@@ -63,14 +63,3 @@ const nft = computed(
     },
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.popover-container {
-  min-height: 12.5rem;
-  @include ktheme() {
-    background: theme('background-color');
-  }
-}
-</style>

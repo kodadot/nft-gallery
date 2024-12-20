@@ -1,8 +1,8 @@
 <template>
-  <div class="gallery-activity-events-wrapper flex flex-col">
-    <div class="events py-5 px-6 flex flex-col">
+  <div class="flex flex-col h-full">
+    <div class="py-5 px-6 flex flex-col border-b">
       <div
-        class="events-filter flex flex-wrap"
+        class="flex flex-wrap gap-x-2.5 gap-y-4 md:gap-x-4"
         data-testid="events-filter"
       >
         <a
@@ -16,16 +16,16 @@
         <label
           v-for="(value, name) in filters"
           :key="name"
-          class="cursor-pointer capitalize events-checkbox-container"
+          class="cursor-pointer capitalize px-5 py-[5px] rounded-[25px] border border-k-shade hover:border-border-color"
+          :class="{ 'bg-k-shade text-black': interactions.includes(value) }"
           :data-testid="name"
-          :class="cssActive(value)"
         >
           <input
             :id="name"
             v-model="interactions"
             type="checkbox"
             :value="value"
-            class="is-hidden"
+            class="hidden"
           >
           <span :for="name">
             {{ $t(`tabs.tabActivity.${value}`) }}
@@ -50,9 +50,7 @@ defineProps<{
 }>()
 
 const defaultInteractions = ['BUY', 'LIST']
-
 const allInteractions = ['MINTNFT', 'BUY', 'LIST', 'SEND', 'CONSUME']
-
 const interactions = ref(defaultInteractions)
 const filters = {
   mints: 'MINTNFT',
@@ -65,51 +63,4 @@ const filters = {
 const checkAll = () => {
   interactions.value = allInteractions
 }
-
-const cssActive = (value) => {
-  return {
-    'events-checkbox-active': interactions.value.find(
-      interaction => interaction === value,
-    ),
-  }
-}
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-
-.gallery-activity-events-wrapper {
-  height: 100%;
-}
-
-.events {
-  @apply border-b;
-
-  &-filter {
-    column-gap: 0.625rem;
-    row-gap: 1rem;
-
-    @include mobile {
-      column-gap: 1rem;
-    }
-  }
-
-  .events-checkbox-container {
-    @apply px-5 py-[5px] rounded-[25px];
-
-    @include ktheme() {
-      border: 1px solid theme('k-shade');
-      &:hover {
-        border-color: theme('border-color');
-      }
-    }
-  }
-
-  .events-checkbox-active {
-    @include ktheme() {
-      background-color: theme('k-shade');
-      color: theme('black');
-    }
-  }
-}
-</style>

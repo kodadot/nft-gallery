@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isUnlockable"
-    class="unlockable-container rounded-[2rem] flex border py-2 px-6 justify-between"
+    class="unlockable-container rounded-[2rem] flex border py-2 px-6 justify-between border-k-shade max-lg:max-w-full"
   >
     <NeoTooltip
       :label="$t('unlockable.tooltip')"
@@ -39,18 +39,3 @@ const { isUnlockable } = useUnlockable(
   computed(() => ({ id: props.collectionId })),
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-.unlockable-container {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-@include until-widescreen {
-  .unlockable-container {
-    max-width: 100%;
-  }
-}
-</style>
