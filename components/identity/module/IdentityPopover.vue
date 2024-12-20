@@ -42,21 +42,3 @@ const showContent = ref(false)
 
 const refresh = () => footer.value?.refresh()
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.tippy-container {
-  display: inline-block;
-}
-
-.popover-content-container {
-  width: 300px;
-
-  @include ktheme() {
-    background: theme('background-color');
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-  }
-}
-</style>

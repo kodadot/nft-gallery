@@ -30,31 +30,3 @@
     </div>
   </section>
 </template>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.with-divider {
-  display: flex;
-  align-items: center;
-
-  &:before,
-  &:after {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 1px;
-
-    @include ktheme() {
-      background-color: theme('link-hover');
-    }
-  }
-
-  &:before {
-    margin-right: 14px;
-  }
-
-  &:after {
-    margin-left: 14px;
-  }
-}
-</style>

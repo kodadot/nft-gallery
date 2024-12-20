@@ -221,38 +221,3 @@ function toggleFullscreen() {
 
 defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.media-object {
-  .nsfw-blur {
-    backdrop-filter: blur(60px);
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(0 0 0 / 50%);
-    color: #fff;
-
-    .nsfw-desc {
-      max-width: 18.75rem;
-    }
-  }
-  .nsfw-action {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 1.25rem;
-    @include ktheme() {
-      color: theme('text-color') !important;
-      background: theme('background-color') !important;
-    }
-    &.hide {
-      @include ktheme() {
-        color: theme('background-color') !important;
-        background: theme('text-color') !important;
-      }
-    }
-  }
-}
-</style>

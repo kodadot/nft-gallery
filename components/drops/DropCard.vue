@@ -60,12 +60,3 @@ onMounted(async () => {
   image.value = props.drop.banner || props.drop.image
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-.is-ellipsis {
-  @include mobile {
-    white-space: unset;
-  }
-}
-</style>

@@ -42,7 +42,3 @@ const computedStepSize = computed(() => {
   return props.stepSize
 })
 </script>
-
-<style lang="scss">
-@import './NeoSteps.scss';
-</style>

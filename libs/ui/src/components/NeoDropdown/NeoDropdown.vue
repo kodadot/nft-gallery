@@ -120,7 +120,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-@import './NeoDropdown.scss';
-</style>

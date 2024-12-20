@@ -77,19 +77,3 @@ const active = ref<GALLERY_ITEM_TABS>(props.activeTab)
 
 watch(() => props.activeTab, activeTab => active.value = activeTab)
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.o-tabs__content--fixed.gallery-item-tab-panel {
-  @include mobile {
-    height: 28rem;
-  }
-}
-.offers-disabled-tooltip {
-  transform: translateX(calc(-50% + 3rem));
-  .o-tip__arrow--top {
-    transform: translateX(-3rem);
-  }
-}
-</style>
