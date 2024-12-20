@@ -32,14 +32,16 @@ const cprops = withDefaults(
     hidden: string
     bottom?: boolean
     isSelectable?: boolean
+    defaultOpen?: boolean
   }>(),
   {
     visible: 'Show',
     hidden: 'Hide',
     bottom: false,
     isSelectable: false,
+    defaultOpen: false,
   },
 )
-const isOpen = ref(false)
+const isOpen = ref(cprops.defaultOpen)
 const position = computed(() => (cprops.bottom ? 'bottom' : 'top'))
 </script>

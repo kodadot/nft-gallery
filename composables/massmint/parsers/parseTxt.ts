@@ -18,7 +18,7 @@ function parseField(
 ): { fieldName: string, fieldValue: string } | null {
   const colon = '\\s*:\\s*'
   const fieldNameRegex = new RegExp(
-    `^(?<fieldName>file|name|description|price)${colon}`,
+    `^(?<fieldName>file|name|description|attributes|price)${colon}`,
     'i',
   )
   const fieldNameMatch = fieldNameRegex.exec(line)
@@ -69,6 +69,9 @@ const updateEntry = (entry, line) => {
     entry.price = price
     entry.currency = currency
   }
+  else if (fieldName === 'attributes') {
+    entry.attributes = JSON.parse(fieldValue)
+  }
   else {
     entry[fieldName] = fieldValue
   }
@@ -91,6 +94,7 @@ const updateEntries = (entries, block) => {
       file: entry.file,
       name: entry.name,
       description: entry.description,
+      tags: entry.attributes,
       price: entry.price,
       currency: entry.currency,
       valid: isValidEntry(entry),

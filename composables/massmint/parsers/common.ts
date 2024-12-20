@@ -6,6 +6,7 @@ export type Entry = {
   name?: string
   description?: string
   price?: number
+  tags?: OpenSeaAttribute[]
   valid: boolean
   currency?: string
   attributes?: OpenSeaAttribute[]
@@ -22,6 +23,10 @@ export const isValidEntry = (entry: Partial<Entry>): boolean => {
   }
 
   if (!entry.name && !entry.description && entry.price === undefined) {
+    return false
+  }
+
+  if (entry.attributes && !Array.isArray(entry.attributes)) {
     return false
   }
 

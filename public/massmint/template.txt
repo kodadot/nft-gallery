@@ -1,12 +1,14 @@
 file: art1.png
 name: Art #1
 description: Description for the Art #1
+attributes: [{"value": "white","trait_type": "color"},{"value": "happy","trait_type": "expression"}]
 price: 1
 
 
 file: art2.png
 name: Art #2
 description: Description for the Art #2
+attributes: [{"value": "blue","trait_type": "color"},{"value": "shy","trait_type": "expression"}]
 price: 1
 
 
