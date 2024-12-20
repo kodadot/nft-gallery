@@ -1,67 +1,50 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }"
+  <SiderbarFilterSection
+    title="Event Type"
+    :expanded="expanded"
+    :fluid-padding="fluidPadding"
   >
-    <template #trigger="{ open }">
-      <div
-        class="flex"
-        role="button"
-        :aria-expanded="open"
+    <NeoField>
+      <NeoCheckbox
+        v-model="sale"
+        data-testid="event-checkbox-filter-sale"
       >
-        <p class="card-header-title font-normal">
-          Event Type
-        </p>
-        <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
-      </div>
-    </template>
-    <div class="p-4">
-      <NeoField>
-        <NeoCheckbox
-          v-model="sale"
-          data-testid="event-checkbox-filter-sale"
-        >
-          {{
-            $t('filters.sale')
-          }}
-        </NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
-          v-model="listing"
-          data-testid="event-checkbox-filter-listing"
-        >
-          {{ $t('filters.listing') }}
-        </NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
-          v-model="mint"
-          data-testid="event-checkbox-filter-mint"
-        >
-          {{
-            $t('filters.mint')
-          }}
-        </NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
-          v-model="transfer"
-          data-testid="event-checkbox-filter-transfer"
-        >
-          {{ $t('filters.transfer') }}
-        </NeoCheckbox>
-      </NeoField>
-    </div>
-  </NeoCollapse>
+        {{
+          $t('filters.sale')
+        }}
+      </NeoCheckbox>
+    </NeoField>
+    <NeoField>
+      <NeoCheckbox
+        v-model="listing"
+        data-testid="event-checkbox-filter-listing"
+      >
+        {{ $t('filters.listing') }}
+      </NeoCheckbox>
+    </NeoField>
+    <NeoField>
+      <NeoCheckbox
+        v-model="mint"
+        data-testid="event-checkbox-filter-mint"
+      >
+        {{
+          $t('filters.mint')
+        }}
+      </NeoCheckbox>
+    </NeoField>
+    <NeoField>
+      <NeoCheckbox
+        v-model="transfer"
+        data-testid="event-checkbox-filter-transfer"
+      >
+        {{ $t('filters.transfer') }}
+      </NeoCheckbox>
+    </NeoField>
+  </SiderbarFilterSection>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 
 const activityFiltersStore = useAcivityFiltersStore()

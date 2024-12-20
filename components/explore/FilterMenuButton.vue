@@ -41,9 +41,10 @@ const disabled = computed(() => {
     'prefix-explore-items',
     'prefix-collection-id',
     'prefix-collection-id-activity',
+    'prefix-collection-id-swaps',
   ]
 
-  return !allowedList.includes(route.name || '')
+  return !allowedList.includes(route.name?.toString() || '')
 })
 
 const isSidebarFiltersOpen = computed(
