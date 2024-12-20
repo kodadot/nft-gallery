@@ -77,7 +77,7 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { Actions } from '@/composables/transaction/types'
+import type { Actions, Abi } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -85,7 +85,7 @@ import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/a
 
 export type UserCartModalExpose = {
   items: ListCartItem[]
-  abi: any
+  abi: Abi
 }
 
 const emit = defineEmits(['reset'])
