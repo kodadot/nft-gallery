@@ -42,6 +42,7 @@
             <div class="column flex items-center">
               <NeoAvatar
                 :image-component="NuxtImg"
+                class="overflow-hidden m-0"
                 :avatar="nft.imageUrl"
                 :name="nft.name || `${nft.id}`"
                 :size="48"
@@ -87,7 +88,7 @@
                 </div>
               </div>
             </div>
-            <div class="column flex items-center">
+            <div class="column flex items-center justify-center">
               <div class="flex items-center pl-2">
                 <div
                   class="border text-xs justify-center py-2 flex items-center w-[100px]"
