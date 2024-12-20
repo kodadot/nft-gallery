@@ -122,7 +122,7 @@ const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.ope
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
 
-const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
+const actions = computed<AutoTeleportAction[]>(() => isModalActive.value && (isEvm.value ? abi.value : true)
   ? [
       {
         action: action.value,
