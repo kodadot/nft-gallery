@@ -8,9 +8,8 @@
   >
     <!-- activity -->
     <NeoTabItem
-      value="1"
+      :value="GALLERY_ITEM_TABS.ACTIVITY"
       :label="$t('tabs.activity')"
-      data-testid="offer-activity"
     >
       <GalleryItemActivity
         v-if="nft?.id"
@@ -21,9 +20,8 @@
     <!-- offers -->
     <NeoTabItem
       v-if="offerVisible(urlPrefix)"
-      value="2"
+      :value="GALLERY_ITEM_TABS.OFFERS"
       :label="$t('offers')"
-      data-testid="offers-activity"
     >
       <GalleryItemOffers
         v-if="nft?.id"
@@ -33,10 +31,9 @@
 
     <!-- swaps -->
     <NeoTabItem
-      v-if="offerVisible(urlPrefix)"
-      value="3"
+      v-if="swapVisible(urlPrefix)"
+      :value="GALLERY_ITEM_TABS.SWAPS"
       :label="$t('swaps')"
-      data-testid="offers-activity"
     >
       <GalleryItemSwaps
         v-if="nft?.id"
@@ -46,7 +43,7 @@
 
     <!-- chart -->
     <NeoTabItem
-      value="4"
+      :value="GALLERY_ITEM_TABS.CHART"
       :label="$t('tabs.chart')"
       class="p-5"
     >
@@ -61,30 +58,24 @@ import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
 import GalleryItemSwaps from './GalleryItemSwaps.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
-import { offerVisible } from '@/utils/config/permission.config'
+import { GALLERY_ITEM_TABS } from './types'
+import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 
 const props = withDefaults(
   defineProps<{
-    activeTab?: string
+    activeTab?: GALLERY_ITEM_TABS
   }>(),
   {
-    activeTab: '0',
+    activeTab: GALLERY_ITEM_TABS.ACTIVITY,
   },
 )
 
 const { urlPrefix } = usePrefix()
 const { getNft: nft } = storeToRefs(useNftStore())
 
-const active = ref('1')
-const collectionId = ref('')
+const active = ref<GALLERY_ITEM_TABS>(props.activeTab)
 
-watchEffect(() => {
-  if (props.activeTab) {
-    active.value = props.activeTab
-  }
-
-  collectionId.value = nft.value?.collection.id || ''
-})
+watch(() => props.activeTab, activeTab => active.value = activeTab)
 </script>
 
 <style lang="scss">
