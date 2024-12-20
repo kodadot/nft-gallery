@@ -80,6 +80,7 @@ interface State {
   makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
+  triggerOfferSuccess: boolean
   // Layout
   layoutClass: string
   gridConfigs: GridConfig[]
@@ -113,6 +114,7 @@ export const usePreferencesStore = defineStore('preferences', {
     listingCartModalOpen: false,
     userCartModal: undefined,
     makeOfferModalOpen: false,
+    triggerOfferSuccess: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {
       isOpen: false,
@@ -147,6 +149,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getShoppingCartCollapse: state => state.shoppingCartCollapseOpen,
     getCompletePurchaseModal: state => state.completePurchaseModal,
     getTriggerBuySuccess: state => state.triggerBuySuccess,
+    getTriggerOfferSuccess: state => state.triggerOfferSuccess,
     getLayoutClass: state => state.layoutClass,
     getGridConfigBySection: state => (section: GridSection) =>
       state.gridConfigs.find(grid => grid.section === section),
@@ -273,6 +276,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setOpenedUserCartModal(mode: UserCartMode) {
       this.userCartModal = { mode, open: true }
+    },
+    setTriggerOfferSuccess(payload: boolean) {
+      this.triggerOfferSuccess = payload
     },
   },
   persist: true,
