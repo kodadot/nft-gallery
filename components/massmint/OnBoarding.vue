@@ -57,7 +57,7 @@
               :source="
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
-              class="fixed-height white-space-break-spaces-mobile code"
+              class="fixed-height white-space-break-spaces-mobile"
             />
             <div class="flex justify-end mt-2">
               <NeoButton
@@ -78,18 +78,28 @@
         </OnBoardingCard>
       </div>
       <Transition name="fade">
-        <div
+        <button
           v-if="currentSlide > 0"
-          class="arrow arrow-left"
+          class="arrow arrow-left arrow-icon rounded-full"
           @click="prevSlide"
-        />
+        >
+          <NeoIcon
+            icon="chevron-left"
+            size="medium"
+          />
+        </button>
       </Transition>
       <Transition name="fade">
-        <div
+        <button
           v-if="currentSlide < numOfCards - 1"
-          class="arrow arrow-right"
+          class="arrow arrow-right arrow-icon rounded-full"
           @click="nextSlide"
-        />
+        >
+          <NeoIcon
+            icon="chevron-right"
+            size="medium"
+          />
+        </button>
       </Transition>
     </div>
 
@@ -262,10 +272,6 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 .fixed-height {
   height: 180px;
   overflow-y: auto;
-}
-
-.code :deep(pre) {
-  font-size: 1rem !important;
 }
 
 .carousel-dot {
