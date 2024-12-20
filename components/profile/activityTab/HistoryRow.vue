@@ -3,7 +3,7 @@
     v-if="isDesktop"
     class="flex gap-3 py-[.6rem]"
   >
-    <div class="flex-1 is-clipped">
+    <div class="flex-1 overflow-hidden">
       <div class="flex items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
@@ -22,7 +22,7 @@
           class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
         >
-          <span class="ml-5 font-bold is-clipped">
+          <span class="ml-5 font-bold overflow-hidden">
             {{ event.Item.name }}
           </span>
         </nuxt-link>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-3 py-[.55rem]">
-    <div class="flex-1 is-clipped">
+    <div class="flex-1 overflow-hidden">
       <div class="flex items-center">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
@@ -18,7 +18,7 @@
           class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
         >
-          <span class="ml-5 font-bold is-clipped">
+          <span class="ml-5 font-bold overflow-hidden">
             {{ event.nft.name }}
           </span>
         </nuxt-link>

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex flex-col is-clipped">
+  <div class="min-h-full flex flex-col overflow-hidden">
     <Navbar />
     <main class="flex-grow">
       <Error
