@@ -69,13 +69,24 @@ export const formatAccount = (
   return encodeAddress(decodeAddress(address), <any>ss58Format)
 }
 
+const isSameAddressSubstrate = (address1: string, address2: string): boolean => {
+  return addressEq(address1, address2)
+}
+
+const isSameAddressEvm = (address1: string, address2: string): boolean => {
+  return address1.toLowerCase() === address2.toLowerCase()
+}
+
 export const isSameAccount = (
   account1: KeyringAccount | string,
   account2: KeyringAccount | string,
 ): boolean => {
   const address1 = accountToAddress(account1)
   const address2 = accountToAddress(account2)
-  return addressEq(address1, address2)
+
+  return isEthereumAddress(address1)
+    ? isSameAddressEvm(address1, address2)
+    : isSameAddressSubstrate(address1, address2)
 }
 
 export const accountsAreSame = (

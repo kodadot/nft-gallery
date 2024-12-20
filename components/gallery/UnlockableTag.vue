@@ -44,11 +44,11 @@ const props = defineProps<{
   link: string | undefined
 }>()
 
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { isMobile } = useViewport()
 const { unlockableIcon } = useIcon()
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 </script>
 
 <style lang="scss" scoped>
