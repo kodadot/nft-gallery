@@ -32,7 +32,7 @@
           :name="nft?.name || `${nft?.id}`"
           :size="128"
           :placeholder="placeholder"
-          class="my-5"
+          class="my-5 overflow-hidden"
         />
         <form class="w-full">
           <NeoField
