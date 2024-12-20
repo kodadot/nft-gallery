@@ -112,7 +112,9 @@ const getProfileCollections = async () => {
   const { data } = await useAsyncQuery<{ collectionEntities: CollectionEntityMinimal[] }>({
     query: collectionListWithSearchMinimal,
     variables: {
-      search: [collectionSearch],
+      search: [
+        collectionSearch,
+      ],
       denyList: getDenyList(urlPrefix.value),
       first: 100,
       offset: 0,
