@@ -286,7 +286,7 @@ export default function (
             return getActionTransactionFee({
               action: action as Actions,
               address,
-              prefix: prefix as Prefix,
+              prefix: (prefix || (action as Actions).urlPrefix) as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)
