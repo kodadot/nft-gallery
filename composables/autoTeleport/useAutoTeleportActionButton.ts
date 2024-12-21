@@ -1,25 +1,24 @@
-import debounce from 'lodash/debounce'
 import type { Actions } from '@/composables/transaction/types'
 
-export default ({
+type AutoTeleportActionButtonParams<T> = {
+  getActionFn: () => T
+  disabled?: MaybeRef<boolean>
+}
+
+export default <T = Actions>({
   getActionFn,
-  getActionFnDebounce = 200,
-}) => {
+  disabled = false,
+}: AutoTeleportActionButtonParams<T>) => {
   const { decimals, chainSymbol } = useChain()
 
   const autoTeleport = ref(false)
   const autoTeleportButton = ref()
   const autoTeleportLoaded = ref(false)
-  const action = ref<Actions>(emptyObject<Actions>())
+  const action = ref<T>(emptyObject<T>())
 
   const txFees = computed(() => autoTeleportButton.value?.optimalTransition.txFees || 0)
+  const isActionReady = computed(() => Boolean(Object.keys(action.value).length)) // TODO: allow nullish action
   const { formatted: formattedTxFees } = useAmount(txFees, decimals, chainSymbol)
-
-  const updateAction = (value: Actions) => {
-    action.value = value
-  }
-
-  const debouncedUpdateAction = debounce(updateAction, getActionFnDebounce)
 
   watch(
     () => autoTeleportButton.value?.isReady,
@@ -31,8 +30,8 @@ export default ({
   )
 
   watchSyncEffect(() => {
-    if (!autoTeleport.value) {
-      debouncedUpdateAction(getActionFn())
+    if (!autoTeleport.value && !unref(disabled)) {
+      action.value = getActionFn()
     }
   })
 
@@ -43,5 +42,6 @@ export default ({
     autoTeleportLoaded,
     txFees,
     formattedTxFees,
+    isActionReady,
   }
 }

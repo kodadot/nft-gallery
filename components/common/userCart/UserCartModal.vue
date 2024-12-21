@@ -114,28 +114,33 @@ const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
 const { isEvm } = useIsChain(urlPrefix)
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
-  getActionFn: props.getAction,
-})
-
 const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.open && preferencesStore.userCartModal?.mode === props.mode))
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
+const hasAbi = computed(() => isEvm.value ? Boolean(abi.value) : true)
+const actionDisabled = computed(() => !hasAbi.value)
 
-const actions = computed<AutoTeleportAction[]>(() => isModalActive.value && (isEvm.value ? abi.value : true)
-  ? [
-      {
-        action: action.value,
-        transaction,
-        details: {
-          isLoading: isLoading.value,
-          status: status.value,
-          isError: isError.value,
-          blockNumber: blockNumber.value,
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, isActionReady } = useAutoTeleportActionButton({
+  getActionFn: props.getAction,
+  disabled: actionDisabled,
+})
+
+const actions = computed<AutoTeleportAction[]>(() =>
+  isModalActive.value && isActionReady.value
+    ? [
+        {
+          action: action.value,
+          transaction,
+          details: {
+            isLoading: isLoading.value,
+            status: status.value,
+            isError: isError.value,
+            blockNumber: blockNumber.value,
+          },
         },
-      },
-    ]
-  : [])
+      ]
+    : [],
+)
 
 const loadingAbi = computed(() => (isEvm.value ? !abi.value : false))
 const loading = computed(() => (!autoTeleportLoaded.value || props.loading || loadingAbi.value))

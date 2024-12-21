@@ -281,8 +281,8 @@ export default function (
       ) {
         try {
           hasFetched.actionTxFees = false
+          const address = getAddressByChain(currentChain.value as Chain)
           const feesPromisses = actions.map(async ({ action, prefix }) => {
-            const address = getAddressByChain(currentChain.value as Chain)
             return getActionTransactionFee({
               action: action as Actions,
               address,
