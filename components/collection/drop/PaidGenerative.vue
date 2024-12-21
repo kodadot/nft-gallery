@@ -54,7 +54,7 @@ const dropAction = computed<ActionMintDrop>(() => ({
   interaction: NFTs.MINT_DROP,
   collectionId: drop.value?.collection,
   price: drop.value?.price || null,
-  prefix: urlPrefix.value,
+  urlPrefix: urlPrefix.value,
 }))
 
 const autoTeleportAction = computed<AutoTeleportAction>(() => ({

@@ -1,7 +1,7 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { teleportExistentialDeposit } from '@kodadot1/static'
 import type { AutoTeleportAction } from './types'
-import type { ActionList, Actions } from '@/composables/transaction/types'
+import type { ActionList, Actions, ActionSend } from '@/composables/transaction/types'
 import type { Chain } from '@/utils/teleport'
 
 export const getChainExistentialDeposit = (
@@ -22,8 +22,8 @@ const checkIfActionNeedsRefetch = (
   }
 
   const validityMap: Record<string, (...params: any) => boolean> = {
-    [Interaction.LIST]: (curent: ActionList, prev: ActionList) =>
-      lengthChanged(curent.token, prev.token),
+    [Interaction.LIST]: (curent: ActionList, prev: ActionList) => lengthChanged(curent.token, prev.token),
+    [Interaction.SEND]: (curent: ActionSend, prev: ActionSend) => lengthChanged(curent.nfts, prev.nfts),
   }
 
   const checker = validityMap[action.interaction] || null

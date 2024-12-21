@@ -39,7 +39,6 @@ export default function (
   } = useTeleport()
   const fees = { ...DEFAULT_AUTO_TELEPORT_FEE_PARAMS, ...feesParams }
 
-  const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
   const hasFetched = reactive({
@@ -282,17 +281,12 @@ export default function (
       ) {
         try {
           hasFetched.actionTxFees = false
+          const address = getAddressByChain(currentChain.value as Chain)
           const feesPromisses = actions.map(async ({ action, prefix }) => {
-            let api = await apiInstance.value
-            if (prefix) {
-              api = await apiInstanceByPrefix(prefix)
-            }
-            const address = getAddressByChain(currentChain.value as Chain)
             return getActionTransactionFee({
-              api,
               action: action as Actions,
               address,
-              prefix: prefix as Prefix,
+              prefix: (prefix || (action as Actions).urlPrefix) as Prefix,
             })
           })
           const fees = await Promise.all(feesPromisses)

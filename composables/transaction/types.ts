@@ -264,7 +264,7 @@ export interface ActionMintDrop {
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
-  prefix: Prefix
+  urlPrefix: Prefix
 }
 
 export interface ActionMintCollection {
