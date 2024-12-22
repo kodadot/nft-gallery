@@ -1,3 +1,4 @@
+import { GALLERY_ITEM_TABS } from '../../components/gallery/GalleryItemTabsPanel/types.ts'
 import { expect, test } from './fixtures'
 
 const ITEM_ADDRESS_PATH = '/ahp/gallery/52-1'
@@ -13,7 +14,7 @@ test('Gallery item Interactions', async ({ page }) => {
   await test.step('Verifies if activity tab has content', async () => {
     await page
       .getByTestId('gallery-item-tabs')
-      .locator('[aria-controls="1-content"]')
+      .locator(`[aria-controls="${GALLERY_ITEM_TABS.ACTIVITY}-content"]`)
       .click()
     await page.getByTestId('gallery-item-activity-filter-all').click()
     await expect(
@@ -45,7 +46,7 @@ test('Gallery item Interactions', async ({ page }) => {
   await test.step('Verify chart visibility', async () => {
     await page
       .getByTestId('gallery-item-tabs')
-      .locator('[aria-controls="4-content"]')
+      .locator(`[aria-controls="${GALLERY_ITEM_TABS.CHART}-content"]`)
       .click()
     await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   })

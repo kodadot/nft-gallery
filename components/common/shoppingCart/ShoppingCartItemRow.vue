@@ -12,7 +12,7 @@
           <BasicImage
             :src="avatar"
             :alt="nft?.name"
-            class="border image is-48x48"
+            class="border image size-12"
           />
         </nuxt-link>
         <div

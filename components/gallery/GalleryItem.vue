@@ -181,6 +181,7 @@ import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import UnlockableTag from './UnlockableTag.vue'
 import { useGalleryItem } from './useGalleryItem'
+import { GALLERY_ITEM_TABS } from '@/components/gallery/GalleryItemTabsPanel/types'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 import { MediaType } from '@/components/rmrk/types'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -206,6 +207,7 @@ const mediaItemRef = ref<{
 } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
+const { getTriggerBuySuccess: triggerBuySuccess, getTriggerOfferSuccess: triggerOfferSuccess } = storeToRefs(preferencesStore)
 const pageViewCount = usePageViews()
 const fiatStore = useFiatStore()
 
@@ -216,19 +218,13 @@ const collection = computed(() => nft.value?.collection)
 
 const nftCreator = computed(() => nft.value?.dropCreator || nft.value?.issuer)
 
-const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
-
 const breakPointWidth = 930
 const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
 
-const tabs = {
-  activity: '1',
-  chart: '2',
-}
-const activeTab = ref(tabs.activity)
+const activeTab = ref(GALLERY_ITEM_TABS.ACTIVITY)
 
 const onNFTBought = () => {
-  activeTab.value = tabs.activity
+  activeTab.value = GALLERY_ITEM_TABS.ACTIVITY
 }
 
 const image = computed(() => {
@@ -246,6 +242,13 @@ watch(triggerBuySuccess, (value, oldValue) => {
   if (value && !oldValue) {
     onNFTBought()
     preferencesStore.setTriggerBuySuccess(false)
+  }
+})
+
+watch(triggerOfferSuccess, (value) => {
+  if (value) {
+    activeTab.value = GALLERY_ITEM_TABS.OFFERS
+    preferencesStore.setTriggerOfferSuccess(false)
   }
 })
 

@@ -23,7 +23,7 @@
           >
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image is-32x32 flex-shrink-0 border mr-2"
+              class="image size-8 flex-shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id"
             >
             <div class="flex flex-col flex-grow min-w-0">

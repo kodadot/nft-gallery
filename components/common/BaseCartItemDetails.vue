@@ -7,7 +7,7 @@
             <BasicImage
               :src="image"
               :alt="name"
-              class="border image is-48x48"
+              class="border image size-12"
               :class="{ 'opacity-50': discarded }"
             />
           </slot>

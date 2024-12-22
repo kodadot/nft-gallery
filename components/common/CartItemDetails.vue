@@ -11,7 +11,7 @@
       #image
     >
       <BaseMediaItem
-        class="border border-k-shade image is-48x48"
+        class="border border-k-shade image size-12"
         :class="{ 'opacity-50': discarded }"
         :alt="nft?.name"
         :src="sanitizeIpfsUrl(nft.mediaUrl.image)"
