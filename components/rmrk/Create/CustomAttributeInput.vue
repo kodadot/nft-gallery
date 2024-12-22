@@ -60,14 +60,14 @@ const disabled = computed(
 
 const addAttribute = () => {
   if (!props.max || attributes.value.length < props.max) {
-    attributes.value.push({
+    attributes.value = [...attributes.value, {
       value: '',
       trait_type: '',
-    })
+    }]
   }
 }
 
-const removeAttribute = (index: number) => attributes.value.splice(index, 1)
+const removeAttribute = (index: number) => attributes.value = attributes.value.filter((_, i) => i !== index)
 </script>
 
 <style scoped>

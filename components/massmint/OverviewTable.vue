@@ -82,7 +82,7 @@
                 }"
                 @click="openSideBarWith(nft)"
               >
-                {{ getNftAttributesOverview(nft) || $t('massmint.attributesMissing') }}
+                {{ nft.tags?.length ? getNftAttributesOverview(nft) : $t('massmint.attributesMissing') }}
               </div>
             </div>
             <div class="column flex items-center">
