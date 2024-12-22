@@ -78,13 +78,12 @@ import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
-const { accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { listNftByNftWithMetadata } = useListingCartModal()
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
 const route = useRoute()
-
 const props = defineProps<{
   nft?: NFT
   mimeType?: string
@@ -96,8 +95,8 @@ const props = defineProps<{
 const action = ref<'unlist' | ''>('')
 
 const id = computed(() => route.params.id.toString())
-const isOwner = computed(() => accountId.value === props.nft?.currentOwner)
-const isCollectionOwner = computed(() => accountId.value === props.nft?.collection?.currentOwner)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isCollectionOwner = computed(() => isCurrentOwner(props.nft?.collection?.currentOwner))
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({
