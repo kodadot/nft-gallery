@@ -112,7 +112,3 @@ const handleClick = (event: MouseEvent) => {
   }
 }
 </script>
-
-<style lang="scss">
-@import './NeoTooltip.scss';
-</style>

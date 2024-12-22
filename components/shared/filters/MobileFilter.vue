@@ -212,18 +212,3 @@ const applyFilters = () => {
 
 watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.buttons-container {
-  position: sticky;
-  bottom: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.filters-header {
-  min-height: $navbar-mobile-min-height;
-}
-</style>

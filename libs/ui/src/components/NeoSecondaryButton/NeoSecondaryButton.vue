@@ -16,7 +16,3 @@ defineProps<{
   variant?: NeoButtonVariant
 }>()
 </script>
-
-<style lang="scss" scoped>
-@import './NeoSecondaryButton.scss';
-</style>

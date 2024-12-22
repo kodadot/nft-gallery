@@ -169,34 +169,3 @@ const toggleInputFocused = (): void => {
   inputFocused.value = !inputFocused.value
 }
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.input-container {
-  @include ktheme() {
-    border: 1px solid theme('text-color');
-  }
-
-  .input-sidebar {
-    border: none !important;
-    height: 2.5rem;
-    &:focus {
-      border: none !important;
-      box-shadow: none !important;
-    }
-  }
-}
-
-.unit {
-  @include ktheme() {
-    border: 1px solid theme('text-color');
-  }
-}
-
-.input-focused {
-  @include ktheme() {
-    box-shadow: 0 0 0 1px theme('k-blue');
-  }
-}
-</style>

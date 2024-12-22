@@ -46,26 +46,3 @@ const handleRedirect = () => {
   window.open(props.url, '_blank')
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.redirect-card {
-  box-shadow: var(--card-box-shadow);
-  @include ktheme() {
-    background: theme('background-color');
-  }
-  .redirect-header {
-    @apply border-b border-k-grey;
-  }
-  p.link {
-    word-break: break-all;
-    @include ktheme() {
-      color: theme('k-blue');
-    }
-  }
-  button.is-neo {
-    flex: 1;
-  }
-}
-</style>

@@ -1,5 +1,10 @@
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook('app:beforeMount', (app) => {
-    app.$nuxt.$i18n.locale.value = usePreferencesStore().getUserLocale
-  })
+import { i18nManager } from '@/utils/config/i18n'
+
+export default defineNuxtPlugin(() => {
+  return {
+    provide: {
+      i18n: i18nManager,
+      t: (key: string, values?: any[]) => i18nManager.t(key, values),
+    },
+  }
 })
