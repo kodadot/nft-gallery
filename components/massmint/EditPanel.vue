@@ -10,7 +10,7 @@
     :on-cancel="closePanel"
   >
     <div
-      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between"
+      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full overflow-y-auto"
     >
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
