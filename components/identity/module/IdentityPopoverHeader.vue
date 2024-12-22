@@ -52,6 +52,6 @@ const shortenedAddress = inject('shortenedAddress') as string
 
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { accountId } = useAuth()
 </script>

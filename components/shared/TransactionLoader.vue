@@ -132,7 +132,7 @@ const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { estimatedTimes } = useBlockTime()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 
 const estimatedTimeLeft = computed(
   () => estimatedTimes.value[props.status] || 'few',
