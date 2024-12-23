@@ -15,10 +15,15 @@ const kahpProviders = Object.values(kahp?.providers)
 
 // Helper function to create provider promises
 const createProviderPromises = (urls, network) => urls.map(async (url) => {
-  const wsProvider = new WsProvider(url)
-  const api = new ApiPromise({ provider: wsProvider, noInitWarn: true })
-  await api.isReady
-  await api.rpc.system.chain()
+  try {
+    const wsProvider = new WsProvider(url)
+    const api = new ApiPromise({ provider: wsProvider, noInitWarn: true })
+    await api.isReady
+    await api.rpc.system.chain()
+  }
+  catch (error) {
+    console.error(`Failed to connect to ${url}`, error)
+  }
 
   return { network, url }
 })
