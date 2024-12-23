@@ -2,6 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
+      ref="signingModal"
       :title="signingTitle"
       :is-loading="isLoading"
       :status="status"
@@ -105,6 +106,7 @@ const props = withDefaults(defineProps<{
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 
+const signingModal = ref<{ isModalActive: boolean }>()
 const items = ref<ListCartItem[]>([])
 
 const { $i18n } = useNuxtApp()
@@ -118,7 +120,7 @@ const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.ope
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
 const hasAbi = computed(() => isEvm.value ? Boolean(abi.value) : true)
-const actionDisabled = computed(() => !hasAbi.value)
+const actionDisabled = computed(() => !hasAbi.value || Boolean(signingModal.value?.isModalActive))
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, isActionReady } = useAutoTeleportActionButton({
   getActionFn: props.getAction,

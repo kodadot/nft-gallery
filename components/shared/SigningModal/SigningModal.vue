@@ -99,4 +99,6 @@ watch(
     }
   },
 )
+
+defineExpose({ isModalActive })
 </script>
