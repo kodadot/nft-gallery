@@ -98,3 +98,4 @@ sitemap.xml
 
 
 queries/clients/*.d.ts
+libs/static/src/endpoints.json
