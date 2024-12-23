@@ -15,18 +15,36 @@ const kahpProviders = Object.values(kahp?.providers)
 
 // Helper function to create provider promises
 const createProviderPromises = (urls, network) => urls.map(async (url) => {
+  const startTime = Date.now()
+  const wsProvider = new WsProvider(url)
+  const api = new ApiPromise({ provider: wsProvider, noInitWarn: true })
+
   try {
-    const wsProvider = new WsProvider(url)
-    const api = new ApiPromise({ provider: wsProvider, noInitWarn: true })
     await api.isReady
     await api.rpc.system.chain()
+    const responseTime = Date.now() - startTime
+    return { network, url, responseTime, success: true }
   }
   catch (error) {
     console.error(`Failed to connect to ${url}`, error)
+    return { network, url, success: false }
   }
-
-  return { network, url }
+  finally {
+    await api.disconnect()
+  }
 })
+
+// Helper to find fastest successful connection
+const getFastestSuccessful = async (promises) => {
+  const results = await Promise.all(promises)
+  const successful = results.filter(r => r.success)
+  if (successful.length === 0) {
+    throw new Error('No successful connections')
+  }
+  return successful.reduce((fastest, current) =>
+    !fastest || current.responseTime < fastest.responseTime ? current : fastest,
+  )
+}
 
 // Create array of promises for both networks
 const polkadotPromises = createProviderPromises(ahpProviders, 'Polkadot')
@@ -34,18 +52,20 @@ const kusamaPromises = createProviderPromises(kahpProviders, 'Kusama')
 
 // Race to find fastest responding endpoints for both networks
 Promise.all([
-  Promise.race(polkadotPromises),
-  Promise.race(kusamaPromises),
+  getFastestSuccessful(polkadotPromises),
+  getFastestSuccessful(kusamaPromises),
 ])
   .then(([polkadot, kusama]) => {
     const endpointsData = {
       ahp: {
         endpoint: polkadot.url,
         providers: ahpProviders,
+        responseTime: polkadot.responseTime,
       },
       ahk: {
         endpoint: kusama.url,
         providers: kahpProviders,
+        responseTime: kusama.responseTime,
       },
     }
 
