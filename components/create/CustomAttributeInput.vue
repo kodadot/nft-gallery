@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import { NeoButton } from '@kodadot1/brick'
-import AttributeInput from './AttributeInput.vue'
+import AttributeInput from '@/components/create/AttributeInput.vue'
 
 const props = withDefaults(
   defineProps<{

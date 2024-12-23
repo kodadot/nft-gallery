@@ -107,7 +107,7 @@ import {
   NeoSidebar,
 } from '@kodadot1/brick'
 import type { NFT } from './types'
-import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
+import CustomAttributeInput from '@/components/create/CustomAttributeInput.vue'
 
 const props = defineProps<{
   nft?: NFT
