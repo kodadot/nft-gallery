@@ -19,7 +19,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi prepare && cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9090 nuxi dev",
+    "dev": "pnpm run prepare && cross-env NODE_OPTIONS=--openssl-legacy-provider PORT=9090 nuxi dev",
     "dev-docker": "npx nuxi dev",
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build --modern",
@@ -35,7 +35,7 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare && husky"
+    "prepare": "node ./script/polkadot-endpoint.mjs && nuxi prepare && husky"
   },
   "lint-staged": {
     "*": [
@@ -66,7 +66,7 @@
     "@pinia/nuxt": "^0.5.4",
     "@polkadot/api": "^11.2.1",
     "@polkadot/api-base": "^11.2.1",
-    "@polkadot/apps-config": "^0.138.1",
+    "@polkadot/apps-config": "^0.146.1",
     "@polkadot/extension-dapp": "^0.47.1",
     "@polkadot/extension-inject": "^0.47.1",
     "@polkadot/types": "^11.2.1",
