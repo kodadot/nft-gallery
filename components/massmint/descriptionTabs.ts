@@ -45,9 +45,9 @@ export const descriptionTabs = {
     label: 'CSV',
     fileStructureDescription: `
   \`\`\`properties
-  file,name,description,price
-  file1.jpg,Image1,This is an image,100
-  file2.jpg,Image2,,200
+  file,name,description,attributes,price
+  file1.jpg,Image1,This is an image,"color:white;expression:happy",100
+  file2.jpg,Image2,,"color:blue;expression:shy",200
   file3.jpg,,This is another image,
   \`\`\`
   `,
