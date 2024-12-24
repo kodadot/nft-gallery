@@ -605,6 +605,8 @@
     "offer": "Offer",
     "onlyVerifiedIdentities": "Only Verified Identities",
     "sale": "Sale",
+    "tradeCollection": "Only Collection {0}",
+    "tradeType": "{0} Type",
     "transfer": "Transfer",
     "verified": "Verified"
   },
