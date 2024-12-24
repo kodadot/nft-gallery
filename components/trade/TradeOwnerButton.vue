@@ -1,23 +1,50 @@
 <template>
-  <ProfileButtonConfig
-    v-if="buttonConfig"
-    :loading="loading"
-    :button="buttonConfig"
-  />
+  <div class="flex items-center gap-2">
+    <ProfileButtonConfig
+      v-if="buttonConfig"
+      :class="mainClass"
+      :loading="loading"
+      :button="buttonConfig"
+    />
+
+    <template v-if="isTargetOfTrade && detailed">
+      <NeoTooltip
+        position="top"
+        content-class="capitalize"
+        :label="$t('swap.counterSwap')"
+      >
+        <NeoButton
+          variant="icon"
+          :disabled="trade.isEntireCollectionDesired"
+          @click="emit('click:counter-swap')"
+        >
+          <NeoIcon
+            icon="swap"
+          />
+        </NeoButton>
+      </NeoTooltip>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
 
-const emit = defineEmits(['click'])
-const props = defineProps<{ trade: TradeNftItem, loading?: boolean }>()
+const emit = defineEmits(['click:main', 'click:counter-swap'])
+const props = defineProps<{
+  trade: TradeNftItem
+  loading?: boolean
+  mainClass?: string
+  detailed?: boolean
+}>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const { isOwnerOfNft, isCreatorOfTrade } = useIsTrade(computed(() => props.trade), accountId)
+const { isTargetOfTrade, isCreatorOfTrade } = useIsTrade(computed(() => props.trade), accountId)
 
-const onClick = () => emit('click', props.trade)
+const onClick = () => emit('click:main', props.trade)
 
 const details = {
   [TradeType.SWAP]: {
@@ -50,7 +77,7 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
     }
   }
 
-  if (isOwnerOfNft.value) {
+  if (isTargetOfTrade.value) {
     return {
       label: $i18n.t(details[props.trade.type].accept),
       onClick,

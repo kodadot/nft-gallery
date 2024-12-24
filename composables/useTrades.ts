@@ -16,6 +16,7 @@ export type TradeToken = {
   collection: {
     id: string
   }
+  meta: Record<string, unknown>
 }
 
 export type TradeConsidered = {

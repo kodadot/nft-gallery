@@ -3,6 +3,8 @@ import { computed } from 'vue'
 import { type SwapSurcharge } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
 
+export type CrateSwapWithFields = Partial<Omit<AtomicSwap, 'id'>>
+
 export type AtomicSwap = {
   counterparty: string
   creator?: string
@@ -52,7 +54,7 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
   const getItems = computed(() => items.value)
   const stepItems = computed(() => getStepItems(step.value))
 
-  const createSwap = (counterparty: string) => {
+  const createSwap = (counterparty: string, withFields?: CrateSwapWithFields) => {
     const newAtomicSwap: AtomicSwap = {
       id: window.crypto.randomUUID().split('-')[0],
       counterparty,
@@ -62,6 +64,10 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
       urlPrefix: urlPrefix.value,
       duration: 7,
       creator: accountId.value ? accountId.value : undefined,
+    }
+
+    if (withFields) {
+      Object.assign(newAtomicSwap, withFields)
     }
 
     setItem(newAtomicSwap)

@@ -92,9 +92,11 @@
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <TradeOwnerButton
-          class="max-md:!w-full"
+          main-class="max-md:!w-full"
+          detailed
           :trade="trade"
-          @click="$emit('select')"
+          @click:main="$emit('select')"
+          @click:counter-swap="$emit('counter-swap')"
         />
       </div>
     </div>
@@ -180,9 +182,12 @@
       </div>
     </div>
     <TradeOwnerButton
-      class="max-md:!w-full !mt-4"
+      class="mt-4"
+      main-class="max-md:!w-full"
+      detailed
       :trade="trade"
-      @click="$emit('select')"
+      @click:main="$emit('select')"
+      @click:counter-swap="$emit('counter-swap')"
     />
   </div>
 </template>
@@ -202,7 +207,7 @@ const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
 type Item = TradeToken | TradeConsidered
 
-defineEmits(['select'])
+defineEmits(['select', 'counter-swap'])
 const props = defineProps<{
   trade: TradeNftItem
   variant: ResponsiveVariant
