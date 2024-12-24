@@ -60,7 +60,7 @@
           </NeoField>
           <NeoField :label="`${$t('nft.properties.label')}`">
             <CustomAttributeInput
-              v-model="tags"
+              v-model="attributes"
               :max="10"
               default-open
             />
@@ -120,7 +120,7 @@ const { placeholder } = useTheme()
 const { unit } = useChain()
 
 const internalNfT = ref<Partial<NFT>>({})
-const dirty = ref({ name: false, description: false, price: false, tags: false })
+const dirty = ref({ name: false, description: false, price: false, attributes: false })
 
 const createField = (fieldName: string, defaultValue: string | unknown = '') =>
   computed({
@@ -141,13 +141,13 @@ const createField = (fieldName: string, defaultValue: string | unknown = '') =>
 const name = createField('name')
 const description = createField('description')
 const price = createField('price')
-const tags = createField('tags', [])
+const attributes = createField('attributes', [])
 
 const emit = defineEmits(['close', 'save'])
 
 const closePanel = () => {
   internalNfT.value = {}
-  dirty.value = { name: false, description: false, price: false, tags: false }
+  dirty.value = { name: false, description: false, price: false, attributes: false }
   emit('close')
 }
 

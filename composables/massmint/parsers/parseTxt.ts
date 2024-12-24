@@ -94,7 +94,7 @@ const updateEntries = (entries, block) => {
       file: entry.file,
       name: entry.name,
       description: entry.description,
-      tags: entry.attributes,
+      attributes: entry.attributes,
       price: entry.price,
       currency: entry.currency,
       valid: isValidEntry(entry),

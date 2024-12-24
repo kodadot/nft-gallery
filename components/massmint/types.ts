@@ -16,7 +16,7 @@ export type NFT = {
   description?: string
   price?: number
   status?: Status
-  tags?: OpenSeaAttribute[]
+  attributes?: OpenSeaAttribute[]
 }
 
 export type NFTToMint = {
@@ -24,7 +24,7 @@ export type NFTToMint = {
   file: File
   description?: string
   price?: number
-  tags?: OpenSeaAttribute[]
+  attributes?: OpenSeaAttribute[]
 }
 
 export type NFTS = { [id: string]: NFT }

@@ -78,11 +78,11 @@
               <div
                 class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
                 :class="{
-                  'text-k-orange': !nft.tags?.length,
+                  'text-k-orange': !nft.attributes?.length,
                 }"
                 @click="openSideBarWith(nft)"
               >
-                {{ nft.tags?.length ? getNftAttributesOverview(nft) : $t('massmint.attributesMissing') }}
+                {{ nft.attributes?.length ? getNftAttributesOverview(nft) : $t('massmint.attributesMissing') }}
               </div>
             </div>
             <div class="column flex items-center">
@@ -214,7 +214,7 @@ const getNativeNftPrice = (nft: NFT): string =>
   String((nft?.price || 0) * Math.pow(10, decimals.value))
 
 const getNftAttributesOverview = (nft: NFT): string | undefined =>
-  nft.tags?.map(tag => tag.value).join(', ')
+  nft.attributes?.map(attribute => attribute.value).join(', ')
 
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
