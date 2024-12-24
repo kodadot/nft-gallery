@@ -6,7 +6,6 @@ export type Entry = {
   name?: string
   description?: string
   price?: number
-  tags?: OpenSeaAttribute[]
   valid: boolean
   currency?: string
   attributes?: OpenSeaAttribute[]
