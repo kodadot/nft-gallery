@@ -140,7 +140,7 @@ import { useCollectionMinimal } from '@/components/collection/utils/useCollectio
 import { hasOperationsDisabled } from '@/utils/prefix'
 
 const route = useRoute()
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -182,7 +182,7 @@ const openUrl = (url: string) => {
 }
 
 const displaySeperator = computed(() => twitter.value)
-const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
 </script>
