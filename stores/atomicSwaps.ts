@@ -3,6 +3,8 @@ import { computed } from 'vue'
 import { type SwapSurcharge } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
 
+const ITEMS_MAX_AGE_MS = 7 * ONE_DAYH_IN_MS
+
 export type CrateSwapWithFields = Partial<Omit<AtomicSwap, 'id'>>
 
 export type AtomicSwap = {
@@ -117,4 +119,12 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     updateStepItems,
     removeStepItem,
   }
-}, { persist: true })
+}, { persist: {
+  afterRestore: (context) => {
+    context.store.items = context.store.items
+      .filter(swap =>
+        getSwapStep(swap) !== SwapStep.CREATED
+        && swap.createdAt >= Date.now() - ITEMS_MAX_AGE_MS,
+      )
+  },
+} })
