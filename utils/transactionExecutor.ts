@@ -2,10 +2,8 @@ import keyring from '@polkadot/ui-keyring'
 import type { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/types'
 import type { Callback, ISubmittableResult } from '@polkadot/types/types'
 import type { DispatchError, Hash } from '@polkadot/types/interfaces'
-import type { ApiPromise } from '@polkadot/api'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { estimateGas, getGasPrice } from '@wagmi/core'
-import { useConfig } from '@wagmi/vue'
 import type { Address } from 'viem'
 import { encodeFunctionData } from 'viem'
 import type { Prefix } from '@kodadot1/static'
@@ -123,11 +121,13 @@ export const estimate = async (
   return info.partialFee.toString()
 }
 
-const estimateEvm = async ({ arg, abi, functionName, account, prefix }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
-  const wagmiConfig = useConfig()
+const estimateEvm = async ({ arg, abi, functionName, account, prefix, address }: ExecuteEvmTransactionParams & { account: string, prefix: Prefix }) => {
+  const { $wagmiConfig } = useNuxtApp()
+
   const [estimatedGas, gasPrice] = await Promise.all([
-    estimateGas(wagmiConfig, {
+    estimateGas($wagmiConfig, {
       account: account as Address,
+      to: address as Address,
       data: encodeFunctionData({
         abi,
         args: arg,
@@ -135,7 +135,7 @@ const estimateEvm = async ({ arg, abi, functionName, account, prefix }: ExecuteE
       }),
       chainId: PREFIX_TO_CHAIN[prefix]?.id,
     }),
-    getGasPrice(wagmiConfig),
+    getGasPrice($wagmiConfig),
   ])
 
   return String(estimatedGas * gasPrice)
@@ -145,24 +145,29 @@ const preProcessedAction: Partial<Record<ActionsInteractions, (params: { action:
   [Interaction.SEND]: ({ action, account }) => ({ ...action, address: account }),
 }
 
-export const getActionTransactionFee = ({
+export const getActionTransactionFee = async ({
   action,
   address: account,
-  api,
   prefix,
 }: {
   action: Actions
   address: string
-  api?: ApiPromise
-  prefix?: Prefix
+  prefix: Prefix
 }): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    // Keep in mind atm actions with ipfs file will be uploadeed
-    if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
-      console.log('[ACTION FEE]: Fee not allowed', action.interaction)
-      return resolve('0')
-    }
+  // Keep in mind atm actions with ipfs file will be uploadeed
+  if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
+    console.log('[ACTION FEE]: Fee not allowed', action.interaction)
+    return '0'
+  }
 
+  const api = await execByVm({
+    SUB: () => {
+      const { apiInstanceByPrefix } = useApi()
+      return apiInstanceByPrefix(prefix)
+    },
+  }, { prefix })
+
+  return new Promise((resolve, reject) => {
     const item = preProcessedAction[action.interaction]?.({ action, account }) || action
 
     executeAction({
