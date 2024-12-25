@@ -165,7 +165,7 @@ export const getActionTransactionFee = async ({
       const { apiInstanceByPrefix } = useApi()
       return apiInstanceByPrefix(prefix)
     },
-  })
+  }, { prefix })
 
   return new Promise((resolve, reject) => {
     const item = preProcessedAction[action.interaction]?.({ action, account }) || action
