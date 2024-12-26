@@ -432,10 +432,10 @@
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
-        <ProfileActivityTabTrades
+        <TradeActivityTable
           v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
-          :id="id"
           :key="activeTab"
+          :query="tradeQuery"
           :type="{
             [ProfileTab.SWAPS]: TradeType.SWAP,
             [ProfileTab.OFFERS]: TradeType.OFFER,
@@ -480,6 +480,7 @@ import profileTabsCount from '@/queries/subsquid/general/profileTabsCount.query'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible, swapVisible } from '@/utils/config/permission.config'
+import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
 import { TradeType } from '@/composables/useTrades'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
@@ -512,7 +513,7 @@ const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
-const { accountId, isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { shareOnX, shareOnFarcaster } = useSocialShare()
 const profileOnboardingStore = useProfileOnboardingStore()
@@ -545,6 +546,11 @@ const refresh = ({ fetchFollowing = true } = {}) => {
 }
 const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
+
+const tradeQuery = computed<TradeTableQuery>(() => ({
+  incoming: `{ status_eq: ACTIVE, desired: { currentOwner_eq: "${id.value}" } }`,
+  outgoing: `{ status_in: [ACTIVE, EXPIRED], caller_eq: "${id.value}" }`,
+}))
 
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
@@ -621,7 +627,7 @@ const socialDropdownItems = computed(() => {
     .sort((a, b) => a?.order - b?.order)
 })
 
-const isOwner = computed(() => isCurrentOwner(id.value))
+const isOwner = computed(() => isCurrentAccount(id.value))
 
 const buttonConfig = computed<ButtonConfig>(() =>
   hasProfile.value ? editProfileConfig : createProfileConfig,
@@ -726,8 +732,8 @@ useAsyncData('tabs-count', async () => {
     currentOwner_eq: address,
   }
 
-  if (accountId.value !== address) {
-    Object.assign(searchParams, { nftCount_not_eq: 0 })
+  if (!isCurrentAccount(address)) {
+    Object.assign(searchParams, { supply_not_eq: 0 })
   }
 
   searchParams['burned_eq'] = false

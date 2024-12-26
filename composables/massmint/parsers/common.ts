@@ -25,6 +25,10 @@ export const isValidEntry = (entry: Partial<Entry>): boolean => {
     return false
   }
 
+  if (entry.attributes && !Array.isArray(entry.attributes)) {
+    return false
+  }
+
   return true
 }
 

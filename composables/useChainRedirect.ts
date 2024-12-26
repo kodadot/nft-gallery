@@ -76,7 +76,7 @@ function getRedirectPathForPrefix({
     }
   }
 
-  if (['prefix-gallery-id', 'prefix-collection-id'].includes(routeName)) {
+  if (routeName.includes('prefix-gallery-id') || routeName.includes('prefix-collection-id')) {
     const routeNameToRedirect = routeName.includes('gallery')
       ? 'prefix-explore-items'
       : 'prefix-explore-collectibles'

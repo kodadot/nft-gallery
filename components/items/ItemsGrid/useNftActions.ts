@@ -131,7 +131,7 @@ export const checkIfAnythingToList = async (entities: TokenEntity[]) => {
 }
 
 export function useNftActions(entity: TokenEntity) {
-  const { isCurrentOwner } = useAuth()
+  const { isCurrentAccount } = useAuth()
 
   const cheapestNFT = ref<NFTWithMetadata>()
 
@@ -142,7 +142,7 @@ export function useNftActions(entity: TokenEntity) {
 
   const isThereAnythingToList = ref<boolean>()
   const isStackComputed = computed(() => isStack(entity))
-  const isOwner = computed(() => isCurrentOwner(entity.cheapest.currentOwner))
+  const isOwner = computed(() => isCurrentAccount(entity.cheapest.currentOwner))
   const isAvailableToBuyComputed = computed(() => isAvailableToBuy(entity))
   const nftForShoppingCart = computed(() =>
     isTokenEntity(entity) ? entity.cheapest : entity,

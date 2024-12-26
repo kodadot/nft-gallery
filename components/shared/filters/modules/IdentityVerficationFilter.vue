@@ -1,39 +1,22 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }"
+  <SiderbarFilterSection
+    :title="$t('filters.identityVerification')"
+    :expanded="expanded"
+    :fluid-padding="fluidPadding"
   >
-    <template #trigger="{ open }">
-      <div
-        class="flex"
-        role="button"
-        :aria-expanded="open"
+    <NeoField>
+      <NeoCheckbox
+        v-model="onlyVerified"
+        data-testid="event-checkbox-filter-only-verified-identities"
       >
-        <p class="card-header-title font-normal">
-          {{ $t('filters.identityVerification') }}
-        </p>
-        <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
-      </div>
-    </template>
-    <div class="p-4">
-      <NeoField>
-        <NeoCheckbox
-          v-model="onlyVerified"
-          data-testid="event-checkbox-filter-only-verified-identities"
-        >
-          {{ $t('filters.onlyVerifiedIdentities') }}
-        </NeoCheckbox>
-      </NeoField>
-    </div>
-  </NeoCollapse>
+        {{ $t('filters.onlyVerifiedIdentities') }}
+      </NeoCheckbox>
+    </NeoField>
+  </SiderbarFilterSection>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useAcivityFiltersStore } from '@/stores/activityFilters'
 
 const activityFiltersStore = useAcivityFiltersStore()

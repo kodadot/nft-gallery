@@ -1,7 +1,7 @@
 <template>
   <div class="nft-card">
     <div class="media-object nft-media">
-      <div class="is-square image">
+      <div class="pt-[100%] image">
         <NeoSkeleton
           :rounded="false"
           full-size

@@ -10,7 +10,7 @@
           <BasicImage
             :src="vmSwitchDetails.current.icon"
             :alt="vmSwitchDetails.current.name"
-            class="image is-48x48"
+            class="image size-12"
           />
         </div>
 
@@ -23,7 +23,7 @@
           <BasicImage
             :src="vmSwitchDetails.target.icon"
             :alt="vmSwitchDetails.target.name"
-            class="image is-48x48"
+            class="image size-12"
           />
         </div>
       </div>

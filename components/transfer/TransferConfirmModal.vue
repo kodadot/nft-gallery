@@ -19,7 +19,7 @@
         <span class="font-bold text-base">{{ $t('activity.network') }}</span>
         <span class="flex items-center">
           <img
-            class="mr-2 image is-24x24"
+            class="mr-2 image size-6"
             :src="tokenIcon"
             alt="token"
           >
