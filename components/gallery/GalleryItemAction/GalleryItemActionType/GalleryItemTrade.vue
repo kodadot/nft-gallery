@@ -49,10 +49,10 @@ const props = defineProps<{
 }>()
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
-const { doAfterLogin } = useDoAfterlogin()
-const { isCurrentOwner, isLogIn } = useAuth()
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 const swapStore = useAtomicSwapStore()
+const { doAfterLogin } = useDoAfterlogin()
+const { isCurrentAccount, isLogIn } = useAuth()
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
 

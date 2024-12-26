@@ -13,6 +13,7 @@
                 <th>{{ $t('massmint.image') }}</th>
                 <th>{{ $t('massmint.name') }}</th>
                 <th>{{ $t('massmint.description') }}</th>
+                <th> {{ $t('nft.properties.label') }}</th>
                 <th>{{ $t('massmint.price') }}</th>
                 <th><span class="pl-2">{{ $t('massmint.status') }}</span></th>
                 <th>{{ $t('massmint.operation') }}</th>
@@ -53,6 +54,17 @@
                     @click="openSideBarWith(nft)"
                   >
                     {{ nft.description || $t('massmint.descriptionMissing') }}
+                  </div>
+                </td>
+                <td class="!align-middle">
+                  <div
+                    class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
+                    :class="{
+                      'text-k-orange': !nft.attributes?.length,
+                    }"
+                    @click="openSideBarWith(nft)"
+                  >
+                    {{ nft.attributes?.length ? getNftAttributesOverview(nft) : $t('massmint.attributesMissing') }}
                   </div>
                 </td>
                 <td class="!align-middle">
@@ -184,6 +196,9 @@ const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 
 const getNativeNftPrice = (nft: NFT): string =>
   String((nft?.price || 0) * Math.pow(10, decimals.value))
+
+const getNftAttributesOverview = (nft: NFT): string | undefined =>
+  nft.attributes?.map(attribute => attribute.value).join(', ')
 
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>

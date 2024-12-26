@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero-buttons flex justify-end items-end px-2">
+    <div class="max-md:mt-0 max-md:mb-6 flex justify-end items-end px-2">
       <div
         v-if="twitter"
         class="flex"
@@ -8,14 +8,14 @@
         <NeoButton
           icon="x-twitter"
           icon-pack="fab"
-          class="square-32"
+          class="size-8"
           @click="openUrl(`https://twitter.com/${twitter}`)"
         />
       </div>
 
       <div
         v-if="displaySeperator"
-        class="vertical-seperator mx-4 is-hidden-mobile"
+        class="bg-border-color h-5 mb-1 w-px mx-4 is-hidden-mobile"
       />
 
       <div class="flex">
@@ -28,7 +28,7 @@
           <template #trigger="{ active }">
             <NeoButton
               icon="share-alt"
-              class="square-32 mr-3"
+              class="size-8 mr-3"
               data-testid="share-button"
               :active="active"
             />
@@ -86,7 +86,7 @@
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
-              class="square-32"
+              class="size-8"
               data-testid="more-actions-button"
               :active="active"
             />
@@ -140,7 +140,7 @@ import { useCollectionMinimal } from '@/components/collection/utils/useCollectio
 import { hasOperationsDisabled } from '@/utils/prefix'
 
 const route = useRoute()
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -182,29 +182,7 @@ const openUrl = (url: string) => {
 }
 
 const displaySeperator = computed(() => twitter.value)
-const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-@include mobile {
-  .hero-buttons {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
-}
-.square-32 {
-  width: 32px;
-  height: 32px;
-}
-.vertical-seperator {
-  height: 24px;
-  margin-bottom: 4px;
-  width: 1px;
-  @include ktheme() {
-    background-color: theme('border-color');
-  }
-}
-</style>

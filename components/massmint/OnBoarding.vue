@@ -57,7 +57,7 @@
               :source="
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
-              class="fixed-height white-space-break-spaces-mobile"
+              class="h-[180px] max-w-[678px] overflow-auto white-space-break-spaces-mobile"
             />
             <div class="flex justify-end mt-2">
               <NeoButton
@@ -267,11 +267,6 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
       }
     }
   }
-}
-
-.fixed-height {
-  height: 180px;
-  overflow-y: auto;
 }
 
 .carousel-dot {
