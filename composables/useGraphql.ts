@@ -9,7 +9,7 @@ type UseGraphqlParams<T> = {
   queryPrefix?: string
   queryName: string
   clientName?: string | ComputedRef<string>
-  variables?: Record<string, unknown> | ComputedRef<Record<string, unknown>>
+  variables?: MaybeRef<Record<string, unknown>>
   disabled?: ComputedRef<boolean>
   data?: Ref<T | undefined>
   error?: Ref<unknown>
@@ -26,6 +26,9 @@ export default function<T = unknown>({
   error = ref(),
   loading = ref(true),
 }: UseGraphqlParams<T>) {
+  const dynamicVariablesWatcher = ref()
+  const fetched = ref(false)
+
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
 
@@ -42,12 +45,13 @@ export default function<T = unknown>({
       const { data: result } = await useAsyncQuery<T>({
         query: query.default,
         variables: {
-          ...variables,
+          ...unref(variables),
           ...extraVariables,
         },
-        clientId: isRef(client) ? String(client.value) : client,
+        clientId: unref(client),
       })
       data.value = result.value
+      fetched.value = true
     }
     catch (err) {
       ;(error.value as unknown) = err
@@ -65,17 +69,31 @@ export default function<T = unknown>({
     })
   }
 
-  if (!disabled.value) {
-    if (isRef(variables)) {
-      watchEffect(() => doFetch())
-    }
-    else {
-      doFetch()
+  const watchRefVariables = () => {
+    if (!dynamicVariablesWatcher.value) {
+      dynamicVariablesWatcher.value = watchEffect(() => {
+        if (!disabled.value) {
+          refetch(unref(variables))
+        }
+      })
     }
   }
 
+  const fetchWatcher = watchEffect(() => {
+    if (fetched.value) {
+      return fetchWatcher()
+    }
+
+    if (isRef(variables)) {
+      watchRefVariables()
+    }
+    else if (!disabled.value) {
+      doFetch()
+    }
+  })
+
   return {
-    data: data,
+    data,
     error,
     refetch,
     loading,

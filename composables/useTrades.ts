@@ -62,7 +62,7 @@ export type TradeNftItem<T = Trade> = T & {
   isEntireCollectionDesired: boolean
 }
 
-export const TRADES_QUERY_MAP: Record<TradeType, { queryName: string, dataKey: string }> = {
+export const TRADES_QUERY_MAP: Record<TradeType, { queryName: string, dataKey: 'swaps' | 'offers' }> = {
   [TradeType.SWAP]: {
     queryName: 'swapsList',
     dataKey: 'swaps',
@@ -92,10 +92,9 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   const {
     data,
     loading: fetching,
-    refetch,
-  } = useGraphql<{ offers: BaseTrade[] }>({
+  } = useGraphql<{ offers: Offer[] } | { swpas: Swap[] }>({
     queryName,
-    variables: variables.value,
+    variables,
     disabled,
   })
 
@@ -126,17 +125,8 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     getCurrentBlock().then(b => currentBlock.value = b)
   }
 
-  if (isRef(where)) {
-    watch([where, disabled], () => {
-      if (!disabled.value) {
-        refetch(variables.value)
-      }
-    })
-  }
-
   return {
     items,
-    refetch,
     loading,
   }
 }
