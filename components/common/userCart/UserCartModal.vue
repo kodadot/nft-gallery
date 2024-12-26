@@ -2,6 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
+      ref="signingModal"
       :title="signingTitle"
       :is-loading="isLoading"
       :status="status"
@@ -77,7 +78,7 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import type { Actions } from '@/composables/transaction/types'
+import type { Actions, Abi } from '@/composables/transaction/types'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -85,7 +86,7 @@ import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/a
 
 export type UserCartModalExpose = {
   items: ListCartItem[]
-  abi: any
+  abi: Abi
 }
 
 const emit = defineEmits(['reset'])
@@ -105,6 +106,7 @@ const props = withDefaults(defineProps<{
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 
+const signingModal = ref<{ isModalActive: boolean }>()
 const items = ref<ListCartItem[]>([])
 
 const { $i18n } = useNuxtApp()
@@ -114,28 +116,33 @@ const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
 const { isEvm } = useIsChain(urlPrefix)
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
-  getActionFn: props.getAction,
-})
-
 const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.open && preferencesStore.userCartModal?.mode === props.mode))
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
+const hasAbi = computed(() => isEvm.value ? Boolean(abi.value) : true)
+const actionDisabled = computed(() => !hasAbi.value || Boolean(signingModal.value?.isModalActive))
 
-const actions = computed<AutoTeleportAction[]>(() => isModalActive.value
-  ? [
-      {
-        action: action.value,
-        transaction,
-        details: {
-          isLoading: isLoading.value,
-          status: status.value,
-          isError: isError.value,
-          blockNumber: blockNumber.value,
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, isActionReady } = useAutoTeleportActionButton({
+  getActionFn: props.getAction,
+  disabled: actionDisabled,
+})
+
+const actions = computed<AutoTeleportAction[]>(() =>
+  isModalActive.value && isActionReady.value
+    ? [
+        {
+          action: action.value,
+          transaction,
+          details: {
+            isLoading: isLoading.value,
+            status: status.value,
+            isError: isError.value,
+            blockNumber: blockNumber.value,
+          },
         },
-      },
-    ]
-  : [])
+      ]
+    : [],
+)
 
 const loadingAbi = computed(() => (isEvm.value ? !abi.value : false))
 const loading = computed(() => (!autoTeleportLoaded.value || props.loading || loadingAbi.value))

@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-container flex py-1 px-2 justify-between items-center">
+  <div class="tag-container flex py-1 px-2 justify-between items-center bg-background-color text-text-color border-k-shade">
     <span
       v-if="isInLessThan24Hours && !isMintingLive"
       class="mr-2 capitalize"
@@ -49,20 +49,3 @@ const displayText = computed(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-.tag-container {
-  @include ktheme() {
-    border-color: theme('k-shade');
-    background-color: theme('background-color');
-    color: theme('text-color');
-  }
-}
-
-@include until-widescreen {
-  .unlockable-container {
-    max-width: 100%;
-  }
-}
-</style>

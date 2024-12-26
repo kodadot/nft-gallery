@@ -605,6 +605,8 @@
     "offer": "Offer",
     "onlyVerifiedIdentities": "Only Verified Identities",
     "sale": "Sale",
+    "tradeCollection": "Only Collection {0}",
+    "tradeType": "{0} Type",
     "transfer": "Transfer",
     "verified": "Verified"
   },
@@ -1058,6 +1060,7 @@
   "markdownSupported": "Markdown supported",
   "massmint": {
     "areYouSureDelete": "Are you sure you want to delete",
+    "attributesMissing": "Attributes Missing",
     "backToOnbaording": "Back To Onboarding",
     "cancel": "Cancel",
     "cantMintNote": "NOTE: You cannot mint unless you fill in the required information or delete incomplete files.",
