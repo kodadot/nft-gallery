@@ -4,6 +4,7 @@ import { isValidEntry, removeQuotes, validFileExtension } from './common'
 
 const DEFAULT_CSV_HEADERS = ['file', 'name', 'description', 'attributes', 'price']
 
+const LINE_SEPARATOR = ','
 const ATTRIBUTE_SEPARATOR = ';'
 const ATTRIBUTE_KEY_VALUE_SEPARATOR = ':'
 
@@ -11,7 +12,7 @@ function processCsvLines(lines: string[], csvHeaders: string[]): Record<string, 
   const entries: Record<string, Entry> = {}
 
   for (const line of lines) {
-    const values = line.split(',').map(value => removeQuotes(value.trim()))
+    const values = line.split(LINE_SEPARATOR).map(value => removeQuotes(value.trim()))
     const entry: Partial<Entry> = {
       file: undefined,
       name: undefined,
