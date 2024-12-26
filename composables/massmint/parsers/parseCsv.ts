@@ -4,6 +4,9 @@ import { isValidEntry, removeQuotes, validFileExtension } from './common'
 
 const DEFAULT_CSV_HEADERS = ['file', 'name', 'description', 'attributes', 'price']
 
+const ATTRIBUTE_SEPARATOR = ';'
+const ATTRIBUTE_KEY_VALUE_SEPARATOR = ':'
+
 function processCsvLines(lines: string[], csvHeaders: string[]): Record<string, Entry> {
   const entries: Record<string, Entry> = {}
 
@@ -26,8 +29,8 @@ function processCsvLines(lines: string[], csvHeaders: string[]): Record<string, 
         if (value) {
           const attributes: OpenSeaAttribute[] = []
           const attrs: Record<string, string> = {}
-          value.split(';').forEach((attr) => {
-            const [key, val] = attr.split(':')
+          value.split(ATTRIBUTE_SEPARATOR).forEach((attr) => {
+            const [key, val] = attr.split(ATTRIBUTE_KEY_VALUE_SEPARATOR)
             if (key && val)
               attrs[key.trim()] = val.trim()
             attributes.push({
