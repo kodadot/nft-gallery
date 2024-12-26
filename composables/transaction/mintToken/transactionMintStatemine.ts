@@ -125,7 +125,9 @@ const getArgs = async (item: ActionMintToken, api: ApiPromise) => {
     tokenSymbol,
   )
 
-  const tokenTxsArgs = Array.isArray(item.token)
+  const isMultipleTokens = Array.isArray(item.token) && item.token.length > 1
+
+  const tokenTxsArgs = isMultipleTokens
     ? await handleMultipleTokens(item, api)
     : await handleSingleToken(item, api)
 

@@ -51,19 +51,12 @@ const autoClose = computed(() => !props.noToast)
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .message-box {
+  @apply shadow-[4px_4px] bg-background-color border border-border-color;
   max-width: 500px;
 
   &--toast {
     @apply z-[100] fixed mx-auto rounded-none right-0 top-[100px] #{!important};
-  }
-
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    background-color: theme('background-color');
-    border: 1px solid theme('border-color');
   }
 
   .message-body {

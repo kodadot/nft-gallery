@@ -6,7 +6,7 @@
       class="flex gap-4 items-center"
     >
       <BaseMediaItem
-        class="image is-32x32"
+        class="image size-8"
         :class="imageClass"
         :alt="name"
         :src="image"
