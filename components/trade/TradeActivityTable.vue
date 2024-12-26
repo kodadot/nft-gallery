@@ -135,7 +135,7 @@ const where = computed(() => {
   return { id_in: id_in.flat() }
 })
 
-const { items: trades, loading: loadingTrades } = useTrades({ where, disabled: computed(() => !tradeIds.value), type: props.type })
+const { items: trades, loading: loadingTrades } = useTrades({ where, disabled: computed(() => !Object.keys(where.value).length), type: props.type })
 
 watch(activeTab, value => replaceUrl({ filter: value }))
 
