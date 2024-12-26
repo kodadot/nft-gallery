@@ -130,3 +130,17 @@
     border: 0 solid currentColor;
   }
 }
+
+@layer utilities {
+  .text-shadow-border {
+    text-shadow: 1px 1px 0 rgb(var(--text-color)),
+                1px -1px 0 rgb(var(--text-color)),
+                -1px 1px 0 rgb(var(--text-color)),
+                -1px -1px 0 rgb(var(--text-color)),
+                1px 0px 0 rgb(var(--text-color)),
+                0px 1px 0 rgb(var(--text-color)),
+                -1px 0px 0 rgb(var(--text-color)),
+                0px -1px 0 rgb(var(--text-color)),
+                4px 4px rgb(var(--text-color));
+  }
+}
