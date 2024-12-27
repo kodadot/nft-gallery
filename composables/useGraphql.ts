@@ -49,14 +49,12 @@ export default function<T = unknown>({
     enabled,
   })
 
-  async function doFetch({
-    variables: extraVariables = {},
-  }: DoFetchParams = {}) {
+  const doFetch = async ({ variables: extraVariables }: DoFetchParams = {}) => {
     queryVariables.value = { ...unref(variables), ...extraVariables }
     refetchQuery()
   }
 
-  async function refetch(variables: Record<string, unknown> = {}) {
+  const refetch = async (variables?: Variables) => {
     await doFetch({ variables })
   }
 
