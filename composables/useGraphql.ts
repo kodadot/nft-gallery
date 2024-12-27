@@ -17,6 +17,7 @@ export default function<T = unknown>({
   variables = {},
   disabled = computed(() => false),
 }: UseGraphqlParams) {
+  const currentRequestId = ref(0) // simple solution to ensure only the latest query result updates the state.
   const loading = ref(true)
   const data = ref()
 
@@ -29,13 +30,18 @@ export default function<T = unknown>({
   const doFetch = async (variables: Variables) => {
     try {
       loading.value = true
+      const requestId = ++currentRequestId.value
+
       const response = await useAsyncGraphql<T>({
         query: queryName,
         variables,
         clientId: clientName ? unref(clientName) : undefined,
         prefix: prefix,
       })
-      data.value = response.data.value
+
+      if (currentRequestId.value === requestId) {
+        data.value = response.data.value
+      }
     }
     catch (err) {
       dangerMessage(`${err as string}`)
