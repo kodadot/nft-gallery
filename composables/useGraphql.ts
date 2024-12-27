@@ -23,7 +23,7 @@ export default function<T = unknown>({
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
   const prefix = queryPrefix || clientPrefix.value
-  const queryKey = computed(() => [prefix, queryName, JSON.stringify(variables.value)].join('-'))
+  const queryKey = computed(() => [prefix, queryName, JSON.stringify(cloneRawObject(variables))].join('-'))
   const enabled = computed(() => !unref(disabled))
 
   const doFetch = async (variables: Variables) => {
