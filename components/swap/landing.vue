@@ -37,19 +37,19 @@
       <form @submit.prevent="handleSubmit">
         <AddressInput
           v-model="traderAddress"
+          :is-invalid="isYourAddress"
           placeholder="Enter wallet address"
-          :strict="false"
-          empty-on-error
           with-address-check
+          @check="handleAddressCheck"
         />
 
         <NeoButton
           type="submit"
-          :label="$t('swap.beginSwap')"
+          :label="label"
           size="large"
           class="text-base my-5 capitalize"
           expanded
-          :disabled="traderAddress === '' || traderAddress === accountId"
+          :disabled="disabled"
           native-type="submit"
           variant="primary"
         />
@@ -61,9 +61,36 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 
-const { accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
+const { $i18n } = useNuxtApp()
 
 const traderAddress = ref('')
+const isTraderAddressValid = ref(false)
+const isYourAddress = ref(false)
+
+const isAddressEmpty = computed(() => !traderAddress.value)
+const disabled = computed(() => isAddressEmpty.value || isYourAddress.value || !isTraderAddressValid.value)
+
+const label = computed(() => {
+  if (isYourAddress.value) {
+    return $i18n.t('swap.cantSwapWithYourself')
+  }
+
+  if (isAddressEmpty.value) {
+    return $i18n.t('transaction.inputAddressFirst')
+  }
+
+  if (!isTraderAddressValid.value) {
+    return $i18n.t('transaction.addressIncorrect')
+  }
+
+  return $i18n.t('swap.beginSwap')
+})
+
+const handleAddressCheck = (isValid: boolean) => {
+  isTraderAddressValid.value = isValid
+  isYourAddress.value = isTraderAddressValid.value ? isCurrentOwner(traderAddress.value) : false
+}
 
 const handleSubmit = async () => {
   await navigateTo({ name: 'prefix-swap-id', params: { id: traderAddress.value } })

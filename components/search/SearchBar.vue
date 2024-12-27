@@ -60,16 +60,8 @@
     <img
       v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': name || inputFocused }"
-      src="~/assets/svg/search-k-keyboard.svg"
-      alt="press k to focus search input"
-    >
-    <img
-      v-if="!isTouchDevice"
-      class="search-bar-keyboard-icon"
-      :class="{ 'is-invisible': !name && !inputFocused }"
-      src="~/assets/svg/k-search-enter.svg"
-      alt="press enter to start search"
+      :src="desktopKeyboardIcon.src"
+      :alt="desktopKeyboardIcon.alt"
     >
   </div>
 </template>
@@ -80,6 +72,8 @@ import type { PropType } from 'vue'
 import type { SearchQuery } from './types'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
+import SearchKKeyboard from '@/assets/svg/search-k-keyboard.svg'
+import SearchKEnter from '@/assets/svg/k-search-enter.svg'
 
 const isTouchDevice = 'ontouchstart' in document.documentElement
 
@@ -116,6 +110,7 @@ const placeholderContent = computed(() =>
 )
 
 const showDefaultSuggestions = computed(() => isAssetHub.value)
+const desktopKeyboardIcon = computed(() => name.value || inputFocused.value ? { src: SearchKEnter, alt: 'press enter to start search' } : { src: SearchKKeyboard, alt: 'press k to focus search input' })
 
 function exitCollectionSearch() {
   if (isCollectionSearchMode.value && !name.value) {
