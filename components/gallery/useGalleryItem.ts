@@ -64,8 +64,12 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     },
   })
 
-  const refreshToken = async () => {
+  const getIndexerToken = () => {
     refetch({ id })
+  }
+
+  const refreshToken = async () => {
+    getIndexerToken()
     getOdaToken()
   }
 
@@ -120,7 +124,8 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
         id
       }
     }`,
-    onChange: refetch,
+    onChange: getIndexerToken,
+    immediate: false,
   })
 
   useSubscriptionGraphql({
