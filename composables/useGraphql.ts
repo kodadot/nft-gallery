@@ -1,16 +1,10 @@
 import type { ComputedRef } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
 
 type Variables = Record<string, unknown>
 
-interface DoFetchParams {
-  variables?: Variables
-  override?: boolean
-}
-
 type UseGraphqlParams = {
-  queryPrefix?: string
   queryName: string
+  queryPrefix?: string
   clientName?: MaybeRef<string>
   variables?: MaybeRef<Variables>
   disabled?: ComputedRef<boolean>
@@ -20,53 +14,55 @@ export default function<T = unknown>({
   queryName,
   queryPrefix,
   clientName,
-  variables: queryVariables = {},
+  variables = {},
   disabled = computed(() => false),
 }: UseGraphqlParams) {
-  const variables = ref()
+  const loading = ref(true)
+  const data = ref()
+
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
-
   const prefix = queryPrefix || clientPrefix.value
+  const queryKey = computed(() => [prefix, queryName, JSON.stringify(variables.value)].join('-'))
+  const enabled = computed(() => !unref(disabled))
 
-  const { data, refetch: refetchQuery, isLoading: loading } = useQuery({
-    queryKey: [prefix, queryName, computed(() => JSON.stringify(variables.value))],
-    enabled: computed(() => !unref(disabled) && Boolean(variables.value)),
-    queryFn: async () => {
-      try {
-        const response = await useAsyncGraphql<T>({
-          query: queryName,
-          variables: variables.value,
-          clientId: clientName ? unref(clientName) : undefined,
-          prefix: prefix,
-        })
-
-        return response.data.value
-      }
-      catch (err) {
-        dangerMessage(`${err as string}`)
-        $consola.error(err)
-      }
-    },
-  })
-
-  const doFetch = async ({ variables: extraVariables, override = false }: DoFetchParams = {}) => {
-    variables.value = {
-      ...(override ? {} : cloneRawObject(queryVariables)),
-      ...extraVariables,
+  const doFetch = async (variables: Variables) => {
+    try {
+      loading.value = true
+      const response = await useAsyncGraphql<T>({
+        query: queryName,
+        variables,
+        clientId: clientName ? unref(clientName) : undefined,
+        prefix: prefix,
+      })
+      data.value = response.data.value
     }
-    refetchQuery()
+    catch (err) {
+      dangerMessage(`${err as string}`)
+      $consola.error(err)
+    }
+    finally {
+      loading.value = false
+    }
   }
 
-  const refetch = async (variables?: Variables) => {
-    await doFetch({ variables })
+  const refetch = async ({ variables: extraVariables, override = false }: {
+    variables?: Variables
+    override?: boolean
+  } = {}) => {
+    await doFetch(
+      {
+        ...(override ? {} : cloneRawObject(variables)),
+        ...extraVariables,
+      },
+    )
   }
 
-  watchEffect(() => {
-    if (!disabled.value) {
-      variables.value = cloneRawObject(queryVariables)
+  watch([enabled, queryKey], async ([enabled]) => {
+    if (enabled) {
+      await doFetch(cloneRawObject(variables))
     }
-  })
+  }, { immediate: true })
 
   return {
     data,
