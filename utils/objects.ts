@@ -24,3 +24,5 @@ export const getMovedItemToFront = (
 
   return newArr
 }
+
+export const cloneRawObject = <T>(obj: MaybeRef<T>) => structuredClone(toRaw(unref(obj)))

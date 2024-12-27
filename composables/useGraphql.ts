@@ -5,6 +5,7 @@ type Variables = Record<string, unknown>
 
 interface DoFetchParams {
   variables?: Variables
+  override?: boolean
 }
 
 type UseGraphqlParams = {
@@ -17,40 +18,43 @@ type UseGraphqlParams = {
 
 export default function<T = unknown>({
   queryName,
-  queryPrefix = undefined,
-  clientName = undefined,
-  variables = {},
+  queryPrefix,
+  clientName,
+  variables: queryVariables = {},
   disabled = computed(() => false),
 }: UseGraphqlParams) {
+  const variables = ref()
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
 
   const prefix = queryPrefix || clientPrefix.value
 
-  const queryVariables = ref()
-  const enabled = computed(() => !unref(disabled) && Boolean(queryVariables.value))
-
   const { data, refetch: refetchQuery, isLoading: loading } = useQuery({
-    queryKey: [prefix, queryName, computed(() => JSON.stringify(queryVariables.value))],
+    queryKey: [prefix, queryName, computed(() => JSON.stringify(variables.value))],
+    enabled: computed(() => !unref(disabled) && Boolean(variables.value)),
     queryFn: async () => {
       try {
-        return (await useAsyncGraphql<T>({
+        const response = await useAsyncGraphql<T>({
           query: queryName,
-          variables: queryVariables.value,
+          variables: variables.value,
           clientId: clientName ? unref(clientName) : undefined,
           prefix: prefix,
-        })).data.value
+        })
+
+        return response.data.value
       }
       catch (err) {
         dangerMessage(`${err as string}`)
         $consola.error(err)
       }
     },
-    enabled,
   })
 
-  const doFetch = async ({ variables: extraVariables }: DoFetchParams = {}) => {
-    queryVariables.value = { ...unref(variables), ...extraVariables }
+  const doFetch = async ({ variables: extraVariables, override = false }: DoFetchParams = {}) => {
+    variables.value = {
+      ...(override ? {} : cloneRawObject(queryVariables)),
+      ...extraVariables,
+    }
     refetchQuery()
   }
 
@@ -60,7 +64,7 @@ export default function<T = unknown>({
 
   watchEffect(() => {
     if (!disabled.value) {
-      queryVariables.value = structuredClone(toRaw(unref(variables)))
+      variables.value = cloneRawObject(queryVariables)
     }
   })
 

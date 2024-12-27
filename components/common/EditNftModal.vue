@@ -139,7 +139,7 @@ watch(isModalActive, (value) => {
     initImage()
     name.value = props.metadata?.name
     description.value = props.metadata?.description
-    attributes.value = structuredClone(toRaw(props.metadata?.attributes || []))
+    attributes.value = cloneRawObject(props.metadata?.attributes || [])
   }
 })
 </script>
