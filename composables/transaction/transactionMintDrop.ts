@@ -67,14 +67,14 @@ async function execEvmMintDrop({ executeTransaction }: EvmMintDropParams) {
 }
 
 export function execMintDrop({ item, ...params }: MintDropParams) {
-  if (item.prefix === 'ahk' || item.prefix === 'ahp') {
+  if (isAssetHub(item.urlPrefix)) {
     return execAssethubMintDrop({
       item,
       ...params,
     } as SubstrateMintDropParams)
   }
 
-  if (isEvm(item.prefix)) {
+  if (isEvm(item.urlPrefix)) {
     return execEvmMintDrop({
       item,
       ...params,

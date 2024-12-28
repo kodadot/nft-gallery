@@ -42,7 +42,7 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image is-24x24 z-[18]"
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
     >
       <NeoIcon
         icon="image"
@@ -223,7 +223,6 @@ defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);
@@ -239,19 +238,14 @@ defineExpose({ isLewdBlurredLayer, toggleFullscreen })
     }
   }
   .nsfw-action {
+    @apply text-text-color bg-background-color;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 1.25rem;
-    @include ktheme() {
-      color: theme('text-color') !important;
-      background: theme('background-color') !important;
-    }
+
     &.hide {
-      @include ktheme() {
-        color: theme('background-color') !important;
-        background: theme('text-color') !important;
-      }
+      @apply text-text-color bg-background-color;
     }
   }
 }

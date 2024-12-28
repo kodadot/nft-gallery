@@ -30,7 +30,7 @@
               :trade="trade"
             />
             <TradeOverviewModalTypeOffer
-              v-if="trade.type === TradeType.OFFER"
+              v-if="trade.type === TradeType.OFFER && nft.desired"
               :desired="nft.desired"
               :trade="trade"
             />
@@ -72,12 +72,10 @@ type Details = {
   transactionSuccessTab: string
 }
 
-type TradeNFTs = { desired: NFT, offered: NFT }
+type TradeNFTs = { desired?: NFT, offered: NFT }
 
 type ExecTxParams = {
   trade: TradeNftItem
-  desired: NFT
-  offered: NFT
 }
 
 const emit = defineEmits(['close'])
@@ -104,8 +102,8 @@ const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, Overv
     },
     owner: {
       title: $i18n.t('swap.yourSwap'),
-      signingTitle: $i18n.t('transaction.withdrawSwap'),
-      notificationTitle: $i18n.t('swap.swapWithdrawl'),
+      signingTitle: $i18n.t('transaction.cancelSwap'),
+      notificationTitle: $i18n.t('swap.swapCancellation'),
     },
   },
   [TradeType.OFFER]: {
@@ -116,8 +114,8 @@ const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, Overv
     },
     owner: {
       title: $i18n.t('offer.yourOffer'),
-      signingTitle: $i18n.t('transaction.withdrawOffer'),
-      notificationTitle: $i18n.t('offer.offerWithdrawl'),
+      signingTitle: $i18n.t('transaction.cancelOffer'),
+      notificationTitle: $i18n.t('offer.offerCancellation'),
     },
   },
 }
@@ -135,57 +133,55 @@ const TradeTypeDetails: Record<TradeType, Details> = {
 
 const TradeTypeTx: Record<TradeType, Record<OverviewMode, (params: ExecTxParams) => void>> = {
   [TradeType.SWAP]: {
-    owner: ({ offered }) => {
+    owner: ({ trade }) => {
       transaction({
-        interaction: ShoppingActions.WITHDRAW_SWAP,
+        interaction: ShoppingActions.CANCEL_SWAP,
         urlPrefix: urlPrefix.value,
-        offeredId: offered.sn,
-        offeredCollectionId: offered.collection.id,
+        offeredId: trade.offered.sn,
+        offeredCollectionId: trade.offered.collection.id,
       })
     },
-    incoming: ({ offered, desired, trade }) => {
+    incoming: ({ trade }) => {
       transaction({
         interaction: ShoppingActions.ACCEPT_SWAP,
         urlPrefix: urlPrefix.value,
-        receiveItem: offered.sn,
-        receiveCollection: offered.collection.id,
-        sendCollection: desired.collection.id,
-        sendItem: desired.sn,
+        receiveItem: trade.offered.sn,
+        receiveCollection: trade.offered.collection.id,
+        sendCollection: trade.considered.id,
+        sendItem: trade.desired?.sn,
         price: trade.price,
         surcharge: (trade as TradeNftItem<Swap>).surcharge,
       })
     },
   },
   [TradeType.OFFER]: {
-    owner: ({ offered }) => {
+    owner: ({ trade }) => {
       transaction({
-        interaction: ShoppingActions.WITHDRAW_OFFER,
+        interaction: ShoppingActions.CANCEL_OFFER,
         urlPrefix: urlPrefix.value,
-        offeredId: offered.sn,
+        offeredId: trade.offered.sn,
       })
     },
-    incoming: ({ offered, desired, trade }) => {
+    incoming: ({ trade }) => {
       transaction({
         interaction: ShoppingActions.ACCEPT_OFFER,
         urlPrefix: urlPrefix.value,
-        offeredId: offered.sn,
-        nftId: desired.sn,
-        collectionId: desired.collection.id,
+        receiveItem: trade.offered.sn,
+        sendCollection: trade.considered.id,
+        sendItem: trade.desired?.sn,
         price: trade.price,
       })
     },
   },
 }
 
-const nftId = computed(() => props.trade?.desired.id)
-const offeredItemId = computed(() => props.trade?.offered.id)
-const offeredItemSn = computed(() => props.trade?.offered.sn)
+const trade = computed(() => props.trade)
 
 const details = computed<Details & OverviewModeDetails>(() =>
-  props.trade
+  trade.value
     ? {
-        ...TradeTypeDetails[props.trade.type],
-        ...TradeTypeOverviewModeDetails[props.trade.type][mode.value],
+        ...TradeTypeDetails[trade.value.type],
+        ...TradeTypeOverviewModeDetails[trade.value.type][mode.value],
       }
     : {
         title: '',
@@ -195,33 +191,40 @@ const details = computed<Details & OverviewModeDetails>(() =>
         transactionSuccessTab: '',
       })
 
-const { data: nft, pending: nftLoading } = await useAsyncData<TradeNFTs | null>(`tarde-nft-id-${nftId.value}`, async () => {
-  if (!nftId.value) {
+const { data: nft, pending: nftLoading } = await useAsyncData<TradeNFTs | null>(`tarde-nft-id-${trade.value?.id}`, async () => {
+  if (!trade.value) {
     return null
   }
 
-  const [desired, offered] = await Promise.all([
+  const promises = [
     useAsyncQuery<{ nftEntity: NFT }>({
       query: nftById,
       variables: {
-        id: nftId.value,
+        id: trade.value.offered.id,
       },
       clientId: client.value,
     }),
-    useAsyncQuery<{ nftEntity: NFT }>({
-      query: nftById,
-      variables: {
-        id: offeredItemId.value,
-      },
-      clientId: client.value,
-    }),
-  ])
+  ]
+
+  if (trade.value.desired) {
+    promises.push(
+      useAsyncQuery<{ nftEntity: NFT }>({
+        query: nftById,
+        variables: {
+          id: trade.value.desired.id,
+        },
+        clientId: client.value,
+      }),
+    )
+  }
+
+  const [offered, desired] = await Promise.all(promises)
 
   return {
-    desired: desired.data.value.nftEntity,
-    offered: offered.data.value.nftEntity,
+    offered: offered.data.value?.nftEntity,
+    desired: desired?.data.value?.nftEntity,
   }
-}, { watch: [nftId, offeredItemId] })
+}, { watch: [trade] })
 
 const loading = computed(() => nftLoading.value || !nft.value)
 
@@ -231,16 +234,14 @@ const onClose = () => {
 }
 
 const execTransaction = () => {
-  if (!offeredItemSn.value || !nft.value || !props.trade) {
+  if (!nft.value || !trade.value) {
     return
   }
 
   vModel.value = false
 
-  TradeTypeTx[props.trade.type][mode.value]({
+  TradeTypeTx[trade.value.type][mode.value]({
     trade: props.trade,
-    desired: nft.value.desired,
-    offered: nft.value.offered,
   } as ExecTxParams)
 }
 

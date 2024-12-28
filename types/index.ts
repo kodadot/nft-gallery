@@ -1,6 +1,5 @@
-import type { Attribute } from '@kodadot1/minimark/common'
-import type { Prefix } from '@kodadot1/static'
 import type { TokenMetadata, CollectionMetadata as CollectionMeta } from '@kodadot1/hyperdata'
+import type { Prefix } from '@kodadot1/static'
 
 // TODO: remove this
 export interface Metadata<T = TokenMetadata> {

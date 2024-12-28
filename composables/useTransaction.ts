@@ -9,9 +9,9 @@ import {
   execBurnCollection,
   execBurn,
 } from './transaction/transactionBurn'
-import { execWithdrawSwap } from './transaction/transactionSwapWithdraw'
+import { execCancelSwap } from './transaction/transactionSwapCancel'
 import { execAcceptSwap } from './transaction/transactionSwapAccept'
-import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
+import { execCancelOffer } from './transaction/transactionOfferCancel'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMakingOfferTx } from './transaction/transactionOffer'
 import { execCreateSwap } from './transaction/transactionCreateSwap'
@@ -33,13 +33,13 @@ import type {
   ActionSend,
   ActionUpdateCollection,
   ActionSetNftMetadata,
-  ActionWithdrawOffer,
+  ActionCancelOffer,
   Actions,
   ExecuteEvmTransactionParams,
   ExecuteSubstrateTransactionParams,
   ExecuteTransactionParams,
   ObjectMessage,
-  ActionWithdrawSwap,
+  ActionCancelSwap,
   ActionAcceptSwap,
 } from './transaction/types'
 import { Collections, NFTs } from './transaction/types'
@@ -231,12 +231,12 @@ export const executeAction = ({
       execSendTx(item as ActionSend, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
       execBurn(item as ActionConsume, api, executeTransaction),
-    [ShoppingActions.WITHDRAW_SWAP]: () =>
-      execWithdrawSwap(item as ActionWithdrawSwap, api!, executeTransaction),
+    [ShoppingActions.CANCEL_SWAP]: () =>
+      execCancelSwap(item as ActionCancelSwap, api!, executeTransaction),
     [ShoppingActions.ACCEPT_SWAP]: () =>
       execAcceptSwap(item as ActionAcceptSwap, api!, executeTransaction),
-    [ShoppingActions.WITHDRAW_OFFER]: () =>
-      execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
+    [ShoppingActions.CANCEL_OFFER]: () =>
+      execCancelOffer(item as ActionCancelOffer, api, executeTransaction),
     [ShoppingActions.ACCEPT_OFFER]: () =>
       execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
     [ShoppingActions.MAKE_OFFER]: () =>
@@ -302,7 +302,7 @@ export const executeAction = ({
     $consola.warn(`Invalid action: ${JSON.stringify(item)}`)
     throw createError({
       statusCode: 404,
-      statusMessage: 'Interaction Not Found',
+      statusMessage: `Invalid ${item.interaction} action`,
     })
   }
 

@@ -40,8 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, withDefaults } from 'vue'
-
 import TheImage from '../../TheImage/TheImage.vue'
 import type {
   ImageComponent,
@@ -84,7 +82,7 @@ const loading = computed<'eager' | 'lazy'>(() =>
 
 const className = computed(() =>
   (!props.original && !props.isFullscreen
-    ? 'object-contain absolute inset-0 w-full h-full !rounded-none'
+    ? 'object-contain absolute inset-0 w-full max-h-full !rounded-none'
     : 'block !rounded-none') + ` ${props.innerClass}`,
 )
 

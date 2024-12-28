@@ -21,20 +21,22 @@ const onClick = () => emit('click', props.trade)
 
 const details = {
   [TradeType.SWAP]: {
-    cancel: 'transaction.withdrawSwap',
+    cancel: 'transaction.cancelSwap',
     accept: 'transaction.acceptSwap',
+    withdraw: 'swap.withdrawSwap',
   },
   [TradeType.OFFER]: {
-    cancel: 'transaction.withdrawOffer',
+    cancel: 'transaction.cancelOffer',
     accept: 'transaction.acceptOffer',
+    withdraw: 'offer.withdrawOffer',
   },
 }
 
 const buttonConfig = computed<ButtonConfig | null>(() => {
-  if (props.trade.status === 'EXPIRED') {
+  if (props.trade.status === TradeStatus.EXPIRED) {
     return isCreatorOfTrade.value
       ? {
-          label: $i18n.t('offer.withdrawAmount'),
+          label: $i18n.t(details[props.trade.type].withdraw),
           onClick,
         }
       : null

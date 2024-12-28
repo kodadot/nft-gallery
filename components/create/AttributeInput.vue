@@ -3,6 +3,7 @@
     <NeoButton
       v-if="!disabled"
       no-shadow
+      class="self-center"
       size="medium"
       icon-left="times"
       data-testid="attribute-button-remove"

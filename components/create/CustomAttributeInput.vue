@@ -2,6 +2,7 @@
   <CollapseWrapper
     :visible="visible"
     :hidden="hidden"
+    :default-open="defaultOpen"
   >
     <div
       v-for="(attribute, index) in attributes"
@@ -30,9 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Attribute } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import { NeoButton } from '@kodadot1/brick'
-import AttributeInput from './AttributeInput.vue'
+import AttributeInput from '@/components/create/AttributeInput.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -40,12 +41,14 @@ const props = withDefaults(
     max: number
     visible?: string
     hidden?: string
+    defaultOpen?: boolean
   }>(),
   {
     max: 0,
     visible: 'collapse.collection.attributes.show',
     hidden: 'collapse.collection.attributes.hide',
     modelValue: () => [],
+    defaultOpen: false,
   },
 )
 
@@ -57,14 +60,14 @@ const disabled = computed(
 
 const addAttribute = () => {
   if (!props.max || attributes.value.length < props.max) {
-    attributes.value.push({
+    attributes.value = [...attributes.value, {
       value: '',
       trait_type: '',
-    })
+    }]
   }
 }
 
-const removeAttribute = (index: number) => attributes.value.splice(index, 1)
+const removeAttribute = (index: number) => attributes.value = attributes.value.filter((_, i) => i !== index)
 </script>
 
 <style scoped>

@@ -9,8 +9,8 @@
         :expanded="expanded"
         :class="{
           'modal-wrapper-button__right': isRight,
-          'is-invisible': isButtonHidden,
-          'is-squared': isSquared,
+          'invisible': isButtonHidden,
+          'size-9': isSquared,
         }"
         :variant="variant"
         no-shadow
@@ -45,19 +45,22 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
-    label: string
+    label?: string
     title: string
     icon: string
     type?: string
-    expanded: boolean
-    isRight: boolean
+    expanded?: boolean
+    isRight?: boolean
     id: string
     isButtonHidden: boolean
   }>(),
   {
+    label: undefined,
     type: undefined,
     id: '',
     isButtonHidden: false,
+    isRight: false,
+    expanded: false,
   },
 )
 
@@ -73,9 +76,5 @@ const variant = computed(() => (isSquared.value ? 'border-icon' : undefined))
 <style scoped lang="scss">
 .modal-wrapper-button__right {
   float: right;
-}
-.is-squared {
-  width: 36px;
-  height: 36px;
 }
 </style>

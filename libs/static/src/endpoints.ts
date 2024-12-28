@@ -21,6 +21,7 @@ const POLKADOT_ENDPOINTS: WS_URL[] = [
 ]
 
 const AHP_ENDPOINTS: WS_URL[] = [
+  'wss://statemint.api.onfinality.io/public-ws',
   'wss://polkadot-asset-hub-rpc.polkadot.io',
   'wss://sys.ibp.network/statemint',
   'wss://statemint-rpc.dwellir.com',

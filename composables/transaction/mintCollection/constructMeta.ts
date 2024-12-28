@@ -1,4 +1,4 @@
-import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
+import { createOpenSeaMetadata as createMetadata, protocolize } from '@kodadot1/hyperdata'
 import type { ActionMintCollection } from '../types'
 import { pinJson } from '@/services/nftStorage'
 import { uploadDirect } from '@/utils/directUpload'
@@ -28,5 +28,5 @@ export async function constructMeta(item: ActionMintCollection) {
     uploadDirect(file, imageHash).catch($consola.warn)
   }
 
-  return unSanitizeIpfsUrl(metaHash)
+  return protocolize(metaHash)
 }
