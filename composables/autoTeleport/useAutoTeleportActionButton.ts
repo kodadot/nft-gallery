@@ -1,8 +1,14 @@
 import type { Actions } from '@/composables/transaction/types'
 
+type AutoTeleportActionButtonParams<T> = {
+  getActionFn: () => T
+  disabled?: MaybeRef<boolean>
+}
+
 export default <T = Actions>({
   getActionFn,
-}) => {
+  disabled = false,
+}: AutoTeleportActionButtonParams<T>) => {
   const { decimals, chainSymbol } = useChain()
 
   const autoTeleport = ref(false)
@@ -11,6 +17,7 @@ export default <T = Actions>({
   const action = ref<T>(emptyObject<T>())
 
   const txFees = computed(() => autoTeleportButton.value?.optimalTransition.txFees || 0)
+  const isActionReady = computed(() => Boolean(Object.keys(action.value).length)) // TODO: allow nullish action
   const { formatted: formattedTxFees } = useAmount(txFees, decimals, chainSymbol)
 
   watch(
@@ -23,7 +30,7 @@ export default <T = Actions>({
   )
 
   watchSyncEffect(() => {
-    if (!autoTeleport.value) {
+    if (!autoTeleport.value && !unref(disabled)) {
       action.value = getActionFn()
     }
   })
@@ -35,5 +42,6 @@ export default <T = Actions>({
     autoTeleportLoaded,
     txFees,
     formattedTxFees,
+    isActionReady,
   }
 }

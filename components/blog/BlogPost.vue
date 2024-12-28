@@ -109,9 +109,6 @@ useSeoMeta({
 </script>
 
 <style lang="scss">
-@use 'sass:meta';
-@import '@/assets/styles/abstracts/variables';
-
 .article {
   margin: 0 auto;
   max-width: 40rem;
@@ -146,6 +143,7 @@ useSeoMeta({
   }
 
   h2 {
+    @apply text-k-accent-light-2-dark-head;
     font-size: 1.5rem;
     font-weight: 700;
   }
@@ -161,7 +159,7 @@ useSeoMeta({
   }
 
   img {
-    @apply mx-0 my-10 rounded-2xl;
+    @apply mx-0 my-10 rounded-2xl border border-border-color;
   }
 
   p,
@@ -174,36 +172,26 @@ useSeoMeta({
     margin: 0 1.5rem;
   }
 
-  @include ktheme() {
-    .markdown-body {
-      color: theme('k-accentlight2-dark');
-    }
-
-    h2 {
-      color: theme('k-accentlight2-dark-head');
-    }
-
-    p {
-      color: theme('k-accentlight2-dark-paragraph');
-    }
-
-    img {
-      border: 1px solid theme('border-color');
-    }
-
-    a {
-      color: theme('k-blue');
-    }
-
-    pre {
-      padding-left: 0;
-      padding-right: 0;
-      font-size: 1rem;
-      background-color: theme('background-color');
-    }
+  .markdown-body {
+    @apply text-k-accent-light-2-dark;
   }
 
-  @include touch {
+  p {
+    @apply text-k-accent-light-2-dark-paragraph;
+  }
+
+  a {
+    @apply text-k-blue;
+  }
+
+  pre {
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 1rem;
+    @apply bg-background-color;
+  }
+
+  @media screen and (max-width: 1023px) {
     .subtitle {
       font-size: 1.25rem;
     }

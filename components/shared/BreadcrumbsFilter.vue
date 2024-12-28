@@ -1,5 +1,6 @@
 <template>
   <NeoField
+    v-if="Object.keys(breads).length"
     grouped
     group-multiline
   >
@@ -137,6 +138,7 @@ const queryMapTranslation = {
   mint: $i18n.t('filters.mint'),
   transfer: $i18n.t('filters.transfer'),
   verified: $i18n.t('filters.onlyVerifiedIdentities'),
+  trade_collection: $i18n.t('filters.tradeCollection', [$i18n.t('swaps')]),
 }
 
 const closeTag = (key: string) => {

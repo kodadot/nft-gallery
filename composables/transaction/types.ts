@@ -222,9 +222,9 @@ export type ActionCancelOffer = {
 export type ActionAcceptOffer = {
   interaction: typeof ShoppingActions.ACCEPT_OFFER
   urlPrefix: Prefix
-  nftId: string
-  collectionId: string
-  offeredId: string
+  sendCollection: string
+  sendItem?: string
+  receiveItem: string
   price: string
   successMessage?: string
   errorMessage?: string
@@ -243,7 +243,7 @@ export type ActionAcceptSwap = {
   interaction: typeof ShoppingActions.ACCEPT_SWAP
   urlPrefix: Prefix
   sendCollection: string
-  sendItem: string
+  sendItem?: string
   receiveItem: string
   receiveCollection: string
   price: string | null
@@ -265,7 +265,7 @@ export interface ActionMintDrop {
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
-  prefix: Prefix
+  urlPrefix: Prefix
 }
 
 export interface ActionMintCollection {
