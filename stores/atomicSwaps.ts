@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
+import groupBy from 'lodash/groupBy'
 import { type SwapSurcharge } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
 
 const ITEMS_MAX_AGE_MS = 7 * ONE_DAYH_IN_MS
+const ITEMS_MAX_AMOUNT_PER_CHAIN = 5
 
 export type CrateSwapWithFields = Partial<Omit<AtomicSwap, 'id'>>
 
@@ -120,11 +122,17 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     removeStepItem,
   }
 }, { persist: {
+  // clear swaps on session start
   afterRestore: (context) => {
-    context.store.items = context.store.items
-      .filter(swap =>
+    const recentSwaps = (context.store.items as AtomicSwap[])
+      .filter((swap: AtomicSwap) =>
         getSwapStep(swap) !== SwapStep.CREATED
         && swap.createdAt >= Date.now() - ITEMS_MAX_AGE_MS,
       )
+
+    context.store.items = Object
+      .values(groupBy(recentSwaps, 'urlPrefix'))
+      .map(items => items.sort((a, b) => a.createdAt - b.createdAt).slice(0, ITEMS_MAX_AMOUNT_PER_CHAIN - 1))
+      .flat()
   },
 } })
