@@ -47,7 +47,7 @@ export const descriptionTabs = {
   \`\`\`properties
   file,name,description,attributes,price
   file1.jpg,Image1,This is an image,color:white;expression:happy,100
-  file2.jpg,Image2,,"color:blue;expression:shy",200
+  file2.jpg,Image2,,color:blue;expression:shy,200
   file3.jpg,,This is another image,
   \`\`\`
   `,
