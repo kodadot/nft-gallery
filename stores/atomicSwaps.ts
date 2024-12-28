@@ -4,7 +4,7 @@ import groupBy from 'lodash/groupBy'
 import { type SwapSurcharge } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
 
-const ITEMS_MAX_AGE_MS = 7 * ONE_DAYH_IN_MS
+const ITEMS_MAX_AGE_MS = 7 * ONE_DAY_MS
 const ITEMS_MAX_AMOUNT_PER_CHAIN = 5
 
 export type CrateSwapWithFields = Partial<Omit<AtomicSwap, 'id'>>
