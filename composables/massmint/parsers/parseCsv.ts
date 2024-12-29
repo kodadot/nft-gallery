@@ -1,62 +1,66 @@
+import type { OpenSeaAttribute } from '@kodadot1/hyperdata'
 import type { Entry } from './common'
 import { isValidEntry, removeQuotes, validFileExtension } from './common'
 
-function processCsvLine(line: string, csvHeaders: string[]): Partial<Entry> {
-  const values = line.split(',').map(value => removeQuotes(value.trim()))
-  const entry: Partial<Entry> = {
-    file: undefined,
-    name: undefined,
-    description: undefined,
-    price: undefined,
-  }
+const DEFAULT_CSV_HEADERS = ['file', 'name', 'description', 'attributes', 'price']
 
-  for (const [j, header] of csvHeaders.entries()) {
-    const value = values[j]?.trim()
-    if (header === 'price') {
-      entry.price = parseFloat(value) || undefined
-    }
-    else {
-      entry[header] = value || undefined
-    }
-  }
+const LINE_SEPARATOR = ','
+const ATTRIBUTE_SEPARATOR = ';'
+const ATTRIBUTE_KEY_VALUE_SEPARATOR = ':'
 
-  return entry
-}
-
-function parseCsvWithHeaders(lines, csvHeaders): Record<string, Entry> {
+function processCsvLines(lines: string[], csvHeaders: string[]): Record<string, Entry> {
   const entries: Record<string, Entry> = {}
 
   for (const line of lines) {
-    const entry = processCsvLine(line.trim(), csvHeaders)
+    const values = line.split(LINE_SEPARATOR).map(value => removeQuotes(value.trim()))
+    const entry: Partial<Entry> = {
+      file: undefined,
+      name: undefined,
+      description: undefined,
+      attributes: undefined,
+      price: undefined,
+    }
+
+    for (const [j, header] of csvHeaders.entries()) {
+      const value = values[j]?.trim()
+      if (header === 'price') {
+        entry.price = parseFloat(value) || undefined
+      }
+      else if (header === 'attributes') {
+        if (value) {
+          const attributes: OpenSeaAttribute[] = []
+          const attrs: Record<string, string> = {}
+          value.split(ATTRIBUTE_SEPARATOR).forEach((attr) => {
+            const [key, val] = attr.split(ATTRIBUTE_KEY_VALUE_SEPARATOR)
+            if (key && val)
+              attrs[key.trim()] = val.trim()
+            attributes.push({
+              trait_type: key,
+              value: val,
+            })
+          })
+          entry.attributes = attributes
+        }
+      }
+      else {
+        entry[header] = value || undefined
+      }
+    }
 
     entry.valid = isValidEntry(entry)
+
     entries[entry.file as string] = entry as Entry
   }
 
   return entries
 }
 
+function parseCsvWithHeaders(lines, csvHeaders): Record<string, Entry> {
+  return processCsvLines(lines, csvHeaders)
+}
+
 function parseCsvWithoutHeaders(lines): Record<string, Entry> {
-  const entries: Record<string, Entry> = {}
-
-  for (const line_ of lines) {
-    const line = line_.trim()
-    const values = line.split(',').map(value => removeQuotes(value.trim()))
-    const [file, name, description, price] = values.map(v => v.trim())
-
-    const entry = {
-      file,
-      name: name === '' ? undefined : name,
-      description: description === '' ? undefined : description,
-      price: parseFloat(price) || undefined,
-    }
-    entries[file] = {
-      ...entry,
-      valid: isValidEntry(entry),
-    }
-  }
-
-  return entries
+  return processCsvLines(lines, DEFAULT_CSV_HEADERS)
 }
 
 export function parseCsv(csvData: string): Record<string, Entry> {
@@ -64,7 +68,6 @@ export function parseCsv(csvData: string): Record<string, Entry> {
 
   const lines = csvData.trim().split('\n')
   const firstLine = lines[0]
-  const expectedHeaders = ['file', 'name', 'description', 'price']
 
   const hasHeader = validFileExtension(firstLine)
 
@@ -74,7 +77,7 @@ export function parseCsv(csvData: string): Record<string, Entry> {
       .map(header => header.trim().toLowerCase())
 
     // Check that header contains expected fields
-    if (!csvHeaders.every(header => expectedHeaders.includes(header))) {
+    if (!csvHeaders.every(header => DEFAULT_CSV_HEADERS.includes(header))) {
       $consola.error('CSV file has incorrect header fields.', csvHeaders)
     }
 

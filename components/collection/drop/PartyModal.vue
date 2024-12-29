@@ -6,7 +6,7 @@
     >
       <div class="max-md:hidden relative h-full w-fit flex-shrink-0">
         <img
-          src="/party-mode-experience.svg"
+          src="~/assets/svg/party-mode-experience.svg"
           alt="drop party cursors"
           class="h-[116px]"
         >

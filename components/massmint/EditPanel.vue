@@ -10,7 +10,7 @@
     :on-cancel="closePanel"
   >
     <div
-      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full"
+      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full overflow-y-auto"
     >
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
@@ -32,7 +32,7 @@
           :name="nft?.name || `${nft?.id}`"
           :size="128"
           :placeholder="placeholder"
-          class="my-5"
+          class="my-5 overflow-hidden"
         />
         <form class="w-full">
           <NeoField
@@ -56,6 +56,13 @@
               has-counter
               maxlength="500"
               height="10rem"
+            />
+          </NeoField>
+          <NeoField :label="`${$t('nft.properties.label')}`">
+            <CustomAttributeInput
+              v-model="attributes"
+              :max="10"
+              default-open
             />
           </NeoField>
           <NeoField
@@ -100,6 +107,7 @@ import {
   NeoSidebar,
 } from '@kodadot1/brick'
 import type { NFT } from './types'
+import CustomAttributeInput from '@/components/create/CustomAttributeInput.vue'
 
 const props = defineProps<{
   nft?: NFT
@@ -112,14 +120,14 @@ const { placeholder } = useTheme()
 const { unit } = useChain()
 
 const internalNfT = ref<Partial<NFT>>({})
-const dirty = ref({ name: false, description: false, price: false })
+const dirty = ref({ name: false, description: false, price: false, attributes: false })
 
-const createField = fieldName =>
+const createField = (fieldName: string, defaultValue: string | unknown = '') =>
   computed({
     get: () =>
       dirty.value[fieldName]
         ? internalNfT.value[fieldName]
-        : props.nft?.[fieldName] || '',
+        : props.nft?.[fieldName] || defaultValue,
     set: (value) => {
       internalNfT.value = {
         ...internalNfT.value,
@@ -133,12 +141,13 @@ const createField = fieldName =>
 const name = createField('name')
 const description = createField('description')
 const price = createField('price')
+const attributes = createField('attributes', [])
 
 const emit = defineEmits(['close', 'save'])
 
 const closePanel = () => {
   internalNfT.value = {}
-  dirty.value = { name: false, description: false, price: false }
+  dirty.value = { name: false, description: false, price: false, attributes: false }
   emit('close')
 }
 
@@ -154,7 +163,7 @@ const save = () => {
 
 <style lang="scss" scoped>
 .navbar-margin {
-  margin-top: 83px;
+  margin-top: 80px;
 }
 
 .cover {

@@ -6,9 +6,10 @@ type TransactionNotification = {
   updateSession: ReturnType<typeof useLoadingNotfication>['updateSession']
   initOn?: TransactionStatus[]
   autoTeleport?: Ref<boolean>
+  onSuccess?: () => void
 }
 
-export default function ({ status, isError, sessionId, init, updateSession, initOn = [TransactionStatus.Broadcast], autoTeleport = ref(false) }: TransactionNotification) {
+export default function ({ status, isError, sessionId, init, updateSession, initOn = [TransactionStatus.Broadcast], autoTeleport = ref(false), onSuccess }: TransactionNotification) {
   const closeModal = ref(() => {})
 
   watchEffect(() => {
@@ -23,6 +24,8 @@ export default function ({ status, isError, sessionId, init, updateSession, init
       status,
     },
     onSuccess: () => {
+      onSuccess?.()
+
       if (sessionId.value && !autoTeleport.value) {
         updateSession(sessionId.value, {
           state: 'succeeded',
