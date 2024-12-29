@@ -166,7 +166,7 @@ export const getActionTransactionFee = async ({
   prefix: Prefix
 }): Promise<string> => {
   // Keep in mind atm actions with ipfs file will be uploadeed
-  if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
+  if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction as Interaction)) {
     console.log('[ACTION FEE]: Fee not allowed', action.interaction)
     return '0'
   }
