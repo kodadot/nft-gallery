@@ -69,7 +69,7 @@ async function execMakingOffer(item: ActionOffer, api: ApiPromise, executeTransa
 }
 
 export async function execMakingOfferTx(item: ActionOffer, api, executeTransaction) {
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
+  if (isAssetHub(item.urlPrefix)) {
     await execMakingOffer(item, api, executeTransaction)
   }
 }
