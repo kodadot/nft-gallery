@@ -167,7 +167,7 @@ const closeShoppingCart = (
 ) => {
   emit('close', type)
   isOpen.value = false
-  document.body.classList.remove('is-clipped')
+  document.body.classList.remove('overflow-hidden')
 }
 
 const openCompletePurcahseModal = () => {
