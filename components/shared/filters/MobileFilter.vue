@@ -25,7 +25,7 @@
         <NeoButton
           label="Reset All"
           variant="text"
-          class="flex-grow min-w-36 !h-14 is-shadowless"
+          class="flex-grow min-w-36 !h-14 !shadow-none"
           @click="resetFilters"
         >
           {{ $t('general.resetAll') }}
