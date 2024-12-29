@@ -2,6 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
+      ref="signingModal"
       :title="$t('transaction.offer')"
       :is-loading="isLoading"
       :status="status"
@@ -98,6 +99,8 @@ const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
 const { decimals, chainSymbol } = useChain()
 const { $i18n } = useNuxtApp()
+
+const signingModal = ref()
 const items = ref<MakingOfferItem[]>([])
 const unusedOfferedItemsSubscription = ref(() => {})
 const usedOfferedItems = ref<string[]>([])
@@ -127,6 +130,7 @@ const teleportTransitionTxFees = computed(() =>
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton<ActionOffer>({
   getActionFn: () => getAction(itemsInChain.value),
+  signingModal,
 })
 
 const totalOfferAmount = computed(
