@@ -80,6 +80,8 @@ import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTelep
 import { sum } from '@/utils/math'
 import { OFFER_MINT_PRICE, getOfferCollectionId } from '@/composables/transaction/transactionOffer'
 
+const DEFAULT_OFFER_EXPIRATION_DURATION = 7
+
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const offerStore = useMakingOfferStore()
@@ -115,7 +117,7 @@ const getAction = (items: MakingOfferItem[]): ActionOffer => {
       desiredItem: item.sn,
       desiredCollectionId: item.collection.id,
       offeredItem: offeredItem.value,
-      duration: item.offerExpiration || 7,
+      duration: item.offerExpiration || DEFAULT_OFFER_EXPIRATION_DURATION,
     } as TokenToOffer)),
   }
 }
