@@ -12,7 +12,8 @@ import type { KeyringAccount } from '@/utils/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { KODADOT_DAO } from '@/utils/support'
-import type { Actions, ActionsInteractions, ExecuteEvmTransactionParams } from '@/composables/transaction/types'
+import type { Actions, ActionsInteractions, ExecuteEvmTransactionParams, ActionOffer } from '@/composables/transaction/types'
+import { decimalsOf } from '@/utils/config/chain.config'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -143,6 +144,16 @@ const estimateEvm = async ({ arg, abi, functionName, account, prefix, address }:
 
 const preProcessedAction: Partial<Record<ActionsInteractions, (params: { action: Actions, account: string }) => Actions>> = {
   [Interaction.SEND]: ({ action, account }) => ({ ...action, address: account }),
+  [ShoppingActions.MAKE_OFFER]: ({ action }) => {
+    action = action as ActionOffer
+    return {
+      ...action,
+      tokens: action.tokens.map(token => ({
+        ...token,
+        price: String(calculateBalance(1, decimalsOf(action.urlPrefix))),
+      })),
+    }
+  },
 }
 
 export const getActionTransactionFee = async ({

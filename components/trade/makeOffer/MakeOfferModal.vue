@@ -112,8 +112,8 @@ const getAction = (items: MakingOfferItem[]): ActionOffer => {
   return {
     interaction: ShoppingActions.MAKE_OFFER,
     urlPrefix: urlPrefix.value,
-    token: items.map(item => ({
-      price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
+    tokens: items.map(item => ({
+      price: item.offerPrice ? String(Number(calculateBalance(Number(item.offerPrice), decimals.value))) : '',
       desiredItem: item.sn,
       desiredCollectionId: item.collection.id,
       offeredItem: offeredItem.value,

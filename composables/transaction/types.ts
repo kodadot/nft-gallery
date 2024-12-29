@@ -184,8 +184,8 @@ export type ActionSend = {
 
 export type ActionOffer = {
   interaction: typeof ShoppingActions.MAKE_OFFER
-  urlPrefix: string
-  token: TokenToOffer | TokenToOffer[]
+  urlPrefix: Prefix
+  tokens: TokenToOffer[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
