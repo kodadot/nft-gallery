@@ -24,7 +24,3 @@ export const logError = (
     cb(error.message)
   }
 }
-
-export function mapToId(value: { id: string }): string {
-  return value.id
-}
