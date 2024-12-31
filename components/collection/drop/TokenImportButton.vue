@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { Builder } from '@paraspell/sdk'
+import { Builder } from '@paraspell/sdk-pjs'
 import { NeoButton } from '@kodadot1/brick'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
@@ -65,9 +65,12 @@ const handleTokenImport = async () => {
 
   const api = await getApi()
   const to = urlPrefix.value === 'ahk' ? 'AssetHubKusama' : 'AssetHubPolkadot'
+  const from = urlPrefix.value === 'ahk' ? 'Kusama' : 'Polkadot'
+  const currency = urlPrefix.value === 'ahk' ? 'KSM' : 'DOT'
   const call = Builder(api)
+    .from(from)
     .to(to)
-    .amount(props.price)
+    .currency({ symbol: currency, amount: props.price })
     .address(accountId.value)
     .build()
 
