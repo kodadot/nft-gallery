@@ -64,9 +64,9 @@ const handleTokenImport = async () => {
   }
 
   const api = await getApi()
-  const to = urlPrefix.value === 'ahk' ? 'AssetHubKusama' : 'AssetHubPolkadot'
-  const from = urlPrefix.value === 'ahk' ? 'Kusama' : 'Polkadot'
-  const currency = urlPrefix.value === 'ahk' ? 'KSM' : 'DOT'
+  const to = prefixToChainMap[urlPrefix.value]
+  const from = urlPrefix.value === 'ahk' ? prefixToChainMap['ksm'] : prefixToChainMap['dot']
+  const currency = tokenSymbolOf[urlPrefix.value]
   const call = Builder(api)
     .from(from)
     .to(to)
