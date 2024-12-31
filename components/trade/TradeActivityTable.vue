@@ -135,7 +135,7 @@ const where = computed(() => {
   return { id_in: id_in.flat() }
 })
 
-const { items: trades, loading: loadingTrades, refetch } = useTrades({ where, disabled: computed(() => !tradeIds.value), type: props.type })
+const { items: trades, loading: loadingTrades } = useTrades({ where, disabled: computed(() => !Object.keys(where.value).length), type: props.type })
 
 watch(activeTab, value => replaceUrl({ filter: value }))
 
@@ -155,13 +155,6 @@ useSubscriptionGraphql({
     }
   `,
   onChange: ({ data }) => {
-    if (tradeIds.value && (
-      (isIncomingActive.value && tradeIds.value.incoming.length !== data.incoming.length)
-      || (isOutgoingActive.value && tradeIds.value.outgoing.length !== data.outgoing.length))
-    ) {
-      refetch({ where: where.value })
-    }
-
     tradeIds.value = {
       incoming: data.incoming.map(item => item.id),
       outgoing: data.outgoing.map(item => item.id),
