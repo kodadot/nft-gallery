@@ -17,10 +17,14 @@
         class="p-2 flex items-center cursor-pointer hover:bg-k-hover text-text-color"
         @click="selectCollection(collection)"
       >
-        <img
-          :src="sanitizeIpfsUrl(collection.image, 'image')"
-          class="w-6 h-6 rounded-full object-cover"
-        >
+        <div>
+          <BasicImage
+            :src="sanitizeIpfsUrl(collection.image, 'image')"
+            custom-class="w-6 h-6 object-cover"
+            rounded
+          />
+        </div>
+
         <span class="ml-2">{{ collection.name }}</span>
       </div>
     </div>
@@ -29,14 +33,18 @@
       v-if="selectedCollection"
       class="mt-2.5"
     >
-      <div class="flex items-center p-2 bg-k-shade rounded-md gap-2 text-text-color">
-        <img
-          :src="sanitizeIpfsUrl(selectedCollection.image, 'image')"
-          class="w-6 h-6 rounded-full object-cover"
-        >
-        <span>{{ selectedCollection.name }}</span>
+      <div class="flex items-center p-2 bg-k-grey-light rounded-md gap-2 text-text-color pr-6">
+        <div>
+          <BasicImage
+            :src="sanitizeIpfsUrl(selectedCollection.image, 'image')"
+            custom-class="w-6 h-6 object-cover"
+            rounded
+          />
+        </div>
+        <span class="text-overflow-ellipsis overflow-hidden">{{ selectedCollection.name }}</span>
         <NeoButton
           variant="text"
+          class="absolute right-0"
           no-shadow
           icon="xmark"
           size="small"
@@ -52,6 +60,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { fetchCollectionSuggestion } from '@/components/search/utils/collectionSearch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 type CollectionMinimal = {
   collection_id: string
@@ -85,6 +94,8 @@ watch(initialCollection, (newCollection) => {
       image: newCollection.meta.image,
     }
   }
+}, {
+  immediate: true,
 })
 
 const handleSearch = async () => {

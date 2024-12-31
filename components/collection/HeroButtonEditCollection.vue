@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import { type CollectionEditMetadata } from '@/components/collection/EditModal.vue'
-import type { CollectionMintSettingType, Collections, UpdateCollection, CollectionMintSetting } from '@/composables/transaction/types'
+import { type CollectionMintSettingType, Collections, type UpdateCollection, type CollectionMintSetting } from '@/composables/transaction/types'
 
 const props = defineProps<{
   collection: any
@@ -38,6 +38,7 @@ const route = useRoute()
 const collectionId = route.params.id.toString()
 const collectionPermissionSettings = ref<CollectionMintSetting>()
 const isModalActive = ref(false)
+const editedCollection = ref<UpdateCollection>()
 
 const collectionMetadata = computed(() =>
   props.collection && collectionPermissionSettings.value
@@ -65,8 +66,15 @@ const shouldUpdatePermission = (a: CollectionMintSetting, b: CollectionMintSetti
   return a.price !== b.price || a.mintType !== b.mintType
 }
 
-const editCollection = async (collection: UpdateCollection) => {
+const editCollection = async (updatedCollection?: UpdateCollection) => {
   isModalActive.value = false
+
+  const collection = updatedCollection || editedCollection.value!
+
+  // retry action
+  if (updatedCollection) {
+    editedCollection.value = updatedCollection
+  }
 
   if (!collectionMetadata.value) {
     return
@@ -86,7 +94,7 @@ const editCollection = async (collection: UpdateCollection) => {
   })
 }
 
-watchEffect(async () => {
+watch(computed(() => collectionId), async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const config = await api.query.nfts.collectionConfigOf(collectionId)
@@ -103,5 +111,7 @@ watchEffect(async () => {
     mintSettings.mintType = 'HolderOf'
   }
   collectionPermissionSettings.value = mintSettings
+}, {
+  immediate: true,
 })
 </script>

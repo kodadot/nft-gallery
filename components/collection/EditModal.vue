@@ -127,6 +127,7 @@
         </NeoField>
 
         <NeoField
+          v-if="isModalActive"
           :label="$t('mint.collection.permission.label')"
         >
           <div class="w-full flex flex-col gap-4">
@@ -149,15 +150,15 @@
 
             <div>
               <div class="flex justify-between capitalize">
-                <p>{{ $t(mintingPriceUnset ? 'mint.collection.permission.noPriceSet' : 'mint.collection.permission.pricePlaceholder') }}</p>
+                <p>{{ $t(hasMintingPrice ? 'mint.collection.permission.pricePlaceholder' : 'mint.collection.permission.noPriceSet') }}</p>
                 <NeoSwitch
                   v-if="selectedMintingType === 'HolderOf'"
-                  v-model="mintingPriceUnset"
+                  v-model="hasMintingPrice"
                   position="left"
                 />
               </div>
               <div
-                v-if="!mintingPriceUnset"
+                v-if="hasMintingPrice"
                 class="flex focus-within:!border-border-color border border-k-shade h-12 mt-3"
               >
                 <input
@@ -256,8 +257,9 @@ const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
 const unlimited = ref(true)
-const mintingPriceUnset = ref(true)
+const hasMintingPrice = ref(false)
 const mintingPrice = ref<number | null>(null)
+
 const selectedMintingType = ref<CollectionMintSettingType | null>(null)
 const min = computed(() => props.min || 1)
 const max = ref<number | null>(null)
@@ -304,7 +306,7 @@ const editCollection = async () => {
     max: max.value,
     mintingSettings: {
       mintType: selectedMintingType.value,
-      price: mintingPriceUnset.value ? null : String(withDecimals(mintingPrice.value || 0)),
+      price: hasMintingPrice.value ? String(withDecimals(mintingPrice.value || 0)) : null,
       holderOf: holderOfCollectionId.value || originalHolderOfCollectionId.value,
     },
   } as UpdateCollection)
@@ -322,19 +324,26 @@ watch(isModalActive, (value) => {
 
     // permission
     selectedMintingType.value = props.collection.mintingSettings.mintType
-    mintingPriceUnset.value = !props.collection.mintingSettings.price
+    hasMintingPrice.value = Boolean(props.collection.mintingSettings.price)
     mintingPrice.value = originalMintPrice.value || null
     holderOfCollectionId.value = originalHolderOfCollectionId.value
   }
+}, {
+  immediate: true,
 })
-
-const priceHandlerMap = {
+const mintTypeChangeHandlerMap = {
   Issuer: () => {
+    hasMintingPrice.value = false
     mintingPrice.value = null
-    mintingPriceUnset.value = true
   },
   Public: () => {
-    mintingPriceUnset.value = false
+    hasMintingPrice.value = true
+    mintingPrice.value = null
+  },
+  HolderOf: () => {
+    hasMintingPrice.value = false
+    mintingPrice.value = null
+    holderOfCollectionId.value = undefined
   },
 }
 
@@ -358,19 +367,17 @@ const permissionSettingCheckingMap = {
   },
 }
 
-watch(selectedMintingType, (type) => {
-  if (type && priceHandlerMap[type]) {
-    priceHandlerMap[type as CollectionMintSettingType]()
+watch(selectedMintingType, (type, oldType) => {
+  if (oldType && type && mintTypeChangeHandlerMap[type]) {
+    mintTypeChangeHandlerMap[type as CollectionMintSettingType]()
   }
 })
 
-watch([banner, unlimited, mintingPriceUnset], ([banner, unlimited, priceUnset]) => {
+watch([banner, unlimited], ([banner, unlimited]) => {
   if (banner) {
     bannerUrl.value = URL.createObjectURL(banner)
   }
 
   max.value = unlimited ? null : max.value || props.collection.max
-
-  mintingPrice.value = priceUnset ? null : originalMintPrice.value
 })
 </script>
