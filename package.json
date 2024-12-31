@@ -28,6 +28,7 @@
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
     "generate": "nuxi build",
+    "generate:netlify": "NODE_OPTIONS='--max-old-space-size=8192' nuxi build",
     "lint": "eslint .",
     "lint:quiet": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
