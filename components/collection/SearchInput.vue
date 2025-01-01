@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import debounce from 'lodash/debounce'
 import { fetchCollectionSuggestion } from '@/components/search/utils/collectionSearch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
@@ -99,7 +100,7 @@ watch(initialCollection, (newCollection) => {
   immediate: true,
 })
 
-const handleSearch = async () => {
+const handleSearch = debounce(async () => {
   if (!searchQuery.value) {
     searchResults.value = []
     showResults.value = false
@@ -113,7 +114,7 @@ const handleSearch = async () => {
   )
   searchResults.value = results
   showResults.value = true
-}
+}, 500)
 
 const selectCollection = (collection: CollectionMinimal) => {
   selectedCollection.value = collection

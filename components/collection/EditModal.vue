@@ -152,7 +152,7 @@
               <div class="flex justify-between capitalize">
                 <p>{{ $t(hasMintingPrice ? 'mint.collection.permission.pricePlaceholder' : 'mint.collection.permission.noPriceSet') }}</p>
                 <NeoSwitch
-                  v-if="selectedMintingType === 'HolderOf'"
+                  v-if="isHolderOfMintingTypeSelected"
                   v-model="hasMintingPrice"
                   position="left"
                 />
@@ -175,7 +175,7 @@
                 </div>
               </div>
               <div
-                v-if="selectedMintingType === 'HolderOf'"
+                v-if="isHolderOfMintingTypeSelected"
                 class="mt-4"
               >
                 <p class="mb-2">
@@ -272,6 +272,7 @@ const mintPriceChanged = computed(() => mintingPrice.value !== originalMintPrice
 const originalMintPrice = computed(() => props.collection.mintingSettings.price ? Number(props.collection.mintingSettings.price) / (10 ** decimals.value) : null)
 const originalHolderOfCollectionId = computed(() => props.collection.mintingSettings.holderOf)
 const holderOfCollectionId = ref<string | undefined>(originalHolderOfCollectionId.value)
+const isHolderOfMintingTypeSelected = computed(() => selectedMintingType.value === 'HolderOf')
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -283,13 +284,13 @@ const disabled = computed(() => {
   const holderOfCollectionIdChanged = holderOfCollectionId.value !== originalHolderOfCollectionId.value
   const invalidPublicCollection = selectedMintingType.value === 'Public' && !mintingPrice.value
 
-  const invalidHolderOfCollection = selectedMintingType.value === 'HolderOf' && !holderOfCollectionId.value
+  const invalidHolderOfCollection = isHolderOfMintingTypeSelected.value && !holderOfCollectionId.value
 
   return !hasImage || !isNameFilled || invalidHolderOfCollection || invalidPublicCollection
     || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged && !mintTypeChanged.value && !mintPriceChanged.value && !holderOfCollectionIdChanged)
 })
 
-const permissionSettingWarningMessage = computed(() => selectedMintingType.value && permissionSettingCheckingMap[selectedMintingType.value] && permissionSettingCheckingMap[selectedMintingType.value]())
+const permissionSettingWarningMessage = computed(() => selectedMintingType.value && permissionSettingCheckingMap[selectedMintingType.value]?.())
 
 const initLogoImage = () => {
   imageUrl.value = originalLogoImageUrl.value
@@ -331,7 +332,7 @@ watch(isModalActive, (value) => {
 }, {
   immediate: true,
 })
-const mintTypeChangeHandlerMap = {
+const mintTypeChangeHandlerMap: Record<CollectionMintSettingType, () => void> = {
   Issuer: () => {
     hasMintingPrice.value = false
     mintingPrice.value = null
@@ -347,7 +348,7 @@ const mintTypeChangeHandlerMap = {
   },
 }
 
-const permissionSettingCheckingMap = {
+const permissionSettingCheckingMap: Record<CollectionMintSettingType, () => string | undefined> = {
   Issuer: () => {
     if (mintingPrice.value) {
       return $i18n.t('mint.collection.permission.issuerWarning')
