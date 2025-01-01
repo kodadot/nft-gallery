@@ -1517,6 +1517,7 @@
     "invalidPrice": "Your offer must greater than 0.0001",
     "manageOffers": "Manage Offers",
     "newOffer": "New Offer",
+    "offer": "Offer",
     "offerAccept": "Accepting Offer",
     "offerCancellation": "Offer Cancellation",
     "offerCreation": "Offer Creation",

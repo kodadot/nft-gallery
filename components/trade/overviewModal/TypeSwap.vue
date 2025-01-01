@@ -8,37 +8,25 @@
         'flex-col-reverse': isMyTrade,
       }"
     >
-      <BaseCartItemDetails
-        v-if="trade.isEntireCollectionDesired"
-        :name="trade.considered.name"
-        :second-name="$t('collection')"
-        :image="sanitizeIpfsUrl(trade.considered.image)"
+      <!-- Desired  -->
+      <CollectionItemDetails
+        v-if="trade.isAnyTokenInCollectionDesired"
+        :trade="trade"
       />
-      <CartItemDetails
+      <TokenItemDetails
         v-else-if="desired"
-        :nft="nftToOfferItem(desired)"
-      >
-        <template #right>
-          <div class="flex items-end flex-shrink-0">
-            {{ desiredFormatted }}
-          </div>
-        </template>
-      </CartItemDetails>
+        :nft="desired"
+      />
 
       <NeoIcon
         class="rotate-90"
         icon="arrow-right-arrow-left"
       />
 
-      <CartItemDetails
-        :nft="nftToOfferItem(offered)"
-      >
-        <template #right>
-          <div class="flex items-end flex-shrink-0">
-            {{ oferredFormatted }}
-          </div>
-        </template>
-      </CartItemDetails>
+      <!-- Offered -->
+      <TokenItemDetails
+        :nft="offered"
+      />
     </div>
 
     <hr class="!my-5">
@@ -52,9 +40,9 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
+import CollectionItemDetails from './CollectionItemDetails.vue'
+import TokenItemDetails from './TokenItemDetails.vue'
 import { useIsTradeOverview } from './utils'
-import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { NFT } from '@/types'
 
 const props = defineProps<{
@@ -63,22 +51,5 @@ const props = defineProps<{
   trade: TradeNftItem
 }>()
 
-const desiredFormatted = ref('')
-
 const { isMyTrade } = useIsTradeOverview(computed(() => props.trade))
-const { decimals, chainSymbol } = useChain()
-
-if (!props.trade.isEntireCollectionDesired) {
-  desiredFormatted.value = useAmount(
-    computed(() => props.desired?.price),
-    decimals,
-    chainSymbol,
-  ).formatted.value
-}
-
-const { formatted: oferredFormatted } = useAmount(
-  computed(() => props.offered.price),
-  decimals,
-  chainSymbol,
-)
 </script>

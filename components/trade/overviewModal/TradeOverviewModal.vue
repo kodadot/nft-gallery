@@ -30,7 +30,7 @@
               :trade="trade"
             />
             <TradeOverviewModalTypeOffer
-              v-if="trade.type === TradeType.OFFER && nft.desired"
+              v-if="trade.type === TradeType.OFFER"
               :desired="nft.desired"
               :trade="trade"
             />

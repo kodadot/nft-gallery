@@ -2,15 +2,14 @@
   <div
     class="py-5"
   >
-    <CartItemDetails
-      :nft="nftToOfferItem(desired)"
-    >
-      <template #right>
-        <div class="flex items-end flex-shrink-0">
-          {{ desiredFormatted }}
-        </div>
-      </template>
-    </CartItemDetails>
+    <CollectionItemDetails
+      v-if="trade.isAnyTokenInCollectionDesired"
+      :trade="trade"
+    />
+    <TokenItemDetails
+      v-if="desired"
+      :nft="desired"
+    />
 
     <hr class="!my-5">
 
@@ -22,19 +21,12 @@
 </template>
 
 <script setup lang="ts">
-import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
+import CollectionItemDetails from './CollectionItemDetails.vue'
+import TokenItemDetails from './TokenItemDetails.vue'
 import type { NFT } from '@/types'
 
-const props = defineProps<{
-  desired: NFT
+defineProps<{
+  desired?: NFT
   trade: TradeNftItem
 }>()
-
-const { decimals, chainSymbol } = useChain()
-
-const { formatted: desiredFormatted } = useAmount(
-  computed(() => props.desired.price),
-  decimals,
-  chainSymbol,
-)
 </script>

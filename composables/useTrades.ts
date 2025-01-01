@@ -40,9 +40,9 @@ type BaseTrade = {
   considered: TradeConsidered
 }
 
-export enum TradeDesiredType {
-  TOKEN,
-  COLLECTION,
+export enum TradeDesiredTokenType {
+  SPECIFIC,
+  ANY_IN_COLLECTION,
 }
 
 export enum TradeType {
@@ -59,10 +59,11 @@ type Offer = BaseTrade
 type Trade = Swap | Offer
 
 export type TradeNftItem<T = Trade> = T & {
-  expirationDate?: Date
+  expirationDate: Date
   type: TradeType
-  desiredType: TradeDesiredType
-  isEntireCollectionDesired: boolean
+  desiredType: TradeDesiredTokenType
+  isAnyTokenInCollectionDesired: boolean
+  targets: string[]
 }
 
 export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, dataKey: string }> = {
@@ -85,50 +86,102 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   disabled?: ComputedRef<boolean>
   type?: TradeType
 }) {
-  const variables = computed(() => ({
-    where: unref(where),
-    limit: limit,
-  }))
-
   const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
+  const items = ref<TradeNftItem[]>([])
+  const targetsOfTrades = ref<Map<string, string[]>>()
+  const ownersSubscription = ref(() => {})
 
   const {
     result: data,
     loading: fetching,
   } = useQuery<{ offers: Offer[] } | { swpas: Swap[] }>(
     queryDocument,
-    variables,
+    computed(() => ({
+      where: unref(where),
+      limit: limit,
+    })),
     computed(() => ({
       enabled: !disabled.value,
     })),
   )
 
-  const items = computed<TradeNftItem[]>(() => {
-    return data.value?.[dataKey]?.map((trade) => {
-      const desiredType = trade.desired ? TradeDesiredType.TOKEN : TradeDesiredType.COLLECTION
-
-      return {
-        ...trade,
-        expirationDate: currentBlock.value ? addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR) : undefined,
-        offered: trade.nft,
-        desiredType: desiredType,
-        isEntireCollectionDesired: desiredType === TradeDesiredType.COLLECTION,
-        type,
-      } as TradeNftItem
-    }) || []
-  })
-
-  async function getCurrentBlock() {
+  const getCurrentBlock = async () => {
     const api = await useApi().apiInstance.value
     const { number } = await api.rpc.chain.getHeader()
     return number.toNumber()
   }
 
-  const loading = computed(() => !currentBlock.value || fetching.value)
-
   if (!currentBlock.value) {
     getCurrentBlock().then(b => currentBlock.value = b)
   }
+
+  const dataItems = computed<Offer[] | Swap[]>(() => data.value?.[dataKey] || [])
+  const hasTargetsOfTrades = computed(() => targetsOfTrades.value?.size)
+  const tradeKeys = computed<string>(() => dataItems.value.map(item => item.id).join('-'))
+  const loading = computed(() => !currentBlock.value || fetching.value || !hasTargetsOfTrades.value)
+
+  const subscribeToTargetsOfTrades = (trades: BaseTrade[]) => {
+    ownersSubscription.value = useSubscriptionGraphql({
+      query: `
+        collectionEntities(where: {
+          id_in: ${JSON.stringify(trades.map(item => item.considered.id))}
+        }) {
+          id
+          nfts {
+            id
+            currentOwner
+          }
+        }
+      `,
+      onChange: ({ data: { collectionEntities: collections } }) => {
+        const map = new Map()
+
+        const collectionMap = collections.reduce((acc, collection) => {
+          acc[collection.id] = collection.nfts
+          return acc
+        }, {})
+
+        trades.forEach((trade) => {
+          const tradeDesired = trade.desired
+          map.set(trade.id,
+            tradeDesired
+              ? [collectionMap[tradeDesired.collection.id].find(nft => nft.id === tradeDesired.id)?.currentOwner]
+              : collectionMap[trade.considered.id].map(nft => nft.currentOwner),
+          )
+        })
+
+        targetsOfTrades.value = map
+      },
+    })
+  }
+
+  watch(tradeKeys, (key) => {
+    if (key) {
+      ownersSubscription.value()
+      targetsOfTrades.value = undefined
+      subscribeToTargetsOfTrades(dataItems.value)
+    }
+  })
+
+  watchEffect(() => {
+    if (!hasTargetsOfTrades.value || !currentBlock.value) {
+      return
+    }
+
+    items.value = dataItems.value.map((trade) => {
+      const desiredType = trade.desired ? TradeDesiredTokenType.SPECIFIC : TradeDesiredTokenType.ANY_IN_COLLECTION
+
+      return {
+        ...trade,
+        expirationDate: addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR),
+        offered: trade.nft,
+        desiredType: desiredType,
+        isAnyTokenInCollectionDesired: desiredType === TradeDesiredTokenType.ANY_IN_COLLECTION,
+        type,
+        targets: targetsOfTrades.value?.get(trade.id) || [],
+      } as TradeNftItem
+    })
+  })
 
   return {
     items,
