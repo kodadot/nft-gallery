@@ -23,6 +23,7 @@ async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
   const transactions = await Promise.all(
     nfts.map(async ({ price, nftSn, collectionId, duration }) => {
       const offerId = getOfferCollectionId(item.urlPrefix as Prefix)
+      // todo: use generateId() instead once this PR is deployed: https://github.com/kodadot/private-workers/pull/234
       const nextId = Number.parseInt(await generateIdAssethub(parseInt(collectionId), item.urlPrefix as Prefix))
       const create = api.tx.nfts.mint(
         offerId,
