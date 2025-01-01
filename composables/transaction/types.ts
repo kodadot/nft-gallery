@@ -310,7 +310,12 @@ export interface ActionSetNftMetadata {
   errorMessage?: string
 }
 
-export type CollectionMintSettingType = 'Issuer' | 'Public' | 'HolderOf'
+export enum CollectionMintSettingType {
+  Issuer = 'Issuer',
+  Public = 'Public',
+  HolderOf = 'HolderOf',
+}
+
 export type CollectionMintSetting = {
   price: string
   mintType: CollectionMintSettingType

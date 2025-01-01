@@ -225,7 +225,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect, NeoIcon } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import type { UpdateCollection, CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
+import { type UpdateCollection, type CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
 
 export type CollectionEditMetadata = {
   name: string
@@ -237,7 +237,7 @@ export type CollectionEditMetadata = {
   mintingSettings: CollectionMintSetting
 }
 
-const COLLECTION_MINTING_TYPES_OPTIONS = (['Issuer', 'Public', 'HolderOf'] as CollectionMintSettingType[]).map(type => ({ value: type, text: type }))
+const COLLECTION_MINTING_TYPES_OPTIONS = ([CollectionMintSettingType.Issuer, CollectionMintSettingType.Public, CollectionMintSettingType.HolderOf]).map(type => ({ value: type, text: type }))
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{
@@ -272,7 +272,7 @@ const mintPriceChanged = computed(() => mintingPrice.value !== originalMintPrice
 const originalMintPrice = computed(() => props.collection.mintingSettings.price ? Number(props.collection.mintingSettings.price) / (10 ** decimals.value) : null)
 const originalHolderOfCollectionId = computed(() => props.collection.mintingSettings.holderOf)
 const holderOfCollectionId = ref<string | undefined>(originalHolderOfCollectionId.value)
-const isHolderOfMintingTypeSelected = computed(() => selectedMintingType.value === 'HolderOf')
+const isHolderOfMintingTypeSelected = computed(() => selectedMintingType.value === CollectionMintSettingType.HolderOf)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -333,15 +333,15 @@ watch(isModalActive, (value) => {
   immediate: true,
 })
 const mintTypeChangeHandlerMap: Record<CollectionMintSettingType, () => void> = {
-  Issuer: () => {
+  [CollectionMintSettingType.Issuer]: () => {
     hasMintingPrice.value = false
     mintingPrice.value = null
   },
-  Public: () => {
+  [CollectionMintSettingType.Public]: () => {
     hasMintingPrice.value = true
     mintingPrice.value = null
   },
-  HolderOf: () => {
+  [CollectionMintSettingType.HolderOf]: () => {
     hasMintingPrice.value = false
     mintingPrice.value = null
     holderOfCollectionId.value = undefined
@@ -349,18 +349,18 @@ const mintTypeChangeHandlerMap: Record<CollectionMintSettingType, () => void> = 
 }
 
 const permissionSettingCheckingMap: Record<CollectionMintSettingType, () => string | undefined> = {
-  Issuer: () => {
+  [CollectionMintSettingType.Issuer]: () => {
     if (mintingPrice.value) {
       return $i18n.t('mint.collection.permission.issuerWarning')
     }
   },
-  Public: () => {
+  [CollectionMintSettingType.Public]: () => {
     if (!mintingPrice.value || mintingPrice.value <= 0) {
       return $i18n.t('mint.collection.permission.publicWarning')
     }
     return $i18n.t('mint.collection.permission.publicWithPriceWarning')
   },
-  HolderOf: () => {
+  [CollectionMintSettingType.HolderOf]: () => {
     if (!holderOfCollectionId.value) {
       return $i18n.t('mint.collection.permission.holderOfIdWarning')
     }
@@ -370,7 +370,7 @@ const permissionSettingCheckingMap: Record<CollectionMintSettingType, () => stri
 
 watch(selectedMintingType, (type, oldType) => {
   if (oldType && type && mintTypeChangeHandlerMap[type]) {
-    mintTypeChangeHandlerMap[type as CollectionMintSettingType]()
+    mintTypeChangeHandlerMap[type]()
   }
 })
 

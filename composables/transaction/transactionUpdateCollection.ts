@@ -1,7 +1,7 @@
 import { createOpenSeaMetadata as createMetadata, protocolize } from '@kodadot1/hyperdata'
 import type { SubmittableExtrinsic } from '@polkadot/api-base/types'
 import { uploadMediaFiles } from './mintToken/constructDirectoryMeta'
-import type { ActionUpdateCollection, UpdateCollectionParams } from './types'
+import { CollectionMintSettingType, type ActionUpdateCollection, type UpdateCollectionParams } from './types'
 import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 
 const getIpfsMedia = async ({ collection: { image, banner, imageType } }: ActionUpdateCollection) => {
@@ -76,7 +76,7 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
   }
 
   if (item.update.permission) {
-    if (item.collection.mintingSettings.mintType === 'HolderOf') {
+    if (item.collection.mintingSettings.mintType === CollectionMintSettingType.HolderOf) {
       args.push(api.tx.nfts.updateMintSettings(item.collectionId, {
         price: item.collection.mintingSettings.price,
         mintType: {

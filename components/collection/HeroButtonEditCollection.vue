@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import { type CollectionEditMetadata } from '@/components/collection/EditModal.vue'
-import { type CollectionMintSettingType, Collections, type UpdateCollection, type CollectionMintSetting } from '@/composables/transaction/types'
+import { CollectionMintSettingType, Collections, type UpdateCollection, type CollectionMintSetting } from '@/composables/transaction/types'
 
 const props = defineProps<{
   collection: any
@@ -63,7 +63,7 @@ const updateMetadata = (a: UpdateCollection, b: UpdateCollection) => {
 }
 
 const shouldUpdatePermission = (a: CollectionMintSetting, b: CollectionMintSetting) => {
-  return a.price !== b.price || a.mintType !== b.mintType
+  return a.price !== b.price || a.mintType !== b.mintType || a.holderOf !== b.holderOf
 }
 
 const editCollection = async (updatedCollection?: UpdateCollection) => {
@@ -108,7 +108,7 @@ watch(computed(() => collectionId), async () => {
 
   if (typeof mintSettings.mintType !== 'string') {
     mintSettings.holderOf = (mintSettings.mintType as any as { HolderOf: string }).HolderOf
-    mintSettings.mintType = 'HolderOf'
+    mintSettings.mintType = CollectionMintSettingType.HolderOf
   }
   collectionPermissionSettings.value = mintSettings
 }, {
