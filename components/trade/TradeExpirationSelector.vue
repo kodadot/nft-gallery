@@ -7,7 +7,7 @@
     append-to-body
     close-menu-on-move
     class="w-full"
-    menu-class="!min-w-[8rem]"
+    menu-class="!min-w-[8rem] !mt-0 !ml-[168px]"
   >
     <template #trigger="{ active }">
       <div
