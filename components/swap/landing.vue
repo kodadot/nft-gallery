@@ -38,6 +38,7 @@
         <AddressInput
           v-model="traderAddress"
           :is-invalid="isYourAddress"
+          :icon-right="!isTraderAddressValid ||isYourAddress ? 'close' : ''"
           placeholder="Enter wallet address"
           with-address-check
           @check="handleAddressCheck"
