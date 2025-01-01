@@ -1,6 +1,7 @@
 <template>
   <div class="relative w-full">
     <input
+      v-if="!selectedCollection"
       v-model="searchQuery"
       type="text"
       class="w-full h-12 p-2 border border-k-shade bg-background-color text-text-color focus:border-border-color outline-none"
