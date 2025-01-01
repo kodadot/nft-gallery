@@ -1,6 +1,5 @@
 import type { Prefix } from '@kodadot1/static'
-import { ApiFactory } from '@kodadot1/sub-api'
-import { getChainEndpointByPrefix } from '@/utils/chain'
+import { getLastIndexUsedOnChain } from '@/composables/transaction/mintToken/utils'
 
 const BASE_URL = isProduction
   ? 'https://dyndata.koda.art'
@@ -9,19 +8,6 @@ const BASE_URL = isProduction
 const api = $fetch.create({
   baseURL: BASE_URL,
 })
-
-const apiInstanceByPrefix = (prefix: Prefix) => {
-  const endpoint: string = getChainEndpointByPrefix(prefix) || ''
-  return ApiFactory.useApiInstance(endpoint)
-}
-
-const lastIdAssethub = async (prefix: Prefix, collectionId: number) => {
-  const api = await apiInstanceByPrefix(prefix)
-  const ids = await api.query.nfts.item.keys(collectionId)
-  const ints = ids.map(id => Number.parseInt(id.toHuman()?.[1]?.replaceAll(',', '') || '0'))
-  const biggestId = Math.max(...ints)
-  return biggestId
-}
 
 // store latest IDs for each collection
 const latestIdsMap = new Map<string, number>()
@@ -33,7 +19,8 @@ export const generateIdAssethub = async (collectionId: number, prefix?: Prefix) 
 
     if (!latestIdsMap.has(mapKey)) {
       // Only query the chain if we haven't stored an ID yet
-      const lastId = await lastIdAssethub(prefix, collectionId)
+      const { apiInstance } = useApi()
+      const lastId = await getLastIndexUsedOnChain(await apiInstance.value, collectionId)
       latestIdsMap.set(mapKey, lastId)
     }
 
