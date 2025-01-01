@@ -7,7 +7,7 @@
       :button="buttonConfig"
     />
 
-    <template v-if="isTargetOfTrade && detailed">
+    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP">
       <NeoTooltip
         position="top"
         content-class="capitalize"
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
+import { TradeType } from '@/composables/useTrades'
 
 const emit = defineEmits(['click:main', 'click:counter-swap'])
 const props = defineProps<{
