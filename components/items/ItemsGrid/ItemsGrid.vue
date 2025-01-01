@@ -43,6 +43,7 @@
               ? 'minimal'
               : 'primary'
           "
+          :link-target="linkTarget"
         />
         <ItemsGridImageTokenEntity
           v-else
@@ -51,6 +52,7 @@
           :hide-action="hideNFTHoverAction"
           :hide-listing="hideListing"
           hide-video-controls
+          :link-target="linkTarget"
           :lazy-loading="
             shouldLazyLoad({
               cols: slotProps.cols,
@@ -148,6 +150,7 @@ const props = defineProps<{
   hideHoverAction?: boolean
   collectionPopoverHide?: boolean
   hideListing?: boolean
+  linkTarget?: string
 }>()
 
 const emit = defineEmits(['total', 'loading'])
