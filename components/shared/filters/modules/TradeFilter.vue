@@ -1,6 +1,6 @@
 <template>
   <SiderbarFilterSection
-    :title="$t('filters.tradeType', [$t('swap.swap')])"
+    :title="$t('filters.tradeType', [tradeName])"
     :expanded="expanded"
     :fluid-padding="fluidPadding"
   >
@@ -9,7 +9,7 @@
         v-model="entire_collection"
         data-testid="filter-checkbox-buynow"
       >
-        {{ $t('filters.tradeCollection', [$t('swaps')]) }}
+        {{ $t('filters.tradeCollection', [tradeName]) }}
       </NeoCheckbox>
     </NeoField>
   </SiderbarFilterSection>
@@ -31,8 +31,11 @@ withDefaults(
 )
 
 const route = useRoute()
+const { $i18n } = useNuxtApp()
 
 const { replaceUrl: replaceURL } = useReplaceUrl()
+
+const tradeName = computed(() => route.name === 'prefix-collection-id-swaps' ? $i18n.t('swap.swap') : $i18n.t('offers'))
 
 const entire_collection = computed({
   get: () => route.query?.trade_collection?.toString() === 'true',

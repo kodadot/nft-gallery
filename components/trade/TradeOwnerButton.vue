@@ -15,7 +15,7 @@ const props = defineProps<{ trade: TradeNftItem, loading?: boolean }>()
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const { isOwnerOfNft, isCreatorOfTrade } = useIsTrade(computed(() => props.trade), accountId)
+const { isTargetOfTrade, isCreatorOfTrade } = useIsTrade(computed(() => props.trade), accountId)
 
 const onClick = () => emit('click', props.trade)
 
@@ -50,7 +50,7 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
     }
   }
 
-  if (isOwnerOfNft.value) {
+  if (isTargetOfTrade.value) {
     return {
       label: $i18n.t(details[props.trade.type].accept),
       onClick,

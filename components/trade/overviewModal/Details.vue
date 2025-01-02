@@ -28,7 +28,7 @@
     </div>
 
     <div
-      v-if="isIncomingTrade"
+      v-if="isIncomingTrade && desired"
       class="flex justify-between items-center"
     >
       <span class="text-k-grey text-xs">
