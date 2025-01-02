@@ -17,15 +17,16 @@ export const generateIdAssethub = async (collectionId: number, prefix?: Prefix) 
   if (collectionId <= 273 && prefix) {
     const mapKey = `${prefix}-${collectionId}`
 
-    if (!latestIdsMap.has(mapKey)) {
-      // Only query the chain if we haven't stored an ID yet
-      const { apiInstance } = useApi()
-      const lastId = await getLastIndexUsedOnChain(await apiInstance.value, collectionId)
-      latestIdsMap.set(mapKey, lastId)
-    }
+    // Always check the chain for the latest ID
+    const { apiInstance } = useApi()
+    const lastIdFromChain = await getLastIndexUsedOnChain(await apiInstance.value, collectionId)
+    const currentStoredId = latestIdsMap.get(mapKey) || 0
 
-    // Increment and store the new ID
-    const nextId = latestIdsMap.get(mapKey)! + 1
+    // Use the larger of the two values to ensure we don't create duplicates
+    const currentId = Math.max(lastIdFromChain, currentStoredId)
+    const nextId = currentId + 1
+
+    // Store the new ID
     latestIdsMap.set(mapKey, nextId)
     return nextId.toString()
   }

@@ -1,6 +1,6 @@
 import type { Prefix } from '@kodadot1/static'
 import type { ActionOffer } from './types'
-import { generateIdAssethub } from '@/services/dyndata'
+import { generateId } from '@/services/dyndata'
 
 export const getOfferCollectionId = (prefix: Prefix) => {
   switch (prefix) {
@@ -23,8 +23,7 @@ async function execMakingOffer(item: ActionOffer, api, executeTransaction) {
   const transactions = await Promise.all(
     nfts.map(async ({ price, nftSn, collectionId, duration }) => {
       const offerId = getOfferCollectionId(item.urlPrefix as Prefix)
-      // todo: use generateId() instead once this PR is deployed: https://github.com/kodadot/private-workers/pull/234
-      const nextId = Number.parseInt(await generateIdAssethub(parseInt(collectionId), item.urlPrefix as Prefix))
+      const nextId = Number.parseInt(await generateId())
       const create = api.tx.nfts.mint(
         offerId,
         nextId,
