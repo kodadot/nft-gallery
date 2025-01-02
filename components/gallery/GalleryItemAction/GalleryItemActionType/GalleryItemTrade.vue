@@ -87,26 +87,11 @@ const onMakeOfferClick = () => {
 const onSwapClick = () => {
   onTradeActionClick(() => {
     const nft = props.nft
-    const swap = swapStore.createSwap(nft.currentOwner)
-
-    swapStore.updateItem({
-      ...swap,
-      desired: [
-        {
-          id: nft.id,
-          collectionId: nft.collection.id,
-          sn: nft.sn,
-          name: nft.name,
-          meta: nft.meta,
-        },
-      ],
+    const swap = swapStore.createSwap(nft.currentOwner, {
+      desired: [nftToSwapItem(nft)],
     })
 
-    navigateTo({
-      name: 'prefix-swap-id',
-      params: { id: nft.currentOwner },
-      query: { swapId: swap.id },
-    })
+    navigateToSwap(swap)
   })
 }
 
