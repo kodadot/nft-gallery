@@ -26,6 +26,7 @@
 import { NeoDropdownItem } from '@kodadot1/brick'
 import { type CollectionEditMetadata } from '@/components/collection/EditModal.vue'
 import { CollectionMintSettingType, Collections, type UpdateCollection, type CollectionMintSetting } from '@/composables/transaction/types'
+import { getCollectionMintSettings } from '@/composables/transaction/mintCollection/utils'
 
 const props = defineProps<{
   collection: any
@@ -95,14 +96,7 @@ const editCollection = async (updatedCollection?: UpdateCollection) => {
 }
 
 watch(computed(() => collectionId), async () => {
-  const { apiInstance } = useApi()
-  const api = await apiInstance.value
-  const config = await api.query.nfts.collectionConfigOf(collectionId)
-  const mintSettings = (config.toHuman() as { mintSettings: {
-    price: string
-    mintType: CollectionMintSettingType
-    holderOf: string
-  } }).mintSettings
+  const mintSettings = await getCollectionMintSettings(collectionId)
 
   mintSettings.price = mintSettings.price?.replaceAll(',', '')
 
