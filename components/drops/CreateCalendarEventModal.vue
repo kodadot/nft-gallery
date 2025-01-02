@@ -71,7 +71,7 @@ const eventDetails = {
 const getNextDropDate = (): Date => {
   const currentDate = new Date()
   const daysUntilThursday = (11 - currentDate.getDay()) % 7
-  const millisecondsUntilThursday = daysUntilThursday * 24 * 60 * 60 * 1000
+  const millisecondsUntilThursday = daysUntilThursday * ONE_DAY_MS
   currentDate.setUTCHours(14, 0, 0, 0) // Set time to 3 PM CET
   const dropDate = new Date(currentDate.getTime() + millisecondsUntilThursday)
   dropDate.setHours(currentDate.getHours())

@@ -1,3 +1,5 @@
+#import "../../fragments/baseMeta.graphql"
+
 query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockNumber_DESC]) {
     swaps(where: $where, orderBy: $orderBy) {
     id
@@ -16,6 +18,9 @@ query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockN
       collection {
         id
       }
+      meta {
+        ...baseMeta
+      }
     }
     desired {
       id
@@ -25,6 +30,9 @@ query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockN
       image
       collection {
         id
+      }
+      meta {
+        ...baseMeta
       }
     }
     considered {

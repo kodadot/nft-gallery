@@ -42,9 +42,9 @@
           class="!pt-5"
         >
           <TradeOwnerButton
-            class="!w-full"
+            main-class="!w-full"
             :trade="trade"
-            @click="execTransaction"
+            @click:main="execTransaction"
           />
         </div>
       </ModalBody>

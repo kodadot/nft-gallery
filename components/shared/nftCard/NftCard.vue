@@ -6,6 +6,7 @@
     <component
       :is="link"
       v-if="!isLoading && nft"
+      :target="linkTarget"
       :[bindKey]="href"
     >
       <img
@@ -142,6 +143,7 @@ const props = withDefaults(
     hideMediaInfo?: boolean
     linkTo?: string
     lazyLoading?: boolean
+    linkTarget?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,

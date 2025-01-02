@@ -68,7 +68,7 @@ const openProfilePage = (address: string) => {
   }
   else {
     const prefix = isEvm.value ? 'ahp' : urlPrefix.value
-    router.push(`/${prefix}/u/${address}`)
+    router.push(`/${prefix}/u/${getss58AddressByPrefix(address, prefix)}`)
   }
   emit('close')
 }
