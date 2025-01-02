@@ -7,7 +7,7 @@
     >
       <NeoInput
         v-model="inputValue"
-        :icon-right="iconRight"
+        :icon-right="inputIconRight"
         :placeholder="placeholder"
         data-testid="global-address-input"
         icon-right-clickable
@@ -38,7 +38,7 @@ const props = withDefaults(
     label?: string
     emptyOnError?: boolean
     strict?: boolean
-    icon?: string
+    iconRight?: string
     placeholder?: string
     disableError?: boolean
     isInvalid?: boolean
@@ -47,7 +47,7 @@ const props = withDefaults(
   {
     label: 'Insert Address',
     strict: true,
-    icon: '',
+    iconRight: '',
     placeholder: '',
     emptyOnError: false,
   },
@@ -77,9 +77,9 @@ const variant = computed(() => {
   return ''
 })
 
-const iconRight = computed(() => {
-  if (inputValue.value && props.icon === 'close-circle') {
-    return 'close-circle'
+const inputIconRight = computed(() => {
+  if (inputValue.value && props.iconRight === 'close') {
+    return 'close'
   }
   return ''
 })

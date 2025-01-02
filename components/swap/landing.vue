@@ -38,6 +38,7 @@
         <AddressInput
           v-model="traderAddress"
           :is-invalid="isYourAddress"
+          :icon-right="!isTraderAddressValid || isYourAddress ? 'close' : undefined"
           placeholder="Enter wallet address"
           with-address-check
           @check="handleAddressCheck"
@@ -61,7 +62,7 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { $i18n } = useNuxtApp()
 
 const traderAddress = ref('')
@@ -89,7 +90,7 @@ const label = computed(() => {
 
 const handleAddressCheck = (isValid: boolean) => {
   isTraderAddressValid.value = isValid
-  isYourAddress.value = isTraderAddressValid.value ? isCurrentOwner(traderAddress.value) : false
+  isYourAddress.value = isTraderAddressValid.value ? isCurrentAccount(traderAddress.value) : false
 }
 
 const handleSubmit = async () => {
