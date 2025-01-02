@@ -66,6 +66,14 @@ export type TradeNftItem<T = Trade> = T & {
   targets: string[]
 }
 
+type CollectionWithTokenOwners = {
+  id: string
+  nfts: {
+    id: string
+    currentOwner: string
+  }[]
+}
+
 export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, dataKey: string }> = {
   [TradeType.SWAP]: {
     queryDocument: swapsList,
@@ -121,9 +129,9 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   const loading = computed(() => !currentBlock.value || fetching.value || !hasTargetsOfTrades.value)
 
   const subscribeToTargetsOfTrades = (trades: BaseTrade[]) => {
-    ownersSubscription.value = useSubscriptionGraphql({
+    ownersSubscription.value = useSubscriptionGraphql<{ collections: CollectionWithTokenOwners[] }>({
       query: `
-        collectionEntities(where: {
+        collections: collectionEntities(where: {
           id_in: ${JSON.stringify(trades.map(item => item.considered.id))}
         }) {
           id
@@ -133,13 +141,12 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
           }
         }
       `,
-      onChange: ({ data: { collectionEntities: collections } }) => {
+      onChange: ({ data: { collections } }) => {
         const map = new Map()
 
-        const collectionMap = collections.reduce((acc, collection) => {
-          acc[collection.id] = collection.nfts
-          return acc
-        }, {})
+        const collectionMap: Record<string, CollectionWithTokenOwners['nfts']> = Object.fromEntries(
+          collections.map(collection => [collection.id, collection.nfts]),
+        )
 
         trades.forEach((trade) => {
           const tradeDesired = trade.desired
