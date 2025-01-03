@@ -5,6 +5,7 @@ interface State {
   listed: boolean
   owned: boolean
   artView: boolean
+  artGen: boolean
   // price
   min: number | undefined
   max: number | undefined
@@ -18,6 +19,7 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     min: undefined,
     max: undefined,
     artView: false,
+    artGen: false,
     collections: undefined,
   }),
   getters: {
@@ -25,6 +27,7 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
       listed: state.listed,
       owned: state.owned,
       artView: state.artView,
+      artGen: state.artGen,
       collections: state.collections?.toString(),
     }),
     getPriceRange: state => ({ min: state.min, max: state.max }),
@@ -38,6 +41,9 @@ export const useExploreFiltersStore = defineStore('exploreFilters', {
     },
     setArtView(payload) {
       this.artView = payload
+    },
+    setArtGen(payload) {
+      this.artGen = payload
     },
     setMin(payload) {
       this.min = payload
