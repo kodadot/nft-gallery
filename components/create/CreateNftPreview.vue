@@ -1,12 +1,12 @@
 <template>
-  <div class="preview">
+  <div class="fixed top-40 left-3/4 max-fullhd:left-auto max-fullhd:right-8 max-lg:hidden">
     <p class="font-bold">
       {{ $t('mint.nft.preview.title') }}
     </p>
 
-    <div class="preview-card border bg-background-color">
+    <div class="w-60 border bg-background-color">
       <div
-        class="preview-image flex items-center"
+        class="h-60 flex items-center bg-[#d7d7d7] bg-cover bg-center"
         :style="{ backgroundImage: `url(${image})` }"
       >
         <p
@@ -16,14 +16,14 @@
           {{ $t('mint.nft.preview.uploadArt') }}
         </p>
       </div>
-      <div class="preview-content border-t p-3">
+      <div class="border-t p-3">
         <p
-          class="font-bold is-ellipsis"
+          class="font-bold truncate"
           data-testid="nft-preview-name"
         >
           {{ name || 'Untitled' }}
         </p>
-        <p class="text-xs is-ellipsis text-k-grey">
+        <p class="text-xs truncate text-k-grey">
           {{ collection || $t('mint.nft.preview.noCollection') }}
         </p>
 
@@ -55,33 +55,3 @@ defineProps<{
   image?: string
 }>()
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.preview {
-  position: fixed;
-  top: 10rem;
-  left: 75%;
-
-  @include until-fullhd {
-    left: unset;
-    right: 2rem;
-  }
-
-  &-card {
-    width: 15rem;
-  }
-
-  &-image {
-    background-color: #d7d7d7;
-    background-size: cover;
-    background-position: center;
-    height: 15rem;
-  }
-
-  @include touch() {
-    display: none;
-  }
-}
-</style>

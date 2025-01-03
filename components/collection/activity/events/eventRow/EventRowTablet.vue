@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-6 flex flex-col gap-10px">
-    <div class="flex height-70px line-height-1">
+  <div class="mb-6 flex flex-col gap-[10px]">
+    <div class="flex h-[70px] leading-[1]">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
           <NeoAvatar
@@ -12,9 +12,9 @@
           />
         </div>
       </nuxt-link>
-      <div class="flex flex-col justify-center gap-10px flex-grow">
+      <div class="flex flex-col justify-center gap-[10px] flex-grow">
         <nuxt-link
-          class="is-ellipsis inline-block mobile-fixed-width"
+          class="truncate inline-block max-sm:w-[240px]"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
         >
           <span class="font-bold">
@@ -23,7 +23,7 @@
         </nuxt-link>
 
         <div
-          class="border text-xs justify-center flex items-center fixed-width fixed-height"
+          class="border text-xs justify-center flex items-center w-[66px] h-[22px]"
           :class="getInteractionColor(event.interaction)"
         >
           {{ interactionName }}
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="flex gap flex-direction">
+    <div class="flex gap-4 max-[400px]:flex-col max-[400px]:gap-0">
       <div
         v-if="fromAddress !== blank"
         class="flex items-center"
@@ -51,7 +51,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="text-k-blue hover:text-k-blue-hover is-ellipsis"
+          class="text-k-blue hover:text-k-blue-hover truncate"
         >
           <IdentityIndex
             ref="identity"
@@ -69,7 +69,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="text-k-blue hover:text-k-blue-hover is-ellipsis"
+          class="text-k-blue hover:text-k-blue-hover truncate"
         >
           <IdentityIndex
             ref="identity"
@@ -126,43 +126,3 @@ const getAvatar = async () => {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-$breakpoint: 400px;
-
-.fixed-width {
-  width: 66px;
-}
-.mobile-fixed-width {
-  @include mobile {
-    width: 240px;
-  }
-}
-.fixed-height {
-  height: 22px;
-}
-.height-70px {
-  height: 70px;
-}
-.line-height-1 {
-  line-height: 1;
-}
-
-.gap-10px {
-  gap: 10px;
-}
-
-.gap {
-  gap: 1rem;
-  @include until($breakpoint) {
-    gap: 0;
-  }
-}
-
-.flex-direction {
-  @include until($breakpoint) {
-    flex-direction: column;
-  }
-}
-</style>
