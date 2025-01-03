@@ -31,8 +31,11 @@
             />
             <TradeOverviewModalTypeOffer
               v-if="trade.type === TradeType.OFFER"
-              :desired="nft.desired"
               :trade="trade"
+              :desired="nft.desired"
+              :send-item="sendItem"
+              @send-item:select="selectSendItem"
+              @send-item:clear="clearSendItem"
             />
           </template>
         </div>
@@ -42,8 +45,10 @@
           class="!pt-5"
         >
           <TradeOwnerButton
-            class="!w-full"
+            class="!w-full capitalize"
             :trade="trade"
+            :label="label"
+            :disabled="disabled"
             @click="execTransaction"
           />
         </div>
@@ -54,12 +59,18 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import { useIsTradeOverview, type OverviewMode } from './utils'
+import { useQuery } from '@tanstack/vue-query'
+import {
+  type OverviewMode,
+  type ExecTxParams,
+  useIsTradeOverview,
+  TradeTypeTx,
+} from './utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import nftById from '@/queries/subsquid/general/nftById.graphql'
 import { TradeType } from '@/composables/useTrades'
 import type { NFT } from '@/types'
+import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 type OverviewModeDetails = {
   title: string
@@ -74,24 +85,7 @@ type Details = {
 
 type TradeNFTs = { desired?: NFT, offered: NFT }
 
-type ExecTxParams = {
-  trade: TradeNftItem
-}
-
-const emit = defineEmits(['close'])
-const props = defineProps<{
-  modelValue: boolean
-  trade?: TradeNftItem
-}>()
-
-const vModel = useVModel(props, 'modelValue')
-
-const { accountId } = useAuth()
-const { urlPrefix, client } = usePrefix()
-const { transaction, status, isError, isLoading } = useTransaction({ disableSuccessNotification: true })
 const { $i18n } = useNuxtApp()
-const { notification, lastSessionId, updateSession } = useLoadingNotfication()
-const { mode } = useIsTradeOverview(computed(() => props.trade))
 
 const TradeTypeOverviewModeDetails: Record<TradeType, Record<OverviewMode, OverviewModeDetails>> = {
   [TradeType.SWAP]: {
@@ -131,51 +125,31 @@ const TradeTypeDetails: Record<TradeType, Details> = {
   },
 }
 
-const TradeTypeTx: Record<TradeType, Record<OverviewMode, (params: ExecTxParams) => void>> = {
-  [TradeType.SWAP]: {
-    owner: ({ trade }) => {
-      transaction({
-        interaction: ShoppingActions.CANCEL_SWAP,
-        urlPrefix: urlPrefix.value,
-        offeredId: trade.offered.sn,
-        offeredCollectionId: trade.offered.collection.id,
-      })
-    },
-    incoming: ({ trade }) => {
-      transaction({
-        interaction: ShoppingActions.ACCEPT_SWAP,
-        urlPrefix: urlPrefix.value,
-        receiveItem: trade.offered.sn,
-        receiveCollection: trade.offered.collection.id,
-        sendCollection: trade.considered.id,
-        sendItem: trade.desired?.sn,
-        price: trade.price,
-        surcharge: (trade as TradeNftItem<Swap>).surcharge,
-      })
-    },
-  },
-  [TradeType.OFFER]: {
-    owner: ({ trade }) => {
-      transaction({
-        interaction: ShoppingActions.CANCEL_OFFER,
-        urlPrefix: urlPrefix.value,
-        offeredId: trade.offered.sn,
-      })
-    },
-    incoming: ({ trade }) => {
-      transaction({
-        interaction: ShoppingActions.ACCEPT_OFFER,
-        urlPrefix: urlPrefix.value,
-        receiveItem: trade.offered.sn,
-        sendCollection: trade.considered.id,
-        sendItem: trade.desired?.sn,
-        price: trade.price,
-      })
-    },
-  },
-}
+const emit = defineEmits(['close'])
+const props = defineProps<{
+  modelValue: boolean
+  trade?: TradeNftItem
+}>()
 
+const selectedSendItemId = ref<string>()
+const vModel = useVModel(props, 'modelValue')
+
+const { accountId } = useAuth()
+const { urlPrefix } = usePrefix()
+const { transaction, status, isError, isLoading } = useTransaction({ disableSuccessNotification: true })
+const { notification, lastSessionId, updateSession } = useLoadingNotfication()
+const { mode, isIncomingTrade } = useIsTradeOverview(computed(() => props.trade))
+
+const needsToSelectSendItem = computed(() => isIncomingTrade.value && !sendItem.value)
+const disabled = computed(() => needsToSelectSendItem.value)
 const trade = computed(() => props.trade)
+
+const label = computed<string | undefined>(() => {
+  if (needsToSelectSendItem.value) {
+    return $i18n.t('trade.selectSendItem')
+  }
+  return undefined
+})
 
 const details = computed<Details & OverviewModeDetails>(() =>
   trade.value
@@ -191,42 +165,44 @@ const details = computed<Details & OverviewModeDetails>(() =>
         transactionSuccessTab: '',
       })
 
-const { data: nft, pending: nftLoading } = await useAsyncData<TradeNFTs | null>(`tarde-nft-id-${trade.value?.id}`, async () => {
-  if (!trade.value) {
-    return null
-  }
+const { data: nft, isLoading: nftLoading } = useQuery<TradeNFTs | null>({
+  queryKey: ['trade-nft', computed(() => trade.value?.id)],
+  queryFn: async () => {
+    if (!trade.value) {
+      return null
+    }
 
-  const promises = [
-    useAsyncQuery<{ nftEntity: NFT }>({
-      query: nftById,
-      variables: {
-        id: trade.value.offered.id,
-      },
-      clientId: client.value,
-    }),
-  ]
+    const promises = [
+      fetchNft(trade.value.offered.id),
+    ]
 
-  if (trade.value.desired) {
-    promises.push(
-      useAsyncQuery<{ nftEntity: NFT }>({
-        query: nftById,
-        variables: {
-          id: trade.value.desired.id,
-        },
-        clientId: client.value,
-      }),
-    )
-  }
+    if (trade.value.desired) {
+      promises.push(fetchNft(trade.value.desired.id))
+    }
 
-  const [offered, desired] = await Promise.all(promises)
+    const [offered, desired] = await Promise.all(promises)
 
-  return {
-    offered: offered.data.value?.nftEntity,
-    desired: desired?.data.value?.nftEntity,
-  }
-}, { watch: [trade] })
+    return {
+      offered,
+      desired,
+    }
+  },
+})
+
+const { data: sendItem } = useQuery({
+  queryKey: ['send-item', selectedSendItemId],
+  queryFn: async () => {
+    if (!selectedSendItemId.value) {
+      return null
+    }
+    return await fetchNft(selectedSendItemId.value)
+  },
+})
 
 const loading = computed(() => nftLoading.value || !nft.value)
+
+const selectSendItem = item => selectedSendItemId.value = item.id
+const clearSendItem = () => selectedSendItemId.value = undefined
 
 const onClose = () => {
   vModel.value = false
@@ -240,9 +216,14 @@ const execTransaction = () => {
 
   vModel.value = false
 
-  TradeTypeTx[trade.value.type][mode.value]({
-    trade: props.trade,
-  } as ExecTxParams)
+  const params: ExecTxParams = {
+    trade: trade.value,
+    transaction,
+    urlPrefix: urlPrefix.value,
+    sendItem: trade.value.desired?.sn || sendItem.value?.sn as string,
+  }
+
+  TradeTypeTx[trade.value.type][mode.value](params)
 }
 
 useTransactionNotification({

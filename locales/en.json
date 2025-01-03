@@ -930,6 +930,7 @@
     "resending": "Resending",
     "resetAll": "Reset All",
     "search": "Search",
+    "searchNoResults": "No results",
     "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
     "searchPlaceholder": "Search by Collection or NFT",
@@ -1987,6 +1988,7 @@
       "week": "7D"
     }
   },
+  "trade": { "selectSendItem": "Select NFT to send" },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",

@@ -10,7 +10,12 @@
 import type { ButtonConfig } from '../profile/types'
 
 const emit = defineEmits(['click'])
-const props = defineProps<{ trade: TradeNftItem, loading?: boolean }>()
+const props = defineProps<{
+  trade: TradeNftItem
+  loading?: boolean
+  disabled?: boolean
+  label?: string
+}>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
@@ -32,7 +37,7 @@ const details = {
   },
 }
 
-const buttonConfig = computed<ButtonConfig | null>(() => {
+const tradeButtonConfig = computed<ButtonConfig | null>(() => {
   if (props.trade.status === TradeStatus.EXPIRED) {
     return isCreatorOfTrade.value
       ? {
@@ -58,5 +63,19 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
   }
 
   return null
+})
+
+const buttonConfig = computed<ButtonConfig | null>(() => {
+  if (!tradeButtonConfig.value) {
+    return null
+  }
+
+  const config = tradeButtonConfig.value
+
+  Object.assign(config, { disabled: props.disabled })
+
+  props.label && Object.assign(config, { label: props.label })
+
+  return config
 })
 </script>

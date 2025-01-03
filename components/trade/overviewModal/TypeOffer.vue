@@ -2,12 +2,16 @@
   <div
     class="py-5"
   >
-    <CollectionItemDetails
+    <TokenInCollection
       v-if="trade.isAnyTokenInCollectionDesired"
       :trade="trade"
+      :send-item="sendItem"
+      @send-item:select="$emit('send-item:select', $event)"
+      @send-item:clear="$emit('send-item:clear')"
     />
+
     <TokenItemDetails
-      v-if="desired"
+      v-else-if="desired"
       :nft="desired"
     />
 
@@ -21,12 +25,14 @@
 </template>
 
 <script setup lang="ts">
-import CollectionItemDetails from './CollectionItemDetails.vue'
 import TokenItemDetails from './TokenItemDetails.vue'
+import TokenInCollection from './TokenInCollection.vue'
 import type { NFT } from '@/types'
 
+defineEmits(['send-item:select', 'send-item:clear'])
 defineProps<{
-  desired?: NFT
   trade: TradeNftItem
+  desired?: NFT
+  sendItem: NFT | null
 }>()
 </script>
