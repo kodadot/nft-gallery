@@ -1,6 +1,10 @@
+import { type Prefix } from '@kodadot1/static'
 import { expect, test } from './fixtures'
 
-const CHAINS = [
+const CHAINS: {
+  dropdownText: Prefix
+  chainIdText: string
+}[] = [
   {
     dropdownText: 'ahp',
     chainIdText: 'ahp',
@@ -11,13 +15,12 @@ const CHAINS = [
   },
 ]
 
-test('Switch network', async ({ page }) => {
+test('Switch network', async ({ page, Commands }) => {
   await page.goto('/')
   await page.waitForLoadState()
   for (const data of CHAINS) {
     await test.step(`Switching to ${data.chainIdText}`, async () => {
-      await page.getByTestId('chain-select').click()
-      await page.getByTestId(`chain-dropdown-${data.dropdownText}`).click()
+      await Commands.switchChain(data.dropdownText)
       await expect(page.getByTestId('chain')).toHaveText(data.chainIdText)
     })
   }

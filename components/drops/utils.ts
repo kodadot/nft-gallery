@@ -62,7 +62,6 @@ export const parseCETDate = (datetime: string): Date => {
 
 export const dateHasTime = (datetime: string): boolean => /:/.test(datetime)
 
-const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 const getLocalDropStatus = (drop: Pick<DropItem, 'dropStartTime' | 'minted' | 'max' | 'disabled'>): DropStatus => {
   const now = new Date()
 
@@ -81,7 +80,7 @@ const getLocalDropStatus = (drop: Pick<DropItem, 'dropStartTime' | 'minted' | 'm
     return DropStatus.MINTING_LIVE
   }
 
-  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAYH_IN_MS) {
+  if (drop.dropStartTime.valueOf() - now.valueOf() <= ONE_DAY_MS) {
     return DropStatus.SCHEDULED_SOON
   }
 

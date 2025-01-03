@@ -63,6 +63,7 @@
             :trade="item"
             :target="tabTarget"
             :variant="variant"
+            @counter-swap="() => onCounterSwapClick(item)"
             @select="() => {
               selectedTrade = item
               isTradeModalOpen = true
@@ -95,6 +96,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const swapStore = useAtomicSwapStore()
 const { replaceUrl } = useReplaceUrl()
 
 const dataKey = TRADES_QUERY_MAP[props.type].dataKey
@@ -135,7 +137,33 @@ const where = computed(() => {
   return { id_in: id_in.flat() }
 })
 
-const { items: trades, loading: loadingTrades, refetch } = useTrades({ where, disabled: computed(() => !tradeIds.value), type: props.type })
+const { items: trades, loading: loadingTrades } = useTrades({ where, disabled: computed(() => !Object.keys(where.value).length), type: props.type })
+
+const onCounterSwapClick = (trade: TradeNftItem) => {
+  if (!trade.desired) {
+    return
+  }
+
+  const withFields: CrateSwapWithFields = {
+    desired: [tradeToSwapItem(trade.offered)],
+    offered: [tradeToSwapItem(trade.desired)],
+  }
+
+  const tSwap = trade as TradeNftItem<Swap>
+
+  if (tSwap.surcharge) {
+    Object.assign(withFields, {
+      surcharge: {
+        amount: tSwap.price,
+        direction: tSwap.surcharge,
+      },
+    })
+  }
+
+  const swap = swapStore.createSwap(trade.caller, withFields)
+
+  navigateToSwap(swap)
+}
 
 watch(activeTab, value => replaceUrl({ filter: value }))
 
@@ -155,13 +183,6 @@ useSubscriptionGraphql({
     }
   `,
   onChange: ({ data }) => {
-    if (tradeIds.value && (
-      (isIncomingActive.value && tradeIds.value.incoming.length !== data.incoming.length)
-      || (isOutgoingActive.value && tradeIds.value.outgoing.length !== data.outgoing.length))
-    ) {
-      refetch({ where: where.value })
-    }
-
     tradeIds.value = {
       incoming: data.incoming.map(item => item.id),
       outgoing: data.outgoing.map(item => item.id),
