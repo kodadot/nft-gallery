@@ -22,6 +22,10 @@ export const blockExplorerOf = (prefix: Prefix): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
 }
 
+export const tokenSymbolOf = (prefix: Prefix): string => {
+  return chainPropListOf(prefix).tokenSymbol
+}
+
 type AssetItem = {
   id: string
   name: string

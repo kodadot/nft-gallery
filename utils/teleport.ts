@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Prefix } from '@kodadot1/static'
-import * as paraspell from '@paraspell/sdk'
+import * as paraspell from '@paraspell/sdk-pjs'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import type { TeleportParams } from '@/composables/useTeleport'
@@ -62,35 +62,6 @@ export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   mnt: Chain.MANTLE,
 }
 
-export enum TeleprtType {
-  RelayToPara = 'RelayToPara',
-  ParaToRelay = 'ParaToRelay',
-  ParaToPara = 'ParaToPara',
-}
-
-export const whichTeleportType = ({
-  from,
-  to,
-}: {
-  from: Chain
-  to: Chain
-}): TeleprtType => {
-  switch (from) {
-    case Chain.KUSAMA:
-    case Chain.POLKADOT:
-      return TeleprtType.RelayToPara
-
-    case Chain.ASSETHUBKUSAMA:
-    case Chain.ASSETHUBPOLKADOT:
-      return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
-        ? TeleprtType.ParaToRelay
-        : TeleprtType.ParaToPara
-
-    default:
-      throw new Error(`Unknown chain: ${from}`)
-  }
-}
-
 const getApi = (chain: Chain) => {
   const endpoint = getChainEndpointByPrefix(chainToPrefixMap[chain]) as string
   return ApiFactory.useApiInstance(endpoint)
@@ -111,39 +82,13 @@ export const getTransaction = async ({
 }) => {
   const api = await getApi(from)
 
-  const telportType = whichTeleportType({
-    from: from,
-    to: to,
-  })
-
-  if (telportType === TeleprtType.RelayToPara) {
-    return paraspell
-      .Builder(api)
-      .to(Chain[to.toUpperCase()])
-      .amount(amount)
-      .address(address)
-      .build()
-  }
-
-  if (telportType === TeleprtType.ParaToRelay) {
-    return paraspell
-      .Builder(api)
-      .from(Chain[from.toUpperCase()])
-      .amount(amount)
-      .address(address)
-      .build()
-  }
-
-  if (telportType === TeleprtType.ParaToPara) {
-    return paraspell
-      .Builder(api)
-      .from(Chain[from.toUpperCase()])
-      .to(Chain[to.toUpperCase()])
-      .currency(currency)
-      .amount(amount)
-      .address(address)
-      .build()
-  }
+  return paraspell
+    .Builder(api)
+    .from(Chain[from.toUpperCase()])
+    .to(Chain[to.toUpperCase()])
+    .currency({ symbol: currency, amount: amount })
+    .address(address)
+    .build()
 }
 
 export const getTransactionFee = async ({
