@@ -86,12 +86,13 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   disabled?: ComputedRef<boolean>
   type?: TradeType
 }) {
+  const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
+
+  const { client } = usePrefix()
   const variables = computed(() => ({
     where: unref(where),
     limit: limit,
   }))
-
-  const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
 
   const {
     result: data,
@@ -101,6 +102,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     variables,
     computed(() => ({
       enabled: !disabled.value,
+      clientId: client.value,
     })),
   )
 
