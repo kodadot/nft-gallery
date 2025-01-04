@@ -10,6 +10,7 @@
       :search="query"
       grid-size="medium"
       :grid-section="gridSection"
+      link-target="_blank"
       :hide-hover-action="!selectable"
     >
       <template
