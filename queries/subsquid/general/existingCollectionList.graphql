@@ -1,5 +1,0 @@
-query existingCollectionList($ids: [String!]) {
-  collectionEntities(where: {id_in: $ids}) {
-    id
-  }
-}

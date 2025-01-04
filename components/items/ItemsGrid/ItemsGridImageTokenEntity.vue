@@ -20,6 +20,7 @@
     :media-static-video="hideVideoControls"
     :lazy-loading="lazyLoading"
     media-hover-on-cover-play
+    :link-target="linkTarget"
   >
     <template
       v-if="!hideAction"
@@ -123,6 +124,7 @@ const props = defineProps<{
   lazyLoading?: boolean
   skeletonVariant: string
   hideListing?: boolean
+  linkTarget?: string
 }>()
 
 const {

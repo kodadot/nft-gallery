@@ -16,6 +16,7 @@
     bind-key="to"
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play
+    :link-target="linkTarget"
   >
     <template
       v-if="!hideAction"
@@ -106,6 +107,7 @@ const props = defineProps<{
   collectionPopoverHide?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
+  linkTarget?: string
 }>()
 
 const {

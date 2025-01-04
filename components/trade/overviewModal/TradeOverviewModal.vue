@@ -45,11 +45,11 @@
           class="!pt-5"
         >
           <TradeOwnerButton
-            class="!w-full capitalize"
+            main-class="!w-full capitalize"
             :trade="trade"
             :label="label"
             :disabled="disabled"
-            @click="execTransaction"
+            @click:main="execTransaction"
           />
         </div>
       </ModalBody>
