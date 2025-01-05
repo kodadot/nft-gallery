@@ -91,7 +91,7 @@ import { parseDate } from '@/utils/datetime'
 
 import type { Interaction as EventInteraction } from '@/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
-import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
 import { emptyObject } from '@/utils/empty'
 
 const prop = withDefaults(
