@@ -14,7 +14,7 @@
           <div>{{ $t('massmint.required') }}</div>
 
           <div class="pl-3">
-            • {{ $t('massmint.incompleteNfts', { count: numMissingNames }) }}
+            • {{ $t('massmint.incompleteNfts', { count: missingNames.length }) }} ({{ missingNames.map(nft => nft.id).join(', ') }})
           </div>
         </div>
         <div
@@ -35,7 +35,7 @@
             }}
           </div>
           <div
-            v-if="numMissingNames"
+            v-if="numMissingPrices"
             class="pl-3"
           >
             •
@@ -65,10 +65,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
+import type { NFT } from '../types'
 
 const props = defineProps<{
   modelValue: boolean
-  numMissingNames: number
+  missingNames: NFT[]
   numMissingDescriptions: number
   numMissingPrices: number
 }>()

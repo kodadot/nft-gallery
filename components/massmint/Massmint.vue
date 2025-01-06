@@ -75,7 +75,7 @@
     />
     <MissingInfoModal
       v-model="missingInfoModalOpen"
-      :num-missing-names="numberOfMissingNames"
+      :missing-names="missingNames"
       :num-missing-descriptions="numberOfMissingDescriptions"
       :num-missing-prices="numberOfMissingPrices"
       @close="missingInfoModalOpen = false"
@@ -156,12 +156,10 @@ const mintStatus = ref('')
 const neededAmount = computed(() => ((itemDeposit.value + metadataDeposit.value) * Object.keys(NFTS.value).length) + transactionFee.value)
 const hasEnoughBalance = computed(() => (transferableCurrentChainBalance.value ?? 0) >= neededAmount.value)
 
-const numberOfMissingNames = computed(
-  () => Object.values(NFTS.value).filter(nft => !nft.name).length,
-)
+const missingNames = computed(() => Object.values(NFTS.value).filter(nft => !nft.name))
 
 const numOfValidNFTs = computed(
-  () => Object.values(NFTS.value).length - numberOfMissingNames.value,
+  () => Object.values(NFTS.value).length - missingNames.value.length,
 )
 const numberOfMissingDescriptions = computed(
   () => Object.values(NFTS.value).filter(nft => !nft.description).length,
@@ -185,7 +183,7 @@ const closeDeleteModal = () => {
 }
 
 const openReviewModal = () => {
-  if (numberOfMissingNames.value > 0) {
+  if (missingNames.value && missingNames.value.length) {
     missingInfoModalOpen.value = true
     return
   }
