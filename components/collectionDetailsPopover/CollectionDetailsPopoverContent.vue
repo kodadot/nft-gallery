@@ -116,7 +116,7 @@ const CommonTokenMoney = defineAsyncComponent(
 )
 
 const GalleryCard = defineAsyncComponent(
-  () => import('@/components/rmrk/Gallery/GalleryCard.vue'),
+  () => import('@/components/gallery/GalleryCard.vue'),
 )
 
 const { urlPrefix } = usePrefix()

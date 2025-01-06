@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoPagination, NeoTooltip } from '@kodadot1/brick'
-import { getRandomIntInRange } from '../utils'
 
 const props = withDefaults(
   defineProps<{
@@ -78,6 +77,12 @@ const onPageChange = () => {
   if (!props.preserveScroll) {
     scrollTop()
   }
+}
+
+const getRandomIntInRange = (min: number, max: number): number => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 const goToRandomPage = () => {
