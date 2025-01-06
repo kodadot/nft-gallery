@@ -43,6 +43,7 @@
               ? 'minimal'
               : 'primary'
           "
+          :link-target="linkTarget"
         />
         <ItemsGridImageTokenEntity
           v-else
@@ -51,6 +52,7 @@
           :hide-action="hideNFTHoverAction"
           :hide-listing="hideListing"
           hide-video-controls
+          :link-target="linkTarget"
           :lazy-loading="
             shouldLazyLoad({
               cols: slotProps.cols,
@@ -67,6 +69,8 @@
           "
         />
       </div>
+
+      <slot name="additional-item" />
 
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
@@ -146,6 +150,7 @@ const props = defineProps<{
   hideHoverAction?: boolean
   collectionPopoverHide?: boolean
   hideListing?: boolean
+  linkTarget?: string
 }>()
 
 const emit = defineEmits(['total', 'loading'])

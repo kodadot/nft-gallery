@@ -48,7 +48,7 @@
               />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless border-0 capitalize sm:hidden"
+                class="p-3 !shadow-none border-0 capitalize sm:hidden"
                 @click="hideMobileSearchBar"
               >
                 {{ $t('cancel') }}
@@ -311,7 +311,7 @@ const openWalletConnectModal = (): void => {
 const showMobileNavbar = () => {
   closeAllModals()
 
-  document.body.classList.toggle('is-clipped')
+  document.body.classList.toggle('overflow-hidden')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
   if (!isMobileNavbarOpen.value) {
     document.documentElement.scrollTop = lastScrollPosition.value
@@ -330,10 +330,10 @@ const setBodyScroll = (allowScroll: boolean) => {
   nextTick(() => {
     const body = document.querySelector('body') as HTMLBodyElement
     if (allowScroll) {
-      body.classList.remove('is-clipped')
+      body.classList.remove('overflow-hidden')
     }
     else {
-      body.classList.add('is-clipped')
+      body.classList.add('overflow-hidden')
     }
   })
 }
@@ -365,7 +365,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
-  document.documentElement.classList.remove('is-clipped-touch')
+  document.documentElement.classList.remove('overflow-hidden')
   clearInterval(updateAuthBalanceTimer.value)
 })
 </script>

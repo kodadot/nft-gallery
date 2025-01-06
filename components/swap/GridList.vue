@@ -10,13 +10,24 @@
       :search="query"
       grid-size="medium"
       :grid-section="gridSection"
+      link-target="_blank"
       :hide-hover-action="!selectable"
-    />
+    >
+      <template
+        v-if="surcharge"
+        #additional-item
+      >
+        <SwapSurchargeCard
+          :surcharge="surcharge"
+        />
+      </template>
+    </ItemsGrid>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
+import { type SwapSurcharge } from '@/composables/transaction/types'
 
 const gridSection = GridSection.PROFILE_GALLERY
 
@@ -24,6 +35,7 @@ const props = defineProps<{
   query: Record<string, any>
   selectable?: boolean
   withFilters?: boolean
+  surcharge?: SwapSurcharge
 }>()
 
 const route = useRoute()

@@ -61,7 +61,7 @@ import useDropMassMint from '@/composables/drop/massmint/useDropMassMint'
 import useDropMassMintListing from '@/composables/drop/massmint/useDropMassMintListing'
 import { useDropStore } from '@/stores/drop'
 import useHolderOfCollection from '@/composables/drop/useHolderOfCollection'
-import type { ActionMintDrop, NFTs } from '@/composables/transaction/types'
+import { type ActionMintDrop, NFTs } from '@/composables/transaction/types'
 import useAutoTeleportModal from '@/composables/autoTeleport/useAutoTeleportModal'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -108,7 +108,7 @@ const action = computed<ActionMintDrop>(() => ({
   collectionId: drop.value?.collection,
   availableSerialNumbers: availableNfts.serialNumbers,
   price: drop.value?.price || null,
-  prefix: urlPrefix.value,
+  urlPrefix: urlPrefix.value,
 }))
 
 const autoTeleportAction = computed<AutoTeleportAction>(() => ({

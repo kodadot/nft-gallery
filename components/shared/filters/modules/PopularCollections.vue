@@ -1,27 +1,11 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }"
+  <SiderbarFilterSection
+    :title="$t('general.popularCollectionsHeading')"
+    :expanded="expanded"
+    :fluid-padding="fluidPadding"
   >
-    <template #trigger="{ open }">
-      <div
-        class="flex"
-        role="button"
-        :aria-expanded="open"
-      >
-        <p class="card-header-title font-normal">
-          {{ $t('general.popularCollectionsHeading') }}
-        </p>
-        <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
-      </div>
-    </template>
     <div
       v-if="collections.length > 0"
-      class="p-4"
     >
       <NeoField
         v-for="(collection, index) in collections"
@@ -39,7 +23,7 @@
           >
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image is-32x32 flex-shrink-0 border mr-2"
+              class="image size-8 flex-shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id"
             >
             <div class="flex flex-col flex-grow min-w-0">
@@ -69,19 +53,17 @@
     </div>
     <div
       v-else
-      class="p-4 text-base text-k-grey"
+      class="text-base text-k-grey"
     >
       {{ $t('general.noPopularCollections') }}
     </div>
-  </NeoCollapse>
+  </SiderbarFilterSection>
 </template>
 
 <script lang="ts" setup>
 import {
   NeoCheckbox,
-  NeoCollapse,
   NeoField,
-  NeoIcon,
   NeoTooltip,
 } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'

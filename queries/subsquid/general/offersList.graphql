@@ -1,3 +1,5 @@
+#import "../../fragments/baseMeta.graphql"
+
 query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blockNumber_DESC]) {
     offers(where: $where, orderBy: $orderBy) {
     id
@@ -12,11 +14,29 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
       sn
       currentOwner
       image
+      collection {
+        id
+      }
+      meta {
+        ...baseMeta
+      }
     }
     desired {
       id
       name
       sn
+      currentOwner
+      image
+      collection {
+        id
+      }
+      meta {
+        ...baseMeta
+      }
+    }
+    considered {
+      id
+      name
       currentOwner
       image
     }

@@ -82,10 +82,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoField, NeoInput, NeoModal } from '@kodadot1/brick'
-import type { Metadata, Attribute } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import type { ActionMetadataSetMetadata } from '@/composables/transaction/types'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
+import CustomAttributeInput from '@/components/create/CustomAttributeInput.vue'
+import type { Metadata } from '@/services/nftStorage'
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{

@@ -10,18 +10,13 @@
     :show-timestamp="showTimestamp"
     :collection-popover-hide="collectionPopoverHide"
     :lazy-loading="lazyLoading"
-    :class="{
-      'in-cart-border':
-        shoppingCartStore.isItemInCart(nft.id)
-        || listingCartStore.isItemInCart(nft.id)
-        || isAtomicSwapItemSelected
-      ,
-    }"
+    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) || isSelectActionItemInCart }"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play
+    :link-target="linkTarget"
   >
     <template
       v-if="!hideAction"
@@ -58,15 +53,15 @@
         </NeoButton>
       </div>
       <div
-        v-else-if="showSelect"
+        v-else-if="showSelectAction"
         class="flex"
       >
         <NeoButton
-          :label="selectLabel"
+          :label="selectActionLabel"
           data-testid="item-buy"
           no-shadow
           class="flex-grow"
-          @click.prevent="onSelect"
+          @click.prevent="onSelectAction"
         />
       </div>
     </template>
@@ -91,7 +86,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 const { placeholder } = useTheme()
-const { isLogIn, isCurrentOwner } = useAuth()
+const { isLogIn, isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
@@ -112,6 +107,7 @@ const props = defineProps<{
   collectionPopoverHide?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
+  linkTarget?: string
 }>()
 
 const {
@@ -134,7 +130,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
@@ -165,20 +161,13 @@ const onClickShoppingCart = () => {
 
 const onClickListingCart = () => listNftByNftWithMetadata(props.nft, { toggle: true })
 
-const selectLabel = computed(() => {
-  const selected = showAtomicSwapAction.value ? isAtomicSwapItemSelected.value : listingCartStore.isItemInCart(props.nft.id)
-  return selected ? $i18n.t('remove') : $i18n.t('select')
-})
+const isSelectActionItemInCart = computed(() => isAtomicSwapItemSelected.value || listingCartStore.isItemInCart(props.nft.id))
 
-const showSelect = computed(() => {
-  if (showAtomicSwapAction.value) {
-    return true
-  }
+const selectActionLabel = computed(() => isSelectActionItemInCart.value ? $i18n.t('remove') : $i18n.t('select'))
 
-  return isOwner.value && !props.hideListing
-})
+const showSelectAction = computed(() => showAtomicSwapAction.value || (isOwner.value && !props.hideListing))
 
-const onSelect = () => {
+const onSelectAction = () => {
   if (showAtomicSwapAction.value) {
     onAtomicSwapSelect()
   }

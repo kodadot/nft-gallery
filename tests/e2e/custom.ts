@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import { expect } from '@playwright/test'
+import { type Prefix } from '@kodadot1/static'
 
 export class Commands {
   constructor(public readonly page: Page) {}
@@ -53,5 +54,10 @@ export class Commands {
     const newTab = await newTabPromise
     await expect(newTab).toHaveURL(new RegExp(url))
     await newTab.close()
+  }
+
+  async switchChain(chain: Prefix) {
+    await this.page.getByTestId('chain-select').click()
+    await this.page.getByTestId(`chain-dropdown-${chain}`).click()
   }
 }

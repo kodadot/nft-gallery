@@ -4,14 +4,15 @@
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
-          :variant
+          :variant="variant"
           :label="
-            isMobile || !showNetworkLabel
+            isMobileDevice || !showNetworkLabel
               ? label || selected?.text
               : `Network: ${selected?.text}`
           "
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active"
+          :no-shadow="noShadow"
         />
       </template>
 
@@ -30,14 +31,16 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem, type NeoButtonVariant } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
+import { isMobileDevice } from '@/utils/extension'
 
 const props = withDefaults(
   defineProps<{
-    showNetworkLabel: boolean
+    showNetworkLabel?: boolean
     position?: 'bottom-auto'
     redirect?: boolean
     exclude?: Prefix[]
     variant?: NeoButtonVariant
+    noShadow?: boolean
     label?: string
     filterByVm?: boolean
   }>(),
@@ -55,7 +58,6 @@ const route = useReactiveRoute()
 const { setUrlPrefix, urlPrefix } = usePrefix()
 const { availableChains: allChains, availableChainsByVm: allChainInVm } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
-const { isMobile } = useViewport()
 
 const prefix = computed(() => route.params.prefix || urlPrefix.value)
 

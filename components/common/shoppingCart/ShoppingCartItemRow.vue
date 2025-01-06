@@ -3,7 +3,7 @@
     ref="hoverRef"
     class="flex justify-between hover:bg-k-accent-light-2"
   >
-    <div class="pr-2 w-full whitespace-nowrap is-clipped text-ellipsis">
+    <div class="pr-2 w-full whitespace-nowrap overflow-hidden text-ellipsis">
       <div class="flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -12,7 +12,7 @@
           <BasicImage
             :src="avatar"
             :alt="nft?.name"
-            class="border image is-48x48"
+            class="border image size-12"
           />
         </nuxt-link>
         <div
@@ -20,13 +20,13 @@
         >
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
-            class="font-bold text-text-color whitespace-nowrap is-clipped text-ellipsis"
+            class="font-bold text-text-color whitespace-nowrap overflow-hidden text-ellipsis"
             @click="emit('click-item')"
           >
             {{ nft.name }}
           </nuxt-link>
           <div class="flex justify-between w-full">
-            <div class="whitespace-nowrap is-clipped text-ellipsis">
+            <div class="whitespace-nowrap overflow-hidden text-ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
 

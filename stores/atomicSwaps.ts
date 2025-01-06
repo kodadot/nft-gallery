@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
+import groupBy from 'lodash/groupBy'
 import { type SwapSurcharge } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
+
+const ITEMS_MAX_AGE_MS = 7 * ONE_DAY_MS
+const ITEMS_MAX_AMOUNT_PER_CHAIN = 5
+
+export type CrateSwapWithFields = Partial<Omit<AtomicSwap, 'id'>>
 
 export type AtomicSwap = {
   counterparty: string
@@ -52,7 +58,7 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
   const getItems = computed(() => items.value)
   const stepItems = computed(() => getStepItems(step.value))
 
-  const createSwap = (counterparty: string) => {
+  const createSwap = (counterparty: string, withFields?: CrateSwapWithFields) => {
     const newAtomicSwap: AtomicSwap = {
       id: window.crypto.randomUUID().split('-')[0],
       counterparty,
@@ -62,6 +68,10 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
       urlPrefix: urlPrefix.value,
       duration: 7,
       creator: accountId.value ? accountId.value : undefined,
+    }
+
+    if (withFields) {
+      Object.assign(newAtomicSwap, withFields)
     }
 
     setItem(newAtomicSwap)
@@ -107,7 +117,22 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     clear,
     createSwap,
     updateSwap,
+    updateItem,
     updateStepItems,
     removeStepItem,
   }
-}, { persist: true })
+}, { persist: {
+  // clear swaps on session start
+  afterRestore: (context) => {
+    const recentSwaps = (context.store.items as AtomicSwap[])
+      .filter((swap: AtomicSwap) =>
+        getSwapStep(swap) !== SwapStep.CREATED
+        && swap.createdAt >= Date.now() - ITEMS_MAX_AGE_MS,
+      )
+
+    context.store.items = Object
+      .values(groupBy(recentSwaps, 'urlPrefix'))
+      .map(items => items.sort((a, b) => a.createdAt - b.createdAt).slice(0, ITEMS_MAX_AMOUNT_PER_CHAIN - 1))
+      .flat()
+  },
+} })

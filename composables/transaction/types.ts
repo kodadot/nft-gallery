@@ -1,4 +1,4 @@
-import type { Attribute, Metadata } from '@kodadot1/minimark/common'
+import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
@@ -8,6 +8,7 @@ import type { BaseTokenType } from '@/components/base/types'
 import type { Royalty } from '@/utils/royalty'
 import type { ShoppingActions } from '@/utils/shoppingActions'
 import type { Extrinsic } from '@/utils/transactionExecutor'
+import type { Metadata } from '@/services/nftStorage'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
 export type ObjectMessage = {
@@ -209,8 +210,8 @@ export type ActionSwap = {
   errorMessage?: string
 }
 
-export type ActionWithdrawOffer = {
-  interaction: typeof ShoppingActions.WITHDRAW_OFFER
+export type ActionCancelOffer = {
+  interaction: typeof ShoppingActions.CANCEL_OFFER
   urlPrefix: Prefix
   offeredId: string
   successMessage?: string
@@ -220,16 +221,16 @@ export type ActionWithdrawOffer = {
 export type ActionAcceptOffer = {
   interaction: typeof ShoppingActions.ACCEPT_OFFER
   urlPrefix: Prefix
-  nftId: string
-  collectionId: string
-  offeredId: string
+  sendCollection: string
+  sendItem?: string
+  receiveItem: string
   price: string
   successMessage?: string
   errorMessage?: string
 }
 
-export type ActionWithdrawSwap = {
-  interaction: typeof ShoppingActions.WITHDRAW_SWAP
+export type ActionCancelSwap = {
+  interaction: typeof ShoppingActions.CANCEL_SWAP
   urlPrefix: Prefix
   offeredId: string
   offeredCollectionId: string
@@ -241,7 +242,7 @@ export type ActionAcceptSwap = {
   interaction: typeof ShoppingActions.ACCEPT_SWAP
   urlPrefix: Prefix
   sendCollection: string
-  sendItem: string
+  sendItem?: string
   receiveItem: string
   receiveCollection: string
   price: string | null
@@ -263,7 +264,7 @@ export interface ActionMintDrop {
   availableSerialNumbers?: string[]
   price: string | null
   collectionId: string
-  prefix: Prefix
+  urlPrefix: Prefix
 }
 
 export interface ActionMintCollection {
@@ -338,9 +339,9 @@ export type Actions =
   | ActionSend
   | ActionOffer
   | ActionConsume
-  | ActionWithdrawSwap
+  | ActionCancelSwap
   | ActionAcceptSwap
-  | ActionWithdrawOffer
+  | ActionCancelOffer
   | ActionAcceptOffer
   | ActionMintToken
   | ActionMintCollection

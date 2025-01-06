@@ -1,0 +1,6 @@
+export enum GALLERY_ITEM_TABS {
+  ACTIVITY,
+  OFFERS,
+  SWAPS,
+  CHART,
+}

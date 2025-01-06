@@ -3,10 +3,10 @@
     v-if="isDesktop"
     class="flex gap-3 py-[.6rem]"
   >
-    <div class="flex-1 is-clipped">
+    <div class="flex-1 overflow-hidden">
       <div class="flex items-center">
         <nuxt-link
-          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+          :to="itemPath"
           class="h-[50px]"
         >
           <BaseMediaItem
@@ -20,10 +20,10 @@
         </nuxt-link>
         <nuxt-link
           class="is-ellipsis inline-block"
-          :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+          :to="itemPath"
         >
-          <span class="ml-5 font-bold is-clipped">
-            {{ trade.desired.name }}
+          <span class="ml-5 font-bold overflow-hidden">
+            {{ item.name }}
           </span>
         </nuxt-link>
       </div>
@@ -92,9 +92,11 @@
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <TradeOwnerButton
-          class="max-md:!w-full"
+          main-class="max-md:!w-full"
+          detailed
           :trade="trade"
-          @click="$emit('select')"
+          @click:main="$emit('select')"
+          @click:counter-swap="$emit('counter-swap')"
         />
       </div>
     </div>
@@ -106,7 +108,7 @@
   >
     <div class="flex flex-col gap-[10px]">
       <div class="flex h-[70px] leading-[1]">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${trade.desired.id}`">
+        <nuxt-link :to="itemPath">
           <div class="mr-5">
             <BaseMediaItem
               class="border border-k-shade w-[4.375rem] h-[4.375rem]"
@@ -121,10 +123,10 @@
         <div class="flex flex-col justify-center gap-[10px] flex-grow">
           <nuxt-link
             class="is-ellipsis inline-block w-60"
-            :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
+            :to="itemPath"
           >
             <span class="font-bold">
-              {{ trade.desired.name }}
+              {{ item.name }}
             </span>
           </nuxt-link>
 
@@ -180,9 +182,12 @@
       </div>
     </div>
     <TradeOwnerButton
-      class="max-md:!w-full !mt-4"
+      class="mt-4"
+      main-class="max-md:!w-full"
+      detailed
       :trade="trade"
-      @click="$emit('select')"
+      @click:main="$emit('select')"
+      @click:counter-swap="$emit('counter-swap')"
     />
   </div>
 </template>
@@ -200,12 +205,26 @@ import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
-defineEmits(['select'])
+type Item = TradeToken | TradeConsidered
+
+defineEmits(['select', 'counter-swap'])
 const props = defineProps<{
   trade: TradeNftItem
   variant: ResponsiveVariant
   target: 'from' | 'to'
 }>()
+
+const getRowConfig = () => {
+  return props.target === 'from'
+    ? {
+        item: props.trade.offered,
+        desiredType: TradeDesiredType.TOKEN,
+      }
+    : {
+        item: props.trade.isEntireCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken,
+        desiredType: props.trade.desiredType,
+      }
+}
 
 const interaction = {
   [TradeType.OFFER]: TradeInteraction.OFFER,
@@ -216,12 +235,18 @@ const { urlPrefix } = usePrefix()
 const { format: formatPrice } = useFormatAmount()
 const { amount, price } = formatPrice(props.trade?.price)
 
+const { item, desiredType } = getRowConfig()
+
 const image = ref()
 const animationUrl = ref()
 
 const isDesktop = computed(() => props.variant === 'Desktop')
-const isExpired = computed(() => props.trade.status === 'EXPIRED')
-const targetAddress = computed(() => props.target === 'to' ? props.trade.desired.currentOwner : props.trade.caller)
+const isExpired = computed(() => props.trade.status === TradeStatus.EXPIRED)
+
+const isTradeCollection = computed(() => desiredType === TradeDesiredType.COLLECTION)
+const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)
+
+const targetAddress = computed(() => props.target === 'to' ? item.currentOwner : props.trade.caller)
 const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
@@ -231,5 +256,12 @@ const getAvatar = async (nft) => {
 }
 
 // TODO imporve nft fetching
-onBeforeMount(() => fetchNft(props.trade.desired.id).then(getAvatar))
+onBeforeMount(() => {
+  const fetchImageMap = {
+    [TradeDesiredType.TOKEN]: (item: Item) => fetchNft(item.id).then(getAvatar),
+    [TradeDesiredType.COLLECTION]: (item: Item) => image.value = sanitizeIpfsUrl(item.image),
+  }
+
+  fetchImageMap[desiredType]?.(item)
+})
 </script>

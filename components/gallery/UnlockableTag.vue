@@ -1,5 +1,5 @@
 <template>
-  <div class="unlockable-container flex border py-2 px-6 justify-between">
+  <div class="flex border py-2 px-6 justify-between max-w-[60%] max-lg:max-w-full rounded-[2rem] border-k-shade">
     <NeoTooltip
       :active="!isOwner"
       :label="$t('unlockable.tooltip')"
@@ -23,11 +23,7 @@
         rel="nofollow noopener noreferrer"
         class="text-k-blue hover:text-k-blue-hover"
       >
-        {{
-          isMobile
-            ? $t('unlockable.claimDrop')
-            : $t('unlockable.claimPhysicalDrop')
-        }}
+        {{ isMobile ? $t('unlockable.claimDrop') : $t('unlockable.claimPhysicalDrop') }}
       </a>
       <span v-else>{{ $t('unlockable.ownerOnly') }}</span>
     </div>
@@ -44,26 +40,9 @@ const props = defineProps<{
   link: string | undefined
 }>()
 
-const { isCurrentOwner } = useAuth()
+const { isCurrentAccount } = useAuth()
 const { isMobile } = useViewport()
 const { unlockableIcon } = useIcon()
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-.unlockable-container {
-  @apply max-w-[60%] rounded-[2rem];
-
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-@include until-widescreen {
-  .unlockable-container {
-    max-width: 100%;
-  }
-}
-</style>
