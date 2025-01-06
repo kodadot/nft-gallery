@@ -1,12 +1,12 @@
 <template>
-  <div class="flex justify-between mobile-flex-direction-column">
-    <div class="flex flex-col flex-grow max-width">
+  <div class="flex justify-between max-sm:flex-col">
+    <div class="flex flex-col flex-grow max-w-full">
       <div class="flex justify-between mb-2">
         <div class="mr-2 font-bold text-xl mb-1">
           About Collection
         </div>
       </div>
-      <div class="overflow-wrap">
+      <div class="break-words">
         <Markdown
           :source="visibleDescription"
           data-testid="drops-text-description-container"
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div>
-      <div class="flex gap mobile-flex-direction-column mobile-no-gap" />
+      <div class="flex gap-4 max-sm:flex-col max-sm:gap-0" />
     </div>
   </div>
 </template>
@@ -69,30 +69,3 @@ const visibleDescription = computed(() => {
   )
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.max-width {
-  max-width: 100%;
-}
-
-.gap {
-  gap: 1rem;
-}
-
-@include mobile {
-  .mobile-flex-direction-column {
-    flex-direction: column;
-  }
-
-  .mobile-no-gap {
-    gap: 0;
-  }
-  .max-width {
-    max-width: 100%;
-  }
-  .overflow-wrap {
-    overflow-wrap: break-word;
-  }
-}
-</style>
