@@ -3,7 +3,7 @@
     <NeoAutocomplete
       v-model="search"
       :data="data"
-      root-class="search-input"
+      root-class="neo-input"
       debounce-typing="300"
       open-on-focus
       clearable
@@ -16,7 +16,7 @@
         v-if="loading"
         #header
       >
-        <div class="lowercase">
+        <div>
           {{ $t('loading') }}...
         </div>
       </template>
