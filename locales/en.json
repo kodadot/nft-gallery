@@ -1989,7 +1989,7 @@
       "week": "7D"
     }
   },
-  "trade": { "selectSendItem": "Select NFT to send" },
+  "trade": { "selectSendItem": "Select NFT First" },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",
