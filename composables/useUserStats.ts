@@ -1,5 +1,5 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
-import type { Event } from '@/components/rmrk/service/types'
+import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()
@@ -9,7 +9,7 @@ export default () => {
 
   const getUserStats = async () => {
     const query = await resolveQueryPath(client.value, 'profileStatsById')
-    const { data } = await useAsyncQuery<{ invested: Event[] }>({
+    const { data } = await useAsyncQuery<{ invested: InteractionWithNFT[] }>({
       query: query.default,
       clientId: client.value,
       variables: {
