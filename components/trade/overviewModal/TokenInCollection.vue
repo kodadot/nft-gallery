@@ -32,7 +32,7 @@
       </div>
 
       <TokenItemDetails
-        v-if="sendItem"
+        v-if="selected"
         :nft="sendItem"
       />
 

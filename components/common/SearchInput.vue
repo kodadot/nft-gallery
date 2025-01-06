@@ -9,7 +9,6 @@
       clearable
       item-class="hover:!bg-k-accent-light"
       :placeholder="placeholder"
-      @focus="onSearchFn"
       @typing="onSearchFn"
       @select="onSelect"
     >
@@ -17,7 +16,9 @@
         v-if="loading"
         #header
       >
-        <div> laoding...</div>
+        <div class="lowercase">
+          {{ $t('loading') }}...
+        </div>
       </template>
       <template
         v-else-if="!data?.length"
@@ -59,6 +60,8 @@ const onSearchFn = async () => {
 const onSelect = (selected) => {
   emit('select', selected)
 }
+
+onBeforeMount(onSearchFn)
 </script>
 
 <style lang="scss" scoped>
