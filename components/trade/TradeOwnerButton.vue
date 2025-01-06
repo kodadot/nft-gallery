@@ -95,7 +95,7 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
     return null
   }
 
-  const config = tradeButtonConfig.value
+  const config = { ...tradeButtonConfig.value }
 
   Object.assign(config, { disabled: props.disabled })
 
