@@ -81,7 +81,6 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
-import { langsFlags, usePreferencesStore } from '@/stores/preferences'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()

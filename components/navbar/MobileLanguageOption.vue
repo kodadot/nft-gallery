@@ -14,8 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-import { langsFlags, usePreferencesStore } from '@/stores/preferences'
-
 const { $i18n } = useNuxtApp()
 const emit = defineEmits(['select'])
 

@@ -60,7 +60,7 @@ export function isActionValid(action: Actions): boolean {
     [ShoppingActions.ACCEPT_SWAP]: (action: ActionAcceptSwap) =>
       Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),
     [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
-      Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
+      Boolean(action.sendItem && action.sendCollection && action.price && action.receiveItem),
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>

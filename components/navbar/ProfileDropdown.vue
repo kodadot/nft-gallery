@@ -87,12 +87,12 @@
 
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+
 import { useIdentityStore } from '@/stores/identity'
-import { langsFlags as langsFlagsList, usePreferencesStore } from '@/stores/preferences'
+import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
-import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
@@ -104,7 +104,6 @@ const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
   isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
 )
-const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
   useProfileOnboardingStore().setSidebarToggled()
