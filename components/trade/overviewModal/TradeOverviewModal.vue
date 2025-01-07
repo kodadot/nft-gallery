@@ -28,6 +28,9 @@
               :desired="nft.desired"
               :offered="nft.offered"
               :trade="trade"
+              :send-item="sendItem"
+              @send-item:select="selectSendItem"
+              @send-item:clear="clearSendItem"
             />
             <TradeOverviewModalTypeOffer
               v-if="trade.type === TradeType.OFFER"
