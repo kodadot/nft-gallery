@@ -9,9 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Find endpoints for both Asset Hubs
 const ahp = prodParasPolkadotCommon.find(key => key.info === 'PolkadotAssetHub')
-const kahp = prodParasKusamaCommon.find(key => key.info === 'KusamaAssetHub')
+const ahk = prodParasKusamaCommon.find(key => key.info === 'KusamaAssetHub')
 const ahpProviders = Object.values(ahp?.providers)
-const ahkProviders = Object.values(kahp?.providers)
+const ahkProviders = Object.values(ahk?.providers)
 
 // Helper function to create provider promises
 const createProviderPromises = (urls, network) => urls.map(async (url) => {
