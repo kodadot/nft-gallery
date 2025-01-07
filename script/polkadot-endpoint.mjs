@@ -20,10 +20,14 @@ const createProviderPromises = (urls, network) => urls.map(async (url) => {
     const wsProvider = new WsProvider(url)
     const api = new ApiPromise({ provider: wsProvider, noInitWarn: true })
 
-    await api.isReady
-    await api.rpc.system.chain()
+    // Add timeout for api.isReady
+    await Promise.race([
+      api.isReady,
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Connection timeout')), 2000),
+      ),
+    ])
     const responseTime = Date.now() - startTime
-    await api.disconnect()
 
     return { network, url, responseTime, success: true }
   }
@@ -38,7 +42,7 @@ const getFastestSuccessful = async (promises) => {
   const results = await Promise.all(promises)
   const successful = results.filter(r => r.success)
   if (successful.length === 0) {
-    throw new Error('No successful connections')
+    console.error('No successful connections')
   }
   return successful.reduce((fastest, current) =>
     !fastest || current.responseTime < fastest.responseTime ? current : fastest,
