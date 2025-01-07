@@ -14,7 +14,7 @@
           <div>{{ $t('massmint.required') }}</div>
 
           <div class="pl-3">
-            • {{ $t('massmint.incompleteNfts', { count: missingNames.length }) }} ({{ missingNames.map(nft => nft.id).join(', ') }})
+            • {{ $t('massmint.incompleteNfts', { count: missingNames.length }) }} (#{{ missingNames.map(nft => nft.id).join(', #') }})
           </div>
         </div>
         <div
