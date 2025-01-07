@@ -19,7 +19,7 @@
         :loading="loading"
         @close="onClose"
       >
-        <div>
+        <div :key="session">
           <ModalIdentityItem />
 
           <template v-if="trade && nft">
@@ -132,6 +132,7 @@ const props = defineProps<{
 }>()
 
 const selectedSendItemId = ref<string>()
+const session = ref<string>()
 const vModel = useVModel(props, 'modelValue')
 
 const { accountId } = useAuth()
@@ -209,6 +210,10 @@ const onClose = () => {
   onModalAnimation(() => emit('close'))
 }
 
+const reset = () => {
+  clearSendItem()
+}
+
 const execTransaction = () => {
   if (!nft.value || !trade.value) {
     return
@@ -225,6 +230,17 @@ const execTransaction = () => {
 
   TradeTypeTx[trade.value.type][mode.value](params)
 }
+
+const initSession = () => {
+  session.value = window.crypto.randomUUID()
+  reset()
+}
+
+useModalIsOpenTracker({
+  isOpen: vModel,
+  onClose: false,
+  onChange: initSession,
+})
 
 useTransactionNotification({
   status,
