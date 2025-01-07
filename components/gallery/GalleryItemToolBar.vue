@@ -59,11 +59,11 @@
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-import { MediaType } from '@/components/rmrk/types'
 import {
   determineElementType,
   mediaTypeElementSelectors,
   resolveMedia,
+  MediaType,
 } from '@/utils/gallery/media'
 
 type ReloadElement =

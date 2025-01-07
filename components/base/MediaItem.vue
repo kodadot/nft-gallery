@@ -78,8 +78,7 @@ import {
   NeoVideoMedia,
 } from '@kodadot1/brick'
 import AudioMedia from '@/components/shared/AudioMedia.vue'
-import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-import { MediaType } from '@/components/rmrk/types'
+import { getMimeType, resolveMedia, MediaType } from '@/utils/gallery/media'
 
 const props = withDefaults(
   defineProps<{

@@ -96,9 +96,12 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   type?: TradeType
 }) {
   const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
+
   const items = ref<TradeNftItem[]>([])
   const targetsOfTrades = ref<Map<string, string[]>>()
-  const ownersSubscription = ref(() => {})
+  const ownersSubscription = ref(() => { })
+
+  const { client } = usePrefix()
 
   const {
     result: data,
@@ -111,6 +114,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     })),
     computed(() => ({
       enabled: !disabled.value,
+      clientId: client.value,
     })),
   )
 
