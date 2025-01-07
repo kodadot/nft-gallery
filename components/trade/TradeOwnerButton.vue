@@ -7,7 +7,7 @@
       :button="buttonConfig"
     />
 
-    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP">
+    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP && !trade.isAnyTokenInCollectionDesired">
       <NeoTooltip
         position="top"
         content-class="capitalize"
@@ -15,7 +15,6 @@
       >
         <NeoButton
           variant="icon"
-          :disabled="trade.isEntireCollectionDesired"
           @click="emit('click:counter-swap')"
         >
           <NeoIcon
