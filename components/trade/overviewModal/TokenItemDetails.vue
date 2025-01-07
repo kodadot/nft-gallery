@@ -17,7 +17,7 @@ import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import type { NFT } from '@/types'
 
 const props = defineProps<{
-  nft?: NFT
+  nft?: NFT | null
 }>()
 
 const formattedPrice = ref()

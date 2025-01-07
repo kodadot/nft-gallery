@@ -33,6 +33,6 @@ defineEmits(['send-item:select', 'send-item:clear'])
 defineProps<{
   trade: TradeNftItem
   desired?: NFT
-  sendItem: NFT | null
+  sendItem?: NFT | null
 }>()
 </script>

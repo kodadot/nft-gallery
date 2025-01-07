@@ -10,7 +10,10 @@
         :trade="trade"
       />
     </div>
-    <div class="flex flex-col gap-2">
+    <div
+      v-if="isTargetOfTrade"
+      class="flex flex-col gap-2"
+    >
       <div class="flex justify-between items-center h-[1.5rem]">
         <div class="text-sm font-semibold capitalize">
           To trade
@@ -44,9 +47,9 @@
             id_eq: trade.considered.id,
           },
         }"
-        @select="s => {
-          selected = s
-          $emit('send-item:select', s)
+        @select="sendItem => {
+          selected = sendItem
+          $emit('send-item:select', sendItem)
         }"
       />
     </div>
@@ -61,11 +64,12 @@ import TokenItemDetails from './TokenItemDetails.vue'
 import type { NFT } from '@/types'
 
 defineEmits(['send-item:select', 'send-item:clear'])
-defineProps<{
-  sendItem?: NFT
+const props = defineProps<{
+  sendItem?: NFT | null
   trade: TradeNftItem
 }>()
 
 const selected = ref()
 const { accountId } = useAuth()
+const { isTargetOfTrade } = useIsTrade(computed(() => props.trade), accountId)
 </script>
