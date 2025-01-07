@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ahp = prodParasPolkadotCommon.find(key => key.info === 'PolkadotAssetHub')
 const kahp = prodParasKusamaCommon.find(key => key.info === 'KusamaAssetHub')
 const ahpProviders = Object.values(ahp?.providers)
-const kahpProviders = Object.values(kahp?.providers)
+const ahkProviders = Object.values(kahp?.providers)
 
 // Helper function to create provider promises
 const createProviderPromises = (urls, network) => urls.map(async (url) => {
@@ -47,7 +47,7 @@ const getFastestSuccessful = async (promises) => {
 
 // Create array of promises for both networks
 const polkadotPromises = createProviderPromises(ahpProviders, 'Polkadot')
-const kusamaPromises = createProviderPromises(kahpProviders, 'Kusama')
+const kusamaPromises = createProviderPromises(ahkProviders, 'Kusama')
 
 // Race to find fastest responding endpoints for both networks
 Promise.all([
@@ -63,7 +63,7 @@ Promise.all([
       },
       ahk: {
         endpoint: kusama.url,
-        providers: kahpProviders,
+        providers: ahkProviders,
         responseTime: kusama.responseTime,
       },
     }
