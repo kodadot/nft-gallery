@@ -54,7 +54,7 @@ import { NeoButton } from '@kodadot1/brick'
 import History from './History.vue'
 import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from '@/components/profile/FilterButton.vue'
-import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()

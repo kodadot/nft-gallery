@@ -1,8 +1,7 @@
 import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
 import consola from 'consola'
 import type { MassMintNFT } from '@/types'
-import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/components/rmrk/utils'
+import { resolveMedia, MediaType } from '@/utils/gallery/media'
 
 type Range = [number, number]
 

@@ -86,7 +86,7 @@ import { fetchFollowersOf } from '@/services/profile'
 import type { NFT } from '@/types'
 
 const GalleryCard = defineAsyncComponent(
-  () => import('../../rmrk/Gallery/GalleryCard.vue'),
+  () => import('@/components/gallery/GalleryCard.vue'),
 )
 
 const NFT_AMOUNT = 2
