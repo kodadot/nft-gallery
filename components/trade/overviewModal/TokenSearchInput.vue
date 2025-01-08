@@ -34,7 +34,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 defineEmits(['select'])
 const props = defineProps<{
-  where: Record<string, any>
+  where: Record<string, unknown>
 }>()
 
 const onSearch = async (searchKey: string) => {
