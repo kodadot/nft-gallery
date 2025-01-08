@@ -11,17 +11,16 @@
         :key="item.id"
         class="flex items-center gap-2"
       >
-        <div class="flex-shrink-0 border w-8 h-8">
-          <BaseMediaItem
-            :src="sanitizeIpfsUrl(item.meta.image)"
-            :alt="item.name"
-          />
-        </div>
+        <BaseMediaItem
+          class="border border-border-color w-8 h-8"
+          :src="sanitizeIpfsUrl(item.meta.image)"
+          :alt="item.name"
+        />
         <div class="flex flex-col">
-          <div class="text-sm font-semibold">
+          <div class="text-sm font-semibold text-text-color">
             {{ item.name }}
           </div>
-          <div class="text-xs text-gray-500">
+          <div class="text-xs text-k-grey">
             {{ item.collection?.name }}
           </div>
         </div>
