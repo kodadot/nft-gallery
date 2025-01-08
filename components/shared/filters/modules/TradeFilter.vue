@@ -35,7 +35,7 @@ const { $i18n } = useNuxtApp()
 
 const { replaceUrl: replaceURL } = useReplaceUrl()
 
-const tradeName = computed(() => route.name === 'prefix-collection-id-swaps' ? $i18n.t('swap.swap') : $i18n.t('offers'))
+const tradeName = computed(() => route.name === 'prefix-collection-id-swaps' ? $i18n.t('swaps') : $i18n.t('offers'))
 
 const entire_collection = computed({
   get: () => route.query?.trade_collection?.toString() === 'true',
