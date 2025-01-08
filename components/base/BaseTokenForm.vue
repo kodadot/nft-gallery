@@ -83,9 +83,9 @@
 <script setup lang="ts">
 import { NeoField } from '@kodadot1/brick'
 import { useVModel } from '@vueuse/core'
-import { MediaType } from '../rmrk/types'
-import { resolveMedia } from '../rmrk/utils'
 import type { BaseMintedCollection as MintedCollection } from './types'
+import { resolveMedia, MediaType } from '@/utils/gallery/media'
+
 import Auth from '@/components/shared/Auth.vue'
 import MetadataUpload from '@/components/shared/DropUpload.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
