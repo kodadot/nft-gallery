@@ -5,7 +5,7 @@
     <div
       class="flex flex-col gap-5"
       :class="{
-        'flex-col-reverse': isMyTrade,
+        'flex-col-reverse': isMyTrade && isSwap,
       }"
     >
       <!-- Desired  -->
@@ -21,15 +21,17 @@
         :nft="desired"
       />
 
-      <NeoIcon
-        class="rotate-90"
-        icon="arrow-right-arrow-left"
-      />
+      <template v-if="isSwap">
+        <NeoIcon
+          class="rotate-90"
+          icon="arrow-right-arrow-left"
+        />
 
-      <!-- Offered -->
-      <TokenItemDetails
-        :nft="offered"
-      />
+        <!-- Offered -->
+        <TokenItemDetails
+          :nft="offered"
+        />
+      </template>
     </div>
 
     <hr class="!my-5">
@@ -43,9 +45,10 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
+import { useIsTradeOverview } from './utils'
 import TokenItemDetails from './TokenItemDetails.vue'
 import TokenInCollection from './TokenInCollection.vue'
-import { useIsTradeOverview } from './utils'
+import { TradeType } from '@/composables/useTrades'
 import type { NFT } from '@/types'
 
 defineEmits(['send-item:select', 'send-item:clear'])
@@ -57,4 +60,5 @@ const props = defineProps<{
 }>()
 
 const { isMyTrade } = useIsTradeOverview(computed(() => props.trade))
+const isSwap = computed(() => props.trade.type === TradeType.SWAP)
 </script>

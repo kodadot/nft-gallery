@@ -19,29 +19,18 @@
         :loading="loading"
         @close="onClose"
       >
-        <div :key="session">
-          <ModalIdentityItem />
+        <ModalIdentityItem />
 
-          <template v-if="trade && nft">
-            <TradeOverviewModalTypeSwap
-              v-if="trade.type === TradeType.SWAP"
-              :desired="nft.desired"
-              :offered="nft.offered"
-              :trade="trade"
-              :send-item="sendItem"
-              @send-item:select="selectSendItem"
-              @send-item:clear="clearSendItem"
-            />
-            <TradeOverviewModalTypeOffer
-              v-if="trade.type === TradeType.OFFER"
-              :trade="trade"
-              :desired="nft.desired"
-              :send-item="sendItem"
-              @send-item:select="selectSendItem"
-              @send-item:clear="clearSendItem"
-            />
-          </template>
-        </div>
+        <TradeOverviewModalContent
+          v-if="trade && nft"
+          :key="session"
+          :desired="nft.desired"
+          :offered="nft.offered"
+          :trade="trade"
+          :send-item="sendItem"
+          @send-item:select="selectSendItem"
+          @send-item:clear="clearSendItem"
+        />
 
         <div
           v-if="trade"
