@@ -172,8 +172,6 @@ const { source, sourceSelected, destination, destinationSelected }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .network {
   display: flex;
   align-items: center;
@@ -186,7 +184,7 @@ const { source, sourceSelected, destination, destinationSelected }
     top: -100%;
   }
 
-  @include mobile() {
+  @media screen and (max-width: 768px) {
     .text-destination {
       position: unset;
       top: unset;
@@ -200,9 +198,7 @@ const { source, sourceSelected, destination, destinationSelected }
 }
 
 .svg-arrow {
-  @include ktheme() {
-    stroke: theme('text-color');
-  }
+  stroke: var(--text-color);
 }
 
 .migrate-title {
