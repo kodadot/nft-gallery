@@ -17,10 +17,10 @@
       />
       <NeoSkeleton
         no-margin
-        class="!w-[80px]"
-        width="80px"
+        class="!w-[99px]"
+        width="99px"
         border-radius="10px"
-        height="20px"
+        height="24px"
       />
     </div>
   </div>
@@ -57,7 +57,7 @@
           >
             <div class="flex items-center gap-2">
               <NeoIcon
-                class="text-k-grey opacity-20"
+                class="text-k-grey opacity-20 !text-[0.4rem]"
                 icon="circle"
                 pack="fass"
                 size="small"
@@ -90,11 +90,20 @@
       </div>
     </div>
 
-    <div class="flex items-center space-between ">
+    <div class="flex items-center justify-between">
       <div class="text-sm flex gap-2">
         <span class="text-k-grey"> Count: </span>
         <span> {{ trades.length }} </span>
       </div>
+
+      <NeoButton
+        variant="pill"
+        size="small"
+        class="px-4 py-1"
+        icon="arrow-right"
+      >
+        {{ $t('helper.viewAll') }}
+      </NeoButton>
     </div>
   </div>
 </template>
