@@ -147,9 +147,8 @@ const { usd: formattedPrice } = useAmount(
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
 .is-ellipsis {
-  @include mobile {
+  @media (max-width: 640px) {
     white-space: unset;
   }
 }
