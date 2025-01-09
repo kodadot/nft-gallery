@@ -83,7 +83,7 @@
               </div>
             </div>
             <span class="text-k-grey text-sm">
-              {{ formatDistanceToNow(new Date(trade.updatedAt), { addSuffix: false }) }}
+              {{ formatDistanceToNow(trade.updatedAt) }}
             </span>
           </li>
         </ul>
@@ -101,8 +101,8 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import { formatDistanceToNow } from 'date-fns'
 import { TradeType } from '@/composables/useTrades'
+import { formatDistanceToNow } from '@/utils/datetime'
 
 const tradeTypes = [
   TradeType.OFFER,
