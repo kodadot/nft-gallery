@@ -195,12 +195,11 @@ const closeTradeOverviewModal = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-offers-table {
   overflow-y: auto;
 
-  @include desktop {
+  // Between 1024px and 1215px
+  @media screen and (min-width: 1024px) and (max-width: 1215px) {
     :deep(table tr > *:first-child) {
       padding-left: 2rem;
     }
@@ -214,7 +213,8 @@ const closeTradeOverviewModal = () => {
   }
 }
 
-@include touch {
+// up to 1023px
+@media screen and (max-width: 1023px) {
   .gallery-item-offers-table {
     :deep(.o-table__td) {
       @apply border-inherit;

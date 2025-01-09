@@ -119,8 +119,6 @@ const largeDisplay = computed(
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .nft-card {
   @apply border-none #{!important};
 
@@ -131,19 +129,15 @@ const largeDisplay = computed(
       &__emotes {
         @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] px-2 py-[3px] right-2.5 top-2.5;
 
-        @include ktheme() {
-          color: theme('white');
-          background: theme('k-primary');
-        }
+        color: var(--white);
+        background: var(--k-primary);
       }
 
       &__price {
         @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] ease-[ease] px-2 py-[3px] left-2.5 bottom-2.5;
 
-        @include ktheme() {
-          background: theme('k-shade');
-          color: theme('white');
-        }
+        background: var(--k-shade);
+        color: var(--white);
       }
     }
   }
@@ -156,9 +150,7 @@ const largeDisplay = computed(
       width: 100%;
       opacity: 0;
 
-      @include ktheme() {
-        background: theme('background-color');
-      }
+      background: var(--background-color);
     }
 
     .card-image img {

@@ -36,13 +36,12 @@ onKodahashRenderCompleted(({ payload }) => imageData.value = payload.image)
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-button {
   display: flex;
   gap: 1rem;
 
-  @include mobile {
+  // up to 768px
+  @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
   }
 }

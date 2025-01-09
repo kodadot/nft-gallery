@@ -79,10 +79,9 @@ watch(() => props.activeTab, activeTab => active.value = activeTab)
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .o-tabs__content--fixed.gallery-item-tab-panel {
-  @include mobile {
+  // up to 768px
+  @media screen and (max-width: 768px) {
     height: 28rem;
   }
 }

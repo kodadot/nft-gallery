@@ -64,8 +64,6 @@ watchEffect(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-action-section {
   justify-content: space-between;
   align-items: center;
@@ -79,7 +77,8 @@ watchEffect(async () => {
     }
   }
 
-  @include until-widescreen {
+  // until 1215px
+  @media screen and (max-width: 1215px) {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;

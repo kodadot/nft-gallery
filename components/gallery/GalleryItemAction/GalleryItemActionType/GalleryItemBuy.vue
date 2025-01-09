@@ -116,8 +116,6 @@ const onClickShoppingCart = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 :deep(.button-height) {
   height: 55px !important;
 }
@@ -128,7 +126,8 @@ const onClickShoppingCart = () => {
 .buy-button-width {
   width: 8.375rem;
 
-  @include until-widescreen {
+  // until 1215px
+  @media screen and (max-width: 1215px) {
     width: 100%;
     flex-grow: 1;
   }
@@ -139,7 +138,8 @@ const onClickShoppingCart = () => {
 }
 
 .desktop-full-w {
-  @include until-widescreen {
+  // until 1215px
+  @media screen and (max-width: 1215px) {
     width: 100%;
   }
 }
