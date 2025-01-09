@@ -1990,6 +1990,7 @@
     }
   },
   "trade": { "selectSendItem": "Select NFT First" },
+  "trades": { "incomingTrades": "Incoming Offers/Trades" },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",

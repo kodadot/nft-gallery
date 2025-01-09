@@ -5,6 +5,7 @@
       <WalletAssetNfts />
       <hr class="my-4">
       <MultipleBalances />
+      <WalletAssetTrades class="!mt-4" />
     </div>
 
     <WalletAssetMenu />
@@ -15,6 +16,7 @@
 import WalletAssetIdentity from './WalletAssetIdentity.vue'
 import WalletAssetNfts from './WalletAssetNfts.vue'
 import WalletAssetMenu from './WalletAssetMenu.vue'
+import WalletAssetTrades from './WalletAssetTrades.vue'
 import { useIdentityStore } from '@/stores/identity'
 
 const MultipleBalances = defineAsyncComponent(
