@@ -191,7 +191,8 @@ const { source, sourceSelected, destination, destinationSelected }
     }
   }
 
-  @include widescreen() {
+  // Between 1216px and 1407px
+  @media screen and (min-width: 1216px) and (max-width: 1407px) {
     flex-direction: row;
     margin-top: 1rem;
   }
