@@ -856,8 +856,6 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 :deep(.rounded-full) {
   img {
     border-radius: 9999px !important;
@@ -868,7 +866,8 @@ watchEffect(() => {
   display: none;
 }
 
-@include until-widescreen {
+// until 1215px
+@media screen and (max-width: 1215px) {
   .mobile {
     flex-wrap: wrap;
 
