@@ -64,7 +64,16 @@
                   size="small"
                 />
                 <div class="flex items-center gap-2 text-sm truncate">
+                  <nuxt-link
+                    v-if="trade.type === TradeType.SWAP"
+                    :to="`${urlPrefix}/gallery/${trade.offered.id}`"
+                  >
+                    <span>
+                      {{ trade.offered.name }}
+                    </span>
+                  </nuxt-link>
                   <Money
+                    v-else
                     :value="trade.price"
                     inline
                   />
