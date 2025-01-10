@@ -1,3 +1,8 @@
+import { useQuery } from '@tanstack/vue-query'
+
 export function useOwnedCollections(id: Ref<string>) {
-  return useAsyncData(`ownedCollections${id.value}`, () => getOwnedCollections(id.value))
+  return useQuery({
+    queryKey: ['ownedCollections', id],
+    queryFn: () => getOwnedCollections(id.value),
+  })
 }
