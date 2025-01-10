@@ -1,9 +1,9 @@
 <template>
   <div>
     <div>
-      <section class="flex controls">
+      <section class="flex justify-center items-end relative">
         <NeoButton
-          class="left"
+          class="absolute left-10 max-lg:static max-lg:mb-8"
           @click="toOnborading"
         >
           <NeoIcon
@@ -12,7 +12,7 @@
           />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
-        <div class="dropdown-container">
+        <div class="max-lg:self-center">
           <div>
             <p class="mb-4">
               {{ $t('massmint.chooseCollection') }}
@@ -50,7 +50,7 @@
     />
     <div class="mt-6 flex justify-center w-full">
       <NeoButton
-        class="flex flex-grow limit-width"
+        class="flex flex-grow max-w-[45rem]"
         variant="primary"
         size="large"
         :disabled="!mediaLoaded || !hasEnoughBalance"
@@ -75,7 +75,7 @@
     />
     <MissingInfoModal
       v-model="missingInfoModalOpen"
-      :num-missing-names="numberOfMissingNames"
+      :missing-names="missingNames"
       :num-missing-descriptions="numberOfMissingDescriptions"
       :num-missing-prices="numberOfMissingPrices"
       @close="missingInfoModalOpen = false"
@@ -156,12 +156,10 @@ const mintStatus = ref('')
 const neededAmount = computed(() => ((itemDeposit.value + metadataDeposit.value) * Object.keys(NFTS.value).length) + transactionFee.value)
 const hasEnoughBalance = computed(() => (transferableCurrentChainBalance.value ?? 0) >= neededAmount.value)
 
-const numberOfMissingNames = computed(
-  () => Object.values(NFTS.value).filter(nft => !nft.name).length,
-)
+const missingNames = computed(() => Object.values(NFTS.value).filter(nft => !nft.name))
 
 const numOfValidNFTs = computed(
-  () => Object.values(NFTS.value).length - numberOfMissingNames.value,
+  () => Object.values(NFTS.value).length - missingNames.value.length,
 )
 const numberOfMissingDescriptions = computed(
   () => Object.values(NFTS.value).filter(nft => !nft.description).length,
@@ -185,7 +183,7 @@ const closeDeleteModal = () => {
 }
 
 const openReviewModal = () => {
-  if (numberOfMissingNames.value > 0) {
+  if (missingNames.value && missingNames.value.length) {
     missingInfoModalOpen.value = true
     return
   }
@@ -287,39 +285,6 @@ watch(urlPrefix, async () => {
   transactionFee.value = Number(await estimateTransactionFee(accountId.value, decimals.value))
 }, { immediate: true })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-
-.controls {
-  justify-content: center;
-  align-items: flex-end;
-
-  .left {
-    position: absolute;
-    left: 2.5rem;
-  }
-}
-
-@include touch {
-  .controls {
-    flex-direction: column;
-    gap: 2rem;
-    align-items: flex-start;
-
-    .dropdown-container {
-      align-self: center;
-    }
-    .left {
-      position: unset;
-    }
-  }
-}
-
-.limit-width {
-  max-width: 45rem;
-}
-</style>
 
 <style lang="scss">
 .tab-nft {

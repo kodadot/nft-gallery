@@ -9,8 +9,8 @@
         :expanded="expanded"
         :class="{
           'modal-wrapper-button__right': isRight,
-          'is-invisible': isButtonHidden,
-          'is-squared': isSquared,
+          'invisible': isButtonHidden,
+          'size-9': isSquared,
         }"
         :variant="variant"
         no-shadow
@@ -76,9 +76,5 @@ const variant = computed(() => (isSquared.value ? 'border-icon' : undefined))
 <style scoped lang="scss">
 .modal-wrapper-button__right {
   float: right;
-}
-.is-squared {
-  width: 36px;
-  height: 36px;
 }
 </style>

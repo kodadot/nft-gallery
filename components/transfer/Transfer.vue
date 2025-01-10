@@ -28,7 +28,7 @@
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
-          menu-class="is-shadowless no-border-bottom"
+          menu-class="!shadow-none no-border-bottom"
         >
           <template #trigger="{ active }">
             <NeoButton
@@ -125,7 +125,7 @@
           }}</span>
           <div class="flex items-center">
             <img
-              class="mr-2 is-32x32"
+              class="mr-2 size-8"
               :src="tokenIcon"
               alt="token"
             >
@@ -358,7 +358,7 @@
 
       <div class="flex">
         <NeoButton
-          class="flex flex-1 fixed-height is-shadowless"
+          class="flex flex-1 fixed-height !shadow-none"
           variant="primary"
           :disabled="disabled"
           @click="handleOpenConfirmModal"
@@ -788,7 +788,7 @@ const onUsdFieldChange = (target: TargetAddress) => {
 }
 
 const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
-  target.isInvalid = !isValid
+  target.isInvalid = !target.address ? undefined : !isValid
 
   targetAddresses.value = [...targetAddresses.value]
 }

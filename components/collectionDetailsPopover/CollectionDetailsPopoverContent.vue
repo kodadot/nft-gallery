@@ -1,13 +1,13 @@
 <template>
-  <div class="popover-content-container p-5 ms-dos-shadow">
-    <div class="popover-header pb-2">
-      <h6 class="popover-user-heading">
+  <div class="w-[300px] border border-border-color shadow-[4px_4px] p-5">
+    <div class="border-b border-k-grey pb-2">
+      <h6 class="text-xs text-k-grey">
         {{ $t('collection') }}
       </h6>
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <nuxt-link
-            class="text-base break-word mr-2 text-k-blue hover:text-k-blue-hover"
+            class="text-base break-words mr-2 text-k-blue hover:text-k-blue-hover"
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
             }`"
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="popover-stats-container flex flex-col pt-2">
+    <div class="flex flex-col pt-2">
       <div class="pb-2">
         <div class="flex items-center justify-between">
           <span class="text-base">{{ $t('statsOverview.uniqueOwners') }}</span>
@@ -73,16 +73,16 @@
       </div>
       <div
         v-if="soldItems.length"
-        class="sales-container pt-2"
+        class="border-t border-k-grey pt-2"
       >
-        <h6 class="popover-user-heading pb-2">
+        <h6 class="text-xs text-k-grey pb-2">
           {{ $t('profile.highestSales') }}
         </h6>
-        <div class="flex sold-items">
+        <div class="flex gap-[10px]">
           <div
             v-for="nftItem in soldItems"
             :key="nftItem.id"
-            class="sold-item"
+            class="w-[76px] h-[76px]"
           >
             <GalleryCard
               :id="nftItem.id"
@@ -116,7 +116,7 @@ const CommonTokenMoney = defineAsyncComponent(
 )
 
 const GalleryCard = defineAsyncComponent(
-  () => import('@/components/rmrk/Gallery/GalleryCard.vue'),
+  () => import('@/components/gallery/GalleryCard.vue'),
 )
 
 const { urlPrefix } = usePrefix()
@@ -136,54 +136,3 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.popover-content-container {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-
-  width: 300px;
-}
-
-.ms-dos-shadow {
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-  }
-}
-
-.popover-image {
-  min-width: 60px;
-}
-
-.break-word {
-  overflow-wrap: break-word;
-}
-
-.popover-header {
-  @apply border-b border-k-grey;
-
-  .popover-user-heading {
-    font-size: 12px;
-
-    @include ktheme() {
-      color: theme('k-grey');
-    }
-  }
-}
-
-.sales-container {
-  @apply border-t border-k-grey;
-}
-
-.sold-items {
-  gap: 10px;
-
-  .sold-item {
-    width: 76px;
-    height: 76px;
-  }
-}
-</style>

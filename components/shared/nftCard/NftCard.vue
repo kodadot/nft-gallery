@@ -6,6 +6,7 @@
     <component
       :is="link"
       v-if="!isLoading && nft"
+      :target="linkTarget"
       :[bindKey]="href"
     >
       <img
@@ -65,7 +66,7 @@
 
     <template v-else>
       <div class="media-object nft-media">
-        <div class="is-square image">
+        <div class="pt-[100%] image">
           <NeoSkeleton
             :rounded="false"
             full-size
@@ -142,6 +143,7 @@ const props = withDefaults(
     hideMediaInfo?: boolean
     linkTo?: string
     lazyLoading?: boolean
+    linkTarget?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,

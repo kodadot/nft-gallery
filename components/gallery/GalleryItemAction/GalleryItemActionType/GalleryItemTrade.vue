@@ -49,10 +49,10 @@ const props = defineProps<{
 }>()
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
-const { doAfterLogin } = useDoAfterlogin()
-const { isCurrentOwner, isLogIn } = useAuth()
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 const swapStore = useAtomicSwapStore()
+const { doAfterLogin } = useDoAfterlogin()
+const { isCurrentAccount, isLogIn } = useAuth()
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
 
@@ -86,26 +86,11 @@ const onMakeOfferClick = () => {
 const onSwapClick = () => {
   onTradeActionClick(() => {
     const nft = props.nft
-    const swap = swapStore.createSwap(nft.currentOwner)
-
-    swapStore.updateItem({
-      ...swap,
-      desired: [
-        {
-          id: nft.id,
-          collectionId: nft.collection.id,
-          sn: nft.sn,
-          name: nft.name,
-          meta: nft.meta,
-        },
-      ],
+    const swap = swapStore.createSwap(nft.currentOwner, {
+      desired: [nftToSwapItem(nft)],
     })
 
-    navigateTo({
-      name: 'prefix-swap-id',
-      params: { id: nft.currentOwner },
-      query: { swapId: swap.id },
-    })
+    navigateToSwap(swap)
   })
 }
 

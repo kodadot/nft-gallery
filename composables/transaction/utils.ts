@@ -41,8 +41,8 @@ export const verifyRoyalty = (
 }
 
 export function isActionValid(action: Actions): boolean {
-  const hasContent = <T>(v: T | T[]): boolean =>
-    Array.isArray(v) ? v.length > 0 : Boolean(v)
+  const hasContent = <T>(v: T | T[]): boolean => Array.isArray(v) ? v.length > 0 : Boolean(v)
+  const hasEvery = <T>(v: T[], cb: (item: T) => boolean): boolean => v.every(cb)
 
   const validityMap: Record<string, (action) => boolean> = {
     [Interaction.BUY]: (action: ActionBuy) => hasContent(action.nfts),
@@ -52,7 +52,7 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nfts.length),
     [Interaction.CONSUME]: (action: ActionConsume) => hasContent(action.nftIds),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
-      hasContent(action.token),
+      hasContent(action.tokens) && hasEvery(action.tokens, token => Boolean(Number(token.price))),
     [ShoppingActions.CANCEL_OFFER]: (action: ActionCancelOffer) =>
       Boolean(action.offeredId),
     [ShoppingActions.CANCEL_SWAP]: (action: ActionCancelSwap) =>
@@ -60,7 +60,7 @@ export function isActionValid(action: Actions): boolean {
     [ShoppingActions.ACCEPT_SWAP]: (action: ActionAcceptSwap) =>
       Boolean(action.receiveItem) && Boolean(action.receiveCollection) && Boolean(action.sendItem) && Boolean(action.sendCollection),
     [ShoppingActions.ACCEPT_OFFER]: (action: ActionAcceptOffer) =>
-      Boolean(action.nftId && action.collectionId && action.price && action.offeredId),
+      Boolean(action.sendItem && action.sendCollection && action.price && action.receiveItem),
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>

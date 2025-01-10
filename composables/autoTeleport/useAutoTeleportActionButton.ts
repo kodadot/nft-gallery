@@ -1,16 +1,25 @@
 import type { Actions } from '@/composables/transaction/types'
 
-export default ({
+type AutoTeleportActionButtonParams<T> = {
+  getActionFn: () => T
+  disabled?: MaybeRef<boolean>
+  signingModal: Ref<{ isModalActive: boolean } | undefined>
+}
+
+export default <T = Actions>({
   getActionFn,
-}) => {
+  signingModal,
+  disabled = false,
+}: AutoTeleportActionButtonParams<T>) => {
   const { decimals, chainSymbol } = useChain()
 
   const autoTeleport = ref(false)
   const autoTeleportButton = ref()
   const autoTeleportLoaded = ref(false)
-  const action = ref<Actions>(emptyObject<Actions>())
+  const action = ref<T>(emptyObject<T>())
 
   const txFees = computed(() => autoTeleportButton.value?.optimalTransition.txFees || 0)
+  const isActionReady = computed(() => Boolean(Object.keys(action.value).length)) // TODO: allow nullish action
   const { formatted: formattedTxFees } = useAmount(txFees, decimals, chainSymbol)
 
   watch(
@@ -23,7 +32,7 @@ export default ({
   )
 
   watchSyncEffect(() => {
-    if (!autoTeleport.value) {
+    if (!autoTeleport.value && !unref(disabled) && !signingModal.value?.isModalActive) {
       action.value = getActionFn()
     }
   })
@@ -35,5 +44,6 @@ export default ({
     autoTeleportLoaded,
     txFees,
     formattedTxFees,
+    isActionReady,
   }
 }

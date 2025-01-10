@@ -1,11 +1,30 @@
+import type { DocumentNode } from 'graphql'
 import { addHours } from 'date-fns'
+import swapsList from '@/queries/subsquid/general/swapsList.graphql'
+import offersList from '@/queries/subsquid/general/offersList.graphql'
 
-type TradeStatus = 'ACTIVE' | 'EXPIRED' | 'WITHDRAWN' | 'ACCEPTED'
+export enum TradeStatus {
+  ACTIVE = 'ACTIVE',
+  EXPIRED = 'EXPIRED',
+  WITHDRAWN = 'WITHDRAWN',
+  ACCEPTED = 'ACCEPTED',
+}
 
-type TradeToken = {
+export type TradeToken = {
   id: string
   name: string
   sn: string
+  currentOwner: string
+  image: string
+  collection: {
+    id: string
+  }
+  meta: Record<string, unknown>
+}
+
+export type TradeConsidered = {
+  id: string
+  name: string
   currentOwner: string
   image: string
 }
@@ -18,7 +37,13 @@ type BaseTrade = {
   status: TradeStatus
   caller: string
   offered: TradeToken
-  desired: TradeToken
+  desired: TradeToken | null
+  considered: TradeConsidered
+}
+
+export enum TradeDesiredType {
+  TOKEN,
+  COLLECTION,
 }
 
 export enum TradeType {
@@ -37,15 +62,17 @@ type Trade = Swap | Offer
 export type TradeNftItem<T = Trade> = T & {
   expirationDate?: Date
   type: TradeType
+  desiredType: TradeDesiredType
+  isEntireCollectionDesired: boolean
 }
 
-export const TRADES_QUERY_MAP: Record<TradeType, { queryName: string, dataKey: string }> = {
+export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, dataKey: string }> = {
   [TradeType.SWAP]: {
-    queryName: 'swapsList',
+    queryDocument: swapsList,
     dataKey: 'swaps',
   },
   [TradeType.OFFER]: {
-    queryName: 'offersList',
+    queryDocument: offersList,
     dataKey: 'offers',
   },
 }
@@ -59,29 +86,36 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   disabled?: ComputedRef<boolean>
   type?: TradeType
 }) {
+  const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
+
+  const { client } = usePrefix()
   const variables = computed(() => ({
     where: unref(where),
     limit: limit,
   }))
 
-  const { queryName, dataKey } = TRADES_QUERY_MAP[type]
-
   const {
-    data,
+    result: data,
     loading: fetching,
-    refetch,
-  } = useGraphql<{ offers: BaseTrade[] }>({
-    queryName,
-    variables: variables.value,
-    disabled,
-  })
+  } = useQuery<{ offers: Offer[] } | { swpas: Swap[] }>(
+    queryDocument,
+    variables,
+    computed(() => ({
+      enabled: !disabled.value,
+      clientId: client.value,
+    })),
+  )
 
   const items = computed<TradeNftItem[]>(() => {
     return data.value?.[dataKey]?.map((trade) => {
+      const desiredType = trade.desired ? TradeDesiredType.TOKEN : TradeDesiredType.COLLECTION
+
       return {
         ...trade,
         expirationDate: currentBlock.value ? addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR) : undefined,
         offered: trade.nft,
+        desiredType: desiredType,
+        isEntireCollectionDesired: desiredType === TradeDesiredType.COLLECTION,
         type,
       } as TradeNftItem
     }) || []
@@ -99,17 +133,8 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     getCurrentBlock().then(b => currentBlock.value = b)
   }
 
-  if (isRef(where)) {
-    watch([where, disabled], () => {
-      if (!disabled.value) {
-        refetch(variables.value)
-      }
-    })
-  }
-
   return {
     items,
-    refetch,
     loading,
   }
 }

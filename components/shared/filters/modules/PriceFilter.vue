@@ -1,26 +1,10 @@
 <template>
-  <NeoCollapse
-    :open="expanded"
-    animation="slide"
-    class="border-b"
-    :class="{ 'fluid-padding-left': fluidPadding }"
+  <SiderbarFilterSection
+    :title="$t('tabs.tabActivity.price')"
+    :expanded="expanded"
+    :fluid-padding="fluidPadding"
   >
-    <template #trigger="{ open }">
-      <div
-        class="flex"
-        role="button"
-        :aria-expanded="open"
-      >
-        <p class="card-header-title font-normal">
-          {{ $t('tabs.tabActivity.price') }}
-        </p>
-        <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
-      </div>
-    </template>
     <form
-      class="p-4"
       @submit.prevent="apply"
     >
       <div
@@ -80,11 +64,11 @@
         </NeoButton>
       </div>
     </form>
-  </NeoCollapse>
+  </SiderbarFilterSection>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoCollapse, NeoIcon, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoInput } from '@kodadot1/brick'
 import { fromDecimals, toDecimals } from '@/utils/math'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 

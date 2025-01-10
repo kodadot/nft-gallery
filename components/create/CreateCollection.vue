@@ -215,7 +215,7 @@ import type {
   CollectionToMintStatmine,
 } from '@/composables/transaction/types'
 
-import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import RoyaltyForm from '@/components/create/RoyaltyForm.vue'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'

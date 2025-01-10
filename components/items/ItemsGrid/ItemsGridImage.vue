@@ -16,6 +16,7 @@
     bind-key="to"
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play
+    :link-target="linkTarget"
   >
     <template
       v-if="!hideAction"
@@ -85,7 +86,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 
 const { placeholder } = useTheme()
-const { isLogIn, isCurrentOwner } = useAuth()
+const { isLogIn, isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin()
 const shoppingCartStore = useShoppingCartStore()
@@ -106,6 +107,7 @@ const props = defineProps<{
   collectionPopoverHide?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
+  linkTarget?: string
 }>()
 
 const {
@@ -128,7 +130,7 @@ const buyLabel = computed(function () {
   )
 })
 
-const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
+const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({

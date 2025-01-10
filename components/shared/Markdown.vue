@@ -15,6 +15,7 @@ defineProps<{
 
 const markdown = new MarkdownIt({
   breaks: true,
+  linkify: true,
   highlight: (code: string, lang: string) => {
     if (lang && Prism.languages[lang]) {
       return `<pre class="language-${lang}"><code>${Prism.highlight(

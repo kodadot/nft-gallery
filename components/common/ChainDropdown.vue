@@ -35,7 +35,7 @@ import { isMobileDevice } from '@/utils/extension'
 
 const props = withDefaults(
   defineProps<{
-    showNetworkLabel: boolean
+    showNetworkLabel?: boolean
     position?: 'bottom-auto'
     redirect?: boolean
     exclude?: Prefix[]

@@ -8,7 +8,14 @@
         'flex-col-reverse': isMyTrade,
       }"
     >
+      <BaseCartItemDetails
+        v-if="trade.isEntireCollectionDesired"
+        :name="trade.considered.name"
+        :second-name="$t('collection')"
+        :image="sanitizeIpfsUrl(trade.considered.image)"
+      />
       <CartItemDetails
+        v-else-if="desired"
         :nft="nftToOfferItem(desired)"
       >
         <template #right>
@@ -47,25 +54,30 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIsTradeOverview } from './utils'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { NFT } from '@/types'
 
 const props = defineProps<{
-  desired: NFT
+  desired?: NFT
   offered: NFT
   trade: TradeNftItem
 }>()
 
+const desiredFormatted = ref('')
+
 const { isMyTrade } = useIsTradeOverview(computed(() => props.trade))
 const { decimals, chainSymbol } = useChain()
 
-const { formatted: desiredFormatted } = useAmount(
-  computed(() => props.desired.price),
-  decimals,
-  chainSymbol,
-)
+if (!props.trade.isEntireCollectionDesired) {
+  desiredFormatted.value = useAmount(
+    computed(() => props.desired?.price),
+    decimals,
+    chainSymbol,
+  ).formatted.value
+}
 
 const { formatted: oferredFormatted } = useAmount(
-  computed(() => props.desired.price),
+  computed(() => props.offered.price),
   decimals,
   chainSymbol,
 )
