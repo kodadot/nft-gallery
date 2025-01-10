@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import { type TradeNftItem } from '@/components/trade/types'
+
 defineEmits(['submit'])
 defineProps<{
   trade: TradeNftItem

@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
+import type { TradeType } from '@/components/trade/types'
 
 defineProps<{
   tradeType: TradeType

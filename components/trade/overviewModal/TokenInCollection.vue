@@ -62,6 +62,7 @@ import CollectionItemDetails from './CollectionItemDetails.vue'
 import TokenSearchInput from './TokenSearchInput.vue'
 import TokenItemDetails from './TokenItemDetails.vue'
 import type { NFT } from '@/types'
+import { type TradeNftItem } from '@/components/trade/types'
 
 defineEmits(['send-item:select', 'send-item:clear'])
 const props = defineProps<{
