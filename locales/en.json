@@ -285,6 +285,7 @@
     "decline": "Decline",
     "notice": "We use cookies for better service, see {0} for details."
   },
+  "count": "Count",
   "create": "Create",
   "create collection": "Create Collection",
   "createDropdown": {
