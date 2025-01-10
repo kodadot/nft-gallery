@@ -44,19 +44,14 @@ const refresh = () => footer.value?.refresh()
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .tippy-container {
   display: inline-block;
 }
 
 .popover-content-container {
   width: 300px;
-
-  @include ktheme() {
-    background: theme('background-color');
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-  }
+  background: var(--background-color);
+  box-shadow: var(--primary-shadow);
+  border: 1px solid var(--border-color);
 }
 </style>

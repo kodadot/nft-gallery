@@ -188,7 +188,6 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 .buttons-container {
   position: sticky;
   bottom: 0;
@@ -198,6 +197,6 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 }
 
 .filters-header {
-  min-height: $navbar-mobile-min-height;
+  min-height: 64px;
 }
 </style>

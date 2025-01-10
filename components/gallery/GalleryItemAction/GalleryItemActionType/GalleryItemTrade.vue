@@ -101,8 +101,6 @@ useModalIsOpenTracker({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-trade {
   button {
     font-size: 1rem;
@@ -110,7 +108,8 @@ useModalIsOpenTracker({
   }
 }
 
-@include until-widescreen {
+// until 1215px
+@media screen and (max-width: 1215px) {
   .gallery-item-trade {
     width: 100%;
     margin-top: 1rem !important;

@@ -24,8 +24,6 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .count {
   &--top-left {
     bottom: 1.5rem;
@@ -37,10 +35,8 @@ withDefaults(
     right: -0.75rem;
   }
 
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-    background: theme('k-primary');
-    color: theme('black');
-  }
+  border: 1px solid var(--border-color);
+  background: var(--k-primary);
+  color: var(--black);
 }
 </style>

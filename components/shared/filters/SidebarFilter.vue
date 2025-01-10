@@ -21,7 +21,6 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 .bordered {
   border-right: 1px solid;
 }
@@ -31,7 +30,7 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
   position: sticky;
   top: 84px;
   height: calc(100vh - 84px);
-  margin-right: $fluid-container-padding;
+  margin-right: 2.5rem;
   overflow-y: auto;
   flex-shrink: 0;
 }

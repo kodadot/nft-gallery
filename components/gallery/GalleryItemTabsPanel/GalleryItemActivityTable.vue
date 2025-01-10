@@ -206,19 +206,19 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-activity-table {
   overflow-y: auto;
 
-  @include desktop {
+  // Between 1024px and 1215px
+  @media screen and (min-width: 1024px) and (max-width: 1215px) {
     :deep(table tr > *:first-child) {
       padding-left: 2rem;
     }
   }
 }
 
-@include touch {
+// up to 1023px
+@media screen and (max-width: 1023px) {
   .gallery-item-activity-table {
     :deep(.o-table__td) {
       @apply border-inherit;
@@ -229,7 +229,9 @@ watchEffect(() => {
     }
   }
 }
-@include mobile {
+
+// up to 768px
+@media screen and (max-width: 768px) {
   .padding-top-mobile {
     padding-top: 0 !important;
   }

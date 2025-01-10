@@ -338,17 +338,13 @@ onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
+  background-color: var(--background-color);
+
   .media-object {
-    @include ktheme() {
-      box-shadow: none;
-      border: none;
-    }
+    box-shadow: none;
+    border: none;
   }
 
   img {
@@ -360,7 +356,6 @@ onBeforeMount(() => fiatStore.fetchFiatPrice())
 </style>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;
@@ -383,8 +378,10 @@ $break-point-width: 930px;
 
 .back-button {
   @apply fixed z-[1] left-3 top-8;
-  @include desktop {
-    left: $fluid-container-padding;
+
+  // Between 1024px and 1215px
+  @media screen and (min-width: 1024px) and (max-width: 1215px) {
+    left: 2.5rem;
   }
 }
 
@@ -394,11 +391,9 @@ $break-point-width: 930px;
 
 .fullscreen-button {
   @apply absolute z-[2] hidden w-[35px] h-[35px] border border-solid right-11 top-8;
-  @include ktheme() {
-    background-color: rgba(theme('background-color'), 0.15);
-    border-color: rgba(theme('background-color'), 0.3);
-    color: theme('text-color');
-  }
+  background-color: rgba(var(--background-color), 0.15);
+  border-color: rgba(var(--background-color), 0.3);
+  color: var(--text-color);
 }
 
 @media screen and (max-width: $break-point-width) {
@@ -424,25 +419,19 @@ $break-point-width: 930px;
     }
 
     .o-car__overlay {
-      @include ktheme() {
-        background: theme('background-color');
-      }
+      background: var(--background-color);
     }
 
     .o-car__indicator {
       &__item {
         @apply rounded-[50%];
 
-        @include ktheme() {
-          background: theme('background-color-inverse');
-          border: theme('background-color-inverse');
-        }
+        background: var(--background-color-inverse);
+        border: var(--background-color-inverse);
 
         &--active {
-          @include ktheme() {
-            background: theme('k-primary');
-            border: theme('k-primary');
-          }
+          background: var(--k-primary);
+          border: var(--k-primary);
         }
       }
     }

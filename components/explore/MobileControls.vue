@@ -32,8 +32,6 @@ const isSwapsTab = computed(() => routeName.value.includes('prefix-collection-id
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .explore {
   &.has-gap {
     gap: 1.5rem;
@@ -43,7 +41,7 @@ const isSwapsTab = computed(() => routeName.value.includes('prefix-collection-id
     gap: 1.5rem;
   }
 
-  @include mobile {
+  @media (max-width: 640px) {
     flex-direction: column;
 
     &.has-gap {

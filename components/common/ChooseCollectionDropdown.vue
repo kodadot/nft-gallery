@@ -136,22 +136,21 @@ watch(accountId, () => {
 watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
 
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
+<style scoped>
 .dropdown-width {
   width: 30rem;
 }
 
 .full-width {
   width: 100%;
-  .dropdown-width,
-  :deep(.o-drop__menu) {
-    width: 100%;
-  }
 }
 
-@include mobile {
+.full-width .dropdown-width,
+.full-width :deep(.o-drop__menu) {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
   .dropdown-width {
     width: 100%;
   }

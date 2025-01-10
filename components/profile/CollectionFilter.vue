@@ -178,12 +178,10 @@ useLazyAsyncData('profileCollections', async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .dropdown-width {
   width: 18.75rem;
 
-  @include mobile {
+  @media screen and (max-width: 768px) {
     width: unset;
   }
 }

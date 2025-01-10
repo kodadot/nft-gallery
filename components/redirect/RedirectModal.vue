@@ -48,21 +48,15 @@ const handleRedirect = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .redirect-card {
   box-shadow: var(--card-box-shadow);
-  @include ktheme() {
-    background: theme('background-color');
-  }
+  background: var(--background-color);
   .redirect-header {
     @apply border-b border-k-grey;
   }
   p.link {
     word-break: break-all;
-    @include ktheme() {
-      color: theme('k-blue');
-    }
+    color: var(--k-blue);
   }
   button.is-neo {
     flex: 1;

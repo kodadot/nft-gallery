@@ -16,9 +16,7 @@ const route = useRoute()
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-@include mobile {
+@media (max-width: 640px) {
   .mobile-expand {
     width: 100%;
   }

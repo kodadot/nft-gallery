@@ -22,13 +22,8 @@ defineProps<{
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .slide {
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-  }
-
+  box-shadow: var(--primary-shadow);
   overflow: hidden;
   transition-duration: 0.2s;
   width: 10rem;
@@ -54,10 +49,7 @@ defineProps<{
     white-space: nowrap;
     height: 54px;
     width: 12rem;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
+    border: 1px solid var(--border-color);
 
     & > * {
       width: 12rem;
@@ -69,25 +61,22 @@ defineProps<{
       outline: none;
       width: 100%;
 
-      @include ktheme() {
-        border: 1px solid theme('border-color');
-        color: theme('text-color');
-        background-color: theme('background-color');
-      }
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      background-color: var(--background-color);
     }
   }
 
   &-disabled {
-    @include ktheme() {
-      box-shadow: 4px 4px theme('k-grey');
-    }
+    box-shadow: 4px 4px var(--k-grey);
 
     &:hover {
       @apply cursor-not-allowed;
     }
   }
 
-  @include until-widescreen {
+  // until 1215px
+  @media screen and (max-width: 1215px) {
     &-active {
       width: 100%;
     }
@@ -98,7 +87,8 @@ defineProps<{
   }
 }
 
-@include until-widescreen {
+// until 1215px
+@media screen and (max-width: 1215px) {
   .slide {
     width: 100%;
     align-items: stretch;
@@ -140,7 +130,8 @@ defineProps<{
     @apply text-base w-full h-full absolute z-[2];
   }
 
-  @include until-widescreen {
+  // until 1215px
+  @media screen and (max-width: 1215px) {
     width: 100%;
 
     .wrapper {

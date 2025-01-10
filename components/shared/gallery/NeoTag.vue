@@ -44,36 +44,28 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .tag {
   background: transparent;
   @apply text-base rounded-2xl text-text-color #{!important};
 
   &--primary {
-    @include ktheme() {
-      border: 1px solid theme('k-primary');
-      background-color: theme('k-accentlight2');
-      .cross-icon {
-        &:hover {
-          color: theme('k-grey');
-        }
+    border: 1px solid var(--k-primary);
+    background-color: var(--k-accentlight2);
+    .cross-icon {
+      &:hover {
+        color: var(--k-grey);
       }
     }
   }
 
   &--transparent {
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background: transparent;
-    }
+    border: 1px solid var(--border-color);
+    background: transparent;
   }
 
   &--k-blue {
-    @include ktheme() {
-      border: 1px solid theme('k-blue');
-      background-color: theme('blue-light-hover-color');
-    }
+    border: 1px solid var(--k-blue);
+    background-color: var(--blue-light-hover-color);
   }
 
   &.tag-size {
@@ -92,10 +84,7 @@ const onClose = () => {
     margin-bottom: 0;
     padding: 0;
     background-color: inherit;
-
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    color: var(--text-color);
 
     &:first-child {
       @apply cursor-default mr-[0.3rem];
@@ -104,9 +93,7 @@ const onClose = () => {
       &:hover,
       &:focus {
         background-color: inherit;
-        @include ktheme() {
-          color: theme('k-grey');
-        }
+        color: var(--k-grey);
       }
     }
   }

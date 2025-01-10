@@ -336,8 +336,6 @@ watchDebounced(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .btn-height {
   height: 3.5rem;
 }

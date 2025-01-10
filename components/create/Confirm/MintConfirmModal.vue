@@ -190,14 +190,6 @@ watchEffect(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
 .btn-height {
   height: 3.5rem;
 }

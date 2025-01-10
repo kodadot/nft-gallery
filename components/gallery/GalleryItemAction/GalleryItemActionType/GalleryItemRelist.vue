@@ -73,8 +73,6 @@ const isListed = computed(() => Boolean(Number(nftPrice.value)))
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-relist {
   button {
     font-size: 1rem;
@@ -82,7 +80,8 @@ const isListed = computed(() => Boolean(Number(nftPrice.value)))
   }
 }
 
-@include until-widescreen {
+// until 1215px
+@media screen and (max-width: 1215px) {
   .gallery-item-relist {
     width: 100%;
     margin-top: 1rem !important;

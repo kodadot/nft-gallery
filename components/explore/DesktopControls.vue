@@ -31,8 +31,6 @@ const isExploreCollections = computed(() => route.name === 'prefix-explore-colle
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gap {
   gap: 1.5rem;
 }
@@ -43,7 +41,7 @@ const isExploreCollections = computed(() => route.name === 'prefix-explore-colle
     gap: 1.5rem;
   }
 
-  @include mobile {
+  @media (max-width: 640px) {
     gap: 1rem;
     flex-direction: column;
 

@@ -56,8 +56,6 @@ const icon = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .control:not(:last-of-type) .explore-tabs-button {
   border-right: none;
 }
@@ -66,11 +64,11 @@ const icon = computed(() =>
 .explore-tabs-button {
   width: 15rem;
 
-  @include until-widescreen {
+  @media screen and (max-width: 1215px) {
     width: 12rem;
   }
 
-  @include mobile {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 }
