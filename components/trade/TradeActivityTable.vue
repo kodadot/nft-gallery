@@ -86,6 +86,11 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
+import type {
+  TradeType,
+  type Swap,
+  type TradeNftItem,
+} from '@/components/trade/types'
 
 type TradeTabType = 'outgoing' | 'incoming'
 export type TradeTableQuery = Record<TradeTabType, string>

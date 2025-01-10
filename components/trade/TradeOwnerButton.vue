@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
-import { TradeType } from '@/components/trade/types'
+import { TradeType, TradeStatus, type TradeNftItem } from '@/components/trade/types'
 
 const emit = defineEmits(['click:main', 'click:counter-swap'])
 const props = defineProps<{

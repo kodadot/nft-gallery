@@ -202,6 +202,14 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import { TradeInteraction } from '@/composables/collectionActivity/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import {
+  type TradeToken,
+  type TradeConsidered,
+  type TradeNftItem,
+  TradeType,
+  TradeDesiredTokenType,
+  TradeStatus,
+} from '@/components/trade/types'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 

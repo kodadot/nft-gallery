@@ -139,7 +139,7 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 import type { UnwrapRef } from 'vue'
-import { TradeType } from '@/components/trade/types'
+import { type TradeNftItem, TradeType } from '@/components/trade/types'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'

@@ -1,4 +1,9 @@
 import type { Prefix } from '@kodadot1/static'
+import {
+  type Swap,
+  type TradeNftItem,
+  TradeType,
+} from '@/components/trade/types'
 
 export type OverviewMode = 'owner' | 'incoming'
 

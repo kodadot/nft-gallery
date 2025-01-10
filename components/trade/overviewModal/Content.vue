@@ -48,7 +48,10 @@ import { NeoIcon } from '@kodadot1/brick'
 import { useIsTradeOverview } from './utils'
 import TokenItemDetails from './TokenItemDetails.vue'
 import TokenInCollection from './TokenInCollection.vue'
-import { TradeType } from '@/components/trade/types'
+import {
+  type TradeNftItem,
+  TradeType,
+} from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 defineEmits(['send-item:select', 'send-item:clear'])
