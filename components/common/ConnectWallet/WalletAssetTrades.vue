@@ -167,11 +167,14 @@ const refetch = async () => {
 const getTradeTypeWithMoreIncomingTrades = (): TradeType | null => {
   const groups = Object.groupBy(trades.value, item => item.type)
 
-  if (groups[TradeType.SWAP]?.length == groups[TradeType.OFFER]?.length) {
+  const swapLength = groups[TradeType.SWAP]?.length || 0
+  const offerLength = groups[TradeType.OFFER]?.length || 0
+
+  if (swapLength == offerLength) {
     return null
   }
 
-  return (groups[TradeType.SWAP]?.length || 0) >= (groups[TradeType.OFFER]?.length || 0)
+  return (swapLength > offerLength)
     ? TradeType.SWAP
     : TradeType.OFFER
 }
