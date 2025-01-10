@@ -98,7 +98,7 @@ const menus = ref<{ label: string, to: string, check: (v: Prefix) => boolean }[]
     check: teleportVisible,
   },
   {
-    label: $i18n.t('swap.swap'),
+    label: $i18n.t('swap.createSwap'),
     to: `/${urlPrefix.value}/swap`,
     check: swapVisible,
   },

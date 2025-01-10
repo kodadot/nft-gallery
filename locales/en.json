@@ -1832,6 +1832,7 @@
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterSwap": "Counter Swap",
     "counterparty": "Counterparty",
+    "createSwap": "Create Swap",
     "created": "Swap Created",
     "creatingSwap": "Creating Swap",
     "incomingSwap": "Incoming Swap",
