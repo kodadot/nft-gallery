@@ -121,6 +121,7 @@
           size="small"
           class="px-4 py-1"
           icon="arrow-right"
+          @click="viewAll"
         >
           {{ $t('helper.viewAll') }}
         </NeoButton>
@@ -132,6 +133,7 @@
 <script setup lang="ts">
 import { NeoIcon, NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { TradeType } from '@/composables/useTrades'
+import { TRADE_TYPE_TO_PROFILE_TAB_MAP } from '@/components/profile/utils'
 import { formatDistanceToNow } from '@/utils/datetime'
 
 const tradeTypes = [
@@ -161,6 +163,24 @@ const refetch = async () => {
   startLoading()
   trades.value = []
   await Promise.all(refetches.value.map(refetch => refetch()))
+}
+
+const getTradeTypeWithMoreIncomingTrades = (): TradeType | null => {
+  const groups = Object.groupBy(trades.value, item => item.type)
+
+  if (groups[TradeType.SWAP]?.length == groups[TradeType.OFFER]?.length) {
+    return null
+  }
+
+  return (groups[TradeType.SWAP]?.length || 0) >= (groups[TradeType.OFFER]?.length || 0)
+    ? TradeType.SWAP
+    : TradeType.OFFER
+}
+
+const viewAll = () => {
+  const tab = TRADE_TYPE_TO_PROFILE_TAB_MAP[getTradeTypeWithMoreIncomingTrades() || trades.value[0].type]
+
+  navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=${tab}&filter=incoming`)
 }
 
 const init = () => {

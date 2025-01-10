@@ -49,8 +49,8 @@ export enum TradeDesiredTokenType {
 }
 
 export enum TradeType {
-  SWAP,
-  OFFER,
+  SWAP = 'swap',
+  OFFER = 'offer',
 }
 
 export type Swap = BaseTrade & {

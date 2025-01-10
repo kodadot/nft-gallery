@@ -1,3 +1,6 @@
+import { ProfileTab } from './types'
+import { TradeType } from '@/composables/useTrades'
+
 type LinkableBlock = {
   id: string
   regex: RegExp
@@ -36,4 +39,9 @@ export const getBioWithLinks = (text: string): string => {
     .split(/(\s+)/)
     .map(processSegment)
     .join('')
+}
+
+export const TRADE_TYPE_TO_PROFILE_TAB_MAP: Record<TradeType, ProfileTab> = {
+  [TradeType.OFFER]: ProfileTab.OFFERS,
+  [TradeType.SWAP]: ProfileTab.SWAPS,
 }
