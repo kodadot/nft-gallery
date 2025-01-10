@@ -95,11 +95,18 @@ export type UseTradesParams = {
   limit?: number
   disabled?: ComputedRef<boolean>
   type?: TradeType
-  disableTargetsOfTrades?: boolean
+  minimal?: boolean
   orderBy?: string[]
 }
 
-export default function ({ where = {}, limit = 100, disabled = computed(() => false), type = TradeType.SWAP, disableTargetsOfTrades = false, orderBy }: UseTradesParams) {
+export default function ({
+  where = {},
+  limit = 100,
+  disabled = computed(() => false),
+  type = TradeType.SWAP,
+  minimal = false,
+  orderBy = ['blockNumber_DESC'],
+}: UseTradesParams) {
   const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
 
   const items = ref<TradeNftItem[]>([])
@@ -138,7 +145,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   const dataItems = computed<Offer[] | Swap[]>(() => data.value?.[dataKey] || [])
   const hasTargetsOfTrades = computed(() => Boolean(targetsOfTrades.value?.size))
   const tradeKeys = computed<string>(() => dataItems.value.map(item => item.id).join('-'))
-  const needsToSubscribe = computed(() => disableTargetsOfTrades ? false : !hasTargetsOfTrades.value)
+  const needsToSubscribe = computed(() => minimal ? false : !hasTargetsOfTrades.value)
   const loading = computed(() => !currentBlock.value || fetching.value || needsToSubscribe.value)
 
   const subscribeToTargetsOfTrades = (trades: BaseTrade[]) => {
@@ -175,7 +182,7 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
     })
   }
 
-  if (!disableTargetsOfTrades) {
+  if (!minimal) {
     watch(tradeKeys, (key) => {
       if (key) {
         ownersSubscription.value()

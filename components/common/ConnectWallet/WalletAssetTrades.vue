@@ -163,8 +163,7 @@ const init = () => {
       where: where,
       disabled: disabledTrades,
       type: tradeType,
-      disableTargetsOfTrades: true,
-      orderBy: ['blockNumber_ASC'],
+      minimal: true,
     })
 
     refetches.value[index] = refetch
