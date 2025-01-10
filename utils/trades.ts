@@ -1,4 +1,4 @@
-export const buildIncomingTradesQuery = (address: string, considereds: string[], string = false) => {
+export const buildIncomingTradesQuery = (address: string, considereds: string[], { stringify = false } = {}) => {
   const query = {
     AND: [
       {
@@ -10,7 +10,7 @@ export const buildIncomingTradesQuery = (address: string, considereds: string[],
           { desired: { currentOwner_eq: address } },
           {
             considered: {
-              id_in: JSON.stringify(considereds),
+              id_in: considereds,
             },
             desired_isNull: true,
           },
@@ -19,9 +19,9 @@ export const buildIncomingTradesQuery = (address: string, considereds: string[],
     ],
   }
 
-  // I need both version of this query, one as string and one as object
-  // super hacky, but it works, I'll find better solution
-  if (string) {
+  // Both version of this query are needed, one as string and one as object
+  // super hacky, but it works
+  if (stringify) {
     return JSON.stringify(query)
       // Remove quotes around keys (e.g., "status_eq": becomes status_eq:)
       .replace(/"([a-zA-Z0-9_]+)":/g, '$1:')

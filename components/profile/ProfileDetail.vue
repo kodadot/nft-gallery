@@ -552,7 +552,7 @@ const followingCount = computed(() => following.value?.totalCount ?? 0)
 const tradeQuery = computed<TradeTableQuery | null>(() => {
   return ownedCollections.value
     ? {
-        incoming: `${buildIncomingTradesQuery(id.value, ownedCollections.value.map(({ id }) => id), true)}`,
+        incoming: `${buildIncomingTradesQuery(id.value, ownedCollections.value.map(({ id }) => id), { stringify: true })}`,
         outgoing: `{ status_in: [ACTIVE, EXPIRED], caller_eq: "${id.value}" }`,
       }
     : null
