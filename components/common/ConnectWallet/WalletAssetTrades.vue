@@ -90,6 +90,14 @@
                       {{ trade.desired.name }}
                     </span>
                   </nuxt-link>
+                  <nuxt-link
+                    v-else
+                    :to="`${urlPrefix}/collection/${trade.considered.id}`"
+                  >
+                    <span>
+                      {{ trade.considered.name }}
+                    </span>
+                  </nuxt-link>
                 </div>
               </div>
               <span class="text-k-grey text-sm">
