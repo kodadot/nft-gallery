@@ -155,13 +155,13 @@ const loadings = ref<boolean[]>([])
 const loading = computed(() => loadings.value.some(Boolean) || loadingOwnedCollections.value)
 const refetches = ref<ReturnType<typeof useTrades>['refetch'][]>([])
 
-const startLoading = () => {
+const clear = () => {
   loadings.value = new Array(tradeTypes.length).fill(true)
+  trades.value = []
 }
 
 const refetch = async () => {
-  startLoading()
-  trades.value = []
+  clear()
   await Promise.all(refetches.value.map(refetch => refetch()))
 }
 
@@ -184,7 +184,7 @@ const viewAll = () => {
 }
 
 const init = () => {
-  startLoading()
+  clear()
 
   tradeTypes.forEach((tradeType, index) => {
     const { items, loading: tradeLoading, refetch } = useTrades({
@@ -205,5 +205,5 @@ const init = () => {
   })
 }
 
-init()
+onBeforeMount(init)
 </script>
