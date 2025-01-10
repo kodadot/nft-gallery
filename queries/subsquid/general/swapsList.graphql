@@ -9,7 +9,6 @@ query swapsList($where: SwapWhereInput!, $orderBy: [SwapOrderByInput!] = [blockN
     caller
     surcharge
     price
-    updatedAt
     nft {
       id
       name

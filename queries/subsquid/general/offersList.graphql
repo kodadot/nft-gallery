@@ -8,7 +8,6 @@ query offersList($where: OfferWhereInput!, $orderBy: [OfferOrderByInput!] = [blo
     price
     status
     caller
-    updatedAt
     nft {
       id
       name

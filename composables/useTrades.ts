@@ -1,7 +1,8 @@
 import type { DocumentNode } from 'graphql'
-import { addHours } from 'date-fns'
+import { addSeconds, subSeconds } from 'date-fns'
 import swapsList from '@/queries/subsquid/general/swapsList.graphql'
 import offersList from '@/queries/subsquid/general/offersList.graphql'
+import { BLOCKS_PER_HOUR } from '@/composables/transaction/transactionOffer'
 
 export enum TradeStatus {
   ACTIVE = 'ACTIVE',
@@ -39,7 +40,7 @@ type BaseTrade = {
   offered: TradeToken
   desired: TradeToken | null
   considered: TradeConsidered
-  updatedAt: string
+  createdAt: Date
 }
 
 export enum TradeDesiredTokenType {
@@ -87,7 +88,8 @@ export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, 
   },
 }
 
-const BLOCKS_PER_HOUR = 300
+const SECONDS_PER_BLOCK = 3600 / BLOCKS_PER_HOUR
+
 const currentBlock = ref(0)
 
 export type UseTradesParams = {
@@ -202,12 +204,13 @@ export default function ({
 
       return {
         ...trade,
-        expirationDate: addHours(new Date(), (Number(trade.expiration) - currentBlock.value) / BLOCKS_PER_HOUR),
+        expirationDate: addSeconds(new Date(), ((Number(trade.expiration) - currentBlock.value) * SECONDS_PER_BLOCK)),
         offered: trade.nft,
         desiredType: desiredType,
         isAnyTokenInCollectionDesired: desiredType === TradeDesiredTokenType.ANY_IN_COLLECTION,
         type,
         targets: targetsOfTrades.value?.get(trade.id) || [],
+        createdAt: subSeconds(new Date(), ((currentBlock.value - Number(trade.blockNumber)) * SECONDS_PER_BLOCK)),
       } as TradeNftItem
     })
   })

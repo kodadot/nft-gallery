@@ -11,8 +11,8 @@ export const isDateWithinLastDays = (date: Date, days: number) =>
     end: new Date(),
   })
 
-export const formatDistanceToNow = (date: string) => {
-  return dfnsFormatDistanceToNow(new Date(date), {
+export const formatDistanceToNow = (date: Date) => {
+  return dfnsFormatDistanceToNow(date, {
     addSuffix: false,
     locale: {
       ...enUS,

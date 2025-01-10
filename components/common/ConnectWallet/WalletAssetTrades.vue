@@ -101,7 +101,7 @@
                 </div>
               </div>
               <span class="text-k-grey text-sm">
-                {{ formatDistanceToNow(trade.updatedAt) }}
+                {{ formatDistanceToNow(trade.createdAt) }}
               </span>
             </li>
           </ul>
@@ -176,9 +176,9 @@ const init = () => {
 
     refetches.value[index] = refetch
 
-    watch([tradeLoading, items], ([isLoading]) => {
+    watch([tradeLoading, items], ([isLoading, items]) => {
       if (!isLoading) {
-        trades.value = [...trades.value, ...items.value]
+        trades.value = [...trades.value, ...items].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
         loadings.value[index] = false
       }
     }, { immediate: true })
