@@ -88,8 +88,8 @@
 import { NeoButton } from '@kodadot1/brick'
 import type {
   TradeType,
-  type Swap,
-  type TradeNftItem,
+  Swap,
+  TradeNftItem,
 } from '@/components/trade/types'
 
 type TradeTabType = 'outgoing' | 'incoming'
