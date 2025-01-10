@@ -141,19 +141,18 @@ const tradeTypes = [
   TradeType.SWAP,
 ]
 
+const trades = ref<TradeNftItem[]>([])
+const loadings = ref<boolean[]>([])
+const refetches = ref<ReturnType<typeof useTrades>['refetch'][]>([])
+
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const trades = ref<TradeNftItem[]>([])
-
 const { data: ownedCollections, isFetching, isPending } = useOwnedCollections(accountId)
 
 const loadingOwnedCollections = computed(() => isPending.value || isFetching.value)
 const disabledTrades = computed(() => loadingOwnedCollections.value)
 const where = computed(() => buildIncomingTradesQuery(accountId.value, ownedCollections.value?.map(({ id }) => id) || []))
-
-const loadings = ref<boolean[]>([])
 const loading = computed(() => loadings.value.some(Boolean) || loadingOwnedCollections.value)
-const refetches = ref<ReturnType<typeof useTrades>['refetch'][]>([])
 
 const clear = () => {
   loadings.value = new Array(tradeTypes.length).fill(true)
