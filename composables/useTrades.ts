@@ -3,71 +3,14 @@ import { addSeconds, subSeconds } from 'date-fns'
 import swapsList from '@/queries/subsquid/general/swapsList.graphql'
 import offersList from '@/queries/subsquid/general/offersList.graphql'
 import { BLOCKS_PER_HOUR } from '@/composables/transaction/transactionOffer'
-
-export enum TradeStatus {
-  ACTIVE = 'ACTIVE',
-  EXPIRED = 'EXPIRED',
-  WITHDRAWN = 'WITHDRAWN',
-  ACCEPTED = 'ACCEPTED',
-}
-
-export type TradeToken = {
-  id: string
-  name: string
-  sn: string
-  currentOwner: string
-  image: string
-  collection: {
-    id: string
-  }
-  meta: Record<string, unknown>
-}
-
-export type TradeConsidered = {
-  id: string
-  name: string
-  currentOwner: string
-  image: string
-}
-
-type BaseTrade = {
-  id: string
-  price: string
-  expiration: string
-  blockNumber: string
-  status: TradeStatus
-  caller: string
-  offered: TradeToken
-  desired: TradeToken | null
-  considered: TradeConsidered
-  createdAt: Date
-}
-
-export enum TradeDesiredTokenType {
-  SPECIFIC,
-  ANY_IN_COLLECTION,
-}
-
-export enum TradeType {
-  SWAP = 'swap',
-  OFFER = 'offer',
-}
-
-export type Swap = BaseTrade & {
-  surcharge: string | null
-}
-
-type Offer = BaseTrade
-
-type Trade = Swap | Offer
-
-export type TradeNftItem<T = Trade> = T & {
-  expirationDate: Date
-  type: TradeType
-  desiredType: TradeDesiredTokenType
-  isAnyTokenInCollectionDesired: boolean
-  targets: string[]
-}
+import {
+  type Offer,
+  type Swap,
+  type BaseTrade,
+  type TradeNftItem,
+  TradeType,
+  TradeDesiredTokenType,
+} from '@/components/trade/types'
 
 type CollectionWithTokenOwners = {
   id: string

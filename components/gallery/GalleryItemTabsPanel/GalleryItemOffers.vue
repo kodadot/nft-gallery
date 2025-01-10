@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import GalleryItemTradesTable from './GalleryItemTradesTable.vue'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType } from '@/components/trade/types'
 
 defineProps<{
   nftId: string

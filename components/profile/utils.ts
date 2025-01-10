@@ -1,5 +1,5 @@
 import { ProfileTab } from './types'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType } from '@/components/trade/types'
 
 type LinkableBlock = {
   id: string

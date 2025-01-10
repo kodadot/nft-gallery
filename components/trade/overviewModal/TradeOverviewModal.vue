@@ -60,7 +60,7 @@ import {
 } from './utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType } from '@/components/trade/types'
 import type { NFT } from '@/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 

@@ -481,7 +481,7 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType } from '@/components/trade/types'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
