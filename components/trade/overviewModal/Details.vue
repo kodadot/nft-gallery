@@ -28,7 +28,7 @@
     </div>
 
     <div
-      v-if="isIncomingTrade"
+      v-if="isIncomingTrade && desired"
       class="flex justify-between items-center"
     >
       <span class="text-k-grey text-xs">
@@ -45,7 +45,10 @@
 <script setup lang="ts">
 import { useIsTradeOverview } from './utils'
 import { formatToNow } from '@/utils/format/time'
-import { TradeStatus } from '@/composables/useTrades'
+import {
+  type TradeNftItem,
+  TradeStatus,
+} from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 const props = defineProps<{

@@ -34,7 +34,7 @@
   />
 
   <TradeFilter
-    v-if="isCollectionSwaps"
+    v-if="isCollectionTrades"
     expanded
     fluid-padding
   />
@@ -52,7 +52,7 @@ const route = useRoute()
 
 const isCollectionItems = computed(() => route.name === 'prefix-collection-id')
 const isCollectionActivity = computed(() => route.name === 'prefix-collection-id-activity')
-const isCollectionSwaps = computed(() => route.name === 'prefix-collection-id-swaps')
+const isCollectionTrades = computed(() => ['prefix-collection-id-swaps', 'prefix-collection-id-offers'].includes(route.name))
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 const isPageWithItems = computed(() => isExploreItems.value || isCollectionItems.value)
 </script>
