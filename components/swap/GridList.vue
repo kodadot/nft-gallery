@@ -11,7 +11,7 @@
       grid-size="medium"
       :grid-section="gridSection"
       link-target="_blank"
-      :hide-hover-action="!selectable"
+      :hide-hover-action="!selectable || stepItems.length === MAX_AMOUNT_OF_SWAP_ITEMS"
     >
       <template
         v-if="surcharge"
@@ -31,6 +31,8 @@ import { type SwapSurcharge } from '@/composables/transaction/types'
 
 const gridSection = GridSection.PROFILE_GALLERY
 
+const MAX_AMOUNT_OF_SWAP_ITEMS = 1
+
 const props = defineProps<{
   query: Record<string, any>
   selectable?: boolean
@@ -40,6 +42,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
+const { stepItems } = storeToRefs(useAtomicSwapStore())
 
 const collections = ref(route.query.collections?.toString().split(',').filter(Boolean) || [])
 
