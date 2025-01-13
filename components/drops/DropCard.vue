@@ -60,11 +60,3 @@ onMounted(async () => {
   image.value = props.drop.banner || props.drop.image
 })
 </script>
-
-<style scoped lang="scss">
-.is-ellipsis {
-  @media (max-width: 640px) {
-    white-space: unset;
-  }
-}
-</style>

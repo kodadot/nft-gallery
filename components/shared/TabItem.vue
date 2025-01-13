@@ -63,14 +63,7 @@ const icon = computed(() =>
 .control,
 .explore-tabs-button {
   width: 15rem;
-
-  @media screen and (max-width: 1215px) {
-    width: 12rem;
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
+  @apply bulma-until-widescreen:w-48 bulma-mobile:w-full;
 }
 
 .full-width {

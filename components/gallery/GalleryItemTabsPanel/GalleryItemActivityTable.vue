@@ -7,7 +7,7 @@
       v-if="events.length"
       :data="events"
       hoverable
-      class="py-5 padding-top-mobile"
+      class="py-5 bulma-mobile:pt-0"
     >
       <!-- event name -->
       <NeoTableColumn
@@ -209,31 +209,18 @@ watchEffect(() => {
 .gallery-item-activity-table {
   overflow-y: auto;
 
-  // Between 1024px and 1215px
-  @media screen and (min-width: 1024px) and (max-width: 1215px) {
-    :deep(table tr > *:first-child) {
-      padding-left: 2rem;
-    }
+  :deep(table tr > *:first-child) {
+    @apply bulma-desktop:pl-8;
   }
 }
 
-// up to 1023px
-@media screen and (max-width: 1023px) {
-  .gallery-item-activity-table {
-    :deep(.o-table__td) {
-      @apply border-inherit;
+.gallery-item-activity-table {
+  :deep(.o-table__td) {
+    @apply bulma-touch:border-inherit;
 
-      &:before {
-        font-weight: 400 !important;
-      }
+    &:before {
+      @apply bulma-touch:font-normal;
     }
-  }
-}
-
-// up to 768px
-@media screen and (max-width: 768px) {
-  .padding-top-mobile {
-    padding-top: 0 !important;
   }
 }
 </style>

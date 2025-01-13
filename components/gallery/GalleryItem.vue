@@ -377,12 +377,7 @@ $break-point-width: 930px;
 }
 
 .back-button {
-  @apply fixed z-[1] left-3 top-8;
-
-  // Between 1024px and 1215px
-  @media screen and (min-width: 1024px) and (max-width: 1215px) {
-    left: 2.5rem;
-  }
+  @apply fixed z-[1] left-3 top-8 bulma-desktop:left-[2.5rem];
 }
 
 #nft-img-container.fullscreen-fallback {

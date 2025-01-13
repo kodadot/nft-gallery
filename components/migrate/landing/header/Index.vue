@@ -184,18 +184,11 @@ const { source, sourceSelected, destination, destinationSelected }
     top: -100%;
   }
 
-  @media screen and (max-width: 768px) {
-    .text-destination {
-      position: unset;
-      top: unset;
-    }
+  .text-destination {
+    @apply bulma-mobile:static bulma-mobile:top-auto;
   }
 
-  // Between 1216px and 1407px
-  @media screen and (min-width: 1216px) and (max-width: 1407px) {
-    flex-direction: row;
-    margin-top: 1rem;
-  }
+  @apply bulma-mobile:flex-row bulma-mobile:mt-1;
 }
 
 .svg-arrow {

@@ -181,8 +181,6 @@ useLazyAsyncData('profileCollections', async () => {
 .dropdown-width {
   width: 18.75rem;
 
-  @media screen and (max-width: 768px) {
-    width: unset;
-  }
+  @apply bulma-mobile:w-auto;
 }
 </style>

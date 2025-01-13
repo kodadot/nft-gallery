@@ -131,11 +131,10 @@ const closeModal = () => {
   border-top: 1px solid grey;
   justify-content: space-between;
 
-  @media (max-width: 640px) {
-    justify-content: center;
-    .language-selector {
-      margin: 0 2rem;
-    }
+  @apply bulma-mobile:justify-center;
+
+  .language-selector {
+    @apply bulma-mobile:my-8 bulma-mobile:mx-0;
   }
 
   & > * {
@@ -146,11 +145,9 @@ const closeModal = () => {
     }
   }
 
-  @media (min-width: 768px) {
-    /* manually center dropdown menu, because no props "position" to center it */
-    :deep(.o-drop__menu) {
-      transform: translateX(50px);
-    }
+  /* manually center dropdown menu, because no props "position" to center it */
+  :deep(.o-drop__menu) {
+    @apply bulma-tablet:translate-x-[50px]
   }
 }
 </style>

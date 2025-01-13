@@ -36,18 +36,13 @@ const isExploreCollections = computed(() => route.name === 'prefix-explore-colle
 }
 .explore {
   gap: 1.5rem;
+  @apply bulma-mobile:gap-4 bulma-mobile:flex-col;
 
   &-menu {
     gap: 1.5rem;
+
+    @apply bulma-mobile:gap-4;
   }
 
-  @media (max-width: 640px) {
-    gap: 1rem;
-    flex-direction: column;
-
-    &-menu {
-      gap: 1rem;
-    }
-  }
 }
 </style>

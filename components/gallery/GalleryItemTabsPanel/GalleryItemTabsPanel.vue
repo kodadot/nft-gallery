@@ -80,10 +80,7 @@ watch(() => props.activeTab, activeTab => active.value = activeTab)
 
 <style lang="scss">
 .o-tabs__content--fixed.gallery-item-tab-panel {
-  // up to 768px
-  @media screen and (max-width: 768px) {
-    height: 28rem;
-  }
+  @apply bulma-mobile:h-[28rem];
 }
 .offers-disabled-tooltip {
   transform: translateX(calc(-50% + 3rem));

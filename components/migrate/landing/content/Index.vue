@@ -112,13 +112,10 @@ const isWaiting = computed(() => Object.keys(waitingItems).length)
     }
   }
 
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+  @apply bulma-mobile:grid-cols-1;
 
-    &-card-info .flex {
-      flex-direction: column;
-      gap: 1rem;
-    }
+  &-card-info .flex {
+    @apply bulma-mobile:flex-col bulma-mobile:gap-4;
   }
 }
 </style>

@@ -39,10 +39,6 @@ onKodahashRenderCompleted(({ payload }) => imageData.value = payload.image)
 .gallery-button {
   display: flex;
   gap: 1rem;
-
-  // up to 768px
-  @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-  }
+  @apply bulma-mobile:flex-col-reverse;
 }
 </style>

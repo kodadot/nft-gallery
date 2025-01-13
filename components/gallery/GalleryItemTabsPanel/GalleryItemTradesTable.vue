@@ -198,39 +198,32 @@ const closeTradeOverviewModal = () => {
 .gallery-item-offers-table {
   overflow-y: auto;
 
-  // Between 1024px and 1215px
-  @media screen and (min-width: 1024px) and (max-width: 1215px) {
-    :deep(table tr > *:first-child) {
-      padding-left: 2rem;
-    }
-    :deep(table tbody > tr > td) {
-      vertical-align: middle;
-      height: 3.25rem;
-      &:last-child {
-         padding: 0;
-      }
+  :deep(table tr > *:first-child) {
+    @apply bulma-desktop:pl-8;
+  }
+  :deep(table tbody > tr > td) {
+    @apply bulma-desktop:h-[3.25rem] bulma-desktop:vertical-middle;
+
+    &:last-child {
+      @apply bulma-desktop:p-0;
     }
   }
 }
 
-// up to 1023px
-@media screen and (max-width: 1023px) {
-  .gallery-item-offers-table {
-    :deep(.o-table__td) {
-      @apply border-inherit;
-      padding: 0;
-      &:before {
-        font-weight: 400 !important;
-      }
+.gallery-item-offers-table {
+  :deep(.o-table__td) {
+    @apply bulma-touch:border-inherit bulma-touch:p-0;
+    &:before {
+      @apply bulma-touch:font-normal;
     }
+  }
 
-    :deep(.o-table__td:not(:nth-last-child(1)):not(:nth-last-child(2))) {
-      padding: 0 0 1rem 0;
-    }
+  :deep(.o-table__td:not(:nth-last-child(1)):not(:nth-last-child(2))) {
+    @apply bulma-touch:p-0 bulma-touch:pb-4;
+  }
 
-    .o-table__td:last-child button {
-      margin-top: 1.5rem
-    }
+  .o-table__td:last-child button {
+    @apply bulma-touch:mt-6;
   }
 }
 </style>

@@ -69,9 +69,6 @@ const handleTabClick = (value: string) => {
 
 .pill-tabs-container {
   gap: 10px;
-
-  @media screen and (max-width: 1023px) {
-    flex-wrap: wrap !important;
-  }
+  @apply bulma-touch:flex-wrap;
 }
 </style>

@@ -125,22 +125,10 @@ const onClickShoppingCart = () => {
 }
 .buy-button-width {
   width: 8.375rem;
-
-  // until 1215px
-  @media screen and (max-width: 1215px) {
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  .wrapper {
-    width: 100%;
-  }
+  @apply bulma-until-widescreen:w-full bulma-until-widescreen:flex-grow;
 }
 
 .desktop-full-w {
-  // until 1215px
-  @media screen and (max-width: 1215px) {
-    width: 100%;
-  }
+  @apply bulma-until-widescreen:w-full;
 }
 </style>

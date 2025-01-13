@@ -77,33 +77,24 @@ watchEffect(async () => {
     }
   }
 
-  // until 1215px
-  @media screen and (max-width: 1215px) {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+  @apply bulma-until-widescreen:flex-col bulma-until-widescreen:justify-start bulma-until-widescreen:items-start;
 
-    .gallery-action-section-info {
-      @apply min-w-[10rem] text-left;
+  .gallery-action-section-info {
+    @apply bulma-until-widescreen:min-w-[10rem] bulma-until-widescreen:text-left;
 
-      .gallery-action-section-info-title {
-        font-size: 0.8rem;
+    .gallery-action-section-info-title {
+      @apply bulma-until-widescreen:text-sm;
+    }
+
+    .gallery-action-section-price-box {
+      @apply bulma-until-widescreen:flex-col bulma-until-widescreen:items-start bulma-until-widescreen:mb-4;
+
+      .gallery-action-section-price {
+        @apply bulma-until-widescreen:mr-0 bulma-until-widescreen:text-2xl;
       }
 
-      .gallery-action-section-price-box {
-        flex-direction: column;
-        align-content: flex-start;
-        margin-bottom: 1rem;
-
-        .gallery-action-section-price {
-          margin-right: 0;
-          font-size: 1.5rem;
-          line-height: 1.5rem;
-        }
-
-        .gallery-action-section-price-sub {
-          font-size: 0.8rem;
-        }
+      .gallery-action-section-price-sub {
+        @apply bulma-until-widescreen:text-sm;
       }
     }
   }

@@ -136,27 +136,19 @@ watch(accountId, () => {
 watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .dropdown-width {
   width: 30rem;
+
+  @apply bulma-mobile:w-full;
 }
 
 .full-width {
   width: 100%;
-}
 
-.full-width .dropdown-width,
-.full-width :deep(.o-drop__menu) {
-  width: 100%;
-}
-
-@media (max-width: 640px) {
-  .dropdown-width {
+  .dropdown-width,
+  :deep(.o-drop__menu) {
     width: 100%;
-  }
-
-  .mobile-width {
-    min-width: 6rem;
   }
 }
 </style>

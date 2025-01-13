@@ -200,10 +200,7 @@ const onCompletePurchase = () => {
     max-width: 360px;
     width: 100%;
 
-    @media (max-width: 640px) {
-      padding-top: 64px;
-      max-width: 100vw;
-    }
+    @apply bulma-mobile:pt-[64px] bulma-mobile:max-w-[100vw]
   }
 }
 

@@ -75,40 +75,36 @@ defineProps<{
     }
   }
 
-  // until 1215px
-  @media screen and (max-width: 1215px) {
-    &-active {
-      width: 100%;
-    }
-    &-content,
-    &-content > * {
-      width: 100%;
-    }
+  &-active {
+    @apply bulma-until-widescreen:w-full;
+  }
+  &-content,
+  &-content > * {
+    @apply bulma-until-widescreen:w-full;
   }
 }
 
-// until 1215px
-@media screen and (max-width: 1215px) {
-  .slide {
-    width: 100%;
-    align-items: stretch;
-    &:not(.slide-active) {
-      .slide-action {
-        flex: 1;
-        button {
-          width: 100%;
-        }
-      }
-      .slide-content {
-        display: none;
+.slide {
+  @apply bulma-until-widescreen:w-full bulma-until-widescreen:items-stretch;
+
+  &:not(.slide-active) {
+    .slide-action {
+      @apply bulma-until-widescreen:flex-grow;
+
+      button {
+        @apply bulma-until-widescreen:w-full;
       }
     }
     .slide-content {
-      height: auto;
-      & > div,
-      input {
-        height: 100%;
-      }
+      @apply bulma-until-widescreen:hidden;
+    }
+  }
+  .slide-content {
+    @apply bulma-until-widescreen:h-auto;
+
+    & > div,
+    input {
+      @apply bulma-until-widescreen:h-full;
     }
   }
 }
@@ -130,13 +126,10 @@ defineProps<{
     @apply text-base w-full h-full absolute z-[2];
   }
 
-  // until 1215px
-  @media screen and (max-width: 1215px) {
-    width: 100%;
+  @apply bulma-until-widescreen:w-full;
 
-    .wrapper {
-      position: initial;
-    }
+  .wrapper {
+    @apply bulma-until-widescreen:relative;
   }
 }
 </style>

@@ -33,24 +33,16 @@ const isSwapsTab = computed(() => routeName.value.includes('prefix-collection-id
 
 <style lang="scss" scoped>
 .explore {
+  @apply bulma-mobile:flex-col;
+
   &.has-gap {
     gap: 1.5rem;
+    @apply bulma-mobile:gap-4;
   }
 
   &-menu {
     gap: 1.5rem;
-  }
-
-  @media (max-width: 640px) {
-    flex-direction: column;
-
-    &.has-gap {
-      gap: 1rem;
-    }
-
-    &-menu {
-      gap: 1rem;
-    }
+    @apply bulma-mobile:gap-4;
   }
 }
 </style>
