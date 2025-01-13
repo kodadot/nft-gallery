@@ -106,7 +106,7 @@ const props = withDefaults(defineProps<{
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 
-const signingModal = ref<{ isModalActive: boolean }>()
+const signingModal = ref()
 const items = ref<ListCartItem[]>([])
 
 const { $i18n } = useNuxtApp()
@@ -120,11 +120,12 @@ const isModalActive = computed(() => Boolean(preferencesStore.userCartModal?.ope
 const nft = computed(() => items.value[0])
 const abi = useCollectionAbi(computed(() => nft.value?.collection.id), { disabled: !isEvm.value })
 const hasAbi = computed(() => isEvm.value ? Boolean(abi.value) : true)
-const actionDisabled = computed(() => !hasAbi.value || Boolean(signingModal.value?.isModalActive))
+const actionDisabled = computed(() => !hasAbi.value)
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, isActionReady } = useAutoTeleportActionButton({
   getActionFn: props.getAction,
   disabled: actionDisabled,
+  signingModal,
 })
 
 const actions = computed<AutoTeleportAction[]>(() =>

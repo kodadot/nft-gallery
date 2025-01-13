@@ -306,7 +306,7 @@ import type { ActionMintToken, ActionList, TokenToList } from '@/composables/tra
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/create/CustomAttributeInput.vue'
-import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import RoyaltyForm from '@/components/create/RoyaltyForm.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'

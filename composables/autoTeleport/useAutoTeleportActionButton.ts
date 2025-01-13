@@ -3,10 +3,12 @@ import type { Actions } from '@/composables/transaction/types'
 type AutoTeleportActionButtonParams<T> = {
   getActionFn: () => T
   disabled?: MaybeRef<boolean>
+  signingModal: Ref<{ isModalActive: boolean } | undefined>
 }
 
 export default <T = Actions>({
   getActionFn,
+  signingModal,
   disabled = false,
 }: AutoTeleportActionButtonParams<T>) => {
   const { decimals, chainSymbol } = useChain()
@@ -30,7 +32,7 @@ export default <T = Actions>({
   )
 
   watchSyncEffect(() => {
-    if (!autoTeleport.value && !unref(disabled)) {
+    if (!autoTeleport.value && !unref(disabled) && !signingModal.value?.isModalActive) {
       action.value = getActionFn()
     }
   })

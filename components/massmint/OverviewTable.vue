@@ -58,13 +58,25 @@
                 </td>
                 <td class="!align-middle">
                   <div
-                    class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
+                    class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
                     :class="{
                       'text-k-orange': !nft.attributes?.length,
                     }"
                     @click="openSideBarWith(nft)"
                   >
-                    {{ nft.attributes?.length ? getNftAttributesOverview(nft) : $t('massmint.attributesMissing') }}
+                    <div v-if="nft.attributes?.length">
+                      <div
+                        v-for="attr in nft.attributes"
+                        :key="attr.trait_type"
+                        class="flex items-center gap-2"
+                      >
+                        <span>{{ attr.trait_type }}: <span class="font-bold">{{ attr.value }}</span></span>
+                        <span class="text-k-blue">{{ allNftAttributesRarityMaps[attr.trait_type]?.[attr.value] }}%</span>
+                      </div>
+                    </div>
+                    <div v-else>
+                      {{ $t('massmint.attributesMissing') }}
+                    </div>
                   </div>
                 </td>
                 <td class="!align-middle">
@@ -156,6 +168,36 @@ const displayedNFTS = computed<NFT[]>(() =>
   Object.values(props.nfts).slice(0, offset.value).map(addStatus),
 )
 
+const allNftAttributesRarityMaps = computed(() => {
+  const attributeCounts: Record<string, Record<string, number>> = {}
+  const nfts = Object.values(props.nfts || {})
+  nfts.forEach((nft) => {
+    if (!nft.attributes?.length) return
+
+    nft.attributes.forEach((attr) => {
+      if (!attributeCounts[attr.trait_type]) {
+        attributeCounts[attr.trait_type] = {}
+      }
+
+      attributeCounts[attr.trait_type][attr.value]
+        = (attributeCounts[attr.trait_type][attr.value] || 0) + 1
+    })
+  })
+
+  const rarityMaps: Record<string, Record<string, number>> = {}
+  const totalNfts = nfts?.length || 0
+
+  Object.entries(attributeCounts).forEach(([traitType, valueCounts]) => {
+    rarityMaps[traitType] = {}
+
+    Object.entries(valueCounts).forEach(([value, count]) => {
+      rarityMaps[traitType][value] = parseFloat((count / totalNfts * 100).toFixed(1))
+    })
+  })
+
+  return rarityMaps
+})
+
 const openSideBarWith = (nft: NFT) => {
   emit('openSideBarWith', nft)
 }
@@ -196,9 +238,6 @@ const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 
 const getNativeNftPrice = (nft: NFT): string =>
   String((nft?.price || 0) * Math.pow(10, decimals.value))
-
-const getNftAttributesOverview = (nft: NFT): string | undefined =>
-  nft.attributes?.map(attribute => attribute.value).join(', ')
 
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
