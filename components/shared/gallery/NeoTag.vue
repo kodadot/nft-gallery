@@ -50,7 +50,7 @@ const onClose = () => {
 
   &--primary {
     border: 1px solid var(--k-primary);
-    background-color: var(--k-accentlight2);
+    background-color: var(--k-accent-light-2) !important;
     .cross-icon {
       &:hover {
         color: var(--k-grey);

@@ -202,7 +202,7 @@ const closeTradeOverviewModal = () => {
     @apply bulma-desktop:pl-8;
   }
   :deep(table tbody > tr > td) {
-    @apply bulma-desktop:h-[3.25rem] bulma-desktop:vertical-middle;
+    @apply bulma-desktop:h-[3.25rem] bulma-desktop:align-middle;
 
     &:last-child {
       @apply bulma-desktop:p-0;
