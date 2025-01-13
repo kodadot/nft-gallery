@@ -867,14 +867,14 @@ watchEffect(() => {
 }
 
 .mobile {
-  @apply bulma-until-widescreen:flex-wrap
+  @apply bulma-until-widescreen:flex-wrap;
 
   >* {
     @apply bulma-mobile:flex-1 bulma-mobile:w-1/2;
 
     &:nth-child(2) {
       :deep(.explore-tabs-button) {
-        @apply bulma-mobile:border-r-solid;
+        @apply bulma-mobile:border-solid;
       }
     }
 
