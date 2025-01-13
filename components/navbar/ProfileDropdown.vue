@@ -77,7 +77,7 @@
         aria-role="listitem"
         :value="lang.value"
         :class="{ 'is-active': $i18n.locale === lang.value }"
-        @click="setUserLocale(lang.value)"
+        @click="usePreferencesStore().setUserLocale(lang.value)"
       >
         <span>{{ lang.flag }} {{ lang.label }}</span>
       </NeoDropdownItem>
@@ -87,14 +87,12 @@
 
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+
 import { useIdentityStore } from '@/stores/identity'
-import {
-  langsFlags as langsFlagsList,
-  setUserLocale,
-} from '@/utils/config/i18n'
+import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
+
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
-import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
@@ -106,7 +104,6 @@ const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
   isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
 )
-const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
   useProfileOnboardingStore().setSidebarToggled()
