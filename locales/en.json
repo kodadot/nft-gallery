@@ -1898,6 +1898,7 @@
     "tabProperties": {
       "floorPrice": "Floor Price",
       "percentage": "Percentage",
+      "rarity": "Rarity",
       "section": "Section",
       "trait": "Trait"
     }
