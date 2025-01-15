@@ -1,11 +1,7 @@
 import type { ZipEntry } from 'unzipit'
 import config from '../codechecker.config'
 import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
-
-const getProxiedUrl = (url: string): string => {
-  // deploy own worker
-  return `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-}
+import { getProxiedUrl } from '@/services/cors-proxy'
 
 type FileProcessingHandler = {
   processInstance: (params: { content: string, entry: ZipEntry, entries: Record<string, ZipEntry> }) => Promise<string>
