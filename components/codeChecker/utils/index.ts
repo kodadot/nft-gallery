@@ -189,7 +189,7 @@ export const createSandboxAssets = async (
     await processAsset(element, entries, assets)
   }
 
-  return  assets
+  return assets
 }
 
 export const getDocumentFromString = (html: string): Document => {

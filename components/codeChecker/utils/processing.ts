@@ -15,16 +15,28 @@ type FileProcessingHandler = {
 const loadTableHandler: FileProcessingHandler = {
   findAll: (content: string) => content.match(/loadTable\([^)]+\)/g),
   processInstance: async ({ content, entries }) => {
-    const csvFileName = content.match(/loadTable\(['"]([^'"]*)['"]/)?.[1] || ''
-    const csvFile = entries[csvFileName] as ZipEntry
+    const match = content.match(/loadTable\(['"]([^'"]*)['"](.*?)\)/)
 
-    if (!csvFile) {
+    if (!match) {
+      return content
+    }
+
+    const [, fileUrl = '', params = ''] = match
+
+    if (fileUrl.includes('https')) {
+      // TODO: handle remote files
+      return content
+    }
+
+    const file = entries[fileUrl] as ZipEntry
+
+    if (!file) {
       return content
     }
 
     const { key } = await uploadFile({
-      file: await csvFile.blob(),
-      fileName: csvFileName,
+      file: await file.blob(),
+      fileName: fileUrl,
       prefix: 'codeChecker',
     })
 
@@ -33,7 +45,7 @@ const loadTableHandler: FileProcessingHandler = {
     // proxy fixes issue with cors
     const url = getProxiedUrl(getObjectUrl(key))
 
-    return `loadTable("${url}", "csv", "header")`
+    return `loadTable("${url}"${params})`
   },
 }
 
