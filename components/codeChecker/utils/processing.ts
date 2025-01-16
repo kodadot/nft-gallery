@@ -1,7 +1,7 @@
 import type { ZipEntry } from 'unzipit'
 import config from '../codechecker.config'
 import { getObjectUrl, getUpload, uploadFile } from '@/services/playground'
-import { getProxiedUrl } from '@/services/cors-proxy'
+import { getCorsProxiedUrl } from '@/services/cors-proxy'
 
 type FileProcessingHandler = {
   processInstance: (params: { content: string, entry: ZipEntry, entries: Record<string, ZipEntry> }) => Promise<string>
@@ -38,7 +38,7 @@ const loadTableHandler: FileProcessingHandler = {
     await exponentialBackoff(() => getUpload(key)).catch(console.log)
 
     // proxy fixes issue with cors
-    const url = getProxiedUrl(getObjectUrl(key))
+    const url = getCorsProxiedUrl(getObjectUrl(key))
 
     return `loadTable("${url}"${params})`
   },
