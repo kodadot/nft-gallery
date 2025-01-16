@@ -19,8 +19,7 @@ const loadTableHandler: FileProcessingHandler = {
 
     const [, fileUrl = '', params = ''] = match
 
-    if (fileUrl.includes('https')) {
-      // TODO: handle remote files
+    if (fileUrl.includes('http')) {
       return content
     }
 
