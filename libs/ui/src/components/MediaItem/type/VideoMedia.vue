@@ -8,7 +8,7 @@
       playsinline
       loop
       :autoplay="autoPlay"
-      :muted="preview"
+      muted
       :poster="src"
       :src="animationSrc || src"
       controlslist="nodownload"
