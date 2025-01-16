@@ -46,7 +46,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     ahk: 'chain-ahk',
   }
 
-  const { isIos, isSafari } = useDevice()
   const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
     queryName: 'nftById',
@@ -96,12 +95,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       nftAnimationMimeType.value.includes('video')
       || nftMimeType.value.includes('video')
     ) {
-      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
-      if (isIos || isSafari) {
-        nftImage.value = sanitizeIpfsUrl(metadata.image, 'cloudflare')
-        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'cloudflare')
-      }
-
       // serve video from cloudflare stream
       const streams = await getCloudflareMp4(
         metadata.animation_url || metadata.image,
