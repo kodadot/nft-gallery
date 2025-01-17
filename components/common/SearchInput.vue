@@ -16,7 +16,7 @@
         v-if="loading"
         #header
       >
-        <div>
+        <div class="!text-k-grey">
           {{ $t('loading') }}...
         </div>
       </template>
@@ -24,7 +24,9 @@
         v-else-if="!data?.length"
         #empty
       >
-        <div> {{ $t('general.searchNoResults') }}</div>
+        <div class="!text-k-grey">
+          {{ $t('general.searchNoResults') }}
+        </div>
       </template>
       <template
         v-else
