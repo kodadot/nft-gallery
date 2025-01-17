@@ -136,9 +136,9 @@ const { transaction, status, isError, isLoading } = useTransaction({ disableSucc
 const { notification, lastSessionId, updateSession } = useLoadingNotfication()
 const { mode, isIncomingTrade } = useIsTradeOverview(computed(() => props.trade))
 
-const needsToSelectSendItem = computed(() => isIncomingTrade.value && !sendItem.value)
-const disabled = computed(() => needsToSelectSendItem.value)
 const trade = computed(() => props.trade)
+const needsToSelectSendItem = computed(() => isIncomingTrade.value && !sendItem.value && Boolean(trade.value?.isAnyTokenInCollectionDesired))
+const disabled = computed(() => needsToSelectSendItem.value)
 
 const label = computed<string | undefined>(() => {
   if (needsToSelectSendItem.value) {
