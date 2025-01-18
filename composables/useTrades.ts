@@ -88,7 +88,7 @@ export default function ({
   }
 
   const dataItems = computed<Offer[] | Swap[]>(() => data.value?.[dataKey] || [])
-  const hasTargetsOfTrades = computed(() => Boolean(targetsOfTrades.value?.size))
+  const hasTargetsOfTrades = computed(() => Boolean(targetsOfTrades.value))
   const tradeKeys = computed<string>(() => dataItems.value.map(item => item.id).join('-'))
   const needsToSubscribe = computed(() => minimal ? false : !hasTargetsOfTrades.value)
   const loading = computed(() => !currentBlock.value || fetching.value || needsToSubscribe.value)
@@ -128,8 +128,11 @@ export default function ({
   }
 
   if (!minimal) {
-    watch(tradeKeys, (key) => {
-      if (key) {
+    watch([tradeKeys, () => Boolean(data.value)], ([newTradeKeys, hasFetched], [oldTradeKeys]) => {
+      const hasSubscription = targetsOfTrades.value !== undefined
+      const tradeKeysChanged = newTradeKeys !== oldTradeKeys
+
+      if (hasFetched && (!hasSubscription || tradeKeysChanged)) {
         ownersSubscription.value()
         targetsOfTrades.value = undefined
         subscribeToTargetsOfTrades(dataItems.value)
