@@ -24,13 +24,9 @@ export const buildIncomingTradesQuery = (address: string, considereds: string[],
   if (stringify) {
     return JSON.stringify(query)
       // Remove quotes around keys (e.g., "status_eq": becomes status_eq:)
-      .replace(/"([a-zA-Z0-9_]+)":/g, '$1:')
+      .replace(/"(\w+)":/g, '$1:')
       // Remove quotes around uppercase values (e.g., "ACTIVE" becomes ACTIVE)
       .replace(/"([A-Z]+)"/g, '$1')
-      // Fix array formatting if it's incorrectly a stringified array (e.g.,  "[\"493\",\"450\"]" becomes ["493","450"])
-      .replace(/\\"/g, '"')
-      .replace(/"\[/g, '[')
-      .replace(/\]"/g, ']')
   }
 
   return query
