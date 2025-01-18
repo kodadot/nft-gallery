@@ -614,10 +614,7 @@ watchEffect(async () => {
     const nftId = await getNftId()
 
     if (nftId) {
-      router.push({
-        path: `/${urlPrefix.value}/gallery/${nftId}`,
-        query: { congratsNft: form.name },
-      })
+      router.push(`/${urlPrefix.value}/gallery/${nftId}`)
     }
     else {
       retry.value -= 1

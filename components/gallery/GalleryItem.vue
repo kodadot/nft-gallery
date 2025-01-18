@@ -1,10 +1,5 @@
 <template>
   <section class="py-5 gallery-item">
-    <MessageNotify
-      v-if="congratsNewNft"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])"
-    />
     <div class="flex flex-col lg:flex-row">
       <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
@@ -184,7 +179,6 @@ import { useGalleryItem } from './useGalleryItem'
 import { GALLERY_ITEM_TABS } from '@/components/gallery/GalleryItemTabsPanel/types'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { exist } from '@/utils/exist'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { resolveMedia, MediaType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
@@ -197,8 +191,6 @@ const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
-const route = useRoute()
-const router = useRouter()
 const { placeholder } = useTheme()
 const mediaItemRef = ref<{
   isLewdBlurredLayer: boolean
@@ -249,15 +241,6 @@ watch(triggerOfferSuccess, (value) => {
     activeTab.value = GALLERY_ITEM_TABS.OFFERS
     preferencesStore.setTriggerOfferSuccess(false)
   }
-})
-
-const congratsNewNft = ref('')
-
-onMounted(() => {
-  exist(route.query.congratsNft as string, (val) => {
-    congratsNewNft.value = val || ''
-    router.replace({ query: {} })
-  })
 })
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
