@@ -181,10 +181,8 @@ const updateSearch = useDebounceFn((value: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .card {
-  box-shadow: 0px 0px 5px 0.5px $primary;
+  box-shadow: 0px 0px 5px 0.5px var(--primary);
 }
 
 .fade-enter-active,

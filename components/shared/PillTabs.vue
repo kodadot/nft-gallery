@@ -62,8 +62,6 @@ const handleTabClick = (value: string) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .square-20 {
   width: 20px;
   height: 20px;
@@ -71,9 +69,6 @@ const handleTabClick = (value: string) => {
 
 .pill-tabs-container {
   gap: 10px;
-
-  @include touch {
-    flex-wrap: wrap !important;
-  }
+  @apply bulma-touch:flex-wrap;
 }
 </style>

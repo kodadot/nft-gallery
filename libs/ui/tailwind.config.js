@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import defaultTheme from 'tailwindcss/defaultTheme'
+import plugin from 'tailwindcss/plugin'
 
 module.exports = {
   content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
@@ -119,9 +120,36 @@ module.exports = {
       fontSize: {
         '3xl': '2rem',
       },
+      spacing: {
+        'navbar-desktop': '80px', // $navbar-desktop-min-height
+        'navbar-mobile': '64px', // $navbar-mobile-min-height
+        'fluid-container-padding': '2.5rem',
+        'fluid-container-padding-mobile': '1.25rem',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant }) {
+      // https://bulma.io/documentation/start/responsiveness/
+      // https://bulma.io/documentation/sass/responsive-mixins/
+      // Bulma prefixed breakpoints
+      addVariant('bulma-mobile', '@media (max-width: 768px)')
+      addVariant('bulma-tablet', '@media (min-width: 769px)')
+      addVariant('bulma-desktop', '@media (min-width: 1024px)')
+      addVariant('bulma-widescreen', '@media (min-width: 1216px)')
+      addVariant('bulma-fullhd', '@media (min-width: 1408px)')
+
+      // Bulma "-only" variants
+      addVariant('bulma-tablet-only', '@media (min-width: 769px) and (max-width: 1023px)')
+      addVariant('bulma-desktop-only', '@media (min-width: 1024px) and (max-width: 1215px)')
+      addVariant('bulma-widescreen-only', '@media (min-width: 1216px) and (max-width: 1407px)')
+
+      // Bulma "until-" variants
+      addVariant('bulma-touch', '@media (max-width: 1215px)')
+      addVariant('bulma-until-widescreen', '@media (max-width: 1215px)')
+      addVariant('bulma-until-fullhd', '@media (max-width: 1407px)')
+    }),
+  ],
   corePlugins: {
     preflight: false,
   },

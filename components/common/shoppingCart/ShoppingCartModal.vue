@@ -190,20 +190,16 @@ const onCompletePurchase = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
 .shopping-cart-modal {
   .shopping-cart-modal-container {
     position: fixed;
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
-    @include mobile {
-      padding-top: $navbar-mobile-min-height;
-      max-width: 100vw;
-    }
+
+    @apply bulma-mobile:max-w-[100vw] pt-navbar-desktop bulma-mobile:pt-navbar-mobile;
   }
 }
 

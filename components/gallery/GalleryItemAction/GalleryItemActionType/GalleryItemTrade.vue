@@ -102,23 +102,13 @@ useModalIsOpenTracker({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-trade {
+  @apply bulma-until-widescreen:w-full bulma-until-widescreen:mt-4;
+
   button {
     font-size: 1rem;
     height: 3.375rem;
-  }
-}
-
-@include until-widescreen {
-  .gallery-item-trade {
-    width: 100%;
-    margin-top: 1rem !important;
-    button {
-      width: 100%;
-      height: 100%;
-    }
+    @apply bulma-until-widescreen:size-full;
   }
 }
 </style>

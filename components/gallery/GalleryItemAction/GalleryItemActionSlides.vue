@@ -22,13 +22,8 @@ defineProps<{
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .slide {
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-  }
-
+  box-shadow: var(--primary-shadow);
   overflow: hidden;
   transition-duration: 0.2s;
   width: 10rem;
@@ -54,10 +49,7 @@ defineProps<{
     white-space: nowrap;
     height: 54px;
     width: 12rem;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
+    border: 1px solid var(--border-color);
 
     & > * {
       width: 12rem;
@@ -69,56 +61,50 @@ defineProps<{
       outline: none;
       width: 100%;
 
-      @include ktheme() {
-        border: 1px solid theme('border-color');
-        color: theme('text-color');
-        background-color: theme('background-color');
-      }
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      background-color: var(--background-color);
     }
   }
 
   &-disabled {
-    @include ktheme() {
-      box-shadow: 4px 4px theme('k-grey');
-    }
+    box-shadow: 4px 4px var(--k-grey);
 
     &:hover {
       @apply cursor-not-allowed;
     }
   }
 
-  @include until-widescreen {
-    &-active {
-      width: 100%;
-    }
-    &-content,
-    &-content > * {
-      width: 100%;
-    }
+  &-active {
+    @apply bulma-until-widescreen:w-full;
+  }
+  &-content,
+  &-content > * {
+    @apply bulma-until-widescreen:w-full;
   }
 }
 
-@include until-widescreen {
-  .slide {
-    width: 100%;
-    align-items: stretch;
-    &:not(.slide-active) {
-      .slide-action {
-        flex: 1;
-        button {
-          width: 100%;
-        }
-      }
-      .slide-content {
-        display: none;
+.slide {
+  @apply bulma-until-widescreen:w-full bulma-until-widescreen:items-stretch;
+
+  &:not(.slide-active) {
+    .slide-action {
+      @apply bulma-until-widescreen:flex-grow;
+
+      button {
+        @apply bulma-until-widescreen:w-full;
       }
     }
     .slide-content {
-      height: auto;
-      & > div,
-      input {
-        height: 100%;
-      }
+      @apply bulma-until-widescreen:hidden;
+    }
+  }
+  .slide-content {
+    @apply bulma-until-widescreen:h-auto;
+
+    & > div,
+    input {
+      @apply bulma-until-widescreen:h-full;
     }
   }
 }
@@ -140,12 +126,10 @@ defineProps<{
     @apply text-base w-full h-full absolute z-[2];
   }
 
-  @include until-widescreen {
-    width: 100%;
+  @apply bulma-until-widescreen:w-full;
 
-    .wrapper {
-      position: initial;
-    }
+  .wrapper {
+    @apply bulma-until-widescreen:relative;
   }
 }
 </style>
