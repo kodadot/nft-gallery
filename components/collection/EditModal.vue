@@ -125,6 +125,87 @@
             </div>
           </div>
         </NeoField>
+
+        <NeoField
+          v-if="isModalActive"
+          :label="$t('mint.collection.permission.label')"
+        >
+          <div class="w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <p>
+                {{ $t('mint.mintType') }}
+              </p>
+              <NeoSelect
+                v-model="selectedMintingType"
+              >
+                <option
+                  v-for="menu in COLLECTION_MINTING_TYPES_OPTIONS"
+                  :key="menu.value"
+                  :value="menu.value"
+                >
+                  {{ menu.text }}
+                </option>
+              </NeoSelect>
+            </div>
+
+            <div>
+              <div class="flex justify-between capitalize">
+                <p>{{ $t(hasMintingPrice ? 'mint.collection.permission.pricePlaceholder' : 'mint.collection.permission.noPriceSet') }}</p>
+                <NeoSwitch
+                  v-if="isHolderOfMintingTypeSelected"
+                  v-model="hasMintingPrice"
+                  position="left"
+                />
+              </div>
+              <div
+                v-if="hasMintingPrice"
+                class="flex focus-within:!border-border-color border border-k-shade h-12 mt-3"
+              >
+                <input
+                  v-model="mintingPrice"
+                  type="number"
+                  step="0.01"
+                  min="0.0001"
+                  pattern="[0-9]+([\.,][0-9]+)?"
+                  class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color w-full"
+                  :placeholder="$t('mint.collection.permission.pricePlaceholder')"
+                >
+                <div class="px-3 flex items-center">
+                  {{ chainSymbol }}
+                </div>
+              </div>
+              <div
+                v-if="isHolderOfMintingTypeSelected"
+                class="mt-4"
+              >
+                <p class="mb-2">
+                  {{ $t('mint.collection.permission.holderOfCollection') }}
+                </p>
+                <CollectionSearchInput
+                  :collection-id="holderOfCollectionId"
+                  @update:collection="holderOfCollectionId = $event?.collection_id"
+                />
+              </div>
+            </div>
+
+            <div class="flex flex-col w-full">
+              <div
+                v-if="permissionSettingWarningMessage"
+                class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 !mt-2"
+              >
+                <NeoIcon
+                  icon="warning"
+                  class="text-yellow-500"
+                  size="small"
+                />
+
+                <p class="text-sm text-yellow-700">
+                  {{ permissionSettingWarningMessage }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </NeoField>
       </form>
 
       <div class="flex flex-col !mt-6">
@@ -142,9 +223,9 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect, NeoIcon } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import type { UpdateCollection } from '@/composables/transaction/types'
+import { type UpdateCollection, type CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
 
 export type CollectionEditMetadata = {
   name: string
@@ -153,7 +234,10 @@ export type CollectionEditMetadata = {
   imageType: string
   banner?: string
   max: number | null
+  mintingSettings: CollectionMintSetting
 }
+
+const COLLECTION_MINTING_TYPES_OPTIONS = ([CollectionMintSettingType.Issuer, CollectionMintSettingType.Public, CollectionMintSettingType.HolderOf]).map(type => ({ value: type, text: type }))
 
 const emit = defineEmits(['submit'])
 const props = defineProps<{
@@ -162,7 +246,9 @@ const props = defineProps<{
   min?: number
 }>()
 
+const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
+const { chainSymbol, decimals, withDecimals } = useChain()
 
 const name = ref<string>()
 const description = ref<string>()
@@ -171,13 +257,22 @@ const banner = ref<File>()
 const imageUrl = ref<string>()
 const bannerUrl = ref<string>()
 const unlimited = ref(true)
+const hasMintingPrice = ref(false)
+const mintingPrice = ref<number | null>(null)
 
+const selectedMintingType = ref<CollectionMintSettingType | null>(null)
 const min = computed(() => props.min || 1)
 const max = ref<number | null>(null)
 
 const nameChanged = computed(() => props.collection.name !== name.value)
 const hasImageChanged = computed(() => (!imageUrl.value && Boolean(props.collection.image)) || Boolean(image.value))
 const originalLogoImageUrl = computed(() => sanitizeIpfsUrl(props.collection.image))
+const mintTypeChanged = computed(() => selectedMintingType.value !== props.collection.mintingSettings.mintType)
+const mintPriceChanged = computed(() => mintingPrice.value !== originalMintPrice.value)
+const originalMintPrice = computed(() => props.collection.mintingSettings.price ? Number(props.collection.mintingSettings.price) / (10 ** decimals.value) : null)
+const originalHolderOfCollectionId = computed(() => props.collection.mintingSettings.holderOf)
+const holderOfCollectionId = ref<string | undefined>(originalHolderOfCollectionId.value)
+const isHolderOfMintingTypeSelected = computed(() => selectedMintingType.value === CollectionMintSettingType.HolderOf)
 
 const disabled = computed(() => {
   const hasImage = imageUrl.value
@@ -186,9 +281,16 @@ const disabled = computed(() => {
   const descriptionChanged = props.collection.description !== description.value
   const hasBannerChanged = (!bannerUrl.value && Boolean(props.collection.banner)) || Boolean(banner.value)
   const hasMaxChanged = max.value !== props.collection.max
+  const holderOfCollectionIdChanged = holderOfCollectionId.value !== originalHolderOfCollectionId.value
+  const invalidPublicCollection = selectedMintingType.value === 'Public' && !mintingPrice.value
 
-  return !hasImage || !isNameFilled || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged)
+  const invalidHolderOfCollection = isHolderOfMintingTypeSelected.value && !holderOfCollectionId.value
+
+  return !hasImage || !isNameFilled || invalidHolderOfCollection || invalidPublicCollection
+    || (!nameChanged.value && !descriptionChanged && !hasImageChanged.value && !hasBannerChanged && !hasMaxChanged && !mintTypeChanged.value && !mintPriceChanged.value && !holderOfCollectionIdChanged)
 })
+
+const permissionSettingWarningMessage = computed(() => selectedMintingType.value && permissionSettingCheckingMap[selectedMintingType.value]?.())
 
 const initLogoImage = () => {
   imageUrl.value = originalLogoImageUrl.value
@@ -203,6 +305,11 @@ const editCollection = async () => {
     imageType: props.collection.imageType,
     banner: bannerUrl.value ? banner.value || props.collection.banner : undefined,
     max: max.value,
+    mintingSettings: {
+      mintType: selectedMintingType.value,
+      price: hasMintingPrice.value ? String(withDecimals(mintingPrice.value || 0)) : null,
+      holderOf: holderOfCollectionId.value || originalHolderOfCollectionId.value,
+    },
   } as UpdateCollection)
 }
 
@@ -215,6 +322,55 @@ watch(isModalActive, (value) => {
     initLogoImage()
     unlimited.value = !props.collection.max
     max.value = props.collection.max
+
+    // permission
+    selectedMintingType.value = props.collection.mintingSettings.mintType
+    hasMintingPrice.value = Boolean(props.collection.mintingSettings.price)
+    mintingPrice.value = originalMintPrice.value || null
+    holderOfCollectionId.value = originalHolderOfCollectionId.value
+  }
+}, {
+  immediate: true,
+})
+const mintTypeChangeHandlerMap: Record<CollectionMintSettingType, () => void> = {
+  [CollectionMintSettingType.Issuer]: () => {
+    hasMintingPrice.value = false
+    mintingPrice.value = null
+  },
+  [CollectionMintSettingType.Public]: () => {
+    hasMintingPrice.value = true
+    mintingPrice.value = null
+  },
+  [CollectionMintSettingType.HolderOf]: () => {
+    hasMintingPrice.value = false
+    mintingPrice.value = null
+    holderOfCollectionId.value = undefined
+  },
+}
+
+const permissionSettingCheckingMap: Record<CollectionMintSettingType, () => string | undefined> = {
+  [CollectionMintSettingType.Issuer]: () => {
+    if (mintingPrice.value) {
+      return $i18n.t('mint.collection.permission.issuerWarning')
+    }
+  },
+  [CollectionMintSettingType.Public]: () => {
+    if (!mintingPrice.value || mintingPrice.value <= 0) {
+      return $i18n.t('mint.collection.permission.publicWarning')
+    }
+    return $i18n.t('mint.collection.permission.publicWithPriceWarning')
+  },
+  [CollectionMintSettingType.HolderOf]: () => {
+    if (!holderOfCollectionId.value) {
+      return $i18n.t('mint.collection.permission.holderOfIdWarning')
+    }
+    return $i18n.t('mint.collection.permission.holderOfWarning')
+  },
+}
+
+watch(selectedMintingType, (type, oldType) => {
+  if (oldType && type && mintTypeChangeHandlerMap[type]) {
+    mintTypeChangeHandlerMap[type]()
   }
 })
 

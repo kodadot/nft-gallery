@@ -1,5 +1,6 @@
 import { $fetch } from 'ofetch'
 import consola from 'consola'
+import type { Prefix } from '@kodadot1/static'
 import { URLS } from '~/utils/constants'
 
 const SEARCH_BASE_URL = URLS.koda.search
@@ -11,11 +12,12 @@ const api = $fetch.create({
   },
   credentials: 'omit',
 })
-export async function fetchCollectionSuggestion(key: string, limit?: number) {
+export async function fetchCollectionSuggestion(key: string, limit?: number, chain?: Prefix) {
   const object = {
     search: key,
     table: 'collections',
     limit,
+    chain,
   }
 
   try {
