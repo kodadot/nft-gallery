@@ -1,26 +1,26 @@
 <template>
   <div
-    class="collection-banner"
+    class="relative bg-no-repeat bg-cover lg:h-[560px]"
     :style="bannerBackgroundStyles"
   >
-    <div class="collection-banner-shadow" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/[0.06] to-black/20" />
 
     <section class="h-[368px] lg:h-full">
       <div
         class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] h-full flex justify-end items-start flex-col md:justify-between md:items-end md:flex-row"
       >
         <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
-          <div class="collection-banner-avatar">
+          <div class="p-2.5 border bg-background-color shadow-primary border-border-color">
             <img
               v-if="image"
               :src="image"
               alt="avatar"
-              class="object-cover"
+              class="object-cover w-[5.5rem] h-[5.5rem] border block"
               height="88px"
             >
           </div>
           <h1
-            class="collection-banner-name mt-5 text-3xl md:text-4xl font-bold text-text-color-inverse"
+            class="mt-5 text-3xl md:text-4xl font-bold text-text-color-inverse text-shadow-border"
           >
             {{ title }}
           </h1>
@@ -80,58 +80,3 @@ useHead({
   meta,
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.collection-banner {
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-
-  @include desktop {
-    height: 560px;
-  }
-
-  &-shadow {
-    background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  &-avatar {
-    padding: 0.625rem;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-
-    img {
-      display: block;
-      width: 5.5rem;
-      height: 5.5rem;
-      border: 1px solid;
-    }
-  }
-
-  &-name {
-    @include ktheme() {
-      text-shadow:
-        1px 1px 0 theme('text-color'),
-        1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'),
-        -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'),
-        0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'),
-        0px -1px 0 theme('text-color'),
-        4px 4px theme('text-color');
-    }
-  }
-}
-</style>

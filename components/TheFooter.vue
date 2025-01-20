@@ -235,7 +235,7 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('press kit'),
-    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/pre-v4',
+    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v4',
     external: true,
   },
   {

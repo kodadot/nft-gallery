@@ -1,13 +1,12 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import { useQuery } from '@tanstack/vue-query'
 import {
   createTokensToMint,
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
-import { unwrapSafe } from '@/utils/uniquery'
 import type { NFTToMint } from '@/components/massmint/types'
 import { Status } from '@/components/massmint/types'
 import type { MintedCollection } from '@/composables/transaction/types'
+import { fetchOdaCollection } from '@/services/oda'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -37,40 +36,44 @@ export const useCollectionForMint = () => {
   const collections = ref<MintedCollection[]>()
   const { accountId } = useAuth()
   const { urlPrefix } = usePrefix()
+  const { apiInstance } = useApi()
+  const isLoading = ref(true)
 
-  const { data, isPending } = useQuery({
-    queryKey: ['collections-for-mint', accountId, urlPrefix],
-    queryFn: async () => {
-      if (!accountId.value) {
-        return null
-      }
+  watchEffect(async () => {
+    isLoading.value = true
+    collections.value = []
 
-      collections.value = []
-
-      return (await useAsyncGraphql<{ collectionEntities: any[] }>({
-        query: 'collectionForMint',
-        variables: {
-          account: accountId.value,
-        },
-      })).data.value
-    },
-  })
-
-  watch(data, async () => {
-    const collectionEntities = data.value?.collectionEntities
-
-    if (collectionEntities?.length) {
-      const newCollections = collectionEntities
-        .map(collection => ({ ...collection, lastIndexUsed: Number(collection.lastNft[0]?.sn || 0) }))
-        .filter((collection: MintedCollection) => (collection.max || Infinity) - collection.alreadyMinted > 0)
-
-      collections.value = unwrapSafe(newCollections)
+    if (!accountId.value) {
+      isLoading.value = false
+      return null
     }
-  }, { immediate: true })
+
+    const api = await apiInstance.value
+    const queryCollections = await api.query.nfts.collectionAccount.keys(accountId.value) // get owned collections
+    const ids = queryCollections.map(id => id.toHuman()).map(async (data) => {
+      const id = data?.[1]
+      const collection = await fetchOdaCollection(urlPrefix.value, id)
+      const queryCollectionItems = await api.query.nfts.item.entries(id) // get minted items
+      const queryCollectionMetadata = await api.query.nfts.collectionMetadataOf(id) // get collection metadata
+
+      return {
+        id,
+        alreadyMinted: parseInt(collection.claimed),
+        metadata: (queryCollectionMetadata.toHuman() as { data: string })?.data,
+        name: collection.metadata.name,
+        lastIndexUsed: queryCollectionItems.map(([key]) => key.args[1].toNumber()).reduce((a, b) => Math.max(a, b), 0),
+        totalCount: parseInt(collection.claimed),
+        max: parseInt(collection.supply),
+      }
+    })
+
+    collections.value = await Promise.all(ids)
+    isLoading.value = false
+  })
 
   return {
     collections,
-    isLoading: isPending,
+    isLoading,
   }
 }
 

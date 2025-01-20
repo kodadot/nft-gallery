@@ -2,6 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
+      ref="signingModal"
       :title="$t('listingCart.listingNft', itemCount)"
       :is-loading="isLoading"
       :status="status"
@@ -139,6 +140,7 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
 
 const { chainSymbol, decimals } = useChain()
 
+const signingModal = ref()
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 
@@ -180,6 +182,7 @@ const getAction = (items: ListCartItem[]): Actions => {
 
 const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees } = useAutoTeleportActionButton({
   getActionFn: () => getAction(listingCartStore.itemsInChain),
+  signingModal,
 })
 
 const actions = computed<AutoTeleportAction[]>(() => [

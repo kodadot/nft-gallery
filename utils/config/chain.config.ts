@@ -18,8 +18,16 @@ export const ss58Of = (prefix: Prefix): number => {
   return chainPropListOf(prefix).ss58Format
 }
 
+export const decimalsOf = (prefix: Prefix): number => {
+  return chainPropListOf(prefix).tokenDecimals
+}
+
 export const blockExplorerOf = (prefix: Prefix): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
+}
+
+export const tokenSymbolOf = (prefix: Prefix): string => {
+  return chainPropListOf(prefix).tokenSymbol
 }
 
 type AssetItem = {
