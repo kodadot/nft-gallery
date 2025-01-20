@@ -120,6 +120,10 @@ module.exports = {
       fontSize: {
         '3xl': '2rem',
       },
+      spacing: {
+        'navbar-desktop': '80px', // $navbar-desktop-min-height
+        'navbar-mobile': '64px', // $navbar-mobile-min-height
+      },
     },
   },
   plugins: [

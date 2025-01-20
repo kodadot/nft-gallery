@@ -196,11 +196,10 @@ const onCompletePurchase = () => {
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 80px;
     max-width: 360px;
     width: 100%;
 
-    @apply bulma-mobile:pt-[64px] bulma-mobile:max-w-[100vw]
+    @apply bulma-mobile:max-w-[100vw] pt-navbar-desktop bulma-mobile:pt-navbar-mobile;
   }
 }
 
