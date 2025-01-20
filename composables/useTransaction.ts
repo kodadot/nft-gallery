@@ -38,7 +38,6 @@ import type {
   ExecuteEvmTransactionParams,
   ExecuteSubstrateTransactionParams,
   ExecuteTransactionParams,
-  ObjectMessage,
   ActionCancelSwap,
   ActionAcceptSwap,
 } from './transaction/types'
@@ -57,23 +56,12 @@ import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/op
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import {
-  showLargeNotification,
   successMessage as successNotification,
   warningMessage,
 } from '@/utils/notification'
 
 export type TransactionOptions = {
   disableSuccessNotification?: boolean
-}
-
-const resolveLargeSuccessNotification = (
-  block: string,
-  objectMessage: ObjectMessage,
-) => {
-  const { $i18n } = useNuxtApp()
-  const title = $i18n.t('mint.success')
-  const message = resolveSuccessMessage(block, objectMessage.message)
-  showLargeNotification({ message, title, shareLink: objectMessage.shareLink })
 }
 
 const resolveMessage = (message?: string | (() => string)) => {
@@ -132,15 +120,8 @@ const useExecuteTransaction = (options: TransactionOptions) => {
         return
       }
 
-      const isObject = typeof successMessage === 'object'
-      if (isObject && successMessage.large) {
-        return resolveLargeSuccessNotification(block, successMessage)
-      }
+      const message = resolveSuccessMessage(block, successMessage)
 
-      const message = resolveSuccessMessage(
-        block,
-        isObject ? successMessage.message : successMessage,
-      )
       successNotification(message)
     }
 

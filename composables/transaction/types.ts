@@ -11,15 +11,10 @@ import type { Extrinsic } from '@/utils/transactionExecutor'
 import type { Metadata } from '@/services/nftStorage'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
-export type ObjectMessage = {
-  message: string | SuccessFunctionMessage
-  large: boolean
-  shareLink?: string
-}
+
 export type ExecuteTransactionSuccessMessage =
   | string
   | SuccessFunctionMessage
-  | ObjectMessage
 
 type BaseExecuteTransactionParams = {
   arg: any[]

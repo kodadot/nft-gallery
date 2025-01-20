@@ -6,7 +6,6 @@ import {
 import consola from 'consola'
 import { h } from 'vue'
 import Notification from '@/components/common/Notification.vue'
-import MessageNotify from '@/components/MessageNotify.vue'
 
 export type NotificationAction = { label: string, url: string, icon?: string }
 
@@ -78,30 +77,6 @@ export const showNotification = ({
   const notification = Notif.open(componentParams)
 
   return notification.close as () => void
-}
-
-export const showLargeNotification = ({
-  message,
-  title,
-  duration = 10000,
-  shareLink = undefined,
-}: {
-  message: string
-  title?: string
-  duration?: number
-  shareLink?: string
-}): void => {
-  Notif.open({
-    component: h(MessageNotify, {
-      title: title,
-      subtitle: message,
-      noToast: true,
-      shareLink,
-    }),
-    duration,
-    variant: 'component',
-    closable: true,
-  })
 }
 
 export const infoMessage = (
