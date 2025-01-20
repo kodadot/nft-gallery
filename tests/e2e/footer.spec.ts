@@ -41,7 +41,7 @@ const footerLinks = [
   },
   {
     linkName: 'Press Kit',
-    linkAddress: 'https://github.com/kodadot/kodadot-presskit/tree/main/pre-v4',
+    linkAddress: 'https://github.com/kodadot/kodadot-presskit/tree/main/v4',
   },
   {
     linkName: 'MerchShop',
