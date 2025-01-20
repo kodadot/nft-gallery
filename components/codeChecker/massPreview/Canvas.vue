@@ -66,12 +66,8 @@ const generateMassPreview = () => {
   }))
 }
 
-useEventListener(window, 'message', async (res) => {
-  const hash = res.data.payload.hash
-  if (
-    res.data?.type === 'kodahash/render/completed'
-    && canvasPreviews.value.map(p => p.hash).includes(hash)
-  ) {
+onKodahashRenderCompleted(({ payload: { hash } }) => {
+  if (canvasPreviews.value.map(p => p.hash).includes(hash)) {
     canvasPreviews.value = canvasPreviews.value.map(preview =>
       preview.hash === hash
         ? { ...preview, renderedAt: performance.now(), loading: false }
