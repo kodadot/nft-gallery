@@ -339,7 +339,6 @@
             />
           </div>
           <ChainDropdown />
-          <OrderByDropdown v-if="showOrderByDropdown" />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
           <div class="flex flex-wrap">
@@ -354,41 +353,39 @@
               @click="() => switchToTab(tab)"
             />
           </div>
-          <div class="flex flex-wrap gap-4">
-            <ChainDropdown />
-            <OrderByDropdown v-if="showOrderByDropdown" />
-          </div>
+          <ChainDropdown />
         </div>
       </div>
       <hr class="my-0 !bg-background-color-inverse">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] pb-6">
         <div
-          v-if="[ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab)"
+          v-if="[ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab)"
           class="flex-grow"
         >
           <div class="flex justify-between pb-4 pt-5 content-center">
-            <div class="flex">
+            <div class="flex gap-4 flex-wrap">
               <FilterButton
+                v-if="isItemsGridTab"
                 :label="$t('sort.listed')"
                 variant="outlined-rounded"
                 url-param="buy_now"
                 data-testid="profile-filter-button-buynow"
               />
               <FilterButton
-                v-if="activeTab === 'created'"
+                v-if="activeTab === ProfileTab.CREATED"
                 :label="$t('activity.sold')"
                 variant="outlined-rounded"
                 url-param="sold"
-                class="ml-4"
               />
               <CollectionFilter
+                v-if="isItemsGridTab"
                 :id="id.toString()"
                 v-model="collections"
                 variant="outlined-rounded"
                 :search="itemsGridSearch"
                 :tab-key="tabKey"
-                class="ml-4"
               />
+              <OrderByDropdown variant="outlined-rounded" />
             </div>
             <div class="is-hidden-mobile">
               <GridLayoutControls
@@ -587,7 +584,7 @@ const collections = ref(
   route.query.collections?.toString().split(',').filter(Boolean) || [],
 )
 
-const showOrderByDropdown = computed(() => [ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab.value))
+const isItemsGridTab = computed(() => [ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab.value))
 const tabs = computed(() => {
   const tabs = [
     ProfileTab.OWNED,
