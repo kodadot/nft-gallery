@@ -14,8 +14,8 @@
       />
     </div>
     <NeoTable
-      v-else-if="offers.length"
-      :data="offers"
+      v-else-if="trades.length"
+      :data="trades"
       hoverable
       class="py-5 max-md:!top-0"
     >
@@ -126,9 +126,9 @@
   </div>
 
   <TradeOverviewModal
-    v-model="isWithdrawTradeModalOpen"
+    v-model="isTradeModalOpen"
     :trade="selectedTrade!"
-    @close="closeTradeOverviewModal"
+    @close="closeTradeModal"
   />
 </template>
 
@@ -139,7 +139,7 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 import type { UnwrapRef } from 'vue'
-import { TradeType } from '@/composables/useTrades'
+import { type TradeNftItem, TradeType } from '@/components/trade/types'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
@@ -153,9 +153,9 @@ const props = defineProps<{
 const { urlPrefix } = usePrefix()
 const { format } = useFormatAmount()
 
-const isWithdrawTradeModalOpen = ref(false)
+const isTradeModalOpen = ref(false)
 const loading = ref(false)
-const offers = ref<UnwrapRef<ReturnType<typeof useTrades>['items']>>([])
+const trades = ref<UnwrapRef<ReturnType<typeof useTrades>['items']>>([])
 const selectedTrade = ref<TradeNftItem>()
 const stopWatch = ref(() => {})
 
@@ -169,27 +169,27 @@ useSubscriptionGraphql({
   }`,
   onChange: ({ data }) => {
     stopWatch.value?.()
-    offers.value = []
+    trades.value = []
 
-    const { items: offersData, loading: offersLoading } = useTrades({
-      where: { id_in: data.items?.map(offer => offer.id) },
+    const { items: tradesData, loading: tradesLoading } = useTrades({
+      where: { id_in: data.items?.map(trade => trade.id) },
       type: props.type,
     })
 
     stopWatch.value = watchEffect(() => {
-      loading.value = offersLoading.value
-      offers.value = offersData.value
+      loading.value = tradesLoading.value
+      trades.value = tradesData.value
     })
   },
 })
 
 const selectOffer = (offer: TradeNftItem) => {
   selectedTrade.value = offer
-  isWithdrawTradeModalOpen.value = true
+  isTradeModalOpen.value = true
 }
 
-const closeTradeOverviewModal = () => {
-  isWithdrawTradeModalOpen.value = false
+const closeTradeModal = () => {
+  isTradeModalOpen.value = false
   selectedTrade.value = undefined
 }
 </script>
