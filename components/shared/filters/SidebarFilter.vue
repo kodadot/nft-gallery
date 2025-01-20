@@ -30,9 +30,9 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
   position: sticky;
   top: 84px;
   height: calc(100vh - 84px);
-  margin-right: 2.5rem;
   overflow-y: auto;
   flex-shrink: 0;
+  @apply mr-fluid-container-padding;
 }
 
 .o-side {

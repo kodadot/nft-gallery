@@ -197,6 +197,6 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 }
 
 .filters-header {
-  min-height: 64px;
+  @apply min-h-navbar-mobile;
 }
 </style>
