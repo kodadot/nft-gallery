@@ -317,7 +317,7 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 // composables
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber, isError }
@@ -606,7 +606,7 @@ watchEffect(async () => {
     && transactionStatus.value === 'done'
   ) {
     infoMessage(
-      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
+      $i18n.t('mint.nft.redirect', [DETAIL_TIMEOUT / 1000]),
       { duration: DETAIL_TIMEOUT },
     )
 
