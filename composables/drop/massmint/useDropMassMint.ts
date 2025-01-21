@@ -1,5 +1,6 @@
+import type { Prefix } from '@kodadot1/static'
 import type { ToMintNft } from '@/components/collection/drop/types'
-import { generateId, setDyndataUrl } from '@/services/dyndata'
+import { generateIdAssethub, setDyndataUrl } from '@/services/dyndata'
 
 export type MassMintNFT = Omit<ToMintNft, 'priceUSD'> & {
   image: string
@@ -18,7 +19,7 @@ export default () => {
   const tokenIds = ref<number[]>([])
   const populateTokenIds = async () => {
     for (const _ of Array.from({ length: amountToMint.value })) {
-      const tokenId = Number.parseInt(await generateId())
+      const tokenId = Number.parseInt(await generateIdAssethub(parseInt(drop.value.collection), usePrefix().urlPrefix.value as Prefix))
       if (!tokenIds.value.includes(tokenId)) {
         tokenIds.value.push(tokenId)
       }
