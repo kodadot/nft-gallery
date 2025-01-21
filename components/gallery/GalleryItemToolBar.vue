@@ -1,12 +1,13 @@
 <template>
   <div
-    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400"
+    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-4 flex justify-center border border-gray-400"
   >
     <NeoTooltip
       :label="$t('reload')"
       position="top"
     >
-      <a
+      <NeoButton
+        variant="icon"
         no-shadow
         @click="handleReloadClick"
       >
@@ -16,13 +17,14 @@
           :label="$t('reload')"
           :spin="isLoading"
         />
-      </a>
+      </NeoButton>
     </NeoTooltip>
     <NeoTooltip
       :label="$t('fullscreen')"
       position="top"
     >
-      <a
+      <NeoButton
+        variant="icon"
         no-shadow
         @click="$emit('toggle')"
       >
@@ -30,14 +32,15 @@
           icon="arrow-up-right-and-arrow-down-left-from-center"
           size="medium"
         />
-      </a>
+      </NeoButton>
     </NeoTooltip>
     <NeoTooltip
       :label="$t('newTab')"
       position="top"
     >
-      <a
+      <NeoButton
         v-if="disableNewTab"
+        variant="icon"
         no-shadow
         @click="handleNewTab"
       >
@@ -45,7 +48,8 @@
           icon="arrow-up-right"
           size="medium"
         />
-      </a>
+      </NeoButton>
+
       <NeoIcon
         v-else
         icon="arrow-up-right"
@@ -58,7 +62,8 @@
       :label="$t('moreActions.download')"
       position="top"
     >
-      <a
+      <NeoButton
+        variant="icon"
         no-shadow
         @click="downloadMedia"
       >
@@ -66,13 +71,13 @@
           icon="arrow-down-to-line"
           size="medium"
         />
-      </a>
+      </NeoButton>
     </NeoTooltip>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip, NeoButton } from '@kodadot1/brick'
 
 import {
   determineElementType,
