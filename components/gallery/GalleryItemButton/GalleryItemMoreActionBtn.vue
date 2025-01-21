@@ -68,15 +68,12 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { useQuery } from '@tanstack/vue-query'
 import GalleryItemEditNftButton from './GalleryItemEditNftButton.vue'
-import { downloadImage } from '@/utils/download'
-import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
-import { isMobileDevice } from '@/utils/extension'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { refreshOdaTokenMetadata } from '@/services/oda'
 import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
-const { $i18n, $consola } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { isCurrentAccount } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
@@ -87,9 +84,6 @@ const route = useRoute()
 
 const props = defineProps<{
   nft?: NFT
-  mimeType?: string
-  imageUrl?: string
-  imageData?: string
   abi?: Abi | null
 }>()
 
@@ -121,47 +115,6 @@ const signingModalTitle = computed(() => {
     }[action.value] || ''
   )
 })
-
-const isDownloadEnabled = computed(() => {
-  const mimeType = props.mimeType
-  return ((
-    (mimeType?.includes('image') || mimeType?.includes('text/html'))
-    && props.imageUrl) || props.imageData
-  )
-})
-
-const downloadMedia = async () => {
-  let imageUrl = sanitizeIpfsUrl(props.imageUrl)
-
-  if (!imageUrl) {
-    return
-  }
-
-  if (props.imageData) {
-    const blob = await $fetch<Blob>(props.imageData)
-    imageUrl = URL.createObjectURL(blob)
-  }
-  else if (props.mimeType?.includes('image')) {
-    imageUrl = toOriginalContentUrl(imageUrl)
-  }
-
-  if (isMobileDevice) {
-    toast($i18n.t('toast.downloadOnMobile'))
-    setTimeout(() => {
-      window.open(imageUrl, '_blank')
-    }, 2000)
-    return
-  }
-
-  try {
-    toast($i18n.t('toast.downloadImage'))
-    downloadImage(imageUrl, `${props.nft?.collection?.name}_${props.nft?.name}`)
-  }
-  catch (error) {
-    $consola.warn('[ERR] unable to fetch image')
-    toast($i18n.t('toast.downloadError'))
-  }
-}
 
 const burn = () => {
   openUserCartModal('burn')

@@ -53,6 +53,21 @@
         class="text-k-grey"
       />
     </NeoTooltip>
+    <NeoTooltip
+      v-if="isDownloadEnabled"
+      :label="$t('moreActions.download')"
+      position="top"
+    >
+      <a
+        no-shadow
+        @click="downloadMedia"
+      >
+        <NeoIcon
+          icon="arrow-down-to-line"
+          size="medium"
+        />
+      </a>
+    </NeoTooltip>
   </div>
 </template>
 
@@ -65,6 +80,9 @@ import {
   resolveMedia,
   MediaType,
 } from '@/utils/gallery/media'
+import { downloadImage } from '@/utils/download'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
+import { isMobileDevice } from '@/utils/extension'
 
 type ReloadElement =
   | HTMLIFrameElement
@@ -78,9 +96,12 @@ const props = defineProps<{
   containerId: string
 }>()
 
-const { getNft: nft, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
+const { getNft: nft, getNftImage: nftImage, getNftMetadata: nftMetadata, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const isLoading = ref(false)
+const { toast } = useToast()
+const { $i18n, $consola } = useNuxtApp()
+const imageData = ref()
 
 const image = computed(() => {
   if (!nftImage.value) {
@@ -89,6 +110,49 @@ const image = computed(() => {
 
   return nftImage.value
 })
+
+const nftImageUrl = computed(() => nftMetadata.value?.image)
+
+const isDownloadEnabled = computed(() => {
+  const mimeType = nftMimeType.value
+  return ((
+    (mimeType?.includes('image') || mimeType?.includes('text/html'))
+    && nftImageUrl.value) || imageData.value
+  )
+})
+
+const downloadMedia = async () => {
+  let imageUrl = sanitizeIpfsUrl(nftImageUrl.value)
+
+  if (!imageUrl) {
+    return
+  }
+
+  if (imageData.value) {
+    const blob = await $fetch<Blob>(imageData.value)
+    imageUrl = URL.createObjectURL(blob)
+  }
+  else if (nftMimeType.value?.includes('image')) {
+    imageUrl = toOriginalContentUrl(imageUrl)
+  }
+
+  if (isMobileDevice) {
+    toast($i18n.t('toast.downloadOnMobile'))
+    setTimeout(() => {
+      window.open(imageUrl, '_blank')
+    }, 2000)
+    return
+  }
+
+  try {
+    toast($i18n.t('toast.downloadImage'))
+    downloadImage(imageUrl, `${nft.value?.collection?.name}_${nft.value?.name}`)
+  }
+  catch (error) {
+    $consola.warn('[ERR] unable to fetch image')
+    toast($i18n.t('toast.downloadError'))
+  }
+}
 
 const mediaAndImageType = computed(() => {
   const animationMediaType = resolveMedia(nftAnimationMimeType.value)
@@ -160,4 +224,6 @@ const disableNewTab = computed(() => {
 
   return nftImage.value && nftMimeType.value
 })
+
+onKodahashRenderCompleted(({ payload }) => imageData.value = payload.image)
 </script>
