@@ -64,6 +64,7 @@
     >
       <NeoButton
         variant="icon"
+        data-testid="gallery-item-more-dropdown-download"
         no-shadow
         @click="downloadMedia"
       >

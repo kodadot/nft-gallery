@@ -7,7 +7,6 @@
     <GalleryItemMoreActionBtn
       :nft="nft"
       :abi="abi"
-      data-testid="gallery-item-more-button"
     />
   </div>
 </template>

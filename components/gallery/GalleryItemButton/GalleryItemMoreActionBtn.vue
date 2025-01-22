@@ -20,15 +20,6 @@
           :active="active"
         />
       </template>
-
-      <NeoDropdownItem
-        v-if="isDownloadEnabled"
-        data-testid="gallery-item-more-dropdown-download"
-        @click="downloadMedia"
-      >
-        Download
-      </NeoDropdownItem>
-
       <template
         v-if="isOwner && !hasOperationsDisabled(urlPrefix)"
       >
