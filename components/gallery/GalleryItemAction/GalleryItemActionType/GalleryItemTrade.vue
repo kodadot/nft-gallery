@@ -9,6 +9,7 @@
       class="flex justify-end gallery-item-trade"
     >
       <NeoButton
+        data-testid="gallery-item-trade-make-offer"
         :label="$t('transaction.offer')"
         variant="k-blue"
         size="large"
