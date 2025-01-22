@@ -51,7 +51,7 @@ test('Gallery item Interactions', async ({ page }) => {
     await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   })
 
-  // More Button
+  // Download Button
   await test.step('Download Button Functionality', async () => {
     const downloadPromise = page.waitForEvent('download')
     await page.getByTestId('gallery-item-more-dropdown-download').click()
