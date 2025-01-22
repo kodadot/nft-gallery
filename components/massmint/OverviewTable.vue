@@ -71,7 +71,7 @@
                         class="flex items-center gap-2"
                       >
                         <span>{{ attr.trait_type }}: <span class="font-bold">{{ attr.value }}</span></span>
-                        <span class="text-k-blue">{{ allNftAttributesRarityMaps[attr.trait_type]?.[attr.value] }}%</span>
+                        <span class="text-k-blue">{{ getAttributeRarity(attr.trait_type, attr.value) }}%</span>
                       </div>
                     </div>
                     <div v-else>
@@ -157,46 +157,23 @@ const props = withDefaults(
   defineProps<{
     disabled?: boolean
     nfts?: NFTS
+    collectionId?: string
   }>(),
   {
     disabled: false,
     nfts: undefined,
+    collectionId: undefined,
   },
 )
 
-const displayedNFTS = computed<NFT[]>(() =>
-  Object.values(props.nfts).slice(0, offset.value).map(addStatus),
-)
-
-const allNftAttributesRarityMaps = computed(() => {
-  const attributeCounts: Record<string, Record<string, number>> = {}
-  const nfts = Object.values(props.nfts || {})
-  nfts.forEach((nft) => {
-    if (!nft.attributes?.length) return
-
-    nft.attributes.forEach((attr) => {
-      if (!attributeCounts[attr.trait_type]) {
-        attributeCounts[attr.trait_type] = {}
-      }
-
-      attributeCounts[attr.trait_type][attr.value]
-        = (attributeCounts[attr.trait_type][attr.value] || 0) + 1
-    })
-  })
-
-  const rarityMaps: Record<string, Record<string, number>> = {}
-  const totalNfts = nfts?.length || 0
-
-  Object.entries(attributeCounts).forEach(([traitType, valueCounts]) => {
-    rarityMaps[traitType] = {}
-
-    Object.entries(valueCounts).forEach(([value, count]) => {
-      rarityMaps[traitType][value] = parseFloat((count / totalNfts * 100).toFixed(1))
-    })
-  })
-
-  return rarityMaps
+const { getAttributeRarity } = useCollectionAttributes({
+  collectionId: computed(() => props.collectionId),
+  extraNfts: computed(() => Object.values(props.nfts || {})),
 })
+
+const displayedNFTS = computed<NFT[]>(() =>
+  Object.values(props.nfts || {}).slice(0, offset.value).map(addStatus),
+)
 
 const openSideBarWith = (nft: NFT) => {
   emit('openSideBarWith', nft)
