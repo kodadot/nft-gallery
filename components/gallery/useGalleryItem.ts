@@ -96,7 +96,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       nftAnimationMimeType.value.includes('video')
       || nftMimeType.value.includes('video')
     ) {
-      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
+      // fallback to nftStorage for ios & safari while video is still processing to cf-stream
       if (isIos || isSafari) {
         nftImage.value = sanitizeIpfsUrl(metadata.image, 'nftStorage')
         nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'nftStorage')
