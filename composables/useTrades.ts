@@ -64,6 +64,7 @@ export type TradeNftItem<T = Trade> = T & {
   type: TradeType
   desiredType: TradeDesiredType
   isEntireCollectionDesired: boolean
+  isExpired: boolean
 }
 
 export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, dataKey: string }> = {
@@ -78,7 +79,6 @@ export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, 
 }
 
 const BLOCKS_PER_HOUR = 300
-const currentBlock = ref(0)
 
 export default function ({ where = {}, limit = 100, disabled = computed(() => false), type = TradeType.SWAP }: {
   where?: MaybeRef<Record<string, unknown>>
@@ -89,6 +89,8 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
   const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
 
   const { client } = usePrefix()
+  const currentBlock = useCurrentBlock()
+
   const variables = computed(() => ({
     where: unref(where),
     limit: limit,
@@ -116,22 +118,15 @@ export default function ({ where = {}, limit = 100, disabled = computed(() => fa
         offered: trade.nft,
         desiredType: desiredType,
         isEntireCollectionDesired: desiredType === TradeDesiredType.COLLECTION,
+        // Check block number to handle trades that are expired but not yet updated in indexer
+        // @see https://github.com/kodadot/stick/blob/9eac12938c47bf0e66e93760231208e4249d8637/src/mappings/utils/cache.ts#L127
+        isExpired: trade.status === TradeStatus.EXPIRED || currentBlock.value > Number(trade.expiration),
         type,
       } as TradeNftItem
     }) || []
   })
 
-  async function getCurrentBlock() {
-    const api = await useApi().apiInstance.value
-    const { number } = await api.rpc.chain.getHeader()
-    return number.toNumber()
-  }
-
   const loading = computed(() => !currentBlock.value || fetching.value)
-
-  if (!currentBlock.value) {
-    getCurrentBlock().then(b => currentBlock.value = b)
-  }
 
   return {
     items,
