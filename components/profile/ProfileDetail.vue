@@ -853,8 +853,6 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 :deep(.rounded-full) {
   img {
     border-radius: 9999px !important;
@@ -865,36 +863,34 @@ watchEffect(() => {
   display: none;
 }
 
-@include until-widescreen {
-  .mobile {
-    flex-wrap: wrap;
+.mobile {
+  @apply bulma-until-widescreen:flex-wrap;
 
-    >* {
-      flex: 1 0 50%;
+  >* {
+    @apply bulma-mobile:flex-1 bulma-mobile:w-1/2;
 
-      &:nth-child(2) {
-        :deep(.explore-tabs-button) {
-          border-right: solid;
-        }
-      }
-
-      &:nth-child(1),
-      &:nth-child(2) {
-        :deep(.explore-tabs-button) {
-          @apply border-b-0;
-        }
-      }
-
-      &:nth-child(2n + 1) {
-        :deep(.explore-tabs-button) {
-          border-right: none;
-        }
+    &:nth-child(2) {
+      :deep(.explore-tabs-button) {
+        @apply bulma-mobile:border-solid;
       }
     }
 
-    :deep(.explore-tabs-button) {
-      width: 100% !important;
+    &:nth-child(1),
+    &:nth-child(2) {
+      :deep(.explore-tabs-button) {
+        @apply bulma-mobile:border-b-0;
+      }
     }
+
+    &:nth-child(2n + 1) {
+      :deep(.explore-tabs-button) {
+        @apply bulma-mobile:border-r-0;
+      }
+    }
+  }
+
+  :deep(.explore-tabs-button) {
+    @apply bulma-mobile:w-full;
   }
 }
 

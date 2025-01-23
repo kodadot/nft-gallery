@@ -123,16 +123,12 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .sort {
   position: relative;
 
   &-active .is-neo {
-    @include ktheme() {
-      background-color: theme('text-color');
-      color: theme('text-color-inverse');
-    }
+    background-color: var(--text-color);
+    color: var(--text-color-inverse);
   }
 
   .neo-dropdown-item {

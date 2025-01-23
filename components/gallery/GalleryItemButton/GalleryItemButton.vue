@@ -29,14 +29,9 @@ const customSharingContent = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-button {
   display: flex;
   gap: 1rem;
-
-  @include mobile {
-    flex-direction: column-reverse;
-  }
+  @apply bulma-mobile:flex-col-reverse;
 }
 </style>

@@ -232,22 +232,16 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .in-cart-border {
-  @include ktheme() {
-    outline: 2px solid theme('k-blue') !important;
-    outline-offset: -1px;
-    border-color: transparent !important;
-    background-color: theme('blue-light-cards');
-  }
+  outline: 2px solid var(--k-blue) !important;
+  outline-offset: -1px;
+  border-color: transparent !important;
+  background-color: var(--blue-light-cards);
 }
 
 .hover-color {
   &:hover {
-    @include ktheme() {
-      background-color: theme('background-color-inverse');
-    }
+    background-color: var(--background-color-inverse);
     // can this be used in the composable to remove assets?
     img {
       filter: invert(1);

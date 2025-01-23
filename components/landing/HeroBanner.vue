@@ -32,7 +32,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 .with-divider {
   display: flex;
   align-items: center;
@@ -43,10 +42,7 @@
     display: block;
     width: 36px;
     height: 1px;
-
-    @include ktheme() {
-      background-color: theme('link-hover');
-    }
+    background-color: var(--link-hover);
   }
 
   &:before {
