@@ -137,27 +137,18 @@ watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .dropdown-width {
   width: 30rem;
+
+  @apply bulma-mobile:w-full;
 }
 
 .full-width {
   width: 100%;
+
   .dropdown-width,
   :deep(.o-drop__menu) {
     width: 100%;
-  }
-}
-
-@include mobile {
-  .dropdown-width {
-    width: 100%;
-  }
-
-  .mobile-width {
-    min-width: 6rem;
   }
 }
 </style>

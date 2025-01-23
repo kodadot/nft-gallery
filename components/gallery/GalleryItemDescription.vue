@@ -331,8 +331,6 @@ const animatedMediaUrl = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .recipient {
   li {
     gap: 0.3rem;
@@ -340,9 +338,7 @@ const animatedMediaUrl = computed(() => {
     >span {
       font-size: 0.8rem;
 
-      @include ktheme() {
-        color: theme('k-grey');
-      }
+      color: var(--k-grey);
     }
   }
 }

@@ -172,8 +172,6 @@ const { source, sourceSelected, destination, destinationSelected }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .network {
   display: flex;
   align-items: center;
@@ -186,23 +184,15 @@ const { source, sourceSelected, destination, destinationSelected }
     top: -100%;
   }
 
-  @include mobile() {
-    .text-destination {
-      position: unset;
-      top: unset;
-    }
+  .text-destination {
+    @apply bulma-mobile:static bulma-mobile:top-auto;
   }
 
-  @include widescreen() {
-    flex-direction: row;
-    margin-top: 1rem;
-  }
+  @apply bulma-mobile:flex-row bulma-mobile:mt-1;
 }
 
 .svg-arrow {
-  @include ktheme() {
-    stroke: theme('text-color');
-  }
+  stroke: var(--text-color);
 }
 
 .migrate-title {

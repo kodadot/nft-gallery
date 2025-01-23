@@ -1360,6 +1360,7 @@
         "title": "Preview",
         "uploadArt": "Upload your art to see a preview of your NFT here"
       },
+      "redirect": "You will be redirected to the NFT detail in {0} seconds.",
       "sale": {
         "label": "List For Sale On Marketplace",
         "message": "People will be able to buy your NFT."
@@ -1377,7 +1378,6 @@
     "shareWithFriends": "Share {0} with your friends",
     "submit": "Click to create NFT(s)",
     "success": "Congratulations",
-    "successCreateNewNft": "You have successfully created {0}",
     "successNewNfts": "You have successfully purchased this NFT",
     "successPurchasedNfts": "You have successfully purchased {0}",
     "transform": "Transform commands in NFT",
