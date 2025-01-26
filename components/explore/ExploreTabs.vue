@@ -16,11 +16,7 @@ const route = useRoute()
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-@include mobile {
-  .mobile-expand {
-    width: 100%;
-  }
+.mobile-expand {
+  @apply bulma-mobile:w-full;
 }
 </style>

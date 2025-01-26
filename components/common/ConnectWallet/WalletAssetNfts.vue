@@ -60,21 +60,17 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .nfts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 
   & > * {
-    @include ktheme() {
-      border: 1px solid theme('k-grey');
+    border: 1px solid var(--k-grey);
 
-      &:hover {
-        border-color: theme('border-color');
-        opacity: 0.85;
-      }
+    &:hover {
+      border-color: var(--border-color);
+      opacity: 0.85;
     }
   }
 }

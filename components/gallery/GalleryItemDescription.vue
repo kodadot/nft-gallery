@@ -73,9 +73,16 @@
         <NeoTableColumn
           v-slot="props"
           field="value"
-          label="Trait"
+          :label="$t('tabs.tabProperties.trait')"
         >
           {{ props.row.value }}
+        </NeoTableColumn>
+        <NeoTableColumn
+          v-slot="props"
+          field="rarity"
+          :label="$t('tabs.tabProperties.rarity')"
+        >
+          {{ props.row.rarity }}%
         </NeoTableColumn>
       </NeoTable>
       <div v-else />
@@ -268,26 +275,35 @@ const recipient = computed(() => {
 
 defineExpose({ isLewd })
 
-const properties = computed(() => {
-  const attributes = nftMetadata.value?.attributes || [] as Array<{
+const propertiesTabDisabled = computed(() => {
+  if (!nftMetadata.value) {
+    return false
+  }
+
+  return !nftMetadata.value?.attributes?.length
+})
+
+const { getAttributeRarity } = useCollectionAttributes(computed(() => propertiesTabDisabled.value ? undefined : nft.value?.collection?.id))
+
+const properties = computed<{ trait_type: string, value: string, rarity: number }[]>(() => {
+  const attributes = (nftMetadata.value?.attributes || []) as Array<{
     trait?: string
     trait_type: string
     value: string
     key?: string
   }>
 
-  return attributes.map(({ trait, trait_type, key, value }) => ({
-    trait_type: trait || trait_type || key || '',
-    value: value || '',
-  }))
-})
+  return attributes.map(({ trait, trait_type, key, value }) => {
+    const traitType = trait || trait_type || key || ''
+    const traitValue = value || ''
+    const rarity = getAttributeRarity(traitType, traitValue)
 
-const propertiesTabDisabled = computed(() => {
-  if (!nftMetadata.value) {
-    return false
-  }
-
-  return !properties.value?.length
+    return {
+      trait_type: traitType,
+      value: traitValue,
+      rarity,
+    }
+  })
 })
 
 const metadataMimeType = 'application/json'
@@ -313,8 +329,6 @@ const animatedMediaUrl = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .recipient {
   li {
     gap: 0.3rem;
@@ -322,9 +336,7 @@ const animatedMediaUrl = computed(() => {
     >span {
       font-size: 0.8rem;
 
-      @include ktheme() {
-        color: theme('k-grey');
-      }
+      color: var(--k-grey);
     }
   }
 }

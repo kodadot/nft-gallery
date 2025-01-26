@@ -1253,6 +1253,18 @@
         "message": "Name of your collection. It will be visible in the gallery",
         "placeholder": "Enter collection name"
       },
+      "permission": {
+        "holderOfCollection": "Holder of Collection",
+        "holderOfIdWarning": "You need to set a HolderOf collection",
+        "holderOfWarning": "Currently HolderOf collection is not supported to mint on Koda",
+        "issuerWarning": "You should not set a price for Issuer type",
+        "label": "Collection Permission",
+        "noPriceSet": "No specific price set",
+        "pricePlaceholder": "Set specific price",
+        "publicWarning": "You need to set a price so that users can mint on Koda",
+        "publicWithPriceWarning": "You will not be able to mint in Koda. Moreover anyone can mint into your collection"
+      },
+      "search": "Search Collection Name...",
       "submit": "Create Collection",
       "symbol": {
         "label": "Symbol (short name)",
@@ -1289,6 +1301,7 @@
     "mass": "NFT mass minter",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
+    "mintType": "Mint Type",
     "nfsw": "Explicit content (NSFW)",
     "nfswMessage": "Set your collection as explicit and sensitive content.",
     "nft": {
@@ -1360,6 +1373,7 @@
         "title": "Preview",
         "uploadArt": "Upload your art to see a preview of your NFT here"
       },
+      "redirect": "You will be redirected to the NFT detail in {0} seconds.",
       "sale": {
         "label": "List For Sale On Marketplace",
         "message": "People will be able to buy your NFT."
@@ -1377,7 +1391,6 @@
     "shareWithFriends": "Share {0} with your friends",
     "submit": "Click to create NFT(s)",
     "success": "Congratulations",
-    "successCreateNewNft": "You have successfully created {0}",
     "successNewNfts": "You have successfully purchased this NFT",
     "successPurchasedNfts": "You have successfully purchased {0}",
     "transform": "Transform commands in NFT",
@@ -1898,6 +1911,7 @@
     "tabProperties": {
       "floorPrice": "Floor Price",
       "percentage": "Percentage",
+      "rarity": "Rarity",
       "section": "Section",
       "trait": "Trait"
     }

@@ -116,8 +116,6 @@ const onClickShoppingCart = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 :deep(.button-height) {
   height: 55px !important;
 }
@@ -127,20 +125,10 @@ const onClickShoppingCart = () => {
 }
 .buy-button-width {
   width: 8.375rem;
-
-  @include until-widescreen {
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  .wrapper {
-    width: 100%;
-  }
+  @apply bulma-until-widescreen:w-full bulma-until-widescreen:flex-grow;
 }
 
 .desktop-full-w {
-  @include until-widescreen {
-    width: 100%;
-  }
+  @apply bulma-until-widescreen:w-full;
 }
 </style>
