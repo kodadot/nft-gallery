@@ -47,7 +47,7 @@ export default defineNuxtConfig({
               '@kodadot1/minimark/shared',
               '@kodadot1/minimark/v1',
               '@kodadot1/minimark/v2',
-              '@paraspell/sdk',
+              '@paraspell/sdk-pjs',
               '@polkadot/api',
               '@polkadot/api-augment',
               '@polkadot/types/generic/AccountId',
@@ -239,10 +239,6 @@ export default defineNuxtConfig({
       },
       {
         path: '~/components/landing',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/rmrk',
         extensions: ['vue'],
       },
       {
