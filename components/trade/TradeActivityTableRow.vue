@@ -208,7 +208,6 @@ import {
   type TradeNftItem,
   TradeType,
   TradeDesiredTokenType,
-  TradeStatus,
 } from '@/components/trade/types'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'

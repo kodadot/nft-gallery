@@ -82,4 +82,5 @@ export type TradeNftItem<T = Trade> = T & {
   desiredType: TradeDesiredTokenType
   isAnyTokenInCollectionDesired: boolean
   targets: string[]
+  isExpired: boolean
 }

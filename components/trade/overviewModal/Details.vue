@@ -45,10 +45,7 @@
 <script setup lang="ts">
 import { useIsTradeOverview } from './utils'
 import { formatToNow } from '@/utils/format/time'
-import {
-  type TradeNftItem,
-  TradeStatus,
-} from '@/components/trade/types'
+import { type TradeNftItem } from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 const props = defineProps<{
