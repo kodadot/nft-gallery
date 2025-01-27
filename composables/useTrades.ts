@@ -10,6 +10,7 @@ import {
   type TradeNftItem,
   TradeType,
   TradeDesiredTokenType,
+  TradeStatus,
 } from '@/components/trade/types'
 
 type CollectionWithTokenOwners = {
@@ -60,11 +61,6 @@ export default function ({
   const { client } = usePrefix()
   const currentBlock = useCurrentBlock()
 
-  const variables = computed(() => ({
-    where: unref(where),
-    limit: limit,
-  }))
-
   const {
     result: data,
     loading: fetching,
@@ -81,16 +77,6 @@ export default function ({
       clientId: client.value,
     })),
   )
-
-  const getCurrentBlock = async () => {
-    const api = await useApi().apiInstance.value
-    const { number } = await api.rpc.chain.getHeader()
-    return number.toNumber()
-  }
-
-  if (!currentBlock.value) {
-    getCurrentBlock().then(b => currentBlock.value = b)
-  }
 
   const dataItems = computed<Offer[] | Swap[]>(() => data.value?.[dataKey] || [])
   const hasTargetsOfTrades = computed(() => Boolean(targetsOfTrades.value))
