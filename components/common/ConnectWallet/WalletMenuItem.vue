@@ -120,7 +120,7 @@
           <span class="block mb-2 text-sm">
             <NeoIcon
               icon="circle-info"
-              class="mr-2"
+              class="mr-2 text-k-grey"
             />No Polkadot Accounts Found</span>
           <span class="block text-k-grey text-xs">To Continue, Please Create or Import Accounts in {{ wallet.name }}</span>
         </a>
