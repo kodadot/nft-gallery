@@ -56,7 +56,7 @@
               :key="trade.id"
               class="flex items-center justify-between"
             >
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 max-w-[calc(100%-25px)]">
                 <NeoIcon
                   class="text-k-grey opacity-20 !text-[0.4rem]"
                   icon="circle"
