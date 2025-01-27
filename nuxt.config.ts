@@ -315,16 +315,10 @@ export default defineNuxtConfig({
   pwa,
 
   i18n: {
-    skipSettingLocaleOnNavigate: true,
-    defaultLocale: 'en',
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'lang',
-      fallbackLocale: 'en',
-      alwaysRedirect: true,
+    compilation: {
+      strictMessage: false,
     },
-    strategy: 'no_prefix',
-    vueI18n: './utils/config/i18n.ts',
+    vueI18n: './i18n.config.ts',
   },
 
   apollo: {
