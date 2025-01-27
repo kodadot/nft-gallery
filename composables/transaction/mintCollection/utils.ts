@@ -1,4 +1,5 @@
 import { chainAssetOf } from '@/utils/config/chain.config'
+import type { CollectionMintSettingType } from '@/composables/transaction/types'
 
 export function createArgs(
   randomId: number,
@@ -32,4 +33,15 @@ export const calculateFees = () => {
     feeMultiplier: Number(preferences.getHasSupport),
     token: symbol,
   }
+}
+
+export const getCollectionMintSettings = async (collectionId: string) => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const config = await api.query.nfts.collectionConfigOf(collectionId)
+  return (config.toHuman() as { mintSettings: {
+    price: string
+    mintType: CollectionMintSettingType
+    holderOf: string
+  } }).mintSettings
 }
