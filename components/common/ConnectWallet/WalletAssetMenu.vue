@@ -114,8 +114,6 @@ const closeModal = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .wallet-asset-menu {
   display: flex;
   justify-content: space-between;
@@ -130,28 +128,24 @@ const closeModal = () => {
 .wallet-asset-footer {
   border-top: 1px solid grey;
   justify-content: space-between;
-  @include mobile {
-    justify-content: center;
-    .language-selector {
-      margin: 0 2rem;
-    }
+
+  @apply bulma-mobile:justify-center;
+
+  .language-selector {
+    @apply bulma-mobile:my-8 bulma-mobile:mx-0;
   }
 
   & > * {
     @apply cursor-pointer flex gap-1;
 
     &:hover {
-      @include ktheme() {
-        color: theme('text-color');
-      }
+      @apply text-text-color;
     }
   }
 
-  @include tablet {
-    // manually center dropdown menu, because no props "postition" to center it
-    :deep(.o-drop__menu) {
-      transform: translateX(50px);
-    }
+  /* manually center dropdown menu, because no props "position" to center it */
+  :deep(.o-drop__menu) {
+    @apply bulma-tablet:translate-x-[50px]
   }
 }
 </style>

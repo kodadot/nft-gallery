@@ -19,7 +19,7 @@
         {{ $t('expiration') }}
       </span>
 
-      <span v-if="trade.status === TradeStatus.EXPIRED">
+      <span v-if="trade.isExpired">
         {{ $t('expired') }}
       </span>
       <span v-else>

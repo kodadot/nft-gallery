@@ -195,42 +195,35 @@ const closeTradeModal = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .gallery-item-offers-table {
   overflow-y: auto;
 
-  @include desktop {
-    :deep(table tr > *:first-child) {
-      padding-left: 2rem;
-    }
-    :deep(table tbody > tr > td) {
-      vertical-align: middle;
-      height: 3.25rem;
-      &:last-child {
-         padding: 0;
-      }
+  :deep(table tr > *:first-child) {
+    @apply bulma-desktop:pl-8;
+  }
+  :deep(table tbody > tr > td) {
+    @apply bulma-desktop:h-[3.25rem] bulma-desktop:align-middle;
+
+    &:last-child {
+      @apply bulma-desktop:p-0;
     }
   }
 }
 
-@include touch {
-  .gallery-item-offers-table {
-    :deep(.o-table__td) {
-      @apply border-inherit;
-      padding: 0;
-      &:before {
-        font-weight: 400 !important;
-      }
+.gallery-item-offers-table {
+  :deep(.o-table__td) {
+    @apply bulma-touch:border-inherit bulma-touch:p-0;
+    &:before {
+      @apply bulma-touch:font-normal;
     }
+  }
 
-    :deep(.o-table__td:not(:nth-last-child(1)):not(:nth-last-child(2))) {
-      padding: 0 0 1rem 0;
-    }
+  :deep(.o-table__td:not(:nth-last-child(1)):not(:nth-last-child(2))) {
+    @apply bulma-touch:p-0 bulma-touch:pb-4;
+  }
 
-    .o-table__td:last-child button {
-      margin-top: 1.5rem
-    }
+  .o-table__td:last-child button {
+    @apply bulma-touch:mt-6;
   }
 }
 </style>

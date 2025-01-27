@@ -1,5 +1,5 @@
 <template>
-  <IdentityModuleIdentityPopover>
+  <IdentityModuleIdentityPopover :show-popover="showPopover">
     <template #content>
       <div
         class="rounded-full min-w-[236px] h-[62px] md:w-auto border border-k-shade inline-flex justify-start px-2.5"
@@ -29,6 +29,7 @@ const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   address: string
+  showPopover: boolean
 }>()
 
 const { shortenedAddress, identity } = useIdentity({

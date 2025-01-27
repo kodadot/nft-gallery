@@ -2,7 +2,10 @@
   <div class="flex flex-col gap-10">
     <div class="flex flex-col gap-3">
       <span>Setting your profile for</span>
-      <CollectionDropCreatedBy :address="accountId" />
+      <CollectionDropCreatedBy
+        :address="accountId"
+        :show-popover="false"
+      />
     </div>
     <form
       class="flex flex-col gap-10"

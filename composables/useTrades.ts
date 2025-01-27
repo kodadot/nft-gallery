@@ -18,6 +18,7 @@ type CollectionWithTokenOwners = {
     id: string
     currentOwner: string
   }[]
+  isExpired: boolean
 }
 
 export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, dataKey: string }> = {
@@ -32,8 +33,6 @@ export const TRADES_QUERY_MAP: Record<TradeType, { queryDocument: DocumentNode, 
 }
 
 const SECONDS_PER_BLOCK = 3600 / BLOCKS_PER_HOUR
-
-const currentBlock = ref(0)
 
 export type UseTradesParams = {
   where?: MaybeRef<Record<string, unknown> | string>
@@ -59,6 +58,12 @@ export default function ({
   const ownersSubscription = ref(() => { })
 
   const { client } = usePrefix()
+  const currentBlock = useCurrentBlock()
+
+  const variables = computed(() => ({
+    where: unref(where),
+    limit: limit,
+  }))
 
   const {
     result: data,
@@ -154,6 +159,9 @@ export default function ({
         offered: trade.nft,
         desiredType: desiredType,
         isAnyTokenInCollectionDesired: desiredType === TradeDesiredTokenType.ANY_IN_COLLECTION,
+        // Check block number to handle trades that are expired but not yet updated in indexer
+        // @see https://github.com/kodadot/stick/blob/9eac12938c47bf0e66e93760231208e4249d8637/src/mappings/utils/cache.ts#L127
+        isExpired: trade.status === TradeStatus.EXPIRED || currentBlock.value > Number(trade.expiration),
         type,
         targets: targetsOfTrades.value?.get(trade.id) || [],
         createdAt: subSeconds(new Date(), ((currentBlock.value - Number(trade.blockNumber)) * SECONDS_PER_BLOCK)),
