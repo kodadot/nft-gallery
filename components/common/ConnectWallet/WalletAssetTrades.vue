@@ -200,7 +200,9 @@ const init = () => {
 
     watch([tradeLoading, items], ([isLoading, items]) => {
       if (!isLoading) {
-        trades.value = [...trades.value, ...items].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+        trades.value = [...trades.value, ...items]
+          .filter((trade, index, self) => index === self.findIndex(t => t.id === trade.id))
+          .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
         loadings.value[index] = false
       }
     }, { immediate: true })
