@@ -394,8 +394,11 @@
               />
             </div>
           </div>
+
           <hr class="my-0">
+
           <ItemsGrid
+            v-if="isItemsGridTab"
             :search="itemsGridSearch"
             :grid-section="gridSection"
             :loading-other-network="loadingOtherNetwork"
@@ -408,27 +411,27 @@
               <ProfileEmptyResult :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
             </template>
           </ItemsGrid>
-        </div>
-        <CollectionGrid
-          v-if="activeTab === ProfileTab.COLLECTIONS"
-          :id="id"
-          :loading-other-network="loadingOtherNetwork"
-          class="pt-7"
-        >
-          <template
-            v-if="hasAssetPrefixMap[activeTab]?.length"
-            #empty-result
+
+          <CollectionGrid
+            v-else-if="activeTab === ProfileTab.COLLECTIONS"
+            :id="id"
+            :loading-other-network="loadingOtherNetwork"
+            class="pt-7"
           >
-            <ProfileEmptyResult
-              :prefix-list-with-asset="hasAssetPrefixMap[ProfileTab.COLLECTIONS]
-              "
-            />
-          </template>
-        </CollectionGrid>
+            <template
+              v-if="hasAssetPrefixMap[activeTab]?.length"
+              #empty-result
+            >
+              <ProfileEmptyResult :prefix-list-with-asset="hasAssetPrefixMap[ProfileTab.COLLECTIONS]" />
+            </template>
+          </CollectionGrid>
+        </div>
+
         <Activity
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
+
         <TradeActivityTable
           v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab) && tradeQuery"
           :key="activeTab"
