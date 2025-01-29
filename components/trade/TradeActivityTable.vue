@@ -36,16 +36,16 @@
       >
         <template #columns>
           <div class="flex-1">
-            <span>{{ $t('activity.event.item') }}</span>
-          </div>
-          <div class="w-1/12">
-            <span>{{ $t('activity.event.event') }}</span>
+            <span>{{ $t('trades.youOffer') }}</span>
           </div>
           <div class="flex-1">
-            <span>{{ $t('activity.event.amount') }}</span>
+            <span>{{ $t('trades.youGet') }}</span>
           </div>
           <div class="flex-1">
-            <span> {{ $t(`activity.event.${tabTarget}`) }} </span>
+            <span> {{ $t(`swap.counterparty`) }} </span>
+          </div>
+          <div class="flex-1">
+            <span />
           </div>
           <div class="flex-1">
             <span>{{ $t('expiration') }}</span>

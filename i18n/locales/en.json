@@ -2001,6 +2001,7 @@
       "week": "7D"
     }
   },
+  "trades": { "youGet": "You Get", "youOffer": "You Offer" },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",

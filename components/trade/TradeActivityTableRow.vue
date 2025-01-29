@@ -29,12 +29,29 @@
       </div>
     </div>
 
-    <div class="w-1/12">
-      <div class="h-[50px] flex items-center">
-        <EventTag
-          :interaction="interaction"
-          :interaction-name="interactionName"
-        />
+    <div class="flex-1 overflow-hidden">
+      <div class="flex items-center">
+        <nuxt-link
+          :to="itemPath"
+          class="h-[50px]"
+        >
+          <BaseMediaItem
+            class="border border-k-shade w-[3.125rem] h-[3.125rem]"
+            alt="offer.Item.name"
+            :src="image"
+            :animation-src="!image ? animationUrl : undefined"
+            preview
+            is-detail
+          />
+        </nuxt-link>
+        <nuxt-link
+          class="is-ellipsis inline-block"
+          :to="itemPath"
+        >
+          <span class="ml-5 font-bold overflow-hidden">
+            {{ item.name }}
+          </span>
+        </nuxt-link>
       </div>
     </div>
 
@@ -74,11 +91,25 @@
 
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
-        <template v-if="trade.expirationDate">
-          <div v-if="trade.isExpired">
-            <span>{{ $t('expired') }}</span>
-          </div>
-          <div v-else>
+        <NeoTag
+          v-if="trade.isExpired"
+          size="small"
+        >
+          <span>{{ $t('expired') }}</span>
+        </NeoTag>
+        <NeoTag
+          v-else
+          size="small"
+        >
+          <span>{{ $t('active') }}</span>
+        </NeoTag>
+      </div>
+    </div>
+
+    <div class="flex-1">
+      <div class="h-[50px] flex items-center">
+        <template v-if="trade.expirationDate && !trade.isExpired">
+          <div>
             <span>{{ format(trade.expirationDate, EXPIRATION_FORMAT) }}</span>
             <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, trade.isExpired) }})</span>
           </div>
@@ -129,11 +160,6 @@
               {{ item.name }}
             </span>
           </nuxt-link>
-
-          <EventTag
-            :interaction="interaction"
-            :interaction-name="interactionName"
-          />
         </div>
       </div>
 
@@ -194,13 +220,9 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
+import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import { formatToNow } from '@/utils/format/time'
-import {
-  blank,
-  interactionNameMap,
-} from '@/components/collection/activity/events/eventRow/common'
-import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
-import { TradeInteraction } from '@/composables/collectionActivity/types'
+import { blank } from '@/components/collection/activity/events/eventRow/common'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
@@ -226,11 +248,6 @@ const getRowConfig = () => {
       }
 }
 
-const interaction = {
-  [TradeType.OFFER]: TradeInteraction.OFFER,
-  [TradeType.SWAP]: TradeInteraction.SWAP,
-}[props.trade.type]
-
 const { urlPrefix } = usePrefix()
 const { format: formatPrice } = useFormatAmount()
 const { amount, price } = formatPrice(props.trade?.price)
@@ -246,7 +263,6 @@ const isTradeCollection = computed(() => desiredType === TradeDesiredType.COLLEC
 const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)
 
 const targetAddress = computed(() => props.target === 'to' ? item.currentOwner : props.trade.caller)
-const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
   const meta = await getNftMetadata(nft)
