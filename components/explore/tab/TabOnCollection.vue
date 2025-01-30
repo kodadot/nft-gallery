@@ -13,10 +13,14 @@
       data-testid="collection-tab-activity"
     />
     <TabItem
+      :active="route.name === 'prefix-collection-id-offers'"
+      :text="`${$t('offers')}`"
+      :to="`${collectionRute}/offers`"
+    />
+    <TabItem
       :active="route.name === 'prefix-collection-id-swaps'"
       :text="`${$t('swaps')}`"
       :to="`${collectionRute}/swaps`"
-      data-testid="collection-tab-swaps"
     />
   </div>
 </template>
