@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1 relative z-[1]">
+      <h1 class="title is-1 relative z-[1] !text-text-color-inverse text-shadow-border">
         KodaDot Blog
       </h1>
       <div class="relative z-[1] text-2xl mb-20 font-medium">
@@ -163,17 +163,6 @@ const { data: posts } = useAsyncData('posts', async () => {
 
     h1 {
       letter-spacing: -0.02em;
-      color: var(--text-color-inverse);
-      text-shadow:
-        1px 1px 0 var(--text-color),
-        1px -1px 0 var(--text-color),
-        -1px 1px 0 var(--text-color),
-        -1px -1px 0 var(--text-color),
-        1px 0px 0 var(--text-color),
-        0px 1px 0 var(--text-color),
-        -1px 0px 0 var(--text-color),
-        0px -1px 0 var(--text-color),
-        4px 4px var(--text-color);
     }
 
     @include touch {
