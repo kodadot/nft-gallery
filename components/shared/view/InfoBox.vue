@@ -88,14 +88,14 @@ $border_size: 1px;
   &__success {
     @include variantTheme(
       --green-border-color,
-      --k-greenaccent2
+      --k-green-accent-2
     );
   }
 
   &__fail {
     @include variantTheme(
       --k-red,
-      --k-redaccent2
+      --k-red-accent-2
     );
   }
 
