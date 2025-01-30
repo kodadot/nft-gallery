@@ -43,6 +43,34 @@ type NewsletterSubscription = {
 
 export type UserCartMode = 'transfer' | 'burn'
 
+export const langsFlags = [
+  {
+    value: 'en',
+    flag: '🇬🇧',
+    label: 'English',
+  },
+  {
+    value: 'de',
+    flag: '🇩🇪',
+    label: 'Deutsch',
+  },
+  {
+    value: 'es',
+    flag: '🇪🇸',
+    label: 'Español',
+  },
+  {
+    value: 'fr',
+    flag: '🇫🇷',
+    label: 'Français',
+  },
+  {
+    value: 'hi',
+    flag: '🇮🇳',
+    label: 'हिंदी',
+  },
+]
+
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
@@ -239,6 +267,8 @@ export const usePreferencesStore = defineStore('preferences', {
       this.firstTimeAutoTeleport = firstTime
     },
     setUserLocale(locale: string) {
+      const { $i18n } = useNuxtApp()
+      $i18n.locale.value = locale
       this.userLocale = locale
     },
     setNewsletterSubscription(subscription: NewsletterSubscription) {

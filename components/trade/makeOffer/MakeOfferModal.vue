@@ -2,6 +2,7 @@
   <div>
     <SigningModal
       v-if="!autoTeleport"
+      ref="signingModal"
       :title="$t('transaction.offer')"
       :is-loading="isLoading"
       :status="status"
@@ -59,11 +60,12 @@
 
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
+import { shuffle } from 'lodash'
 import type { MakingOfferItem } from '@/components/trade/types'
 import MakeOfferSingleItem from '@/components/trade/makeOffer/MakeOfferSingleItem.vue'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import type { Actions, TokenToOffer } from '@/composables/transaction/types'
+import type { ActionOffer, TokenToOffer } from '@/composables/transaction/types'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import format, { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
@@ -76,7 +78,9 @@ import { hasOperationsDisabled } from '@/utils/prefix'
 import { offerVisible } from '@/utils/config/permission.config'
 import useAutoTeleportActionButton from '@/composables/autoTeleport/useAutoTeleportActionButton'
 import { sum } from '@/utils/math'
-import { OFFER_MINT_PRICE } from '@/composables/transaction/transactionOffer'
+import { OFFER_MINT_PRICE, getOfferCollectionId } from '@/composables/transaction/transactionOffer'
+
+const DEFAULT_OFFER_EXPIRATION_DURATION = 7
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -97,17 +101,23 @@ const { itemsInChain, hasInvalidOfferPrices, count } = storeToRefs(offerStore)
 
 const { decimals, chainSymbol } = useChain()
 const { $i18n } = useNuxtApp()
-const items = ref<MakingOfferItem[]>([])
 
-const getAction = (items: MakingOfferItem[]): Actions => {
+const signingModal = ref()
+const items = ref<MakingOfferItem[]>([])
+const unusedOfferedItemsSubscription = ref(() => {})
+const usedOfferedItems = ref<string[]>([])
+const offeredItem = ref<string>()
+
+const getAction = (items: MakingOfferItem[]): ActionOffer => {
   return {
     interaction: ShoppingActions.MAKE_OFFER,
     urlPrefix: urlPrefix.value,
-    token: items.map(item => ({
-      price: String(calculateBalance(Number(item.offerPrice), decimals.value)),
-      collectionId: item.collection.id,
-      duration: item.offerExpiration || 7,
-      nftSn: item.sn,
+    tokens: items.map(item => ({
+      price: item.offerPrice ? String(Number(calculateBalance(Number(item.offerPrice), decimals.value))) : '',
+      desiredItem: item.sn,
+      desiredCollectionId: item.collection.id,
+      offeredItem: offeredItem.value,
+      duration: item.offerExpiration || DEFAULT_OFFER_EXPIRATION_DURATION,
     } as TokenToOffer)),
   }
 }
@@ -120,15 +130,16 @@ const teleportTransitionTxFees = computed(() =>
   ),
 )
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton({
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded } = useAutoTeleportActionButton<ActionOffer>({
   getActionFn: () => getAction(itemsInChain.value),
+  signingModal,
 })
 
 const totalOfferAmount = computed(
   () => calculateBalance(sum(itemsInChain.value.map(nft => Number(nft.offerPrice))), decimals.value),
 )
 
-const totalNeededAmount = computed(() => totalOfferAmount.value + OFFER_MINT_PRICE)
+const totalNeededAmount = computed(() => totalOfferAmount.value + (!offeredItem.value ? OFFER_MINT_PRICE : 0))
 
 const actions = computed<AutoTeleportAction[]>(() => [
   {
@@ -176,6 +187,7 @@ const submitOffer = () => {
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
     clearTransaction()
+    unusedOfferedItemsSubscription.value()
 
     autoTeleport.value = autoteleport
     items.value = [...itemsInChain.value]
@@ -210,6 +222,53 @@ useModalIsOpenTracker({
   isOpen: computed(() => preferencesStore.makeOfferModalOpen),
   onChange: () => {
     offerStore.clear()
+    unusedOfferedItemsSubscription.value()
+  },
+})
+
+useModalIsOpenTracker({
+  isOpen: computed(() => preferencesStore.makeOfferModalOpen),
+  onClose: false,
+  onChange: () => {
+    unusedOfferedItemsSubscription.value = useSubscriptionGraphql({
+      query: `
+      offers(where: {
+        status_not_in: [ACTIVE, ACCEPTED]
+        caller_eq: "${accountId.value}"
+        nft: {
+          currentOwner_eq: "${accountId.value}"
+          collection: {
+            id_eq: "${getOfferCollectionId(urlPrefix.value)}"
+          }
+        }
+      }) {
+        nft {
+          sn
+        }
+      }`,
+      onChange: ({ data: { offers: items } }) => {
+        const tokensSn = items
+          .map(({ nft }) => nft.sn)
+          .filter((tokenSn: string) => !usedOfferedItems.value.includes(tokenSn))
+
+        const unusedOfferedItems = shuffle(tokensSn)
+
+        offeredItem.value = unusedOfferedItems[0]
+      },
+    })
+  },
+})
+
+useTransactionTracker({
+  transaction: {
+    isError,
+    status,
+  },
+  onSuccess: () => {
+    if (offeredItem.value) {
+      usedOfferedItems.value.push(offeredItem.value)
+      offeredItem.value = undefined
+    }
   },
 })
 

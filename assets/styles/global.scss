@@ -175,17 +175,8 @@ hr {
 }
 
 // global table css
-
-.table {
-  @apply bg-background-color text-text-color;
-
-  &.is-hoverable tbody tr:not(.is-selected):hover {
-    @apply bg-background-color;
-  }
-
-  th {
-    @apply text-text-color bg-background-color;
-  }
+table th {
+  @apply text-text-color #{!important};
 }
 
 .fluid-padding-left {
