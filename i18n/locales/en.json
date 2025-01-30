@@ -2006,9 +2006,9 @@
       "week": "7D"
     }
   },
-  "trade": { "selectSendItem": "Select NFT First" },
-  "trades": { 
+  "trades": {
     "incomingTrades": "Incoming Offers/Trades",
+    "selectSendItem": "Select NFT First",
     "youGet": "You Get",
     "youOffer": "You Offer"
   },
