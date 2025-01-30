@@ -2,46 +2,33 @@
   text-transform: uppercase;
   font-weight: 400;
   transition: all 0.3s;
-
-  @include ktheme() {
-    color: theme('text-color');
-    background-color: theme('background-color');
-  }
+  color: rgb(var(--text-color));
+  background-color: var(--background-color);
 }
 
 .button.is-text {
   &:hover {
     border: none;
-    @include ktheme() {
-      background-color: theme('k-hovergrey');
-    }
+    background-color: var(--link-hover);
   }
 
   &:focus {
-    @include ktheme() {
-      background-color: theme('k-hovergrey');
-    }
+    background-color: var(--link-hover);
     border: none;
   }
 }
 
 button.button.is-bordered {
-  @include ktheme() {
-    border-top: 2px solid theme('k-primary') !important;
-  }
+  border-top: 2px solid var(--k-primary) !important;
 }
 
 button.button.is-bordered-light {
   border-color: transparent;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
-  }
+  border-top: 1px solid var(--k-primary) !important;
 }
 
 button.button.navbar-link-background {
-  @include ktheme() {
-    border-top: 2px solid theme('k-accentlight2') !important;
-  }
+  border-top: 2px solid var(--k-accent-light-2) !important;
 }
 
 .share-button {

@@ -2,14 +2,12 @@
   font-family: 'Work Sans';
   @apply shadow-none rounded-none;
 
-  @include ktheme() {
-    border: 1px solid theme('card-border-color');
-    color: theme('text-color');
-    &:not(.loading):hover {
-      border-color: theme('border-color');
-      .collection-card__image-wrapper {
-        opacity: theme('card-hover-opacity');
-      }
+  border: 1px solid var(--card-border-color);
+  color: rgb(var(--text-color));
+  &:not(.loading):hover {
+    border-color: var(--border-color);
+    .collection-card__image-wrapper {
+      opacity: var(--card-hover-opacity);
     }
   }
 
@@ -27,28 +25,22 @@
       height: 100%;
       width: 100%;
 
-      @include ktheme() {
-        border: 6px solid theme('text-color-inverse');
-        img {
-          border: 1px solid theme('card-border-color');
-        }
+      border: 6px solid var(--text-color-inverse);
+      img {
+        border: 1px solid var(--card-border-color);
       }
     }
   }
   .collection-detail {
     $header-height: 55px;
 
-    @include ktheme() {
-      background: theme('background-color');
-    }
+    background: var(--background-color);
 
     &__header {
       height: $header-height;
 
-      @include ktheme() {
-        border-top: 1px solid theme('card-border-color');
-        border-bottom: 1px solid theme('card-border-color');
-      }
+      border-top: 1px solid var(--card-border-color);
+      border-bottom: 1px solid var(--card-border-color);
 
       &-image-wrapper {
         height: 80px;
@@ -56,18 +48,13 @@
         padding: 0 !important;
         transform: translate(15px, -50%);
 
-        @include ktheme() {
-          background: theme('background-color');
-          border-top: 1px solid theme('card-border-color');
-        }
+        background: var(--background-color);
+        border-top: 1px solid var(--card-border-color);
 
         &::before,
         &::after {
           @apply content-[''] absolute w-px h-[39px] z-[1] left-0 top-0;
-
-          @include ktheme() {
-            background: theme('card-border-color');
-          }
+          background: var(--card-border-color);
         }
         &::after {
           left: unset;
@@ -79,9 +66,7 @@
       @apply text-ellipsis font-bold text-base overflow-hidden whitespace-nowrap pl-8 pr-5;
       line-height: $header-height;
       &:hover {
-        @include ktheme() {
-          color: theme('link-hover');
-        }
+        color: var(--link-hover);
       }
     }
 

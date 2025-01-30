@@ -26,7 +26,6 @@ main {
 }
 
 body {
-
   @apply text-text-color;
 
   a {
@@ -37,50 +36,40 @@ body {
   .title,
   .subtitle,
   .card-header-title {
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    color: rgb(var(--text-color));
   }
 
   .input,
   select {
-    @include ktheme() {
-      background-color: theme('background-color') !important;
-      color: theme('text-color') !important;
-      &::placeholder {
-        color: theme('placeholder-color') !important;
-      }
+    background-color: var(--background-color) !important;
+    color: rgb(var(--text-color)) !important;
+    &::placeholder {
+      color: var(--placeholder-color) !important;
     }
   }
 
   .field {
     .input {
-      @include ktheme() {
-        border-radius: 0;
-        border: 1px solid theme('k-grey-fix');
-        background-color: theme('background-color');
-        color: theme('text-color');
+      border-radius: 0;
+      border: 1px solid var(--k-grey-fix);
+      background-color: var(--background-color);
+      color: rgb(var(--text-color));
 
-        &:focus {
-          border: 1px solid theme('text-color');
-        }
+      &:focus {
+        border: 1px solid rgb(var(--text-color));
       }
     }
   }
 
   .select {
     &:not(.is-multiple):not(.is-loading)::after {
-      @include ktheme() {
-        border-color: theme('text-color');
-      }
+      border-color: rgb(var(--text-color));
     }
   }
 
   .select select[disabled] {
-    @include ktheme() {
-      background-color: theme('disabled') !important;
-      color: theme('placeholder-color') !important;
-    }
+    background-color: var(--disabled) !important;
+    color: var(--placeholder-color) !important;
   }
 
   .label {
@@ -132,9 +121,7 @@ body {
 }
 
 .image-outline {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
+  border: 1px solid var(--border-color);
   border-radius: 50%;
 }
 
@@ -154,16 +141,12 @@ body {
   &:last-child {
     border-bottom: none !important;
   }
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  border-bottom: 1px solid var(--border-color);
 }
 
 hr {
   height: 1px;
-  @include ktheme() {
-    background: theme('k-shade');
-  }
+  background: rgb(var(--k-shade));
 }
 
 .snackbar {
@@ -186,9 +169,7 @@ table th {
 //shadow
 
 .k-shadow {
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-  }
+  box-shadow: var(--primary-shadow);
 }
 
 .modal {
@@ -225,17 +206,15 @@ table th {
 
 .inverse-text {
   letter-spacing: -0.02em;
-  @include ktheme() {
-    color: theme('text-color-inverse');
-    text-shadow:
-      1px 1px 0 theme('text-color'),
-      1px -1px 0 theme('text-color'),
-      -1px 1px 0 theme('text-color'),
-      -1px -1px 0 theme('text-color'),
-      1px 0px 0 theme('text-color'),
-      0px 1px 0 theme('text-color'),
-      -1px 0px 0 theme('text-color'),
-      0px -1px 0 theme('text-color'),
-      4px 4px theme('text-color');
-  }
+  color: var(--text-color-inverse);
+  text-shadow:
+    1px 1px 0 rgb(var(--text-color)),
+    1px -1px 0 rgb(var(--text-color)),
+    -1px 1px 0 rgb(var(--text-color)),
+    -1px -1px 0 rgb(var(--text-color)),
+    1px 0px 0 rgb(var(--text-color)),
+    0px 1px 0 rgb(var(--text-color)),
+    -1px 0px 0 rgb(var(--text-color)),
+    0px -1px 0 rgb(var(--text-color)),
+    4px 4px rgb(var(--text-color));
 }
