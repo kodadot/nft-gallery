@@ -3,14 +3,20 @@
     v-if="isDesktop"
     class="flex items-stretch gap-3 py-[.6rem]"
   >
-    <div class="flex-1 overflow-hidden">
+    <div
+      v-if="isSwap(trade.type)"
+      class="flex-1 overflow-hidden"
+    >
       <TradeActivityTableRowItem
         :id="offered.id"
         :price="offered.price"
       />
     </div>
 
-    <div class="flex-auto max-w-10">
+    <div
+      v-if="isSwap(trade.type)"
+      class="flex-auto max-w-10"
+    >
       <div class="flex items-center justify-start h-full">
         <NeoIcon
           icon="arrow-right-arrow-left"
@@ -32,8 +38,10 @@
       />
     </div>
 
-    <!--
-    <div class="flex-1 is-ellipsis">
+    <div
+      v-if="isOffer(trade.type)"
+      class="flex-1 is-ellipsis"
+    >
       <div class="h-[50px] flex items-center">
         <div
           v-if="parseInt(trade.price)"
@@ -46,7 +54,6 @@
         </div>
       </div>
     </div>
-    -->
 
     <div
       class="flex-1"
@@ -196,6 +203,14 @@ const props = defineProps<{
   target: 'from' | 'to'
 }>()
 
+const { chainSymbol, decimals } = useChain()
+
+const { formatted: amount, usd: price } = useAmount(
+  computed(() => props.trade?.price),
+  decimals,
+  chainSymbol,
+)
+
 const getRowConfig = () => {
   const surcharge = props.trade.surcharge!
 
@@ -222,6 +237,4 @@ const { send: offered, receive: desired } = getRowConfig()
 const isDesktop = computed(() => props.variant === 'Desktop')
 
 const targetAddress = computed(() => props.target === 'to' ? offered.currentOwner : props.trade.caller)
-
-
 </script>

@@ -35,15 +35,25 @@
         :loading="loading"
       >
         <template #columns>
-          <div class="flex-1">
-            <span>{{ $t('trades.youOffer') }}</span>
-          </div>
-          <div class="flex-1 max-w-10">
-            <span />
-          </div>
-          <div class="flex-1">
-            <span>{{ $t('trades.youGet') }}</span>
-          </div>
+          <template v-if="isSwap(type)">
+            <div class="flex-1">
+              <span>{{ $t('trades.youOffer') }}</span>
+            </div>
+            <div class="flex-1 max-w-10">
+              <span />
+            </div>
+            <div class="flex-1">
+              <span>{{ $t('trades.youGet') }}</span>
+            </div>
+          </template>
+          <template v-else>
+            <div class="flex-1">
+              <span>{{ $t('activity.event.item') }}</span>
+            </div>
+            <div class="flex-1">
+              <span>{{ $t('activity.event.amount') }}</span>
+            </div>
+          </template>
           <div class="flex-1">
             <span> {{ $t(`swap.counterparty`) }} </span>
           </div>

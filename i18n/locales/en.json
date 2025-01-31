@@ -2007,12 +2007,12 @@
     }
   },
   "trades": {
+    "anyNftFrom": "Any NFT From",
+    "expiresIn": "Expires In",
     "incomingTrades": "Incoming Offers/Trades",
     "selectSendItem": "Select NFT First",
     "youGet": "You Get",
-    "youOffer": "You Offer",
-    "expiresIn": "Expires In",
-    "anyNftFrom": "Any NFT From"
+    "youOffer": "You Offer"
   },
   "transaction": {
     "acceptOffer": "Accept Offer",
