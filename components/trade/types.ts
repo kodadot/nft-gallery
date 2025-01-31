@@ -3,6 +3,7 @@ import type {
   EntityWithId,
   NFTMetadata,
 } from '@/types'
+import { type SwapSurchargeDirection } from '@/composables/transaction/types'
 
 export type MakingOfferItem = {
   urlPrefix: string
@@ -69,7 +70,7 @@ export enum TradeType {
 }
 
 export type Swap = BaseTrade & {
-  surcharge: string | null
+  surcharge: SwapSurchargeDirection | null
 }
 
 export type Offer = BaseTrade

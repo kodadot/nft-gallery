@@ -38,6 +38,9 @@
           <div class="flex-1">
             <span>{{ $t('trades.youOffer') }}</span>
           </div>
+          <div class="flex-1 max-w-10">
+            <span />
+          </div>
           <div class="flex-1">
             <span>{{ $t('trades.youGet') }}</span>
           </div>

@@ -14,12 +14,11 @@
         :label="$t('swap.counterSwap')"
       >
         <NeoButton
-          variant="icon"
+          variant="outlined-rounded"
+          class="!p-0"
           @click="emit('click:counter-swap')"
         >
-          <NeoIcon
-            icon="swap"
-          />
+          <NeoIcon icon="repeat" />
         </NeoButton>
       </NeoTooltip>
     </template>
