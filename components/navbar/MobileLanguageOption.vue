@@ -14,13 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-import { langsFlags, setUserLocale } from '@/utils/config/i18n'
-
 const { $i18n } = useNuxtApp()
 const emit = defineEmits(['select'])
 
 const setUserLang = (value: string) => {
-  setUserLocale(value)
+  usePreferencesStore().setUserLocale(value)
   emit('select')
 }
 </script>

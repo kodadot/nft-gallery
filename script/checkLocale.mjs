@@ -26,7 +26,7 @@ argArr.forEach((arg) => {
 
 const CONSTANTS = {
   BASE_LOCALE: args.baseLocale,
-  LOCALE_DIR: 'locales',
+  LOCALE_DIR: 'i18n/locales',
   LOCALES: args.locales,
 }
 
