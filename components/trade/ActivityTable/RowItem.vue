@@ -8,7 +8,7 @@
       class="h-[50px]"
     >
       <BaseMediaItem
-        class="border border-k-shade w-[3.125rem] h-[3.125rem]"
+        class="border border-k-shade w-[3.125rem] h-[3.125rem] !shadow-none"
         :alt="name"
         :src="image"
         :animation-src="!image ? animationUrl : undefined"
@@ -27,25 +27,26 @@
         </span>
       </nuxt-link>
 
-      <TradeActivityTablePriceTag :value="price" />
+      <TradeActivityTableSurchargeTag :value="surcharge" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import type { SwapSurcharge } from '@/composables/transaction/types'
 
 type Item = { image: string, animationUrl: string, name: string }
 
 const props = withDefaults(
   defineProps<{
     id: string | undefined
-    price: string | undefined
+    surcharge: SwapSurcharge | undefined
     containerSpacing?: string
   }>(),
   {
     containerSpacing: 'gap-5',
-  }
+  },
 )
 
 const image = ref()

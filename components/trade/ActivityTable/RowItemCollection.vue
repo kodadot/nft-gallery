@@ -3,22 +3,23 @@
     <span class="text-k-grey capitalize"> {{ $t('trades.anyNftFrom') }} </span>
     <div class="flex items-center gap-2">
       <nuxt-link
-        :to="`/${urlPrefix}/collection/${trade.considered.id}`"
+        :to="`/${urlPrefix}/collection/${considered.id}`"
         class="font-bold"
-      >{{ trade.considered.name }}
+      >{{ considered.name }}
       </nuxt-link>
 
-      <TradeActivityTablePriceTag :value="price" />
+      <TradeActivityTableSurchargeTag :value="surcharge" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { TradeNftItem } from '@/components/trade/types'
+import type { TradeConsidered } from '@/components/trade/types'
+import type { SwapSurcharge } from '@/composables/transaction/types'
 
 defineProps<{
-  trade: TradeNftItem
-  price: string | undefined
+  considered: TradeConsidered
+  surcharge: SwapSurcharge | undefined
 }>()
 
 const { urlPrefix } = usePrefix()

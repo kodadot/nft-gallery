@@ -8,6 +8,7 @@ import {
   type Swap,
   type BaseTrade,
   type TradeNftItem,
+  type TradeTarget,
   TradeType,
   TradeDesiredTokenType,
   TradeStatus,
@@ -55,7 +56,7 @@ export default function ({
   const { queryDocument, dataKey } = TRADES_QUERY_MAP[type]
 
   const items = ref<TradeNftItem[]>([])
-  const targetsOfTrades = ref<Map<string, string[]>>()
+  const targetsOfTrades = ref<Map<string, TradeTarget[]>>()
   const ownersSubscription = ref(() => { })
 
   const { client } = usePrefix()
@@ -108,8 +109,8 @@ export default function ({
           const tradeDesired = trade.desired
           map.set(trade.id,
             tradeDesired
-              ? [collectionMap[tradeDesired.collection.id].find(nft => nft.id === tradeDesired.id)?.currentOwner]
-              : collectionMap[trade.considered.id].map(nft => nft.currentOwner),
+              ? [collectionMap[tradeDesired.collection.id].find(nft => nft.id === tradeDesired.id)]
+              : collectionMap[trade.considered.id],
           )
         })
 

@@ -21,40 +21,22 @@
     >
       <!-- item -->
       <NeoTableColumn
-        v-if="type === TradeType.SWAP"
+        v-if="isSwap(type)"
         v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="item"
-        :label="$t('activity.event.item')"
+        :label="$t('offer.offer')"
       >
-        <div class="flex-1 text-clip">
-          <div class="flex items-center gap-4">
-            <nuxt-link
-              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
-            >
-              <BaseMediaItem
-                class="border border-k-shade w-[2.25rem] h-[2.25rem] !shadow-none"
-                :alt="row.offered.name"
-                :src="sanitizeIpfsUrl(row.offered.image)"
-                preview
-                is-detail
-              />
-            </nuxt-link>
-            <nuxt-link
-              class="text-ellipsis inline-block"
-              :to="`/${urlPrefix}/gallery/${row.offered.id}`"
-            >
-              <span class="text-clip">
-                {{ row.offered.name }}
-              </span>
-            </nuxt-link>
-          </div>
-        </div>
+        <TradeActivityTableRowItem
+          :id="row.offered.id"
+          :price="row.price"
+          container-spacing="gap-3"
+        />
       </NeoTableColumn>
 
       <!-- price -->
       <NeoTableColumn
-        v-if="type === TradeType.OFFER"
+        v-if="isOffer(type)"
         v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="price"
@@ -69,24 +51,12 @@
         </p>
       </NeoTableColumn>
 
-      <!-- expiration -->
-      <NeoTableColumn
-        v-slot="{ row }: {row: TradeNftItem}"
-        width="15%"
-        field="expiration"
-        :label="$t('expiration')"
-      >
-        <p class="capitalize">
-          {{ row.expirationDate ? formatToNow(row.expirationDate, false) : '--' }}
-        </p>
-      </NeoTableColumn>
-
       <!-- from -->
       <NeoTableColumn
-        v-slot="{ row }: {row: TradeNftItem}"
+        v-slot="{ row } : {row: TradeNftItem}"
         width="20%"
         field="caller"
-        :label="$t('tabs.tabActivity.from')"
+        :label=" isOffer(type) ? $t('tabs.tabActivity.from') : $t('swap.counterparty')"
       >
         <div class="flex items-center gap-2">
           <ProfileAvatar
@@ -103,6 +73,16 @@
             />
           </nuxt-link>
         </div>
+      </NeoTableColumn>
+
+      <!-- expiration -->
+      <NeoTableColumn
+        v-slot="{ row }: { row: TradeNftItem }"
+        width="15%"
+        field="expiration"
+        :label="$t('expiration')"
+      >
+        <TradeExpiration :trade="row" />
       </NeoTableColumn>
 
       <!-- action -->
@@ -138,11 +118,9 @@ import {
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
-import { type TradeNftItem, TradeType } from '@/components/trade/types'
-import { formatToNow } from '@/utils/format/time'
+import type { TradeType, TradeNftItem } from '@/components/trade/types'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const props = defineProps<{
   nftId: string

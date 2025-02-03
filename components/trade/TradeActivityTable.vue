@@ -55,7 +55,7 @@
             </div>
           </template>
           <div class="flex-1">
-            <span> {{ $t(`swap.counterparty`) }} </span>
+            <span> {{ isSwap(type) ? $t(`swap.counterparty`) : $t(`activity.event.${tabTarget}`) }} </span>
           </div>
           <div class="flex-1">
             <span />

@@ -77,11 +77,16 @@ export type Offer = BaseTrade
 
 type Trade = Swap | Offer
 
+export type TradeTarget = {
+  id: string
+  currentOwner: string
+}
+
 export type TradeNftItem<T = Trade> = T & {
   expirationDate: Date
   type: TradeType
   desiredType: TradeDesiredTokenType
   isAnyTokenInCollectionDesired: boolean
-  targets: string[]
+  targets: TradeTarget[]
   isExpired: boolean
 }
