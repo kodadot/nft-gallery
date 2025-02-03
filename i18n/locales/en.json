@@ -2011,6 +2011,7 @@
     "anyNftFrom": "Any NFT From",
     "expiresIn": "Expires In",
     "incomingTrades": "Incoming Offers/Trades",
+    "requests": "Requests {0}",
     "selectSendItem": "Select NFT First",
     "youGet": "You Get",
     "youOffer": "You Offer"

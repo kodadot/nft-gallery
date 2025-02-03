@@ -1,11 +1,11 @@
 <template>
   <NeoTag
-    v-if="value"
+    v-if="config"
     size="small"
-    variant="k-blue-2"
+    :variant="config.variant"
     class="w-min"
   >
-    <span> +{{ amount }} </span>
+    <span> {{ config.label }} </span>
   </NeoTag>
 </template>
 
@@ -17,6 +17,17 @@ const props = defineProps<{
   value: SwapSurcharge | undefined
 }>()
 
+const { $i18n } = useNuxtApp()
 const { format: formatPrice } = useFormatAmount()
 const { amount } = formatPrice(props.value?.amount || '')
+
+const config = computed(() => {
+  if (!props.value) {
+    return
+  }
+
+  return props.value.direction === 'Receive'
+    ? ({ label: $i18n.t('trades.requests', [amount]), variant: 'k-orange' as const })
+    : ({ label: `+${amount}`, variant: 'k-blue-2' as const })
+})
 </script>

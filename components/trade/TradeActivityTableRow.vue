@@ -215,7 +215,7 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { blank } from '@/components/collection/activity/events/eventRow/common'
-import type { TradeNftItem, TradeConsidered, Swap, TradeToken } from '@/components/trade/types'
+import type { TradeNftItem, TradeConsidered, TradeToken } from '@/components/trade/types'
 import type { SwapSurcharge } from '@/composables/transaction/types'
 
 defineEmits(['select', 'counter-swap'])
@@ -237,8 +237,8 @@ const { formatted: amount, usd: price } = useAmount(
 type TradeItem = { item: TradeToken | TradeConsidered, surcharge: SwapSurcharge }
 
 const getRowConfig = (): { offered: TradeItem, desired: TradeItem } => {
-  const direction = (props.trade as TradeNftItem<Swap>).surcharge!
-  const surcharge = { amount: props.trade.price, direction }
+  const direction = props.trade.surcharge!
+  const surcharge = props.trade.surcharge ? { amount: props.trade.price, direction: 'Send' } : undefined
 
   const desired = props.trade.desired!
 
