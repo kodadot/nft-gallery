@@ -138,7 +138,6 @@ import {
   NeoTable,
   NeoTableColumn,
 } from '@kodadot1/brick'
-import type { UnwrapRef } from 'vue'
 import { type TradeNftItem, TradeType } from '@/components/trade/types'
 import { formatToNow } from '@/utils/format/time'
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -154,10 +153,14 @@ const { urlPrefix } = usePrefix()
 const { format } = useFormatAmount()
 
 const isTradeModalOpen = ref(false)
-const loading = ref(false)
-const trades = ref<UnwrapRef<ReturnType<typeof useTrades>['items']>>([])
 const selectedTrade = ref<TradeNftItem>()
-const stopWatch = ref(() => {})
+const tradeIds = ref()
+
+const { items: trades, loading } = useTrades({
+  where: computed(() => ({ id_in: tradeIds.value })),
+  disabled: computed(() => !Array.isArray(tradeIds.value)),
+  type: props.type,
+})
 
 useSubscriptionGraphql({
   query: `
@@ -168,18 +171,7 @@ useSubscriptionGraphql({
     id
   }`,
   onChange: ({ data }) => {
-    stopWatch.value?.()
-    trades.value = []
-
-    const { items: tradesData, loading: tradesLoading } = useTrades({
-      where: { id_in: data.items?.map(trade => trade.id) },
-      type: props.type,
-    })
-
-    stopWatch.value = watchEffect(() => {
-      loading.value = tradesLoading.value
-      trades.value = tradesData.value
-    })
+    tradeIds.value = data.items?.map(trade => trade.id)
   },
 })
 
