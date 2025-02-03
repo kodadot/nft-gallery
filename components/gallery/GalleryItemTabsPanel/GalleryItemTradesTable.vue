@@ -29,7 +29,7 @@
       >
         <TradeActivityTableRowItem
           :id="row.offered.id"
-          :price="row.price"
+          :surcharge="row.surcharge ? { amount: row.price, direction: row.surcharge } : undefined"
           container-spacing="gap-3"
         />
       </NeoTableColumn>
