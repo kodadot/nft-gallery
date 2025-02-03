@@ -8,7 +8,7 @@
       class="flex-1 overflow-hidden"
     >
       <TradeActivityTableRowItem
-        :id="offered.item.id"
+        :item="offered.item"
         :surcharge="offered.surcharge"
       />
     </div>
@@ -34,7 +34,7 @@
       />
       <TradeActivityTableRowItem
         v-else
-        :id="desired.item.id"
+        :item="desired.item"
         :surcharge="desired.surcharge"
       />
     </div>
@@ -113,7 +113,7 @@
         <template v-if="isTradeSwap">
           <div class="min-w-0 overflow-hidden">
             <TradeActivityTableRowItem
-              :id="offered.item.id"
+              :item="offered.item"
               :surcharge="offered.surcharge"
               container-spacing="gap-3"
             />
@@ -136,7 +136,7 @@
           />
           <TradeActivityTableRowItem
             v-else
-            :id="desired.item.id"
+            :item="desired.item"
             :surcharge="desired.surcharge"
             container-spacing="gap-3"
           />

@@ -28,7 +28,7 @@
         :label="$t('offer.offer')"
       >
         <TradeActivityTableRowItem
-          :id="row.offered.id"
+          :item="row.offered"
           :surcharge="row.surcharge ? { amount: row.price, direction: row.surcharge } : undefined"
           container-spacing="gap-3"
         />
@@ -94,7 +94,7 @@
           class="max-md:!w-full"
           detailed
           :trade="row as TradeNftItem"
-          @click:main="selectOffer"
+          @click:main="selectTrade"
           @click:counter-swap="counterSwap(row)"
         />
       </NeoTableColumn>
@@ -155,7 +155,7 @@ useSubscriptionGraphql({
   },
 })
 
-const selectOffer = (offer: TradeNftItem) => {
+const selectTrade = (offer: TradeNftItem) => {
   selectedTrade.value = offer
   isTradeModalOpen.value = true
 }

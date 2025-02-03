@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="item"
     class="flex items-center justify-between w-min"
     :class="containerSpacing"
   >
@@ -9,7 +10,7 @@
     >
       <BaseMediaItem
         class="border border-k-shade w-[3.125rem] h-[3.125rem] !shadow-none"
-        :alt="name"
+        :alt="item.name"
         :src="image"
         :animation-src="!image ? animationUrl : undefined"
         preview
@@ -23,7 +24,7 @@
         :to="itemPath"
       >
         <span class="font-bold overflow-hidden">
-          {{ name }}
+          {{ item.name }}
         </span>
       </nuxt-link>
 
@@ -36,11 +37,11 @@
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import type { SwapSurcharge } from '@/composables/transaction/types'
 
-type Item = { image: string, animationUrl: string, name: string }
+type ItemMedia = { image: string, animationUrl: string }
 
 const props = withDefaults(
   defineProps<{
-    id: string | undefined
+    item: { id: string, name: string } | undefined
     surcharge: SwapSurcharge | undefined
     containerSpacing?: string
   }>(),
@@ -51,18 +52,16 @@ const props = withDefaults(
 
 const image = ref()
 const animationUrl = ref()
-const name = ref()
 
 const { urlPrefix } = usePrefix()
 
 const itemPath = computed(() => `/${urlPrefix.value}/gallery/${props.id}`)
 
-const getItem = async (id: string): Promise<Item> => {
+const getItem = async (id: string): Promise<ItemMedia> => {
   const nft = await fetchNft(id)
 
   if (!nft.metadata) {
     return {
-      name: '',
       image: '',
       animationUrl: '',
     }
@@ -71,18 +70,16 @@ const getItem = async (id: string): Promise<Item> => {
   const meta = await getNftMetadata(nft)
 
   return {
-    name: meta.name,
     image: meta.image,
     animationUrl: meta.animationUrl,
   }
 }
 
-watch(() => props.id, async (id) => {
+watch(() => props.item?.id, async (id) => {
   if (id) {
     const item = await getItem(id)
     image.value = item.image
     animationUrl.value = item.animationUrl
-    name.value = item.name
   }
 }, { immediate: true })
 </script>
