@@ -57,6 +57,7 @@ export type BaseTrade = {
   desired: TradeToken | null
   considered: TradeConsidered
   createdAt: Date
+  surcharge: SwapSurchargeDirection | null
 }
 
 export enum TradeDesiredTokenType {
@@ -69,9 +70,7 @@ export enum TradeType {
   OFFER = 'offer',
 }
 
-export type Swap = BaseTrade & {
-  surcharge: SwapSurchargeDirection | null
-}
+export type Swap = BaseTrade
 
 export type Offer = BaseTrade
 
