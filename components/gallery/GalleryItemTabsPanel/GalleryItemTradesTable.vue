@@ -92,8 +92,10 @@
       >
         <TradeOwnerButton
           class="max-md:!w-full"
+          detailed
           :trade="row as TradeNftItem"
           @click:main="selectOffer"
+          @click:counter-swap="counterSwap(row)"
         />
       </NeoTableColumn>
     </NeoTable>
