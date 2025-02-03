@@ -46,7 +46,7 @@
   },
   "engines": {
     "npm": "please-use-pnpm",
-    "pnpm": "9",
+    "pnpm": "9.15.5",
     "node": "^20"
   },
   "packageManager": "pnpm@9.4.0",
