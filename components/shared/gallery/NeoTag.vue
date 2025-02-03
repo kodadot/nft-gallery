@@ -88,8 +88,7 @@ const onClose = () => {
   }
 
   &--k-grey {
-    color: var(--neutral-7) !important;
-    background-color: var(--neutral-3) !important;
+    @apply text-neutral-7 bg-neutral-3 dark:bg-neutral-11 #{!important};
   }
 
   &.tag-size {
