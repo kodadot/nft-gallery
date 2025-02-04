@@ -37,13 +37,13 @@
         <template #columns>
           <template v-if="isTradeSwap(type)">
             <div class="flex-1">
-              <span>{{ $t('trades.youOffer') }}</span>
+              <span>{{ $t(`trades.${activeTab}.send`) }}</span>
             </div>
             <div class="flex-1 max-w-10">
               <span />
             </div>
             <div class="flex-1">
-              <span>{{ $t('trades.youGet') }}</span>
+              <span>{{ $t(`trades.${activeTab}.receive`) }}</span>
             </div>
           </template>
           <template v-else>
