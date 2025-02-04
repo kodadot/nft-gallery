@@ -68,7 +68,7 @@
     <hr class="m-0">
 
     <div
-      class="container is-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
+      class="grow relative w-full max-w-none mx-auto my-0 md:!px-10 !px-5 flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
     >
       <div class="w-[300px]">
         <TradeExpirationSelector

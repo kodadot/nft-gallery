@@ -9,7 +9,7 @@
 
     <section class="h-full py-8">
       <div
-        class="container is-fluid collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full"
+        class="grow relative w-full max-w-none mx-auto my-0 md:!px-10 !px-5 collection-banner-content flex flex-col md:flex-row items-start md:items-end md:justify-between h-full"
       >
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
