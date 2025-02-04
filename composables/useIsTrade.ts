@@ -1,7 +1,4 @@
-import { type TradeNftItem, TradeType } from '@/components/trade/types'
-
-export const isSwap = (type: TradeType) => type === TradeType.SWAP
-export const isOffer = (type: TradeType) => type === TradeType.OFFER
+import type { TradeNftItem } from '@/components/trade/types'
 
 export default function (trade: ComputedRef<TradeNftItem | undefined>, target: MaybeRef<string>) {
   const isCreatorOfTrade = computed(() => trade.value?.caller === unref(target))

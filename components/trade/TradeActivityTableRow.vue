@@ -4,7 +4,7 @@
     class="flex items-stretch gap-3 py-[.6rem]"
   >
     <div
-      v-if="isTradeSwap"
+      v-if="isSwap"
       class="flex-1 overflow-hidden"
     >
       <TradeActivityTableRowItem
@@ -14,7 +14,7 @@
     </div>
 
     <div
-      v-if="isTradeSwap"
+      v-if="isSwap"
       class="flex-auto max-w-10"
     >
       <div class="flex items-center justify-start h-full">
@@ -40,7 +40,7 @@
     </div>
 
     <div
-      v-if="isTradeOffer"
+      v-if="isOffer"
       class="flex-1 is-ellipsis"
     >
       <div class="h-[50px] flex items-center">
@@ -110,7 +110,7 @@
       :class="[mobileGap]"
     >
       <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 items-center">
-        <template v-if="isTradeSwap">
+        <template v-if="isSwap">
           <div class="min-w-0 overflow-hidden">
             <TradeActivityTableRowItem
               :item="offered.item"
@@ -127,7 +127,7 @@
 
         <div
           class="min-w-0 overflow-hidden flex"
-          :class="{ 'justify-end': isSwap(trade.type) }"
+          :class="{ 'justify-end': isSwap }"
         >
           <TradeActivityTableRowItemCollection
             v-if="trade.isAnyTokenInCollectionDesired"
@@ -143,15 +143,17 @@
         </div>
       </div>
 
-      <div
-        v-if="parseInt(trade.price)"
-        class="flex gap-2 items-center"
-      >
-        <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
-      </div>
-      <div v-else>
-        {{ blank }}
-      </div>
+      <template v-if="isOffer">
+        <div
+          v-if="parseInt(trade.price)"
+          class="flex gap-2 items-center"
+        >
+          <span>{{ amount }}</span> <span class="text-k-grey text-sm">({{ price }})</span>
+        </div>
+        <div v-else>
+          {{ blank }}
+        </div>
+      </template>
 
       <div
         class="flex flex-col"
@@ -160,12 +162,10 @@
         <div class="flex gap-4">
           <div
             class="flex flex-1 items-center"
-            :class="{ 'justify-between': isTradeSwap,
-                      'gap-3': isTradeOffer,
-            }"
+            :class="{ 'justify-between': isSwap, 'gap-3': isOffer }"
           >
             <span
-              v-if="isTradeOffer"
+              v-if="isOffer"
               class="text-xs"
             >{{ $t(`activity.event.${target}`) }}:</span>
             <span
@@ -268,10 +268,10 @@ const { urlPrefix } = usePrefix()
 
 const { offered, desired } = getRowConfig()
 
-const isTradeOffer = computed(() => isOffer(props.trade.type))
-const isTradeSwap = computed(() => isSwap(props.trade.type))
+const { isOffer, isSwap } = useTradeType(computed(() => props.trade))
+
 const targetAddress = computed(() => props.target === 'to' ? (props.trade.desired || props.trade.considered).currentOwner : props.trade.caller)
 
-const mobileGap = computed(() => isTradeOffer.value ? 'gap-[10px]' : 'gap-5')
+const mobileGap = computed(() => isOffer.value ? 'gap-[10px]' : 'gap-5')
 const isDesktop = computed(() => props.variant === 'Desktop')
 </script>

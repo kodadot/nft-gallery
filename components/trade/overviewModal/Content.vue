@@ -48,10 +48,7 @@ import { NeoIcon } from '@kodadot1/brick'
 import { useIsTradeOverview } from './utils'
 import TokenItemDetails from './TokenItemDetails.vue'
 import TokenInCollection from './TokenInCollection.vue'
-import {
-  type TradeNftItem,
-  TradeType,
-} from '@/components/trade/types'
+import { type TradeNftItem } from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 defineEmits(['send-item:select', 'send-item:clear'])
@@ -63,5 +60,5 @@ const props = defineProps<{
 }>()
 
 const { isMyTrade } = useIsTradeOverview(computed(() => props.trade))
-const isSwap = computed(() => props.trade.type === TradeType.SWAP)
+const { isSwap } = useTradeType(computed(() => props.trade))
 </script>

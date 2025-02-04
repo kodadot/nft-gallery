@@ -21,7 +21,7 @@
     >
       <!-- item -->
       <NeoTableColumn
-        v-if="isSwap(type)"
+        v-if="isTradeSwap(type)"
         v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="item"
@@ -36,7 +36,7 @@
 
       <!-- price -->
       <NeoTableColumn
-        v-if="isOffer(type)"
+        v-if="isTradeOffer(type)"
         v-slot="{ row }: {row: TradeNftItem}"
         width="20%"
         field="price"
@@ -56,7 +56,7 @@
         v-slot="{ row } : {row: TradeNftItem}"
         width="20%"
         field="caller"
-        :label=" isOffer(type) ? $t('tabs.tabActivity.from') : $t('swap.counterparty')"
+        :label=" isTradeOffer(type) ? $t('tabs.tabActivity.from') : $t('swap.counterparty')"
       >
         <div class="flex items-center gap-2">
           <ProfileAvatar

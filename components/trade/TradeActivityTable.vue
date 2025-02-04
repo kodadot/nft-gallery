@@ -35,7 +35,7 @@
         :loading="loading"
       >
         <template #columns>
-          <template v-if="isSwap(type)">
+          <template v-if="isTradeSwap(type)">
             <div class="flex-1">
               <span>{{ $t('trades.youOffer') }}</span>
             </div>
@@ -55,7 +55,7 @@
             </div>
           </template>
           <div class="flex-1">
-            <span> {{ isSwap(type) ? $t(`swap.counterparty`) : $t(`activity.event.${tabTarget}`) }} </span>
+            <span> {{ isTradeSwap(type) ? $t(`swap.counterparty`) : $t(`activity.event.${tabTarget}`) }} </span>
           </div>
           <div class="flex-1">
             <span />
