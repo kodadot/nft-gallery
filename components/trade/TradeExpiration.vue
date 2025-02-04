@@ -15,12 +15,18 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
 import type { TradeNftItem } from '@/components/trade/types'
-import { blank } from '@/components/collection/activity/events/eventRow/common'
+import { blank as defaultBlank } from '@/components/collection/activity/events/eventRow/common'
 
-const props = defineProps<{
-  trade: TradeNftItem
-  withPrefix?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    trade: TradeNftItem
+    withPrefix?: boolean
+    blank?: string
+  }>(),
+  {
+    blank: defaultBlank,
+  },
+)
 
 const { $i18n } = useNuxtApp()
 
