@@ -7,14 +7,6 @@
   # This is the directory that you are publishing from.
   publish = "dist"
 
-[functions]
-  node_bundler = "esbuild"
-
-[dev]
-   command = "npx pnpm dev"
-   port = 9000
-   targetPort = 9090
-
 [context.deploy-preview]
 command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && pnpm run generate:netlify'
 
