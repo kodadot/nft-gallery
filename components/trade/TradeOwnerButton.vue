@@ -7,7 +7,7 @@
       :button="buttonConfig"
     />
 
-    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP">
+    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP && !trade.isAnyTokenInCollectionDesired">
       <NeoTooltip
         position="top"
         content-class="capitalize"
@@ -15,7 +15,6 @@
       >
         <NeoButton
           variant="icon"
-          :disabled="trade.isEntireCollectionDesired"
           @click="emit('click:counter-swap')"
         >
           <NeoIcon
@@ -30,12 +29,14 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType, type TradeNftItem } from '@/components/trade/types'
 
 const emit = defineEmits(['click:main', 'click:counter-swap'])
 const props = defineProps<{
   trade: TradeNftItem
   loading?: boolean
+  disabled?: boolean
+  label?: string
   mainClass?: string
   detailed?: boolean
 }>()
@@ -60,7 +61,7 @@ const details = {
   },
 }
 
-const buttonConfig = computed<ButtonConfig | null>(() => {
+const tradeButtonConfig = computed<ButtonConfig | null>(() => {
   if (props.trade.isExpired) {
     return isCreatorOfTrade.value
       ? {
@@ -86,5 +87,19 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
   }
 
   return null
+})
+
+const buttonConfig = computed<ButtonConfig | null>(() => {
+  if (!tradeButtonConfig.value) {
+    return null
+  }
+
+  const config = { ...tradeButtonConfig.value }
+
+  Object.assign(config, { disabled: props.disabled })
+
+  props.label && Object.assign(config, { label: props.label })
+
+  return config
 })
 </script>

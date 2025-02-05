@@ -1,6 +1,6 @@
 <template>
   <ExploreLayoutWithSidebar>
-    <CollectionTrades :trade-type="TradeType.SWAP" />
+    <CollectionTrades :trade-type="TradeType.OFFER" />
   </ExploreLayoutWithSidebar>
 </template>
 

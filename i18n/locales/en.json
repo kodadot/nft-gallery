@@ -285,6 +285,7 @@
     "decline": "Decline",
     "notice": "We use cookies for better service, see {0} for details."
   },
+  "count": "Count",
   "create": "Create",
   "create collection": "Create Collection",
   "createDropdown": {
@@ -930,6 +931,7 @@
     "resending": "Resending",
     "resetAll": "Reset All",
     "search": "Search",
+    "searchNoResults": "No results",
     "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
     "searchPlaceholder": "Search by Collection or NFT",
@@ -1530,6 +1532,7 @@
     "invalidPrice": "Your offer must greater than 0.0001",
     "manageOffers": "Manage Offers",
     "newOffer": "New Offer",
+    "offer": "Offer",
     "offerAccept": "Accepting Offer",
     "offerCancellation": "Offer Cancellation",
     "offerCreation": "Offer Creation",
@@ -1842,6 +1845,7 @@
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterSwap": "Counter Swap",
     "counterparty": "Counterparty",
+    "createSwap": "Create Swap",
     "created": "Swap Created",
     "creatingSwap": "Creating Swap",
     "incomingSwap": "Incoming Swap",
@@ -1870,7 +1874,8 @@
     "yourAddress": "Your Address",
     "yourOffer": "Your offer",
     "yourSwap": "Your Swap",
-    "yourSwapList": "Your Swap List"
+    "yourSwapList": "Your Swap List",
+    "yourSwapOffers": "Your Swap Offers"
   },
   "swaps": "Swaps",
   "tabs": {
@@ -2001,6 +2006,8 @@
       "week": "7D"
     }
   },
+  "trade": { "selectSendItem": "Select NFT First" },
+  "trades": { "incomingTrades": "Incoming Offers/Trades" },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",
