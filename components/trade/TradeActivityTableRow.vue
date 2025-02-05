@@ -109,6 +109,14 @@
       class="flex flex-col"
       :class="[mobileGap]"
     >
+      <div
+        v-if="isSwap"
+        class="flex justify-between items-center"
+      >
+        <span class="text-k-grey text-sm">{{ $t(`trades.${directionKey}.send`) }}</span>
+        <span class="text-k-grey text-sm">{{ $t(`trades.${directionKey}.receive`) }}</span>
+      </div>
+
       <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 items-center">
         <template v-if="isSwap">
           <div class="min-w-0 overflow-hidden">
@@ -218,6 +226,8 @@ import { blank } from '@/components/collection/activity/events/eventRow/common'
 import type { TradeNftItem, TradeConsidered, TradeToken } from '@/components/trade/types'
 import type { SwapSurcharge } from '@/composables/transaction/types'
 
+type TradeItem = { item: TradeToken | TradeConsidered, surcharge: SwapSurcharge }
+
 defineEmits(['select', 'counter-swap'])
 
 const props = defineProps<{
@@ -233,8 +243,6 @@ const { formatted: amount, usd: price } = useAmount(
   decimals,
   chainSymbol,
 )
-
-type TradeItem = { item: TradeToken | TradeConsidered, surcharge: SwapSurcharge }
 
 const getRowConfig = (): { offered: TradeItem, desired: TradeItem } => {
   const direction = props.trade.surcharge!
@@ -271,6 +279,7 @@ const { offered, desired } = getRowConfig()
 const { isOffer, isSwap } = useTradeType(computed(() => props.trade))
 
 const targetAddress = computed(() => props.target === 'to' ? (props.trade.desired || props.trade.considered).currentOwner : props.trade.caller)
+const directionKey = computed(() => props.target === 'to' ? 'outgoing' : 'incoming')
 
 const mobileGap = computed(() => isOffer.value ? 'gap-[10px]' : 'gap-5')
 const isDesktop = computed(() => props.variant === 'Desktop')
