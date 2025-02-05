@@ -260,7 +260,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
     color: rgba(var(--black)) !important;
 
     &:hover {
-      background-color: var(--k-shade) !important;
+      background-color: rgba(var(--k-shade)) !important;
     }
   }
 }
