@@ -14,6 +14,7 @@ export type IPFSProviders =
   | 'kodadot'
   | 'image'
   | 'nftStorage'
+  | 'ipfsio'
 
 export const kodaImage = isProduction ? SERVICES.image : SERVICES.imageBeta
 
@@ -24,6 +25,7 @@ const ipfsProviders: Partial<Record<IPFSProviders, string>> = {
   dweb: 'https://dweb.link/',
   image: kodaImage,
   nftStorage: 'https://nftstorage.link/',
+  ipfsio: 'https://ipfs.io/',
 }
 export const getIPFSProvider = (providerName: IPFSProviders): string => {
   return ipfsProviders[providerName] || (ipfsProviders['image'] as string)
