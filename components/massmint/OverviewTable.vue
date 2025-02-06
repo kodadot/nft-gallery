@@ -161,18 +161,18 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
-    nfts: undefined,
+    nfts: () => ({}),
     collectionId: undefined,
   },
 )
 
 const { getAttributeRarity } = useCollectionAttributes({
   collectionId: computed(() => props.collectionId),
-  extraNfts: computed(() => Object.values(props.nfts || {})),
+  extraNfts: computed(() => Object.values(props.nfts)),
 })
 
 const displayedNFTS = computed<NFT[]>(() =>
-  Object.values(props.nfts || {}).slice(0, offset.value).map(addStatus),
+  Object.values(props.nfts).slice(0, offset.value).map(addStatus),
 )
 
 const openSideBarWith = (nft: NFT) => {

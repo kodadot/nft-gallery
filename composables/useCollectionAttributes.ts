@@ -19,7 +19,16 @@ export const useCollectionAttributes = ({ collectionId, extraNfts }: { collectio
   const nftsList = computed(() => (nftsListData.value || []).concat(
     extraNfts?.value
       .map(nft => ({ meta: {
-        attributes: nft.attributes?.filter(attr => String(attr.trait_type) && String(attr.value)).map(attr => ({ trait: attr.trait_type, value: String(attr.value) })) } })) || []))
+        attributes:
+          nft.attributes
+            ?.filter(attr => String(attr.trait_type) && String(attr.value))
+            .map(attr => ({
+              trait: attr.trait_type,
+              value: String(attr.value),
+            })),
+      } }))
+      || [],
+  ))
 
   const attributesList = computed<Attribute[]>(() => {
     return (nftsList.value || []).reduce((acc, nft) => {
