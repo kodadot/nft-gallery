@@ -11,15 +11,10 @@ import type { Extrinsic } from '@/utils/transactionExecutor'
 import type { Metadata } from '@/services/nftStorage'
 
 type SuccessFunctionMessage = (blockNumber: string) => string
-export type ObjectMessage = {
-  message: string | SuccessFunctionMessage
-  large: boolean
-  shareLink?: string
-}
+
 export type ExecuteTransactionSuccessMessage =
   | string
   | SuccessFunctionMessage
-  | ObjectMessage
 
 type BaseExecuteTransactionParams = {
   arg: any[]
@@ -311,6 +306,18 @@ export interface ActionSetNftMetadata {
   errorMessage?: string
 }
 
+export enum CollectionMintSettingType {
+  Issuer = 'Issuer',
+  Public = 'Public',
+  HolderOf = 'HolderOf',
+}
+
+export type CollectionMintSetting = {
+  price: string
+  mintType: CollectionMintSettingType
+  holderOf?: string
+}
+
 export type SetNftMetadataParams = BaseUnionMintParams<ActionSetNftMetadata> & { api: ApiPromise }
 
 export type UpdateCollection = {
@@ -320,6 +327,7 @@ export type UpdateCollection = {
   imageType?: string
   banner?: File | string | null
   max: number | null
+  mintingSettings: CollectionMintSetting
 }
 
 export type UpdateCollectionParams = BaseUnionMintParams<ActionUpdateCollection> & { api: ApiPromise }
@@ -328,7 +336,7 @@ export interface ActionUpdateCollection {
   interaction: Collections.UPDATE_COLLECTION
   collectionId: string
   collection: UpdateCollection
-  update: { max: boolean, metadata: boolean }
+  update: { max: boolean, metadata: boolean, permission: boolean }
   urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string

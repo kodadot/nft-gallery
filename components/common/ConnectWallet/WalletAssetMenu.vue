@@ -53,7 +53,7 @@
               :data-testid="`sidebar-language-${lang.value}`"
               :value="lang.value"
               :class="{ 'is-active': $i18n.locale === lang.value }"
-              @click="setUserLocale(lang.value)"
+              @click="usePreferencesStore().setUserLocale(lang.value)"
             >
               <span>{{ lang.flag }} {{ lang.label }}</span>
             </NeoDropdownItem>
@@ -81,7 +81,6 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
-import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
@@ -116,8 +115,6 @@ const closeModal = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .wallet-asset-menu {
   display: flex;
   justify-content: space-between;
@@ -132,28 +129,24 @@ const closeModal = () => {
 .wallet-asset-footer {
   border-top: 1px solid grey;
   justify-content: space-between;
-  @include mobile {
-    justify-content: center;
-    .language-selector {
-      margin: 0 2rem;
-    }
+
+  @apply bulma-mobile:justify-center;
+
+  .language-selector {
+    @apply bulma-mobile:my-8 bulma-mobile:mx-0;
   }
 
   & > * {
     @apply cursor-pointer flex gap-1;
 
     &:hover {
-      @include ktheme() {
-        color: theme('text-color');
-      }
+      @apply text-text-color;
     }
   }
 
-  @include tablet {
-    // manually center dropdown menu, because no props "postition" to center it
-    :deep(.o-drop__menu) {
-      transform: translateX(50px);
-    }
+  /* manually center dropdown menu, because no props "position" to center it */
+  :deep(.o-drop__menu) {
+    @apply bulma-tablet:translate-x-[50px]
   }
 }
 </style>

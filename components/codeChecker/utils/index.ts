@@ -1,17 +1,18 @@
 import type { ZipEntry } from 'unzipit'
 import { unzip } from 'unzipit'
 import { blake2AsHex } from '@polkadot/util-crypto'
-import config from './codechecker.config'
-import type { AssetMessage } from './types'
+import config from '../codechecker.config'
+import type { AssetMessage } from '../types'
+import { hasFileProcessing, processFile } from './processing'
 
 type FileEntry = { path: string, content: string }
 
-const cleanFileName = (path) => {
+const cleanFileName = (path): string => {
   const parts = path.split('/')
   return parts[parts.length - 1] // Returns only the file name
 }
 
-const createBlobUrlForEntry = async (entry, mimeType) => {
+const createBlobUrlForEntry = async (entry: ZipEntry, mimeType: string) => {
   const blob = await entry.blob()
   const typedBlob = new Blob([blob], { type: mimeType })
   return URL.createObjectURL(typedBlob)
@@ -39,8 +40,7 @@ const extractAssetAttributes = (
 // process and add a single asset to the assets array
 const processAsset = async (element, entries, assets) => {
   const attributes = extractAssetAttributes(element)
-  const assetType
-    = element.tagName.toLowerCase() === 'script' ? 'script' : 'style'
+  const assetType = element.tagName.toLowerCase() === 'script' ? 'script' : 'style'
 
   const asset: AssetMessage = {
     type: assetType,
@@ -55,15 +55,28 @@ const processAsset = async (element, entries, assets) => {
   }
 
   const cleanName = cleanFileName(attributes.srcOrHref)
-  const matchingEntryKey = Object.keys(entries).find(key =>
-    key.endsWith(cleanName),
-  )
+  const matchingEntryKey = Object
+    .keys(entries)
+    .find(key => key.endsWith(cleanName))
 
-  if (matchingEntryKey) {
-    const blobUrl = await createBlobUrlForEntry(
-      entries[matchingEntryKey],
-      attributes.mimeType,
-    )
+  if (!matchingEntryKey) {
+    return
+  }
+
+  const entry = entries[matchingEntryKey] as ZipEntry
+
+  if (hasFileProcessing(cleanName)) {
+    const blobUrl = await processFile({
+      entry,
+      entries,
+      mimeType: attributes.mimeType,
+      fileName: cleanName,
+    })
+    asset.src = blobUrl
+    assets.push(asset)
+  }
+  else {
+    const blobUrl = await createBlobUrlForEntry(entry, attributes.mimeType)
     asset.src = blobUrl
     assets.push(asset)
   }
@@ -162,7 +175,7 @@ export const extractAssetsFromZip = async (
 export const createSandboxAssets = async (
   indexFile: FileEntry,
   entries: { [key: string]: ZipEntry },
-) => {
+): Promise<Array<AssetMessage>> => {
   const assets: Array<AssetMessage> = []
   const htmlContent = indexFile.content
   const parser = new DOMParser()
@@ -175,6 +188,7 @@ export const createSandboxAssets = async (
   for (const element of assetElements) {
     await processAsset(element, entries, assets)
   }
+
   return assets
 }
 

@@ -1,10 +1,5 @@
 <template>
   <section class="py-5 gallery-item">
-    <MessageNotify
-      v-if="congratsNewNft"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])"
-    />
     <div class="flex flex-col lg:flex-row">
       <div class="w-full lg:w-2/5 lg:pr-7 group">
         <div
@@ -184,7 +179,6 @@ import { useGalleryItem } from './useGalleryItem'
 import { GALLERY_ITEM_TABS } from '@/components/gallery/GalleryItemTabsPanel/types'
 import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { exist } from '@/utils/exist'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { resolveMedia, MediaType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
@@ -197,8 +191,6 @@ const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
-const route = useRoute()
-const router = useRouter()
 const { placeholder } = useTheme()
 const mediaItemRef = ref<{
   isLewdBlurredLayer: boolean
@@ -249,15 +241,6 @@ watch(triggerOfferSuccess, (value) => {
     activeTab.value = GALLERY_ITEM_TABS.OFFERS
     preferencesStore.setTriggerOfferSuccess(false)
   }
-})
-
-const congratsNewNft = ref('')
-
-onMounted(() => {
-  exist(route.query.congratsNft as string, (val) => {
-    congratsNewNft.value = val || ''
-    router.replace({ query: {} })
-  })
 })
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
@@ -338,17 +321,13 @@ onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
+  background-color: var(--background-color);
+
   .media-object {
-    @include ktheme() {
-      box-shadow: none;
-      border: none;
-    }
+    box-shadow: none;
+    border: none;
   }
 
   img {
@@ -360,7 +339,6 @@ onBeforeMount(() => fiatStore.fetchFiatPrice())
 </style>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;
@@ -382,10 +360,7 @@ $break-point-width: 930px;
 }
 
 .back-button {
-  @apply fixed z-[1] left-3 top-8;
-  @include desktop {
-    left: $fluid-container-padding;
-  }
+  @apply fixed z-[1] left-3 top-8 bulma-desktop:left-[2.5rem];
 }
 
 #nft-img-container.fullscreen-fallback {
@@ -394,11 +369,9 @@ $break-point-width: 930px;
 
 .fullscreen-button {
   @apply absolute z-[2] hidden w-[35px] h-[35px] border border-solid right-11 top-8;
-  @include ktheme() {
-    background-color: rgba(theme('background-color'), 0.15);
-    border-color: rgba(theme('background-color'), 0.3);
-    color: theme('text-color');
-  }
+  background-color: rgba(var(--background-color), 0.15);
+  border-color: rgba(var(--background-color), 0.3);
+  color: var(--text-color);
 }
 
 @media screen and (max-width: $break-point-width) {
@@ -424,25 +397,19 @@ $break-point-width: 930px;
     }
 
     .o-car__overlay {
-      @include ktheme() {
-        background: theme('background-color');
-      }
+      background: var(--background-color);
     }
 
     .o-car__indicator {
       &__item {
         @apply rounded-[50%];
 
-        @include ktheme() {
-          background: theme('background-color-inverse');
-          border: theme('background-color-inverse');
-        }
+        background: var(--background-color-inverse);
+        border: var(--background-color-inverse);
 
         &--active {
-          @include ktheme() {
-            background: theme('k-primary');
-            border: theme('k-primary');
-          }
+          background: var(--k-primary);
+          border: var(--k-primary);
         }
       }
     }

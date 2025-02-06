@@ -75,12 +75,12 @@
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <template v-if="trade.expirationDate">
-          <div v-if="isExpired">
+          <div v-if="trade.isExpired">
             <span>{{ $t('expired') }}</span>
           </div>
           <div v-else>
             <span>{{ format(trade.expirationDate, EXPIRATION_FORMAT) }}</span>
-            <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, isExpired) }})</span>
+            <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, trade.isExpired) }})</span>
           </div>
         </template>
         <span v-else>
@@ -147,12 +147,12 @@
         {{ blank }}
       </div>
       <template v-if="trade.expirationDate">
-        <div v-if="isExpired">
+        <div v-if="trade.isExpired">
           <span>{{ $t('expired') }}</span>
         </div>
         <div v-else>
           <span>{{ format(trade.expirationDate, EXPIRATION_FORMAT) }}</span>
-          <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, isExpired) }})</span>
+          <span class="text-k-grey ml-3">({{ formatToNow(trade.expirationDate, trade.isExpired) }})</span>
         </div>
       </template>
       <span v-else>
@@ -241,7 +241,6 @@ const image = ref()
 const animationUrl = ref()
 
 const isDesktop = computed(() => props.variant === 'Desktop')
-const isExpired = computed(() => props.trade.status === TradeStatus.EXPIRED)
 
 const isTradeCollection = computed(() => desiredType === TradeDesiredType.COLLECTION)
 const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)

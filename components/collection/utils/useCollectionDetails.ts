@@ -104,7 +104,7 @@ export function useCollectionSoldData({ address, collectionId }) {
 export const useCollectionMinimal = ({
   collectionId,
 }: {
-  collectionId: Ref<string>
+  collectionId: Ref<string | undefined>
 }) => {
   const { urlPrefix, client } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)

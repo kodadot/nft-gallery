@@ -145,12 +145,3 @@ const { usd: formattedPrice } = useAmount(
   computed(() => chainPropList.tokenSymbol),
 )
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-.is-ellipsis {
-  @include mobile {
-    white-space: unset;
-  }
-}
-</style>
