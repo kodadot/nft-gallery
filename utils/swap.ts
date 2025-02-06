@@ -1,4 +1,5 @@
 import { SwapStep } from '@/components/swap/types'
+import type { TradeToken } from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 export const SWAP_ROUTE_NAME_STEP_MAP = {

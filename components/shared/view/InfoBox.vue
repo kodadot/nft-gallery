@@ -57,13 +57,11 @@ const onClose = () => {
 $border_size: 1px;
 
 @mixin variantTheme($borderColor, $backgroundColor) {
-  border: $border_size solid $borderColor;
-  background-color: $backgroundColor;
+  border: $border_size solid var($borderColor);
+  background-color: var($backgroundColor);
 
   .header-container {
-    @include ktheme() {
-      border-bottom: $border_size solid $borderColor;
-    }
+    border-bottom: $border_size solid var($borderColor);
   }
 }
 
@@ -79,37 +77,33 @@ $border_size: 1px;
       font-weight: 700;
       margin-bottom: 0;
 
-      @include ktheme() {
-        color: theme('text-color');
-      }
+      color: var(--text-color);
     }
   }
 
   .body-container {
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    color: var(--text-color);
   }
 
   &__success {
-    @include ktheme() {
-      @include variantTheme(
-        theme('green-border-color'),
-        theme('k-greenaccent2')
-      );
-    }
+    @include variantTheme(
+      --green-border-color,
+      --k-green-accent-2
+    );
   }
 
   &__fail {
-    @include ktheme() {
-      @include variantTheme(theme('k-red'), theme('k-redaccent2'));
-    }
+    @include variantTheme(
+      --k-red,
+      --k-red-accent-2
+    );
   }
 
   &__warning {
-    @include ktheme() {
-      @include variantTheme(theme('k-orange'), theme('k-yellow'));
-    }
+    @include variantTheme(
+      --k-orange,
+      --k-yellow
+    );
   }
 }
 </style>
