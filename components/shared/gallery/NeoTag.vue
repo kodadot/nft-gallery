@@ -60,12 +60,12 @@ const onClose = () => {
 
   &--transparent {
     border: 1px solid var(--border-color);
-    background: transparent;
+    background: transparent !important;
   }
 
   &--k-blue {
     border: 1px solid var(--k-blue);
-    background-color: var(--blue-light-hover-color);
+    background-color: var(--blue-light-hover-color) !important;
   }
 
   &.tag-size {
