@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1 relative z-[1]">
+      <h1 class="title is-1 relative z-[1] !text-text-color-inverse text-shadow-border">
         KodaDot Blog
       </h1>
       <div class="relative z-[1] text-2xl mb-20 font-medium">
@@ -163,19 +163,6 @@ const { data: posts } = useAsyncData('posts', async () => {
 
     h1 {
       letter-spacing: -0.02em;
-      @include ktheme() {
-        color: theme('text-color-inverse');
-        text-shadow:
-          1px 1px 0 theme('text-color'),
-          1px -1px 0 theme('text-color'),
-          -1px 1px 0 theme('text-color'),
-          -1px -1px 0 theme('text-color'),
-          1px 0px 0 theme('text-color'),
-          0px 1px 0 theme('text-color'),
-          -1px 0px 0 theme('text-color'),
-          0px -1px 0 theme('text-color'),
-          4px 4px theme('text-color');
-      }
     }
 
     @include touch {
@@ -198,21 +185,19 @@ const { data: posts } = useAsyncData('posts', async () => {
       @apply border-b border-card-border-color;
     }
 
-    @include ktheme() {
-      border: 1px solid theme('card-border-color');
-      background-color: theme('background-color');
+    border: 1px solid var(--card-border-color);
+    background-color: var(--background-color);
 
-      &:hover {
-        border-color: theme('border-color');
+    &:hover {
+      border-color: var(--border-color);
 
-        p,
-        div {
-          color: theme('text-color');
-        }
+      p,
+      div {
+        color: var(--text-color);
+      }
 
-        .content-board-cover {
-          opacity: theme('card-hover-opacity');
-        }
+      .content-board-cover {
+        opacity: var(--card-hover-opacity);
       }
     }
 
@@ -280,9 +265,7 @@ const { data: posts } = useAsyncData('posts', async () => {
       width: 20rem;
 
       .card-tag {
-        @include ktheme() {
-          color: theme('k-grey-fix');
-        }
+        color: var(--k-grey-fix);
       }
 
       .truncate {
@@ -300,14 +283,12 @@ const { data: posts } = useAsyncData('posts', async () => {
       }
     }
 
-    @include ktheme() {
-      background-color: theme('k-white');
-      border: 1px solid theme('border-color');
-      box-shadow: 4px 4px 0px 0px theme('border-color');
+    background-color: var(--k-white);
+    border: 1px solid var(--border-color);
+    box-shadow: 4px 4px 0px 0px var(--border-color);
 
-      &-cover {
-        border-right: 1px solid theme('border-color');
-      }
+    &-cover {
+      border-right: 1px solid var(--border-color);
     }
 
     @include touch {
