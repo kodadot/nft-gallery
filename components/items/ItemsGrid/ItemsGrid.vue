@@ -131,7 +131,6 @@ import { useListingCartStore } from '@/stores/listingCart'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import type { NFT } from '@/types'
 import type { GridSection } from '@/stores/preferences'
-import { fetchOdaToken } from '@/services/oda'
 
 const slots = useSlots()
 
@@ -213,6 +212,7 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   isLoading,
   resetSearch: resetPage,
   resetSearchQueryParams: props.resetSearchQueryParams,
+  fetchOnchainData: props.fetchOnchainData,
 })
 
 watch(
@@ -289,47 +289,4 @@ const getSkeletonVariant = (slotProps) => {
   }
   return 'primary'
 }
-
-const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
-
-const processOnchainData = useDebounceFn(async () => {
-  items.value = await Promise.all(items.value.map(async (item) => {
-    if ('onchainData' in item && item.onchainData) {
-      return item
-    }
-
-    if (item.sn && !isTokenEntity(item)) {
-      const tokenData = await fetchOdaToken(urlPrefix.value, item.collection.id, item.sn)
-
-      if (tokenData.metadata && tokenData.metadata_uri) {
-        const odaItem = {
-          ...item,
-          name: tokenData.metadata?.name || item.meta.name,
-          meta: {
-            ...item.meta,
-            name: tokenData.metadata?.name || item.meta.name,
-            id: tokenData.metadata?.image || item.meta.id,
-            image: tokenData.metadata?.image || item.meta.image,
-            animationUrl: tokenData.metadata?.animation_url || item.meta.animationUrl,
-          },
-          onchainData: true,
-        }
-
-        return odaItem
-      }
-    }
-
-    return {
-      ...item,
-      name: item.collection.name,
-    }
-  }))
-}, 500)
-
-watch(() => items.value.length, () => {
-  if (isAssetHub.value && items.value.length && props.fetchOnchainData) {
-    processOnchainData()
-  }
-}, { immediate: true })
 </script>
