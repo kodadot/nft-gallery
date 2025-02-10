@@ -295,11 +295,15 @@ const { isAssetHub } = useIsChain(urlPrefix)
 
 const processOnchainData = useDebounceFn(async () => {
   items.value = await Promise.all(items.value.map(async (item) => {
+    if ('onchainData' in item && item.onchainData) {
+      return item
+    }
+
     if (item.sn && !isTokenEntity(item)) {
       const tokenData = await fetchOdaToken(urlPrefix.value, item.collection.id, item.sn)
 
       if (tokenData.metadata && tokenData.metadata_uri) {
-        return {
+        const odaItem = {
           ...item,
           name: tokenData.metadata?.name || item.meta.name,
           meta: {
@@ -309,7 +313,10 @@ const processOnchainData = useDebounceFn(async () => {
             image: tokenData.metadata?.image || item.meta.image,
             animationUrl: tokenData.metadata?.animation_url || item.meta.animationUrl,
           },
+          onchainData: true,
         }
+
+        return odaItem
       }
     }
 
