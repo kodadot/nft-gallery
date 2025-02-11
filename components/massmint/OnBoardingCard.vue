@@ -40,27 +40,20 @@ defineProps<{
       padding: 0.75rem !important;
     }
   }
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    background: theme('background-color');
-    border: 1px solid theme('border-color');
-  }
+  box-shadow: var(--primary-shadow);
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+
   .card__content {
-    @include ktheme() {
-      color: theme('text-color') !important;
-    }
+    color: var(--text-color) !important;
     .content {
-      @include ktheme() {
-        color: theme('text-color') !important;
-      }
+      color: var(--text-color) !important;
       @include tablet {
         font-size: 1.25rem !important;
       }
 
       :deep(a) {
-        @include ktheme() {
-          color: theme('k-blue') !important;
-        }
+        color: var(--k-blue) !important;
       }
     }
   }
