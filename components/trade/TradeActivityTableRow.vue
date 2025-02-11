@@ -202,6 +202,13 @@ import {
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import { TradeInteraction } from '@/composables/collectionActivity/types'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import {
+  type TradeToken,
+  type TradeConsidered,
+  type TradeNftItem,
+  TradeType,
+  TradeDesiredTokenType,
+} from '@/components/trade/types'
 
 const EXPIRATION_FORMAT = 'dd.MM. HH:MM'
 
@@ -218,10 +225,10 @@ const getRowConfig = () => {
   return props.target === 'from'
     ? {
         item: props.trade.offered,
-        desiredType: TradeDesiredType.TOKEN,
+        desiredType: TradeDesiredTokenType.SPECIFIC,
       }
     : {
-        item: props.trade.isEntireCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken,
+        item: props.trade.isAnyTokenInCollectionDesired ? props.trade.considered : props.trade.desired as TradeToken,
         desiredType: props.trade.desiredType,
       }
 }
@@ -242,13 +249,17 @@ const animationUrl = ref()
 
 const isDesktop = computed(() => props.variant === 'Desktop')
 
-const isTradeCollection = computed(() => desiredType === TradeDesiredType.COLLECTION)
-const itemPath = computed(() => isTradeCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)
+const isItemCollection = computed(() => desiredType === TradeDesiredTokenType.ANY_IN_COLLECTION)
+const itemPath = computed(() => isItemCollection.value ? `/${urlPrefix.value}/collection/${item.id}` : `/${urlPrefix.value}/gallery/${item.id}`)
 
 const targetAddress = computed(() => props.target === 'to' ? item.currentOwner : props.trade.caller)
 const interactionName = computed(() => interactionNameMap()[interaction])
 
 const getAvatar = async (nft) => {
+  if (!nft.metadata) {
+    return
+  }
+
   const meta = await getNftMetadata(nft)
   image.value = meta.image
   animationUrl.value = meta.animationUrl
@@ -257,8 +268,8 @@ const getAvatar = async (nft) => {
 // TODO imporve nft fetching
 onBeforeMount(() => {
   const fetchImageMap = {
-    [TradeDesiredType.TOKEN]: (item: Item) => fetchNft(item.id).then(getAvatar),
-    [TradeDesiredType.COLLECTION]: (item: Item) => image.value = sanitizeIpfsUrl(item.image),
+    [TradeDesiredTokenType.SPECIFIC]: (item: Item) => fetchNft(item.id).then(getAvatar),
+    [TradeDesiredTokenType.ANY_IN_COLLECTION]: (item: Item) => image.value = sanitizeIpfsUrl(item.image),
   }
 
   fetchImageMap[desiredType]?.(item)

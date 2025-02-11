@@ -13,7 +13,10 @@
               <div class="font-bold is-size-5 mb-4 capitalize">
                 {{ $t('tooltip.created') }}
               </div>
-              <CollectionDropCreatedBy :address="address" />
+              <CollectionDropCreatedBy
+                :address="address"
+                :show-popover="false"
+              />
             </div>
             <div
               v-if="ownerAddresses.length"
@@ -48,6 +51,11 @@
           />
 
           <CollectionUnlockableTag :collection-id="drop?.collection" />
+
+          <CollectionDropRefreshMetadata
+            :collection-id="drop?.collection"
+            :chain="drop?.chain"
+          />
         </div>
 
         <div

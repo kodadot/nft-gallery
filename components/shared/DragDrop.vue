@@ -112,8 +112,6 @@ const onFileSelected = (file: File) => {
   max-width: 25rem;
 }
 .hover-color:deep(.o-upl__draggable--hovered) {
-  @include ktheme() {
-    background-color: theme('k-primaryLight');
-  }
+  background-color: var(--k-primary-light);
 }
 </style>

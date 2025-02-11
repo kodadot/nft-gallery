@@ -1,0 +1,11 @@
+query collectionIdList(
+  $search: CollectionEntityWhereInput
+  $orderBy: [CollectionEntityOrderByInput!] = [blockNumber_DESC]
+) {
+  collectionEntities(
+    orderBy: $orderBy
+    where: $search
+  ) {
+      id
+  }
+}

@@ -1,7 +1,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Abi } from '@/composables/transaction/types'
 
-const BASE_URL = isProduction ? 'https://oda.koda.art' : 'https://oda-beta.koda.art'
+const BASE_URL = isProduction ? 'https://oda.koda.art' : 'https://5977602c-oda-beta.kodadot.workers.dev'
 const api = $fetch.create({ baseURL: BASE_URL, retry: 3 })
 
 type OnchainCollection = {
