@@ -40,6 +40,7 @@ export type TokenEntity = {
     name: string
     floorPrice: [{ price: string }]
   }
+  sn?: string
 }
 
 export type NFTOffer = {
