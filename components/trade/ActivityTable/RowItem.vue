@@ -55,7 +55,7 @@ const animationUrl = ref()
 
 const { urlPrefix } = usePrefix()
 
-const itemPath = computed(() => `/${urlPrefix.value}/gallery/${props.id}`)
+const itemPath = computed(() => `/${urlPrefix.value}/gallery/${props.item?.id}`)
 
 const getItem = async (id: string): Promise<ItemMedia> => {
   const nft = await fetchNft(id)
