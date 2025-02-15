@@ -3,6 +3,7 @@ import type {
   EntityWithId,
   NFTMetadata,
 } from '@/types'
+import { type SwapSurchargeDirection } from '@/composables/transaction/types'
 
 export type MakingOfferItem = {
   urlPrefix: string
@@ -56,6 +57,7 @@ export type BaseTrade = {
   desired: TradeToken | null
   considered: TradeConsidered
   createdAt: Date
+  surcharge: SwapSurchargeDirection | null
 }
 
 export enum TradeDesiredTokenType {
@@ -68,19 +70,22 @@ export enum TradeType {
   OFFER = 'offer',
 }
 
-export type Swap = BaseTrade & {
-  surcharge: string | null
-}
+export type Swap = BaseTrade
 
 export type Offer = BaseTrade
 
 type Trade = Swap | Offer
+
+export type TradeTarget = {
+  id: string
+  currentOwner: string
+}
 
 export type TradeNftItem<T = Trade> = T & {
   expirationDate: Date
   type: TradeType
   desiredType: TradeDesiredTokenType
   isAnyTokenInCollectionDesired: boolean
-  targets: string[]
+  targets: TradeTarget[]
   isExpired: boolean
 }

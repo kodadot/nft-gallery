@@ -35,17 +35,30 @@
         :loading="loading"
       >
         <template #columns>
+          <template v-if="isTradeSwap(type)">
+            <div class="flex-1">
+              <span>{{ $t(`trades.${activeTab}.send`) }}</span>
+            </div>
+            <div class="flex-1 max-w-10">
+              <span />
+            </div>
+            <div class="flex-1">
+              <span>{{ $t(`trades.${activeTab}.receive`) }}</span>
+            </div>
+          </template>
+          <template v-else>
+            <div class="flex-1">
+              <span>{{ $t('activity.event.item') }}</span>
+            </div>
+            <div class="flex-1">
+              <span>{{ $t('activity.event.amount') }}</span>
+            </div>
+          </template>
           <div class="flex-1">
-            <span>{{ $t('activity.event.item') }}</span>
-          </div>
-          <div class="w-1/12">
-            <span>{{ $t('activity.event.event') }}</span>
+            <span> {{ isTradeSwap(type) ? $t(`swap.counterparty`) : $t(`activity.event.${tabTarget}`) }} </span>
           </div>
           <div class="flex-1">
-            <span>{{ $t('activity.event.amount') }}</span>
-          </div>
-          <div class="flex-1">
-            <span> {{ $t(`activity.event.${tabTarget}`) }} </span>
+            <span />
           </div>
           <div class="flex-1">
             <span>{{ $t('expiration') }}</span>
@@ -63,7 +76,7 @@
             :trade="item"
             :target="tabTarget"
             :variant="variant"
-            @counter-swap="() => onCounterSwapClick(item)"
+            @counter-swap="() => counterSwap(item)"
             @select="() => {
               selectedTrade = item
               isTradeModalOpen = true
@@ -86,11 +99,7 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
-import type {
-  TradeType,
-  Swap,
-  TradeNftItem,
-} from '@/components/trade/types'
+import type { TradeType, TradeNftItem } from '@/components/trade/types'
 
 type TradeTabType = 'outgoing' | 'incoming'
 export type TradeTableQuery = Record<TradeTabType, string>
@@ -101,7 +110,6 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
-const swapStore = useAtomicSwapStore()
 const { replaceUrl } = useReplaceUrl()
 
 const dataKey = TRADES_QUERY_MAP[props.type].dataKey
@@ -143,32 +151,6 @@ const where = computed(() => {
 })
 
 const { items: trades, loading: loadingTrades } = useTrades({ where, disabled: computed(() => !Object.keys(where.value).length), type: props.type })
-
-const onCounterSwapClick = (trade: TradeNftItem) => {
-  if (!trade.desired) {
-    return
-  }
-
-  const withFields: CrateSwapWithFields = {
-    desired: [tradeToSwapItem(trade.offered)],
-    offered: [tradeToSwapItem(trade.desired)],
-  }
-
-  const tSwap = trade as TradeNftItem<Swap>
-
-  if (tSwap.surcharge) {
-    Object.assign(withFields, {
-      surcharge: {
-        amount: tSwap.price,
-        direction: tSwap.surcharge,
-      },
-    })
-  }
-
-  const swap = swapStore.createSwap(trade.caller, withFields)
-
-  navigateToSwap(swap)
-}
 
 watch(activeTab, value => replaceUrl({ filter: value }))
 

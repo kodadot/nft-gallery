@@ -19,11 +19,6 @@ export type InteractionWithNFT = InteractionType & {
   timestamp: number
 }
 
-export enum TradeInteraction {
-  OFFER = 'OFFER',
-  SWAP = 'SWAP',
-}
-
 export type NFTHistoryState = {
   owner: string
   nft: NFTExcludingEvents

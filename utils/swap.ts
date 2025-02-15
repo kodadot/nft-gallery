@@ -1,5 +1,5 @@
 import { SwapStep } from '@/components/swap/types'
-import type { TradeToken } from '@/components/trade/types'
+import type { TradeToken, TradeNftItem } from '@/components/trade/types'
 import type { NFT } from '@/types'
 
 export const SWAP_ROUTE_NAME_STEP_MAP = {
@@ -72,4 +72,29 @@ export const tradeToSwapItem = (token: TradeToken): SwapItem => {
     name: token.name,
     meta: token.meta,
   }
+}
+
+export const counterSwap = (trade: TradeNftItem) => {
+  if (!trade.desired) {
+    // collection swaps are not supported yet
+    return
+  }
+
+  const withFields: CrateSwapWithFields = {
+    desired: [tradeToSwapItem(trade.offered)],
+    offered: [tradeToSwapItem(trade.desired)],
+  }
+
+  if (trade.surcharge) {
+    Object.assign(withFields, {
+      surcharge: {
+        amount: trade.price,
+        direction: trade.surcharge,
+      },
+    })
+  }
+
+  const swap = useAtomicSwapStore().createSwap(trade.caller, withFields)
+
+  navigateToSwap(swap)
 }

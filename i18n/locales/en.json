@@ -8,6 +8,7 @@
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
   "about": "About",
+  "accept": "Accept",
   "account": "Account",
   "accounts": "Accounts",
   "action": {
@@ -2006,8 +2007,15 @@
       "week": "7D"
     }
   },
-  "trade": { "selectSendItem": "Select NFT First" },
-  "trades": { "incomingTrades": "Incoming Offers/Trades" },
+  "trades": {
+    "anyNftFrom": "Any NFT From",
+    "expiresIn": "Expires In",
+    "incoming": { "receive": "They Want", "send": "They Offer" },
+    "incomingTrades": "Incoming Offers/Trades",
+    "outgoing": { "receive": "You Get", "send": "You Offer" },
+    "requests": "Requests {0}",
+    "selectSendItem": "Select NFT First"
+  },
   "transaction": {
     "acceptOffer": "Accept Offer",
     "acceptSwap": "Accept Swap",
