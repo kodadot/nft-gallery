@@ -59,7 +59,7 @@ const onClose = () => {
 
   &--transparent {
     border: 1px solid var(--border-color);
-    background: transparent;
+    background: transparent !important;
   }
 
   &--k-blue {
