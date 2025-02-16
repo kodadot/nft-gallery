@@ -55,7 +55,36 @@
             {{ $t('swap.reviewCounterpartyAccept') }}
           </p>
 
+          <div
+            v-if="swap.isCollectionSwap"
+            class="flex flex-col gap-4 !my-10"
+          >
+            <DynamicGrid
+              :grid-section="GridSection.PROFILE_GALLERY"
+              grid-size="medium"
+              :mobile-cols="2"
+              class="my-5"
+            >
+              <ItemsGridImage
+                v-for="(nft, index) in desiredNfts"
+                :key="index"
+                :nft="nft"
+                hide-action
+                collection-popover-hide
+                hide-listing
+                skeleton-variant="primary"
+                hide-video-controls
+                variant="minimal"
+              />
+
+              <SwapSurchargeCard
+                v-if="surcharge?.direction === 'Receive'"
+                :surcharge="surcharge"
+              />
+            </DynamicGrid>
+          </div>
           <SwapGridList
+            v-else
             :query="desiredQuery"
             class="!my-10"
             :surcharge="surcharge?.direction === 'Receive' ? surcharge : undefined"
@@ -84,7 +113,7 @@
           size="large"
           no-shadow
           :label="$t('swap.modifyOffer')"
-          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
+          @click="onModifyOfferClick"
         />
 
         <NeoButton
@@ -110,6 +139,9 @@
 <script setup lang="ts">
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
 import { successMessage } from '@/utils/notification'
+import ItemsGridImage from '@/components/items/ItemsGrid/ItemsGridImage.vue'
+import type { NFTWithMetadata } from '@/composables/useNft'
+import { SwapStep } from '@/components/swap/types'
 
 const router = useRouter()
 const { $i18n } = useNuxtApp()
@@ -122,6 +154,8 @@ const { swap } = storeToRefs(swapStore)
 const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
 const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
 
+const desiredNfts = computed(() => swap.value?.desired as NFTWithMetadata[])
+
 const toTokenToSwap = (item: SwapItem) => ({
   id: item.id,
   collectionId: item.collectionId,
@@ -129,6 +163,10 @@ const toTokenToSwap = (item: SwapItem) => ({
 })
 
 const surcharge = computed(() => swap.value?.surcharge)
+
+const onModifyOfferClick = () => {
+  router.push({ name: getSwapStepRouteName(SwapStep.DESIRED, swap.value?.isCollectionSwap), params: { id: swap.value?.counterparty }, query: { swapId: swap.value?.id } })
+}
 
 const submit = () => {
   if (!swap.value) {

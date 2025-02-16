@@ -6,6 +6,7 @@
       <SwapBannerAccounts
         :creator="swap.creator"
         :counterparty="swap.counterparty"
+        :is-collection-swap="swap.isCollectionSwap"
       />
     </div>
 

@@ -7,6 +7,7 @@
       <CollectionDropCreatedBy
         v-if="creator"
         :address="creator"
+        :show-popover="false"
       />
       <Auth v-else />
     </div>
@@ -21,7 +22,15 @@
       <div class="font-bold text-xl capitalize">
         {{ $t('swap.counterparty') }}
       </div>
-      <CollectionDropCreatedBy :address="counterparty" />
+      <SwapBannerCollectionPreview
+        v-if="isCollectionSwap"
+        :collection-id="counterparty"
+      />
+      <CollectionDropCreatedBy
+        v-else
+        :address="counterparty"
+        :show-popover="false"
+      />
     </div>
   </div>
 </template>
@@ -32,5 +41,6 @@ import { NeoIcon } from '@kodadot1/brick'
 defineProps<{
   creator?: string
   counterparty: string
+  isCollectionSwap?: boolean
 }>()
 </script>

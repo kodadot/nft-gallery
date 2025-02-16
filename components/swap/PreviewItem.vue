@@ -22,6 +22,7 @@
     </div>
 
     <NeoButton
+      v-if="!hideRemove"
       size="small"
       variant="icon"
       icon="xmark"
@@ -39,5 +40,6 @@ defineProps<{
   name?: string
   image: string
   imageClass?: string
+  hideRemove?: boolean
 }>()
 </script>

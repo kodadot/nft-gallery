@@ -22,6 +22,7 @@
           </div>
         </NeoButton>
       </div>
+      <CreateCollectionSwapButton v-if="enableCollectionSwap" />
     </div>
 
     <hr class="mb-10 mt-0">
@@ -100,6 +101,7 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 import type { TradeType, TradeNftItem } from '@/components/trade/types'
+import CreateCollectionSwapButton from '@/components/swap/CreateCollectionSwapButton.vue'
 
 type TradeTabType = 'outgoing' | 'incoming'
 export type TradeTableQuery = Record<TradeTabType, string>
@@ -107,11 +109,11 @@ export type TradeTableQuery = Record<TradeTabType, string>
 const props = defineProps<{
   type: TradeType
   query: TradeTableQuery
+  enableCollectionSwap?: boolean
 }>()
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
-
 const dataKey = TRADES_QUERY_MAP[props.type].dataKey
 
 const selectedTrade = ref<TradeNftItem>()
