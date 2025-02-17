@@ -256,15 +256,11 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   }
 
   &.active {
-    @include ktheme() {
-      background-color: theme('k-shade');
-      color: theme('black');
-    }
+    background-color: rgba(var(--k-shade)) !important;
+    color: rgba(var(--black)) !important;
 
     &:hover {
-      @include ktheme() {
-        background-color: theme('k-shade') !important;
-      }
+      background-color: rgba(var(--k-shade)) !important;
     }
   }
 }
@@ -272,14 +268,10 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 .carousel-dot {
   @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
 
-  @include ktheme() {
-    background-color: theme('k-shade');
-  }
+  background-color: var(--k-shade);
 
   &.is-active {
-    @include ktheme() {
-      background-color: theme('text-color');
-    }
+    background-color: var(--text-color);
   }
 }
 

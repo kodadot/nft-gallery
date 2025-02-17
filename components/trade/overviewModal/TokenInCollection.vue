@@ -3,8 +3,11 @@
     class="flex flex-col gap-4"
   >
     <div class="flex flex-col gap-2">
-      <div class="text-sm font-semibold capitalize">
-        Any in collection
+      <div
+        v-if="title"
+        class="text-sm capitalize text-k-grey"
+      >
+        {{ title }}
       </div>
       <CollectionItemDetails
         :trade="trade"
@@ -37,6 +40,7 @@
       <TokenItemDetails
         v-if="selected"
         :nft="sendItem"
+        :type="trade.type"
       />
 
       <TokenSearchInput
@@ -68,6 +72,7 @@ defineEmits(['send-item:select', 'send-item:clear'])
 const props = defineProps<{
   sendItem?: NFT | null
   trade: TradeNftItem
+  title?: string
 }>()
 
 const selected = ref()

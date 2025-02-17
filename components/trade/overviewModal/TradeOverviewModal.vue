@@ -142,7 +142,7 @@ const disabled = computed(() => needsToSelectSendItem.value)
 
 const label = computed<string | undefined>(() => {
   if (needsToSelectSendItem.value) {
-    return $i18n.t('trade.selectSendItem')
+    return $i18n.t('trades.selectSendItem')
   }
   return undefined
 })

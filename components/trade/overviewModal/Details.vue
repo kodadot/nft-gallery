@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col gap-2">
-    <div class="flex justify-between items-center">
+    <div
+      v-if="isOffer"
+      class="flex justify-between items-center"
+    >
       <span class="text-k-grey text-xs">
         {{ $t('amount') }}
       </span>
@@ -11,24 +14,19 @@
       </p>
     </div>
 
-    <div
-      v-if="isMyTrade"
-      class="flex justify-between items-center"
-    >
+    <div class="flex justify-between items-center">
       <span class="text-k-grey text-xs">
         {{ $t('expiration') }}
       </span>
 
-      <span v-if="trade.isExpired">
-        {{ $t('expired') }}
-      </span>
-      <span v-else>
-        {{ trade.expirationDate ? formatToNow(trade.expirationDate, false) : '' }}
-      </span>
+      <TradeExpiration
+        :trade="trade"
+        :blank="$t('expired')"
+      />
     </div>
 
     <div
-      v-if="isIncomingTrade && desired"
+      v-if="isOffer && isIncomingTrade && desired"
       class="flex justify-between items-center"
     >
       <span class="text-k-grey text-xs">
@@ -44,7 +42,6 @@
 
 <script setup lang="ts">
 import { useIsTradeOverview } from './utils'
-import { formatToNow } from '@/utils/format/time'
 import { blank } from '@/components/collection/activity/events/eventRow/common'
 import { type TradeNftItem } from '@/components/trade/types'
 import type { NFT } from '@/types'
@@ -55,7 +52,8 @@ const props = defineProps<{
 }>()
 
 const { decimals, chainSymbol } = useChain()
-const { isMyTrade, isIncomingTrade } = useIsTradeOverview(computed(() => props.trade))
+const { isIncomingTrade } = useIsTradeOverview(computed(() => props.trade))
+const { isOffer } = useTradeType(computed(() => props.trade))
 
 const getFormattedDifference = (a: number, b: number) => {
   if (b === 0 && a === 0) {
