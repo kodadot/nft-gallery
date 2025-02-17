@@ -96,10 +96,10 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       nftAnimationMimeType.value.includes('video')
       || nftMimeType.value.includes('video')
     ) {
-      // fallback to ipfsio for ios & safari while video is still processing to cf-stream
+      // fallback to dweb for ios & safari while video is still processing to cf-stream
       if (isIos || isSafari) {
-        nftImage.value = sanitizeIpfsUrl(metadata.image, 'ipfsio')
-        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'ipfsio')
+        nftImage.value = sanitizeIpfsUrl(metadata.image, 'dweb')
+        nftAnimation.value = sanitizeIpfsUrl(metadata.animation_url, 'dweb')
       }
 
       // serve video from cloudflare stream
