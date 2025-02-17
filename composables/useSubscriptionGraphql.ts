@@ -1,7 +1,7 @@
 import isEqual from 'lodash/isEqual'
 import { apolloClientConfig } from '@/utils/constants'
 
-export default function ({
+export default function useSubscriptionGraphql<T = any>({
   clientName = '',
   query,
   onChange,
@@ -12,7 +12,7 @@ export default function ({
 }: {
   clientName?: string
   query: string
-  onChange: (data) => void
+  onChange: (data: { data: T }) => void
   onError?: (error) => void
   pollingInterval?: number
   disabled?: ComputedRef<boolean>
@@ -27,7 +27,7 @@ export default function ({
     return () => {}
   }
 
-  let lastQueryResult = null
+  let lastQueryResult: T | null = null
   let intervalId: number | null = null
 
   const isPolling = ref(false)
@@ -45,7 +45,7 @@ export default function ({
         },
       })
 
-      const newResult = response.data as any
+      const newResult = response.data as T
 
       if (!isEqual(newResult, lastQueryResult)) {
         if (!lastQueryResult ? immediate : true) {

@@ -151,6 +151,7 @@ const props = defineProps<{
   collectionPopoverHide?: boolean
   hideListing?: boolean
   linkTarget?: string
+  fetchOnchainData?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])
@@ -211,6 +212,7 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   isLoading,
   resetSearch: resetPage,
   resetSearchQueryParams: props.resetSearchQueryParams,
+  fetchOnchainData: props.fetchOnchainData,
 })
 
 watch(
