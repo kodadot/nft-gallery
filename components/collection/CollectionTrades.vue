@@ -14,7 +14,14 @@
         :type="tradeType"
       >
         <template #action>
-          <CreateCollectionSwapButton v-if="isTradeSwap(tradeType)" />
+          <CreateCollectionSwapButton
+            v-if="isTradeSwap(tradeType) && collectionId"
+            :collection-id="collectionId"
+          />
+          <CreateCollectionOfferButton
+            v-if="isTradeOffer(tradeType) && collectionId"
+            :collection-id="collectionId"
+          />
         </template>
       </TradeActivityTable>
     </div>
@@ -26,6 +33,7 @@ import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
 import type { TradeType } from '@/components/trade/types'
 import { isTradeSwap } from '@/composables/useTradeType'
 import CreateCollectionSwapButton from '@/components/swap/CreateCollectionSwapButton.vue'
+import CreateCollectionOfferButton from '@/components/trade/makeOffer/CreateCollectionOfferButton.vue'
 
 defineProps<{
   tradeType: TradeType

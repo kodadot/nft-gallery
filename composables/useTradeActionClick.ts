@@ -1,7 +1,7 @@
 import { useIdentityStore } from '@/stores/identity'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
-export default function (isOwner: ComputedRef<boolean>) {
+export default function (disabled?: ComputedRef<boolean>) {
   const identityStore = useIdentityStore()
   const { doAfterLogin } = useDoAfterlogin()
 
@@ -9,7 +9,7 @@ export default function (isOwner: ComputedRef<boolean>) {
 
   const onTradeActionClick = (cb: () => void) => {
     const fn = () => {
-      if (!isOwner.value) {
+      if (!disabled || !disabled.value) {
         cb()
       }
     }
