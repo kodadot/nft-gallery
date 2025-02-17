@@ -55,34 +55,9 @@
             {{ $t('swap.reviewCounterpartyAccept') }}
           </p>
 
-          <div
+          <SwapCollectionSwapGridList
             v-if="swap.isCollectionSwap"
-            class="flex flex-col gap-4 !my-10"
-          >
-            <DynamicGrid
-              :grid-section="GridSection.PROFILE_GALLERY"
-              grid-size="medium"
-              :mobile-cols="2"
-              class="my-5"
-            >
-              <ItemsGridImage
-                v-for="(nft, index) in desiredNfts"
-                :key="index"
-                :nft="nft"
-                hide-action
-                collection-popover-hide
-                hide-listing
-                skeleton-variant="primary"
-                hide-video-controls
-                variant="minimal"
-              />
-
-              <SwapSurchargeCard
-                v-if="surcharge?.direction === 'Receive'"
-                :surcharge="surcharge"
-              />
-            </DynamicGrid>
-          </div>
+          />
           <SwapGridList
             v-else
             :query="desiredQuery"
@@ -139,8 +114,6 @@
 <script setup lang="ts">
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
 import { successMessage } from '@/utils/notification'
-import ItemsGridImage from '@/components/items/ItemsGrid/ItemsGridImage.vue'
-import type { NFTWithMetadata } from '@/composables/useNft'
 import { SwapStep } from '@/components/swap/types'
 
 const router = useRouter()
@@ -153,8 +126,6 @@ const { swap } = storeToRefs(swapStore)
 
 const offeredQuery = computed(() => ({ id_in: swap.value?.offered.map(item => item.id) }))
 const desiredQuery = computed(() => ({ id_in: swap.value?.desired.map(item => item.id) }))
-
-const desiredNfts = computed(() => swap.value?.desired as NFTWithMetadata[])
 
 const toTokenToSwap = (item: SwapItem) => ({
   id: item.id,

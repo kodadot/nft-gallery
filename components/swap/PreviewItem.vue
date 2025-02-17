@@ -36,10 +36,15 @@ import { NeoButton } from '@kodadot1/brick'
 
 const emit = defineEmits(['remove'])
 
-defineProps<{
-  name?: string
-  image: string
-  imageClass?: string
-  hideRemove?: boolean
-}>()
+withDefaults(
+  defineProps<{
+    name?: string
+    image: string
+    imageClass?: string
+    removable?: boolean
+  }>(),
+  {
+    removable: true,
+  },
+)
 </script>

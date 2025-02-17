@@ -46,7 +46,7 @@
             :name="nft.name"
             :image="sanitizeIpfsUrl(nft.meta.image)"
             image-class="border border-k-shade"
-            :hide-remove="isCollectionSwap && nft.id === null"
+            :removable="!(isCollectionSwap && nft.id === null)"
             @remove="swapStore.removeStepItem(nft.id)"
           />
 
