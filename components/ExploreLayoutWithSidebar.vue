@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grow relative w-full max-w-none mx-auto my-0 md:!px-10 !px-5"
+    class="container-fluid"
     :class="{ '!pl-0': isSidebarOpen }"
   >
     <slot />

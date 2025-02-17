@@ -1,5 +1,5 @@
 <template>
-  <div class="grow relative w-full max-w-none mx-auto my-0 md:!px-10 !px-5">
+  <div class="container-fluid">
     <CollectionGridWithBreadcrumbs />
   </div>
 </template>

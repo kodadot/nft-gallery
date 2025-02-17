@@ -2,7 +2,7 @@
   <div class="min-h-full flex flex-col overflow-hidden">
     <Navbar />
     <main class="flex-grow">
-      <div class="grow relative w-full max-w-none mx-auto my-0 md:!px-10 !px-5">
+      <div class="container-fluid">
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"

@@ -5,7 +5,7 @@
       :collection="collection"
     />
     <section class="pt-5">
-      <div class="grow relative w-full max-w-none mx-auto my-0 !px-10">
+      <div class="container-fluid">
         <CollectionInfo
           ref="collectionInfo"
           :collection-id="collectionId"
