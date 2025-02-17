@@ -1,5 +1,4 @@
 <template>
-  <!-- NeoTag -->
   <div
     attached
     closable
@@ -22,7 +21,7 @@
 import { NeoIcon } from '@kodadot1/brick'
 
 type TagSize = 'small' | 'medium'
-type TagVariant = 'primary' | 'k-blue' | 'transparent'
+type TagVariant = 'primary' | 'k-blue' | 'k-blue-2' | 'transparent' | 'k-green' | 'k-purple' | 'k-grey' | 'k-orange'
 
 withDefaults(
   defineProps<{
@@ -64,8 +63,32 @@ const onClose = () => {
   }
 
   &--k-blue {
-    border: 1px solid var(--k-blue);
+    border: 1px solid var(--k-blue) !important;
     background-color: var(--blue-light-hover-color) !important;
+  }
+
+  &--k-blue-2 {
+    color: var(--k-blue) !important;
+    background-color: var(--blue-light-hover-color) !important;
+  }
+
+  &--k-purple {
+    color: var(--k-purple) !important;
+    background-color: var(--k-purple-accent) !important;
+  }
+
+  &--k-orange {
+    color: var(--k-orange4) !important;
+    background-color: var(--k-yellow-light) !important;
+  }
+
+  &--k-green {
+    color: var(--k-green) !important;
+    background-color: var(--k-green-accent-2) !important;
+  }
+
+  &--k-grey {
+    @apply text-neutral-7 bg-neutral-3 dark:bg-neutral-11 #{!important};
   }
 
   &.tag-size {

@@ -14,12 +14,11 @@
         :label="$t('swap.counterSwap')"
       >
         <NeoButton
-          variant="icon"
+          variant="outlined-rounded"
+          class="!p-0"
           @click="emit('click:counter-swap')"
         >
-          <NeoIcon
-            icon="swap"
-          />
+          <NeoIcon icon="repeat" />
         </NeoButton>
       </NeoTooltip>
     </template>
@@ -51,12 +50,12 @@ const onClick = () => emit('click:main', props.trade)
 const details = {
   [TradeType.SWAP]: {
     cancel: 'transaction.cancelSwap',
-    accept: 'transaction.acceptSwap',
+    accept: 'accept',
     withdraw: 'swap.withdrawSwap',
   },
   [TradeType.OFFER]: {
     cancel: 'transaction.cancelOffer',
-    accept: 'transaction.acceptOffer',
+    accept: 'accept',
     withdraw: 'offer.withdrawOffer',
   },
 }
