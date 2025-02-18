@@ -13,13 +13,16 @@
         :query="tradeQuery"
         :type="tradeType"
       >
-        <template #action>
+        <template
+          v-if="collectionId"
+          #action
+        >
           <CreateCollectionSwapButton
-            v-if="isTradeSwap(tradeType) && collectionId"
+            v-if="isTradeSwap(tradeType)"
             :collection-id="collectionId"
           />
           <CreateCollectionOfferButton
-            v-if="isTradeOffer(tradeType) && collectionId"
+            v-else-if="isTradeOffer(tradeType)"
             :collection-id="collectionId"
           />
         </template>

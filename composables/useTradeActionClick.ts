@@ -9,7 +9,7 @@ export default function (disabled?: ComputedRef<boolean>) {
 
   const onTradeActionClick = (cb: () => void) => {
     const fn = () => {
-      if (!disabled || !disabled.value) {
+      if (!disabled?.value) {
         cb()
       }
     }

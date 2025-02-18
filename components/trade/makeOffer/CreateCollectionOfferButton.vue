@@ -25,7 +25,7 @@ const preferencesStore = usePreferencesStore()
 const collectionId = computed(() => props.collectionId)
 const makeOfferStore = useMakingOfferStore()
 
-const { data: collectionOfferData } = useGraphql({
+const { data: collectionOfferData } = useGraphql<{ offers: NFTOffer[] }>({
   queryName: 'highestOfferByCollectionId',
   variables: {
     id: collectionId.value,
@@ -38,7 +38,7 @@ const { collection } = useCollectionMinimal({
 
 const { onTradeActionClick } = useTradeActionClick()
 const { urlPrefix } = usePrefix()
-const highestOfferPrice = computed(() => (collectionOfferData.value as unknown as { offers: NFTOffer[] })?.offers[0]?.price)
+const highestOfferPrice = computed(() => (collectionOfferData.value)?.offers[0]?.price)
 
 const openOfferModal = () => {
   makeOfferStore.clear()
