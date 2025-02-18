@@ -26,7 +26,7 @@ test('Collection interactions', async ({ page, Commands }) => {
   // Buy Now Filter
   await test.step('Verify if checking buy now filter only yield results with price ', async () => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).check()
-    await page.waitForTimeout(2000)
+    await page.waitForLoadState('networkidle')
     await Commands.scrollDownAndStop()
     for (const el of await page
       .locator('[class="infinite-scroll-item"]')
@@ -71,7 +71,7 @@ test('Collection interactions', async ({ page, Commands }) => {
   // collection search
   await test.step('Use collection search', async () => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).check()
-    await page.waitForTimeout(2000)
+    await page.waitForLoadState('networkidle')
     await page
       .locator('[data-testid="search-bar-input"] >> visible = true')
       .fill(COLLECTION_SEARCH)
