@@ -27,6 +27,7 @@ $base-margin: 20px;
   }
 }
 
+// DEPRECATED: for new components, please avoid using these mixins. Please use tailwind breakpoints instead.
 // Bulma breakpoints
 @mixin bulma-mobile {
   @media (max-width: 768px) { @content; }
