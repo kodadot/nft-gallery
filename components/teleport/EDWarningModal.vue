@@ -28,11 +28,8 @@
                 currency,
               ])
           }}
-          <b>{{ $t('teleport.lossOfFunds') }}</b>
+          <b>{{ $t('teleport.failedTransaction') }}</b>
         </span>
-        <div class="flex py-4">
-          <b>{{ $t('teleport.checkboxLabel') }}</b>
-        </div>
       </div>
       <div class="flex mt-5 items-center justify-center">
         <NeoButton
