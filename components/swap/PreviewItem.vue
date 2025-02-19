@@ -22,7 +22,7 @@
     </div>
 
     <NeoButton
-      v-if="!hideRemove"
+      v-if="removable"
       size="small"
       variant="icon"
       icon="xmark"
