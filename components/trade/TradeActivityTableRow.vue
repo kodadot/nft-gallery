@@ -29,7 +29,7 @@
     <div class="flex-1 overflow-hidden">
       <TradeActivityTableRowItemCollection
         v-if="trade.isAnyTokenInCollectionDesired"
-        :considered="desired.item as TradeConsidered"
+        :considered="trade.considered"
         :surcharge="desired.surcharge"
       />
       <TradeActivityTableRowItem
@@ -139,7 +139,7 @@
         >
           <TradeActivityTableRowItemCollection
             v-if="trade.isAnyTokenInCollectionDesired"
-            :considered="desired.item as TradeConsidered"
+            :considered="trade.considered"
             :surcharge="desired.surcharge"
           />
           <TradeActivityTableRowItem
@@ -248,7 +248,7 @@ const getRowConfig = (): { offered: TradeItem, desired: TradeItem } => {
   const direction = props.trade.surcharge!
   const surcharge = props.trade.surcharge ? { amount: props.trade.price, direction: 'Send' } : undefined
 
-  const desired = props.trade.desired!
+  const desired = props.trade.desired
 
   const offered = {
     item: props.trade.offered,
@@ -266,7 +266,7 @@ const getRowConfig = (): { offered: TradeItem, desired: TradeItem } => {
     : ({
         offered,
         desired: {
-          item: (props.trade.isAnyTokenInCollectionDesired ? props.trade.considered : props.trade.desired)!,
+          item: (props.trade.isAnyTokenInCollectionDesired ? props.trade.considered : props.trade.desired),
           surcharge: direction === 'Receive' ? surcharge : undefined,
         } as TradeItem,
       })
