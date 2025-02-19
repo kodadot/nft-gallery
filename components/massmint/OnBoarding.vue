@@ -210,7 +210,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   --base-shift: calc((100% - var(--card-width)) / 2);
   gap: var(--card-gap);
 
-  @include bulma-mobile {
+  @media (max-width: 768px) {
     --card-width: 90vw;
     --card-gap: 2.5%;
   }
@@ -234,7 +234,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
 :deep(.white-space-break-spaces-mobile) {
   pre {
-    @include bulma-touch {
+    @media (max-width: 1215px) {
       width: 100%;
       white-space: break-spaces;
     }
@@ -242,7 +242,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .column-mobile {
-  @include bulma-mobile {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start !important;
     gap: 0.75rem;
