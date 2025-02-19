@@ -19,5 +19,12 @@ query collectionByIdMinimalWithRoyalty($id: String!) {
     name
     currentOwner
     createdAt
+    floorPrice: nfts(
+      where: { burned_eq: false, price_not_eq: "0" }
+      orderBy: price_ASC
+      limit: 1
+    ) {
+      price
+    }
   }
 }

@@ -12,19 +12,19 @@
 import { NeoButton } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 
-const route = useRoute()
+const props = defineProps<{
+  collectionId: string
+}>()
+
 const { $i18n } = useNuxtApp()
 
-const collectionId = computed(() => route.params.id.toString())
+const collectionId = computed(() => props.collectionId)
 const swapStore = useAtomicSwapStore()
-const { isCurrentAccount } = useAuth()
-
-const isCollectionOwner = computed(() => isCurrentAccount(collection.value.currentOwner))
 
 const { collection } = useCollectionMinimal({
   collectionId: collectionId,
 })
-const { onTradeActionClick } = useTradeActionClick(isCollectionOwner)
+const { onTradeActionClick } = useTradeActionClick()
 
 const onCreateCollectionSwapClick = () => {
   onTradeActionClick(() => {

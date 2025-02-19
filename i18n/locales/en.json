@@ -1521,9 +1521,11 @@
     "notifications": "Notifications"
   },
   "offer": {
+    "anyNftFromCollection": "Any NFT",
     "bestOffer": "Best Offer",
     "cancelOffer": "Cancel Offer",
     "collectionFloorPrice": "Collection Floor",
+    "createCollectionOffer": "Create Collection Offer",
     "emptyInput": "Please enter your offer",
     "expiration": "Offer Expiration",
     "floorDifference": "Floor Difference",
