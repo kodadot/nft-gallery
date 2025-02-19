@@ -1,8 +1,7 @@
 .tippy-popper .tippy-tooltip {
-  @include ktheme() {
-    background: theme('background-color');
-    color: theme('text-color');
-  }
+  background: var(--background-color);
+  color: var(--text-color);
+
   @apply inline-block text-left p-0;
 }
 
