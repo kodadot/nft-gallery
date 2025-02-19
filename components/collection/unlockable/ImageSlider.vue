@@ -107,21 +107,23 @@ const [thumbnail] = useKeenSlider(
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 @import '@/assets/styles/components/carousel-arrows';
 
 .unlockable-image-slider {
   width: 580px;
   position: relative;
 
-  @include mobile {
+  @include bulma-mobile {
     width: 100% !important;
     height: 100% !important;
     max-width: 560px;
   }
-  @include tablet-only {
+
+  @include bulma-tablet-only {
     width: 768px;
   }
+
   img {
     border: 1px solid var(--border-color);
   }
@@ -129,47 +131,57 @@ const [thumbnail] = useKeenSlider(
   .unlockable-image-tip {
     @apply absolute rounded-[3rem] left-[26px] -top-3.5;
 
-    @include mobile {
+    @include bulma-mobile {
       left: 50%;
       transform: translateX(-50%);
     }
   }
+
   .keen-slider__slide {
     height: 580px;
     width: 580px;
     object-fit: cover;
-    @include tablet-only {
+
+    @include bulma-tablet-only {
       width: 768px;
       height: 100%;
     }
-    @include mobile {
+
+    @include bulma-mobile {
       width: 100%;
       height: 100%;
     }
   }
+
   .thumbnail .keen-slider__slide {
     margin-top: 10px;
     height: 136px;
     width: 136px;
-    @include tablet-only {
+
+    @include bulma-tablet-only {
       width: calc(768px / 4);
       height: 100%;
     }
-    @include mobile {
+
+    @include bulma-mobile {
       width: 25%;
       max-width: 136px;
     }
+
     img {
       width: 100%;
       height: 100%;
-      @include mobile {
+
+      @include bulma-mobile {
         height: min-content;
       }
+
       object-fit: cover;
       &:hover {
         opacity: 0.8;
       }
     }
+
     &.active {
       img {
         border: 3px solid var(--k-blue);
@@ -177,6 +189,7 @@ const [thumbnail] = useKeenSlider(
     }
   }
 }
+
 .arrow {
   display: block;
   height: 40px;

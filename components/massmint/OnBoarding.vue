@@ -190,6 +190,7 @@ const btn = computed(() =>
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/mixins';
 @import '@/assets/styles/components/carousel-arrows';
 
 $card-width-percents: 54%;
@@ -210,7 +211,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   --base-shift: calc((100% - var(--card-width)) / 2);
   gap: var(--card-gap);
 
-  @media (max-width: 768px) {
+  @include bulma-mobile {
     --card-width: 90vw;
     --card-gap: 2.5%;
   }
@@ -234,7 +235,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
 :deep(.white-space-break-spaces-mobile) {
   pre {
-    @media (max-width: 1215px) {
+    @include bulma-touch {
       width: 100%;
       white-space: break-spaces;
     }
@@ -242,7 +243,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .column-mobile {
-  @media (max-width: 768px) {
+  @include bulma-mobile {
     flex-direction: column;
     align-items: flex-start !important;
     gap: 0.75rem;
@@ -255,21 +256,21 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   }
 
   &.active {
-    background-color: rgb(var(--k-shade)) !important;
-    color: rgb(var(--black)) !important;
+    background-color: rgba(var(--k-shade)) !important;
+    color: rgba(var(--black)) !important;
 
     &:hover {
-      background-color: rgb(var(--k-shade)) !important;
+      background-color: rgba(var(--k-shade)) !important;
     }
   }
 }
 
 .carousel-dot {
   @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
-  background-color: rgb(var(--k-shade));
+  background-color: var(--k-shade);
 
   &.is-active {
-    background-color: rgb(var(--text-color));
+    background-color: var(--text-color);
   }
 }
 
