@@ -8,14 +8,12 @@
     a:hover {
       color: unset !important;
     }
-    @include ktheme() {
-      background: theme('background-color');
-      border: 1px solid theme('card-border-color');
-      &:hover {
-        border-color: theme('border-color');
-        .carousel-media {
-          opacity: theme('card-hover-opacity');
-        }
+    background: var(--background-color);
+    border: 1px solid var(--card-border-color);
+    &:hover {
+      border-color: var(--border-color);
+      .carousel-media {
+        opacity: var(--card-hover-opacity);
       }
     }
   }
@@ -23,18 +21,14 @@
   .carousel-media {
     display: grid;
     align-items: center;
-    @include ktheme() {
-      border-bottom: 1px solid theme('card-border-color');
-    }
+    border-bottom: 1px solid var(--card-border-color);
+    
     &-collection {
       border-bottom: none !important;
       padding: 16px 16px 0 16px;
 
       a {
-        @include ktheme() {
-          border: 1px solid theme('card-border-color');
-        }
-
+        border: 1px solid var(--card-border-color);
         display: block;
       }
     }
@@ -66,11 +60,9 @@
       outline: none;
     }
 
-    @include ktheme() {
-      background: theme('k-shade');
-      &.active {
-        background: theme('k-grey');
-      }
+    background: rgb(var(--k-shade));
+    &.active {
+      background: var(--k-grey);
     }
   }
 }

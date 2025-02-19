@@ -10,6 +10,7 @@ import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
 import type { NFT, TokenId } from '@/types'
+import { fetchOdaToken } from '@/services/oda'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
@@ -35,6 +36,7 @@ export function useFetchSearch({
   resetSearch,
   isLoading,
   resetSearchQueryParams = DEFAULT_RESET_SEARCH_QUERY_PARAMS,
+  fetchOnchainData = false,
 }: {
   first: Ref<number>
   total: Ref<number>
@@ -42,6 +44,7 @@ export function useFetchSearch({
   isLoading: Ref<boolean>
   resetSearch: () => void
   resetSearchQueryParams?: string[]
+  fetchOnchainData?: boolean
 }) {
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
@@ -231,6 +234,46 @@ export function useFetchSearch({
     loadedPages.value = []
     resetSearch()
   })
+
+  const processOnchainData = useDebounceFn(async () => {
+    items.value = await Promise.all(items.value.map(async (item) => {
+      if ('onchainData' in item && item.onchainData) {
+        return item
+      }
+
+      if (item.sn && !isTokenEntity(item)) {
+        const tokenData = await fetchOdaToken(urlPrefix.value, item.collection.id, item.sn)
+
+        if (tokenData.metadata && tokenData.metadata_uri) {
+          const odaItem = {
+            ...item,
+            name: tokenData.metadata?.name || item.meta.name,
+            meta: {
+              ...item.meta,
+              name: tokenData.metadata?.name || item.meta.name,
+              id: tokenData.metadata?.image || item.meta.id,
+              image: tokenData.metadata?.image || item.meta.image,
+              animationUrl: tokenData.metadata?.animation_url || item.meta.animationUrl,
+            },
+            onchainData: true,
+          }
+
+          return odaItem
+        }
+      }
+
+      return {
+        ...item,
+        name: item.collection.name,
+      }
+    }))
+  }, 500)
+
+  watch(() => items.value.length, () => {
+    if (isAssetHub.value && items.value.length && fetchOnchainData) {
+      processOnchainData()
+    }
+  }, { immediate: true })
 
   return {
     items,

@@ -29,3 +29,21 @@ const scrollToTop = () => {
   })
 }
 </script>
+
+<style lang="scss" scoped>
+.scroll-top-button {
+  @apply fixed w-[35px] h-[35px] z-[998] rounded-none right-[42px] bottom-[100px];
+
+  box-shadow: var(--primary-shadow);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background: var(--background-color);
+
+  &:hover {
+    background: var(--k-accent-hover);
+    .icon {
+      color: var(--black) !important;
+    }
+  }
+}
+</style>

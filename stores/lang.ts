@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { langsFlags } from '@/utils/config/i18n'
 
 interface State {
   language: {

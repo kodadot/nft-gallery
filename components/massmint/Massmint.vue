@@ -37,6 +37,7 @@
         <OverviewTable
           :disabled="!mediaLoaded"
           :nfts="NFTS"
+          :collection-id="selectedCollection?.id"
           @open-side-bar-with="openSideBarWith"
           @delete="openDeleteModalWith"
         />

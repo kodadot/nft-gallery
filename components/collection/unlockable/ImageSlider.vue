@@ -123,9 +123,7 @@ const [thumbnail] = useKeenSlider(
     width: 768px;
   }
   img {
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
+    border: 1px solid var(--border-color);
   }
 
   .unlockable-image-tip {
@@ -174,9 +172,7 @@ const [thumbnail] = useKeenSlider(
     }
     &.active {
       img {
-        @include ktheme() {
-          border: 3px solid theme('k-blue');
-        }
+        border: 3px solid var(--k-blue);
       }
     }
   }

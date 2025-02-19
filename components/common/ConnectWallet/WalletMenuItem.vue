@@ -107,6 +107,25 @@
         </a>
       </div>
     </div>
+
+    <div
+      v-if="walletAccountsWithProfile.length === 0 && showAccountList"
+      class="account-list"
+    >
+      <div class="account-item">
+        <a
+          href="#!"
+          class="pl-5 block"
+        >
+          <span class="block mb-2 text-sm">
+            <NeoIcon
+              icon="circle-info"
+              class="mr-2 text-k-grey"
+            />No Polkadot Accounts Found</span>
+          <span class="block text-k-grey text-xs">To Continue, Please Create or Import Accounts in {{ wallet.name }}</span>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 

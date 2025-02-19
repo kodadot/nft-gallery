@@ -20,6 +20,7 @@
         <hr class="my-0">
       </div>
       <ItemsGrid
+        fetch-onchain-data
         @total="(v) => (total = v)"
         @loading="
           (loading) => {

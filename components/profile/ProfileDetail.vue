@@ -394,8 +394,11 @@
               />
             </div>
           </div>
+
           <hr class="my-0">
+
           <ItemsGrid
+            v-if="isItemsGridTab"
             :search="itemsGridSearch"
             :grid-section="gridSection"
             :loading-other-network="loadingOtherNetwork"
@@ -408,29 +411,29 @@
               <ProfileEmptyResult :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
             </template>
           </ItemsGrid>
-        </div>
-        <CollectionGrid
-          v-if="activeTab === ProfileTab.COLLECTIONS"
-          :id="id"
-          :loading-other-network="loadingOtherNetwork"
-          class="pt-7"
-        >
-          <template
-            v-if="hasAssetPrefixMap[activeTab]?.length"
-            #empty-result
+
+          <CollectionGrid
+            v-else-if="activeTab === ProfileTab.COLLECTIONS"
+            :id="id"
+            :loading-other-network="loadingOtherNetwork"
+            class="pt-7"
           >
-            <ProfileEmptyResult
-              :prefix-list-with-asset="hasAssetPrefixMap[ProfileTab.COLLECTIONS]
-              "
-            />
-          </template>
-        </CollectionGrid>
+            <template
+              v-if="hasAssetPrefixMap[activeTab]?.length"
+              #empty-result
+            >
+              <ProfileEmptyResult :prefix-list-with-asset="hasAssetPrefixMap[ProfileTab.COLLECTIONS]" />
+            </template>
+          </CollectionGrid>
+        </div>
+
         <Activity
           v-if="activeTab === ProfileTab.ACTIVITY"
           :id="id"
         />
+
         <TradeActivityTable
-          v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab)"
+          v-if="[ProfileTab.SWAPS, ProfileTab.OFFERS].includes(activeTab) && tradeQuery"
           :key="activeTab"
           :query="tradeQuery"
           :type="{
@@ -478,7 +481,7 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 import { getHigherResolutionCloudflareImage } from '@/utils/ipfs'
 import { offerVisible, swapVisible } from '@/utils/config/permission.config'
 import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType } from '@/components/trade/types'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const NuxtImg = resolveComponent('NuxtImg')
@@ -520,8 +523,10 @@ const { isSub } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 const { vm } = useChain()
 const { params } = useRoute()
-
+const id = computed(() => route.params.id.toString() || '')
 const { hasProfile, userProfile, isFetchingProfile } = useProfile(computed(() => params?.id as string))
+
+const { data: ownedCollections } = useOwnedCollections(id)
 
 const { data: followers, refresh: refreshFollowers } = useAsyncData(
   `followersof${route.params.id}`,
@@ -544,10 +549,14 @@ const refresh = ({ fetchFollowing = true } = {}) => {
 const followersCount = computed(() => followers.value?.totalCount ?? 0)
 const followingCount = computed(() => following.value?.totalCount ?? 0)
 
-const tradeQuery = computed<TradeTableQuery>(() => ({
-  incoming: `{ status_eq: ACTIVE, desired: { currentOwner_eq: "${id.value}" } }`,
-  outgoing: `{ status_in: [ACTIVE, EXPIRED], caller_eq: "${id.value}" }`,
-}))
+const tradeQuery = computed<TradeTableQuery | null>(() => {
+  return ownedCollections.value
+    ? {
+        incoming: `${buildIncomingTradesQuery(id.value, ownedCollections.value.map(({ id }) => id), { stringify: true })}`,
+        outgoing: `{ status_in: [ACTIVE, EXPIRED], caller_eq: "${id.value}" }`,
+      }
+    : null
+})
 
 const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
@@ -571,7 +580,6 @@ const followButton = ref()
 const counts = ref({})
 const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
 const loadingOtherNetwork = ref(false)
-const id = computed(() => route.params.id.toString() || '')
 const email = ref('')
 const twitter = ref('')
 const displayName = ref('')

@@ -39,7 +39,7 @@ const orderJsonByKeys = (json) => {
 // Project locale directory.
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const localeDir = path.join(__dirname, '..', 'locales')
+const localeDir = path.join(__dirname, '..', 'i18n/locales')
 
 // Get all language paths to re-order.
 const languages = getDirectoryFiles(localeDir, []).filter(file => file.endsWith('.json'))

@@ -283,7 +283,9 @@ const propertiesTabDisabled = computed(() => {
   return !nftMetadata.value?.attributes?.length
 })
 
-const { getAttributeRarity } = useCollectionAttributes(computed(() => propertiesTabDisabled.value ? undefined : nft.value?.collection?.id))
+const { getAttributeRarity } = useCollectionAttributes({
+  collectionId: computed(() => propertiesTabDisabled.value ? undefined : nft.value?.collection?.id),
+})
 
 const properties = computed<{ trait_type: string, value: string, rarity: number }[]>(() => {
   const attributes = (nftMetadata.value?.attributes || []) as Array<{

@@ -8,9 +8,8 @@
 .card.bordered {
   @apply rounded shadow-none;
 
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary');
-  }
+  border-top: 1px solid var(--k-primary);
+
   &-content {
     padding-left: 1rem;
     padding-top: 1rem;

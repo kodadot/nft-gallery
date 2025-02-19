@@ -2,16 +2,6 @@
   font-family: monospace;
 }
 
-.text__stroked {
-  -webkit-text-stroke-width: 2px;
-  padding: 0 8px 0 0;
-  @include ktheme() {
-    color: theme('k-primary');
-    -webkit-text-fill-color: theme('black');
-    -webkit-text-stroke-color: theme('k-primary');
-  }
-}
-
 .heading {
   display: flex;
   flex-direction: column;
@@ -62,13 +52,9 @@
   blockquote,
   strong,
   pre:not(.hljs) {
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    color: var(--text-color);
   }
   blockquote {
-    @include ktheme() {
-      background-color: theme('background-color');
-    }
+    background-color: var(--background-color);
   }
 }

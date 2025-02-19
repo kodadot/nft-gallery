@@ -7,20 +7,18 @@
       :button="buttonConfig"
     />
 
-    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP">
+    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP && !trade.isAnyTokenInCollectionDesired">
       <NeoTooltip
         position="top"
         content-class="capitalize"
         :label="$t('swap.counterSwap')"
       >
         <NeoButton
-          variant="icon"
-          :disabled="trade.isEntireCollectionDesired"
+          variant="outlined-rounded"
+          class="!p-0"
           @click="emit('click:counter-swap')"
         >
-          <NeoIcon
-            icon="swap"
-          />
+          <NeoIcon icon="repeat" />
         </NeoButton>
       </NeoTooltip>
     </template>
@@ -30,12 +28,14 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
-import { TradeType } from '@/composables/useTrades'
+import { TradeType, type TradeNftItem } from '@/components/trade/types'
 
 const emit = defineEmits(['click:main', 'click:counter-swap'])
 const props = defineProps<{
   trade: TradeNftItem
   loading?: boolean
+  disabled?: boolean
+  label?: string
   mainClass?: string
   detailed?: boolean
 }>()
@@ -50,17 +50,17 @@ const onClick = () => emit('click:main', props.trade)
 const details = {
   [TradeType.SWAP]: {
     cancel: 'transaction.cancelSwap',
-    accept: 'transaction.acceptSwap',
+    accept: 'accept',
     withdraw: 'swap.withdrawSwap',
   },
   [TradeType.OFFER]: {
     cancel: 'transaction.cancelOffer',
-    accept: 'transaction.acceptOffer',
+    accept: 'accept',
     withdraw: 'offer.withdrawOffer',
   },
 }
 
-const buttonConfig = computed<ButtonConfig | null>(() => {
+const tradeButtonConfig = computed<ButtonConfig | null>(() => {
   if (props.trade.isExpired) {
     return isCreatorOfTrade.value
       ? {
@@ -86,5 +86,19 @@ const buttonConfig = computed<ButtonConfig | null>(() => {
   }
 
   return null
+})
+
+const buttonConfig = computed<ButtonConfig | null>(() => {
+  if (!tradeButtonConfig.value) {
+    return null
+  }
+
+  const config = { ...tradeButtonConfig.value }
+
+  Object.assign(config, { disabled: props.disabled })
+
+  props.label && Object.assign(config, { label: props.label })
+
+  return config
 })
 </script>

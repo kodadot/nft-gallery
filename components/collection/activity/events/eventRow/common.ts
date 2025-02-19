@@ -1,8 +1,5 @@
 import { Interaction } from '@kodadot1/minimark/v1'
-import {
-  type InteractionWithNFT,
-  TradeInteraction,
-} from '@/composables/collectionActivity/types'
+import { type InteractionWithNFT } from '@/composables/collectionActivity/types'
 import { parseNftAvatar } from '@/utils/nft'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 
@@ -23,8 +20,6 @@ export const interactionNameMap = ({
     MINT: 'Mint',
     SEND: 'Transfer',
     Offer: 'Offer',
-    [TradeInteraction.OFFER]: 'Offer',
-    [TradeInteraction.SWAP]: 'Swap',
   }
 
   if (distinguishBuyAndSell) {
@@ -45,8 +40,6 @@ export const getInteractionColor = (
     [Interaction.LIST]: 'bg-k-blue-accent',
     [Interaction.BUY]: distinguishBuyAndSell ? buyColor : sellColor,
     [Interaction.SEND]: 'bg-background-color',
-    [TradeInteraction.OFFER]: 'bg-k-green-accent',
-    [TradeInteraction.SWAP]: 'bg-k-green-accent',
     SELL: sellColor,
   }[interaction]
 }

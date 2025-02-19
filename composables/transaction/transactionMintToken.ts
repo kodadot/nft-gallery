@@ -1,9 +1,9 @@
+import type { Prefix } from '@kodadot1/static'
 import type { MintTokenParams, SubstrateMintTokenParams } from './types'
 import { execMintStatemine } from './mintToken/transactionMintStatemine'
 
 export function execMintToken({ item, ...params }: MintTokenParams) {
-  // item.urlPrefix === 'ahr'
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
+  if (isAssetHub(item.urlPrefix as Prefix)) {
     return execMintStatemine({
       item,
       ...params,

@@ -13,9 +13,7 @@
   }
 
   .modal-content {
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-    }
+    box-shadow: var(--primary-shadow);
+    border: 1px solid var(--border-color);
   }
 }

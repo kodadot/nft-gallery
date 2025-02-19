@@ -43,10 +43,6 @@ const footerLinks = [
     linkName: 'Press Kit',
     linkAddress: 'https://github.com/kodadot/kodadot-presskit/tree/main/v4',
   },
-  {
-    linkName: 'MerchShop',
-    linkAddress: 'https://shop.koda.art/',
-  },
 ]
 
 const footerSocialMediaLinks = [
