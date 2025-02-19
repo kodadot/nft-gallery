@@ -6,10 +6,8 @@
       align-items: center;
     }
 
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-    }
+    box-shadow: var(--primary-shadow);
+    border: 1px solid var(--border-color);
   }
 }
 
@@ -27,10 +25,8 @@
 
 .gallery-item {
   .media-object {
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-    }
+    box-shadow: var(--primary-shadow);
+    border: 1px solid var(--border-color);
   }
 }
 
@@ -39,18 +35,14 @@
     background-color: transparent;
     margin: 1rem 0;
     white-space: pre-wrap;
-    @include ktheme() {
-      border: 1px solid theme('k-shade');
-      color: theme('k-shade');
-    }
+    border: 1px solid rgb(var(--k-shade));
+    color: rgb(var(--k-shade));
   }
 
   a {
-    @include ktheme() {
-      color: theme('k-blue') !important;
-      &:hover {
-        color: theme('k-blue-hover') !important;
-      }
+    color: var(--k-blue) !important;
+    &:hover {
+      color: var(--k-blue-hover) !important;
     }
   }
 
@@ -69,20 +61,16 @@
   }
   a {
     @apply cursor-pointer;
-    @include ktheme() {
-      color: theme('k-blue') !important;
-      &:hover {
-        color: theme('k-blue-hover') !important;
-      }
+    color: var(--k-blue) !important;
+    &:hover {
+      color: var(--k-blue-hover) !important;
     }
   }
 }
 
 .gallery-item-disabled {
-  @include ktheme() {
-    box-shadow: 4px 4px theme('k-grey');
-    width: 10rem;
-  }
+  box-shadow: 4px 4px var(--k-grey);
+  width: 10rem;
 
   .o-tip,
   .is-neo {
