@@ -78,6 +78,7 @@
         <TradeExpirationSelector
           v-model="swap.duration"
           position="auto"
+          custom-menu-class="!ml-[168px]"
           class="pt-2"
         />
       </div>
