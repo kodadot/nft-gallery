@@ -86,14 +86,12 @@ export const tradeToSwapItem = (token: TradeToken): SwapItem => {
 }
 
 export const counterSwap = (trade: TradeNftItem) => {
-  if (!trade.desired) {
-    // collection swaps are not supported yet
-    return
-  }
-
   const withFields: CrateSwapWithFields = {
     desired: [tradeToSwapItem(trade.offered)],
-    offered: [tradeToSwapItem(trade.desired)],
+  }
+
+  if (trade.desired) {
+    withFields.offered = [tradeToSwapItem(trade.desired)]
   }
 
   if (trade.surcharge) {
