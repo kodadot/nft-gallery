@@ -228,12 +228,6 @@ const menuKodadot: Menu[] = [
     external: true,
   },
   {
-    name: $i18n.t('merchshop'),
-    url: 'https://shop.kodadot.xyz',
-    external: true,
-  },
-
-  {
     name: $i18n.t('press kit'),
     url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v4',
     external: true,
