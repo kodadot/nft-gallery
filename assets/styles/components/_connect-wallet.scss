@@ -124,6 +124,19 @@
       color: var(--k-blue) !important;
     }
   }
+
+  .wallet-asset {
+    height: 100%;
+
+    &-container {
+      padding: 0 2rem;
+    }
+
+    .identity-address a {
+      font-weight: normal !important;
+      color: var(--k-blue) !important;
+    }
+  }
 }
 
 .modal-card-title {
