@@ -19,8 +19,11 @@
 
 <script setup lang="ts">
 import { type TradeTableQuery } from '@/components/trade/TradeActivityTable.vue'
+import type { TradeType } from '@/components/trade/types'
 
-const tradeType = TradeType.SWAP
+defineProps<{
+  tradeType: TradeType
+}>()
 
 const route = useRoute()
 
