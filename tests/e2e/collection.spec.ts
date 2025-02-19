@@ -28,7 +28,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('filter-checkbox-buynow').nth(1).click()
     await Commands.scrollDownAndStop()
     for (const el of await page
-      .locator('[class="infinite-scroll-item"]')
+      .locator('.infinite-scroll-item .nft-name')
       .all()) {
       await expect(el).toContainText('DOT')
     }
@@ -78,7 +78,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     await expect(
       page.locator('[class="infinite-scroll-item"]').first(),
     ).toBeVisible()
-    await expect(page.getByTestId('nft-name')).toHaveText(COLLECTION_SEARCH_RESULT)
+    await expect(page.locator(`[title="${COLLECTION_SEARCH_RESULT}"]`)).toHaveText(COLLECTION_SEARCH_RESULT)
   })
 
   // art view
