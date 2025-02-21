@@ -102,17 +102,3 @@ $themes: (
     'toggle-active-switch': #363234,
   ),
 );
-
-@mixin ktheme() {
-  @each $theme, $map in $themes {
-    $theme-map: $map !global;
-    .#{$theme} & {
-      @content;
-    }
-  }
-  $theme-map: null !global;
-}
-
-@function theme($key) {
-  @return map-get($theme-map, $key);
-}

@@ -172,21 +172,15 @@
       </a>
       {{ $t('teleport.ownerMessage') }}
     </div>
+    <TeleportEDWarningModal
+      v-model="insufficientEDModalOpen"
+      :target-existential-deposit="targetExistentialDeposit.displayValue"
+      :source-existential-deposit="sourceExistentialDeposit.displayValue"
+      :reason="warningReason"
+      :currency="currency"
+      @close="insufficientEDModalOpen = false"
+    />
   </form>
-  <TeleportEDWarningModal
-    v-model="insufficientEDModalOpen"
-    :target-existential-deposit="targetExistentialDeposit.displayValue"
-    :source-existential-deposit="sourceExistentialDeposit.displayValue"
-    :reason="warningReason"
-    :currency="currency"
-    @continue="
-      () => {
-        insufficientEDModalOpen = false
-        teleport()
-      }
-    "
-    @close="insufficientEDModalOpen = false"
-  />
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,3 @@
-@import '@/assets/styles/abstracts/variables';
-
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -24,29 +22,20 @@
     position: fixed;
     top: 0;
     right: 0;
-    height: calc(100% - $navbar-desktop-min-height) ;
-    margin-top: $navbar-desktop-min-height;
+    @apply h-[calc(100%-theme(spacing.navbar-desktop))] mt-[theme(spacing.navbar-desktop)];
     max-width: 360px;
     width: 100%;
 
-    @include mobile {
-      inset: 0;
-      border-left: none !important;
-      max-width: 100vw;
-      height: calc(100% - $navbar-mobile-min-height) ;
-      margin-top: $navbar-mobile-min-height;
-    }
-    @include ktheme() {
-      background: theme('background-color');
-      border-left: 1px solid theme('border-color');
-    }
+    @apply bulma-mobile:inset-0 bulma-mobile:border-l-0 bulma-mobile:max-w-full 
+           bulma-mobile:h-[calc(100%-theme(spacing.navbar-mobile))] bulma-mobile:mt-[theme(spacing.navbar-mobile)];
+    
+    background: var(--background-color);
+    border-left: 1px solid var(--border-color);
 
     .modal-card-body {
       padding: 0;
       display: block;
-      @include ktheme() {
-        background-color: theme('background-color');
-      }
+      background-color: var(--background-color);
 
       hr {
         @apply bg-k-shade2 #{!important};
@@ -54,9 +43,7 @@
     }
 
     footer {
-      @include ktheme() {
-        border-top: 1px solid theme('border-color');
-      }
+      border-top: 1px solid var(--border-color);
     }
 
     .confirm-button {
@@ -77,35 +64,32 @@
         .icon {
           margin-right: 0 !important;
         }
-        @include ktheme() {
-          color: theme('text-color');
-          &:hover {
-            background-color: theme('k-accentlight2') !important;
-          }
+        
+        color: rgb(var(--text-color));
+        &:hover {
+          background-color: var(--k-accent-light-2) !important;
         }
       }
+
       .auth-tip {
         margin: 0 2rem;
-        @include ktheme() {
-          color: theme('text-color');
-          border-left: 1px solid theme('k-shade');
-        }
+        color: rgb(var(--text-color));
+        border-left: 1px solid rgb(var(--k-shade));
         i {
           animation: rotate 1s linear infinite;
         }
       }
+
       .account-list {
         .account-item {
           padding: 10px 0;
           margin: 0 2rem;
           a {
-            @include ktheme() {
-              color: theme('text-color');
-              border-left: 1px solid theme('k-shade');
+            color: rgb(var(--text-color));
+            border-left: 1px solid rgb(var(--k-shade));
 
-              &:hover {
-                color: theme('text-color');
-              }
+            &:hover {
+              color: rgb(var(--text-color));
             }
 
             .account-name {
@@ -116,9 +100,7 @@
             }
           }
           &:hover {
-            @include ktheme() {
-              background-color: theme('k-accentlight2') !important;
-            }
+            background-color: var(--k-accent-light-2) !important;
           }
         }
       }
@@ -127,6 +109,11 @@
     section {
       height: 100%;
       overflow-y: auto;
+    }
+
+    .identity-address a {
+      font-weight: normal !important;
+      color: var(--k-blue) !important;
     }
   }
 
@@ -139,15 +126,11 @@
 
     .identity-address a {
       font-weight: normal !important;
-      @include ktheme() {
-        color: theme('k-blue') !important;
-      }
+      color: var(--k-blue) !important;
     }
   }
 }
 
 .modal-card-title {
-  @include ktheme() {
-    color: theme('text-color');
-  }
+  color: rgb(var(--text-color));
 }
