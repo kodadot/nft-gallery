@@ -41,7 +41,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useMakingOfferStore } from '@/stores/makeOffer'
 import GalleryItemPriceSection from '@/components/gallery/GalleryItemAction/GalleryItemActionSection.vue'
 import type { NFTOffer } from '@/composables/useNft'
-import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 
 const props = defineProps<{
   nft: NFT
@@ -51,10 +50,9 @@ const props = defineProps<{
 const preferencesStore = usePreferencesStore()
 const makeOfferStore = useMakingOfferStore()
 const swapStore = useAtomicSwapStore()
-const { doAfterLogin } = useDoAfterlogin()
-const { isCurrentAccount, isLogIn } = useAuth()
+const { isCurrentAccount } = useAuth()
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
-
+const { onTradeActionClick } = useTradeActionClick(isOwner)
 const highestOfferPrice = computed(() => props.highestOffer?.price || '')
 
 const openOfferModal = () => {
@@ -63,21 +61,6 @@ const openOfferModal = () => {
   makeOfferStore.setItem(item)
 
   preferencesStore.setMakeOfferModalOpen(true)
-}
-
-const onTradeActionClick = (cb: () => void) => {
-  const fn = () => {
-    if (!isOwner.value) {
-      cb()
-    }
-  }
-
-  if (isLogIn.value) {
-    doAfterCheckCurrentChainVM(fn)
-  }
-  else {
-    doAfterLogin({ onLoginSuccess: fn })
-  }
 }
 
 const onMakeOfferClick = () => {

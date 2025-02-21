@@ -26,7 +26,7 @@
     <ItemsGrid
       :search="itemsGridSearch"
       :grid-size="'medium'"
-      collection-popover-hide
+      hide-collection-popover
       hide-listing
       show-timestamp
       :reset-search-query-params="['sort']"

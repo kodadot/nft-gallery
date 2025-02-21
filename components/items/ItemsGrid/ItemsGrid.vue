@@ -26,7 +26,7 @@
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
           :show-timestamp="showTimestamp"
-          :collection-popover-hide="collectionPopoverHide"
+          :hide-collection-popover="hideCollectionPopover"
           :hide-listing="hideListing"
           :lazy-loading="
             shouldLazyLoad({
@@ -148,7 +148,7 @@ const props = defineProps<{
   loadingOtherNetwork?: boolean
   showTimestamp?: boolean
   hideHoverAction?: boolean
-  collectionPopoverHide?: boolean
+  hideCollectionPopover?: boolean
   hideListing?: boolean
   linkTarget?: string
   fetchOnchainData?: boolean
@@ -284,7 +284,7 @@ const getSkeletonVariant = (slotProps) => {
   if (slotProps.isMobileVariant || slotProps.grid === 'small') {
     return 'minimal'
   }
-  if (props.collectionPopoverHide) {
+  if (props.hideCollectionPopover) {
     return 'slim'
   }
   return 'primary'

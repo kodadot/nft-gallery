@@ -1,5 +1,6 @@
 import { type Prefix } from '@kodadot1/static'
 import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { isAddress } from '@polkadot/util-crypto'
 import { createVisible, transferVisible, teleportVisible, migrateVisible, swapVisible } from '@/utils/config/permission.config'
 
 type ReplaceRouteItemCondition = (route: RouteLocationNormalizedLoadedGeneric) => boolean
@@ -14,6 +15,10 @@ const getFormatAddressRouteCondition = (cond: ReplaceRouteItemCondition, { addre
     cond,
     replaceRoute: ({ params, name, query }) => {
       const address = params[addressKey].toString()
+
+      if (!isAddress(address)) {
+        return
+      }
       const prefix = params.prefix.toString() as Prefix
 
       return execByVm({
