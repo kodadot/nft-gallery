@@ -7,18 +7,13 @@
 
     span {
       @apply h-5 px-4 py-0 rounded-[4rem];
-
-      @include ktheme() {
-        background: theme('blue-accent-bg-color');
-      }
+      background: var(--blue-accent-bg-color);
     }
   }
 
   .search-bar-bg {
     @apply absolute w-full h-full z-0 left-1 top-1;
-    @include ktheme() {
-      background: theme('background-color');
-    }
+    background: var(--background-color);
   }
 
   .search-bar-keyboard-icon {
@@ -40,9 +35,7 @@
   @apply z-[1];
 
   .control .icon {
-    @include ktheme() {
-      color: theme('text-color') !important;
-    }
+    color: rgb(var(--text-color)) !important;
   }
 
   &--skip-button {
@@ -63,20 +56,18 @@
       box-shadow: none;
     }
 
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-      color: theme('text-color');
-      background: theme('background-color');
+    box-shadow: var(--primary-shadow);
+    border: 1px solid var(--border-color);
+    color: rgb(var(--text-color));
+    background: var(--background-color);
 
-      &::placeholder {
-        color: theme('placeholder-color') !important;
-      }
+    &::placeholder {
+      color: var(--placeholder-color) !important;
+    }
 
-      &:hover,
-      &:focus {
-        border: 1px solid theme('border-color');
-      }
+    &:hover,
+    &:focus {
+      border: 1px solid var(--border-color);
     }
   }
 
@@ -107,9 +98,7 @@
     padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
-      @include ktheme() {
-        background-color: theme('k-accentlight2');
-      }
+      background-color: var(--k-accent-light-2);
     }
   }
 
@@ -121,10 +110,7 @@
     @include mobile {
       flex-direction: column !important;
     }
-
-    @include ktheme() {
-      color: theme('k-grey');
-    }
+    color: var(--k-grey);
   }
 
   .small-soon-text {
@@ -136,10 +122,9 @@
   .tab-content {
     padding-top: 0 !important;
   }
+
   .tabs ul {
-    @include ktheme() {
-      border-bottom-color: theme('placeholder-color');
-    }
+    border-bottom-color: var(--placeholder-color);
   }
 
   .tabs li a {
@@ -151,9 +136,7 @@
 
   .tabs li.is-active a {
     font-weight: 700;
-    @include ktheme() {
-      color: theme('text-color') !important;
-    }
+    color: rgb(var(--text-color)) !important;
   }
 
   .tabs:not(:last-child) {
@@ -163,10 +146,7 @@
 
   .search-history {
     @apply cursor-pointer;
-
-    @include ktheme() {
-      color: theme('k-grey');
-    }
+    color: var(--k-grey);
 
     .history-label {
       font-size: 16px;
@@ -177,23 +157,18 @@
       padding: 5px;
 
       &:hover {
-        @include ktheme() {
-          color: theme('k-hovergrey');
-        }
+        color: var(--k-hover-grey);
       }
     }
 
     .search-history-item {
       padding: 0 $desktop-padding-x;
       &:hover {
-        @include ktheme() {
-          background-color: theme('k-accentlight2');
-        }
+        background-color: var(--k-accent-light-2);
       }
     }
   }
 }
-
 
 @media screen and (max-width: 1123px) {
   .landing-search {
