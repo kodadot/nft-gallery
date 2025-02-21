@@ -5,7 +5,7 @@
         KodaDot Blog
       </h1>
       <div class="relative z-[1] text-2xl mb-20 font-medium">
-        Let’s Explore The NFT Universe
+        Let's Explore The NFT Universe
       </div>
       <img
         class="content-headline-cover"
@@ -146,7 +146,7 @@ const { data: posts } = useAsyncData('posts', async () => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .content {
   margin: 0 auto;
@@ -165,7 +165,7 @@ const { data: posts } = useAsyncData('posts', async () => {
       letter-spacing: -0.02em;
     }
 
-    @include touch {
+    @include bulma-touch {
       h1 {
         font-size: 2rem;
       }
@@ -223,7 +223,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   &-list {
     @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
 
-    @include touch {
+    @include bulma-touch {
       height: auto;
     }
 
@@ -241,11 +241,11 @@ const { data: posts } = useAsyncData('posts', async () => {
         }
       }
 
-      @include until(769px) {
+      @media (max-width: 769px) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      @include until(426px) {
+      @media (max-width: 426px) {
         grid-template-columns: repeat(1, minmax(0, 1fr));
       }
     }
@@ -291,7 +291,7 @@ const { data: posts } = useAsyncData('posts', async () => {
       border-right: 1px solid var(--border-color);
     }
 
-    @include touch {
+    @include bulma-touch {
       flex-direction: column;
 
       &-cover {

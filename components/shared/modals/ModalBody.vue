@@ -153,8 +153,6 @@ watch(
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 $x-padding: 2rem;
 $t-padding: 1.5rem;
 $b-padding: 1.25rem;
