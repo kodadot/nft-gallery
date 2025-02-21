@@ -61,8 +61,8 @@ import QRCode from '@/components/shared/QRCode.vue'
 
 const props = withDefaults(
   defineProps<{
-    noShadow: boolean
-    mobileModal: boolean
+    noShadow?: boolean
+    mobileModal?: boolean
     link?: string
     sharingContent?: string
   }>(),
