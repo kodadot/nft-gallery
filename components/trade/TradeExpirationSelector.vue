@@ -7,7 +7,7 @@
     append-to-body
     close-menu-on-move
     class="w-full"
-    menu-class="!min-w-[8rem] !mt-0 !ml-[168px]"
+    :menu-class="`!min-w-[8rem] !mt-0 ${customMenuClass}`"
   >
     <template #trigger="{ active }">
       <div
@@ -58,6 +58,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: number
     position?: string
+    customMenuClass?: string
   }>(), {
     position: 'bottom-left',
   },

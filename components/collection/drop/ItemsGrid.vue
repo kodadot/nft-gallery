@@ -30,6 +30,7 @@
       hide-listing
       show-timestamp
       :reset-search-query-params="['sort']"
+      fetch-onchain-data
     />
   </div>
 </template>

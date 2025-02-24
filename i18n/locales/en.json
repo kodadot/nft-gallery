@@ -8,6 +8,7 @@
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
   "about": "About",
+  "accept": "Accept",
   "account": "Account",
   "accounts": "Accounts",
   "action": {
@@ -285,6 +286,7 @@
     "decline": "Decline",
     "notice": "We use cookies for better service, see {0} for details."
   },
+  "count": "Count",
   "create": "Create",
   "create collection": "Create Collection",
   "createDropdown": {
@@ -930,6 +932,7 @@
     "resending": "Resending",
     "resetAll": "Reset All",
     "search": "Search",
+    "searchNoResults": "No results",
     "searchNoResultsText": "Give it another shot with different parameters or check back later - New awesome NFTs are added all the time",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
     "searchPlaceholder": "Search by Collection or NFT",
@@ -1134,7 +1137,6 @@
     "yesDelete": "Yes, Delete",
     "yesMint": "Yes, Mint NFTS"
   },
-  "merchshop": "MerchShop",
   "migrate": {
     "agreement": "I understand this action is irreversible once done.",
     "collection": "Migrate Collection",
@@ -1530,6 +1532,7 @@
     "invalidPrice": "Your offer must greater than 0.0001",
     "manageOffers": "Manage Offers",
     "newOffer": "New Offer",
+    "offer": "Offer",
     "offerAccept": "Accepting Offer",
     "offerCancellation": "Offer Cancellation",
     "offerCreation": "Offer Creation",
@@ -1842,6 +1845,7 @@
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterSwap": "Counter Swap",
     "counterparty": "Counterparty",
+    "createSwap": "Create Swap",
     "created": "Swap Created",
     "creatingSwap": "Creating Swap",
     "incomingSwap": "Incoming Swap",
@@ -1870,7 +1874,8 @@
     "yourAddress": "Your Address",
     "yourOffer": "Your offer",
     "yourSwap": "Your Swap",
-    "yourSwapList": "Your Swap List"
+    "yourSwapList": "Your Swap List",
+    "yourSwapOffers": "Your Swap Offers"
   },
   "swaps": "Swaps",
   "tabs": {
@@ -2000,6 +2005,15 @@
       "quarter": "90D",
       "week": "7D"
     }
+  },
+  "trades": {
+    "anyNftFrom": "Any NFT From",
+    "expiresIn": "Expires In",
+    "incoming": { "receive": "They Want", "send": "They Offer" },
+    "incomingTrades": "Incoming Offers/Trades",
+    "outgoing": { "receive": "You Get", "send": "You Offer" },
+    "requests": "Requests {0}",
+    "selectSendItem": "Select NFT First"
   },
   "transaction": {
     "acceptOffer": "Accept Offer",
