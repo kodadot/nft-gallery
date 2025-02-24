@@ -4,10 +4,8 @@
       width: 100vw;
       height: 100vh;
 
-      @include ktheme() {
-        border-top: 1px solid theme('border-color');
-        background: theme('background-color');
-      }
+      border-top: 1px solid var(--border-color);
+      background: var(--background-color);
 
       @include mobile {
         padding: 0;
@@ -32,14 +30,10 @@
             padding: 0 $fluid-container-padding;
           }
 
-          @include ktheme() {
-            border-bottom: 1px solid theme('border-color');
-          }
+          border-bottom: 1px solid var(--border-color);
 
           &.is-active {
-            @include ktheme() {
-              border-top: 1px solid theme('text-color-inverse');
-            }
+            border-top: 1px solid var(--text-color-inverse);
           }
 
           &--noBorder {
@@ -76,16 +70,12 @@
             @include mobile {
               top: $navbar-mobile-min-height;
             }
-            @include ktheme() {
-              background: theme('background-color');
-            }
+            background: var(--background-color);
           }
 
           &--reverse {
-            @include ktheme() {
-              background: theme('background-color-inverse');
-              color: theme('text-color-inverse');
-            }
+            background: var(--background-color-inverse);
+            color: var(--text-color-inverse);
           }
 
           .navbar-link {
@@ -111,11 +101,9 @@
       .button-connect-wallet {
         @apply w-4/5 h-[67px] block capitalize mt-0 mb-5 mx-auto rounded-none;
 
-        @include ktheme() {
-          box-shadow: theme('primary-shadow');
-          color: theme('black');
-          background: theme('k-primary');
-        }
+        box-shadow: var(--primary-shadow);
+        color: var(--black);
+        background: var(--k-primary);
 
         @include mobile {
           margin: 0;
@@ -167,10 +155,8 @@
     align-items: center;
   }
 
-  @include ktheme() {
-    background: theme('background-color');
-    border-bottom: 1px solid theme('border-color');
-  }
+  background: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
 
   &.is-spaced {
     padding: 0;
@@ -189,14 +175,10 @@
 
   .navbar-item {
     @apply capitalize font-normal cursor-pointer rounded-none #{!important};
+    color: rgb(var(--text-color));
 
-    @include ktheme() {
-      color: theme('text-color');
-    }
     &:hover {
-      @include ktheme() {
-        color: theme('link-hover');
-      }
+      color: var(--link-hover);
       background-color: inherit;
     }
   }
@@ -220,10 +202,8 @@
     .navbar-burger {
       height: 2.5em;
       width: 2.5em;
-      @include ktheme() {
-        background: theme('background-color');
-        color: theme('text-color');
-      }
+      background: var(--background-color);
+      color: rgb(var(--text-color));
     }
   }
 
@@ -239,10 +219,7 @@
     width: min-content;
     min-width: 100px;
     max-width: 600px;
-
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    color: rgb(var(--text-color));
   }
 
   &__identity {
@@ -253,10 +230,7 @@
 
   &__avatar-icon {
     @apply rounded-[24.5px];
-
-    @include ktheme() {
-      border: 1.5px solid theme('text-color');
-    }
+    border: 1.5px solid rgb(var(--text-color));
   }
 
   button.button.is-bordered-light {
@@ -273,31 +247,23 @@
   .navbar-explore {
     .menu-item {
       @apply cursor-pointer;
-      @include ktheme() {
-        color: theme('text-color');
-      }
+      color: rgb(var(--text-color));
 
       &.is-active {
         font-weight: 700;
         background-color: transparent !important;
-        @include ktheme() {
-          color: theme('text-color') !important;
-          &:hover {
-            background-color: transparent !important;
-          }
+        color: rgb(var(--text-color)) !important;
+        &:hover {
+          background-color: transparent !important;
         }
       }
       &:hover {
         background-color: transparent !important;
-        @include ktheme() {
-          color: theme('link-hover') !important;
-        }
+        color: var(--link-hover) !important;
       }
       &.is-disabled {
         @apply cursor-not-allowed;
-        @include ktheme() {
-          color: theme('k-shade');
-        }
+        color: rgb(var(--k-shade));
       }
     }
   }
@@ -306,10 +272,8 @@
     height: $navbar-desktop-min-height;
     @apply box-border fixed w-full z-[989] overflow-hidden rounded-none left-0 top-0;
 
-    @include ktheme() {
-      border-bottom: 1px solid theme('border-color');
-      background: theme('background-color');
-    }
+    border-bottom: 1px solid var(--border-color);
+    background: var(--background-color);
 
     > .control {
       margin-right: auto !important;
