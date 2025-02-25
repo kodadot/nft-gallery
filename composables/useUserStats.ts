@@ -1,5 +1,5 @@
-import resolveQueryPath from '@/utils/queryPathResolver'
-import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
+import { useQuery } from '@urql/vue'
+import profileStatsByIdRefined from '~/queries/subsquid/general/profileStatsByIdRefined'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()
@@ -8,19 +8,22 @@ export default () => {
   const totalSpent = ref(0)
 
   const getUserStats = async () => {
-    const query = await resolveQueryPath(client.value, 'profileStatsById')
-    const { data } = await useAsyncQuery<{ invested: InteractionWithNFT[] }>({
-      query: query.default,
-      clientId: client.value,
+    const { data } = await useQuery({
+      query: profileStatsByIdRefined,
       variables: {
         id: accountId.value,
         denyList: getDenyList(urlPrefix.value),
+        __client: client.value,
       },
     })
 
     const holdingsEvents = data.value?.invested.filter(
       event => event.nft.currentOwner === accountId.value,
     )
+
+    if (!holdingsEvents) {
+      return
+    }
 
     totalSpent.value = Number(getSumOfObjectField(holdingsEvents, 'meta'))
   }
