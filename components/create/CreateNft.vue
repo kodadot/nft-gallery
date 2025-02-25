@@ -27,7 +27,7 @@
         :price="form.salePrice"
         :symbol="chainSymbol"
         :chain="currentChain"
-        :image="imagePreview"
+        :image="imagePreview || undefined"
         data-testid="create-nft-preview-box"
       />
 
