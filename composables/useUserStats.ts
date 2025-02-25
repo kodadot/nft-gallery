@@ -1,23 +1,25 @@
-import { useQuery } from '@urql/vue'
 import profileStatsByIdRefined from '~/queries/subsquid/general/profileStatsByIdRefined'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()
   const { accountId } = useAuth()
+  const { $apolloClient } = useNuxtApp()
 
   const totalSpent = ref(0)
 
   const getUserStats = async () => {
-    const { data } = await useQuery({
+    const { data } = await $apolloClient.query({
       query: profileStatsByIdRefined,
       variables: {
         id: accountId.value,
         denyList: getDenyList(urlPrefix.value),
-        __client: client.value,
+      },
+      context: {
+        endpoint: client.value,
       },
     })
 
-    const holdingsEvents = data.value?.invested.filter(
+    const holdingsEvents = data?.invested.filter(
       event => event.nft.currentOwner === accountId.value,
     )
 
