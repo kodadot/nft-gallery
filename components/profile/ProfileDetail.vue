@@ -813,7 +813,7 @@ useAsyncData('tabs-empty-result', async () => {
   const chains = (
     {
       SUB: ['ahp', 'ahk'],
-      EVM: ['base', 'imx'],
+      EVM: ['base'],
     } as Record<ChainVM, Prefix[]>
   )[vm.value]
 
