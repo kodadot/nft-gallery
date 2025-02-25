@@ -10,8 +10,8 @@ import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
 import type { NFT, TokenId } from '@/types'
 import { fetchOdaToken } from '@/services/oda'
-import tokenListWithSearch from '~/queries/subsquid/general/tokenListWithSearch'
-import nftListWithSearch from '~/queries/subsquid/general/nftListWithSearch'
+import tokenListWithSearch from '@/queries/subsquid/general/tokenListWithSearch'
+import nftListWithSearch from '@/queries/subsquid/general/nftListWithSearch'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',

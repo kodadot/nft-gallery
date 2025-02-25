@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
+import { URLS } from '@/utils/constants'
 
 export default defineNuxtPlugin(() => {
   const GRAPHQL_ENDPOINTS = {

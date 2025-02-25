@@ -1,4 +1,4 @@
-import profileStatsByIdRefined from '~/queries/subsquid/general/profileStatsByIdRefined'
+import profileStatsByIdRefined from '@/queries/subsquid/general/profileStatsByIdRefined'
 
 export default () => {
   const { client, urlPrefix } = usePrefix()

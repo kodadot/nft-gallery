@@ -314,7 +314,7 @@ import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import nftByBlockNumber from '~/queries/subsquid/general/nftByBlockNumber'
+import nftByBlockNumber from '@/queries/subsquid/general/nftByBlockNumber'
 
 // composables
 const { $consola, $i18n } = useNuxtApp()

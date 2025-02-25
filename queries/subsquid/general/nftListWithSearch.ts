@@ -1,7 +1,7 @@
-import { graphql } from '~/queries/clients/graphqlClients'
+import { graphql } from '@/queries/clients/graphqlClients'
 import { nftFragment } from '@/queries/fragments/typed/nft'
-import { nftDetailsFragment } from '~/queries/fragments/typed/nftDetails'
-import { baseMetaFragment } from '~/queries/fragments/typed/baseMeta'
+import { nftDetailsFragment } from '@/queries/fragments/typed/nftDetails'
+import { baseMetaFragment } from '@/queries/fragments/typed/baseMeta'
 
 export default graphql(`
 query nftListWithSearch(

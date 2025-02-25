@@ -1,4 +1,4 @@
-import { graphql } from '~/queries/clients/graphqlClients'
+import { graphql } from '@/queries/clients/graphqlClients'
 
 export default graphql(
   `query nftByBlockNumber($limit: Int = 10, $blockNumber: BigInt) {
