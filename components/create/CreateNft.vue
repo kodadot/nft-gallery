@@ -581,18 +581,29 @@ const retry = ref(10) // max retry 10 times
 
 const { $apolloClient } = useNuxtApp()
 async function getNftId() {
-  const result = await $apolloClient.query({
-    query: nftByBlockNumber,
-    variables: {
-      limit: 1,
-      blockNumber: mintedBlockNumber.value,
-    },
-    context: {
-      endpoint: currentChain.value,
-    },
-  })
+  try {
+    const result = await $apolloClient.query({
+      query: nftByBlockNumber,
+      variables: {
+        limit: 1,
+        blockNumber: mintedBlockNumber.value,
+      },
+      context: {
+        endpoint: currentChain.value,
+      },
+    })
 
-  return result.data?.nftEntities[0].id
+    if (!result.data?.nftEntities?.length) {
+      $consola.warn('No NFT found for the given block number')
+      return null
+    }
+
+    return result.data?.nftEntities[0].id
+  }
+  catch (error) {
+    $consola.error('Failed to fetch NFT ID:', error)
+    return null
+  }
 }
 
 watchEffect(async () => {
