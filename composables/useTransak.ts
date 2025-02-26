@@ -13,7 +13,6 @@ export default function useTransak() {
   const getChainConfig = (prefix: Prefix) => {
     return ({
       base: { currency: 'ETH', network: 'base' },
-      imx: { currency: 'ETH', network: 'immutablezkevm' },
       ahp: { currency: 'DOT', network: 'mainnet' },
       ahk: { currency: 'KSM', network: 'mainnet' },
       ksm: { currency: 'KSM', network: 'mainnet' },

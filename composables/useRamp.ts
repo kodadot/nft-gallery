@@ -23,7 +23,6 @@ export default function useRamp() {
   const getAsset = (prefix: Prefix) => {
     return ({
       base: 'BASE_ETH',
-      imx: 'IMMUTABLEX_ETH',
       ahp: 'DOT_DOT',
       ahk: 'KUSAMA_KSM',
       ksm: 'KUSAMA_KSM',

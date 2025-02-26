@@ -12,7 +12,6 @@ export const INDEXERS: Config<SquidEndpoint> = {
   ahk: 'https://ahk.gql.api.kodadot.xyz/',
   ahp: 'https://ahp.gql.api.kodadot.xyz/',
   dot: 'https://ahp.gql.api.kodadot.xyz/', // DEV: show PolkadotHub
-  imx: 'https://squid.subsquid.io/flick/graphql',
   base: 'https://kodadot.squids.live/basick/graphql',
   mnt: 'https://squid.subsquid.io/flock/graphql',
   // ahr: 'https://squid.subsquid.io/snack/graphql',

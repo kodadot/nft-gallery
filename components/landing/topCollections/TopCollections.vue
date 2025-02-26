@@ -22,7 +22,6 @@
           position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
-          :exclude="['imx']"
         />
       </div>
     </div>

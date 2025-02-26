@@ -41,7 +41,7 @@ import { openProfileCreateModal } from '@/components/profile/create/openProfileM
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
-const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot', 'imx']
+const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const profileOnboardingStore = useProfileOnboardingStore()
