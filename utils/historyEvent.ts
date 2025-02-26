@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import formatBalance from '@/utils/format/balance'
 
 enum SpecialHistoryEventType {

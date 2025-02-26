@@ -94,10 +94,10 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoModal } from '@kodadot1/brick'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+import { Interaction } from '@/utils/shoppingActions'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'

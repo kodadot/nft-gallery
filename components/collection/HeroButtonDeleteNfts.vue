@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoDropdownItem } from '@kodadot1/brick'
+import { Interaction } from '@/utils/shoppingActions'
 
 type NftIds = {
   nfts?: {

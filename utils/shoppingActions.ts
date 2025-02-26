@@ -1,6 +1,14 @@
-// TODO: REMOVE!!!
-
-import { Interaction } from '@kodadot1/minimark/v1'
+export enum Interaction {
+  MINT = 'MINT',
+  MINTNFT = 'MINTNFT',
+  LIST = 'LIST',
+  UNLIST = 'UNLIST',
+  BUY = 'BUY',
+  SEND = 'SEND',
+  CONSUME = 'CONSUME',
+  CHANGEISSUER = 'CHANGEISSUER',
+  EMOTE = 'EMOTE',
+}
 
 enum OfferActions {
   MAKE_OFFER = 'MAKE_OFFER',

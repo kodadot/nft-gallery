@@ -188,7 +188,7 @@
     </form>
     <CreateModalsCollectionSuccessModal
       v-model="displaySuccessModal"
-      :tx-hash="txHash as string"
+      :tx-hash="txHash || ''"
       :status="status"
       :collection="mintedCollectionInfo"
     />
@@ -206,7 +206,7 @@ import {
   NeoSwitch,
 } from '@kodadot1/brick'
 import { makeSymbol } from '@kodadot1/minimark/shared'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import type {
   ActionMintCollection,
   BaseCollectionType,

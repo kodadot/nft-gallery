@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { Interaction } from '@/utils/shoppingActions'
 import { Collections } from '@/composables/transaction/types'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import {

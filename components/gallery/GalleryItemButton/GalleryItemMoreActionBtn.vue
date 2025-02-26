@@ -56,9 +56,9 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark/v1'
 import { useQuery } from '@tanstack/vue-query'
 import GalleryItemEditNftButton from './GalleryItemEditNftButton.vue'
+import { Interaction } from '@/utils/shoppingActions'
 import { hasOperationsDisabled } from '@/utils/prefix'
 import { refreshOdaTokenMetadata } from '@/services/oda'
 import type { NFT } from '@/types'
