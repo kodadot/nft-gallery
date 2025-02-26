@@ -1,4 +1,14 @@
 export enum Interaction {
+  ACCEPT = 'ACCEPT',
+  BASE = 'BASE',
+  EQUIP = 'EQUIP',
+  EQUIPPABLE = 'EQUIPPABLE',
+  LOCK = 'LOCK',
+  RESADD = 'RESADD',
+  SETPROPERTY = 'SETPROPERTY',
+  SETPRIORITY = 'SETPRIORITY',
+  THEMEADD = 'THEMEADD',
+  CREATE = 'CREATE',
   MINT = 'MINT',
   MINTNFT = 'MINTNFT',
   LIST = 'LIST',
@@ -8,6 +18,8 @@ export enum Interaction {
   CONSUME = 'CONSUME',
   CHANGEISSUER = 'CHANGEISSUER',
   EMOTE = 'EMOTE',
+  BURN = 'BURN',
+  DESTROY = 'DESTROY',
 }
 
 enum OfferActions {
