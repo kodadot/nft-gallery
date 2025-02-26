@@ -24,7 +24,7 @@
           </span>
 
           <a
-            v-if="count"
+            v-if="count && !isCollectionSwapDesired"
             @click="clearAll"
           >
             {{ $t('shoppingCart.clearAll') }}
@@ -46,6 +46,7 @@
             :name="nft.name"
             :image="sanitizeIpfsUrl(nft.meta.image)"
             image-class="border border-k-shade"
+            :removable="!(isCollectionSwap && nft.id === null)"
             @remove="swapStore.removeStepItem(nft.id)"
           />
 
@@ -107,7 +108,7 @@
             size="large"
             label="Next"
             variant="primary"
-            :disabled
+            :disabled="disabled"
             no-shadow
             expanded
             @click="onNext"
@@ -133,23 +134,6 @@ type StepDetails = {
   surchargeDirection: SwapSurchargeDirection
 }
 
-const stepDetailsMap: Partial<Record<SwapStep, StepDetails>> = {
-  [SwapStep.DESIRED]: {
-    title: 'swap.yourSwapList',
-    surchargeTitle: 'swap.requestToken',
-    nextRouteName: getSwapStepRouteName(SwapStep.OFFERED),
-    backRouteName: getSwapStepRouteName(SwapStep.COUNTERPARTY),
-    surchargeDirection: 'Receive',
-  },
-  [SwapStep.OFFERED]: {
-    title: 'swap.yourOffer',
-    surchargeTitle: 'swap.addToken',
-    nextRouteName: getSwapStepRouteName(SwapStep.REVIEW),
-    backRouteName: getSwapStepRouteName(SwapStep.DESIRED),
-    surchargeDirection: 'Send',
-  },
-}
-
 const props = defineProps<{
   step: SwapStep
 }>()
@@ -161,6 +145,24 @@ const { accountId } = useAuth()
 const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { getChainIcon } = useIcon()
+const isCollectionSwap = computed(() => swap.value.isCollectionSwap)
+
+const stepDetailsMap: ComputedRef<Partial<Record<SwapStep, StepDetails>>> = computed(() => ({
+  [SwapStep.DESIRED]: {
+    title: 'swap.yourSwapList',
+    surchargeTitle: 'swap.requestToken',
+    nextRouteName: getSwapStepRouteName(SwapStep.OFFERED, isCollectionSwap.value),
+    backRouteName: getSwapStepRouteName(SwapStep.COUNTERPARTY, isCollectionSwap.value),
+    surchargeDirection: 'Receive',
+  },
+  [SwapStep.OFFERED]: {
+    title: 'swap.yourOffer',
+    surchargeTitle: 'swap.addToken',
+    nextRouteName: getSwapStepRouteName(SwapStep.REVIEW, isCollectionSwap.value),
+    backRouteName: getSwapStepRouteName(SwapStep.DESIRED, isCollectionSwap.value),
+    surchargeDirection: 'Send',
+  },
+}))
 
 const target = ref()
 const amount = ref()
@@ -168,13 +170,15 @@ const itemsContainer = ref()
 
 const isTargetVisible = useElementVisibility(target)
 const stepItems = computed(() => swapStore.getStepItems(props.step))
-const stepDetails = computed(() => stepDetailsMap[props.step] as StepDetails)
+const stepDetails = computed(() => stepDetailsMap.value[props.step] as StepDetails)
 const title = computed(() => $i18n.t(stepDetails.value.title))
 const surchargeTitle = computed(() => $i18n.t(stepDetails.value.surchargeTitle))
 const surchargeDisabled = computed(() => Boolean(swap.value.surcharge))
 const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === stepDetails.value.surchargeDirection)
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
 const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && props.step === SwapStep.OFFERED)
+const isCollectionSwapDesired = computed(() => isCollectionSwap.value && props.step === SwapStep.DESIRED)
+
 const disabled = computed(() => {
   if ((!accountId.value && props.step === SwapStep.OFFERED) || isOverOneToOneSwap.value) {
     return true

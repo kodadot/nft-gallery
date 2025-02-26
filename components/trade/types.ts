@@ -11,13 +11,13 @@ export type MakingOfferItem = {
   highestOffer?: string
   offerPrice?: string
   offerExpiration?: number
-  id: string
+  id: string | null
   name: string
   currentOwner: string
   collection: EntityWithId & CollectionFloorPrice
   meta?: NFTMetadata
   metadata: string
-  sn: string
+  sn: string | null
 }
 
 export enum TradeStatus {

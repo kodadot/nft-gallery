@@ -190,9 +190,9 @@ export type SwapSurchargeDirection = 'Send' | 'Receive'
 export type SwapSurcharge = { amount: string, direction: SwapSurchargeDirection }
 
 export type TokenToSwap = {
-  id: string
+  id: string | null
   collectionId: string
-  sn: string
+  sn: string | null
 }
 
 export type ActionSwap = {

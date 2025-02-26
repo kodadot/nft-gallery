@@ -59,7 +59,7 @@
         :prefix="prefix"
         :show-price="showPrice"
         :show-timestamp="showTimestamp"
-        :collection-popover-hide="collectionPopoverHide"
+        :hide-collection-popover="hideCollectionPopover"
         :collection-popover-show-delay="collectionPopoverShowDelay"
       />
     </component>
@@ -125,7 +125,7 @@ const props = withDefaults(
     prefix: string
     showPrice?: boolean
     showTimestamp?: boolean
-    collectionPopoverHide?: boolean
+    hideCollectionPopover?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder?: string

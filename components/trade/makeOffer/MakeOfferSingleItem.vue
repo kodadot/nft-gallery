@@ -2,7 +2,10 @@
   <div class="py-5">
     <CartItemDetails :nft="item">
       <template #right>
-        <div class="flex items-end">
+        <div
+          v-if="showPrice"
+          class="flex items-end"
+        >
           {{ itemPrice }}
         </div>
       </template>
@@ -61,6 +64,7 @@ const emit = defineEmits([
 
 const props = defineProps<{
   offerPrice?: number
+  showPrice?: boolean
 }>()
 
 const offerPrice = useVModel(props, 'offerPrice')
