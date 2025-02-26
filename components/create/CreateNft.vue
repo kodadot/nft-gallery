@@ -27,7 +27,7 @@
         :price="form.salePrice"
         :symbol="chainSymbol"
         :chain="currentChain"
-        :image="imagePreview"
+        :image="imagePreview || ''"
         data-testid="create-nft-preview-box"
       />
 
@@ -298,9 +298,8 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import { toNFTId } from '@kodadot1/minimark/v2'
-import type { CreatedNFT } from '@kodadot1/minimark/v1'
 import CreateNftPreview from './CreateNftPreview.vue'
+import { toNFTId } from '@/utils/nft'
 import { Interaction } from '@/utils/shoppingActions'
 import type { ActionMintToken, ActionList, TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
@@ -492,12 +491,10 @@ const confirm = async ({
 
 const createNft = async () => {
   try {
-    (await transaction(
+    await transaction(
       mintAction.value,
       currentChain.value,
-    )) as unknown as {
-      createdNFTs?: Ref<CreatedNFT[]>
-    }
+    )
 
     transactionStatus.value = 'mint'
   }

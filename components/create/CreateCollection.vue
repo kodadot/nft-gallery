@@ -205,7 +205,6 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@/utils/shoppingActions'
 import type {
   ActionMintCollection,
@@ -262,7 +261,6 @@ const name = ref('')
 const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
-const symbol = ref('')
 const confirmModal = ref(false)
 const autoTeleport = ref(false)
 const royalty = ref({
@@ -450,10 +448,6 @@ const actions = computed<AutoTeleportAction[]>(() => [
     },
   },
 ])
-
-onMounted(() => {
-  symbol.value = makeSymbol()
-})
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

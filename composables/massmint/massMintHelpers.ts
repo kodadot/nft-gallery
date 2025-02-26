@@ -1,4 +1,4 @@
-import type { CreatedNFT } from '@kodadot1/minimark/v1'
+import type { CreatedNFT } from '@/utils/nft'
 import { Interaction } from '@/utils/shoppingActions'
 import type {
   MintedCollection,

@@ -1,5 +1,3 @@
-// TODO: hacky, but works for now
-import { isEmpty } from '@kodadot1/minimark/utils'
 import { emptyObject } from './empty'
 import { fastExtract } from './ipfs'
 import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
