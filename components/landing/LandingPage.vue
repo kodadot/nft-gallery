@@ -10,20 +10,20 @@
         v-if="showTopCollections"
         class="py-8 instance"
       >
-        <div class="container is-fluid">
+        <div class="container-fluid">
           <LandingTopCollections class="my-5" />
         </div>
       </section>
 
       <section class="py-8 instance">
-        <div class="container is-fluid">
+        <div class="container-fluid">
           <!-- generative  -->
           <LazyCarouselTypeGenerative />
         </div>
       </section>
 
       <section class="py-8 instance">
-        <div class="container is-fluid">
+        <div class="container-fluid">
           <!-- latest sales -->
           <LazyCarouselTypeLatestSales />
 
