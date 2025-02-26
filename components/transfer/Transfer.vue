@@ -1063,12 +1063,12 @@ watchDebounced(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .transfer-card {
   max-width: 660px;
 
-  @include touch {
+  @include bulma-touch {
     width: 100vw;
   }
 

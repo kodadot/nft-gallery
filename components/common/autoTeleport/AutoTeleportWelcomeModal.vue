@@ -93,7 +93,7 @@ const onClose = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .btn-height {
   height: 3.5rem;
@@ -105,7 +105,7 @@ const onClose = () => {
     grid-template-columns: repeat(3, auto);
     grid-gap: 1rem;
 
-    @include mobile {
+    @include bulma-mobile {
       grid-template-columns: repeat(1, auto);
     }
   }
