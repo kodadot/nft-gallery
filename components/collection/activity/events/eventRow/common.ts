@@ -1,4 +1,4 @@
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import { type InteractionWithNFT } from '@/composables/collectionActivity/types'
 import { parseNftAvatar } from '@/utils/nft'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'

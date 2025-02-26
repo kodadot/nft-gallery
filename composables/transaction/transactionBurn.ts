@@ -1,11 +1,7 @@
-import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import {
-  Interaction as NewInteraction,
-  createInteraction as createNewInteraction,
-} from '@kodadot1/minimark/v2'
 import type { ApiPromise } from '@polkadot/api'
 import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 import type { SubmittableExtrinsicFunction } from '@polkadot/api-base/types'
+import { Interaction } from '@/utils/shoppingActions'
 import type {
   ActionDeleteCollection,
   ExecuteSubstrateTransactionParams,
@@ -95,26 +91,6 @@ export async function execBurnCollection(
   const collectionId = params.collectionId.toString()
 
   try {
-    if (params.urlPrefix === 'rmrk') {
-      executeTransaction({
-        cb: api.tx.system.remark,
-        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
-      })
-    }
-
-    if (params.urlPrefix === 'ksm') {
-      executeTransaction({
-        cb: api.tx.system.remark,
-        arg: [
-          createNewInteraction({
-            action: NewInteraction.DESTROY,
-            payload: { id: collectionId },
-          }),
-        ],
-      })
-    }
-
-    // item.urlPrefix === 'ahr'
     if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
       const witness = (
         await api.query.nfts.collection(params.collectionId)

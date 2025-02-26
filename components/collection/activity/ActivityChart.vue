@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import type {
   DataPoint } from './utils'
 import {
@@ -30,6 +29,7 @@ import {
   sortAsc,
   toDataPoint,
 } from './utils'
+import { Interaction } from '@/utils/shoppingActions'
 import type { ActivityInteraction } from '@/types'
 import PriceChart from '@/components/chart/PriceChart.vue'
 

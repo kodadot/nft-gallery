@@ -1,12 +1,11 @@
 import type { OpenSeaAttribute as Attribute } from '@kodadot1/hyperdata'
-import type { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { Abi as ViemAbi } from 'viem'
+import type { Interaction, ShoppingActions } from '@/utils/shoppingActions'
 import type { BaseTokenType } from '@/components/base/types'
 import type { Royalty } from '@/utils/royalty'
-import type { ShoppingActions } from '@/utils/shoppingActions'
 import type { Extrinsic } from '@/utils/transactionExecutor'
 import type { Metadata } from '@/services/nftStorage'
 

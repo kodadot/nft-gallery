@@ -49,9 +49,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 import { NeoButton } from '@kodadot1/brick'
 import History from './History.vue'
+import { Interaction as InteractionEnum } from '@/utils/shoppingActions'
 import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from '@/components/profile/FilterButton.vue'
 import Pagination from '@/components/common/Pagination.vue'

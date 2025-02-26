@@ -43,10 +43,6 @@ export default defineNuxtConfig({
         ? {
             include: [
               '@google/model-viewer',
-              '@kodadot1/minimark/common',
-              '@kodadot1/minimark/shared',
-              '@kodadot1/minimark/v1',
-              '@kodadot1/minimark/v2',
               '@paraspell/sdk-pjs',
               '@polkadot/api',
               '@polkadot/api-augment',
@@ -82,7 +78,6 @@ export default defineNuxtConfig({
               'unzipit',
               'vue-chartjs',
               'wavesurfer.js',
-              '@kodadot1/minimark/utils',
               'lodash',
               'jdenticon',
               'gql.tada',

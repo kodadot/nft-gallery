@@ -50,12 +50,12 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import { useResizeObserver } from '@vueuse/core'
 import ActivityChart from './ActivityChart.vue'
 import OwnerInsights from './OwnerInsights.vue'
 import Events from './events/Events.vue'
 import { isAnyActivityFilterActive } from './utils'
+import { Interaction } from '@/utils/shoppingActions'
 import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'

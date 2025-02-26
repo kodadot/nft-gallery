@@ -1,7 +1,8 @@
-import { trimAll } from '@kodadot1/minimark/utils'
 import type BN from 'bn.js'
 import { formatBalance } from '@polkadot/util'
 import type { Prefix } from '@kodadot1/static'
+
+export const trimAll = (text?: string) => (text || '').replace(/\s/g, '')
 
 function format(
   balance: number | string | BN | bigint,

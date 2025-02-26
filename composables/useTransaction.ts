@@ -1,4 +1,3 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import type { Address } from 'viem'
 
@@ -48,13 +47,13 @@ import type {
   HowAboutToExecuteOnResultParam,
   HowAboutToExecute as SubstrateHowAboutToExecute,
 } from './useMetaTransaction'
+import { Interaction, ShoppingActions } from '@/utils/shoppingActions'
 import useEvmMetaTransaction, {
   type EvmHowAboutToExecute,
   type EvmHowAboutToExecuteParam,
 } from '@/composables/transaction/evm/useMetaTransaction'
 import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/openReconnectWalletModal'
 import { hasOperationsDisabled } from '@/utils/prefix'
-import { ShoppingActions } from '@/utils/shoppingActions'
 import {
   successMessage as successNotification,
   warningMessage,

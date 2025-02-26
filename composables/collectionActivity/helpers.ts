@@ -1,4 +1,3 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import type { Prefix } from '@kodadot1/static'
 import type {
   Flippers,
@@ -7,6 +6,7 @@ import type {
   NFTMap,
   Owners,
 } from './types'
+import { Interaction } from '@/utils/shoppingActions'
 import { sum } from '@/utils/math'
 
 export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp', 'base'] // 'ahr'

@@ -1,4 +1,3 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import consola from 'consola'
 import { type Prefix } from '@kodadot1/static'
 import {
@@ -24,6 +23,7 @@ import type {
   ActionAcceptSwap,
   Actions,
 } from '../transaction/types'
+import { Interaction } from '@/utils/shoppingActions'
 import { getPercentSupportFee } from '@/utils/support'
 
 export const verifyRoyalty = (
