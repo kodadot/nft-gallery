@@ -33,14 +33,13 @@
       @close="onClose"
     >
       <ModalBody
-        modal-max-height="100vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div class="px-6 overflow-y-auto">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -57,7 +56,6 @@
             @set-fixed-price="setFixedPrice"
           />
         </div>
-
         <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
