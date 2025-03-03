@@ -14,11 +14,11 @@
           @click="gotoPathAfterLogin('/create/collection')"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <NeoIcon
-              icon="image-polaroid"
-              custom-size="fa-3x"
+            <Icon
+              name="i-mdi:camera-image"
+              class="text-6xl"
             />
-            <div class="mt-8 max-sm:mt-0">
+            <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
                 Collection
               </p>
@@ -32,11 +32,11 @@
           @click="router.push({ query: { select: 'nft' } })"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <NeoIcon
-              icon="gem"
-              custom-size="fa-3x"
+            <Icon
+              name="i-mdi:diamond-stone"
+              class="text-6xl"
             />
-            <div class="mt-8 max-sm:mt-0">
+            <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
                 NFT
               </p>
@@ -56,11 +56,11 @@
           @click="gotoPathAfterLogin('/create/nft')"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <NeoIcon
-              icon="image"
-              custom-size="fa-3x"
+            <Icon
+              name="i-mdi:file-image-box"
+              class="text-6xl"
             />
-            <div class="mt-8 max-sm:mt-0">
+            <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
                 {{ $t('mint.landing.singleNft') }}
               </p>
@@ -74,11 +74,11 @@
           @click="gotoPathAfterLogin(`/${urlPrefix}/massmint`)"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <NeoIcon
-              icon="photo-film"
-              custom-size="fa-3x"
+            <Icon
+              name="i-mdi:folder-multiple-image"
+              class="text-6xl"
             />
-            <div class="mt-8 max-sm:mt-0">
+            <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
                 {{ $t('mint.landing.massNft') }}
               </p>
@@ -92,8 +92,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-
 const { doAfterLogin } = useDoAfterlogin()
 const { urlPrefix } = usePrefix()
 const route = useRoute()

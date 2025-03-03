@@ -26,10 +26,10 @@
         >
           <section class="px-6 py-12">
             <div class="content text-center">
-              <NeoIcon
+              <Icon
                 v-if="!file && !url"
-                :icon="icon"
-                custom-size="fa-2x"
+                :name="icon"
+                class="text-4xl"
               />
               <div
                 v-if="url && !isModelMedia"
@@ -42,10 +42,10 @@
                   @error="hasError = true"
                 />
               </div>
-              <NeoIcon
+              <Icon
                 v-if="hasError"
-                icon="eye-slash"
-                custom-size="fa-2x"
+                name="i-mdi:eye-off-outline"
+                class="text-4xl"
               />
               <p v-if="!file">
                 {{ label }}
@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { NeoField, NeoUpload } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 
@@ -91,7 +91,7 @@ const props = defineProps({
     default:
       'Drop your NFT here or click to upload or simply paste image from clipboard',
   },
-  icon: { type: String, default: 'upload' },
+  icon: { type: String, default: 'i-mdi:folder-upload-outline' },
   required: { type: Boolean, default: false },
   expanded: { type: Boolean },
   preview: { type: Boolean },

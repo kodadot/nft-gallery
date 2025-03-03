@@ -31,8 +31,8 @@
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur flex capitalize items-center justify-center flex-col"
     >
-      <NeoIcon
-        icon="eye-slash"
+      <Icon
+        name="i-mdi:eye-off-outline"
         class="mb-3"
       />
       <span class="font-bold">
@@ -44,9 +44,8 @@
       v-if="hasNormalTag"
       class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
     >
-      <NeoIcon
-        icon="image"
-        pack="far"
+      <Icon
+        name="i-mdi:file-image-box"
         class="text-sm font-medium"
       />
     </div>
@@ -70,7 +69,6 @@ import { useElementHover, useElementVisibility } from '@vueuse/core'
 import {
   NeoButton,
   NeoIFrameMedia,
-  NeoIcon,
   NeoImageMedia,
   NeoJsonMedia,
   NeoObjectMedia,
