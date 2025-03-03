@@ -10,7 +10,7 @@
     >
       <Icon
         name="i-mdi:cart-outline"
-        class="text-2xl xl:text-xl"
+        class="text-xl"
       />
       <ActiveCount
         v-if="numberOfItems"

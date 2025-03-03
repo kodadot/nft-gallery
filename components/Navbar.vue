@@ -208,7 +208,7 @@
                 {{ $t('profile.page') }}
                 <Icon
                   name="i-mdi:account-circle-outline"
-                  class="text-2xl ml-1"
+                  class="text-xl ml-1"
                 />
               </span>
               <Icon
