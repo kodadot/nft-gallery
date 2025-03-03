@@ -26,3 +26,51 @@ $base-margin: 20px;
     }
   }
 }
+
+// DEPRECATED: for new components, please avoid using these mixins. Please use tailwind breakpoints instead.
+// Bulma breakpoints
+@mixin bulma-mobile {
+  @media (max-width: 768px) { @content; }
+}
+
+@mixin bulma-tablet {
+  @media (min-width: 769px) { @content; }
+}
+
+@mixin bulma-touch {
+  @media (max-width: 1215px) { @content; }
+}
+
+@mixin bulma-desktop {
+  @media (min-width: 1024px) { @content; }
+}
+
+@mixin bulma-widescreen {
+  @media (min-width: 1216px) { @content; }
+}
+
+@mixin bulma-fullhd {
+  @media (min-width: 1408px) { @content; }
+}
+
+// Bulma "-only" variants
+@mixin bulma-tablet-only {
+  @media (min-width: 769px) and (max-width: 1023px) { @content; }
+}
+
+@mixin bulma-desktop-only {
+  @media (min-width: 1024px) and (max-width: 1215px) { @content; }
+}
+
+@mixin bulma-widescreen-only {
+  @media (min-width: 1216px) and (max-width: 1407px) { @content; }
+}
+
+// Bulma "until-" variants
+@mixin bulma-until-widescreen {
+  @media (max-width: 1215px) { @content; }
+}
+
+@mixin bulma-until-fullhd {
+  @media (max-width: 1407px) { @content; }
+}
