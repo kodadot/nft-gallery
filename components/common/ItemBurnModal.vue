@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoCheckbox } from '@kodadot1/brick'
+import { Interaction } from '@/utils/shoppingActions'
 import { type ActionConsume } from '@/composables/transaction/types'
 import { type UserCartModalExpose } from '@/components/common/userCart/UserCartModal.vue'
 
