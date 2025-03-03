@@ -98,8 +98,6 @@ const onFileSelected = (file: File) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .icon-size {
   font-size: 3.5rem;
 }
