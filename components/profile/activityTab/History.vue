@@ -79,10 +79,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
 import HistoryRow from './HistoryRow.vue'
+import { Interaction } from '@/utils/shoppingActions'
 import { exist } from '@/utils/exist'
 import { usePreferencesStore } from '@/stores/preferences'
 

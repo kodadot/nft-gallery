@@ -1,7 +1,7 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import type { Prefix } from '@kodadot1/static'
 import type { Abi, ActionSend, ExecuteTransaction } from './types'
+import { Interaction } from '@/utils/shoppingActions'
 import {
   assetHubParamResolver,
   getApiCall,
