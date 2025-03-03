@@ -36,7 +36,7 @@
             class="flex items-center"
             @click="toggleLanguageMenu"
           >
-            {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
+            {{ $t('profileMenu.language') }}&nbsp;<Icon name="i-mdi:earth" />
           </div>
         </NeoDropdownItem>
         <NeoDropdownItem aria-role="menuitem">
@@ -68,7 +68,7 @@
         class="is-active flex items-center language-heading text-base"
         @click="toggleLanguageMenu"
       >
-        <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
+        <span>{{ $t('profileMenu.language') }} <Icon name="i-mdi:earth" /></span>
       </NeoDropdownItem>
 
       <NeoDropdownItem
@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 import { useIdentityStore } from '@/stores/identity'
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'

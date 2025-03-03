@@ -12,10 +12,9 @@
         class="wallet-asset-menu"
       >
         <span>{{ menu.label }}</span>
-        <NeoIcon
-          icon="angle-right"
-          size="medium"
-          class="text-k-grey"
+        <Icon
+          name="i-mdi:chevron-right"
+          class="text-k-grey text-2xl"
         />
       </a>
     </div>
@@ -35,9 +34,9 @@
         >
           <template #trigger>
             <div class="flex items-center">
-              <NeoIcon
-                icon="globe"
-                size="medium"
+              <Icon
+                name="i-mdi:earth"
+                class="text-xl"
               />
               <span class="is-hidden-mobile ml-1">
                 {{ $t('profileMenu.language') }}
@@ -66,9 +65,9 @@
         data-testid="sidebar-link-settings"
         @click="closeModal"
       >
-        <NeoIcon
-          icon="gear"
-          size="medium"
+        <Icon
+          name="i-mdi:cog-outline"
+          class="text-xl"
         />
         <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>
@@ -77,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
