@@ -10,8 +10,8 @@
       >
         {{ $t('blog') }}
       </nuxt-link>
-      <NeoIcon
-        icon="chevron-right"
+      <Icon
+        name="i-mdi:chevron-right"
         class="mx-5"
       />
       <span>{{ post?.title?.slice(0, 15) }}...</span>
@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import { format } from 'date-fns'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import Prism from 'prismjs'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { URLS } from '@/utils/constants'

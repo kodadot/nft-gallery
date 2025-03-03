@@ -1,9 +1,8 @@
 <template>
   <div class="bg-k-grey-light p-4 flex items-center mx-6">
-    <NeoIcon
-      class="ml-1"
-      icon="circle-info"
-      variant="k-grey"
+    <Icon
+      name="i-mdi:information-slab-circle-outline"
+      class="ml-1 text-k-grey"
     />
     <div class="text-xs text-neutral-7 ml-3">
       {{ $t('walletConnect.authText') }}
@@ -21,7 +20,3 @@
     </a>
   </div>
 </template>
-
-<script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-</script>

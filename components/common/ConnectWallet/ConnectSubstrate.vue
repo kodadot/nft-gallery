@@ -49,16 +49,16 @@
       @click="toggleShowUninstalledWallet"
     >
       {{ $t('walletConnect.moreOption') }}
-      <NeoIcon
+      <Icon
         v-if="isUninstalledWalletExpand"
         class="ml-1"
-        icon="chevron-down"
+        name="i-mdi:chevron-down"
       />
 
-      <NeoIcon
+      <Icon
         v-else
         class="ml-1"
-        icon="chevron-right"
+        name="i-mdi:chevron-right"
       />
     </a>
     <div
@@ -82,15 +82,17 @@
         variant="outlined-rounded"
         @click="checkWallet"
       >
-        {{ $t('walletConnect.walletHeading') }}
-        <NeoIcon icon="arrow-right" />
+        <div class="flex items-center justify-center gap-2">
+          <span>{{ $t('walletConnect.walletHeading') }}</span>
+          <Icon name="i-mdi:arrow-right" />
+        </div>
       </NeoButton>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import type { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import type {

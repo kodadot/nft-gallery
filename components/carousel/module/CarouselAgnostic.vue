@@ -22,9 +22,9 @@
           class="button justify-center arrow arrow-left arrow-icon rounded-full"
           @click="slider?.moveToIdx(leftCarouselIndex)"
         >
-          <NeoIcon
-            icon="chevron-left"
-            size="medium"
+          <Icon
+            name="i-mdi:chevron-left"
+            class="text-2xl"
           />
         </button>
       </Transition>
@@ -34,9 +34,9 @@
           class="button justify-center arrow arrow-right arrow-icon rounded-full"
           @click="slider?.moveToIdx(rightCarouselIndex)"
         >
-          <NeoIcon
-            icon="chevron-right"
-            size="medium"
+          <Icon
+            name="i-mdi:chevron-right"
+            class="text-2xl"
           />
         </button>
       </Transition>
@@ -47,7 +47,6 @@
 <script lang="ts" setup>
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
-import { NeoIcon } from '@kodadot1/brick'
 import { CarouselWheelsPlugin } from '../utils/useCarousel'
 
 type CarouseBreakpoints = '640px' | '768px' | '1024px' | '1280px' | '1540px'
