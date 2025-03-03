@@ -11,21 +11,11 @@
             data-testid="explore"
           >
             {{ $t('explore') }}
-            <svg
+            <Icon
               v-if="!isMobileDevice"
-              class="ml-1"
-              width="14"
-              height="7"
-              viewBox="0 0 14 7"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13.0002 1L7.00024 6L1.00025 0.999999"
-                stroke="currentColor"
-                stroke-width="1.26984"
-              />
-            </svg>
+              name="i-mdi:chevron-down"
+              class="text-xl ml-1"
+            />
           </div>
         </nuxt-link>
       </div>

@@ -24,10 +24,10 @@
             class="navbar-item my-4"
             role="button"
           >
-            <img
-              :src="profileIcon"
-              alt="profile"
-            >
+            <Icon
+              name="i-mdi:account-circle-outline"
+              class="text-xl"
+            />
           </a>
         </template>
 
@@ -95,15 +95,11 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
-const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
 
 const account = computed(() => identityStore.getAuthAddress)
-const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
-)
 
 const toggleWalletConnectModal = () => {
   useProfileOnboardingStore().setSidebarToggled()

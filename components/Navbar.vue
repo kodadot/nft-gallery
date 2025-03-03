@@ -106,11 +106,9 @@
             >
               {{ $t('drops.drops') }}
 
-              <NeoIcon
-                class="ml-1"
-                icon="fire-flame-curved"
-                pack="fass"
-                variant="primary"
+              <Icon
+                name="i-mdi:fire"
+                class="text-k-primary text-xl ml-1"
               />
             </div>
           </nuxt-link>
@@ -187,7 +185,7 @@
                 class="mobile-language"
                 :no-padding="true"
                 :title="$t('profileMenu.language')"
-                icon="globe"
+                icon="i-mdi:earth"
               >
                 <MobileLanguageOption
                   @select="
@@ -208,15 +206,14 @@
             >
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon
-                  icon="user-circle"
-                  class="w-4 h-4 ml-2 lg:!ml-0"
-                  size="medium"
+                <Icon
+                  name="i-mdi:account-circle-outline"
+                  class="text-2xl ml-1"
                 />
               </span>
-              <NeoIcon
-                class="icon--right"
-                icon="chevron-right"
+              <Icon
+                name="i-mdi:chevron-right"
+                class="text-2xl icon--right"
               />
             </div>
 
@@ -249,7 +246,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
