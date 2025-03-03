@@ -44,14 +44,14 @@ const emit = defineEmits(['select'])
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .teleport-tabs {
   .teleport-tabs-button {
     width: 15rem;
   }
 
-  @include mobile {
+  @include bulma-mobile {
     .control,
     &-button {
       width: 100%;

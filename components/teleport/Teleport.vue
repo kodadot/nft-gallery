@@ -524,11 +524,11 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 $xs-breakpoint: 400px;
 
 .flex-direction {
-  @include until($xs-breakpoint) {
+  @media (max-width: $xs-breakpoint) {
     flex-direction: column;
     gap: 0.25rem;
   }
@@ -537,19 +537,19 @@ $xs-breakpoint: 400px;
 .align-items {
   align-items: center;
 
-  @include until($xs-breakpoint) {
+  @media (max-width: $xs-breakpoint) {
     align-items: flex-start;
   }
 }
 
 .teleport-container {
-  @include tablet {
+  @include bulma-tablet {
     width: 454px;
     margin-top: 80px;
     margin-bottom: 94px;
   }
 
-  @include mobile {
+  @include bulma-mobile {
     padding-top: 40px;
     padding-bottom: 40px;
   }
@@ -558,18 +558,18 @@ $xs-breakpoint: 400px;
 .justify-content {
   justify-content: space-between;
 
-  @include until($xs-breakpoint) {
+  @media (max-width: $xs-breakpoint) {
     justify-content: flex-end;
   }
 }
 
 .networks {
-  @include tablet {
+  @include bulma-tablet {
     margin-top: 52px;
     flex-direction: row;
   }
 
-  @include mobile {
+  @include bulma-mobile {
     margin-top: 52px;
     flex-direction: column;
   }
@@ -586,11 +586,11 @@ $xs-breakpoint: 400px;
   min-width: 32px;
   line-height: 1;
 
-  @include tablet {
+  @include bulma-tablet {
     margin: 0 1rem;
   }
 
-  @include mobile {
+  @include bulma-mobile {
     position: relative;
     transform: rotate(90deg);
     height: 32px;
@@ -604,14 +604,14 @@ $xs-breakpoint: 400px;
       left: 0;
       width: 8px;
       height: 8px;
-      background: $white;
+      background: var(--white);
     }
   }
 }
 
 .dark {
   .network-arrow:before {
-    background: $background-dark;
+    background: var(--background-color);
   }
 }
 </style>

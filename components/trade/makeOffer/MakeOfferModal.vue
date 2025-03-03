@@ -16,14 +16,13 @@
       @close="onClose"
     >
       <ModalBody
-        modal-max-height="100vh"
         :title="$t('transaction.offer')"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div class="px-6 overflow-y-auto">
           <ModalIdentityItem />
 
           <MakeOfferSingleItem v-if="offerStore.items.length === 1" />

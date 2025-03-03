@@ -29,14 +29,14 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .carousel-card {
   flex: 0 0 var(--card-width);
   min-height: var(--card-height);
 
   &.mobile-padding {
-    @include mobile {
+    @include bulma-mobile {
       padding: 0.75rem !important;
     }
   }
@@ -48,7 +48,7 @@ defineProps<{
     color: var(--text-color) !important;
     .content {
       color: var(--text-color) !important;
-      @include tablet {
+      @include bulma-tablet {
         font-size: 1.25rem !important;
       }
 

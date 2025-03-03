@@ -1,5 +1,5 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import type { ActionList, TokenToList } from './types'
+import { Interaction } from '@/utils/shoppingActions'
 import {
   assetHubParamResolver,
   getApiCall,
