@@ -66,7 +66,7 @@
                 <div class="flex items-center gap-2 text-sm truncate">
                   <nuxt-link
                     v-if="trade.type === TradeType.SWAP"
-                    :to="`${urlPrefix}/gallery/${trade.offered.id}`"
+                    :to="`/${urlPrefix}/gallery/${trade.offered.id}`"
                   >
                     <span>
                       {{ trade.offered.name }}
@@ -84,7 +84,7 @@
 
                   <nuxt-link
                     v-if="trade.desired"
-                    :to="`${urlPrefix}/gallery/${trade.desired.id}`"
+                    :to="`/${urlPrefix}/gallery/${trade.desired.id}`"
                   >
                     <span>
                       {{ trade.desired.name }}
@@ -92,7 +92,7 @@
                   </nuxt-link>
                   <nuxt-link
                     v-else
-                    :to="`${urlPrefix}/collection/${trade.considered.id}`"
+                    :to="`/${urlPrefix}/collection/${trade.considered.id}`"
                   >
                     <span>
                       {{ trade.considered.name }}

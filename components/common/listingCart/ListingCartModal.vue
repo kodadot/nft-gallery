@@ -33,14 +33,13 @@
       @close="onClose"
     >
       <ModalBody
-        modal-max-height="100vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
         :loading="!autoTeleportLoaded"
         @close="onClose"
       >
-        <div class="px-6 max-h-[50vh] overflow-y-auto">
+        <div class="px-6 overflow-y-auto">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -57,7 +56,6 @@
             @set-fixed-price="setFixedPrice"
           />
         </div>
-
         <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
@@ -94,10 +92,10 @@
 </template>
 
 <script setup lang="ts">
-import { Interaction } from '@kodadot1/minimark/v1'
 import { NeoModal } from '@kodadot1/brick'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+import { Interaction } from '@/utils/shoppingActions'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
