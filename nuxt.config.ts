@@ -276,6 +276,7 @@ export default defineNuxtConfig({
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-gtag',
     '@nuxt/eslint',
+    '@nuxt/icon',
   ],
 
   eslint: {
