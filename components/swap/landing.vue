@@ -85,9 +85,9 @@
               ({{ swapOffersCount }})
             </span>
 
-            <NeoIcon
+            <Icon
               class="ml-2"
-              icon="arrow-right"
+              name="i-mdi:arrow-right"
             />
           </NeoButton>
         </div>
@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 
 const NuxtLink = resolveComponent('NuxtLink')
 

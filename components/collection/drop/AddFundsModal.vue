@@ -33,8 +33,8 @@
           <div
             class="flex justify-between items-center text-k-grey cursor-default mb-4"
           >
-            <NeoIcon
-              icon="circle-info"
+            <Icon
+              name="i-mdi:information-slab-circle-outline"
               class="mr-3"
             />
             <p class="text-xs">
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
+import { NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'

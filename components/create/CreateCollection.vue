@@ -161,10 +161,9 @@
         :loading="isLoading"
       />
       <div class="p-4 flex">
-        <NeoIcon
-          icon="circle-info"
-          size="medium"
-          class="mr-4"
+        <Icon
+          name="i-mdi:information-slab-circle-outline"
+          class="mr-4 text-2xl"
         />
         <p class="text-xs">
           <span
@@ -200,7 +199,6 @@ import type { Prefix } from '@kodadot1/static'
 import {
   NeoButton,
   NeoField,
-  NeoIcon,
   NeoInput,
   NeoSelect,
   NeoSwitch,
