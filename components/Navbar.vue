@@ -108,7 +108,7 @@
 
               <Icon
                 name="i-mdi:fire"
-                class="text-k-primary text-xl ml-1"
+                class="text-k-primary ml-1"
               />
             </div>
           </nuxt-link>
@@ -208,12 +208,12 @@
                 {{ $t('profile.page') }}
                 <Icon
                   name="i-mdi:account-circle-outline"
-                  class="text-xl ml-1"
+                  class="size-6 ml-1"
                 />
               </span>
               <Icon
                 name="i-mdi:chevron-right"
-                class="text-2xl icon--right"
+                class="icon--right"
               />
             </div>
 

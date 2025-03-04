@@ -16,7 +16,7 @@
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
             <Icon
               name="i-mdi:camera-image"
-              class="text-6xl"
+              class="size-14"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -34,7 +34,7 @@
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
             <Icon
               name="i-mdi:diamond-stone"
-              class="text-6xl"
+              class="size-14"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -58,7 +58,7 @@
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
             <Icon
               name="i-mdi:file-image-box"
-              class="text-6xl"
+              class="size-14"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -76,7 +76,7 @@
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
             <Icon
               name="i-mdi:folder-multiple-image"
-              class="text-6xl"
+              class="size-14"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">

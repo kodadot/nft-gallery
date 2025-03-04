@@ -9,12 +9,11 @@
       <Icon
         v-if="icon"
         :name="icon"
-        class="text-2xl"
       />
     </span>
     <Icon
       name="i-mdi:chevron-right"
-      class="text-2xl icon--right"
+      class="icon--right"
     />
   </div>
   <div
@@ -25,10 +24,7 @@
       class="navbar-item navbar-item--reverse"
       @click.stop="close"
     >
-      <Icon
-        name="i-mdi:chevron-left"
-        class="text-2xl"
-      />
+      <Icon name="i-mdi:chevron-left" />
       {{ title }}
     </div>
     <div
@@ -52,10 +48,6 @@ defineProps({
   icon: {
     type: String,
     default: '',
-  },
-  iconFamily: {
-    type: String,
-    default: 'fasr',
   },
   noPadding: {
     type: Boolean,

@@ -21,6 +21,24 @@
         />
       </div>
     </div>
+
+    <div class="flex flex-col gap-2 mt-2">
+      <div
+        v-for="size in customSize"
+        :key="size"
+        class="flex items-center gap-4"
+      >
+        <p>{{ size }} size:</p>
+        <NeoIcon
+          icon="circle-info"
+          :custom-size="size"
+        />
+        <Icon
+          name="i-mdi:information-slab-circle-outline"
+          :class="sizeMap[size]"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,10 +52,17 @@ const sizes = [
   'large',
 ]
 
+const customSize = [
+  'fa-2x',
+  'fa-3x',
+]
+
 const sizeMap = {
-  default: '',
-  small: 'size-4',
-  medium: 'size-6',
-  large: 'size-8',
+  'default': '',
+  'small': 'size-4',
+  'medium': 'size-6',
+  'large': 'size-8',
+  'fa-2x': 'size-10',
+  'fa-3x': 'size-14',
 }
 </script>

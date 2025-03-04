@@ -29,7 +29,7 @@
               <Icon
                 v-if="!file && !url"
                 :name="icon"
-                class="text-4xl"
+                class="size-10"
               />
               <div
                 v-if="url && !isModelMedia"
@@ -45,7 +45,7 @@
               <Icon
                 v-if="hasError"
                 name="i-mdi:eye-off-outline"
-                class="text-4xl"
+                class="size-10"
               />
               <p v-if="!file">
                 {{ label }}

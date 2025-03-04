@@ -14,7 +14,7 @@
             <Icon
               v-if="!isMobileDevice"
               name="i-mdi:chevron-down"
-              class="text-xl ml-1"
+              class="size-5 ml-1"
             />
           </div>
         </nuxt-link>

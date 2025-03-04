@@ -2,7 +2,7 @@
   <ColorScheme>
     <Icon
       v-if="isMobile"
-      class="cursor-pointer"
+      class="cursor-pointer size-6"
       :name="currentMode.icon"
       @click="switchToNextMode"
     />
@@ -18,7 +18,7 @@
         <div class="flex items-center cursor-pointer">
           <Icon
             :name="currentMode.icon"
-            class="text-xl"
+            class="size-6"
           />
           <span class="ml-1 min-w-[82px]">{{ currentMode?.label }}</span>
         </div>

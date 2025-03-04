@@ -14,7 +14,7 @@
         <span>{{ menu.label }}</span>
         <Icon
           name="i-mdi:chevron-right"
-          class="text-k-grey text-2xl"
+          class="text-k-grey size-6"
         />
       </a>
     </div>
@@ -36,7 +36,7 @@
             <div class="flex items-center">
               <Icon
                 name="i-mdi:earth"
-                class="text-xl"
+                class="size-6"
               />
               <span class="is-hidden-mobile ml-1">
                 {{ $t('profileMenu.language') }}
@@ -67,7 +67,7 @@
       >
         <Icon
           name="i-mdi:cog-outline"
-          class="text-xl"
+          class="size-6"
         />
         <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>
