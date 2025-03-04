@@ -2,6 +2,7 @@ import type { CarouselNFT } from '@/components/base/types'
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sortItemListByIds } from '@/utils/sorting'
 import collectionEntityById from '@/queries/subsquid/general/collectionEntityById'
+import nftEntitiesByIDs from '~/queries/subsquid/general/nftEntitiesByIDs'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -45,10 +46,6 @@ export const useCarouselRelated = async ({ collectionId }) => {
   }
 }
 
-interface VisitedNFTs {
-  nftEntities: CarouselNFT[]
-}
-
 export const useCarouselVisited = ({ ids }) => {
   const nfts = ref<CarouselNFT[]>([])
 
@@ -60,16 +57,21 @@ export const useCarouselVisited = ({ ids }) => {
 
   const { urlPrefix } = usePrefix()
 
-  const { data } = useGraphql({
-    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
-    queryName: 'nftEntitiesByIDs',
+  const { $apolloClient } = useNuxtApp()
+  const data = ref()
+  $apolloClient.query({
+    query: nftEntitiesByIDs,
     variables: { ids },
+    context: {
+      endpoint: urlPrefix.value,
+    },
+  }).then((res) => {
+    data.value = res.data
   })
 
   watch(data, async () => {
     if (data.value) {
-      const dataNfts = data.value as VisitedNFTs
-      const filteredNftsNullMeta = dataNfts.nftEntities.filter(
+      const filteredNftsNullMeta = data.value.nftEntities.filter(
         nft => nft.meta !== null,
       )
 
