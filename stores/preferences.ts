@@ -268,6 +268,8 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setUserLocale(locale: string) {
       const { $i18n } = useNuxtApp()
+      // only supports en for now
+      locale = 'en'
       $i18n.locale.value = locale
       this.userLocale = locale
     },

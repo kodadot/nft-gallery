@@ -22,43 +22,6 @@
     <div class="wallet-asset-footer flex py-5 text-xs text-k-grey">
       <!-- light/dark mode -->
       <ColorModeSwitch />
-
-      <!-- language -->
-      <div
-        data-testid="sidebar-language"
-        class="language-selector"
-      >
-        <NeoDropdown
-          position="top-left"
-          aria-role="menu"
-          mobile-modal
-        >
-          <template #trigger>
-            <div class="flex items-center">
-              <NeoIcon
-                icon="globe"
-                size="medium"
-              />
-              <span class="is-hidden-mobile ml-1">
-                {{ $t('profileMenu.language') }}
-              </span>
-            </div>
-          </template>
-
-          <NeoDropdownItem
-            v-for="lang in langsFlags"
-            :key="lang.value"
-            aria-role="listitem"
-            :data-testid="`sidebar-language-${lang.value}`"
-            :value="lang.value"
-            :class="{ 'is-active': $i18n.locale === lang.value }"
-            @click="usePreferencesStore().setUserLocale(lang.value)"
-          >
-            <span>{{ lang.flag }} {{ lang.label }}</span>
-          </NeoDropdownItem>
-        </NeoDropdown>
-      </div>
-
       <!-- settings -->
       <nuxt-link
         to="/settings"
@@ -77,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 

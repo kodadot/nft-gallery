@@ -32,14 +32,6 @@
         </template>
 
         <NeoDropdownItem aria-role="menuitem">
-          <div
-            class="flex items-center"
-            @click="toggleLanguageMenu"
-          >
-            {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
-          </div>
-        </NeoDropdownItem>
-        <NeoDropdownItem aria-role="menuitem">
           <ColorModeButton />
         </NeoDropdownItem>
         <NeoDropdownItem aria-role="menuitem">
@@ -56,37 +48,11 @@
         />
       </div>
     </div>
-
-    <NeoDropdown
-      ref="languageDropdown"
-      position="bottom-left"
-      aria-role="menu"
-      :toggle="toggleLanguageMenu"
-    >
-      <NeoDropdownItem
-        aria-role="listitem"
-        class="is-active flex items-center language-heading text-base"
-        @click="toggleLanguageMenu"
-      >
-        <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
-      </NeoDropdownItem>
-
-      <NeoDropdownItem
-        v-for="lang in langsFlags"
-        :key="lang.value"
-        aria-role="listitem"
-        :value="lang.value"
-        :class="{ 'is-active': $i18n.locale === lang.value }"
-        @click="usePreferencesStore().setUserLocale(lang.value)"
-      >
-        <span>{{ lang.flag }} {{ lang.label }}</span>
-      </NeoDropdownItem>
-    </NeoDropdown>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 import { useIdentityStore } from '@/stores/identity'
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
@@ -97,8 +63,6 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
-
-const languageDropdown = ref(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
@@ -112,11 +76,5 @@ const toggleWalletConnectModal = () => {
   if (!document.querySelector('.connect-wallet-modal')) {
     openConnectWalletModal()
   }
-}
-
-const toggleLanguageMenu = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  languageDropdown.value?.toggle()
 }
 </script>
