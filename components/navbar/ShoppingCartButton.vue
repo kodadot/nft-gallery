@@ -5,14 +5,12 @@
   >
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div
-      class="relative leading-4"
+      class="relative size-6"
       :class="{ 'ml-2': showLabel }"
     >
-      <NeoIcon
-        class="w-6 h-6"
-        icon="fa-shopping-cart-outline-sharp"
-        pack="fa-kit fa-fw"
-        size="medium"
+      <Icon
+        name="i-mdi:cart-outline"
+        class="size-6"
       />
       <ActiveCount
         v-if="numberOfItems"
@@ -21,16 +19,15 @@
         class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs"
       />
     </div>
-    <NeoIcon
+    <Icon
       v-if="isMobile"
-      class="icon--right"
-      icon="chevron-right"
+      name="i-mdi:chevron-right"
+      class="text-2xl icon--right"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import ActiveCount from '../explore/ActiveCount.vue'
 import { ModalCloseType } from './types'
 import { useShoppingCartStore } from '@/stores/shoppingCart'

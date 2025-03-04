@@ -32,8 +32,8 @@
                   class="flex items-center"
                 >
                   {{ item.name }}
-                  <NeoIcon
-                    icon="arrow-up-right"
+                  <Icon
+                    name="i-mdi:arrow-top-right"
                     class="ml-1 text-k-grey"
                   />
                 </a>
@@ -66,8 +66,8 @@
                   class="flex items-center"
                 >
                   {{ item.name }}
-                  <NeoIcon
-                    icon="arrow-up-right"
+                  <Icon
+                    name="i-mdi:arrow-top-right"
                     class="ml-1 text-k-grey"
                   />
                 </a>
@@ -101,8 +101,8 @@
                 class="flex items-center"
               >
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
+                <Icon
+                  name="i-mdi:arrow-top-right"
                   class="ml-1 text-k-grey"
                 />
               </a>
@@ -112,10 +112,9 @@
                 class="flex items-center"
               >
                 {{ item.name }}
-                <NeoIcon
+                <Icon
                   v-if="item.highlight"
-                  icon="sparkle"
-                  pack="fasr"
+                  name="i-mdi:star-four-points"
                   class="text-k-primary text-xl ml-1"
                 />
               </nuxt-link>
@@ -143,8 +142,8 @@
               class="flex items-center"
             >
               {{ item.name }}
-              <NeoIcon
-                icon="arrow-up-right"
+              <Icon
+                name="i-mdi:arrow-top-right"
                 class="ml-1 text-k-grey"
               />
             </a>
@@ -163,8 +162,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 interface Menu {
   name: string
   url: string

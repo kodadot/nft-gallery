@@ -66,7 +66,7 @@
           key="secondaryFile"
           v-model="vSecondFile"
           :label="$t('mint.nft.cover')"
-          icon="file-image"
+          icon="i-mdi:file-image-outline"
           preview
           accept="image/png, image/jpeg, image/gif"
           expanded
