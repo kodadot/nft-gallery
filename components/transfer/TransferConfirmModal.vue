@@ -66,10 +66,9 @@
             append-to-body
             content-class="transfer-tooltip"
           >
-            <NeoIcon
-              icon="circle-info"
+            <Icon
+              name="i-mdi:information-slab-circle-outline"
               class="text-base"
-              pack="far"
             />
           </NeoTooltip>
         </div>
@@ -113,10 +112,9 @@
                   append-to-body
                   content-class="transfer-tooltip"
                 >
-                  <NeoIcon
-                    icon="circle-info"
+                  <Icon
+                    name="i-mdi:information-slab-circle-outline"
                     class="text-base"
-                    pack="far"
                   />
                 </NeoTooltip>
               </div>

@@ -77,9 +77,9 @@
       />
 
       <div class="mb-5">
-        <NeoIcon
+        <Icon
+          name="i-mdi:information-slab-circle-outline"
           class="ml-2"
-          icon="circle-info"
         />
         <span
           v-dompurify-html="
@@ -280,7 +280,7 @@
           <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
           <span class="mr-2" />
           <NeoTooltip :label="$t('transfers.setSameAmount')">
-            <NeoIcon icon="circle-info" />
+            <Icon name="i-mdi:information-slab-circle-outline" />
           </NeoTooltip>
         </div>
         <NeoSwitch
