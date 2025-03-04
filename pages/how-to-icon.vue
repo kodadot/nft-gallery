@@ -35,7 +35,7 @@ const sizes = [
 ]
 
 const sizeMap = {
-  default: 'size-5',
+  default: '',
   small: 'size-4',
   medium: 'size-6',
   large: 'size-8',
