@@ -1,3 +1,6 @@
+import { graphql } from '@/queries/clients/graphqlClients'
+
+export default graphql(`
 query tokenListWithSearch(
   $first: Int!
   $offset: Int
@@ -59,3 +62,4 @@ query tokenListWithSearch(
     totalCount
   }
 }
+`)
