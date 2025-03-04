@@ -5,12 +5,12 @@
   >
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div
-      class="relative leading-4"
+      class="relative size-6"
       :class="{ 'ml-2': showLabel }"
     >
       <Icon
         name="i-mdi:cart-outline"
-        class="text-xl"
+        class="size-6"
       />
       <ActiveCount
         v-if="numberOfItems"

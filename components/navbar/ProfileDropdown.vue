@@ -21,12 +21,12 @@
       >
         <template #trigger>
           <a
-            class="navbar-item my-4"
+            class="navbar-item"
             role="button"
           >
             <Icon
               name="i-mdi:account-circle-outline"
-              class="text-xl"
+              class="size-6"
             />
           </a>
         </template>
