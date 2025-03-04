@@ -1,9 +1,7 @@
 import type { CarouselNFT } from '@/components/base/types'
-import type { RowSeries } from '@/components/series/types'
-
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
+import collectionEntityById from '@/queries/subsquid/general/collectionEntityById'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -17,70 +15,30 @@ export const useCarouselUrl = () => {
   }
 }
 
-const popularCollectionsGraphql = {
-  queryPrefix: 'subsquid',
-  queryName: 'popularCollectionList',
-  variables: {
-    orderDirection: 'ASC',
-    limit: 10,
-    dateRange: '7 DAY',
-    orderBy: 'volume',
-  },
-}
-export const useCarouselPopularCollections = () => {
-  const { data } = useGraphql(popularCollectionsGraphql)
-  const nfts = ref<RowSeries[]>([])
-
-  const handleResult = ({ data: result }) => {
-    nfts.value = result.seriesInsightTable.map(
-      (e: RowSeries): RowSeries => ({
-        ...e,
-        image: sanitizeIpfsUrl(e.image, 'image'),
-      }),
-    )
-  }
-
-  watch(data, () => {
-    if (data.value) {
-      handleResult({ data: data.value })
-    }
-  })
-
-  return {
-    nfts,
-  }
-}
-
-interface Collections {
-  collection: {
-    id: string
-    name: string
-    nfts: CarouselNFT[]
-  }
-}
-
 export const useCarouselRelated = async ({ collectionId }) => {
   const route = useRoute()
   const nfts = ref<CarouselNFT[]>([])
   const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
-    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
-    queryName: 'collectionEntityById',
+
+  const { $apolloClient } = useNuxtApp()
+  const { data } = await $apolloClient.query({
+    query: collectionEntityById,
     variables: {
       id: collectionId,
-      nftId: route.params.id,
+      nftId: route.params.id.toString(),
       limit: 60,
+    },
+    context: {
+      endpoint: urlPrefix.value,
     },
   })
 
-  watch(data, async () => {
-    if (data.value?.collection) {
-      const listOfRelatedNFTs = formatNFT(
-        (data.value as Collections).collection.nfts,
-      )
-      nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
-    }
-  })
+  if (data.collection) {
+    const listOfRelatedNFTs = formatNFT(
+      data.collection.nfts,
+    )
+    nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
+  }
 
   return {
     nfts,
