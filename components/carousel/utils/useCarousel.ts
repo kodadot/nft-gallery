@@ -2,7 +2,7 @@ import type { CarouselNFT } from '@/components/base/types'
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sortItemListByIds } from '@/utils/sorting'
 import collectionEntityById from '@/queries/subsquid/general/collectionEntityById'
-import nftEntitiesByIDs from '~/queries/subsquid/general/nftEntitiesByIDs'
+import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()

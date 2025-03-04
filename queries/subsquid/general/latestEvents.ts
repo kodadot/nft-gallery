@@ -1,4 +1,4 @@
-import { graphql } from '~/queries/clients/graphqlClients'
+import { graphql } from '@/queries/clients/graphqlClients'
 
 export default graphql(`query latestEvents(
   $limit: Int!

@@ -1,7 +1,7 @@
-import { graphql } from '~/queries/clients/graphqlClients'
-import { subsquidNftFragment } from '~/queries/fragments/typed/subsquidNft'
-import { nftDetailsFragment } from '~/queries/fragments/typed/nftDetails'
-import { baseMetaFragment } from '~/queries/fragments/typed/baseMeta'
+import { graphql } from '@/queries/clients/graphqlClients'
+import { subsquidNftFragment } from '@/queries/fragments/typed/subsquidNft'
+import { nftDetailsFragment } from '@/queries/fragments/typed/nftDetails'
+import { baseMetaFragment } from '@/queries/fragments/typed/baseMeta'
 
 export default graphql(`query nftEntitiesByStrings($ids: [String!]!) {
   nftEntities(where: { id_in: $ids }) {

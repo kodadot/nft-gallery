@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@/utils/shoppingActions'
-import nftIdListByCollection from '~/queries/subsquid/general/nftIdListByCollection'
+import nftIdListByCollection from '@/queries/subsquid/general/nftIdListByCollection'
 
 type NftIds = {
   nfts?: {
