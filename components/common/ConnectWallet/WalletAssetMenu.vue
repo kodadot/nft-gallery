@@ -93,10 +93,6 @@ const closeModal = () => {
 
   @apply bulma-mobile:justify-center;
 
-  .language-selector {
-    @apply bulma-mobile:my-8 bulma-mobile:mx-0;
-  }
-
   & > * {
     @apply cursor-pointer flex gap-1;
 
