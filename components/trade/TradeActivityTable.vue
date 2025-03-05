@@ -22,6 +22,7 @@
           </div>
         </NeoButton>
       </div>
+      <slot name="action" />
     </div>
 
     <hr class="mb-10 mt-0">
@@ -111,7 +112,6 @@ const props = defineProps<{
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
-
 const dataKey = TRADES_QUERY_MAP[props.type].dataKey
 
 const selectedTrade = ref<TradeNftItem>()
