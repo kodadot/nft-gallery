@@ -1,5 +1,5 @@
 <template>
-  <section class="container is-fluid flex flex-col">
+  <section class="container-fluid flex flex-col">
     <div class="flex my-14 flex-wrap gap-10 justify-between">
       <slot name="title" />
 

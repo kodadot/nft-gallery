@@ -146,4 +146,8 @@
                 0px -1px 0 rgb(var(--text-color)),
                 4px 4px rgb(var(--text-color));
   }
+
+  .container-fluid {
+    @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5 #{!important};
+  }
 }
