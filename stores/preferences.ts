@@ -266,10 +266,10 @@ export const usePreferencesStore = defineStore('preferences', {
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
     },
-    setUserLocale(locale: string) {
+    setUserLocale(_: string) {
       const { $i18n } = useNuxtApp()
       // only supports en for now
-      locale = 'en'
+      const locale = 'en'
       $i18n.locale.value = locale
       this.userLocale = locale
     },
