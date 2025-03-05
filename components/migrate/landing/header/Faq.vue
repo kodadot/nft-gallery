@@ -21,14 +21,14 @@
       </div>
     </div>
 
-    <NeoIcon
+    <Icon
       class="slide-faq-arrow slide-faq-arrow-left"
-      icon="chevron-left"
+      name="i-mdi:chevron-left"
       @click="slider?.prev()"
     />
-    <NeoIcon
+    <Icon
       class="slide-faq-arrow slide-faq-arrow-right"
-      icon="chevron-right"
+      name="i-mdi:chevron-right"
       @click="slider?.next()"
     />
 
@@ -44,7 +44,6 @@
 <script setup lang="ts">
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
-import { NeoIcon } from '@kodadot1/brick'
 
 const slide = ref(0)
 const slideLength = ref(0)

@@ -30,8 +30,8 @@
                 multiline
                 :label="$t('party.settingsTooltip')"
               >
-                <NeoIcon
-                  icon="circle-info"
+                <Icon
+                  name="i-mdi:information-slab-circle-outline"
                   class="!text-k-grey"
                 />
               </NeoTooltip>
@@ -53,8 +53,8 @@
                 multiline
                 :label="$t('support.tooltip')"
               >
-                <NeoIcon
-                  icon="circle-info"
+                <Icon
+                  name="i-mdi:information-slab-circle-outline"
                   class="!text-k-grey"
                 />
               </NeoTooltip>
@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
 const { openModal } = useCookies()
 

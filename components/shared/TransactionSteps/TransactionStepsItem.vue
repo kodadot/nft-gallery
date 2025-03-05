@@ -1,11 +1,10 @@
 <template>
   <div class="flex">
     <div class="mr-4 flex items-center">
-      <NeoIcon
+      <Icon
         v-if="isLoading"
-        icon="spinner-third"
-        class="spinner text-k-grey"
-        :size="iconSize"
+        name="i-mdi:loading"
+        class="spinner text-k-grey animate-spin text-6xl"
       />
 
       <NeoIcon

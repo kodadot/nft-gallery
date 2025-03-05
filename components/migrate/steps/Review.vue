@@ -56,8 +56,8 @@
       </div>
 
       <div class="border border-k-shade p-2 flex text-xs text-k-grey">
-        <NeoIcon
-          icon="circle-info"
+        <Icon
+          name="i-mdi:information-slab-circle-outline"
           class="mr-2"
         />
         <p>{{ $t('migrate.reviewNotes') }}</p>
@@ -82,8 +82,8 @@
           >
           {{ source?.text }}
         </div>
-        <NeoIcon
-          icon="chevron-right"
+        <Icon
+          name="i-mdi:chevron-right"
           class="mx-4"
         />
         <div class="flex items-center">
@@ -111,7 +111,10 @@
           @click="toggleFee = !toggleFee"
         >
           {{ $t('migrate.feeBreakdown') }}
-          <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
+          <Icon
+            :name="toggleFee ? 'i-mdi:chevron-up' : 'i-mdi:chevron-down'"
+            class="text-2xl"
+          />
         </p>
 
         <div v-show="toggleFee">
@@ -174,7 +177,7 @@
                   ])
                 "
               >
-                <NeoIcon icon="circle-question" />
+                <Icon icon="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol">
@@ -204,7 +207,7 @@
                   ])
                 "
               >
-                <NeoIcon icon="circle-question" />
+                <Icon name="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol && destinationItemDeposit >= 0">
@@ -229,7 +232,7 @@
                 :label="$t('mint.nft.modal.kodadotTooltip')"
                 multiline
               >
-                <NeoIcon icon="circle-question" />
+                <Icon icon="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <div v-if="destinationSymbol">
@@ -320,7 +323,6 @@ import {
   NeoButton,
   NeoCheckbox,
   NeoField,
-  NeoIcon,
   NeoSkeleton,
   NeoTooltip,
 } from '@kodadot1/brick'

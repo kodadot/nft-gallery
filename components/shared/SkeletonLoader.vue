@@ -20,11 +20,9 @@
       class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-[3] left-2/4 top-2/4"
     >
       <slot>
-        <NeoIcon
-          icon="spinner-third"
-          class="spinner text-k-grey mr-6"
-          size="large"
-          spin
+        <Icon
+          name="i-mdi:loading"
+          class="spinner text-k-grey mr-6 animate-spin text-6xl"
         />
 
         <div :style="{ width: textContainerWidth }">
@@ -54,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton } from '@kodadot1/brick'
 
 const DOTS_PLUS_MARGIN_WIDTH = 20 // px
 

@@ -22,8 +22,8 @@
         >
           {{ selectedItem?.text }}
 
-          <NeoIcon
-            icon="chevron-down"
+          <Icon
+            name="i-mdi:chevron-down"
           />
         </div>
       </div>
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 const EXPIRATION_DAYS_LIST = [1, 3, 7, 14, 30]
 

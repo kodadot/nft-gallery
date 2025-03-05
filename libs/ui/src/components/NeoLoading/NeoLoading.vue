@@ -1,11 +1,9 @@
 <template>
   <OLoading v-bind="$attrs">
     <slot>
-      <NeoIcon
-        icon="spinner-third"
-        spin
-        size="large"
-        class="text-white"
+      <Icon
+        name="i-mdi:loading"
+        class="animate-spin text-white text-6xl"
       />
     </slot>
   </OLoading>
@@ -13,10 +11,9 @@
 
 <script lang="ts">
 import { OLoading } from '@oruga-ui/oruga-next'
-import NeoIcon from '../NeoIcon/NeoIcon.vue'
 
 export default {
-  components: { NeoIcon, OLoading },
+  components: { OLoading },
 }
 </script>
 
