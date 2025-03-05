@@ -25,7 +25,7 @@
         <div class="flex justify-between">
           <AutoTeleportActionButton
             ref="autoteleport"
-            :amount="totalFee + networkFee"
+            :amount="totalFee"
             :actions="autoTeleportActions"
             :label="btnLabel"
             :disabled="disabled"
@@ -58,6 +58,9 @@ import { availablePrefixes } from '@/utils/chain'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+
+// remove once mint action tx fee calculation is implemented
+const NETWORK_FEE_MULTIPLIER = 5
 
 export type NftInformation = {
   file: Blob | null
@@ -182,10 +185,9 @@ const confirm = (params) => {
 watchEffect(async () => {
   networkFee.value = 0
 
-  const fee = await estimateTransactionFee(accountId.value, decimals.value)
-  networkFee.value = props.nftInformation.listForSale
-    ? Number(fee) * 2
-    : Number(fee)
+  const fee = (Number(await estimateTransactionFee(accountId.value, decimals.value)) * NETWORK_FEE_MULTIPLIER)
+
+  networkFee.value = fee
 })
 </script>
 
