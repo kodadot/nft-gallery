@@ -24,7 +24,7 @@
             class="navbar-item"
             role="button"
           >
-            <Icon
+            <KIcon
               name="i-mdi:account-circle-outline"
               class="size-6"
             />
@@ -36,7 +36,7 @@
             class="flex items-center"
             @click="toggleLanguageMenu"
           >
-            {{ $t('profileMenu.language') }}&nbsp;<Icon name="i-mdi:earth" />
+            {{ $t('profileMenu.language') }}&nbsp;<KIcon name="i-mdi:earth" />
           </div>
         </NeoDropdownItem>
         <NeoDropdownItem aria-role="menuitem">
@@ -68,7 +68,7 @@
         class="is-active flex items-center language-heading text-base"
         @click="toggleLanguageMenu"
       >
-        <span>{{ $t('profileMenu.language') }} <Icon name="i-mdi:earth" /></span>
+        <span>{{ $t('profileMenu.language') }} <KIcon name="i-mdi:earth" /></span>
       </NeoDropdownItem>
 
       <NeoDropdownItem

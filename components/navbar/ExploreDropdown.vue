@@ -11,10 +11,10 @@
             data-testid="explore"
           >
             {{ $t('explore') }}
-            <Icon
+            <KIcon
               v-if="!isMobileDevice"
               name="i-mdi:chevron-down"
-              class="size-5 ml-1"
+              class="ml-1"
             />
           </div>
         </nuxt-link>

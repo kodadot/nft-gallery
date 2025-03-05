@@ -6,7 +6,7 @@
   >
     <ColorScheme placeholder="...">
       <span>{{ currentMode.label }}</span>
-      &nbsp;<Icon :name="currentMode.icon" />
+      &nbsp;<KIcon :name="currentMode.icon" />
     </ColorScheme>
   </div>
 </template>

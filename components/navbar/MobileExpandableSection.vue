@@ -6,14 +6,14 @@
   >
     <span>
       {{ title }}
-      <Icon
+      <KIcon
         v-if="icon"
         :name="icon"
       />
     </span>
-    <Icon
-      name="i-mdi:chevron-right"
+    <KIcon
       class="icon--right"
+      name="i-mdi:chevron-right"
     />
   </div>
   <div
@@ -24,7 +24,7 @@
       class="navbar-item navbar-item--reverse"
       @click.stop="close"
     >
-      <Icon name="i-mdi:chevron-left" />
+      <KIcon name="i-mdi:chevron-left" />
       {{ title }}
     </div>
     <div

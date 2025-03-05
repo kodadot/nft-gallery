@@ -29,10 +29,10 @@
         v-clipboard:copy="account"
         @click="toast($t('general.copyAddressToClipboard'))"
       >
-        <Icon name="i-mdi:content-copy" />
+        <KIcon name="i-mdi:content-copy" />
       </a>
       <a @click="logout">
-        <Icon name="i-mdi:logout" />
+        <KIcon name="i-mdi:logout" />
       </a>
     </div>
   </div>

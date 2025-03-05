@@ -5,12 +5,12 @@
   >
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div
-      class="relative size-6"
+      class="relative"
       :class="{ 'ml-2': showLabel }"
     >
-      <Icon
+      <KIcon
         name="i-mdi:cart-outline"
-        class="size-6"
+        size="medium"
       />
       <ActiveCount
         v-if="numberOfItems"
@@ -19,10 +19,10 @@
         class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs"
       />
     </div>
-    <Icon
+    <KIcon
       v-if="isMobile"
+      class="icon--right"
       name="i-mdi:chevron-right"
-      class="text-2xl icon--right"
     />
   </div>
 </template>

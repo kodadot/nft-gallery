@@ -12,9 +12,10 @@
         class="wallet-asset-menu"
       >
         <span>{{ menu.label }}</span>
-        <Icon
+        <KIcon
           name="i-mdi:chevron-right"
-          class="text-k-grey size-6"
+          size="medium"
+          class="text-k-grey"
         />
       </a>
     </div>
@@ -34,9 +35,9 @@
         >
           <template #trigger>
             <div class="flex items-center">
-              <Icon
+              <KIcon
                 name="i-mdi:earth"
-                class="size-6"
+                size="medium"
               />
               <span class="is-hidden-mobile ml-1">
                 {{ $t('profileMenu.language') }}
@@ -65,9 +66,9 @@
         data-testid="sidebar-link-settings"
         @click="closeModal"
       >
-        <Icon
+        <KIcon
           name="i-mdi:cog-outline"
-          class="size-6"
+          size="medium"
         />
         <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>

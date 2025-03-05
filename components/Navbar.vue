@@ -106,7 +106,7 @@
             >
               {{ $t('drops.drops') }}
 
-              <Icon
+              <KIcon
                 name="i-mdi:fire"
                 class="text-k-primary ml-1"
               />
@@ -206,14 +206,15 @@
             >
               <span>
                 {{ $t('profile.page') }}
-                <Icon
+                <KIcon
                   name="i-mdi:account-circle-outline"
-                  class="size-6 ml-1"
+                  class="ml-1"
+                  size="medium"
                 />
               </span>
-              <Icon
-                name="i-mdi:chevron-right"
+              <KIcon
                 class="icon--right"
+                name="i-mdi:chevron-right"
               />
             </div>
 

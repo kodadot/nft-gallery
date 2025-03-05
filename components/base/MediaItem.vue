@@ -31,7 +31,7 @@
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur flex capitalize items-center justify-center flex-col"
     >
-      <Icon
+      <KIcon
         name="i-mdi:eye-off-outline"
         class="mb-3"
       />
@@ -44,7 +44,7 @@
       v-if="hasNormalTag"
       class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
     >
-      <Icon
+      <KIcon
         name="i-mdi:file-image-box"
         class="text-sm font-medium"
       />

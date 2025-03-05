@@ -14,9 +14,9 @@
           @click="gotoPathAfterLogin('/create/collection')"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <Icon
+            <KIcon
               name="i-mdi:camera-image"
-              class="size-14"
+              size="3x"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -32,9 +32,9 @@
           @click="router.push({ query: { select: 'nft' } })"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <Icon
+            <KIcon
               name="i-mdi:diamond-stone"
-              class="size-14"
+              size="3x"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -56,9 +56,9 @@
           @click="gotoPathAfterLogin('/create/nft')"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <Icon
+            <KIcon
               name="i-mdi:file-image-box"
-              class="size-14"
+              size="3x"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">
@@ -74,9 +74,9 @@
           @click="gotoPathAfterLogin(`/${urlPrefix}/massmint`)"
         >
           <div class="text-center w-56 max-sm:flex max-sm:gap-8 max-sm:text-left max-sm:w-full">
-            <Icon
+            <KIcon
               name="i-mdi:folder-multiple-image"
-              class="size-14"
+              size="3x"
             />
             <div class="mt-6 max-sm:mt-0">
               <p class="text-2xl font-bold">

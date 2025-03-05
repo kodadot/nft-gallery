@@ -15,9 +15,9 @@
           icon="circle-info"
           :size="size"
         />
-        <Icon
+        <KIcon
           name="i-mdi:information-slab-circle-outline"
-          :class="sizeMap[size]"
+          :size="size"
         />
       </div>
     </div>
@@ -33,9 +33,9 @@
           icon="circle-info"
           :custom-size="size"
         />
-        <Icon
+        <KIcon
           name="i-mdi:information-slab-circle-outline"
-          :class="sizeMap[size]"
+          :size="size.split('-')[1]"
         />
       </div>
     </div>
@@ -50,19 +50,12 @@ const sizes = [
   'small',
   'medium',
   'large',
+  '2x',
+  '3x',
 ]
 
 const customSize = [
   'fa-2x',
   'fa-3x',
 ]
-
-const sizeMap = {
-  'default': '',
-  'small': 'size-4',
-  'medium': 'size-6',
-  'large': 'size-8',
-  'fa-2x': 'size-10',
-  'fa-3x': 'size-14',
-}
 </script>

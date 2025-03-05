@@ -10,7 +10,7 @@
         {{ $t('landing.connectFarcaster') }}
       </div>
     </div>
-    <Icon
+    <KIcon
       name="i-mdi:arrow-right"
       class="ml-2"
     />
