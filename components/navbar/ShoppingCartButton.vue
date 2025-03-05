@@ -5,7 +5,7 @@
   >
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div
-      class="relative"
+      class="relative size-6"
       :class="{ 'ml-2': showLabel }"
     >
       <KIcon
