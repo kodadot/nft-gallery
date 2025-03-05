@@ -310,6 +310,8 @@ const collectionInformation = computed(() => ({
   name: name.value,
   paidToken: chain.value,
   mintType: CreateComponent.Collection,
+  hasCappedMaxSupply: unlimited.value ? false : max.value > 0,
+  hasRoyalty: Boolean(royalty.value.amount),
 }))
 
 watch(currentChain, () => {
