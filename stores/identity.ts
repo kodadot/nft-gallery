@@ -31,7 +31,6 @@ export type ChainType =
   | 'kusamaHub'
   | 'polkadotHub'
   | 'base'
-  | 'immutablex'
   | 'mantle'
 // | 'rococoHub'
 
@@ -103,7 +102,6 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
       { chain: 'base', token: 'ETH' },
-      { chain: 'immutablex', token: 'ETH' },
       { chain: 'mantle', token: 'MNT' },
     ],
     multiBalanceAssetsTestnet: [

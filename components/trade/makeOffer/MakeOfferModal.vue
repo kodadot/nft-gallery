@@ -25,7 +25,10 @@
         <div class="px-6 overflow-y-auto">
           <ModalIdentityItem />
 
-          <MakeOfferSingleItem v-if="offerStore.items.length === 1" />
+          <MakeOfferSingleItem
+            v-if="offerStore.items.length === 1"
+            :show-price="Boolean(offerStore.items[0]?.price)"
+          />
         </div>
 
         <div class="border-t pt-5 pb-4 px-6">
