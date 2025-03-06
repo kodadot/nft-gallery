@@ -43,34 +43,6 @@ type NewsletterSubscription = {
 
 export type UserCartMode = 'transfer' | 'burn'
 
-export const langsFlags = [
-  {
-    value: 'en',
-    flag: '🇬🇧',
-    label: 'English',
-  },
-  {
-    value: 'de',
-    flag: '🇩🇪',
-    label: 'Deutsch',
-  },
-  {
-    value: 'es',
-    flag: '🇪🇸',
-    label: 'Español',
-  },
-  {
-    value: 'fr',
-    flag: '🇫🇷',
-    label: 'Français',
-  },
-  {
-    value: 'hi',
-    flag: '🇮🇳',
-    label: 'हिंदी',
-  },
-]
-
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
@@ -102,7 +74,6 @@ interface State {
   hasCarbonOffset: boolean
   // Mass Mint
   visitedOnboarding: boolean
-  userLocale: string
   newsletterSubscription: NewsletterSubscription
   partyMode: boolean | undefined
 }
@@ -139,7 +110,6 @@ export const usePreferencesStore = defineStore('preferences', {
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
-    userLocale: 'en',
     newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
     partyMode: undefined,
   }),
@@ -166,7 +136,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getHasCarbonOffset: state => state.hasCarbonOffset,
     getVisitedOnboarding: state => state.visitedOnboarding,
     getFirstTimeAutoTeleport: state => state.firstTimeAutoTeleport,
-    getUserLocale: state => state.userLocale,
     getNewsletterSubscription: state => state.newsletterSubscription,
     getHasUserNotSetPartyMode: state => state.partyMode === undefined,
     getIsPartyMode(): boolean {
@@ -265,13 +234,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
-    },
-    setUserLocale(_: string) {
-      const { $i18n } = useNuxtApp()
-      // only supports en for now
-      const locale = 'en'
-      $i18n.locale.value = locale
-      this.userLocale = locale
     },
     setNewsletterSubscription(subscription: NewsletterSubscription) {
       this.newsletterSubscription = subscription
