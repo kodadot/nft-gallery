@@ -18,13 +18,14 @@ export type AtomicSwap = {
   surcharge?: SwapSurcharge
   duration: number
   blockNumber?: string
+  isCollectionSwap?: boolean
 } & CartItem
 
 export type SwapItem = {
-  id: string
+  id: string | null
   name: string
   collectionId: string
-  sn: string
+  sn: string | null
   meta: any
 }
 
@@ -62,6 +63,7 @@ export const useAtomicSwapStore = defineStore('atomicSwap', () => {
     const newAtomicSwap: AtomicSwap = {
       id: window.crypto.randomUUID().split('-')[0],
       counterparty,
+      isCollectionSwap: false,
       offered: [],
       desired: [],
       createdAt: Date.now(),

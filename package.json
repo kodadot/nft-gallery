@@ -51,6 +51,7 @@
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
+    "@apollo/client": "^3.13.1",
     "@braintree/sanitize-url": "^6.0.4",
     "@farcaster/auth-client": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

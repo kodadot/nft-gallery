@@ -79,8 +79,8 @@ const emit = defineEmits(['close', 'update:active', 'click'])
 const props = withDefaults(
   defineProps<{
     title?: string
-    active: boolean
-    closable: boolean
+    active?: boolean
+    closable?: boolean
     variant: NeoMessageVariant
     autoClose: boolean
     duration: number
