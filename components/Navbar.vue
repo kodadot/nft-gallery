@@ -182,22 +182,6 @@
 
           <div class="lg:!hidden">
             <template v-if="!account">
-              <MobileExpandableSection
-                v-slot="{ onCloseMobileSubMenu }"
-                class="mobile-language"
-                :no-padding="true"
-                :title="$t('profileMenu.language')"
-                icon="globe"
-              >
-                <MobileLanguageOption
-                  @select="
-                    () => {
-                      showMobileNavbar()
-                      onCloseMobileSubMenu()
-                    }
-                  "
-                />
-              </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
               <NavbarCookiesButton @select="showMobileNavbar" />
             </template>
@@ -256,7 +240,6 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import Search from '@/components/search/Search.vue'
