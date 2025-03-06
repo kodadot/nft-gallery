@@ -29,17 +29,16 @@
         v-clipboard:copy="account"
         @click="toast($t('general.copyAddressToClipboard'))"
       >
-        <NeoIcon icon="copy" />
+        <KIcon name="i-mdi:content-copy" />
       </a>
       <a @click="logout">
-        <NeoIcon icon="right-from-bracket" />
+        <KIcon name="i-mdi:logout" />
       </a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 
 const { toast } = useToast()

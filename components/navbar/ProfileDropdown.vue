@@ -21,13 +21,13 @@
       >
         <template #trigger>
           <a
-            class="navbar-item my-4"
+            class="navbar-item"
             role="button"
           >
-            <img
-              :src="profileIcon"
-              alt="profile"
-            >
+            <KIcon
+              name="i-mdi:account-circle-outline"
+              class="size-6"
+            />
           </a>
         </template>
 
@@ -36,7 +36,7 @@
             class="flex items-center"
             @click="toggleLanguageMenu"
           >
-            {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
+            {{ $t('profileMenu.language') }}&nbsp;<KIcon name="i-mdi:earth" />
           </div>
         </NeoDropdownItem>
         <NeoDropdownItem aria-role="menuitem">
@@ -68,7 +68,7 @@
         class="is-active flex items-center language-heading text-base"
         @click="toggleLanguageMenu"
       >
-        <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
+        <span>{{ $t('profileMenu.language') }} <KIcon name="i-mdi:earth" /></span>
       </NeoDropdownItem>
 
       <NeoDropdownItem
@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 import { useIdentityStore } from '@/stores/identity'
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
@@ -95,15 +95,11 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
-const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
 
 const account = computed(() => identityStore.getAuthAddress)
-const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
-)
 
 const toggleWalletConnectModal = () => {
   useProfileOnboardingStore().setSidebarToggled()

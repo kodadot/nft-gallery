@@ -4,11 +4,11 @@
   >
     <button
       type="button"
-      class="w-full h-full text-left cursor-pointer p-0 bg-transparent text-base/normal text-text-color-inverse"
+      class="w-full h-full text-left cursor-pointer p-0 bg-transparent text-base/normal text-text-color-inverse flex items-center gap-2"
       data-testid="modal-close-button"
       @click="emit('close')"
     >
-      <NeoIcon icon="chevron-left" />
+      <KIcon name="i-mdi:chevron-left" />
       <span>{{ title }}</span>
     </button>
   </header>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCommonHead, NeoIcon } from '@kodadot1/brick'
+import { NeoCommonHead } from '@kodadot1/brick'
 
 defineProps<{
   title: string
