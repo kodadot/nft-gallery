@@ -199,8 +199,6 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .transfer-confirm-modal {
   .fixed-height {
     height: 10rem;

@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import { toSubstrateAddress } from '@/services/profile'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import type { ActionSend } from '@/composables/transaction/types'

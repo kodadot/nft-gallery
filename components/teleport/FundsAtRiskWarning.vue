@@ -25,7 +25,7 @@
                   targetExistentialDeposit,
                 ])
             }}
-            <b>{{ $t('teleport.lossOfFunds') }}</b>
+            <b>{{ $t('teleport.failedTransaction') }}</b>
           </span>
           <a
             v-safe-href="

@@ -130,8 +130,8 @@ ChartJS.register(
 const props = defineProps<{
   priceChartData?: [Date, number][][]
   chartHeight?: string
-  hideOutliers: boolean
-  applySmoothing: boolean
+  hideOutliers?: boolean
+  applySmoothing?: boolean
 }>()
 const emit = defineEmits(['update:hideOutliers', 'update:applySmoothing'])
 

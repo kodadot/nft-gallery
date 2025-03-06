@@ -51,7 +51,7 @@ import placeholder from '~/assets/svg/preloader.svg?url'
 const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
-    status: TransactionStatus
+    status?: TransactionStatus
     modelValue?: boolean
     canCancel?: boolean
   }>(),

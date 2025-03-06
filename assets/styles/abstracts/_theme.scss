@@ -100,17 +100,3 @@ $themes: (
     'separator-line-color': #6b6b6b,
   ),
 );
-
-@mixin ktheme() {
-  @each $theme, $map in $themes {
-    $theme-map: $map !global;
-    .#{$theme} & {
-      @content;
-    }
-  }
-  $theme-map: null !global;
-}
-
-@function theme($key) {
-  @return map-get($theme-map, $key);
-}

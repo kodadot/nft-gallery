@@ -85,7 +85,7 @@ test('Collection interactions', async ({ page, Commands }) => {
   await test.step('Activates art view and check if NFT name was hidden', async () => {
     await page.getByTestId('filter-artview-checkbox').nth(1).click()
     await Commands.scrollDownAndStop()
-    await expect(page.getByTestId('nft-name')).not.toBeVisible()
+    await expect(page.locator(`[title="${COLLECTION_SEARCH_RESULT}"]`)).not.toBeVisible()
     await page.getByTestId('filter-artview-checkbox').nth(1).click()
   })
 
