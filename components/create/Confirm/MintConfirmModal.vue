@@ -25,7 +25,7 @@
         <div class="flex justify-between">
           <AutoTeleportActionButton
             ref="autoteleport"
-            :amount="totalFee + networkFee"
+            :amount="totalFee"
             :actions="autoTeleportActions"
             :label="btnLabel"
             :disabled="disabled"
@@ -64,6 +64,8 @@ export type NftInformation = {
   selectedCollection?: BaseMintedCollection
   name: string
   listForSale?: boolean
+  hasRoyalty?: boolean
+  hasCappedMaxSupply?: boolean
   price?: string
   mintType: CreateComponent
   paidToken: ChainProperties
@@ -98,12 +100,11 @@ const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
-const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit }
-  = useDeposit(urlPrefix)
+const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit, attributeDeposit } = useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
-const networkFee = ref(0)
+const baseNetworkFee = ref(0)
 const autoteleport = ref()
 
 const loading = computed(() => !autoteleport.value?.isReady)
@@ -139,7 +140,8 @@ const deposit = computed(
   () =>
     metadataDeposit.value
     + existentialDeposit.value
-    + (isNFT.value ? itemDeposit.value : collectionDeposit.value),
+    + (isNFT.value ? itemDeposit.value : collectionDeposit.value)
+    + (props.nftInformation.hasRoyalty ? attributeDeposit.value * 2 : 0),
 )
 const totalUSDFee = computed(() =>
   calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value),
@@ -171,6 +173,17 @@ const extendedInformation = computed(() => ({
   blockchain: blockchain.value,
 }))
 
+const networkFee = computed(() => {
+  const extraCallsMultiplier = [
+    props.nftInformation.listForSale,
+    props.nftInformation.hasCappedMaxSupply,
+    props.nftInformation.hasRoyalty,
+  ].filter(Boolean).length
+
+  // remove once mint action tx fee calculation is implemented
+  return baseNetworkFee.value * (1 + extraCallsMultiplier)
+})
+
 const onClose = () => {
   emit('update:modelValue', false)
 }
@@ -180,12 +193,11 @@ const confirm = (params) => {
 }
 
 watchEffect(async () => {
-  networkFee.value = 0
+  baseNetworkFee.value = 0
 
   const fee = await estimateTransactionFee(accountId.value, decimals.value)
-  networkFee.value = props.nftInformation.listForSale
-    ? Number(fee) * 2
-    : Number(fee)
+
+  baseNetworkFee.value = Number(fee)
 })
 </script>
 
