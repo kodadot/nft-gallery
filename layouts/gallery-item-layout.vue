@@ -3,8 +3,8 @@
     <Navbar />
     <main class="flex-grow py-8">
       <div
-        class="container"
-        :class="{ 'is-fluid': !isFullHD }"
+        class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch flex min-h-[3.25rem] w-full"
+        :class="{ 'w-full max-w-none md:!px-10 !px-5': !isTouch }"
       >
         <Error
           v-if="$nuxt.isOffline"
@@ -36,6 +36,5 @@ useHead({
   ],
 })
 
-const { width } = useWindowSize()
-const isFullHD = computed(() => width.value >= 1440)
+const { isMobileOrTablet: isTouch } = useDevice()
 </script>
