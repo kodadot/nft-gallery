@@ -1,4 +1,6 @@
-query latestEvents(
+import { graphql } from '@/queries/clients/graphqlClients'
+
+export default graphql(`query latestEvents(
   $limit: Int!
   $orderBy: [EventOrderByInput!]
   $where: EventWhereInput
@@ -25,4 +27,4 @@ query latestEvents(
     }
     timestamp
   }
-}
+}`)
