@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container is-fluid"
+    class="container-fluid"
     :class="{ '!pl-0': isSidebarOpen }"
   >
     <slot />

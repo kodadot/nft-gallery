@@ -13,7 +13,7 @@
         <div v-else>
           <CollectionHeader v-if="isCollection" />
           <section class="py-7 px-0">
-            <div class="container is-fluid">
+            <div class="container-fluid">
               <h1
                 v-if="isExplore"
                 class="title"

@@ -22,6 +22,7 @@
     </div>
 
     <NeoButton
+      v-if="removable"
       size="small"
       variant="icon"
       icon="xmark"
@@ -35,9 +36,15 @@ import { NeoButton } from '@kodadot1/brick'
 
 const emit = defineEmits(['remove'])
 
-defineProps<{
-  name?: string
-  image: string
-  imageClass?: string
-}>()
+withDefaults(
+  defineProps<{
+    name?: string
+    image: string
+    imageClass?: string
+    removable?: boolean
+  }>(),
+  {
+    removable: true,
+  },
+)
 </script>
