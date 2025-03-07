@@ -56,9 +56,10 @@ const label = computed(() => {
   return $i18n.t('moreActions.deleteCollection')
 })
 
-watch(isOpen, (open) => {
-  if (!open) {
+useModalIsOpenTracker({
+  isOpen: isOpen,
+  onChange: () => {
     acknowledged.value = false
-  }
+  },
 })
 </script>
