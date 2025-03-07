@@ -1,53 +1,64 @@
 <template>
-  <NeoModal
-    :value="value"
-    @close="value = false"
+  <ActionModal
+    :is-modal-active="isOpen"
+    :get-action="getAction"
+    :label="label"
+    :disabled="!acknowledged"
+    :title="$t('moreActions.deleteCollection')"
+    :signing-title="$t('confirmDeleteCollection.deletingCollection')"
+    @close="isOpen = false"
+    @success="$emit('success')"
   >
-    <div class="py-4 px-5 limit-width">
-      <div class="flex mb-3 text-base">
-        {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
-      </div>
-      <div class="text-k-grey text-xs mb-5">
-        {{ $i18n.t('confirmDeleteCollection.content') }}
-      </div>
-      <div>
-        <NeoButton
-          class="font-bold mr-4"
-          variant="text"
-          no-shadow
-          @click="emit('delete')"
-        >
-          <span class="text-k-red">
-            {{ $i18n.t('massmint.yesDelete') }}
-          </span>
-        </NeoButton>
-        <NeoButton
-          class="font-bold"
-          variant="text"
-          no-shadow
-          :label="$i18n.t('cancel')"
-          @click="value = false"
+    <template #body>
+      <BaseCartItemDetails
+        class="!mt-4"
+        :name="collection.name"
+        :second-name="$t('collection')"
+        :image="sanitizeIpfsUrl(collection.meta.image)"
+      />
+
+      <hr class="!mt-4 !mb-5">
+    </template>
+
+    <template #action-button-top>
+      <div class="mb-4">
+        <NeoCheckbox
+          v-model="acknowledged"
+          class="!flex items-center"
+          label-class="!pl-3 text-sm capitalize"
+          :label="$t('confirmDeleteCollection.content')"
         />
       </div>
-    </div>
-  </NeoModal>
+    </template>
+  </ActionModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoCheckbox } from '@kodadot1/brick'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import type { Actions } from '@/composables/transaction/types'
+
+defineEmits(['success'])
+defineProps<{
+  getAction: () => Actions
+  collection: any
+}>()
+
+const isOpen = defineModel<boolean>({ required: true })
 
 const { $i18n } = useNuxtApp()
+const acknowledged = ref(false)
 
-const props = defineProps<{
-  modelValue: boolean
-}>()
-const emit = defineEmits(['update:value', 'delete'])
+const label = computed(() => {
+  if (!acknowledged.value) {
+    return $i18n.t('helper.acknowledgeToContinue')
+  }
+  return $i18n.t('moreActions.deleteCollection')
+})
 
-const value = useVModel(props, 'modelValue')
+watch(isOpen, (open) => {
+  if (!open) {
+    acknowledged.value = false
+  }
+})
 </script>
-
-<style lang="scss" scoped>
-.limit-width {
-  max-width: 314px;
-}
-</style>

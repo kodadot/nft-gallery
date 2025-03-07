@@ -267,7 +267,7 @@
   "collections": "Collections",
   "computed id": "Computed id",
   "confirmDeleteCollection": {
-    "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded.",
+    "content": "I understand collection will be permanently destroyed. Your deposit will be refunded.",
     "deleteCollection": "Delete Collection?",
     "deletingCollection": "Deleting Collection"
   },
