@@ -148,6 +148,6 @@
   }
 
   .container-fluid {
-    @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5 #{!important};
+    @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5;
   }
 }
