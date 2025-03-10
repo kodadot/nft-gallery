@@ -15,7 +15,6 @@ export enum Chain {
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
   BASE = 'Base',
-  IMMUTABLEX = 'Immutable',
   MANTLE = 'Mantle',
 }
 
@@ -48,7 +47,6 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
   [Chain.BASE]: 'base',
-  [Chain.IMMUTABLEX]: 'imx',
   [Chain.MANTLE]: 'mnt',
 }
 
@@ -57,7 +55,6 @@ export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
-  imx: Chain.IMMUTABLEX,
   base: Chain.BASE,
   mnt: Chain.MANTLE,
 }
@@ -132,8 +129,6 @@ export const getChainCurrency = (chain: Chain): Currency => {
     case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
     case Chain.BASE:
-    case Chain.IMMUTABLEX:
-      return 'ETH'
     case Chain.MANTLE:
       return 'MNT'
   }
@@ -145,6 +140,5 @@ export const chainToPrecisionMap: Record<Chain, number> = {
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.BASE]: 5,
   [Chain.MANTLE]: 5,
-  [Chain.IMMUTABLEX]: 5,
   [Chain.POLKADOT]: 4,
 }

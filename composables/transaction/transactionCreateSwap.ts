@@ -18,7 +18,7 @@ async function execCreateSwapStatmine({ item, api, executeTransaction, isLoading
 
       const swap = api.tx.nfts.createSwap(
         offeredCollectionId,
-        offeredItem,
+        offeredItem as string,
         desiredCollectionId,
         desiredItem,
         item.surcharge
