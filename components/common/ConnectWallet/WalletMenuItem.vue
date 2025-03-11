@@ -112,7 +112,7 @@
     </div>
 
     <div
-      v-if="walletAccountsWithProfile.length === 0 && showAccountList"
+      v-if="!isAuth && walletAccountsWithProfile.length === 0 && showAccountList"
       class="account-list"
     >
       <div class="account-item">
