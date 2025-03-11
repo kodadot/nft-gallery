@@ -400,12 +400,7 @@ const nativeSearch = () => {
   const isSeeMore = selectedIndex.value >= totalItemsAtCurrentTab.value
   // trending collection
   if (!props.name) {
-    if (isSeeMore) {
-      router.push({ name: 'series-insight' })
-    }
-    else {
-      gotoCollectionItem(selectedItemListMap.value['Trending'][selectedIndex.value])
-    }
+    gotoCollectionItem(selectedItemListMap.value['Trending'][selectedIndex.value])
     return
   }
 

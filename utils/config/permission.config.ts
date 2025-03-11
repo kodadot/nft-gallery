@@ -5,12 +5,6 @@ const hasCreate: PartialConfig = {
   ksm: false,
 }
 
-const hasInsight: PartialConfig = {
-  ahk: false,
-  ahp: false,
-  dot: false,
-}
-
 const hasSales: PartialConfig = {
   ahk: false,
   dot: false,
@@ -44,10 +38,6 @@ export const teleportVisible = (prefix: Prefix | string): boolean => {
 
 export const migrateVisible = (prefix: Prefix | string): boolean => {
   return isSub(prefix as Prefix)
-}
-
-export const seriesInsightVisible = (prefix: Prefix | string) => {
-  return hasInsight[prefix] ?? true
 }
 
 export const massmintCreateVisible = (prefix: Prefix | string) => {
