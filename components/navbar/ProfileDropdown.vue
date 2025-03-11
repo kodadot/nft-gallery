@@ -21,13 +21,13 @@
       >
         <template #trigger>
           <a
-            class="navbar-item my-4"
+            class="navbar-item"
             role="button"
           >
-            <img
-              :src="profileIcon"
-              alt="profile"
-            >
+            <KIcon
+              name="i-mdi:account-circle-outline"
+              class="size-6"
+            />
           </a>
         </template>
 
@@ -61,13 +61,9 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
-const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const account = computed(() => identityStore.getAuthAddress)
-const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
-)
 
 const toggleWalletConnectModal = () => {
   useProfileOnboardingStore().setSidebarToggled()

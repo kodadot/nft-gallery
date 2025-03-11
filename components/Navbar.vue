@@ -106,11 +106,9 @@
             >
               {{ $t('drops.drops') }}
 
-              <NeoIcon
-                class="ml-1"
-                icon="fire-flame-curved"
-                pack="fass"
-                variant="primary"
+              <KIcon
+                name="i-mdi:fire"
+                class="text-k-primary ml-1"
               />
             </div>
           </nuxt-link>
@@ -192,15 +190,15 @@
             >
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon
-                  icon="user-circle"
-                  class="w-4 h-4 ml-2 lg:!ml-0"
+                <KIcon
+                  name="i-mdi:account-circle-outline"
+                  class="ml-1"
                   size="medium"
                 />
               </span>
-              <NeoIcon
+              <KIcon
                 class="icon--right"
-                icon="chevron-right"
+                name="i-mdi:chevron-right"
               />
             </div>
 
@@ -233,7 +231,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'

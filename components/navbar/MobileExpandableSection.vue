@@ -6,15 +6,14 @@
   >
     <span>
       {{ title }}
-      <NeoIcon
+      <KIcon
         v-if="icon"
-        :icon="icon"
-        :pack="iconFamily"
+        :name="icon"
       />
     </span>
-    <NeoIcon
+    <KIcon
       class="icon--right"
-      icon="chevron-right"
+      name="i-mdi:chevron-right"
     />
   </div>
   <div
@@ -25,7 +24,7 @@
       class="navbar-item navbar-item--reverse"
       @click.stop="close"
     >
-      <NeoIcon icon="chevron-left" />
+      <KIcon name="i-mdi:chevron-left" />
       {{ title }}
     </div>
     <div
@@ -41,8 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 defineProps({
   title: {
     type: String,
@@ -51,10 +48,6 @@ defineProps({
   icon: {
     type: String,
     default: '',
-  },
-  iconFamily: {
-    type: String,
-    default: 'fasr',
   },
   noPadding: {
     type: Boolean,
