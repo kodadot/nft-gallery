@@ -42,10 +42,6 @@ export const teleportVisible = (prefix: Prefix | string): boolean => {
   return isSub(prefix as Prefix)
 }
 
-export const migrateVisible = (prefix: Prefix | string): boolean => {
-  return isSub(prefix as Prefix)
-}
-
 export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix] ?? true
 }
