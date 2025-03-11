@@ -10,7 +10,7 @@
       >
         {{ $t('blog') }}
       </nuxt-link>
-      <Icon
+      <KIcon
         name="i-mdi:chevron-right"
         class="mx-5"
       />
@@ -98,13 +98,13 @@ onMounted(() => {
   Prism.highlightAll()
 })
 
-const title = computed(() => post?.title)
+const title = computed(() => post.value?.title)
 useSeoMeta({
   title: title.value,
-  description: convertMarkdownToText(post?.subtitle),
+  description: convertMarkdownToText(post.value?.subtitle),
   ogUrl: route.path,
-  ogImage: post?.image,
-  twitterImage: post?.image,
+  ogImage: post.value?.image,
+  twitterImage: post.value?.image,
 })
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-k-grey-light p-4 flex items-center mx-6">
-    <Icon
+    <KIcon
       name="i-mdi:information-slab-circle-outline"
       class="ml-1 text-k-grey"
     />

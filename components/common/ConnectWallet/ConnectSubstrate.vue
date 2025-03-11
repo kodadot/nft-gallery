@@ -49,13 +49,13 @@
       @click="toggleShowUninstalledWallet"
     >
       {{ $t('walletConnect.moreOption') }}
-      <Icon
+      <KIcon
         v-if="isUninstalledWalletExpand"
         class="ml-1"
         name="i-mdi:chevron-down"
       />
 
-      <Icon
+      <KIcon
         v-else
         class="ml-1"
         name="i-mdi:chevron-right"
@@ -84,7 +84,7 @@
       >
         <div class="flex items-center justify-center gap-2">
           <span>{{ $t('walletConnect.walletHeading') }}</span>
-          <Icon name="i-mdi:arrow-right" />
+          <KIcon name="i-mdi:arrow-right" />
         </div>
       </NeoButton>
     </div>

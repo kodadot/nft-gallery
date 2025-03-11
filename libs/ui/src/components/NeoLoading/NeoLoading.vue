@@ -1,9 +1,10 @@
 <template>
   <OLoading v-bind="$attrs">
     <slot>
-      <Icon
+      <KIcon
         name="i-mdi:loading"
-        class="animate-spin text-white text-6xl"
+        size="large"
+        class="text-white animate-spin"
       />
     </slot>
   </OLoading>

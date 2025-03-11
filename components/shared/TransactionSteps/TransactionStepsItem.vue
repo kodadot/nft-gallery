@@ -1,10 +1,11 @@
 <template>
   <div class="flex">
     <div class="mr-4 flex items-center">
-      <Icon
+      <KIcon
         v-if="isLoading"
         name="i-mdi:loading"
-        class="spinner text-k-grey animate-spin text-6xl"
+        class="spinner text-k-grey animate-spin"
+        :size="iconSize"
       />
 
       <NeoIcon

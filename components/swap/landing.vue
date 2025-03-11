@@ -85,7 +85,7 @@
               ({{ swapOffersCount }})
             </span>
 
-            <Icon
+            <KIcon
               class="ml-2"
               name="i-mdi:arrow-right"
             />

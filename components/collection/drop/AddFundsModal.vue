@@ -33,7 +33,7 @@
           <div
             class="flex justify-between items-center text-k-grey cursor-default mb-4"
           >
-            <Icon
+            <KIcon
               name="i-mdi:information-slab-circle-outline"
               class="mr-3"
             />

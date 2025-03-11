@@ -14,7 +14,7 @@
         <span>
           {{ isConnecting ? 'Connecting' : 'Connect with Web3Modal' }}
         </span>
-        <Icon
+        <KIcon
           v-if="!loading"
           name="i-mdi:arrow-right"
         />

@@ -21,12 +21,12 @@
       </div>
     </div>
 
-    <Icon
+    <KIcon
       class="slide-faq-arrow slide-faq-arrow-left"
       name="i-mdi:chevron-left"
       @click="slider?.prev()"
     />
-    <Icon
+    <KIcon
       class="slide-faq-arrow slide-faq-arrow-right"
       name="i-mdi:chevron-right"
       @click="slider?.next()"

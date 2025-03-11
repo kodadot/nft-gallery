@@ -22,9 +22,9 @@
           class="button justify-center arrow arrow-left arrow-icon rounded-full"
           @click="slider?.moveToIdx(leftCarouselIndex)"
         >
-          <Icon
+          <KIcon
             name="i-mdi:chevron-left"
-            class="text-2xl"
+            size="medium"
           />
         </button>
       </Transition>
@@ -34,9 +34,9 @@
           class="button justify-center arrow arrow-right arrow-icon rounded-full"
           @click="slider?.moveToIdx(rightCarouselIndex)"
         >
-          <Icon
+          <KIcon
             name="i-mdi:chevron-right"
-            class="text-2xl"
+            size="medium"
           />
         </button>
       </Transition>

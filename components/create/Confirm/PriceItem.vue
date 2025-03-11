@@ -9,7 +9,7 @@
           <div class="mr-1">
             Fee Breakdown
           </div>
-          <Icon
+          <KIcon
             class="transition"
             :class="[rotate && 'overturn']"
             name="i-mdi:chevron-down"

@@ -19,7 +19,7 @@
       class="px-[0.2rem] py-[0.1rem] ml-2 text-xs bg-neutral-3 dark:bg-neutral-11 rounded-full w-fit flex gap-1"
     >
       <span>{{ cursorLabel.label }}</span>
-      <Icon
+      <KIcon
         v-if="cursorLabel.loading"
         name="i-mdi:loading"
         class="animate-spin"

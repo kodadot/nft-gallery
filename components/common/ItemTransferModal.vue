@@ -30,8 +30,9 @@
 
     <template #footer>
       <div class="mt-3 flex justify-between text-k-grey">
-        <Icon
+        <KIcon
           name="i-mdi:information-slab-circle-outline"
+          size="small"
           class="mr-4"
         />
 

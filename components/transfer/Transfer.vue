@@ -77,9 +77,9 @@
       />
 
       <div class="mb-5">
-        <Icon
-          name="i-mdi:information-slab-circle-outline"
+        <KIcon
           class="ml-2"
+          name="i-mdi:information-slab-circle-outline"
         />
         <span
           v-dompurify-html="

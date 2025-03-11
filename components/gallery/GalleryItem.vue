@@ -15,7 +15,7 @@
             class="back-button z-20"
             @click="toggleFullscreen"
           >
-            <Icon name="i-mdi:chevron-left" />
+            <KIcon name="i-mdi:chevron-left" />
             {{ $t('go back') }}
           </NeoButton>
           <BaseMediaItem
@@ -86,7 +86,7 @@
               class="text-neutral-7 flex items-center"
               :class="isMobile ? 'my-4' : 'my-6'"
             >
-              <Icon
+              <KIcon
                 name="i-mdi:eye"
                 class="mr-1"
               />

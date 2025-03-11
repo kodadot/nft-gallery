@@ -20,9 +20,10 @@
       class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-[3] left-2/4 top-2/4"
     >
       <slot>
-        <Icon
+        <KIcon
           name="i-mdi:loading"
-          class="spinner text-k-grey mr-6 animate-spin text-6xl"
+          class="spinner text-k-grey mr-6 animate-spin"
+          size="large"
         />
 
         <div :style="{ width: textContainerWidth }">

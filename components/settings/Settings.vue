@@ -30,7 +30,7 @@
                 multiline
                 :label="$t('party.settingsTooltip')"
               >
-                <Icon
+                <KIcon
                   name="i-mdi:information-slab-circle-outline"
                   class="!text-k-grey"
                 />
@@ -53,7 +53,7 @@
                 multiline
                 :label="$t('support.tooltip')"
               >
-                <Icon
+                <KIcon
                   name="i-mdi:information-slab-circle-outline"
                   class="!text-k-grey"
                 />

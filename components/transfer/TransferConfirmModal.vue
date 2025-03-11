@@ -66,7 +66,7 @@
             append-to-body
             content-class="transfer-tooltip"
           >
-            <Icon
+            <KIcon
               name="i-mdi:information-slab-circle-outline"
               class="text-base"
             />
@@ -112,7 +112,7 @@
                   append-to-body
                   content-class="transfer-tooltip"
                 >
-                  <Icon
+                  <KIcon
                     name="i-mdi:information-slab-circle-outline"
                     class="text-base"
                   />

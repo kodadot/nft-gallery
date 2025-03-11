@@ -30,15 +30,15 @@
             class="text-xs capitalize text-neutral-7"
           >
             {{ $t('moreActions.download') }}
-            <Icon name="i-mdi:download" />
+            <KIcon name="i-mdi:download" />
           </div>
 
-          <Icon
+          <KIcon
             v-else-if="showAccountList"
             name="i-mdi:chevron-down"
           />
 
-          <Icon
+          <KIcon
             v-else
             name="i-mdi:chevron-right"
           />
@@ -49,7 +49,7 @@
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 flex items-center auth-tip"
     >
-      <Icon
+      <KIcon
         name="i-mdi:loading"
         class="animate-spin"
       />
@@ -121,7 +121,7 @@
           class="pl-5 block"
         >
           <span class="block mb-2 text-sm">
-            <Icon
+            <KIcon
               name="i-mdi:information-slab-circle-outline"
               class="mr-2 text-k-grey"
             />No Polkadot Accounts Found</span>

@@ -71,7 +71,7 @@
                 download
               >
                 {{ $t('massmint.onboarding.downloadTemplate') }}
-                <Icon name="i-mdi:arrow-up-right" />
+                <KIcon name="i-mdi:arrow-up-right" />
               </NeoButton>
             </div>
           </div>
@@ -83,9 +83,9 @@
           class="arrow arrow-left arrow-icon rounded-full"
           @click="prevSlide"
         >
-          <Icon
+          <KIcon
             name="i-mdi:chevron-left"
-            class="text-2xl"
+            size="medium"
           />
         </button>
       </Transition>
@@ -95,9 +95,9 @@
           class="arrow arrow-right arrow-icon rounded-full"
           @click="nextSlide"
         >
-          <Icon
+          <KIcon
             name="i-mdi:chevron-right"
-            class="text-2xl"
+            size="medium"
           />
         </button>
       </Transition>

@@ -161,9 +161,10 @@
         :loading="isLoading"
       />
       <div class="p-4 flex">
-        <Icon
+        <KIcon
           name="i-mdi:information-slab-circle-outline"
-          class="mr-4 text-2xl"
+          size="medium"
+          class="mr-4"
         />
         <p class="text-xs">
           <span

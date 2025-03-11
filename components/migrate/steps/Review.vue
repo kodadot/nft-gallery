@@ -56,7 +56,7 @@
       </div>
 
       <div class="border border-k-shade p-2 flex text-xs text-k-grey">
-        <Icon
+        <KIcon
           name="i-mdi:information-slab-circle-outline"
           class="mr-2"
         />
@@ -82,7 +82,7 @@
           >
           {{ source?.text }}
         </div>
-        <Icon
+        <KIcon
           name="i-mdi:chevron-right"
           class="mx-4"
         />
@@ -111,9 +111,8 @@
           @click="toggleFee = !toggleFee"
         >
           {{ $t('migrate.feeBreakdown') }}
-          <Icon
+          <KIcon
             :name="toggleFee ? 'i-mdi:chevron-up' : 'i-mdi:chevron-down'"
-            class="text-2xl"
           />
         </p>
 
@@ -177,7 +176,7 @@
                   ])
                 "
               >
-                <Icon icon="i-mdi:help-circle-outline" />
+                <KIcon name="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol">
@@ -207,7 +206,7 @@
                   ])
                 "
               >
-                <Icon name="i-mdi:help-circle-outline" />
+                <KIcon name="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <p v-if="destinationSymbol && destinationItemDeposit >= 0">
@@ -232,7 +231,7 @@
                 :label="$t('mint.nft.modal.kodadotTooltip')"
                 multiline
               >
-                <Icon icon="i-mdi:help-circle-outline" />
+                <KIcon name="i-mdi:help-circle-outline" />
               </NeoTooltip>
             </div>
             <div v-if="destinationSymbol">

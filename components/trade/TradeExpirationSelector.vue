@@ -22,7 +22,7 @@
         >
           {{ selectedItem?.text }}
 
-          <Icon
+          <KIcon
             name="i-mdi:chevron-down"
           />
         </div>
