@@ -20,21 +20,11 @@ interface State {
   disconnecting: boolean
 }
 
-const getOldWallet = (): WalletAccount | undefined =>
-  localStorage.getItem('kodaauth')
-    ? ({
-        vm: 'SUB',
-        address: localStorage.getItem('kodaauth') as string,
-        name: localStorage.getItem('walletname') as string,
-        extension: localStorage.getItem('wallet') as string,
-      } as WalletAccount)
-    : undefined
-
 const RECENT_WALLET_DAYS_PERIOD = 30
 
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
-    selected: getOldWallet(),
+    selected: undefined,
     history: undefined,
     disconnecting: false,
   }),

@@ -1,9 +1,10 @@
 <template>
   <ColorScheme>
-    <Icon
+    <KIcon
       v-if="isMobile"
       class="cursor-pointer"
       :name="currentMode.icon"
+      size="medium"
       @click="switchToNextMode"
     />
     <NeoDropdown
@@ -16,9 +17,9 @@
     >
       <template #trigger>
         <div class="flex items-center cursor-pointer">
-          <Icon
+          <KIcon
             :name="currentMode.icon"
-            class="text-xl"
+            size="medium"
           />
           <span class="ml-1 min-w-[82px]">{{ currentMode?.label }}</span>
         </div>
@@ -31,7 +32,7 @@
         :active="preference === option.value"
         :value="option"
       >
-        <Icon
+        <KIcon
           class="mr-2"
           :name="option.icon"
         />

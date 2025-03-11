@@ -26,10 +26,10 @@
         >
           <section class="px-6 py-12">
             <div class="content text-center">
-              <Icon
+              <KIcon
                 v-if="!file && !url"
                 :name="icon"
-                class="text-4xl"
+                size="2x"
               />
               <div
                 v-if="url && !isModelMedia"
@@ -42,10 +42,10 @@
                   @error="hasError = true"
                 />
               </div>
-              <Icon
+              <KIcon
                 v-if="hasError"
                 name="i-mdi:eye-off-outline"
-                class="text-4xl"
+                size="2x"
               />
               <p v-if="!file">
                 {{ label }}

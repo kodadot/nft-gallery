@@ -5,7 +5,7 @@
       :collection="collection"
     />
     <section class="pt-5">
-      <div class="container is-fluid">
+      <div class="container-fluid">
         <CollectionInfo
           ref="collectionInfo"
           :collection-id="collectionId"

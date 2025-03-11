@@ -96,7 +96,9 @@
           <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
             <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
-            <CollectionHeroButtonDeleteCollection />
+            <CollectionHeroButtonDeleteCollection
+              :collection="collection"
+            />
             <CollectionHeroButtonEditCollection
               :collection="collection"
             />

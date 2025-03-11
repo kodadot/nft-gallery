@@ -32,7 +32,7 @@
                   class="flex items-center"
                 >
                   {{ item.name }}
-                  <Icon
+                  <KIcon
                     name="i-mdi:arrow-top-right"
                     class="ml-1 text-k-grey"
                   />
@@ -66,7 +66,7 @@
                   class="flex items-center"
                 >
                   {{ item.name }}
-                  <Icon
+                  <KIcon
                     name="i-mdi:arrow-top-right"
                     class="ml-1 text-k-grey"
                   />
@@ -101,7 +101,7 @@
                 class="flex items-center"
               >
                 {{ item.name }}
-                <Icon
+                <KIcon
                   name="i-mdi:arrow-top-right"
                   class="ml-1 text-k-grey"
                 />
@@ -112,7 +112,7 @@
                 class="flex items-center"
               >
                 {{ item.name }}
-                <Icon
+                <KIcon
                   v-if="item.highlight"
                   name="i-mdi:star-four-points"
                   class="text-k-primary text-xl ml-1"
@@ -142,7 +142,7 @@
               class="flex items-center"
             >
               {{ item.name }}
-              <Icon
+              <KIcon
                 name="i-mdi:arrow-top-right"
                 class="ml-1 text-k-grey"
               />

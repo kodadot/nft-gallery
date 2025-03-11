@@ -12,52 +12,16 @@
         class="wallet-asset-menu"
       >
         <span>{{ menu.label }}</span>
-        <Icon
+        <KIcon
           name="i-mdi:chevron-right"
-          class="text-k-grey text-2xl"
+          size="medium"
+          class="text-k-grey"
         />
       </a>
     </div>
     <div class="wallet-asset-footer flex py-5 text-xs text-k-grey">
       <!-- light/dark mode -->
       <ColorModeSwitch />
-
-      <!-- language -->
-      <div
-        data-testid="sidebar-language"
-        class="language-selector"
-      >
-        <NeoDropdown
-          position="top-left"
-          aria-role="menu"
-          mobile-modal
-        >
-          <template #trigger>
-            <div class="flex items-center">
-              <Icon
-                name="i-mdi:earth"
-                class="text-xl"
-              />
-              <span class="is-hidden-mobile ml-1">
-                {{ $t('profileMenu.language') }}
-              </span>
-            </div>
-          </template>
-
-          <NeoDropdownItem
-            v-for="lang in langsFlags"
-            :key="lang.value"
-            aria-role="listitem"
-            :data-testid="`sidebar-language-${lang.value}`"
-            :value="lang.value"
-            :class="{ 'is-active': $i18n.locale === lang.value }"
-            @click="usePreferencesStore().setUserLocale(lang.value)"
-          >
-            <span>{{ lang.flag }} {{ lang.label }}</span>
-          </NeoDropdownItem>
-        </NeoDropdown>
-      </div>
-
       <!-- settings -->
       <nuxt-link
         to="/settings"
@@ -65,9 +29,9 @@
         data-testid="sidebar-link-settings"
         @click="closeModal"
       >
-        <Icon
+        <KIcon
           name="i-mdi:cog-outline"
-          class="text-xl"
+          size="medium"
         />
         <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>
@@ -76,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
@@ -128,10 +91,6 @@ const closeModal = () => {
   justify-content: space-between;
 
   @apply bulma-mobile:justify-center;
-
-  .language-selector {
-    @apply bulma-mobile:my-8 bulma-mobile:mx-0;
-  }
 
   & > * {
     @apply cursor-pointer flex gap-1;

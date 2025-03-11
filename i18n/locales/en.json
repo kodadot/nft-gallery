@@ -267,7 +267,7 @@
   "collections": "Collections",
   "computed id": "Computed id",
   "confirmDeleteCollection": {
-    "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded.",
+    "content": "I understand collection will be permanently destroyed. Your deposit will be refunded.",
     "deleteCollection": "Delete Collection?",
     "deletingCollection": "Deleting Collection"
   },
@@ -1521,9 +1521,11 @@
     "notifications": "Notifications"
   },
   "offer": {
+    "anyNftFromCollection": "Any NFT",
     "bestOffer": "Best Offer",
     "cancelOffer": "Cancel Offer",
     "collectionFloorPrice": "Collection Floor",
+    "createCollectionOffer": "Create Collection Offer",
     "emptyInput": "Please enter your offer",
     "expiration": "Offer Expiration",
     "floorDifference": "Floor Difference",
@@ -1838,13 +1840,17 @@
   "swap": {
     "acceptSwap": "Accepting Swap",
     "addToken": "Add Token",
+    "anyNftFromCollection": "Any NFT from \"{0}\" Collection",
     "beginSwap": "Begin Swap offer",
     "cantSwapWithYourself": "You can't swap with yourself",
     "clickOnNft": "Click on any NFT to add it to your swap list.",
+    "collectionSwapDescription": "Any NFT from this collection will be offered in the swap",
+    "collectionSwapPreview": "Collection Swap",
     "connectTrader": "Connect with a trader",
     "connectTraderInfo": "Enter the wallet address of the trader you want to engage with, and we’ll guide you through the secure process of making a swap offer.",
     "counterSwap": "Counter Swap",
     "counterparty": "Counterparty",
+    "createCollectionSwap": "Create Collection Swap",
     "createSwap": "Create Swap",
     "created": "Swap Created",
     "creatingSwap": "Creating Swap",

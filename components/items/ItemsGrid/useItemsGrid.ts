@@ -4,13 +4,14 @@ import {
   useItemsGridQueryParams,
   useSearchParams,
 } from './utils/useSearchParams'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { useListingCartStore } from '@/stores/listingCart'
 import type { NFT, TokenId } from '@/types'
 import { fetchOdaToken } from '@/services/oda'
+import tokenListWithSearch from '@/queries/subsquid/general/tokenListWithSearch'
+import nftListWithSearch from '@/queries/subsquid/general/nftListWithSearch'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
@@ -107,8 +108,8 @@ export function useFetchSearch({
     isFetchingData.value = true
 
     const queryName = useTokens.value
-      ? 'tokenListWithSearch'
-      : 'nftListWithSearch'
+      ? tokenListWithSearch
+      : nftListWithSearch
 
     const getRouteQueryOrderByDefault = (query, defaultValue: string[]) => {
       query = [query].filter(Boolean).flat() as string[]
@@ -185,15 +186,17 @@ export function useFetchSearch({
       ? { ...defaultSearchVariables, ...tokenQueryVariables }
       : { ...defaultSearchVariables, ...nftQueryVariables }
 
-    const query = await resolveQueryPath(client.value, queryName)
-    const { data: result } = await useAsyncQuery({
-      query: query.default,
+    const { $apolloClient } = useNuxtApp()
+    const { data: result } = await $apolloClient.query({
+      query: queryName,
       variables: queryVariables,
-      clientId: client.value,
+      context: {
+        endpoint: client.value,
+      },
     })
 
     // handle results
-    const { entities, count } = getQueryResults(result.value)
+    const { entities, count } = getQueryResults(result)
     total.value = count
 
     if (!loadedPages.value.includes(page)) {

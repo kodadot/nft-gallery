@@ -8,11 +8,11 @@
     }"
   >
     <div
-      class="container items-center max-lg:!px-0"
-      :class="{ 'is-fluid': !isTouch }"
+      class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch flex min-h-[3.25rem] w-full"
+      :class="{ 'w-full max-w-none md:!px-10 !px-5': !isTouch }"
     >
       <!-- BRAND -->
-      <div class="navbar-brand">
+      <div class="navbar-brand ml-[-0.75rem]">
         <nuxt-link
           v-if="!isMobile || !openMobileSearchBar"
           to="/"
@@ -106,9 +106,9 @@
             >
               {{ $t('drops.drops') }}
 
-              <Icon
+              <KIcon
                 name="i-mdi:fire"
-                class="text-k-primary text-xl ml-1"
+                class="text-k-primary ml-1"
               />
             </div>
           </nuxt-link>
@@ -180,22 +180,6 @@
 
           <div class="lg:!hidden">
             <template v-if="!account">
-              <MobileExpandableSection
-                v-slot="{ onCloseMobileSubMenu }"
-                class="mobile-language"
-                :no-padding="true"
-                :title="$t('profileMenu.language')"
-                icon="i-mdi:earth"
-              >
-                <MobileLanguageOption
-                  @select="
-                    () => {
-                      showMobileNavbar()
-                      onCloseMobileSubMenu()
-                    }
-                  "
-                />
-              </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
               <NavbarCookiesButton @select="showMobileNavbar" />
             </template>
@@ -206,14 +190,15 @@
             >
               <span>
                 {{ $t('profile.page') }}
-                <Icon
+                <KIcon
                   name="i-mdi:account-circle-outline"
-                  class="text-xl ml-1"
+                  class="ml-1"
+                  size="medium"
                 />
               </span>
-              <Icon
+              <KIcon
+                class="icon--right"
                 name="i-mdi:chevron-right"
-                class="text-2xl icon--right"
               />
             </div>
 
@@ -253,7 +238,6 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import Search from '@/components/search/Search.vue'

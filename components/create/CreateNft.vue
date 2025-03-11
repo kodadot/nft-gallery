@@ -288,7 +288,6 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import type { Ref } from 'vue'
 import {
   NeoButton,
   NeoField,
@@ -305,13 +304,13 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/create/RoyaltyForm.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import nftByBlockNumber from '@/queries/subsquid/general/nftByBlockNumber'
 
 // composables
 const { $consola, $i18n } = useNuxtApp()
@@ -574,24 +573,31 @@ watchEffect(() => {
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
 
-type NftId = {
-  nftEntities?: {
-    id: string
-  }[]
-}
-
+const { $apolloClient } = useNuxtApp()
 async function getNftId() {
-  const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
-    query: query.default,
-    clientId: currentChain.value,
-    variables: {
-      limit: 1,
-      blockNumber: mintedBlockNumber.value,
-    },
-  })
+  try {
+    const result = await $apolloClient.query({
+      query: nftByBlockNumber,
+      variables: {
+        limit: 1,
+        blockNumber: mintedBlockNumber.value,
+      },
+      context: {
+        endpoint: currentChain.value,
+      },
+    })
 
-  return data.value.nftEntities?.[0]?.id
+    if (!result.data?.nftEntities?.length) {
+      $consola.warn('No NFT found for the given block number')
+      return null
+    }
+
+    return result.data?.nftEntities[0].id
+  }
+  catch (error) {
+    $consola.error('Failed to fetch NFT ID:', error)
+    return null
+  }
 }
 
 watchEffect(async () => {

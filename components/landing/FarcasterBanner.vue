@@ -10,9 +10,9 @@
         {{ $t('landing.connectFarcaster') }}
       </div>
     </div>
-    <Icon
-      name="i-mdi:arrow-right-thin"
-      class="text-2xl ml-2"
+    <KIcon
+      name="i-mdi:arrow-right"
+      class="ml-2"
     />
   </a>
 </template>

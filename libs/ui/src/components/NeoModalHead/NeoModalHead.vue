@@ -8,10 +8,7 @@
       data-testid="modal-close-button"
       @click="emit('close')"
     >
-      <Icon
-        name="i-mdi:chevron-left"
-        class="text-2xl"
-      />
+      <KIcon name="i-mdi:chevron-left" />
       <span>{{ title }}</span>
     </button>
   </header>
