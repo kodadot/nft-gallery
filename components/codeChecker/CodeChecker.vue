@@ -189,7 +189,7 @@
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
-        :index-url="indexUrl"
+        :index-url="indexUrl ?? ''"
         @reload="startClock"
         @hash:update="(hash) => (previewHash = hash)"
       />
@@ -209,8 +209,8 @@
         >
 
         <div class="flex items-center gap-5">
-          <NeoIcon
-            icon="shield"
+          <KIcon
+            name="i-mdi:shield-outline"
             class="!block text-k-grey"
             size="large"
           />
@@ -224,7 +224,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
 import { validate } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'
