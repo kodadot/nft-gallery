@@ -29,7 +29,7 @@
           </span>
           <a
             v-safe-href="
-              'https://hello.kodadot.xyz/multi-chain/existential-deposit'
+              'https://hello.kodadot.xyz/information/existential-deposit'
             "
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
