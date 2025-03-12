@@ -44,15 +44,15 @@
         no-shadow
         @click="handleNewTab"
       >
-        <NeoIcon
-          icon="arrow-up-right"
+        <KIcon
+          name="i-mdi:arrow-top-right"
           size="medium"
         />
       </NeoButton>
 
-      <NeoIcon
+      <KIcon
         v-else
-        icon="arrow-up-right"
+        name="i-mdi:arrow-top-right"
         size="medium"
         class="text-k-grey"
       />

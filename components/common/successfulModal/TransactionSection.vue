@@ -28,7 +28,7 @@
         rel="nofollow noopener noreferrer"
       >
         {{ $t('helper.viewTx') }}
-        <NeoIcon icon="arrow-up-right" />
+        <KIcon name="i-mdi:arrow-top-right" />
       </a>
 
       <NeoIcon

@@ -34,8 +34,8 @@
               />
               {{ $t(item.title) }}
             </div>
-            <NeoIcon
-              icon="arrow-up-right"
+            <KIcon
+              name="i-mdi:arrow-top-right"
               class="text-neutral-7 text-sm"
             />
           </a>
