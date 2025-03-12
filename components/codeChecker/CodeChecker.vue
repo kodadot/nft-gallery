@@ -27,10 +27,9 @@
             <div
               class="text-k-blue hover:text-k-blue-hover flex items-center mr-2"
             >
-              <NeoIcon
-                icon="circle"
-                pack="fas"
-                class="text-[4px] mr-2"
+              <KIcon
+                name="i-mdi:circle"
+                class="size-[6px] mr-2"
               />
               {{ $t(item.title) }}
             </div>

@@ -15,11 +15,10 @@
         :size="iconSize"
       />
 
-      <NeoIcon
+      <KIcon
         v-else-if="isWaiting"
         class="text-k-grey opacity-20"
-        icon="circle"
-        pack="fass"
+        name="i-mdi:circle"
         :size="iconSize"
       />
 

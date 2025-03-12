@@ -31,10 +31,9 @@
         <KIcon name="i-mdi:arrow-top-right" />
       </a>
 
-      <NeoIcon
+      <KIcon
+        name="i-mdi:circle"
         class="text-k-grey opacity-20 mx-2 text-[0.5rem]"
-        icon="circle"
-        pack="fass"
         size="small"
       />
 
