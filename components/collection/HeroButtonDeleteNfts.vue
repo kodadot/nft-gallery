@@ -1,6 +1,6 @@
 <template>
   <NeoDropdownItem
-    :disabled="!nfts"
+    :disabled="!canDelete"
     @click="deleteNfts"
   >
     {{ $i18n.t('moreActions.deleteNfts') }}
@@ -44,6 +44,8 @@ const { result: nfts } = useQuery<{ nftEntities: NFTWithMetadata[] }>(
     clientId: client.value,
   })),
 )
+
+const canDelete = computed(() => Boolean(nfts.value?.nftEntities?.length))
 
 const deleteNfts = async () => {
   nfts.value?.nftEntities?.forEach(nft => listNftByNftWithMetadata(nft))
