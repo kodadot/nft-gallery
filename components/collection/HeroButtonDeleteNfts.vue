@@ -1,86 +1,53 @@
 <template>
-  <SigningModal
-    :title="$t('moreActions.deletingNfts')"
-    :is-loading="isLoading"
-    :status="status"
-    @try-again="deleteNfts"
-  />
-
-  <NeoDropdownItem @click="deleteNfts()">
+  <NeoDropdownItem
+    :disabled="!nfts"
+    @click="deleteNfts"
+  >
     {{ $i18n.t('moreActions.deleteNfts') }}
   </NeoDropdownItem>
 </template>
 
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
-import { Interaction } from '@/utils/shoppingActions'
+import type { NFTWithMetadata } from '@/composables/useNft'
+import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
 
-type NftIds = {
-  nfts?: {
-    id: string
-  }[]
-}
+const props = defineProps<{
+  collection: any
+}>()
 
-const route = useRoute()
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
+const { client } = usePrefix()
 const { accountId } = useAuth()
 
-const {
-  transaction,
-  status,
-  isLoading: isTransactionLoading,
-  blockNumber,
-} = useTransaction()
+const { listNftByNftWithMetadata } = useListingCartModal()
+const preferencesStore = usePreferencesStore()
 
-const id = route.params.id.toString()
-const isLoading = ref(false)
-const unsubscribeSubscription = ref(() => {})
+const collectionId = computed(() => props.collection.id)
 
-const { data } = useGraphql({
+const { data } = useGraphql<{ nfts?: { id: string }[] }>({
   queryName: 'nftIdListByCollection',
   variables: {
-    id: id,
+    id: collectionId.value,
     search: [{ currentOwner_eq: accountId.value }],
   },
 })
 
+const nftIds = computed(() => data.value?.nfts?.map(nft => nft.id) || [])
+
+const { result: nfts } = useQuery<{ nftEntities: NFTWithMetadata[] }>(
+  nftEntitiesByIDs,
+  computed(() => ({
+    ids: nftIds.value,
+  })),
+  computed(() => ({
+    clientId: client.value,
+  })),
+)
+
 const deleteNfts = async () => {
-  const nfts = (data.value as NftIds).nfts
-  const ids = nfts?.map(nft => nft.id)
+  nfts.value?.nftEntities?.forEach(nft => listNftByNftWithMetadata(nft))
 
-  if (ids?.length) {
-    isLoading.value = true
-
-    await transaction({
-      interaction: Interaction.CONSUME,
-      nftIds: ids,
-      urlPrefix: urlPrefix.value,
-    })
-
-    unsubscribeSubscription.value()
-    unsubscribeSubscription.value = useSubscriptionGraphql({
-      query: `
-      nftEntities(where: {collection: {id_eq: "${id}"}, burned_eq: false}) {
-        id
-        name
-      }
-    `,
-      onChange: ({ data }) => {
-        if (
-          data.nftEntities.length === 0
-          || status.value === TransactionStatus.Finalized
-        ) {
-          isLoading.value = false
-        }
-      },
-    })
-  }
+  preferencesStore.setOpenedUserCartModal('burn', { silent: true })
 }
-
-watch([isTransactionLoading, blockNumber], ([loading, block]) => {
-  if (!loading && !block) {
-    isLoading.value = false
-  }
-})
 </script>
