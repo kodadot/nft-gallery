@@ -39,11 +39,10 @@
           no-shadow
           variant="icon"
         >
-          <NeoIcon
-            icon="gear"
-            pack="fass"
+          <KIcon
+            name="i-mdi:cog-outline"
             size="large"
-            :variant="!active ? 'k-grey' : undefined"
+            :class="!active ? 'text-k-grey' : undefined"
           />
         </NeoButton>
       </template>
@@ -87,13 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  NeoButton,
-  NeoCheckbox,
-  NeoDropdown,
-  NeoDropdownItem,
-  NeoIcon,
-} from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { useEventListener, useVModel } from '@vueuse/core'
 import type {
   ChartData,

@@ -11,8 +11,8 @@
         no-shadow
         @click="handleReloadClick"
       >
-        <NeoIcon
-          :icon="isLoading ? 'spinner-third' : 'arrow-rotate-left'"
+        <KIcon
+          :name="isLoading ? 'i-mdi:loading' : 'i-mdi:arrow-u-left-top'"
           size="medium"
           :label="$t('reload')"
           :spin="isLoading"
@@ -28,8 +28,8 @@
         no-shadow
         @click="$emit('toggle')"
       >
-        <NeoIcon
-          icon="arrow-up-right-and-arrow-down-left-from-center"
+        <KIcon
+          name="i-mdi:arrow-top-right-bottom-left"
           size="medium"
         />
       </NeoButton>
@@ -68,8 +68,8 @@
         no-shadow
         @click="downloadMedia"
       >
-        <NeoIcon
-          icon="arrow-down-to-line"
+        <KIcon
+          name="i-mdi:arrow-collapse-down"
           size="medium"
         />
       </NeoButton>
@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip, NeoButton } from '@kodadot1/brick'
+import { NeoTooltip, NeoButton } from '@kodadot1/brick'
 
 import {
   determineElementType,
