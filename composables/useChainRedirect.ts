@@ -7,7 +7,6 @@ import { getss58AddressByPrefix } from '@/utils/account'
 const NO_REDIRECT_ROUTE_NAMES = [
   'hot',
   'sales',
-  'series-insight',
   'identity',
   'blog',
   'blog-slug',

@@ -190,6 +190,7 @@ const handleRenderComplete = (
 
 const exportAsPNG = async () => {
   window.addEventListener('message', handleRenderComplete)
+  emit('reload')
   count.value++
 }
 
