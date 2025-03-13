@@ -209,11 +209,13 @@
         >
 
         <div class="flex items-center gap-5">
-          <KIcon
-            name="i-mdi:shield-outline"
-            class="!block text-k-grey"
-            size="large"
-          />
+          <div>
+            <KIcon
+              name="i-mdi:shield-outline"
+              class="text-k-grey"
+              size="large"
+            />
+          </div>
           <p class="capitalize text-k-grey">
             {{ $t('codeChecker.confidentialCode') }}
           </p>
