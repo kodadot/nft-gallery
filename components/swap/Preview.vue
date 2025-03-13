@@ -87,9 +87,21 @@
               icon-left="plus"
               no-shadow
               :label="$t('add')"
-              :disabled="surchargeDisabled || !amount"
+              :disabled="surchargeDisabled || !amount || insufficientBalance"
               @click="addSurcharge"
             />
+          </div>
+          <div
+            v-if="isOfferedSwapStep"
+            class="flex align-center text-xs"
+            :class="{ 'text-k-red': insufficientBalance }"
+          >
+            <div class="flex gap-1">
+              {{ $t('general.balance') }}:
+              <span>
+                {{ balance }} {{ chainSymbol }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -146,6 +158,8 @@ const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { getChainIcon } = useIcon()
 const isCollectionSwap = computed(() => swap.value.isCollectionSwap)
+const { chainSymbol } = useChain()
+const { balance } = useDeposit(urlPrefix)
 
 const stepDetailsMap: ComputedRef<Partial<Record<SwapStep, StepDetails>>> = computed(() => ({
   [SwapStep.DESIRED]: {
@@ -178,6 +192,8 @@ const stepHasSurcharge = computed(() => swap.value.surcharge?.direction === step
 const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 1 : 0))
 const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && props.step === SwapStep.OFFERED)
 const isCollectionSwapDesired = computed(() => isCollectionSwap.value && props.step === SwapStep.DESIRED)
+const isOfferedSwapStep = computed(() => props.step === SwapStep.OFFERED)
+const insufficientBalance = computed(() => isOfferedSwapStep.value && balance.value <= Number(amount.value))
 
 const disabled = computed(() => {
   if ((!accountId.value && props.step === SwapStep.OFFERED) || isOverOneToOneSwap.value) {
