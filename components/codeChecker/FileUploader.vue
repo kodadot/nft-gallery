@@ -10,8 +10,8 @@
     >
       <template v-if="!selectedFile">
         <div class="flex flex-col items-center limit-width gap-2 py-5">
-          <NeoIcon
-            icon="arrow-down-to-bracket"
+          <KIcon
+            name="i-mdi:folder-upload-outline"
             class="text-xl text-k-grey"
           />
           <span>Drag Your <b class="mr-1">.Zip File</b> Here Or Click To
@@ -24,8 +24,8 @@
       <template v-else>
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-4 overflow-hidden">
-            <NeoIcon
-              icon="code"
+            <KIcon
+              name="i-mdi:code-block-tags"
               class="border py-3 px-[10px] rounded-full text-k-grey"
             />
             <span class="text-ellipsis overflow-hidden">{{
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { NeoButton, NeoUpload } from '@kodadot1/brick'
 
 const emits = defineEmits(['update:selectedFile', 'fileSelected', 'clear'])
 

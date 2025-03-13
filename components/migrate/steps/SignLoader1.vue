@@ -45,7 +45,7 @@
             class="text-k-blue hover:text-k-blue-hover"
             :to="`/${client}/collection/${nextId}`"
           >
-            {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
+            {{ $t('viewtx') }} <KIcon name="i-mdi:arrow-top-right" />
           </nuxt-link>
         </div>
         <div
