@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div
-      v-if="listingCartStore.count"
+      v-if="listingCartStore.count && !preferencesStore.getIsUserCartSilentMode"
       class="fixed right-24 bottom-9 z-[998]"
     >
       <div class="inline-flex items-center">

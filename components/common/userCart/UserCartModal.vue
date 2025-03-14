@@ -80,9 +80,10 @@ const loadingAbi = computed(() => (isEvm.value ? !abi.value : false))
 const loading = computed(() => (props.loading || loadingAbi.value))
 
 const onClose = () => {
-  preferencesStore.userCartModal = undefined
+  preferencesStore.setClosedUserCartModal()
   onModalAnimation(() => {
     listingCartStore.clearListedItems()
+    preferencesStore.userCartModal = undefined
     emit('reset')
   })
 }

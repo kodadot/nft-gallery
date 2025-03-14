@@ -48,7 +48,7 @@ interface State {
   mobileFilterCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
-  userCartModal: { open: boolean, mode: UserCartMode } | undefined
+  userCartModal: { open: boolean, mode: UserCartMode, silent?: boolean } | undefined
   makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
@@ -141,6 +141,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getIsPartyMode(): boolean {
       return this.getHasUserNotSetPartyMode ? true : this.partyMode!
     },
+    getIsUserCartSilentMode: state => Boolean(state.userCartModal?.silent),
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -238,8 +239,13 @@ export const usePreferencesStore = defineStore('preferences', {
     setNewsletterSubscription(subscription: NewsletterSubscription) {
       this.newsletterSubscription = subscription
     },
-    setOpenedUserCartModal(mode: UserCartMode) {
-      this.userCartModal = { mode, open: true }
+    setOpenedUserCartModal(mode: UserCartMode, { silent = false } = {}) {
+      this.userCartModal = { mode, open: true, silent }
+    },
+    setClosedUserCartModal() {
+      if (this.userCartModal) {
+        this.userCartModal = { mode: this.userCartModal.mode, open: false, silent: this.userCartModal.silent }
+      }
     },
     setTriggerOfferSuccess(payload: boolean) {
       this.triggerOfferSuccess = payload

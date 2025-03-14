@@ -10,7 +10,7 @@
     :show-timestamp="showTimestamp"
     :hide-collection-popover="hideCollectionPopover"
     :lazy-loading="lazyLoading"
-    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) || isSelectActionItemInCart }"
+    :class="{ 'in-cart-border': !preferencesStore.getIsUserCartSilentMode && (shoppingCartStore.isItemInCart(nft.id) || isSelectActionItemInCart) }"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
