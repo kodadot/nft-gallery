@@ -15,14 +15,6 @@
         <p class="mb-2">
           {{ $t('swap.landingSubtitle') }}
         </p>
-        <a
-          class="text-k-blue hover:text-k-blue-hover"
-          href="https://hello.kodadot.xyz/tutorial/swaps"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-        >
-          {{ $t('swap.learnMoreAboutSwaps') }}
-        </a>
       </div>
 
       <div>

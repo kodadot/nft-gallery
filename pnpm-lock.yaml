@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@apollo/federation': 0.38.1
-
 patchedDependencies:
   '@polkadot/vue-identicon@3.11.3':
     hash: lk62wydlwt3dwu7hzwoaewjzva
@@ -172,9 +169,6 @@ importers:
       qrcode.vue:
         specifier: ^3.4.1
         version: 3.4.1(vue@3.5.13(typescript@5.6.2))
-      slugify:
-        specifier: ^1.6.6
-        version: 1.6.6
       unzipit:
         specifier: ^1.4.3
         version: 1.4.3
@@ -233,9 +227,6 @@ importers:
       '@playwright/test':
         specifier: ^1.47.1
         version: 1.49.1
-      '@types/jest':
-        specifier: ^27.5.2
-        version: 27.5.2
       '@types/lodash':
         specifier: ^4.17.7
         version: 4.17.13
@@ -266,9 +257,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      glob:
-        specifier: ^8.1.0
-        version: 8.1.0
       husky:
         specifier: ^9.1.6
         version: 9.1.7
@@ -310,7 +298,7 @@ importers:
     devDependencies:
       '@vitest/coverage-c8':
         specifier: ^0.33.0
-        version: 0.33.0(vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3))
+        version: 0.33.0(vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3))
       changelogen:
         specifier: ^0.5.5
         version: 0.5.5
@@ -322,7 +310,7 @@ importers:
         version: 2.0.0(sass@1.77.8)(typescript@5.6.2)
       vitest:
         specifier: ^1.6.0
-        version: 1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3)
+        version: 1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3)
 
   libs/ui:
     dependencies:
@@ -2330,8 +2318,8 @@ packages:
     resolution: {integrity: sha512-8tR1xe7ZEbkabTuE/tNhzpolygUn9OaYp9yuYAF4MgDNZg06C3Qny80bes2/e9/Wm3aVkPUlCw6WgU7mQd0yEg==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@11.1.1':
-    resolution: {integrity: sha512-2kGiWoXaeV8HZlhU/Nml12oTbhv7j2ufsJ5vQaa0VTjzUmZVdd/nmKFRAOJ/FtjO90Qba5AnZDwsrY7ZND5udA==}
+  '@intlify/shared@11.1.2':
+    resolution: {integrity: sha512-dF2iMMy8P9uKVHV/20LA1ulFLL+MKSbfMiixSmn6fpwqzvix38OIc7ebgnFbBqElvghZCW9ACtzKTGKsTGTWGA==}
     engines: {node: '>= 16'}
 
   '@intlify/unplugin-vue-i18n@6.0.3':
@@ -3073,8 +3061,8 @@ packages:
     resolution: {integrity: sha512-PE6DW+8kRhbnGKn7qCF7yM6eEt/kqrY8bh1i0RZcPY9QgwXW4bZZrtMK4WssX6Z70NTEoOW6xHYIjc7gFZuz8g==}
     engines: {node: '>=18'}
 
-  '@polkadot/api-augment@15.7.1':
-    resolution: {integrity: sha512-xL/ydO6iqa7/+8z7e3rJbPpsjuv5OJ8j9FhWjhfYpnWLBkkPIOscemAWIcXTDRhQoPKVTKyQPb2495G+yGFBCQ==}
+  '@polkadot/api-augment@15.8.1':
+    resolution: {integrity: sha512-xVnkhaG9g2+uMx5ekvUb1Q5JDo1wzWVNhOAmGshAYuNmaQPupMTJIZ301/+gmw+23cvZd9/uCNZKF9x+wEWmOw==}
     engines: {node: '>=18'}
 
   '@polkadot/api-augment@7.15.1':
@@ -3097,8 +3085,8 @@ packages:
     resolution: {integrity: sha512-GZT6rTpT3HYZ/C3rLPjoX3rX3DOxNG/zgts+jKjNrCumAeZkVq5JErKIX8/3f2TVaE2Kbqniy3d1TH/AL4HBPA==}
     engines: {node: '>=18'}
 
-  '@polkadot/api-base@15.7.1':
-    resolution: {integrity: sha512-5i2RFziPnYj1shhoHlatEyB5vLDPbB9zK0pvJWN5V6lQsYJoiPQ6UpNiQ8JD98qcYRVuKTjlhx03mRQ3FLFgDg==}
+  '@polkadot/api-base@15.8.1':
+    resolution: {integrity: sha512-rGdasatpT5skvn49bc5qUB+oT2SyYeYWgnzGK1nc1UdOEEmV9/xMsBOqVc6KJsJR9vqnv9Y9SL00Bb9H21uVAA==}
     engines: {node: '>=18'}
 
   '@polkadot/api-base@7.15.1':
@@ -3121,8 +3109,8 @@ packages:
     resolution: {integrity: sha512-PhqUEJCY54vXtIaoYqGUtJY06wHd/K0cBmBz9yCLxp8UZkLoGWhfJRTruI25Jnucf9awS5cZKYqbsoDrL09Oqg==}
     engines: {node: '>=18'}
 
-  '@polkadot/api-derive@15.7.1':
-    resolution: {integrity: sha512-EY0ymkLFJ48PqDRh5Sm06iVhWZe5YdZEErFu6Qseq9U891PQ+g3UJo2kGXrH2JowXRUf/x8SzH/NU85JycTriA==}
+  '@polkadot/api-derive@15.8.1':
+    resolution: {integrity: sha512-/rN63eWMkVdJamkpmX00xmg3VTfCUgOXIjob1e1no6WkZsk1uAHaU90Scv4bQEIxhhewwFMIseMP8l8GlCsNHg==}
     engines: {node: '>=18'}
 
   '@polkadot/api-derive@7.15.1':
@@ -3145,8 +3133,8 @@ packages:
     resolution: {integrity: sha512-ZBKSXEVJa1S1bnmpnA7KT/fX3sJDIJOdVD9Hp3X+G73yvXzuK5k1Mn5z9bD/AcMs/HAGcbuYU+b9+b9IByH9YQ==}
     engines: {node: '>=18'}
 
-  '@polkadot/api@15.7.1':
-    resolution: {integrity: sha512-jV4TWjxcC30FKEn16KBMI2+IPoLvOg1I6rCSKrKEmzAUql58/pd3Lm9tglLdL1Thhajee3iwJtU8DkFayYneUA==}
+  '@polkadot/api@15.8.1':
+    resolution: {integrity: sha512-J4BhtTGoBYTLEtd6CMku8J7oKfv66elVd5IRF7yOddJFmY0zb5fNk3B2Y9Pv495fo77M0qKc/LjseCZn207pQQ==}
     engines: {node: '>=18'}
 
   '@polkadot/api@7.15.1':
@@ -3276,8 +3264,8 @@ packages:
     resolution: {integrity: sha512-Z8Hp8fFHwFCiTX0bBCDqCZ4U26wLIJl1NRSjJTsAr+SS68pYZBDGCwhKztpKGqndk1W1akRUaxrkGqYdIFmspQ==}
     engines: {node: '>=18'}
 
-  '@polkadot/rpc-augment@15.7.1':
-    resolution: {integrity: sha512-6kkD9nLgbC40ZSOYFipU0/CaCyiHr/JCNJNzdLzE1bM4Z/7N4TpywMqlCls/dFFLw1sS9SsgR7SWsLCriGQHKQ==}
+  '@polkadot/rpc-augment@15.8.1':
+    resolution: {integrity: sha512-Ko5VVQYkifnEiSkuq0vwxjwTdlgsexn8lcB2zzpDIdq1SVF/w3/lg7Ln4hqPKJ4QGAYf1D5sqhZCbOhlgN+DfA==}
     engines: {node: '>=18'}
 
   '@polkadot/rpc-augment@7.15.1':
@@ -3300,8 +3288,8 @@ packages:
     resolution: {integrity: sha512-FV2NPhFwFxmX8LqibDcGc6IKTBqmvwr7xwF2OA60Br4cX+AQzMSVpFlfQcETll+0M+LnRhqGKGkP0EQWXaSowA==}
     engines: {node: '>=18'}
 
-  '@polkadot/rpc-core@15.7.1':
-    resolution: {integrity: sha512-/sIHhUvLf29ZiLWPCyhMMaXs5vfKLIrfB/OPOGYy2dR8yKEnBuKbN6Ae54N+mLHGKksi2jNXWhX3Kuu4CbXoeQ==}
+  '@polkadot/rpc-core@15.8.1':
+    resolution: {integrity: sha512-QnEULlLO+eNVChll6nx8/J+VAa1SHmIZKi/ahMM5A5UWGc0ntLNDRT3Ts5itpUW8zI0mHCuQlkS1/7nYgbCb+Q==}
     engines: {node: '>=18'}
 
   '@polkadot/rpc-core@7.15.1':
@@ -3328,8 +3316,8 @@ packages:
     resolution: {integrity: sha512-NF/Z/7lzT+jp5LZzC49g+YIjRzXVI0hFag3+B+4zh6E/kKADdF59EHj2Im4LDhRGOnEO9AE4H6/UjNEbZ94JtA==}
     engines: {node: '>=18'}
 
-  '@polkadot/rpc-provider@15.7.1':
-    resolution: {integrity: sha512-DLRjOdsJ16RjFR5aTKOvlLhcmFeo3WGC/lJDYZ9J+oTeY4dFJLEF/ERKRWsv9YnYNsOSMkCHq23F7NvCYAjXAg==}
+  '@polkadot/rpc-provider@15.8.1':
+    resolution: {integrity: sha512-EAIRYiZNQeGPgG6AFyuRQdqLrYB/BL01Ra4ES8LA9nZwS4BVXuMoyzNuQqExUe2gNOjFfyVqURNBCR/0xzhMQg==}
     engines: {node: '>=18'}
 
   '@polkadot/rpc-provider@7.15.1':
@@ -3356,8 +3344,8 @@ packages:
     resolution: {integrity: sha512-SC4M6TBlgCglNz+gRbvfoVRDz0Vyeev6v0HeAdw0H6ayEW4BXUdo5bFr0092bdS5uTrEPgiSyUry5TJs2KoXig==}
     engines: {node: '>=18'}
 
-  '@polkadot/types-augment@15.7.1':
-    resolution: {integrity: sha512-rLQ8nvsLp4XyiTGQigens4JDP5PPFyzlYMdAGMqYsH+K/6TdqStgXciFeUGe2jeir49aCgBgXqQV+/5kNSK2Wg==}
+  '@polkadot/types-augment@15.8.1':
+    resolution: {integrity: sha512-g3i+0q03gCLEx8YWDcvQk39QBAl4Cj59njNyX9XQKS2WZY0ZLVD4TMw0HEozMnYBb23dJjNeFxHkIdSQzaJBKA==}
     engines: {node: '>=18'}
 
   '@polkadot/types-augment@7.15.1':
@@ -3384,8 +3372,8 @@ packages:
     resolution: {integrity: sha512-3y3RBGd+8ebscGbNUOjqUjnRE7hgicgid5LtofHK3O1EDcJQJnYBDkJ7fOAi96CDgHsg+f2FWWkBWEPgpOQoMQ==}
     engines: {node: '>=18'}
 
-  '@polkadot/types-codec@15.7.1':
-    resolution: {integrity: sha512-QxYNDo1SH6VqF5Atcciu1r7MbKQIr8jDIZ0jYtOkrzsw3BvynlI59+3icTRrrK4Uk79D8PD0QWo4r+krJ0VMmQ==}
+  '@polkadot/types-codec@15.8.1':
+    resolution: {integrity: sha512-F5GMDbxCeBCBM28gwnMMXvf0psU1j6NL9HG7KzlxWV7sjz/GwOEVyzETaSTrp4/wXt5QYUIGJiFG4ltzkx9K4g==}
     engines: {node: '>=18'}
 
   '@polkadot/types-codec@7.15.1':
@@ -3412,8 +3400,8 @@ packages:
     resolution: {integrity: sha512-F4EBvF3Zvym0xrkAA5Yz01IAVMepMV3w2Dwd0C9IygEAQ5sYLLPHmf72/aXn+Ag+bSyT2wlJHpDc+nEBXNQ3Gw==}
     engines: {node: '>=18'}
 
-  '@polkadot/types-create@15.7.1':
-    resolution: {integrity: sha512-baEU+H+GnHOnNAL5hu09lr2m1bK2HiGvrOZq8txLsNpy67uxI04YzzSkckxWdORyix6Yo55rWW0QfaDlSoiP7g==}
+  '@polkadot/types-create@15.8.1':
+    resolution: {integrity: sha512-h/4v5QJmagOjp3qFtBx+KQV5J8GxR/SJae1RTEt/6gCl/p9mS+yFGHHJ+ihD1wvcvh9XZCf/yotJAh+romY16A==}
     engines: {node: '>=18'}
 
   '@polkadot/types-create@7.15.1':
@@ -3436,8 +3424,8 @@ packages:
     resolution: {integrity: sha512-58b3Yc7+sxwNjs8axmrA9OCgnxmEKIq7XCH2VxSgLqTeqbohVtxwUSCW/l8NPrq1nxzj4J2sopu0PPg8/++q4g==}
     engines: {node: '>=18'}
 
-  '@polkadot/types-known@15.7.1':
-    resolution: {integrity: sha512-G56TRuaxd7rA1eTFMJyoyYkqFmGZsFwrnviIK9HsSuE2uzaV6vrOfit6eIIg+YQGIyWoshRJCDiLizjzwZhdGQ==}
+  '@polkadot/types-known@15.8.1':
+    resolution: {integrity: sha512-0kNMRN2xd4aQybKT7sFrjOId7SOtry4z6BYg97mqNVf42ZH4idk3YKO41RA2nfyzOuuFzr6hav4FrRa+8Aue0w==}
     engines: {node: '>=18'}
 
   '@polkadot/types-known@4.17.1':
@@ -3472,8 +3460,8 @@ packages:
     resolution: {integrity: sha512-MfVe4iIOJIfBr+gj8Lu8gwIvhnO6gDbG5LeaKAjY6vS6Oh0y5Ztr8NdMIl8ccSpoyt3LqIXjfApeGzHiLzr6bw==}
     engines: {node: '>=18'}
 
-  '@polkadot/types-support@15.7.1':
-    resolution: {integrity: sha512-uM/DyU48PU+ok4yFeSIhTtdKY46zAYY0cuaK0iBbW4/oIRBdSJQ6U3CnU9iMVNCN5kKJdIR3K7V2uoZGl6GXvw==}
+  '@polkadot/types-support@15.8.1':
+    resolution: {integrity: sha512-2NWhxdD7+rARlnKiFo83+wtjzAT4tvaZUD7ahxTukJbHSewpwhaHpqnCJccasw51qipI4rX0G1ytPJbI4NIRDg==}
     engines: {node: '>=18'}
 
   '@polkadot/types-support@7.15.1':
@@ -3500,8 +3488,8 @@ packages:
     resolution: {integrity: sha512-O748XgCLDQYxS5nQ6TJSqW88oC4QNIoNVlWZC2Qq4SmEXuSzaNHQwSVtdyPRJCCc4Oi1DCQvGui4O+EukUl7HA==}
     engines: {node: '>=18'}
 
-  '@polkadot/types@15.7.1':
-    resolution: {integrity: sha512-E4qksl/D+sMpEIH2WDwjC6hDRBu7IBW+tK99QTxZ28F087Xkpjc8W38lzr/bZhodoJQ+lsLQkPh+XpbcaIbelA==}
+  '@polkadot/types@15.8.1':
+    resolution: {integrity: sha512-PALHaxeMaR+KwVN15XdmkF5udL9nm8ysIoS3iDMTSjjmZAZVhoELSUam/VxwEYkIuFBADj0i3zJTsEbiWBHotg==}
     engines: {node: '>=18'}
 
   '@polkadot/types@4.17.1':
@@ -4860,9 +4848,6 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
-
-  '@types/jest@27.5.2':
-    resolution: {integrity: sha512-mpT8LJJ4CMeeahobofYWIjFo0xonRS/HfxnVEPMPFSQdGUt1uHCnoPT7Zhb+sjDU2wz0oKV0OLUR0WzrHNgfeA==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -6961,10 +6946,6 @@ packages:
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
 
-  diff-sequences@27.5.1:
-    resolution: {integrity: sha512-k1gCAXAsNgLwEL+Y8Wvl+M6oEFj5bgazfZULpS5CneoPPXRaCCW7dm+q21Ky2VEE5X+VeRDBVg1Pcvvsr4TtNQ==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -8454,25 +8435,13 @@ packages:
     engines: {node: '>=6.4.0'}
     hasBin: true
 
-  jest-diff@27.5.1:
-    resolution: {integrity: sha512-m0NvkX55LDt9T4mctTEgnZk3fmEg3NRYutvMPWM/0iPnkFj2wIeF45O1718cMSOFO1vINkqmxqD8vE37uTEbqw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
   jest-environment-node@29.7.0:
     resolution: {integrity: sha512-DOSwCRqXirTOyheM+4d5YZOrWcdu0LNZ87ewUoywbcb2XR4wKgqiG8vNeYwhjFMbEkfju7wx2GYH0P2gevGvFw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  jest-get-type@27.5.1:
-    resolution: {integrity: sha512-2KY95ksYSaK7DMBWQn6dQz3kqAf3BB64y2udeG+hv4KfSOb9qwcYQstTJc1KCbsix+wLZWZYN8t7nwX3GOBLRw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
   jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-matcher-utils@27.5.1:
-    resolution: {integrity: sha512-z2uTx/T6LBaCoNWNFWwChLBKYxTMcGBRjAt+2SbP929/Fflb9aa5LGma654Rz8z9HLxsrUaYzxE9T/EFIL/PAw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
   jest-message-util@29.7.0:
     resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
@@ -10377,10 +10346,6 @@ packages:
   pretty-format@26.6.2:
     resolution: {integrity: sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==}
     engines: {node: '>= 10'}
-
-  pretty-format@27.5.1:
-    resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
@@ -15005,14 +14970,14 @@ snapshots:
 
   '@intlify/shared@11.0.0-rc.1': {}
 
-  '@intlify/shared@11.1.1': {}
+  '@intlify/shared@11.1.2': {}
 
   '@intlify/unplugin-vue-i18n@6.0.3(@vue/compiler-dom@3.5.13)(eslint@9.9.1(jiti@2.4.2))(rollup@4.29.1)(typescript@5.6.2)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.9.1(jiti@2.4.2))
       '@intlify/bundle-utils': 10.0.0(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))
-      '@intlify/shared': 11.1.1
-      '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.1)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))
+      '@intlify/shared': 11.1.2
+      '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.2)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       '@typescript-eslint/scope-manager': 8.18.2
       '@typescript-eslint/typescript-estree': 8.18.2(typescript@5.6.2)
@@ -15036,11 +15001,11 @@ snapshots:
 
   '@intlify/utils@0.13.0': {}
 
-  '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.1.1)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))':
+  '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.1.2)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))':
     dependencies:
       '@babel/parser': 7.26.3
     optionalDependencies:
-      '@intlify/shared': 11.1.1
+      '@intlify/shared': 11.1.2
       '@vue/compiler-dom': 3.5.13
       vue: 3.5.13(typescript@5.6.2)
       vue-i18n: 10.0.5(vue@3.5.13(typescript@5.6.2))
@@ -15222,7 +15187,7 @@ snapshots:
       https-proxy-agent: 7.0.6(supports-color@9.4.0)
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.0.0
-      semver: 7.6.3
+      semver: 7.7.1
       tar: 7.4.3
     transitivePeerDependencies:
       - encoding
@@ -15379,7 +15344,7 @@ snapshots:
       '@types/debug': 4.1.12
       debug: 4.4.0(supports-color@9.4.0)
       pony-cause: 2.1.11
-      semver: 7.6.3
+      semver: 7.7.1
       uuid: 9.0.1
     transitivePeerDependencies:
       - supports-color
@@ -16601,13 +16566,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/api-augment@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/api-augment@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/api-base': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/rpc-augment': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-augment': 15.7.1
-      '@polkadot/types-codec': 15.7.1
+      '@polkadot/api-base': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/rpc-augment': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-augment': 15.8.1
+      '@polkadot/types-codec': 15.8.1
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -16678,10 +16643,10 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/api-base@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/api-base@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/rpc-core': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
+      '@polkadot/rpc-core': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
       '@polkadot/util': 13.4.3
       rxjs: 7.8.1
       tslib: 2.8.1
@@ -16764,14 +16729,14 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/api-derive@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/api-derive@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/api': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/api-augment': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/api-base': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/rpc-core': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-codec': 15.7.1
+      '@polkadot/api': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api-augment': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api-base': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/rpc-core': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-codec': 15.8.1
       '@polkadot/util': 13.4.3
       '@polkadot/util-crypto': 13.4.3(@polkadot/util@13.4.3)
       rxjs: 7.8.1
@@ -16886,20 +16851,20 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/api@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/api@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/api-augment': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/api-base': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/api-derive': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api-augment': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api-base': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api-derive': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@polkadot/keyring': 13.4.3(@polkadot/util-crypto@13.4.3(@polkadot/util@13.4.3))(@polkadot/util@13.4.3)
-      '@polkadot/rpc-augment': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/rpc-core': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/rpc-provider': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-augment': 15.7.1
-      '@polkadot/types-codec': 15.7.1
-      '@polkadot/types-create': 15.7.1
-      '@polkadot/types-known': 15.7.1
+      '@polkadot/rpc-augment': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/rpc-core': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/rpc-provider': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-augment': 15.8.1
+      '@polkadot/types-codec': 15.8.1
+      '@polkadot/types-create': 15.8.1
+      '@polkadot/types-known': 15.8.1
       '@polkadot/util': 13.4.3
       '@polkadot/util-crypto': 13.4.3(@polkadot/util@13.4.3)
       eventemitter3: 5.0.1
@@ -17051,7 +17016,7 @@ snapshots:
     dependencies:
       '@polkadot/util': 12.6.2
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@polkadot/keyring@13.2.3(@polkadot/util-crypto@13.2.3(@polkadot/util@13.2.3))(@polkadot/util@13.2.3)':
     dependencies:
@@ -17107,7 +17072,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.4
       '@polkadot/util': 10.4.2
-      '@substrate/ss58-registry': 1.47.0
+      '@substrate/ss58-registry': 1.51.0
 
   '@polkadot/networks@12.6.2':
     dependencies:
@@ -17191,11 +17156,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/rpc-augment@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/rpc-augment@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/rpc-core': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-codec': 15.7.1
+      '@polkadot/rpc-core': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-codec': 15.8.1
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -17265,11 +17230,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/rpc-core@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/rpc-core@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/rpc-augment': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/rpc-provider': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@polkadot/types': 15.7.1
+      '@polkadot/rpc-augment': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/rpc-provider': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/types': 15.8.1
       '@polkadot/util': 13.4.3
       rxjs: 7.8.1
       tslib: 2.8.1
@@ -17387,11 +17352,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@polkadot/rpc-provider@15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@polkadot/rpc-provider@15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@polkadot/keyring': 13.4.3(@polkadot/util-crypto@13.4.3(@polkadot/util@13.4.3))(@polkadot/util@13.4.3)
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-support': 15.7.1
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-support': 15.8.1
       '@polkadot/util': 13.4.3
       '@polkadot/util-crypto': 13.4.3(@polkadot/util@13.4.3)
       '@polkadot/x-fetch': 13.4.3
@@ -17422,7 +17387,7 @@ snapshots:
       '@substrate/connect': 0.7.0-alpha.0
       eventemitter3: 4.0.7
       mock-socket: 9.3.1
-      nock: 13.5.4
+      nock: 13.5.6
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -17476,10 +17441,10 @@ snapshots:
       '@polkadot/util': 13.2.3
       tslib: 2.8.1
 
-  '@polkadot/types-augment@15.7.1':
+  '@polkadot/types-augment@15.8.1':
     dependencies:
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-codec': 15.7.1
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-codec': 15.8.1
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
 
@@ -17521,7 +17486,7 @@ snapshots:
       '@polkadot/x-bigint': 13.2.3
       tslib: 2.8.1
 
-  '@polkadot/types-codec@15.7.1':
+  '@polkadot/types-codec@15.8.1':
     dependencies:
       '@polkadot/util': 13.4.3
       '@polkadot/x-bigint': 13.4.3
@@ -17562,9 +17527,9 @@ snapshots:
       '@polkadot/util': 13.2.3
       tslib: 2.8.1
 
-  '@polkadot/types-create@15.7.1':
+  '@polkadot/types-create@15.8.1':
     dependencies:
-      '@polkadot/types-codec': 15.7.1
+      '@polkadot/types-codec': 15.8.1
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
 
@@ -17607,12 +17572,12 @@ snapshots:
       '@polkadot/util': 13.2.3
       tslib: 2.8.1
 
-  '@polkadot/types-known@15.7.1':
+  '@polkadot/types-known@15.8.1':
     dependencies:
       '@polkadot/networks': 13.4.3
-      '@polkadot/types': 15.7.1
-      '@polkadot/types-codec': 15.7.1
-      '@polkadot/types-create': 15.7.1
+      '@polkadot/types': 15.8.1
+      '@polkadot/types-codec': 15.8.1
+      '@polkadot/types-create': 15.8.1
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
 
@@ -17668,7 +17633,7 @@ snapshots:
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
 
-  '@polkadot/types-support@15.7.1':
+  '@polkadot/types-support@15.8.1':
     dependencies:
       '@polkadot/util': 13.4.3
       tslib: 2.8.1
@@ -17727,12 +17692,12 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.8.1
 
-  '@polkadot/types@15.7.1':
+  '@polkadot/types@15.8.1':
     dependencies:
       '@polkadot/keyring': 13.4.3(@polkadot/util-crypto@13.4.3(@polkadot/util@13.4.3))(@polkadot/util@13.4.3)
-      '@polkadot/types-augment': 15.7.1
-      '@polkadot/types-codec': 15.7.1
-      '@polkadot/types-create': 15.7.1
+      '@polkadot/types-augment': 15.8.1
+      '@polkadot/types-codec': 15.8.1
+      '@polkadot/types-create': 15.8.1
       '@polkadot/util': 13.4.3
       '@polkadot/util-crypto': 13.4.3(@polkadot/util@13.4.3)
       rxjs: 7.8.1
@@ -19345,7 +19310,7 @@ snapshots:
 
   '@subsocial/definitions@0.8.14(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@polkadot/api': 15.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@polkadot/api': 15.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       lodash.camelcase: 4.3.0
     transitivePeerDependencies:
       - bufferutil
@@ -19641,11 +19606,6 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
 
-  '@types/jest@27.5.2':
-    dependencies:
-      jest-matcher-utils: 27.5.1
-      pretty-format: 27.5.1
-
   '@types/json-schema@7.0.15': {}
 
   '@types/less@3.0.6': {}
@@ -19888,7 +19848,7 @@ snapshots:
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.6.3
+      semver: 7.7.1
       ts-api-utils: 1.3.0(typescript@5.6.2)
       typescript: 5.6.2
     transitivePeerDependencies:
@@ -19902,7 +19862,7 @@ snapshots:
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.4
-      semver: 7.6.3
+      semver: 7.7.1
       ts-api-utils: 1.3.0(typescript@5.6.2)
     optionalDependencies:
       typescript: 5.6.2
@@ -20082,14 +20042,14 @@ snapshots:
       vite: 6.2.0(@types/node@20.16.5)(jiti@2.4.2)(sass@1.77.6)(stylus@0.57.0)(terser@5.30.3)(yaml@2.7.0)
       vue: 3.5.13(typescript@5.6.2)
 
-  '@vitest/coverage-c8@0.33.0(vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3))':
+  '@vitest/coverage-c8@0.33.0(vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       c8: 7.14.0
       magic-string: 0.30.9
       picocolors: 1.0.0
       std-env: 3.7.0
-      vitest: 1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3)
+      vitest: 1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3)
 
   '@vitest/coverage-istanbul@0.34.6(vitest@0.34.6(happy-dom@15.0.0)(jsdom@19.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))(playwright@1.49.1)(sass@1.77.6)(stylus@0.57.0)(terser@5.30.3))':
     dependencies:
@@ -22822,8 +22782,6 @@ snapshots:
 
   didyoumean@1.2.2: {}
 
-  diff-sequences@27.5.1: {}
-
   diff-sequences@29.6.3: {}
 
   diff@7.0.0: {}
@@ -23294,7 +23252,7 @@ snapshots:
       get-tsconfig: 4.7.5
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.6.3
+      semver: 7.7.1
       stable-hash: 0.0.4
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -23312,7 +23270,7 @@ snapshots:
       espree: 10.1.0
       esquery: 1.6.0
       parse-imports: 2.1.1
-      semver: 7.6.3
+      semver: 7.7.1
       spdx-expression-parse: 4.0.0
       synckit: 0.9.1
     transitivePeerDependencies:
@@ -23346,7 +23304,7 @@ snapshots:
       read-pkg-up: 7.0.1
       regexp-tree: 0.1.27
       regjsparser: 0.10.0
-      semver: 7.6.3
+      semver: 7.7.1
       strip-indent: 3.0.0
     transitivePeerDependencies:
       - supports-color
@@ -23359,7 +23317,7 @@ snapshots:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 6.1.2
-      semver: 7.6.3
+      semver: 7.7.1
       vue-eslint-parser: 9.4.3(eslint@9.9.1(jiti@2.4.2))
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -24712,7 +24670,7 @@ snapshots:
       '@babel/parser': 7.24.4
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.6.3
+      semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
 
@@ -24724,7 +24682,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0(supports-color@9.4.0)
       istanbul-lib-coverage: 3.2.2
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -24752,13 +24710,6 @@ snapshots:
     dependencies:
       canvas-renderer: 2.2.1
 
-  jest-diff@27.5.1:
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 27.5.1
-      jest-get-type: 27.5.1
-      pretty-format: 27.5.1
-
   jest-environment-node@29.7.0:
     dependencies:
       '@jest/environment': 29.7.0
@@ -24768,16 +24719,7 @@ snapshots:
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
-  jest-get-type@27.5.1: {}
-
   jest-get-type@29.6.3: {}
-
-  jest-matcher-utils@27.5.1:
-    dependencies:
-      chalk: 4.1.2
-      jest-diff: 27.5.1
-      jest-get-type: 27.5.1
-      pretty-format: 27.5.1
 
   jest-message-util@29.7.0:
     dependencies:
@@ -24926,6 +24868,40 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+    dependencies:
+      abab: 2.0.6
+      acorn: 8.11.3
+      acorn-globals: 7.0.1
+      cssom: 0.5.0
+      cssstyle: 2.3.0
+      data-urls: 3.0.2
+      decimal.js: 10.4.3
+      domexception: 4.0.0
+      escodegen: 2.1.0
+      form-data: 4.0.0
+      html-encoding-sniffer: 3.0.0
+      http-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
+      is-potential-custom-element-name: 1.0.1
+      nwsapi: 2.2.7
+      parse5: 7.1.2
+      saxes: 6.0.0
+      symbol-tree: 3.2.4
+      tough-cookie: 4.1.3
+      w3c-xmlserializer: 4.0.0
+      webidl-conversions: 7.0.0
+      whatwg-encoding: 2.0.0
+      whatwg-mimetype: 3.0.0
+      whatwg-url: 11.0.0
+      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      xml-name-validator: 4.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    optional: true
+
   jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4):
     dependencies:
       abab: 2.0.6
@@ -25000,7 +24976,7 @@ snapshots:
       acorn: 8.14.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      semver: 7.6.3
+      semver: 7.7.1
 
   jsonc-parser@3.2.1: {}
 
@@ -25341,7 +25317,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
 
   makeerror@1.0.12:
     dependencies:
@@ -26209,7 +26185,7 @@ snapshots:
 
   node-abi@3.57.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
     optional: true
 
   node-abort-controller@3.1.1: {}
@@ -27356,12 +27332,6 @@ snapshots:
       ansi-styles: 4.3.0
       react-is: 17.0.2
 
-  pretty-format@27.5.1:
-    dependencies:
-      ansi-regex: 5.0.1
-      ansi-styles: 5.2.0
-      react-is: 17.0.2
-
   pretty-format@29.7.0:
     dependencies:
       '@jest/schemas': 29.6.3
@@ -28183,7 +28153,7 @@ snapshots:
       detect-libc: 2.0.3
       node-addon-api: 6.1.0
       prebuild-install: 7.1.2
-      semver: 7.6.3
+      semver: 7.7.1
       simple-get: 4.0.1
       tar-fs: 3.0.5
       tunnel-agent: 0.6.0
@@ -29876,7 +29846,7 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3):
+  vitest@1.6.0(@types/node@22.7.5)(happy-dom@15.0.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3):
     dependencies:
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
@@ -29901,7 +29871,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.7.5
       happy-dom: 15.0.0
-      jsdom: 20.0.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      jsdom: 20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -29918,7 +29888,7 @@ snapshots:
   vscode-languageclient@7.0.0:
     dependencies:
       minimatch: 3.1.2
-      semver: 7.6.3
+      semver: 7.7.1
       vscode-languageserver-protocol: 3.16.0
 
   vscode-languageserver-protocol@3.16.0:
@@ -29991,7 +29961,7 @@ snapshots:
       espree: 9.6.1
       esquery: 1.6.0
       lodash: 4.17.21
-      semver: 7.6.3
+      semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
 

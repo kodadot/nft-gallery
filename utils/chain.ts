@@ -64,13 +64,5 @@ export const availablePrefixWithIcon = () => {
     }
   })
 }
-export const allPrefixWithIcon = () => {
-  return allPrefixes().map((chain) => {
-    return {
-      ...chain,
-      icon: chainIcons[chain.value] || '',
-    }
-  })
-}
 
 export const popularChains = ['ksm', 'ahk', 'ahp']

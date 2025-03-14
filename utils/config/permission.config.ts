@@ -36,10 +36,6 @@ export const teleportVisible = (prefix: Prefix | string): boolean => {
   return isSub(prefix as Prefix)
 }
 
-export const migrateVisible = (prefix: Prefix | string): boolean => {
-  return isSub(prefix as Prefix)
-}
-
 export const massmintCreateVisible = (prefix: Prefix | string) => {
   return hasMassmintCreate[prefix] ?? true
 }
