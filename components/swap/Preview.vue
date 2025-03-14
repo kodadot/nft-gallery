@@ -134,6 +134,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useElementVisibility } from '@vueuse/core'
+import { teleportExistentialDeposit } from '@kodadot1/static'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { type SwapSurchargeDirection } from '@/composables/transaction/types'
 import { SwapStep } from '@/components/swap/types'
@@ -154,11 +155,10 @@ const swapStore = useAtomicSwapStore()
 const { swap } = storeToRefs(swapStore)
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-const { decimals } = useChain()
+const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
 const { getChainIcon } = useIcon()
 const isCollectionSwap = computed(() => swap.value.isCollectionSwap)
-const { chainSymbol } = useChain()
 const { balance } = useDeposit(urlPrefix)
 
 const stepDetailsMap: ComputedRef<Partial<Record<SwapStep, StepDetails>>> = computed(() => ({
@@ -193,7 +193,7 @@ const count = computed(() => stepItems.value.length + (stepHasSurcharge.value ? 
 const isOverOneToOneSwap = computed(() => swap.value.offered.length > swap.value.desired.length && props.step === SwapStep.OFFERED)
 const isCollectionSwapDesired = computed(() => isCollectionSwap.value && props.step === SwapStep.DESIRED)
 const isOfferedSwapStep = computed(() => props.step === SwapStep.OFFERED)
-const insufficientBalance = computed(() => isOfferedSwapStep.value && balance.value <= Number(amount.value))
+const insufficientBalance = computed(() => isOfferedSwapStep.value && balance.value < Number(amount.value) + teleportExistentialDeposit[urlPrefix.value] / Math.pow(10, decimals.value))
 
 const disabled = computed(() => {
   if ((!accountId.value && props.step === SwapStep.OFFERED) || isOverOneToOneSwap.value) {
