@@ -208,6 +208,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
+    './libs/ui/dist/koda-brick.css',
   ],
 
   colorMode: {

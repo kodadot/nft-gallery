@@ -13,8 +13,16 @@ export default defineConfig({
       name: 'KodaBrick',
       fileName: 'koda-brick',
     },
+    // rollupOptions: {
+    //   external: ['vue', '@oruga-ui/oruga-next', 'bulma', '@vueuse/core', '@fortawesome/vue-fontawesome', 'three'],
+    // },
     rollupOptions: {
-      external: ['vue', '@oruga-ui/oruga-next', 'bulma', '@vueuse/core', '@fortawesome/vue-fontawesome', 'three'],
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue',
+        },
+      },
     },
   },
 })
