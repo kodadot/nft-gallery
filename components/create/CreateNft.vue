@@ -559,7 +559,7 @@ watchEffect(() => {
     (transactionStatus.value === 'mint'
       || transactionStatus.value === 'list')
       && mintStatusFinalized
-    && blockNumber.value
+      && blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
     transactionStatus.value = 'done'
