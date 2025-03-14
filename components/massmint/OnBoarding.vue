@@ -71,7 +71,7 @@
                 download
               >
                 {{ $t('massmint.onboarding.downloadTemplate') }}
-                <NeoIcon icon="arrow-up-right" />
+                <KIcon name="i-mdi:arrow-up-right" />
               </NeoButton>
             </div>
           </div>
@@ -83,8 +83,8 @@
           class="arrow arrow-left arrow-icon rounded-full"
           @click="prevSlide"
         >
-          <NeoIcon
-            icon="chevron-left"
+          <KIcon
+            name="i-mdi:chevron-left"
             size="medium"
           />
         </button>
@@ -95,8 +95,8 @@
           class="arrow arrow-right arrow-icon rounded-full"
           @click="nextSlide"
         >
-          <NeoIcon
-            icon="chevron-right"
+          <KIcon
+            name="i-mdi:chevron-right"
             size="medium"
           />
         </button>
@@ -116,7 +116,7 @@
 
 <script lang="ts" setup>
 import type { NeoButtonVariant } from '@kodadot1/brick'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
 import OnBoardingCard from './OnBoardingCard.vue'
 import { descriptionTabs } from './descriptionTabs'
