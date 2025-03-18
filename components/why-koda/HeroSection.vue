@@ -60,8 +60,8 @@
             class="max-md:min-w-[134px] max-md:h-[134px] md:h-[285px] md:min-w-[285px] relative overflow-hidden border rounded-xl shadow-primary"
           >
             <BasicImage
-              :src="sanitizeIpfsUrl(nft.meta.image)"
-              :alt="nft?.name"
+              :src="sanitizeIpfsUrl(nft.meta?.image || '')"
+              :alt="nft?.name || ''"
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ import { NeoButton } from '@kodadot1/brick'
 import chunk from 'lodash/chunk'
 import uniqBy from 'lodash/uniqBy'
 import { getDrops } from '@/services/fxart'
-import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
+import latestEvents from '@/queries/subsquid/general/latestEvents'
 
 defineProps<{
   sections: { name: string, id: string }[]
@@ -98,11 +98,11 @@ const { data: collections } = await useAsyncData(
   },
 )
 
+const { $apolloClient } = useNuxtApp()
 const { data: items } = await useAsyncData(
   async () => {
-    const { data } = await useAsyncQuery<{ events: unknown[] }>({
+    const { data } = await $apolloClient.query({
       query: latestEvents,
-      clientId: 'ahp',
       variables: {
         limit: 40,
         where: {
@@ -114,7 +114,7 @@ const { data: items } = await useAsyncData(
         },
       },
     })
-    return data?.value.events || []
+    return data?.events || []
   },
   {
     transform: events =>

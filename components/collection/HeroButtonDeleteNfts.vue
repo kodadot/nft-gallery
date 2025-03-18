@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@/utils/shoppingActions'
+import nftIdListByCollection from '@/queries/subsquid/general/nftIdListByCollection'
 
 type NftIds = {
   nfts?: {
@@ -37,16 +38,18 @@ const id = route.params.id.toString()
 const isLoading = ref(false)
 const unsubscribeSubscription = ref(() => {})
 
-const { data } = useGraphql({
-  queryName: 'nftIdListByCollection',
+const data = ref<NftIds>()
+const { $apolloClient } = useNuxtApp()
+$apolloClient.query({
+  query: nftIdListByCollection,
   variables: {
     id: id,
     search: [{ currentOwner_eq: accountId.value }],
   },
-})
+}).then(res => data.value = res.data)
 
 const deleteNfts = async () => {
-  const nfts = (data.value as NftIds).nfts
+  const nfts = data.value?.nfts
   const ids = nfts?.map(nft => nft.id)
 
   if (ids?.length) {
