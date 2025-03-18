@@ -15,7 +15,7 @@
             class="back-button z-20"
             @click="toggleFullscreen"
           >
-            <NeoIcon icon="chevron-left" />
+            <KIcon name="i-mdi:chevron-left" />
             {{ $t('go back') }}
           </NeoButton>
           <BaseMediaItem
@@ -86,9 +86,8 @@
               class="text-neutral-7 flex items-center"
               :class="isMobile ? 'my-4' : 'my-6'"
             >
-              <NeoIcon
-                pack="fasl"
-                icon="eye"
+              <KIcon
+                name="i-mdi:eye"
                 class="mr-1"
               />
               <span v-if="pageViewCount === null">--</span>
@@ -168,7 +167,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
