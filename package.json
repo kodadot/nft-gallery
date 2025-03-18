@@ -101,7 +101,7 @@
     "pinia": "^2.2.2",
     "pinia-plugin-persistedstate": "^3.2.3",
     "prism-themes": "^1.9.0",
-    "prismjs": "^1.29.0",
+    "prismjs": "^1.30.0",
     "qrcode.vue": "^3.4.1",
     "unzipit": "^1.4.3",
     "viem": "^2.21.7",
