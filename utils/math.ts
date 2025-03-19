@@ -24,7 +24,7 @@ export function getNumberSumOfObjectField<T>(
     .reduce((acc, cur) => acc + cur, Number(0))
 }
 
-export function getVolume(events: Interaction[]): bigint {
+export function getVolume(events): bigint {
   return events
     .map(x => x.meta)
     .map(x => BigInt(x || 0))

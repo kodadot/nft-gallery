@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/vue-query'
+import type { ResultOf } from 'gql.tada'
 import type { Stats } from './types'
 import { getVolume } from '@/utils/math'
 import type { NFT, NFTMetadata } from '@/types'
@@ -19,7 +20,7 @@ export const useCollectionDetails = ({
   const { $apolloClient } = useNuxtApp()
   const { urlPrefix } = usePrefix()
 
-  const data = ref()
+  const data = ref<ResultOf<typeof collectionStatsById>>()
   const stats = ref<Stats>({})
 
   const fetchStats = () => {
@@ -47,12 +48,12 @@ export const useCollectionDetails = ({
       const listedNfts = data.value.stats.listed
 
       stats.value = {
-        maxSupply: data.value.stats.max,
+        maxSupply: data.value.stats.max ?? undefined,
         listedCount: data.value.stats.listed.length,
         collectionLength,
         collectionFloorPrice:
           listedNfts.length > 0
-            ? Math.min(...listedNfts.map(item => parseInt(item.price)))
+            ? Math.min(...listedNfts.map(item => parseInt(item.price ?? '0')))
             : undefined,
         uniqueOwners: uniqueOwnerCount,
         uniqueOwnersPercent: `${(
