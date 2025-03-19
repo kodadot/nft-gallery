@@ -5,6 +5,7 @@ import type { NFT, NFTMetadata } from '@/types'
 import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
+import collectionStatsById from '@/queries/subsquid/general/collectionStatsById'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -15,12 +16,25 @@ export const useCollectionDetails = ({
     id: collectionId.value,
   }))
 
-  const { data, refetch } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'collectionStatsById',
-    variables: variables.value,
-  })
+  const { $apolloClient } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
+
+  const data = ref()
   const stats = ref<Stats>({})
+
+  const fetchStats = () => {
+    $apolloClient.query({
+      query: collectionStatsById,
+      variables: variables.value,
+      context: {
+        endpoint: urlPrefix.value,
+      },
+    }).then((res) => {
+      data.value = res.data
+    })
+  }
+
+  fetchStats()
 
   watch(data, () => {
     if (data.value?.stats) {
@@ -52,11 +66,11 @@ export const useCollectionDetails = ({
     }
   })
 
-  watch(variables, () => refetch(variables.value))
+  watch(variables, () => fetchStats())
 
   return {
     stats,
-    refetch,
+    refetch: fetchStats,
   }
 }
 
