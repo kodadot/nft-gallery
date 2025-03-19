@@ -7,6 +7,7 @@ import type { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
 import collectionStatsById from '@/queries/subsquid/general/collectionStatsById'
+import nftListSoldByCollection from '~/queries/subsquid/general/nftListSoldByCollection'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -94,17 +95,24 @@ export const useBuyEvents = ({ collectionId }) => {
 
 export function useCollectionSoldData({ address, collectionId }) {
   const nftEntities = ref<NFT[]>([])
-  const { data } = useGraphql({
-    queryName: 'nftListSoldByCollection',
+  const data = ref<ResultOf<typeof nftListSoldByCollection>>()
+
+  const { $apolloClient } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
+
+  $apolloClient.query({
+    query: nftListSoldByCollection,
     variables: {
       account: address,
       limit: 3,
       orderBy: 'price_DESC',
       collectionId,
-      where: {
-        collection: { id_eq: collectionId },
-      },
     },
+    context: {
+      endpoint: urlPrefix.value,
+    },
+  }).then((res) => {
+    data.value = res.data
   })
 
   watch(data as unknown as NFTListSold, (list) => {
