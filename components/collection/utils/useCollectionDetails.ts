@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/vue-query'
 import type { ResultOf } from 'gql.tada'
 import type { Stats } from './types'
 import { getVolume } from '@/utils/math'
-import type { NFT, NFTMetadata } from '@/types'
-import type { NFTListSold } from '@/components/identity/utils/useIdentity'
+import type { NFTMetadata } from '@/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
 import collectionStatsById from '@/queries/subsquid/general/collectionStatsById'
@@ -94,7 +93,6 @@ export const useBuyEvents = ({ collectionId }) => {
 }
 
 export function useCollectionSoldData({ address, collectionId }) {
-  const nftEntities = ref<NFT[]>([])
   const data = ref<ResultOf<typeof nftListSoldByCollection>>()
 
   const { $apolloClient } = useNuxtApp()
@@ -115,13 +113,7 @@ export function useCollectionSoldData({ address, collectionId }) {
     data.value = res.data
   })
 
-  watch(data as unknown as NFTListSold, (list) => {
-    if (list?.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
-    }
-  })
-
-  return { nftEntities }
+  return { nftEntities: computed(() => data.value?.nftEntities?.length ? data.value.nftEntities : []) }
 }
 
 export const useCollectionMinimal = ({
