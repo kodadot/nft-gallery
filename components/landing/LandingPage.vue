@@ -18,7 +18,10 @@
       <section class="py-8 instance">
         <div class="container-fluid">
           <!-- generative  -->
-          <LazyCarouselTypeGenerative />
+          <LazyCarouselTypeGenerative
+            v-if="dropsAhp.length"
+            :collection-ids="dropsAhp"
+          />
         </div>
       </section>
 
@@ -39,6 +42,7 @@
 import type { Prefix } from '@kodadot1/static'
 import { openProfileCreateModal } from '@/components/profile/create/openProfileModal'
 import { useProfileOnboardingStore } from '@/stores/profileOnboarding'
+import { getDrops } from '@/services/fxart'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
@@ -65,4 +69,10 @@ watchEffect(() => {
     }, 2000)
   }
 })
+
+const dropsAhp = await getDrops({
+  limit: 12,
+  active: [true],
+  chain: ['ahp'],
+}).then(drops => drops.map(drop => drop.collection))
 </script>
