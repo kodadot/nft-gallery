@@ -70,9 +70,10 @@ watchEffect(() => {
   }
 })
 
-const dropsAhp = await getDrops({
+const drops = await getDrops({
   limit: 12,
   active: [true],
   chain: ['ahp'],
-}).then(drops => drops.map(drop => drop.collection))
+})
+const dropsAhp = drops.map(drop => drop.collection)
 </script>
