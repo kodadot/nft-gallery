@@ -81,21 +81,26 @@ const activeFilters = computed(() =>
   filters.filter(queryParam => route.query[queryParam] === 'true'),
 )
 
-const { $apolloClient } = useNuxtApp()
+const { $apolloClient, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 onMounted(async () => {
-  const { data } = await $apolloClient.query({
-    query: allEventsByProfile,
-    variables: {
-      id: props.id,
-    },
-    context: {
-      endpoint: urlPrefix.value,
-    },
-  })
+  try {
+    const { data } = await $apolloClient.query({
+      query: allEventsByProfile,
+      variables: {
+        id: props.id,
+      },
+      context: {
+        endpoint: urlPrefix.value,
+      },
+    })
 
-  events.value = sortBy(data.events, 'timestamp')
+    events.value = sortBy(data.events, 'timestamp')
+  }
+  catch (error) {
+    $consola.error('Error fetching activity events')
+  }
 })
 
 const interactionToFilterMap = {
