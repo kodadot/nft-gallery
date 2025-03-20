@@ -13,7 +13,7 @@ export default function useSearchNfts({
   const { client } = usePrefix()
   const chainPrefix = prefix || client.value
 
-  const { $apolloClient } = useNuxtApp()
+  const { $apolloClient, $consola } = useNuxtApp()
   const data = ref<ResultOf<typeof nftListWithSearch>>()
   const loading = ref(true)
 
@@ -33,7 +33,12 @@ export default function useSearchNfts({
     }).then((res) => {
       data.value = res.data
       loading.value = false
+    }).catch(() => {
+      $consola.error('Error fetching search nfts')
     })
+      .finally(() => {
+        loading.value = false
+      })
   }
 
   if (immediate) {
