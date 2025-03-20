@@ -35,10 +35,8 @@ export default function useSearchNfts({
       loading.value = false
     }).catch(() => {
       $consola.error('Error fetching search nfts')
+      loading.value = false
     })
-      .finally(() => {
-        loading.value = false
-      })
   }
 
   if (immediate) {

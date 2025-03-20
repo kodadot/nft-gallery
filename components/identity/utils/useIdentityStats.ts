@@ -68,7 +68,7 @@ export default function useIdentityStats({
 
   const { lastBoughtDate } = useLastBought({ address })
 
-  const { $apolloClient } = useNuxtApp()
+  const { $apolloClient, $consola } = useNuxtApp()
   const { urlPrefix } = usePrefix()
   const stats = ref<ResultOf<typeof userStatsByAccount>>()
   const loading = ref(true)
@@ -83,6 +83,9 @@ export default function useIdentityStats({
     },
   }).then((res) => {
     stats.value = res.data
+    loading.value = false
+  }).catch(() => {
+    $consola.error('Error fetching identity stats')
     loading.value = false
   })
 
