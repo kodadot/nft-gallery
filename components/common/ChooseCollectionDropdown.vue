@@ -48,8 +48,8 @@
           class="w-full"
         >
           <div class="w-full">
-            <NeoIcon
-              icon="plus"
+            <KIcon
+              name="i-mdi:plus"
               class="mr-1"
             />
             {{ $t('massmint.createNewCollection') }}
@@ -70,8 +70,8 @@
           class="w-full"
         >
           <div class="w-full">
-            <NeoIcon
-              icon="plus"
+            <KIcon
+              name="i-mdi:plus"
               class="mr-1"
             />
             {{ $t('massmint.createNewCollection') }}
@@ -87,7 +87,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoIcon,
 } from '@kodadot1/brick'
 import type { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'

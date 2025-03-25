@@ -269,9 +269,9 @@
         @click="addAddress"
       >
         {{ $t('transfers.addAddress') }}
-        <NeoIcon
+        <KIcon
+          name="i-mdi:plus"
           class="ml-2"
-          icon="plus"
         />
       </div>
       <div class="flex justify-between items-center mb-5">
