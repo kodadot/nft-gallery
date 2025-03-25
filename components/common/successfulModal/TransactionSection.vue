@@ -10,9 +10,9 @@
           : 'text-k-grey bg-k-grey-light',
       ]"
     >
-      <NeoIcon
+      <KIcon
         v-if="isFinalized"
-        icon="check"
+        name="i-mdi:check-circle-outline"
       />
 
       <p class="text-xs">

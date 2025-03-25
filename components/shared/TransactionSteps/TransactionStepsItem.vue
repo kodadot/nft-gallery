@@ -8,10 +8,10 @@
         :size="iconSize"
       />
 
-      <NeoIcon
+      <KIcon
         v-else-if="isCompleted"
         class="text-k-green"
-        icon="check"
+        name="i-mdi:check-circle-outline"
         :size="iconSize"
       />
 
