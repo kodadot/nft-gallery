@@ -22,8 +22,8 @@
         @click="onSwapClick"
       >
         <div class="flex gap-2">
-          <NeoIcon
-            icon="arrow-right-arrow-left"
+          <KIcon
+            name="i-mdi:swap-horizontal"
           />
           <span> {{ $t('swap.swap') }}</span>
         </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
