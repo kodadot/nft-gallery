@@ -44,9 +44,8 @@
         data-testid="tx-clipboard"
         @click="toast($t('general.copyToClipboard'))"
       >
-        <NeoIcon
-          icon="copy"
-          pack="fass"
+        <KIcon
+          name="i-mdi:content-copy"
           class="text-k-grey cursor-pointer"
         />
       </NeoButton>
@@ -55,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const props = defineProps<{

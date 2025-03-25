@@ -114,7 +114,7 @@
               data-testid="transfer-copy-sender-address"
               @click="toast($t('general.copyAddressToClipboard'))"
             >
-              <NeoIcon icon="copy" />
+              <KIcon name="i-mdi:content-copy" />
             </a>
           </div>
           <Auth v-else />
