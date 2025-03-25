@@ -25,11 +25,10 @@
         :icon="active ? 'chevron-up' : 'chevron-down'"
       >
         {{ selectedCollection.name || selectedCollection.id }}
-        <NeoIcon
+        <KIcon
           v-if="selectedCollection"
-          icon="circle-check"
-          variant="success"
-          class="ml-3"
+          name="i-mdi:check-circle-outline"
+          class="ml-3 text-k-green"
         />
       </NeoButton>
     </template>

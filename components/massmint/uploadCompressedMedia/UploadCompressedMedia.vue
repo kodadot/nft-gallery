@@ -3,11 +3,10 @@
     <NeoCollapsible :disabled="disabled">
       <div class="flex">
         {{ $t('massmint.uploadPics') }}
-        <NeoIcon
+        <KIcon
           v-if="showCheckmark"
-          icon="circle-check"
-          variant="success"
-          class="ml-3"
+          name="i-mdi:check-circle-outline"
+          class="ml-3 text-k-green"
         />
       </div>
       <template #content>
@@ -30,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoCollapsible, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapsible } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
 import {
   useZipFileValidator,
