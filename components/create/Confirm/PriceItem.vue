@@ -45,7 +45,7 @@
             multiline
             :label="depositTooltip"
           >
-            <NeoIcon icon="circle-question" />
+            <KIcon name="i-mdi:help-circle-outline" />
           </NeoTooltip>
         </div>
         <Money
@@ -67,7 +67,7 @@
             :label="$t('mint.nft.modal.kodadotTooltip')"
             multiline
           >
-            <NeoIcon icon="circle-question" />
+            <KIcon name="i-mdi:help-circle-outline" />
           </NeoTooltip>
         </div>
         <div class="flex items-center">
@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoTooltip } from '@kodadot1/brick'
 import type { ExtendedInformation } from './MintConfirmModal.vue'
 import Money from '@/components/shared/format/Money.vue'
 import formatBalance, {
