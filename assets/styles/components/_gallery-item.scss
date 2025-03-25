@@ -1,6 +1,6 @@
 .gallery-avatar {
   .avatar {
-    @apply rounded-[50%];
+    border-radius: 50%;
     & > div {
       display: flex;
       align-items: center;
@@ -60,7 +60,7 @@
     }
   }
   a {
-    @apply cursor-pointer;
+    cursor: pointer;
     color: var(--k-blue) !important;
     &:hover {
       color: var(--k-blue-hover) !important;

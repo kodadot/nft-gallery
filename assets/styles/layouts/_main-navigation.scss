@@ -65,7 +65,10 @@
           }
 
           &--fullpage {
-            @apply fixed h-screen w-full z-[100];
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            z-index: 100;
             top: $navbar-desktop-min-height;
             @include mobile {
               top: $navbar-mobile-min-height;
@@ -99,7 +102,12 @@
       }
 
       .button-connect-wallet {
-        @apply w-4/5 h-[67px] block capitalize mt-0 mb-5 mx-auto rounded-none;
+        width: 80%;
+        height: 67px;
+        display: block;
+        text-transform: capitalize;
+        margin: 0 auto 1.25rem;
+        border-radius: 0;
 
         box-shadow: var(--primary-shadow);
         color: var(--black);
@@ -144,7 +152,7 @@
   -webkit-transition: 0.3s ease;
   width: 100vw;
   background: $white;
-  @apply z-[999] #{!important};
+  z-index: 999 !important;
 
   @include mobile {
     min-height: $navbar-mobile-min-height;
@@ -174,7 +182,10 @@
   }
 
   .navbar-item {
-    @apply capitalize font-normal cursor-pointer rounded-none #{!important};
+    text-transform: capitalize;
+    font-weight: normal;
+    cursor: pointer;
+    border-radius: 0 !important;
     color: rgb(var(--text-color));
 
     &:hover {
@@ -229,12 +240,12 @@
   }
 
   &__avatar-icon {
-    @apply rounded-[24.5px];
+    border-radius: 24.5px;
     border: 1.5px solid rgb(var(--text-color));
   }
 
   button.button.is-bordered-light {
-    @apply rounded-none;
+    border-radius: 0;
   }
 
   .text-vertical-align-top {
@@ -246,7 +257,7 @@
   }
   .navbar-explore {
     .menu-item {
-      @apply cursor-pointer;
+      cursor: pointer;
       color: rgb(var(--text-color));
 
       &.is-active {
@@ -262,7 +273,7 @@
         color: var(--link-hover) !important;
       }
       &.is-disabled {
-        @apply cursor-not-allowed;
+        cursor: not-allowed;
         color: rgb(var(--k-shade));
       }
     }
@@ -270,7 +281,14 @@
 
   .fixed-stack {
     height: $navbar-desktop-min-height;
-    @apply box-border fixed w-full z-[989] overflow-hidden rounded-none left-0 top-0;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    z-index: 989;
+    overflow: hidden;
+    border-radius: 0;
+    left: 0;
+    top: 0;
 
     border-bottom: 1px solid var(--border-color);
     background: var(--background-color);
@@ -297,7 +315,9 @@
   }
 
   .cancel-btn {
-    @apply cursor-pointer capitalize border-[none];
+    cursor: pointer;
+    text-transform: capitalize;
+    border: none;
   }
 
   .language-heading {
