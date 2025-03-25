@@ -33,7 +33,7 @@ We [reward](REWARDS.md) our contributors in $DOT for their time and effort with 
 
 You'll find our goals for KodaDot upcoming future!
 
-- [Roadmap](https://hello.kodadot.xyz/ecosystem/roadmap-and-upcoming-features)
+- [Roadmap](https://hello.kodadot.xyz)
 - Test out KodaDot's dragons channels
   - [Beta](https://beta.kodadot.xyz/)
   - [Canary](https://canary.kodadot.xyz/)

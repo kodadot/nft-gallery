@@ -19,25 +19,29 @@
       <Transition name="fade">
         <button
           v-if="leftArrowValid"
-          class="button justify-center arrow arrow-left arrow-icon rounded-full"
+          class="button justify-center items-center arrow arrow-left arrow-icon rounded-full"
           @click="slider?.moveToIdx(leftCarouselIndex)"
         >
-          <KIcon
-            name="i-mdi:chevron-left"
-            size="medium"
-          />
+          <div class="h-full">
+            <KIcon
+              name="i-mdi:chevron-left"
+              size="2x"
+            />
+          </div>
         </button>
       </Transition>
       <Transition name="fade">
         <button
           v-if="rightArrowValid"
-          class="button justify-center arrow arrow-right arrow-icon rounded-full"
+          class="button justify-center items-center arrow arrow-right arrow-icon rounded-full"
           @click="slider?.moveToIdx(rightCarouselIndex)"
         >
-          <KIcon
-            name="i-mdi:chevron-right"
-            size="medium"
-          />
+          <div class="h-full">
+            <KIcon
+              name="i-mdi:chevron-right"
+              size="2x"
+            />
+          </div>
         </button>
       </Transition>
     </div>

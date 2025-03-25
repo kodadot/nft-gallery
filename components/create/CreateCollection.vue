@@ -176,7 +176,7 @@
             "
           />
           <a
-            href="https://hello.kodadot.xyz/multi-chain/fees"
+            href="https://hello.kodadot.xyz/information/fees"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
             rel="nofollow noopener noreferrer"

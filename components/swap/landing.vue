@@ -17,7 +17,7 @@
         </p>
         <a
           class="text-k-blue hover:text-k-blue-hover"
-          href="https://hello.kodadot.xyz/tutorial/swaps"
+          href="https://hello.kodadot.xyz/tutorial/swap-nft-for-nft"
           target="_blank"
           rel="nofollow noopener noreferrer"
         >

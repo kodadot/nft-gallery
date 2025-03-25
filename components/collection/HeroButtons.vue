@@ -98,13 +98,9 @@
           <!-- related: #5792 -->
           <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
             <CollectionHeroButtonAddNfts />
-            <CollectionHeroButtonDeleteNfts />
-            <CollectionHeroButtonDeleteCollection
-              :collection="collection"
-            />
-            <CollectionHeroButtonEditCollection
-              :collection="collection"
-            />
+            <CollectionHeroButtonDeleteNfts :collection="collection" />
+            <CollectionHeroButtonDeleteCollection :collection="collection" />
+            <CollectionHeroButtonEditCollection :collection="collection" />
           </div>
           <CollectionHeroButtonRefreshMetadata v-if="isOwner" />
           <NeoDropdownItem disabled>
