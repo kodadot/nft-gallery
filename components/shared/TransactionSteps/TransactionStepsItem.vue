@@ -40,9 +40,8 @@
         >
           <p class="capitalize font-bold">
             {{ step.title }}
-            <NeoIcon
-              icon="fa-info-circle"
-              pack="fa-regular"
+            <KIcon
+              name="i-mdi:information-slab-circle"
               class="ml-2 text-k-grey"
             />
           </p>
