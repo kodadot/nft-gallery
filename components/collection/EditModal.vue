@@ -18,7 +18,7 @@
           :error="!name"
         >
           <NonRecommendFieldNotification
-            :show="name && nameChanged"
+            :show="Boolean(name && nameChanged)"
             @undo="name = props.collection.name"
           >
             <NeoInput
@@ -167,7 +167,7 @@
                   step="0.01"
                   min="0.0001"
                   pattern="[0-9]+([\.,][0-9]+)?"
-                  class="indent-2.5 border-none outline-none w-20 bg-background-color text-text-color w-full"
+                  class="indent-2.5 border-none outline-none bg-background-color text-text-color w-full"
                   :placeholder="$t('mint.collection.permission.pricePlaceholder')"
                 >
                 <div class="px-3 flex items-center">
@@ -193,8 +193,8 @@
                 v-if="permissionSettingWarningMessage"
                 class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 !mt-2"
               >
-                <NeoIcon
-                  icon="warning"
+                <KIcon
+                  name="i-mdi:alert-circle-outline"
                   class="text-yellow-500"
                   size="small"
                 />
@@ -223,7 +223,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoModal, NeoSwitch, NeoSelect } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { type UpdateCollection, type CollectionMintSetting, CollectionMintSettingType } from '@/composables/transaction/types'
 

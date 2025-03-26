@@ -33,7 +33,7 @@
           <span class="capitalize">
             {{ $t('codeChecker.retryTest') }}
           </span>
-          <NeoIcon icon="rotate-left" />
+          <KIcon name="i-mdi:rotate-left" />
         </div>
       </NeoButton>
     </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoInput } from '@kodadot1/brick'
 import mean from 'lodash/mean'
 import type { CanvasPreviewItem, CapturePreviewItem } from './types'
 
