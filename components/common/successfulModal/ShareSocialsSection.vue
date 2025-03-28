@@ -37,10 +37,9 @@
           no-shadow
           @click="handleShareOnTelegram"
         >
-          <NeoIcon
+          <KIcon
+            name="i-ri:telegram-fill"
             class="text-k-grey"
-            pack="fab"
-            icon="telegram"
           />
         </NeoButton>
       </NeoTooltip>
@@ -65,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
