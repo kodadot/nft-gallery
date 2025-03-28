@@ -28,8 +28,8 @@
             class="border border-k-shade p-4"
           >
             <div class="has-accent-blur">
-              <NeoIcon
-                :icon="reasonsIcons[index]"
+              <KIcon
+                :name="reasonsIcons[index]"
                 size="large"
                 class="text-k-primary mb-3"
               />
@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -85,7 +85,7 @@ const props = defineProps<{
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
-const reasonsIcons = ['arrow-right-to-arc', 'hourglass-half', 'wave-sine']
+const reasonsIcons = ['i-mdi:arrow-right-thick', 'i-mdi:timer-sand', 'i-mdi:sine-wave']
 
 const onClose = () => {
   emit('close')
