@@ -13,9 +13,8 @@
             {{ $t('profiles.curatedGenerativDrops.title') }}
           </p>
 
-          <NeoIcon
-            icon="badge-check"
-            pack="fass"
+          <KIcon
+            name="i-mdi:check"
             class="text-k-accent"
           />
         </div>
@@ -81,7 +80,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
+import { NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
 import { useQuery } from '@tanstack/vue-query'
 import { getDrops } from '@/services/fxart'
 
