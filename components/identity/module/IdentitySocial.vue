@@ -6,9 +6,8 @@
       target="_blank"
       rel="nofollow noopener noreferrer"
     >
-      <NeoIcon
-        pack="fab"
-        icon="x-twitter"
+      <KIcon
+        name="i-ri:twitter-x-fill"
       />
       <span class="aligned">
         {{ twitter }}
@@ -18,8 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 defineProps<{
   twitter: string
   showTwitter: boolean
