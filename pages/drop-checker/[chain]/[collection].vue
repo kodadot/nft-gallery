@@ -45,9 +45,9 @@
               name="i-mdi:check-circle-outline"
               class="text-k-green"
             />
-            <neo-icon
+            <KIcon
               v-else
-              icon="xmark"
+              name="i-mdi:xmark"
               class="text-k-red"
             />
             Collection supply
@@ -200,19 +200,19 @@
                 <td class="align-middle">
                   <div v-if="drop[0] === 'image' || drop[0] === 'banner'">
                     <img
-                      :src="sanitizeIpfsUrl(drop[1].toString())"
+                      :src="sanitizeIpfsUrl(drop[1]?.toString())"
                       width="100"
                     >
                   </div>
                   <div v-else-if="drop[0] === 'content'">
                     <iframe
-                      :src="sanitizeIpfsUrl(drop[1].toString())"
+                      :src="sanitizeIpfsUrl(drop[1]?.toString())"
                       frameborder="0"
                       title="genart"
                     />
                   </div>
                   <div v-else-if="drop[0] === 'price'">
-                    : {{ formatAmountWithRound(drop[1].toString(), decimals) }}
+                    : {{ formatAmountWithRound(drop[1]?.toString() || '', decimals) }}
                     {{ chainSymbol }}
                   </div>
                   <div v-else>
@@ -307,7 +307,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { keccakAsHex } from '@polkadot/util-crypto'
 import type { Prefix } from '@kodadot1/static'
 import collectionById from '@/queries/subsquid/general/collectionById.query'
@@ -316,7 +316,7 @@ import { formatAmountWithRound } from '@/utils/format/balance'
 
 const { params } = useRoute()
 const chain = params.chain.toString()
-const collectionId = params['collectionid'].toString()
+const collectionId = params.collection.toString()
 
 const { chainSymbol, decimals } = useChain()
 
