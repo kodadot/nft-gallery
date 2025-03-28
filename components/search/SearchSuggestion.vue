@@ -215,7 +215,7 @@
         @click="goToExploreResults(item)"
       >
         <div class="flex items-center">
-          <NeoIcon icon="history" />
+          <KIcon name="i-mdi:history" />
           <div class="ml-3 history-label">
             {{ item.name }}
           </div>
@@ -280,7 +280,7 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
+import { NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import { useTopCollections } from '../landing/topCollections/utils/useTopCollections'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import type { DefaultCollectionSuggestion, SearchQuery } from './types'
