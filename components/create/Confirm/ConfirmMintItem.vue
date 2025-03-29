@@ -43,8 +43,8 @@
       <div class="text-k-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>
-      <NeoIcon
-        icon="arrow-right-long"
+      <KIcon
+        name="i-mdi:arrow-right"
         class="text-k-grey mr-4"
       />
       <div>{{ nft.selectedCollection?.name }}</div>
@@ -53,7 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import type { ExtendedInformation } from './MintConfirmModal.vue'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { CreateComponent } from '@/composables/useCreate'
