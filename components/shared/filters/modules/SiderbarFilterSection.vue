@@ -15,7 +15,7 @@
           {{ title }}
         </p>
         <a class="card-header-icon">
-          <NeoIcon :icon="open ? 'minus' : 'plus'" />
+          <KIcon :name="open ? 'i-mdi:minus' : 'i-mdi:plus'" />
         </a>
       </div>
     </template>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapse } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{

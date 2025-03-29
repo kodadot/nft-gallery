@@ -3,7 +3,7 @@
     v-if="trade.expirationDate && !trade.isExpired"
     class="flex gap-3"
   >
-    <NeoIcon icon="clock" />
+    <KIcon name="i-mdi:clock" />
     <span class="capitalize"> {{ label }}</span>
   </div>
   <span v-else>
@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
 import type { TradeNftItem } from '@/components/trade/types'
 import { blank as defaultBlank } from '@/components/collection/activity/events/eventRow/common'

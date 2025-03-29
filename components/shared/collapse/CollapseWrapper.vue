@@ -11,9 +11,9 @@
           aria-controls="contentIdForA11y1"
           class="mb-2"
         >
-          <NeoIcon
+          <KIcon
             class="collapse-icon"
-            :icon="!props.open ? 'eye' : 'eye-slash'"
+            :name="!props.open ? 'i-mdi:eye' : 'i-mdi:eye-off'"
           />
           <span class="pl-1">{{ $t(!props.open ? visible : hidden) }}</span>
         </a>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapse } from '@kodadot1/brick'
 
 const cprops = withDefaults(
   defineProps<{
