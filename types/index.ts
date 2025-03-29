@@ -124,7 +124,7 @@ export interface ActivityInteraction extends BaseInteraction {
 }
 
 export interface Interaction extends BaseInteraction {
-  blockNumber: string | number
+  blockNumber: string | null
   caller: string
   currentOwner: string
   timestamp: string

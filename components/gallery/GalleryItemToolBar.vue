@@ -1,54 +1,42 @@
 <template>
   <div
-    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-4 flex justify-center border border-gray-400"
+    class="w-full xl:w-[465px] xl:ml-4 mr-4 mt-6 px-6 py-3 h-11 rounded-[43px] gap-8 flex justify-center border border-gray-400"
   >
     <NeoTooltip
       :label="$t('reload')"
       position="top"
     >
-      <NeoButton
-        variant="icon"
-        no-shadow
+      <KIcon
+        :name="isLoading ? 'i-mdi:loading' : 'i-mdi:arrow-u-left-top'"
+        size="medium"
+        :label="$t('reload')"
+        :spin="isLoading"
+        class="hover:cursor-pointer"
         @click="handleReloadClick"
-      >
-        <KIcon
-          :name="isLoading ? 'i-mdi:loading' : 'i-mdi:arrow-u-left-top'"
-          size="medium"
-          :label="$t('reload')"
-          :spin="isLoading"
-        />
-      </NeoButton>
+      />
     </NeoTooltip>
     <NeoTooltip
       :label="$t('fullscreen')"
       position="top"
     >
-      <NeoButton
-        variant="icon"
-        no-shadow
+      <KIcon
+        name="i-mdi:arrow-top-right-bottom-left"
+        size="medium"
+        class="hover:cursor-pointer"
         @click="$emit('toggle')"
-      >
-        <KIcon
-          name="i-mdi:arrow-top-right-bottom-left"
-          size="medium"
-        />
-      </NeoButton>
+      />
     </NeoTooltip>
     <NeoTooltip
       :label="$t('newTab')"
       position="top"
     >
-      <NeoButton
+      <KIcon
         v-if="disableNewTab"
-        variant="icon"
-        no-shadow
+        name="i-mdi:arrow-top-right"
+        size="medium"
+        class="hover:cursor-pointer"
         @click="handleNewTab"
-      >
-        <KIcon
-          name="i-mdi:arrow-top-right"
-          size="medium"
-        />
-      </NeoButton>
+      />
 
       <KIcon
         v-else
@@ -62,23 +50,19 @@
       :label="$t('moreActions.download')"
       position="top"
     >
-      <NeoButton
-        variant="icon"
+      <KIcon
+        name="i-mdi:arrow-collapse-down"
+        size="medium"
         data-testid="gallery-item-more-dropdown-download"
-        no-shadow
+        class="hover:cursor-pointer"
         @click="downloadMedia"
-      >
-        <KIcon
-          name="i-mdi:arrow-collapse-down"
-          size="medium"
-        />
-      </NeoButton>
+      />
     </NeoTooltip>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoTooltip, NeoButton } from '@kodadot1/brick'
+import { NeoTooltip } from '@kodadot1/brick'
 
 import {
   determineElementType,
