@@ -7,10 +7,10 @@
           data-testid="filter-artview-checkbox"
         >
           <span>{{ $t('filters.artView') }}</span>
-          <NeoIcon
+          <KIcon
             class="ml-2"
             size="small"
-            icon="frame"
+            name="i-mdi:vector-square"
           />
         </NeoCheckbox>
       </NeoField>
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoCheckbox, NeoField } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 
 const exploreFiltersStore = useExploreFiltersStore()
