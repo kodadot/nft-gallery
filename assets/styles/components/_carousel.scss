@@ -54,7 +54,12 @@
   }
 
   .dot {
-    @apply w-2.5 h-2.5 cursor-pointer mx-3 my-0 p-[5px] border-[none];
+    width: 0.625rem;
+    height: 0.625rem;
+    cursor: pointer;
+    margin: 0 0.75rem;
+    padding: 5px;
+    border: none;
 
     &:focus {
       outline: none;

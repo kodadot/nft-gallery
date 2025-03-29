@@ -7,6 +7,10 @@
 }
 
 .form-addons {
-  @apply text-center leading-[3rem] h-12 w-16 border-l-[none];
+  text-align: center;
+  line-height: 3rem;
+  height: 3rem;
+  width: 4rem;
+  border-left: none;
   border: 1px solid var(--card-border-color);
 }

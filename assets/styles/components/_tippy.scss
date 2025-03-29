@@ -1,8 +1,9 @@
 .tippy-popper .tippy-tooltip {
   background: var(--background-color);
   color: var(--text-color);
-
-  @apply inline-block text-left p-0;
+  display: inline-block;
+  text-align: left;
+  padding: 0;
 }
 
 .tippy-arrow {
