@@ -46,14 +46,13 @@
           class="p-1 !border-l-0"
           @click.prevent="onClickShoppingCart"
         >
-          <NeoIcon
+          <KIcon
             class="w-4 h-4"
-            :icon="
+            :name="
               shoppingCartStore.isItemInCart(nftForShoppingCart.id)
-                ? 'fa-striked-out-cart-shopping'
-                : 'fa-shopping-cart-outline-sharp'
+                ? 'i-mdi:cart-off'
+                : 'i-mdi:cart'
             "
-            pack="fa-kit"
           />
         </NeoButton>
       </div>
@@ -94,7 +93,7 @@
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { getTokensNfts, useNftActions } from './useNftActions'
 import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { TokenEntity } from '@/composables/useNft'
