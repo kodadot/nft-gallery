@@ -51,10 +51,11 @@
               <slot name="supply">
                 <div>
                   <span>{{ minted }}</span><span class="text-k-grey text-xs">/
-                    <span v-if="isUnlimited"><NeoIcon
-                      icon="infinity"
-                      pack="fas"
-                    /></span>
+                    <span v-if="isUnlimited">
+                      <KIcon
+                        name="i-mdi:infinity"
+                      />
+                    </span>
                     <span v-else>{{ dropMax }}</span>
                   </span>
                 </div>
@@ -97,7 +98,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import type { DropStatus } from '@/components/drops/useDrops'
 import { chainPropListOf } from '@/utils/config/chain.config'
