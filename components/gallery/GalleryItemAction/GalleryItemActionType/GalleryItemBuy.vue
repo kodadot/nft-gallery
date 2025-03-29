@@ -25,15 +25,14 @@
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart"
         >
-          <NeoIcon
+          <KIcon
             size="medium"
             class="w-4 h-4"
-            :icon="
+            :name="
               shoppingCartStore.isItemInCart(nft.id)
-                ? 'fa-striked-out-cart-shopping'
-                : 'fa-shopping-cart-outline-sharp'
+                ? 'i-mdi:cart-off'
+                : 'i-mdi:cart'
             "
-            pack="fa-kit"
           />
         </NeoButton>
       </div>
@@ -51,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'

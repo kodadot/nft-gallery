@@ -7,8 +7,8 @@
       :class="[{ disabled: disabled }, 'is-hidden-mobile flex items-center']"
       @click="toggleSidebarFilters"
     >
-      <NeoIcon
-        :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
+      <KIcon
+        :name="isSidebarFiltersOpen && !disabled ? 'i-mdi:close' : 'i-mdi:menu'"
         size="medium"
       />
     </a>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import ActiveCount from './ActiveCount.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'

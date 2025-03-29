@@ -6,8 +6,8 @@
           class="absolute left-10 max-lg:static max-lg:mb-8"
           @click="toOnborading"
         >
-          <NeoIcon
-            icon="arrow-left"
+          <KIcon
+            name="i-mdi:arrow-left"
             class="mr-1"
           />
           {{ $t('massmint.backToOnbaording') }}
@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
 import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
