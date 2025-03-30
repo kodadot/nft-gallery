@@ -164,9 +164,9 @@
         >
           <div class="flex gap-3 justify-center">
             <span>{{ deleteConfirmText }} </span>
-            <NeoIcon
+            <KIcon
               v-if="!deleteConfirm"
-              icon="rotate-left"
+              name="i-mdi:rotate-left"
             />
           </div>
         </NeoButton>

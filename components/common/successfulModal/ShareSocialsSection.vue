@@ -55,8 +55,8 @@
           no-shadow
           @click="toast($t('general.copyToClipboard'))"
         >
-          <NeoIcon
-            icon="link"
+          <KIcon
+            name="i-mdi:link"
             class="text-k-grey"
           />
         </NeoButton>

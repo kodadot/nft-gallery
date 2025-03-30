@@ -16,8 +16,8 @@
             'bg-background-color-inverse': currentPhase.iconColorInverse,
           }"
         >
-          <NeoIcon
-            :icon="currentPhase.icon"
+          <KIcon
+            :name="currentPhase.icon"
             size="medium"
             :class="{
               'text-text-color-inverse': currentPhase.iconColorInverse,
@@ -72,7 +72,9 @@
           class="w-[52px] h-[40px] inline-flex justify-center items-center rounded-3xl cursor-pointer border-neutral-5 dark:border-neutral-9 border hover:border-border-color text-k-grey hover:text-text-color"
           @click="isCreateEventModalActive = true"
         >
-          <NeoIcon icon="calendar" />
+          <KIcon
+            name="i-mdi:calendar"
+          />
         </span>
       </div>
       <div
@@ -82,9 +84,9 @@
         class="w-[28px] -mr-0.5 flex justify-center items-center cursor-pointer text-k-grey hover:text-text-color"
         @click="showRequirements = !showRequirements"
       >
-        <NeoIcon
-          custom-size="text-lg"
-          :icon="showRequirements ? 'chevron-up' : 'chevron-down'"
+        <KIcon
+          size="large"
+          :name="showRequirements ? 'i-mdi:chevron-up' : 'i-mdi:chevron-down'"
         />
       </div>
     </div>
@@ -105,7 +107,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { DropStatus, useDrop } from '@/components/drops/useDrops'
 import {
   formatDropStartTime,
@@ -151,13 +152,13 @@ const currentPhase = computed(() => {
   if (showHolderOfCollection.value) {
     return {
       title: $i18n.t('drops.phases.private'),
-      icon: 'lock',
+      icon: 'i-mdi:lock',
       iconColorInverse,
     }
   }
   return {
     title: $i18n.t('drops.phases.public'),
-    icon: 'globe',
+    icon: 'i-mdi:web',
     iconColorInverse,
   }
 })

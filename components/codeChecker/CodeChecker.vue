@@ -27,15 +27,14 @@
             <div
               class="text-k-blue hover:text-k-blue-hover flex items-center mr-2"
             >
-              <NeoIcon
-                icon="circle"
-                pack="fas"
-                class="text-[4px] mr-2"
+              <KIcon
+                name="i-mdi:circle"
+                class="size-[6px] mr-2"
               />
               {{ $t(item.title) }}
             </div>
-            <NeoIcon
-              icon="arrow-up-right"
+            <KIcon
+              name="i-mdi:arrow-top-right"
               class="text-neutral-7 text-sm"
             />
           </a>
@@ -190,7 +189,7 @@
         :render="Boolean(selectedFile)"
         :koda-renderer-used="fileValidity.kodaRendererUsed"
         :reload-trigger="reloadTrigger"
-        :index-url="indexUrl"
+        :index-url="indexUrl ?? ''"
         @reload="startClock"
         @hash:update="(hash) => (previewHash = hash)"
       />
@@ -210,11 +209,13 @@
         >
 
         <div class="flex items-center gap-5">
-          <NeoIcon
-            icon="shield"
-            class="!block text-k-grey"
-            size="large"
-          />
+          <div>
+            <KIcon
+              name="i-mdi:shield-outline"
+              class="text-k-grey"
+              size="large"
+            />
+          </div>
           <p class="capitalize text-k-grey">
             {{ $t('codeChecker.confidentialCode') }}
           </p>
@@ -225,7 +226,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
 import { validate } from './validate'
 import { createSandboxAssets, extractAssetsFromZip } from './utils'
 import config from './codechecker.config'

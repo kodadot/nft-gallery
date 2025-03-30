@@ -52,11 +52,11 @@
                 @click="toggleNFTDetails(holderId)"
               >
                 {{ $t('activity.nftDetails') }}
-                <NeoIcon
-                  :icon="
+                <KIcon
+                  :name="
                     isNFTDetailsOpen[holderId]
-                      ? 'chevron-down'
-                      : 'chevron-right'
+                      ? 'i-mdi:chevron-down'
+                      : 'i-mdi:chevron-right'
                   "
                 />
               </div>
@@ -86,7 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import ProfileLink from '@/components/profile/ProfileLink.vue'
 import type { Owners } from '@/composables/collectionActivity/types'

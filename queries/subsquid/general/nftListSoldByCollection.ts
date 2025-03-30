@@ -1,7 +1,9 @@
-#import "../../fragments/nftDetails.graphql"
-#import "../../fragments/subsquidNft.graphql"
-#import "../../fragments/collectionMeta.graphql"
+import { graphql } from '~/queries/clients/graphqlClients'
+import { subsquidNftFragment } from '~/queries/fragments/typed/subsquidNft'
+import { nftDetailsFragment } from '~/queries/fragments/typed/nftDetails'
+import { collectionMetaFragment } from '~/queries/fragments/typed/collectionMeta'
 
+export default graphql(`
 query nftListSoldByCollection(
   $account: String!
   $collectionId: String!
@@ -27,3 +29,10 @@ query nftListSoldByCollection(
     ...collectionMeta
   }
 }
+`,
+[
+  subsquidNftFragment,
+  nftDetailsFragment,
+  collectionMetaFragment,
+],
+)

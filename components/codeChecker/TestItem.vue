@@ -1,10 +1,9 @@
 <template>
   <div class="flex justify-between">
     <div>
-      <NeoIcon
-        :icon="icon.name"
+      <KIcon
+        :name="icon.name"
         :class="['text-lg', icon.class]"
-        :spin="icon.spin"
       />
       <span class="ml-[20px]">{{ description }}</span>
     </div>
@@ -36,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoModal, NeoModalHead } from '@kodadot1/brick'
+import { NeoModal, NeoModalHead } from '@kodadot1/brick'
 import type { Passed } from './types'
 
 const props = defineProps<{
@@ -50,20 +49,19 @@ const showResolveIssuesModal = ref(false)
 const icon = computed(() => {
   if (props.passed === 'loading') {
     return {
-      name: 'spinner-third',
-      class: 'text-k-grey',
-      spin: true,
+      name: 'i-mdi:loading',
+      class: 'text-k-grey animate-spin',
     }
   }
   if (props.passed === 'unknown' || (props.optional && !props.passed)) {
     return {
-      name: 'question',
+      name: 'i-mdi:help',
       class: 'text-k-grey',
     }
   }
 
   return {
-    name: props.passed ? 'check' : 'xmark',
+    name: props.passed ? 'i-mdi:check' : 'i-mdi:close',
     class: props.passed ? 'text-k-green' : 'text-k-red',
   }
 })
