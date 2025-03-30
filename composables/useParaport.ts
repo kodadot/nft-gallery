@@ -24,6 +24,7 @@ export default ({
   onAddFunds,
   onAction,
   targetId,
+  mountable,
 }: {
   amount: Ref<number>
   fees: Ref<AutoTeleportFeeParams | undefined>
@@ -33,6 +34,7 @@ export default ({
   disabled: Ref<boolean>
   onAddFunds: () => void
   onAction: () => void
+  mountable: Ref<boolean>
 }) => {
   const { accountId } = useAuth()
   const { chain: currentChain, getAddressByChain } = useTeleport()
@@ -49,7 +51,7 @@ export default ({
   })
 
   const actionsId = computed(() =>
-    actions.value.map(({ action }) => JSON.stringify(action)).join('_'),
+    actions.value.map(({ action }) => JSON.stringify(action)).join('_') + mountable.value,
   )
 
   const actionAutoFees = computed(() => ({ ...fees.value, ...DEFAULT_AUTO_TELEPORT_FEE_PARAMS }))
@@ -62,7 +64,6 @@ export default ({
   const txFees = computed(() => sum(actionTxFees.value) + paraportTxFees.value)
 
   const initSession = () => {
-    paraportSession.value?.destroy()
     paraportSession.value = paraport.init({
       integratedTargetId: targetId,
       label: label.value,
@@ -88,9 +89,27 @@ export default ({
     })
   }
 
+  const reset = () => {
+    actionTxFees.value = []
+    actionTxFees.fetched = false
+    paraportTxFees.value = 0
+    isReady.value = undefined
+    needed.value = false
+    available.value = false
+  }
+
+  const destroy = () => {
+    paraportSession.value?.destroy()
+    reset()
+  }
+
   watch(
     [actionsId, actions],
     async ([id, actions], [prevId, prevActions]) => {
+      if (!mountable.value) {
+        return
+      }
+
       if (
         id !== prevId
         && actionAutoFees.value
@@ -121,8 +140,11 @@ export default ({
   )
 
   watchEffect(() => {
-    if (actionTxFees.fetched) {
+    if (actionTxFees.fetched && mountable.value) {
       initSession()
+    }
+    else if (!mountable.value) {
+      destroy()
     }
   })
 

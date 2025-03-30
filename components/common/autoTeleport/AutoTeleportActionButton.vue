@@ -1,6 +1,7 @@
 <template>
   <div
     :id="PARAPORT_TARGET_ID"
+    ref="paraport"
     class="w-full"
   />
 
@@ -73,7 +74,10 @@ const props = withDefaults(
 
 const preferencesStore = usePreferencesStore()
 const { isModalOpen } = useAutoTeleportModal()
+const pararpotTarget = useTemplateRef<HTMLDivElement>('paraport')
 
+const onRampActive = ref(false)
+const mountable = ref(false)
 const amounts = ref(0)
 
 // const confirmButtonTitle = computed<string>(() => {
@@ -90,6 +94,7 @@ const { needed, isReady, available, txFees } = useParaport({
   label: computed(() => props.label),
   disabled: computed(() => props.disabled),
   targetId: PARAPORT_TARGET_ID,
+  mountable,
   onAddFunds: () => {
     onRampActive.value = true
   },
@@ -97,8 +102,6 @@ const { needed, isReady, available, txFees } = useParaport({
     emit('confirm', { autoteleport: false } as AutoTeleportActionButtonConfirmEvent)
   },
 })
-
-const onRampActive = ref(false)
 
 const showFirstTimeTeleport = computed(
   () =>
@@ -110,6 +113,17 @@ const showFirstTimeTeleport = computed(
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
     amounts.value = Number(props.amount)
+  }
+})
+
+useIntersectionObserver(pararpotTarget, ([{ isIntersecting: isVisible }]) => {
+  if (!isVisible) {
+    onModalAnimation(() => {
+      mountable.value = false
+    })
+  }
+  else if (!mountable.value) {
+    mountable.value = true
   }
 })
 
