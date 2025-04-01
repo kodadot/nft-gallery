@@ -40,9 +40,9 @@
         </tr>
         <tr>
           <td>
-            <neo-icon
+            <KIcon
               v-if="collectionConfig?.maxSupply === drops.max?.toString()"
-              icon="check"
+              name="i-mdi:check-circle-outline"
               class="text-k-green"
             />
             <neo-icon
@@ -60,9 +60,9 @@
         </tr>
         <tr>
           <td>
-            <neo-icon
+            <KIcon
               v-if="collectionConfig?.mintSettings.price === drops.price"
-              icon="check"
+              name="i-mdi:check-circle-outline"
               class="text-k-green"
             />
             <neo-icon
