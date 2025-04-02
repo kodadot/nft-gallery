@@ -10,6 +10,12 @@
     --steps-active-color: 97 136 231;
   }
 
+  // global variables
+  :root {
+    --navbar-desktop: 80px; // $navbar-desktop-min-height
+    --navbar-mobile: 64px; // $navbar-mobile-min-height
+  }
+
   :root,
   :root .light {
     --text-color: 0 0 0;
