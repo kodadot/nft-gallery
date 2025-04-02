@@ -123,8 +123,6 @@ module.exports = {
         '3xl': '2rem',
       },
       spacing: {
-        'navbar-desktop': '80px', // $navbar-desktop-min-height
-        'navbar-mobile': '64px', // $navbar-mobile-min-height
         'fluid-container-padding': '2.5rem',
         'fluid-container-padding-mobile': '1.25rem',
       },
