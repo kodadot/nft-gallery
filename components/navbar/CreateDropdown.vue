@@ -1,21 +1,30 @@
 <template>
   <div>
-    <nuxt-link
+    <div
       data-testid="classic"
-      :to="`/${urlPrefix}/create`"
       class="navbar-item"
-      @click="emit('select')"
+      @click="handleButtonClick"
     >
       {{ $t('create') }}
-    </nuxt-link>
+    </div>
+    <CreateModal
+      v-model="isModalActive"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
+import CreateModal from '@/components/create/CreateModal.vue'
+
 defineProps<{
   chain: string
 }>()
 const emit = defineEmits(['select'])
 
-const { urlPrefix } = usePrefix()
+const isModalActive = ref(false)
+
+const handleButtonClick = () => {
+  isModalActive.value = true
+  emit('select')
+}
 </script>
