@@ -21,9 +21,6 @@ export const useFiatStore = defineStore('fiat', {
       ethereum: {
         usd: null,
       },
-      mantle: {
-        usd: null,
-      },
     },
   }),
   getters: {
@@ -45,8 +42,6 @@ export const useFiatStore = defineStore('fiat', {
               return state.fiatPrice.polkadot.usd
             case 'ETH':
               return state.fiatPrice.ethereum.usd
-            case 'MNT':
-              return state.fiatPrice.mantle.usd
             default:
               return 0
           }
@@ -59,7 +54,7 @@ export const useFiatStore = defineStore('fiat', {
       }
 
       const prices = await Promise.all(
-        (['kusama', 'polkadot', 'ethereum', 'mantle'] as TokenName[]).map(getPrice),
+        (['kusama', 'polkadot', 'ethereum'] as TokenName[]).map(getPrice),
       )
       prices.forEach((price) => {
         this.fiatPrice = Object.assign({}, this.fiatPrice, price)

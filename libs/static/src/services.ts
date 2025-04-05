@@ -15,7 +15,6 @@ export const EXPLORERS: Record<Prefix, string> = {
   dot: 'https://polkadot.subscan.io/account/',
   ahp: 'https://assethub-polkadot.subscan.io/account/',
   base: 'https://basescan.org/address/',
-  mnt: 'https://mantlescan.xyz/address/',
   // ahr: 'https://assethub-rococo.subscan.io/account/',
   // movr: 'https://moonriver.subscan.io/account/',
   // glmr: 'https://moonbeam.subscan.io/account/',
