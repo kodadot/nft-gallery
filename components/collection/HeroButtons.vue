@@ -36,11 +36,11 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
-            class="w-max"
+            class="w-max !flex items-center"
             @click="shareCollectionToFarcaster"
           >
-            <NeoIcon
-              icon="frame"
+            <KIcon
+              name="i-mdi:vector-square"
               class="mr-2"
             />
             {{ $i18n.t('share.farcasterFrame') }}
@@ -48,30 +48,33 @@
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
+            class="!flex items-center"
             @click="toast($t('toast.urlCopy'))"
           >
-            <NeoIcon
-              icon="link"
+            <KIcon
+              name="i-mdi:link"
               class="mr-2"
             />
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-QR-dropdown"
+            class="!flex items-center"
             @click="QRModalActive = true"
           >
-            <NeoIcon
-              icon="qrcode"
+            <KIcon
+              name="i-mdi:qrcode"
               class="mr-2"
             />
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-twitter-dropdown"
+            class="!flex items-center"
             @click="shareUrlToX"
           >
-            <NeoIcon
-              icon="share"
+            <KIcon
+              name="i-mdi:share"
               class="mr-2"
             />
             {{ $i18n.t('share.twitter') }}
@@ -95,13 +98,9 @@
           <!-- related: #5792 -->
           <div v-if="isOwner && !hasOperationsDisabled(urlPrefix)">
             <CollectionHeroButtonAddNfts />
-            <CollectionHeroButtonDeleteNfts />
-            <CollectionHeroButtonDeleteCollection
-              :collection="collection"
-            />
-            <CollectionHeroButtonEditCollection
-              :collection="collection"
-            />
+            <CollectionHeroButtonDeleteNfts :collection="collection" />
+            <CollectionHeroButtonDeleteCollection :collection="collection" />
+            <CollectionHeroButtonEditCollection :collection="collection" />
           </div>
           <CollectionHeroButtonRefreshMetadata v-if="isOwner" />
           <NeoDropdownItem disabled>
@@ -134,7 +133,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoIcon,
   NeoModal,
   NeoModalHead,
 } from '@kodadot1/brick'

@@ -1,10 +1,10 @@
 <template>
   <div class="flex">
     <div class="mr-4 flex items-center">
-      <NeoIcon
+      <KIcon
         v-if="isLoading"
-        icon="spinner-third"
-        class="spinner text-k-grey"
+        name="i-mdi:loading"
+        class="spinner text-k-grey animate-spin"
         :size="iconSize"
       />
 
@@ -15,11 +15,10 @@
         :size="iconSize"
       />
 
-      <NeoIcon
+      <KIcon
         v-else-if="isWaiting"
         class="text-k-grey opacity-20"
-        icon="circle"
-        pack="fass"
+        name="i-mdi:circle"
         :size="iconSize"
       />
 
@@ -89,7 +88,7 @@
             rel="nofollow noopener noreferrer"
           >
             {{ $t('helper.viewTx') }}
-            <NeoIcon icon="arrow-up-right" />
+            <KIcon name="i-mdi:arrow-top-right" />
           </a>
         </div>
       </div>

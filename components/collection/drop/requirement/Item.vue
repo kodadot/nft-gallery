@@ -1,10 +1,9 @@
 <template>
   <div class="flex items-center">
-    <NeoIcon
+    <KIcon
       class="mr-4"
-      :icon="icon.name"
+      :name="icon.name"
       :class="icon.class"
-      :spin="icon.spin"
     />
 
     <slot />
@@ -12,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-
 const props = withDefaults(
   defineProps<{
     fulfilled: boolean
@@ -29,24 +26,23 @@ const { accountId } = useAuth()
 const icon = computed<{ name: string, class: string, spin?: boolean }>(() => {
   if (!accountId.value) {
     return {
-      name: 'lock-keyhole',
+      name: 'i-mdi:lock',
       class: 'text-k-grey',
     }
   }
 
   if (props.loading) {
     return {
-      name: 'spinner-third',
-      class: 'text-k-grey',
-      spin: true,
+      name: 'i-mdi:loading',
+      class: 'text-k-grey animate-spin',
     }
   }
 
   return props.fulfilled
     ? {
-        name: 'check',
+        name: 'i-mdi:check',
         class: 'text-k-green',
       }
-    : { name: 'xmark', class: 'text-k-red' }
+    : { name: 'i-mdi:close', class: 'text-k-red' }
 })
 </script>

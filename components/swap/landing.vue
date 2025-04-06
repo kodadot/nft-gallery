@@ -15,6 +15,14 @@
         <p class="mb-2">
           {{ $t('swap.landingSubtitle') }}
         </p>
+        <a
+          class="text-k-blue hover:text-k-blue-hover"
+          href="https://hello.kodadot.xyz/tutorial/swap-nft-for-nft"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        >
+          {{ $t('swap.learnMoreAboutSwaps') }}
+        </a>
       </div>
 
       <div>
@@ -77,9 +85,9 @@
               ({{ swapOffersCount }})
             </span>
 
-            <NeoIcon
+            <KIcon
               class="ml-2"
-              icon="arrow-right"
+              name="i-mdi:arrow-right"
             />
           </NeoButton>
         </div>
@@ -89,7 +97,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 
 const NuxtLink = resolveComponent('NuxtLink')
 

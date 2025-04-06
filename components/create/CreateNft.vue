@@ -261,8 +261,8 @@
         :loading="isLoading"
       />
       <div class="p-4 flex">
-        <NeoIcon
-          icon="circle-info"
+        <KIcon
+          name="i-mdi:information-slab-circle-outline"
           size="medium"
           class="mr-4"
         />
@@ -292,7 +292,6 @@ import type { Prefix } from '@kodadot1/static'
 import {
   NeoButton,
   NeoField,
-  NeoIcon,
   NeoInput,
   NeoSelect,
   NeoSwitch,

@@ -315,7 +315,10 @@ export default defineNuxtConfig({
     compilation: {
       strictMessage: false,
     },
-    vueI18n: './i18n.config.ts',
+    vueI18n: '../i18n.config.ts',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   apollo: {

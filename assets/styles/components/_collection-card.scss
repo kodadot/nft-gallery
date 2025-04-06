@@ -1,6 +1,7 @@
 .collection-card {
   font-family: 'Work Sans';
-  @apply shadow-none rounded-none;
+  box-shadow: none;
+  border-radius: 0;
 
   border: 1px solid var(--card-border-color);
   color: rgb(var(--text-color));
@@ -12,7 +13,7 @@
   }
 
   &:not(.loading) {
-    @apply cursor-pointer;
+    cursor: pointer;
   }
 
   a:hover {
@@ -53,7 +54,13 @@
 
         &::before,
         &::after {
-          @apply content-[''] absolute w-px h-[39px] z-[1] left-0 top-0;
+          content: '';
+          position: absolute;
+          width: 1px;
+          height: 39px;
+          z-index: 1;
+          left: 0;
+          top: 0;
           background: var(--card-border-color);
         }
         &::after {
@@ -63,7 +70,13 @@
       }
     }
     &__name {
-      @apply text-ellipsis font-bold text-base overflow-hidden whitespace-nowrap pl-8 pr-5;
+      text-overflow: ellipsis;
+      font-weight: bold;
+      font-size: 1rem;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-left: 2rem;
+      padding-right: 1.25rem;
       line-height: $header-height;
       &:hover {
         color: var(--link-hover);

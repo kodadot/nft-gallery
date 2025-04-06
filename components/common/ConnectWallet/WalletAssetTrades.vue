@@ -57,10 +57,9 @@
               class="flex items-center justify-between"
             >
               <div class="flex items-center gap-2 max-w-[calc(100%-25px)]">
-                <NeoIcon
+                <KIcon
+                  name="i-mdi:circle"
                   class="text-k-grey opacity-20 !text-[0.4rem]"
-                  icon="circle"
-                  pack="fass"
                   size="small"
                 />
                 <div class="flex items-center gap-2 text-sm truncate">
