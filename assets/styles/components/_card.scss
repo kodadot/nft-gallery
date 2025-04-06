@@ -6,7 +6,8 @@
 }
 
 .card.bordered {
-  @apply rounded shadow-none;
+  border-radius: 0.25rem;
+  box-shadow: none;
 
   border-top: 1px solid var(--k-primary);
 

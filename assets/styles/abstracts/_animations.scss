@@ -95,7 +95,8 @@
 }
 
 .dots {
-  @apply text-center inline-block;
+  text-align: center;
+  display: inline-block;
 }
 
 .dots::after {
