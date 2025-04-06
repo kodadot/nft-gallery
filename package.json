@@ -36,7 +36,7 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F brick vite:build && pnpm -F static build && nuxi prepare && husky"
+    "prepare": "pnpm -F static build && nuxi prepare && husky && pnpm -F brick vite:build"
   },
   "lint-staged": {
     "*": [
