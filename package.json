@@ -27,8 +27,8 @@
     "locales:order": "node ./script/orderLocale.mjs",
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
-    "generate": "pnpm -F static build && nuxi build",
-    "generate:netlify": "pnpm -F static build && NODE_OPTIONS='--max-old-space-size=8192' nuxi build",
+    "generate": "nuxi build",
+    "generate:netlify": "NODE_OPTIONS='--max-old-space-size=8192' nuxi build",
     "lint": "eslint .",
     "lint:quiet": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
@@ -36,7 +36,7 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --ui",
-    "prepare": "pnpm -F static build && nuxi prepare && husky"
+    "prepare": "pnpm -F brick vite:build && pnpm -F static build && nuxi prepare && husky"
   },
   "lint-staged": {
     "*": [
