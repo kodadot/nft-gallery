@@ -12,7 +12,6 @@ const DEFAULT_BALANCE_STATE = {
   dot: '0',
   ahp: '0',
   eth: '0',
-  mnt: '0',
   // ahr: '0',
   // glmr: '0',
   // movr: '0',
@@ -31,7 +30,6 @@ export type ChainType =
   | 'kusamaHub'
   | 'polkadotHub'
   | 'base'
-  | 'mantle'
 // | 'rococoHub'
 
 type ChainDetail = {
@@ -41,7 +39,7 @@ type ChainDetail = {
   selected: boolean
   address: string
 }
-export type ChainToken = Partial<Record<'dot' | 'ksm' | 'eth' | 'mnt', ChainDetail>>
+export type ChainToken = Partial<Record<'dot' | 'ksm' | 'eth', ChainDetail>>
 
 interface MultiBalances {
   address: string
@@ -102,7 +100,6 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
       { chain: 'base', token: 'ETH' },
-      { chain: 'mantle', token: 'MNT' },
     ],
     multiBalanceAssetsTestnet: [
       // { chain: 'rococoHub', token: 'ROC' },
