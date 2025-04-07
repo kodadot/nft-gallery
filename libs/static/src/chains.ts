@@ -31,7 +31,6 @@ export const CHAINS: Config<ChainProperties> = {
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/', 'SUB'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://assethub-polkadot.subscan.io/', 'SUB'),
   base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'),
-  mnt: toChainProperty(42, 18, 'MNT', 'https://mantlescan.xyz', 'EVM'), // ss58Format is not available
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
@@ -50,7 +49,6 @@ export const chainPrefixes: Prefix[] = [
   'ksm',
   'dot',
   'base',
-  'mnt',
   // 'ahr',
   // 'movr',
   // 'glmr',
@@ -69,7 +67,6 @@ export const chainInfo: Record<Prefix, string> = {
   dot: 'polkadot',
   ahp: 'statemint',
   base: 'base',
-  mnt: 'mantle',
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
@@ -81,7 +78,6 @@ export const chainNames: Record<Prefix, string> = {
   dot: 'Polkadot',
   ahp: 'Polkadot AssetHub',
   base: 'Base',
-  mnt: 'Mantle',
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
@@ -107,7 +103,6 @@ export const teleportExistentialDeposit: Record<Prefix, number> = {
   dot: 15000000000,
   ahp: 5000000000,
   base: 0,
-  mnt: 0,
 }
 
 export const existentialDeposit: Record<Prefix, number> = {
@@ -116,5 +111,4 @@ export const existentialDeposit: Record<Prefix, number> = {
   dot: 1e10,
   ahp: 1e8,
   base: 1e15,
-  mnt: 1e15,
 }
