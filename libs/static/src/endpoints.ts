@@ -51,7 +51,7 @@ export const ENDPOINT_MAP: Config<ENDPOINT_URL> = {
   ksm: KUSAMA_ENDPOINTS[0],
   ahk: 'wss://sys.ibp.network/statemine',
   dot: POLKADOT_ENDPOINTS[0],
-  ahp: AHP_ENDPOINTS[0],
+  ahp: AHP_ENDPOINTS[2],
   base: 'https://mainnet.base.org',
   // ahr: 'wss://rococo-asset-hub-rpc.polkadot.io',
   // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
