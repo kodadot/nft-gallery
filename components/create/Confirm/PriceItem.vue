@@ -71,7 +71,7 @@
           </NeoTooltip>
         </div>
         <div class="flex items-center">
-          {{ nft.kodadotUSDFee }} USD ~
+          {{ nft.kodaUSDFee }} USD ~
           <Money
             :value="kodadotFee"
             :unit-symbol="chainSymbol"
