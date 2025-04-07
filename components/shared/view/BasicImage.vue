@@ -8,7 +8,7 @@
         v-if="imageSrc"
         :src="imageSrc || placeholder"
         :alt="alt"
-        :class="['has-ratio', { 'rounded-full': rounded-sm }]"
+        :class="['has-ratio', { 'rounded-full': rounded }]"
         :sizes="sizes"
         :loading="loading"
         @load="onImageLoad"
@@ -23,7 +23,7 @@
         <NeoSkeleton
           full-size
           no-margin
-          :circle="rounded-sm"
+          :circle="rounded"
         />
       </slot>
     </transition>

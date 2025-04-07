@@ -26,10 +26,10 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
+      tailwindcss(),
       svgLoader({
         defaultImport: 'url',
       }),
-      tailwindcss(),
     ],
     // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
     optimizeDeps:
@@ -200,9 +200,9 @@ export default defineNuxtConfig({
 
   // Global CSS: https://nuxt.com/docs/api/nuxt-config#components
   css: [
-    '@/assets/css/main.css',
-    '@fortawesome/fontawesome-svg-core/styles.css',
     '@/assets/styles/index.scss',
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/css/tailwind.css',
     './libs/ui/dist/koda-brick.css',
   ],
 
@@ -408,5 +408,5 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: '2024-11-01',
 })
