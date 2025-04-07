@@ -8,7 +8,7 @@
     }"
   >
     <div
-      class="grow relative mx-auto my-0 max-lg:px-0! items-stretch block md:flex min-h-[3.25rem] w-full"
+      class="grow relative mx-auto my-0 max-lg:px-0! items-stretch md:flex min-h-[3.25rem] w-full"
       :class="{ 'w-full max-w-none md:px-10! px-5!': !isTouch }"
     >
       <!-- BRAND -->
