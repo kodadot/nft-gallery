@@ -30,8 +30,8 @@
 
     <template #footer>
       <div class="mt-3 flex justify-between text-k-grey">
-        <NeoIcon
-          icon="circle-info"
+        <KIcon
+          name="i-mdi:information-slab-circle-outline"
           size="small"
           class="mr-4"
         />
@@ -45,8 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import { toSubstrateAddress } from '@/services/profile'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import type { ActionSend } from '@/composables/transaction/types'

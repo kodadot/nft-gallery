@@ -1,6 +1,6 @@
 import { WagmiPlugin } from '@wagmi/vue'
 import { defineNuxtPlugin } from 'nuxt/app'
-import { base, immutableZkEvm, mantle } from '@wagmi/vue/chains'
+import { base } from '@wagmi/vue/chains'
 import { defaultWagmiConfig } from '@web3modal/wagmi/vue'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -13,7 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     return defaultWagmiConfig({
-      chains: [base, immutableZkEvm, mantle],
+      chains: [base],
       projectId,
       metadata,
     })

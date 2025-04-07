@@ -43,40 +43,12 @@ type NewsletterSubscription = {
 
 export type UserCartMode = 'transfer' | 'burn'
 
-export const langsFlags = [
-  {
-    value: 'en',
-    flag: '🇬🇧',
-    label: 'English',
-  },
-  {
-    value: 'de',
-    flag: '🇩🇪',
-    label: 'Deutsch',
-  },
-  {
-    value: 'es',
-    flag: '🇪🇸',
-    label: 'Español',
-  },
-  {
-    value: 'fr',
-    flag: '🇫🇷',
-    label: 'Français',
-  },
-  {
-    value: 'hi',
-    flag: '🇮🇳',
-    label: 'हिंदी',
-  },
-]
-
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
-  userCartModal: { open: boolean, mode: UserCartMode } | undefined
+  userCartModal: { open: boolean, mode: UserCartMode, silent?: boolean } | undefined
   makeOfferModalOpen: boolean
   completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
@@ -102,7 +74,6 @@ interface State {
   hasCarbonOffset: boolean
   // Mass Mint
   visitedOnboarding: boolean
-  userLocale: string
   newsletterSubscription: NewsletterSubscription
   partyMode: boolean | undefined
 }
@@ -139,7 +110,6 @@ export const usePreferencesStore = defineStore('preferences', {
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
-    userLocale: 'en',
     newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
     partyMode: undefined,
   }),
@@ -166,12 +136,12 @@ export const usePreferencesStore = defineStore('preferences', {
     getHasCarbonOffset: state => state.hasCarbonOffset,
     getVisitedOnboarding: state => state.visitedOnboarding,
     getFirstTimeAutoTeleport: state => state.firstTimeAutoTeleport,
-    getUserLocale: state => state.userLocale,
     getNewsletterSubscription: state => state.newsletterSubscription,
     getHasUserNotSetPartyMode: state => state.partyMode === undefined,
     getIsPartyMode(): boolean {
       return this.getHasUserNotSetPartyMode ? true : this.partyMode!
     },
+    getIsUserCartSilentMode: state => Boolean(state.userCartModal?.silent),
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -266,16 +236,16 @@ export const usePreferencesStore = defineStore('preferences', {
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
     },
-    setUserLocale(locale: string) {
-      const { $i18n } = useNuxtApp()
-      $i18n.locale.value = locale
-      this.userLocale = locale
-    },
     setNewsletterSubscription(subscription: NewsletterSubscription) {
       this.newsletterSubscription = subscription
     },
-    setOpenedUserCartModal(mode: UserCartMode) {
-      this.userCartModal = { mode, open: true }
+    setOpenedUserCartModal(mode: UserCartMode, { silent = false } = {}) {
+      this.userCartModal = { mode, open: true, silent }
+    },
+    setClosedUserCartModal() {
+      if (this.userCartModal) {
+        this.userCartModal = { mode: this.userCartModal.mode, open: false, silent: this.userCartModal.silent }
+      }
     },
     setTriggerOfferSuccess(payload: boolean) {
       this.triggerOfferSuccess = payload

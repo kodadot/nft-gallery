@@ -28,25 +28,10 @@
                 currency,
               ])
           }}
-          <b>{{ $t('teleport.lossOfFunds') }}</b>
+          <b>{{ $t('teleport.failedTransaction') }}</b>
         </span>
-        <div class="flex py-4">
-          <NeoCheckbox
-            v-model="checked"
-            class="mr-3 text-xs"
-            :label="$t('teleport.checkboxLabel')"
-          />
-        </div>
       </div>
-      <div class="flex mt-5 items-center justify-between">
-        <NeoButton
-          variant="pill"
-          :disabled="!checked"
-          class="mr-4"
-          no-shadow
-          :label="$t('massmint.mobileDisclaimer.continueAnyway')"
-          @click="emit('continue')"
-        />
+      <div class="flex mt-5 items-center justify-center">
         <NeoButton
           variant="pill"
           :label="$t('autoTeleport.close')"
@@ -58,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoCheckbox, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean
@@ -69,10 +54,6 @@ const props = defineProps<{
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
-const checked = ref(false)
-watch(isModalActive, () => {
-  checked.value = false
-})
 
-const emit = defineEmits(['close', 'continue'])
+const emit = defineEmits(['close'])
 </script>

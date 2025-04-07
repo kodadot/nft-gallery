@@ -4,7 +4,7 @@
     :class="[
       `nft-media-info__${variant}`,
       {
-        'nft-media-info__slim': collectionPopoverHide,
+        'nft-media-info__slim': hideCollectionPopover,
       },
     ]"
   >
@@ -17,7 +17,7 @@
       <CollectionDetailsPopover
         v-if="
           !isMinimal
-            && !collectionPopoverHide
+            && !hideCollectionPopover
             && (nft.collection.name || nft.collection.id)
         "
         :show-delay="collectionPopoverShowDelay"
@@ -74,7 +74,7 @@ const props = withDefaults(
     prefix: string
     showPrice?: boolean
     showTimestamp?: boolean
-    collectionPopoverHide?: boolean
+    hideCollectionPopover?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
   }>(),

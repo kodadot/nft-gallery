@@ -46,10 +46,10 @@
 
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
-import { Interaction } from '@kodadot1/minimark/v1'
 import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import EventRow from './EventRow.vue'
 import { blank, getFromAddress, getToAddress } from './eventRow/common'
+import { Interaction } from '@/utils/shoppingActions'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 import type { InteractionWithNFT } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'

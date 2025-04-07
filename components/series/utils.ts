@@ -1,4 +1,4 @@
-import { eachDayOfInterval, formatISO, subDays } from 'date-fns'
+import { formatISO, subDays } from 'date-fns'
 import type { SortType } from './types'
 import type { Interaction } from '@/types'
 import { after, between, getVolume } from '@/utils/math'
@@ -40,18 +40,6 @@ export const onlyDate = (datetime: Date) =>
 
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
-
-// -> ["202-11-30", ...]
-export function getDateArray(start: Date, end: Date): string[] {
-  return eachDayOfInterval({ start, end }).map(onlyDate)
-}
-
-export function axisLize(obj = {}) {
-  return {
-    xAxisList: Object.keys(obj),
-    yAxisList: Object.values(obj),
-  }
-}
 
 export function calculateAvgPrice(volume: string, buys: number): string {
   return String(Math.round(parseInt(volume) / buys))

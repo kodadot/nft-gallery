@@ -32,9 +32,9 @@
             class="text-neutral-7"
             :append-to="body"
           >
-            <NeoIcon
+            <KIcon
               class="w-4 h-4"
-              icon="info-circle"
+              name="i-mdi:information-variant-circle-outline"
             />
 
             <template #content>
@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { useCollectionDetails } from './utils/useCollectionDetails'
 import {
   DESCRIPTION_MAX_LENGTH,

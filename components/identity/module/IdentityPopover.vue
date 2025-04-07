@@ -29,7 +29,7 @@ import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
 
 const props = withDefaults(
   defineProps<{
-    showPopover: boolean
+    showPopover?: boolean
   }>(),
   {
     showPopover: true,

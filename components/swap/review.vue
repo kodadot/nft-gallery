@@ -55,7 +55,11 @@
             {{ $t('swap.reviewCounterpartyAccept') }}
           </p>
 
+          <SwapCollectionSwapGridList
+            v-if="swap.isCollectionSwap"
+          />
           <SwapGridList
+            v-else
             :query="desiredQuery"
             class="!my-10"
             :surcharge="surcharge?.direction === 'Receive' ? surcharge : undefined"
@@ -68,7 +72,7 @@
     <hr class="m-0">
 
     <div
-      class="container is-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
+      class="container-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
     >
       <div class="w-[300px]">
         <TradeExpirationSelector
@@ -85,7 +89,7 @@
           size="large"
           no-shadow
           :label="$t('swap.modifyOffer')"
-          @click="router.push({ name: 'prefix-swap-id', params: { id: swap.counterparty }, query: { swapId: swap.id } })"
+          @click="onModifyOfferClick"
         />
 
         <NeoButton
@@ -111,6 +115,7 @@
 <script setup lang="ts">
 import { NeoIcon, NeoButton } from '@kodadot1/brick'
 import { successMessage } from '@/utils/notification'
+import { SwapStep } from '@/components/swap/types'
 
 const router = useRouter()
 const { $i18n } = useNuxtApp()
@@ -130,6 +135,10 @@ const toTokenToSwap = (item: SwapItem) => ({
 })
 
 const surcharge = computed(() => swap.value?.surcharge)
+
+const onModifyOfferClick = () => {
+  router.push({ name: getSwapStepRouteName(SwapStep.DESIRED, swap.value?.isCollectionSwap), params: { id: swap.value?.counterparty }, query: { swapId: swap.value?.id } })
+}
 
 const submit = () => {
   if (!swap.value) {

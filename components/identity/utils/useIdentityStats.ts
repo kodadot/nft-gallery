@@ -1,8 +1,9 @@
 import { isAfter, subHours } from 'date-fns'
-
+import type { ResultOf } from 'gql.tada'
 import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
 import buyEventByProfile from '@/queries/subsquid/general/buyEventByProfile.query'
+import userStatsByAccount from '~/queries/subsquid/general/userStatsByAccount'
 
 const useLastBought = ({ address }: { address: Ref<string> }) => {
   const lastBoughtDate = ref(new Date())
@@ -66,11 +67,26 @@ export default function useIdentityStats({
   const firstMintDate = ref(new Date())
 
   const { lastBoughtDate } = useLastBought({ address })
-  const { data: stats, loading } = useGraphql({
-    queryName: 'userStatsByAccount',
+
+  const { $apolloClient, $consola } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
+  const stats = ref<ResultOf<typeof userStatsByAccount>>()
+  const loading = ref(true)
+
+  $apolloClient.query({
+    query: userStatsByAccount,
     variables: {
       account: address.value,
     },
+    context: {
+      endpoint: urlPrefix.value,
+    },
+  }).then((res) => {
+    stats.value = res.data
+    loading.value = false
+  }).catch(() => {
+    $consola.error('Error fetching identity stats')
+    loading.value = false
   })
 
   const startedMinting = computed(() => formatToNow(firstMintDate.value))

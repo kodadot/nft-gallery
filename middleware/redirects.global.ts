@@ -1,6 +1,7 @@
 import { type Prefix } from '@kodadot1/static'
 import type { RouteLocationRaw, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import { createVisible, transferVisible, teleportVisible, migrateVisible, swapVisible } from '@/utils/config/permission.config'
+import { isAddress } from '@polkadot/util-crypto'
+import { createVisible, transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 
 type ReplaceRouteItemCondition = (route: RouteLocationNormalizedLoadedGeneric) => boolean
 
@@ -14,6 +15,10 @@ const getFormatAddressRouteCondition = (cond: ReplaceRouteItemCondition, { addre
     cond,
     replaceRoute: ({ params, name, query }) => {
       const address = params[addressKey].toString()
+
+      if (!isAddress(address)) {
+        return
+      }
       const prefix = params.prefix.toString() as Prefix
 
       return execByVm({
@@ -87,7 +92,6 @@ export default defineNuxtRouteMiddleware((route) => {
     },
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/transfer`, transferVisible),
-    getPermissionRouteCondition(({ path }) => path === '/migrate', migrateVisible),
     {
       cond: ({ path }) => path.startsWith('/transfer'),
       replaceRoute: () => window.location.href.replace('/transfer', '/ksm/transfer'),

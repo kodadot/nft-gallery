@@ -14,9 +14,9 @@
         <span>
           {{ isConnecting ? 'Connecting' : 'Connect with Web3Modal' }}
         </span>
-        <NeoIcon
+        <KIcon
           v-if="!loading"
-          icon="arrow-right"
+          name="i-mdi:arrow-right"
         />
       </div>
     </NeoButton>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { useAccount, useDisconnect, useConnections } from '@wagmi/vue'
 
 const emits = defineEmits(['select'])

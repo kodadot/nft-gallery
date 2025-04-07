@@ -1,8 +1,8 @@
-import { Interaction } from '@kodadot1/minimark/v1'
 import {
   createTokensToMint,
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
+import { Interaction } from '@/utils/shoppingActions'
 import type { NFTToMint } from '@/components/massmint/types'
 import { Status } from '@/components/massmint/types'
 import type { MintedCollection } from '@/composables/transaction/types'

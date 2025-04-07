@@ -66,10 +66,9 @@
             append-to-body
             content-class="transfer-tooltip"
           >
-            <NeoIcon
-              icon="circle-info"
+            <KIcon
+              name="i-mdi:information-slab-circle-outline"
               class="text-base"
-              pack="far"
             />
           </NeoTooltip>
         </div>
@@ -113,10 +112,9 @@
                   append-to-body
                   content-class="transfer-tooltip"
                 >
-                  <NeoIcon
-                    icon="circle-info"
+                  <KIcon
+                    name="i-mdi:information-slab-circle-outline"
                     class="text-base"
-                    pack="far"
                   />
                 </NeoTooltip>
               </div>
@@ -199,8 +197,6 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 .transfer-confirm-modal {
   .fixed-height {
     height: 10rem;

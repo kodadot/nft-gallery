@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/vue-query'
+import type { ResultOf } from 'gql.tada'
 import type { Stats } from './types'
 import { getVolume } from '@/utils/math'
-import type { NFT, NFTMetadata } from '@/types'
-import type { NFTListSold } from '@/components/identity/utils/useIdentity'
+import type { NFTMetadata } from '@/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.query'
+import collectionStatsById from '@/queries/subsquid/general/collectionStatsById'
+import nftListSoldByCollection from '~/queries/subsquid/general/nftListSoldByCollection'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -15,12 +17,25 @@ export const useCollectionDetails = ({
     id: collectionId.value,
   }))
 
-  const { data, refetch } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'collectionStatsById',
-    variables: variables.value,
-  })
+  const { $apolloClient } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
+
+  const data = ref<ResultOf<typeof collectionStatsById>>()
   const stats = ref<Stats>({})
+
+  const fetchStats = () => {
+    $apolloClient.query({
+      query: collectionStatsById,
+      variables: variables.value,
+      context: {
+        endpoint: urlPrefix.value,
+      },
+    }).then((res) => {
+      data.value = res.data
+    })
+  }
+
+  fetchStats()
 
   watch(data, () => {
     if (data.value?.stats) {
@@ -33,12 +48,12 @@ export const useCollectionDetails = ({
       const listedNfts = data.value.stats.listed
 
       stats.value = {
-        maxSupply: data.value.stats.max,
+        maxSupply: data.value.stats.max ?? undefined,
         listedCount: data.value.stats.listed.length,
         collectionLength,
         collectionFloorPrice:
           listedNfts.length > 0
-            ? Math.min(...listedNfts.map(item => parseInt(item.price)))
+            ? Math.min(...listedNfts.map(item => parseInt(item.price ?? '0')))
             : undefined,
         uniqueOwners: uniqueOwnerCount,
         uniqueOwnersPercent: `${(
@@ -52,11 +67,11 @@ export const useCollectionDetails = ({
     }
   })
 
-  watch(variables, () => refetch(variables.value))
+  watch(variables, () => fetchStats())
 
   return {
     stats,
-    refetch,
+    refetch: fetchStats,
   }
 }
 
@@ -78,27 +93,27 @@ export const useBuyEvents = ({ collectionId }) => {
 }
 
 export function useCollectionSoldData({ address, collectionId }) {
-  const nftEntities = ref<NFT[]>([])
-  const { data } = useGraphql({
-    queryName: 'nftListSoldByCollection',
+  const data = ref<ResultOf<typeof nftListSoldByCollection>>()
+
+  const { $apolloClient } = useNuxtApp()
+  const { urlPrefix } = usePrefix()
+
+  $apolloClient.query({
+    query: nftListSoldByCollection,
     variables: {
       account: address,
       limit: 3,
       orderBy: 'price_DESC',
       collectionId,
-      where: {
-        collection: { id_eq: collectionId },
-      },
     },
+    context: {
+      endpoint: urlPrefix.value,
+    },
+  }).then((res) => {
+    data.value = res.data
   })
 
-  watch(data as unknown as NFTListSold, (list) => {
-    if (list?.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
-    }
-  })
-
-  return { nftEntities }
+  return { nftEntities: computed(() => data.value?.nftEntities?.length ? data.value.nftEntities : []) }
 }
 
 export const useCollectionMinimal = ({

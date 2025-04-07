@@ -15,8 +15,6 @@ export enum Chain {
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
   BASE = 'Base',
-  IMMUTABLEX = 'Immutable',
-  MANTLE = 'Mantle',
 }
 
 export type TeleportChain = {
@@ -48,8 +46,6 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
   [Chain.BASE]: 'base',
-  [Chain.IMMUTABLEX]: 'imx',
-  [Chain.MANTLE]: 'mnt',
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
@@ -57,9 +53,7 @@ export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
-  imx: Chain.IMMUTABLEX,
   base: Chain.BASE,
-  mnt: Chain.MANTLE,
 }
 
 const getApi = (chain: Chain) => {
@@ -121,7 +115,7 @@ export const getTransactionFee = async ({
   return info.partialFee.toString()
 }
 
-export type Currency = 'KSM' | 'DOT' | 'ETH' | 'MNT'
+export type Currency = 'KSM' | 'DOT' | 'ETH'
 
 export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
@@ -131,11 +125,6 @@ export const getChainCurrency = (chain: Chain): Currency => {
     case Chain.POLKADOT:
     case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
-    case Chain.BASE:
-    case Chain.IMMUTABLEX:
-      return 'ETH'
-    case Chain.MANTLE:
-      return 'MNT'
   }
 }
 
@@ -144,7 +133,5 @@ export const chainToPrecisionMap: Record<Chain, number> = {
   [Chain.ASSETHUBKUSAMA]: 6,
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.BASE]: 5,
-  [Chain.MANTLE]: 5,
-  [Chain.IMMUTABLEX]: 5,
   [Chain.POLKADOT]: 4,
 }
