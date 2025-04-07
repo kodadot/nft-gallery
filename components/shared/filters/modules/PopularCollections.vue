@@ -15,18 +15,18 @@
         <NeoCheckbox
           :model-value="checkedCollections.includes(collection.id)"
           class="w-full"
-          label-class="flex-grow"
+          label-class="grow"
           @update:model-value="toggleCollection(collection)"
         >
           <div
-            class="flex items-center filter-container pl-2 flex-grow min-w-0"
+            class="flex items-center filter-container pl-2 grow min-w-0"
           >
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image size-8 flex-shrink-0 border mr-2"
+              class="image size-8 shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id"
             >
-            <div class="flex flex-col flex-grow min-w-0">
+            <div class="flex flex-col grow min-w-0">
               <NeoTooltip
                 :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"

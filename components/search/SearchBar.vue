@@ -85,7 +85,7 @@ const props = defineProps({
   query: Object as PropType<SearchQuery>,
 })
 
-const emits = defineEmits(['update:modelValue', 'blur', 'enter', 'redirect'])
+const emits = defineEmits(['update:modelValue', 'blur-sm', 'enter', 'redirect'])
 const { $i18n } = useNuxtApp()
 
 const name = useVModel(props, 'modelValue', emits, {
@@ -141,7 +141,7 @@ function onInputFocus() {
 function onInputBlur() {
   // don't remove timeout,  blur is triggered before click this allows the click event to be called
   setTimeout(() => {
-    emits('blur')
+    emits('blur-sm')
     inputFocused.value = false
     if (!name.value) {
       enableSearchInCollection.value = true

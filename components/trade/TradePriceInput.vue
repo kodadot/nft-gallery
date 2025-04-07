@@ -2,7 +2,7 @@
   <div>
     <div class="flex gap-4">
       <div
-        class="flex focus-within:!border-border-color border border-k-shade h-10 w-full flex-1"
+        class="flex focus-within:border-border-color! border border-k-shade h-10 w-full flex-1"
       >
         <input
           v-model="model"
@@ -10,7 +10,7 @@
           step="0.01"
           min="0.0001"
           pattern="[0-9]+([\.,][0-9]+)?"
-          class="indent-2.5 border-none outline-none bg-background-color text-text-color w-full"
+          class="indent-2.5 border-none outline-hidden bg-background-color text-text-color w-full"
           :placeholder="$t('offer.typeOffer')"
         >
       </div>
@@ -18,7 +18,7 @@
       <NeoButton
         no-shadow
         expanded
-        class="w-fit !border-k-grey"
+        class="w-fit border-k-grey!"
         @click="switchSymbolMode"
       >
         <div class="flex items-center gap-1">

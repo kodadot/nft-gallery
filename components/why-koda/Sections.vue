@@ -39,7 +39,7 @@
         <p class="text-xl md:text-2xl">
           {{ $t('benefits') }}:
         </p>
-        <div class="flex gap-4 flex-wrap !mt-4">
+        <div class="flex gap-4 flex-wrap mt-4!">
           <div
             v-for="tag in tags"
             :key="tag"

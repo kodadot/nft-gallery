@@ -27,7 +27,7 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="!flex border-none items-center"
+        class="flex! border-none items-center"
         aria-role="listitem"
         :value="collection.id"
       >

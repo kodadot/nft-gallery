@@ -1,5 +1,5 @@
 <template>
-  <div class="flex field has-addons flex-grow">
+  <div class="flex field has-addons grow">
     <TabItem
       :active="selectedTab === TabType.COLLECTION"
       :text="`${$t('collections')}`"

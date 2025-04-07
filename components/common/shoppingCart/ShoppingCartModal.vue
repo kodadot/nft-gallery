@@ -26,7 +26,7 @@
         v-if="numberOfItems"
         class="scroll-y"
       >
-        <div class="bg-background-color flex flex-grow flex-col py-2">
+        <div class="bg-background-color flex grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"

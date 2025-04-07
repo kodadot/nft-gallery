@@ -2,10 +2,10 @@
   <transition name="slide">
     <div
       v-if="listingCartStore.count && !preferencesStore.getIsUserCartSilentMode"
-      class="fixed right-24 bottom-9 z-[998]"
+      class="fixed right-24 bottom-9 z-998"
     >
       <div class="inline-flex items-center">
-        <div class="k-shadow bg-background-color border flex items-center !py-[0.875rem] px-6 gap-8">
+        <div class="k-shadow bg-background-color border flex items-center py-[0.875rem]! px-6 gap-8">
           <div class="inline-flex items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>
@@ -14,7 +14,7 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="!text-k-grey hover:!text-text-color disabled:hover:!text-k-grey"
+              class="text-k-grey! hover:text-text-color! disabled:hover:text-k-grey!"
               variant="text"
               no-shadow
               @click="listingCartStore.clearListedItems"
@@ -24,7 +24,7 @@
             <div class="mx-4 w-px h-4 bg-k-grey" />
             <NeoButton
               variant="text"
-              class="!text-k-grey hover:!text-text-color"
+              class="text-k-grey! hover:text-text-color!"
               no-shadow
               @click="listingCartStore.addAllToCart"
             >

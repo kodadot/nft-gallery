@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between py-5 content-center">
-      <div class="flex !gap-4 items-center flex-wrap">
+      <div class="flex gap-4! items-center flex-wrap">
         <NeoButton
           v-for="filter in tabs"
           :key="filter.id"

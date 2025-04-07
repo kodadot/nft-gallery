@@ -8,7 +8,7 @@
       <NeoIcon
         icon="lightbulb"
         size="small"
-        class="mr-2 !block"
+        class="mr-2 block!"
       />
       <p
         v-dompurify-html="$t('autoTeleport.tip')"

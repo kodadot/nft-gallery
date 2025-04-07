@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1 relative z-[1] !text-text-color-inverse text-shadow-border">
+      <h1 class="title is-1 relative z-1 text-text-color-inverse! text-shadow-border">
         KodaDot Blog
       </h1>
-      <div class="relative z-[1] text-2xl mb-20 font-medium">
+      <div class="relative z-1 text-2xl mb-20 font-medium">
         Let's Explore The NFT Universe
       </div>
       <img
@@ -17,7 +17,7 @@
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
-      class="relative z-[1] mb-20 content-list"
+      class="relative z-1 mb-20 content-list"
     >
       <div
         class="content-list-cover"

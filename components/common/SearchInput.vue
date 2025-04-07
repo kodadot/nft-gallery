@@ -7,7 +7,7 @@
       debounce-typing="300"
       open-on-focus
       clearable
-      item-class="hover:!bg-k-accent-light"
+      item-class="hover:bg-k-accent-light!"
       :placeholder="placeholder"
       @typing="onSearchFn"
       @select="onSelect"
@@ -16,7 +16,7 @@
         v-if="loading"
         #header
       >
-        <div class="!text-k-grey">
+        <div class="text-k-grey!">
           {{ $t('loading') }}...
         </div>
       </template>
@@ -24,7 +24,7 @@
         v-else-if="!data?.length"
         #empty
       >
-        <div class="!text-k-grey">
+        <div class="text-k-grey!">
           {{ $t('general.searchNoResults') }}
         </div>
       </template>

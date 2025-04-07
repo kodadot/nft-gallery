@@ -11,13 +11,13 @@
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
-          class="control flex-1 p-0 !min-w-[70px] max-md:w-full md:!min-w-[98px] px-4 mobile-padding"
+          class="control flex-1 p-0 min-w-[70px]! max-md:w-full md:min-w-[98px]! px-4 mobile-padding"
           :active="state.timeRange === value"
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)"
         />
       </div>
-      <div class="!pt-4 md:!pt-2">
+      <div class="pt-4! md:pt-2!">
         <ChainDropdown
           position="bottom-auto"
           :show-network-label="false"
@@ -33,7 +33,7 @@
       :skeleton-count="limit"
     />
 
-    <div class="!mt-8 flex justify-center">
+    <div class="mt-8! flex justify-center">
       <NeoButton
         :tag="NuxtLink"
         :to="`/${urlPrefix}/explore/collectibles?sort=volume_DESC`"

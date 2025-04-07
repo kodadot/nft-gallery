@@ -2,9 +2,9 @@
   <NeoModal
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
-    class="z-[1000]"
+    class="z-1000"
     max-height="calc(100vh - 180px)"
-    content-class="!w-[unset]"
+    content-class="w-[unset]!"
     @close="onClose"
   >
     <ModalBody

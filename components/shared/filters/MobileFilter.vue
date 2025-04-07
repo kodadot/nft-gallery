@@ -7,12 +7,12 @@
     :open="open"
     :can-cancel="['escape']"
     :on-cancel="onClose"
-    class="z-[1000] absolute"
-    content-class="!bg-background-color"
-    overlay-class="!bg-background-color opacity-[0.86]"
+    class="z-1000 absolute"
+    content-class="bg-background-color!"
+    overlay-class="bg-background-color! opacity-[0.86]"
   >
     <div class="flex flex-col h-full">
-      <div class="flex-grow">
+      <div class="grow">
         <NeoCommonHead
           :title="$t('general.filters')"
           @close="onClose"
@@ -25,7 +25,7 @@
         <NeoButton
           label="Reset All"
           variant="text"
-          class="flex-grow min-w-36 !h-14 !shadow-none"
+          class="grow min-w-36 h-14! shadow-none!"
           @click="resetFilters"
         >
           {{ $t('general.resetAll') }}
@@ -33,7 +33,7 @@
         <NeoButton
           variant="primary"
           no-shadow
-          class="flex-grow min-w-36 h-14"
+          class="grow min-w-36 h-14"
           @click="applyFilters"
         >
           {{ $t('general.apply') }}

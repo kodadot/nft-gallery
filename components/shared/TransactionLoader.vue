@@ -12,7 +12,7 @@
         v-if="isFinalStep"
         class="flex py-5 px-6 items-center"
       >
-        <div class="flex-grow text-center">
+        <div class="grow text-center">
           {{ $t('success') }}
         </div>
         <NeoButton

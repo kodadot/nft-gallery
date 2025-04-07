@@ -1,8 +1,8 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    class="z-[1000]"
-    content-class="!w-[unset]"
+    class="z-1000"
+    content-class="w-[unset]!"
     @close="onClose"
   >
     <ModalBody

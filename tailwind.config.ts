@@ -2,7 +2,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
 
-module.exports = {
+export default {
   content: ['./**/*.{js,vue,ts}', '!./**/node_modules/**'],
   theme: {
     screens: {

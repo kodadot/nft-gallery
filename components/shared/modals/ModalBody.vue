@@ -187,7 +187,7 @@ $b-padding: 1.25rem;
 
 .slot {
   &__loading {
-    @apply opacity-0 z-[1] pointer-events-none;
+    @apply opacity-0 z-1 pointer-events-none;
   }
 }
 

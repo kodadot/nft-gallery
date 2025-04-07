@@ -15,7 +15,7 @@
         <div class="mb-6 flex items-center">
           <NeoButton
             variant="secondary-rounded"
-            root-class="!flex-shrink-0"
+            root-class="shrink-0!"
             no-shadow
           >
             {{ label }}
@@ -35,7 +35,7 @@
 
               <template #content>
                 <div class="w-[16rem] bg-background-color text-xs border p-4">
-                  <p class="font-bold !mb-2">
+                  <p class="font-bold mb-2!">
                     {{ $t('drops.comingSoon') }}
                   </p>
                   <p>{{ $t('drops.calendarMoreDrops') }}</p>

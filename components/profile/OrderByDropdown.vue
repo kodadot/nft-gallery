@@ -16,7 +16,7 @@
           type="button"
           :variant="variant"
           :no-shadow="noShadow"
-          :rounded="rounded"
+          :rounded="rounded-sm"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
           data-testid="explore-sort"

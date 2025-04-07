@@ -31,7 +31,7 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
   top: 84px;
   height: calc(100vh - 84px);
   overflow-y: auto;
-  flex-shrink: 0;
+  shrink: 0;
   @apply mr-fluid-container-padding;
 }
 

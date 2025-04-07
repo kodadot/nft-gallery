@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed -translate-x-2/4 z-[1] left-2/4 bottom-6 min-w-[134px]">
+  <div class="fixed -translate-x-2/4 z-1 left-2/4 bottom-6 min-w-[134px]">
     <NeoButton
       expanded
       @click="openMobileFilters"

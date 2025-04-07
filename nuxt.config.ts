@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
+import tailwindcss from '@tailwindcss/vite'
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 
@@ -9,14 +10,6 @@ export default defineNuxtConfig({
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
-  },
-
-  postcss: {
-    plugins: {
-      'tailwindcss/nesting': {},
-      'tailwindcss': {},
-      'autoprefixer': {},
-    },
   },
 
   sourcemap: false,
@@ -36,6 +29,7 @@ export default defineNuxtConfig({
       svgLoader({
         defaultImport: 'url',
       }),
+      tailwindcss(),
     ],
     // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
     optimizeDeps:
@@ -206,8 +200,9 @@ export default defineNuxtConfig({
 
   // Global CSS: https://nuxt.com/docs/api/nuxt-config#components
   css: [
-    '@/assets/styles/index.scss',
+    '@/assets/css/main.css',
     '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/styles/index.scss',
     './libs/ui/dist/koda-brick.css',
   ],
 

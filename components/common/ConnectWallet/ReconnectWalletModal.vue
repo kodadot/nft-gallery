@@ -5,7 +5,7 @@
     @close="emit('close')"
   >
     <div>
-      <div class="flex gap-5 items-center justify-center !py-5 ">
+      <div class="flex gap-5 items-center justify-center py-5! ">
         <div>
           <BasicImage
             :src="vmSwitchDetails.current.icon"
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-2 items-center capitalize !mt-3">
+      <div class="flex flex-col gap-2 items-center capitalize mt-3!">
         <p class="font-bold text-xl">
           {{ $t("reconnect.title") }}
         </p>
@@ -38,14 +38,14 @@
         />
       </div>
 
-      <div class="flex justify-between !pt-8">
+      <div class="flex justify-between pt-8!">
         <NeoButton
           :label="$t('reconnect.switch')"
           variant="primary"
           no-shadow
           :loading="loading"
           :disabled="loading"
-          class="flex flex-grow !h-[3.5rem]"
+          class="flex grow h-[3.5rem]!"
           @click="switchWallet"
         />
       </div>

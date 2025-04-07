@@ -13,12 +13,12 @@
         :label="$t('transaction.offer')"
         variant="k-blue"
         size="large"
-        class="w-[8.375rem] !h-[55px]"
+        class="w-[8.375rem] h-[55px]!"
         @click="onMakeOfferClick"
       />
       <NeoButton
         size="large"
-        class="!w-[6.25rem] !h-[55px]"
+        class="w-[6.25rem]! h-[55px]!"
         @click="onSwapClick"
       >
         <div class="flex gap-2">

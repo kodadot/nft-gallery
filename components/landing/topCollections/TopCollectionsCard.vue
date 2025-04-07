@@ -15,7 +15,7 @@
         <div class="border border-card-border-color w-[4.375rem] h-[4.375rem]">
           <BasicImage
             v-if="collection"
-            custom-class="avatar-border [&>img]:border [&>img]:border-card-border-color !p-0"
+            custom-class="avatar-border [&>img]:border [&>img]:border-card-border-color p-0!"
             :src="collection?.image || placeholder"
           />
           <div
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="pt-3 pb-4 !px-6 border-t border-card-border-color">
+      <div class="pt-3 pb-4 px-6! border-t border-card-border-color">
         <p class="font-bold text-base whitespace-nowrap text-center truncate">
           <span v-if="collection?.name">{{ collection.name }}</span>
           <span
@@ -44,7 +44,7 @@
               :rounded="false"
               width="160"
               height="24"
-              class="!w-min"
+              class="w-min!"
             />
           </span>
         </p>
@@ -93,7 +93,7 @@
               :rounded="false"
               width="80"
               height="20"
-              class="!w-min md:mt-1"
+              class="w-min! md:mt-1"
             />
           </div>
 
