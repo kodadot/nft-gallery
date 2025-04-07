@@ -49,17 +49,18 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 import { NeoButton } from '@kodadot1/brick'
+import { sortBy } from 'lodash'
 import History from './History.vue'
-import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from '@/components/profile/FilterButton.vue'
 import Pagination from '@/components/common/Pagination.vue'
+import allEventsByProfile from '@/queries/subsquid/general/allEventsByProfile'
+import type { Interaction } from '@/types'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
-const events = ref<InteractionEnum[]>([])
+const events = ref<Interaction[]>([])
 
 const props = defineProps<{
   id: string
@@ -80,27 +81,38 @@ const activeFilters = computed(() =>
   filters.filter(queryParam => route.query[queryParam] === 'true'),
 )
 
-const { data } = useGraphql({
-  queryName: 'allEventsByProfile',
-  variables: {
-    id: props.id,
-  },
-})
+const { $apolloClient, $consola } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 
-watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
+onMounted(async () => {
+  try {
+    const { data } = await $apolloClient.query({
+      query: allEventsByProfile,
+      variables: {
+        id: props.id,
+      },
+      context: {
+        endpoint: urlPrefix.value,
+      },
+    })
+
+    events.value = sortBy(data.events, 'timestamp')
+  }
+  catch (error) {
+    $consola.error('Error fetching activity events')
+  }
 })
 
 const interactionToFilterMap = {
-  [InteractionEnum.MINT]: 'mint',
-  [InteractionEnum.MINTNFT]: 'mint',
-  [InteractionEnum.LIST]: 'list',
-  [InteractionEnum.SEND]: 'transfer',
+  MINT: 'mint',
+  MINTNFT: 'mint',
+  LIST: 'list',
+  SEND: 'transfer',
 }
 
 const filteredEvents = computed(() =>
   events.value.filter(({ interaction, caller }) => {
-    if (interaction === InteractionEnum.BUY) {
+    if (interaction === 'BUY') {
       return activeFilters.value.includes(caller === props.id ? 'buy' : 'sale')
     }
     return activeFilters.value.includes(interactionToFilterMap[interaction])

@@ -5,8 +5,8 @@
       v-if="show"
       class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 !mt-2"
     >
-      <NeoIcon
-        icon="warning"
+      <KIcon
+        name="i-mdi:alert-circle-outline"
         class="text-yellow-500"
         size="small"
       />

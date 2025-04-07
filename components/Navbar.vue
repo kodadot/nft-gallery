@@ -8,11 +8,11 @@
     }"
   >
     <div
-      class="container items-center max-lg:!px-0"
-      :class="{ 'is-fluid': !isTouch }"
+      class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch flex min-h-[3.25rem] w-full"
+      :class="{ 'w-full max-w-none md:!px-10 !px-5': !isTouch }"
     >
       <!-- BRAND -->
-      <div class="navbar-brand">
+      <div class="navbar-brand ml-[-0.75rem]">
         <nuxt-link
           v-if="!isMobile || !openMobileSearchBar"
           to="/"
@@ -106,11 +106,9 @@
             >
               {{ $t('drops.drops') }}
 
-              <NeoIcon
-                class="ml-1"
-                icon="fire-flame-curved"
-                pack="fass"
-                variant="primary"
+              <KIcon
+                name="i-mdi:fire"
+                class="text-k-primary ml-1"
               />
             </div>
           </nuxt-link>
@@ -182,22 +180,6 @@
 
           <div class="lg:!hidden">
             <template v-if="!account">
-              <MobileExpandableSection
-                v-slot="{ onCloseMobileSubMenu }"
-                class="mobile-language"
-                :no-padding="true"
-                :title="$t('profileMenu.language')"
-                icon="globe"
-              >
-                <MobileLanguageOption
-                  @select="
-                    () => {
-                      showMobileNavbar()
-                      onCloseMobileSubMenu()
-                    }
-                  "
-                />
-              </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
               <NavbarCookiesButton @select="showMobileNavbar" />
             </template>
@@ -208,15 +190,15 @@
             >
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon
-                  icon="user-circle"
-                  class="w-4 h-4 ml-2 lg:!ml-0"
+                <KIcon
+                  name="i-mdi:account-circle-outline"
+                  class="ml-1"
                   size="medium"
                 />
               </span>
-              <NeoIcon
+              <KIcon
                 class="icon--right"
-                icon="chevron-right"
+                name="i-mdi:chevron-right"
               />
             </div>
 
@@ -249,14 +231,13 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
-import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import Search from '@/components/search/Search.vue'

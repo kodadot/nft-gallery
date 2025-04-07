@@ -1,30 +1,28 @@
-@function hex-to-rgba($hex, $alpha: 1) {
-  @return rgba(red($hex), green($hex), blue($hex), $alpha);
-}
-
 .nft-card {
-  @apply relative h-full bg-background-color border border-card-border-color;
+  position: relative;
+  height: 100%;
+  background-color: var(--background-color);
+  border: 1px solid var(--card-border-color);
 
-  @include ktheme() {
-    .border-stacked {
-      border-color: theme('card-border-color-light') !important;
-    }
+  .border-stacked {
+    border-color: var(--card-border-color-light) !important;
+  }
 
-    &:not(.loading):hover {
-      border: 1px solid theme('border-color');
+  &:not(.loading):hover {
+    border: 1px solid var(--border-color);
 
-      .nft-media::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: hex-to-rgba(theme('background-color'), 0.2);
-      }
+    .nft-media::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(var(--background-color), 0.2);
     }
   }
+
   .show-on-hover {
     display: none !important;
   }
@@ -35,7 +33,7 @@
     .show-on-hover,
     .show-always {
       display: flex !important;
-      @apply z-10;
+      z-index: 10;
     }
   }
 
@@ -50,29 +48,29 @@
   }
 
   .stacked-shadow {
-    @include ktheme() {
-      box-shadow: 5px 5px theme('card-border-color-light');
-      bottom: 10px;
-      right: 10px;
-    }
+    box-shadow: 5px 5px var(--card-border-color-light);
+    bottom: 10px;
+    right: 10px;
   }
+
   .theme-background {
-    @include ktheme() {
-      background: theme('background-color');
-    }
+    background: var(--background-color);
   }
 }
+
 .card-icon {
-  @apply absolute z-[1] right-4 top-4;
+  position: absolute;
+  z-index: 1;
+  right: 1rem;
+  top: 1rem;
 }
+
 .nft-media {
   box-shadow: none;
 }
 
 .nft-media-info {
-  @include ktheme() {
-    border-top: 1px solid theme('card-border-color');
-  }
+  border-top: 1px solid var(--card-border-color);
   padding: 13px;
   min-height: 102px;
 

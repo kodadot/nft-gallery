@@ -1,7 +1,5 @@
 import { getDropAttributes } from './utils'
-import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import type { DropItem } from '@/params/types'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useDropStore } from '@/stores/drop'
 import { getChainName } from '@/utils/chain'
@@ -43,26 +41,6 @@ export function useDrop(alias?: string) {
     chainName,
     token,
   }
-}
-
-export const fetchDropMintedCount = async (
-  drop: Pick<DropItem, 'collection' | 'chain'>,
-): Promise<number> => {
-  if (!drop.collection || !drop.chain) {
-    return 0
-  }
-
-  const { data } = await useAsyncQuery<{
-    collectionEntityById: { nftCount: number | undefined }
-  }>({
-    query: collectionByIdMinimal,
-    variables: {
-      id: drop.collection,
-    },
-    clientId: drop.chain,
-  })
-
-  return data.value?.collectionEntityById?.nftCount ?? 0
 }
 
 export const useDropMinimumFunds = (amount = ref(1)) => {

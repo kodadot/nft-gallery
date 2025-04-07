@@ -10,8 +10,9 @@
     :hide-media-info="hideMediaInfo"
     :class="{
       'in-cart-border':
-        shoppingCartStore.isItemInCart(nftForShoppingCart.id)
-        || listingCartStore.isItemInCart(entity.id),
+        !preferencesStore.getIsUserCartSilentMode
+        && (shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+          || listingCartStore.isItemInCart(entity.id)),
     }"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"

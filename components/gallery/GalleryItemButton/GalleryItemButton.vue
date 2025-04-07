@@ -1,7 +1,9 @@
 <template>
   <div class="buttons content-start gallery-button">
     <div data-testid="gallery-item-share-button">
-      <ShareDropdown :sharing-content="customSharingContent" />
+      <ShareDropdown
+        :sharing-content="customSharingContent"
+      />
     </div>
 
     <GalleryItemMoreActionBtn

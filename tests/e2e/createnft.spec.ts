@@ -126,7 +126,7 @@ test('Create NFT', async ({ page, Commands }) => {
   await test.step('Click on the Learn More link and check if new tab has proper URL', async () => {
     await expect(page.getByTestId('create-nft-learn-more-link')).toBeVisible()
     await Commands.checkNewTab(
-      'https://hello.kodadot.xyz/multi-chain/fees',
+      'https://hello.kodadot.xyz/information/fees',
       page.getByTestId('create-nft-learn-more-link').click(),
     )
   })

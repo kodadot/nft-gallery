@@ -77,9 +77,9 @@
       />
 
       <div class="mb-5">
-        <NeoIcon
+        <KIcon
           class="ml-2"
-          icon="circle-info"
+          name="i-mdi:information-slab-circle-outline"
         />
         <span
           v-dompurify-html="
@@ -275,14 +275,13 @@
         />
       </div>
       <div class="flex justify-between items-center mb-5">
-        <div class="flex justify-between items-center">
-          {{ $t('transfers.sendSameAmount') }}
-          <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
-          <span class="mr-2" />
-          <NeoTooltip :label="$t('transfers.setSameAmount')">
-            <NeoIcon icon="circle-info" />
-          </NeoTooltip>
-        </div>
+        <NeoTooltip :label="$t('transfers.setSameAmount')">
+          <div class="flex justify-between items-center">
+            <span class="mr-2">{{ $t('transfers.sendSameAmount') }}</span>
+            <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
+            <KIcon name="i-mdi:information-slab-circle-outline" />
+          </div>
+        </NeoTooltip>
         <NeoSwitch
           v-model="sendSameAmount"
           data-testid="transfer-switch-same"
@@ -1063,12 +1062,12 @@ watchDebounced(
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/mixins';
 
 .transfer-card {
   max-width: 660px;
 
-  @include touch {
+  @include bulma-touch {
     width: 100vw;
   }
 

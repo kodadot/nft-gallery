@@ -8,9 +8,9 @@
     :variant="variant"
     :hide-media-info="hideMediaInfo"
     :show-timestamp="showTimestamp"
-    :collection-popover-hide="collectionPopoverHide"
+    :hide-collection-popover="hideCollectionPopover"
     :lazy-loading="lazyLoading"
-    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) || isSelectActionItemInCart }"
+    :class="{ 'in-cart-border': !preferencesStore.getIsUserCartSilentMode && (shoppingCartStore.isItemInCart(nft.id) || isSelectActionItemInCart) }"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
     bind-key="to"
@@ -104,7 +104,7 @@ const props = defineProps<{
   hideVideoControls?: boolean
   hideListing?: boolean
   showTimestamp?: boolean
-  collectionPopoverHide?: boolean
+  hideCollectionPopover?: boolean
   lazyLoading?: boolean
   skeletonVariant: string
   linkTarget?: string

@@ -125,7 +125,6 @@
     --toggle-active-switch: #363234;
     --purple-light-color: #5B428D;
     --purple-dark-color: #E2D6F7;
-
   }
 
   *,
@@ -146,5 +145,9 @@
                 -1px 0px 0 rgb(var(--text-color)),
                 0px -1px 0 rgb(var(--text-color)),
                 4px 4px rgb(var(--text-color));
+  }
+
+  .container-fluid {
+    @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5;
   }
 }

@@ -61,7 +61,7 @@ const props = withDefaults(
     rootClass: '',
     noShadow: false,
     enableMobile: true,
-    maxHeight: '80vh',
+    maxHeight: '100vh',
     mobileBreakpoint: '768px',
     appendToBody: true,
     dataTestid: undefined,

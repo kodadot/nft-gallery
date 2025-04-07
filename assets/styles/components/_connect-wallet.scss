@@ -1,5 +1,3 @@
-@import '@/assets/styles/abstracts/variables';
-
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -24,39 +22,34 @@
     position: fixed;
     top: 0;
     right: 0;
-    height: calc(100% - $navbar-desktop-min-height) ;
-    margin-top: $navbar-desktop-min-height;
+    height: calc(100% - var(--navbar-desktop));
+    margin-top: var(--navbar-desktop);
     max-width: 360px;
     width: 100%;
 
-    @include mobile {
+    @media screen and (max-width: 768px) {
       inset: 0;
-      border-left: none !important;
-      max-width: 100vw;
-      height: calc(100% - $navbar-mobile-min-height) ;
-      margin-top: $navbar-mobile-min-height;
+      border-left: none;
+      max-width: 100%;
+      height: calc(100% - var(--navbar-mobile));
+      margin-top: var(--navbar-mobile);
     }
-    @include ktheme() {
-      background: theme('background-color');
-      border-left: 1px solid theme('border-color');
-    }
+    
+    background: var(--background-color);
+    border-left: 1px solid var(--border-color);
 
     .modal-card-body {
       padding: 0;
       display: block;
-      @include ktheme() {
-        background-color: theme('background-color');
-      }
+      background-color: var(--background-color);
 
       hr {
-        @apply bg-k-shade2 #{!important};
+        background-color: rgb(var(--k-shade2)) !important;
       }  
     }
 
     footer {
-      @include ktheme() {
-        border-top: 1px solid theme('border-color');
-      }
+      border-top: 1px solid var(--border-color);
     }
 
     .confirm-button {
@@ -68,7 +61,11 @@
     .wallet-menu-item {
       width: 100%;
       .button {
-        @apply w-full text-xl rounded-none border-none transition-none;
+        width: 100%;
+        font-size: 1.25rem;
+        border-radius: 0;
+        border: none;
+        transition: none;
         background: unset;
         box-shadow: none !important;
         > span {
@@ -77,35 +74,32 @@
         .icon {
           margin-right: 0 !important;
         }
-        @include ktheme() {
-          color: theme('text-color');
-          &:hover {
-            background-color: theme('k-accentlight2') !important;
-          }
+        
+        color: rgb(var(--text-color));
+        &:hover {
+          background-color: var(--k-accent-light-2) !important;
         }
       }
+
       .auth-tip {
         margin: 0 2rem;
-        @include ktheme() {
-          color: theme('text-color');
-          border-left: 1px solid theme('k-shade');
-        }
+        color: rgb(var(--text-color));
+        border-left: 1px solid rgb(var(--k-shade));
         i {
           animation: rotate 1s linear infinite;
         }
       }
+
       .account-list {
         .account-item {
           padding: 10px 0;
           margin: 0 2rem;
           a {
-            @include ktheme() {
-              color: theme('text-color');
-              border-left: 1px solid theme('k-shade');
+            color: rgb(var(--text-color));
+            border-left: 1px solid rgb(var(--k-shade));
 
-              &:hover {
-                color: theme('text-color');
-              }
+            &:hover {
+              color: rgb(var(--text-color));
             }
 
             .account-name {
@@ -116,9 +110,7 @@
             }
           }
           &:hover {
-            @include ktheme() {
-              background-color: theme('k-accentlight2') !important;
-            }
+            background-color: var(--k-accent-light-2) !important;
           }
         }
       }
@@ -127,6 +119,11 @@
     section {
       height: 100%;
       overflow-y: auto;
+    }
+
+    .identity-address a {
+      font-weight: normal !important;
+      color: var(--k-blue) !important;
     }
   }
 
@@ -139,15 +136,11 @@
 
     .identity-address a {
       font-weight: normal !important;
-      @include ktheme() {
-        color: theme('k-blue') !important;
-      }
+      color: var(--k-blue) !important;
     }
   }
 }
 
 .modal-card-title {
-  @include ktheme() {
-    color: theme('text-color');
-  }
+  color: rgb(var(--text-color));
 }

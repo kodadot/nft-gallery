@@ -43,10 +43,6 @@ export default defineNuxtConfig({
         ? {
             include: [
               '@google/model-viewer',
-              '@kodadot1/minimark/common',
-              '@kodadot1/minimark/shared',
-              '@kodadot1/minimark/v1',
-              '@kodadot1/minimark/v2',
               '@paraspell/sdk-pjs',
               '@polkadot/api',
               '@polkadot/api-augment',
@@ -82,7 +78,6 @@ export default defineNuxtConfig({
               'unzipit',
               'vue-chartjs',
               'wavesurfer.js',
-              '@kodadot1/minimark/utils',
               'lodash',
               'jdenticon',
               'gql.tada',
@@ -276,6 +271,7 @@ export default defineNuxtConfig({
     '@dargmuesli/nuxt-cookie-control',
     'nuxt-gtag',
     '@nuxt/eslint',
+    '@nuxt/icon',
   ],
 
   eslint: {
@@ -318,7 +314,10 @@ export default defineNuxtConfig({
     compilation: {
       strictMessage: false,
     },
-    vueI18n: './i18n.config.ts',
+    vueI18n: '../i18n.config.ts',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   apollo: {

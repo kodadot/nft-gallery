@@ -30,17 +30,17 @@
             class="text-xs capitalize text-neutral-7"
           >
             {{ $t('moreActions.download') }}
-            <NeoIcon icon="download" />
+            <KIcon name="i-mdi:download" />
           </div>
 
-          <NeoIcon
+          <KIcon
             v-else-if="showAccountList"
-            icon="chevron-down"
+            name="i-mdi:chevron-down"
           />
 
-          <NeoIcon
+          <KIcon
             v-else
-            icon="chevron-right"
+            name="i-mdi:chevron-right"
           />
         </div>
       </span>
@@ -49,7 +49,10 @@
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 flex items-center auth-tip"
     >
-      <NeoIcon icon="spinner-third" />
+      <KIcon
+        name="i-mdi:loading"
+        class="animate-spin"
+      />
       <span class="text-k-grey text-xs pl-4">
         {{ $t('walletConnect.authTip') }}
       </span>
@@ -109,7 +112,7 @@
     </div>
 
     <div
-      v-if="walletAccountsWithProfile.length === 0 && showAccountList"
+      v-if="!isAuth && walletAccountsWithProfile.length === 0 && showAccountList"
       class="account-list"
     >
       <div class="account-item">
@@ -118,8 +121,8 @@
           class="pl-5 block"
         >
           <span class="block mb-2 text-sm">
-            <NeoIcon
-              icon="circle-info"
+            <KIcon
+              name="i-mdi:information-slab-circle-outline"
               class="mr-2 text-k-grey"
             />No Polkadot Accounts Found</span>
           <span class="block text-k-grey text-xs">To Continue, Please Create or Import Accounts in {{ wallet.name }}</span>
@@ -130,7 +133,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoSkeleton } from '@kodadot1/brick'
 import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { WalletAccount } from '@/utils/config/wallets'

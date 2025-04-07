@@ -35,9 +35,6 @@ const bindGoToEvents = (event, app) => {
     case 't':
       path = '/transfer'
       break
-    case 'i':
-      path = '/series-insight'
-      break
     case 'd':
       path = '/spotlight'
       break

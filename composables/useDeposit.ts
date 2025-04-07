@@ -17,6 +17,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   const itemDeposit = ref(0)
   const metadataDeposit = ref(0)
   const existentialDeposit = ref(0)
+  const attributeDeposit = ref(0)
 
   const totalCollectionDeposit = ref('0')
   const totalItemDeposit = ref('0')
@@ -42,6 +43,7 @@ export default function (prefix: ComputedRef<Prefix>) {
         collectionDeposit.value = api.consts.nfts.collectionDeposit.toNumber()
         itemDeposit.value = api.consts.nfts.itemDeposit.toNumber()
         metadataDeposit.value = api.consts.nfts.metadataDepositBase.toNumber()
+        attributeDeposit.value = api.consts.nfts.attributeDepositBase.toNumber()
       }
 
       totalCollectionDeposit.value = format(
@@ -84,6 +86,7 @@ export default function (prefix: ComputedRef<Prefix>) {
     balance,
     collectionDeposit,
     itemDeposit,
+    attributeDeposit,
     metadataDeposit,
     existentialDeposit,
     totalCollectionDeposit,

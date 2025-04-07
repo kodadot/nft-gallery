@@ -161,8 +161,8 @@
         :loading="isLoading"
       />
       <div class="p-4 flex">
-        <NeoIcon
-          icon="circle-info"
+        <KIcon
+          name="i-mdi:information-slab-circle-outline"
           size="medium"
           class="mr-4"
         />
@@ -176,7 +176,7 @@
             "
           />
           <a
-            href="https://hello.kodadot.xyz/multi-chain/fees"
+            href="https://hello.kodadot.xyz/information/fees"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
             rel="nofollow noopener noreferrer"
@@ -188,7 +188,7 @@
     </form>
     <CreateModalsCollectionSuccessModal
       v-model="displaySuccessModal"
-      :tx-hash="txHash as string"
+      :tx-hash="txHash || ''"
       :status="status"
       :collection="mintedCollectionInfo"
     />
@@ -200,13 +200,11 @@ import type { Prefix } from '@kodadot1/static'
 import {
   NeoButton,
   NeoField,
-  NeoIcon,
   NeoInput,
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import { makeSymbol } from '@kodadot1/minimark/shared'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { Interaction } from '@/utils/shoppingActions'
 import type {
   ActionMintCollection,
   BaseCollectionType,
@@ -262,7 +260,6 @@ const name = ref('')
 const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
-const symbol = ref('')
 const confirmModal = ref(false)
 const autoTeleport = ref(false)
 const royalty = ref({
@@ -312,6 +309,8 @@ const collectionInformation = computed(() => ({
   name: name.value,
   paidToken: chain.value,
   mintType: CreateComponent.Collection,
+  hasCappedMaxSupply: unlimited.value ? false : max.value > 0,
+  hasRoyalty: Boolean(royalty.value.amount),
 }))
 
 watch(currentChain, () => {
@@ -450,10 +449,6 @@ const actions = computed<AutoTeleportAction[]>(() => [
     },
   },
 ])
-
-onMounted(() => {
-  symbol.value = makeSymbol()
-})
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>
