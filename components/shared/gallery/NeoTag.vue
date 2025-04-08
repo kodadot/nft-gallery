@@ -7,10 +7,10 @@
     :class="[`tag--${variant}`, `tag-size--${size}`]"
   >
     <slot />
-    <NeoIcon
+    <KIcon
       v-if="closable"
       aria-close-label="clear filter"
-      icon="xmark"
+      name="i-mdi:close"
       class="ml-2 cursor-pointer cross-icon"
       @click="onClose"
     />
@@ -18,8 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 type TagSize = 'small' | 'medium'
 type TagVariant = 'primary' | 'k-blue' | 'k-blue-2' | 'transparent' | 'k-green' | 'k-purple' | 'k-grey' | 'k-orange'
 

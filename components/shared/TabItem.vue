@@ -17,9 +17,9 @@
       >{{
         formatNumber(count)
       }}</span>
-      <NeoIcon
+      <KIcon
         v-if="icon"
-        :icon="icon"
+        :name="icon"
         class="ml-2"
       />
     </NeoButton>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
 import { formatNumber } from '@/utils/format/balance'
 
@@ -51,7 +51,7 @@ const props = withDefaults(
 )
 
 const icon = computed(() =>
-  props.showActiveCheck && props.active ? 'check' : '',
+  props.showActiveCheck && props.active ? 'i-mdi:check' : '',
 )
 </script>
 
