@@ -26,13 +26,10 @@ main {
 }
 
 body {
-  color: var(--text-color);
+  @apply text-text-color;
 
   a {
-    color: var(--text-color);
-    &:hover {
-      color: var(--link-hover);
-    }
+    @apply text-text-color hover:text-link-hover;
   }
 
   strong,
@@ -97,9 +94,7 @@ body {
 
 /* move to global */
 .is-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @apply overflow-hidden whitespace-nowrap text-ellipsis;
 }
 
 .collapseHidden {
@@ -138,20 +133,16 @@ hr {
 }
 
 .snackbar {
-  color: var(--text-color);
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--primary-shadow);
+  @apply text-text-color bg-background-color border border-border-color shadow-primary;
 
   .button {
-    background-color: var(--k-accent-light-2);
-    color: var(--text-color);
+    @apply bg-k-accent-light-2 text-text-color;
   }
 }
 
 // global table css
 table th {
-  color: var(--text-color) !important;
+  @apply text-text-color #{!important};
 }
 
 .fluid-padding-left {
@@ -176,12 +167,11 @@ table th {
 
 // Transak
 .transak_modal-overlay {
-  z-index: 999 !important;
+  @apply z-[999] #{!important};
 }
 
 .transak_modal {
-  z-index: 1000;
-  max-height: 600px !important;
+  @apply z-[1000] max-h-[600px] #{!important};
 }
 
 #transakOnOffRampWidget {
