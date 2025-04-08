@@ -3,7 +3,7 @@
     <div class="min-h-full flex flex-col">
       <MobileFilter />
       <Navbar />
-      <main class="flex-grow">
+      <main class="grow">
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
@@ -23,7 +23,7 @@
               <ExploreTabsFilterSort />
             </div>
           </section>
-          <hr class="!bg-text-color my-0">
+          <hr class="bg-text-color! my-0">
           <NuxtPage />
         </div>
       </main>

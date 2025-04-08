@@ -7,13 +7,13 @@
     append-to-body
     close-menu-on-move
     class="w-full"
-    :menu-class="`!min-w-[8rem] !mt-0 ${customMenuClass}`"
+    :menu-class="`min-w-[8rem]! mt-0! ${customMenuClass}`"
   >
     <template #trigger="{ active }">
       <div
         class="flex items-center justify-between border border-k-grey px-4 py-2"
         :class="{
-          '!border-black': active,
+          'border-black!': active,
         }"
       >
         <span class="text-k-grey">{{ formattedExpirationTime }}</span>

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton } from '@kodadot1/brick'
+import NeoButton from '../NeoButton/NeoButton.vue'
 
 defineProps<{
   title: string

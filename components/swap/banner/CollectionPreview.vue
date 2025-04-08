@@ -17,7 +17,7 @@
           :image-component="NuxtImg"
           :sizes="`${imageSize}px`"
           title="User Avatar"
-          class="object-cover overflow-hidden rounded-full h-full w-full !shadow-none"
+          class="object-cover overflow-hidden rounded-full h-full w-full shadow-none!"
           inner-class="object-cover"
         />
       </div>

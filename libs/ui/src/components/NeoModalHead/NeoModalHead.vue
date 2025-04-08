@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCommonHead } from '@kodadot1/brick'
+import NeoCommonHead from '../NeoCommonHead/NeoCommonHead.vue'
 
 defineProps<{
   title: string

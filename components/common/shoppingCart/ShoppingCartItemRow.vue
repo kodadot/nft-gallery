@@ -46,7 +46,7 @@
     >
       <NeoButton
         variant="text"
-        class="!bg-inherit"
+        class="bg-inherit!"
         no-shadow
         icon="trash"
         @click="emit('delete', nft.id)"

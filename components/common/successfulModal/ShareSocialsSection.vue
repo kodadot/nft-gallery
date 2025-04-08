@@ -3,7 +3,7 @@
     <div
       :class="[
         `flex justify-around px-8 items-center w-full gap-6`,
-        { '!gap-4': withCopy },
+        { 'gap-4!': withCopy },
       ]"
     >
       <NeoTooltip label="X">

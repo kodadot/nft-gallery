@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between max-sm:flex-col">
-    <div class="flex flex-col flex-grow max-w-full">
+    <div class="flex flex-col grow max-w-full">
       <div class="flex justify-between mb-2">
         <div class="mr-2 font-bold text-xl mb-1">
           About Collection
@@ -12,7 +12,7 @@
           data-testid="drops-text-description-container"
         />
       </div>
-      <div class="flex justify-between items-center mb-6 md:!mb-4">
+      <div class="flex justify-between items-center mb-6 md:mb-4!">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text underline text-left p-0"

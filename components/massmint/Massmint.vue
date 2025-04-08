@@ -51,7 +51,7 @@
     />
     <div class="mt-6 flex justify-center w-full">
       <NeoButton
-        class="flex flex-grow max-w-[45rem]"
+        class="flex grow max-w-[45rem]"
         variant="primary"
         size="large"
         :disabled="!mediaLoaded || !hasEnoughBalance"

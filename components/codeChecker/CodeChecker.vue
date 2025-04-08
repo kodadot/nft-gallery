@@ -196,7 +196,7 @@
 
       <CodeCheckerMassPreview
         v-if="selectedFile && indexContent"
-        class="!mt-11"
+        class="mt-11!"
         :assets="assets"
         :index-content="indexContent"
         @upload="(value) => (indexUrl = value)"
@@ -205,7 +205,7 @@
       <div class="max-w-[490px] mt-11">
         <hr
           v-if="selectedFile"
-          class="my-2 bg-k-shade2 w-full !mb-11"
+          class="my-2 bg-k-shade2 w-full mb-11!"
         >
 
         <div class="flex items-center gap-5">

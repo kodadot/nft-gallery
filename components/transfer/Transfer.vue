@@ -28,7 +28,7 @@
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
-          menu-class="!shadow-none no-border-bottom"
+          menu-class="shadow-none! no-border-bottom"
         >
           <template #trigger="{ active }">
             <NeoButton
@@ -145,14 +145,14 @@
         v-if="!isMobile"
         class="flex"
       >
-        <div class="font-bold text-base mb-3 flex-1 mr-2 flex-grow-[2]">
+        <div class="font-bold text-base mb-3 flex-1 mr-2 flex-grow-2">
           {{ $t('transfers.recipient') }}
         </div>
-        <div class="font-bold text-base mb-3 flex-1 flex-grow">
+        <div class="font-bold text-base mb-3 flex-1 grow">
           {{ $t('amount') }}
         </div>
       </div>
-      <div class="flex-grow flex-col">
+      <div class="grow flex-col">
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
@@ -184,7 +184,7 @@
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              class="flex-1 flex-grow-[2]"
+              class="flex-1 flex-grow-2"
               :class="[
                 {
                   'mr-2': !isMobile,
@@ -198,7 +198,7 @@
             />
             <div
               class="flex-1"
-              :class="{ 'flex flex-grow': !isMobile }"
+              :class="{ 'flex grow': !isMobile }"
             >
               <div
                 v-if="displayUnit === 'token'"
@@ -211,7 +211,7 @@
                   placeholder="0"
                   step="0.01"
                   min="0"
-                  icon-right-class="search !hidden"
+                  icon-right-class="search hidden!"
                   data-testid="transfer-input-amount-token"
                   @focus="onAmountFieldFocus(destinationAddress, 'token')"
                   @update:model-value="
@@ -311,7 +311,7 @@
         </div>
       </div>
 
-      <div class="flex field has-addons flex-grow justify-center mb-4">
+      <div class="flex field has-addons grow justify-center mb-4">
         <TabItem
           :active="displayUnit === 'token'"
           :text="unit"
@@ -357,7 +357,7 @@
 
       <div class="flex">
         <NeoButton
-          class="flex flex-1 fixed-height !shadow-none"
+          class="flex flex-1 fixed-height shadow-none!"
           variant="primary"
           :disabled="disabled"
           @click="handleOpenConfirmModal"
@@ -1081,6 +1081,6 @@ watchDebounced(
   }
 }
 :deep(.o-drop__menu.no-border-bottom) {
-  @apply border-b-0;
+  border-bottom: 0;
 }
 </style>

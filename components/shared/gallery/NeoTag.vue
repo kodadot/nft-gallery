@@ -45,7 +45,9 @@ const onClose = () => {
 <style lang="scss">
 .tag {
   background: transparent;
-  @apply text-base rounded-2xl text-text-color #{!important};
+  font-size: 1rem !important;
+  border-radius: 1rem !important;
+  color: var(--text-color) !important;
 
   &--primary {
     border: 1px solid var(--k-primary);
@@ -88,7 +90,11 @@ const onClose = () => {
   }
 
   &--k-grey {
-    @apply text-neutral-7 bg-neutral-3 dark:bg-neutral-11 #{!important};
+    color: var(--neutral-7);
+    background-color: var(--neutral-3);
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--neutral-11);
+    }
   }
 
   &.tag-size {
@@ -110,7 +116,8 @@ const onClose = () => {
     color: var(--text-color);
 
     &:first-child {
-      @apply cursor-default mr-[0.3rem];
+      cursor: default;
+      margin-right: 0.3rem;
     }
     &.is-delete {
       &:hover,

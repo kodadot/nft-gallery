@@ -21,7 +21,7 @@
         v-model="address"
         :is-invalid="isYourAddress"
         label=""
-        class="flex-1 !pb-12"
+        class="flex-1 pb-12!"
         placeholder="Enter wallet address"
         with-address-check
         @check="isValid => isAddressValid = isValid"

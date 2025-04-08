@@ -12,7 +12,7 @@
         v-if="isFinalStep"
         class="flex py-5 px-6 items-center"
       >
-        <div class="flex-grow text-center">
+        <div class="grow text-center">
           {{ $t('success') }}
         </div>
         <NeoButton
@@ -180,7 +180,9 @@ const checkIconForStep = (step: number) =>
     : undefined
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .desktop-width {
   width: 27rem;
 }

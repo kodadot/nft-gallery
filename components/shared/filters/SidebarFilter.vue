@@ -20,7 +20,9 @@ import Filters from '@/components/shared/filters/Filters.vue'
 const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .bordered {
   border-right: 1px solid;
 }
@@ -31,7 +33,7 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
   top: 84px;
   height: calc(100vh - 84px);
   overflow-y: auto;
-  flex-shrink: 0;
+  shrink: 0;
   @apply mr-fluid-container-padding;
 }
 

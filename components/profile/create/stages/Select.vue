@@ -6,7 +6,7 @@
     <span class="text-sm text-k-grey mb-5 text-center">Quick import from Farcaster, or start fresh</span>
     <NeoButton
       expanded
-      class="!bg-purple-light-color !text-purple-dark-color !border-purple-dark-color hover:!bg-transparent"
+      class="bg-purple-light-color! text-purple-dark-color! border-purple-dark-color! hover:bg-transparent!"
       no-shadow
       size="large"
       :loading="loading"

@@ -55,7 +55,9 @@ const icon = computed(() =>
 )
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .control:not(:last-of-type) .explore-tabs-button {
   border-right: none;
 }

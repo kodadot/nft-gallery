@@ -30,7 +30,7 @@
           </div>
           <div
             v-if="isFetchingDropStatus"
-            class="animate-pulse rounded h-[14px] w-[80px] bg-k-shade"
+            class="animate-pulse rounded-sm h-[14px] w-[80px] bg-k-shade"
           />
           <div
             v-else-if="dropStatus === DropStatus.SCHEDULED_SOON"
@@ -51,7 +51,7 @@
 
       <div
         v-if="isFetchingDropStatus"
-        class="animate-pulse rounded h-[16px] w-[60px] bg-k-shade"
+        class="animate-pulse rounded-sm h-[16px] w-[60px] bg-k-shade"
       />
       <div
         v-else-if="dropStatus === DropStatus.MINTING_LIVE"

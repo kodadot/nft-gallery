@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full flex flex-col overflow-hidden">
     <Navbar />
-    <main class="flex-grow">
+    <main class="grow">
       <section class="px-6 py-12">
         <div class="container">
           <div class="flex flex-col md:flex-row justify-center gap-3">

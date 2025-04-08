@@ -3,7 +3,7 @@
     class="relative bg-no-repeat bg-cover lg:h-[560px]"
     :style="bannerBackgroundStyles"
   >
-    <div class="absolute inset-0 bg-gradient-to-b from-black/[0.06] to-black/20" />
+    <div class="absolute inset-0 bg-linear-to-b from-black/[0.06] to-black/20" />
 
     <section class="h-[368px] lg:h-full">
       <div

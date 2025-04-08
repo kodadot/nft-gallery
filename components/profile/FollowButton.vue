@@ -64,7 +64,7 @@ const followConfig = computed<ButtonConfig>(() => ({
       },
     })
   },
-  classes: 'hover:!bg-transparent',
+  classes: 'hover:bg-transparent!',
 }))
 
 const unfollowConfig = computed<ButtonConfig>(() => ({
@@ -92,7 +92,7 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
     loading.value = false
     emit('unfollow:success')
   },
-  classes: 'hover:!border-k-red',
+  classes: 'hover:border-k-red!',
 }))
 
 const followingConfig: ButtonConfig = {

@@ -1,7 +1,7 @@
 <template>
   <div class="wallet-menu-item">
     <button
-      class="button my-0 !px-8 py-2.5 flex justify-between items-center"
+      class="button my-0 px-8! py-2.5 flex justify-between items-center"
       @click="onClickWallet(wallet)"
     >
       <span>
@@ -89,7 +89,7 @@
           </div>
           <NeoSkeleton
             v-if="isProfilesLoading"
-            class="!w-[73px] !h-[22px] mr-1 rounded-full overflow-hidden"
+            class="w-[73px]! h-[22px]! mr-1 rounded-full overflow-hidden"
             width="100%"
             height="100%"
             no-margin

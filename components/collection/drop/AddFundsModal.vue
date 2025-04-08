@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="modelValue"
-    content-class="add-funds-modal !w-[unset]"
+    content-class="add-funds-modal w-[unset]!"
     @close="onClose"
   >
     <ModalBody

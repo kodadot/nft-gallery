@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="(showTwitter && twitter) || !showTwitter"
-    class="flex-wrap flex-grow"
+    class="flex-wrap grow"
   >
     <IdentitySocial
       v-if="showTwitter && twitter"

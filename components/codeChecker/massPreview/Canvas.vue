@@ -11,7 +11,7 @@
     <transition name="slide">
       <div
         v-if="active"
-        class="!mt-6"
+        class="mt-6!"
       >
         <CodeCheckerMassPreviewControls
           v-model="amount"
@@ -21,7 +21,7 @@
 
         <CodeCheckerMassPreviewGrid
           :items="canvasPreviews.map((p) => p.loading)"
-          class="!mt-4"
+          class="mt-4!"
         >
           <template #default="{ index }">
             <CodeCheckerSandboxIFrame

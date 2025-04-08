@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="!(loaded && !drops?.length)"
-    class="pt-6 pb-7 md:!pb-16 max-sm:mx-5 mx-12 2xl:mx-auto border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]"
+    class="pt-6 pb-7 md:pb-16! max-sm:mx-5 mx-12 2xl:mx-auto border-b border-neutral-5 dark:border-neutral-9 max-w-[89rem]"
   >
     <div class="flex flex-col gap-8 w-full">
       <div
@@ -37,7 +37,7 @@
         class="flex justify-between items-center"
       >
         <div class="flex gap-2">
-          <div class="w-[255] h-[24]">
+          <div class="w-255 h-24">
             <NeoSkeleton
               width="255"
               height="24"
@@ -45,7 +45,7 @@
               no-margin
             />
           </div>
-          <div class="!w-4">
+          <div class="w-4!">
             <NeoSkeleton
               width="16"
               rounded

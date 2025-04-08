@@ -8,7 +8,7 @@
     <NeoSkeleton
       v-else
       id="skeleton-backdrop"
-      class="z-[2]"
+      class="z-2"
       rounded
       border-radius="20px"
       no-margin
@@ -17,7 +17,7 @@
     />
 
     <div
-      class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-[3] left-2/4 top-2/4"
+      class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-3 left-2/4 top-2/4"
     >
       <slot>
         <KIcon

@@ -3,7 +3,7 @@
     class="has-addons flex items-center"
     data-testid="gallery-explore-tabs"
   >
-    <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
+    <TabOnCollection v-if="route.name?.toString().includes('prefix-collection-id')" />
     <TabOnExplore v-else />
   </div>
 </template>
@@ -15,7 +15,9 @@ import TabOnCollection from './tab/TabOnCollection.vue'
 const route = useRoute()
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .mobile-expand {
   @apply bulma-mobile:w-full;
 }

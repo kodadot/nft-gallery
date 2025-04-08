@@ -36,7 +36,7 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
-            class="w-max !flex items-center"
+            class="w-max flex! items-center"
             @click="shareCollectionToFarcaster"
           >
             <KIcon
@@ -48,7 +48,7 @@
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
             data-testid="hero-copy-link-dropdown"
-            class="!flex items-center"
+            class="flex! items-center"
             @click="toast($t('toast.urlCopy'))"
           >
             <KIcon
@@ -59,7 +59,7 @@
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-QR-dropdown"
-            class="!flex items-center"
+            class="flex! items-center"
             @click="QRModalActive = true"
           >
             <KIcon
@@ -70,7 +70,7 @@
           </NeoDropdownItem>
           <NeoDropdownItem
             data-testid="hero-share-twitter-dropdown"
-            class="!flex items-center"
+            class="flex! items-center"
             @click="shareUrlToX"
           >
             <KIcon

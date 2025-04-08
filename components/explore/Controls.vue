@@ -1,7 +1,7 @@
 <template>
   <div>
-    <MobileControls class="is-hidden-tablet" />
-    <DesktopControls class="is-hidden-mobile" />
+    <MobileControls class="md:hidden" />
+    <DesktopControls class="hidden md:flex" />
   </div>
 </template>
 

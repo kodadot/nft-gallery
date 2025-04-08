@@ -11,15 +11,15 @@
 
     <div
       v-if="showUninstalledWallet"
-      class="!px-8 !pt-6"
+      class="px-8! pt-6!"
     >
       <div class="font-bold capitalize mb-3 text-xl">
         {{ $t('walletConnect.newToKoda') }}
       </div>
-      <div class="text-sm !mb-6">
+      <div class="text-sm mb-6!">
         {{ $t('walletConnect.startConnect') }}
       </div>
-      <div class="border py-4 !px-6 !mb-6 bg-k-grey-light border-k-grey">
+      <div class="border py-4 px-6! mb-6! bg-k-grey-light border-k-grey">
         <div class="mb-3">
           {{ $t('walletConnect.quickSteps') }}
         </div>
@@ -76,9 +76,9 @@
       v-if="showUninstalledWallet"
       class="px-6"
     >
-      <hr class="!my-0">
+      <hr class="my-0!">
       <NeoButton
-        class="!w-full !my-6"
+        class="w-full! my-6!"
         variant="outlined-rounded"
         @click="checkWallet"
       >

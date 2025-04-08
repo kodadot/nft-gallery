@@ -4,7 +4,7 @@
   >
     <ChainDropdown
       position="bottom-auto"
-      variant="rounded"
+      variant="rounded-sm"
       filter-by-vm
       :show-network-label="false"
       :label="$t('activity.network')"
@@ -14,13 +14,13 @@
     <ProfileCollectionFilter
       :id="query.currentOwner_eq"
       v-model="collections"
-      variant="rounded"
+      variant="rounded-sm"
       :search="query"
     />
 
     <ProfileOrderByDropdown
       preselect="blockNumber_DESC"
-      variant="rounded"
+      variant="rounded-sm"
       no-shadow
       rounded
     />

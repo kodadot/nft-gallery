@@ -9,7 +9,7 @@
       class="h-[50px]"
     >
       <BaseMediaItem
-        class="border border-k-shade w-[3.125rem] h-[3.125rem] !shadow-none"
+        class="border border-k-shade w-[3.125rem] h-[3.125rem] shadow-none!"
         :alt="item.name"
         :src="image"
         :animation-src="!image ? animationUrl : undefined"

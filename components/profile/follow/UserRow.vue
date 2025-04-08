@@ -5,7 +5,7 @@
       :to="`/${urlPrefix}/u/${prefixUserAddress}`"
     >
       <ProfileAvatar
-        class="!mr-4"
+        class="mr-4!"
         :address="user.address"
         :size="48"
       />
@@ -25,7 +25,7 @@
       ref="buttonRef"
       rounded
       no-shadow
-      class="!min-w-28"
+      class="min-w-28!"
       :class="buttonConfig.classes"
       :variant="buttonConfig.variant"
       :active="buttonConfig.active"
@@ -125,7 +125,7 @@ const followConfig: ButtonConfig = {
     })
   },
   disabled: props.user.address === toSubstrateAddress(accountId.value),
-  classes: 'hover:!bg-transparent',
+  classes: 'hover:bg-transparent!',
 }
 
 const followingConfig: ButtonConfig = {
@@ -150,7 +150,7 @@ const unfollowConfig: ButtonConfig = {
       message: signaturePair.message,
     }).then(refresh)
   },
-  classes: 'hover:!border-k-red',
+  classes: 'hover:border-k-red!',
 }
 
 const buttonConfig = computed((): ButtonConfig => {

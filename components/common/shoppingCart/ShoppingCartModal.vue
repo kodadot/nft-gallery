@@ -26,7 +26,7 @@
         v-if="numberOfItems"
         class="scroll-y"
       >
-        <div class="bg-background-color flex flex-grow flex-col py-2">
+        <div class="bg-background-color flex grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -189,7 +189,9 @@ const onCompletePurchase = () => {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .shopping-cart-modal {
   .shopping-cart-modal-container {
     position: fixed;
