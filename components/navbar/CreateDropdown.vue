@@ -7,15 +7,13 @@
     >
       {{ $t('create') }}
     </div>
-    <CreateModal
+    <CreateEntryModal
       v-model="isModalActive"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import CreateModal from '@/components/create/CreateModal.vue'
-
 defineProps<{
   chain: string
 }>()

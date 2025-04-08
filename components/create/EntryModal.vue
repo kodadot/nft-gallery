@@ -8,7 +8,7 @@
       :title="$t('create')"
       @close="isModalActive = false"
     />
-    <div class=" px-6 pt-6 pb-5">
+    <div class="px-6 pt-6 pb-5">
       <div class="space-y-4">
         <div
           v-for="item in createOptionsConfig"
@@ -23,7 +23,7 @@
             class="text-k-grey group-hover:text-k-blue"
           />
           <div class="text-left ml-4">
-            <div class="">
+            <div>
               {{ item.title }}
             </div>
             <div class="text-sm text-k-grey">
@@ -33,8 +33,8 @@
         </div>
       </div>
 
-      <div class="text-center text-sm text-k-grey mt-[20px]">
-        {{ $t('mint.modal.availableOn', ['Ahp', 'Ahk']) }}
+      <div class="text-center text-sm text-k-grey mt-[20px] capitalize">
+        {{ $t('mint.modal.availableOn', enableCreateChains) }}
       </div>
     </div>
   </NeoModal>
@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 import { NeoModal, NeoModalHead } from '@kodadot1/brick'
+import { enableCreateChains } from '@/utils/chain'
 
 type CreateConfig = {
   path: string
@@ -51,21 +52,11 @@ type CreateConfig = {
   testId?: string
 }
 
-const props = defineProps<{
-  modelValue: boolean
-}>()
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-}>()
+const isModalActive = defineModel({ type: Boolean, default: false })
 
 const { doAfterLogin } = useDoAfterlogin()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-const isModalActive = computed({
-  get: () => props.modelValue,
-  set: value => emit('update:modelValue', value),
-})
 
 const onClickCreateOption = (path: string) => {
   isModalActive.value = false
