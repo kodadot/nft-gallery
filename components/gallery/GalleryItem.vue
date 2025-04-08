@@ -319,7 +319,9 @@ function toggleFallback() {
 onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
-<style lang="scss">
+<style>
+@reference '@/assets/css/tailwind.css';
+
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
   background-color: var(--background-color);

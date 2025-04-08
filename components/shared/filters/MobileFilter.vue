@@ -187,7 +187,9 @@ const applyFilters = () => {
 watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .buttons-container {
   position: sticky;
   bottom: 0;

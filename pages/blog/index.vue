@@ -182,7 +182,7 @@ const { data: posts } = useAsyncData('posts', async () => {
     overflow: hidden;
 
     &-cover {
-      @apply border-b border-card-border-color;
+      border-bottom: 1px solid var(--card-border-color);
     }
 
     border: 1px solid var(--card-border-color);
@@ -221,7 +221,10 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
+    overflow: hidden;
+    display: flex;
+    height: 22rem;
+    border-radius: 2.5rem;
 
     @include bulma-touch {
       height: auto;

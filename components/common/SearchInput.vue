@@ -68,6 +68,6 @@ onBeforeMount(onSearchFn)
 
 <style lang="scss" scoped>
 .search-input {
-  @apply w-full;
+  width: 100%;
 }
 </style>

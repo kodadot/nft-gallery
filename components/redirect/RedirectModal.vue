@@ -47,7 +47,9 @@ const handleRedirect = () => {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .redirect-card {
   box-shadow: var(--card-box-shadow);
   background: var(--background-color);

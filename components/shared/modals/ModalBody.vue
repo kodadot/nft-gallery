@@ -159,7 +159,10 @@ $b-padding: 1.25rem;
 
 .modal-body {
   width: v-bind(modalWidth);
-  @apply max-md:w-full;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .limit-height {
@@ -187,7 +190,9 @@ $b-padding: 1.25rem;
 
 .slot {
   &__loading {
-    @apply opacity-0 z-1 pointer-events-none;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
   }
 }
 

@@ -42,10 +42,12 @@ const onClose = () => {
 }
 </script>
 
-<style lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .tag {
   background: transparent;
-  @apply text-base rounded-2xl text-text-color #{!important};
+  @apply text-base rounded-2xl text-text-color;
 
   &--primary {
     border: 1px solid var(--k-primary);
@@ -88,7 +90,7 @@ const onClose = () => {
   }
 
   &--k-grey {
-    @apply text-neutral-7 bg-neutral-3 dark:bg-neutral-11 #{!important};
+    @apply text-neutral-7 bg-neutral-3 dark:bg-neutral-11;
   }
 
   &.tag-size {

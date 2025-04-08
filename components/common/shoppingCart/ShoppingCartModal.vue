@@ -189,7 +189,9 @@ const onCompletePurchase = () => {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .shopping-cart-modal {
   .shopping-cart-modal-container {
     position: fixed;

@@ -20,7 +20,9 @@ import Filters from '@/components/shared/filters/Filters.vue'
 const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .bordered {
   border-right: 1px solid;
 }

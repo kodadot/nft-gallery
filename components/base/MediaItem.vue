@@ -219,7 +219,9 @@ function toggleFullscreen() {
 defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);

@@ -266,7 +266,10 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .carousel-dot {
-  @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
+  width: 0.625rem;
+  height: 0.625rem;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 25%;
   background-color: var(--k-shade);
 
   &.is-active {

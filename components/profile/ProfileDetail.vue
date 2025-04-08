@@ -860,7 +860,9 @@ watchEffect(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 :deep(.rounded-full) {
   img {
     border-radius: 9999px !important;

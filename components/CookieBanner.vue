@@ -20,7 +20,9 @@
 useCookies()
 </script>
 
-<style lang="scss">
+<style>
+@reference '@/assets/css/tailwind.css';
+
 /* Custom Cookie #Bar */
 .cookieControl__Bar {
   font-family: 'Work Sans', sans-serif;

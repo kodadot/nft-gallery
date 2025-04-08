@@ -166,7 +166,9 @@ const closeTradeModal = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-item-offers-table {
   overflow-y: auto;
 

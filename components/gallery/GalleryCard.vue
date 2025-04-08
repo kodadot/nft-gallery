@@ -118,9 +118,11 @@ const largeDisplay = computed(
 )
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .nft-card {
-  @apply border-none #{!important};
+  @apply border-none;
 
   &__skeleton {
     transition: all 0.3s;
@@ -181,8 +183,8 @@ const largeDisplay = computed(
 }
 </style>
 
-<style lang="scss">
+<style>
 .gallery__image-wrapper img {
-  @apply border-none #{!important};
+  border: none;
 }
 </style>

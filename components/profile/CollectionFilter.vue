@@ -177,7 +177,9 @@ useLazyAsyncData('profileCollections', async () => {
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .dropdown-width {
   width: 18.75rem;
 

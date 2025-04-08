@@ -30,7 +30,9 @@ const scrollToTop = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .scroll-top-button {
   @apply fixed w-[35px] h-[35px] z-998 rounded-none right-[42px] bottom-[100px];
 

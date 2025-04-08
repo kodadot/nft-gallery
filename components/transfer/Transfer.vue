@@ -1081,6 +1081,6 @@ watchDebounced(
   }
 }
 :deep(.o-drop__menu.no-border-bottom) {
-  @apply border-b-0;
+  border-bottom: 0;
 }
 </style>

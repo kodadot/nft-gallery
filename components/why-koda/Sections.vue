@@ -80,7 +80,9 @@ const tags = computed(() =>
 )
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .section-container {
   @apply container mx-auto max-md:px-4;
 }

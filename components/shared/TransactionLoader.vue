@@ -180,7 +180,9 @@ const checkIconForStep = (step: number) =>
     : undefined
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .desktop-width {
   width: 27rem;
 }
