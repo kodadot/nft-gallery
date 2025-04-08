@@ -211,9 +211,8 @@
               @click="toast(String($t('toast.urlCopy')))"
             >
               <div class="flex text-nowrap w-max items-center">
-                <NeoIcon
-                  icon="copy"
-                  pack="fas"
+                <KIcon
+                  name="i-mdi:content-copy"
                   class="mr-3"
                 />
                 {{ $t('share.copyLink') }}

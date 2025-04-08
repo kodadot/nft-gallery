@@ -6,8 +6,8 @@
         class="flex-1 lg:flex-0 lg:w-1/2 flex flex-col justify-center order-1"
       >
         <div class="flex items-center font-bold text-base mb-2">
-          <NeoIcon
-            icon="unlock"
+          <KIcon
+            name="i-mdi:lock-open"
             class="mr-2"
           />
           {{ $t('mint.unlockable.howItemWork') }}
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 const props = defineProps({
   collectionId: {

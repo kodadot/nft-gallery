@@ -4,8 +4,8 @@
     variant="warning"
   >
     <div class="flex items-center">
-      <NeoIcon
-        icon="triangle-exclamation"
+      <KIcon
+        name="i-mdi:alert"
         class="mr-2"
       />
       <span> {{ $t('drops.holderOfClaimed', [exclusiveDrop?.name]) }}</span>
@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { useDrop, useHolderOfCollectionDrop } from '../drops/useDrops'
 import type { NFT } from '@/types'
 import {

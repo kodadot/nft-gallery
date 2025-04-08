@@ -27,9 +27,8 @@
               placement="right"
               :append-to="body"
             >
-              <NeoIcon
-                icon="fa-info-circle"
-                pack="fa-regular"
+              <KIcon
+                name="i-mdi:information-slab-circle"
                 class="text-k-grey"
               />
 
@@ -87,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { addMonths, format } from 'date-fns'
 import groupBy from 'lodash/groupBy'

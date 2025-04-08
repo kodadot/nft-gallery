@@ -12,9 +12,9 @@
       <Auth v-else />
     </div>
     <div>
-      <NeoIcon
+      <KIcon
         class="pt-8 px-4"
-        icon="arrow-right-arrow-left"
+        name="i-mdi:swap-horizontal"
         size="large"
       />
     </div>
@@ -36,8 +36,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 defineProps<{
   creator?: string
   counterparty: string
