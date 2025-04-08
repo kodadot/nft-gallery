@@ -14,7 +14,6 @@
       >
         <NeoCheckbox
           :model-value="checkedCollections.includes(collection.id)"
-          class="w-full"
           label-class="grow"
           @update:model-value="toggleCollection(collection)"
         >
