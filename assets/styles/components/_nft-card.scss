@@ -1,8 +1,5 @@
 .nft-card {
-  position: relative;
-  height: 100%;
-  background-color: var(--background-color);
-  border: 1px solid var(--card-border-color);
+  @apply relative h-full bg-background-color border border-card-border-color;
 
   .border-stacked {
     border-color: var(--card-border-color-light) !important;
@@ -33,7 +30,7 @@
     .show-on-hover,
     .show-always {
       display: flex !important;
-      z-index: 10;
+      @apply z-10;
     }
   }
 
@@ -59,10 +56,7 @@
 }
 
 .card-icon {
-  position: absolute;
-  z-index: 1;
-  right: 1rem;
-  top: 1rem;
+  @apply absolute z-[1] right-4 top-4;
 }
 
 .nft-media {
