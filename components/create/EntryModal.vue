@@ -76,7 +76,7 @@ const createOptionsConfig = computed<CreateConfig[]>(() => [
     testId: 'create-landing-single-nft-button',
   },
   {
-    path: `/${urlPrefix}/massmint`,
+    path: `/${urlPrefix.value}/massmint`,
     icon: 'i-mdi:image-multiple-outline',
     title: $i18n.t('mint.modal.createMultiple'),
     description: $i18n.t('mint.modal.createMultipleDesc'),
