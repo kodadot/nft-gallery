@@ -18,7 +18,7 @@ const { urlPrefix } = usePrefix()
 
 const addNfts = () => {
   navigateTo({
-    path: `/${urlPrefix.value}/create`,
+    path: `/${urlPrefix.value}/create/nft`,
     query: {
       select: 'nft',
       collectionId: id,
