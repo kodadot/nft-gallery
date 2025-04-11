@@ -20,6 +20,7 @@ export enum Interaction {
   EMOTE = 'EMOTE',
   BURN = 'BURN',
   DESTROY = 'DESTROY',
+  AIRDROP = 'AIRDROP',
 }
 
 enum OfferActions {

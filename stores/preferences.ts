@@ -41,7 +41,7 @@ type NewsletterSubscription = {
   email?: string
 }
 
-export type UserCartMode = 'transfer' | 'burn'
+export type UserCartMode = 'transfer' | 'burn' | 'airdrop'
 
 interface State {
   sidebarFilterCollapseOpen: boolean
