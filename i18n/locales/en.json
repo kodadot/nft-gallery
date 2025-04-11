@@ -70,6 +70,14 @@
   "add": "Add",
   "addFunds": "Add Funds",
   "advancedFilters": "Advanced Filters",
+  "airdrop": {
+    "modalTitle": "Airdrop NFTs",
+    "notAssigned": "Not assigned",
+    "selectedNfts": "Selected NFTs",
+    "title": "Airdrop",
+    "transferTo": "Airdrop to",
+    "validAddresses": "Valid Addresses"
+  },
   "ambassador program": "Ambassador Program",
   "amount": "Amount",
   "artist": "Artist",

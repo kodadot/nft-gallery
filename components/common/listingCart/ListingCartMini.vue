@@ -65,6 +65,15 @@
               </NeoButton>
             </NeoTooltip>
 
+            <NeoButton
+              v-if="isAirdropAvailable"
+              variant="outlined-rounded"
+              icon="gift"
+              @click="preferencesStore.setOpenedUserCartModal('airdrop')"
+            >
+              {{ $t('airdrop.title') }}
+            </NeoButton>
+
             <NeoTooltip
               class="cursor-pointer"
               position="top"
@@ -99,6 +108,8 @@ const { isEvm } = useIsChain(urlPrefix)
 
 const isItemBurnDisabled = computed(() => isEvm.value ? listingCartStore.count > 1 : !burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
+
+const isAirdropAvailable = computed(() => isSub(urlPrefix.value) && listingCartStore.count > 1)
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
 onBeforeUnmount(() => {
