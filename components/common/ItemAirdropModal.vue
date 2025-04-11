@@ -20,7 +20,7 @@
         <textarea
           v-model="batchAddressesInput"
           class="min-w-full max-w-full w-full min-h-[100px] p-2 border rounded-md resize-vertical"
-          :placeholder="$t('Enter multiple addresses separated by commas')"
+          :placeholder="$t('airdrop.enterMultipleAddresses')"
           @input="handleBatchAddressesInput"
         />
         <div class="mt-2 text-sm">

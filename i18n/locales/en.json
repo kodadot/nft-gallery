@@ -71,6 +71,7 @@
   "addFunds": "Add Funds",
   "advancedFilters": "Advanced Filters",
   "airdrop": {
+    "enterMultipleAddresses": "Enter multiple addresses separated by commas (address1, address2, address3)",
     "modalTitle": "Airdrop NFTs",
     "nftDistribution": "NFT Distribution",
     "notAssigned": "Not assigned",
