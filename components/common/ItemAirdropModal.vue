@@ -55,24 +55,29 @@
         </div>
       </div>
 
-      <div class="mt-4 max-h-[200px] overflow-y-auto">
+      <div class="mb-4">
         <h3 class="mb-2 font-bold">
-          {{ $t('NFT Distribution') }}
+          {{ $t('airdrop.nftDistribution') }}
         </h3>
-        <div
-          v-for="(item, index) in airdropItems"
-          :key="item.id"
-          class="flex items-center mb-2 text-sm"
-        >
-          <span class="text-k-grey">#{{ item.id }} - {{ item.collection.name }}</span>
-          <KIcon
-            name="i-mdi:arrow-right"
-            size="small"
-            class="mx-2"
-          />
-          <span :class="validAddressList[index] ? 'text-green-500' : 'text-red-500'">
-            {{ shortAddress(validAddressList[index]) || $t('airdrop.notAssigned') }}
-          </span>
+        <div class="max-h-[200px] overflow-y-auto">
+          <div
+            v-for="(item, index) in airdropItems"
+            :key="item.id"
+            class="flex items-center mb-2 text-sm"
+          >
+            <span class="text-k-grey truncate max-w-[60%]">#{{ item.id }} - {{ item.collection.name }}</span>
+            <KIcon
+              name="i-mdi:arrow-right"
+              size="small"
+              class="mx-2"
+            />
+            <span
+              class="flex-1"
+              :class="validAddressList[index] ? 'text-green-500' : 'text-red-500'"
+            >
+              {{ shortAddress(validAddressList[index]) || $t('airdrop.notAssigned') }}
+            </span>
+          </div>
         </div>
       </div>
     </template>
@@ -147,8 +152,13 @@ const handleBatchAddressesInput = () => {
 }
 
 const correctAddressFormat = (address: string) => {
-  const publicKey = decodeAddress(address)
-  return encodeAddress(publicKey, ss58Format.value)
+  try {
+    const publicKey = decodeAddress(address)
+    return encodeAddress(publicKey, ss58Format.value)
+  }
+  catch (error) {
+    return null
+  }
 }
 
 const getAction = (): ActionAirdrop => ({
@@ -156,7 +166,7 @@ const getAction = (): ActionAirdrop => ({
   urlPrefix: urlPrefix.value,
   addresses: validAddressList.value,
   nfts: airdropItems.value
-    .filter((_, index) => validAddressList.value[index])
+    .filter((_, index) => index < validAddressList.value.length)
     .map(item => ({
       id: item.id,
       sn: item.sn,
