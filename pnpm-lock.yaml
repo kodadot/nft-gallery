@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  chokidar: 3.6.0
+
 patchedDependencies:
   '@polkadot/vue-identicon@3.11.3':
     hash: lk62wydlwt3dwu7hzwoaewjzva
@@ -6329,10 +6332,6 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chokidar@4.0.3:
-    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
-    engines: {node: '>= 14.16.0'}
-
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
@@ -10619,10 +10618,6 @@ packages:
   readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
-
-  readdirp@4.0.2:
-    resolution: {integrity: sha512-yDMz9g+VaZkqBYS/ozoBJwaBhTbZo3UNYQHNRw1D3UFQB8oHB4uS/tAODO+ZLjGWmUbKnIlOWO+aaIiAxrUWHA==}
-    engines: {node: '>= 14.16.0'}
 
   readline@1.3.0:
     resolution: {integrity: sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==}
@@ -15568,7 +15563,7 @@ snapshots:
   '@nuxt/cli@3.23.1(magicast@0.3.5)':
     dependencies:
       c12: 3.0.2(magicast@0.3.5)
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       citty: 0.1.6
       clipboardy: 4.0.0
       consola: 3.4.2
@@ -15929,7 +15924,7 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.1
       scule: 1.3.0
-      semver: 7.6.3
+      semver: 7.7.1
       ufo: 1.5.4
       unctx: 2.3.1(webpack-sources@3.2.3)
       unimport: 3.7.2(rollup@4.37.0)(webpack-sources@3.2.3)
@@ -15985,7 +15980,7 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.1
       scule: 1.3.0
-      semver: 7.6.3
+      semver: 7.7.1
       ufo: 1.5.4
       unctx: 2.4.1
       unimport: 3.14.5(rollup@4.37.0)
@@ -17533,7 +17528,7 @@ snapshots:
       '@polkadot/x-ws': 12.6.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       eventemitter3: 5.0.1
       mock-socket: 9.3.1
-      nock: 13.5.4
+      nock: 13.5.6
       tslib: 2.8.1
     optionalDependencies:
       '@substrate/connect': 0.8.10(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -19333,7 +19328,7 @@ snapshots:
 
   '@spruceid/siwe-parser@2.1.2':
     dependencies:
-      '@noble/hashes': 1.4.0
+      '@noble/hashes': 1.6.1
       apg-js: 4.3.0
       uri-js: 4.4.1
       valid-url: 1.0.9
@@ -22038,7 +22033,7 @@ snapshots:
 
   c12@2.0.1(magicast@0.3.5):
     dependencies:
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       confbox: 0.1.8
       defu: 6.1.4
       dotenv: 16.4.7
@@ -22055,7 +22050,7 @@ snapshots:
 
   c12@3.0.2(magicast@0.3.5):
     dependencies:
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       confbox: 0.1.8
       defu: 6.1.4
       dotenv: 16.4.7
@@ -22240,7 +22235,7 @@ snapshots:
   chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -22248,10 +22243,6 @@ snapshots:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.3
-
-  chokidar@4.0.3:
-    dependencies:
-      readdirp: 4.0.2
 
   chownr@1.1.4:
     optional: true
@@ -26147,7 +26138,7 @@ snapshots:
       '@vercel/nft': 0.29.2(encoding@0.1.13)(rollup@4.37.0)
       archiver: 7.0.1
       c12: 3.0.2(magicast@0.3.5)
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       citty: 0.1.6
       compatx: 0.1.8
       confbox: 0.2.1
@@ -26409,7 +26400,7 @@ snapshots:
       '@unhead/vue': 2.0.0(vue@3.5.13(typescript@5.6.2))
       '@vue/shared': 3.5.13
       c12: 3.0.2(magicast@0.3.5)
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       compatx: 0.1.8
       consola: 3.4.2
       cookie-es: 2.0.0
@@ -27700,8 +27691,6 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  readdirp@4.0.2: {}
-
   readline@1.3.0: {}
 
   real-require@0.1.0: {}
@@ -28374,7 +28363,7 @@ snapshots:
 
   smoldot@2.0.22(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
-      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.18.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -29431,7 +29420,7 @@ snapshots:
       '@babel/types': 7.26.9
       '@vue-macros/common': 1.16.1(vue@3.5.13(typescript@5.6.2))
       ast-walker-scope: 0.6.2
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       fast-glob: 3.3.3
       json5: 2.2.3
       local-pkg: 1.0.0
@@ -29510,7 +29499,7 @@ snapshots:
   unstorage@1.15.0(db0@0.3.1)(idb-keyval@6.2.1)(ioredis@5.6.0):
     dependencies:
       anymatch: 3.1.3
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       destr: 2.0.3
       h3: 1.15.1
       lru-cache: 10.4.3
@@ -29779,7 +29768,7 @@ snapshots:
   vite-node@1.6.0(@types/node@22.7.5)(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.4.0(supports-color@9.4.0)
       pathe: 1.1.2
       picocolors: 1.0.1
       vite: 5.2.8(@types/node@22.7.5)(sass@1.77.8)(stylus@0.57.0)(terser@5.30.3)
@@ -29817,7 +29806,7 @@ snapshots:
   vite-plugin-checker@0.9.1(eslint@9.9.1(jiti@2.4.2))(typescript@5.6.2)(vite@6.2.3(@types/node@20.16.5)(jiti@2.4.2)(sass@1.77.6)(stylus@0.57.0)(terser@5.30.3)(yaml@2.7.0)):
     dependencies:
       '@babel/code-frame': 7.26.2
-      chokidar: 4.0.3
+      chokidar: 3.6.0
       npm-run-path: 6.0.0
       picocolors: 1.1.1
       picomatch: 4.0.2
@@ -30133,8 +30122,8 @@ snapshots:
 
   webauthn-p256@0.0.5:
     dependencies:
-      '@noble/curves': 1.4.2
-      '@noble/hashes': 1.5.0
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
 
   webextension-polyfill@0.10.0: {}
 
