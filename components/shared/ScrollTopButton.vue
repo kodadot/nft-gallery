@@ -4,12 +4,11 @@
     class="scroll-top-button button justify-center"
     @click="scrollToTop"
   >
-    <NeoIcon icon="chevron-up" />
+    <KIcon name="i-mdi:chevron-up" />
   </button>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
 import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 

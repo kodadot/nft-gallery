@@ -114,7 +114,7 @@
               data-testid="transfer-copy-sender-address"
               @click="toast($t('general.copyAddressToClipboard'))"
             >
-              <NeoIcon icon="copy" />
+              <KIcon name="i-mdi:content-copy" />
             </a>
           </div>
           <Auth v-else />
@@ -269,9 +269,9 @@
         @click="addAddress"
       >
         {{ $t('transfers.addAddress') }}
-        <NeoIcon
+        <KIcon
+          name="i-mdi:plus"
           class="ml-2"
-          icon="plus"
         />
       </div>
       <div class="flex justify-between items-center mb-5">

@@ -28,8 +28,8 @@
         <hr class="my-4">
 
         <div class="flex items-start">
-          <NeoIcon
-            icon="lightbulb"
+          <KIcon
+            name="i-mdi:lightbulb"
             size="small"
             class="mr-2 block"
           />
@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 import type { AutoTeleportInteractions } from './utils'
 import { getActionDetails } from './utils'
 import type { TeleportTransition } from '@/utils/teleport'

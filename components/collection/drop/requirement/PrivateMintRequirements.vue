@@ -50,9 +50,8 @@
         root-class="ml-2"
         content-class="capitalize"
       >
-        <NeoIcon
-          icon="fa-info-circle"
-          pack="fa-regular"
+        <KIcon
+          name="i-mdi:information-slab-circle"
           class="text-k-grey"
         />
 
@@ -83,10 +82,10 @@
           {{ mintLabel }}
         </p>
 
-        <NeoIcon
+        <KIcon
           v-if="readyToMint"
           class="ml-1"
-          icon="check"
+          name="i-mdi:check"
         />
       </div>
     </div>
@@ -94,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoTooltip } from '@kodadot1/brick'
 import type { HolderOfCollection } from '../types'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { useDrop, useDropMinimumFunds } from '@/components/drops/useDrops'

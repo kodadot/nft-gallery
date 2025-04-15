@@ -3,18 +3,16 @@
     :placement="position"
     :append-to="body"
   >
-    <NeoIcon
-      icon="fa-info-circle"
-      pack="fa-regular"
+    <KIcon
+      name="i-mdi:information-slab-circle"
       class="ml-2 text-k-grey"
     />
 
     <template #content>
       <div class="w-[16rem] bg-background-color text-sm border p-4">
         <div class="flex text-base mb-3">
-          <NeoIcon
-            icon="fa-info-circle"
-            pack="fa-regular"
+          <KIcon
+            name="i-mdi:information-slab-circle"
             class="mr-2"
           />
 
@@ -74,8 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-
 defineProps<{
   transition: TeleportTransition
   position: 'top' | 'left'

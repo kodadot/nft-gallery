@@ -37,8 +37,8 @@
           class="flex items-center"
         >
           <div class="flex flex-col justify-between">
-            <NeoIcon
-              icon="circle-check"
+            <KIcon
+              name="i-mdi:check-circle-outline"
               class="check-icon text-k-green"
             />
             <div class="flex items-center mt-6 flex-col">

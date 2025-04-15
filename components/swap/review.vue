@@ -34,9 +34,9 @@
         </div>
 
         <div class="hidden md:flex md:items-center">
-          <NeoIcon
+          <KIcon
             class="pt-8 px-4"
-            icon="arrow-right-arrow-left"
+            name="i-mdi:swap-horizontal"
             size="large"
           />
         </div>
@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoButton } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { successMessage } from '@/utils/notification'
 import { SwapStep } from '@/components/swap/types'
 

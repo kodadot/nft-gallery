@@ -12,7 +12,7 @@
           v-if="emoteCount"
           class="card-image__emotes"
         >
-          <NeoIcon icon="heart" />
+          <KIcon name="i-mdi:heart" />
           <span class="align-text-bottom">{{ emoteCount }}</span>
         </span>
         <BaseMediaItem
@@ -55,7 +55,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
