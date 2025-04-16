@@ -56,6 +56,8 @@ const icon = computed(() =>
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/abstracts/mixins';
+
 .control:not(:last-of-type) .explore-tabs-button {
   border-right: none;
 }
@@ -63,7 +65,14 @@ const icon = computed(() =>
 .control,
 .explore-tabs-button {
   width: 15rem;
-  @apply bulma-until-widescreen:w-48 bulma-mobile:w-full;
+
+  @include bulma-mobile {
+    width: 100% !important;
+  }
+
+  @include bulma-until-widescreen {
+    width: 12rem;
+  }
 }
 
 .full-width {
