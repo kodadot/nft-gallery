@@ -16,6 +16,7 @@ import type {
   ActionOffer,
   ActionSwap,
   ActionSend,
+  ActionAirdrop,
   ActionUpdateCollection,
   ActionCancelOffer,
   ActionSetNftMetadata,
@@ -50,6 +51,7 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.MINTNFT]: (action: ActionMintToken) =>
       hasContent(action.token),
     [Interaction.SEND]: (action: ActionSend) => Boolean(action.nfts.length),
+    [Interaction.AIRDROP]: (action: ActionAirdrop) => Boolean(action.nfts.length) && Boolean(action.addresses.length),
     [Interaction.CONSUME]: (action: ActionConsume) => hasContent(action.nftIds),
     [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
       hasContent(action.tokens) && hasEvery(action.tokens, token => Boolean(Number(token.price))),
