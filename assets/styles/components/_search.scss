@@ -79,7 +79,7 @@
       box-shadow: none;
     }
 
-    box-shadow: var(--primary-shadow);
+    box-shadow: var(--primary-shadow) !important;
     border: 1px solid var(--border-color);
     color: rgb(var(--text-color));
     background: var(--background-color);

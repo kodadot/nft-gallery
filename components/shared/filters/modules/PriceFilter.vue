@@ -156,7 +156,7 @@ const toggleInputFocused = (): void => {
 
 <style lang="scss">
 .input-container {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--border-color);
 
   .input-sidebar {
     border: none !important;
@@ -169,7 +169,7 @@ const toggleInputFocused = (): void => {
 }
 
 .unit {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
 .input-focused {
