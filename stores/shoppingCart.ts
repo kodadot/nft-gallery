@@ -8,7 +8,7 @@ interface State {
   itemToBuy?: ShoppingCartItem
 }
 
-const localStorage = useLocalStorage<ShoppingCartItem[]>('shoppingCart', [])
+const localStorage = useStorage<ShoppingCartItem[]>('shoppingCart', [])
 const items = () => localStorage.value
 
 export const useShoppingCartStore = defineStore('shoppingCart', {

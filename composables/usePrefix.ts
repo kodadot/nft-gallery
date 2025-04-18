@@ -6,7 +6,7 @@ import { useAssetsStore } from '@/stores/assets'
 const sharedPrefix = ref<Prefix>()
 
 export default function () {
-  const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
+  const storage = useStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const walletStore = useWalletStore()
 
   const prefix = computed<Prefix>(
