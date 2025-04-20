@@ -1,7 +1,7 @@
 <template>
   <InfoBox
     variant="fail"
-    title="Wrong Network address"
+    :title="$t('transfers.invalidAddress.wrong_network_address.title')"
     :closeable="false"
   >
     <div
