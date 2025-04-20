@@ -29,7 +29,10 @@
         >
           Transfer NFT
         </NeoDropdownItem>
-        <NeoDropdownItem @click="burn">
+        <NeoDropdownItem
+          v-if="!nftAnimationMimeType?.includes('html')"
+          @click="burn"
+        >
           Burn
         </NeoDropdownItem>
         <NeoDropdownItem
@@ -76,6 +79,7 @@ const route = useRoute()
 const props = defineProps<{
   nft?: NFT
   abi?: Abi | null
+  nftAnimationMimeType?: string
 }>()
 
 const action = ref<'unlist' | ''>('')

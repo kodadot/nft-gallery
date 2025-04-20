@@ -13,7 +13,7 @@
           rel="noopener noreferrer"
         >
           <span>{{ $t('drops.createYourOwn') }}</span>
-          <NeoIcon icon="arrow-up-right" />
+          <KIcon name="i-mdi:arrow-top-right" />
         </nuxt-link>
       </div>
     </div>
@@ -55,7 +55,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
 import { useQuery } from '@tanstack/vue-query'
 import { getDrops } from '@/services/fxart'
 

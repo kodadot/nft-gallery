@@ -1,16 +1,13 @@
 import { expect, test } from './fixtures'
 
-const CREATE_NFT_PATH = '/ahk/create'
-
 test('Create NFT', async ({ page, Commands }) => {
   const numOfCopies = 5
   // Login and navigation
   await test.step('Login and navigate trough create single nft menus', async () => {
     await Commands.e2elogin()
-    await page.goto(CREATE_NFT_PATH)
     await Commands.acceptCookies()
-    await page.getByTestId('create-landing-nft-button').click()
-    await expect(page).toHaveURL(`${CREATE_NFT_PATH}?select=nft`)
+    await page.getByTestId('classic').click()
+    await page.waitForTimeout(1000)
     await page.getByTestId('create-landing-single-nft-button').click()
   })
 
@@ -126,7 +123,7 @@ test('Create NFT', async ({ page, Commands }) => {
   await test.step('Click on the Learn More link and check if new tab has proper URL', async () => {
     await expect(page.getByTestId('create-nft-learn-more-link')).toBeVisible()
     await Commands.checkNewTab(
-      'https://hello.kodadot.xyz/multi-chain/fees',
+      'https://hello.kodadot.xyz/information/fees',
       page.getByTestId('create-nft-learn-more-link').click(),
     )
   })

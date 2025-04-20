@@ -18,7 +18,7 @@ export default function () {
   >(() => [
     {
       value: 'system',
-      icon: 'computer-classic',
+      icon: 'i-mdi:desktop-classic',
       label: isSystemMode.value
         ? $i18n.t('profileMenu.systemMode', [
           isDarkMode.value
@@ -29,12 +29,12 @@ export default function () {
     },
     {
       value: 'light',
-      icon: 'sun',
+      icon: 'i-mdi:weather-sunny',
       label: $i18n.t('profileMenu.lightMode'),
     },
     {
       value: 'dark',
-      icon: 'moon',
+      icon: 'i-mdi:moon-waning-crescent',
       label: $i18n.t('profileMenu.darkMode'),
     },
   ])

@@ -73,7 +73,7 @@ const statsRows = computed(() => [
   },
   {
     label: 'activity.estimatedValue',
-    value: stats.value.listedValue,
+    value: stats.value.listedValue.toString(),
     component: CommonTokenMoney,
   },
   {

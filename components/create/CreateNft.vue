@@ -18,8 +18,8 @@
     />
 
     <form
+      ref="formRef"
       class="px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color"
-      @submit.prevent="submitHandler"
     >
       <CreateNftPreview
         :name="form.name"
@@ -253,16 +253,16 @@
       <!-- create nft button -->
       <NeoButton
         expanded
-        :label="$t('mint.nft.create')"
+        :label="submitButtonLabel"
         data-testid="create-nft-button-new"
         class="text-base"
-        native-type="submit"
         size="medium"
         :loading="isLoading"
+        @click="submitHandler"
       />
       <div class="p-4 flex">
-        <NeoIcon
-          icon="circle-info"
+        <KIcon
+          name="i-mdi:information-slab-circle-outline"
           size="medium"
           class="mr-4"
         />
@@ -273,7 +273,7 @@
             "
           />
           <a
-            href="https://hello.kodadot.xyz/multi-chain/fees"
+            href="https://hello.kodadot.xyz/information/fees"
             target="_blank"
             class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
@@ -292,7 +292,6 @@ import type { Prefix } from '@kodadot1/static'
 import {
   NeoButton,
   NeoField,
-  NeoIcon,
   NeoInput,
   NeoSelect,
   NeoSwitch,
@@ -313,7 +312,6 @@ import { delay } from '@/utils/fetch'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import type { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import nftByBlockNumber from '@/queries/subsquid/general/nftByBlockNumber'
-
 // composables
 const { $consola, $i18n } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
@@ -323,7 +321,8 @@ const { transaction, status, isLoading, blockNumber, isError }
 const router = useRouter()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
-
+const { doAfterLogin } = useDoAfterlogin()
+const { isLogIn } = useAuth()
 // form state
 const form = reactive({
   file: null,
@@ -347,7 +346,7 @@ const { selectedCollection, preselectedCollectionId, onCollectionSelected }
   = useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-
+const formRef = ref<HTMLFormElement>()
 const modalShowStatus = ref(false)
 
 const nftInformation = computed(() => ({
@@ -460,16 +459,29 @@ const listAction = computed<ActionList>(() => {
   }
 })
 
+const submitButtonLabel = computed(() =>
+  $i18n.t(isLogIn.value ? 'mint.nft.create' : 'mint.nft.connect'),
+)
+
 const submitHandler = () => {
-  startSelectedCollection.value = true
-  if (selectedCollection.value) {
-    toggleConfirm()
-  }
-  else {
-    ;(chooseCollectionRef.value?.$el as HTMLElement)?.scrollIntoView({
-      block: 'center',
-    })
-  }
+  doAfterLogin({
+    onLoginSuccess: () => {
+      if (formRef.value && !formRef.value.checkValidity()) {
+        formRef.value.reportValidity()
+        return
+      }
+
+      startSelectedCollection.value = true
+      if (selectedCollection.value) {
+        toggleConfirm()
+      }
+      else {
+        ;(chooseCollectionRef.value?.$el as HTMLElement)?.scrollIntoView({
+          block: 'center',
+        })
+      }
+    },
+  })
 }
 
 const toggleConfirm = () => {

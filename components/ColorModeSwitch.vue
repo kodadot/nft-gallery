@@ -1,9 +1,9 @@
 <template>
   <ColorScheme>
-    <NeoIcon
+    <KIcon
       v-if="isMobile"
       class="cursor-pointer"
-      :icon="currentMode.icon"
+      :name="currentMode.icon"
       size="medium"
       @click="switchToNextMode"
     />
@@ -17,8 +17,8 @@
     >
       <template #trigger>
         <div class="flex items-center cursor-pointer">
-          <NeoIcon
-            :icon="currentMode.icon"
+          <KIcon
+            :name="currentMode.icon"
             size="medium"
           />
           <span class="ml-1 min-w-[82px]">{{ currentMode?.label }}</span>
@@ -32,9 +32,9 @@
         :active="preference === option.value"
         :value="option"
       >
-        <NeoIcon
+        <KIcon
           class="mr-2"
-          :icon="option.icon"
+          :name="option.icon"
         />
         <span>{{ option.label }}</span>
       </NeoDropdownItem>
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
+import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
 const {
   preference,

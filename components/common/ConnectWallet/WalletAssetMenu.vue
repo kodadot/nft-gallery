@@ -12,8 +12,8 @@
         class="wallet-asset-menu"
       >
         <span>{{ menu.label }}</span>
-        <NeoIcon
-          icon="angle-right"
+        <KIcon
+          name="i-mdi:chevron-right"
           size="medium"
           class="text-k-grey"
         />
@@ -29,8 +29,8 @@
         data-testid="sidebar-link-settings"
         @click="closeModal"
       >
-        <NeoIcon
-          icon="gear"
+        <KIcon
+          name="i-mdi:cog-outline"
           size="medium"
         />
         <span class="is-hidden-mobile">{{ $t('settings') }}</span>
@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 import { transferVisible, teleportVisible, swapVisible } from '@/utils/config/permission.config'
 

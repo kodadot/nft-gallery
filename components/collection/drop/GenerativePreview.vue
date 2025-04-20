@@ -21,9 +21,9 @@
     >
       <div class="inline-flex items-center">
         <span class="mr-2">{{ $t('mint.unlockable.generating') }}</span>
-        <NeoIcon
-          icon="circle-notch"
-          spin
+        <KIcon
+          name="i-mdi:circle-outline"
+          class="animate-spin"
         />
       </div>
     </NeoButton>
@@ -38,8 +38,8 @@
     >
       <div class="inline-flex items-center">
         <span>{{ $t('drops.createNewVariation') }}</span>
-        <NeoIcon
-          icon="arrow-rotate-left"
+        <KIcon
+          name="i-mdi:rotate-left"
           class="ml-2"
         />
       </div>
@@ -66,9 +66,8 @@
           <span>{{ drop.minted }}</span>
           <span>/</span>
           <span v-if="isUnlimited">
-            <NeoIcon
-              icon="infinity"
-              pack="fas"
+            <KIcon
+              name="i-mdi:infinity"
             />
           </span>
           <span v-else>{{ drop.max }}</span>
@@ -95,9 +94,8 @@
       class="flex justify-center w-full absolute -bottom-20 sm:-bottom-16 text-sm left-[50%] -translate-x-[50%]"
     >
       <p class="p-2 bg-neutral-3 text-k-grey-fix dark:bg-neutral-11">
-        <NeoIcon
-          icon="fa-sharp fa-solid fa-hourglass-half"
-          pack="fa-regular"
+        <KIcon
+          name="i-mdi:timer-sand"
         />&nbsp; Please Note: Algorithms May Take Longer To
         Generate
       </p>
@@ -106,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import useGenerativeIframeData from '@/composables/drop/useGenerativeIframeData'
 

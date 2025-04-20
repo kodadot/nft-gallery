@@ -9,10 +9,10 @@
           <div class="mr-1">
             Fee Breakdown
           </div>
-          <NeoIcon
+          <KIcon
             class="transition"
             :class="[rotate && 'overturn']"
-            icon="chevron-down"
+            name="i-mdi:chevron-down"
           />
         </div>
       </template>
@@ -71,7 +71,7 @@
           </NeoTooltip>
         </div>
         <div class="flex items-center">
-          {{ nft.kodadotUSDFee }} USD ~
+          {{ nft.kodaUSDFee }} USD ~
           <Money
             :value="kodadotFee"
             :unit-symbol="chainSymbol"

@@ -25,7 +25,7 @@
         <div class="flex justify-between">
           <AutoTeleportActionButton
             ref="autoteleport"
-            :amount="totalFee + networkFee"
+            :amount="totalFee"
             :actions="autoTeleportActions"
             :label="btnLabel"
             :disabled="disabled"
@@ -53,17 +53,18 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import type { BaseMintedCollection } from '@/components/base/types'
 import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
-import { usePreferencesStore } from '@/stores/preferences'
 import { availablePrefixes } from '@/utils/chain'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
-import { BASE_FEE } from '@/utils/support'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { calculateFees } from '@/composables/transaction/mintToken/utils'
 
 export type NftInformation = {
   file: Blob | null
   selectedCollection?: BaseMintedCollection
   name: string
   listForSale?: boolean
+  hasRoyalty?: boolean
+  hasCappedMaxSupply?: boolean
   price?: string
   mintType: CreateComponent
   paidToken: ChainProperties
@@ -74,7 +75,7 @@ export type ExtendedInformation = NftInformation & {
   networkFee: number
   existentialDeposit: number
   kodadotFee: number
-  kodadotUSDFee: number
+  kodaUSDFee: number
   carbonlessFee: number
   carbonlessUSDFee: number
   totalFee: number
@@ -96,14 +97,12 @@ const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
-const preferencesStore = usePreferencesStore()
 
-const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit }
-  = useDeposit(urlPrefix)
+const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit, attributeDeposit } = useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
-const networkFee = ref(0)
+const baseNetworkFee = ref(0)
 const autoteleport = ref()
 
 const loading = computed(() => !autoteleport.value?.isReady)
@@ -119,27 +118,37 @@ const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
 const tokenPrice = computed(() =>
   Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0),
 )
-const kodadotFee = computed(
-  () =>
-    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value)
-    * Math.pow(10, decimals.value),
+const { kodaUSDFee, carbonlessUSDFee: carbonlessUSDFeeValue } = calculateFees()
+
+const carbonlessUSDFee = computed(() => isNFT.value ? carbonlessUSDFeeValue : 0)
+
+const convertUSDFeeToToken = (fee: number) => (fee / tokenPrice.value) * Math.pow(10, decimals.value)
+const kodadotFee = computed(() => convertUSDFeeToToken(kodaUSDFee))
+const carbonlessFee = computed(() => convertUSDFeeToToken(carbonlessUSDFee.value))
+
+const totalFee = computed(() =>
+  deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value,
 )
-const carbonlessFee = computed(
-  () =>
-    ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0)
-      / tokenPrice.value)
-      * Math.pow(10, decimals.value),
-)
-const totalFee = computed(() => {
-  return (
-    deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value
-  )
-})
+
+const extendedInformation = computed(() => ({
+  ...props.nftInformation,
+  networkFee: networkFee.value,
+  existentialDeposit: deposit.value,
+  kodadotFee: kodadotFee.value,
+  kodaUSDFee: kodaUSDFee,
+  carbonlessFee: carbonlessFee.value,
+  carbonlessUSDFee: carbonlessUSDFee,
+  totalFee: totalFee.value,
+  totalUSDFee: totalUSDFee.value,
+  blockchain: blockchain.value,
+}))
+
 const deposit = computed(
   () =>
     metadataDeposit.value
     + existentialDeposit.value
-    + (isNFT.value ? itemDeposit.value : collectionDeposit.value),
+    + (isNFT.value ? itemDeposit.value : collectionDeposit.value)
+    + (props.nftInformation.hasRoyalty ? attributeDeposit.value * 2 : 0),
 )
 const totalUSDFee = computed(() =>
   calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value),
@@ -158,18 +167,16 @@ const btnLabel = computed(() => {
 })
 const disabled = computed(() => !isLogIn.value)
 
-const extendedInformation = computed(() => ({
-  ...props.nftInformation,
-  networkFee: networkFee.value,
-  existentialDeposit: deposit.value,
-  kodadotFee: kodadotFee.value,
-  kodadotUSDFee: BASE_FEE,
-  carbonlessFee: carbonlessFee.value,
-  carbonlessUSDFee: BASE_FEE * 2,
-  totalFee: totalFee.value,
-  totalUSDFee: totalUSDFee.value,
-  blockchain: blockchain.value,
-}))
+const networkFee = computed(() => {
+  const extraCallsMultiplier = [
+    props.nftInformation.listForSale,
+    props.nftInformation.hasCappedMaxSupply,
+    props.nftInformation.hasRoyalty,
+  ].filter(Boolean).length
+
+  // remove once mint action tx fee calculation is implemented
+  return baseNetworkFee.value * (1 + extraCallsMultiplier)
+})
 
 const onClose = () => {
   emit('update:modelValue', false)
@@ -180,12 +187,11 @@ const confirm = (params) => {
 }
 
 watchEffect(async () => {
-  networkFee.value = 0
+  baseNetworkFee.value = 0
 
   const fee = await estimateTransactionFee(accountId.value, decimals.value)
-  networkFee.value = props.nftInformation.listForSale
-    ? Number(fee) * 2
-    : Number(fee)
+
+  baseNetworkFee.value = Number(fee)
 })
 </script>
 

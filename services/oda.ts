@@ -20,6 +20,10 @@ export const fetchOdaCollection = (chain: Prefix, address: string) => {
   return api<OnchainCollection>(`/v1/${chain}/collection/${address}`)
 }
 
+export const refreshOdaCollection = (chain: Prefix, address: string) => {
+  return api(`/v1/${chain}/collection/${address}`, { method: 'DELETE' })
+}
+
 type OdaCollectionOwners = {
   uniquerOwnersCount: number
   minted: number
