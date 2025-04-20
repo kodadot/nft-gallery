@@ -1,7 +1,6 @@
 <template>
   <ItemTransferModal />
   <ItemBurnModal v-if="burnVisible(urlPrefix)" />
-  <ItemAirdropModal />
 </template>
 
 <script lang="ts" setup>

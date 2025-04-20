@@ -1,5 +1,7 @@
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
+import type { ApiPromise } from '@polkadot/api'
 import type { ActionAirdrop, ExecuteTransaction } from './types'
+import { DistributionMode } from './types'
 import { Interaction } from '@/utils/shoppingActions'
 import {
   assetHubParamResolver,
@@ -14,8 +16,8 @@ import correctFormat from '@/utils/ss58Format'
 function checkTxsAirdrop(item: ActionAirdrop) {
   const addresses = item.addresses
 
-  if (addresses.length !== item.nfts.length) {
-    warningMessage('The number of addresses and NFTs does not match')
+  if (!addresses.length || !item.nfts.length) {
+    warningMessage('No addresses or NFTs')
     return false
   }
 
@@ -39,13 +41,53 @@ function checkTxsAirdrop(item: ActionAirdrop) {
   })
 }
 
-function execSendAssetHub(item: ActionAirdrop, api, executeTransaction) {
-  const arg = item.nfts.map((nft, index) => {
+function generateRandomDistribution(item: ActionAirdrop, api: ApiPromise) {
+  const { nfts, addresses } = item
+
+  if (!addresses.length || !nfts.length) {
+    return []
+  }
+  const randomNfts = Array.from(nfts).sort(() => Math.random() - 0.5)
+  const randomAddresses = Array.from(addresses).sort(() => Math.random() - 0.5)
+
+  if (randomAddresses.length < randomNfts.length) {
+    // address count less than nfts count
+
+    return randomNfts.map((nft, index) => {
+      const addressIndex = index % randomAddresses.length
+      const targetAddress = randomAddresses[addressIndex]
+      const legacy = isLegacy(nft.id)
+      const paramResolver = assetHubParamResolver(legacy)
+      const cb = getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
+      return cb(...paramResolver(nft.id, Interaction.SEND, targetAddress))
+    })
+  }
+  else {
+    // address count greater than or equal to nfts count
+    return randomNfts.map((nft, index) => {
+      const legacy = isLegacy(nft.id)
+      const paramResolver = assetHubParamResolver(legacy)
+      const cb = getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
+      return cb(...paramResolver(nft.id, Interaction.SEND, randomAddresses[index]))
+    })
+  }
+}
+
+function generateOnePerAddressDistribution(item: ActionAirdrop, api: ApiPromise) {
+  const randomNfts = Array.from(item.nfts).sort(() => Math.random() - 0.5)
+
+  return item.addresses.map((address, index) => {
+    const nft = randomNfts[index]
     const legacy = isLegacy(nft.id)
     const paramResolver = assetHubParamResolver(legacy)
     const cb = getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
-    return cb(...paramResolver(nft.id, Interaction.SEND, item.addresses[index]))
+    return cb(...paramResolver(nft.id, Interaction.SEND, address))
   })
+}
+
+function execSendAssetHub(item: ActionAirdrop, api, executeTransaction) {
+  const argGenerator = item.distributionMode === DistributionMode.ONE_PER_ADDRESS ? generateOnePerAddressDistribution : generateRandomDistribution
+  const arg = argGenerator(item, api)
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
