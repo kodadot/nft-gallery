@@ -71,7 +71,9 @@
   "addFunds": "Add Funds",
   "advancedFilters": "Advanced Filters",
   "airdrop": {
+    "addressFormatWarning": "Oops! You have entered {addressChain} address. Enter <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you.",
     "addressValidation": "Address Validation",
+    "addressWrongNetworkError": "The network of the address does not match",
     "addresses": "Addresses",
     "airdropNfts": "Airdrop NFTs",
     "backToProfile": "Back To Profile",
@@ -103,13 +105,15 @@
     "random": "Random Distribution",
     "randomDescription": "NFTs Randomly Assigned To Addresses",
     "recipientAddresses": "Recipient Addresses",
+    "reviewAirdrop": "Review airdrop",
     "selected": "Selected",
     "selectedNfts": "Selected NFTs",
     "template": "Template",
     "title": "Airdrop",
     "transferTo": "Airdrop to",
     "upTo": "You can airdrop to up to {0} addresses",
-    "validAddresses": "Valid Addresses"
+    "validAddresses": "Valid Addresses",
+    "wrongAddressFormatError": "Wrong address format"
   },
   "ambassador program": "Ambassador Program",
   "amount": "Amount",

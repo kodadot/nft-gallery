@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[460px] mx-auto p-4">
+  <div class="max-w-[480px] mx-auto p-4">
     <NeoButton
       class="mb-6 xl:absolute xl:top-1 xl:left-[40px]"
       variant="outlined-rounded"
@@ -87,7 +87,7 @@
           </div>
           <textarea
             v-model="batchAddressesInput"
-            class="w-full min-h-[120px] p-3 border border-gray-200 resize-none focus:outline-none"
+            class="bg-background-color w-full min-h-[120px] p-3 border border-gray-200 text-text-color resize-none focus:outline-none"
             :placeholder="`${KODADOT_DAO}\n${KODADOT_DAO}`"
             @input="handleBatchAddressesInput"
           />
@@ -109,7 +109,7 @@
                 {{ invalidAddressList.length }} {{ $t('airdrop.errors') }}
                 <NeoButton
                   variant="outlined-rounded"
-                  class="w-[30px] h-[30px] min-w-unset p-0"
+                  class="!w-[30px] !h-[30px] !min-w-[unset] p-0"
                   :icon="invalidAddressExpanded ? 'chevron-up' : 'chevron-down'"
                   size="small"
                   @click="invalidAddressExpanded = !invalidAddressExpanded"
@@ -138,6 +138,11 @@
             </div>
           </div>
 
+          <AddressFormatWarning
+            v-if="addressPairNeedToBeFixed.length"
+            @change="handleAddressAutoCorrection"
+          />
+
           <div
             v-if="addressMoreThanNftWarning"
             class="flex gap-4 px-2 py-1 bg-k-red-accent-2"
@@ -153,7 +158,7 @@
           </div>
           <div
             v-if="addressLessThanNftWarning"
-            class="flex gap-4 px-2 py-1 bg-blue-light-cards"
+            class="flex gap-4 px-2 py-1 mt-2 bg-blue-light-cards"
           >
             <KIcon
               name="i-mdi:info-circle-outline"
@@ -215,9 +220,9 @@
           </NeoButton>
           <NeoButton
             variant="primary-rounded"
+            class="capitalize"
             :disabled="disabledButton"
             :label="submitButtonLabel"
-            :is-loading="isLoading"
             @click="handleSubmit"
           />
         </div>
@@ -236,12 +241,13 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { decodeAddress, encodeAddress, isEthereumAddress } from '@polkadot/util-crypto'
 import { useDebounceFn } from '@vueuse/core'
 import { Interaction } from '@/utils/shoppingActions'
 import { type ActionAirdrop, DistributionMode } from '@/composables/transaction/types'
 import { KODADOT_DAO } from '@/utils/support'
 import { readTextFile } from '@/composables/massmint/useParseDescriptionFile'
+import AddressFormatWarning from '@/components/airdrop/AddressFormatWarning.vue'
 
 const router = useRouter()
 const { $i18n } = useNuxtApp()
@@ -258,7 +264,8 @@ const invalidAddressList = ref<{ address: string, index: number, invalidReason: 
 const invalidAddressExpanded = ref<boolean>(false)
 const isAirdropModalOpen = ref<boolean>(false)
 const distributionMode = ref<DistributionMode>(DistributionMode.ONE_PER_ADDRESS)
-const isLoading = ref<boolean>(false)
+const fileInput = ref<HTMLInputElement | null>(null)
+const addressPairNeedToBeFixed = ref<[string, string][]>([])
 
 const DISTRIBUTION_MODES = computed(() => [
   {
@@ -277,11 +284,12 @@ const validAddressCount = computed(() =>
   validAddressList.value.length,
 )
 
-const fileInput = ref<HTMLInputElement | null>(null)
-
 const totalNftCount = computed(() => airdropItems.value.length)
 
 const submitButtonLabel = computed(() => {
+  if (addressPairNeedToBeFixed.value.length) {
+    return $i18n.t('airdrop.wrongAddressFormatError')
+  }
   if (addressMoreThanNftWarning.value) {
     return $i18n.t('airdrop.moreThanNftWarning')
   }
@@ -291,7 +299,7 @@ const submitButtonLabel = computed(() => {
   if (!validAddressList.value.length) {
     return $i18n.t('airdrop.noAddressesEntered')
   }
-  return $i18n.t('Review airdrop')
+  return $i18n.t('airdrop.reviewAirdrop')
 })
 
 const addressMoreThanNftWarning = computed<boolean>(() => distributionMode.value === DistributionMode.ONE_PER_ADDRESS && validAddressCount.value > totalNftCount.value)
@@ -303,7 +311,7 @@ const addressLessThanNftWarning = computed<boolean>(() => Boolean(
 ))
 
 const disabledButton = computed(() => {
-  if (!validAddressList.value.length || invalidAddressList.value.length || !airdropItems.value.length) {
+  if (!validAddressList.value.length || invalidAddressList.value.length || !airdropItems.value.length || addressPairNeedToBeFixed.value.length) {
     return true
   }
 
@@ -327,8 +335,19 @@ const addressCounterClass = computed(() => {
   return 'text-k-blue bg-blue-light-cards'
 })
 
+const handleAddressAutoCorrection = () => {
+  let addressesText = batchAddressesInput.value
+
+  addressPairNeedToBeFixed.value.forEach(([addr, chainAddr]) => {
+    addressesText = addressesText.replaceAll(addr, chainAddr)
+  })
+
+  batchAddressesInput.value = addressesText
+  handleBatchAddressesInput()
+}
+
 const handleBatchAddressesInput = useDebounceFn(() => {
-  isLoading.value = true
+  addressPairNeedToBeFixed.value = []
   const addresses = batchAddressesInput.value
     .split('\n')
     .map(addr => addr.trim())
@@ -344,7 +363,11 @@ const handleBatchAddressesInput = useDebounceFn(() => {
       if (chainAddr) {
         const isSelfAddress = isCurrentAccount(chainAddr)
         const isDuplicate = allValidAddressList.includes(chainAddr)
-        if (isSelfAddress) {
+        if (chainAddr !== addr) {
+          invalidReason = $i18n.t('airdrop.addressWrongNetworkError')
+          addressPairNeedToBeFixed.value.push([addr, chainAddr])
+        }
+        else if (isSelfAddress) {
           invalidReason = $i18n.t('airdrop.ownAddressError')
         }
         else if (isDuplicate) {
@@ -367,11 +390,13 @@ const handleBatchAddressesInput = useDebounceFn(() => {
   })
   validAddressList.value = allValidAddressList
   invalidAddressList.value = allInvalidAddressList
-  isLoading.value = false
 }, 1000)
 
 const correctAddressFormat = (address: string) => {
   try {
+    if (isEthereumAddress(address)) {
+      return null
+    }
     const publicKey = decodeAddress(address)
     return encodeAddress(publicKey, ss58Format.value)
   }
@@ -417,6 +442,11 @@ const handleFileSelect = async (event: Event) => {
     catch (error) {
       warningMessage(`${$i18n.t('airdrop.errorReadingCsvFile')}: ${error}`)
       console.error('Error reading CSV file:', error)
+    }
+    finally {
+      if (fileInput.value) {
+        fileInput.value.value = ''
+      }
     }
   }
 }
