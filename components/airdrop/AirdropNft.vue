@@ -109,17 +109,11 @@
                 {{ invalidAddressList.length }} {{ $t('airdrop.errors') }}
                 <NeoButton
                   variant="outlined-rounded"
-                  class="p-0 "
-                  size="medium"
+                  class="w-[30px] h-[30px] min-w-unset p-0"
+                  :icon="invalidAddressExpanded ? 'chevron-up' : 'chevron-down'"
+                  size="small"
                   @click="invalidAddressExpanded = !invalidAddressExpanded"
-                >
-                  <div class="flex items-center justify-center">
-                    <KIcon
-                      name="i-mdi:chevron-down"
-                      class="w-[30px] h-[30px]"
-                    />
-                  </div>
-                </NeoButton>
+                />
               </div>
             </div>
 
@@ -223,6 +217,7 @@
             variant="primary-rounded"
             :disabled="disabledButton"
             :label="submitButtonLabel"
+            :is-loading="isLoading"
             @click="handleSubmit"
           />
         </div>
@@ -263,6 +258,7 @@ const invalidAddressList = ref<{ address: string, index: number, invalidReason: 
 const invalidAddressExpanded = ref<boolean>(false)
 const isAirdropModalOpen = ref<boolean>(false)
 const distributionMode = ref<DistributionMode>(DistributionMode.ONE_PER_ADDRESS)
+const isLoading = ref<boolean>(false)
 
 const DISTRIBUTION_MODES = computed(() => [
   {
@@ -332,6 +328,7 @@ const addressCounterClass = computed(() => {
 })
 
 const handleBatchAddressesInput = useDebounceFn(() => {
+  isLoading.value = true
   const addresses = batchAddressesInput.value
     .split('\n')
     .map(addr => addr.trim())
@@ -370,6 +367,7 @@ const handleBatchAddressesInput = useDebounceFn(() => {
   })
   validAddressList.value = allValidAddressList
   invalidAddressList.value = allInvalidAddressList
+  isLoading.value = false
 }, 1000)
 
 const correctAddressFormat = (address: string) => {
