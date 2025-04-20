@@ -184,7 +184,10 @@ export function useFetchSearch({
 
     const queryVariables = useTokens.value
       ? { ...defaultSearchVariables, ...tokenQueryVariables }
-      : { ...defaultSearchVariables, ...nftQueryVariables }
+      : { ...defaultSearchVariables, ...nftQueryVariables, orderBy: getRouteQueryOrderByDefault(route.query.sort, [
+          'blockNumber_DESC',
+          'sn_DESC',
+        ]) }
 
     const { $apolloClient } = useNuxtApp()
     const { data: result } = await $apolloClient.query({
