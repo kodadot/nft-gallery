@@ -39,6 +39,7 @@ export const validFormats = [
   'flac',
   'mp3',
   'json',
+  'avif',
 ]
 
 const toMegaBytes = (bytes: number) => bytes / Math.pow(1024, 2)

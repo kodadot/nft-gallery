@@ -1147,7 +1147,7 @@
         },
         "1": {
           "codeStructure": "Code Structure",
-          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
+          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\"). Note that the order of items in the description file determines the order during mass minting.",
           "subtitle": "Instructions",
           "title": "How to Name your NFTs"
         },
