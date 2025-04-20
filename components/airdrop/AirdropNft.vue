@@ -349,6 +349,7 @@ const handleAddressAutoCorrection = () => {
 const handleBatchAddressesInput = useDebounceFn(() => {
   addressPairNeedToBeFixed.value = []
   const addresses = batchAddressesInput.value
+    .replace(/\r\n/g, '\n')
     .split('\n')
     .map(addr => addr.trim())
 

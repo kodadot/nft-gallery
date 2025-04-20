@@ -76,6 +76,11 @@ function generateRandomDistribution(item: ActionAirdrop, api: ApiPromise) {
 function generateOnePerAddressDistribution(item: ActionAirdrop, api: ApiPromise) {
   const randomNfts = Array.from(item.nfts).sort(() => Math.random() - 0.5)
 
+  if (randomNfts.length < item.addresses.length) {
+    warningMessage('Not enough NFTs for one-per-address distribution')
+    return []
+  }
+
   return item.addresses.map((address, index) => {
     const nft = randomNfts[index]
     const legacy = isLegacy(nft.id)
