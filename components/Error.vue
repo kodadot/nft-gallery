@@ -28,7 +28,7 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    errorCode: number
+    errorCode?: number
     hasImg: boolean
     errorTitle: string
     errorSubtitle: string
