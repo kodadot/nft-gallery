@@ -23,6 +23,8 @@ export const getChainName = (prefix: Prefix) => {
 export const disableChains = ['dot', 'rmrk', 'ksm']
 export const disableChainListOnBetaEnv = ['dot', 'rmrk', 'ksm'] // 'ahr'
 
+export const enableCreateChains = ['ahp', 'ahk']
+
 export const availablePrefixes = (): Option[] => {
   return allPrefixes().filter(chain => !disableChains.includes(String(chain.value)))
 }
@@ -64,5 +66,3 @@ export const availablePrefixWithIcon = () => {
     }
   })
 }
-
-export const popularChains = ['ksm', 'ahk', 'ahp']
