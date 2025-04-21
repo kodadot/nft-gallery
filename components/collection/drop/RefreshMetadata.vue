@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { refreshOdaCollectionTokensMetadata } from '@/services/oda'
+import { refreshOdaCollection, refreshOdaCollectionTokensMetadata } from '@/services/oda'
 
 const props = defineProps<{
   collectionId: string
@@ -27,6 +27,7 @@ const { $i18n } = useNuxtApp()
 
 const refreshMetadata = () => {
   toast($i18n.t('toast.refreshMetdata'))
+  refreshOdaCollection(props.chain, props.collectionId)
   refreshOdaCollectionTokensMetadata(props.chain, props.collectionId)
 }
 </script>

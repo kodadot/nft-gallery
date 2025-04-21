@@ -21,11 +21,11 @@
       @confirm="handleCreateCollectionConfirmation"
     />
     <form
+      ref="formRef"
       :class="{
         'px-[1.2rem] md:px-8 lg:px-16 py-[3.1rem] sm:py-16 w-full sm:w-1/2 max-w-[40rem] shadow-none lg:shadow-primary lg:border-[1px] lg:border-border-color lg:bg-background-color':
           classColumn,
       }"
-      @submit.prevent="showConfirm"
     >
       <h1 class="title text-3xl mb-7">
         {{ $t('mint.collection.create') }}
@@ -155,10 +155,10 @@
         class="text-base"
         expanded
         :label="submitButtonLabel"
-        native-type="submit"
         size="medium"
         data-testid="collection-create"
         :loading="isLoading"
+        @click="showConfirm"
       />
       <div class="p-4 flex">
         <KIcon
@@ -241,6 +241,7 @@ withDefaults(
 const mintedCollectionInfo = ref<MintedCollectionInfo>()
 const collectionSubscription = ref(() => {})
 const displaySuccessModal = ref(false)
+const formRef = ref<HTMLFormElement>()
 
 // composables
 const { transaction, status, isLoading, isError, blockNumber, txHash }
@@ -253,6 +254,7 @@ const { isTransactionSuccessful } = useTransactionSuccessful({
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
 const { isLogIn, accountId } = useAuth()
+const { doAfterLogin } = useDoAfterlogin()
 
 // form state
 const logo = ref<File | null>(null)
@@ -321,12 +323,21 @@ watch(currentChain, () => {
 })
 
 const showConfirm = () => {
-  if (!menus.find(menu => menu.value === currentChain.value)) {
-    openReconnectWalletModal()
-    return
-  }
-  doAfterCheckCurrentChainVM(() => {
-    confirmModal.value = true
+  doAfterLogin({
+    onLoginSuccess: () => {
+      if (formRef.value && !formRef.value.checkValidity()) {
+        formRef.value.reportValidity()
+        return
+      }
+      if (!menus.find(menu => menu.value === currentChain.value)) {
+        openReconnectWalletModal()
+        return
+      }
+      doAfterCheckCurrentChainVM(() => {
+        confirmModal.value = true
+      })
+    },
+
   })
 }
 

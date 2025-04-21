@@ -57,21 +57,32 @@ const acceptedMediaFormatsString = validFormats
 
 const emit = defineEmits(['zipLoaded'])
 
-const onFileSelected = (file) => {
+const onFileSelected = async (file) => {
   const zipMimeTypes = ['application/zip', 'application/x-zip-compressed']
   showCheckmark.value = false
   if (file && zipMimeTypes.includes(file.type)) {
     loading.value = true
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = async () => {
-      const zipFilePath = reader.result as string
+    try {
+      const stream = file.stream()
+      const chunks: Uint8Array[] = []
+      const reader = stream.getReader()
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        chunks.push(value)
+      }
+
+      const blob = new Blob(chunks)
+      const zipFilePath = URL.createObjectURL(blob)
+
       const {
         allValid,
         loading: loadingZip,
         validFiles,
         warnings,
       } = useZipFileValidator(zipFilePath)
+
       watch(loadingZip, (isLoading) => {
         loading.value = isLoading
         if (!isLoading) {
@@ -89,12 +100,14 @@ const onFileSelected = (file) => {
             validFiles: validFiles.value,
             areAllFilesValid: allValid.value,
           })
+
+          URL.revokeObjectURL(zipFilePath)
         }
       })
     }
-
-    reader.onerror = () => {
-      $consola.error('Error reading zip file.')
+    catch (error) {
+      $consola.error('Error processing zip file:', error)
+      loading.value = false
     }
   }
   else {

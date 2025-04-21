@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="instance">
+    <section>
       <LandingHeroBanner />
     </section>
 
