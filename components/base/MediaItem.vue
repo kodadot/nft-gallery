@@ -45,7 +45,7 @@
       class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
     >
       <KIcon
-        name="i-mdi:file-image-box"
+        :name="iconType"
         class="text-sm font-medium"
       />
     </div>
@@ -77,10 +77,12 @@ import {
 } from '@kodadot1/brick'
 import AudioMedia from '@/components/shared/AudioMedia.vue'
 import { getMimeType, resolveMedia, MediaType } from '@/utils/gallery/media'
+import { fetchMimeType } from '@/services/oda'
 
 const props = withDefaults(
   defineProps<{
     src?: string
+    rawSrc?: string
     animationSrc?: string
     mimeType?: string
     title?: string
@@ -107,6 +109,7 @@ const props = withDefaults(
   }>(),
   {
     src: '',
+    rawSrc: '',
     animationSrc: '',
     mimeType: '',
     title: 'KodaDot NFT',
@@ -127,6 +130,7 @@ const mediaRef = ref()
 const mediaItem = ref<HTMLDivElement>()
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+const iconType = ref('i-mdi:file-image-box')
 
 useMediaFullscreen({
   ref: mediaItem,
@@ -190,19 +194,18 @@ const placeholder = computed(() =>
 )
 const properSrc = computed(() => props.src || placeholder.value)
 
-const updateComponent = async () => {
+onMounted(async () => {
   if (props.animationSrc && !props.mimeType) {
     type.value = await getMimeType(props.animationSrc)
   }
-}
-
-watch(
-  () => props.animationSrc,
-  () => updateComponent(),
-  {
-    immediate: true,
-  },
-)
+  else if (props.rawSrc) {
+    const mimeType = await fetchMimeType(props.rawSrc)
+    const icon = {
+      'image/gif': 'i-mdi:file-gif-box',
+    }
+    iconType.value = icon[mimeType.mime_type] || 'i-mdi:file-image-box'
+  }
+})
 
 const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
