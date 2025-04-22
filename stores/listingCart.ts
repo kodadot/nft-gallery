@@ -22,7 +22,7 @@ export type ListCartItem = ListCartItemInternal & TokenId
 
 export const DEFAULT_FLOOR_PRICE_RATE = 1
 
-const localStorage = useStorage<ListCartItem[]>('listingCart', [])
+const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 
 export const useListingCartStore = defineStore('listingCart', () => {
   const {
