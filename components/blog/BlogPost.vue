@@ -18,15 +18,15 @@
     </div>
     <h1>{{ post?.title }}</h1>
     <p
-      v-if="post?.meta.subtitle"
+      v-if="post?.meta?.subtitle"
       class="subtitle"
     >
-      {{ post?.meta.subtitle }}
+      {{ post?.meta?.subtitle }}
     </p>
 
     <div class="flex justify-between items-center text-k-grey mt-5">
       <div
-        v-if="post?.meta.date"
+        v-if="post?.meta?.date"
         class="border border-k-shade rounded-[3rem] px-4 py-1"
       >
         {{ format(new Date(post?.meta?.date), 'dd.MM.yyyy') }}
@@ -97,7 +97,7 @@ onMounted(() => {
 
 useSeoMeta({
   title: title.value,
-  description: convertMarkdownToText(post.value?.subtitle),
+  description: convertMarkdownToText(post.value?.meta?.subtitle),
   ogUrl: route.path,
   ogImage: post.value?.meta?.image,
   twitterImage: post.value?.meta?.image,
