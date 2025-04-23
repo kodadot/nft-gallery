@@ -17,6 +17,7 @@ export type NFT = {
   price?: number
   status?: Status
   attributes?: OpenSeaAttribute[]
+  sortedIndex?: number
 }
 
 export type NFTToMint = {

@@ -249,10 +249,11 @@ const toOnborading = () => {
     .catch($consola.warn)
 }
 
+const convertNftsToMap = (nfts: FileObject[]) => nfts.map((file, i) => ({ ...file, id: i + 1 }))
+  .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
+
 const onMediaZipLoaded = ({ validFiles }: { validFiles: FileObject[] }) => {
-  NFTS.value = validFiles
-    .map((file, i) => ({ ...file, id: i + 1 }))
-    .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
+  NFTS.value = convertNftsToMap(validFiles)
   mediaLoaded.value = true
 }
 const onDescriptionLoaded = (entries: Record<string, Entry>) => {
@@ -261,7 +262,8 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     (acc, nft) => ({ ...acc, [nft.file.name]: nft.id }),
     {},
   )
-  Object.values(entries).forEach((entry) => {
+
+  Object.values(entries).forEach((entry, idx) => {
     if (!entry.valid) {
       return
     }
@@ -274,8 +276,14 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],
       ...restOfEntry,
+      sortedIndex: idx,
     }
   })
+
+  // sort the NFTS by sortedIndex
+  const sortedNfts = Object.values(NFTS.value).sort((a, b) => (a.sortedIndex || 0) - (b.sortedIndex || 0))
+
+  NFTS.value = convertNftsToMap(sortedNfts)
 }
 
 onMounted(() => {
