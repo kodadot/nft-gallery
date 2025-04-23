@@ -6,7 +6,7 @@
     :title="$t('airdrop.modalTitle')"
     :signing-title="$t('airdrop.modalTitle')"
     @close="isOpen = false"
-    @success="router.push(`/${urlPrefix}/profile`)"
+    @success="onSuccess"
   >
     <template #body>
       <div class="flex flex-col gap-3">
@@ -59,4 +59,10 @@ defineProps<{
   addressCount: number
   distributionMode?: string
 }>()
+
+const onSuccess = () => {
+  setTimeout(() => {
+    router.push(`/${urlPrefix}/profile`)
+  }, 5000)
+}
 </script>

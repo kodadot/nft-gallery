@@ -84,6 +84,7 @@
     "emptyLineError": "Empty line",
     "enterMultipleAddresses": "Enter multiple addresses separated by commas (address1, address2, address3)",
     "enterOneWalletAddressPerLine": "Enter one wallet address per line",
+    "error": "Error",
     "errorReadingCsvFile": "Error reading CSV file",
     "errors": "Errors",
     "fixErrorsFirst": "Fix errors first",

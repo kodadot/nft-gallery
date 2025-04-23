@@ -106,7 +106,7 @@
                   size="small"
                   class="text-k-red"
                 />
-                {{ invalidAddressList.length }} {{ $t('airdrop.errors') }}
+                {{ invalidAddressList.length }} {{ $t(invalidAddressList.length > 1 ? 'airdrop.errors' : 'airdrop.error') }}
                 <NeoButton
                   variant="outlined-rounded"
                   class="!w-[30px] !h-[30px] !min-w-[unset] p-0"
