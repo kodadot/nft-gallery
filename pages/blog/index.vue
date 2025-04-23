@@ -14,8 +14,6 @@
       >
     </div>
 
-    <!-- {{ posts }} -->
-
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
