@@ -14,6 +14,8 @@
       >
     </div>
 
+    <!-- {{ posts }} -->
+
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
@@ -21,28 +23,28 @@
     >
       <div
         class="content-list-cover"
-        :style="{ backgroundImage: `url(${post.image})` }"
+        :style="{ backgroundImage: `url(${post.meta.image})` }"
       />
 
       <div class="content-list-card">
         <div>
           <div class="card-tag">
-            • {{ post.tags }}
+            • {{ post.meta.tags }}
           </div>
           <p class="title is-4">
-            <nuxt-link :to="post._path">
+            <nuxt-link :to="post.path">
               {{ post.title }}
             </nuxt-link>
           </p>
           <div class="truncate mb-4">
-            {{ post.subtitle }}
+            {{ post.meta.subtitle }}
           </div>
         </div>
 
         <div>
           <NeoButton
             :tag="NuxtLink"
-            :to="post._path"
+            :to="post.path"
             no-shadow
             rounded
             icon="arrow-right-long"
@@ -62,18 +64,18 @@
         v-for="post in posts?.tokensPosts.slice(0, 2)"
         :key="post.title"
         class="content-board block"
-        :to="post._path"
+        :to="post.path"
       >
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"
+          :style="{ backgroundImage: `url(${post.meta.image})` }"
         />
         <div class="content-board-text">
           <p class="font-bold">
             {{ post.title }}
           </p>
           <div class="content-board-subtitle">
-            {{ post.subtitle }}
+            {{ post.meta.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -88,18 +90,18 @@
         v-for="post in posts?.posts"
         :key="post.title"
         class="content-board block"
-        :to="post._path"
+        :to="post.path"
       >
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"
+          :style="{ backgroundImage: `url(${post.meta.image})` }"
         />
         <div class="content-board-text">
           <p class="font-bold">
             {{ post.title }}
           </p>
           <div class="content-board-subtitle">
-            {{ post.subtitle }}
+            {{ post.meta.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -113,13 +115,11 @@ import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const { data: posts } = useAsyncData('posts', async () => {
-  const contents = await queryContent('/').find()
-  const tags = {
-    tokens: 'Tokens',
-  }
-  const latestPosts = contents.sort(
+  const tags = { tokens: 'Tokens' }
+  const contents = await queryCollection('blog').all()
+  const latestPosts = contents?.sort(
     (content_a, content_b) =>
-      +new Date(content_b.date) - +new Date(content_a.date),
+      +new Date(content_b.meta.date) - +new Date(content_a.meta.date),
   )
 
   const reduce = latestPosts.reduce(
@@ -128,7 +128,7 @@ const { data: posts } = useAsyncData('posts', async () => {
         acc.featured.push(post)
         return acc
       }
-      if (post.tags === tags.tokens) {
+      if (post.meta.tags === tags.tokens) {
         acc.tokensPosts.push(post)
       }
       acc.posts.push(post)

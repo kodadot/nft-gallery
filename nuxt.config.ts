@@ -1,4 +1,3 @@
-import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
@@ -259,13 +258,13 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/apollo',
+    '@nuxtjs/sitemap',
     '@nuxtjs/i18n',
     '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@nuxt/content',
-    '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
     '@dargmuesli/nuxt-cookie-control',
@@ -369,20 +368,6 @@ export default defineNuxtConfig({
   site: {
     url: process.env.BASE_URL || 'http://localhost:9090',
     strictNuxtContentPaths: true,
-  },
-
-  sitemap: {
-    sitemaps: true,
-    urls: () => {
-      const posts = fs.readdirSync('content/blog')
-      return posts
-        .map(post => post.split('.')[0])
-        .map(page => ({
-          loc: `/blog/${page}`,
-          changefreq: 'weekly',
-          priority: 0.8,
-        }))
-    },
   },
 
   routeRules: {

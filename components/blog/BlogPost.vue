@@ -18,18 +18,18 @@
     </div>
     <h1>{{ post?.title }}</h1>
     <p
-      v-if="post?.subtitle"
+      v-if="post?.meta.subtitle"
       class="subtitle"
     >
-      {{ post?.subtitle }}
+      {{ post?.meta.subtitle }}
     </p>
 
     <div class="flex justify-between items-center text-k-grey mt-5">
       <div
-        v-if="post?.date"
+        v-if="post?.meta.date"
         class="border border-k-shade rounded-[3rem] px-4 py-1"
       >
-        {{ format(new Date(post?.date), 'dd.MM.yyyy') }}
+        {{ format(new Date(post?.meta?.date), 'dd.MM.yyyy') }}
       </div>
 
       <div>
@@ -52,12 +52,12 @@
     </div>
 
     <img
-      :src="post?.image"
+      :src="post?.meta?.image"
       :alt="post?.title"
       class="mt-5"
     >
 
-    <ContentDoc :path="post._path" />
+    <ContentRenderer :value="post" />
   </div>
 </template>
 
@@ -69,14 +69,11 @@ import { convertMarkdownToText } from '@/utils/markdown'
 import { URLS } from '@/utils/constants'
 
 const route = useRoute()
-const slug = route.params.slug
 
-const compatiblePostName = (originalName: string) => {
-  return originalName.replaceAll('\'', '').replaceAll('%27', '').toLowerCase()
-}
+const title = computed(() => post.value?.title)
 
-const { data: post } = await useAsyncData('post', () => {
-  return queryContent(`/blog/${compatiblePostName(String(slug))}`).findOne()
+const { data: post } = await useAsyncData(route.path, () => {
+  return queryCollection('blog').path(route.path).first()
 })
 
 const openShareUrl = (platform: 'twitter' | 'linkedin') => {
@@ -98,13 +95,12 @@ onMounted(() => {
   Prism.highlightAll()
 })
 
-const title = computed(() => post.value?.title)
 useSeoMeta({
   title: title.value,
   description: convertMarkdownToText(post.value?.subtitle),
   ogUrl: route.path,
-  ogImage: post.value?.image,
-  twitterImage: post.value?.image,
+  ogImage: post.value?.meta?.image,
+  twitterImage: post.value?.meta?.image,
 })
 </script>
 
