@@ -4,13 +4,10 @@
     :class="{ 'has-gap': !isActivityTab }"
   >
     <ExploreTabs />
-    <div class="explore-menu flex flex-wrap">
+    <div class="explore-menu flex flex-wrap gap-4">
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
-      <ChainDropdown
-        v-if="!isCollectionTab && !isSwapsTab"
-        class="flex-grow-1"
-      />
+      <ChainDropdown v-if="!isCollectionTab && !isSwapsTab" />
       <ExploreSort v-if="!isActivityTab && !isSwapsTab" />
     </div>
   </div>

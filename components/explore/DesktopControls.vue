@@ -7,7 +7,7 @@
 
     <div
       v-if="isExploreCollections || isExploreItems || isCollection"
-      class="explore-menu flex"
+      class="explore-menu flex gap-4"
     >
       <ExploreSort />
       <ChainDropdown v-if="isExploreItems || isExploreCollections" />

@@ -4,7 +4,7 @@
     data-testid="tabs"
   >
     <a
-      :class="[{ disabled: disabled }, 'is-hidden-mobile flex items-center']"
+      :class="[{ disabled: disabled }, 'hidden lg:flex items-center']"
       @click="toggleSidebarFilters"
     >
       <NeoIcon
@@ -12,7 +12,7 @@
         size="medium"
       />
     </a>
-    <div class="is-hidden-tablet relative">
+    <div class="block lg:hidden relative">
       <NeoButton
         :disabled="disabled"
         icon="bars"
