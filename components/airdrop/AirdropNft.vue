@@ -266,7 +266,7 @@ const isAirdropModalOpen = ref<boolean>(false)
 const distributionMode = ref<DistributionMode>(DistributionMode.ONE_PER_ADDRESS)
 const fileInput = ref<HTMLInputElement | null>(null)
 const addressPairNeedToBeFixed = ref<[string, string][]>([])
-console.log('batchAddressesInput', batchAddressesInput, invalidAddressList)
+
 const DISTRIBUTION_MODES = computed(() => [
   {
     label: $i18n.t('airdrop.onePerAddress'),
