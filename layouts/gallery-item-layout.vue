@@ -1,11 +1,8 @@
 <template>
   <div class="min-h-full flex flex-col overflow-hidden">
     <Navbar />
-    <main class="grow py-8">
-      <div
-        class="relative mx-auto my-0 max-lg:px-0! min-h-[3.25rem] w-full"
-        :class="{ 'max-w-none md:px-10! px-5!': !isTouch }"
-      >
+    <main class="flex-grow py-8">
+      <div class="container-fluid">
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
@@ -29,12 +26,9 @@ const route = useRoute()
 useHead({
   link: [
     {
-      hid: 'canonical',
       rel: 'canonical',
       href: $config.public.baseUrl + route.path,
     },
   ],
 })
-
-const { isMobileOrTablet: isTouch } = useDevice()
 </script>

@@ -63,7 +63,7 @@
     "@kodadot1/sub-api": "0.3.2-rc.0",
     "@nuxt/image": "^1.8.0",
     "@nuxtjs/apollo": "5.0.0-alpha.6",
-    "@paraspell/sdk-pjs": "^8.0.0",
+    "@paraspell/sdk-pjs": "^8.9.8",
     "@pinia/nuxt": "^0.5.4",
     "@polkadot/api": "^11.2.1",
     "@polkadot/api-base": "^11.2.1",
@@ -116,9 +116,10 @@
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.14",
     "@dargmuesli/nuxt-cookie-control": "^7.5.1",
+    "@iconify-json/mdi": "^1.2.3",
     "@nuxt/content": "^2.13.2",
     "@nuxt/eslint": "^0.3.13",
-    "@nuxt/icon": "1.10.3",
+    "@nuxt/icon": "^1.12.0",
     "@nuxt/types": "^2.18.1",
     "@nuxtjs/color-mode": "^3.5.1",
     "@nuxtjs/device": "^3.2.2",
@@ -151,6 +152,9 @@
   "pnpm": {
     "patchedDependencies": {
       "@polkadot/vue-identicon@3.11.3": "patches/@polkadot__vue-identicon@3.11.3.patch"
+    },
+    "overrides": {
+      "chokidar": "3.6.0"
     }
   }
 }

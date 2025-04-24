@@ -9,6 +9,7 @@
     <GalleryItemMoreActionBtn
       :nft="nft"
       :abi="abi"
+      :nft-animation-mime-type="getNftAnimationMimeType"
     />
   </div>
 </template>
@@ -19,7 +20,7 @@ import { extractTwitterIdFromDescription } from '@/utils/parse'
 
 const { $i18n } = useNuxtApp()
 
-const { getNft: nft, getAbi: abi } = storeToRefs(useNftStore())
+const { getNft: nft, getAbi: abi, getNftAnimationMimeType } = storeToRefs(useNftStore())
 
 const customSharingContent = computed(() => {
   const twitterId = nft.value?.meta?.description

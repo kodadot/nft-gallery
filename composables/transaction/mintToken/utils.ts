@@ -26,11 +26,14 @@ export const calculateFees = () => {
   const enabledFees: boolean
     = preferences.getHasSupport || preferences.getHasCarbonOffset
 
-  const feeMultiplier
-    = Number(preferences.getHasSupport)
-    + 2 * Number(preferences.getHasCarbonOffset)
+  const kodaUSDFee = Number(preferences.getHasSupport ? BASE_FEE : 0)
+  const carbonlessUSDFee = Number(preferences.getHasCarbonOffset ? BASE_FEE * 2 : 0)
 
-  return { enabledFees, feeMultiplier, token: symbol as SupportTokens }
+  const feeMultiplier
+    = kodaUSDFee
+    + carbonlessUSDFee
+
+  return { enabledFees, kodaUSDFee, carbonlessUSDFee, feeMultiplier, token: symbol as SupportTokens }
 }
 
 export const getNameInNotifications = (item: ActionMintToken) => {
