@@ -41,7 +41,7 @@
         />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
-          class="w-full flex justify-center action-container"
+          class="w-full justify-center action-container"
         >
           <slot name="action" />
         </div>
