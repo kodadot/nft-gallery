@@ -6,7 +6,7 @@
       icon-left="arrow-left"
       @click="goBack"
     >
-      {{ $t('airdrop.backToProfile') }}
+      {{ $t('airdrop.back') }}
     </NeoButton>
 
     <div>
@@ -266,7 +266,7 @@ const isAirdropModalOpen = ref<boolean>(false)
 const distributionMode = ref<DistributionMode>(DistributionMode.ONE_PER_ADDRESS)
 const fileInput = ref<HTMLInputElement | null>(null)
 const addressPairNeedToBeFixed = ref<[string, string][]>([])
-
+console.log('batchAddressesInput', batchAddressesInput, invalidAddressList)
 const DISTRIBUTION_MODES = computed(() => [
   {
     label: $i18n.t('airdrop.onePerAddress'),
@@ -310,17 +310,14 @@ const addressLessThanNftWarning = computed<boolean>(() => Boolean(
   && validAddressCount.value < totalNftCount.value,
 ))
 
-const disabledButton = computed(() => {
-  if (!validAddressList.value.length || invalidAddressList.value.length || !airdropItems.value.length || addressPairNeedToBeFixed.value.length) {
-    return true
-  }
-
-  if (addressMoreThanNftWarning.value) {
-    return true
-  }
-
-  return false
-})
+const disabledButton = computed(() => Boolean(
+  !validAddressList.value.length
+  || invalidAddressList.value.length
+  || !airdropItems.value.length
+  || addressPairNeedToBeFixed.value.length
+  || addressMoreThanNftWarning.value,
+),
+)
 
 const addressCounterClass = computed(() => {
   if (distributionMode.value === DistributionMode.ONE_PER_ADDRESS) {
@@ -338,8 +335,8 @@ const addressCounterClass = computed(() => {
 const handleAddressAutoCorrection = () => {
   let addressesText = batchAddressesInput.value
 
-  addressPairNeedToBeFixed.value.forEach(([addr, chainAddr]) => {
-    addressesText = addressesText.replaceAll(addr, chainAddr)
+  addressPairNeedToBeFixed.value.forEach(([addr, formattedAddress]) => {
+    addressesText = addressesText.replaceAll(addr, formattedAddress)
   })
 
   batchAddressesInput.value = addressesText
@@ -348,10 +345,12 @@ const handleAddressAutoCorrection = () => {
 
 const handleBatchAddressesInput = useDebounceFn(() => {
   addressPairNeedToBeFixed.value = []
-  const addresses = batchAddressesInput.value
-    .replace(/\r\n/g, '\n')
-    .split('\n')
-    .map(addr => addr.trim())
+  const addresses = batchAddressesInput.value === ''
+    ? []
+    : batchAddressesInput.value
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(addr => addr.trim())
 
   addressList.value = addresses
   const allValidAddressList: string[] = []
@@ -360,13 +359,13 @@ const handleBatchAddressesInput = useDebounceFn(() => {
     let invalidReason = ''
 
     if (addr) {
-      const chainAddr = correctAddressFormat(addr)
-      if (chainAddr) {
-        const isSelfAddress = isCurrentAccount(chainAddr)
-        const isDuplicate = allValidAddressList.includes(chainAddr)
-        if (chainAddr !== addr) {
+      const formattedAddress = correctAddressFormat(addr)
+      if (formattedAddress) {
+        const isSelfAddress = isCurrentAccount(formattedAddress)
+        const isDuplicate = allValidAddressList.includes(formattedAddress)
+        if (formattedAddress !== addr) {
           invalidReason = $i18n.t('airdrop.addressWrongNetworkError')
-          addressPairNeedToBeFixed.value.push([addr, chainAddr])
+          addressPairNeedToBeFixed.value.push([addr, formattedAddress])
         }
         else if (isSelfAddress) {
           invalidReason = $i18n.t('airdrop.ownAddressError')
@@ -375,7 +374,7 @@ const handleBatchAddressesInput = useDebounceFn(() => {
           invalidReason = $i18n.t('airdrop.duplicateAddressError')
         }
         else {
-          allValidAddressList.push(chainAddr)
+          allValidAddressList.push(formattedAddress)
           return
         }
       }
@@ -451,12 +450,6 @@ const handleFileSelect = async (event: Event) => {
     }
   }
 }
-
-onMounted(() => {
-  if (!airdropStore.itemsInChain.length) {
-    router.push('/')
-  }
-})
 
 onBeforeUnmount(() => {
   airdropStore.clear()

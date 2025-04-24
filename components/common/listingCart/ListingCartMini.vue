@@ -68,6 +68,7 @@
             <NeoButton
               v-if="isAirdropAvailable"
               variant="outlined-rounded"
+              :disabled="listingCartStore.count < 2"
               icon="gift"
               @click="onClickAirdrop"
             >
@@ -112,7 +113,7 @@ const router = useRouter()
 const isItemBurnDisabled = computed(() => isEvm.value ? listingCartStore.count > 1 : !burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
 
-const isAirdropAvailable = computed(() => isSub(urlPrefix.value) && listingCartStore.count > 1)
+const isAirdropAvailable = computed(() => isSub(urlPrefix.value))
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
 
 const onClickAirdrop = () => {

@@ -25,7 +25,7 @@
         <div
           class="flex justify-between"
         >
-          <span class="text-k-grey">{{ $t('transfers.recipients') }}</span>
+          <span class="text-k-grey capitalize">{{ $t('transfers.recipients') }}</span>
           <span>{{ addressCount }} {{ $t('airdrop.addresses') }}</span>
         </div>
       </div>

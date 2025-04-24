@@ -22,15 +22,15 @@ function checkTxsAirdrop(item: ActionAirdrop) {
   }
 
   return addresses.every((address) => {
-    const [, err] = checkAddress(
-      address,
-      correctFormat(ss58Of(item.urlPrefix)),
-    )
-
     if (!isAddress(address)) {
       warningMessage('Invalid address')
       return false
     }
+
+    const [, err] = checkAddress(
+      address,
+      correctFormat(ss58Of(item.urlPrefix)),
+    )
 
     if (err) {
       warningMessage(err)
