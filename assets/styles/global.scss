@@ -26,10 +26,10 @@ main {
 }
 
 body {
-  color: var(--text-color);
+  color: rgb(var(--text-color));
 
   a {
-    color: var(--text-color);
+    color: rgb(var(--text-color));
     &:hover {
       color: var(--link-hover);
     }
@@ -138,20 +138,20 @@ hr {
 }
 
 .snackbar {
-  color: var(--text-color);
+  color: rgb(var(--text-color));
   background-color: var(--background-color);
   border: 1px solid var(--border-color);
   box-shadow: var(--primary-shadow);
 
   .button {
     background-color: var(--k-accent-light-2);
-    color: var(--text-color);
+    color: rgb(var(--text-color));
   }
 }
 
 // global table css
 table th {
-  color: var(--text-color) !important;
+  color: rgb(var(--text-color)) !important;
 }
 
 .fluid-padding-left {
