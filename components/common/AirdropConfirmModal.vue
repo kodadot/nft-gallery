@@ -62,7 +62,7 @@ defineProps<{
 
 const onSuccess = () => {
   setTimeout(() => {
-    router.push(`/${urlPrefix}/profile`)
+    router.push(`/${urlPrefix.value}/profile`)
   }, 5000)
 }
 </script>
