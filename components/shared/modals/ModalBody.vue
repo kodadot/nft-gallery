@@ -41,7 +41,7 @@
         contentClass,
       ]"
     >
-      <div v-if="loading">
+      <template v-if="loading">
         <SkeletonLoader
           :title="skeletonTitle"
           class="modal-skeleton"
@@ -55,7 +55,7 @@
             </SkeletonLoaderFooterPill>
           </template>
         </SkeletonLoader>
-      </div>
+      </template>
 
       <div
         ref="slot"

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full relative">
+  <div>
     <div
       v-if="solid"
       class="relative w-full h-full rounded-[1.25rem] bg-k-grey-light"
@@ -17,7 +17,7 @@
     />
 
     <div
-      class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-3 left-2/4 top-2/4"
+      class="flex justify-center w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-3"
     >
       <slot>
         <KIcon
