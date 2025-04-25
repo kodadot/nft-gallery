@@ -28,13 +28,10 @@ const { getsidebarFilterCollapse: open } = storeToRefs(usePreferencesStore())
 }
 
 .sticky {
-  position: -webkit-sticky;
-  position: sticky;
   top: 84px;
   height: calc(100vh - 84px);
   overflow-y: auto;
-  shrink: 0;
-  @apply mr-fluid-container-padding;
+  @apply mr-fluid-container-padding sticky shrink-0;
 }
 
 .o-side {
