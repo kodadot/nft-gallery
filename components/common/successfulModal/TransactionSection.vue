@@ -63,7 +63,7 @@ const props = defineProps<{
   status: TransactionStatus
 }>()
 
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { getTransactionUrl } = useExplorer()
 const { urlPrefix } = usePrefix()
 

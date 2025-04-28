@@ -19,7 +19,7 @@ const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { doAfterLogin } = useDoAfterlogin()
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
