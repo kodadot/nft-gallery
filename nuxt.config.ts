@@ -268,6 +268,7 @@ export default defineNuxtConfig({
     'nuxt-gtag',
     '@nuxt/eslint',
     '@nuxt/icon',
+    '@nuxt/ui',
   ],
 
   eslint: {
