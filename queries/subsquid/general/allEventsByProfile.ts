@@ -1,3 +1,7 @@
+import { graphql } from '~/queries/clients/graphqlClients'
+
+export default graphql(
+  `
 query allEventsByProfile($id: String) {
   events(where: { caller_eq: $id, OR: { currentOwner_eq: $id } }) {
     meta
@@ -15,17 +19,15 @@ query allEventsByProfile($id: String) {
       collection {
         id
         name
-        __typename
       }
 
       meta {
         id
         image
         animationUrl
-        __typename
       }
-      __typename
     }
-    __typename
   }
 }
+`,
+)

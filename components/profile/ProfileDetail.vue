@@ -339,7 +339,7 @@
           <ChainDropdown />
         </div>
         <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
-          <div class="flex flex-wrap">
+          <div class="flex flex-wrap !w-full">
             <TabItem
               v-for="tab in tabs"
               :key="tab"
@@ -347,6 +347,7 @@
               :text="tab"
               :count="counts[tab]"
               :show-active-check="tabsWithActiveCheck.includes(tab)"
+              full-width
               class="capitalize !w-[50%]"
               @click="() => switchToTab(tab)"
             />

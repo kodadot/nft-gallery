@@ -8,11 +8,11 @@
     }"
   >
     <div
-      class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch flex min-h-[3.25rem] w-full"
+      class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch block md:flex min-h-[3.25rem] w-full"
       :class="{ 'w-full max-w-none md:!px-10 !px-5': !isTouch }"
     >
       <!-- BRAND -->
-      <div class="navbar-brand ml-[-0.75rem]">
+      <div class="navbar-brand md:ml-[-0.75rem]">
         <nuxt-link
           v-if="!isMobile || !openMobileSearchBar"
           to="/"

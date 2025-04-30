@@ -1,13 +1,15 @@
 <template>
   <div>
-    <nuxt-link
+    <div
       data-testid="classic"
-      :to="`/${urlPrefix}/create`"
       class="navbar-item"
-      @click="emit('select')"
+      @click="handleButtonClick"
     >
       {{ $t('create') }}
-    </nuxt-link>
+    </div>
+    <CreateEntryModal
+      v-model="isModalActive"
+    />
   </div>
 </template>
 
@@ -17,5 +19,10 @@ defineProps<{
 }>()
 const emit = defineEmits(['select'])
 
-const { urlPrefix } = usePrefix()
+const isModalActive = ref(false)
+
+const handleButtonClick = () => {
+  isModalActive.value = true
+  emit('select')
+}
 </script>

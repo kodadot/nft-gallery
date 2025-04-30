@@ -1102,7 +1102,7 @@
         },
         "1": {
           "codeStructure": "Code Structure",
-          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
+          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\"). Note that the order of items in the description file determines the order during mass minting.",
           "subtitle": "Instructions",
           "title": "How to Name your NFTs"
         },
@@ -1204,21 +1204,21 @@
       "show": "Show advanced settings",
       "sync": "Sync editions to {0}"
     },
-    "landing": {
-      "collection": "Create A Collection For Your NFTs",
-      "heading": "What Do You Wish To Create?",
-      "massNft": "Multiple NFTs",
-      "massNftDesc": "Create and mint multiple different NFTs at once",
-      "nft": "Create awesome NFTs from your art and add them to your existing collection",
-      "singleNft": "Single NFT",
-      "singleNftDesc": "Create and mint a single original NFT (can have more copies)"
-    },
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "mintCollectionSuccess": "Collection {name} Saved in block {block}",
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
     "mintType": "Mint Type",
+    "modal": {
+      "availableOn": "Available on {0} and {1}",
+      "createCollection": "Create Collection",
+      "createCollectionDesc": "Organize your NFTs together",
+      "createMultiple": "Create Multiple NFTs",
+      "createMultipleDesc": "Batch creation in one transaction",
+      "createSingle": "Create Single NFT",
+      "createSingleDesc": "One-of-One, unique token"
+    },
     "nfsw": "Explicit content (NSFW)",
     "nfswMessage": "Set your collection as explicit and sensitive content.",
     "nft": {

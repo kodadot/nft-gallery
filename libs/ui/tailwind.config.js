@@ -70,6 +70,7 @@ module.exports = {
         'purple-light-color': 'var(--purple-light-color)',
         'purple-dark-color': 'var(--purple-dark-color)',
         'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
+        'blue-light-cards': 'var(--blue-light-cards)',
 
         'neutral': {
           1: '#ffffff',

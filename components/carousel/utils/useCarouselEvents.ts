@@ -1,10 +1,8 @@
 import type { Prefix } from '@kodadot1/static'
-import unionBy from 'lodash/unionBy'
+import type { ResultOf } from 'gql.tada'
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { formatNFT } from '@/utils/carousel'
-import { AHK_GENERATIVE_DROPS } from '@/utils/drop'
-import { getDrops } from '@/services/fxart'
 import latestEvents from '@/queries/subsquid/general/latestEvents'
 
 interface Types {
@@ -27,6 +25,7 @@ const fetchLatestEvents = async (chain, type, where = {}, limit = 20) => {
         ...nftEventVariables[type],
         ...where,
       },
+      chain,
     },
     context: {
       endpoint: chain,
@@ -52,7 +51,7 @@ const createEventQuery = (
 
 const LIMIT_PER_COLLECTION = 3
 
-const useEvents = (chain, type, limit = 10, collectionIds = []) => {
+export const useEvents = (chain, type, limit = 10, collectionIds) => {
   const collections = reactive({})
   const items = ref<
     (NFTWithMetadata & {
@@ -79,7 +78,7 @@ const useEvents = (chain, type, limit = 10, collectionIds = []) => {
     collectionIds,
   )
 
-  const data = ref()
+  const data = ref<ResultOf<typeof latestEvents>>()
   fetchLatestEvents(chain, type, where).then((result) => {
     data.value = result.data
   })
@@ -150,7 +149,7 @@ export const flattenNFT = (data, chain) => {
 
 const sortNftByTime = data => data.sort((a, b) => b.unixTime - a.unixTime)
 
-const sortNfts = (data) => {
+export const sortNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
   nfts.value = sortNftByTime(data)
 
@@ -179,57 +178,4 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   })
 
   return computed(() => items.value.nfts)
-}
-
-const GENERATIVE_CONFIG: Partial<
-  Record<Prefix, { limit: number, collections: string[] }>
-> = {
-  ahp: {
-    limit: 12,
-    collections: [],
-  },
-  ahk: {
-    limit: 3,
-    collections: AHK_GENERATIVE_DROPS,
-  },
-}
-
-export const useCarouselGenerativeNftEvents = () => {
-  const nfts = ref<CarouselNFT[]>([])
-  const eventType = ['newestList', 'latestSales']
-  const dropsAhp = computedAsync(async () => {
-    return await getDrops({
-      limit: 12,
-      active: [true],
-      chain: ['ahp'],
-    })
-  })
-
-  const eventsDataRefs = Object.keys(GENERATIVE_CONFIG).map((chain) => {
-    let collections = GENERATIVE_CONFIG[chain].collections
-
-    if (isProduction && chain === 'ahk') {
-      return []
-    }
-
-    if (chain === 'ahp' && dropsAhp.value?.length) {
-      collections = dropsAhp.value.map(drop => drop.collection)
-    }
-
-    return eventType.map((eventName) => {
-      const { data } = useEvents(
-        chain,
-        eventName,
-        GENERATIVE_CONFIG[chain].limit,
-        collections,
-      )
-      return data
-    })
-  })
-
-  watchEffect(() => {
-    nfts.value = eventsDataRefs.flat().flatMap(dataRef => dataRef.value)
-  })
-
-  return computed(() => sortNfts(unionBy(nfts.value, 'id')).nfts)
 }

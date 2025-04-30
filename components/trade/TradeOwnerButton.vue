@@ -7,7 +7,7 @@
       :button="buttonConfig"
     />
 
-    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP && !trade.isAnyTokenInCollectionDesired">
+    <template v-if="isTargetOfTrade && detailed && trade.type === TradeType.SWAP">
       <NeoTooltip
         position="top"
         content-class="capitalize"

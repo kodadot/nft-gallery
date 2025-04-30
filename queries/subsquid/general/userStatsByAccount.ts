@@ -1,3 +1,6 @@
+import { graphql } from '~/queries/clients/graphqlClients'
+
+export default graphql(`
 query userStatsByAccount($account: String!) {
   firstMint: collectionEntities(
     limit: 1
@@ -35,3 +38,4 @@ query userStatsByAccount($account: String!) {
     totalCount
   }
 }
+`)
