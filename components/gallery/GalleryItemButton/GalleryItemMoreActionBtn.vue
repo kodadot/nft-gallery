@@ -86,7 +86,7 @@ const action = ref<'unlist' | ''>('')
 
 const id = computed(() => route.params.id.toString())
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
-const isCurrentNftEditable = computed(() => (isCurrentAccount(props.nft?.collection?.currentOwner)) && isCurrentAccount(props.nft?.currentOwner))
+const isCurrentNftEditable = computed(() => (isOwner.value && isCurrentAccount(props.nft?.collection?.currentOwner)))
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({
