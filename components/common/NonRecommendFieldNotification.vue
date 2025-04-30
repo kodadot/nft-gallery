@@ -24,8 +24,8 @@
             class="flex items-center gap-1 text-sm !text-yellow-600 hover:!text-yellow-700 capitalize"
             @click="emit('undo')"
           >
-            <NeoIcon
-              icon="undo"
+            <KIcon
+              name="i-mdi:undo"
               size="small"
             />
             {{ $t('general.undo') }}
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 defineProps<{
   show: boolean

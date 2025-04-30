@@ -30,9 +30,9 @@
           class="text-neutral-7"
         >
           {{ shortenedAddress }}</span>
-        <NeoIcon
+        <KIcon
           v-clipboard:copy="address"
-          icon="copy"
+          name="i-mdi:content-copy"
           class="hover:text-k-blue-hover cursor-pointer text-neutral-7 hover:text-text-color"
           data-testid="identity-clipboard"
           @click="toast($t('general.copyAddressToClipboard'))"
@@ -43,8 +43,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 defineEmits(['refresh'])
 
 const address = inject('address') as string
