@@ -194,16 +194,22 @@ const placeholder = computed(() =>
 )
 const properSrc = computed(() => props.src || placeholder.value)
 
+const getIconType = (type: string) => {
+  if (type.includes('gif')) return 'i-mdi:file-gif-box'
+  if (type.includes('video')) return 'i-mdi:video'
+  if (type.includes('audio')) return 'i-mdi:music'
+  if (type.includes('pdf')) return 'i-mdi:file-pdf-box'
+  return 'i-mdi:file-image-box'
+}
+
 onMounted(async () => {
   if (props.animationSrc && !props.mimeType) {
     type.value = await getMimeType(props.animationSrc)
+    iconType.value = getIconType(type.value)
   }
   else if (props.rawSrc) {
-    const mimeType = await fetchMimeType(props.rawSrc)
-    const icon = {
-      'image/gif': 'i-mdi:file-gif-box',
-    }
-    iconType.value = icon[mimeType.mime_type] || 'i-mdi:file-image-box'
+    const mime = await fetchMimeType(props.rawSrc)
+    iconType.value = getIconType(mime.mime_type.toLowerCase())
   }
 })
 
