@@ -90,7 +90,7 @@ export const manifestIcons = [
 const scope = '/'
 
 export const pwa: ModuleOptions = {
-  registerType: 'autoUpdate',
+  registerType: 'prompt',
   scope,
   base: scope,
   manifest: {
@@ -103,24 +103,6 @@ export const pwa: ModuleOptions = {
     start_url: '/',
     icons: manifestIcons,
   },
-  // workbox: {
-  //   globPatterns: ['**/*.{js,css,html,txt,png,ico,svg,webp,avif}'],
-  //   navigateFallback: '/',
-  //   cleanupOutdatedCaches: true,
-  //   runtimeCaching: [
-  //     {
-  //       urlPattern: '.*\\.(?:png|jpg|jpeg|svg|gif|webp|avif)$',
-  //       handler: 'CacheFirst',
-  //       options: {
-  //         cacheName: 'images',
-  //         expiration: {
-  //           maxEntries: 100,
-  //           maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
   registerWebManifestInRouteRules: true,
   writePlugin: true,
   devOptions: {
