@@ -176,6 +176,21 @@ export type ActionSend = {
   errorMessage?: string
 }
 
+export enum DistributionMode {
+  ONE_PER_ADDRESS = 'onePerAddress',
+  RANDOM = 'random',
+}
+
+export type ActionAirdrop = {
+  interaction: Interaction.AIRDROP
+  urlPrefix: Prefix
+  addresses: string[]
+  nfts: TokenToSend[]
+  distributionMode: DistributionMode
+  successMessage?: string
+  errorMessage?: string
+}
+
 export type ActionOffer = {
   interaction: typeof ShoppingActions.MAKE_OFFER
   urlPrefix: Prefix
@@ -358,3 +373,4 @@ export type Actions =
   | ActionSetNftMetadata
   | ActionMintDrop
   | ActionSwap
+  | ActionAirdrop
