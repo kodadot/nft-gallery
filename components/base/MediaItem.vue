@@ -76,7 +76,7 @@ import {
   NeoVideoMedia,
 } from '@kodadot1/brick'
 import AudioMedia from '@/components/shared/AudioMedia.vue'
-import { getMimeType, resolveMedia, MediaType } from '@/utils/gallery/media'
+import { getMimeType, resolveMedia, MediaType, getMediaIcon, DEFAULT_MEDIA_ICON } from '@/utils/gallery/media'
 import { fetchMimeType } from '@/services/oda'
 
 const props = withDefaults(
@@ -130,7 +130,7 @@ const mediaRef = ref()
 const mediaItem = ref<HTMLDivElement>()
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
-const iconType = ref('i-mdi:file-image-box')
+const iconType = ref(DEFAULT_MEDIA_ICON)
 
 useMediaFullscreen({
   ref: mediaItem,
@@ -194,22 +194,14 @@ const placeholder = computed(() =>
 )
 const properSrc = computed(() => props.src || placeholder.value)
 
-const getIconType = (type: string) => {
-  if (type.includes('gif')) return 'i-mdi:file-gif-box'
-  if (type.includes('video')) return 'i-mdi:video'
-  if (type.includes('audio')) return 'i-mdi:music'
-  if (type.includes('pdf')) return 'i-mdi:file-pdf-box'
-  return 'i-mdi:file-image-box'
-}
-
 onMounted(async () => {
   if (props.animationSrc && !props.mimeType) {
     type.value = await getMimeType(props.animationSrc)
-    iconType.value = getIconType(type.value)
+    iconType.value = getMediaIcon(type.value)
   }
   else if (props.rawSrc) {
     const mime = await fetchMimeType(props.rawSrc)
-    iconType.value = getIconType(mime.mime_type.toLowerCase())
+    iconType.value = getMediaIcon(mime.mime_type.toLowerCase())
   }
 })
 

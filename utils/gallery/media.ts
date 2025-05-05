@@ -112,3 +112,13 @@ export function resolveMedia(mimeType?: string): MediaType {
 
   return result ?? MediaType.UNKNOWN
 }
+
+export const DEFAULT_MEDIA_ICON = 'i-mdi:file-image-box'
+
+export const getMediaIcon = (type: string) => {
+  if (type.includes('gif')) return 'i-mdi:file-gif-box'
+  if (type.includes('video')) return 'i-mdi:video'
+  if (type.includes('audio')) return 'i-mdi:music'
+  if (type.includes('pdf')) return 'i-mdi:file-pdf-box'
+  return DEFAULT_MEDIA_ICON
+}
