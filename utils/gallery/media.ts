@@ -23,22 +23,10 @@ export const mediaTypeElementSelectors: Record<
   [MediaType.IFRAME]: 'iframe[title="html-embed"]',
 }
 
-const mediaWithoutImage = [
-  MediaType.VIDEO,
-  MediaType.MODEL,
-  MediaType.IFRAME,
-  MediaType.AUDIO,
-  MediaType.OBJECT,
-]
-
 export const determineElementType = (animationType, imageType) =>
   [MediaType.IFRAME, MediaType.VIDEO].includes(animationType)
     ? animationType
     : imageType
-
-export function isImageVisible(type: MediaType) {
-  return mediaWithoutImage.every(media => media !== type)
-}
 
 export async function getMimeType(mediaUrl: string) {
   try {
@@ -49,16 +37,6 @@ export async function getMimeType(mediaUrl: string) {
   }
   catch (error) {
     return ''
-  }
-}
-
-export async function processMedia(mediaUrl: string) {
-  const mimeType = await getMimeType(mediaUrl)
-  const type = resolveMedia(mimeType)
-
-  return {
-    mimeType,
-    imageVisible: isImageVisible(type),
   }
 }
 
