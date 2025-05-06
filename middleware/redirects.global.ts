@@ -90,6 +90,10 @@ export default defineNuxtRouteMiddleware((route) => {
       cond: ({ path }) => path.includes('/stmn/'),
       replaceRoute: () => window.location.href.replace('/stmn/', '/ahk/'),
     },
+    {
+      cond: ({ path }) => path.startsWith('/airdrop') && !useAirdropStore().itemsInChain.length,
+      replaceRoute: () => '/',
+    },
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/teleport`, teleportVisible),
     getPermissionRouteCondition(({ path }) => path === `/${urlPrefix.value}/transfer`, transferVisible),
     {
