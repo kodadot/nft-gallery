@@ -3,7 +3,7 @@ import { parseCsv } from './parsers/parseCsv'
 import { parseJson } from './parsers/parseJson'
 import { parseTxt } from './parsers/parseTxt'
 
-const readTextFile = (file: File): Promise<string> => {
+export const readTextFile = (file: File): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {

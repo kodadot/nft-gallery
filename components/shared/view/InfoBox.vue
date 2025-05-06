@@ -12,6 +12,7 @@
       </p>
 
       <NeoButton
+        v-if="closeable"
         variant="text"
         no-shadow
         icon="xmark"
@@ -37,10 +38,13 @@ import { NeoButton } from '@kodadot1/brick'
 
 const emit = defineEmits(['close'])
 
-defineProps<{
+withDefaults(defineProps<{
   variant: 'success' | 'fail' | 'warning'
+  closeable?: boolean
   title?: string
-}>()
+}>(), {
+  closeable: true,
+})
 
 const onClose = () => {
   emit('close')

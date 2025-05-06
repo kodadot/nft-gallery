@@ -1,6 +1,5 @@
 import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
-import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
@@ -260,7 +259,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
@@ -307,8 +305,6 @@ export default defineNuxtConfig({
     download: false,
     inject: false,
   },
-
-  pwa,
 
   i18n: {
     compilation: {
