@@ -7,7 +7,7 @@ export default defineAppConfig({
       variants: {
         fullscreen: {
           false: {
-            content: 'rounded-none border max-w-[25rem] shadow-primary ring-0',
+            content: 'rounded-none border max-w-[23rem] shadow-primary ring-0',
           },
         },
       },
