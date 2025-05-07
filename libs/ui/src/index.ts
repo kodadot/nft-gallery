@@ -50,7 +50,6 @@ export { default as Neo } from '@oruga-ui/oruga-next'
 
 export { default as NeoModalExtend } from './components/NeoModalExtend/NeoModalExtend.vue'
 export { default as NeoModalExtendProgrammatic } from './components/NeoModalExtend/plugin'
-export { default as NeoModalHead } from './components/NeoModalHead/NeoModalHead.vue'
 export { default as NeoCommonHead } from './components/NeoCommonHead/NeoCommonHead.vue'
 
 export { default as NeoNotification } from './components/NeoNotification/NeoNotification.vue'
