@@ -37,10 +37,13 @@
           class="flex items-center"
         >
           <div class="flex flex-col justify-between">
-            <KIcon
-              name="i-mdi:check-circle-outline"
-              class="check-icon text-k-green"
-            />
+            <div>
+              <KIcon
+                name="i-mdi:check-circle-outline"
+                class="check-icon text-k-green"
+                size="3x"
+              />
+            </div>
             <div class="flex items-center mt-6 flex-col">
               <span class="text-k-grey mr-5 mb-4">
                 {{ selectedFile?.name }} {{ $t('uploaded') }}
