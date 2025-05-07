@@ -4,7 +4,7 @@
       class="shopping-cart-modal-container bg-background-color border-l flex flex-col"
       data-testid="shopping-cart-modal-container"
     >
-      <NeoModalHead
+      <ModalHead
         :title="$t('shoppingCart.title')"
         @close="closeShoppingCart(ModalCloseType.BACK)"
       />
@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModalHead } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { totalPriceUsd } from './utils'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -197,11 +197,12 @@ const onCompletePurchase = () => {
     position: fixed;
     top: 0;
     right: 0;
-    height: 100%;
     max-width: 360px;
     width: 100%;
 
-    @apply bulma-mobile:max-w-[100vw] pt-navbar-desktop bulma-mobile:pt-navbar-mobile;
+    @apply h-[calc(100%_-_var(--navbar-desktop))] mt-navbar-desktop;
+
+    @apply bulma-mobile:max-w-[100vw] bulma-mobile:pt-navbar-mobile;
   }
 }
 
