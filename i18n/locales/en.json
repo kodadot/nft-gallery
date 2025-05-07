@@ -1757,6 +1757,7 @@
     "price_DESC": "Price: High to Low",
     "sn_ASC": "Serial (Low→High)",
     "sn_DESC": "Serial (High→Low)",
+    "unlisted": "Unlisted",
     "updatedAt_ASC": "Unpopular",
     "updatedAt_DESC": "Recently Interacted"
   },
