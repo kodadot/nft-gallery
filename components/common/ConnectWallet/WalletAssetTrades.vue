@@ -41,9 +41,7 @@
             variant="icon"
             @click="refetch"
           >
-            <NeoIcon
-              icon="refresh"
-            />
+            <KIcon name="i-mdi:refresh" />
           </NeoButton>
         </div>
 
@@ -130,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoButton, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { TradeType, type TradeNftItem } from '@/components/trade/types'
 import { TRADE_TYPE_TO_PROFILE_TAB_MAP } from '@/components/profile/utils'
 import { formatDistanceToNow } from '@/utils/datetime'

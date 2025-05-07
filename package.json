@@ -131,7 +131,6 @@
     "@types/lodash": "^4.17.7",
     "@types/markdown-it": "^13.0.9",
     "@types/prismjs": "^1.26.4",
-    "@vite-pwa/nuxt": "^0.10.5",
     "@vitest/coverage-istanbul": "^0.34.6",
     "@vueuse/core": "^9.13.0",
     "@vueuse/nuxt": "^9.13.0",

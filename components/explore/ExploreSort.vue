@@ -45,10 +45,10 @@
             $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
           }}
         </span>
-        <NeoIcon
+        <KIcon
           v-if="selectedSort.includes(option)"
           class="ml-2"
-          icon="check"
+          name="i-mdi:check-circle-outline"
         />
       </NeoDropdownItem>
     </NeoDropdown>
@@ -60,7 +60,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoIcon,
 } from '@kodadot1/brick'
 import ActiveCount from './ActiveCount.vue'
 

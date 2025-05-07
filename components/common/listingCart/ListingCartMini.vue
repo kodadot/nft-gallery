@@ -65,6 +65,16 @@
               </NeoButton>
             </NeoTooltip>
 
+            <NeoButton
+              v-if="isAirdropAvailable"
+              variant="outlined-rounded"
+              :disabled="listingCartStore.count < 2"
+              icon="gift"
+              @click="onClickAirdrop"
+            >
+              {{ $t('airdrop.title') }}
+            </NeoButton>
+
             <NeoTooltip
               class="cursor-pointer"
               position="top"
@@ -91,15 +101,27 @@ import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { listVisible, burnVisible } from '@/utils/config/permission.config'
+import { useAirdropStore } from '@/stores/airdrop'
 
+const airdropStore = useAirdropStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
 const { isEvm } = useIsChain(urlPrefix)
+const router = useRouter()
 
 const isItemBurnDisabled = computed(() => isEvm.value ? listingCartStore.count > 1 : !burnVisible(urlPrefix.value))
 const isItemTransferDisabled = computed(() => isSub(urlPrefix.value) ? false : listingCartStore.count > 1)
+
+const isAirdropAvailable = computed(() => isSub(urlPrefix.value))
 const isListingDisabled = computed(() => !listVisible(urlPrefix.value))
+
+const onClickAirdrop = () => {
+  listingCartStore.itemsInChain.forEach(item =>
+    airdropStore.setItem(item),
+  )
+  router.push('/airdrop')
+}
 
 onBeforeUnmount(() => {
   listingCartStore.clear()

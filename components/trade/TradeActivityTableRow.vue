@@ -18,8 +18,8 @@
       class="flex-auto max-w-10"
     >
       <div class="flex items-center justify-start h-full">
-        <NeoIcon
-          icon="arrow-right-arrow-left"
+        <KIcon
+          name="i-mdi:swap-horizontal"
           class="text-k-grey"
         />
       </div>
@@ -127,8 +127,8 @@
             />
           </div>
 
-          <NeoIcon
-            icon="arrow-right-arrow-left"
+          <KIcon
+            name="i-mdi:swap-horizontal"
             class="text-k-grey"
           />
         </template>
@@ -221,7 +221,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { blank } from '@/components/collection/activity/events/eventRow/common'
 import type { TradeNftItem, TradeConsidered, TradeToken } from '@/components/trade/types'
 import type { SwapSurcharge } from '@/composables/transaction/types'
