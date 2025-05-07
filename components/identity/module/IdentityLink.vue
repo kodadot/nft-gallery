@@ -39,7 +39,7 @@ const props = defineProps<{
   address?: Address
   showClipboard?: boolean
 }>()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() =>

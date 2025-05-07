@@ -511,7 +511,7 @@ const socials = {
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { replaceUrl } = useReplaceUrl()
 const { isCurrentAccount } = useAuth()
 const { urlPrefix, client } = usePrefix()

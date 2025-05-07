@@ -143,7 +143,7 @@ const route = useRoute()
 const { isCurrentAccount } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { shareOnX, shareCollectionOnFarcaster } = useSocialShare()
 
 const collectionId = computed(() => route.params.id.toString())
