@@ -114,7 +114,7 @@
               data-testid="transfer-copy-sender-address"
               @click="toast($t('general.copyAddressToClipboard'))"
             >
-              <NeoIcon icon="copy" />
+              <KIcon name="i-mdi:content-copy" />
             </a>
           </div>
           <Auth v-else />
@@ -269,9 +269,9 @@
         @click="addAddress"
       >
         {{ $t('transfers.addAddress') }}
-        <NeoIcon
+        <KIcon
+          name="i-mdi:plus"
           class="ml-2"
-          icon="plus"
         />
       </div>
       <div class="flex justify-between items-center mb-5">
@@ -445,7 +445,7 @@ const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status }
   = useTransactionStatus()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { getTokenIconBySymbol } = useIcon()
 const { tokens } = useToken()
 const { chainExistentialDeposit } = useExistentialDeposit()

@@ -26,7 +26,7 @@ const nw = new Normalizer({
 })
 
 const props = defineProps<{ code: string, lang: string }>()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const normalizedCode = computed(() => nw.normalize(props.code))
 const highlightedCode = computed(() => {
   const html = Prism.highlight(

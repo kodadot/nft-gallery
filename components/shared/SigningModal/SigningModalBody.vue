@@ -5,8 +5,8 @@
 
   <slot>
     <div class="py-5 flex items-start">
-      <NeoIcon
-        icon="lightbulb"
+      <KIcon
+        name="i-mdi:lightbulb"
         size="small"
         class="mr-2 block!"
       />

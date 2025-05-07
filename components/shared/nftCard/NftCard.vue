@@ -27,6 +27,7 @@
               isStacked,
           }"
           :src="sanitizeIpfsUrl(nft.meta.image)"
+          :raw-src="nft.meta.image"
           :animation-src="sanitizeIpfsUrl(nft.meta.animationUrl)"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"

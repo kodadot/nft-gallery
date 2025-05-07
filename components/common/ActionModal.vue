@@ -30,11 +30,15 @@
         </div>
 
         <div class="flex flex-col">
-          <div class="flex text-k-grey justify-between items-center mb-4">
-            <span class="text-xs capitalize">{{
+          <div class="flex  justify-between items-center mb-4">
+            <span class="text-xs capitalize text-k-grey">{{
               $t('transfers.networkFee')
             }}</span>
-            <span class="text-xs">{{ formattedTxFees }}</span>
+
+            <div class="flex gap-2 text-xs">
+              <span class="text-k-grey">{{ formattedTxFeesUsd }}</span>
+              <span>{{ formattedTxFees }}</span>
+            </div>
           </div>
 
           <slot name="action-button-top" />
@@ -103,7 +107,7 @@ const isModalActive = computed(() => props.isModalActive)
 
 const actions = ref<AutoTeleportAction[]>([])
 
-const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, isActionReady } = useAutoTeleportActionButton({
+const { action, autoTeleport, autoTeleportButton, autoTeleportLoaded, formattedTxFees, formattedTxFeesUsd, isActionReady } = useAutoTeleportActionButton({
   getActionFn: props.getAction,
   disabled: computed(() => props.actionDisabled),
   signingModal,

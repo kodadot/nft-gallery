@@ -211,9 +211,8 @@
               @click="toast(String($t('toast.urlCopy')))"
             >
               <div class="flex text-nowrap w-max items-center">
-                <NeoIcon
-                  icon="copy"
-                  pack="fas"
+                <KIcon
+                  name="i-mdi:content-copy"
                   class="mr-3"
                 />
                 {{ $t('share.copyLink') }}
@@ -511,7 +510,7 @@ const socials = {
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { replaceUrl } = useReplaceUrl()
 const { isCurrentAccount } = useAuth()
 const { urlPrefix, client } = usePrefix()
