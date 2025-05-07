@@ -1,6 +1,6 @@
 <template>
   <div class="md:flex justify-between">
-    <div class="max-w-screen-sm">
+    <div class="max-w-(--breakpoint-sm)">
       <CollectionHeroButtons class="is-hidden-tablet" />
       <div
         v-if="address"

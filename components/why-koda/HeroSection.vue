@@ -1,6 +1,6 @@
 <template>
   <section class="border-b relative max-md:flex max-md:flex-col-reverse">
-    <div class="!container mx-auto max-md:px-4">
+    <div class="container! mx-auto max-md:px-4">
       <div class="max-md:py-16 md:py-[96px] md:w-min lg:w-auto">
         <h1 class="flex flex-wrap items-center gap-6">
           <span class="text-7xl font-bold text-center capitalize md:inline">
@@ -15,25 +15,25 @@
           </div>
         </h1>
 
-        <p class="!mt-6 text-xl">
+        <p class="mt-6! text-xl">
           {{ $t('whyKoda.embraceTheFutureOfGenerativeArt') }}
         </p>
 
-        <div class="!mt-10 md:mt-16">
+        <div class="mt-10! md:mt-16">
           <ol
-            class="text-xl md:text-2xl !pl-7 list-decimal w-[300px] !leading-7"
+            class="text-xl md:text-2xl pl-7! list-decimal w-[300px] leading-7!"
           >
             <li
               v-for="section in sections"
               :key="section.id"
-              class="!mb-3"
+              class="mb-3!"
             >
               <NeoButton
                 v-safe-href="`#${section.id}`"
                 tag="a"
                 no-shadow
                 variant="secondary-rounded"
-                class="text-start text-xl md:text-2xl h-fit w-full !px-2 py-0 !leading-7"
+                class="text-start text-xl md:text-2xl h-fit w-full px-2! py-0 leading-7!"
               >
                 {{ section.name }}
               </NeoButton>
@@ -52,7 +52,7 @@
         <div
           v-for="(nfts, index) in nftsByStrip"
           :key="`strip-${index}`"
-          class="flex max-md:gap-4 md:gap-8 transform first:-translate-x-60 last:translate-x-4 last:md:translate-x-8"
+          class="flex max-md:gap-4 md:gap-8 transform first:-translate-x-60 last:translate-x-4 md:last:translate-x-8"
         >
           <div
             v-for="nft in nfts"

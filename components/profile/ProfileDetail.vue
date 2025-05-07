@@ -24,7 +24,7 @@
       <div
         class="collection-banner-content flex md:items-end items-center h-full md:pb-10 max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem]"
       >
-        <div class="!rounded-full overflow-hidden p-2.5 bg-background-color border aspect-square">
+        <div class="rounded-full! overflow-hidden p-2.5 bg-background-color border aspect-square">
           <BaseMediaItem
             v-if="userProfile?.image"
             :src="userProfile.image"
@@ -113,7 +113,7 @@
                 {{ $t('profile.walletAndLinks') }}
               </NeoButton>
             </template>
-            <NeoDropdownItem class="hover:!bg-transparent hover:!cursor-default">
+            <NeoDropdownItem class="hover:bg-transparent! hover:cursor-default!">
               <div class="flex flex-col gap-4 py-2.5">
                 <!-- Copy Address -->
                 <div class="flex items-center">
@@ -162,7 +162,7 @@
                 <!-- Transfer Button -->
                 <NeoButton
                   variant="outlined-rounded"
-                  class="!w-full text-xs"
+                  class="w-full! text-xs"
                   data-testid="profile-wallet-links-button-transfer"
                   :label="`${$t('transfer')} $`"
                   :tag="NuxtLink"
@@ -177,7 +177,7 @@
               <a
                 v-safe-href="item?.url"
                 target="_blank"
-                class="flex items-center w-full text-left hover:!text-text-color"
+                class="flex items-center w-full text-left hover:text-text-color!"
                 rel="noopener noreferrer"
               >
                 <NeoIcon
@@ -309,7 +309,7 @@
     <ProfileCuratedDrops :id="$route.params.id" />
 
     <div
-      class="visible md:invisible py-7 md:!py-0 md:h-0 border-b border-neutral-5 dark:border-neutral-9 max-sm:mx-5 mx-12"
+      class="visible md:invisible py-7 md:py-0! md:h-0 border-b border-neutral-5 dark:border-neutral-9 max-sm:mx-5 mx-12"
     >
       <ProfileActivity
         :profile-data="userProfile"
@@ -323,12 +323,12 @@
 
     <div class="pb-8">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] py-7">
-        <div class="flex gap-6 is-hidden-touch is-hidden-desktop-only">
+        <div class="hidden lg:flex gap-6">
           <div class="flex w-full">
             <TabItem
               v-for="tab in tabs"
               :key="tab"
-              class="capitalize !w-full [&>*]:!w-full max-w-[12rem]"
+              class="capitalize w-full! *:w-full! max-w-[12rem]"
               :data-testid="`profile-${tab}-tab`"
               :active="activeTab === tab"
               :count="counts[tab]"
@@ -339,8 +339,8 @@
           </div>
           <ChainDropdown />
         </div>
-        <div class="flex flex-col gap-4 is-hidden-widescreen mobile">
-          <div class="flex flex-wrap !w-full">
+        <div class="flex lg:hidden flex-col gap-4 mobile">
+          <div class="flex flex-wrap w-full">
             <TabItem
               v-for="tab in tabs"
               :key="tab"
@@ -348,19 +348,18 @@
               :text="tab"
               :count="counts[tab]"
               :show-active-check="tabsWithActiveCheck.includes(tab)"
-              full-width
-              class="capitalize !w-[50%]"
+              class="capitalize w-[50%]!"
               @click="() => switchToTab(tab)"
             />
           </div>
           <ChainDropdown />
         </div>
       </div>
-      <hr class="my-0 !bg-background-color-inverse">
+      <hr class="my-0 bg-background-color-inverse!">
       <div class="max-sm:mx-5 mx-12 2xl:mx-auto max-w-[89rem] pb-6">
         <div
           v-if="[ProfileTab.OWNED, ProfileTab.CREATED, ProfileTab.COLLECTIONS].includes(activeTab)"
-          class="flex-grow"
+          class="grow"
         >
           <div class="flex justify-between pb-4 pt-5 content-center">
             <div class="flex gap-4 flex-wrap">
@@ -562,7 +561,7 @@ const editProfileConfig: ButtonConfig = {
   label: $i18n.t('profile.editProfile'),
   icon: 'pen',
   onClick: () => openProfileCreateModal(true),
-  classes: 'hover:!bg-transparent',
+  classes: 'hover:bg-transparent!',
 }
 
 const createProfileConfig: ButtonConfig = {
@@ -860,7 +859,9 @@ watchEffect(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 :deep(.rounded-full) {
   img {
     border-radius: 9999px !important;
@@ -908,7 +909,7 @@ watchEffect(() => {
 }
 
 .title {
-  flex-grow: 0;
+  grow: 0;
   flex-basis: auto;
 }
 

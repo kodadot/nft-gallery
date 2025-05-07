@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1 relative z-[1] !text-text-color-inverse text-shadow-border">
+      <h1 class="title is-1 relative z-1 text-text-color-inverse! text-shadow-border">
         KodaDot Blog
       </h1>
-      <div class="relative z-[1] text-2xl mb-20 font-medium">
+      <div class="relative z-1 text-2xl mb-20 font-medium">
         Let's Explore The NFT Universe
       </div>
       <img
@@ -17,7 +17,7 @@
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
-      class="relative z-[1] mb-20 content-list"
+      class="relative z-1 mb-20 content-list"
     >
       <div
         class="content-list-cover"
@@ -182,7 +182,7 @@ const { data: posts } = useAsyncData('posts', async () => {
     overflow: hidden;
 
     &-cover {
-      @apply border-b border-card-border-color;
+      border-bottom: 1px solid var(--card-border-color);
     }
 
     border: 1px solid var(--card-border-color);
@@ -221,7 +221,10 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
+    overflow: hidden;
+    display: flex;
+    height: 22rem;
+    border-radius: 2.5rem;
 
     @include bulma-touch {
       height: auto;

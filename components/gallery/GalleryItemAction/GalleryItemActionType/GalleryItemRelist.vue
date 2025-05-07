@@ -72,7 +72,9 @@ const onListingModalClose = () => {
 const isListed = computed(() => Boolean(Number(nftPrice.value)))
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-item-relist {
   @apply bulma-until-widescreen:w-full bulma-until-widescreen:mt-4;
 

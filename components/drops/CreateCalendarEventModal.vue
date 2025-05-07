@@ -15,7 +15,7 @@
         {{ formattedDate }} <span v-if="!useTimeFromDate">- 3pm CET</span>
       </p>
 
-      <div class="flex !mt-6 flex-col gap-6">
+      <div class="flex mt-6! flex-col gap-6">
         <NeoButton
           v-for="provider in providers"
           :key="provider.id"

@@ -16,7 +16,7 @@
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="!text-k-blue hover:!text-k-blue-hover"
+      class="text-k-blue! hover:text-k-blue-hover!"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
     >{{ $t('teleport.howItWorks') }}
     </a>
@@ -100,7 +100,7 @@
           min="0.01"
           step="0.00001"
           type="number"
-          icon-right-class="!hidden"
+          icon-right-class="hidden!"
           placeholder="Enter Amount"
         />
         <div class="absolute right-8 top-3">
@@ -166,7 +166,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="!text-k-blue hover:!text-k-blue-hover"
+        class="text-k-blue! hover:text-k-blue-hover!"
       >
         {{ shortAddress(toAddress) }}
       </a>

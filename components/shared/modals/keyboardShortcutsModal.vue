@@ -25,7 +25,7 @@
             v-slot="props"
             field="shortcut"
           >
-            <div class="flex flex-grow">
+            <div class="flex grow">
               <span
                 v-for="(shortcut, index) in props.row.shortcut.split('+', 2)"
                 :key="shortcut"

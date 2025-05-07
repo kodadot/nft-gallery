@@ -1,5 +1,5 @@
 <template>
-  <div class="flex !px-7 !py-4">
+  <div class="flex px-7! py-4!">
     <NeoButton
       v-for="tab in walletTabs"
       :key="tab.value"

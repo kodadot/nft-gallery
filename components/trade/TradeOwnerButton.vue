@@ -15,7 +15,7 @@
       >
         <NeoButton
           variant="outlined-rounded"
-          class="!p-0"
+          class="p-0!"
           @click="emit('click:counter-swap')"
         >
           <NeoIcon icon="repeat" />
@@ -73,7 +73,7 @@ const tradeButtonConfig = computed<ButtonConfig | null>(() => {
   if (isCreatorOfTrade.value) {
     return {
       label: $i18n.t(details[props.trade.type].cancel),
-      classes: '!border-k-red !bg-k-red-accent-2',
+      classes: 'border-k-red! bg-k-red-accent-2!',
       onClick,
     }
   }

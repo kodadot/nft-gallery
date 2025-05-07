@@ -14,7 +14,7 @@
     >
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
-          <div class="flex justify-center flex-grow">
+          <div class="flex justify-center grow">
             {{ $t('massmint.edit') }} #{{ nft?.id }}
           </div>
 

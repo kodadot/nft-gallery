@@ -10,15 +10,15 @@
     @reset="acknowledged = false"
   >
     <template #body>
-      <hr class="!mt-4 !mb-5">
+      <hr class="mt-4! mb-5!">
     </template>
 
     <template #action-button-top>
       <div class="mb-4">
         <NeoCheckbox
           v-model="acknowledged"
-          class="!flex items-center"
-          label-class="!pl-3 text-sm capitalize"
+          class="flex! items-center"
+          label-class="pl-3! text-sm capitalize"
           :label="$t('burning.agree')"
         />
       </div>

@@ -11,7 +11,7 @@
           :collection-id="collectionId"
           :collection="collection"
         />
-        <hr class="!bg-k-grey mb-0">
+        <hr class="bg-k-grey! mb-0">
       </div>
     </section>
   </div>

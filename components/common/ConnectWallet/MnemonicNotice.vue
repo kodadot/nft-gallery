@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="px-6 !pb-6 pt-2">
+  <div class="px-6 pb-6! pt-2">
     <a
       class="text-sm text-k-blue hover:text-k-blue-hover flex items-center justify-center"
       href="https://hello.kodadot.xyz/tutorial/wallet"

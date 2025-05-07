@@ -2,9 +2,9 @@
   <transition name="fade">
     <div
       v-if="getHasUserNotSetPartyMode"
-      class="fixed top-20 md:top-24 left-4 z-[1000] w-[calc(100%-32px)] md:w-[31.25rem] h-fit shadow-primary bg-background-color !p-6 gap-6 flex border items-center"
+      class="fixed top-20 md:top-24 left-4 z-1000 w-[calc(100%-32px)] md:w-[31.25rem] h-fit shadow-primary bg-background-color p-6! gap-6 flex border items-center"
     >
-      <div class="max-md:hidden relative h-full w-fit flex-shrink-0">
+      <div class="max-md:hidden relative h-full w-fit shrink-0">
         <img
           src="~/assets/svg/party-mode-experience.svg"
           alt="drop party cursors"
@@ -36,7 +36,7 @@
               variant="icon"
               size="large"
               no-shadow
-              class="!h-fit"
+              class="h-fit!"
               @click="partyMode = true"
             />
           </div>
@@ -46,7 +46,7 @@
           <NeoButton
             variant="text"
             no-shadow
-            class="!text-k-grey"
+            class="text-k-grey!"
             @click="partyMode = false"
           >
             {{ $t('party.modal.decline') }}

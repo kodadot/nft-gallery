@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="trade"
-    class="!pt-5"
+    class="pt-5!"
   >
     <TradeOwnerButton
-      class="!w-full"
+      class="w-full!"
       :trade="trade"
       @click="$emit('submit')"
     />

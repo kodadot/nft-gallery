@@ -42,7 +42,7 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-18"
     >
       <KIcon
         :name="iconType"
@@ -220,7 +220,9 @@ function toggleFullscreen() {
 defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);

@@ -18,7 +18,7 @@
       <ModalBody
         modal-max-height="100vh"
         :title="title"
-        content-class="!pt-4 !pb-6 !px-8"
+        content-class="pt-4! pb-6! px-8!"
         :scrollable="false"
         :loading="loading"
         @close="onClose"

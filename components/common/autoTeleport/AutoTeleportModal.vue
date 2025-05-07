@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    class="z-[1000]"
+    class="z-1000"
     @close="onClose"
   >
     <div class="sm:w-[25rem]">
@@ -55,7 +55,7 @@
             variant="primary"
             no-shadow
             :disabled="btnDisabled"
-            class="flex flex-grow btn-height"
+            class="flex grow btn-height"
             @click="submit"
           />
         </div>

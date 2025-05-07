@@ -117,23 +117,25 @@ const largeDisplay = computed(
 )
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .nft-card {
-  @apply border-none #{!important};
+  @apply border-none;
 
   &__skeleton {
     transition: all 0.3s;
 
     .card-image {
       &__emotes {
-        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] px-2 py-[3px] right-2.5 top-2.5;
+        @apply absolute rounded text-sm z-3 transition-all duration-[0.3s] px-2 py-[3px] right-2.5 top-2.5;
 
         color: var(--white);
         background: var(--k-primary);
       }
 
       &__price {
-        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] ease-[ease] px-2 py-[3px] left-2.5 bottom-2.5;
+        @apply absolute rounded text-sm z-3 transition-all duration-[0.3s] ease-[ease] px-2 py-[3px] left-2.5 bottom-2.5;
 
         background: var(--k-shade);
         color: var(--white);
@@ -180,8 +182,8 @@ const largeDisplay = computed(
 }
 </style>
 
-<style lang="scss">
+<style>
 .gallery__image-wrapper img {
-  @apply border-none #{!important};
+  border: none;
 }
 </style>
