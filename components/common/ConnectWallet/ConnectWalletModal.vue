@@ -3,7 +3,7 @@
     class="wallet-modal-container flex flex-col"
     data-testid="wallet-connect-sidebar-modal"
   >
-    <NeoModalHead
+    <ModalHead
       :title="
         showAccount ? $t('profile.page') : $t('walletConnect.walletHeading')
       "
@@ -49,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoModalHead } from '@kodadot1/brick'
 import { type ChainVM, type Prefix } from '@kodadot1/static'
 import { DEFAULT_VM_PREFIX } from '@kodadot1/static'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'

@@ -1,20 +1,17 @@
 <template>
-  <NeoModal
-    append-to-body
-    :value="isModalActive"
-    @close="isModalActive = false"
+  <UModal
+    v-model:open="isModalActive"
+    :title="$t('create')"
   >
-    <NeoModalHead
-      :title="$t('create')"
-      @close="isModalActive = false"
-    />
-    <div class="px-6 pt-6 pb-5">
+    <slot />
+
+    <template #body>
       <div class="space-y-4">
         <div
           v-for="item in createOptionsConfig"
           :key="item.path"
           :data-testid="item.testId"
-          class="cursor-pointer max-w-[316px] w-full bg-k-grey-light border border-k-grey-light hover:bg-blue-light-cards hover:border-k-blue-hover px-[20px] py-2 flex items-center group"
+          class="cursor-pointer w-full bg-k-grey-light border border-k-grey-light hover:bg-blue-light-cards hover:border-k-blue-hover px-[20px] py-2 flex items-center group"
           @click="onClickCreateOption(item.path)"
         >
           <KIcon
@@ -36,12 +33,11 @@
       <div class="text-center text-sm text-k-grey mt-[20px] capitalize">
         {{ $t('mint.modal.availableOn', enableCreateChains) }}
       </div>
-    </div>
-  </NeoModal>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
-import { NeoModal, NeoModalHead } from '@kodadot1/brick'
 import { enableCreateChains } from '@/utils/chain'
 
 type CreateConfig = {
@@ -52,7 +48,7 @@ type CreateConfig = {
   testId?: string
 }
 
-const isModalActive = defineModel({ type: Boolean, default: false })
+const isModalActive = ref(false)
 
 const { doAfterLogin } = useDoAfterlogin()
 const { urlPrefix } = usePrefix()

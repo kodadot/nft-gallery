@@ -7,35 +7,32 @@
       />
       <span class="ml-[20px]">{{ description }}</span>
     </div>
-    <span
-      v-if="props.passed === false"
-      class="text-k-blue cursor-pointer hover:text-k-blue-hover"
-      @click="showResolveIssuesModal = true"
-    >
-      {{ $t('codeChecker.resolveIssue') }}
-    </span>
 
-    <NeoModal
-      append-to-body
-      :value="showResolveIssuesModal"
-      @close="showResolveIssuesModal = false"
+    <UModal
+      v-model:open="showResolveIssuesModal"
+      :title="$t('codeChecker.resolveIssue')"
     >
-      <NeoModalHead
-        :title="$t('codeChecker.resolveIssue')"
-        @close="showResolveIssuesModal = false"
-      />
-      <div class="max-w-[380px] px-6 pt-4 pb-5">
-        <p class="text-base font-bold mb-4">
-          {{ description }}
-        </p>
-        <slot name="modalContent" />
-      </div>
-    </NeoModal>
+      <span
+        v-if="props.passed === false"
+        class="text-k-blue cursor-pointer hover:text-k-blue-hover"
+        @click="showResolveIssuesModal = true"
+      >
+        {{ $t('codeChecker.resolveIssue') }}
+      </span>
+
+      <template #body>
+        <div>
+          <p class="text-base font-bold mb-4">
+            {{ description }}
+          </p>
+          <slot name="modalContent" />
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoModal, NeoModalHead } from '@kodadot1/brick'
 import type { Passed } from './types'
 
 const props = defineProps<{
