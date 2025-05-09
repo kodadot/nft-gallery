@@ -19,8 +19,8 @@
         v-else
         class="flex flex-col items-center"
       >
-        <NeoIcon
-          icon="circle-check"
+        <KIcon
+          name="i-mdi:check-circle-outline"
           class="text-[2.5rem] text-k-green"
         />
         <span class="mt-4">{{ $t('massmint.mintDone') }}</span>
@@ -29,7 +29,7 @@
             :label="$t('massmint.done')"
             variant="primary"
             no-shadow
-            class="flex flex-grow h-[3.25rem]"
+            class="flex grow h-[3.25rem]"
             @click="emit('close')"
           />
         </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean

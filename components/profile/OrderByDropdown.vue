@@ -16,7 +16,7 @@
           type="button"
           :variant="variant"
           :no-shadow="noShadow"
-          :rounded="rounded"
+          :rounded="rounded-sm"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="text-left"
           data-testid="explore-sort"
@@ -48,10 +48,10 @@
             )
           }}
         </span>
-        <NeoIcon
+        <KIcon
           v-if="selectedSort.includes(option)"
           class="ml-2"
-          icon="check"
+          name="i-mdi:check-circle-outline"
         />
       </NeoDropdownItem>
     </NeoDropdown>
@@ -65,7 +65,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoIcon,
 } from '@kodadot1/brick'
 import {
   NFT_SQUID_SORT_COLLECTIONS,

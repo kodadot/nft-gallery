@@ -7,9 +7,8 @@
   >
     <div class="px-6 py-5 w-[unset] lg:w-[25rem]">
       <div class="flex text-xl mb-4 items-center">
-        <NeoIcon
-          icon="triangle-exclamation"
-          pack="fasr"
+        <KIcon
+          name="i-mdi:alert"
           class="mr-3"
         />
         <span class="font-bold">
@@ -42,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean

@@ -1,5 +1,5 @@
 <template>
-  <section class="!pt-8 md:!pt-[3rem]">
+  <section class="pt-8! md:pt-[3rem]!">
     <div class="container-fluid flex max-md:flex-col max-md:gap-8 justify-center md:justify-between items-center">
       <h1
         class="text-3xl md:text-[39px] md:leading-9 font-bold flex max-md:flex-col max-md:text-center md:gap-3 md:flex-wrap"
@@ -17,14 +17,14 @@
         </span>
       </h1>
 
-      <div class="flex-shrink-0">
+      <div class="shrink-0">
         <LandingFarcasterBanner />
       </div>
     </div>
 
     <div
       :key="usePrefix().urlPrefix.value"
-      class="container-fluid !mt-8 md:!mt-[3rem] mb-16"
+      class="container-fluid mt-8! md:mt-[3rem]! mb-16"
     >
       <CarouselTypeDrops />
     </div>

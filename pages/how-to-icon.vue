@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-2xl">
-    <h1 class="text-2xl font-bold">
+    <h1 class="text-3xl font-bold underline md:text-red-500">
       Icon comparison
     </h1>
 

@@ -22,16 +22,16 @@
       class="balance"
     >
       <div class="balance-row text-k-grey text-xs">
-        <div class="flex-grow-[3]">
+        <div class="flex-grow-3">
           {{ $t('general.chain') }}
         </div>
-        <div class="text-right flex-grow">
+        <div class="text-right grow">
           {{ $t('general.token') }}
         </div>
-        <div class="text-right flex-grow-[2]">
+        <div class="text-right flex-grow-2">
           {{ $t('general.balance') }}
         </div>
-        <div class="text-right flex-grow-[2]">
+        <div class="text-right flex-grow-2">
           {{ $t('general.usd') }}
         </div>
       </div>
@@ -46,17 +46,17 @@
           :key="token.name"
           class="balance-row"
         >
-          <div class="capitalize flex-grow-[3]">
+          <div class="capitalize flex-grow-3">
             {{ data.key }}
           </div>
-          <div class="text-right flex-grow">
+          <div class="text-right grow">
             {{ token.name.toUpperCase() }}
           </div>
 
-          <div class="text-right flex-grow-[2]">
+          <div class="text-right flex-grow-2">
             {{ formatNumber(token.details?.balance) }}
           </div>
-          <div class="text-right flex-grow-[2]">
+          <div class="text-right flex-grow-2">
             ${{ formatNumber(token.details?.usd || '0') }}
           </div>
         </div>
@@ -160,7 +160,7 @@ const isEmptyBalanceOnAllChains = computed(() => {
     justify-content: space-between;
 
     & > * {
-      flex-shrink: 1;
+      shrink: 1;
       flex-basis: 0%;
     }
   }

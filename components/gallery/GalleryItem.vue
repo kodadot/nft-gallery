@@ -310,7 +310,7 @@ function toggleFallback() {
     const isCurrentlyFullscreen = imgref.value.classList.toggle(
       'fullscreen-fallback',
     )
-    mainElement?.classList.toggle('!z-[unset]')
+    mainElement?.classList.toggle('z-[unset]!')
     isFallbackActive.value = isCurrentlyFullscreen
     isFullscreen.value = isCurrentlyFullscreen
   }
@@ -319,7 +319,9 @@ function toggleFallback() {
 onBeforeMount(() => fiatStore.fetchFiatPrice())
 </script>
 
-<style lang="scss">
+<style>
+@reference '@/assets/css/tailwind.css';
+
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
   background-color: var(--background-color);
@@ -359,15 +361,15 @@ $break-point-width: 930px;
 }
 
 .back-button {
-  @apply fixed z-[1] left-3 top-8 bulma-desktop:left-[2.5rem];
+  @apply fixed z-1 left-3 top-8 bulma-desktop:left-[2.5rem];
 }
 
 #nft-img-container.fullscreen-fallback {
-  @apply fixed w-screen h-screen z-[9999] left-0 top-0;
+  @apply fixed w-screen h-screen z-9999 left-0 top-0;
 }
 
 .fullscreen-button {
-  @apply absolute z-[2] hidden w-[35px] h-[35px] border border-solid right-11 top-8;
+  @apply absolute z-2 hidden w-[35px] h-[35px] border border-solid right-11 top-8;
   background-color: rgba(var(--background-color), 0.15);
   border-color: rgba(var(--background-color), 0.3);
   color: var(--text-color);

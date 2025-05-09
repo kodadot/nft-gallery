@@ -104,7 +104,9 @@ useSeoMeta({
 })
 </script>
 
-<style lang="scss">
+<style>
+@reference '@/assets/css/tailwind.css';
+
 .article {
   margin: 0 auto;
   max-width: 40rem;

@@ -9,7 +9,7 @@
       v-model="vValue"
       native-value=""
       :class="cssClass"
-      :rounded="rounded"
+      :rounded="rounded-sm"
     >
       <span><b>NONE 🚫</b></span>
     </NeoRadioButton>
@@ -19,7 +19,7 @@
       v-model="vValue"
       :native-value="option"
       :class="cssClass"
-      :rounded="rounded"
+      :rounded="rounded-sm"
     >
       <span>{{ option }}</span>
     </NeoRadioButton>

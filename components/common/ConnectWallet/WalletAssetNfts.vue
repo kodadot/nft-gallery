@@ -36,7 +36,7 @@ const { data } = useSearchNfts({
     },
   ],
   first: 3,
-  orderBy: 'updatedAt_DESC',
+  orderBy: 'createdAt_DESC',
 })
 
 const nfts = ref<NFTWithMetadata[]>([])

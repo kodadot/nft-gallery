@@ -6,7 +6,7 @@
     <img
       v-if="dropIcon"
       :src="dropIcon"
-      class="w-[12.5px] aspect-square flex-shrink-0"
+      class="w-[12.5px] aspect-square shrink-0"
       alt="chain icon"
     >
     <span class="text-sm uppercase">{{

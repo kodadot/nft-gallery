@@ -19,7 +19,7 @@ const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const { getSignaturePair } = useVerifyAccount()
 const isHovered = useElementHover(buttonRef)
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { doAfterLogin } = useDoAfterlogin()
 
 const emit = defineEmits(['follow:success', 'follow:fail', 'unfollow:success'])
@@ -64,7 +64,7 @@ const followConfig = computed<ButtonConfig>(() => ({
       },
     })
   },
-  classes: 'hover:!bg-transparent',
+  classes: 'hover:bg-transparent!',
 }))
 
 const unfollowConfig = computed<ButtonConfig>(() => ({
@@ -92,7 +92,7 @@ const unfollowConfig = computed<ButtonConfig>(() => ({
     loading.value = false
     emit('unfollow:success')
   },
-  classes: 'hover:!border-k-red',
+  classes: 'hover:border-k-red!',
 }))
 
 const followingConfig: ButtonConfig = {

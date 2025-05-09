@@ -25,10 +25,10 @@
                 :key="nft.id"
                 class="border-b border-k-shade m-0 py-1 px-4"
               >
-                <td class="!align-middle">
+                <td class="align-middle!">
                   {{ nft.id }}
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <NeoAvatar
                     :image-component="NuxtImg"
                     class="overflow-hidden m-0"
@@ -38,7 +38,7 @@
                     :placeholder="placeholder"
                   />
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <div
                     class="cursor-pointer"
                     :class="{ 'text-k-red': !nft.name }"
@@ -47,7 +47,7 @@
                     {{ nft.name || '*' + $t('massmint.nameRequired') }}
                   </div>
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <div
                     class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
                     :class="{ 'text-k-orange': !nft.description }"
@@ -56,7 +56,7 @@
                     {{ nft.description || $t('massmint.descriptionMissing') }}
                   </div>
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <div
                     class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
                     :class="{
@@ -79,7 +79,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <div
                     class="cursor-pointer"
                     @click="openSideBarWith(nft)"
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <div class="flex items-center pl-2">
                     <div
                       class="border text-xs justify-center py-2 flex items-center w-[100px]"
@@ -106,7 +106,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="!align-middle">
+                <td class="align-middle!">
                   <NeoButton
                     icon="edit"
                     size="large"

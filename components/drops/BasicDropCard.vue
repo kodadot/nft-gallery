@@ -18,7 +18,7 @@
         >
 
         <div
-          class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color"
+          class="min-h-[115px] py-5 px-2 sm:px-5! flex flex-col justify-between gap-4 border-t border-card-border-color"
         >
           <div class="flex flex-col gap-2 min-h-[60px]">
             <div class="flex justify-between items-center">

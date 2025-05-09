@@ -1,8 +1,7 @@
 <template>
   <div class="text-k-red flex items-center cursor-default">
-    <NeoIcon
-      icon="triangle-exclamation"
-      pack="fasr"
+    <KIcon
+      name="i-mdi:alert"
       class="mr-3"
       size="medium"
     />
@@ -43,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoTooltip } from '@kodadot1/brick'
 
 defineProps<{
   targetExistentialDeposit: number | string
