@@ -62,6 +62,7 @@
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.3.2-rc.0",
     "@nuxt/image": "^1.8.0",
+    "@nuxt/ui": "^3.1.1",
     "@nuxtjs/apollo": "5.0.0-alpha.6",
     "@paraspell/sdk-pjs": "^8.9.8",
     "@pinia/nuxt": "^0.5.4",
