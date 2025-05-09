@@ -18,6 +18,7 @@ const props = defineProps<{
   label?: string
   urlParam: string
   variant?: NeoButtonVariant
+  oppositeUrlParam?: string
 }>()
 
 const model = computed({
@@ -25,5 +26,11 @@ const model = computed({
   set: (val) => {
     replaceUrl({ [props.urlParam]: val })
   },
+})
+
+watch(model, (val) => {
+  if (props.oppositeUrlParam && val) {
+    replaceUrl({ [props.oppositeUrlParam]: false })
+  }
 })
 </script>
