@@ -80,9 +80,8 @@
           <span class="mx-2 text-base">
             {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
           </span>
-          <NeoIcon
-            :icon="isExpandList ? 'angle-up' : 'angle-down'"
-            pack="far"
+          <KIcon
+            :name="isExpandList ? 'i-mdi:chevron-up' : 'i-mdi:chevron-down'"
           />
         </div>
       </div>
@@ -156,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoStickyModal, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoStickyModal, NeoTooltip } from '@kodadot1/brick'
 import { NAMES } from '@/libs/static/src/names'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'

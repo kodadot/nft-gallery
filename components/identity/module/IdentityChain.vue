@@ -1,10 +1,9 @@
 <template v-else>
   <div :class="{ 'flex items-center': showBadge }">
-    <NeoIcon
+    <KIcon
       v-if="showBadge"
-      icon="badge-check"
+      name="i-mdi:check"
       class="mr-1"
-      pack="fass"
       size="small"
     />
 
@@ -42,7 +41,6 @@
 
 <script lang="ts" setup>
 import type { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { NeoIcon } from '@kodadot1/brick'
 import IdentityPopover from './IdentityPopover.vue'
 import { isMobileDevice } from '@/utils/extension'
 

@@ -221,9 +221,8 @@
 
             <NeoDropdownItem @click="shareOnX($i18n.t('sharing.profile'), shareURL, '')">
               <div class="flex text-nowrap w-max items-center">
-                <NeoIcon
-                  icon="x-twitter"
-                  pack="fab"
+                <KIcon
+                  name="i-ri:twitter-x-fill"
                   class="mr-3"
                 />
                 {{ $t('share.twitter') }}

@@ -46,8 +46,8 @@
             data-testid="transfer-dropdown-pay-me"
             @click="toast($t('toast.urlCopy'))"
           >
-            <NeoIcon
-              icon="sack-dollar"
+            <KIcon
+              name="i-mdi:sack-percent"
               class="mr-2"
             />{{
               $t('transfers.payMeLink')
@@ -60,8 +60,8 @@
             data-testid="transfer-dropdown-recurring"
             @click="toast($t('toast.urlCopy'))"
           >
-            <NeoIcon
-              icon="rotate"
+            <KIcon
+              name="i-mdi:rotate-3d-variant"
               class="mr-2"
             />{{
               $t('transfers.recurringPaymentLink')
@@ -167,9 +167,9 @@
               v-if="targetAddresses.length > 1"
               @click="deleteAddress(index)"
             >
-              <NeoIcon
+              <KIcon
                 class="p-3"
-                icon="trash"
+                name="i-mdi:delete"
               />
             </a>
           </div>
@@ -242,9 +242,9 @@
                 data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)"
               >
-                <NeoIcon
+                <KIcon
                   class="p-3"
-                  icon="trash"
+                  name="i-mdi:delete"
                 />
               </a>
             </div>
@@ -390,7 +390,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoIcon,
   NeoInput,
   NeoSwitch,
   NeoTooltip,

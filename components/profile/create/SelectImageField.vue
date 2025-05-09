@@ -12,9 +12,8 @@
         v-if="!vSelectedFile && !preview"
         class="flex items-center justify-center bg-neutral-3 dark:bg-neutral-11 w-16 h-16"
       >
-        <NeoIcon
-          icon="up-to-line"
-          pack="fas"
+        <KIcon
+          name="i-mdi:upload"
         />
       </div>
       <NuxtImg
@@ -39,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { NeoButton, NeoUpload } from '@kodadot1/brick'
 
 const NuxtImg = resolveComponent('NuxtImg')
 const ONE_MB = 1024 * 1024
