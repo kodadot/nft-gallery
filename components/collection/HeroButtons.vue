@@ -109,22 +109,22 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal
-      :value="QRModalActive"
-      header=""
-      @close="QRModalActive = false"
+    <UModal
+      v-model:open="QRModalActive"
+      :title="collection?.name"
     >
-      <NeoModalHead
-        :title="collection?.name"
-        @close="QRModalActive = false"
-      />
-      <div
-        class="card-content"
-        data-testid="hero-share-qrcode-modal"
-      >
-        <QRCode :text="currentCollectionUrl" />
-      </div>
-    </NeoModal>
+      <template #body>
+        <div
+          class="card-content"
+          data-testid="hero-share-qrcode-modal"
+        >
+          <QRCode
+            :text="currentCollectionUrl"
+            class="w-full h-full"
+          />
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>
 
@@ -133,8 +133,6 @@ import {
   NeoButton,
   NeoDropdown,
   NeoDropdownItem,
-  NeoModal,
-  NeoModalHead,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { hasOperationsDisabled } from '@/utils/prefix'
