@@ -55,7 +55,7 @@
           :label="$t('massmint.goBack')"
           variant="primary"
           no-shadow
-          class="flex flex-grow h-[3.25rem]"
+          class="flex grow h-[3.25rem]"
           @click="emit('close')"
         />
       </div>

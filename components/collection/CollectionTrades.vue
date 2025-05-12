@@ -4,7 +4,7 @@
 
     <div
       ref="wrapper"
-      class="w-full !my-4"
+      class="w-full my-4!"
     >
       <BreadcrumbsFilter class="max-md:hidden" />
 

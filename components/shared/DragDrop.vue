@@ -36,10 +36,11 @@
           v-else
           class="flex items-center"
         >
-          <div class="flex flex-col justify-between">
+          <div class="flex flex-col justify-between items-center">
             <KIcon
               name="i-mdi:check-circle-outline"
               class="check-icon text-k-green"
+              size="3x"
             />
             <div class="flex items-center mt-6 flex-col">
               <span class="text-k-grey mr-5 mb-4">

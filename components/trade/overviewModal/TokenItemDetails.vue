@@ -14,7 +14,7 @@
       :nft="nftToOfferItem(nft)"
     >
       <template #right>
-        <div class="flex items-end flex-shrink-0">
+        <div class="flex items-end shrink-0">
           <TradeActivityTableSurchargeTag
             v-if="surcharge"
             :value="surcharge"

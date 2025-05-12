@@ -1,6 +1,6 @@
 <template>
   <div class="mb-6 flex flex-col gap-[10px]">
-    <div class="flex h-[70px] leading-[1]">
+    <div class="flex h-[70px] leading-none">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
           <NeoAvatar
@@ -12,7 +12,7 @@
           />
         </div>
       </nuxt-link>
-      <div class="flex flex-col justify-center gap-[10px] flex-grow">
+      <div class="flex flex-col justify-center gap-[10px] grow">
         <nuxt-link
           class="truncate inline-block max-sm:w-[240px]"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="flex">
-      <div class="flex justify-between flex-grow">
+      <div class="flex justify-between grow">
         <CommonTokenMoney
           v-if="amount !== blank"
           :value="amount"

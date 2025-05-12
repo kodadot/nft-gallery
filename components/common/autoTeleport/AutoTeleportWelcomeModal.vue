@@ -1,7 +1,7 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    class="z-[1000]"
+    class="z-1000"
     @close="onClose"
   >
     <div class="sm:w-[40rem]">
@@ -35,8 +35,8 @@
               />
               <img
                 src="~/assets/svg/accent-blur.svg"
-                class="blur icon-blur"
-                alt="blur"
+                class="blur-sm icon-blur"
+                alt="blur-sm"
               >
             </div>
 
@@ -67,7 +67,7 @@
             :label="$t('autoTeleport.welcome.submit')"
             variant="primary"
             no-shadow
-            class="flex flex-grow btn-height"
+            class="flex grow btn-height"
             @click="onClose"
           />
         </div>

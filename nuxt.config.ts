@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
-import { pwa } from './utils/config/pwa'
+import tailwindcss from '@tailwindcss/vite'
 import { URLS, apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
@@ -9,14 +9,6 @@ export default defineNuxtConfig({
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
-  },
-
-  postcss: {
-    plugins: {
-      'tailwindcss/nesting': {},
-      'tailwindcss': {},
-      'autoprefixer': {},
-    },
   },
 
   sourcemap: false,
@@ -33,6 +25,7 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
+      tailwindcss(),
       svgLoader({
         defaultImport: 'url',
       }),
@@ -208,6 +201,8 @@ export default defineNuxtConfig({
   css: [
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
+    './libs/ui/dist/koda-brick.css',
+    '@/assets/css/tailwind.css',
   ],
 
   colorMode: {
@@ -260,7 +255,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
@@ -307,8 +301,6 @@ export default defineNuxtConfig({
     download: false,
     inject: false,
   },
-
-  pwa,
 
   i18n: {
     compilation: {
@@ -412,5 +404,5 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: '2024-11-01',
 })

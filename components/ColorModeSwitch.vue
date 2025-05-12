@@ -10,7 +10,7 @@
     <NeoDropdown
       v-else
       v-model="preference"
-      position="top-left"
+      position="top-right"
       :close-on-click="true"
       aria-role="list"
       @change="onChange"

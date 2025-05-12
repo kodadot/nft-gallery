@@ -3,7 +3,7 @@
     class="footer-container px-6 py-12"
     data-testid="footer-container"
   >
-    <div class="footer-container-inner flex items-start justify-between">
+    <div class="footer-container-inner flex md:justify-between">
       <section class="footer-container-subs flex flex-col">
         <h2 class="subtitle is-5">
           {{ $t('footer.subscribe') }}

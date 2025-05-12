@@ -1,5 +1,5 @@
 <template>
-  <div class="!mt-6 h-full">
+  <div class="mt-6! h-full">
     <NeoButton
       variant="primary"
       no-shadow

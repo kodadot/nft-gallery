@@ -22,8 +22,8 @@
         v-safe-href="action.url"
         :class="[
           variant === 'success'
-            ? '!text-k-blue hover:!text-k-blue-hover !no-underline text-sm'
-            : '!text-text-color text-[16px] ',
+            ? 'text-k-blue! hover:text-k-blue-hover! no-underline! text-sm'
+            : 'text-text-color! text-[16px] ',
         ]"
         target="_blank"
       >

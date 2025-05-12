@@ -31,7 +31,7 @@ const showModal = (url: string, i18n: VueI18n, modal) => {
   modal.open({
     component: RedirectModal,
     canCancel: ['outside', 'escape'],
-    rootClass: 'z-[1000] neo-modal',
+    rootClass: 'z-1000 neo-modal',
     props: {
       url,
       i18n,

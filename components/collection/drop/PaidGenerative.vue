@@ -23,7 +23,7 @@ import { doAfterCheckCurrentChainVM } from '@/components/common/ConnectWallet/op
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin()
 const { $i18n, $consola } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { isLogIn } = useAuth()
 const { openListingCartModal } = useListingCartModal({
   clearItemsOnBeforeUnmount: true,

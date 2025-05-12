@@ -13,7 +13,7 @@
 
     <NeoButton
       v-if="dropStore.isCapturingImage"
-      class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
+      class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:bg-transparent!"
       expanded
       rounded
       no-shadow
@@ -30,7 +30,7 @@
 
     <NeoButton
       v-else
-      class="mt-5 h-[40px] border-k-grey hover:!bg-transparent"
+      class="mt-5 h-[40px] border-k-grey hover:bg-transparent!"
       expanded
       rounded
       no-shadow

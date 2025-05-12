@@ -31,7 +31,9 @@ const customSharingContent = computed(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-button {
   display: flex;
   gap: 1rem;

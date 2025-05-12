@@ -91,7 +91,7 @@
     <div class="flex-1">
       <div class="h-[50px] flex items-center">
         <TradeOwnerButton
-          main-class="max-md:!w-full"
+          main-class="max-md:w-full!"
           detailed
           :trade="trade"
           @click:main="$emit('select')"
@@ -211,7 +211,7 @@
 
     <TradeOwnerButton
       class="mt-5"
-      main-class="!w-full"
+      main-class="w-full!"
       detailed
       :trade="trade"
       @click:main="$emit('select')"

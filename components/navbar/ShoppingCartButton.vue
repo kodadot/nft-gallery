@@ -16,7 +16,7 @@
         v-if="numberOfItems"
         :count="numberOfItems"
         rounded
-        class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs"
+        class="right-[-0.5rem] top-[-0.5rem] left-[unset]! bottom-[unset]! text-xs"
       />
     </div>
     <KIcon

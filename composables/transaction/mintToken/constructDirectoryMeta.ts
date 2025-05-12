@@ -81,11 +81,15 @@ const batchFiles = (files: File[], maxBatchSize: number): File[][] => {
 }
 
 export const uploadMediaFiles = async (files: File[]): Promise<string[]> => {
-  const MAX_BATCH_SIZE = 100 * 1024 * 1024 // 100 MB in bytes
+  const MAX_BATCH_SIZE = 50 * 1024 * 1024 // 50 MB in bytes
   const serialFiles = mapToSerial(files)
   const fileBatches = batchFiles(serialFiles, MAX_BATCH_SIZE)
 
-  const directoryCIDs = await Promise.all(fileBatches.map(pinDirectory))
+  const directoryCIDs: string[] = []
+  for (const batch of fileBatches) {
+    const directoryCid = await pinDirectory(batch)
+    directoryCIDs.push(directoryCid)
+  }
 
   return directoryCIDs.flatMap((directoryCid, batchIndex) =>
     fileBatches[batchIndex].map(

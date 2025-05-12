@@ -66,7 +66,7 @@
         </NeoField>
       </form>
 
-      <div class="flex flex-col !mt-6">
+      <div class="flex flex-col mt-6!">
         <NeoButton
           variant="primary"
           size="large"

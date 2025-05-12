@@ -16,17 +16,17 @@
       </div>
     </div>
 
-    <div class="flex gap-2 !mt-4">
+    <div class="flex gap-2 mt-4!">
       <NeoInput
         v-model="amount"
-        class="!max-w-52"
+        class="max-w-52!"
         type="number"
         min="1"
       />
       <NeoButton
         no-shadow
         expanded
-        class="!h-[unset]"
+        class="h-[unset]!"
         @click="$emit('retry')"
       >
         <div class="inline-flex items-center gap-2">

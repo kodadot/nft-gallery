@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-grow justify-start mt-5">
+  <div class="flex flex-col grow justify-start mt-5">
     <!-- price -->
     <GalleryItemPriceBuy
       v-if="!isOwner && nft"

@@ -129,7 +129,16 @@ const [thumbnail] = useKeenSlider(
   }
 
   .unlockable-image-tip {
-    @apply absolute rounded-[3rem] left-[26px] -top-3.5;
+    position: absolute;
+    border-radius: 3rem;
+    left: 26px;
+    top: -0.875rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    background-color: var(--background-color);
+    z-index: 10;
+    white-space: nowrap;
 
     @include bulma-mobile {
       left: 50%;

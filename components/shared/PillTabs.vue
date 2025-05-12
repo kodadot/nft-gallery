@@ -61,7 +61,9 @@ const handleTabClick = (value: string) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .square-20 {
   width: 20px;
   height: 20px;

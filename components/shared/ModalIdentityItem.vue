@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isLogIn"
-    class="rounded-[10rem] border border-k-shade flex justify-start flex-grow pl-3"
+    class="rounded-[10rem] border border-k-shade flex justify-start grow pl-3"
   >
     <IdentityItem
       :label="$t('confirmPurchase.connectedWith')"

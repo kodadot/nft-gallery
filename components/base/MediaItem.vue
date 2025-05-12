@@ -42,10 +42,10 @@
     </div>
     <div
       v-if="hasNormalTag"
-      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-[18]"
+      class="bg-k-shade border-k-grey text-text-color flex items-center justify-center border rounded-md absolute right-3 top-3 image size-6 z-18"
     >
       <KIcon
-        name="i-mdi:file-image-box"
+        :name="iconType"
         class="text-sm font-medium"
       />
     </div>
@@ -76,11 +76,13 @@ import {
   NeoVideoMedia,
 } from '@kodadot1/brick'
 import AudioMedia from '@/components/shared/AudioMedia.vue'
-import { getMimeType, resolveMedia, MediaType } from '@/utils/gallery/media'
+import { getMimeType, resolveMedia, MediaType, getMediaIcon, DEFAULT_MEDIA_ICON } from '@/utils/gallery/media'
+import { fetchMimeType } from '@/services/oda'
 
 const props = withDefaults(
   defineProps<{
     src?: string
+    rawSrc?: string
     animationSrc?: string
     mimeType?: string
     title?: string
@@ -107,6 +109,7 @@ const props = withDefaults(
   }>(),
   {
     src: '',
+    rawSrc: '',
     animationSrc: '',
     mimeType: '',
     title: 'KodaDot NFT',
@@ -127,6 +130,7 @@ const mediaRef = ref()
 const mediaItem = ref<HTMLDivElement>()
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+const iconType = ref(DEFAULT_MEDIA_ICON)
 
 useMediaFullscreen({
   ref: mediaItem,
@@ -190,19 +194,16 @@ const placeholder = computed(() =>
 )
 const properSrc = computed(() => props.src || placeholder.value)
 
-const updateComponent = async () => {
+onMounted(async () => {
   if (props.animationSrc && !props.mimeType) {
     type.value = await getMimeType(props.animationSrc)
+    iconType.value = getMediaIcon(type.value)
   }
-}
-
-watch(
-  () => props.animationSrc,
-  () => updateComponent(),
-  {
-    immediate: true,
-  },
-)
+  else if (props.rawSrc) {
+    const mime = await fetchMimeType(props.rawSrc)
+    iconType.value = getMediaIcon(mime.mime_type.toLowerCase())
+  }
+})
 
 const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
@@ -219,7 +220,9 @@ function toggleFullscreen() {
 defineExpose({ isLewdBlurredLayer, toggleFullscreen })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);

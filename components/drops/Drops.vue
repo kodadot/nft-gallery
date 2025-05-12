@@ -5,9 +5,9 @@
         <span>{{ $i18n.t('drops.title') }}</span>
       </h1>
 
-      <div class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-end flex-grow">
+      <div class="max-md:pt-8 flex items-center flex-col md:flex-row gap-6 max-md:gap-4 md:justify-end grow">
         <nuxt-link
-          class="flex-shrink-0"
+          class="shrink-0"
           to="https://form.kodadot.xyz/drop-interest"
           target="_blank"
           rel="noopener noreferrer"

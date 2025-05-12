@@ -138,7 +138,9 @@ watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 .dropdown-width {
   width: 30rem;
 
-  @apply bulma-mobile:w-full;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .full-width {

@@ -1539,7 +1539,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 section {
   th,
   td {
