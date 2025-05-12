@@ -25,9 +25,9 @@
       solid
     >
       <template v-if="failed">
-        <NeoIcon
+        <KIcon
           class="text-k-red mr-6"
-          icon="xmark"
+          name="i-mdi:close"
           size="large"
         />
 
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import type { TransactionStatus } from '@/composables/useTransactionStatus'
 
 defineEmits(['tryAgain'])
