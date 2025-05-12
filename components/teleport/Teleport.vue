@@ -242,13 +242,6 @@ const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 const insufficientEDModalOpen = ref(false)
 
-const DOT_BUFFER_FEE = 10000000 // 0.01
-const KSM_BUFFER_FEE = 100000000 // 0.001
-
-const teleportBufferFee = computed(() =>
-  currency.value === 'DOT' ? DOT_BUFFER_FEE : KSM_BUFFER_FEE,
-)
-
 const sourceExistentialDeposit: ValuePair = reactive({
   value: computed(
     () => teleportExistentialDeposit[chainToPrefixMap[fromChain.value]],
@@ -502,21 +495,25 @@ const teleport = async () => {
   })
 }
 
-watch(
-  fromChain,
-  async () => {
-    const fee = await getTransactionFee({
-      amount: 1,
-      from: fromChain.value,
-      to: toChain.value,
-      toAddress: toAddress.value,
-      fromAddress: fromAddress.value,
-      currency: currency.value,
-    })
-    teleportFee.value = Number(fee) + teleportBufferFee.value
-  },
-  { immediate: true },
-)
+const fetchTransactionFee = async () => {
+  const fee = await getTransactionFee({
+    amount: amount.value || 10000000, // 0.01
+    from: fromChain.value,
+    to: toChain.value,
+    toAddress: toAddress.value,
+    fromAddress: fromAddress.value,
+    currency: currency.value,
+  })
+  teleportFee.value = Number(fee)
+}
+
+watch(fromChain, async () => {
+  await fetchTransactionFee()
+}, { immediate: true })
+
+watchDebounced(amount, async () => {
+  await fetchTransactionFee()
+}, { debounce: 500 })
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
