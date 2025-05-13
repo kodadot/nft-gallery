@@ -204,6 +204,7 @@ import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { useFiatStore } from '@/stores/fiat'
+import { BUFFER_FEE_PERCENT } from '@/composables/autoTeleport/useAutoTeleportTransitionDetails'
 
 type ValuePair = {
   value: number
@@ -504,7 +505,8 @@ const fetchTransactionFee = async () => {
     fromAddress: fromAddress.value,
     currency: currency.value,
   })
-  teleportFee.value = Number(fee)
+
+  teleportFee.value = Number(fee) * (1 + BUFFER_FEE_PERCENT)
 }
 
 watch(fromChain, async () => {

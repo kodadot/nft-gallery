@@ -17,7 +17,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 
-const BUFFER_FEE_PERCENT = 0.1
+export const BUFFER_FEE_PERCENT = 0.1
 
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
