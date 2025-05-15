@@ -368,7 +368,15 @@
                 :label="$t('sort.listed')"
                 variant="outlined-rounded"
                 url-param="buy_now"
+                opposite-url-param="unlisted"
                 data-testid="profile-filter-button-buynow"
+              />
+              <FilterButton
+                v-if="isItemsGridTab"
+                :label="$t('sort.unlisted')"
+                variant="outlined-rounded"
+                url-param="unlisted"
+                opposite-url-param="buy_now"
               />
               <FilterButton
                 v-if="activeTab === ProfileTab.CREATED"
@@ -404,7 +412,7 @@
             :reset-search-query-params="['sort']"
           >
             <template
-              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold"
+              v-if="hasAssetPrefixMap[activeTab]?.length && !listed && !addSold && !unlisted"
               #empty-result
             >
               <ProfileEmptyResult :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
@@ -672,6 +680,9 @@ const itemsGridSearch = computed(() => {
   if (listed.value) {
     query['price_gt'] = 0
   }
+  else if (unlisted.value) {
+    query['price_isNull'] = true
+  }
 
   if (addSold.value) {
     query['events_some'] = {
@@ -705,6 +716,7 @@ const activeTab = computed({
 })
 
 const listed = computed(() => route.query.buy_now === 'true')
+const unlisted = computed(() => route.query.unlisted === 'true')
 
 const sold = computed(() => route.query.sold === 'true')
 const addSold = computed(
