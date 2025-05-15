@@ -6,8 +6,6 @@ import * as paraspell from '@paraspell/sdk-pjs'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import type { TeleportParams } from '@/composables/useTeleport'
-import { getAddress } from '@/utils/extension'
-import { toDefaultAddress } from '@/utils/account'
 
 export enum Chain {
   KUSAMA = 'Kusama',
@@ -61,6 +59,32 @@ const getApi = (chain: Chain) => {
   return ApiFactory.useApiInstance(endpoint)
 }
 
+const getParaspellQuery = async ({
+  amount,
+  from,
+  to,
+  fromAddress,
+  toAddress,
+  currency,
+}: {
+  amount: number
+  from: Chain
+  to: Chain
+  fromAddress: string
+  toAddress: string
+  currency: string
+}) => {
+  const api = await getApi(from)
+
+  return paraspell
+    .Builder(api)
+    .from(Chain[from.toUpperCase()])
+    .to(Chain[to.toUpperCase()])
+    .currency({ symbol: currency, amount: amount })
+    .senderAddress(fromAddress)
+    .address(toAddress)
+}
+
 export const getTransaction = async ({
   amount,
   from,
@@ -74,15 +98,16 @@ export const getTransaction = async ({
   address: string
   currency: string
 }) => {
-  const api = await getApi(from)
+  const query = await getParaspellQuery({
+    amount,
+    from,
+    to,
+    fromAddress: address,
+    toAddress: address,
+    currency,
+  })
 
-  return paraspell
-    .Builder(api)
-    .from(Chain[from.toUpperCase()])
-    .to(Chain[to.toUpperCase()])
-    .currency({ symbol: currency, amount: amount })
-    .address(address)
-    .build()
+  return query.build()
 }
 
 export const getTransactionFee = async ({
@@ -93,26 +118,20 @@ export const getTransactionFee = async ({
   fromAddress,
   currency,
 }: TeleportParams) => {
-  const promise = await getTransaction({
-    amount: amount,
-    from: from,
-    to: to,
-    address: toAddress,
-    currency: currency,
+  const query = await getParaspellQuery({
+    amount,
+    from,
+    to,
+    toAddress,
+    fromAddress,
+    currency,
   })
 
-  if (!promise) {
-    return
-  }
+  const xcmFee = await query.getXcmFee()
 
-  const injector = await getAddress(toDefaultAddress(fromAddress))
+  const totalFee = Number(xcmFee.origin?.fee || 0) + Number(xcmFee.destination.fee || 0)
 
-  const info = await promise.paymentInfo(
-    fromAddress,
-    injector ? { signer: injector.signer } : {},
-  )
-
-  return info.partialFee.toString()
+  return totalFee
 }
 
 export type Currency = 'KSM' | 'DOT' | 'ETH'

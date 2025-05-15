@@ -204,6 +204,7 @@ import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { useFiatStore } from '@/stores/fiat'
+import { BUFFER_FEE_PERCENT } from '@/composables/autoTeleport/useAutoTeleportTransitionDetails'
 
 type ValuePair = {
   value: number
@@ -241,13 +242,6 @@ const displayAmount = computed({
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 const insufficientEDModalOpen = ref(false)
-
-const DOT_BUFFER_FEE = 10000000 // 0.01
-const KSM_BUFFER_FEE = 100000000 // 0.001
-
-const teleportBufferFee = computed(() =>
-  currency.value === 'DOT' ? DOT_BUFFER_FEE : KSM_BUFFER_FEE,
-)
 
 const sourceExistentialDeposit: ValuePair = reactive({
   value: computed(
@@ -502,21 +496,26 @@ const teleport = async () => {
   })
 }
 
-watch(
-  fromChain,
-  async () => {
-    const fee = await getTransactionFee({
-      amount: 1,
-      from: fromChain.value,
-      to: toChain.value,
-      toAddress: toAddress.value,
-      fromAddress: fromAddress.value,
-      currency: currency.value,
-    })
-    teleportFee.value = Number(fee) + teleportBufferFee.value
-  },
-  { immediate: true },
-)
+const fetchTransactionFee = async () => {
+  const fee = await getTransactionFee({
+    amount: amount.value || 10000000, // 0.01
+    from: fromChain.value,
+    to: toChain.value,
+    toAddress: toAddress.value,
+    fromAddress: fromAddress.value,
+    currency: currency.value,
+  })
+
+  teleportFee.value = Number(fee) * (1 + BUFFER_FEE_PERCENT)
+}
+
+watch(fromChain, async () => {
+  await fetchTransactionFee()
+}, { immediate: true })
+
+watchDebounced(amount, async () => {
+  await fetchTransactionFee()
+}, { debounce: 500 })
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
