@@ -10,6 +10,7 @@ const profileStatsByIdRefined = graphql(
           currentOwner_eq: $id
           issuer_not_in: $denyList
           burned_eq: false
+          price_isNull: false
         }
       ) {
         events(

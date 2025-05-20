@@ -42,7 +42,7 @@ export const useListingCartStore = defineStore('listingCart', () => {
     clear: clearItems,
   } = useCart<ListCartItem>({ items: localStorage.value })
 
-  const allUnlistedItems = ref<ListCartItem[]>([])
+  const allOwnedItems = ref<ListCartItem[]>([])
 
   const incompleteListPrices = computed(() =>
     itemsInChain.value.filter(item => !item.listPrice).length,
@@ -56,19 +56,19 @@ export const useListingCartStore = defineStore('listingCart', () => {
     }
   }
 
-  function setUnlistedItem(payload: ListCartItem) {
-    const itemIndex = existInItemIndex(payload.id, allUnlistedItems.value)
+  function setOwnedItem(payload: ListCartItem) {
+    const itemIndex = existInItemIndex(payload.id, allOwnedItems.value)
     if (itemIndex === -1) {
-      allUnlistedItems.value.push(payload)
+      allOwnedItems.value.push(payload)
     }
   }
 
-  function setUnlistedItems(payload: ListCartItem[]) {
-    allUnlistedItems.value = payload
+  function setOwnedItems(payload: ListCartItem[]) {
+    allOwnedItems.value = payload
   }
 
   function addAllToCart() {
-    allUnlistedItems.value.forEach(item => setItem(item))
+    allOwnedItems.value.forEach(item => setItem(item))
   }
 
   function setFixedPrice(price: number) {
@@ -94,12 +94,12 @@ export const useListingCartStore = defineStore('listingCart', () => {
   function clear() {
     clearItems()
     localStorage.value = []
-    allUnlistedItems.value = []
+    allOwnedItems.value = []
   }
 
   return {
     items,
-    allUnlistedItems,
+    allOwnedItems,
     chain,
     decimals,
     allItemsInChain,
@@ -110,8 +110,8 @@ export const useListingCartStore = defineStore('listingCart', () => {
     isItemInCart,
     setItem,
     setItemPrice,
-    setUnlistedItem,
-    setUnlistedItems,
+    setOwnedItem,
+    setOwnedItems,
     addAllToCart,
     setFixedPrice,
     setFloorPrice,
