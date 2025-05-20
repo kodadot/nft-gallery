@@ -17,8 +17,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 
-const BUFFER_FEE_PERCENT = 0.7
-const BUFFER_AMOUNT_PERCENT = 0.02
+export const BUFFER_FEE_PERCENT = 0.1
 
 const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
   actionAutoFees: true,
@@ -144,13 +143,7 @@ export default function (
     ),
   )
 
-  const buffer = computed(() => {
-    const bufferFee = Math.ceil(totalFees.value * BUFFER_FEE_PERCENT)
-    const amountFee = Math.ceil(
-      neededAmountWithFees.value * BUFFER_AMOUNT_PERCENT,
-    )
-    return bufferFee === 0 ? amountFee : bufferFee
-  })
+  const buffer = computed(() => Math.ceil(totalFees.value * BUFFER_FEE_PERCENT))
 
   const requiredAmountToTeleport = computed(
     () =>
