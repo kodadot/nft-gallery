@@ -61,7 +61,7 @@
         </div>
         <div
           v-if="!getIsLoadingMaxCount"
-          class="font-bold flex items-center gap-2"
+          class="flex items-center font-bold gap-2"
         >
           <span>{{ drop.minted }}</span>
           <span>/</span>
