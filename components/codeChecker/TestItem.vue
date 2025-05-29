@@ -61,7 +61,7 @@ const icon = computed(() => {
   }
 
   return {
-    name: props.passed ? 'i-mdi:check' : 'i-mdi:close',
+    name: props.passed ? 'i-lucide-check' : 'i-lucide-x',
     class: props.passed ? 'text-k-green' : 'text-k-red',
   }
 })
