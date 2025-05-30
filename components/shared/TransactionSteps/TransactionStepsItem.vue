@@ -22,10 +22,10 @@
         :size="iconSize"
       />
 
-      <NeoIcon
+      <KIcon
         v-else-if="isFailed"
         class="text-k-red"
-        icon="xmark"
+        name="i-mdi:close"
         :size="iconSize"
       />
     </div>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
 import type { TransactionStepStatus } from './utils'
 

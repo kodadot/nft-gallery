@@ -23,11 +23,10 @@
 
       <span>{{ tab.label }}</span>
 
-      <NeoIcon
+      <KIcon
         v-if="tab.ticked"
         class="ml-2 text-k-green"
-        icon="fa-check"
-        pack="fa-solid"
+        name="i-mdi:check"
       />
     </NeoButton>
   </div>

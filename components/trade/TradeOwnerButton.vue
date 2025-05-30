@@ -18,7 +18,7 @@
           class="p-0!"
           @click="emit('click:counter-swap')"
         >
-          <NeoIcon icon="repeat" />
+          <KIcon name="i-mdi:repeat" />
         </NeoButton>
       </NeoTooltip>
     </template>
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import type { ButtonConfig } from '../profile/types'
 import { TradeType, type TradeNftItem } from '@/components/trade/types'
 
