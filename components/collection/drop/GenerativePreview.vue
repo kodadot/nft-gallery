@@ -13,7 +13,7 @@
 
     <NeoButton
       v-if="dropStore.isCapturingImage"
-      class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:!bg-transparent"
+      class="mt-5 h-[40px] border-k-grey pointer-events-auto cursor-wait hover:bg-transparent!"
       expanded
       rounded
       no-shadow
@@ -30,7 +30,7 @@
 
     <NeoButton
       v-else
-      class="mt-5 h-[40px] border-k-grey hover:!bg-transparent"
+      class="mt-5 h-[40px] border-k-grey hover:bg-transparent!"
       expanded
       rounded
       no-shadow
@@ -61,15 +61,14 @@
         </div>
         <div
           v-if="!getIsLoadingMaxCount"
-          class="font-bold flex gap-2"
+          class="flex items-center font-bold gap-2"
         >
           <span>{{ drop.minted }}</span>
           <span>/</span>
-          <span v-if="isUnlimited">
-            <KIcon
-              name="i-mdi:infinity"
-            />
-          </span>
+          <KIcon
+            v-if="isUnlimited"
+            name="i-mdi:infinity"
+          />
           <span v-else>{{ drop.max }}</span>
           <span>{{ $t('statsOverview.minted') }}</span>
         </div>

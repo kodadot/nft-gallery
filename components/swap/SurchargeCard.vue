@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-card bg-k-grey-light !px-4 !py-6 flex flex-col items-center justify-between gap-4">
+  <div class="nft-card bg-k-grey-light px-4! py-6! flex flex-col items-center justify-between gap-4">
     <div class="text-lg text-center font-bold capitalize">
       {{ $t('swap.surchargeTitle') }}
     </div>

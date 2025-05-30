@@ -115,7 +115,9 @@ const onClickShoppingCart = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 :deep(.button-height) {
   height: 55px !important;
 }

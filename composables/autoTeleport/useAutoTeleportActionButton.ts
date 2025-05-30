@@ -20,7 +20,7 @@ export default <T = Actions>({
 
   const txFees = computed(() => autoTeleportButton.value?.optimalTransition.txFees || 0)
   const isActionReady = computed(() => Boolean(Object.keys(action.value).length)) // TODO: allow nullish action
-  const { formatted: formattedTxFees } = useAmount(txFees, decimals, chainSymbol)
+  const { formatted: formattedTxFees, usd: formattedTxFeesUsd } = useAmount(txFees, decimals, chainSymbol)
 
   watch(
     () => autoTeleportButton.value?.isReady,
@@ -44,6 +44,7 @@ export default <T = Actions>({
     autoTeleportLoaded,
     txFees,
     formattedTxFees,
+    formattedTxFeesUsd,
     isActionReady,
   }
 }

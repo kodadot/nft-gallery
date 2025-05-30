@@ -8,8 +8,8 @@
     }"
   >
     <div
-      class="grow relative mx-auto my-0 max-lg:!px-0 items-stretch block md:flex min-h-[3.25rem] w-full"
-      :class="{ 'w-full max-w-none md:!px-10 !px-5': !isTouch }"
+      class="grow relative mx-auto my-0 max-lg:px-0! items-stretch md:flex min-h-[3.25rem] w-full"
+      :class="{ 'w-full max-w-none md:px-10! px-5!': !isTouch }"
     >
       <!-- BRAND -->
       <div class="navbar-brand md:ml-[-0.75rem]">
@@ -24,7 +24,7 @@
           >
         </nuxt-link>
         <div
-          class="lg:!hidden flex flex-grow items-center justify-end"
+          class="lg:hidden! flex grow items-center justify-end"
           @click="closeBurgerMenu"
         >
           <NeoButton
@@ -44,11 +44,11 @@
               <Search
                 ref="mobilSearchRef"
                 hide-filter
-                class="flex-grow"
+                class="grow"
               />
               <NeoButton
                 variant="text"
-                class="p-3 !shadow-none border-0 capitalize sm:hidden"
+                class="p-3 shadow-none! border-0 capitalize sm:hidden"
                 @click="hideMobileSearchBar"
               >
                 {{ $t('cancel') }}
@@ -86,9 +86,9 @@
           <div class="navbar-item is-expanded flex justify-center">
             <Search
               v-if="!isTouch"
-              class="search-navbar flex-grow pb-0 max-lg:!hidden"
+              class="search-navbar grow pb-0 max-lg:hidden!"
               hide-filter
-              search-column-class="flex-grow"
+              search-column-class="grow"
             />
           </div>
         </div>
@@ -116,7 +116,7 @@
           <MobileExpandableSection
             v-if="isExplorerVisible"
             v-slot="{ onCloseMobileSubMenu }"
-            class="lg:!hidden"
+            class="lg:hidden!"
             :title="$t('explore')"
           >
             <NavbarExploreOptions
@@ -130,7 +130,7 @@
           </MobileExpandableSection>
           <NavbarExploreDropdown
             v-if="isExplorerVisible"
-            class="navbar-explore custom-navbar-item max-lg:!hidden"
+            class="navbar-explore custom-navbar-item max-lg:hidden!"
             data-testid="explore"
           />
 
@@ -153,7 +153,7 @@
 
           <MobileExpandableSection
             v-slot="{ onCloseMobileSubMenu }"
-            class="lg:!hidden"
+            class="lg:hidden!"
             no-padding
             :title="$t('chainSelect', [chainName])"
           >
@@ -168,7 +168,7 @@
           </MobileExpandableSection>
           <ChainSelectDropdown
             id="NavChainSelect"
-            class="navbar-chain custom-navbar-item max-lg:!hidden"
+            class="navbar-chain custom-navbar-item max-lg:hidden!"
             data-testid="chain-select"
           />
 
@@ -178,7 +178,7 @@
             @close-burger-menu="showMobileNavbar"
           />
 
-          <div class="lg:!hidden">
+          <div class="lg:hidden!">
             <template v-if="!account">
               <ColorModeButton class="navbar-item" />
               <NavbarCookiesButton @select="showMobileNavbar" />
@@ -217,7 +217,7 @@
 
           <NavbarProfileDropdown
             id="NavProfile"
-            class="max-lg:!hidden"
+            class="max-lg:hidden!"
             :chain="urlPrefix"
             data-testid="navbar-profile-dropdown"
             @close-burger-menu="closeBurgerMenu"

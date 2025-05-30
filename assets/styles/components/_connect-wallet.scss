@@ -22,12 +22,18 @@
     position: fixed;
     top: 0;
     right: 0;
-    @apply h-[calc(100%-theme(spacing.navbar-desktop))] mt-[theme(spacing.navbar-desktop)];
+    height: calc(100% - var(--navbar-desktop));
+    margin-top: var(--navbar-desktop);
     max-width: 360px;
     width: 100%;
 
-    @apply bulma-mobile:inset-0 bulma-mobile:border-l-0 bulma-mobile:max-w-full 
-           bulma-mobile:h-[calc(100%-theme(spacing.navbar-mobile))] bulma-mobile:mt-[theme(spacing.navbar-mobile)];
+    @media screen and (max-width: 768px) {
+      inset: 0;
+      border-left: none;
+      max-width: 100%;
+      height: calc(100% - var(--navbar-mobile));
+      margin-top: var(--navbar-mobile);
+    }
     
     background: var(--background-color);
     border-left: 1px solid var(--border-color);
@@ -38,7 +44,7 @@
       background-color: var(--background-color);
 
       hr {
-        @apply bg-k-shade2 #{!important};
+        background-color: var(--k-shade2) !important;
       }  
     }
 
@@ -55,7 +61,11 @@
     .wallet-menu-item {
       width: 100%;
       .button {
-        @apply w-full text-xl rounded-none border-none transition-none;
+        width: 100%;
+        font-size: 1.25rem;
+        border-radius: 0;
+        border: none;
+        transition: none;
         background: unset;
         box-shadow: none !important;
         > span {

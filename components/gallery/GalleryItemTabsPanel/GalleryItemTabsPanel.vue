@@ -78,7 +78,9 @@ const active = ref<GALLERY_ITEM_TABS>(props.activeTab)
 watch(() => props.activeTab, activeTab => active.value = activeTab)
 </script>
 
-<style lang="scss">
+<style>
+@reference '@/assets/css/tailwind.css';
+
 .o-tabs__content--fixed.gallery-item-tab-panel {
   @apply bulma-mobile:h-[28rem];
 }

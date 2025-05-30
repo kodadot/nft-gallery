@@ -11,7 +11,7 @@
           :collection-id="collectionId"
           :collection="collection"
         />
-        <hr class="!bg-k-grey mb-0">
+        <hr class="bg-k-grey! mb-0">
       </div>
     </section>
   </div>
@@ -24,7 +24,7 @@ import CollectionBanner from '@/components/collection/CollectionHeader/Collectio
 
 const collectionInfo = ref()
 
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { $i18n } = useNuxtApp()
 const route = useRoute()
 const collectionId = computed(() => route.params.id.toString())

@@ -1,8 +1,8 @@
 <template>
   <NeoModal
     :value="isModalActive"
-    class="z-[1000]"
-    content-class="!w-[unset]"
+    class="z-1000"
+    content-class="w-[unset]!"
     @close="onClose"
   >
     <ModalBody
@@ -40,7 +40,7 @@
               :label="$t('tooltip.supportFee')"
               multiline
             >
-              <NeoIcon icon="circle-question" />
+              <KIcon name="i-mdi:help-circle-outline" />
             </NeoTooltip>
           </div>
           <CommonTokenMoney :value="supportFee" />
@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
+import { NeoModal, NeoTooltip } from '@kodadot1/brick'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'

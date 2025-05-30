@@ -22,7 +22,7 @@ const props = defineProps<{
   chain: Prefix
 }>()
 
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { $i18n } = useNuxtApp()
 
 const refreshMetadata = () => {

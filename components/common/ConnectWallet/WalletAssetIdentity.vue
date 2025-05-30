@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { useIdentityStore } from '@/stores/identity'
 
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { neoModal } = useProgrammatic()
 const { getPrefixByAddress } = useAddress()
 const identityStore = useIdentityStore()

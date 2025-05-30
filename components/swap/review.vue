@@ -28,15 +28,15 @@
 
           <SwapGridList
             :query="offeredQuery"
-            class="!my-10"
+            class="my-10!"
             :surcharge="surcharge?.direction === 'Send' ? surcharge : undefined"
           />
         </div>
 
         <div class="hidden md:flex md:items-center">
-          <NeoIcon
+          <KIcon
             class="pt-8 px-4"
-            icon="arrow-right-arrow-left"
+            name="i-mdi:swap-horizontal"
             size="large"
           />
         </div>
@@ -61,31 +61,31 @@
           <SwapGridList
             v-else
             :query="desiredQuery"
-            class="!my-10"
+            class="my-10!"
             :surcharge="surcharge?.direction === 'Receive' ? surcharge : undefined"
           />
         </div>
       </div>
     </div>
   </SwapLayout>
-  <div class="fixed bottom-0 left-0 right-0 bg-background-color z-[100]">
+  <div class="fixed bottom-0 left-0 right-0 bg-background-color z-100">
     <hr class="m-0">
 
     <div
-      class="container-fluid flex flex-col gap-6 justify-between items-center !my-6 md:flex-row md:my-[3.5rem]"
+      class="container-fluid flex flex-col gap-6 justify-between items-center my-6! md:flex-row md:my-[3.5rem]"
     >
       <div class="w-[300px]">
         <TradeExpirationSelector
           v-model="swap.duration"
           position="auto"
-          custom-menu-class="!ml-[168px]"
+          custom-menu-class="ml-[168px]!"
           class="pt-2"
         />
       </div>
 
       <div class="flex gap-8 justify-end">
         <NeoButton
-          class="!px-10"
+          class="px-10!"
           size="large"
           no-shadow
           :label="$t('swap.modifyOffer')"
@@ -93,7 +93,7 @@
         />
 
         <NeoButton
-          class="!px-10"
+          class="px-10!"
           variant="primary"
           no-shadow
           size="large"
@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoButton } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { successMessage } from '@/utils/notification'
 import { SwapStep } from '@/components/swap/types'
 

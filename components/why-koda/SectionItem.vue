@@ -6,7 +6,7 @@
           v-safe-href="`#${section.id}`"
           rounded
           tag="a"
-          class="!border !border-border-color hover:!bg-background-color"
+          class="border! border-border-color! hover:bg-background-color!"
         >
           {{ section.number }}.
         </NeoButton>

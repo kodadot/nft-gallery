@@ -54,7 +54,7 @@
         </CollectionEditSection>
 
         <CollectionEditSection :title="$t('edit.collection.banner.label')">
-          <p class="text-xs !mb-4 capitalize">
+          <p class="text-xs mb-4! capitalize">
             {{ $t('edit.collection.banner.message') }}
           </p>
 
@@ -68,7 +68,7 @@
               class="h-[167px] border border-border-color object-cover"
             >
 
-            <p class="text-xs text-k-grey !mt-2 capitalize">
+            <p class="text-xs text-k-grey mt-2! capitalize">
               {{ $t('edit.collection.banner.hint') }}
             </p>
 
@@ -92,7 +92,7 @@
               :label="$t('edit.collection.drop')"
             />
 
-            <p class="text-xs text-k-grey !mt-4 capitalize">
+            <p class="text-xs text-k-grey mt-4! capitalize">
               {{ $t('edit.collection.banner.hint') }}
             </p>
           </div>
@@ -120,7 +120,7 @@
               :min="min"
             />
 
-            <div class="text-k-grey text-xs !mt-2">
+            <div class="text-k-grey text-xs mt-2!">
               {{ $t('edit.collection.max.hint') }}
             </div>
           </div>
@@ -159,7 +159,7 @@
               </div>
               <div
                 v-if="hasMintingPrice"
-                class="flex focus-within:!border-border-color border border-k-shade h-12 mt-3"
+                class="flex focus-within:border-border-color! border border-k-shade h-12 mt-3"
               >
                 <input
                   v-model="mintingPrice"
@@ -167,7 +167,7 @@
                   step="0.01"
                   min="0.0001"
                   pattern="[0-9]+([\.,][0-9]+)?"
-                  class="indent-2.5 border-none outline-none bg-background-color text-text-color w-full"
+                  class="indent-2.5 border-none outline-hidden bg-background-color text-text-color w-full"
                   :placeholder="$t('mint.collection.permission.pricePlaceholder')"
                 >
                 <div class="px-3 flex items-center">
@@ -191,7 +191,7 @@
             <div class="flex flex-col w-full">
               <div
                 v-if="permissionSettingWarningMessage"
-                class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 !mt-2"
+                class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 mt-2!"
               >
                 <KIcon
                   name="i-mdi:alert-circle-outline"
@@ -208,7 +208,7 @@
         </NeoField>
       </form>
 
-      <div class="flex flex-col !mt-6">
+      <div class="flex flex-col mt-6!">
         <NeoButton
           variant="primary"
           size="large"

@@ -15,8 +15,8 @@
             <img
               v-if="isTelportIconActive"
               src="~/assets/svg/accent-blur.svg"
-              alt="blur"
-              class="blur autotelport-blur"
+              alt="blur-sm"
+              class="blur-sm autotelport-blur"
             >
           </div>
 
@@ -63,7 +63,7 @@
         :loading="loading"
         :loading-with-label="loading"
         with-shortcut
-        class="flex flex-grow btn-height capitalize"
+        class="flex grow btn-height capitalize"
         @click="handleSubmit"
       />
     </div>

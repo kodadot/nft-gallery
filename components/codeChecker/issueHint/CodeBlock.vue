@@ -1,7 +1,7 @@
 <template>
   <div>
     <pre
-      class="resolve-issue-code-example border border-border-color !pb-[30px] !my-0 !rounded-t-xl !rounded-b-none !bg-neutral-2 dark:!bg-neutral-10"
+      class="resolve-issue-code-example border border-border-color pb-[30px]! my-0! rounded-t-xl! rounded-b-none! bg-neutral-2! dark:bg-neutral-10!"
       :class="`language-${lang}`"
       v-html="highlightedCode"
     />
@@ -26,7 +26,7 @@ const nw = new Normalizer({
 })
 
 const props = defineProps<{ code: string, lang: string }>()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const normalizedCode = computed(() => nw.normalize(props.code))
 const highlightedCode = computed(() => {
   const html = Prism.highlight(

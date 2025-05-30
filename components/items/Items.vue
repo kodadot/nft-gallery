@@ -1,7 +1,7 @@
 <template>
   <div class="flex self-start">
     <SidebarFilter />
-    <div class="flex-grow pb-8">
+    <div class="grow pb-8">
       <div class="is-hidden-mobile">
         <div class="flex justify-between pb-4 pt-5 content-center">
           <BreadcrumbsFilter />

@@ -4,12 +4,11 @@
     class="scroll-top-button button justify-center"
     @click="scrollToTop"
   >
-    <NeoIcon icon="chevron-up" />
+    <KIcon name="i-mdi:chevron-up" />
   </button>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
 import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 
@@ -30,9 +29,11 @@ const scrollToTop = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .scroll-top-button {
-  @apply fixed w-[35px] h-[35px] z-[998] rounded-none right-[42px] bottom-[100px];
+  @apply fixed w-[35px] h-[35px] z-998 rounded-none right-[42px] bottom-[100px];
 
   box-shadow: var(--primary-shadow);
   border: 1px solid var(--border-color);

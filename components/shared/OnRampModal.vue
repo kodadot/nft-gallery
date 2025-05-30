@@ -174,14 +174,14 @@ const onSuccess = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .provider {
   .provider-logo {
     width: 122px;
   }
 
   &__disabled {
-    @apply cursor-default #{!important};
+    cursor: default;
     .provider-logo {
       opacity: 30%;
     }

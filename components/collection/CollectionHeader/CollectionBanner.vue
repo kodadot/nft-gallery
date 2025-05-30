@@ -4,7 +4,7 @@
     :style="{ backgroundImage: `url(${collectionBanner})` }"
   >
     <div
-      class="collection-banner-shadow absolute inset-0 bg-gradient-to-b from-black/[0.06] to-black/20"
+      class="collection-banner-shadow absolute inset-0 bg-linear-to-b from-black/[0.06] to-black/20"
     />
 
     <section class="h-full py-8">

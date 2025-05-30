@@ -18,6 +18,7 @@ import { execMintToken } from './transaction/transactionMintToken'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { execUpdateCollection } from './transaction/transactionUpdateCollection'
 import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
+import { execAirdropTx } from './transaction/transactionAirdrop'
 import type {
   ActionAcceptOffer,
   ActionBuy,
@@ -30,6 +31,7 @@ import type {
   ActionMintDrop,
   ActionMintToken,
   ActionSend,
+  ActionAirdrop,
   ActionUpdateCollection,
   ActionSetNftMetadata,
   ActionCancelOffer,
@@ -209,6 +211,8 @@ export const executeAction = ({
       execListTx(item as ActionList, api, executeTransaction),
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
+    [Interaction.AIRDROP]: () =>
+      execAirdropTx(item as ActionAirdrop, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
       execBurn(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.CANCEL_SWAP]: () =>

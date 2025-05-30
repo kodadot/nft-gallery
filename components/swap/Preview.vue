@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="!px-6 !pb-6 !pt-4 min-h-[40vh] overflow-y-auto">
+      <div class="px-6! pb-6! pt-4! min-h-[40vh] overflow-y-auto">
         <div class="flex justify-between items-center">
           <span>
             {{ count }} {{ $t('items') }}
@@ -33,7 +33,7 @@
 
         <hr
           v-if="count"
-          class="!my-6"
+          class="my-6!"
         >
 
         <div
@@ -64,7 +64,7 @@
           </SwapPreviewItem>
         </div>
 
-        <hr class="!my-6">
+        <hr class="my-6!">
 
         <div class="flex flex-col gap-4">
           <div class="font-bold flex items-center gap-2">

@@ -26,9 +26,9 @@
       />
 
       <template v-if="isSwap">
-        <NeoIcon
+        <KIcon
           class="rotate-90 text-k-grey"
-          icon="arrow-right-arrow-left"
+          name="i-mdi:swap-horizontal"
         />
 
         <!-- Offered -->
@@ -41,7 +41,7 @@
       </template>
     </div>
 
-    <hr class="!my-5">
+    <hr class="my-5!">
 
     <TradeOverviewModalDetails
       :trade="trade"
@@ -51,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import { useIsTradeOverview } from './utils'
 import TokenItemDetails from './TokenItemDetails.vue'
 import TokenInCollection from './TokenInCollection.vue'

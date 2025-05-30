@@ -36,14 +36,14 @@
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="flex-grow"
+          class="grow"
           loading-with-label
           @click.prevent="onClickBuy"
         />
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
-          class="p-1 !border-l-0"
+          class="p-1 border-l-0!"
           @click.prevent="onClickShoppingCart"
         >
           <NeoIcon
@@ -67,7 +67,7 @@
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="flex-grow"
+            class="grow"
             @click.prevent="onClickListingCart"
           />
         </template>
@@ -77,7 +77,7 @@
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="flex-grow"
+            class="grow"
             @click.prevent="onClickListingCart"
           />
         </template>

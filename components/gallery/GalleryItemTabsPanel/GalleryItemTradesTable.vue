@@ -1,6 +1,6 @@
 <template>
   <div
-    class="gallery-item-offers-table flex flex-col !py-6"
+    class="gallery-item-offers-table flex flex-col py-6!"
     data-testid="gallery-item-offers-table"
   >
     <div
@@ -17,7 +17,7 @@
       v-else-if="trades.length"
       :data="trades"
       hoverable
-      class="py-5 max-md:!top-0"
+      class="py-5 max-md:top-0!"
     >
       <!-- item -->
       <NeoTableColumn
@@ -91,7 +91,7 @@
         width="10%"
       >
         <TradeOwnerButton
-          class="max-md:!w-full"
+          class="max-md:w-full!"
           detailed
           :trade="row as TradeNftItem"
           @click:main="selectTrade"
@@ -166,7 +166,9 @@ const closeTradeModal = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-item-offers-table {
   overflow-y: auto;
 

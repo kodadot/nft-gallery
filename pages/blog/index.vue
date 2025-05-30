@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1 relative z-[1] !text-text-color-inverse text-shadow-border">
+      <h1 class="title is-1 relative z-1 text-text-color-inverse! text-shadow-border">
         KodaDot Blog
       </h1>
-      <div class="relative z-[1] text-2xl mb-20 font-medium">
+      <div class="relative z-1 text-2xl mb-20 font-medium">
         Let's Explore The NFT Universe
       </div>
       <img
@@ -17,32 +17,32 @@
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
-      class="relative z-[1] mb-20 content-list"
+      class="relative z-1 mb-20 content-list"
     >
       <div
         class="content-list-cover"
-        :style="{ backgroundImage: `url(${post.image})` }"
+        :style="{ backgroundImage: `url(${post.meta?.image})` }"
       />
 
       <div class="content-list-card">
         <div>
           <div class="card-tag">
-            • {{ post.tags }}
+            • {{ post.meta?.tags }}
           </div>
           <p class="title is-4">
-            <nuxt-link :to="post._path">
+            <nuxt-link :to="post.path">
               {{ post.title }}
             </nuxt-link>
           </p>
           <div class="truncate mb-4">
-            {{ post.subtitle }}
+            {{ post.meta?.subtitle }}
           </div>
         </div>
 
         <div>
           <NeoButton
             :tag="NuxtLink"
-            :to="post._path"
+            :to="post.path"
             no-shadow
             rounded
             icon="arrow-right-long"
@@ -62,18 +62,18 @@
         v-for="post in posts?.tokensPosts.slice(0, 2)"
         :key="post.title"
         class="content-board block"
-        :to="post._path"
+        :to="post.path"
       >
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"
+          :style="{ backgroundImage: `url(${post.meta?.image})` }"
         />
         <div class="content-board-text">
           <p class="font-bold">
             {{ post.title }}
           </p>
           <div class="content-board-subtitle">
-            {{ post.subtitle }}
+            {{ post.meta?.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -88,18 +88,18 @@
         v-for="post in posts?.posts"
         :key="post.title"
         class="content-board block"
-        :to="post._path"
+        :to="post.path"
       >
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.image})` }"
+          :style="{ backgroundImage: `url(${post.meta?.image})` }"
         />
         <div class="content-board-text">
           <p class="font-bold">
             {{ post.title }}
           </p>
           <div class="content-board-subtitle">
-            {{ post.subtitle }}
+            {{ post.meta?.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -113,22 +113,20 @@ import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const { data: posts } = useAsyncData('posts', async () => {
-  const contents = await queryContent('/').find()
-  const tags = {
-    tokens: 'Tokens',
-  }
-  const latestPosts = contents.sort(
+  const tags = { tokens: 'Tokens' }
+  const contents = await queryCollection('blog').all()
+  const latestPosts = contents?.sort(
     (content_a, content_b) =>
-      +new Date(content_b.date) - +new Date(content_a.date),
+      +new Date(content_b?.meta?.date) - +new Date(content_a?.meta?.date),
   )
 
-  const reduce = latestPosts.reduce(
+  const reduce = latestPosts?.reduce(
     (acc, post, index) => {
       if (index === 0) {
         acc.featured.push(post)
         return acc
       }
-      if (post.tags === tags.tokens) {
+      if (post.meta?.tags === tags.tokens) {
         acc.tokensPosts.push(post)
       }
       acc.posts.push(post)
@@ -182,7 +180,7 @@ const { data: posts } = useAsyncData('posts', async () => {
     overflow: hidden;
 
     &-cover {
-      @apply border-b border-card-border-color;
+      border-bottom: 1px solid var(--card-border-color);
     }
 
     border: 1px solid var(--card-border-color);
@@ -221,7 +219,10 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
+    overflow: hidden;
+    display: flex;
+    height: 22rem;
+    border-radius: 2.5rem;
 
     @include bulma-touch {
       height: auto;

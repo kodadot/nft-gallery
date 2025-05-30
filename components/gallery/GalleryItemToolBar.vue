@@ -89,7 +89,7 @@ const props = defineProps<{
 const { getNft: nft, getNftImage: nftImage, getNftMetadata: nftMetadata, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const isLoading = ref(false)
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { $i18n, $consola } = useNuxtApp()
 const imageData = ref()
 

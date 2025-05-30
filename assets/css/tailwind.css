@@ -1,6 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config "../../tailwind.config.ts";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility text-shadow-border {
+  text-shadow:
+    1px 1px 0 rgb(var(--text-color)),
+    1px -1px 0 rgb(var(--text-color)),
+    -1px 1px 0 rgb(var(--text-color)),
+    -1px -1px 0 rgb(var(--text-color)),
+    1px 0px 0 rgb(var(--text-color)),
+    0px 1px 0 rgb(var(--text-color)),
+    -1px 0px 0 rgb(var(--text-color)),
+    0px -1px 0 rgb(var(--text-color)),
+    4px 4px rgb(var(--text-color));
+}
+
+@utility container-fluid {
+  @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5;
+}
 
 @layer base {
   :root {
@@ -10,10 +47,11 @@
     --steps-active-color: 97 136 231;
   }
 
-  // global variables
   :root {
-    --navbar-desktop: 80px; // $navbar-desktop-min-height
-    --navbar-mobile: 64px; // $navbar-mobile-min-height
+    /* $navbar-desktop-min-height */
+    --navbar-desktop: 80px;
+    /* $navbar-mobile-min-height */
+    --navbar-mobile: 64px;
   }
 
   :root,
@@ -70,7 +108,6 @@
     --green-border-color: #04af00;
     --blue-accent-bg-color: #b6cbff;
     --blue-light-hover-color: #e8edfb;
-    --blue-light-cards: #e9eefc;
     --card-hover-opacity: 0.85;
     --separator-line-color: #cccccc;
     --toggle-primary: #ff7ac3;
@@ -138,23 +175,5 @@
   :after,
   :before {
     border: 0 solid currentColor;
-  }
-}
-
-@layer utilities {
-  .text-shadow-border {
-    text-shadow: 1px 1px 0 rgb(var(--text-color)),
-                1px -1px 0 rgb(var(--text-color)),
-                -1px 1px 0 rgb(var(--text-color)),
-                -1px -1px 0 rgb(var(--text-color)),
-                1px 0px 0 rgb(var(--text-color)),
-                0px 1px 0 rgb(var(--text-color)),
-                -1px 0px 0 rgb(var(--text-color)),
-                0px -1px 0 rgb(var(--text-color)),
-                4px 4px rgb(var(--text-color));
-  }
-
-  .container-fluid {
-    @apply grow relative w-full max-w-none mx-auto my-0 md:px-10 px-5;
   }
 }

@@ -238,13 +238,16 @@ export const isFollowing = async (
   target: string,
 ): Promise<boolean> => {
   try {
-    const response = await api<{ isFollowing: boolean }>(
-      `/follow/${toSubstrateAddress(follower)}/follows/${toSubstrateAddress(target)}`,
-      {
-        method: 'GET',
-      },
-    )
-    return response.isFollowing
+    if (follower && target) {
+      const response = await api<{ isFollowing: boolean }>(
+        `/follow/${toSubstrateAddress(follower)}/follows/${toSubstrateAddress(target)}`,
+        {
+          method: 'GET',
+        },
+      )
+      return response.isFollowing
+    }
+    return false
   }
   catch (error) {
     throw new Error(

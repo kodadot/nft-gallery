@@ -43,7 +43,7 @@
         </NeoDropdownItem>
       </template>
       <GalleryItemEditNftButton
-        v-if="isCollectionOwner"
+        v-if="isCurrentNftEditable"
         :nft="nft"
       />
       <NeoDropdownItem disabled>
@@ -68,7 +68,7 @@ import type { NFT } from '@/types'
 import type { Abi } from '@/composables/transaction/types'
 
 const { $i18n } = useNuxtApp()
-const { toast } = useToast()
+const { toast } = useToastOruga()
 const { isCurrentAccount } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { listNftByNftWithMetadata } = useListingCartModal()
@@ -86,7 +86,7 @@ const action = ref<'unlist' | ''>('')
 
 const id = computed(() => route.params.id.toString())
 const isOwner = computed(() => isCurrentAccount(props.nft?.currentOwner))
-const isCollectionOwner = computed(() => isCurrentAccount(props.nft?.collection?.currentOwner))
+const isCurrentNftEditable = computed(() => (isOwner.value && isCurrentAccount(props.nft?.collection?.currentOwner)))
 const nftId = computed(() => props.nft?.id || '')
 
 const { data } = useQuery({

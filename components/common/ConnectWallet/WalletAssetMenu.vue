@@ -74,7 +74,9 @@ const closeModal = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .wallet-asset-menu {
   display: flex;
   justify-content: space-between;
