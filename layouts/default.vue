@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full flex flex-col overflow-hidden">
     <Navbar />
-    <main class="flex-grow py-8">
+    <main class="grow py-8">
       <div class="container-fluid">
         <Error
           v-if="$nuxt.isOffline"

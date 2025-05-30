@@ -21,7 +21,9 @@ defineProps<{
 }>()
 </script>
 
-<style lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .slide {
   box-shadow: var(--primary-shadow);
   overflow: hidden;

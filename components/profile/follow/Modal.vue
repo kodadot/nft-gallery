@@ -16,7 +16,7 @@
             :text="tab"
             :count="counts[tab]"
             :show-active-check="false"
-            class="capitalize !w-36"
+            class="capitalize w-36!"
             full-width
             no-shadow
             @click="() => switchToTab(tab)"

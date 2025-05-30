@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-3 dark:bg-neutral-11 flex flex-col rounded-xl h-full !px-3">
+  <div class="bg-neutral-3 dark:bg-neutral-11 flex flex-col rounded-xl h-full px-3!">
     <span class="text-k-grey capitalize"> {{ $t('trades.anyNftFrom') }} </span>
     <div class="flex items-center gap-2">
       <nuxt-link

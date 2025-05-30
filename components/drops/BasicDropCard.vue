@@ -18,7 +18,7 @@
         >
 
         <div
-          class="min-h-[115px] py-5 px-2 sm:!px-5 flex flex-col justify-between gap-4 border-t border-card-border-color"
+          class="min-h-[115px] py-5 px-2 sm:px-5! flex flex-col justify-between gap-4 border-t border-card-border-color"
         >
           <div class="flex flex-col gap-2 min-h-[60px]">
             <div class="flex justify-between items-center">
@@ -49,13 +49,13 @@
               class="flex shrink-0 gap-4"
             >
               <slot name="supply">
-                <div>
-                  <span>{{ minted }}</span><span class="text-k-grey text-xs">/
-                    <span v-if="isUnlimited">
-                      <KIcon
-                        name="i-mdi:infinity"
-                      />
-                    </span>
+                <div class="flex items-baseline">
+                  <span>{{ minted }}</span>
+                  <span class="flex items-center text-k-grey text-xs">/
+                    <KIcon
+                      v-if="isUnlimited"
+                      name="i-mdi:infinity"
+                    />
                     <span v-else>{{ dropMax }}</span>
                   </span>
                 </div>

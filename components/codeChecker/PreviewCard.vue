@@ -5,7 +5,7 @@
     <div ref="fullscreenRef">
       <NeoButton
         v-if="isFullscreen"
-        class="fixed top-[3rem] left-[3rem] z-[1]"
+        class="fixed top-[3rem] left-[3rem] z-1"
         icon-left="chevron-left"
         @click="toggleFullscreen"
       >
@@ -32,7 +32,7 @@
       <NeoButton
         rounded
         no-shadow
-        class="px-5 flex-1 border-k-grey hover:!bg-transparent"
+        class="px-5 flex-1 border-k-grey hover:bg-transparent!"
         icon-right="arrow-rotate-left"
         @click="newHash"
       >
@@ -41,7 +41,7 @@
       <NeoButton
         rounded
         no-shadow
-        class="border-k-grey hover:!bg-transparent !w-28"
+        class="border-k-grey hover:bg-transparent! w-28!"
         :disabled="!selectedFile"
         @click="replay"
       >
@@ -52,7 +52,7 @@
         no-shadow
         :loading="!codeShareLink && selectedFile"
         :disabled="!codeShareLink"
-        class="border-k-grey px-4 hover:!bg-transparent"
+        class="border-k-grey px-4 hover:bg-transparent!"
         icon="arrow-up-right"
         @click="openInNewTab"
       />
@@ -60,7 +60,7 @@
         rounded
         no-shadow
         :disabled="!render"
-        class="border-k-grey px-4 hover:!bg-transparent"
+        class="border-k-grey px-4 hover:bg-transparent!"
         icon="arrow-up-right-and-arrow-down-left-from-center"
         @click="toggleFullscreen"
       />
@@ -78,7 +78,7 @@
       <div class="mt-4 flex gap-4">
         <NeoButton
           no-shadow
-          class="flex-grow text-ellipsis overflow-hidden"
+          class="grow text-ellipsis overflow-hidden"
           :disabled="!kodaRendererUsed"
           @click="exportAsPNG"
         >

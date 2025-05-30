@@ -7,7 +7,7 @@
 
     <div
       v-if="isExploreCollections || isExploreItems || isCollection"
-      class="explore-menu flex"
+      class="explore-menu flex gap-4"
     >
       <ExploreSort />
       <ChainDropdown v-if="isExploreItems || isExploreCollections" />
@@ -30,7 +30,9 @@ const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 const isExploreCollections = computed(() => route.name === 'prefix-explore-collectibles')
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gap {
   gap: 1.5rem;
 }

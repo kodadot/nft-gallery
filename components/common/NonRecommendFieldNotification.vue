@@ -3,7 +3,7 @@
     <slot />
     <div
       v-if="show"
-      class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 !mt-2"
+      class="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-md p-3 mt-2!"
     >
       <KIcon
         name="i-mdi:alert-circle-outline"
@@ -21,11 +21,11 @@
         >
           <NeoButton
             variant="text"
-            class="flex items-center gap-1 text-sm !text-yellow-600 hover:!text-yellow-700 capitalize"
+            class="flex items-center gap-1 text-sm text-yellow-600! hover:text-yellow-700! capitalize"
             @click="emit('undo')"
           >
-            <NeoIcon
-              icon="undo"
+            <KIcon
+              name="i-mdi:undo"
               size="small"
             />
             {{ $t('general.undo') }}
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 defineProps<{
   show: boolean

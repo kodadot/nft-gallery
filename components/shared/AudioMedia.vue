@@ -12,7 +12,7 @@
     <AudioPlayer
       v-show="!hoverOnCoverPlay"
       ref="audioPlayer"
-      :src="animationSrc"
+      :src="src || animationSrc"
       class="w-full border-t border-t-border-color"
     />
   </div>
@@ -24,6 +24,7 @@ import { NeoImageMedia } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
+    src?: string
     animationSrc?: string
     playerCover?: string
     hoverOnCoverPlay?: boolean

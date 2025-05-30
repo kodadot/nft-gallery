@@ -1,6 +1,5 @@
-import * as fs from 'fs'
 import svgLoader from 'vite-svg-loader'
-import { pwa } from './utils/config/pwa'
+import tailwindcss from '@tailwindcss/vite'
 import { URLS, apolloClientConfig } from './utils/constants'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
@@ -9,14 +8,6 @@ export default defineNuxtConfig({
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
-  },
-
-  postcss: {
-    plugins: {
-      'tailwindcss/nesting': {},
-      'tailwindcss': {},
-      'autoprefixer': {},
-    },
   },
 
   sourcemap: false,
@@ -33,6 +24,7 @@ export default defineNuxtConfig({
       sourcemap: true,
     },
     plugins: [
+      tailwindcss(),
       svgLoader({
         defaultImport: 'url',
       }),
@@ -117,58 +109,48 @@ export default defineNuxtConfig({
         { name: 'format-detection', content: 'telephone=no' },
         // { property: 'og:site_name', content: 'KodaDot' },
         {
-          hid: 'description',
           name: 'description',
           content: 'One Stop NFT Shop on Polkadot',
         },
         { property: 'og:locale', content: 'en_US' },
         { property: 'twitter:site', content: '@KodaDot' },
         {
-          hid: 'twitter:card',
           name: 'twitter:card',
           content: 'summary_large_image',
         },
-        { hid: 'og:type', property: 'og:type', content: 'website' },
-        { hid: 'og:url', property: 'og:url', content: baseUrl },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: baseUrl },
         {
-          hid: 'og:title',
           property: 'og:title',
           content: 'KodaDot - NFT Market Explorer',
         },
         {
-          hid: 'og:description',
           property: 'og:description',
           content: 'One Stop NFT Shop on Polkadot',
         },
         {
-          hid: 'og:image',
           property: 'og:image',
           content: `${baseUrl}/k_card.png`,
         },
         {
-          hid: 'twitter:url',
           property: 'twitter:url',
           content: baseUrl,
         },
         {
-          hid: 'twitter:title',
           property: 'twitter:title',
           content: 'KodaDot - NFT Market Explorer',
         },
         {
-          hid: 'twitter:description',
           property: 'twitter:description',
           content: 'One Stop NFT Shop on Polkadot',
         },
         {
-          hid: 'twitter:image',
           property: 'twitter:image',
           content: `${baseUrl}/k_card.png`,
         },
         baseUrl === URLS.koda.baseUrl
           ? {}
           : {
-              hid: 'robots',
               property: 'robots',
               content: 'noindex',
             },
@@ -208,6 +190,8 @@ export default defineNuxtConfig({
   css: [
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
+    './libs/ui/dist/koda-brick.css',
+    '@/assets/css/tailwind.css',
   ],
 
   colorMode: {
@@ -259,13 +243,12 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/apollo',
+    '@nuxtjs/sitemap',
     '@nuxtjs/i18n',
-    '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@nuxt/content',
-    '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
     '@dargmuesli/nuxt-cookie-control',
@@ -307,8 +290,6 @@ export default defineNuxtConfig({
     download: false,
     inject: false,
   },
-
-  pwa,
 
   i18n: {
     compilation: {
@@ -371,20 +352,6 @@ export default defineNuxtConfig({
     strictNuxtContentPaths: true,
   },
 
-  sitemap: {
-    sitemaps: true,
-    urls: () => {
-      const posts = fs.readdirSync('content/blog')
-      return posts
-        .map(post => post.split('.')[0])
-        .map(page => ({
-          loc: `/blog/${page}`,
-          changefreq: 'weekly',
-          priority: 0.8,
-        }))
-    },
-  },
-
   routeRules: {
     '/ahp/collection/13': { sitemap: { changefreq: 'daily', priority: 0.3 } },
   },
@@ -412,5 +379,5 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: '2024-11-01',
 })

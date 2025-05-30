@@ -19,7 +19,7 @@
     <transition name="slide">
       <div
         v-if="active"
-        class="flex flex-col gap-4 !mt-6"
+        class="flex flex-col gap-4 mt-6!"
       >
         <CodeCheckerMassPreviewControls
           v-model="previewAmount"

@@ -13,11 +13,11 @@
         {{ $t('settings') }}
       </h1>
 
-      <hr class="!my-8">
+      <hr class="my-8!">
 
       <div class="flex flex-col gap-14">
         <div>
-          <p class="font-bold !mb-6">
+          <p class="font-bold mb-6!">
             {{ $t('party.partykit') }}
           </p>
           <div class="flex items-center">
@@ -32,7 +32,7 @@
               >
                 <KIcon
                   name="i-mdi:information-slab-circle-outline"
-                  class="!text-k-grey"
+                  class="text-k-grey!"
                 />
               </NeoTooltip>
             </NeoSwitch>
@@ -40,7 +40,7 @@
         </div>
 
         <div>
-          <p class="font-bold !mb-6">
+          <p class="font-bold mb-6!">
             {{ $t('mintingSettings') }}
           </p>
           <div class="flex items-center">
@@ -55,7 +55,7 @@
               >
                 <KIcon
                   name="i-mdi:information-slab-circle-outline"
-                  class="!text-k-grey"
+                  class="text-k-grey!"
                 />
               </NeoTooltip>
             </NeoSwitch>
@@ -63,7 +63,7 @@
         </div>
 
         <div>
-          <p class="font-bold !mb-6">
+          <p class="font-bold mb-6!">
             {{ $t('preferences.userData') }}
           </p>
           <NeoButton

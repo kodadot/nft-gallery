@@ -13,12 +13,12 @@
         <NeoSkeleton
           no-margin
           width="60px"
-          class="!w-[60px]"
+          class="w-[60px]!"
           height="14px"
         />
         <NeoSkeleton
           no-margin
-          class="!w-[99px]"
+          class="w-[99px]!"
           width="99px"
           border-radius="10px"
           height="24px"
@@ -30,7 +30,7 @@
       class="flex flex-col gap-4"
     >
       <div
-        class="border border-border-color rounded-lg !p-4 w-full"
+        class="border border-border-color rounded-lg p-4! w-full"
       >
         <div class="flex justify-between items-center">
           <p class="capitalize">
@@ -41,9 +41,7 @@
             variant="icon"
             @click="refetch"
           >
-            <NeoIcon
-              icon="refresh"
-            />
+            <KIcon name="i-mdi:refresh" />
           </NeoButton>
         </div>
 
@@ -59,7 +57,7 @@
               <div class="flex items-center gap-2 max-w-[calc(100%-25px)]">
                 <KIcon
                   name="i-mdi:circle"
-                  class="text-k-grey opacity-20 !text-[0.4rem]"
+                  class="text-k-grey opacity-20 text-[0.4rem]!"
                   size="small"
                 />
                 <div class="flex items-center gap-2 text-sm truncate">
@@ -130,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoButton, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { TradeType, type TradeNftItem } from '@/components/trade/types'
 import { TRADE_TYPE_TO_PROFILE_TAB_MAP } from '@/components/profile/utils'
 import { formatDistanceToNow } from '@/utils/datetime'

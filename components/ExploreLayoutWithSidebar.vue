@@ -1,7 +1,7 @@
 <template>
   <div
     class="container-fluid"
-    :class="{ '!pl-0': isSidebarOpen }"
+    :class="{ 'pl-0!': isSidebarOpen }"
   >
     <slot />
   </div>

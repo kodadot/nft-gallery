@@ -37,7 +37,7 @@
 
         <ConnectEvm
           v-else
-          class="!px-7"
+          class="px-7!"
           :preselected="preselected"
           @select="setAccount"
         />

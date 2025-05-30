@@ -34,10 +34,10 @@
 
         <div
           v-if="trade"
-          class="!pt-5"
+          class="pt-5!"
         >
           <TradeOwnerButton
-            main-class="!w-full capitalize"
+            main-class="w-full! capitalize"
             :trade="trade"
             :label="label"
             :disabled="disabled"

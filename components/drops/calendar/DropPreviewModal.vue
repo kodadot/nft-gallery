@@ -4,7 +4,7 @@
       :value="isModalActive"
       append-to-body
       no-shadow
-      content-class="!p-10 h-full !absolute top-0 right-0 !border-y-0 max-md:!border-0 !border-r-0 md:!w-2/3 "
+      content-class="p-10! h-full absolute! top-0 right-0 border-y-0! max-md:border-0! border-r-0! md:w-2/3! "
       max-height="100vh"
       @close="emit('close')"
     >
@@ -23,7 +23,7 @@
           />
         </header>
 
-        <div class="!mt-6 flex flex-wrap gap-6">
+        <div class="mt-6! flex flex-wrap gap-6">
           <NeoButton
             v-if="dropCalendar.dropStartTime"
             no-shadow
@@ -44,7 +44,7 @@
           </NeoButton>
         </div>
 
-        <div class="flex justify-between !mt-6">
+        <div class="flex justify-between mt-6!">
           <div>
             <span :class="{ 'text-k-grey': !dropCalendar.twitter_handle }">{{ $t('artist') }}:
             </span>
@@ -68,7 +68,7 @@
         <CarouselModuleCarouselAgnostic
           v-if="dropCalendar.items.length"
           v-slot="{ item }"
-          class="!mt-10"
+          class="mt-10!"
           :items="dropCalendar.items"
           :config="config"
         >
@@ -80,19 +80,19 @@
           />
         </CarouselModuleCarouselAgnostic>
 
-        <div class="!mt-10">
+        <div class="mt-10!">
           <h2 class="text-xl font-bold">
             {{ $t('drops.dropInformation') }}
           </h2>
 
-          <div class="!mt-6 flex gap-16">
+          <div class="mt-6! flex gap-16">
             <div>
-              <span class="text-k-grey !mr-3">{{ $t('price') }}:</span>
+              <span class="text-k-grey mr-3!">{{ $t('price') }}:</span>
               <span>{{ price }}</span>
             </div>
 
             <div>
-              <span class="text-k-grey !mr-3">{{ $t('supply') }}:</span>
+              <span class="text-k-grey mr-3!">{{ $t('supply') }}:</span>
               <span>{{
                 withPlaceholder(
                   dropCalendar.supply,
@@ -114,13 +114,13 @@
 
         <div
           v-if="dropCalendar.holder_of || dropCalendar.location"
-          class="!mt-6"
+          class="mt-6!"
         >
           <h2 class="text-lg font-bold">
             {{ $t('requirements') }}
           </h2>
 
-          <ul class="list-disc !mt-4">
+          <ul class="list-disc mt-4!">
             <li
               v-if="dropCalendar.holder_of && collection"
               class="ml-4"
@@ -141,7 +141,7 @@
           </ul>
         </div>
 
-        <hr class="!my-10">
+        <hr class="my-10!">
 
         <Markdown :source="dropCalendar.description ?? ''" />
       </template>

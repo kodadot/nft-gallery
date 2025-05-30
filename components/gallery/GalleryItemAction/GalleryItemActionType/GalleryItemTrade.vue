@@ -13,17 +13,17 @@
         :label="$t('transaction.offer')"
         variant="k-blue"
         size="large"
-        class="w-[8.375rem] !h-[55px]"
+        class="w-[8.375rem] h-[55px]!"
         @click="onMakeOfferClick"
       />
       <NeoButton
         size="large"
-        class="!w-[6.25rem] !h-[55px]"
+        class="w-[6.25rem]! h-[55px]!"
         @click="onSwapClick"
       >
         <div class="flex gap-2">
-          <NeoIcon
-            icon="arrow-right-arrow-left"
+          <KIcon
+            name="i-mdi:swap-horizontal"
           />
           <span> {{ $t('swap.swap') }}</span>
         </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import type { NFT } from '@/types'
 import { nftToOfferItem } from '@/components/common/shoppingCart/utils'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -84,7 +84,9 @@ useModalIsOpenTracker({
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-item-trade {
   @apply bulma-until-widescreen:w-full bulma-until-widescreen:mt-4;
 

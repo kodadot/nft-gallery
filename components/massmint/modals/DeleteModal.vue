@@ -14,7 +14,7 @@
       </div>
       <div class="flex mt-6">
         <NeoButton
-          class="mr-3 flex flex-grow flex-1 h-[3.25rem]"
+          class="mr-3 flex grow flex-1 h-[3.25rem]"
           no-shadow
           variant="primary"
           :label="$t('massmint.yesDelete')"
@@ -23,7 +23,7 @@
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
-          class="flex flex-grow flex-1 h-[3.25rem]"
+          class="flex grow flex-1 h-[3.25rem]"
           @click="emit('close')"
         />
       </div>

@@ -110,7 +110,7 @@
     v-else
     class="mb-6 flex flex-col gap-[10px]"
   >
-    <div class="flex h-[70px] leading-[1]">
+    <div class="flex h-[70px] leading-none">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <BaseMediaItem
@@ -123,7 +123,7 @@
           />
         </div>
       </nuxt-link>
-      <div class="flex flex-col justify-center gap-[10px] flex-grow">
+      <div class="flex flex-col justify-center gap-[10px] grow">
         <nuxt-link
           class="is-ellipsis inline-block w-60"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`"
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div class="flex">
-      <div class="flex justify-between flex-grow">
+      <div class="flex justify-between grow">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
         </div>
