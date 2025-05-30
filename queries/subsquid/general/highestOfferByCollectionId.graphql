@@ -1,5 +1,5 @@
 query highestOfferByCollectionId($id: String!) {
-  offers(where: {status_eq: ACTIVE, desired: {collectionId_eq: $id}}, orderBy: price_DESC, limit: 1) {
+  offers(where: {status_eq: ACTIVE, desired: {collection: {id_eq: $id}}}, orderBy: price_DESC, limit: 1) {
     expiration
     status
     price
