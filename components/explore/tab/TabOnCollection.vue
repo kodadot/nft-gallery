@@ -1,5 +1,5 @@
 <template>
-  <div class="flex field has-addons flex-grow">
+  <div class="flex field has-addons grow">
     <TabItem
       :active="route.name === 'prefix-collection-id'"
       :text="`${$t('items')}`"

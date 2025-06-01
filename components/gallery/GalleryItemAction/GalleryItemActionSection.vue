@@ -63,7 +63,9 @@ watchEffect(async () => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .gallery-action-section {
   justify-content: space-between;
   align-items: center;

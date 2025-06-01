@@ -67,7 +67,7 @@
           <NeoSkeleton
             v-if="isLoadingIncomingTrades"
             no-margin
-            class="!w-[226px]"
+            class="w-[226px]!"
             width="226px"
             border-radius="20px"
             height="40px"

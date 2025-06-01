@@ -4,13 +4,13 @@
       v-if="!selectedCollection"
       v-model="searchQuery"
       type="text"
-      class="w-full h-12 p-2 border border-k-shade bg-background-color text-text-color focus:border-border-color outline-none"
+      class="w-full h-12 p-2 border border-k-shade bg-background-color text-text-color focus:border-border-color outline-hidden"
       :placeholder="$t('mint.collection.search')"
       @input="handleSearch"
     >
     <div
       v-if="showResults"
-      class="absolute top-full left-0 right-0 bg-background-color border border-k-shade rounded-md max-h-[300px] overflow-y-auto z-[1000]"
+      class="absolute top-full left-0 right-0 bg-background-color border border-k-shade rounded-md max-h-[300px] overflow-y-auto z-1000"
     >
       <div
         v-for="collection in searchResults"

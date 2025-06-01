@@ -16,7 +16,7 @@
         :label="`Your Name`"
         required
         :error="!form.name"
-        label-class="!text-xl"
+        label-class="text-xl!"
       >
         <NeoInput
           v-model="form.name"
@@ -32,7 +32,7 @@
         :label="`Short Bio`"
         required
         :error="!form.description"
-        label-class="!text-xl"
+        label-class="text-xl!"
       >
         <NeoInput
           v-model="form.description"
@@ -52,7 +52,7 @@
             >
               {{ bioMessage }}
             </p>
-            <div class="flex gap-2 items-center capitalize text-k-grey !pt-2">
+            <div class="flex gap-2 items-center capitalize text-k-grey pt-2!">
               <NeoIcon
                 icon="markdown"
                 pack="fab"
@@ -68,7 +68,7 @@
         :label="`Upload profile picture`"
         required
         :error="!form.image"
-        label-class="!text-xl"
+        label-class="text-xl!"
       >
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
@@ -87,7 +87,7 @@
       <NeoField
         :label="`Upload Cover Image`"
         :error="!form.banner"
-        label-class="!text-xl"
+        label-class="text-xl!"
       >
         <div class="max-w-full grow">
           <p class="text-k-grey text-sm mb-5">
@@ -120,7 +120,7 @@
             </div>
             <NeoInput
               v-model="form[social.model]"
-              class="!h-10"
+              class="h-10!"
               expanded
               :data-testid="social.testId"
               :placeholder="social.placeholder"
@@ -157,7 +157,7 @@
           variant="text"
           no-shadow
           :class="[
-            deleteConfirm ? '!text-k-red' : '!text-k-grey',
+            deleteConfirm ? 'text-k-red!' : 'text-k-grey!',
             'capitalize',
           ]"
           @click="deleteProfile"

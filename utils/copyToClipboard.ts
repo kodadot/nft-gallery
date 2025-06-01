@@ -6,7 +6,7 @@ export function copyToClipboard(
   },
 ) {
   const { copy } = useClipboard({ legacy: true })
-  const { toast } = useToast()
+  const { toast } = useToastOruga()
 
   // Set default values for options
   const { toast: shouldToast = true, toastMessage = 'Copied to clipboard' }

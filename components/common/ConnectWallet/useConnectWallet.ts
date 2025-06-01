@@ -10,7 +10,7 @@ const VM_PRESELECTED_ROUTES = [
 export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
   canCancel: ['escape', 'outside'],
-  rootClass: 'connect-wallet-modal !z-[999] sm:!z-[998]',
+  rootClass: 'connect-wallet-modal z-999! sm:z-998!',
   trapFocus: false,
 }
 

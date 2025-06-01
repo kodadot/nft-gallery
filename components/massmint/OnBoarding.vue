@@ -3,7 +3,7 @@
     <div class="flex items-center mb-7 px-8">
       <nuxt-link
         :to="'https://hello.kodadot.xyz/tutorial/minting'"
-        class="md:text-[2.5rem]/normal text-3xl/normal flex flex-grow justify-center font-bold"
+        class="md:text-[2.5rem]/normal text-3xl/normal flex grow justify-center font-bold"
         target="_blank"
         rel="nofollow noopener noreferrer"
       >
@@ -106,7 +106,7 @@
     <div class="flex justify-center">
       <NeoButton
         :label="btn.label"
-        class="flex-grow limit-width h-auto py-3"
+        class="grow limit-width h-auto py-3"
         :variant="btn.variant"
         @click="btn.onClick"
       />
@@ -266,7 +266,10 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .carousel-dot {
-  @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
+  width: 0.625rem;
+  height: 0.625rem;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 25%;
   background-color: var(--k-shade);
 
   &.is-active {

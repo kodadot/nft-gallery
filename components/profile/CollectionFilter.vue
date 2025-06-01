@@ -27,7 +27,7 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="!flex border-none items-center"
+        class="flex! border-none items-center"
         aria-role="listitem"
         :value="collection.id"
       >
@@ -177,7 +177,9 @@ useLazyAsyncData('profileCollections', async () => {
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+@reference '@/assets/css/tailwind.css';
+
 .dropdown-width {
   width: 18.75rem;
 

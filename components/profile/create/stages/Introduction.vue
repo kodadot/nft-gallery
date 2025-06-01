@@ -27,14 +27,14 @@
         label="Skip For Now"
         no-shadow
         variant="text"
-        class="w-48 !h-12"
+        class="w-48 h-12!"
         @click="emit('close')"
       />
       <NeoButton
         label="Create Profile"
         no-shadow
         variant="primary"
-        class="w-48 !h-12"
+        class="w-48 h-12!"
         @click="emit('next')"
       />
     </div>

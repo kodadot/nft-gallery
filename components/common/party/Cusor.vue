@@ -7,10 +7,9 @@
       left: `${connection.cursor?.x}px`,
     }"
   >
-    <NeoIcon
+    <KIcon
       :id="`cursor-${connection.id}`"
-      icon="arrow-pointer"
-      pack="fas"
+      name="i-mdi:cursor-default-outline"
       :class="color"
     />
 
@@ -45,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
 import type { CursorDetails, CursorLabel } from './CursorParty.vue'
 import type { UserDetails } from '@/composables/party/types'
 

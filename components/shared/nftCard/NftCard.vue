@@ -27,6 +27,7 @@
               isStacked,
           }"
           :src="sanitizeIpfsUrl(nft.meta.image)"
+          :raw-src="nft.meta.image"
           :animation-src="sanitizeIpfsUrl(nft.meta.animationUrl)"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
@@ -41,7 +42,7 @@
         />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
-          class="w-full flex justify-center action-container"
+          class="w-full justify-center action-container"
         >
           <slot name="action" />
         </div>

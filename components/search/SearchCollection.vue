@@ -14,7 +14,7 @@
       <div
         class="flex layout-search"
         :class="{
-          'flex-grow': !hideSearch,
+          grow: !hideSearch,
         }"
       >
         <NeoField

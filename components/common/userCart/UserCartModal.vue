@@ -17,12 +17,12 @@
       <div>
         <UserCartSingleItem
           v-if="items.length === 1"
-          class="!mt-4"
+          class="mt-4!"
           :item="nft"
         />
         <UserCartMultipleItems
           v-else
-          class="!mt-8"
+          class="mt-8!"
           :items="items"
         />
       </div>
