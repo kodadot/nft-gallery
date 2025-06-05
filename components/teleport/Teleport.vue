@@ -506,7 +506,7 @@ const fetchTransactionFee = async () => {
     currency: currency.value,
   })
 
-  teleportFee.value = Number(fee) * (1 + BUFFER_FEE_PERCENT)
+  teleportFee.value = Math.ceil(Number(fee) * (1 + BUFFER_FEE_PERCENT))
 }
 
 watch(fromChain, async () => {
