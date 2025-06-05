@@ -241,6 +241,7 @@ const displayAmount = computed({
 })
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
+const requestId = ref(0)
 const insufficientEDModalOpen = ref(false)
 
 const sourceExistentialDeposit: ValuePair = reactive({
@@ -468,6 +469,7 @@ const isDisabledButton = computed(() => {
     || amount.value <= 0
     || insufficientBalance.value
     || insufficientAmountAfterFees.value
+    || !teleportFee.value
   )
 })
 
@@ -497,8 +499,10 @@ const teleport = async () => {
 }
 
 const fetchTransactionFee = async () => {
+  const currentRequestId = ++requestId.value
+
   const fee = await getTransactionFee({
-    amount: amount.value || 10000000, // 0.01
+    amount: amount.value || 10000000,
     from: fromChain.value,
     to: toChain.value,
     toAddress: toAddress.value,
@@ -506,16 +510,14 @@ const fetchTransactionFee = async () => {
     currency: currency.value,
   })
 
-  teleportFee.value = Math.ceil(Number(fee) * (1 + BUFFER_FEE_PERCENT))
+  if (currentRequestId === requestId.value) {
+    teleportFee.value = Math.ceil(Number(fee) * (1 + BUFFER_FEE_PERCENT))
+  }
 }
 
-watch(fromChain, async () => {
-  await fetchTransactionFee()
-}, { immediate: true })
-
-watchDebounced(amount, async () => {
-  await fetchTransactionFee()
-}, { debounce: 500 })
+watch(fromChain, fetchTransactionFee)
+watch(amount, () => teleportFee.value = undefined)
+watchDebounced(amount, fetchTransactionFee, { debounce: 500, immediate: true })
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
