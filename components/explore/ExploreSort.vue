@@ -40,16 +40,18 @@
         :data-testid="option"
         :value="option"
       >
-        <span>
-          {{
-            $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
-          }}
+        <span class="inline-flex items-center">
+          <span>
+            {{
+              $i18n.t(isItems ? `sort.${option}` : `sort.collection.${option}`)
+            }}
+          </span>
+          <KIcon
+            v-if="selectedSort.includes(option)"
+            class="ml-2"
+            name="i-mdi:check-circle-outline"
+          />
         </span>
-        <KIcon
-          v-if="selectedSort.includes(option)"
-          class="ml-2"
-          name="i-mdi:check-circle-outline"
-        />
       </NeoDropdownItem>
     </NeoDropdown>
   </div>
