@@ -113,24 +113,43 @@
       </div>
     </NeoField>
 
-    <div
-      v-if="myBalance !== undefined"
-      class="text-xs flex justify-content align-items flex-direction"
-    >
+    <div class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
-        v-if="showEDWarning && !isDisabledButton"
+        v-if="showEDWarning && !isDisabledButton && myBalance"
         :target-existential-deposit="targetExistentialDeposit.displayValue"
         :source-existential-deposit="sourceExistentialDeposit.displayValue"
         :reason="warningReason"
       />
-      <div class="flex">
+      <div class="flex justify-between w-full">
         <span class="flex items-center">
-          <span class="mr-2">{{ $t('general.balance') }}:</span>{{
-            withoutDecimals({
-              value: myBalance,
+          <span class="mr-2">{{ $t('general.balance') }}:</span>
+          <template v-if="myBalance">
+            {{
+              withoutDecimals({
+                value: myBalance,
+                prefix: chainToPrefixMap[fromChain],
+              })
+            }}{{ currency }}
+          </template>
+          <NeoSkeleton
+            v-else
+            no-margin
+            width="80px"
+          />
+        </span>
+        <span class="flex items-center text-k-grey whitespace-nowrap">
+          <span class="mr-1">{{ $t('transfers.networkFee') }}:</span>
+          <template v-if="teleportFee">
+            {{ withoutDecimals({
+              value: teleportFee,
               prefix: chainToPrefixMap[fromChain],
-            })
-          }}{{ currency }}
+            }) }}{{ currency }}
+          </template>
+          <NeoSkeleton
+            v-else
+            no-margin
+            width="60px"
+          />
         </span>
         <!-- <NeoButton
           no-shadow
@@ -185,7 +204,7 @@
 
 <script setup lang="ts">
 import '@polkadot/api-augment'
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoSkeleton } from '@kodadot1/brick'
 import {
   existentialDeposit,
   teleportExistentialDeposit,
