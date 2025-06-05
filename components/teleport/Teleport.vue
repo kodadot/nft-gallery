@@ -113,24 +113,43 @@
       </div>
     </NeoField>
 
-    <div
-      v-if="myBalance !== undefined"
-      class="text-xs flex justify-content align-items flex-direction"
-    >
+    <div class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
-        v-if="showEDWarning && !isDisabledButton"
+        v-if="showEDWarning && !isDisabledButton && myBalance"
         :target-existential-deposit="targetExistentialDeposit.displayValue"
         :source-existential-deposit="sourceExistentialDeposit.displayValue"
         :reason="warningReason"
       />
-      <div class="flex">
+      <div class="flex justify-between w-full">
         <span class="flex items-center">
-          <span class="mr-2">{{ $t('general.balance') }}:</span>{{
-            withoutDecimals({
-              value: myBalance,
+          <span class="mr-2">{{ $t('general.balance') }}:</span>
+          <template v-if="myBalance">
+            {{
+              withoutDecimals({
+                value: myBalance,
+                prefix: chainToPrefixMap[fromChain],
+              })
+            }}{{ currency }}
+          </template>
+          <NeoSkeleton
+            v-else
+            no-margin
+            width="80px"
+          />
+        </span>
+        <span class="flex items-center text-k-grey whitespace-nowrap">
+          <span class="mr-1">{{ $t('transfers.networkFee') }}:</span>
+          <template v-if="teleportFee">
+            {{ withoutDecimals({
+              value: teleportFee,
               prefix: chainToPrefixMap[fromChain],
-            })
-          }}{{ currency }}
+            }) }}{{ currency }}
+          </template>
+          <NeoSkeleton
+            v-else
+            no-margin
+            width="60px"
+          />
         </span>
         <!-- <NeoButton
           no-shadow
@@ -185,7 +204,7 @@
 
 <script setup lang="ts">
 import '@polkadot/api-augment'
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput, NeoSkeleton } from '@kodadot1/brick'
 import {
   existentialDeposit,
   teleportExistentialDeposit,
@@ -241,6 +260,7 @@ const displayAmount = computed({
 })
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
+const requestId = ref(0)
 const insufficientEDModalOpen = ref(false)
 
 const sourceExistentialDeposit: ValuePair = reactive({
@@ -468,6 +488,7 @@ const isDisabledButton = computed(() => {
     || amount.value <= 0
     || insufficientBalance.value
     || insufficientAmountAfterFees.value
+    || !teleportFee.value
   )
 })
 
@@ -497,8 +518,10 @@ const teleport = async () => {
 }
 
 const fetchTransactionFee = async () => {
+  const currentRequestId = ++requestId.value
+
   const fee = await getTransactionFee({
-    amount: amount.value || 10000000, // 0.01
+    amount: amount.value || 10000000,
     from: fromChain.value,
     to: toChain.value,
     toAddress: toAddress.value,
@@ -506,16 +529,14 @@ const fetchTransactionFee = async () => {
     currency: currency.value,
   })
 
-  teleportFee.value = Number(fee) * (1 + BUFFER_FEE_PERCENT)
+  if (currentRequestId === requestId.value) {
+    teleportFee.value = Math.ceil(Number(fee) * (1 + BUFFER_FEE_PERCENT))
+  }
 }
 
-watch(fromChain, async () => {
-  await fetchTransactionFee()
-}, { immediate: true })
-
-watchDebounced(amount, async () => {
-  await fetchTransactionFee()
-}, { debounce: 500 })
+watch(fromChain, fetchTransactionFee)
+watch(amount, () => teleportFee.value = undefined)
+watchDebounced(amount, fetchTransactionFee, { debounce: 500, immediate: true })
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
