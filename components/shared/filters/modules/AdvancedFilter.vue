@@ -6,12 +6,14 @@
           v-model="artView"
           data-testid="filter-artview-checkbox"
         >
-          <span>{{ $t('filters.artView') }}</span>
-          <KIcon
-            class="ml-2"
-            size="small"
-            name="i-mdi:vector-square"
-          />
+          <div class="inline-flex items-center">
+            <span>{{ $t('filters.artView') }}</span>
+            <KIcon
+              class="ml-2"
+              size="small"
+              name="i-mdi:vector-square"
+            />
+          </div>
         </NeoCheckbox>
       </NeoField>
     </div>

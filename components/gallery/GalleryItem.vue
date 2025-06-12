@@ -13,9 +13,9 @@
           <NeoButton
             v-if="isFullscreen"
             class="back-button z-20"
+            icon-left="chevron-left"
             @click="toggleFullscreen"
           >
-            <KIcon name="i-mdi:chevron-left" />
             {{ $t('go back') }}
           </NeoButton>
           <BaseMediaItem

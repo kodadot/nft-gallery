@@ -47,7 +47,7 @@
           to="/create/collection"
           class="w-full"
         >
-          <div class="w-full">
+          <div class="w-full inline-flex items-center">
             <KIcon
               name="i-mdi:plus"
               class="mr-1"
@@ -69,7 +69,7 @@
           to="/create/collection"
           class="w-full"
         >
-          <div class="w-full">
+          <div class="w-full inline-flex items-center">
             <KIcon
               name="i-mdi:plus"
               class="mr-1"
