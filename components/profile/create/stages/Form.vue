@@ -176,13 +176,14 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoIcon, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import type { StatusAPIResponse } from '@farcaster/auth-client'
 import SelectImageField from '../SelectImageField.vue'
 import type { ProfileFormData } from '.'
 import type { Profile } from '@/services/profile'
 import { toSubstrateAddress } from '@/services/profile'
 import { addHttpToUrl } from '@/utils/url'
+import KIcon from '@/components/KIcon.vue'
 
 const FarcasterIcon = defineAsyncComponent(
   () => import('@/assets/icons/farcaster-icon.svg?component'),
@@ -198,14 +199,14 @@ const socialLinks = [
   },
   {
     name: 'website',
-    icon: () => h(NeoIcon, { icon: 'globe', pack: 'fas' }),
+    icon: () => h(KIcon, { name: 'i-mdi:earth' }),
     model: 'website',
     placeholder: 'Website',
     testId: 'create-profile-input-website',
   },
   {
     name: 'twitter',
-    icon: () => h(NeoIcon, { icon: 'x-twitter', pack: 'fab' }),
+    icon: () => h(KIcon, { name: 'i-ri:twitter-x-fill' }),
     model: 'twitterHandle',
     placeholder: 'Twitter Handle',
     testId: 'create-profile-input-twitter-handle',

@@ -30,8 +30,8 @@
             $emit('send-item:clear')
           }"
         >
-          <NeoIcon
-            icon="close"
+          <KIcon
+            name="i-mdi:close"
             size="small"
           />
         </NeoButton>
@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import CollectionItemDetails from './CollectionItemDetails.vue'
 import TokenSearchInput from './TokenSearchInput.vue'
 import TokenItemDetails from './TokenItemDetails.vue'

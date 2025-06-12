@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title is-1">
-      <NeoIcon icon="leaf" />
+      <KIcon name="i-mdi:leaf" />
       Sustainability of KodaDot
     </h1>
     <h1 class="subtitle">
@@ -95,8 +95,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
-
 const config = useRuntimeConfig()
 
 definePageMeta({
