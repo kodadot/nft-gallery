@@ -1,14 +1,14 @@
 <template>
-  <button
-    v-if="showBtn"
-    class="scroll-top-button button justify-center"
+  <NeoButton
+    v-show="showBtn"
+    class="scroll-top-button"
+    icon="chevron-up"
     @click="scrollToTop"
-  >
-    <KIcon name="i-mdi:chevron-up" />
-  </button>
+  />
 </template>
 
 <script setup lang="ts">
+import { NeoButton } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
 import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 
