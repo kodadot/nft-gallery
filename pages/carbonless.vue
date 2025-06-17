@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 class="title is-1">
-      <NeoIcon icon="leaf" />
+      <KIcon name="i-mdi:leaf" />
       Carbonless NFT Movement
     </h1>
     <h1 class="subtitle">
@@ -132,13 +132,8 @@
 </template>
 
 <script lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
-
 export default {
   name: 'CarbonlessPage',
-  components: {
-    NeoIcon,
-  },
   setup() {
     useHead({
       title: 'Carbonless NFT Movement',
