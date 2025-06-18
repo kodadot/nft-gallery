@@ -10,8 +10,13 @@ query topCollections(
     media
     volume
     metadata
-    floor
-    nftCount
-    ownerCount: distribution
+    floorPrice: nfts(
+      where: { burned_eq: false, price_gt: "0" }
+      orderBy: price_ASC
+      limit: 1
+    ) {
+      price
+    }
+    
   }
 }

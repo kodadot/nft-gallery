@@ -1,8 +1,8 @@
-import type { Interaction } from '@/types'
+import type { Interaction, CollectionFloorPrice } from '@/types'
 
 export type CollectionEntity = {
   id: string
-  floorPrice: number
+  floorPrice: CollectionFloorPrice
   averagePrice: VolumeType
   image: string
   metadata: string

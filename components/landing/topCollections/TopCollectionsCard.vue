@@ -57,7 +57,7 @@
             class="flex flex-row justify-between items-center md:flex-col md:items-start"
           >
             <p class="capitalize text-k-grey text-xs">
-              <span v-if="collection?.floorPrice || collection?.floor">
+              <span v-if="collection">
                 {{ $t('price') }}
               </span>
               <NeoSkeleton
@@ -70,15 +70,16 @@
             </p>
 
             <div
-              v-if="collection?.floorPrice || collection?.floor"
+              v-if="collection"
               class="flex gap-2 items-center max-md:flex-row-reverse"
             >
               <CommonTokenMoney
-                :value="collection.floorPrice || collection.floor"
+                v-if="collectionFloorPrice"
+                :value="collectionFloorPrice"
                 inline
                 :round="2"
               />
-
+              <span v-else>--</span>
               <div
                 v-if="formattedDiffPercent"
                 :class="color"
@@ -148,6 +149,7 @@ const { urlPrefix } = usePrefix()
 
 const timeRange = computed(() => props.timeRange || 'Month')
 
+const collectionFloorPrice = computed(() => props.collection?.floorPrice[0]?.price || 0)
 const { diffPercent, formattedDiffPercent, volume } = useCollectionVolume(
   props.collection,
   timeRange,
