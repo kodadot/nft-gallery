@@ -19,8 +19,8 @@
         <div class="container-fluid">
           <!-- generative  -->
           <LazyCarouselTypeGenerative
-            v-if="dropsAhp.length"
-            :collection-ids="dropsAhp"
+            v-if="drops?.length"
+            :collection-ids="drops"
           />
         </div>
       </section>
@@ -70,10 +70,11 @@ watchEffect(() => {
   }
 })
 
-const drops = await getDrops({
+const { data: drops } = await useLazyAsyncData(() => getDrops({
   limit: 12,
   active: [true],
   chain: ['ahp'],
+}), {
+  transform: data => data.map(drop => drop.collection),
 })
-const dropsAhp = drops.map(drop => drop.collection)
 </script>
