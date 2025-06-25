@@ -93,8 +93,8 @@ export const uploadMediaFiles = async (files: File[]): Promise<string[]> => {
 
   return directoryCIDs.flatMap((directoryCid, batchIndex) =>
     fileBatches[batchIndex].map(
-      (file, fileIndex) =>
-        `ipfs://${directoryCid}/${fileIndex}.${getFileSuffix(file.name)}`,
+      file =>
+        `ipfs://${directoryCid}/${file.name}`,
     ),
   )
 }
