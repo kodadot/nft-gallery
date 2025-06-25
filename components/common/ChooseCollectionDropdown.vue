@@ -9,6 +9,7 @@
     ]"
     :no-shadow="noShadow"
     :disabled="disabled"
+    scrollable
   >
     <template #trigger="{ active }">
       <NeoButton
