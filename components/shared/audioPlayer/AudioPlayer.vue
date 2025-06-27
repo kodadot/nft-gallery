@@ -16,11 +16,9 @@
           variant="border-icon"
           @click="togglePlay"
         >
-          <NeoIcon
+          <KIcon
             v-if="!playDisabled"
-            :icon="playing ? 'pause' : 'play'"
-            custom-size="fa-solid"
-            pack="fass"
+            :name="playing ? 'i-mdi:pause' : 'i-mdi:play'"
           />
         </NeoButton>
       </div>
@@ -64,9 +62,8 @@
           variant="border-icon"
           @click="toggleMute"
         >
-          <NeoIcon
-            :icon="muted ? 'volume-slash' : 'volume'"
-            pack="fass"
+          <KIcon
+            :name="muted ? 'i-mdi:volume-mute' : 'i-mdi:volume'"
           />
         </NeoButton>
       </div>
@@ -77,7 +74,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useEventListener, useMediaControls } from '@vueuse/core'
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import Waveform from './Waveform.vue'
 import { getRandomValues } from '@/components/unique/utils'
 

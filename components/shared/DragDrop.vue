@@ -17,8 +17,8 @@
           <slot name="title">
             <span class="mb-4 text-left">{{ title }}</span>
           </slot>
-          <NeoIcon
-            :icon="icon"
+          <KIcon
+            :name="icon"
             class="icon-size text-k-grey py-3"
             custom-size="fa-2x"
             pack="fass"
@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { NeoUpload } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
 
@@ -74,7 +74,7 @@ const props = withDefaults(
   {
     accept: '',
     title: '',
-    icon: 'cloud-arrow-up',
+    icon: 'i-mdi:cloud-arrow-up',
     subtitle: undefined,
     disabled: false,
   },

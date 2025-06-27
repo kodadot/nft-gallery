@@ -25,10 +25,7 @@
           @click="addEvent(provider.id)"
         >
           <div class="flex gap-2 justify-center">
-            <NeoIcon
-              :icon="provider.icon"
-              pack="fab"
-            />
+            <KIcon :name="provider.icon" />
             <span>{{ provider.label }}</span>
           </div>
         </NeoButton>
@@ -38,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { addHours, format } from 'date-fns'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 
@@ -58,7 +55,7 @@ const providers: { id: CalendarProvider, label: string, icon: string }[] = [
   {
     id: 'google',
     label: 'Google Calendar',
-    icon: 'google',
+    icon: 'i-mdi:google',
   },
 ]
 

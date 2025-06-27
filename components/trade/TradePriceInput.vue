@@ -25,9 +25,9 @@
           <div class="flex items-center">
             {{ isSymbolMode ? chainSymbol : 'USD' }}
           </div>
-          <NeoIcon
+          <KIcon
             class="text-k-grey"
-            icon="arrows-cross"
+            name="i-mdi:arrow-decision"
           />
         </div>
       </NeoButton>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { roundTo } from '@/utils/format/balance'
 
 const props = defineProps<{

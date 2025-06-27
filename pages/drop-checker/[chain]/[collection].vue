@@ -45,9 +45,9 @@
               name="i-mdi:check-circle-outline"
               class="text-k-green"
             />
-            <neo-icon
+            <KIcon
               v-else
-              icon="xmark"
+              name="i-mdi:xmark"
               class="text-k-red"
             />
             Collection supply
@@ -307,7 +307,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoCollapse } from '@kodadot1/brick'
 import { keccakAsHex } from '@polkadot/util-crypto'
 import type { Prefix } from '@kodadot1/static'
 import collectionById from '@/queries/subsquid/general/collectionById.query'

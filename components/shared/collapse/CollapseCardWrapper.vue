@@ -16,7 +16,7 @@
             {{ $t(label) }}
           </p>
           <a class="card-header-icon">
-            <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
+            <KIcon :name="props.open ? 'i-mdi:chevron-up' : 'i-mdi:chevron-down'" />
           </a>
         </div>
       </template>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapse } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{
