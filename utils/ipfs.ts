@@ -114,7 +114,7 @@ export const sanitizeIpfsUrl = (
     return ''
   }
 
-  if (ipfsUrl.includes(kodaImage)) {
+  if (ipfsUrl.includes(kodaImage) || ipfsUrl.includes('kusama-waifus.vercel.app')) {
     return ipfsUrl
   }
 
